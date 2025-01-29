@@ -1074,13 +1074,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   saveWatchedProjects(
-    projects: ProjectWatchInfo[]
+    projects: ProjectWatchInfo[],
+    errFn?: ErrorCallback
   ): Promise<ProjectWatchInfo[] | undefined> {
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
         method: HttpMethod.POST,
         body: projects,
       }),
+      errFn,
       url: '/accounts/self/watched.projects',
       reportUrlAsIs: true,
     }) as unknown as Promise<ProjectWatchInfo[] | undefined>;

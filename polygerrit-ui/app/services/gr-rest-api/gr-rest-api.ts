@@ -542,10 +542,14 @@ export interface RestApiService extends Finalizable {
   getWatchedProjects(): Promise<ProjectWatchInfo[] | undefined>;
 
   saveWatchedProjects(
-    projects: ProjectWatchInfo[]
+    projects: ProjectWatchInfo[],
+    errFn?: ErrorCallback
   ): Promise<ProjectWatchInfo[] | undefined>;
 
-  deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
+  deleteWatchedProjects(
+    projects: ProjectWatchInfo[],
+    errFn?: ErrorCallback
+  ): Promise<Response>;
 
   getSuggestedRepos(
     inputVal: string,

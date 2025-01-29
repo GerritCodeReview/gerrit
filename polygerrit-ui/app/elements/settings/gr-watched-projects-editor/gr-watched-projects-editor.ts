@@ -19,7 +19,7 @@ import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
-import {fire} from '../../../utils/event-util';
+import {fire, fireError} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {notDeepEqual} from '../../../utils/deep-util';
@@ -170,10 +170,18 @@ export class GrWatchedProjectsEditor extends LitElement {
   }
 
   save() {
+    // Store original state in case we need to restore
+    const previousOriginalProjects = this.originalProjects
+      ? [...this.originalProjects]
+      : [];
+    const previousProjects = this.projects ? [...this.projects] : [];
+    const previousProjectsToRemove = [...this.projectsToRemove];
+
     let deletePromise: Promise<Response | undefined>;
     if (this.projectsToRemove.length) {
       deletePromise = this.restApiService.deleteWatchedProjects(
-        this.projectsToRemove
+        this.projectsToRemove,
+        throwingErrorCallback 
       );
     } else {
       deletePromise = Promise.resolve(undefined);
@@ -182,7 +190,10 @@ export class GrWatchedProjectsEditor extends LitElement {
     return deletePromise
       .then(() => {
         if (this.projects) {
-          return this.restApiService.saveWatchedProjects(this.projects);
+          return this.restApiService.saveWatchedProjects(
+            this.projects,
+            throwingErrorCallback
+          );
         } else {
           return Promise.resolve(undefined);
         }
@@ -192,6 +203,17 @@ export class GrWatchedProjectsEditor extends LitElement {
         this.projects = projects ? [...projects] : [];
         this.projectsToRemove = [];
         this.setHasUnsavedChanges();
+      })
+      .catch(error => {
+        // Restore previous state
+        this.originalProjects = previousOriginalProjects;
+        this.projects = previousProjects;
+        this.projectsToRemove = previousProjectsToRemove;
+        this.setHasUnsavedChanges();
+        if (error instanceof Error) {
+          const errorText = error.message;
+          fireError(this, `Saving watched projects failed.\n${errorText}`);
+        }
       });
   }
 

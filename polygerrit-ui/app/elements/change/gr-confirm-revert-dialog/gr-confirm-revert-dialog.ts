@@ -5,10 +5,16 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../gr-validation-options/gr-validation-options';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
-import {ChangeActionDialog, ChangeInfo, CommitId} from '../../../types/common';
+import {customElement, query, state} from 'lit/decorators.js';
+import {
+  ChangeActionDialog,
+  ChangeInfo,
+  CommitId,
+  ValidationOptionsInfo,
+} from '../../../types/common';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -17,6 +23,7 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import {createSearchUrl} from '../../../models/views/search';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
+import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
@@ -52,6 +59,10 @@ export class GrConfirmRevertDialog
   @state()
   changesCount?: number;
 
+  // Value supplied by populate(). Non-private for access in tests.
+  @state()
+  validationOptions?: ValidationOptionsInfo;
+
   @state()
   showErrorMessage = false;
 
@@ -64,6 +75,9 @@ export class GrConfirmRevertDialog
   // Store the actual messages that the user has edited
   @state()
   private revertMessages: string[] = [];
+
+  @query('gr-validation-options')
+  private validationOptionsEl?: GrValidationOptions;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -162,9 +176,16 @@ export class GrConfirmRevertDialog
               @bind-value-changed=${this.handleBindValueChanged}
             ></iron-autogrow-textarea>
           </gr-endpoint-decorator>
+          <gr-validation-options
+            .validationOptions=${this.validationOptions}
+          ></gr-validation-options>
         </div>
       </gr-dialog>
     `;
+  }
+
+  getValidationOptions() {
+    return this.validationOptionsEl?.getSelectedOptions() ?? [];
   }
 
   private computeIfSingleRevert() {
@@ -189,10 +210,12 @@ export class GrConfirmRevertDialog
 
   populate(
     change: ParsedChangeInfo,
+    validationOptions: ValidationOptionsInfo | undefined,
     commitMessage: string,
     changesCount: number
   ) {
     this.changesCount = changesCount;
+    this.validationOptions = validationOptions;
     // The option to revert a single change is always available
     this.populateRevertSingleChangeMessage(
       change,

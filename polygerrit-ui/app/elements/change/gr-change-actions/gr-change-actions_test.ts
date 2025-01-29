@@ -101,6 +101,8 @@ suite('gr-change-actions tests', () => {
         })
       );
 
+      stubRestApi('getValidationOptions').returns({validation_options: []});
+
       sinon
         .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
         .returns(Promise.resolve());

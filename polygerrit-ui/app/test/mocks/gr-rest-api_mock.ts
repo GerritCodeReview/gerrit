@@ -10,6 +10,7 @@ import {
   AccountExternalIdInfo,
   AccountInfo,
   AccountStateInfo,
+  ValidationOptionsInfo,
   ServerInfo,
   ProjectInfo,
   AccountCapabilityInfo,
@@ -430,6 +431,9 @@ export const grRestApiMock: RestApiService = {
   },
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined> {
     return Promise.resolve([]);
+  },
+  getValidationOptions(): Promise<ValidationOptionsInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getVersion(): Promise<string | undefined> {
     return Promise.resolve('');

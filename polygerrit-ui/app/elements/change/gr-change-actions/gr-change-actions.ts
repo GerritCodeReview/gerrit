@@ -1369,29 +1369,28 @@ export class GrChangeActions
     return null;
   }
 
-  showRevertDialog() {
+  async showRevertDialog() {
     const change = this.change;
     if (!change) return;
     const query = `submissionid: "${change.submission_id}"`;
     /* A chromium plugin expects that the modifyRevertMsg hook will only
     be called after the revert button is pressed, hence we populate the
     revert dialog after revert button is pressed. */
-    this.restApiService.getChanges(0, query).then(changes => {
-      if (!changes) {
-        this.reporting.error(
-          'Change Actions',
-          new Error('getChanges returns undefined')
-        );
-        return;
-      }
-      assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
-      this.confirmRevertDialog.populate(
-        change,
-        this.commitMessage,
-        changes.length
-      );
-      this.showActionDialog(this.confirmRevertDialog);
-    });
+    const [changes, validationOptions] = await Promise.all([
+      this.restApiService.getChanges(0, query),
+      this.restApiService.getValidationOptions(this.change!._number),
+    ]);
+    if (!changes) {
+      return;
+    }
+    assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
+    this.confirmRevertDialog.populate(
+      change,
+      validationOptions,
+      this.commitMessage,
+      changes.length
+    );
+    this.showActionDialog(this.confirmRevertDialog);
   }
 
   showSubmitDialog() {
@@ -1656,12 +1655,20 @@ export class GrChangeActions
     });
   }
 
-  private handleRevertDialogConfirm(e: CustomEvent<ConfirmRevertEventDetail>) {
+  // private but visible for testing
+  handleRevertDialogConfirm(e: CustomEvent<ConfirmRevertEventDetail>) {
     assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
     assertIsDefined(this.actionsModal, 'actionsModal');
     const revertType = e.detail.revertType;
     const message = e.detail.message;
     const el = this.confirmRevertDialog;
+    // https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-input
+    // validation_options key defined as Map<string, string> here
+    // This only works for options that expect a boolean "true" in return
+    const validationOptionsMap: Record<string, string> = {};
+    for (const option of this.confirmRevertDialog.getValidationOptions()) {
+      validationOptionsMap[option.name] = 'true';
+    }
     this.actionsModal.close();
     el.hidden = true;
     switch (revertType) {
@@ -1670,7 +1677,7 @@ export class GrChangeActions
           '/revert',
           assertUIActionInfo(this.actions.revert),
           false,
-          {message}
+          {message, validation_options: validationOptionsMap}
         );
         break;
       case RevertType.REVERT_SUBMISSION:
@@ -1680,7 +1687,7 @@ export class GrChangeActions
           '/revert_submission',
           {__key: 'revert_submission', method: HttpMethod.POST} as UIActionInfo,
           false,
-          {message}
+          {message, validation_options: validationOptionsMap}
         );
         break;
       default:

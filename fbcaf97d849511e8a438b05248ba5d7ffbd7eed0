@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8a5d7dd_4a85b543",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-29T17:28:44Z",
+      "side": 1,
+      "message": "maybe extract the writer in a separate change and add the read-only option and NoopWriter in another change ?",
+      "revId": "fbcaf97d849511e8a438b05248ba5d7ffbd7eed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

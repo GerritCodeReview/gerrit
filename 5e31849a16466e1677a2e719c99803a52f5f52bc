@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6471a5e7_fb6c5174",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-29T16:38:33Z",
+      "side": 1,
+      "message": "Why this cannot be in separate change?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7058413f_d626a83e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-29T16:38:33Z",
+      "side": 1,
+      "message": "I would be careful with changing public API and only when we have strong reasons then consider to change it.\n\nI also think it could be less complex if we use headers in implementation and not make more complex FetchOptionsInit interface. But that\u0027s nit.",
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6df4ef72_f4a27bd0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-29T16:38:33Z",
+      "side": 1,
+      "message": "NIT: Why do we need new parameter when it can be part of headers.",
+      "range": {
+        "startLine": 224,
+        "startChar": 1,
+        "endLine": 226,
+        "endChar": 25
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f06ac85_707f49b3",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-29T16:38:33Z",
+      "side": 1,
+      "message": "Could we just add new parameter without changing API? \n\nDo you plan to rewrite plugins using send with own headers?",
+      "range": {
+        "startLine": 144,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

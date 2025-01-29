@@ -62,7 +62,7 @@ public class IndexChanges implements RestModifyView<ProjectResource, Input> {
     Project.NameKey project = resource.getNameKey();
     Task mpt =
         multiProgressMonitorFactory
-            .create(ByteStreams.nullOutputStream(), TaskKind.INDEXING, "Reindexing project")
+            .create(ByteStreams.nullOutputStream(), TaskKind.INDEXING, "Reindexing project", true)
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
     AllChangesIndexer allChangesIndexer = allChangesIndexerFactory.create();
     allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);

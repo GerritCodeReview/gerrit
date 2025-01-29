@@ -225,13 +225,15 @@ public class MultiProgressMonitor implements RequestStateProvider {
   }
 
   public interface Factory {
-    MultiProgressMonitor create(OutputStream out, TaskKind taskKind, String taskName);
+    MultiProgressMonitor create(
+        OutputStream out, TaskKind taskKind, String taskName, boolean logProgress);
 
     MultiProgressMonitor create(
         OutputStream out,
         TaskKind taskKind,
         String taskName,
         long maxIntervalTime,
+        boolean logProgress,
         TimeUnit maxIntervalUnit);
   }
 
@@ -246,6 +248,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private boolean clientDisconnected;
   private boolean deadlineExceeded;
   private boolean forcefulTermination;
+  private boolean logProgress;
   private Optional<Long> timeout = Optional.empty();
 
   private final long maxIntervalNanos;
@@ -264,8 +267,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
       Ticker ticker,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
-      @Assisted String taskName) {
-    this(cancellationMetrics, ticker, out, taskKind, taskName, 500, MILLISECONDS);
+      @Assisted String taskName,
+      @Assisted boolean logProgress) {
+    this(cancellationMetrics, ticker, out, taskKind, taskName, 500, logProgress, MILLISECONDS);
   }
 
   /**
@@ -284,12 +288,14 @@ public class MultiProgressMonitor implements RequestStateProvider {
       @Assisted TaskKind taskKind,
       @Assisted String taskName,
       @Assisted long maxIntervalTime,
+      @Assisted boolean logProgress,
       @Assisted TimeUnit maxIntervalUnit) {
     this.cancellationMetrics = cancellationMetrics;
     this.ticker = ticker;
     this.out = out;
     this.taskKind = taskKind;
     this.taskName = taskName;
+    this.logProgress = logProgress;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
   }
 
@@ -605,8 +611,10 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   private void send(StringBuilder s) {
     String progress = s.toString();
-    logger.atInfo().atMostEvery(1, MINUTES).log(
-        "%s", CharMatcher.javaIsoControl().removeFrom(progress));
+    if (logProgress) {
+      logger.atInfo().atMostEvery(1, MINUTES).log(
+          "%s", CharMatcher.javaIsoControl().removeFrom(progress));
+    }
     if (!clientDisconnected) {
       try {
         out.write(Constants.encode(progress));

@@ -25,6 +25,7 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
 import {
@@ -100,6 +101,8 @@ suite('gr-change-actions tests', () => {
           },
         })
       );
+
+      stubRestApi('getValidationOptions').returns({validation_options: []});
 
       sinon
         .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
@@ -1489,14 +1492,12 @@ suite('gr-change-actions tests', () => {
 
       test('revert change with plugin hook', async () => {
         const newRevertMsg = 'Modified revert msg';
+        const revertDialog = queryAndAssert<GrConfirmRevertDialog>(
+          element,
+          '#confirmRevertDialog'
+        );
         sinon
-          .stub(
-            queryAndAssert<GrConfirmRevertDialog>(
-              element,
-              '#confirmRevertDialog'
-            ),
-            'modifyRevertMsg'
-          )
+          .stub(revertDialog, 'modifyRevertMsg')
           .callsFake(() => newRevertMsg);
         element.change = {
           ...createChangeViewChange(),
@@ -1527,13 +1528,7 @@ suite('gr-change-actions tests', () => {
           ])
         );
         sinon
-          .stub(
-            queryAndAssert<GrConfirmRevertDialog>(
-              element,
-              '#confirmRevertDialog'
-            ),
-            'populateRevertSubmissionMessage'
-          )
+          .stub(revertDialog, 'populateRevertSubmissionMessage')
           .callsFake(() => 'original msg');
         await element.updateComplete;
         queryAndAssert<GrButton>(
@@ -1541,11 +1536,8 @@ suite('gr-change-actions tests', () => {
           'gr-button[data-action-key="revert"]'
         ).click();
         await element.updateComplete;
-        assert.equal(
-          queryAndAssert<GrConfirmRevertDialog>(element, '#confirmRevertDialog')
-            .message,
-          newRevertMsg
-        );
+        await waitUntil(() => !!revertDialog.message);
+        assert.equal(revertDialog.message, newRevertMsg);
       });
 
       suite('revert change submitted together', () => {
@@ -1584,16 +1576,17 @@ suite('gr-change-actions tests', () => {
         });
 
         test('confirm revert dialog shows both options', async () => {
-          queryAndAssert<GrButton>(
-            element,
-            'gr-button[data-action-key="revert"]'
-          ).click();
-          await element.updateComplete;
-          assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
             '#confirmRevertDialog'
           );
+          queryAndAssert<GrButton>(
+            element,
+            'gr-button[data-action-key="revert"]'
+          ).click();
+          await waitUntil(() => !!confirmRevertDialog.message);
+          await element.updateComplete;
+          assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
           await element.updateComplete;
           const revertSingleChangeLabel = queryAndAssert<HTMLLabelElement>(
             confirmRevertDialog,
@@ -1640,6 +1633,7 @@ suite('gr-change-actions tests', () => {
             '#confirmRevertDialog'
           );
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
+          await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           queryAndAssert<GrButton>(
             queryAndAssert(
@@ -1666,6 +1660,7 @@ suite('gr-change-actions tests', () => {
             element,
             '#confirmRevertDialog'
           );
+          await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
@@ -1738,6 +1733,7 @@ suite('gr-change-actions tests', () => {
             '#confirmRevertDialog'
           );
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
+          await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           queryAndAssert<GrButton>(
             queryAndAssert(
@@ -1755,15 +1751,16 @@ suite('gr-change-actions tests', () => {
         });
 
         test('confirm revert dialog shows no radio button', async () => {
-          queryAndAssert<GrButton>(
-            element,
-            'gr-button[data-action-key="revert"]'
-          ).click();
-          await element.updateComplete;
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
             '#confirmRevertDialog'
           );
+          queryAndAssert<GrButton>(
+            element,
+            'gr-button[data-action-key="revert"]'
+          ).click();
+          await waitUntil(() => !!confirmRevertDialog.message);
+          await element.updateComplete;
           const radioInputs = queryAll(
             confirmRevertDialog,
             'input[name="revertOptions"]'

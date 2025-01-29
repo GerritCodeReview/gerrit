@@ -95,6 +95,7 @@ import {
   ReviewInput,
   RevisionId,
   ServerInfo,
+  ValidationOptionsInfo,
   SshKeyInfo,
   SubmittedTogetherInfo,
   SuggestedReviewerInfo,
@@ -292,6 +293,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/config/server/info',
       reportUrlAsIs: true,
     }) as Promise<ServerInfo | undefined>;
+  }
+
+  getValidationOptions(): Promise<ValidationOptionsInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: '/config/server/validation-options',
+      reportUrlAsIs: true,
+    }) as Promise<ValidationOptionsInfo | undefined>;
   }
 
   getRepo(

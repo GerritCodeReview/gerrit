@@ -24,6 +24,7 @@ import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Truth;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
@@ -36,13 +37,18 @@ import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryReferenceCountingManager;
 import com.google.gerrit.testing.InMemoryModule;
+import com.google.gerrit.testing.InMemoryRepositoryCountingManager;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Map;
 
 public class AllProjectsCreatorTest {
   private static final LabelType TEST_LABEL =
@@ -72,6 +78,8 @@ public class AllProjectsCreatorTest {
 
   @Inject private GitRepositoryManager repoManager;
 
+  @Inject private InMemoryRepositoryCountingManager repositoryCountingManager;
+
   @Before
   public void setUp() throws Exception {
     InMemoryModule inMemoryModule = new InMemoryModule();
@@ -81,6 +89,11 @@ public class AllProjectsCreatorTest {
     try (Repository repo = repoManager.createRepository(allProjectsName)) {
       // Intentionally empty.
     }
+  }
+
+  @After
+  public void checkRepositoryCounting() {
+    Truth.assertThat(repositoryCountingManager.openRepositories()).isEmpty();
   }
 
   @Test

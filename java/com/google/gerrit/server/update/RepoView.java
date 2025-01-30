@@ -43,7 +43,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * implementations have staged using the write methods on {@link RepoContext}. Callers do not have
  * to worry about whether operations have been performed yet.
  */
-public class RepoView {
+public class RepoView implements AutoCloseable {
   private final Repository repo;
   private final RevWalk rw;
   private final ObjectInserter inserter;
@@ -196,9 +196,8 @@ public class RepoView {
     }
   }
 
-  // Not AutoCloseable so callers can't improperly close it. Plus it's never managed with a try
-  // block anyway.
-  void close() {
+  @Override
+  public void close() {
     if (closeRepo) {
       inserter.close();
       rw.close();

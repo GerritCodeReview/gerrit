@@ -99,6 +99,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "index").to(Index.class);
     get(CHANGE_KIND, "meta_diff").to(GetMetaDiff.class);
     post(CHANGE_KIND, "merge").to(CreateMergePatchSet.class);
+    get(CHANGE_KIND, "validation-options").to(GetValidationOptions.class);
     get(CHANGE_KIND, "message").to(GetMessage.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);
 

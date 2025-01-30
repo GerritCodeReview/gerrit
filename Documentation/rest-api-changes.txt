@@ -3024,6 +3024,38 @@ As response the change's custom keyed values are returned as a map of strings to
   }
 ----
 
+[[validation-options]]
+=== Get Validation Options
+--
+'GET /changes/link:#change-id[\{change-id\}]/validation-options'
+--
+
+Retrieves the validation options that apply to the change.
+
+.Request
+----
+  GET /changes/link:#change-id[\{change-id\}]/validation-options HTTP/1.0
+----
+
+As response a link:#validation-options-infos[ValidationOptionInfos] entity is
+returned that contains all the validation options.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    validation_options: [
+      {
+        name: "optionName",
+        description: "description of the validation option"
+      }
+    ]
+  }
+----
 
 [[list-change-messages]]
 === List Change Messages
@@ -9462,6 +9494,27 @@ in $NAME_OF_EXTERNAL_TOOL" is a good option here.
 |`url`      ||The link URL.
 |`image_url`|optional|URL to the icon of the link.
 |========================
+
+[[validation-option-info]]
+=== ValidationOptionInfo
+The `ValidationOption` entity returns the validation option that is specified by the user on push.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name           ||Description
+|`name`               ||The name of the validation option.
+|`description`        ||The description of the validation option.
+|=======================
+
+[[validation-options-infos]]
+=== ValidationOptionInfos
+The `ValidationOptionInfos` entity returns the list of all possible validation options.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name                   ||Description
+|`validation_options`         ||The list of all possible validation options.
+|=======================
 
 [[work-in-progress-input]]
 === WorkInProgressInput

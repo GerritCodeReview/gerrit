@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -91,10 +92,12 @@ public class TestExtensions {
   public static class TestPluginPushOption implements PluginPushOption {
     private final String name;
     private final String description;
+    private final Boolean enabled;
 
-    public TestPluginPushOption(String name, String description) {
+    public TestPluginPushOption(String name, String description, Boolean enabled) {
       this.name = name;
       this.description = description;
+      this.enabled = enabled;
     }
 
     @Override
@@ -105,6 +108,11 @@ public class TestExtensions {
     @Override
     public String getDescription() {
       return description;
+    }
+
+    @Override
+    public boolean isOptionEnabled(Change change) {
+      return enabled;
     }
   }
 

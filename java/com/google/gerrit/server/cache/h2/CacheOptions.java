@@ -17,5 +17,6 @@ package com.google.gerrit.server.cache.h2;
 public enum CacheOptions {
   CACHE_CLEANUP,
   TRACK_LAST_ACCESS,
-  BUILD_BLOOM_FILTER;
+  BUILD_BLOOM_FILTER,
+  READ_ONLY;
 }

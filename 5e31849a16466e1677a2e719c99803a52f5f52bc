@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7872443e_b17e0c7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-30T08:57:15Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d22e22f2_4c7c8ffc",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7058413f_d626a83e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -166,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f87a40_deb71dee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-30T08:57:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3820255c_41955c0e",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 74
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6df4ef72_f4a27bd0",
@@ -236,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db1084b1_92b8a8a9",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2526,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-30T08:57:15Z",
+      "side": 1,
+      "message": "Addressed in https://gerrit-review.git.corp.google.com/c/gerrit/+/449721",
+      "parentUuid": "451e5c4c_340eb297",
+      "range": {
+        "startLine": 2526,
+        "startChar": 5,
+        "endLine": 2526,
+        "endChar": 77
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45a09c10_6b523103",
@@ -273,6 +345,30 @@
           ]
         }
       ],
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb64dc03_20b1bbd5",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-30T08:57:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45a09c10_6b523103",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 18
+      },
       "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -338,6 +434,30 @@
       "side": 1,
       "message": "Ok, but why did you deprecated getResponseObject below [1] and you are changing API. Shouldn\u0027t we say deprecated use gr-rest-api-helper directly as well?\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/407822/14/polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
       "parentUuid": "a420a5a7_0784d007",
+      "range": {
+        "startLine": 144,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "5e31849a16466e1677a2e719c99803a52f5f52bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ad8cf1_49d26b80",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-30T08:57:15Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ve learned a few things, since then. I think back then, I thought that plugins can use gr-rest-api directly, but that\u0027s not the case.\n\nAddressed in https://gerrit-review.git.corp.google.com/c/gerrit/+/449721",
+      "parentUuid": "b048a050_3e68f5c8",
       "range": {
         "startLine": 144,
         "startChar": 1,

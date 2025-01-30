@@ -2783,8 +2783,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushOptionsArePassedToCommitValidationListener() throws Exception {
     TestValidator validator = new TestValidator();
-    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
-    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description", true);
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description", true);
     try (Registration registration =
         extensionRegistry.newRegistration().add(validator).add(fooOption).add(barOption)) {
       PushOneCommit push =
@@ -2816,8 +2816,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pluginPushOptionsHelp() throws Exception {
-    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
-    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description", true);
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description", true);
     try (Registration registration =
         extensionRegistry.newRegistration().add(fooOption).add(barOption)) {
       PushOneCommit push =

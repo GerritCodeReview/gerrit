@@ -6094,6 +6094,7 @@ the request parameters.
 May be specified multiple times.
 +
 Example:
++
 ----
   requestQueryStringPattern = .*limit=.*
 ----
@@ -6109,6 +6110,7 @@ format '<header-name>=<header-value>'.
 May be specified multiple times.
 +
 Example:
++
 ----
   requestQueryStringPattern = User-Agent=foo-.*
 ----

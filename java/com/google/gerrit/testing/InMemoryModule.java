@@ -242,8 +242,9 @@ public class InMemoryModule extends FactoryModule {
     bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);
     bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
 
-    bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
+    bind(GitRepositoryManager.class).to(InMemoryRepositoryCountingManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
+    bind(InMemoryRepositoryCountingManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
     bind(SecureStore.class).to(DefaultSecureStore.class);
 

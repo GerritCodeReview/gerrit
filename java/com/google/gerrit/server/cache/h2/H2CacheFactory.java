@@ -90,6 +90,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final Set<CacheOptions> options;
   private final boolean pruneOnStartup;
   private final Schedule schedule;
+  private final CacheAccessMode accessMode;
 
   @Inject
   H2CacheFactory(
@@ -99,7 +100,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       @Nullable @CacheCleanupExecutor ScheduledExecutorService cleanupExecutor,
       @Nullable @CacheStoreExecutor ExecutorService storeExecutor,
       @Nullable @CacheDir Path cacheDir,
-      Set<CacheOptions> options) {
+      Set<CacheOptions> options,
+      @Nullable CacheAccessMode cacheAccessMode) {
     super(memCacheFactory, cfg, cacheDir);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
@@ -113,6 +115,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     this.executor = storeExecutor;
     this.cleanup = cleanupExecutor;
     this.options = options;
+    this.accessMode = cacheAccessMode;
   }
 
   @Override
@@ -258,7 +261,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         refreshAfterWrite,
         options.contains(CacheOptions.TRACK_LAST_ACCESS),
         handles,
-        bloomFilter);
+        bloomFilter,
+        accessMode);
   }
 
   private boolean has(String name, String var) {

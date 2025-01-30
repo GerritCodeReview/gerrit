@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -54,6 +55,9 @@ public class H2CacheModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    OptionalBinder.newOptionalBinder(binder(), CacheAccessMode.class)
+        .setDefault()
+        .toInstance(CacheAccessMode.READWRITE);
     bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
     listener().to(H2CacheFactory.class);
   }

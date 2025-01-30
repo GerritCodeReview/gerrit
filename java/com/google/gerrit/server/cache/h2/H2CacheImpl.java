@@ -353,7 +353,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration refreshAfterWrite,
         boolean trackLastAccess,
         SqlHandles<K> handles,
-        SqlStoreBloomFilter<K> bloomFilter) {
+        SqlStoreBloomFilter<K> bloomFilter,
+        CacheAccessMode cacheAccessMode) {
       this.url = jdbcUrl;
       this.keyType = keyType;
       this.valueSerializer = valueSerializer;
@@ -364,16 +365,25 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.handles = handles;
       this.bloomFilter = bloomFilter;
 
-      this.writer =
-          new WriterImpl<>(
-              maxSize,
-              jdbcUrl,
-              this.keyType,
-              valueSerializer,
-              version,
-              expireAfterWrite,
-              handles,
-              bloomFilter);
+      switch (cacheAccessMode) {
+        case READWRITE:
+          this.writer =
+              new WriterImpl<>(
+                  maxSize,
+                  jdbcUrl,
+                  this.keyType,
+                  valueSerializer,
+                  version,
+                  expireAfterWrite,
+                  handles,
+                  bloomFilter);
+          break;
+        case READONLY:
+          this.writer = new NoopWriterImpl<>();
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported cache access mode: " + cacheAccessMode);
+      }
     }
 
     void close() {
@@ -540,6 +550,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       public void invalidateAll() throws SQLException;
 
       public void prune(Cache<K, ?> mem);
+    }
+
+    static class NoopWriterImpl<K, V> implements Writer<K, V> {
+      @Override
+      public void touch(SqlHandle c, K key) {}
+
+      @Override
+      public void put(K key, ValueHolder<V> holder) {}
+
+      @Override
+      public void invalidate(K key) {}
+
+      @Override
+      public void invalidateAll() {}
+
+      @Override
+      public void prune(Cache<K, ?> mem) {}
     }
 
     static class WriterImpl<K, V> implements Writer<K, V> {

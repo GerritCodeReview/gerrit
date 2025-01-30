@@ -112,6 +112,7 @@ import com.google.gerrit.server.restapi.change.SetReadyForReview;
 import com.google.gerrit.server.restapi.change.SetWorkInProgress;
 import com.google.gerrit.server.restapi.change.SubmittedTogether;
 import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
+import com.google.gerrit.server.restapi.config.GetValidationOptions;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -159,6 +160,7 @@ class ChangeApiImpl implements ChangeApi {
   private final GetHashtags getHashtags;
   private final PostCustomKeyedValues postCustomKeyedValues;
   private final GetCustomKeyedValues getCustomKeyedValues;
+  private final GetValidationOptions getValidationOptions;
   private final AttentionSet attentionSet;
   private final AttentionSetApiImpl.Factory attentionSetApi;
   private final AddToAttentionSet addToAttentionSet;
@@ -212,6 +214,7 @@ class ChangeApiImpl implements ChangeApi {
       GetHashtags getHashtags,
       PostCustomKeyedValues postCustomKeyedValues,
       GetCustomKeyedValues getCustomKeyedValues,
+      GetValidationOptions getValidationOptions,
       AttentionSet attentionSet,
       AttentionSetApiImpl.Factory attentionSetApi,
       AddToAttentionSet addToAttentionSet,
@@ -263,6 +266,7 @@ class ChangeApiImpl implements ChangeApi {
     this.getHashtags = getHashtags;
     this.postCustomKeyedValues = postCustomKeyedValues;
     this.getCustomKeyedValues = getCustomKeyedValues;
+    this.getValidationOptions = getValidationOptions;
     this.attentionSet = attentionSet;
     this.attentionSetApi = attentionSetApi;
     this.addToAttentionSet = addToAttentionSet;

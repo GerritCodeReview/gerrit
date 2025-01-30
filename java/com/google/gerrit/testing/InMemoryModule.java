@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.acceptance.InMemoryRepositoryCountingManager;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -242,8 +243,9 @@ public class InMemoryModule extends FactoryModule {
     bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);
     bind(GlobalPluginConfigProvider.class).to(FileBasedGlobalPluginConfigProvider.class);
 
-    bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
+    bind(GitRepositoryManager.class).to(InMemoryRepositoryCountingManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
+    bind(InMemoryRepositoryCountingManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
     bind(SecureStore.class).to(DefaultSecureStore.class);
 

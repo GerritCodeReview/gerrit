@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.Objects.requireNonNull;
 
@@ -63,6 +64,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
+import com.google.gerrit.server.git.GitRepositoryCountingManagerModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.index.AbstractIndexModule;
@@ -562,6 +564,7 @@ public class GerritServer implements AutoCloseable {
         new GrantDirectPushPermissionsOnStartupModule(),
         new ReindexProjectsAtStartupModule(),
         new ReindexGroupsAtStartupModule());
+    daemon.addAdditionalDbModuleForTesting(new GitRepositoryCountingManagerModule());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(
@@ -770,7 +773,13 @@ public class GerritServer implements AutoCloseable {
 
   @Override
   public void close() throws Exception {
-    daemon.ifPresent(d -> d.getLifecycleManager().stop());
+    if (daemon.isPresent()) {
+      Daemon currDaemon = daemon.get();
+      InMemoryRepositoryCountingManager repositoryCountingManager =
+          testInjector.getInstance(InMemoryRepositoryCountingManager.class);
+      assertThat(repositoryCountingManager.openRepositories()).isEmpty();
+      currDaemon.getLifecycleManager().stop();
+    }
     if (daemonService != null) {
       System.out.println("Gerrit Server Shutdown");
       daemonService.shutdownNow();

@@ -69,7 +69,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     if (repoManager != null) {
       bind(GitRepositoryManager.class).toInstance(repoManager);
     } else {
-      bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
+      bind(GitRepositoryManager.class).to(InMemoryRepositoryCountingManager.class).in(SINGLETON);
       bind(InMemoryRepositoryManager.class).in(SINGLETON);
     }
 

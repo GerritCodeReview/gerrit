@@ -278,7 +278,7 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="relatedChanges">
       <gr-related-collapse
         .name=${'Relation chain'}
-        title="parent changes are ordered after child changes"
+        title="parent changes appear below child changes"
         class=${classMap({first: isFirst})}
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
@@ -344,7 +344,7 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="submittedTogether">
       <gr-related-collapse
         .name=${'Submitted together'}
-        title="parent changes are ordered after child changes"
+        title="parent changes appear below child changes"
         class=${classMap({first: isFirst})}
         .length=${submittedTogetherChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}

@@ -39,6 +39,29 @@
       },
       "revId": "817df90610ce7245a7f0f9ba0dd6157327b12f5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1d13fed_ec4205be",
+        "filename": "java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T20:13:44Z",
+      "side": 1,
+      "message": "How that the `RepoView` can be constructed from outside, the Pandorra box is open and many other developers will start creating it without calling the `close()` afterwards when you\u0027re done.\n\nIt would have been better to make the class implementing `AutoCloseable` to prevent misuse.",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 8
+      },
+      "revId": "817df90610ce7245a7f0f9ba0dd6157327b12f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

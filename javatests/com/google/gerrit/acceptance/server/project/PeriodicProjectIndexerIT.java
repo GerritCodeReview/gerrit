@@ -45,6 +45,8 @@ public class PeriodicProjectIndexerIT extends AbstractDaemonTest {
 
   @Inject private PeriodicProjectIndexer periodicIndexer;
 
+  @Inject private LocalDiskRepositoryManager localDiskRepositoryManager;
+
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ProjectField.NAME_SPEC.getName());
 
@@ -55,7 +57,7 @@ public class PeriodicProjectIndexerIT extends AbstractDaemonTest {
     ProjectIndex i = indexes.getSearchIndex();
     Optional<FieldBundle> result = i.getRaw(foo, QueryOptions.create(indexConfig, 0, 1, FIELDS));
     assertThat(result).isPresent();
-    Path basePath = ((LocalDiskRepositoryManager) repoManager).getBasePath(foo);
+    Path basePath = localDiskRepositoryManager.getBasePath(foo);
     Path fooPath = basePath.resolve(foo.get() + Constants.DOT_GIT_EXT);
 
     MoreFiles.deleteRecursively(fooPath, RecursiveDeleteOption.ALLOW_INSECURE);

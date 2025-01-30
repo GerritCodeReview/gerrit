@@ -30,6 +30,8 @@ import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlHandles;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.Writer;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.WriterImpl;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -239,18 +241,28 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       }
     }
     KeyType<K> keyType = createKeyType(def.keyType(), def.keySerializer());
+    SqlHandles<K> handles = new SqlHandles<>(url.toString(), keyType);
+    Writer<K, V> writer =
+        new WriterImpl<>(
+            maxSize,
+            url.toString(),
+            keyType,
+            def.valueSerializer(),
+            def.version(),
+            expireAfterWrite,
+            handles);
     return new SqlStore<>(
         url.toString(),
         keyType,
         def.valueSerializer(),
         def.version(),
-        maxSize,
         config.getInt("cache", "h2MaxInvalidated", 25),
         expireAfterWrite,
         refreshAfterWrite,
         options.contains(CacheOptions.BUILD_BLOOM_FILTER),
         options.contains(CacheOptions.TRACK_LAST_ACCESS),
-        new SqlHandles<>(url.toString(), keyType));
+        handles,
+        writer);
   }
 
   private boolean has(String name, String var) {

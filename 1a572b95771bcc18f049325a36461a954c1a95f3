@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33493723_dd495786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T18:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b374ba0_61c316b6",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 70
+      },
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6a85c9f_91c902d7",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-28T20:23:37Z",
       "side": 1,
       "message": "nit: remove comma",
+      "range": {
+        "startLine": 22,
+        "startChar": 66,
+        "endLine": 22,
+        "endChar": 67
+      },
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d33bb1f_201c0cb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T18:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6a85c9f_91c902d7",
       "range": {
         "startLine": 22,
         "startChar": 66,
@@ -96,6 +144,24 @@
       "side": 1,
       "message": "BatchUpdate already closes the `repoView`, see a code fragment below:\n\n```\n  @Override\n  public void close() {\n    if (repoView !\u003d null) {\n      repoView.close();\n    }\n  }\n```",
       "parentUuid": "3eea6be1_810bf8cb",
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bdd1973_f5a497d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T18:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb11d204_447c62d5",
       "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

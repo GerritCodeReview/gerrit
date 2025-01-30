@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ce96539_05e575d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T20:12:02Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "817df90610ce7245a7f0f9ba0dd6157327b12f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64193202_9593f7a6",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T20:12:02Z",
+      "side": 1,
+      "message": "This `RepoView` instance is never closed, causing an increment of the `Repository` in the JGit `RepositoryCache` and therefore preventing the cache to be released when a repository becomes unused.\n\nI\u0027ve fixed it on master with I2d93b9f30, however, I am investigating for *how many releases* Gerrit had this memory leak issue.\n\nWill upload a fix to all the stable branches since stable-3.5.",
+      "range": {
+        "startLine": 145,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 39
+      },
+      "revId": "817df90610ce7245a7f0f9ba0dd6157327b12f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
@@ -16,26 +57,13 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX -label:Code-Review\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Code-Review\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Code-Review\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX"],"failingAtoms":["label:Code-Review=MIN"]}
       },
       "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -2122450682,
-        "w2": 281965125,
-        "w3": -1477379654,
-        "w4": 232134003,
-        "w5": 665923418
-      }
+      "patchSetCommitId": "817df90610ce7245a7f0f9ba0dd6157327b12f5a",
+      "legacy": {},
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -52,26 +80,13 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX -label:Verified\u003dMIN"
-        },
-        "status": "PASS",
-        "errorMessage": {},
-        "passingAtoms": [
-          "label:Verified\u003dMAX"
-        ],
-        "failingAtoms": [
-          "label:Verified\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Verified=MAX -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}
       },
       "overrideExpressionResult": {},
-      "patchSetCommitId": {
-        "w1": -2122450682,
-        "w2": 281965125,
-        "w3": -1477379654,
-        "w4": 232134003,
-        "w5": 665923418
-      }
+      "patchSetCommitId": "817df90610ce7245a7f0f9ba0dd6157327b12f5a",
+      "legacy": {},
+      "forced": {},
+      "hidden": {}
     }
   ]
 }

@@ -122,6 +122,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               .expectedMessage("reflog not supported on")
               .build(),
           RestCall.get("/projects/%s/branches/%s/suggest_reviewers"),
+          RestCall.get("/projects/%s/branches/%s/validation-options"),
 
           // Branch deletion must be tested last
           RestCall.delete("/projects/%s/branches/%s"));

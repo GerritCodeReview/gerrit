@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.FileResource;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.config.GetValidationOptions;
 import com.google.gerrit.server.restapi.project.BranchesCollection;
 import com.google.gerrit.server.restapi.project.CreateBranch;
 import com.google.gerrit.server.restapi.project.DeleteBranch;
@@ -60,6 +62,7 @@ public class BranchApiImpl implements BranchApi {
   private final ProjectResource project;
 
   private final SuggestBranchReviewers suggestReviewers;
+  private final GetValidationOptions getValidationOptions;
 
   @Inject
   BranchApiImpl(
@@ -71,6 +74,7 @@ public class BranchApiImpl implements BranchApi {
       GetContent getContent,
       GetReflog getReflog,
       SuggestBranchReviewers suggestReviewers,
+      GetValidationOptions getValidationOptions,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.branches = branches;
@@ -82,6 +86,7 @@ public class BranchApiImpl implements BranchApi {
     this.getReflog = getReflog;
     this.project = project;
     this.suggestReviewers = suggestReviewers;
+    this.getValidationOptions = getValidationOptions;
     this.ref = ref;
   }
 
@@ -123,6 +128,15 @@ public class BranchApiImpl implements BranchApi {
         return BranchApiImpl.this.suggestReviewers(this);
       }
     };
+  }
+
+  @Override
+  public ValidationOptionInfos getValidationOptions() throws RestApiException {
+    try {
+      return getValidationOptions.apply(resource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get validation options", e);
+    }
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)

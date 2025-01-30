@@ -100,6 +100,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
 
+  @Option(name = "--read-only-caches", usage = "Don't update H2 disk caches.")
+  private boolean readOnlyCaches;
+
   private Boolean reuseExistingDocumentsOption;
 
   private Injector dbInjector;
@@ -232,9 +235,14 @@ public class Reindex extends SiteProgram {
                     reuseExistingDocuments ? IsFirstInsertForEntry.NO : IsFirstInsertForEntry.YES);
           }
         });
-    ImmutableSet<CacheOptions> options =
-        buildBloomFilter ? ImmutableSet.of(CacheOptions.BUILD_BLOOM_FILTER) : ImmutableSet.of();
-    modules.add(new BatchProgramModule(dbInjector, options));
+    ImmutableSet.Builder<CacheOptions> options = new ImmutableSet.Builder<>();
+    if (buildBloomFilter) {
+      options.add(CacheOptions.BUILD_BLOOM_FILTER);
+    }
+    if (readOnlyCaches) {
+      options.add(CacheOptions.READ_ONLY);
+    }
+    modules.add(new BatchProgramModule(dbInjector, options.build()));
     modules.add(
         new FactoryModule() {
           @Override

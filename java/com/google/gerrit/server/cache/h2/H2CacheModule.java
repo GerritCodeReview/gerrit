@@ -49,7 +49,7 @@ public class H2CacheModule extends LifecycleModule {
   }
 
   public H2CacheModule() {
-    this(EnumSet.allOf(CacheOptions.class));
+    this(EnumSet.complementOf(EnumSet.of(CacheOptions.READ_ONLY)));
   }
 
   @Override

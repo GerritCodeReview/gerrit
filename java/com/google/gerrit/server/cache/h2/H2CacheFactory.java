@@ -30,6 +30,7 @@ import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlHandles;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.NoopWriterImpl;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.Writer;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.WriterImpl;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
@@ -242,15 +243,21 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     }
     KeyType<K> keyType = createKeyType(def.keyType(), def.keySerializer());
     SqlHandles<K> handles = new SqlHandles<>(url.toString(), keyType);
-    Writer<K, V> writer =
-        new WriterImpl<>(
-            maxSize,
-            url.toString(),
-            keyType,
-            def.valueSerializer(),
-            def.version(),
-            expireAfterWrite,
-            handles);
+    Writer<K, V> writer;
+    if (options.contains(CacheOptions.READ_ONLY)) {
+      writer = new NoopWriterImpl<>();
+    } else {
+      writer =
+          new WriterImpl<>(
+              maxSize,
+              url.toString(),
+              keyType,
+              def.valueSerializer(),
+              def.version(),
+              expireAfterWrite,
+              handles);
+    }
+
     return new SqlStore<>(
         url.toString(),
         keyType,

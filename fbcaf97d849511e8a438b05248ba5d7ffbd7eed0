@@ -16,6 +16,24 @@
       "message": "maybe extract the writer in a separate change and add the read-only option and NoopWriter in another change ?",
       "revId": "fbcaf97d849511e8a438b05248ba5d7ffbd7eed0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35498e46_117bcff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-30T09:21:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c8a5d7dd_4a85b543",
+      "revId": "fbcaf97d849511e8a438b05248ba5d7ffbd7eed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

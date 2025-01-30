@@ -28,7 +28,6 @@ import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.query.FieldBundle;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.PeriodicProjectIndexer;
 import com.google.inject.Inject;
 import java.nio.file.Path;
@@ -55,7 +54,7 @@ public class PeriodicProjectIndexerIT extends AbstractDaemonTest {
     ProjectIndex i = indexes.getSearchIndex();
     Optional<FieldBundle> result = i.getRaw(foo, QueryOptions.create(indexConfig, 0, 1, FIELDS));
     assertThat(result).isPresent();
-    Path basePath = ((LocalDiskRepositoryManager) repoManager).getBasePath(foo);
+    Path basePath = sitePaths.resolve(cfg.getString("gerrit", null, "basePath"));
     Path fooPath = basePath.resolve(foo.get() + Constants.DOT_GIT_EXT);
 
     MoreFiles.deleteRecursively(fooPath, RecursiveDeleteOption.ALLOW_INSECURE);

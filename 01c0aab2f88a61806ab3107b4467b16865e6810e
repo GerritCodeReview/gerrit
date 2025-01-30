@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09554d15_0a62c4b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:09:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7018a3_a837746f",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ea9e935_1fc74d50",
@@ -54,6 +72,48 @@
       "writtenOn": "2025-01-30T12:41:44Z",
       "side": 1,
       "message": "Please add javadoc documentation.",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d389d6_b4a52895",
+        "filename": "java/com/google/gerrit/server/git/receive/PluginPushOption.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:09:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7e6ceac_033ee39a",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14319f1c_33de6e8a",
+        "filename": "java/com/google/gerrit/server/git/receive/PluginPushOption.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:09:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea9e935_1fc74d50",
+      "range": {
+        "startLine": 30,
+        "startChar": 34,
+        "endLine": 30,
+        "endChar": 63
+      },
       "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

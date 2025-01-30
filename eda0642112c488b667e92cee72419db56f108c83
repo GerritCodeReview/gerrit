@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "385f7fef_ea5bd7fd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 3030,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c5b99dd_bea977e5",
+      "range": {
+        "startLine": 3030,
+        "startChar": 0,
+        "endLine": 3030,
+        "endChar": 39
+      },
+      "revId": "eda0642112c488b667e92cee72419db56f108c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4113f43_c86a6dde",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d31a282_95f2fa2d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 3033,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4113f43_c86a6dde",
+      "range": {
+        "startLine": 3033,
+        "startChar": 0,
+        "endLine": 3033,
+        "endChar": 33
+      },
+      "revId": "eda0642112c488b667e92cee72419db56f108c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc219145_25a9e11c",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-01-30T13:17:38Z",
       "side": 1,
       "message": "nit: is this method used?",
+      "revId": "eda0642112c488b667e92cee72419db56f108c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8be749e1_076f95a6",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:22:33Z",
+      "side": 1,
+      "message": "Ahh sorry was initially passing the branch to the `isEnabled` method but then decided that `change` is probably better.\nReverted.",
+      "parentUuid": "cc219145_25a9e11c",
       "revId": "eda0642112c488b667e92cee72419db56f108c83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

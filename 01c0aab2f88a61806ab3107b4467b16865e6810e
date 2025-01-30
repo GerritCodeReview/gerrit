@@ -151,6 +151,24 @@
       "parentUuid": "792043be_19b02dd1",
       "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30c7ad53_b50d07ad",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ProjectsRestApiBindingsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e4ff8f_9c1f983e",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

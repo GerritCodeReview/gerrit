@@ -26,4 +26,8 @@ public interface PluginPushOption {
 
   /** The description of the push option. */
   public String getDescription();
+
+  default boolean isOptionEnabled(String project, String branch) {
+    return false;
+  }
 }

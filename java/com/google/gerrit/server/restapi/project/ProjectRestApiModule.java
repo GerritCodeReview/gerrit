@@ -27,6 +27,7 @@ import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
+import com.google.gerrit.server.restapi.config.GetValidationOptions;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -66,6 +67,7 @@ public class ProjectRestApiModule extends RestApiModule {
     get(BRANCH_KIND, "mergeable").to(CheckMergeability.class);
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
     get(BRANCH_KIND, "suggest_reviewers").to(SuggestBranchReviewers.class);
+    get(BRANCH_KIND, "validation-options").to(GetValidationOptions.class);
 
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
     post(PROJECT_KIND, "check").to(Check.class);

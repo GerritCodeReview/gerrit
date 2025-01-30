@@ -186,40 +186,6 @@ Queues the link:config-gerrit.html#accountDeactivation[account deactivator] task
   "Account deactivator task added to work queue."
 ----
 
-[[validation-options]]
-=== Get Validation Options
---
-'GET /server/config/validation-options'
---
-
-Retrieves the validation options.
-
-.Request
-----
-  GET /server/config/validation-options HTTP/1.0
-----
-
-As response a link:#validation-options-infos[ValidationOptionInfos] entity is
-returned that contains all the validation options.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    validation_options: [
-      {
-        name: "optionName",
-        description: "description of the validation option"
-      }
-    ]
-  }
-----
-
-
 [[check-consistency]]
 === Check Consistency
 --
@@ -2728,27 +2694,6 @@ link:config-gerrit.html#user.anonymousCoward[Username] that is
 displayed in the Gerrit Web UI and in e-mail notifications if the full
 name of the user is not set.
 |====================================
-
-[[validation-option-info]]
-=== ValidationOptionInfo
-The `ValidationOption` entity returns the validation option that is specified by the user on push.
-
-[options="header",cols="1,^2,4"]
-|=======================
-|Field Name           ||Description
-|`name`               ||The name of the validation option.
-|`description`        ||The description of the validation option.
-|=======================
-
-[[validation-options-infos]]
-=== ValidationOptionInfos
-The `ValidationOptionInfos` entity returns the list of all possible validation options.
-
-[options="header",cols="1,^2,4"]
-|=======================
-|Field Name                   ||Description
-|`validation_options`         ||The list of all possible validation options.
-|=======================
 
 [[clean-changes-input]]
 === CleanChanges.Input

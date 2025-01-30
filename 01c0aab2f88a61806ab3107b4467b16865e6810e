@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc7018a3_a837746f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-30T12:41:44Z",
+      "side": 1,
+      "message": "Please also update the documentation of the REST endpoint.",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea9e935_1fc74d50",
+        "filename": "java/com/google/gerrit/server/git/receive/PluginPushOption.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-30T12:41:44Z",
+      "side": 1,
+      "message": "[optional] Seeing this now, I wonder if it would be even better to pass in ChangeData here and offer the REST endpoint on change level, rather than on branch level. At the moment we do not have validation options that depend on change properties, but it\u0027s not impossible that this may get useful one day.",
+      "range": {
+        "startLine": 30,
+        "startChar": 34,
+        "endLine": 30,
+        "endChar": 63
+      },
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e6ceac_033ee39a",
+        "filename": "java/com/google/gerrit/server/git/receive/PluginPushOption.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-30T12:41:44Z",
+      "side": 1,
+      "message": "Please add javadoc documentation.",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

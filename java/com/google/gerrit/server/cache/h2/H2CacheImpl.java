@@ -355,7 +355,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
-        boolean trackLastAccess) {
+        boolean trackLastAccess,
+        CacheAccessMode cacheAccessMode) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -366,7 +367,16 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.trackLastAccess = trackLastAccess;
       this.handles = new SqlHandles<>(this.url, this.keyType);
 
-      this.writer = new WriterImpl(maxSize);
+      switch (cacheAccessMode) {
+        case READWRITE:
+          this.writer = new WriterImpl(maxSize);
+          break;
+        case READONLY:
+          this.writer = new NoopWriterImpl<>();
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported cache access mode: " + cacheAccessMode);
+      }
     }
 
     void close() {
@@ -588,6 +598,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       public void invalidateAll();
 
       public void prune(Cache<K, ?> mem);
+    }
+
+    static class NoopWriterImpl<K, V> implements Writer<K, V> {
+      @Override
+      public void touch(SqlHandle c, K key) {}
+
+      @Override
+      public void put(K key, ValueHolder<V> holder) {}
+
+      @Override
+      public void invalidate(K key) {}
+
+      @Override
+      public void invalidateAll() {}
+
+      @Override
+      public void prune(Cache<K, ?> mem) {}
     }
 
     class WriterImpl implements Writer<K, V> {

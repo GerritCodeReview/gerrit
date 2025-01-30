@@ -1697,6 +1697,27 @@ suite('gr-file-list tests', () => {
         assert.notOk(query(element, '.showParentButton'));
       });
     });
+
+    test('computeShowAllText', () => {
+      element.files = [
+        normalize({}, 'file1.txt'),
+        normalize({}, 'file2.txt'),
+        normalize({}, 'file3.txt'),
+      ];
+      assert.equal(element.computeShowAllText(), 'Show all 3 files');
+
+      // Files with commit message - should exclude from count
+      element.files = [
+        normalize({}, '/COMMIT_MSG'),
+        normalize({}, 'file1.txt'),
+        normalize({}, 'file2.txt'),
+      ];
+      assert.equal(element.computeShowAllText(), 'Show all 2 files');
+
+      // Only commit message file
+      element.files = [normalize({}, '/COMMIT_MSG')];
+      assert.equal(element.computeShowAllText(), 'Show all 0 files');
+    });
   });
 
   suite('diff url file list', () => {

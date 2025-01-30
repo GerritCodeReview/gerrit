@@ -276,19 +276,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   finalize() {}
 
-  async getResponseObject(response: Response): Promise<ParsedJSON> {
-    return (await readJSONResponsePayload(response)).parsed;
-  }
-
-  getConfig(noCache?: boolean): Promise<ServerInfo | undefined> {
+  getConfig(
+    noCache?: boolean,
+    requestOrigin?: string
+  ): Promise<ServerInfo | undefined> {
     if (!noCache) {
       return this._restApiHelper.fetchCacheJSON({
+        fetchOptions: getFetchOptions({
+          requestOrigin,
+        }),
         url: '/config/server/info',
         reportUrlAsIs: true,
       }) as Promise<ServerInfo | undefined>;
     }
 
     return this._restApiHelper.fetchJSON({
+      fetchOptions: getFetchOptions({
+        requestOrigin,
+      }),
       url: '/config/server/info',
       reportUrlAsIs: true,
     }) as Promise<ServerInfo | undefined>;
@@ -646,8 +651,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  getVersion(): Promise<string | undefined> {
+  getVersion(requestOrigin?: string): Promise<string | undefined> {
     return this._restApiHelper.fetchCacheJSON({
+      fetchOptions: getFetchOptions({
+        requestOrigin,
+      }),
       url: '/config/server/version',
       reportUrlAsIs: true,
     }) as Promise<string | undefined>;
@@ -727,8 +735,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  getAccount(): Promise<AccountDetailInfo | undefined> {
+  getAccount(requestOrigin?: string): Promise<AccountDetailInfo | undefined> {
     return this._restApiHelper.fetchCacheJSON({
+      fetchOptions: getFetchOptions({
+        requestOrigin,
+      }),
       url: '/accounts/self/detail',
       reportUrlAsIs: true,
       errFn: resp => {
@@ -1649,7 +1660,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     filter: string | undefined,
     reposPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
+    requestOrigin?: string
   ): Promise<ProjectInfoWithName[] | undefined> {
     const [isQuery, url] = this._getReposUrl(filter, reposPerPage, offset);
     // If the request is a query then return the response directly as the result
@@ -1657,12 +1669,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // map to an array.
     if (isQuery) {
       return this._restApiHelper.fetchCacheJSON({
+        fetchOptions: getFetchOptions({
+          requestOrigin,
+        }),
         url,
         anonymizedUrl: '/projects/?*',
         errFn,
       }) as Promise<ProjectInfoWithName[] | undefined>;
     } else {
       const result = await (this._restApiHelper.fetchCacheJSON({
+        fetchOptions: getFetchOptions({
+          requestOrigin,
+        }),
         url,
         anonymizedUrl: '/projects/?*',
         errFn,
@@ -2500,26 +2518,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  send(
-    method: HttpMethod,
-    url: string,
-    body?: RequestPayload,
-    errFn?: undefined,
-    contentType?: string,
-    headers?: Record<string, string>
-  ): Promise<Response>;
-
-  send(
-    method: HttpMethod,
-    url: string,
-    body: RequestPayload | undefined,
-    errFn: ErrorCallback,
-    contentType?: string,
-    headers?: Record<string, string>
-  ): Promise<Response | undefined>;
-
   /**
-   * Public version of the _restApiHelper.send method preserved for plugins.
+   * Wrapper around _restApiHelper.fetch used by GrPluginRestApi
    *
    * @param body passed as null sometimes
    * and also apparently a number. TODO (beckysiegel) remove need for
@@ -2531,14 +2531,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     body?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string,
-    headers?: Record<string, string>
+    requestOrigin?: string
   ): Promise<Response | undefined> {
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method,
         body,
         contentType,
-        headers,
+        requestOrigin,
       }),
       url,
       errFn,

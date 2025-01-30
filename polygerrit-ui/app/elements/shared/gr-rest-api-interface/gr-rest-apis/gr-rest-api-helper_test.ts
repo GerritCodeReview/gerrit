@@ -12,6 +12,8 @@ import {
   JSON_PREFIX,
   readJSONResponsePayload,
   parsePrefixedJSON,
+  getFetchOptions,
+  REQUEST_ORIGIN_HEADER,
 } from './gr-rest-api-helper';
 import {
   addListenerForTest,
@@ -542,5 +544,28 @@ suite('gr-rest-api-helper tests', () => {
     helper.logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
     await waitEventLoop();
     assert.isTrue(handler.calledOnce);
+  });
+
+  test('fetch includes custom requestOrigin header', async () => {
+    helper.fetchJSON({
+      fetchOptions: getFetchOptions({requestOrigin: 'test-origin'}),
+      url: '/dummy/url',
+    });
+    await assertReadRequest();
+    assert.isTrue(authFetchStub.called);
+    assert.equal(
+      authFetchStub.lastCall.args[1].headers.get(REQUEST_ORIGIN_HEADER),
+      'test-origin'
+    );
+  });
+
+  test('fetch includes default requestOrigin header', async () => {
+    helper.fetchJSON({url: '/dummy/url'});
+    await assertReadRequest();
+    assert.isTrue(authFetchStub.called);
+    assert.equal(
+      authFetchStub.lastCall.args[1].headers.get(REQUEST_ORIGIN_HEADER),
+      'core-ui'
+    );
   });
 });

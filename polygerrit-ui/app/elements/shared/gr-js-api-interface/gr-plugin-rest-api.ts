@@ -29,6 +29,16 @@ export class GrPluginRestApi implements RestPluginApi {
     this.reporting.trackApi(this.plugin, 'rest', 'constructor');
   }
 
+  /**
+   * String that specifies from which plugin the request originates from.
+   *
+   * The string gets included in a special header, that helps with tracking of
+   * request in metrics.
+   */
+  private getRequestOrigin() {
+    return `plugin:${this.plugin.getPluginName()}`;
+  }
+
   getLoggedIn() {
     this.reporting.trackApi(this.plugin, 'rest', 'getLoggedIn');
     return this.restApi.getLoggedIn();
@@ -36,12 +46,12 @@ export class GrPluginRestApi implements RestPluginApi {
 
   getVersion() {
     this.reporting.trackApi(this.plugin, 'rest', 'getVersion');
-    return this.restApi.getVersion();
+    return this.restApi.getVersion(this.getRequestOrigin());
   }
 
   getConfig() {
     this.reporting.trackApi(this.plugin, 'rest', 'getConfig');
-    return this.restApi.getConfig();
+    return this.restApi.getConfig(/* noCache=*/ false, this.getRequestOrigin());
   }
 
   invalidateReposCache() {
@@ -51,12 +61,18 @@ export class GrPluginRestApi implements RestPluginApi {
 
   getAccount() {
     this.reporting.trackApi(this.plugin, 'rest', 'getAccount');
-    return this.restApi.getAccount();
+    return this.restApi.getAccount(this.getRequestOrigin());
   }
 
   getRepos(filter: string, reposPerPage: number, offset?: number) {
     this.reporting.trackApi(this.plugin, 'rest', 'getRepos');
-    return this.restApi.getRepos(filter, reposPerPage, offset);
+    return this.restApi.getRepos(
+      filter,
+      reposPerPage,
+      offset,
+      /* errFn=*/ undefined,
+      this.getRequestOrigin()
+    );
   }
 
   fetch(
@@ -99,7 +115,8 @@ export class GrPluginRestApi implements RestPluginApi {
       this.prefix + url,
       payload,
       errFn,
-      contentType
+      contentType,
+      this.getRequestOrigin()
     );
   }
 

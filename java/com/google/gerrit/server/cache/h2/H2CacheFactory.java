@@ -27,8 +27,10 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlHandles;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
@@ -36,6 +38,7 @@ import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -234,20 +237,29 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         expireAfterWrite = Duration.ofSeconds(expireAfterWriteInsec);
       }
     }
+    KeyType<K> keyType = createKeyType(def.keyType(), def.keySerializer());
     return new SqlStore<>(
         url.toString(),
-        def.keyType(),
-        def.keySerializer(),
+        keyType,
         def.valueSerializer(),
         def.version(),
         maxSize,
         expireAfterWrite,
         refreshAfterWrite,
         options.contains(CacheOptions.BUILD_BLOOM_FILTER),
-        options.contains(CacheOptions.TRACK_LAST_ACCESS));
+        options.contains(CacheOptions.TRACK_LAST_ACCESS),
+        new SqlHandles<>(url.toString(), keyType));
   }
 
   private boolean has(String name, String var) {
     return !Strings.isNullOrEmpty(config.getString("cache", name, var));
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> KeyType<T> createKeyType(TypeLiteral<T> type, CacheSerializer<T> serializer) {
+    if (type.getRawType() == String.class) {
+      return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
+    }
+    return new ObjectKeyTypeImpl<>(serializer);
   }
 }

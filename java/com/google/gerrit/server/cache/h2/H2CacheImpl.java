@@ -355,7 +355,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
-        boolean trackLastAccess) {
+        boolean trackLastAccess,
+        CacheAccessMode cacheAccessMode) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -366,7 +367,25 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.trackLastAccess = trackLastAccess;
       this.handles = new SqlHandles<>(this.url, this.keyType);
 
-      this.writer = new WriterImpl(maxSize);
+      switch (cacheAccessMode) {
+        case READWRITE:
+          this.writer =
+              new WriterImpl<>(
+                  maxSize,
+                  jdbcUrl,
+                  this.keyType,
+                  valueSerializer,
+                  version,
+                  expireAfterWrite,
+                  handles,
+                  bloomFilter);
+          break;
+        case READONLY:
+          this.writer = new NoopWriterImpl<>();
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported cache access mode: " + cacheAccessMode);
+      }
     }
 
     void close() {
@@ -477,7 +496,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
 
           Timestamp created = r.getTimestamp(2);
-          if (expired(created.toInstant())) {
+          if (expired(created.toInstant(), expireAfterWrite)) {
             invalidate(key);
             missCount.incrementAndGet();
             return null;
@@ -514,7 +533,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return false;
     }
 
-    private boolean expired(Instant created) {
+    private static boolean expired(Instant created, Duration expireAfterWrite) {
       if (expireAfterWrite == null) {
         return false;
       }
@@ -543,7 +562,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void invalidateAll() {
-      writer.invalidateAll();
+      try {
+        writer.invalidateAll();
+      } catch (SQLException e) {
+        return;
+      }
+      bloomFilter = newBloomFilter();
     }
 
     void prune(Cache<K, ?> mem) {
@@ -585,16 +609,56 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
       public void invalidate(K key);
 
-      public void invalidateAll();
+      public void invalidateAll() throws SQLException;
 
       public void prune(Cache<K, ?> mem);
     }
 
-    class WriterImpl implements Writer<K, V> {
-      private final long maxSize;
+    static class NoopWriterImpl<K, V> implements Writer<K, V> {
+      @Override
+      public void touch(SqlHandle c, K key) {}
 
-      WriterImpl(long maxSize) {
+      @Override
+      public void put(K key, ValueHolder<V> holder) {}
+
+      @Override
+      public void invalidate(K key) {}
+
+      @Override
+      public void invalidateAll() {}
+
+      @Override
+      public void prune(Cache<K, ?> mem) {}
+    }
+
+    static class WriterImpl<K, V> implements Writer<K, V> {
+      private final long maxSize;
+      private final String url;
+      private final KeyType<K> keyType;
+      private final CacheSerializer<V> valueSerializer;
+      private final int version;
+      @Nullable private final Duration expireAfterWrite;
+      private final SqlHandles<K> handles;
+      private final BloomFilter<K> bloomFilter;
+
+      WriterImpl(
+          long maxSize,
+          String url,
+          KeyType<K> keyType,
+          CacheSerializer<V> valueSerializer,
+          int version,
+          @Nullable Duration expireAfterWrite,
+          SqlHandles<K> handles,
+          BloomFilter<K> bloomFilter) {
         this.maxSize = maxSize;
+
+        this.url = url;
+        this.keyType = keyType;
+        this.valueSerializer = valueSerializer;
+        this.version = version;
+        this.expireAfterWrite = expireAfterWrite;
+        this.handles = handles;
+        this.bloomFilter = bloomFilter;
       }
 
       @Override
@@ -681,17 +745,17 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
 
       @Override
-      public void invalidateAll() {
+      public void invalidateAll() throws SQLException {
         SqlHandle c = null;
         try {
           c = handles.acquire();
           try (Statement s = c.conn.createStatement()) {
             s.executeUpdate("DELETE FROM data");
           }
-          bloomFilter = newBloomFilter();
         } catch (SQLException e) {
           logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
           c = handles.close(c);
+          throw e;
         } finally {
           handles.release(c);
         }
@@ -735,7 +799,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               while (maxSize < used && r.next()) {
                 K key = keyType.get(r, 1);
                 Timestamp created = r.getTimestamp(3);
-                if (mem.getIfPresent(key) != null && !expired(created.toInstant())) {
+                if (mem.getIfPresent(key) != null
+                    && !expired(created.toInstant(), expireAfterWrite)) {
                   touch(c, key);
                 } else {
                   invalidate(c, key);

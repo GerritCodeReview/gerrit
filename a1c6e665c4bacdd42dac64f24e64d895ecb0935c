@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f691864_d95434f2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ValidationOptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf1dcdf2_24c03ce4",
+      "revId": "a1c6e665c4bacdd42dac64f24e64d895ecb0935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "317cdc6f_9722dbbd",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-01-30T13:41:52Z",
       "side": 1,
       "message": "super nit: validationOptionsInfos",
+      "range": {
+        "startLine": 56,
+        "startChar": 28,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "a1c6e665c4bacdd42dac64f24e64d895ecb0935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de3b6f7e_379e45a9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ValidationOptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-30T13:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "317cdc6f_9722dbbd",
       "range": {
         "startLine": 56,
         "startChar": 28,

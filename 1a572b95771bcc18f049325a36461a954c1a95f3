@@ -187,6 +187,30 @@
       },
       "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59e036ca_34223789",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-30T18:29:10Z",
+      "side": 1,
+      "message": "I believe it is done by the GJF 1.24.0 formatting step",
+      "parentUuid": "1ddb697c_eda05dd3",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 17
+      },
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

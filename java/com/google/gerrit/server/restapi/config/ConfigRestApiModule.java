@@ -56,8 +56,6 @@ public class ConfigRestApiModule extends RestApiModule {
     post(CONFIG_KIND, "snapshot.indexes").to(SnapshotIndexes.class);
     post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
 
-    get(CONFIG_KIND, "validation-options").to(GetValidationOptions.class);
-
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
     delete(TASK_KIND).to(DeleteTask.class);
     get(TASK_KIND).to(GetTask.class);

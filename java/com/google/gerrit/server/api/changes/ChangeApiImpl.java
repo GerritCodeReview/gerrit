@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -89,6 +90,7 @@ import com.google.gerrit.server.restapi.change.GetMessage;
 import com.google.gerrit.server.restapi.change.GetMetaDiff;
 import com.google.gerrit.server.restapi.change.GetPureRevert;
 import com.google.gerrit.server.restapi.change.GetTopic;
+import com.google.gerrit.server.restapi.change.GetValidationOptions;
 import com.google.gerrit.server.restapi.change.Index;
 import com.google.gerrit.server.restapi.change.ListChangeComments;
 import com.google.gerrit.server.restapi.change.ListChangeDrafts;
@@ -159,6 +161,7 @@ class ChangeApiImpl implements ChangeApi {
   private final GetHashtags getHashtags;
   private final PostCustomKeyedValues postCustomKeyedValues;
   private final GetCustomKeyedValues getCustomKeyedValues;
+  private final GetValidationOptions getValidationOptions;
   private final AttentionSet attentionSet;
   private final AttentionSetApiImpl.Factory attentionSetApi;
   private final AddToAttentionSet addToAttentionSet;
@@ -212,6 +215,7 @@ class ChangeApiImpl implements ChangeApi {
       GetHashtags getHashtags,
       PostCustomKeyedValues postCustomKeyedValues,
       GetCustomKeyedValues getCustomKeyedValues,
+      GetValidationOptions getValidationOptions,
       AttentionSet attentionSet,
       AttentionSetApiImpl.Factory attentionSetApi,
       AddToAttentionSet addToAttentionSet,
@@ -263,6 +267,7 @@ class ChangeApiImpl implements ChangeApi {
     this.getHashtags = getHashtags;
     this.postCustomKeyedValues = postCustomKeyedValues;
     this.getCustomKeyedValues = getCustomKeyedValues;
+    this.getValidationOptions = getValidationOptions;
     this.attentionSet = attentionSet;
     this.attentionSetApi = attentionSetApi;
     this.addToAttentionSet = addToAttentionSet;
@@ -619,6 +624,15 @@ class ChangeApiImpl implements ChangeApi {
       return getCustomKeyedValues.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get custom keyed values", e);
+    }
+  }
+
+  @Override
+  public ValidationOptionInfos getValidationOptions() throws RestApiException {
+    try {
+      return getValidationOptions.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get validation options", e);
     }
   }
 

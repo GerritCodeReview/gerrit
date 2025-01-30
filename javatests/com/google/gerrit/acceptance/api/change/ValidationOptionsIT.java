@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.config;
+package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.TestExtensions.TestPluginPushOption;
@@ -22,6 +22,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestExtensions.TestPluginPushOption;
 import com.google.gerrit.extensions.common.ValidationOptionInfo;
 import com.google.gerrit.extensions.common.ValidationOptionInfos;
@@ -36,12 +38,23 @@ public class ValidationOptionsIT extends AbstractDaemonTest {
 
   @Test
   public void getValidationOptions() throws Exception {
-    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
-    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description", true);
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description", true);
+    PluginPushOption disableBazOption = new TestPluginPushOption("baz", "other description", false);
+
+    TestAccount admin = this.accountCreator.admin();
+    String filename = "foo";
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "subject1", filename, "contentold");
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+
     try (Registration registration =
-        extensionRegistry.newRegistration().add(fooOption).add(barOption)) {
-      ValidationOptionInfos result = gApi.config().server().getValidationOptions();
-      assertThat(result.validation_options)
+        extensionRegistry.newRegistration().add(fooOption).add(barOption).add(disableBazOption)) {
+      ValidationOptionInfos validationOptionsInfos =
+          gApi.changes().id(changeId).getValidationOptions();
+      assertThat(validationOptionsInfos.validation_options)
           .isEqualTo(
               ImmutableList.of(
                   new ValidationOptionInfo("foo", "some description"),

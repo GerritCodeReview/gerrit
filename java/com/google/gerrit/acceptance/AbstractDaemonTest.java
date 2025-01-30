@@ -148,6 +148,7 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.GitRepositoryReferenceCountingManager;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -648,6 +649,17 @@ public abstract class AbstractDaemonTest {
   protected void afterTest() throws Exception {
     Transport.unregister(inProcessProtocol);
     closeTestRepositories();
+
+    GitRepositoryManager repositoryManager =
+        server.getTestInjector().getInstance(GitRepositoryManager.class);
+    if (repositoryManager
+        instanceof GitRepositoryReferenceCountingManager repositoryCountingManager) {
+      try {
+        assertThat(repositoryCountingManager.openRepositories()).isEmpty();
+      } finally {
+        repositoryCountingManager.clear();
+      }
+    }
 
     // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
     testTicker.useDefaultTicker();

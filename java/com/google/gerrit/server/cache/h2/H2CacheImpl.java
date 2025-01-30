@@ -334,7 +334,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final KeyType<K> keyType;
     private final CacheSerializer<V> valueSerializer;
     private final int version;
-    private final long maxSize;
     @Nullable private final Duration expireAfterWrite;
     @Nullable private final Duration refreshAfterWrite;
     private final SqlHandles<K> handles;
@@ -342,6 +341,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final AtomicLong missCount = new AtomicLong();
     private SqlStoreBloomFilter<K> bloomFilter;
     private boolean trackLastAccess;
+    private final Writer<K, V> writer;
 
     SqlStore(
         String jdbcUrl,
@@ -358,13 +358,22 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.keyType = keyType;
       this.valueSerializer = valueSerializer;
       this.version = version;
-      this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
       this.trackLastAccess = trackLastAccess;
       this.handles = handles;
-
       this.bloomFilter = bloomFilter;
+
+      this.writer =
+          new WriterImpl<>(
+              maxSize,
+              jdbcUrl,
+              this.keyType,
+              valueSerializer,
+              version,
+              expireAfterWrite,
+              handles,
+              bloomFilter);
     }
 
     void close() {
@@ -420,7 +429,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
 
           Timestamp created = r.getTimestamp(2);
-          if (expired(created.toInstant())) {
+          if (expired(created.toInstant(), expireAfterWrite)) {
             invalidate(key);
             missCount.incrementAndGet();
             return null;
@@ -457,7 +466,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return false;
     }
 
-    private boolean expired(Instant created) {
+    private static boolean expired(Instant created, Duration expireAfterWrite) {
       if (expireAfterWrite == null) {
         return false;
       }
@@ -474,149 +483,28 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
-      if (c.touch == null) {
-        c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
-      }
-      try {
-        c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
-        keyType.set(c.touch, 2, key);
-        c.touch.setInt(3, version);
-        c.touch.executeUpdate();
-      } finally {
-        c.touch.clearParameters();
-      }
+      writer.touch(c, key);
     }
 
     void put(K key, ValueHolder<V> holder) {
-      if (holder.clean) {
-        return;
-      }
-
-      bloomFilter.put(key);
-
-      SqlHandle c = null;
-      try {
-        c = handles.acquire();
-        if (c.put == null) {
-          c.put =
-              c.conn.prepareStatement(
-                  "MERGE INTO data (k, v, version, created, accessed) VALUES(?,?,?,?,?)");
-        }
-        try {
-          keyType.set(c.put, 1, key);
-          c.put.setBytes(2, valueSerializer.serialize(holder.value));
-          c.put.setInt(3, version);
-          c.put.setTimestamp(4, Timestamp.from(holder.created));
-          c.put.setTimestamp(5, new Timestamp(TimeUtil.nowMs()));
-          c.put.executeUpdate();
-          holder.clean = true;
-        } finally {
-          c.put.clearParameters();
-        }
-      } catch (IOException | SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot put into cache %s", url);
-        c = handles.close(c);
-      } finally {
-        handles.release(c);
-      }
+      writer.put(key, holder);
     }
 
     void invalidate(K key) {
-      SqlHandle c = null;
-      try {
-        c = handles.acquire();
-        invalidate(c, key);
-      } catch (IOException | SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
-        c = handles.close(c);
-      } finally {
-        handles.release(c);
-      }
-    }
-
-    private void invalidate(SqlHandle c, K key) throws IOException, SQLException {
-      if (c.invalidate == null) {
-        c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=? and version=?");
-      }
-      try {
-        keyType.set(c.invalidate, 1, key);
-        c.invalidate.setInt(2, version);
-        c.invalidate.executeUpdate();
-      } finally {
-        c.invalidate.clearParameters();
-      }
+      writer.invalidate(key);
     }
 
     void invalidateAll() {
-      SqlHandle c = null;
       try {
-        c = handles.acquire();
-        try (Statement s = c.conn.createStatement()) {
-          s.executeUpdate("DELETE FROM data");
-        }
-        bloomFilter.empty();
+        writer.invalidateAll();
       } catch (SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
-        c = handles.close(c);
-      } finally {
-        handles.release(c);
+        return;
       }
+      bloomFilter.empty();
     }
 
     void prune(Cache<K, ?> mem) {
-      SqlHandle c = null;
-      try {
-        c = handles.acquire();
-        try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
-          ps.setInt(1, version);
-          int oldEntries = ps.executeUpdate();
-          if (oldEntries > 0) {
-            logger.atInfo().log(
-                "Pruned %d entries not matching version %d from cache %s",
-                oldEntries, version, url);
-          }
-        }
-        try (Statement s = c.conn.createStatement()) {
-          // Compute size without restricting to version (although obsolete data was just pruned
-          // anyway).
-          long used;
-          try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
-            used = r.next() ? r.getLong(1) : 0;
-          }
-          String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
-          if (used <= maxSize) {
-            logger.atFine().log(
-                "Cache %s size (%s) is less than maxSize (%s), not pruning",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-            return;
-          }
-
-          try (ResultSet r =
-              s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
-            logger.atInfo().log(
-                "Cache %s size (%s) is greater than maxSize (%s), pruning",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-            while (maxSize < used && r.next()) {
-              K key = keyType.get(r, 1);
-              Timestamp created = r.getTimestamp(3);
-              if (mem.getIfPresent(key) != null && !expired(created.toInstant())) {
-                touch(c, key);
-              } else {
-                invalidate(c, key);
-                used -= r.getLong(2);
-              }
-            }
-            logger.atInfo().log(
-                "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-          }
-        }
-      } catch (IOException | SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot prune cache %s", url);
-        c = handles.close(c);
-      } finally {
-        handles.release(c);
-      }
+      writer.prune(mem);
     }
 
     DiskStats diskStats() {
@@ -640,6 +528,202 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         handles.release(c);
       }
       return new DiskStats(size, space, hitCount.get(), missCount.get());
+    }
+
+    interface Writer<K, V> {
+      public void touch(SqlHandle c, K key) throws IOException, SQLException;
+
+      public void put(K key, ValueHolder<V> holder);
+
+      public void invalidate(K key);
+
+      public void invalidateAll() throws SQLException;
+
+      public void prune(Cache<K, ?> mem);
+    }
+
+    static class WriterImpl<K, V> implements Writer<K, V> {
+      private final long maxSize;
+      private final String url;
+      private final KeyType<K> keyType;
+      private final CacheSerializer<V> valueSerializer;
+      private final int version;
+      @Nullable private final Duration expireAfterWrite;
+      private final SqlHandles<K> handles;
+      private final SqlStoreBloomFilter<K> bloomFilter;
+
+      WriterImpl(
+          long maxSize,
+          String url,
+          KeyType<K> keyType,
+          CacheSerializer<V> valueSerializer,
+          int version,
+          @Nullable Duration expireAfterWrite,
+          SqlHandles<K> handles,
+          SqlStoreBloomFilter<K> bloomFilter) {
+        this.maxSize = maxSize;
+
+        this.url = url;
+        this.keyType = keyType;
+        this.valueSerializer = valueSerializer;
+        this.version = version;
+        this.expireAfterWrite = expireAfterWrite;
+        this.handles = handles;
+        this.bloomFilter = bloomFilter;
+      }
+
+      @Override
+      public void touch(SqlHandle c, K key) throws IOException, SQLException {
+        if (c.touch == null) {
+          c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
+        }
+        try {
+          c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
+          keyType.set(c.touch, 2, key);
+          c.touch.setInt(3, version);
+          c.touch.executeUpdate();
+        } finally {
+          c.touch.clearParameters();
+        }
+      }
+
+      @Override
+      public void put(K key, ValueHolder<V> holder) {
+        if (holder.clean) {
+          return;
+        }
+
+        bloomFilter.put(key);
+
+        SqlHandle c = null;
+        try {
+          c = handles.acquire();
+          if (c.put == null) {
+            c.put =
+                c.conn.prepareStatement(
+                    "MERGE INTO data (k, v, version, created, accessed) VALUES(?,?,?,?,?)");
+          }
+          try {
+            keyType.set(c.put, 1, key);
+            c.put.setBytes(2, valueSerializer.serialize(holder.value));
+            c.put.setInt(3, version);
+            c.put.setTimestamp(4, Timestamp.from(holder.created));
+            c.put.setTimestamp(5, new Timestamp(TimeUtil.nowMs()));
+            c.put.executeUpdate();
+            holder.clean = true;
+          } finally {
+            c.put.clearParameters();
+          }
+        } catch (IOException | SQLException e) {
+          logger.atWarning().withCause(e).log("Cannot put into cache %s", url);
+          c = handles.close(c);
+        } finally {
+          handles.release(c);
+        }
+      }
+
+      @Override
+      public void invalidate(K key) {
+        SqlHandle c = null;
+        try {
+          c = handles.acquire();
+          invalidate(c, key);
+        } catch (IOException | SQLException e) {
+          logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
+          c = handles.close(c);
+        } finally {
+          handles.release(c);
+        }
+      }
+
+      private void invalidate(SqlHandle c, K key) throws IOException, SQLException {
+        if (c.invalidate == null) {
+          c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=? and version=?");
+        }
+        try {
+          keyType.set(c.invalidate, 1, key);
+          c.invalidate.setInt(2, version);
+          c.invalidate.executeUpdate();
+        } finally {
+          c.invalidate.clearParameters();
+        }
+      }
+
+      @Override
+      public void invalidateAll() throws SQLException {
+        SqlHandle c = null;
+        try {
+          c = handles.acquire();
+          try (Statement s = c.conn.createStatement()) {
+            s.executeUpdate("DELETE FROM data");
+          }
+        } catch (SQLException e) {
+          logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
+          c = handles.close(c);
+          throw e;
+        } finally {
+          handles.release(c);
+        }
+      }
+
+      @Override
+      public void prune(Cache<K, ?> mem) {
+        SqlHandle c = null;
+        try {
+          c = handles.acquire();
+          try (PreparedStatement ps =
+              c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
+            ps.setInt(1, version);
+            int oldEntries = ps.executeUpdate();
+            if (oldEntries > 0) {
+              logger.atInfo().log(
+                  "Pruned %d entries not matching version %d from cache %s",
+                  oldEntries, version, url);
+            }
+          }
+          try (Statement s = c.conn.createStatement()) {
+            // Compute size without restricting to version (although obsolete data was just pruned
+            // anyway).
+            long used;
+            try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
+              used = r.next() ? r.getLong(1) : 0;
+            }
+            String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
+            if (used <= maxSize) {
+              logger.atFine().log(
+                  "Cache %s size (%s) is less than maxSize (%s), not pruning",
+                  url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
+              return;
+            }
+
+            try (ResultSet r =
+                s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
+              logger.atInfo().log(
+                  "Cache %s size (%s) is greater than maxSize (%s), pruning",
+                  url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
+              while (maxSize < used && r.next()) {
+                K key = keyType.get(r, 1);
+                Timestamp created = r.getTimestamp(3);
+                if (mem.getIfPresent(key) != null
+                    && !expired(created.toInstant(), expireAfterWrite)) {
+                  touch(c, key);
+                } else {
+                  invalidate(c, key);
+                  used -= r.getLong(2);
+                }
+              }
+              logger.atInfo().log(
+                  "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
+                  url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
+            }
+          }
+        } catch (IOException | SQLException e) {
+          logger.atWarning().withCause(e).log("Cannot prune cache %s", url);
+          c = handles.close(c);
+        } finally {
+          handles.release(c);
+        }
+      }
     }
   }
 
@@ -745,7 +829,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return bloomFilter == null || bloomFilter.mightContain(key);
     }
 
-    private BloomFilter<K> newBloomFilter() {
+    BloomFilter<K> newBloomFilter() {
       int cnt = Math.max(64 * 1024, 2 * estimatedSize);
       return BloomFilter.create(keyType.funnel(), cnt);
     }

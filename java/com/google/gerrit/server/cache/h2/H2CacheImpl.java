@@ -532,6 +532,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       public void prune(Cache<K, ?> mem);
     }
 
+    static class NoopWriterImpl<K, V> implements Writer<K, V> {
+      @Override
+      public void touch(SqlHandle c, K key) {}
+
+      @Override
+      public void put(K key, ValueHolder<V> holder) {}
+
+      @Override
+      public void invalidate(K key) {}
+
+      @Override
+      public void invalidateAll() {}
+
+      @Override
+      public void prune(Cache<K, ?> mem) {}
+    }
+
     static class WriterImpl<K, V> implements Writer<K, V> {
       private final long maxSize;
       private final String url;

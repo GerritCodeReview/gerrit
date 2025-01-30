@@ -378,6 +378,11 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void addAdditionalDbModuleForTesting(@Nullable Module... modules) {
+    testDbModules.addAll(Arrays.asList(modules));
+  }
+
+  @VisibleForTesting
   public void addAdditionalSshModuleForTesting(@Nullable Module... modules) {
     testSshModules.addAll(Arrays.asList(modules));
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.Objects.requireNonNull;
 
@@ -63,6 +64,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.index.AbstractIndexModule;
@@ -74,6 +76,8 @@ import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeAccountPatchReviewStore.FakeAccountPatchReviewStoreModule;
 import com.google.gerrit.testing.FakeEmailSender.FakeEmailSenderModule;
+import com.google.gerrit.testing.GitRepositoryCountingManagerModule;
+import com.google.gerrit.testing.GitRepositoryReferenceCountingManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TestLoggingActivator;
@@ -562,6 +566,7 @@ public class GerritServer implements AutoCloseable {
         new GrantDirectPushPermissionsOnStartupModule(),
         new ReindexProjectsAtStartupModule(),
         new ReindexGroupsAtStartupModule());
+    daemon.addAdditionalDbModuleForTesting(new GitRepositoryCountingManagerModule());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(
@@ -770,7 +775,14 @@ public class GerritServer implements AutoCloseable {
 
   @Override
   public void close() throws Exception {
-    daemon.ifPresent(d -> d.getLifecycleManager().stop());
+    if (daemon.isPresent()) {
+      Daemon currDaemon = daemon.get();
+      GitRepositoryReferenceCountingManager repositoryCountingManager =
+          (GitRepositoryReferenceCountingManager)
+              testInjector.getInstance(GitRepositoryManager.class);
+      assertThat(repositoryCountingManager.openRepositories()).isEmpty();
+      currDaemon.getLifecycleManager().stop();
+    }
     if (daemonService != null) {
       System.out.println("Gerrit Server Shutdown");
       daemonService.shutdownNow();

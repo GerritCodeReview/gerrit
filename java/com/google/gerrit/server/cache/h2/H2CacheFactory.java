@@ -31,6 +31,8 @@ import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.NoopSqlStoreBloomFilter;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlHandles;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.Writer;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.WriterImpl;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStoreBloomFilter;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStoreBloomFilterImpl;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
@@ -249,17 +251,27 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     } else {
       bloomFilter = new NoopSqlStoreBloomFilter<>();
     }
+    Writer<K, V> writer =
+        new WriterImpl<>(
+            maxSize,
+            url.toString(),
+            keyType,
+            def.valueSerializer(),
+            def.version(),
+            expireAfterWrite,
+            handles,
+            bloomFilter);
     return new SqlStore<>(
         url.toString(),
         keyType,
         def.valueSerializer(),
         def.version(),
-        maxSize,
         expireAfterWrite,
         refreshAfterWrite,
         options.contains(CacheOptions.TRACK_LAST_ACCESS),
         handles,
-        bloomFilter);
+        bloomFilter,
+        writer);
   }
 
   private boolean has(String name, String var) {

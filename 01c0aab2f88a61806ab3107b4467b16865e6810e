@@ -116,6 +116,23 @@
       },
       "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "792043be_19b02dd1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ProjectsRestApiBindingsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-30T13:17:38Z",
+      "side": 1,
+      "message": "Please add a corresponding call to ChangesRestApiBindingsIT no that this is a change REST endpoint.",
+      "revId": "01c0aab2f88a61806ab3107b4467b16865e6810e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,7 +15,6 @@ import {
   AccountCapabilityInfo,
   SuggestedReviewerInfo,
   GroupNameToGroupInfoMap,
-  ParsedJSON,
   EditPreferencesInfo,
   SshKeyInfo,
   RepoName,
@@ -408,9 +407,6 @@ export const grRestApiMock: RestApiService = {
   },
   getRepos(): Promise<ProjectInfoWithName[] | undefined> {
     return Promise.resolve([]);
-  },
-  getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readJSONResponsePayload(response).then(payload => payload.parsed);
   },
   getReviewedFiles(): Promise<string[] | undefined> {
     return Promise.resolve([]);

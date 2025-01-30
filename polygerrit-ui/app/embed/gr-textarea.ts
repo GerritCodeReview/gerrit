@@ -491,9 +491,10 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       event.preventDefault();
       this.fire('saveShortcut');
     }
-    // Prevent looping of cursor position when CTRL+ARROW_LEFT/ARROW_RIGHT is
-    // pressed.
+
     if (event.ctrlKey || event.metaKey || event.altKey) {
+      // Prevent looping of cursor position when CTRL+ARROW_LEFT/ARROW_RIGHT is
+      // pressed.
       if (event.key === 'ArrowLeft' && this.currentCursorPosition === 0) {
         event.preventDefault();
       }
@@ -503,7 +504,13 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       ) {
         event.preventDefault();
       }
+
+      // Prevent Ctrl/Alt+Backspace from deleting entire content when at start
+      if (event.key === 'Backspace' && this.currentCursorPosition === 0) {
+        event.preventDefault();
+      }
     }
+
     await this.toggleHintVisibilityIfAny();
   }
 

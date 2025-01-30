@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80701503_805e1cf6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectCacheIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2025-01-30T14:27:25Z",
+      "side": 1,
+      "message": "Investigating why the project cache does have one less miss.\n\nThis test was introduced for the `ProjectCache.evictAndReindex()` in the change 391388",
+      "range": {
+        "startLine": 156,
+        "startChar": 38,
+        "endLine": 156,
+        "endChar": 39
+      },
+      "revId": "63f24596443bf60b8ef2b83dee649543e37226e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

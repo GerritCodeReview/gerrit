@@ -74,6 +74,7 @@ import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeAccountPatchReviewStore.FakeAccountPatchReviewStoreModule;
 import com.google.gerrit.testing.FakeEmailSender.FakeEmailSenderModule;
+import com.google.gerrit.testing.GitRepositoryCountingManagerModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TestLoggingActivator;
@@ -562,6 +563,7 @@ public class GerritServer implements AutoCloseable {
         new GrantDirectPushPermissionsOnStartupModule(),
         new ReindexProjectsAtStartupModule(),
         new ReindexGroupsAtStartupModule());
+    daemon.addAdditionalDbModuleForTesting(new GitRepositoryCountingManagerModule());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(
@@ -771,6 +773,7 @@ public class GerritServer implements AutoCloseable {
   @Override
   public void close() throws Exception {
     daemon.ifPresent(d -> d.getLifecycleManager().stop());
+
     if (daemonService != null) {
       System.out.println("Gerrit Server Shutdown");
       daemonService.shutdownNow();

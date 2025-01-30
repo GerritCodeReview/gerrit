@@ -25,7 +25,9 @@ import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.testing.GitRepositoryReferenceCountingManager;
 import com.google.gerrit.testing.SshMode;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -132,6 +134,13 @@ public class GerritServerTestRule implements ServerTestRule {
               testSysModule.get(),
               testAuditModule.get(),
               testSshModule.get());
+    }
+
+    GitRepositoryManager repositoryManager =
+        server.testInjector.getInstance(GitRepositoryManager.class);
+    if (repositoryManager
+        instanceof GitRepositoryReferenceCountingManager repositoryCountingManager) {
+      repositoryCountingManager.init();
     }
     getTestInjector().injectMembers(this);
   }

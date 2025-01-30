@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -89,6 +90,10 @@ public class ChangeResource implements RestResource {
 
   public ChangeNotes getNotes() {
     return changeData.notes();
+  }
+
+  public BranchNameKey getBranch() {
+    return changeData.branchOrThrow();
   }
 
   public ChangeData getChangeData() {

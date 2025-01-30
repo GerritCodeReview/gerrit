@@ -202,7 +202,7 @@ suite('gr-related-changes-list', () => {
             <section id="relatedChanges">
               <gr-related-collapse
                 class="first"
-                title="parent changes are ordered after child changes"
+                title="parent changes appear below child changes"
               >
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
@@ -217,7 +217,7 @@ suite('gr-related-changes-list', () => {
             </section>
             <section id="submittedTogether">
               <gr-related-collapse
-                title="parent changes are ordered after child changes"
+                title="parent changes appear below child changes"
               >
                 <div class="relatedChangeLine selected show-when-collapsed">
                   <span

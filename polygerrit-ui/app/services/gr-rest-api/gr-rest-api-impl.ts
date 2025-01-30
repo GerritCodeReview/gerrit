@@ -276,10 +276,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   finalize() {}
 
-  async getResponseObject(response: Response): Promise<ParsedJSON> {
-    return (await readJSONResponsePayload(response)).parsed;
-  }
-
   getConfig(
     noCache?: boolean,
     requestOrigin?: string
@@ -2523,7 +2519,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   /**
-   * Public version of the _restApiHelper.fetch method preserved for plugins.
+   * Wrapper around _restApiHelper.fetch used by GrPluginRestApi
    *
    * @param body passed as null sometimes
    * and also apparently a number. TODO (beckysiegel) remove need for

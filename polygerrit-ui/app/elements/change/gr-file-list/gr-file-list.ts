@@ -2328,8 +2328,13 @@ export class GrFileList extends LitElement {
     return `Show ${text} more`;
   }
 
-  private computeShowAllText() {
-    return `Show all ${this.files.length} files`;
+  // Private but used in tests.
+  computeShowAllText() {
+    // Exclude commit message from total count since it's not a real file
+    const fileCount = this.files.filter(
+      f => f.__path !== SpecialFilePath.COMMIT_MESSAGE
+    ).length;
+    return `Show all ${fileCount} files`;
   }
 
   private computeWarnShowAll() {

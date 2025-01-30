@@ -22,14 +22,13 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.stream.StreamSupport;
 
 @Singleton
-public class GetValidationOptions implements RestReadView<ConfigResource> {
+public class GetValidationOptions implements RestReadView<BranchResource> {
   private final DynamicSet<PluginPushOption> pluginPushOption;
 
   @Inject
@@ -38,12 +37,17 @@ public class GetValidationOptions implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Response<ValidationOptionInfos> apply(ConfigResource resource) {
+  public Response<ValidationOptionInfos> apply(BranchResource resource) {
     return Response.ok(
         new ValidationOptionInfos(
             StreamSupport.stream(
                     this.pluginPushOption.entries().spliterator(), /* parallel= */ false)
                 .map(Extension<PluginPushOption>::get)
+                .filter(
+                    o ->
+                        o.isOptionEnabled(
+                            resource.getProjectState().getNameKey().get(),
+                            resource.getBranchKey().getRef()))
                 .map(o -> new ValidationOptionInfo(o.getName(), o.getDescription()))
                 .collect(toImmutableList())));
   }

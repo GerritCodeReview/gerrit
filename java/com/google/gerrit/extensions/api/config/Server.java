@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
-import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
@@ -50,8 +49,6 @@ public interface Server {
   EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in) throws RestApiException;
 
   ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;
-
-  ValidationOptionInfos getValidationOptions() throws RestApiException;
 
   List<TopMenu.MenuEntry> topMenus() throws RestApiException;
 

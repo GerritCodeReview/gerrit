@@ -105,6 +105,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/suggest_reviewers"),
           // GET /changes/<change-id>/votes is not implemented
           RestCall.builder(GET, "/changes/%s/votes").expectedResponseCode(SC_NOT_FOUND).build(),
+          RestCall.get("/changes/%s/validation-options"),
           RestCall.post("/changes/%s/wip"),
 
           // Deletion of change edit and change must be tested last

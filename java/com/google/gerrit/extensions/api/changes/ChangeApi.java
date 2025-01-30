@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
@@ -360,6 +361,13 @@ public interface ChangeApi {
    * @return customKeyedValues
    */
   ImmutableMap<String, String> getCustomKeyedValues() throws RestApiException;
+
+  /**
+   * Gets the validation options on a change.
+   *
+   * @return validationOptions
+   */
+  ValidationOptionInfos getValidationOptions() throws RestApiException;
 
   /**
    * Manage the attention set.

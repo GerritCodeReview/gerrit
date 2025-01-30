@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf1dcdf2_24c03ce4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ValidationOptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-30T13:41:52Z",
+      "side": 1,
+      "message": "Maybe also add a disabled option to test that this option is not returned?",
+      "revId": "a1c6e665c4bacdd42dac64f24e64d895ecb0935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "317cdc6f_9722dbbd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ValidationOptionsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-30T13:41:52Z",
+      "side": 1,
+      "message": "super nit: validationOptionsInfos",
+      "range": {
+        "startLine": 56,
+        "startChar": 28,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "a1c6e665c4bacdd42dac64f24e64d895ecb0935c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

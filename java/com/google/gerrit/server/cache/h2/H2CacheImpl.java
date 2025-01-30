@@ -337,7 +337,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final long maxSize;
     @Nullable private final Duration expireAfterWrite;
     @Nullable private final Duration refreshAfterWrite;
-    private final BlockingQueue<SqlHandle> handles;
+    private final SqlHandles<K> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
     private volatile BloomFilter<K> bloomFilter;
@@ -347,17 +347,17 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     SqlStore(
         String jdbcUrl,
-        TypeLiteral<K> keyType,
-        CacheSerializer<K> keySerializer,
+        KeyType<K> keyType,
         CacheSerializer<V> valueSerializer,
         int version,
         long maxSize,
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
-        boolean trackLastAccess) {
+        boolean trackLastAccess,
+        SqlHandles<K> handles) {
       this.url = jdbcUrl;
-      this.keyType = createKeyType(keyType, keySerializer);
+      this.keyType = keyType;
       this.valueSerializer = valueSerializer;
       this.version = version;
       this.maxSize = maxSize;
@@ -365,31 +365,16 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.refreshAfterWrite = refreshAfterWrite;
       this.buildBloomFilter = buildBloomFilter;
       this.trackLastAccess = trackLastAccess;
-
-      int cores = Runtime.getRuntime().availableProcessors();
-      int keep = Math.min(cores, 16);
-      this.handles = new ArrayBlockingQueue<>(keep);
+      this.handles = handles;
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T> KeyType<T> createKeyType(
-        TypeLiteral<T> type, CacheSerializer<T> serializer) {
-      if (type.getRawType() == String.class) {
-        return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
-      }
-      return new ObjectKeyTypeImpl<>(serializer);
+    void close() {
+      handles.closeAll();
     }
 
     synchronized void open() {
       if (buildBloomFilter && bloomFilter == null) {
         bloomFilter = buildBloomFilter();
-      }
-    }
-
-    void close() {
-      SqlHandle h;
-      while ((h = handles.poll()) != null) {
-        h.close();
       }
     }
 
@@ -411,7 +396,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private BloomFilter<K> buildBloomFilter() {
       SqlHandle c = null;
       try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
-        c = acquire();
+        c = handles.acquire();
         if (estimatedSize <= 0) {
           try (PreparedStatement ps =
               c.conn.prepareStatement("SELECT COUNT(*) FROM data WHERE version=?")) {
@@ -450,10 +435,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         return b;
       } catch (IOException | SQLException e) {
         logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
-        c = close(c);
+        c = handles.close(c);
         return null;
       } finally {
-        release(c);
+        handles.release(c);
       }
     }
 
@@ -465,7 +450,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
       SqlHandle c = null;
       try {
-        c = acquire();
+        c = handles.acquire();
         if (c.get == null) {
           c.get = c.conn.prepareStatement("SELECT v, created FROM data WHERE k=? AND version=?");
         }
@@ -503,10 +488,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         if (!isOldClassNameError(e)) {
           logger.atWarning().withCause(e).log("Cannot read cache %s for %s", url, key);
         }
-        c = close(c);
+        c = handles.close(c);
         return null;
       } finally {
-        release(c);
+        handles.release(c);
       }
     }
 
@@ -564,7 +549,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
       SqlHandle c = null;
       try {
-        c = acquire();
+        c = handles.acquire();
         if (c.put == null) {
           c.put =
               c.conn.prepareStatement(
@@ -583,22 +568,22 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot put into cache %s", url);
-        c = close(c);
+        c = handles.close(c);
       } finally {
-        release(c);
+        handles.release(c);
       }
     }
 
     void invalidate(K key) {
       SqlHandle c = null;
       try {
-        c = acquire();
+        c = handles.acquire();
         invalidate(c, key);
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
-        c = close(c);
+        c = handles.close(c);
       } finally {
-        release(c);
+        handles.release(c);
       }
     }
 
@@ -618,23 +603,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     void invalidateAll() {
       SqlHandle c = null;
       try {
-        c = acquire();
+        c = handles.acquire();
         try (Statement s = c.conn.createStatement()) {
           s.executeUpdate("DELETE FROM data");
         }
         bloomFilter = newBloomFilter();
       } catch (SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
-        c = close(c);
+        c = handles.close(c);
       } finally {
-        release(c);
+        handles.release(c);
       }
     }
 
     void prune(Cache<K, ?> mem) {
       SqlHandle c = null;
       try {
-        c = acquire();
+        c = handles.acquire();
         try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
           ps.setInt(1, version);
           int oldEntries = ps.executeUpdate();
@@ -681,9 +666,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot prune cache %s", url);
-        c = close(c);
+        c = handles.close(c);
       } finally {
-        release(c);
+        handles.release(c);
       }
     }
 
@@ -692,7 +677,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       long space = 0;
       SqlHandle c = null;
       try {
-        c = acquire();
+        c = handles.acquire();
         try (Statement s = c.conn.createStatement();
             // Stats include total size regardless of version.
             ResultSet r = s.executeQuery("SELECT COUNT(*), SUM(space) FROM data")) {
@@ -703,35 +688,56 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
       } catch (SQLException e) {
         logger.atWarning().withCause(e).log("Cannot get DiskStats for %s", url);
-        c = close(c);
+        c = handles.close(c);
       } finally {
-        release(c);
+        handles.release(c);
       }
       return new DiskStats(size, space, hitCount.get(), missCount.get());
     }
 
-    private SqlHandle acquire() throws SQLException {
+    private BloomFilter<K> newBloomFilter() {
+      int cnt = Math.max(64 * 1024, 2 * estimatedSize);
+      return BloomFilter.create(keyType.funnel(), cnt);
+    }
+  }
+
+  static class SqlHandles<K> {
+    private final String url;
+    private final KeyType<K> keyType;
+    private final BlockingQueue<SqlHandle> handles;
+
+    public SqlHandles(String url, KeyType<K> keyType) {
+      this.url = url;
+      this.keyType = keyType;
+      int cores = Runtime.getRuntime().availableProcessors();
+      int keep = Math.min(cores, 16);
+      this.handles = new ArrayBlockingQueue<>(keep);
+    }
+
+    public SqlHandle acquire() throws SQLException {
       SqlHandle h = handles.poll();
       return h != null ? h : new SqlHandle(url, keyType);
     }
 
-    private void release(SqlHandle h) {
+    public void release(SqlHandle h) {
       if (h != null && !handles.offer(h)) {
         h.close();
       }
     }
 
     @Nullable
-    private SqlHandle close(SqlHandle h) {
+    public SqlHandle close(SqlHandle h) {
       if (h != null) {
         h.close();
       }
       return null;
     }
 
-    private BloomFilter<K> newBloomFilter() {
-      int cnt = Math.max(64 * 1024, 2 * estimatedSize);
-      return BloomFilter.create(keyType.funnel(), cnt);
+    public void closeAll() {
+      SqlHandle h;
+      while ((h = handles.poll()) != null) {
+        h.close();
+      }
     }
   }
 

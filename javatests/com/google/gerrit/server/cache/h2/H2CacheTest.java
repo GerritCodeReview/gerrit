@@ -31,6 +31,8 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlHandles;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.Writer;
+import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore.WriterImpl;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -67,18 +69,28 @@ public class H2CacheTest {
     String url = "jdbc:h2:mem:Test_" + id;
     KeyType<String> keyType =
         H2CacheFactory.createKeyType(KEY_TYPE, StringCacheSerializer.INSTANCE);
+    SqlHandles<String> handles = new SqlHandles<>(url, keyType);
+    Writer<String, String> writer =
+        new WriterImpl<>(
+            1 << 20,
+            url.toString(),
+            keyType,
+            StringCacheSerializer.INSTANCE,
+            version,
+            expireAfterWrite,
+            handles);
     return new SqlStore<>(
         url,
         keyType,
         StringCacheSerializer.INSTANCE,
         version,
-        1 << 20,
         25,
         expireAfterWrite,
         refreshAfterWrite,
         true,
         true,
-        new SqlHandles<>(url, keyType));
+        handles,
+        writer);
   }
 
   @Test

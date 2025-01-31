@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7638da79_83c6bd7b",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8609fd_80f2ed35",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 69
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9c7d503_ff0181fc",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-01-31T09:14:40Z",
       "side": 1,
       "message": "```suggestion\n          String.format(\"indexes/lucene/%s\", indexName),\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef7b8aa_0d6e4624",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9c7d503_ff0181fc",
       "range": {
         "startLine": 31,
         "startChar": 25,
@@ -110,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb639fa1_93278564",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d72e4c3_db9c8625",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d716f6c3_32114056",
@@ -123,6 +195,30 @@
       "writtenOn": "2025-01-31T09:14:40Z",
       "side": 1,
       "message": "```suggestion\n    int numberChanges \u003d intMetricValueOf(\"indexes/lucene/changes\");\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 42,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae4e24a4_91679e54",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d716f6c3_32114056",
       "range": {
         "startLine": 43,
         "startChar": 42,
@@ -156,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be791a7f_d4ee49c1",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c0b068c_ca1b428c",
+      "range": {
+        "startLine": 45,
+        "startChar": 33,
+        "endLine": 45,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cfdf794_b963364e",
@@ -169,6 +289,30 @@
       "writtenOn": "2025-01-31T09:14:40Z",
       "side": 1,
       "message": "```suggestion\n    int numberAccounts \u003d intMetricValueOf(\"indexes/lucene/accounts\");\n```",
+      "range": {
+        "startLine": 50,
+        "startChar": 43,
+        "endLine": 50,
+        "endChar": 50
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d191a477_0f50e46c",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cfdf794_b963364e",
       "range": {
         "startLine": 50,
         "startChar": 43,
@@ -202,6 +346,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0d8a70c_a28bd148",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1618ca1_c1afd815",
+      "range": {
+        "startLine": 52,
+        "startChar": 33,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98a7dc0d_0cc696ff",
@@ -215,6 +383,30 @@
       "writtenOn": "2025-01-31T09:14:40Z",
       "side": 1,
       "message": "```suggestion\n    int numberGroups \u003d intMetricValueOf(\"indexes/lucene/groups\");\n```",
+      "range": {
+        "startLine": 57,
+        "startChar": 41,
+        "endLine": 57,
+        "endChar": 48
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03175be7_b1aaa841",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98a7dc0d_0cc696ff",
       "range": {
         "startLine": 57,
         "startChar": 41,
@@ -248,6 +440,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "645616e8_6f596546",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28857a6b_1409438c",
+      "range": {
+        "startLine": 59,
+        "startChar": 33,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3e71086_09e2cda9",
@@ -261,6 +477,30 @@
       "writtenOn": "2025-01-31T09:14:40Z",
       "side": 1,
       "message": "You could just automatically add `indexes/lucene` and pass the pure index name here.",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 44
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e5cdd06_b9039a1e",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3e71086_09e2cda9",
       "range": {
         "startLine": 62,
         "startChar": 38,

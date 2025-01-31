@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5973bd1_f92ba1c0",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-31T10:41:09Z",
+      "side": 1,
+      "message": "\u003e This would cause to force the IndexType.SYS_PROP to be lucene, however, Google doesn\u0027t use Lucene and they\u0027ll have to be dependent from this test passing.\n\nThe test `javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexBindingIT.java` is executed with the Bazel target `acceptance_framework_tests` in this way: \n```\nbazelisk test //javatests/com/google/gerrit/acceptance:acceptance_framework_tests\n```\n\nThat target [1] already contains a test `javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java` that is Lucene dependent [2]\n\nUnless I am missing something we should not have any problem.\n\nReferences:\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/BUILD#4\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexBindingIT.java#31\n\n\n\u003e Lastly, as a follow-up, we should consider moving all the Lucene tests in a separate package and having a specific BUILD file for it, NOT invoked by default but only in our CI jobs.",
+      "parentUuid": "43c4e041_d838ecf2",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d72e4c3_db9c8625",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
         "patchSetId": 9

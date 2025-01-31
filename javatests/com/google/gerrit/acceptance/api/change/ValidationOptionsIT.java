@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.TestExtensions.TestPluginPushOption;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

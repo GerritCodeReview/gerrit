@@ -6,12 +6,7 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
-import {
-  anyLineTooLong,
-  getDiffLength,
-  isImageDiff,
-  SYNTAX_MAX_LINE_LENGTH,
-} from '../../../utils/diff-util';
+import {getDiffLength, isImageDiff} from '../../../utils/diff-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -1173,14 +1168,6 @@ export class GrDiffHost extends LitElement {
 
   private isSyntaxHighlightingEnabled() {
     if (!this.prefs?.syntax_highlighting || !this.diff) {
-      return false;
-    }
-    if (anyLineTooLong(this.diff)) {
-      fireAlert(
-        this,
-        `Files with line longer than ${SYNTAX_MAX_LINE_LENGTH} characters` +
-          '  will not be syntax highlighted.'
-      );
       return false;
     }
     assertIsDefined(this.diffElement);

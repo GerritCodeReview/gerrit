@@ -13,7 +13,6 @@ import {
   PatchSetNumber,
   RepoName,
 } from '../../../types/common';
-import {anyLineTooLong} from '../../../utils/diff-util';
 import {
   DiffLayer,
   DiffPreferencesInfo,
@@ -216,9 +215,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   private renderDiff() {
     if (!this.preview) return;
     const diff = this.preview.preview;
-    if (!anyLineTooLong(diff)) {
-      this.syntaxLayer.process(diff);
-    }
+    this.syntaxLayer.process(diff);
     return html`<div class="diff-container">
       <gr-diff
         .prefs=${this.overridePartialDiffPrefs()}

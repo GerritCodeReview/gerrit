@@ -36,7 +36,6 @@ import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {anyLineTooLong} from '../../../utils/diff-util';
 import {fireError, fireReload} from '../../../utils/event-util';
 import {when} from 'lit/directives/when.js';
 import {Timing} from '../../../constants/reporting';
@@ -261,9 +260,7 @@ export class GrApplyFixDialog extends LitElement {
 
   private renderDiff(preview: DiffPreview) {
     const diff = preview.preview;
-    if (!anyLineTooLong(diff)) {
-      this.syntaxLayer.process(diff);
-    }
+    this.syntaxLayer.process(diff);
     return html`<gr-diff
       .prefs=${this.overridePartialDiffPrefs()}
       .path=${preview.filepath}

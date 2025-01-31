@@ -340,9 +340,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final SqlHandles<K> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
-    private volatile BloomFilter<K> bloomFilter;
-    private int estimatedSize;
-    private boolean buildBloomFilter;
+    private SqlStoreBloomFilter<K> bloomFilter;
     private boolean trackLastAccess;
 
     SqlStore(
@@ -353,9 +351,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         long maxSize,
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
-        boolean buildBloomFilter,
         boolean trackLastAccess,
-        SqlHandles<K> handles) {
+        SqlHandles<K> handles,
+        SqlStoreBloomFilter<K> bloomFilter) {
       this.url = jdbcUrl;
       this.keyType = keyType;
       this.valueSerializer = valueSerializer;
@@ -363,9 +361,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
-      this.buildBloomFilter = buildBloomFilter;
       this.trackLastAccess = trackLastAccess;
       this.handles = handles;
+
+      this.bloomFilter = bloomFilter;
     }
 
     void close() {
@@ -373,73 +372,27 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     synchronized void open() {
-      if (buildBloomFilter && bloomFilter == null) {
-        bloomFilter = buildBloomFilter();
+      try {
+        bloomFilter.build();
+      } catch (IOException | SQLException e) {
+        if (Throwables.getCausalChain(e).stream()
+            .anyMatch(InvalidClassException.class::isInstance)) {
+          // If deserialization failed using default Java serialization, this means we are using
+          // the old serialVersionUID-based invalidation strategy. In that case, authors are
+          // most likely bumping serialVersionUID rather than using the new versioning in the
+          // CacheBinding.  That's ok; we'll continue to support both for now.
+          // TODO(dborowitz): Remove this case when Java serialization is no longer used.
+          logger.atWarning().log(
+              "Entries cached for %s have an incompatible class and can't be deserialized. "
+                  + "Cache is flushed.",
+              url);
+          invalidateAll();
+        }
       }
     }
 
     boolean mightContain(K key) {
-      BloomFilter<K> b = bloomFilter;
-      if (buildBloomFilter && b == null) {
-        synchronized (this) {
-          b = bloomFilter;
-          if (b == null) {
-            b = buildBloomFilter();
-            bloomFilter = b;
-          }
-        }
-      }
-      return b == null || b.mightContain(key);
-    }
-
-    @Nullable
-    private BloomFilter<K> buildBloomFilter() {
-      SqlHandle c = null;
-      try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
-        c = handles.acquire();
-        if (estimatedSize <= 0) {
-          try (PreparedStatement ps =
-              c.conn.prepareStatement("SELECT COUNT(*) FROM data WHERE version=?")) {
-            ps.setInt(1, version);
-            try (ResultSet r = ps.executeQuery()) {
-              estimatedSize = r.next() ? r.getInt(1) : 0;
-            }
-          }
-        }
-
-        BloomFilter<K> b = newBloomFilter();
-        try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
-          ps.setInt(1, version);
-          try (ResultSet r = ps.executeQuery()) {
-            while (r.next()) {
-              b.put(keyType.get(r, 1));
-            }
-          }
-        } catch (Exception e) {
-          if (Throwables.getCausalChain(e).stream()
-              .anyMatch(InvalidClassException.class::isInstance)) {
-            // If deserialization failed using default Java serialization, this means we are using
-            // the old serialVersionUID-based invalidation strategy. In that case, authors are
-            // most likely bumping serialVersionUID rather than using the new versioning in the
-            // CacheBinding.  That's ok; we'll continue to support both for now.
-            // TODO(dborowitz): Remove this case when Java serialization is no longer used.
-            logger.atWarning().log(
-                "Entries cached for %s have an incompatible class and can't be deserialized. "
-                    + "Cache is flushed.",
-                url);
-            invalidateAll();
-          } else {
-            throw e;
-          }
-        }
-        return b;
-      } catch (IOException | SQLException e) {
-        logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
-        c = handles.close(c);
-        return null;
-      } finally {
-        handles.release(c);
-      }
+      return bloomFilter.mightContain(key);
     }
 
     @Nullable
@@ -539,13 +492,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         return;
       }
 
-      BloomFilter<K> b = null;
-      do {
-        b = bloomFilter;
-        if (b != null) {
-          b.put(key);
-        }
-      } while (!referenceEqualsSuppressed(b, bloomFilter));
+      bloomFilter.put(key);
 
       SqlHandle c = null;
       try {
@@ -607,7 +554,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (Statement s = c.conn.createStatement()) {
           s.executeUpdate("DELETE FROM data");
         }
-        bloomFilter = newBloomFilter();
+        bloomFilter.empty();
       } catch (SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = handles.close(c);
@@ -694,10 +641,118 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
       return new DiskStats(size, space, hitCount.get(), missCount.get());
     }
+  }
+
+  interface SqlStoreBloomFilter<K> {
+    public void build() throws IOException, SQLException;
+
+    public void empty();
+
+    public void put(K key);
+
+    public boolean mightContain(K key);
+  }
+
+  static class NoopSqlStoreBloomFilter<K> implements SqlStoreBloomFilter<K> {
+    @Override
+    public void build() {}
+
+    @Override
+    public void empty() {}
+
+    @Override
+    public void put(K key) {}
+
+    @Override
+    public boolean mightContain(K key) {
+      return true;
+    }
+  }
+
+  static class SqlStoreBloomFilterImpl<K> implements SqlStoreBloomFilter<K> {
+    private final String url;
+    private final KeyType<K> keyType;
+    private final int version;
+    private final SqlHandles<K> handles;
+
+    private int estimatedSize;
+    private BloomFilter<K> bloomFilter;
+
+    public SqlStoreBloomFilterImpl(
+        String url, KeyType<K> keyType, int version, SqlHandles<K> handles) {
+      this.url = url;
+      this.keyType = keyType;
+      this.version = version;
+      this.handles = handles;
+    }
+
+    @Override
+    public void build() throws IOException, SQLException {
+      if (bloomFilter != null) {
+        return;
+      }
+      SqlHandle c = null;
+      try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
+        c = handles.acquire();
+        if (estimatedSize <= 0) {
+          try (PreparedStatement ps =
+              c.conn.prepareStatement("SELECT COUNT(*) FROM data WHERE version=?")) {
+            ps.setInt(1, version);
+            try (ResultSet r = ps.executeQuery()) {
+              estimatedSize = r.next() ? r.getInt(1) : 0;
+            }
+          }
+        }
+
+        BloomFilter<K> b = newBloomFilter();
+        try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
+          ps.setInt(1, version);
+          try (ResultSet r = ps.executeQuery()) {
+            while (r.next()) {
+              b.put(keyType.get(r, 1));
+            }
+          }
+        }
+        bloomFilter = b;
+      } catch (IOException | SQLException e) {
+        logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
+        c = handles.close(c);
+        bloomFilter = null;
+        throw e;
+      } finally {
+        handles.release(c);
+      }
+    }
+
+    @Override
+    public void empty() {
+      bloomFilter = newBloomFilter();
+    }
+
+    @Override
+    public void put(K key) {
+      BloomFilter<K> b = null;
+      do {
+        b = bloomFilter;
+        if (b != null) {
+          b.put(key);
+        }
+      } while (!referenceEqualsSuppressed(b, bloomFilter));
+    }
+
+    @Override
+    public boolean mightContain(K key) {
+      return bloomFilter == null || bloomFilter.mightContain(key);
+    }
 
     private BloomFilter<K> newBloomFilter() {
       int cnt = Math.max(64 * 1024, 2 * estimatedSize);
       return BloomFilter.create(keyType.funnel(), cnt);
+    }
+
+    @SuppressWarnings("ReferenceEquality")
+    private static <T> boolean referenceEqualsSuppressed(T a, T b) {
+      return a == b;
     }
   }
 
@@ -800,10 +855,5 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
       return null;
     }
-  }
-
-  @SuppressWarnings("ReferenceEquality")
-  private static <T> boolean referenceEqualsSuppressed(T a, T b) {
-    return a == b;
   }
 }

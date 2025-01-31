@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd40a2f0_2ddda3ce",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ValidationOptionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-31T15:11:29Z",
+      "side": 0,
+      "message": "not sure how this is unused\n\nI do `new TestPluginPushOption` in the test.\n\nMaybe I added an erroneous import.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 78
+      },
+      "revId": "360cf41fc5b96a471604894cc6fbd94b1c307ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

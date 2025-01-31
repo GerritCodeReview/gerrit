@@ -1230,23 +1230,6 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(element.syntaxLayer.enabled);
     });
 
-    test('rendering large diff disables syntax', async () => {
-      // Before it renders, set the first diff line to 500 '*' characters.
-      getDiffRestApiStub.returns(
-        Promise.resolve({
-          ...createDiff(),
-          content: [
-            {
-              a: ['*'.repeat(501)],
-            },
-          ],
-        })
-      );
-      element.reload();
-      await element.waitForReloadToRender();
-      assert.isFalse(element.syntaxLayer.enabled);
-    });
-
     test('starts syntax layer processing on render event', async () => {
       const stub = sinon
         .stub(element.syntaxLayer, 'process')

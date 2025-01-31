@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ee6aea_25004a60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-31T15:55:47Z",
+      "side": 1,
+      "message": "That\u0027s a fair point, if it\u0027s ok I\u0027ll address it in a follow-up change.",
+      "parentUuid": "733cef9b_8ad1dd99",
+      "revId": "ba2cb04dcb99389102e3be4a305ea8cfcb2c83a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b9416ee_3cf346d0",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-01-31T15:51:36Z",
       "side": 1,
       "message": "```suggestion\nunknown users using the platform inappropriately (i.e. spammers).\n```",
+      "revId": "ba2cb04dcb99389102e3be4a305ea8cfcb2c83a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de25422_3f0a376c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-31T15:55:47Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3b9416ee_3cf346d0",
       "revId": "ba2cb04dcb99389102e3be4a305ea8cfcb2c83a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

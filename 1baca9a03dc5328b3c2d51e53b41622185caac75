@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5895ffc9_23f5de9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-31T09:02:37Z",
+      "side": 1,
+      "message": "```suggestion\nobjects\u0027 reachability chain[1], hence bitmaps won\u0027t be used anymore\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "1baca9a03dc5328b3c2d51e53b41622185caac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc289d9e_26634269",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-31T09:02:37Z",
+      "side": 1,
+      "message": "```suggestion\nSuggest placing sandbox branches under a different namespace.\n\n[1]https://www.youtube.com/watch?v\u003dxhxrGxvChU0\n\nRelease-Notes: recommend creation of sandbox branches outside of refs/heads\nChange-Id: If1afeb6f8f3022e7223f358a96114962a8d4b081\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "1baca9a03dc5328b3c2d51e53b41622185caac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

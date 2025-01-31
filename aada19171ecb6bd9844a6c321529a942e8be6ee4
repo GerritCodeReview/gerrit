@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af036978_9005a3d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-31T16:39:55Z",
+      "side": 1,
+      "message": "Voting -2 since the change needs to wait for a server side change to be live.",
+      "revId": "aada19171ecb6bd9844a6c321529a942e8be6ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

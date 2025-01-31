@@ -141,6 +141,30 @@
       },
       "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57325c5d_fda69a03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-31T08:53:23Z",
+      "side": 1,
+      "message": "Maybe we could link one of the talks we\u0027ve given on GHS?",
+      "parentUuid": "30d47364_c7ac0c78",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4ecabf_c15db0fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "Sounds promising: can we make it more Lucene-specific and more a full NO-OP in testing for Google? @ekempin@google.com what do you think?",
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d8609fd_80f2ed35",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n* `indexes/lucene/accounts`: Total number documents in account search index.\n* `indexes/lucene/changes`: Total number documents in change search index.\n* `indexes/lucene/groups`: Total number documents in group search index.\n* `indexes/lucene/projects`: Total number documents in project search index.\n```",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 69
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c7d503_ff0181fc",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n          String.format(\"indexes/lucene/%s\", indexName),\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c4e041_d838ecf2",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "This would cause to force the `IndexType.SYS_PROP` to be `lucene`, however, Google doesn\u0027t use Lucene and they\u0027ll have to be dependent from this test passing.\n\nWhy not doing a `TruthJunit.assume()` that `IndexType.SYS_PROP` is set to `lucene` instead? That would make the whole tests to be skipped *IF* you are not explicitly testing Lucene.\n\nLastly, as a follow-up, we should consider moving all the Lucene tests in a separate package and having a specific BUILD file for it, NOT invoked by default but only in our CI jobs.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d72e4c3_db9c8625",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(intMetricValueOf(\"indexes/lucene/projects\")).isEqualTo(numberProjects + 1);\n```",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d716f6c3_32114056",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    int numberChanges \u003d intMetricValueOf(\"indexes/lucene/changes\");\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 42,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c0b068c_ca1b428c",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(intMetricValueOf(\"indexes/lucene/changes\")).isEqualTo(numberChanges + 1);\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 33,
+        "endLine": 45,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cfdf794_b963364e",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    int numberAccounts \u003d intMetricValueOf(\"indexes/lucene/accounts\");\n```",
+      "range": {
+        "startLine": 50,
+        "startChar": 43,
+        "endLine": 50,
+        "endChar": 50
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1618ca1_c1afd815",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(intMetricValueOf(\"indexes/lucene/accounts\")).isEqualTo(numberAccounts + 1);\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 33,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a7dc0d_0cc696ff",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    int numberGroups \u003d intMetricValueOf(\"indexes/lucene/groups\");\n```",
+      "range": {
+        "startLine": 57,
+        "startChar": 41,
+        "endLine": 57,
+        "endChar": 48
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28857a6b_1409438c",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(intMetricValueOf(\"indexes/lucene/groups\")).isEqualTo(numberGroups + 1);\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 33,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e71086_09e2cda9",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-31T09:14:40Z",
+      "side": 1,
+      "message": "You could just automatically add `indexes/lucene` and pass the pure index name here.",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 44
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

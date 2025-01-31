@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "733cef9b_8ad1dd99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-31T15:51:36Z",
+      "side": 1,
+      "message": "Tried the new review permission and it works nicely :-)\n\nI found that users who don\u0027t have permission to review can still create draft comments. I think they shouldn\u0027t be able to do this. Otherwise we\u0027d end up with an ever growing number of draft comments from spammers which would degrade performance sooner or later.",
+      "revId": "ba2cb04dcb99389102e3be4a305ea8cfcb2c83a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b9416ee_3cf346d0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-31T15:51:36Z",
+      "side": 1,
+      "message": "```suggestion\nunknown users using the platform inappropriately (i.e. spammers).\n```",
+      "revId": "ba2cb04dcb99389102e3be4a305ea8cfcb2c83a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -54,7 +54,7 @@ public class ValidationOptionsIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(fooOption).add(barOption).add(disableBazOption)) {
       ValidationOptionInfos validationOptionsInfos =
           gApi.changes().id(changeId).getValidationOptions();
-      assertThat(validationOptionsInfos.validation_options)
+      assertThat(validationOptionsInfos.validationOptions)
           .isEqualTo(
               ImmutableList.of(
                   new ValidationOptionInfo("foo", "some description"),

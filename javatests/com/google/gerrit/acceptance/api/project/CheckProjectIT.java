@@ -32,20 +32,25 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectsConsistencyChecker;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class CheckProjectIT extends AbstractDaemonTest {
-  private TestRepository<InMemoryRepository> serverSideTestRepo;
+  private TestRepository<Repository> serverSideTestRepo;
 
   @Before
   public void setUp() throws Exception {
-    serverSideTestRepo =
-        new TestRepository<>((InMemoryRepository) repoManager.openRepository(project));
+    serverSideTestRepo = new TestRepository<>(repoManager.openRepository(project));
+  }
+
+  @After
+  public void tearDown() {
+    serverSideTestRepo.close();
   }
 
   @Test

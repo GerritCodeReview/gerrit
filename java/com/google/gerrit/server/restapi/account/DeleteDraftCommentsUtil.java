@@ -108,27 +108,31 @@ public class DeleteDraftCommentsUtil {
     Account.Id accountId = user.getAccountId();
     Instant now = TimeUtil.now();
     Map<Project.NameKey, BatchUpdate> updates = new LinkedHashMap<>();
-    List<Op> ops = new ArrayList<>();
-    for (ChangeData cd :
-        queryProvider
-            .get()
-            // Don't attempt to mutate any changes the user can't currently see.
-            .enforceVisibility(true)
-            .query(predicate(accountId, query))) {
-      BatchUpdate update =
-          updates.computeIfAbsent(cd.project(), p -> batchUpdateFactory.create(p, user, now));
-      Op op = new Op(humanCommentFormatter, accountId);
-      update.addOp(cd.getId(), op);
-      ops.add(op);
+    try {
+      List<Op> ops = new ArrayList<>();
+      for (ChangeData cd :
+          queryProvider
+              .get()
+              // Don't attempt to mutate any changes the user can't currently see.
+              .enforceVisibility(true)
+              .query(predicate(accountId, query))) {
+        BatchUpdate update =
+            updates.computeIfAbsent(cd.project(), p -> batchUpdateFactory.create(p, user, now));
+        Op op = new Op(humanCommentFormatter, accountId);
+        update.addOp(cd.getId(), op);
+        ops.add(op);
+      }
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        // Currently there's no way to let some updates succeed even if others fail. Even if there
+        // were,
+        // all updates from this operation only happen in All-Users and thus are fully atomic, so
+        // allowing partial failure would have little value.
+        batchUpdates.execute(updates.values(), ImmutableList.of(), false);
+      }
+      return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
+    } finally {
+      updates.values().forEach(BatchUpdate::close);
     }
-    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-      // Currently there's no way to let some updates succeed even if others fail. Even if there
-      // were,
-      // all updates from this operation only happen in All-Users and thus are fully atomic, so
-      // allowing partial failure would have little value.
-      batchUpdates.execute(updates.values(), ImmutableList.of(), false);
-    }
-    return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }
 
   private Predicate<ChangeData> predicate(Account.Id accountId, String query)

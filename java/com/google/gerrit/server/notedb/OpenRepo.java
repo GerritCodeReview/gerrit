@@ -66,6 +66,7 @@ class OpenRepo implements AutoCloseable {
       return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true) {
         @Override
         public void close() {
+          cmds.close();
           reader.close();
           super.close();
         }

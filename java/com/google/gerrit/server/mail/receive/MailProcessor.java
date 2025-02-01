@@ -328,8 +328,8 @@ public class MailProcessor {
       }
 
       Op o = new Op(PatchSet.id(cd.getId(), metadata.patchSet), parsedComments, message.id());
-      try (RefUpdateContext updCtx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-        BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.now());
+      try (RefUpdateContext updCtx = RefUpdateContext.open(CHANGE_MODIFICATION);
+          BatchUpdate batchUpdate = buf.create(project, ctx.getUser(), TimeUtil.now())) {
         batchUpdate.addOp(cd.getId(), o);
         batchUpdate.execute();
       }

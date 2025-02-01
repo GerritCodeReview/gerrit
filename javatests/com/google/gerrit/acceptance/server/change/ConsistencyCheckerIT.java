@@ -58,7 +58,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -67,6 +66,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,18 +89,22 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   private RevCommit tip;
   private Account.Id adminId;
   private ConsistencyChecker checker;
-  private TestRepository<InMemoryRepository> serverSideTestRepo;
+  private TestRepository<Repository> serverSideTestRepo;
 
   @Before
   public void setUp() throws Exception {
-    serverSideTestRepo =
-        new TestRepository<>((InMemoryRepository) repoManager.openRepository(project));
+    serverSideTestRepo = new TestRepository<>(repoManager.openRepository(project));
     tip =
         serverSideTestRepo
             .getRevWalk()
             .parseCommit(serverSideTestRepo.getRepository().exactRef("HEAD").getObjectId());
     adminId = admin.id();
     checker = checkerProvider.get();
+  }
+
+  @After
+  public void tearDown() {
+    serverSideTestRepo.close();
   }
 
   @Test

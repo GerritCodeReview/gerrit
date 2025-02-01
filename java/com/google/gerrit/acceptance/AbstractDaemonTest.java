@@ -412,15 +412,23 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void restartAsSlave() throws Exception {
+    closeTestRepositories();
     server.restartAsSlave();
     server.getTestInjector().injectMembers(this);
     updateSshSessions();
   }
 
   protected void restart() throws Exception {
+    closeTestRepositories();
     server.restart();
     server.getTestInjector().injectMembers(this);
     updateSshSessions();
+  }
+
+  protected void closeTestRepositories() {
+    for (Repository repo : toClose) {
+      repo.close();
+    }
   }
 
   public void reindexAccount(Account.Id accountId) {
@@ -639,9 +647,7 @@ public abstract class AbstractDaemonTest {
 
   protected void afterTest() throws Exception {
     Transport.unregister(inProcessProtocol);
-    for (Repository repo : toClose) {
-      repo.close();
-    }
+    closeTestRepositories();
 
     // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
     testTicker.useDefaultTicker();

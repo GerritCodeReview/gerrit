@@ -34,35 +34,36 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
 
   @Test
   public void messageIdHeaderFromChangeUpdate() throws Exception {
-    Repository repository = repoManager.openRepository(project);
-    PushOneCommit.Result result = createChange();
-    ReviewerInput reviewerInput = new ReviewerInput();
-    reviewerInput.reviewer = user.email();
-    gApi.changes().id(result.getChangeId()).addReviewer(reviewerInput);
-    sender.clear();
+    try (Repository repository = repoManager.openRepository(project)) {
+      PushOneCommit.Result result = createChange();
+      ReviewerInput reviewerInput = new ReviewerInput();
+      reviewerInput.reviewer = user.email();
+      gApi.changes().id(result.getChangeId()).addReviewer(reviewerInput);
+      sender.clear();
 
-    gApi.changes().id(result.getChangeId()).abandon();
-    assertThat(getMessageId(sender))
-        .isEqualTo(
-            withPrefixAndSuffixForMessageId(
-                repository
-                        .getRefDatabase()
-                        .exactRef(result.getChange().getId().toRefPrefix() + "meta")
-                        .getObjectId()
-                        .getName()
-                    + "-HTML"));
-    sender.clear();
+      gApi.changes().id(result.getChangeId()).abandon();
+      assertThat(getMessageId(sender))
+          .isEqualTo(
+              withPrefixAndSuffixForMessageId(
+                  repository
+                          .getRefDatabase()
+                          .exactRef(result.getChange().getId().toRefPrefix() + "meta")
+                          .getObjectId()
+                          .getName()
+                      + "-HTML"));
+      sender.clear();
 
-    gApi.changes().id(result.getChangeId()).restore();
-    assertThat(getMessageId(sender))
-        .isEqualTo(
-            withPrefixAndSuffixForMessageId(
-                repository
-                        .getRefDatabase()
-                        .exactRef(result.getChange().getId().toRefPrefix() + "meta")
-                        .getObjectId()
-                        .getName()
-                    + "-HTML"));
+      gApi.changes().id(result.getChangeId()).restore();
+      assertThat(getMessageId(sender))
+          .isEqualTo(
+              withPrefixAndSuffixForMessageId(
+                  repository
+                          .getRefDatabase()
+                          .exactRef(result.getChange().getId().toRefPrefix() + "meta")
+                          .getObjectId()
+                          .getName()
+                      + "-HTML"));
+    }
   }
 
   @Test
@@ -70,26 +71,27 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
       name = "auth.registerEmailPrivateKey",
       value = "HsOc6l_2lhS9G7sE_RsnS7Z6GJjdRDX14co=")
   public void messageIdHeaderFromAccountUpdate() throws Exception {
-    Repository allUsersRepo = repoManager.openRepository(allUsers);
-    String email = "new.email@example.com";
-    EmailInput input = new EmailInput();
-    input.email = email;
-    sender.clear();
-    gApi.accounts().self().addEmail(input);
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      String email = "new.email@example.com";
+      EmailInput input = new EmailInput();
+      input.email = email;
+      sender.clear();
+      gApi.accounts().self().addEmail(input);
 
-    assertThat(sender.getMessages()).hasSize(1);
-    FakeEmailSender.Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(Address.create(email));
+      assertThat(sender.getMessages()).hasSize(1);
+      FakeEmailSender.Message m = sender.getMessages().get(0);
+      assertThat(m.rcpt()).containsExactly(Address.create(email));
 
-    assertThat(getMessageId(sender))
-        .isEqualTo(
-            withPrefixAndSuffixForMessageId(
-                allUsersRepo
-                        .getRefDatabase()
-                        .exactRef(RefNames.refsUsers(admin.id()))
-                        .getObjectId()
-                        .getName()
-                    + "-HTML"));
+      assertThat(getMessageId(sender))
+          .isEqualTo(
+              withPrefixAndSuffixForMessageId(
+                  allUsersRepo
+                          .getRefDatabase()
+                          .exactRef(RefNames.refsUsers(admin.id()))
+                          .getObjectId()
+                          .getName()
+                      + "-HTML"));
+    }
   }
 
   @Test

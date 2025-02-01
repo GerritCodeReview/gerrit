@@ -9,12 +9,9 @@
       "updated": "2025-02-01T00:26:52Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/13483/console",
-      "started": "2025-02-01T00:25:33Z",
-      "finished": "2025-02-01T00:28:04Z",
+      "state": "NOT_STARTED",
       "created": "2025-02-01T00:25:33Z",
-      "updated": "2025-02-01T00:28:04Z"
+      "updated": "2025-02-01T12:18:09Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

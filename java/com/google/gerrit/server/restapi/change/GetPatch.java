@@ -100,8 +100,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
     final Repository repo = repoManager.openRepository(rsrc.getProject());
     boolean close = true;
-    try {
-      final RevWalk rw = new RevWalk(repo);
+    try (RevWalk rw = new RevWalk(repo)) {
       BinaryResult bin = null;
       try {
         final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
@@ -122,20 +121,24 @@ public class GetPatch implements RestReadView<RevisionResource> {
             new BinaryResult() {
               @Override
               public void writeTo(OutputStream out) throws IOException {
-                switch (outputType) {
-                  case ZIP:
-                    ZipOutputStream zos = new ZipOutputStream(out);
-                    ZipEntry e = new ZipEntry(fileName(rw, commit));
-                    e.setTime(commit.getCommitTime() * 1000L);
-                    zos.putNextEntry(e);
-                    format(zos);
-                    zos.closeEntry();
-                    zos.finish();
-                    break;
-                  case RAW:
-                  case BASE64:
-                    format(out);
-                    break;
+                try {
+                  switch (outputType) {
+                    case ZIP:
+                      ZipOutputStream zos = new ZipOutputStream(out);
+                      ZipEntry e = new ZipEntry(fileName(rw, commit));
+                      e.setTime(commit.getCommitTime() * 1000L);
+                      zos.putNextEntry(e);
+                      format(zos);
+                      zos.closeEntry();
+                      zos.finish();
+                      break;
+                    case RAW:
+                    case BASE64:
+                      format(out);
+                      break;
+                  }
+                } finally {
+                  repo.close();
                 }
               }
 
@@ -145,12 +148,6 @@ public class GetPatch implements RestReadView<RevisionResource> {
                   out.write(formatEmailHeader(commit).getBytes(UTF_8));
                 }
                 DiffUtil.getFormattedDiff(repo, base, commit, path, out);
-              }
-
-              @Override
-              public void close() throws IOException {
-                rw.close();
-                repo.close();
               }
             };
 

@@ -16,6 +16,24 @@
       "message": "This is unrelated",
       "revId": "8afe22fd9f298edf8e08df1ed3f8c93c303346cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea3d649_872264ea",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-02T16:25:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e2fbca_2c47ce90",
+      "revId": "8afe22fd9f298edf8e08df1ed3f8c93c303346cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a918d94e_9099ff7c",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-02T21:37:18Z",
+      "side": 1,
+      "message": "do we need also counting repo manager for in-mem testing?",
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1674894c_c34287c6",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-02T21:37:18Z",
+      "side": 1,
+      "message": "replacing `isEmpty()`, which is an intuitive approach, with `isEqualTo(Collections.emptySet())` allows to catch the offenders quickly as they are printed as part of the assertion failure 😊 e.g. (note that I have opened repo withouth closing locally to get this message - your code is fine):\n```\nexpected to be empty\nbut was:\n    [Project foo has useCount\u003d1\n      opened by com.google.gerrit.acceptance.server.project.PeriodicProjectIndexerIT.removesNonExistingProjectsFromIndex(PeriodicProjectIndexerIT.java:61)\n    ]\n\tat com.google.gerrit.acceptance.GerritServer.close(GerritServer.java:783)\n\tat com.google.gerrit.acceptance.GerritServerTestRule.afterConfigChanged(GerritServerTestRule.java:274)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.stopCommonServer(AbstractDaemonTest.java:386)\n```",
+      "range": {
+        "startLine": 782,
+        "startChar": 64,
+        "endLine": 782,
+        "endChar": 74
+      },
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672a66ad_c663818b",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-02T21:37:18Z",
+      "side": 1,
+      "message": "nit: can be `private`",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22c64c8_d42ce39c",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-02T21:37:18Z",
+      "side": 1,
+      "message": "nit: can be `private` - also all non overriden methods can be `private`",
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cc0c631_9f01adb9",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-02T21:37:18Z",
+      "side": 1,
+      "message": "nit: `()` not needed",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc82750_ea83618b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/PeriodicProjectIndexerIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-02T21:37:18Z",
+      "side": 1,
+      "message": "I know why you had to do that, but that opens a pandora\u0027s box if one uses it to open repository then the reference counting is gone...",
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abdf605a_a4cc6a35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T13:28:50Z",
+      "side": 1,
+      "message": "@ekempin@google.com can you double-check if you guys are running this test target and can we make a safe assumption that using Lucene is compatible with your build?",
+      "revId": "093f51d1422e8140375c57872d262c8aa36da75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04d3c851_b35df296",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/BUILD",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T13:28:50Z",
+      "side": 1,
+      "message": "@ekempin@google.com is Google running this target? How come that this Lucene dependency did not break anything for you guys?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "093f51d1422e8140375c57872d262c8aa36da75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

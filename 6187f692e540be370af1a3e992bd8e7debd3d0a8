@@ -183,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "505fd8a6_ad057c94",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-02-03T14:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2700b412_5fed7e7d",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d72e4c3_db9c8625",

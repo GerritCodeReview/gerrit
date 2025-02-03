@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df10990_0eee7496",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-03T19:03:02Z",
+      "side": 1,
+      "message": "There is more places that inject `sitePaths` again cuz they were privately included - I would say that we should address it in the follow-up IOW keep it private here and inject it again in `PeriodicProjectIndexerIT` temporarily. Then in the follow-up field could be made `protected` and other ITs cleaned, WDYT?",
+      "revId": "ba373845098f6a3d7acb3b4235279b35cd437e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

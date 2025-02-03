@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c62fafe1_1f80c5df",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T12:55:48Z",
+      "side": 1,
+      "message": "Good catch: let me put `rw` out of the try-with-resources",
+      "parentUuid": "30a4df91_0dba43c7",
+      "revId": "198dba7ae5db8bb55af63b78e37e3476390d9704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e6d9c76_a57c3aac",
         "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2025-02-02T21:58:39Z",
       "side": 1,
       "message": "AFAIU `rw` is already closed here regardless if `close` is `true` or `false`",
+      "revId": "198dba7ae5db8bb55af63b78e37e3476390d9704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed2e8c87_d7bee536",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T12:55:48Z",
+      "side": 1,
+      "message": "Where? I believe this is the only place where it gets closed.",
+      "parentUuid": "4e6d9c76_a57c3aac",
       "revId": "198dba7ae5db8bb55af63b78e37e3476390d9704",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

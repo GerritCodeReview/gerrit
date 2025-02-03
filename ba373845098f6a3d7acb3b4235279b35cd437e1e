@@ -34,6 +34,24 @@
       "parentUuid": "7df10990_0eee7496",
       "revId": "ba373845098f6a3d7acb3b4235279b35cd437e1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ccce5c_a2993787",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T19:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe3c98f_acafaf38",
+      "revId": "ba373845098f6a3d7acb3b4235279b35cd437e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71b77cf1_d6eeaee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-03T17:39:12Z",
+      "side": 1,
+      "message": "I found it a bit hard to understand what it means to be \"opened ad-hoc\".\nHow about something along the lines of:\n\n```\nWhen an OpenRepo instance is initialized via its static open() method, the ChainReceiveCommands are instantiated internally (i.e., not provided by the caller). Since these commands are managed within OpenRepo, they must be explicitly closed in the OpenRepo.close() method to prevent resource leaks.\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "1a0535034f30767df60604ef2f3c551096f33ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

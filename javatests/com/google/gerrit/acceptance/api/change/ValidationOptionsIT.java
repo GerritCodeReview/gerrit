@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.TestExtensions.TestPluginPushOption;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -54,7 +53,7 @@ public class ValidationOptionsIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(fooOption).add(barOption).add(disableBazOption)) {
       ValidationOptionInfos validationOptionsInfos =
           gApi.changes().id(changeId).getValidationOptions();
-      assertThat(validationOptionsInfos.validation_options)
+      assertThat(validationOptionsInfos.validationOptions)
           .isEqualTo(
               ImmutableList.of(
                   new ValidationOptionInfo("foo", "some description"),

@@ -17,9 +17,9 @@ package com.google.gerrit.extensions.common;
 import com.google.common.collect.ImmutableList;
 
 public class ValidationOptionInfos {
-  public final ImmutableList<ValidationOptionInfo> validation_options;
+  public final ImmutableList<ValidationOptionInfo> validationOptions;
 
   public ValidationOptionInfos(ImmutableList<ValidationOptionInfo> validationOptions) {
-    this.validation_options = validationOptions;
+    this.validationOptions = validationOptions;
   }
 }

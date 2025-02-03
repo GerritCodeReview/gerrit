@@ -19,7 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.gerrit.extensions.common.ValidationOptionInfo;
 import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.Extension;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeResource;
@@ -43,9 +43,15 @@ public class GetValidationOptions implements RestReadView<ChangeResource> {
         new ValidationOptionInfos(
             StreamSupport.stream(
                     this.pluginPushOption.entries().spliterator(), /* parallel= */ false)
-                .map(Extension<PluginPushOption>::get)
-                .filter(o -> o.isOptionEnabled(resource.getChange()))
-                .map(o -> new ValidationOptionInfo(o.getName(), o.getDescription()))
+                .filter(extension -> extension.get().isOptionEnabled(resource.getChange()))
+                .map(
+                    extension ->
+                        new ValidationOptionInfo(
+                            PluginName.GERRIT.equals(extension.getPluginName())
+                                ? extension.get().getName()
+                                : String.format(
+                                    "%s~%s", extension.getPluginName(), extension.get().getName()),
+                            extension.get().getDescription()))
                 .collect(toImmutableList())));
   }
 }

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45700416_c7809d66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-02-03T11:10:32Z",
+      "side": 1,
+      "message": "In the target `acceptance_framework_tests` [1] there are no Lucene dependencies.\n\nRefereences:\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/BUILD#4",
+      "parentUuid": "8aeb0f43_ff2b1c4c",
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c539346d_a91db886",
         "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
         "patchSetId": 7

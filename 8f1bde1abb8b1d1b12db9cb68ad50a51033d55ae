@@ -1,0 +1,190 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0541be32_3cfe4b0a",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-03T11:46:51Z",
+      "side": 1,
+      "message": "It\u0027s a bit weird that the data class is described as a method \"Retrieves\".",
+      "range": {
+        "startLine": 1101,
+        "startChar": 3,
+        "endLine": 1101,
+        "endChar": 12
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0f9d3cd1_d5a46d20",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/api/rest-api.ts",
+              "range": {
+                "startLine": 1101,
+                "startChar": 0,
+                "endLine": 1102,
+                "endChar": 0
+              },
+              "replacement": " * The ValidationOptionsInfo entity contains information about the validation options.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c13c130e_5e8735b0",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-03T11:46:51Z",
+      "side": 1,
+      "message": "The first specified word is probably not needed.",
+      "range": {
+        "startLine": 1109,
+        "startChar": 3,
+        "endLine": 1109,
+        "endChar": 71
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c5ca2273_c517de2d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/api/rest-api.ts",
+              "range": {
+                "startLine": 1109,
+                "startChar": 0,
+                "endLine": 1110,
+                "endChar": 0
+              },
+              "replacement": " * Push options that can be specified by the user on push\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "670def3e_9f859c7b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-03T11:46:51Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary. getChanges doesn\u0027t use a custom errFn, means the default behaviour on error is used, ie. \"server-error\" event is triggered that will call this.reporting.error already \n\nThe undefined returned, only if there was an exception or the server returned non-ok response \n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;drc\u003dd07a66dc333dead4a7ca29ac3062c99be2b9add7;l\u003d422\n\nSo if the changes is undefined, you can just return from the method immediately, the error would already be handled by gr-error-manager",
+      "range": {
+        "startLine": 1384,
+        "startChar": 6,
+        "endLine": 1387,
+        "endChar": 8
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8ab7e8e3_789dc330",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1384,
+                "startChar": 0,
+                "endLine": 1388,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bfb69c1_614f1c07",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-03T11:46:51Z",
+      "side": 1,
+      "message": "I think it makes sense to also have a test, that fetched validation options are passed to the correct component. ie. cover the fetch and process data part of the logic",
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba94b98e_ede25d22",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-03T11:46:51Z",
+      "side": 1,
+      "message": "This variable is not passed anywhere, does it work?",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 44
+      },
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "174cb317_3df66c87",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-03T11:46:51Z",
+      "side": 1,
+      "message": "So there is assumption in the code, that the state of the checkbox always corresponds to the value in isOptionSeelected. And I suppose as long as the even is always triggered correctly and the initial state is always false, that is true.\n\nBut I think this might be somewhat brittle. I would prefer if this.isOptionSelected was used as initial value. And maybe we can also do `requestUpdate` on toggleCheckbox (though I am not sure if I can come up with a way it can get updated without input.checked having corresponding value, unless of course it happens programmatically).",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

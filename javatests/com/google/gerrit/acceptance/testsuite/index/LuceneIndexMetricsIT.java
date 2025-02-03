@@ -32,6 +32,7 @@ public class LuceneIndexMetricsIT extends AbstractDaemonTest {
   @Test
   public void checkProjectsIndexMetric() throws Exception {
     assume().that(isLuceneIndex).isTrue();
+    assertThat(true).isFalse();
     int numberProjects = luceneIndexMetricValueOf("projects");
     gApi.projects().create("some_project");
     assertThat(luceneIndexMetricValueOf("projects")).isEqualTo(numberProjects + 1);

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64c361a_10db86b8",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T14:46:17Z",
+      "side": 1,
+      "message": "\u003e do we need also counting repo manager for in-mem testing?\n\nYes, why not? Even when the repository is in-memory, we still want to make sure that we are correcting opening / closing the resources.",
+      "parentUuid": "a918d94e_9099ff7c",
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1674894c_c34287c6",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-02-02T21:37:18Z",
       "side": 1,
       "message": "replacing `isEmpty()`, which is an intuitive approach, with `isEqualTo(Collections.emptySet())` allows to catch the offenders quickly as they are printed as part of the assertion failure 😊 e.g. (note that I have opened repo withouth closing locally to get this message - your code is fine):\n```\nexpected to be empty\nbut was:\n    [Project foo has useCount\u003d1\n      opened by com.google.gerrit.acceptance.server.project.PeriodicProjectIndexerIT.removesNonExistingProjectsFromIndex(PeriodicProjectIndexerIT.java:61)\n    ]\n\tat com.google.gerrit.acceptance.GerritServer.close(GerritServer.java:783)\n\tat com.google.gerrit.acceptance.GerritServerTestRule.afterConfigChanged(GerritServerTestRule.java:274)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest.stopCommonServer(AbstractDaemonTest.java:386)\n```",
+      "range": {
+        "startLine": 782,
+        "startChar": 64,
+        "endLine": 782,
+        "endChar": 74
+      },
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71413422_201511f3",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T14:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1674894c_c34287c6",
       "range": {
         "startLine": 782,
         "startChar": 64,

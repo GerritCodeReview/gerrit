@@ -632,25 +632,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void blockReviewerToPostReviewWithoutPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    ReviewInput in = ReviewInput.approve().reviewer(user.email());
-    gApi.changes().id(r.getChangeId()).current().review(in);
-
-    // revoke permissions to review the change
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(block(Permission.REVIEW).ref("refs/*").group(REGISTERED_USERS))
-        .update();
-
-    AuthException thrown =
-        assertThrows(
-            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
-    assertThat(thrown).hasMessageThat().contains("review not permitted");
-  }
-
-  @Test
   public void reviewAndStartReview() throws Exception {
     PushOneCommit.Result r = createWorkInProgressChange();
     r.assertOkStatus();

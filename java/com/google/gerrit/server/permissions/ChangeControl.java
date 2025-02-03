@@ -174,11 +174,6 @@ public class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  /** Can this user comment on changes */
-  private boolean canReview() {
-    return refControl.canPerform(Permission.REVIEW);
-  }
-
   /** Can this user edit the description? */
   private boolean canEditDescription() {
     if (getChange().isNew()) {
@@ -326,8 +321,6 @@ public class ChangeControl {
             return refControl.canSubmit(isOwner());
           case TOGGLE_WORK_IN_PROGRESS_STATE:
             return canToggleWorkInProgressState();
-          case REVIEW:
-            return canReview();
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:

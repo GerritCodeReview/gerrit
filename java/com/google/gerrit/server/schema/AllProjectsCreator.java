@@ -243,11 +243,7 @@ public class AllProjectsCreator {
             grant(config, capabilities, GlobalCapability.ADMINISTRATE_SERVER, adminsGroup));
 
     config.upsertAccessSection(
-        AccessSection.ALL,
-        all -> {
-          grant(config, all, Permission.READ, adminsGroup);
-          grant(config, all, Permission.REVIEW, registered);
-        });
+        AccessSection.ALL, all -> grant(config, all, Permission.READ, adminsGroup));
 
     config.upsertAccessSection(
         AccessSection.HEADS,

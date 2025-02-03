@@ -63,6 +63,30 @@
       },
       "revId": "093f51d1422e8140375c57872d262c8aa36da75c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "473bc7ba_1fa0acf4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/BUILD",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-03T13:34:24Z",
+      "side": 1,
+      "message": "And we have an hard-coded exclusion for IndexSnapshotsIT that skips running this test. So it broke us, but we papered over it.",
+      "parentUuid": "60953fa4_1ac15f32",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "093f51d1422e8140375c57872d262c8aa36da75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

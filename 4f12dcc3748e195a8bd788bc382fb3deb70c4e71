@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d91a7241_431ce34a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-03T18:08:20Z",
+      "side": 1,
+      "message": "Here is another approach to improving the perf issues: https://gerrit-review.googlesource.com/c/gerrit/+/450501",
+      "revId": "4f12dcc3748e195a8bd788bc382fb3deb70c4e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

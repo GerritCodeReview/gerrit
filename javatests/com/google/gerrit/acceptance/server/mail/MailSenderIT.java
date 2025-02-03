@@ -37,8 +37,6 @@ import org.junit.Test;
 @UseLocalDisk
 public class MailSenderIT extends AbstractMailIT {
 
-  @Inject private SitePaths sitePaths;
-
   @Test
   @GerritConfig(name = "sendemail.replyToAddress", value = "custom@example.com")
   @GerritConfig(name = "receiveemail.protocol", value = "POP3")

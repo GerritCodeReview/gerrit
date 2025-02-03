@@ -41,8 +41,6 @@ public class ProjectCacheIT extends AbstractDaemonTest {
   @Named(ProjectCacheImpl.CACHE_NAME)
   private LoadingCache<Project.NameKey, Optional<CachedProjectConfig>> inMemoryProjectCache;
 
-  @Inject private SitePaths sitePaths;
-
   @Test
   public void pluginConfig_cachedValueEqualsConfigValue() throws Exception {
     GroupReference group = GroupReference.create(AccountGroup.uuid("uuid"), "local-group-name");

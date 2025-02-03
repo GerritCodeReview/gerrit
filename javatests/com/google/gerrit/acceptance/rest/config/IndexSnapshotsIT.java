@@ -62,8 +62,6 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
   @Inject private GroupIndexDefinition groupIndexDefinition;
   @Inject private ProjectIndexDefinition projectIndexDefinition;
 
-  @Inject private SitePaths sitePaths;
-
   @Test
   @UseLocalDisk
   public void createAccountsIndexSnapshot() throws Exception {

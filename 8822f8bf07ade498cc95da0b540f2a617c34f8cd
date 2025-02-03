@@ -106,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36b26f6_65caedc5",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T14:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "672a66ad_c663818b",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d22c64c8_d42ce39c",
@@ -123,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "601e59ef_277b2381",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T14:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22c64c8_d42ce39c",
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cc0c631_9f01adb9",
@@ -136,6 +178,30 @@
       "writtenOn": "2025-02-02T21:37:18Z",
       "side": 1,
       "message": "nit: `()` not needed",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e77a9c3e_024d159a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T14:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc0c631_9f01adb9",
       "range": {
         "startLine": 184,
         "startChar": 18,

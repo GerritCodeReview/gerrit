@@ -189,6 +189,30 @@
       },
       "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df8c748_61e5a33c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-03T09:16:12Z",
+      "side": 1,
+      "message": "Ish... We\u0027re talking about force pushes that invalidate bitmaps, which is what we discuss in GHS. We can then explain creating branches outside of refs/heads would fix the problem, no?",
+      "parentUuid": "ff1cdb1a_4c575e6e",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "027b35d4e2ff1e9f4d2a64ae1b6c2d05601fde72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

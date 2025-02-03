@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "711b8d77_fcced24a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-03T18:03:57Z",
+      "side": 1,
+      "message": "This is still WIP because it relies on https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1207886 getting backmerged to stable-3.9",
+      "revId": "3cce20522e1e98cf66dc1e847f8535d168e19146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

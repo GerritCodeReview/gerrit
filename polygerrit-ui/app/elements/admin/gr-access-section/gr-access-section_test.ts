@@ -135,7 +135,6 @@ suite('gr-access-section tests', () => {
                     <option value="rebase">Rebase</option>
                     <option value="removeReviewer">Remove Reviewer</option>
                     <option value="revert">Revert</option>
-                    <option value="review">Review</option>
                     <option value="submit">Submit</option>
                     <option value="submitAs">Submit (On Behalf Of)</option>
                     <option value="toggleWipState">

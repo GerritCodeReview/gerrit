@@ -227,6 +227,24 @@
       "message": "I know why you had to do that, but that opens a pandora\u0027s box if one uses it to open repository then the reference counting is gone...",
       "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "535db840_48d13492",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/PeriodicProjectIndexerIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T15:05:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bc82750_ea83618b",
+      "revId": "8822f8bf07ade498cc95da0b540f2a617c34f8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

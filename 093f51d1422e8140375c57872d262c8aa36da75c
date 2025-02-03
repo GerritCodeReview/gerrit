@@ -39,6 +39,30 @@
       },
       "revId": "093f51d1422e8140375c57872d262c8aa36da75c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60953fa4_1ac15f32",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/BUILD",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-03T13:31:01Z",
+      "side": 1,
+      "message": "We don\u0027t use any of the upstream BUILD files, but we have our own copies.",
+      "parentUuid": "04d3c851_b35df296",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "093f51d1422e8140375c57872d262c8aa36da75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

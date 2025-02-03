@@ -26,18 +26,14 @@ import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.server.config.SitePaths;
 import java.net.URI;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
 import org.junit.Test;
 
 @UseLocalDisk
 public class MailSenderIT extends AbstractMailIT {
-
-  @Inject private SitePaths sitePaths;
 
   @Test
   @GerritConfig(name = "sendemail.replyToAddress", value = "custom@example.com")

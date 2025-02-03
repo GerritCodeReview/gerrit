@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5368d1cd_aea6a9ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T21:33:04Z",
+      "side": 1,
+      "message": "@syntonyze@gmail.com could you also check https://gerrit-review.googlesource.com/c/plugins/replication/+/450462 ?",
+      "revId": "083eb8ef4769a262f1c49037af3e8f4f97d3edf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

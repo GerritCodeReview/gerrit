@@ -87,6 +87,24 @@
       "parentUuid": "4e6d9c76_a57c3aac",
       "revId": "198dba7ae5db8bb55af63b78e37e3476390d9704",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c614c792_c656f24e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-03T15:55:03Z",
+      "side": 1,
+      "message": "It was relevant to the previous PS when `rw` was opeened with the autoclose",
+      "parentUuid": "ed2e8c87_d7bee536",
+      "revId": "198dba7ae5db8bb55af63b78e37e3476390d9704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

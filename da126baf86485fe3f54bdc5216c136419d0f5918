@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8e5f34_ad5a82e2",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-03T15:55:03Z",
+      "side": 1,
+      "message": "What if `writeTo` is not called at all? Perhaps the better solution would be to pass `repoManager\u0027s reference and open the repo together with rw again when needed? Also all the logic that is behing closing/not closing them now would be greatly simplified...",
+      "revId": "da126baf86485fe3f54bdc5216c136419d0f5918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b1d978_3ddece40",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-03T15:55:03Z",
+      "side": 1,
+      "message": "nit: you should close `rw` too, shouldn\u0027t you?",
+      "revId": "da126baf86485fe3f54bdc5216c136419d0f5918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

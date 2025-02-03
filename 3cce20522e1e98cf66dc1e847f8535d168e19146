@@ -16,6 +16,23 @@
       "message": "This is still WIP because it relies on https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1207886 getting backmerged to stable-3.9",
       "revId": "3cce20522e1e98cf66dc1e847f8535d168e19146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d15b263_851ba29d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-03T21:49:38Z",
+      "side": 1,
+      "message": "I think you need to update jgit to a8efd046fa5f47351f91b5dddd13becb83b9bdc8 to ensure this compiles",
+      "revId": "3cce20522e1e98cf66dc1e847f8535d168e19146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

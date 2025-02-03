@@ -23,7 +23,6 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.IndexResource;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.group.GroupIndexDefinition;
@@ -61,8 +60,6 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
   @Inject private ChangeIndexDefinition changeIndexDefinition;
   @Inject private GroupIndexDefinition groupIndexDefinition;
   @Inject private ProjectIndexDefinition projectIndexDefinition;
-
-  @Inject private SitePaths sitePaths;
 
   @Test
   @UseLocalDisk

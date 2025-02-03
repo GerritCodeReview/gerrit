@@ -16,6 +16,24 @@
       "message": "Sorry, I need to revert this.\n\nThis change breaks posting reviews on existing sites where the new \u0027Review\u0027 permission is not assigned. For Google we need time to write and run a migration that assigns this permission on all hosts and to adapt our site creation. I filed\ntracking issues for these [1,2]. Only when we are done with this, we can reland this change.\n\nDon\u0027t you have the same problem? E.g. shouldn\u0027t this change have a schema migration that assigns the new permission so that existing sites continue to work?\n\n[1] https://issues.gerritcodereview.com/issues/393995222\n[2] https://issues.gerritcodereview.com/issues/393991559",
       "revId": "00be0e222f7a22c570fc63b1662a32b06ad78a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ef417dc_be217913",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-03T10:19:14Z",
+      "side": 1,
+      "message": "you are right, when relanding this change we should add a schema migration assigning the new permission in existing sites",
+      "parentUuid": "1af63450_62a6a75c",
+      "revId": "00be0e222f7a22c570fc63b1662a32b06ad78a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

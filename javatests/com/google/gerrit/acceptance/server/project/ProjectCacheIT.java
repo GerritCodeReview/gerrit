@@ -24,7 +24,6 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.name.Named;
@@ -40,8 +39,6 @@ public class ProjectCacheIT extends AbstractDaemonTest {
   @Inject
   @Named(ProjectCacheImpl.CACHE_NAME)
   private LoadingCache<Project.NameKey, Optional<CachedProjectConfig>> inMemoryProjectCache;
-
-  @Inject private SitePaths sitePaths;
 
   @Test
   public void pluginConfig_cachedValueEqualsConfigValue() throws Exception {

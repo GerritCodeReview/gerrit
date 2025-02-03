@@ -161,6 +161,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2700b412_5fed7e7d",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T09:52:29Z",
+      "side": 1,
+      "message": "\u003e The test\n\u003e javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexBindingIT.java\n\u003e is executed with the Bazel target acceptance_framework_tests in this way:\n\nYes and it was introduced by @hiesel@google.com in Ic6ebb6587cb *exactly* for removing all the Lucene tests. What it just wants to say is that *IF* you are setting index type to Lucene *then* the index is lucene, but if you look carefully it restores the index to fake afterwards.\n\nBottom line: at the moment, all Gerrit tests are running with a FakeIndex.",
+      "parentUuid": "d5973bd1_f92ba1c0",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "6187f692e540be370af1a3e992bd8e7debd3d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d72e4c3_db9c8625",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
         "patchSetId": 9

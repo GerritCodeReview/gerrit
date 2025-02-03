@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8aeb0f43_ff2b1c4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-03T09:52:29Z",
+      "side": 1,
+      "message": "*IF* we remove Lucene altogether in the dependencies, would the tests still pass?",
+      "parentUuid": "c5d10491_e2a165f0",
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c539346d_a91db886",
         "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
         "patchSetId": 7

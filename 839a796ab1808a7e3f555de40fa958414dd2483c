@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d86f47f_c9ef263b",
+        "filename": "java/com/google/gerrit/server/restapi/account/PostWatchedProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-04T09:47:43Z",
+      "side": 1,
+      "message": "I\u0027m not sure, we can drop the access check on write. Even if the visibility of the project is checked later when the project watches are evaluated, it would allow you to probe which projects exists (adding a project watch would fail with \"Project Not Found\" for non-existing projects, but it would succeed for non-visible projects).",
+      "range": {
+        "startLine": 118,
+        "startChar": 53,
+        "endLine": 118,
+        "endChar": 77
+      },
+      "revId": "839a796ab1808a7e3f555de40fa958414dd2483c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

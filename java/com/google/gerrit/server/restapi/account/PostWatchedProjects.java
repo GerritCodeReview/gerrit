@@ -110,8 +110,13 @@ public class PostWatchedProjects
         }
       }
 
+      // User could add watched project in past that is not visible anymore
+      // and we always send whole list of watched projects. We inform user about
+      // no access to project in UI.
       ProjectWatchKey key =
-          ProjectWatchKey.create(projectsCollection.parse(info.project).getNameKey(), info.filter);
+          ProjectWatchKey.create(
+              projectsCollection.parse(info.project, /* checkAccess= */ false).getNameKey(),
+              info.filter);
       if (m.containsKey(key)) {
         throw new BadRequestException(
             "duplicate entry for project " + format(info.project, info.filter));

@@ -24,6 +24,7 @@ export enum ErrorType {
   EXTRA_BLANK_LINE,
   INVALID_INDENTATION,
   TRAILING_SPACES,
+  COMMENT_LINE,
   LEADING_SPACES,
 }
 
@@ -201,8 +202,19 @@ function detectFormattingErrors(
     });
   }
 
-  // Check for extra blank lines using the raw messageString
   const lines = messageString.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim().startsWith('#')) {
+      errors.push({
+        type: ErrorType.COMMENT_LINE,
+        line: i + 1, // Line numbers are 1-based
+        message:
+          "'#' at line start is a comment marker in Git. Line will be ignored",
+      });
+    }
+  }
+
+  // Check for extra blank lines using the raw messageString
   for (let i = 0; i < lines.length; i++) {
     if (i > 0 && lines[i].trim() === '' && lines[i - 1].trim() === '') {
       const isBetweenSubjectAndBody = i === 1 && message.body.length > 0;

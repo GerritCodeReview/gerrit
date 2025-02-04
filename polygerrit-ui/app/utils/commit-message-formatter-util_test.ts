@@ -330,5 +330,23 @@ suite('commit-message-formatter-util tests', () => {
         'Line should not start with spaces'
       );
     });
+
+    test('comment lines', () => {
+      const message =
+        'Fix the thing\n\n# This is a comment line.\nThis is body.\n# Another comment line in body.\n\nChange-Id: abcdefg\n# Comment line in footer\n';
+      const errors = detectFormattingErrorsInString(message);
+      assertError(
+        errors,
+        ErrorType.COMMENT_LINE,
+        3,
+        "'#' at line start is a comment marker in Git. Line will be ignored"
+      );
+      assertError(
+        errors,
+        ErrorType.COMMENT_LINE,
+        5,
+        "'#' at line start is a comment marker in Git. Line will be ignored"
+      );
+    });
   });
 });

@@ -16,6 +16,24 @@
       "message": "Blocked by https://issues.gerritcodereview.com/issues/393995222 and https://issues.gerritcodereview.com/issues/393991559.",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37adcb1f_29992824",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-04T08:30:42Z",
+      "side": 1,
+      "message": "Makes sense. Just in case you hadn\u0027t noticed it, I\u0027ve added `GrantReviewPermission` which should enable you(Google) to run your migration(at least I hope so). I\u0027ve also added the schema migration.\nLet me know if you\u0027d prefer me to split this in 2 or even 3 separate changes, or if this doesn\u0027t help Google I\u0027ll shut up and wait for you to tell me when it\u0027s a good time, ahah.",
+      "parentUuid": "e573b686_0812593b",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

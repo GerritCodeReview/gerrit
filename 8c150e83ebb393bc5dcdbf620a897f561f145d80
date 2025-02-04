@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1bda6f_c5c65901",
+        "filename": "java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-04T12:03:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56dde849_d967de95",
+      "revId": "8c150e83ebb393bc5dcdbf620a897f561f145d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "777d3274_3c2aa9f9",
+        "filename": "java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-04T12:03:59Z",
+      "side": 1,
+      "message": "I renamed it to problem info. But I think single string is enough - it just means it needs to be deleted.",
+      "parentUuid": "558baac1_461426ab",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "8c150e83ebb393bc5dcdbf620a897f561f145d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c9176df_6c57cbe0",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-02-04T11:51:39Z",
       "side": 1,
       "message": "Looks like you are missing an import for ResourceConflictException.",
+      "revId": "8c150e83ebb393bc5dcdbf620a897f561f145d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33590d1a_39cf5e41",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-04T12:03:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c9176df_6c57cbe0",
       "revId": "8c150e83ebb393bc5dcdbf620a897f561f145d80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

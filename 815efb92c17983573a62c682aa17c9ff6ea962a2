@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edbc92ec_b3518f9b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-04T08:48:48Z",
+      "side": 1,
+      "message": "The `repo` and `rw` are used in the `writeTo()` method of `BinaryResult` at L127-L138. Because it will be returned as results of this method and invoked when the client will consume the body, we do not have the luxury to know when it will have to be closed. Therefore it is passed downstream and closed after use.\n\n@geminica.programs@gmail.com had a good comment on refactoring this code and avoiding the have a loitering `repo` and `rw` open resources. However, I would like to differentiate fixes and refactorings in separate changes.",
+      "parentUuid": "fc34435c_904409db",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 79
+      },
+      "revId": "815efb92c17983573a62c682aa17c9ff6ea962a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ac8d452_69768876",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-04T08:40:49Z",
       "side": 1,
       "message": "What\u0027s this logic behind the `close` boolean?\nAt L143 we are now closing the `repo` unconditionally, whilst the previous code was intentionally keeping the `repo` open in virtue of L177?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 7
+      },
+      "revId": "815efb92c17983573a62c682aa17c9ff6ea962a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c564bb5_8abb9c1d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-04T08:48:48Z",
+      "side": 1,
+      "message": "\u003e What\u0027s this logic behind the `close` boolean?\n\u003e At L143 we are now closing the `repo` unconditionally, whilst the previous code was intentionally keeping the `repo` open in virtue of L177?\n\nFollowing the code, it becomes clear that the `close` flag is used to differentiate the cases where the `close` needs to happen immediately or has to be delayed.\n\nIf the object is passed downstream to the response object, then `close \u003d false` and `close \u003d true` otherwise.",
+      "parentUuid": "8ac8d452_69768876",
       "range": {
         "startLine": 187,
         "startChar": 0,

@@ -19,6 +19,7 @@ import java.util.Objects;
 public class ProjectWatchInfo {
   public String project;
   public String filter;
+  public String error;
 
   public Boolean notifyNewChanges;
   public Boolean notifyNewPatchSets;
@@ -32,6 +33,7 @@ public class ProjectWatchInfo {
       ProjectWatchInfo w = (ProjectWatchInfo) obj;
       return Objects.equals(project, w.project)
           && Objects.equals(filter, w.filter)
+          && Objects.equals(error, w.error)
           && Objects.equals(notifyNewChanges, w.notifyNewChanges)
           && Objects.equals(notifyNewPatchSets, w.notifyNewPatchSets)
           && Objects.equals(notifyAllComments, w.notifyAllComments)
@@ -46,6 +48,7 @@ public class ProjectWatchInfo {
     return Objects.hash(
         project,
         filter,
+        error,
         notifyNewChanges,
         notifyNewPatchSets,
         notifyAllComments,
@@ -60,6 +63,9 @@ public class ProjectWatchInfo {
     b.append(project);
     if (filter != null) {
       b.append("%filter=").append(filter);
+    }
+    if (error != null) {
+      b.append("%error=").append(error);
     }
     b.append("(notifyAbandonedChanges=")
         .append(toBoolean(notifyAbandonedChanges))

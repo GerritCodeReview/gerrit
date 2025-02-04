@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -53,13 +55,18 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   private final PermissionBackend permissionBackend;
   private final Provider<IdentifiedUser> self;
   private final Accounts accounts;
+  private final ProjectsCollection projectsCollection;
 
   @Inject
   public GetWatchedProjects(
-      PermissionBackend permissionBackend, Provider<IdentifiedUser> self, Accounts accounts) {
+      PermissionBackend permissionBackend,
+      Provider<IdentifiedUser> self,
+      Accounts accounts,
+      ProjectsCollection projectsCollection) {
     this.permissionBackend = permissionBackend;
     this.self = self;
     this.accounts = accounts;
+    this.projectsCollection = projectsCollection;
   }
 
   @Override
@@ -84,11 +91,16 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
             .collect(toList()));
   }
 
-  private static ProjectWatchInfo toProjectWatchInfo(
+  private ProjectWatchInfo toProjectWatchInfo(
       ProjectWatchKey key, ImmutableSet<NotifyType> watchTypes) {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.filter = key.filter();
     pwi.project = key.project().get();
+    try {
+      var unused = projectsCollection.parse(key.project().get());
+    } catch (RestApiException | IOException | PermissionBackendException e) {
+      pwi.problem = e.getMessage();
+    }
     pwi.notifyAbandonedChanges = toBoolean(watchTypes.contains(NotifyType.ABANDONED_CHANGES));
     pwi.notifyNewChanges = toBoolean(watchTypes.contains(NotifyType.NEW_CHANGES));
     pwi.notifyNewPatchSets = toBoolean(watchTypes.contains(NotifyType.NEW_PATCHSETS));

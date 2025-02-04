@@ -3009,6 +3009,7 @@ for a user.
 |Field Name                 |        |Description
 |`project`                  |        |The name of the project.
 |`filter`                   |optional|A filter string to be applied to the project.
+|`problem`                  |optional|An error message when project is for example hidden or deleted.
 |`notify_new_changes`       |optional|Notify on new changes.
 |`notify_new_patch_sets`    |optional|Notify on new patch sets.
 |`notify_all_comments`      |optional|Notify on comments.

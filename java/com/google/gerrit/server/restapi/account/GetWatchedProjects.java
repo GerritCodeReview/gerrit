@@ -35,6 +35,8 @@ import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -53,13 +55,18 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   private final PermissionBackend permissionBackend;
   private final Provider<IdentifiedUser> self;
   private final Accounts accounts;
+  private final ProjectsCollection projectsCollection;
 
   @Inject
   public GetWatchedProjects(
-      PermissionBackend permissionBackend, Provider<IdentifiedUser> self, Accounts accounts) {
+      PermissionBackend permissionBackend,
+      Provider<IdentifiedUser> self,
+      Accounts accounts,
+      ProjectsCollection projectsCollection) {
     this.permissionBackend = permissionBackend;
     this.self = self;
     this.accounts = accounts;
+    this.projectsCollection = projectsCollection;
   }
 
   @Override
@@ -84,11 +91,16 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
             .collect(toList()));
   }
 
-  private static ProjectWatchInfo toProjectWatchInfo(
+  private ProjectWatchInfo toProjectWatchInfo(
       ProjectWatchKey key, ImmutableSet<NotifyType> watchTypes) {
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.filter = key.filter();
     pwi.project = key.project().get();
+    try {
+      projectsCollection.parse(key.project().get());
+    } catch (ResourceConflictException e) {
+      pwi.error = e.getMessage();
+    }
     pwi.notifyAbandonedChanges = toBoolean(watchTypes.contains(NotifyType.ABANDONED_CHANGES));
     pwi.notifyNewChanges = toBoolean(watchTypes.contains(NotifyType.NEW_CHANGES));
     pwi.notifyNewPatchSets = toBoolean(watchTypes.contains(NotifyType.NEW_PATCHSETS));

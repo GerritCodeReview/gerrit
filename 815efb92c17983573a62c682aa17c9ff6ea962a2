@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc34435c_904409db",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-04T08:40:49Z",
+      "side": 1,
+      "message": "why not opening repo and rw together in a `try-with-resources` and loose the `finally` block altogether?\n\n```\ntry (Repository repo \u003d repoManager.openRepository(rsrc.getProject()); RevWalk rw \u003d new RevWalk(repo)) {\n...\n}\n```",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 79
+      },
+      "revId": "815efb92c17983573a62c682aa17c9ff6ea962a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ac8d452_69768876",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-04T08:40:49Z",
+      "side": 1,
+      "message": "What\u0027s this logic behind the `close` boolean?\nAt L143 we are now closing the `repo` unconditionally, whilst the previous code was intentionally keeping the `repo` open in virtue of L177?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 7
+      },
+      "revId": "815efb92c17983573a62c682aa17c9ff6ea962a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

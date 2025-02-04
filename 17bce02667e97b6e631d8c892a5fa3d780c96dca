@@ -16,6 +16,24 @@
       "message": "Maybe already at this change, accept `writer` as a contructor parameter",
       "revId": "17bce02667e97b6e631d8c892a5fa3d780c96dca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f64a34f5_82defcba",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-04T10:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c338e8be_b2de8a8f",
+      "revId": "17bce02667e97b6e631d8c892a5fa3d780c96dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

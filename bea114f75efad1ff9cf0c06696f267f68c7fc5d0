@@ -34,6 +34,24 @@
       "parentUuid": "e573b686_0812593b",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d594f71d_ddc7ccac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-04T08:34:06Z",
+      "side": 1,
+      "message": "Thanks! Yes, we might be able to reuse \u0027GrantReviewPermission\u0027 for our migration.\nIt\u0027s possible that we need to split this CL, so that we can assign the permission before it is being checked, but we will see about this later.",
+      "parentUuid": "37adcb1f_29992824",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "4c77913eb8e4d891301dbcbc0d1fcece423cc96f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "871b8754_a74fd4fa",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-04T12:03:02Z",
+      "side": 0,
+      "message": "Precisely, this code is missing in current PS as `rw` is unconditionally opened in line #104 and in case when no OK response returned it will stay like that forever...",
+      "parentUuid": "2c923516_1de74765",
+      "range": {
+        "startLine": 182,
+        "startChar": 10,
+        "endLine": 182,
+        "endChar": 21
+      },
+      "revId": "4c77913eb8e4d891301dbcbc0d1fcece423cc96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

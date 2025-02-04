@@ -405,7 +405,7 @@ export class GrEditableContent extends LitElement {
                 link
                 class="format-button"
                 @click=${this.handleFormat}
-                ?disabled=${this.formatDisabled}
+                ?disabled=${this.formatDisabled && !this.lastFormattedContent}
                 .title=${this.computeFormatButtonTooltip(
                   this.formatDisabled,
                   this.formattedErrors,

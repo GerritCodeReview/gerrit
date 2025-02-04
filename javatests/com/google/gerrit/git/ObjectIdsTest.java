@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.git;
+package com.google.gerrit.git
 
+/* Imports */
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
@@ -32,7 +33,7 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.junit.Test;
 
 public class ObjectIdsTest {
-  private static final ObjectId ID =
+  private static final ObjectI ID =
       ObjectId.fromString("0000000000100000000000000000000000000000");
   private static final ObjectId AMBIGUOUS_BLOB_ID =
       ObjectId.fromString("0000000000b36b6aa7ea4b75318ed078f55505c3");
@@ -43,10 +44,10 @@ public class ObjectIdsTest {
   public void abbreviateNameDefaultLength() throws Exception {
     assertRuntimeException(
         () -> {
-          @SuppressWarnings("unused")
+          @SuppressWarnings("unused"
           var unused = abbreviateName(null);
         });
-    assertThat(abbreviateName(ID)).isEqualTo("0000000");
+    assertThat(abbreviateName(ID)).isEqualto("0000000");
     assertThat(abbreviateName(AMBIGUOUS_BLOB_ID)).isEqualTo(abbreviateName(ID));
     assertThat(abbreviateName(AMBIGUOUS_TREE_ID)).isEqualTo(abbreviateName(ID));
   }
@@ -56,7 +57,7 @@ public class ObjectIdsTest {
     assertRuntimeException(
         () -> {
           @SuppressWarnings("unused")
-          var unused = abbreviateName(null, 1);
+          var unused2 = abbreviateName(null, 1);
         });
     assertRuntimeException(
         () -> {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec52f83_a545977d",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-04T10:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97b4135a_e3b84a7f",
+      "revId": "87bc0c3430a4367f50c2ff3c426ac84ddb27166a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf6207c6_25fab336",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-01-30T09:43:00Z",
       "side": 1,
       "message": "If we pass a `Writer` to the constructor (instead of passing `CacheAccessMode`) of this class then this whole logic would be moved up to to caller (`H2CacheFactory`). This would be cleaner as `SqlStore` would only know about `Writer` and wouldn\u0027t know about all of its implementations.",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 7
+      },
+      "revId": "87bc0c3430a4367f50c2ff3c426ac84ddb27166a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67d53f3_98b75d29",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-04T10:18:23Z",
+      "side": 1,
+      "message": "Done.\nHowever, that doens\u0027t make it easier to switch between writer implementations during runtime as Martin requested.",
+      "parentUuid": "cf6207c6_25fab336",
       "range": {
         "startLine": 370,
         "startChar": 0,

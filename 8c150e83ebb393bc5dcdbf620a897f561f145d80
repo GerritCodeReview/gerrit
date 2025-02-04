@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4460d277_c740143f",
+        "filename": "java/com/google/gerrit/extensions/client/ProjectWatchInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-04T12:12:58Z",
+      "side": 1,
+      "message": "Sorry, I meant we should rename the ConsistencyProblemInfo to ProblemInfo, if we are going to use it here as a type. The field name should not contain the \"Info\" suffix, and nameing it \"error\" is just fine (\"problem\" also works).",
+      "parentUuid": "777d3274_3c2aa9f9",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "8c150e83ebb393bc5dcdbf620a897f561f145d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c9176df_6c57cbe0",
         "filename": "java/com/google/gerrit/server/restapi/account/GetWatchedProjects.java",
         "patchSetId": 5

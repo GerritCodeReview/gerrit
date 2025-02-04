@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4ee292_a05aa5ba",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-04T11:32:27Z",
+      "side": 1,
+      "message": "Since we already have `Set\u003cCacheOptions\u003e` maybe, instead of a new parameter here and a new `CacheAccesMode` enum, we could just add a new constant `READ_ONLY` to the `CacheOptions`?",
+      "revId": "141a181d98b72b9a9fbe1175265c4209a88d221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c0b90f7_c90ca73b",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-04T13:50:22Z",
+      "side": 1,
+      "message": "Good idea",
+      "parentUuid": "37869602_53e2bed7",
+      "range": {
+        "startLine": 211,
+        "startChar": 18,
+        "endLine": 211,
+        "endChar": 57
+      },
+      "revId": "da00640651dfc072995b242cb551b23b5fe515bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd04826a_f220b692",
@@ -55,6 +79,24 @@
           ]
         }
       ],
+      "revId": "da00640651dfc072995b242cb551b23b5fe515bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de641deb_b195f891",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-04T13:50:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd04826a_f220b692",
       "revId": "da00640651dfc072995b242cb551b23b5fe515bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

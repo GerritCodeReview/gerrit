@@ -19,6 +19,7 @@ import java.util.Objects;
 public class ProjectWatchInfo {
   public String project;
   public String filter;
+  public String access;
 
   public Boolean notifyNewChanges;
   public Boolean notifyNewPatchSets;
@@ -46,6 +47,7 @@ public class ProjectWatchInfo {
     return Objects.hash(
         project,
         filter,
+        access,
         notifyNewChanges,
         notifyNewPatchSets,
         notifyAllComments,
@@ -60,6 +62,9 @@ public class ProjectWatchInfo {
     b.append(project);
     if (filter != null) {
       b.append("%filter=").append(filter);
+    }
+    if (access != null) {
+      b.append("%access=").append(access);
     }
     b.append("(notifyAbandonedChanges=")
         .append(toBoolean(notifyAbandonedChanges))

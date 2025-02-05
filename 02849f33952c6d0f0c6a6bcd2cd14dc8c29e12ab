@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26fd6d67_8823271f",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-05T17:55:42Z",
+      "side": 1,
+      "message": "I agree that factoring out the bloomfilter stuff can be valuable, and I have done that here https://gerrit-review.googlesource.com/c/gerrit/+/448161 \n\nI think that the approach in this change makes things more complicated instead of simplifying things. The new interfaces are extra complications, and this code brings along internals about the DB which are better left in the DB classes. The end result is a class which does not have a single concern of bloomfilters, and creates extra interdependent layers which have to be traversed when trying to understand the code.",
+      "revId": "02849f33952c6d0f0c6a6bcd2cd14dc8c29e12ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

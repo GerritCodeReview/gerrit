@@ -2624,7 +2624,7 @@ suite('gr-change-actions tests', () => {
 
       suite('failure modes', () => {
         test('non-latest', () => {
-          stubRestApi('getChange').returns(
+          stubRestApi('getChangeDetail').returns(
             Promise.resolve({
               ...createChangeViewChange(),
               // new patchset was uploaded
@@ -2653,7 +2653,7 @@ suite('gr-change-actions tests', () => {
         });
 
         test('send fails', () => {
-          stubRestApi('getChange').returns(
+          stubRestApi('getChangeDetail').returns(
             Promise.resolve({
               ...createChangeViewChange(),
               // element has latest info
@@ -2690,28 +2690,17 @@ suite('gr-change-actions tests', () => {
         });
 
         test('revert single change change not reachable', async () => {
-          let getChangeCall = 0;
           let errorFired = false;
           stubRestApi('getChange').callsFake((_, errFn) => {
-            ++getChangeCall;
-            if (getChangeCall === 1) {
-              return Promise.resolve({
-                ...createChangeViewChange(),
-                // element has latest info
-                current_revision_number: element.latestPatchNum!,
-                messages: createChangeMessages(1),
-              });
+            // Mimics the behaviour of gr-rest-api-impl: If errFn is passed
+            // call it and return undefined, otherwise call fireNetworkError
+            // or fireServerError.
+            if (errFn) {
+              errFn.call(undefined);
             } else {
-              // Mimics the behaviour of gr-rest-api-impl: If errFn is passed
-              // call it and return undefined, otherwise call fireNetworkError
-              // or fireServerError.
-              if (errFn) {
-                errFn.call(undefined);
-              } else {
-                errorFired = true;
-              }
-              return Promise.resolve(undefined);
+              errorFired = true;
             }
+            return Promise.resolve(undefined);
           });
           const setUrlStub = sinon.stub(
             testResolver(navigationToken),

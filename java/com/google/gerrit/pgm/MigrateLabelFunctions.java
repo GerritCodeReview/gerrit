@@ -22,9 +22,14 @@ import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement.
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.util.ArrayList;
 import java.util.Set;
+import org.kohsuke.args4j.Option;
 
 public class MigrateLabelFunctions extends SiteProgram {
+
+  @Option(name = "--project", usage = "Project(s) to migrate")
+  private ArrayList<String> projects = new ArrayList<>();
 
   @Inject GitRepositoryManager gitRepoManager;
   @Inject MigrateLabelFunctionsToSubmitRequirement migrator;
@@ -34,12 +39,20 @@ public class MigrateLabelFunctions extends SiteProgram {
     Injector dbInjector = createDbInjector();
     dbInjector.injectMembers(this);
 
-    for (Project.NameKey name : gitRepoManager.list()) {
-      Status status = migrator.executeMigration(name, new UpdateUIImpl());
-      System.out.printf("%s: %s\n", status, name);
+    if (!projects.isEmpty()) {
+      migrateProjects(projects.stream().map(Project::nameKey).toList());
+    } else {
+      migrateProjects(gitRepoManager.list());
     }
 
     return 0;
+  }
+
+  private void migrateProjects(Iterable<Project.NameKey> projects) throws Exception {
+    for (Project.NameKey name : projects) {
+      Status status = migrator.executeMigration(name, new UpdateUIImpl());
+      System.out.printf("%s: %s\n", status, name);
+    }
   }
 
   private static class UpdateUIImpl implements UpdateUI {

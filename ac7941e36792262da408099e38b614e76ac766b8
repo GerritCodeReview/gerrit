@@ -22,6 +22,30 @@
       },
       "revId": "ac7941e36792262da408099e38b614e76ac766b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3b963f9_73896f0f",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-05T18:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73b80e73_477e811a",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 119
+      },
+      "revId": "ac7941e36792262da408099e38b614e76ac766b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

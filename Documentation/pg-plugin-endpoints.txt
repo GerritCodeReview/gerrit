@@ -186,6 +186,14 @@ This endpoint decorator wraps the formatted text.
 === header-title
 This endpoint wraps the title-text in the application header.
 
+=== footer-left
+This endpoint allows to add custom html elements next to the Gerrit version in the left side of the
+footer.
+
+=== footer-right
+This endpoint allows to add custom html elements next to the keyboard shortcuts prompt in the right
+side of the footer.
+
 === cherrypick-main
 This endpoint is located in the cherrypick dialog. It has two slots `top`
 and `bottom` and `changes` as a parameter with the list of changes (or

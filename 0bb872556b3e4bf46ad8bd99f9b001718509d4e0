@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac360911_2c7a3acf",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T10:05:15Z",
+      "side": 1,
+      "message": "Can we update the documentation here. We are clearly checking more than just if there is a newer patch.\n\nAnd @return below says that we return a boolean, which is not the case.",
+      "range": {
+        "startLine": 717,
+        "startChar": 0,
+        "endLine": 718,
+        "endChar": 43
+      },
+      "revId": "0bb872556b3e4bf46ad8bd99f9b001718509d4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66538d40_676970d3",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T10:05:15Z",
+      "side": 1,
+      "message": "This was replaced with getChange, because requesting all revisions are expensive on the backend.\n\nInstead of requesting all details. Can we construct custom Options hex that does same as GetChange but includes messages?\n\nI guess you would need to make new/adjust existing rest api method to accept options.",
+      "range": {
+        "startLine": 726,
+        "startChar": 45,
+        "endLine": 726,
+        "endChar": 60
+      },
+      "revId": "0bb872556b3e4bf46ad8bd99f9b001718509d4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

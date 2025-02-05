@@ -901,6 +901,7 @@ export interface Base64File {
 export interface ProjectWatchInfo {
   project: RepoName;
   filter?: string;
+  problem?: string;
   notify_new_changes?: boolean;
   notify_new_patch_sets?: boolean;
   notify_all_comments?: boolean;

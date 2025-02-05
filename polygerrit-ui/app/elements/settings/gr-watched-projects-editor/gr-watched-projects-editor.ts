@@ -79,6 +79,10 @@ export class GrWatchedProjectsEditor extends LitElement {
           font-style: italic;
           margin-left: var(--spacing-l);
         }
+        .projectProblem {
+          color: var(--error-text-color);
+          margin-left: var(--spacing-l);
+        }
         .newFilterInput {
           width: 100%;
         }
@@ -138,6 +142,13 @@ export class GrWatchedProjectsEditor extends LitElement {
         ${when(
           project.filter,
           () => html`<div class="projectFilter">${project.filter}</div>`
+        )}
+        ${when(
+          project.problem,
+          () =>
+            html`<div class="projectProblem" title="Consider removing watch">
+              ${project.problem}
+            </div>`
         )}
       </td>
       ${types.map(type => this.renderNotifyControl(project, type.key))}

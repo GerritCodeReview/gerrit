@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-interface CommitMessage {
+export interface CommitMessage {
   subject: string;
   body: string[];
   footer: string[];
@@ -239,7 +239,7 @@ function detectFormattingErrors(
   }
 
   // Check body
-  let lineNumber = 2;
+  let lineNumber = 3;
   let inCodeBlock = false;
 
   for (const line of message.body) {
@@ -270,7 +270,7 @@ function detectFormattingErrors(
   }
 
   // Check footer
-  lineNumber = message.body.length + 2;
+  lineNumber = message.body.length + 4;
   for (const line of message.footer) {
     if (line.trim().startsWith('```')) {
       inCodeBlock = !inCodeBlock;
@@ -308,7 +308,7 @@ function detectFormattingErrors(
   return errors;
 }
 
-function parseCommitMessageString(messageString: string): CommitMessage {
+export function parseCommitMessageString(messageString: string): CommitMessage {
   const lines = messageString.split('\n');
   // Remove leading blank lines
   while (lines.length > 0 && lines[0].trim() === '') {
@@ -333,25 +333,31 @@ function parseCommitMessageString(messageString: string): CommitMessage {
   hasTrailingBlankLine =
     lines.length > 0 && lines[lines.length - 1].trim() === '';
 
-  // Find the start of the footer (from the end)
-  let footerStartIndex = lines.length - 1;
+  // Footers start after the blank line separating body and footer.
+  let footerStartIndex = lines.length;
   for (let i = lines.length - 1; i >= 1; i--) {
-    if (lines[i].trim() !== '') {
-      footerStartIndex = i + 1;
+    if (hasTrailingBlankLine && i === lines.length - 1) {
+      continue;
     }
-    if (lines[i].trim() !== '' && i - 1 >= 1 && lines[i - 1].trim() === '') {
-      footerStartIndex = i;
-      break; // Found footer start
+    if (lines[i].trim() === '') {
+      footerStartIndex = i + 1;
+      break;
     }
   }
 
   // Extract footer lines (if any)
   for (let i = footerStartIndex; i < lines.length; i++) {
+    if (hasTrailingBlankLine && i === lines.length - 1) {
+      continue;
+    }
     footer.push(lines[i]);
   }
 
   // Extract body lines (if any)
   for (let i = 1; i < footerStartIndex; i++) {
+    if ((i === 1 || i === footerStartIndex - 1) && lines[i].trim() === '') {
+      continue;
+    }
     body.push(lines[i]);
   }
 
@@ -384,3 +390,5 @@ export function detectFormattingErrorsInString(
   const commitMessage = parseCommitMessageString(messageString);
   return detectFormattingErrors(commitMessage, messageString);
 }
+
+export const TEST_ONLY = {parseCommitMessageString};

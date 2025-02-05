@@ -723,7 +723,7 @@ export class ChangeModel extends Model<ChangeState> {
    */
   async fetchChangeUpdates(change: ChangeInfo | ParsedChangeInfo) {
     const knownLatest = change.current_revision_number;
-    const detail = await this.restApiService.getChange(change._number);
+    const detail = await this.restApiService.getChangeDetail(change._number);
     if (!detail) {
       throw new Error('Change request failed.');
     }

@@ -210,6 +210,20 @@ suite('commit-message-formatter-util tests', () => {
       );
     });
 
+    test('subject too long produces only 1 error', () => {
+      const longSubject =
+        'Fix(some-component): This is a very long subject that exceeds 72 characters';
+      const message = longSubject;
+      const errors = detectFormattingErrorsInString(message);
+      assertError(
+        errors,
+        ErrorType.SUBJECT_TOO_LONG,
+        1,
+        'Subject exceeds 72 characters'
+      );
+      assert.equal(errors.length, 1);
+    });
+
     test('subject has leading spaces', () => {
       const message =
         '  Fix the thing\n\nThis is the body.\n\nChange-Id: abcdefg\n';

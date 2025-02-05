@@ -211,7 +211,8 @@ export interface RestApiService extends Finalizable {
    */
   getChange(
     changeNum: ChangeId | NumericChangeId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
+    optionsHex?: string
   ): Promise<ChangeInfo | undefined>;
 
   savePreferences(

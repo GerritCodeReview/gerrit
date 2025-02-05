@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "881f00f2_06ee0f30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-05T09:10:17Z",
+      "side": 1,
+      "message": "I have verified E2E that:\n- The new tests is a NOOP for the default \"fake\" index type (Google use-case)\n- The new tests are executed and passing when using the \"lucene\" index type (Gerrit Community use-case)",
+      "revId": "a6250b4dbc6f11e11c6b73e4068616ec4136b94d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

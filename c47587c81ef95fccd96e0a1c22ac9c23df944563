@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "393ac87b_a61d10e2",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T10:27:34Z",
+      "side": 1,
+      "message": "whether there are new",
+      "range": {
+        "startLine": 718,
+        "startChar": 19,
+        "endLine": 718,
+        "endChar": 26
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "39c1b0a0_72995a5d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 718,
+                "startChar": 0,
+                "endLine": 719,
+                "endChar": 0
+              },
+              "replacement": "   * Check whether there are new updates on the change.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85fe5620_457021f2",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T10:27:34Z",
+      "side": 1,
+      "message": "unnecessary \"and\"?",
+      "range": {
+        "startLine": 721,
+        "startChar": 13,
+        "endLine": 721,
+        "endChar": 17
+      },
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c476effa_c176cd4a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3320,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T10:27:34Z",
+      "side": 1,
+      "message": "if the optionsHex is undefined, then url with Params will add \"?O\" to the url. Which I don\u0027t think would be legal argument.",
+      "range": {
+        "startLine": 3320,
+        "startChar": 24,
+        "endLine": 3320,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "314b6e2d_8fa25045",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+              "range": {
+                "startLine": 3313,
+                "startChar": 0,
+                "endLine": 3313,
+                "endChar": 0
+              },
+              "replacement": "    const params: FetchParams \u003d {};\n    if (optionsHex) {\n      params.O \u003d optionsHex;\n    }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+              "range": {
+                "startLine": 3320,
+                "startChar": 0,
+                "endLine": 3321,
+                "endChar": 0
+              },
+              "replacement": "            params,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

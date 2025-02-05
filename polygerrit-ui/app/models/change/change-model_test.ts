@@ -384,7 +384,7 @@ suite('change model tests', () => {
   });
 
   test('changeModel.fetchChangeUpdates on latest', async () => {
-    stubRestApi('getChange').returns(Promise.resolve(knownChangeNoRevision));
+    stubRestApi('getChangeDetail').returns(Promise.resolve(knownChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);
@@ -393,10 +393,10 @@ suite('change model tests', () => {
 
   test('changeModel.fetchChangeUpdates not on latest', async () => {
     const actualChange = {
-      ...knownChangeNoRevision,
+      ...knownChange,
       current_revision_number: 3 as PatchSetNumber,
     };
-    stubRestApi('getChange').returns(Promise.resolve(actualChange));
+    stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isFalse(result.isLatest);
     assert.isNotOk(result.newStatus);
@@ -405,10 +405,10 @@ suite('change model tests', () => {
 
   test('changeModel.fetchChangeUpdates new status', async () => {
     const actualChange = {
-      ...knownChangeNoRevision,
+      ...knownChange,
       status: ChangeStatus.MERGED,
     };
-    stubRestApi('getChange').returns(Promise.resolve(actualChange));
+    stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.equal(result.newStatus, ChangeStatus.MERGED);
@@ -417,10 +417,10 @@ suite('change model tests', () => {
 
   test('changeModel.fetchChangeUpdates new messages', async () => {
     const actualChange = {
-      ...knownChangeNoRevision,
+      ...knownChange,
       messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
     };
-    stubRestApi('getChange').returns(Promise.resolve(actualChange));
+    stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);

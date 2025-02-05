@@ -109,6 +109,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <label for="rebaseAllowConflicts">
               Allow rebase with conflicts
             </label>
+            <gr-validation-options> </gr-validation-options>
           </div>
         </div>
       </gr-dialog> `

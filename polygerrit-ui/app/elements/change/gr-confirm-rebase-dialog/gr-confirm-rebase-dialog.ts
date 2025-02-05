@@ -15,9 +15,11 @@ import {
   EmailInfo,
   NumericChangeId,
   GitPersonInfo,
+  ValidationOptionsInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../gr-validation-options/gr-validation-options';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
@@ -34,6 +36,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {formStyles} from '../../../styles/form-styles';
+import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 
 export interface RebaseChange {
   name: string;
@@ -124,6 +127,12 @@ export class GrConfirmRebaseDialog
 
   @query('#parentInput')
   parentInput!: GrAutocomplete;
+
+  @query('gr-validation-options')
+  private validationOptionsEl?: GrValidationOptions;
+
+  @state()
+  validationOptions?: ValidationOptionsInfo;
 
   @state()
   account?: AccountDetailInfo;
@@ -325,6 +334,9 @@ export class GrConfirmRebaseDialog
             <label for="rebaseAllowConflicts"
               >Allow rebase with conflicts</label
             >
+            <gr-validation-options
+              .validationOptions=${this.validationOptions}
+            ></gr-validation-options>
           </div>
           ${when(
             !this.isCurrentUserEqualToLatestUploader() && this.allowConflicts,
@@ -377,12 +389,31 @@ export class GrConfirmRebaseDialog
     `;
   }
 
+  getValidationOptions() {
+    return this.validationOptionsEl?.getSelectedOptions() ?? [];
+  }
+
   // This is called by gr-change-actions every time the rebase dialog is
   // re-opened. Unlike other autocompletes that make a request with each
   // updated input, this one gets all recent changes once and then filters
   // them by the input. The query is re-run each time the dialog is opened
   // in case there are new/updated changes in the generic query since the
   // last time it was run.
+  initiateFetchInfo() {
+    this.fetchRecentChanges();
+    this.fetchValidationOptions();
+  }
+
+  async fetchValidationOptions() {
+    this.validationOptions = {validation_options: []};
+    if (!this.changeNum) {
+      return;
+    }
+    this.validationOptions = await this.restApiService.getValidationOptions(
+      this.changeNum
+    );
+  }
+
   fetchRecentChanges() {
     return this.restApiService
       .getChanges(

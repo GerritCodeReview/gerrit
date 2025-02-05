@@ -16,6 +16,7 @@ import {
   PatchSetNumber,
   CommitId,
   RevisionInfo,
+  ListChangesOption,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
@@ -41,7 +42,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
-import {isOwner} from '../../utils/change-util';
+import {isOwner, listChangesOptionsToHex} from '../../utils/change-util';
 import {
   ChangeChildView,
   ChangeViewModel,
@@ -723,7 +724,11 @@ export class ChangeModel extends Model<ChangeState> {
    */
   async fetchChangeUpdates(change: ChangeInfo | ParsedChangeInfo) {
     const knownLatest = change.current_revision_number;
-    const detail = await this.restApiService.getChange(change._number);
+    const detail = await this.restApiService.getChange(
+      change._number,
+      undefined,
+      listChangesOptionsToHex(ListChangesOption.MESSAGES)
+    );
     if (!detail) {
       throw new Error('Change request failed.');
     }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e41a24_e50f56f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 1671,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T14:17:45Z",
+      "side": 1,
+      "message": "Maybe add a comment here. That since we are using checkboxes this would only work for ValidationOptions that don\u0027t care about the value.",
+      "range": {
+        "startLine": 1667,
+        "startChar": 4,
+        "endLine": 1671,
+        "endChar": 6
+      },
+      "revId": "c7e028a3425221698db21ca7254994af6469b02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6942dbe7_2df4330c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T14:17:45Z",
+      "side": 1,
+      "message": "Using @query is probably can make it look simpler (https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts;drc\u003d25e53d8a567502aa25e7fcf67c256d0c742e48e4;l\u003d29)",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 36
+      },
+      "revId": "c7e028a3425221698db21ca7254994af6469b02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

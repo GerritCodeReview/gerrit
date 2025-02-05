@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIdsSameAccountChecker;
+import com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -1080,7 +1081,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   private void preprocessUpsert(ExternalId extId) {
-    upsertPreprocessors.forEach(p -> p.get().upsert(extId));
+    upsertPreprocessors.forEach(p -> p.get().upsert(extId, AccountsUpdateNoteDbImpl.class));
   }
 
   @FunctionalInterface

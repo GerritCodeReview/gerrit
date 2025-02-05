@@ -193,7 +193,7 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
     boolean throwException = false;
 
     @Override
-    public void upsert(ExternalId extId) {
+    public void upsert(ExternalId extId, Class<? extends AccountsUpdate> accountsUpdateImplClz) {
       assertThat(extId.blobId()).isNotNull();
       if (throwException) {
         throw new StorageException("upsert not good");

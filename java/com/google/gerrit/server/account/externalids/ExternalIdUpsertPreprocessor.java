@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account.externalids;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 
 /**
@@ -26,6 +27,10 @@ public interface ExternalIdUpsertPreprocessor {
    * Called when inserting or updating an external ID. {@link ExternalId#blobId()} is set. The
    * upsert can be blocked by throwing {@link com.google.gerrit.exceptions.StorageException}, e.g.
    * when a precondition or preparatory work fails.
+   *
+   * @param extId - the external ID to upsert
+   * @param accountsUpdateImplClz - the {@link AccountsUpdate} implementation class that is used to
+   *     update the storage to which the ExternalId is upsert.
    */
-  void upsert(ExternalId extId);
+  void upsert(ExternalId extId, Class<? extends AccountsUpdate> accountsUpdateImplClz);
 }

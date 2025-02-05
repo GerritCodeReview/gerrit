@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-interface CommitMessage {
+export interface CommitMessage {
   subject: string;
   body: string[];
   footer: string[];
@@ -239,7 +239,7 @@ function detectFormattingErrors(
   }
 
   // Check body
-  let lineNumber = 2;
+  let lineNumber = 3;
   let inCodeBlock = false;
 
   for (const line of message.body) {
@@ -270,7 +270,7 @@ function detectFormattingErrors(
   }
 
   // Check footer
-  lineNumber = message.body.length + 2;
+  lineNumber = message.body.length + 4;
   for (const line of message.footer) {
     if (line.trim().startsWith('```')) {
       inCodeBlock = !inCodeBlock;
@@ -316,8 +316,8 @@ function parseCommitMessageString(messageString: string): CommitMessage {
   }
 
   let subject = '';
-  const body: string[] = [];
-  const footer: string[] = [];
+  let body: string[] = [];
+  let footer: string[] = [];
   let hasTrailingBlankLine = false;
 
   if (lines.length === 0) {
@@ -333,29 +333,46 @@ function parseCommitMessageString(messageString: string): CommitMessage {
   hasTrailingBlankLine =
     lines.length > 0 && lines[lines.length - 1].trim() === '';
 
-  // Find the start of the footer (from the end)
-  let footerStartIndex = lines.length - 1;
-  for (let i = lines.length - 1; i >= 1; i--) {
-    if (lines[i].trim() !== '') {
-      footerStartIndex = i + 1;
-    }
-    if (lines[i].trim() !== '' && i - 1 >= 1 && lines[i - 1].trim() === '') {
-      footerStartIndex = i;
-      break; // Found footer start
-    }
+  const footerStartIndex = findLastParagraphStartIndex(
+    lines,
+    hasTrailingBlankLine ? lines.length - 2 : lines.length - 1
+  );
+
+  footer = lines.slice(footerStartIndex, lines.length);
+  if (hasTrailingBlankLine) {
+    footer.pop();
   }
 
-  // Extract footer lines (if any)
-  for (let i = footerStartIndex; i < lines.length; i++) {
-    footer.push(lines[i]);
-  }
-
-  // Extract body lines (if any)
-  for (let i = 1; i < footerStartIndex; i++) {
-    body.push(lines[i]);
-  }
+  // Extract body lines, removing all leading/trailing blank lines
+  body = lines.slice(
+    firstNonEmptyLineIndex(lines, 2, /* direction */ 1),
+    firstNonEmptyLineIndex(lines, footerStartIndex - 1, /* direction */ -1) + 1
+  );
 
   return {subject, body, footer, hasTrailingBlankLine};
+}
+
+function findLastParagraphStartIndex(
+  lines: string[],
+  lastIndex: number
+): number {
+  for (let i = lastIndex; i >= 1; i--) {
+    if (lines[i].trim() === '') {
+      return i + 1;
+    }
+  }
+  return lines.length;
+}
+
+function firstNonEmptyLineIndex(
+  lines: string[],
+  index: number,
+  direction: number
+): number {
+  while (index >= 0 && index < lines.length && lines[index].trim() === '') {
+    index += direction;
+  }
+  return index;
 }
 
 function formatCommitMessageToString(message: CommitMessage): string {
@@ -384,3 +401,5 @@ export function detectFormattingErrorsInString(
   const commitMessage = parseCommitMessageString(messageString);
   return detectFormattingErrors(commitMessage, messageString);
 }
+
+export const TEST_ONLY = {parseCommitMessageString};

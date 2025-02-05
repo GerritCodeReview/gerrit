@@ -333,7 +333,7 @@ suite('gr-editable-content tests', () => {
       assert.equal(formatButton.textContent?.trim(), 'Format');
 
       // Set some content that needs formatting
-      element.newContent = 'line1    \nline2     \nline3';
+      element.newContent = 'line1    \n\nline2     \n\nline3';
       await element.updateComplete;
 
       // Click format
@@ -354,7 +354,7 @@ suite('gr-editable-content tests', () => {
       assert.equal(formatButton.textContent?.trim(), 'Format');
 
       // Content should be back to original
-      assert.equal(element.newContent, 'line1    \nline2     \nline3');
+      assert.equal(element.newContent, 'line1    \n\nline2     \n\nline3');
     });
 
     test('reverts to Format when content is modified after formatting', async () => {

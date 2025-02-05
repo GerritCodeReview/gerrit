@@ -3307,7 +3307,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChange(
     changeNum: ChangeId | NumericChangeId,
-    errFn: ErrorCallback
+    errFn: ErrorCallback,
+    optionsHex?: string
   ): Promise<ChangeInfo | undefined> {
     if (changeNum in this._projectLookup) {
       // _projectLookup can only store NumericChangeId, so we are sure that
@@ -3316,6 +3317,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         this._restApiHelper.fetchJSON(
           {
             url,
+            params: optionsHex ? {O: optionsHex} : undefined,
             errFn,
             anonymizedUrl: '/changes/*~*',
           },

@@ -16,6 +16,7 @@ import {
   PatchSetNumber,
   CommitId,
   RevisionInfo,
+  ListChangesOption,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
@@ -41,7 +42,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
-import {isOwner} from '../../utils/change-util';
+import {isOwner, listChangesOptionsToHex} from '../../utils/change-util';
 import {
   ChangeChildView,
   ChangeViewModel,
@@ -714,16 +715,18 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   /**
-   * Check whether there is no newer patch than the latest patch that was
-   * available when this change was loaded.
+   * Check whether there are new updates on the change.
    *
-   * @return A promise that yields true if the latest patch
-   *     has been loaded, and false if a newer patch has been uploaded in the
-   *     meantime. The promise is rejected on network error.
+   * @return The state of the latest change compared with the argument.
+   * Callers can use the delta to show certain notifications to users.
    */
   async fetchChangeUpdates(change: ChangeInfo | ParsedChangeInfo) {
     const knownLatest = change.current_revision_number;
-    const detail = await this.restApiService.getChange(change._number);
+    const detail = await this.restApiService.getChange(
+      change._number,
+      undefined,
+      listChangesOptionsToHex(ListChangesOption.MESSAGES)
+    );
     if (!detail) {
       throw new Error('Change request failed.');
     }

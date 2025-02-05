@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "976ab290_3f7e2ad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-05T10:31:42Z",
+      "side": 1,
+      "message": "Please, also update the change message",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "393ac87b_a61d10e2",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 5

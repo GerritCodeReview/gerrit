@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57729bcb_f7fe8624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T10:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "976ab290_3f7e2ad3",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "393ac87b_a61d10e2",
@@ -65,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d84f6d2b_9c814735",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T10:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "393ac87b_a61d10e2",
+      "range": {
+        "startLine": 718,
+        "startChar": 19,
+        "endLine": 718,
+        "endChar": 26
+      },
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85fe5620_457021f2",
@@ -78,6 +126,30 @@
       "writtenOn": "2025-02-05T10:27:34Z",
       "side": 1,
       "message": "unnecessary \"and\"?",
+      "range": {
+        "startLine": 721,
+        "startChar": 13,
+        "endLine": 721,
+        "endChar": 17
+      },
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47534c34_a3f14b0e",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T10:33:50Z",
+      "side": 1,
+      "message": "Meant to write \"can\".",
+      "parentUuid": "85fe5620_457021f2",
       "range": {
         "startLine": 721,
         "startChar": 13,
@@ -135,6 +207,30 @@
           ]
         }
       ],
+      "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7936761_abb75764",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3320,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T10:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c476effa_c176cd4a",
+      "range": {
+        "startLine": 3320,
+        "startChar": 24,
+        "endLine": 3320,
+        "endChar": 34
+      },
       "revId": "c47587c81ef95fccd96e0a1c22ac9c23df944563",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

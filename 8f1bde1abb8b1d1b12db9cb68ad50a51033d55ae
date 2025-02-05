@@ -213,6 +213,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f02927d_1a45458e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T13:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bfb69c1_614f1c07",
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba94b98e_ede25d22",
@@ -226,6 +244,30 @@
       "writtenOn": "2025-02-03T11:46:51Z",
       "side": 1,
       "message": "This variable is not passed anywhere, does it work?",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 44
+      },
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "410437a2_8eb36d59",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T13:56:14Z",
+      "side": 1,
+      "message": "Intially I was not passing due to waiting for some BE change but now I\u0027m passing the property.",
+      "parentUuid": "ba94b98e_ede25d22",
       "range": {
         "startLine": 62,
         "startChar": 3,
@@ -273,6 +315,30 @@
       "side": 1,
       "message": "This is similar to how `BulkActions` handle it\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts;l\u003d85?q\u003d%22toggleSelectedChangeNum(changeNum:%20NumericChangeId%22\n\nThe model updates itself when the checkbox is checked and it\u0027s used as the state for deciding which checkboxes to apply to.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts;l\u003d640?q\u003d%22this.getBulkActionsModel().toggleSelectedChangeNum%22\u0026sq\u003d",
       "parentUuid": "174cb317_3df66c87",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "8f1bde1abb8b1d1b12db9cb68ad50a51033d55ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98751efa_716013f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-05T13:56:14Z",
+      "side": 1,
+      "message": "As discussed offline, I am setting the property and not the attribute hence I need to set the value according to the map.\nUpdated.",
+      "parentUuid": "a787adc7_7ea996e5",
       "range": {
         "startLine": 57,
         "startChar": 21,

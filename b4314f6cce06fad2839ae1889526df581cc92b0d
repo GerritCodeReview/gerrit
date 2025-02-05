@@ -16,6 +16,24 @@
       "message": "Why not also move inner interfaces and classes into own files in the context of this refactoring?",
       "revId": "b4314f6cce06fad2839ae1889526df581cc92b0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d126256_80a0bdf6",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-05T08:02:12Z",
+      "side": 1,
+      "message": "I had the same thought, but would do that in a separate change after this refactoring.",
+      "parentUuid": "b5f48954_a972aec9",
+      "revId": "b4314f6cce06fad2839ae1889526df581cc92b0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

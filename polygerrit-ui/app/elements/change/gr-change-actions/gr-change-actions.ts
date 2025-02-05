@@ -1528,7 +1528,7 @@ export class GrChangeActions
       case RevisionActions.REBASE:
         assertIsDefined(this.confirmRebase, 'confirmRebase');
         this.showActionDialog(this.confirmRebase);
-        this.confirmRebase.fetchRecentChanges();
+        this.confirmRebase.fetchInfo();
         break;
       case RevisionActions.CHERRYPICK:
         this.handleCherrypickTap();

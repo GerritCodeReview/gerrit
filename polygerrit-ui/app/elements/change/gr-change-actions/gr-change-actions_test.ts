@@ -688,6 +688,54 @@ suite('gr-change-actions tests', () => {
       ]);
     });
 
+    test('rebase change with validation options', async () => {
+      const fireActionStub = sinon.stub(element, 'fireAction');
+      const fetchChangesStub = sinon
+        .stub(
+          queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase'),
+          'fetchRecentChanges'
+        )
+        .returns(Promise.resolve([]));
+      await element.updateComplete;
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="rebase"]'
+      ).click();
+      const rebaseAction = {
+        __key: 'rebase',
+        __type: 'revision',
+        __primary: false,
+        enabled: true,
+        label: 'Rebase',
+        method: HttpMethod.POST,
+        title: 'Rebase onto tip of branch or parent change',
+      };
+      assert.isTrue(fetchChangesStub.called);
+      element.handleRebaseConfirm(
+        new CustomEvent('', {
+          detail: {
+            base: '1234',
+            allowConflicts: false,
+            rebaseChain: false,
+            onBehalfOfUploader: true,
+            committerEmail: 'test@default.org',
+          },
+        })
+      );
+      assert.deepEqual(fireActionStub.lastCall.args, [
+        '/rebase',
+        assertUIActionInfo(rebaseAction),
+        true,
+        {
+          base: '1234',
+          allow_conflicts: false,
+          on_behalf_of_uploader: true,
+          committer_email: 'test@default.org',
+        },
+        {allow_conflicts: false, on_behalf_of_uploader: true},
+      ]);
+    });
+
     test('rebase change fires reload event', async () => {
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},

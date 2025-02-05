@@ -318,12 +318,19 @@ function parseCommitMessageString(messageString: string): CommitMessage {
   let subject = '';
   const body: string[] = [];
   const footer: string[] = [];
+  let hasTrailingBlankLine = false;
 
-  if (lines.length > 0) {
-    subject = lines[0]; // Subject is always the first line
+  if (lines.length === 0) {
+    return {subject, body, footer, hasTrailingBlankLine}; // Handle empty input
   }
 
-  const hasTrailingBlankLine =
+  if (lines.length === 1) {
+    subject = lines[0];
+    return {subject, body, footer, hasTrailingBlankLine}; // Single line case
+  }
+
+  subject = lines[0]; // Subject is always the first line
+  hasTrailingBlankLine =
     lines.length > 0 && lines[lines.length - 1].trim() === '';
 
   // Find the start of the footer (from the end)

@@ -15,6 +15,7 @@ import {
   EmailInfo,
   NumericChangeId,
   GitPersonInfo,
+  ValidationOptionsInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -34,6 +35,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {formStyles} from '../../../styles/form-styles';
+import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 
 export interface RebaseChange {
   name: string;
@@ -124,6 +126,12 @@ export class GrConfirmRebaseDialog
 
   @query('#parentInput')
   parentInput!: GrAutocomplete;
+
+  @query('gr-validation-options')
+  private validationOptionsEl?: GrValidationOptions;
+
+  @state()
+  validationOptions?: ValidationOptionsInfo;
 
   @state()
   account?: AccountDetailInfo;
@@ -375,6 +383,10 @@ export class GrConfirmRebaseDialog
         </div>
       </gr-dialog>
     `;
+  }
+
+  getValidationOptions() {
+    return this.validationOptionsEl?.getSelectedOptions() ?? [];
   }
 
   // This is called by gr-change-actions every time the rebase dialog is

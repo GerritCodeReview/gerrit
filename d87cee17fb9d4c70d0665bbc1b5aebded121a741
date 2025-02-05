@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62f901d2_06aef438",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-05T18:11:19Z",
+      "side": 1,
+      "message": "I agree with the idea that a single global switch might be too much. I think that it would be very feasable to still have a \"global\" switch per cache that can turn off writes for that cache during indexing. If someone is conerned that this will degrade their performance too much during online re-indexing, then they can choose to not use the feature.",
+      "parentUuid": "f864ba2a_1bd589a2",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7
@@ -145,6 +163,30 @@
       "side": 1,
       "message": "Agreed that this solution is not ideal. Using n if-statements and deciding on each call what to do also doesn\u0027t seem elegant. I would suggest to create a `SqlStore.Writer` interface and `SqlStore.NoopWriter` and `SqlStore.PersistentWriter` implementations that are instantiated on construction of the SqlStore. That would still get rid of inheritance in SqlStore.",
       "parentUuid": "bd3a947b_5eb993d1",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 57
+      },
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd875375_1e95a283",
+        "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-05T18:11:19Z",
+      "side": 1,
+      "message": "Frankly, I don\u0027t see the inelegance of adding the if() statements that I proposed. One way to reduce the code in a single class would be to add these if() statements in a super class which inherits from the SqlStore class. I don\u0027t think that is needed, but I do think that approach is much simpler than creating separate RO/RW classes along with an interface.",
+      "parentUuid": "5034550e_02d42fa4",
       "range": {
         "startLine": 35,
         "startChar": 30,

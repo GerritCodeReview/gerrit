@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e90f9be_35b17525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-05T13:13:47Z",
+      "side": 1,
+      "message": "add Release-Notes footer",
+      "revId": "1116fb4d47ff67d4b0aadfaa3e671d2d338b7de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee47272_dc506027",
+        "filename": "Documentation/pgm-MigrateLabelFunctions.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-05T13:13:47Z",
+      "side": 1,
+      "message": "```suggestion\nNOTE: If a project has Prolog based submit rules, its label functions will not\n```",
+      "revId": "1116fb4d47ff67d4b0aadfaa3e671d2d338b7de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

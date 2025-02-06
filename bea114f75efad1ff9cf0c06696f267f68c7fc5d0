@@ -52,6 +52,24 @@
       "parentUuid": "37adcb1f_29992824",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd28d067_849cc4b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-06T07:05:11Z",
+      "side": 1,
+      "message": "@milutin@google.com had a good idea when we discussed this internally. Could we maybe make users that can vote on any label have the new Review permission implicitly? Then we likely wouldn\u0027t need any migration.\nWDYT?",
+      "parentUuid": "d594f71d_ddc7ccac",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

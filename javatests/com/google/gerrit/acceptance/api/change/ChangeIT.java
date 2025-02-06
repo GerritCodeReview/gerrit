@@ -692,10 +692,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void blockReviewerToPostReviewWithoutPermission() throws Exception {
+  public void allowReviewerToPostReviewIfCanApplyLabel() throws Exception {
     PushOneCommit.Result r = createChange();
-    ReviewInput in = ReviewInput.approve().reviewer(user.email());
-    gApi.changes().id(r.getChangeId()).current().review(in);
 
     projectOperations
         .project(project)
@@ -703,6 +701,35 @@ public class ChangeIT extends AbstractDaemonTest {
         .add(block(Permission.POST_REVIEW_COMMENT).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
+    ReviewInput input = new ReviewInput().message("Some message");
+    int numMessages = gApi.changes().id(r.getChangeId()).get().messages.size();
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(gApi.changes().id(r.getChangeId()).get().messages).hasSize(numMessages + 1);
+  }
+
+  @Test
+  public void blockReviewerFromPostingReviewIfCannotApplyLabelAndNoReviewPermission()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // revoke permissions to review the change and to vote on labels
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.POST_REVIEW_COMMENT).ref("refs/*").group(REGISTERED_USERS))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(
+            blockLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    ReviewInput in = ReviewInput.create().message("Nothing to see here").reviewer(user.email());
     AuthException thrown =
         assertThrows(
             AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));

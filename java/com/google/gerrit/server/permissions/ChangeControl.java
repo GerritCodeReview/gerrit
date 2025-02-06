@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.exceptions.StorageException;
@@ -31,12 +32,13 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.inject.Inject;
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
@@ -154,6 +156,19 @@ public class ChangeControl {
   }
 
   /** Can this user edit the topic name? */
+  private boolean canReview() {
+    List<LabelType> allLabels =
+        getProjectControl().getProjectState().getLabelTypes().getLabelTypes();
+    if (refControl.canPerform(Permission.REVIEW)) return true;
+    else return canApplyAnyLabel(allLabels);
+  }
+
+  private boolean canApplyAnyLabel(List<LabelType> allLabels) {
+    return allLabels.stream()
+        .anyMatch(label -> asForChange().testOrFalse(new LabelPermission(label)));
+  }
+
+  /** Can this user edit the topic name? */
   private boolean canEditTopicName() {
     if (getChange().isNew()) {
       return isOwner() // owner (aka creator) of the change can edit topic
@@ -172,11 +187,6 @@ public class ChangeControl {
         || getProjectControl().isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
         || getProjectControl().isAdmin();
-  }
-
-  /** Can this user comment on changes */
-  private boolean canReview() {
-    return refControl.canPerform(Permission.REVIEW);
   }
 
   /** Can this user edit the description? */

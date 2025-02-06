@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4a5803_4ad13031",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-06T16:06:06Z",
+      "side": 1,
+      "message": "`this::buildBloomFilter` is more idiomatic",
+      "range": {
+        "startLine": 371,
+        "startChar": 71,
+        "endLine": 371,
+        "endChar": 95
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c24e82_34efa34b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-06T16:06:06Z",
+      "side": 1,
+      "message": "leave",
+      "range": {
+        "startLine": 584,
+        "startChar": 30,
+        "endLine": 584,
+        "endChar": 36
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25548d6b_1aace356",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-06T16:06:06Z",
+      "side": 1,
+      "message": "Initialization to `null` seems unnecessary",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce8d37f2_ace69fe6",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-06T16:06:06Z",
+      "side": 1,
+      "message": "This place deserves a comment because it only makes sense when one keeps in mind that the `bloomFilter` might change from another thread.",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed5cd59f_e0697634",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-06T16:06:06Z",
+      "side": 1,
+      "message": "I would name this just `equal`. The `referenceEqualsSuppressed` sound like \"supressed equals relation\" to me :-) I am sure not a native speaker but I don\u0027t think that the necessity to suppress some erorprone errors shall reflect in the method name(s).",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

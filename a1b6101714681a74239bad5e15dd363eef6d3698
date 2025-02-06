@@ -16,6 +16,24 @@
       "message": "I believe this approach is fundamentally flawed",
       "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "071468bd_d984cc75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-06T22:18:06Z",
+      "side": 1,
+      "message": "This got published early, sorry. I meant that I believed having RO classes is flawed, not the idea of making things RO during indexing.\n\nThat being said, we may want to get something like this merged https://gerrit-review.googlesource.com/c/gerrit/+/448181/3 to see how things start working once we start taking advantage of concurrency. I suspect we may still want to avoid writes during indexing, but our experiences so far have been without concurrency where there is a serious downside to having large caches. Now that the DB supports  concurrency, we may rethink a lot about how to deal with things. \n\nOne reason I don\u0027t want to commit to adding a bunch of extra layering right now for this feature is because we are reaching an inflection point where we can potentially seriously evolve the caches in interesting ways to take advantage of the new concurrency.",
+      "parentUuid": "65aa724f_a071bde1",
+      "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -119,6 +119,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
+import {ValidationOptionInfo} from '../../../api/rest-api';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1528,7 +1529,7 @@ export class GrChangeActions
       case RevisionActions.REBASE:
         assertIsDefined(this.confirmRebase, 'confirmRebase');
         this.showActionDialog(this.confirmRebase);
-        this.confirmRebase.fetchRecentChanges();
+        this.confirmRebase.initiateFetchInfo();
         break;
       case RevisionActions.CHERRYPICK:
         this.handleCherrypickTap();
@@ -1586,6 +1587,9 @@ export class GrChangeActions
       allow_conflicts: e.detail.allowConflicts,
       on_behalf_of_uploader: e.detail.onBehalfOfUploader,
       committer_email: e.detail.committerEmail,
+      validation_options: this.computeValidationOptionsForPayload(
+        this.confirmRebase.getValidationOptions()
+      ),
     };
     const rebaseChain = !!e.detail.rebaseChain;
     this.fireAction(
@@ -1655,6 +1659,17 @@ export class GrChangeActions
     });
   }
 
+  private computeValidationOptionsForPayload(options: ValidationOptionInfo[]) {
+    // https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-input
+    // validation_options key defined as Map<string, string> here
+    // This only works for options that expect a boolean "true" in return
+    const validationOptionsMap: Record<string, string> = {};
+    for (const option of options) {
+      validationOptionsMap[option.name] = 'true';
+    }
+    return validationOptionsMap;
+  }
+
   // private but visible for testing
   handleRevertDialogConfirm(e: CustomEvent<ConfirmRevertEventDetail>) {
     assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
@@ -1662,13 +1677,6 @@ export class GrChangeActions
     const revertType = e.detail.revertType;
     const message = e.detail.message;
     const el = this.confirmRevertDialog;
-    // https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-input
-    // validation_options key defined as Map<string, string> here
-    // This only works for options that expect a boolean "true" in return
-    const validationOptionsMap: Record<string, string> = {};
-    for (const option of this.confirmRevertDialog.getValidationOptions()) {
-      validationOptionsMap[option.name] = 'true';
-    }
     this.actionsModal.close();
     el.hidden = true;
     switch (revertType) {
@@ -1677,7 +1685,12 @@ export class GrChangeActions
           '/revert',
           assertUIActionInfo(this.actions.revert),
           false,
-          {message, validation_options: validationOptionsMap}
+          {
+            message,
+            validation_options: this.computeValidationOptionsForPayload(
+              this.confirmRevertDialog.getValidationOptions()
+            ),
+          }
         );
         break;
       case RevertType.REVERT_SUBMISSION:
@@ -1687,7 +1700,12 @@ export class GrChangeActions
           '/revert_submission',
           {__key: 'revert_submission', method: HttpMethod.POST} as UIActionInfo,
           false,
-          {message, validation_options: validationOptionsMap}
+          {
+            message,
+            validation_options: this.computeValidationOptionsForPayload(
+              this.confirmRevertDialog.getValidationOptions()
+            ),
+          }
         );
         break;
       default:

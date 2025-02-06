@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.exceptions.StorageException;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
@@ -174,9 +176,17 @@ public class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  /** Can this user comment on changes */
+  /** Can this user comment on changes? */
   private boolean canReview() {
-    return refControl.canPerform(Permission.REVIEW);
+    return refControl.canPerform(Permission.REVIEW) || canApplyAnyLabel();
+  }
+
+  /** Can this user apply any of the available labels? */
+  private boolean canApplyAnyLabel() {
+    List<LabelType> allLabels =
+        getProjectControl().getProjectState().getLabelTypes().getLabelTypes();
+    return allLabels.stream()
+        .anyMatch(label -> asForChange().testOrFalse(new LabelPermission(label)));
   }
 
   /** Can this user edit the description? */

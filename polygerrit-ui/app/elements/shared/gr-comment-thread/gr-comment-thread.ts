@@ -672,7 +672,11 @@ export class GrCommentThread extends LitElement {
   }
 
   private async editDraft() {
-    await waitUntil(() => !!this.draftElement);
+    await waitUntil(
+      () => !!this.draftElement,
+      'draft element not found',
+      5 * 1000
+    );
     this.draftElement!.edit();
   }
 

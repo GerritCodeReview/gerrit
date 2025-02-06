@@ -70,6 +70,24 @@
       "parentUuid": "d594f71d_ddc7ccac",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060ef67a_d2fcf9a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-06T08:34:15Z",
+      "side": 1,
+      "message": "Good idea. My only concern is adding a layer of indirection, would it be clear enough why Gerrit is preventing you to comment on a change you could comment on before?\n\nHowever, we could always grant this permission explicitly if needed, so maybe this is acceptable.\n\nWould we still leave the schema upgrade granting the permission to all users by default in place?",
+      "parentUuid": "fd28d067_849cc4b5",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

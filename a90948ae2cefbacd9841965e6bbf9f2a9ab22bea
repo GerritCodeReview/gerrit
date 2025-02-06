@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a57c7b_dcce8c10",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-06T19:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b4a5803_4ad13031",
+      "range": {
+        "startLine": 371,
+        "startChar": 71,
+        "endLine": 371,
+        "endChar": 95
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7c24e82_34efa34b",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6635bf31_da163177",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-06T19:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7c24e82_34efa34b",
+      "range": {
+        "startLine": 584,
+        "startChar": 30,
+        "endLine": 584,
+        "endChar": 36
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25548d6b_1aace356",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-02-06T16:06:06Z",
       "side": 1,
       "message": "Initialization to `null` seems unnecessary",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d6899dd_b4e0c753",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-06T19:33:50Z",
+      "side": 1,
+      "message": "\u003e Initialization to `null` seems unnecessary\n\nI would agree, but unfortuntately it is not. I don\u0027t know why java insist on this, but not for object fields.",
+      "parentUuid": "25548d6b_1aace356",
       "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -94,6 +160,48 @@
       "writtenOn": "2025-02-06T16:06:06Z",
       "side": 1,
       "message": "I would name this just `equal`. The `referenceEqualsSuppressed` sound like \"supressed equals relation\" to me :-) I am sure not a native speaker but I don\u0027t think that the necessity to suppress some erorprone errors shall reflect in the method name(s).",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "011b9dae_2d1efbb6",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-06T19:33:50Z",
+      "side": 1,
+      "message": "Done. The more I think about this, the more I think it is probably silly to even be doing this, another thread could update this as soon as we finish and still be missing the put() anyway. Without synchronizing this put() to something external, for now the timing is a bit arbitrary anyway.",
+      "parentUuid": "ce8d37f2_ace69fe6",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f38087a_246f32ba",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-06T19:33:50Z",
+      "side": 1,
+      "message": "\u003e I would name this just `equal`. \n\nIf I saw the code calling an equal() method, I would assume it calls equals(), and does some sort of null checking, but this does not. Thus this name needs something to help the reader understand why a method is being called.\n\n\u003e I am sure not a native speaker but I don\u0027t think that the necessity to suppress some erorprone errors shall reflect in the method name(s).\n\nWhile I generally I agree with the statement, in this case, it is the literally the only reason for the existence of the method! I do wish we could turn off that warning because it feel rather moronic to me, but since the purpose of having to us these annotations is to highlight that something would normally create a warning, the method name should probably do that same thing, or we else by enabling these warnings we really would just forcing ourselves to jump though hoops for no reason. \n\nTo clarify some context for this a bit more, this method is not here to hide the warning away in a method, it is because there is no way that I can find to annotate the precise code block inside the \"while()\" condition, and the compiler wants me to annotate a whole method. I firmly believe that annotationg a whole method which has more than a simple statement with a warning is very bad practice and dilutes the intent of the annotation, thus the method replaces a single annotation and should highlight this warning.\n\n\u003e The `referenceEqualsSuppressed` sound like \"supressed equals relation\" to me :-) \n\nI made it closer to what we would want the code to look like if it were legal to put the suppression inline.",
+      "parentUuid": "ed5cd59f_e0697634",
       "range": {
         "startLine": 81,
         "startChar": 14,

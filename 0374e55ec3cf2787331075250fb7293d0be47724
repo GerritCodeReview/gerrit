@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c2be179_f88e9aac",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-06T11:50:08Z",
+      "side": 1,
+      "message": "Can we have more structural names for this.\n\nIe. Can we move this code into it\u0027s own function called something like: \"findLastParagraph\"",
+      "range": {
+        "startLine": 336,
+        "startChar": 2,
+        "endLine": 346,
+        "endChar": 3
+      },
+      "revId": "0374e55ec3cf2787331075250fb7293d0be47724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d63d448_9b8969ab",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-06T11:50:08Z",
+      "side": 1,
+      "message": "I think this can be just a slice, plus removing last line optionally",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 3
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e31c13b0_2c67151f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 349,
+                "startChar": 0,
+                "endLine": 354,
+                "endChar": 0
+              },
+              "replacement": "  footer \u003d lines.slice(footerStartIndex, lines.length);\n  if (hasTrailingBlankLine) {\n    footer.pop();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 355,
+                "startChar": 0,
+                "endLine": 355,
+                "endChar": 0
+              },
+              "replacement": "\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0374e55ec3cf2787331075250fb7293d0be47724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf02898c_b1486dcf",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-06T11:50:08Z",
+      "side": 1,
+      "message": "Similar here this is just a slice() with removing empty lines at beginning and end.\n\n```\nbody \u003d lines.slice(nextNonWhitespace(lines, 0), prevNonWhitespace(lines, footerStartIndex);\n```\n\nI think this makes it more readable in comparison to all the for loops.",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 3
+      },
+      "revId": "0374e55ec3cf2787331075250fb7293d0be47724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

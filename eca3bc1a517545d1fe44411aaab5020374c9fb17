@@ -69,6 +69,24 @@
       "parentUuid": "ef65ccb7_00974ea7",
       "revId": "eca3bc1a517545d1fe44411aaab5020374c9fb17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa1c934_263022c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 46
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-07T12:52:49Z",
+      "side": 1,
+      "message": "I believe I need to improve the open/close detection algorithm so that it could more clearly show the caller and the culprit. At the moment still requires a bit of manual investigation :-(",
+      "parentUuid": "c4d43b9d_533cf11f",
+      "revId": "eca3bc1a517545d1fe44411aaab5020374c9fb17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

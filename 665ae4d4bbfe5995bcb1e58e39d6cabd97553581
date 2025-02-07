@@ -46,6 +46,30 @@
       },
       "revId": "665ae4d4bbfe5995bcb1e58e39d6cabd97553581",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52fd7eda_af5e97a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-07T12:06:52Z",
+      "side": 1,
+      "message": "I\u0027ve reproduced the breakage on the CI at https://gerrit-ci.gerritforge.com/job/plugin-code-owners-bazel-master/38/console and working on a fix for review as we speak :-)",
+      "parentUuid": "f3792cc4_eaf967f5",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 57
+      },
+      "revId": "665ae4d4bbfe5995bcb1e58e39d6cabd97553581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

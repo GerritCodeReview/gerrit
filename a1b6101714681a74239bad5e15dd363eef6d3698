@@ -34,6 +34,24 @@
       "parentUuid": "65aa724f_a071bde1",
       "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f74c31_65ebb160",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-07T14:22:27Z",
+      "side": 1,
+      "message": "I agree. This change here currently has no high priority for us, which might change, when the next index upgrade is coming. But first testing how concurrency improves the indexing performance definitely makes sense. Let\u0027s keep this change open, but concentrate on your improvements first and revisit this if the next index upgrade indicates it would be required or improve the situation.",
+      "parentUuid": "071468bd_d984cc75",
+      "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

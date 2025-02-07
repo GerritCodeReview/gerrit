@@ -1,0 +1,86 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be3c84a_84af9f0f",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-07T09:30:40Z",
+      "side": 1,
+      "message": "Why until 1, and not 0?",
+      "range": {
+        "startLine": 359,
+        "startChar": 36,
+        "endLine": 359,
+        "endChar": 42
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "40ae3e12_47e56d19",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 359,
+                "startChar": 0,
+                "endLine": 360,
+                "endChar": 0
+              },
+              "replacement": "  for (let i \u003d lastLineInParagraph; i \u003e\u003d 0; i--) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3824c5541a5fa4ce73b0d97c5685d83eab8276dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "593a826f_1706435a",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-07T09:30:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be 0?",
+      "range": {
+        "startLine": 364,
+        "startChar": 2,
+        "endLine": 364,
+        "endChar": 22
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d012b904_82209232",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 364,
+                "startChar": 0,
+                "endLine": 365,
+                "endChar": 0
+              },
+              "replacement": "  return 0;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3824c5541a5fa4ce73b0d97c5685d83eab8276dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

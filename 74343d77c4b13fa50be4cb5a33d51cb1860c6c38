@@ -16,6 +16,46 @@
       "message": "It would be good to also add tests for the `ConcurrentBloomFilter` including concurrency tests",
       "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c34b3d0_0c16f329",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T11:09:05Z",
+      "side": 1,
+      "message": "Is this instance necessary and used when `buildBloomFilter` is `false`?",
+      "range": {
+        "startLine": 371,
+        "startChar": 20,
+        "endLine": 371,
+        "endChar": 94
+      },
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c62442_8c1cfdc8",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T11:09:05Z",
+      "side": 1,
+      "message": "Is this local variable needed? At this change the call to `initIfNeeded` is still synchronous so why not use `bloomFilter` at the line 55?\n\nI am maybe missing some design ideas here... having a set of (concurrent) tests of this class would definitely help.",
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

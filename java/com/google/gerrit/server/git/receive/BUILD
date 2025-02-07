@@ -47,13 +47,3 @@ java_library(
     ],
 )
 
-java_library(
-    name = "push_options",
-    srcs = ["PluginPushOption.java"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//java/com/google/gerrit/entities",
-        "//lib:guava",
-        "//lib:jgit",
-    ],
-)

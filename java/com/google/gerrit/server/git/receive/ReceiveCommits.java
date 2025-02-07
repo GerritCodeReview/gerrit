@@ -117,6 +117,7 @@ import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestCounter;

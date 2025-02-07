@@ -48,8 +48,6 @@ import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
-  protected List<Module> testDbModules = new ArrayList<>();
-
   @Option(
       name = "--site-path",
       aliases = {"-d"},
@@ -144,10 +142,10 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new ConfigExperimentFeaturesModule());
 
     try {
-      List<Module> extraDbModules =
-          LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE_TYPE);
-      extraDbModules.addAll(testDbModules);
-      return Guice.createInjector(PRODUCTION, ModuleOverloader.override(modules, extraDbModules));
+      return Guice.createInjector(
+          PRODUCTION,
+          ModuleOverloader.override(
+              modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE_TYPE)));
     } catch (CreationException ce) {
       Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();

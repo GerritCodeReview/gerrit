@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -32,6 +31,7 @@ import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.util.List;
 
@@ -111,7 +111,7 @@ public class TestExtensions {
     }
 
     @Override
-    public boolean isOptionEnabled(Change change) {
+    public boolean isOptionEnabled(ChangeNotes changeNotes) {
       return enabled;
     }
   }

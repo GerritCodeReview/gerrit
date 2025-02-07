@@ -43,7 +43,7 @@ public class GetValidationOptions implements RestReadView<ChangeResource> {
         new ValidationOptionInfos(
             StreamSupport.stream(
                     this.pluginPushOption.entries().spliterator(), /* parallel= */ false)
-                .filter(extension -> extension.get().isOptionEnabled(resource.getChange()))
+                .filter(extension -> extension.get().isOptionEnabled(resource.getNotes()))
                 .map(
                     extension ->
                         new ValidationOptionInfo(

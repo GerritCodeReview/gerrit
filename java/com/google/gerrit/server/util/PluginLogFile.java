@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.errorprone.annotations.InlineMe;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.server.config.LogConfig;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -26,26 +29,60 @@ public abstract class PluginLogFile implements LifecycleListener {
   private final ServerInformation serverInfo;
   private final String logName;
   private final Layout layout;
+  private final Layout jsonLayout;
+  private final boolean textLogging;
+  private final boolean jsonLogging;
 
+  /** Kept for backwards compatibility until all plugins have been updated. */
+  @Deprecated
+  @InlineMe(replacement = "this(systemLog, serverInfo, logName, layout, null, true, false)")
   public PluginLogFile(
       SystemLog systemLog, ServerInformation serverInfo, String logName, Layout layout) {
+    this(systemLog, serverInfo, logName, layout, null, true, false);
+  }
+
+  public PluginLogFile(
+      SystemLog systemLog,
+      ServerInformation serverInfo,
+      String logName,
+      Layout layout,
+      @Nullable Layout jsonLayout,
+      LogConfig config) {
+    this(
+        systemLog,
+        serverInfo,
+        logName,
+        layout,
+        jsonLayout,
+        config.isTextLogging(),
+        config.isJsonLogging());
+  }
+
+  public PluginLogFile(
+      SystemLog systemLog,
+      ServerInformation serverInfo,
+      String logName,
+      Layout layout,
+      @Nullable Layout jsonLayout,
+      boolean textLogging,
+      boolean jsonLogging) {
     this.systemLog = systemLog;
     this.serverInfo = serverInfo;
     this.logName = logName;
     this.layout = layout;
+    this.jsonLayout = jsonLayout;
+    this.textLogging = textLogging;
+    this.jsonLogging = jsonLogging && jsonLayout != null;
   }
 
   @Override
   public void start() {
-    Logger logger = LogManager.getLogger(logName);
-    if (logger.getAppender(logName) == null) {
-      synchronized (systemLog) {
-        if (logger.getAppender(logName) == null) {
-          logger.addAppender(systemLog.createAsyncAppender(logName, layout, true, true));
-        }
-      }
+    if (textLogging) {
+      initLogger(logName, layout);
     }
-    logger.setAdditivity(false);
+    if (jsonLogging) {
+      initLogger(logName, ".json", jsonLayout);
+    }
   }
 
   @Override
@@ -58,5 +95,22 @@ public abstract class PluginLogFile implements LifecycleListener {
     if (serverInfo.getState() == ServerInformation.State.SHUTDOWN) {
       LogManager.getLogger(logName).removeAllAppenders();
     }
+  }
+
+  private void initLogger(String logName, Layout layout) {
+    initLogger(logName, "", layout);
+  }
+
+  private void initLogger(String logName, String logFileExtension, Layout layout) {
+    Logger logger = LogManager.getLogger(logName);
+    String appenderName = logName + logFileExtension;
+    if (logger.getAppender(appenderName) == null) {
+      synchronized (systemLog) {
+        if (logger.getAppender(appenderName) == null) {
+          logger.addAppender(systemLog.createAsyncAppender(appenderName, layout, true, true));
+        }
+      }
+    }
+    logger.setAdditivity(false);
   }
 }

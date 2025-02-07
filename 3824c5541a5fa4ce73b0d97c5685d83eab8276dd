@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4e14d00_709d0bc9",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-07T12:07:34Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3be3c84a_84af9f0f",
+      "range": {
+        "startLine": 359,
+        "startChar": 36,
+        "endLine": 359,
+        "endChar": 42
+      },
+      "revId": "3824c5541a5fa4ce73b0d97c5685d83eab8276dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "593a826f_1706435a",
@@ -79,6 +103,30 @@
           ]
         }
       ],
+      "revId": "3824c5541a5fa4ce73b0d97c5685d83eab8276dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f055ac5_53a70068",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-07T12:07:34Z",
+      "side": 1,
+      "message": "That\u0027s better. Thanks",
+      "parentUuid": "593a826f_1706435a",
+      "range": {
+        "startLine": 364,
+        "startChar": 2,
+        "endLine": 364,
+        "endChar": 22
+      },
       "revId": "3824c5541a5fa4ce73b0d97c5685d83eab8276dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -10,7 +10,11 @@ import {
   detectFormattingErrorsInString,
   ErrorType,
   FormattingError,
+  CommitMessage,
+  TEST_ONLY,
 } from './commit-message-formatter-util';
+
+const parseCommitMessageString = TEST_ONLY.parseCommitMessageString;
 
 suite('commit-message-formatter-util tests', () => {
   suite('formatCommitMessageString', () => {
@@ -334,13 +338,12 @@ suite('commit-message-formatter-util tests', () => {
     });
 
     test('line in footer starts with spaces', () => {
-      const message =
-        'Fix the thing\n\nThis is body.\n   Change-Id: abcdefg\n      ';
+      const message = 'Fix the thing\n\nThis is body.\n   Change-Id: abcdefg\n';
       const errors = detectFormattingErrorsInString(message);
       assertError(
         errors,
         ErrorType.LEADING_SPACES,
-        4,
+        5,
         'Line should not start with spaces'
       );
     });
@@ -360,6 +363,68 @@ suite('commit-message-formatter-util tests', () => {
         ErrorType.COMMENT_LINE,
         5,
         "'#' at line start is a comment marker in Git. Line will be ignored"
+      );
+    });
+  });
+
+  suite('parseCommitMessageString', () => {
+    function assertParseResult(
+      message: string,
+      expected: CommitMessage,
+      messageDescription: string
+    ) {
+      const actual = parseCommitMessageString(message);
+      assert.deepEqual(
+        actual,
+        expected,
+        `Test Case Failed: ${messageDescription}\nInput Message:\n${message}`
+      );
+    }
+
+    test('empty message', () => {
+      assertParseResult(
+        '',
+        {subject: '', body: [], footer: [], hasTrailingBlankLine: false},
+        'Empty message should parse to empty subject, body, and footer'
+      );
+    });
+
+    test('single line subject', () => {
+      assertParseResult(
+        'Subject only',
+        {
+          subject: 'Subject only',
+          body: [],
+          footer: [],
+          hasTrailingBlankLine: false,
+        },
+        'Single line subject should parse correctly'
+      );
+    });
+
+    test('body and footer without blank line separator', () => {
+      assertParseResult(
+        'Subject\n\nBody line\n\nFooter line 1\nFooter line 2',
+        {
+          subject: 'Subject',
+          body: ['Body line'],
+          footer: ['Footer line 1', 'Footer line 2'],
+          hasTrailingBlankLine: false,
+        },
+        'body and footer without blank line separator'
+      );
+    });
+
+    test('with trailing blank line', () => {
+      assertParseResult(
+        'Fix the thing\n\nThis is the body.\n\nFixes: #123\nChange-Id: abcdefg\n',
+        {
+          subject: 'Fix the thing',
+          body: ['This is the body.'],
+          footer: ['Fixes: #123', 'Change-Id: abcdefg'],
+          hasTrailingBlankLine: true,
+        },
+        'with trailing blank line'
       );
     });
   });

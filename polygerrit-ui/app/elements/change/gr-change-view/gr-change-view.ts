@@ -1968,7 +1968,7 @@ export class GrChangeView extends LitElement {
     await waitUntil(() => !!this.change);
 
     if (this.change?.status === ChangeStatus.MERGED && this.loggedIn) {
-      this.actions!.showRevertDialog();
+      await this.actions!.showRevertDialog();
     }
   }
 

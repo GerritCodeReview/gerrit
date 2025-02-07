@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "546839dd_4dc76a4e",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-07T09:16:28Z",
+      "side": 1,
+      "message": "nit: Either lastIndex calculation should be part of this method. Or this method should be renamed to `findStartOfParagraph` and this argument to something like `lineInParagraph`. Otherwise there is nothing specific in implementation about it being a last paragraph.",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 19
+      },
+      "revId": "f07cbb014cc1405863c72717bface3df1c0ed59b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b27fcde8_09e4e9ff",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-07T09:16:28Z",
+      "side": 1,
+      "message": "Please add a docstring for this function",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 32
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d950774d_778f4f4d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 367,
+                "startChar": 0,
+                "endLine": 367,
+                "endChar": 0
+              },
+              "replacement": "/**\n * Returns the index of the first non-empty line in the given direction.\n *\n * @param lines The lines of the commit message.\n * @param index The starting index.\n * @param direction The direction to search in (1 for forward, -1 for backward).\n * @return The index of the first non-empty line, or the index of the last line if no non-empty lines are found.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f07cbb014cc1405863c72717bface3df1c0ed59b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

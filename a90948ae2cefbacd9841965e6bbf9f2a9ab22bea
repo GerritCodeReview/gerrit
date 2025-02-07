@@ -132,6 +132,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "328ff871_351457d6",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T10:12:00Z",
+      "side": 1,
+      "message": "I tried removing that initialization and neither Eclipse nor `bazelisk build gerrit` complained about this place.",
+      "parentUuid": "3d6899dd_b4e0c753",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce8d37f2_ace69fe6",
         "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
         "patchSetId": 3
@@ -202,6 +220,48 @@
       "side": 1,
       "message": "\u003e I would name this just `equal`. \n\nIf I saw the code calling an equal() method, I would assume it calls equals(), and does some sort of null checking, but this does not. Thus this name needs something to help the reader understand why a method is being called.\n\n\u003e I am sure not a native speaker but I don\u0027t think that the necessity to suppress some erorprone errors shall reflect in the method name(s).\n\nWhile I generally I agree with the statement, in this case, it is the literally the only reason for the existence of the method! I do wish we could turn off that warning because it feel rather moronic to me, but since the purpose of having to us these annotations is to highlight that something would normally create a warning, the method name should probably do that same thing, or we else by enabling these warnings we really would just forcing ourselves to jump though hoops for no reason. \n\nTo clarify some context for this a bit more, this method is not here to hide the warning away in a method, it is because there is no way that I can find to annotate the precise code block inside the \"while()\" condition, and the compiler wants me to annotate a whole method. I firmly believe that annotationg a whole method which has more than a simple statement with a warning is very bad practice and dilutes the intent of the annotation, thus the method replaces a single annotation and should highlight this warning.\n\n\u003e The `referenceEqualsSuppressed` sound like \"supressed equals relation\" to me :-) \n\nI made it closer to what we would want the code to look like if it were legal to put the suppression inline.",
       "parentUuid": "ed5cd59f_e0697634",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c918b81e_b94b3311",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T10:12:00Z",
+      "side": 1,
+      "message": "Yes, I was thinking the same but wasn\u0027t sure that I understood all aspects of this code. Why not remove the loop then?",
+      "parentUuid": "011b9dae_2d1efbb6",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55ca9a6e_bdff61f2",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T10:12:00Z",
+      "side": 1,
+      "message": "This also works and preserves the code structure as we want it to be:\n```\n  @SuppressWarnings(\"ReferenceEquality\")\n  public void put(K key) {\n    BloomFilter\u003cK\u003e b;\n    do {\n      b \u003d bloomFilter;\n      if (b !\u003d null) {\n        b.put(key);\n      }\n    } while (b !\u003d bloomFilter);\n  }\n```",
+      "parentUuid": "6f38087a_246f32ba",
       "range": {
         "startLine": 81,
         "startChar": 14,

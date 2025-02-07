@@ -22,6 +22,30 @@
       },
       "revId": "63f24596443bf60b8ef2b83dee649543e37226e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ee4508_68369fe8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectCacheIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2025-02-07T09:26:03Z",
+      "side": 1,
+      "message": "This was verified that indeed the ProjectCache now is doing one less lookup.",
+      "parentUuid": "80701503_805e1cf6",
+      "range": {
+        "startLine": 156,
+        "startChar": 38,
+        "endLine": 156,
+        "endChar": 39
+      },
+      "revId": "63f24596443bf60b8ef2b83dee649543e37226e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

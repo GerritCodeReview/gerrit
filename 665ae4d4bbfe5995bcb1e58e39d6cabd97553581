@@ -142,6 +142,30 @@
       },
       "revId": "665ae4d4bbfe5995bcb1e58e39d6cabd97553581",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dda55dec_829d705b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-07T14:08:13Z",
+      "side": 1,
+      "message": "There are two issues I\u0027ve found with leaked resources:\n- RepoView leaks in production code: I2880a4cf8b\n- CommitReceivedEvent leak in test code: I326f2140\n\nDo not reapply the change I8d288fa396 yet to master, because I want to:\n1. Improve the output of when a Repository leak is detected and explain more about what to do\n2. Improve the detection of the \"pair\" of open/close for a Repository\n3. Reduce the memory utilisation, as I\u0027ve noticed that the same tests require a lot more JVM heap",
+      "parentUuid": "cb1d13da_311ac355",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 57
+      },
+      "revId": "665ae4d4bbfe5995bcb1e58e39d6cabd97553581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

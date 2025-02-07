@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc07f86f_cc26d475",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-07T08:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c2be179_f88e9aac",
+      "range": {
+        "startLine": 336,
+        "startChar": 2,
+        "endLine": 346,
+        "endChar": 3
+      },
+      "revId": "0374e55ec3cf2787331075250fb7293d0be47724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d63d448_9b8969ab",
@@ -75,6 +99,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f1f79d4_68428f3c",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-07T08:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d63d448_9b8969ab",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 3
+      },
+      "revId": "0374e55ec3cf2787331075250fb7293d0be47724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf02898c_b1486dcf",
@@ -88,6 +136,30 @@
       "writtenOn": "2025-02-06T11:50:08Z",
       "side": 1,
       "message": "Similar here this is just a slice() with removing empty lines at beginning and end.\n\n```\nbody \u003d lines.slice(nextNonWhitespace(lines, 0), prevNonWhitespace(lines, footerStartIndex);\n```\n\nI think this makes it more readable in comparison to all the for loops.",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 3
+      },
+      "revId": "0374e55ec3cf2787331075250fb7293d0be47724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c6a9fdf_d868d25b",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-07T08:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf02898c_b1486dcf",
       "range": {
         "startLine": 356,
         "startChar": 2,

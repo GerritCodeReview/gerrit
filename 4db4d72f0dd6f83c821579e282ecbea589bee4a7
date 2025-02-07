@@ -39,6 +39,24 @@
       "message": "This constructor is not used for guice injection, therefore this annotation is not needed and has no effect. I think that that the next constructor (from line 59) is enough for this abstract base class.",
       "revId": "4db4d72f0dd6f83c821579e282ecbea589bee4a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c47c479_82d16c97",
+        "filename": "java/com/google/gerrit/server/util/PluginLogFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-07T18:18:04Z",
+      "side": 1,
+      "message": "The annotation doesn\u0027t do anything, but it\u0027s a nice hint to devs using this class. I think it\u0027s nice to consolidate the config lookups on L55-56 so that each plugin isn\u0027t reimplementing that. If you instead want to put that into a static helper or take some other approach to sharing it, that\u0027s fine with me. Maybe create a Provider that plugins can inject to get the booleans? You could have two separate annotations or have a single annotation provide an `EnabledLoggingTypes` EnumMap with keys like `TEXT` and `JSON` and Boolean values.",
+      "parentUuid": "5952fced_136c85c3",
+      "revId": "4db4d72f0dd6f83c821579e282ecbea589bee4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

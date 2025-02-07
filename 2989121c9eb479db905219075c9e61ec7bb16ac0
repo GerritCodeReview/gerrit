@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9697fb7_93000e2b",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T11:21:28Z",
+      "side": 1,
+      "message": "why not just use `bloomFilter` in the next line?",
+      "revId": "2989121c9eb479db905219075c9e61ec7bb16ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6fbc7cb_c3ae733c",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T11:21:28Z",
+      "side": 1,
+      "message": "```suggestion\n  @SuppressWarnings(\"ReferenceEquality\")\n  public void put(K key) {\n    do {\n      BloomFilter\u003cK\u003e b \u003d putIfFilterNotNull(bloomFilter, key);\n      BloomFilter\u003cK\u003e bb \u003d putIfFilterNotNull(buildingBloomFilter, key);\n    } while (b !\u003d bloomFilter || bb !\u003d buildingBloomFilter);\n  }\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "2989121c9eb479db905219075c9e61ec7bb16ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d237cdbd_d431cd06",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-07T11:21:28Z",
+      "side": 1,
+      "message": "```suggestion\n  private static \u003cK\u003e BloomFilter\u003cK\u003e putIfFilterNotNull(BloomFilter\u003cK\u003e b, K key) {\n    if (b !\u003d null) {\n      b.put(key);\n    }\n    return b;\n  }\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "2989121c9eb479db905219075c9e61ec7bb16ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

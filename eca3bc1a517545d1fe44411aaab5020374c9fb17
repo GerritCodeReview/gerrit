@@ -16,6 +16,41 @@
       "message": "This looks like a cool change, but it\u0027s breaking tests in the code-owners plugin. It\u0027s possible that there is a bug in the code-owners plugin causing this, but I don\u0027t understand the errors and hence could not resolve them [1]. Due to this our import is blocked. I\u0027m reverting this change temporarily to unblock the import. Can you please help me with understanding/fixing the issues in the code-owners plugin, so that we can reland this?\n\n\n[1] For example the CodeOwnerConfigValidatorErrorHandlingIT.submitSucceedsOnInternalErrorIfValidationIsDoneAsDryRun test fails with:\n\n```\nexpected to be empty\nbut was:\n    [Project com.google.gerrit.plugins.codeowners.acceptance.api.CodeOwnerConfigValidatorErrorHandlingIT_submitSucceedsOnInternalErrorIfValidationIsDoneAsDryRundefault_project has useCount\u003d1\n      opened by org.eclipse.jgit.transport.TestProtocol$TransportInternal.openFetch(TestProtocol.java:155)\n                com.google.gerrit.plugins.codeowners.acceptance.AbstractCodeOwnersTest.updateCodeOwnersConfig(AbstractCodeOwnersTest.java:214)\n                org.eclipse.jgit.transport.TestProtocol$TransportInternal.openPush(TestProtocol.java:169)\n                com.google.gerrit.plugins.codeowners.acceptance.AbstractCodeOwnersTest.updateCodeOwnersConfig(AbstractCodeOwnersTest.java:214)\n                com.google.gerrit.server.submit.MergeOpRepoManager.getRepo(MergeOpRepoManager.java:201)\n                com.google.gerrit.server.git.RepoRefCache.\u003cinit\u003e(RepoRefCache.java:34)\n      closed by org.eclipse.jgit.transport.InternalFetchConnection$2.run(InternalFetchConnection.java:97)\n                org.eclipse.jgit.junit.TestRepository.close(TestRepository.java:1016)\n                org.eclipse.jgit.transport.InternalPushConnection$1.run(InternalPushConnection.java:92)\n                org.eclipse.jgit.junit.TestRepository.close(TestRepository.java:1016)\n                com.google.gerrit.server.submit.MergeOpRepoManager$OpenRepo.close(MergeOpRepoManager.java:138)\n    ]\n\tat com.google.gerrit.acceptance.GerritServer.close(GerritServer.java:783)\n\tat com.google.gerrit.acceptance.GerritServerTestRule.afterTest(GerritServerTestRule.java:104)\n```\n\nThis points to AbstractCodeOwnersTest.java:214 which opens a repository with a try-with-resources block, so it seems to get properly closed and I\u0027m not sure why this is getting flagged here.",
       "revId": "eca3bc1a517545d1fe44411aaab5020374c9fb17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b613f12_75178445",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 46
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-07T12:02:51Z",
+      "side": 1,
+      "message": "@ekempin@google.com apologies for having broken the code-owner test: I am happy to look at it and propose a fix for you.",
+      "revId": "eca3bc1a517545d1fe44411aaab5020374c9fb17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef65ccb7_00974ea7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 46
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-07T12:02:51Z",
+      "side": 1,
+      "message": "The error shows where the repository was opened and then closed.\n\nIt was opened 6 times but closed only 5 times. I\u0027ve checked the code and the method that opens the repo without closign it is:\n\n```\n                com.google.gerrit.server.git.RepoRefCache.\u003cinit\u003e(RepoRefCache.java:34)\n```\n\nThe `RepoRefCache` has a `close()` method but was not called. I am happy to debug the test and see why that happened.\n\n\u003e **NOTE**: the bug could well be in Gerrit and surfaced by a specific use-case used in the code-owners test.",
+      "parentUuid": "437e2e45_fd074d54",
+      "revId": "eca3bc1a517545d1fe44411aaab5020374c9fb17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

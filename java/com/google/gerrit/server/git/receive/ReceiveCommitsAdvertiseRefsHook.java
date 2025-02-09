@@ -70,12 +70,17 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
   private final Account.Id user;
+  private final int limit;
 
   public ReceiveCommitsAdvertiseRefsHook(
-      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName, Account.Id user) {
+      ReceiveConfig receiveConfig,
+      Provider<InternalChangeQuery> queryProvider,
+      Project.NameKey projectName,
+      Account.Id user) {
     this.queryProvider = queryProvider;
     this.projectName = projectName;
     this.user = user;
+    this.limit = receiveConfig.advertiseOpenChangesRefs;
   }
 
   @Override
@@ -100,49 +105,47 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   private Set<ObjectId> advertiseOpenChanges(Repository repo)
       throws ServiceMayNotContinueException {
-    // Advertise the user's most recent open changes. It's likely that the user has one of these in
-    // their local repo and they can serve as starting points to figure out the common ancestor of
-    // what the client and server have in common.
-    int limit = 32;
-    try {
-      Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
-      for (ChangeData cd :
-          queryProvider
-              .get()
-              .setRequestedFields(
-                  // Required for ChangeIsVisibleToPrdicate.
-                  ChangeField.CHANGE_SPEC,
-                  ChangeField.REVIEWER_SPEC,
-                  // Required during advertiseOpenChanges.
-                  ChangeField.PATCH_SET_SPEC)
-              .enforceVisibility(true)
-              .setLimit(limit)
-              .query(
-                  Predicate.and(
-                      ChangePredicates.project(projectName),
-                      ChangeStatusPredicate.open(),
-                      ChangePredicates.owner(user)))) {
-        PatchSet ps = cd.currentPatchSet();
-        if (ps != null) {
-          // Ensure we actually observed a patch set ref pointing to this
-          // object, in case the database is out of sync with the repo and the
-          // object doesn't actually exist.
-          try {
-            Ref psRef = repo.getRefDatabase().exactRef(RefNames.patchSetRef(ps.id()));
-            if (psRef != null) {
-              r.add(ps.commitId());
+    if (limit > 0) {
+      try {
+        Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
+        for (ChangeData cd :
+            queryProvider
+                .get()
+                .setRequestedFields(
+                    // Required for ChangeIsVisibleToPrdicate.
+                    ChangeField.CHANGE_SPEC,
+                    ChangeField.REVIEWER_SPEC,
+                    // Required during advertiseOpenChanges.
+                    ChangeField.PATCH_SET_SPEC)
+                .enforceVisibility(true)
+                .setLimit(limit)
+                .query(
+                    Predicate.and(
+                        ChangePredicates.project(projectName),
+                        ChangeStatusPredicate.open(),
+                        ChangePredicates.owner(user)))) {
+          PatchSet ps = cd.currentPatchSet();
+          if (ps != null) {
+            // Ensure we actually observed a patch set ref pointing to this
+            // object, in case the database is out of sync with the repo and the
+            // object doesn't actually exist.
+            try {
+              Ref psRef = repo.getRefDatabase().exactRef(RefNames.patchSetRef(ps.id()));
+              if (psRef != null) {
+                r.add(ps.commitId());
+              }
+            } catch (IOException e) {
+              throw new ServiceMayNotContinueException(e);
             }
-          } catch (IOException e) {
-            throw new ServiceMayNotContinueException(e);
           }
         }
-      }
 
-      return r;
-    } catch (StorageException err) {
-      logger.atSevere().withCause(err).log("Cannot list open changes of %s", projectName);
-      return Collections.emptySet();
+        return r;
+      } catch (StorageException err) {
+        logger.atSevere().withCause(err).log("Cannot list open changes of %s", projectName);
+      }
     }
+    return Collections.emptySet();
   }
 
   private static boolean skip(String name) {

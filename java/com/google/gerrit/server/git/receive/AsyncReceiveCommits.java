@@ -304,6 +304,7 @@ public class AsyncReceiveCommits {
             allRefsWatcher,
             usersSelfAdvertiseRefsHook,
             allUsersName,
+            receiveConfig,
             queryProvider,
             projectName,
             user.getAccountId()));

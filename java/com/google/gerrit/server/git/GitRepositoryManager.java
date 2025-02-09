@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.entities.Project;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
@@ -56,6 +57,7 @@ public interface GitRepositoryManager {
    * @throws RepositoryNotFoundException the name does not denote an existing repository.
    * @throws IOException the name cannot be read as a repository.
    */
+  @MustBeClosed
   Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException, IOException;
 
   /**
@@ -70,6 +72,7 @@ public interface GitRepositoryManager {
    * @throws RepositoryNotFoundException the name is invalid.
    * @throws IOException the repository cannot be created.
    */
+  @MustBeClosed
   Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException;
 

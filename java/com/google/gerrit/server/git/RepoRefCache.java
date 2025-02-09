@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class RepoRefCache implements RefCache {
   private final Map<String, Optional<ObjectId>> ids;
   private final Repository repo;
 
+  @MustBeClosed
   public RepoRefCache(Repository repo) {
     repo.incrementOpen();
     this.repo = repo;

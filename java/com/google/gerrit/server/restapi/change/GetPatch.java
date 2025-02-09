@@ -81,6 +81,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
   }
 
   @Override
+  @SuppressWarnings("MustBeClosedChecker")
   public Response<BinaryResult> apply(RevisionResource rsrc)
       throws BadRequestException,
           ResourceConflictException,

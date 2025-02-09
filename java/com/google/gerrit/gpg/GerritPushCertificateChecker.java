@@ -38,6 +38,7 @@ public class GerritPushCertificateChecker extends PushCertificateChecker {
   }
 
   @Override
+  @SuppressWarnings("MustBeClosedChecker")
   protected Repository getRepository() throws IOException {
     return repoManager.openRepository(allUsers);
   }

@@ -21,6 +21,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Project;
@@ -291,6 +292,7 @@ public class GitOverHttpServlet extends GitServlet {
     }
 
     @Override
+    @MustBeClosed
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException,
             ServiceNotAuthorizedException,

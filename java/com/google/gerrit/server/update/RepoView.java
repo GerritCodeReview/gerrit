@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
@@ -52,6 +53,8 @@ public class RepoView implements AutoCloseable {
   private final boolean closeRepo;
   private AttributesNodeProvider attributesNodeProvider;
 
+  @MustBeClosed
+  @SuppressWarnings("MustBeClosedChecker")
   RepoView(GitRepositoryManager repoManager, Project.NameKey project) throws IOException {
     repo = repoManager.openRepository(project);
     inserter = repo.newObjectInserter();
@@ -61,6 +64,7 @@ public class RepoView implements AutoCloseable {
     closeRepo = true;
   }
 
+  @SuppressWarnings("MustBeClosedChecker")
   public RepoView(Repository repo, RevWalk rw, ObjectInserter inserter) {
     checkArgument(
         rw.getObjectReader().getCreatedFromInserter() == inserter,

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -242,6 +243,7 @@ public class ListTags implements RestReadView<ProjectResource> {
         timestamp);
   }
 
+  @MustBeClosed
   private Repository getRepository(Project.NameKey project)
       throws ResourceNotFoundException, IOException {
     try {

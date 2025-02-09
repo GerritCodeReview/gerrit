@@ -33,6 +33,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ParentCommitData;
@@ -469,6 +470,7 @@ public class RevisionJson {
   }
 
   @Nullable
+  @MustBeClosed
   private Repository openRepoIfNecessary(Project.NameKey project) throws IOException {
     if (has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
       return repoManager.openRepository(project);

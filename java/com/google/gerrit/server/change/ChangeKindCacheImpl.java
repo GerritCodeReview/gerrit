@@ -213,7 +213,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       this.useGitattributesForMerge = useGitattributesForMerge;
     }
 
-    @SuppressWarnings("resource") // Resources are manually managed.
+    @SuppressWarnings(
+        value = {"resource", "MustBeClosedChecker"}) // Resources are manually managed.
     @Override
     public ChangeKind call() throws IOException {
       if (Objects.equals(key.prior(), key.next())) {

@@ -95,6 +95,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
     return n;
   }
 
+  @SuppressWarnings("MustBeClosedChecker")
   private void service() throws IOException, PermissionBackendException, Failure {
     project = projectState.getProject();
     projectName = project.getNameKey();

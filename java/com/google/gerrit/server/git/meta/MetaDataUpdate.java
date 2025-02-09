@@ -77,6 +77,7 @@ public class MetaDataUpdate implements AutoCloseable {
      * @param user user for the update.
      * @param batch batch update to use; the caller is responsible for committing the update.
      */
+    @SuppressWarnings("MustBeClosedChecker")
     public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user, BatchRefUpdate batch)
         throws RepositoryNotFoundException, IOException {
       Repository repo = mgr.openRepository(name);
@@ -161,6 +162,7 @@ public class MetaDataUpdate implements AutoCloseable {
     }
 
     /** See {@link User#create(Project.NameKey, IdentifiedUser, BatchRefUpdate)} */
+    @SuppressWarnings("MustBeClosedChecker")
     public MetaDataUpdate create(Project.NameKey name, BatchRefUpdate batch)
         throws RepositoryNotFoundException, IOException {
       Repository repo = mgr.openRepository(name);

@@ -132,6 +132,7 @@ class SignedPushModule extends AbstractModule {
     }
 
     @Override
+    @SuppressWarnings("MustBeClosedChecker")
     public PublicKeyStore get() {
       final Repository repo;
       try {

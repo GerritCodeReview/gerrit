@@ -22,6 +22,7 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 
 import com.google.common.base.Joiner;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.ByteArrayInputStream;
@@ -153,6 +154,7 @@ public abstract class PushCertificateChecker {
    * @return the repository.
    * @throws IOException if an error occurred reading the repository.
    */
+  @MustBeClosed
   protected abstract Repository getRepository() throws IOException;
 
   /**

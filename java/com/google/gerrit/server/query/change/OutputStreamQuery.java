@@ -258,6 +258,7 @@ public class OutputStreamQuery {
     }
   }
 
+  @SuppressWarnings("MustBeClosedChecker")
   private ChangeAttribute buildChangeAttribute(
       ChangeData d,
       Map<Project.NameKey, Repository> repos,

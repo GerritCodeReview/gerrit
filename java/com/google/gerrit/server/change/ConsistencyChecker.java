@@ -252,6 +252,7 @@ public class ConsistencyChecker {
     }
   }
 
+  @SuppressWarnings("MustBeClosedChecker")
   private boolean openRepo() {
     Project.NameKey project = change().getDest().project();
     try {

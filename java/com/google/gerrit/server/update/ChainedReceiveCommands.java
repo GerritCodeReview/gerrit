@@ -17,6 +17,7 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
 import java.io.IOException;
@@ -41,6 +42,8 @@ public class ChainedReceiveCommands implements RefCache {
   private final RepoRefCache refCache;
   private final boolean closeRefCache;
 
+  @MustBeClosed
+  @SuppressWarnings("MustBeClosedChecker")
   public ChainedReceiveCommands(Repository repo) {
     this(new RepoRefCache(repo), true);
   }

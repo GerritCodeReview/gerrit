@@ -116,8 +116,8 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   @Override
   public void ensureCreated() throws IOException, ConfigInvalidException {
-    try {
-      repoManager.openRepository(allProjectsName).close();
+    try (Repository unused = repoManager.openRepository(allProjectsName)) {
+      // This block is left empty intentionally: just check if the openRepository succeeds
     } catch (RepositoryNotFoundException e) {
       create();
     }

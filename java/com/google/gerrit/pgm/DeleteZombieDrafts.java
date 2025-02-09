@@ -52,9 +52,10 @@ public class DeleteZombieDrafts extends SiteProgram {
   public int run() throws IOException {
     mustHaveValidSite();
     Injector sysInjector = getSysInjector();
-    DeleteZombieCommentsRefs cleanup =
-        sysInjector.getInstance(DeleteZombieCommentsRefs.Factory.class).create(cleanupPercentage);
-    cleanup.execute();
+    try (DeleteZombieCommentsRefs cleanup =
+        sysInjector.getInstance(DeleteZombieCommentsRefs.Factory.class).create(cleanupPercentage)) {
+      cleanup.execute();
+    }
     return 0;
   }
 

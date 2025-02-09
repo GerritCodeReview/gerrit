@@ -59,7 +59,7 @@ import org.eclipse.jgit.revwalk.RevSort;
  * submission, this caches open repositories to satisfy that requirement.
  */
 public class MergeOpRepoManager implements AutoCloseable {
-  public class OpenRepo {
+  public class OpenRepo implements AutoCloseable {
     final Repository repo;
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
@@ -128,7 +128,8 @@ public class MergeOpRepoManager implements AutoCloseable {
       }
     }
 
-    private void close() {
+    @Override
+    public void close() {
       if (update != null) {
         update.close();
       }
@@ -191,6 +192,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     this.notify = requireNonNull(notify);
   }
 
+  @SuppressWarnings("MustBeClosedChecker")
   public OpenRepo getRepo(Project.NameKey project) throws NoSuchProjectException, IOException {
     if (openRepos.containsKey(project)) {
       return openRepos.get(project);
@@ -219,7 +221,9 @@ public class MergeOpRepoManager implements AutoCloseable {
   public void resetUpdates(ImmutableSet<Project.NameKey> projects)
       throws NoSuchProjectException, IOException {
     for (Project.NameKey project : projects) {
-      getRepo(project).resetExecutedUpdates();
+      try (OpenRepo repo = getRepo(project)) {
+        repo.resetExecutedUpdates();
+      }
     }
   }
 

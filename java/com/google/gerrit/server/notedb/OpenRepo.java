@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -57,6 +58,8 @@ class OpenRepo implements AutoCloseable {
   private final boolean close;
 
   /** Returns a {@link OpenRepo} wrapping around an open {@link Repository}. */
+  @MustBeClosed
+  @SuppressWarnings("MustBeClosedChecker")
   static OpenRepo open(GitRepositoryManager repoManager, Project.NameKey project)
       throws IOException {
     Repository repo = repoManager.openRepository(project); // Closed by OpenRepo#close.

@@ -437,6 +437,7 @@ public class BatchUpdate implements AutoCloseable {
     return project;
   }
 
+  @SuppressWarnings("MustBeClosedChecker")
   private void initRepository() throws IOException {
     if (repoView == null) {
       repoView = new RepoView(repoManager, project);

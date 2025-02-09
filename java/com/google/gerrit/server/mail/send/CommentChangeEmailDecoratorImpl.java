@@ -25,6 +25,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.entities.Account;
@@ -519,6 +520,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
   }
 
   @Nullable
+  @MustBeClosed
   protected Repository getRepository() {
     try {
       return args.server.openRepository(changeEmail.getProjectState().getNameKey());

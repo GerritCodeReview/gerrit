@@ -217,6 +217,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       }
     }
 
+    @SuppressWarnings("MustBeClosedChecker")
     private void initAllUsersRepoIfNull() throws IOException {
       if (allUsersRepo == null) {
         allUsersRepo = OpenRepo.open(repoManager, allUsersName);

@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -71,8 +72,11 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
   private Repository allUsersRepo;
 
   public interface Factory {
+
+    @MustBeClosed
     DeleteZombieCommentsRefs create(int cleanupPercentage);
 
+    @MustBeClosed
     DeleteZombieCommentsRefs create(int cleanupPercentage, boolean dryRun);
   }
 
@@ -167,6 +171,7 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
   }
 
   @Override
+  @SuppressWarnings("MustBeClosedChecker")
   public void setup() throws IOException {
     allUsersRepo = repoManager.openRepository(allUsers);
   }

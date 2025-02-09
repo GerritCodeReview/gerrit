@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.entities.Patch;
@@ -333,6 +334,7 @@ public class FileContentUtil {
     }
   }
 
+  @MustBeClosed
   private Repository openRepository(ProjectState project)
       throws RepositoryNotFoundException, IOException {
     return repoManager.openRepository(project.getNameKey());

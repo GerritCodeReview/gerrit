@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2ff5e28_26acb284",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-09T19:19:21Z",
+      "side": 1,
+      "message": "class can be private as l `openRepositories()` funcion refers to `openRepositories` member which is a part of different class (`GitRepositoryReferenceCountingManager`) not `RepositoryTracking` - I have it private locally and it works just fine...",
+      "parentUuid": "02a905f2_5d37d484",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "3d96ee6fd3554d5ba357094da4faed601d0bc530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e020001b_bb386831",
         "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
         "patchSetId": 7

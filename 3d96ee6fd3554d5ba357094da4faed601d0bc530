@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02a905f2_5d37d484",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-09T15:26:08Z",
+      "side": 1,
+      "message": "Nope, see L190:\n\n```\n  public Set\u003cRepositoryTracking openRepositories()\n```",
+      "parentUuid": "1720a037_718a854b",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "3d96ee6fd3554d5ba357094da4faed601d0bc530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e020001b_bb386831",
         "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-09T15:23:16Z",
       "side": 1,
       "message": "nit: typo `s/manged/managed`",
+      "range": {
+        "startLine": 91,
+        "startChar": 51,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "3d96ee6fd3554d5ba357094da4faed601d0bc530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "414ceff9_203355c8",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-09T15:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e020001b_bb386831",
       "range": {
         "startLine": 91,
         "startChar": 51,

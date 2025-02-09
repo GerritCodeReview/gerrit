@@ -4872,6 +4872,28 @@ Gerrit will load `c-plugin` first, followed-up by `a-plugin` and `b-plugin` last
 This section is used to configure behavior of the 'receive-pack'
 handler, which responds to 'git push' requests.
 
+[[receive.advertiseOpenChangesRefs]]receive.advertiseOpenChangesRefs::
++
+Ref advertisement for Git pushes still works in a "the server speaks
+first fashion", as Git Protocol V2 only addressed fetches. Therefore, the
+server needs to send all available references. For large repositories, this
+data can amount to tens of megabytes. To reduce this footprint, all references
+in `refs/changes/*` are removed. However, this removal can increase the number
+of unnecessary objects that clients send back to the server, because the common
+ancestor found during negotiation might be further back in history.
++
+To mitigate this, the server advertises to the user, the most recent
+`receive.advertiseOpenChangesRefs` open changes refs as additional "haves".
+This is a heuristic approach aimed at reducing the number of unnecessary
+objects that the client sends to the server. It is likely that the user has one
+of these changes in their local repository, which can serve as a starting point
+to determine the common ancestor shared by the client and server.
++
+If `receive.advertiseOpenChangesRefs` is set to `0`, no `refs/changes/*` will
+be advertised to the client.
++
+Defaults to 32.
+
 [[receive.allowGroup]]receive.allowGroup::
 +
 Name of the groups of users that are allowed to execute

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840b0e09_79fe14bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-09T18:16:14Z",
+      "side": 1,
+      "message": "Looks to be very problematic, as it would cause also issues in the JGit code-base when creating a test repository.",
+      "revId": "85f5a52a1b237f9bc51ade45579d119640bc1ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

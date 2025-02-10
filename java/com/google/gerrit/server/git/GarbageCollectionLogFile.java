@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.flogger.backend.Platform;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
@@ -25,15 +25,14 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.jgit.lib.Config;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
   private static final String LOG_NAME = "gc_log";
 
   @Inject
-  public GarbageCollectionLogFile(SitePaths sitePaths, @GerritServerConfig Config config) {
+  public GarbageCollectionLogFile(SitePaths sitePaths, LogConfig config) {
     if (SystemLog.shouldConfigure()) {
-      initLogSystem(sitePaths.logs_dir, config.getBoolean("log", "rotate", true));
+      initLogSystem(sitePaths.logs_dir, config.shouldRotate());
     }
   }
 

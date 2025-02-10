@@ -16,6 +16,24 @@
       "message": "This is now available again for review. One note for @ekempin@google.com that the code-owners needs one more fix (I096453aed2) for being successfully validated after this change.",
       "revId": "a23ecedaea0f3563f8c44c10ed16fc953d606898",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7344557_31ec479b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-10T15:27:34Z",
+      "side": 1,
+      "message": "Thanks for merging the code-owners fixes, this is now ready for the final review and merge !",
+      "parentUuid": "bd22895c_94c6b78c",
+      "revId": "a23ecedaea0f3563f8c44c10ed16fc953d606898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

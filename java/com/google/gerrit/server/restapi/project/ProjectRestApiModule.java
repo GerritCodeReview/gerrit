@@ -66,6 +66,7 @@ public class ProjectRestApiModule extends RestApiModule {
     get(BRANCH_KIND, "mergeable").to(CheckMergeability.class);
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
     get(BRANCH_KIND, "suggest_reviewers").to(SuggestBranchReviewers.class);
+    get(BRANCH_KIND, "validation-options").to(GetBranchValidationOptions.class);
 
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
     post(PROJECT_KIND, "check").to(Check.class);

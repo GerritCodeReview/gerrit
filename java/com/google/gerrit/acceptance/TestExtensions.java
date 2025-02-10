@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -112,6 +113,11 @@ public class TestExtensions {
 
     @Override
     public boolean isOptionEnabled(ChangeNotes changeNotes) {
+      return enabled;
+    }
+
+    @Override
+    public boolean isOptionEnabled(Project.NameKey project, BranchNameKey branch) {
       return enabled;
     }
   }

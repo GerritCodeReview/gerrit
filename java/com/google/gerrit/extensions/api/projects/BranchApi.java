@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
+import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
@@ -34,6 +35,8 @@ public interface BranchApi {
   List<ReflogEntryInfo> reflog() throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
+
+  ValidationOptionInfos getValidationOptions() throws RestApiException;
 
   default SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
     return suggestReviewers().withQuery(query);

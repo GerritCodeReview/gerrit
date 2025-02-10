@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84e372fd_abbc3138",
+        "filename": "java/com/google/gerrit/server/util/PluginLogFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-10T10:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b87f116d_9a218750",
+      "range": {
+        "startLine": 39,
+        "startChar": 49,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "4db4d72f0dd6f83c821579e282ecbea589bee4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5952fced_136c85c3",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "The annotation doesn\u0027t do anything, but it\u0027s a nice hint to devs using this class. I think it\u0027s nice to consolidate the config lookups on L55-56 so that each plugin isn\u0027t reimplementing that. If you instead want to put that into a static helper or take some other approach to sharing it, that\u0027s fine with me. Maybe create a Provider that plugins can inject to get the booleans? You could have two separate annotations or have a single annotation provide an `EnabledLoggingTypes` EnumMap with keys like `TEXT` and `JSON` and Boolean values.",
       "parentUuid": "5952fced_136c85c3",
+      "revId": "4db4d72f0dd6f83c821579e282ecbea589bee4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adeee521_27d324cb",
+        "filename": "java/com/google/gerrit/server/util/PluginLogFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-02-10T10:11:35Z",
+      "side": 1,
+      "message": "Done in parent change.",
+      "parentUuid": "3c47c479_82d16c97",
       "revId": "4db4d72f0dd6f83c821579e282ecbea589bee4a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

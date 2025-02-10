@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git.receive;
 
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 
 /**
  * Push option that can be specified on push.
@@ -28,6 +30,11 @@ public interface PluginPushOption {
 
   /** The description of the push option. */
   public String getDescription();
+
+  /** Allows implementers to control if the option is enabled at the project + branch level */
+  default boolean isOptionEnabled(Project.NameKey project, BranchNameKey branch) {
+    return false;
+  }
 
   /** Allows implementers to control if the option is enabled at the change level */
   default boolean isOptionEnabled(Change change) {

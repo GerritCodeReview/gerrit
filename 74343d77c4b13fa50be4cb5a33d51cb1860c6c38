@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "655dab91_ca7b7b40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-10T03:39:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "789e0690_9ffff31a",
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c34b3d0_0c16f329",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4444ca97_3aaa1e5b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-10T03:39:22Z",
+      "side": 1,
+      "message": "It helps keep the code simpler by avoiding some if() statments to check for null. This makes the code much safer as having to check for null is a pattern that can be forgotten in the code and this adds a maintenance burden.",
+      "parentUuid": "2c34b3d0_0c16f329",
+      "range": {
+        "startLine": 371,
+        "startChar": 20,
+        "endLine": 371,
+        "endChar": 94
+      },
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9c62442_8c1cfdc8",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-02-07T11:09:05Z",
       "side": 1,
       "message": "Is this local variable needed? At this change the call to `initIfNeeded` is still synchronous so why not use `bloomFilter` at the line 55?\n\nI am maybe missing some design ideas here... having a set of (concurrent) tests of this class would definitely help.",
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea465628_6bef5da4",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-10T03:39:22Z",
+      "side": 1,
+      "message": "Although initIfNeeded is synchronous, this method is not, thus you cannot rely on bloomFilter not changing.\n\nAlso, I should clarify that this change is a refactoring, so generally I am trying to make it easy to review by altering as little as possible in the logic of the code. I am mostly trying to just hoist the code out of the calling class into this class so that a reviewer can look at it and say \"yup, looks the same\". I am tyring to keep any improvements to the logic to before and after the refactor change so that they stand out and can be reviewed on their own merrit.",
+      "parentUuid": "c9c62442_8c1cfdc8",
       "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

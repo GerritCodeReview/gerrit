@@ -148,6 +148,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38c8d4bc_52f9a49d",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-10T03:39:22Z",
+      "side": 1,
+      "message": "Yeah, my bad, this comment is wrong and old. I have fixed this.",
+      "parentUuid": "328ff871_351457d6",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce8d37f2_ace69fe6",
@@ -268,6 +286,48 @@
         "endLine": 81,
         "endChar": 39
       },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7df9210_0ba4f80d",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-10T03:39:22Z",
+      "side": 1,
+      "message": "While this does \"silence\" the compiler, this does exactly what I did not want to do, it no longer applies to a single simple statement. The reader has to guess/figure out which line the warning applies to, This takes the warning away from the code which in my opinion makes it useless and just an exercise in silencing the complier.",
+      "parentUuid": "55ca9a6e_bdff61f2",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "174a7443_c0a494a9",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-10T03:39:22Z",
+      "side": 1,
+      "message": "I am trying to keep the logic the same as before the refactor. I recently modified this code as a fix, see what it was previously https://gerrit-review.googlesource.com/c/gerrit/+/447901/2/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java I would feel weird removing the loop. If you feel this is the right thing to do, I would suggest you make another change to do it.",
+      "parentUuid": "c918b81e_b94b3311",
       "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

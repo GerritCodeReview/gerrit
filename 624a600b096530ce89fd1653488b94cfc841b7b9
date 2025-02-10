@@ -93,6 +93,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "841b8765_3967ceba",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T20:23:45Z",
+      "side": 1,
+      "message": "Sorry, I confused it with `CyclicBarrier`. Ignore this comment.",
+      "parentUuid": "80ee3f47_c909c7e7",
+      "range": {
+        "startLine": 189,
+        "startChar": 34,
+        "endLine": 189,
+        "endChar": 35
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "405b3807_6257660f",

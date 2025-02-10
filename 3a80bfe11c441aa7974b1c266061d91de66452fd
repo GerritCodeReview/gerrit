@@ -249,6 +249,30 @@
       },
       "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab970b04_87c92423",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-10T16:49:34Z",
+      "side": 1,
+      "message": "Renamed to `highlightLayer`.",
+      "parentUuid": "a82a32eb_6845fd35",
+      "range": {
+        "startLine": 457,
+        "startChar": 6,
+        "endLine": 457,
+        "endChar": 27
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

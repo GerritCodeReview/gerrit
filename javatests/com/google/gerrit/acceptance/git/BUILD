@@ -5,6 +5,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
     srcs = [f],
     group = f[:f.index(".")],
     labels = ["git"],
+    vm_args = ["-Xmx512m"],
     deps = [
         ":push_for_review",
         ":submodule_util",

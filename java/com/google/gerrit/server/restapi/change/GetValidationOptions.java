@@ -22,8 +22,8 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.stream.StreamSupport;
@@ -43,7 +43,7 @@ public class GetValidationOptions implements RestReadView<ChangeResource> {
         new ValidationOptionInfos(
             StreamSupport.stream(
                     this.pluginPushOption.entries().spliterator(), /* parallel= */ false)
-                .filter(extension -> extension.get().isOptionEnabled(resource.getChange()))
+                .filter(extension -> extension.get().isOptionEnabled(resource.getNotes()))
                 .map(
                     extension ->
                         new ValidationOptionInfo(

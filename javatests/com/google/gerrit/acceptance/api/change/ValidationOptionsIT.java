@@ -26,7 +26,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestExtensions.TestPluginPushOption;
 import com.google.gerrit.extensions.common.ValidationOptionInfo;
 import com.google.gerrit.extensions.common.ValidationOptionInfos;
-import com.google.gerrit.server.git.receive.PluginPushOption;
+import com.google.gerrit.server.PluginPushOption;
 import com.google.inject.Inject;
 import org.junit.Test;
 

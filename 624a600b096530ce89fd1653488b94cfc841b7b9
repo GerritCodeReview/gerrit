@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad84c59_c4dc8bda",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "This test verifies that `mightContain` will not throw an exception if caled before init. This could be shortened to just one line:\n```\nfilter.mightContain(1);\n```\n\nand let the exception exist the test method (in which case the test is considered as failed).",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 35
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58a7349d_d7405cc7",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "mightContainIsConcurrent",
+      "range": {
+        "startLine": 112,
+        "startChar": 14,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc9abcae_7b03d547",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "This is unintuitive: create a `ConcurrentTest` with `NUM_THREADS` and then expect here `NUM_THREADS * 2` successful operations.\n\nI see that this is because the `ConcurrentTest.setup` has a for loop with `NUM_THREADS * 2` operations but I don\u0027t understand why and why every caller has to be aware of that. Either expect here exactly `NUM_THREADS` successful operations or encapsulate the verification inside the `ConcurrentTest` class.",
+      "range": {
+        "startLine": 115,
+        "startChar": 20,
+        "endLine": 115,
+        "endChar": 35
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80ee3f47_c909c7e7",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "If the count if hardcoded to `1` what is the purpose of this `CountDownLatch` when we run multiple threads? AFAIU, the idea is to synchronize all the tasks on that latch and then let them all proceed at about the same time. However, the latch counter will be down to zero after the first thread calls await and when other threads call await it will exit immediatelly.",
+      "range": {
+        "startLine": 189,
+        "startChar": 34,
+        "endLine": 189,
+        "endChar": 35
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "405b3807_6257660f",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "The tests which use `ConcurrentTest.run` will shutdown the executor but the tests which use `ConcurrentTest.setup` will not do so?",
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d06ea333_a0053b22",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "Maybe a more readable way is to use `AtomicReference` and mutate it after the filter is instantiated:\n```\n    AtomicReference\u003cRunnable\u003e builderRef \u003d new AtomicReference\u003c\u003e();\n    ConcurrentBloomFilter\u003cInteger\u003e b \u003d\n        new ConcurrentBloomFilter\u003c\u003e(Funnels.integerFunnel(), () -\u003e builderRef.get().run());\n    builderRef.set(() -\u003e builder.accept(b));\n    return b;\n```",
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7263f78a_5372b7fa",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "This seems wrong. The `CountDownLatch.await(timeout)`, will return `false` if the waiting time elapsed before the count reached zero. This means that this method will return `true` regardless of the return value of the `latch.await` method.",
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a10f506a_faad20a4",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "`void`: the return value is unused.\n\nAlso consider accepting here a list of Futures so that callers don\u0027t have to iterate but just call:\n```\nget(futures);\n```\n\nAlternative method names: `getAll`, `join`, `joinAll`.",
+      "range": {
+        "startLine": 251,
+        "startChar": 17,
+        "endLine": 251,
+        "endChar": 24
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

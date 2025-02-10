@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4ceea74_89f9bdbd",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "On the other side, if the call to `initIfNeeded` is not properly guarded this may actually lead to the execution of the `buildBloomFilter` method. This is also a thing one has to keep in mind for future maintenance.\n\nWhat about providing a different `Runnable builder` when `buildBloomFilter` is `false`? It could be a no-op builder that just returns.",
+      "parentUuid": "4444ca97_3aaa1e5b",
+      "range": {
+        "startLine": 371,
+        "startChar": 20,
+        "endLine": 371,
+        "endChar": 94
+      },
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9c62442_8c1cfdc8",
         "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
         "patchSetId": 4

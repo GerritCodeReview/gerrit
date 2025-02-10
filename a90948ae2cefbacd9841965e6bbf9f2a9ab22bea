@@ -330,6 +330,30 @@
       "parentUuid": "c918b81e_b94b3311",
       "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7a56684_68fc20ef",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-10T15:48:38Z",
+      "side": 1,
+      "message": "I disagree on that but I stop here as this is a matter of personal preference in which case the change authors\u0027 preference should have higher priority.",
+      "parentUuid": "c7df9210_0ba4f80d",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -7,12 +7,9 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import '../gr-diff/gr-diff-line';
 import './gr-ranged-comment-layer';
-import {
-  CommentRangeLayer,
-  GrRangedCommentLayer,
-} from './gr-ranged-comment-layer';
+import {GrRangedCommentLayer} from './gr-ranged-comment-layer';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {GrDiffLineType, Side} from '../../../api/diff';
+import {GrDiffLineType, Side, CommentRangeLayer} from '../../../api/diff';
 import {SinonStub} from 'sinon';
 import {assert} from '@open-wc/testing';
 import {GrAnnotationImpl} from '../gr-diff-highlight/gr-annotation';

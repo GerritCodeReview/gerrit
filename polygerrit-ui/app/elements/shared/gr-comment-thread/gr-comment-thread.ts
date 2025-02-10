@@ -35,7 +35,6 @@ import {computeDisplayPath} from '../../../utils/path-list-util';
 import {
   AccountDetailInfo,
   Comment,
-  CommentRange,
   CommentThread,
   isDraft,
   isRobot,
@@ -46,7 +45,13 @@ import {
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {DiffLayer, FILE, RenderPreferences} from '../../../api/diff';
+import {
+  CommentRangeLayer,
+  DiffLayer,
+  Side,
+  FILE,
+  RenderPreferences,
+} from '../../../api/diff';
 import {
   assert,
   assertIsDefined,
@@ -227,7 +232,7 @@ export class GrCommentThread extends LitElement {
 
   /** Computed during willUpdate(). */
   @state()
-  highlightRange?: CommentRange;
+  highlightRange?: CommentRangeLayer;
 
   /**
    * Reflects the *dirty* state of whether the thread is currently unresolved.
@@ -730,13 +735,16 @@ export class GrCommentThread extends LitElement {
   private computeHighlightRange() {
     const comment = this.getFirstComment();
     if (!comment) return undefined;
-    if (comment.range) return comment.range;
+    if (comment.range) return {side: Side.RIGHT, range: comment.range};
     if (comment.line) {
       return {
-        start_line: comment.line,
-        start_character: 0,
-        end_line: comment.line,
-        end_character: 0,
+        side: Side.RIGHT,
+        range: {
+          start_line: comment.line,
+          start_character: 0,
+          end_line: comment.line,
+          end_character: 0,
+        },
       };
     }
     return undefined;

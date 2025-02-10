@@ -29,6 +29,7 @@ import {
   NewDraftInfo,
   isNew,
   CommentInput,
+  CommentRange,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -253,6 +254,12 @@ export function createCommentThreads(comments: Comment[]) {
     if (id(comment)) idThreadMap[id(comment)] = newThread;
   }
   return threads;
+}
+
+export function rangeId(r: CommentRange) {
+  return `${r.start_line ?? 0}-${r.start_character ?? 0}-${r.end_line ?? 0}-${
+    r.end_character ?? 0
+  }`;
 }
 
 export function equalLocation(t1?: CommentThread, t2?: CommentThread) {

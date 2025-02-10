@@ -10,22 +10,17 @@ import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
-import {GrDiffLineType} from '../../../api/diff';
-
-export interface CommentRangeLayer {
-  id?: string;
-  side: Side;
-  range: CommentRange;
-}
+import {GrDiffLineType, CommentRangeLayer} from '../../../api/diff';
+import {rangeId} from '../../../utils/comment-util';
 
 /** Can be used for array functions like `some()`. */
 function equals(a: CommentRangeLayer) {
   return (b: CommentRangeLayer) => id(a) === id(b);
 }
 
-function id(r: CommentRangeLayer): string {
+export function id(r: CommentRangeLayer): string {
   if (r.id) return r.id;
-  return `${r.side}-${r.range.start_line}-${r.range.start_character}-${r.range.end_line}-${r.range.end_character}`;
+  return `${r.side}-${rangeId(r.range)}`;
 }
 
 /**

@@ -85,7 +85,7 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
 
     @Inject
     public MySystemLog(SitePaths site, Config config, InvocationCounter invocationCounter) {
-      super(site, config);
+      super(site, config, null);
       this.invocationCounter = invocationCounter;
     }
 

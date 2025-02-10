@@ -22,8 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -42,11 +41,9 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
-import org.eclipse.jgit.lib.Config;
 
 /** Compresses and eventually deletes the old logs. */
 public class LogFileManager implements Runnable {
@@ -99,21 +96,10 @@ public class LogFileManager implements Runnable {
   private final Path logs_dir;
 
   @Inject
-  LogFileManager(SitePaths site, @GerritServerConfig Config config) {
+  LogFileManager(SitePaths site, LogConfig config) {
     this.logs_dir = resolve(site.logs_dir);
-    this.compressionEnabled = config.getBoolean("log", "compress", true);
-    this.timeToKeep = getTimeToKeep(config);
-  }
-
-  private Duration getTimeToKeep(Config config) {
-    try {
-      return Duration.ofDays(
-          ConfigUtil.getTimeUnit(config, "log", null, "timeToKeep", -1, TimeUnit.DAYS));
-    } catch (IllegalArgumentException e) {
-      logger.atWarning().withCause(e).log(
-          "Illegal duration value for log deletion. Disabling log deletion.");
-      return Duration.ofDays(-1L);
-    }
+    this.compressionEnabled = config.shouldCompress();
+    this.timeToKeep = config.getTimeToKeep();
   }
 
   private static Path resolve(Path p) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7b024b7_80480b03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-10T15:35:42Z",
+      "side": 1,
+      "message": "Because this is the diff component for the comment thread. It does not have a left side.",
+      "parentUuid": "79746ea7_c0045d35",
+      "range": {
+        "startLine": 738,
+        "startChar": 31,
+        "endLine": 738,
+        "endChar": 47
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc4251b0_ad8eeb92",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-10T15:24:04Z",
       "side": 1,
       "message": "is this comment still valid?\n\nTBH I don\u0027t understand this comment before/after this change.\n\nIf possible can you clarify it a bit?",
+      "range": {
+        "startLine": 173,
+        "startChar": 5,
+        "endLine": 173,
+        "endChar": 74
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a9c1eef_43fe2c1d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-10T15:35:42Z",
+      "side": 1,
+      "message": "Done.\n```\n  // \u003cgr-diff\u003e highlights all ranges that are referenced by a comment.\n  // This property allows to also highlight one other range explicitly.\n```",
+      "parentUuid": "cc4251b0_ad8eeb92",
       "range": {
         "startLine": 173,
         "startChar": 5,
@@ -108,6 +156,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42346806_630e4468",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-10T15:35:42Z",
+      "side": 1,
+      "message": "I would prefer to keep as is.",
+      "parentUuid": "93d1bea5_0a421359",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 16
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c833bd96_a5b7fdb6",
@@ -121,6 +193,30 @@
       "writtenOn": "2025-02-10T15:24:04Z",
       "side": 1,
       "message": "existing code as well but what does the method `updateRangeLayer` actually do?\n\nNo comments on that method as well unfortunately.\n\n```\n    if (changedProperties.has(\u0027coverageRanges\u0027)) {\n      this.updateCoverageRanges(this.coverageRanges);\n    }\n```\n\nLooking at existing code the method should be `updateHighlightRanges` instead?\n\nThat method however calls `this.coverageLayerLeft.setRanges` similar to `this.focusLayer.setRanges(rs);`\n\nSo should we have a `this.highlightLayer` here?",
+      "range": {
+        "startLine": 457,
+        "startChar": 6,
+        "endLine": 457,
+        "endChar": 27
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3db9d180_75382c1c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-10T15:35:42Z",
+      "side": 1,
+      "message": "Added a comment.",
+      "parentUuid": "c833bd96_a5b7fdb6",
       "range": {
         "startLine": 457,
         "startChar": 6,

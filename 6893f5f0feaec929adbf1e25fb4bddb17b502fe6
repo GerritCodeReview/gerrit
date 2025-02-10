@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d006f869_010d9d6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-02-10T16:04:00Z",
+      "side": 1,
+      "message": "Thanks! that would work except for the single comment I left. Please feel free to leave this to me if you don\u0027t have time to debug it.",
+      "revId": "6893f5f0feaec929adbf1e25fb4bddb17b502fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2b2c8c0_235d9812",
@@ -42,6 +59,29 @@
         "startChar": 3,
         "endLine": 729,
         "endChar": 26
+      },
+      "revId": "6893f5f0feaec929adbf1e25fb4bddb17b502fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c15e85e_5d5328a9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-02-10T16:04:00Z",
+      "side": 1,
+      "message": "when I attempted to use this it didn\u0027t work after the first highlight, i.e. when I retrigger it a second time on another range it did nothing. I expected it to remove the highlight from the first range and add it to the second.\n\nOne workaround that worked was to make the highlight ids unique (e.g. by adding the file path and range details to the ID).",
+      "range": {
+        "startLine": 736,
+        "startChar": 48,
+        "endLine": 736,
+        "endChar": 50
       },
       "revId": "6893f5f0feaec929adbf1e25fb4bddb17b502fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

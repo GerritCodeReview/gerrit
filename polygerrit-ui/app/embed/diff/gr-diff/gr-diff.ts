@@ -27,14 +27,11 @@ import {
   DiffContextExpandedEventDetail,
   GrDiffCommentThread,
 } from '../gr-diff/gr-diff-utils';
-import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
+import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
-import {
-  CommentRangeLayer,
-  GrRangedCommentLayer,
-} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
@@ -49,6 +46,7 @@ import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
   CopyInfoEventDetail,
+  CommentRangeLayer,
 } from '../../../api/diff';
 import {getShadowOrDocumentSelection} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -172,9 +170,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: String})
   actionHoverCardText?: string;
 
-  // explicitly highlight a range if it is not associated with any comment
+  // <gr-diff> highlights all ranges that are referenced by a comment.
+  // This property allows to also highlight one other range explicitly.
   @property({type: Object})
-  highlightRange?: CommentRange;
+  highlightRange?: CommentRangeLayer;
 
   @property({type: Array})
   coverageRanges: CoverageRange[] = [];
@@ -455,6 +454,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
         });
       }
     }
+    if (changedProperties.has('highlightRange')) {
+      this.updateRangeLayer(this.diffModel.getState().comments);
+    }
   }
 
   protected override async getUpdateComplete(): Promise<boolean> {
@@ -720,6 +722,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
   }
 
+  /**
+   * Updates the layer that highlights all ranges that belong to a comment
+   * and the `this.highlightRange`.
+   */
   private updateRangeLayer(threads: GrDiffCommentThread[]) {
     const ranges: CommentRangeLayer[] = threads
       .filter(t => !!t.range)
@@ -727,7 +733,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
         return {range: t.range!, side: t.side, id: t.rootId};
       });
     if (this.highlightRange) {
-      ranges.push({side: Side.RIGHT, range: this.highlightRange, id: 'hl'});
+      ranges.push({...this.highlightRange, id: 'hl'});
     }
     this.rangeLayer.updateRanges(ranges);
   }

@@ -469,6 +469,12 @@ export declare interface DiffLayer {
   ): void;
 }
 
+export interface CommentRangeLayer {
+  id?: string;
+  side: Side;
+  range: CommentRange;
+}
+
 /** Data used by GrAnnotation to generate elements. */
 export declare interface ElementSpec {
   tagName: string;

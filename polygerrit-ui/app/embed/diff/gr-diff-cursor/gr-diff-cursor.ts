@@ -356,9 +356,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   };
 
   createCommentInPlace() {
-    const diffWithRangeSelected = this.diffs.find(diff =>
-      diff.isRangeSelected()
-    );
+    const diffWithRangeSelected = this.getSelectedDiff();
     if (diffWithRangeSelected) {
       diffWithRangeSelected.createRangeComment();
     } else {
@@ -371,10 +369,12 @@ export class GrDiffCursor implements GrDiffCursorApi {
     }
   }
 
+  getSelectedDiff() {
+    return this.diffs.find(diff => diff.isRangeSelected());
+  }
+
   getSelectedRange() {
-    const diffWithRangeSelected = this.diffs.find(diff =>
-      diff.isRangeSelected()
-    );
+    const diffWithRangeSelected = this.getSelectedDiff();
     if (diffWithRangeSelected) {
       return diffWithRangeSelected.getSelectedRange();
     }

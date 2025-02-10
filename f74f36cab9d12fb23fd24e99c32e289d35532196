@@ -16,6 +16,64 @@
       "message": "@ekempin@google.com I have tested this now with the latest master of code-owners:\n\n```\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CheckCodeOwnerConfigFilesIT PASSED in 132.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CheckCodeOwnerConfigFilesInRevisionIT PASSED in 82.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CheckCodeOwnerIT PASSED in 73.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnerConfigValidatorErrorHandlingIT PASSED in 63.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnerConfigValidatorIT PASSED in 210.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnerConfigValidatorOnSubmitIT PASSED in 138.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnerHasOperandsIT PASSED in 71.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnerSubmitRuleIT PASSED in 158.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnersOnAddReviewerIT PASSED in 80.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:CodeOwnersPluginConfigValidatorIT PASSED in 83.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnerBranchConfigIT PASSED in 65.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnerConfigFilesIT PASSED in 47.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnerConfigForPathInBranchIT PASSED in 77.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnerProjectConfigIT PASSED in 48.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnerStatusIT PASSED in 58.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnersForPathInBranchIT PASSED in 127.4s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetCodeOwnersForPathInChangeIT PASSED in 195.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:GetOwnedPathsIT PASSED in 78.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:NotImplementedIT PASSED in 22.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:OnCodeOwnerApprovalIT PASSED in 227.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:OnCodeOwnerOverrrideIT PASSED in 243.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:PutCodeOwnerProjectConfigIT PASSED in 59.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:RenameEmailIT PASSED in 48.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/api:SkipCodeOwnerConfigValidationPushOptionIT PASSED in 56.4s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/batch:acceptance_batch PASSED in 27.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/restapi:acceptance_restapi PASSED in 172.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/acceptance/testsuite:code_owners_testsuite PASSED in 78.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:ChangedFileTest PASSED in 44.1s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:ChangedFilesTest PASSED in 64.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerApprovalCheckForAccountTest PASSED in 43.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerApprovalCheckInputTest PASSED in 129.4s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerApprovalCheckTest PASSED in 125.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerApprovalCheckWithAllUsersAsFallbackCodeOwnersTest PASSED in 53.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerApprovalCheckWithSelfApprovalsIgnoredTest PASSED in 67.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerApprovalCheckWithStickyApprovalsTest PASSED in 72.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerBackendIdTest PASSED in 21.9s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigFileTest PASSED in 30.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigFileUpdateScannerTest PASSED in 36.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigHierarchyTest PASSED in 43.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigImportTest PASSED in 22.0s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigReferenceTest PASSED in 32.9s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigScannerTest PASSED in 73.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerConfigTest PASSED in 24.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerResolverResultTest PASSED in 20.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerResolverTest PASSED in 47.2s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerScoreTest PASSED in 23.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerScoringTest PASSED in 37.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerScoringsTest PASSED in 24.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerSetModificationTest PASSED in 27.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerSetTest PASSED in 29.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnerSubmitRuleTest PASSED in 46.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnersExceptionHookTest PASSED in 36.6s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnersInternalServerErrorExceptionTest PASSED in 27.4s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnersTest PASSED in 36.9s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:CodeOwnersUpdateTest PASSED in 32.3s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:FindOwnersGlobMatcherTest PASSED in 23.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:GlobMatcherTest PASSED in 25.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:PathCodeOwnersResultTest PASSED in 24.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:PathCodeOwnersTest PASSED in 68.4s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend:SimplePathExpressionMatcherTest PASSED in 31.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend/config:config PASSED in 342.7s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend/findowners:findowners_backend PASSED in 56.8s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/backend/proto:proto_backend PASSED in 64.1s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/restapi:restapi PASSED in 53.5s\n//plugins/code-owners/javatests/com/google/gerrit/plugins/codeowners/util:util PASSED in 24.7s\n```",
       "revId": "f74f36cab9d12fb23fd24e99c32e289d35532196",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0ce2336_6902521f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-10T16:01:01Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t do a full review, but I have no concerns with relanding this change.",
+      "revId": "f74f36cab9d12fb23fd24e99c32e289d35532196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faca98d6_8788df27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-10T16:01:01Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "13786e35_d9758ce7",
+      "revId": "f74f36cab9d12fb23fd24e99c32e289d35532196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e564e560_2ba880f6",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-10T16:01:01Z",
+      "side": 1,
+      "message": "nit: callerClassName",
+      "range": {
+        "startLine": 74,
+        "startChar": 11,
+        "endLine": 74,
+        "endChar": 27
+      },
+      "revId": "f74f36cab9d12fb23fd24e99c32e289d35532196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

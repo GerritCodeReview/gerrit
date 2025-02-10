@@ -88,6 +88,7 @@ import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker.EventBrokerModule;
 import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiListenerModule;
@@ -218,6 +219,7 @@ public class Daemon extends SiteProgram {
   private Injector dbInjector;
   private Injector cfgInjector;
   private Config config;
+  private LogConfig logConfig;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector webInjector;
@@ -401,7 +403,8 @@ public class Daemon extends SiteProgram {
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
 
-    manager.add(ErrorLogFile.start(getSitePath(), config, consoleLog));
+    logConfig = sysInjector.getInstance(LogConfig.class);
+    manager.add(ErrorLogFile.start(getSitePath(), logConfig, consoleLog));
 
     sshd &= !sshdOff();
     if (sshd) {

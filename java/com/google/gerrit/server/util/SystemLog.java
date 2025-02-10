@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -48,10 +49,10 @@ public class SystemLog {
   private final boolean rotateLogs;
 
   @Inject
-  public SystemLog(SitePaths site, @GerritServerConfig Config config) {
+  public SystemLog(SitePaths site, @GerritServerConfig Config config, LogConfig logConfig) {
     this.site = site;
     this.asyncLoggingBufferSize = config.getInt("core", "asyncLoggingBufferSize", 64);
-    this.rotateLogs = config.getBoolean("log", "rotate", true);
+    this.rotateLogs = logConfig.shouldRotate();
   }
 
   public static boolean shouldConfigure() {

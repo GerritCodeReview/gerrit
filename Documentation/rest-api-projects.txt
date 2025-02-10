@@ -1976,6 +1976,39 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[validation-options]]
+=== Get Validation Options
+--
+'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/validation-options'
+--
+
+Retrieves the validation options applicable for the given project and branch.
+
+.Request
+----
+  GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/validation-options HTTP/1.0
+----
+
+As response a link:#https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#validation-options-infos[ValidationOptionInfos] entity is
+returned that contains all the validation options.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    validation_options: [
+      {
+        name: "optionName",
+        description: "description of the validation option"
+      }
+    ]
+  }
+----
+
 [[suggest-reviewers]]
 === Suggest Reviewers
 --
@@ -5085,7 +5118,6 @@ specified, the project's `HEAD` will be used.
 |`message`   |optional|The tag message. When set, the tag will be created
 as an annotated tag.
 |=========================
-
 
 GERRIT
 ------

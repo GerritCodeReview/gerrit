@@ -133,6 +133,30 @@
       },
       "revId": "6893f5f0feaec929adbf1e25fb4bddb17b502fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e3dc341_98d02963",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-10T16:49:58Z",
+      "side": 1,
+      "message": "Oh, right. Makese sense. PTAL",
+      "parentUuid": "9c15e85e_5d5328a9",
+      "range": {
+        "startLine": 736,
+        "startChar": 48,
+        "endLine": 736,
+        "endChar": 50
+      },
+      "revId": "6893f5f0feaec929adbf1e25fb4bddb17b502fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

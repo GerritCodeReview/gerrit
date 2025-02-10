@@ -121,6 +121,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
               .expectedMessage("reflog not supported on")
               .build(),
+          RestCall.get("/projects/%s/branches/%s/validation-options"),
           RestCall.get("/projects/%s/branches/%s/suggest_reviewers"),
 
           // Branch deletion must be tested last

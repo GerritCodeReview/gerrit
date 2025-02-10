@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.notedb.ChangeNotes;
 
 /**
@@ -35,6 +37,16 @@ public interface PluginPushOption {
    * @param changeNotes the change for which it should be checked if the option is enabled
    */
   default boolean isOptionEnabled(ChangeNotes changeNotes) {
+    return false;
+  }
+
+  /**
+   * Allows implementers to control if the option is enabled at the project + branch level
+   *
+   * @param project the project for which it should be checked if the option is enabled
+   * @param branch the branch for which it should be checked if the option is enabled
+   */
+  default boolean isOptionEnabled(Project.NameKey project, BranchNameKey branch) {
     return false;
   }
 }

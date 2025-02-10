@@ -1,0 +1,134 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79746ea7_c0045d35",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-10T15:24:04Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why we are sure the side is always `Side.RIGHT`.",
+      "range": {
+        "startLine": 738,
+        "startChar": 31,
+        "endLine": 738,
+        "endChar": 47
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4251b0_ad8eeb92",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-10T15:24:04Z",
+      "side": 1,
+      "message": "is this comment still valid?\n\nTBH I don\u0027t understand this comment before/after this change.\n\nIf possible can you clarify it a bit?",
+      "range": {
+        "startLine": 173,
+        "startChar": 5,
+        "endLine": 173,
+        "endChar": 74
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d1bea5_0a421359",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-10T15:24:04Z",
+      "side": 1,
+      "message": "nit: highlightRangeLayer?",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3ac6098e_a34cee3a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+              "range": {
+                "startLine": 175,
+                "startChar": 0,
+                "endLine": 176,
+                "endChar": 0
+              },
+              "replacement": "  highlightRangeLayer?: CommentRangeLayer;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+              "range": {
+                "startLine": 456,
+                "startChar": 0,
+                "endLine": 457,
+                "endChar": 0
+              },
+              "replacement": "    if (changedProperties.has(\u0027highlightRangeLayer\u0027)) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+              "range": {
+                "startLine": 730,
+                "startChar": 0,
+                "endLine": 732,
+                "endChar": 0
+              },
+              "replacement": "    if (this.highlightRangeLayer) {\n      ranges.push({...this.highlightRangeLayer, id: \u0027hl\u0027});\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c833bd96_a5b7fdb6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-10T15:24:04Z",
+      "side": 1,
+      "message": "existing code as well but what does the method `updateRangeLayer` actually do?\n\nNo comments on that method as well unfortunately.\n\n```\n    if (changedProperties.has(\u0027coverageRanges\u0027)) {\n      this.updateCoverageRanges(this.coverageRanges);\n    }\n```\n\nLooking at existing code the method should be `updateHighlightRanges` instead?\n\nThat method however calls `this.coverageLayerLeft.setRanges` similar to `this.focusLayer.setRanges(rs);`\n\nSo should we have a `this.highlightLayer` here?",
+      "range": {
+        "startLine": 457,
+        "startChar": 6,
+        "endLine": 457,
+        "endChar": 27
+      },
+      "revId": "3a80bfe11c441aa7974b1c266061d91de66452fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

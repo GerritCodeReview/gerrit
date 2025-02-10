@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bcb6b9_61d1e15a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-10T07:43:13Z",
+      "side": 1,
+      "message": "perhaps better option would be to introduce function `asseertRepositoriesClosed` e.g.\n```\npublic void assertRepositoriesClosed() {\n  if (openRepositories !\u003d null) {\n    assertThat(openRepositories).isEqualTo(Collections.emptySet());\n  }\n}\n```\n\nand call it in `AbstractDaemonTest` instead of leaking internals to the wild? WDYT?",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 196,
+        "endChar": 0
+      },
+      "revId": "cfb4f1fd44f650e908df2eb88a21d62bdbe02be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

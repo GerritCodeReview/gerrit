@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6464f7f_7cedb133",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetBranchValidationOptionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-10T10:53:08Z",
+      "side": 1,
+      "message": "Does TestPluginPushOption need to implement the new isEnabled() method?",
+      "range": {
+        "startLine": 40,
+        "startChar": 37,
+        "endLine": 40,
+        "endChar": 57
+      },
+      "revId": "f19d2d455134d7183ea83bd21f4651f14c619c4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.FileResource;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.change.GetValidationOptions;
 import com.google.gerrit.server.restapi.project.BranchesCollection;
 import com.google.gerrit.server.restapi.project.CreateBranch;
 import com.google.gerrit.server.restapi.project.DeleteBranch;
@@ -58,6 +60,7 @@ public class BranchApiImpl implements BranchApi {
   private final GetReflog getReflog;
   private final String ref;
   private final ProjectResource project;
+  private final GetValidationOptions getValidationOptions;
 
   private final SuggestBranchReviewers suggestReviewers;
 
@@ -70,6 +73,7 @@ public class BranchApiImpl implements BranchApi {
       GetBranch getBranch,
       GetContent getContent,
       GetReflog getReflog,
+      GetValidationOptions getValidationOptions,
       SuggestBranchReviewers suggestReviewers,
       @Assisted ProjectResource project,
       @Assisted String ref) {
@@ -77,6 +81,7 @@ public class BranchApiImpl implements BranchApi {
     this.createBranch = createBranch;
     this.deleteBranch = deleteBranch;
     this.filesCollection = filesCollection;
+    this.getValidationOptions = getValidationOptions;
     this.getBranch = getBranch;
     this.getContent = getContent;
     this.getReflog = getReflog;
@@ -123,6 +128,15 @@ public class BranchApiImpl implements BranchApi {
         return BranchApiImpl.this.suggestReviewers(this);
       }
     };
+  }
+
+  @Override
+  public ValidationOptionInfos getValidationOptions() throws RestApiException {
+    try {
+      return getValidationOptions.apply(resource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get validation options", e);
+    }
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)

@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.SystemLog;
@@ -79,14 +80,15 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       final Provider<Context> context,
       SystemLog systemLog,
       @GerritServerConfig Config config,
+      LogConfig logConfig,
       GroupAuditService auditService) {
     this.session = session;
     this.context = context;
     this.auditService = auditService;
     this.systemLog = systemLog;
 
-    this.json = config.getBoolean("log", "jsonLogging", false);
-    this.text = config.getBoolean("log", "textLogging", true) || !json;
+    this.json = logConfig.isJsonLogging();
+    this.text = logConfig.isTextLogging();
 
     if (config.getBoolean("sshd", "requestLog", true)) {
       enableLogging();

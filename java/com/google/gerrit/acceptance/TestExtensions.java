@@ -114,6 +114,11 @@ public class TestExtensions {
     public boolean isOptionEnabled(ChangeNotes changeNotes) {
       return enabled;
     }
+
+    @Override
+    public boolean isOptionEnabled(Project.NameKey project, BranchNameKey branch) {
+      return enabled;
+    }
   }
 
   /**

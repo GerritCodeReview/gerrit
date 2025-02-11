@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b36a7787_c1137108",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T11:25:52Z",
+      "side": 1,
+      "message": "\u003e This is deliberately short.\n\nIt\u0027s not really readable in the current state.\n\n`toDraft` is better but it still doesn\u0027t explain why a check is being converted to a draft.\n\nMaybe rename and add some comments to explain the purpose of the method?",
+      "parentUuid": "5e0d27c2_e910ec5a",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 25
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b2ed4cf_efc16777",
         "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
         "patchSetId": 2

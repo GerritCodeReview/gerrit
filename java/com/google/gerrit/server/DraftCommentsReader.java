@@ -56,10 +56,18 @@ public interface DraftCommentsReader {
   /**
    * Returns all drafts of the provided change, regardless of the author. The comments are sorted by
    * {@link CommentsUtil#COMMENT_ORDER}.
+   *
+   * <p>NOTE: Drafts should not be exposed between users. This method should therefore only be used
+   * for batch operations hidden from end users.
    */
   List<HumanComment> getDraftsByChangeForAllAuthors(ChangeNotes notes);
 
-  /** Returns all users that have any draft comments on the provided change. */
+  /**
+   * Returns all users that have any draft comments on the provided change.
+   *
+   * <p>NOTE: Drafts should not be exposed between users. This method should therefore only be used
+   * for batch operations hidden from end users.
+   */
   Set<Account.Id> getUsersWithDrafts(ChangeNotes changeNotes);
 
   /** Returns all changes that contain draft comments of {@code author}. */

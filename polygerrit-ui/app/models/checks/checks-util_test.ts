@@ -14,16 +14,19 @@ import {
   rectifyFix,
   sortAttemptChoices,
   stringToAttemptChoice,
+  toComment,
 } from './checks-util';
 import {Fix, Replacement} from '../../api/checks';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
-import {CommentRange} from '../../api/rest-api';
+import {CommentRange, RevisionPatchSetNum} from '../../api/rest-api';
 import {
   createCheckFix,
   createCheckLink,
   createCheckResult,
   createRange,
+  createRunResult,
 } from '../../test/test-data-generators';
+import {RunResult} from './checks-model';
 
 suite('checks-util tests', () => {
   setup(() => {});
@@ -193,6 +196,53 @@ suite('checks-util tests', () => {
           fixes: [createCheckFix()],
         })
       );
+    });
+  });
+
+  suite('toComment', () => {
+    test('normal pointer', () => {
+      const range = {
+        start_line: 1,
+        end_line: 2,
+        start_character: 3,
+        end_character: 4,
+      };
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        codePointers: [
+          {
+            path: 'testpath',
+            range,
+          },
+        ],
+      };
+      const comment = toComment(result);
+      assert.equal(comment.patch_set, 3 as RevisionPatchSetNum);
+      assert.equal(comment.range, range);
+      assert.equal(comment.line, 2);
+    });
+
+    test('pointer with 0 range', () => {
+      const range = {
+        start_line: 0,
+        end_line: 0,
+        start_character: 0,
+        end_character: 0,
+      };
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        codePointers: [
+          {
+            path: 'testpath',
+            range,
+          },
+        ],
+      };
+      const comment = toComment(result);
+      assert.isUndefined(comment.range);
+      assert.isUndefined(comment.line);
     });
   });
 });

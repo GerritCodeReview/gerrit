@@ -126,6 +126,70 @@ public class ApiProtocolBufferGenerator {
     System.out.println(proto);
   }
 
+
+  private static void exportSingleClass2(Class<?> clazz) {
+    StringBuilder proto = new StringBuilder(NOTICE);
+    proto.append("\n\nsyntax = \"proto3\";");
+    proto.append("\n\npackage gerrit.api;");
+    proto.append("\n\noption java_package = \"" + PACKAGE + "\";");
+
+    int fieldNumber = 1;
+
+    proto.append("\n\n\nmessage " + clazz.getSimpleName() + " {\n");
+
+    for (Field f : clazz.getFields()) {
+      Class<?> type = f.getType();
+
+      if (type.isAssignableFrom(List.class)) {
+        ParameterizedType list = (ParameterizedType) f.getGenericType();
+        Class<?> genericType = (Class<?>) list.getActualTypeArguments()[0];
+        String protoType =
+            protoType(genericType)
+                .orElseThrow(() -> new IllegalStateException("unknown type: " + genericType));
+        proto.append(
+            String.format(
+                "repeated %s %s = %d;\n", protoType, protoName(f.getName()), fieldNumber));
+      } else if (type.isAssignableFrom(Map.class)) {
+        ParameterizedType map = (ParameterizedType) f.getGenericType();
+        Class<?> key = (Class<?>) map.getActualTypeArguments()[0];
+        if (map.getActualTypeArguments()[1] instanceof ParameterizedType) {
+          // TODO: This is list multimap which proto doesn't support. Move to
+          // it's own types.
+          proto.append(
+              "reserved "
+                  + fieldNumber
+                  + "; // TODO(hiesel): Add support for map<?,repeated <?>>\n");
+        } else {
+          Class<?> value = (Class<?>) map.getActualTypeArguments()[1];
+          String keyProtoType =
+              protoType(key).orElseThrow(() -> new IllegalStateException("unknown type: " + key));
+          String valueProtoType =
+              protoType(value)
+                  .orElseThrow(() -> new IllegalStateException("unknown type: " + value));
+          proto.append(
+              String.format(
+                  "map<%s,%s> %s = %d;\n",
+                  keyProtoType, valueProtoType, protoName(f.getName()), fieldNumber));
+        }
+      } else if (protoType(type).isPresent()) {
+        proto.append(
+            String.format(
+                "%s %s = %d;\n", protoType(type).get(), protoName(f.getName()), fieldNumber));
+      } else {
+        proto.append(
+            "reserved "
+                + fieldNumber
+                + "; // TODO(hiesel): Add support for "
+                + type.getName()
+                + "\n");
+      }
+      fieldNumber++;
+    }
+    proto.append("}");
+
+    System.out.println(proto);
+  }
+
   private static Optional<String> protoType(Class<?> type) {
     if (isInt(type)) {
       return Optional.of("int32");

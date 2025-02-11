@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f59d81e2_cacf4f57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T10:52:35Z",
+      "side": 1,
+      "message": "how are we updating the reverted change?\n\nAlso why are we doing it when it\u0027s marked as \"ready\" and not when the revert is actually created?",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e352ed7e_92e278b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T10:52:35Z",
+      "side": 1,
+      "message": "maybe add a code pointer to where it\u0027s implemented there\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/restapi/change/SetReadyForReview.java;l\u003d78?q\u003d%22commitUtil.addChangeRevertedNotificationOps%22",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494c6271_7e94b2cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T10:52:35Z",
+      "side": 1,
+      "message": "LGTM on the code since it aligns with existing behaviour but the actual behaviour is fairly confusing.",
+      "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

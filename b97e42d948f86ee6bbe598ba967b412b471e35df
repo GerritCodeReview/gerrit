@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t the new command be listed in the online help ?\nI tried `--help` but it didn\u0027t show it:\n```\n$ java -jar ./bin/gerrit.war --help\nGerrit Code Review\nusage: java -jar gerrit.war command [ARG ...]\n\nThe most commonly used commands are:\n  init            Initialize a Gerrit installation\n  reindex         Rebuild the secondary index\n  daemon          Run the Gerrit network daemons\n  version         Display the build version number\n  passwd          Set or change password in secure.config\n\n  ls              List files available for cat\n  cat FILE        Display a file from the archive\n```\nso I had to guess the name which worked\n\n```\n$ java -jar ./bin/gerrit.war MigrateLabelFunctions --help\nmigratelabelfunctions [--help (-h)] [--project VAL] [--show-stack-trace] [--site-path (-d) VAL]\n\n --help (-h)          : display this help text (default: true)\n --project VAL        : Project(s) to migrate\n --show-stack-trace   : display stack trace on failure (default: false)\n --site-path (-d) VAL : Local directory containing site data\n```",
       "revId": "b97e42d948f86ee6bbe598ba967b412b471e35df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c9ecac_780bae17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-11T13:31:11Z",
+      "side": 1,
+      "message": "Not all tools are listed there, especially the one-time-use tools are often not listed.",
+      "parentUuid": "698bd184_73697ed4",
+      "revId": "b97e42d948f86ee6bbe598ba967b412b471e35df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

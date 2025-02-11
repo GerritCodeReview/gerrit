@@ -83,6 +83,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -166,6 +167,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final boolean strictLabels;
   private final ChangeJson.Factory changeJsonFactory;
   private final CommentsValidator commentsValidator;
+  private final CommitUtil commitUtil;
 
   @Inject
   PostReview(
@@ -187,7 +189,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
       ReviewerAdded reviewerAdded,
       ChangeJson.Factory changeJsonFactory,
-      CommentsValidator commentsValidator) {
+      CommentsValidator commentsValidator,
+      CommitUtil commitUtil) {
     this.retryHelper = retryHelper;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -207,6 +210,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
     this.changeJsonFactory = changeJsonFactory;
     this.commentsValidator = commentsValidator;
+    this.commitUtil = commitUtil;
   }
 
   @Override
@@ -415,6 +419,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                     WorkInProgressOp wipOp =
                         workInProgressOpFactory.create(
                             input.workInProgress, new WorkInProgressOp.Input());
+                    if (input.ready && revision.getChange().getRevertOf() != null) {
+                      commitUtil.addChangeRevertedNotificationOps(
+                          bu,
+                          revision.getChange().getRevertOf(),
+                          revision.getChange().getId(),
+                          revision.getChange().getKey().get().substring(1));
+                    }
                     wipOp.suppressEmail();
                     bu.addOp(revision.getChange().getId(), wipOp);
                   }

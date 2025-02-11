@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "333fa691_5bf3daa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-11T11:06:11Z",
+      "side": 1,
+      "message": "\u003e how are we updating the reverted change?\n\nWe add the \"reverted\" chip and a change log message.\n\n\u003e  why are we doing it when it\u0027s marked as \"ready\" and not when the revert is actually created?\n\nA WIP revert might be created without the intention of ever being submitted. In this case, alerting the original change author is spummy. See more context in b/246623176.",
+      "parentUuid": "f59d81e2_cacf4f57",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e352ed7e_92e278b1",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca0c30ae_3fe6ac1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-11T11:06:11Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "e352ed7e_92e278b1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "494c6271_7e94b2cd",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-02-11T10:52:35Z",
       "side": 1,
       "message": "LGTM on the code since it aligns with existing behaviour but the actual behaviour is fairly confusing.",
+      "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ebe66e_c91f22ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-11T11:06:11Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "494c6271_7e94b2cd",
       "revId": "4813c2665bff4a50d0155d31f01bd8d3b787a346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

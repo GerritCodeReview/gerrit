@@ -99,17 +99,52 @@ function pleaseFixMessage(result: RunResult) {
 ${result.message}`;
 }
 
-export function createPleaseFixComment(result: RunResult): DraftInfo {
+/**
+ * Converts a check result to a draft comment. This can be useful when you want
+ * to display a check result where a comment entity is expected, or when an
+ * action like "please fix" warrants transferring the data from a check to a
+ * comment.
+ *
+ * Note that this function expects a code pointer to be set for the check
+ * result. Otherwise this conversion does not make sense and an assertion error
+ * is thrown.
+ */
+export function toComment(
+  result: RunResult,
+  message?: string,
+  unresolved?: boolean
+): DraftInfo {
   const pointer = result.codePointers?.[0];
-  assertIsDefined(pointer, 'codePointer');
-  return {
-    ...createNew(pleaseFixMessage(result), true),
+  assertIsDefined(pointer, 'code pointer required for conversion to comment');
+
+  const draft: DraftInfo = {
+    ...createNew(message, unresolved),
     path: pointer.path,
     patch_set: result.patchset as RevisionPatchSetNum,
     side: CommentSide.REVISION,
-    line: pointer.range.end_line ?? pointer.range.start_line,
-    range: pointer.range,
   };
+
+  if (
+    pointer.range?.start_line > 0 &&
+    pointer.range?.end_line > 0 &&
+    pointer.range?.start_character >= 0 &&
+    pointer.range?.end_character >= 0
+  ) {
+    draft.range = pointer.range;
+  }
+
+  if (pointer.range?.end_line > 0) {
+    draft.line = pointer.range.end_line;
+  } else if (pointer.range?.start_line > 0) {
+    draft.line = pointer.range.start_line;
+  }
+  // Otherwise the draft will be a FILE comment.
+
+  return draft;
+}
+
+export function createPleaseFixComment(result: RunResult): DraftInfo {
+  return toComment(result, pleaseFixMessage(result), true);
 }
 
 export function createFixAction(

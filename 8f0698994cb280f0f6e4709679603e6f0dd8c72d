@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3fcf2c_9b3735e1",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "```suggestion\n    default RevCommit commit() throws IOException {\n      return commit(true);\n    }\n```",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 42
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5e00fc8_2bc8a847",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "I see a lot of copy\u0026paste of the commit method for introducing the _withoutFiring_ variant. Eventually, everything goes back to the `updateRef()` that has a flag for firing the event or not.\n\nWhy not just introduce the variant with the flag for firing the event and delegate the legacy call without parameter to the one with the flag set to true?\n\n\n\n```suggestion\n    RevCommit commit(boolean fireEvent) throws IOException;\n```",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 35
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79cad176_d630fa83",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "Same as above: just remove the copy\u0026paste and use the flag?",
+      "range": {
+        "startLine": 441,
+        "startChar": 23,
+        "endLine": 441,
+        "endChar": 42
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "584d88d2_af80fe24",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "If this fails, the project is created anyway, and we don\u0027t have project-created  or ref-updated event.",
+      "range": {
+        "startLine": 203,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 71
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb321b9_c52208ec",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectCacheIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "Do we really need to assert the *exact* number of evictions?\n\nP.S. The magic value `3` was out of sync with the comment before: which one was the right one? Why `3` and not `2`? Why `2` and not `1`?\n\nIf we just want to assert that has been evicted, then just asserting that the number of missCount is higher than initialNumMisses should suffice? @maczech@gmail.com WDYT?",
+      "range": {
+        "startLine": 153,
+        "startChar": 38,
+        "endLine": 153,
+        "endChar": 94
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa4594b0_2b8879dc",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "Why 100ms?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 96
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e410da58_6ff6dab9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "What\u0027s the correlation of having ref-updated events and verifying that you are receiving project-created?",
+      "range": {
+        "startLine": 196,
+        "startChar": 45,
+        "endLine": 196,
+        "endChar": 60
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a39ad7c6_bfb62de9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "I am missing the assertion, which is _deep inside_ the logic of `pollEventsTypesContaining`.\n\nWhy not simply capture the events and make assertions on them?",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 11
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16bca6a3_5c469f7a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T08:52:58Z",
+      "side": 1,
+      "message": "Remember that tests are the only part of the code that isn\u0027t tested. This code looks quite complex: why not simply capture the events and leave the assertion to the caller?",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 337,
+        "endChar": 3
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

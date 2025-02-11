@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0d27c2_e910ec5a",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-11T11:24:11Z",
+      "side": 1,
+      "message": "This is deliberately short.\n\nThe pattern `to...` always implies that this is some kind of conversion. So I prefer `to` over `create`.\n\nI prefer to not use `from...` as the parameter `result` already tells the reader what is going to be converted.\n\nA draft is a comment. Would you prefer `toDraft`?\n\n`toComment()` does not have to create a \"fix\" comment, so I would prefer to leave \"fix\" out of the name.",
+      "parentUuid": "57c23c53_c53be2a4",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 25
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b2ed4cf_efc16777",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f06a9b12_6dd1349c",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-11T11:24:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b2ed4cf_efc16777",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 31
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3c26353_e3670427",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-02-11T10:59:52Z",
       "side": 1,
       "message": "should we assign `FILE` here since later we do `const line \u003d draft.line ?? FILE;`\n\nAny downside to that over maintaining undefined?",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 39
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eea3e8c6_f70c49b7",
+        "filename": "polygerrit-ui/app/models/checks/checks-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-11T11:24:11Z",
+      "side": 1,
+      "message": "`CommentInfo` does not work with `FILE`.",
+      "parentUuid": "c3c26353_e3670427",
       "range": {
         "startLine": 245,
         "startChar": 6,

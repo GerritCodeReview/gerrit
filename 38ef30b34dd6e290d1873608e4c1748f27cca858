@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0044b58b_20badebf",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T09:05:01Z",
+      "side": 0,
+      "message": "Do we want to surface this thinking to the Gerrit admin on how to decide the _correct number_ for `receive.numAdvertisedOpenChangesRefs` ?",
+      "range": {
+        "startLine": 103,
+        "startChar": 54,
+        "endLine": 105,
+        "endChar": 49
+      },
+      "revId": "38ef30b34dd6e290d1873608e4c1748f27cca858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

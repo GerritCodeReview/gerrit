@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f937ea1_6f96366b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4875,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T09:05:01Z",
+      "side": 1,
+      "message": "```suggestion\n[[receive.numAdvertisedOpenChangesRefs]]receive.numAdvertisedOpenChangesRefs::\n```",
+      "range": {
+        "startLine": 4875,
+        "startChar": 10,
+        "endLine": 4875,
+        "endChar": 29
+      },
+      "revId": "0d146c9fb1c4e5c9ed6444db4f56aad0400245d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45107b5f_c6cc4b12",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4885,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T09:05:01Z",
+      "side": 1,
+      "message": "```suggestion\nTo mitigate this, the server advertises the latest `receive.numAdvertisedOpenChangesRefs` open changes\u0027 patch-sets refs\n```",
+      "range": {
+        "startLine": 4885,
+        "startChar": 58,
+        "endLine": 4885,
+        "endChar": 77
+      },
+      "revId": "0d146c9fb1c4e5c9ed6444db4f56aad0400245d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bfc2b4c_71f802f3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4890,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-11T09:05:01Z",
+      "side": 1,
+      "message": "```suggestion\nIf `receive.numAdvertisedOpenChangesRefs` is set to `0`, no \"refs/changes/*\" will be\n```",
+      "range": {
+        "startLine": 4890,
+        "startChar": 12,
+        "endLine": 4890,
+        "endChar": 31
+      },
+      "revId": "0d146c9fb1c4e5c9ed6444db4f56aad0400245d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

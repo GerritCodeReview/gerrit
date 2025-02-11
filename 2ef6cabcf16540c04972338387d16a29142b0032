@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57c23c53_c53be2a4",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T10:59:52Z",
+      "side": 1,
+      "message": "It\u0027s unclear what `toComment` means and why it\u0027s returning a `draft`.\n\nBetter name would be `createFixCommentFromCheck` or something to explain what it\u0027s doing especially sinc ethe `RunResult` argument is not really generic and specific to Checks.",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 25
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b2ed4cf_efc16777",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T10:59:52Z",
+      "side": 1,
+      "message": "not required since we verified it exists above?\n\nsame below",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 31
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3c26353_e3670427",
+        "filename": "polygerrit-ui/app/models/checks/checks-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-11T10:59:52Z",
+      "side": 1,
+      "message": "should we assign `FILE` here since later we do `const line \u003d draft.line ?? FILE;`\n\nAny downside to that over maintaining undefined?",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 39
+      },
+      "revId": "2ef6cabcf16540c04972338387d16a29142b0032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c61b68e2_1990a280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-12T08:58:00Z",
+      "side": 1,
+      "message": "Good job, just a small nit.",
+      "revId": "0297b01bda51d8139491e0eab7d1c819230b73b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0e96fa_640e35b4",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-12T08:58:00Z",
+      "side": 1,
+      "message": "Can be DRYed out with L1159-L1167, they are not the focus of the test anyway: the key assertions are L1151 and L1168",
+      "range": {
+        "startLine": 1142,
+        "startChar": 0,
+        "endLine": 1150,
+        "endChar": 34
+      },
+      "revId": "0297b01bda51d8139491e0eab7d1c819230b73b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

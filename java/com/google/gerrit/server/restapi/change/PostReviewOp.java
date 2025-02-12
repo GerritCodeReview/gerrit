@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
@@ -45,6 +46,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -297,7 +299,8 @@ public class PostReviewOp implements BatchUpdateOp {
       throws ResourceConflictException,
           UnprocessableEntityException,
           IOException,
-          CommentsRejectedException {
+          CommentsRejectedException,
+          BadRequestException {
     user = ctx.getIdentifiedUser();
     notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), psId);
@@ -372,20 +375,19 @@ public class PostReviewOp implements BatchUpdateOp {
    * @return true if any input comments where published.
    */
   private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
-      throws CommentsRejectedException {
+      throws BadRequestException, CommentsRejectedException {
     Map<String, List<CommentInput>> inputComments = in.comments;
     if (inputComments == null) {
       inputComments = Collections.emptyMap();
     }
 
     // Use HashMap to avoid warnings when calling remove() in resolveInputCommentsAndDrafts().
-    Map<String, HumanComment> drafts = new HashMap<>();
+    Map<String, HumanComment> savedDraftsForAllRevisions = new HashMap<>();
+    Map<String, HumanComment> savedDraftsToPublish = new HashMap<>();
 
     if (!inputComments.isEmpty() || in.drafts != DraftHandling.KEEP) {
-      drafts =
-          in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS
-              ? changeDrafts(ctx)
-              : patchSetDrafts(ctx);
+      savedDraftsForAllRevisions = changeDrafts(ctx);
+      savedDraftsToPublish = filterCurrentPatchsetIfNeeded(savedDraftsForAllRevisions);
     }
 
     // Existing published comments
@@ -394,26 +396,26 @@ public class PostReviewOp implements BatchUpdateOp {
 
     // Input comments should be deduplicated from existing drafts
     List<HumanComment> inputCommentsToPublish =
-        resolveInputCommentsAndDrafts(inputComments, existingComments, drafts, ctx);
+        resolveInputCommentsAndDrafts(inputComments, existingComments, savedDraftsToPublish, ctx);
 
     switch (in.drafts) {
       case PUBLISH:
       case PUBLISH_ALL_REVISIONS:
+        validateSavedDraftIds(savedDraftsForAllRevisions);
         Collection<HumanComment> filteredDrafts =
             in.draftIdsToPublish == null
-                ? drafts.values()
-                : drafts.values().stream()
+                ? savedDraftsToPublish.values()
+                : savedDraftsToPublish.values().stream()
                     .filter(draft -> in.draftIdsToPublish.contains(draft.key.uuid))
                     .collect(Collectors.toList());
-
         validateComments(
             ctx,
             Streams.concat(
-                drafts.values().stream(),
+                savedDraftsToPublish.values().stream(),
                 inputCommentsToPublish.stream(),
                 newRobotComments.stream()));
         publishCommentUtil.publish(ctx, ctx.getUpdate(psId), filteredDrafts, in.tag);
-        comments.addAll(drafts.values());
+        comments.addAll(savedDraftsToPublish.values());
         break;
       case KEEP:
         validateComments(
@@ -525,6 +527,32 @@ public class PostReviewOp implements BatchUpdateOp {
     }
   }
 
+  private void validateSavedDraftIds(Map<String, HumanComment> savedDraftsByUuid)
+      throws BadRequestException {
+    if (in.draftIdsToPublish == null) {
+      return;
+    }
+    List<String> nonExistingDraftIds =
+        in.draftIdsToPublish.stream().filter(id -> !savedDraftsByUuid.containsKey(id)).toList();
+    if (!nonExistingDraftIds.isEmpty()) {
+      throw new BadRequestException("Non-existing draft IDs: " + nonExistingDraftIds);
+    }
+    if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS || in.drafts == DraftHandling.KEEP) {
+      return;
+    }
+    List<String> draftsForOtherRevisions =
+        in.draftIdsToPublish.stream()
+            .filter(id -> savedDraftsByUuid.get(id).key.patchSetId != psId.get())
+            .toList();
+    if (!draftsForOtherRevisions.isEmpty()) {
+      throw new BadRequestException(
+          String.format(
+              "Draft comments for other revisions cannot be published when DraftHandling = PUBLISH."
+                  + " (draft IDs: %s)",
+              draftsForOtherRevisions));
+    }
+  }
+
   private boolean insertRobotComments(ChangeContext ctx, List<RobotComment> newRobotComments) {
     if (in.robotComments == null) {
       return false;
@@ -594,11 +622,14 @@ public class PostReviewOp implements BatchUpdateOp {
         .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
   }
 
-  private Map<String, HumanComment> patchSetDrafts(ChangeContext ctx) {
-    return draftCommentsReader
-        .getDraftsByPatchSetAndDraftAuthor(ctx.getNotes(), psId, user.getAccountId())
-        .stream()
-        .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
+  private Map<String, HumanComment> filterCurrentPatchsetIfNeeded(
+      Map<String, HumanComment> savedDraftsForAllRevisions) {
+    if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS) {
+      return savedDraftsForAllRevisions;
+    }
+    return savedDraftsForAllRevisions.entrySet().stream()
+        .filter(c -> c.getValue().key.patchSetId == psId.get())
+        .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {

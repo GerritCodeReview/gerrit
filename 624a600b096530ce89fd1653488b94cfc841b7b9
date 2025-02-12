@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea9079be_28984407",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ad84c59_c4dc8bda",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 35
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58a7349d_d7405cc7",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2428a68d_73a8e522",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58a7349d_d7405cc7",
+      "range": {
+        "startLine": 112,
+        "startChar": 14,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc9abcae_7b03d547",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-02-10T15:48:38Z",
       "side": 1,
       "message": "This is unintuitive: create a `ConcurrentTest` with `NUM_THREADS` and then expect here `NUM_THREADS * 2` successful operations.\n\nI see that this is because the `ConcurrentTest.setup` has a for loop with `NUM_THREADS * 2` operations but I don\u0027t understand why and why every caller has to be aware of that. Either expect here exactly `NUM_THREADS` successful operations or encapsulate the verification inside the `ConcurrentTest` class.",
+      "range": {
+        "startLine": 115,
+        "startChar": 20,
+        "endLine": 115,
+        "endChar": 35
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a61c9e_6d23a0c8",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Agreed, I didn\u0027t like that either. Done.",
+      "parentUuid": "bc9abcae_7b03d547",
       "range": {
         "startLine": 115,
         "startChar": 20,
@@ -134,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c55b34a_7c1ec404",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Done. (Improved how this is done also).",
+      "parentUuid": "405b3807_6257660f",
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d06ea333_a0053b22",
@@ -147,6 +237,24 @@
       "writtenOn": "2025-02-10T15:48:38Z",
       "side": 1,
       "message": "Maybe a more readable way is to use `AtomicReference` and mutate it after the filter is instantiated:\n```\n    AtomicReference\u003cRunnable\u003e builderRef \u003d new AtomicReference\u003c\u003e();\n    ConcurrentBloomFilter\u003cInteger\u003e b \u003d\n        new ConcurrentBloomFilter\u003c\u003e(Funnels.integerFunnel(), () -\u003e builderRef.get().run());\n    builderRef.set(() -\u003e builder.accept(b));\n    return b;\n```",
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0c85a26_8d87737a",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Atomic adds extra overhead, but here I want to specifically cause contention, and I am concerned that AtomicReference could make the tests avoid concurrency and pass when they might otherwise fail. However, I discovered here https://stackoverflow.com/questions/8344509/equivalent-of-atomicreference-but-without-the-volatile-synchronization-cost the getPlain() and setPlain() methods which make this finally what java needed. Done.",
+      "parentUuid": "d06ea333_a0053b22",
       "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -168,6 +276,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5be772_178a8ad5",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Indeed, fixed!",
+      "parentUuid": "7263f78a_5372b7fa",
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a10f506a_faad20a4",
@@ -181,6 +307,30 @@
       "writtenOn": "2025-02-10T15:48:38Z",
       "side": 1,
       "message": "`void`: the return value is unused.\n\nAlso consider accepting here a list of Futures so that callers don\u0027t have to iterate but just call:\n```\nget(futures);\n```\n\nAlternative method names: `getAll`, `join`, `joinAll`.",
+      "range": {
+        "startLine": 251,
+        "startChar": 17,
+        "endLine": 251,
+        "endChar": 24
+      },
+      "revId": "624a600b096530ce89fd1653488b94cfc841b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2015b04b_04540328",
+        "filename": "javatests/com/google/gerrit/util/concurrent/ConcurrentBloomFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "I should have used the output, done. \n\nI believe layering above this method is better than making it more complicated to handle a collection, especially since the caller might desire many different reduction functions: anyTrue, anyFalse, allTrue, allFalse. Additionally, whether the caller wants to short circuit or not is optional.",
+      "parentUuid": "a10f506a_faad20a4",
       "range": {
         "startLine": 251,
         "startChar": 17,

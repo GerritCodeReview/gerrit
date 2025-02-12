@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf7f3a41_0de56adc",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T18:19:35Z",
+      "side": 1,
+      "message": "Although this modifies the code a bit more than I wanted to for a refactor, I think it is elegant and simple enough to warrant this. Thanks! Done.",
+      "parentUuid": "d4ceea74_89f9bdbd",
+      "range": {
+        "startLine": 371,
+        "startChar": 20,
+        "endLine": 371,
+        "endChar": 94
+      },
+      "revId": "74343d77c4b13fa50be4cb5a33d51cb1860c6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9c62442_8c1cfdc8",

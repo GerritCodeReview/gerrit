@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c504b0b2_aaecbd36",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T21:02:49Z",
+      "side": 1,
+      "message": "The intent was to that since bloomfilter is volatile, grabbing a snapshot of it ensures that the two opreations below are done on the same reference. i.e. it avoids a potential NPE after the null check.",
+      "parentUuid": "f9697fb7_93000e2b",
+      "revId": "2989121c9eb479db905219075c9e61ec7bb16ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6fbc7cb_c3ae733c",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5168ade_2f18f70b",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T21:02:49Z",
+      "side": 1,
+      "message": "Addressed on previous change why this is a bad idea.",
+      "parentUuid": "d6fbc7cb_c3ae733c",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "2989121c9eb479db905219075c9e61ec7bb16ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d237cdbd_d431cd06",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-02-07T11:21:28Z",
       "side": 1,
       "message": "```suggestion\n  private static \u003cK\u003e BloomFilter\u003cK\u003e putIfFilterNotNull(BloomFilter\u003cK\u003e b, K key) {\n    if (b !\u003d null) {\n      b.put(key);\n    }\n    return b;\n  }\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "2989121c9eb479db905219075c9e61ec7bb16ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e8ff07f_dddf0bb9",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T21:02:49Z",
+      "side": 1,
+      "message": "I think my implementation was actually checkin the wrong variable for null. That should be enough to merrit this change! Done.",
+      "parentUuid": "d237cdbd_d431cd06",
       "range": {
         "startLine": 92,
         "startChar": 0,

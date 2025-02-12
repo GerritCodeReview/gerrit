@@ -64,7 +64,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountCache;
@@ -111,7 +110,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -151,8 +149,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ChangeResource.Factory changeResourceFactory;
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
-  private final DraftCommentsReader draftCommentsReader;
-
   private final AccountResolver accountResolver;
   private final ReviewerModifier reviewerModifier;
   private final Metrics metrics;
@@ -176,7 +172,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeResource.Factory changeResourceFactory,
       AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
-      DraftCommentsReader draftCommentsReader,
       AccountResolver accountResolver,
       ReviewerModifier reviewerModifier,
       Metrics metrics,
@@ -195,7 +190,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.accountCache = accountCache;
-    this.draftCommentsReader = draftCommentsReader;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
     this.reviewerModifier = reviewerModifier;
@@ -255,9 +249,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (input.comments != null) {
       input.comments = cleanUpComments(input.comments);
       commentsValidator.checkComments(revision, input.comments);
-    }
-    if (input.draftIdsToPublish != null) {
-      checkDraftIds(revision, input.draftIdsToPublish, input.drafts);
     }
     if (input.robotComments != null) {
       input.robotComments = cleanUpComments(input.robotComments);
@@ -700,42 +691,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         .filter(Objects::nonNull)
         .filter(comment -> !Strings.nullToEmpty(comment.message).trim().isEmpty())
         .collect(toList());
-  }
-
-  /**
-   * Asserts that the draft IDs to publish are valid, i.e. they exist and belong to the current
-   * user. If the {@code draftHandling} parameter is equal to {@link DraftHandling#PUBLISH}, then
-   * draft IDs should all correspond to the target revision, otherwise we throw a
-   * BadRequestException.
-   */
-  private void checkDraftIds(
-      RevisionResource resource, List<String> draftIds, DraftHandling draftHandling)
-      throws BadRequestException {
-    Map<String, HumanComment> draftsByUuid =
-        draftCommentsReader
-            .getDraftsByChangeAndDraftAuthor(resource.getNotes(), resource.getUser().getAccountId())
-            .stream()
-            .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
-    List<String> nonExistingDraftIds =
-        draftIds.stream().filter(id -> !draftsByUuid.containsKey(id)).collect(toList());
-    if (!nonExistingDraftIds.isEmpty()) {
-      throw new BadRequestException("Non-existing draft IDs: " + nonExistingDraftIds);
-    }
-    if (draftHandling == DraftHandling.PUBLISH_ALL_REVISIONS
-        || draftHandling == DraftHandling.KEEP) {
-      return;
-    }
-    List<String> draftsForOtherRevisions =
-        draftIds.stream()
-            .filter(id -> draftsByUuid.get(id).key.patchSetId != resource.getPatchSet().number())
-            .collect(toList());
-    if (!draftsForOtherRevisions.isEmpty()) {
-      throw new BadRequestException(
-          String.format(
-              "Draft comments for other revisions cannot be published when DraftHandling = PUBLISH."
-                  + " (draft IDs: %s)",
-              draftsForOtherRevisions));
-    }
   }
 
   private void checkRobotComments(

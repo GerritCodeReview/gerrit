@@ -223,7 +223,7 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
-    List<ChangeData> r = query.byLegacyChangeId(id);
+    List<ChangeData> r = query.byChangeNumber(id);
     if (r.size() == 1) {
       changeIdProjectCache.put(id, Url.encode(r.get(0).project().get()));
     }

@@ -354,6 +354,30 @@
       },
       "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20e90940_49caeb65",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-12T20:38:39Z",
+      "side": 1,
+      "message": "Perhaps this will make more sense to you, imagine the following change in the future:\n\n```\n@SuppressWarnings(\"ReferenceEquality\")\n  public void put(K key) {\n    BloomFilter\u003cK\u003e b;\n    do {\n      b \u003d bloomFilter;\n-      if (b !\u003d null) {\n+      if (b !\u003d null \u0026\u0026 a \u003d\u003d c) {\n        b.put(key);\n      }\n    } while (b !\u003d bloomFilter);\n  }\n```\n  \na \u0026 c are future fields, and .equals should actually be used to compare them. The warning above would be suppressesed, and thus not useful to identify this new error.",
+      "parentUuid": "d7a56684_68fc20ef",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

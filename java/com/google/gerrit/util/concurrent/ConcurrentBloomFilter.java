@@ -16,13 +16,14 @@ package com.google.gerrit.util.concurrent;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
+import java.util.function.Consumer;
 
 public class ConcurrentBloomFilter<K> {
   private final Funnel<K> funnel;
   private final Runnable builder;
 
   private int estimatedSize;
-  private BloomFilter<K> buildingBloomFilter;
+  private volatile BloomFilter<K> buildingBloomFilter;
 
   private volatile BloomFilter<K> bloomFilter;
 
@@ -49,9 +50,6 @@ public class ConcurrentBloomFilter<K> {
 
   public boolean mightContain(K key) {
     BloomFilter<K> b = bloomFilter;
-    if (bloomFilter == null) { // Avoid synchronized most of the time
-      initIfNeeded();
-    }
     return b == null || b.mightContain(key);
   }
 
@@ -72,14 +70,15 @@ public class ConcurrentBloomFilter<K> {
   }
 
   public void put(K key) {
-    BloomFilter<K> b;
+    boolean isRebuilt;
     do {
-      b = bloomFilter;
-      if (b != null) {
-        b.put(key);
-      }
+      BloomFilter<K> b = putIfFilterNotNull(bloomFilter, key);
+      BloomFilter<K> bb = putIfFilterNotNull(buildingBloomFilter, key);
       // Was there a concurrent update by another thread?
-    } while (!suppressReferenceEqualityWarning(b, bloomFilter));
+      isRebuilt =
+          !suppressReferenceEqualityWarning(b, bloomFilter)
+              || !suppressReferenceEqualityWarning(bb, buildingBloomFilter);
+    } while (isRebuilt);
   }
 
   public void clear() {
@@ -89,6 +88,13 @@ public class ConcurrentBloomFilter<K> {
   private BloomFilter<K> newBloomFilter() {
     int cnt = Math.max(64 * 1024, 2 * estimatedSize);
     return BloomFilter.create(funnel, cnt);
+  }
+
+  private static <K> BloomFilter<K> putIfFilterNotNull(BloomFilter<K> b, K key) {
+    if (b != null) {
+      b.put(key);
+    }
+    return b;
   }
 
   @SuppressWarnings("ReferenceEquality")

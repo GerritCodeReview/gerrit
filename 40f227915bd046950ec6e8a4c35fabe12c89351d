@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a417fb5_ec4af096",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-12T19:40:36Z",
+      "side": 1,
+      "message": "Verified the following scenarios:\n\n```\nImported change without clashing change number \u003d\u003e 200 with results\nOriginal change without clashing change number \u003d\u003e 200 with results\n\nImported change with clashing change number \u003d\u003e 404\nOriginal change with clashing change number \u003d\u003e 404\n```",
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

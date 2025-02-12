@@ -15,26 +15,20 @@
 package com.google.gerrit.server.update;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 /** Thrown when comment validation rejected a comment, preventing it from being published. */
-public class CommentsRejectedException extends Exception {
+public class CommentsRejectedException extends BadRequestException {
   private static final long serialVersionUID = 1L;
 
   private final ImmutableList<CommentValidationFailure> commentValidationFailures;
 
   public CommentsRejectedException(Collection<CommentValidationFailure> commentValidationFailures) {
+    super(buildMessage(commentValidationFailures));
     this.commentValidationFailures = ImmutableList.copyOf(commentValidationFailures);
-  }
-
-  @Override
-  public String getMessage() {
-    return "One or more comments were rejected in validation: "
-        + commentValidationFailures.stream()
-            .map(CommentValidationFailure::getMessage)
-            .collect(Collectors.joining("; "));
   }
 
   /**
@@ -43,5 +37,13 @@ public class CommentsRejectedException extends Exception {
    */
   public ImmutableList<CommentValidationFailure> getCommentValidationFailures() {
     return commentValidationFailures;
+  }
+
+  private static String buildMessage(
+      Collection<CommentValidationFailure> commentValidationFailures) {
+    return "One or more comments were rejected in validation: "
+        + commentValidationFailures.stream()
+            .map(CommentValidationFailure::getMessage)
+            .collect(Collectors.joining("; "));
   }
 }

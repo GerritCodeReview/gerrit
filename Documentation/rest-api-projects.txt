@@ -3357,7 +3357,7 @@ label name.
     {
       "name": "Code-Review",
       "project": "All-Projects",
-      "function": "MaxWithBlock",
+      "function": "NoBlock",
       "values": {
         " 0": "No score",
         "-1": "I would prefer this is not submitted as is",
@@ -3402,7 +3402,7 @@ Labels that belong to the same project are sorted by label name.
     {
       "name": "Code-Review",
       "project": "All-Projects",
-      "function": "MaxWithBlock",
+      "function": "NoBlock",
       "values": {
         " 0": "No score",
         "-1": "I would prefer this is not submitted as is",
@@ -3418,7 +3418,7 @@ Labels that belong to the same project are sorted by label name.
     {
       "name": "Foo-Review",
       "project": "My-Project",
-      "function": "MaxWithBlock",
+      "function": "NoBlock",
       "values": {
         " 0": "No score",
         "-1": "I would prefer this is not submitted as is",
@@ -3463,7 +3463,7 @@ returned that describes the label.
   {
     "name": "Code-Review",
     "project": "All-Projects",
-    "function": "MaxWithBlock",
+    "function": "NoBlock",
     "values": {
       " 0": "No score",
       "-1": "I would prefer this is not submitted as is",
@@ -3522,7 +3522,7 @@ returned that describes the created label.
   {
     "name": "Foo",
     "project_name": "My-Project",
-    "function": "MaxWithBlock",
+    "function": "NoBlock",
     "values": {
       " 0": "No score",
       "-1": "I would prefer this is not submitted as is",
@@ -3574,7 +3574,7 @@ returned that describes the updated label.
   {
     "name": "Code-Review",
     "project": "All-Projects",
-    "function": "MaxWithBlock",
+    "function": "NoBlock",
     "values": {
       " 0": "No score",
       "-1": "I would prefer this is not submitted as is",
@@ -3665,7 +3665,7 @@ The updates are processed in the following order:
     ],
     "update:" {
       "Bar-Review": {
-        "function": "MaxWithBlock"
+        "function": "NoBlock"
       },
       "Baz-Review": {
         "copy_condition": "is:MIN"
@@ -3718,7 +3718,7 @@ entity describing the resulting change.
     ],
     "update:" {
       "Bar-Review": {
-        "function": "MaxWithBlock"
+        "function": "NoBlock"
       },
       "Baz-Review": {
         "copy_condition": "is:MIN"

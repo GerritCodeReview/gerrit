@@ -114,10 +114,10 @@ associated with these label values, the text can be updated in the
 
 Additional entries could be added to `label.Code-Review.value` to
 further extend the negative and positive range, but there is likely
-little value in doing so as this only expands the middle region.  This
-label is a `MaxWithBlock` type, which means that the lowest negative
-value if present blocks a submit, while the highest positive value is
-required to enable submit.
+little value in doing so as this only expands the middle region.
+
+By default a submit-requirement is created that requires at least one
+MAX vote on this label and no MIN votes to enable submission.
 
 [[label_Verified]]
 == Label: Verified
@@ -158,10 +158,6 @@ Didn't try to perform the verification tasks.
 Compiled (and ran tests) successfully.
 +
 *Any +1 enables submit.*
-
-Set the function to "NoBlock" to enable configuring submit-requirements.
-All other possible label function values are deprecated. The default is still
-"MaxWithBlock" which doesn't allow using the more flexible submit-requirements.
 
 Add a submit-requirement for the "Verified" label to define which
 conditions are required to make the change submittable:
@@ -268,9 +264,7 @@ Label functions dictate the rules for requiring certain label votes before a
 change is allowed for submission. Label functions are **deprecated** and updates
 that set `function` to a blocking value {`MaxWithBlock`, `MaxNoBlock`,
 `AnyWithBlock`} will be rejected. Existing label function definitions can only
-be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}. New label definitions should
-also explicitly set the `function` attribute to a non-blocking value since the
-default is `MaxWithBlock`.
+be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}.
 
 If your project has a
 blocking label function, we highly encourage you to change it to `NoBlock` and
@@ -286,8 +280,14 @@ ignored and may be treated as optional.
 
 Valid values are:
 
+[[NoBlock]]
+* `NoBlock`/`NoOp` (default)
++
+The label is purely informational and values are not considered when
+determining whether a change is submittable.
+
 [[MaxWithBlock]]
-* `MaxWithBlock` (default)
+* `MaxWithBlock`
 +
 The lowest possible negative value, if present, blocks a submit, while
 the highest possible positive value is required to enable submit. There
@@ -306,12 +306,6 @@ negative value is defined.
 +
 The highest possible positive value is required to enable submit, but
 the lowest possible negative value will not block the change.
-
-[[NoBlock]]
-* `NoBlock`/`NoOp`
-+
-The label is purely informational and values are not considered when
-determining whether a change is submittable.
 
 [[PatchSetLock]]
 * `PatchSetLock`

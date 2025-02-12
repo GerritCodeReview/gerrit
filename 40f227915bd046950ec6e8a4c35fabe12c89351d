@@ -1,6 +1,98 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "05c75320_b14b9304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-12T20:06:41Z",
+      "side": 1,
+      "message": "We should explain more on why in the case of imported changes the _legacy change ID_ isn\u0027t right.",
+      "range": {
+        "startLine": 14,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ae8119b_1b395c6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-12T20:06:41Z",
+      "side": 1,
+      "message": "```suggestion\nThe use of legacy change ID was breaking API calls like:\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b74469be_f6887354",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-12T20:06:41Z",
+      "side": 1,
+      "message": "```suggestion\n* changes/%s/revisions/%s/files\n\nand potentially many other REST-API based on the ChangesCollection\nto discover the change by its number.\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 31
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b690f37_3ce07dd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-12T20:06:41Z",
+      "side": 1,
+      "message": "```suggestion\nNOTE: This change impacts only the directly REST-API from scripting\nas the UI always use the format \u003cproject-name\u003e~\u003cchange-num\u003e\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3a417fb5_ec4af096",

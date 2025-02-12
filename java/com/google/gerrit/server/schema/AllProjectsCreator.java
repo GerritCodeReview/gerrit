@@ -141,6 +141,7 @@ public class AllProjectsCreator {
       }
 
       // init submit requirement sections.
+      input.codeReviewSubmitRequirement().ifPresent(config::upsertSubmitRequirement);
       if (input.initDefaultSubmitRequirements()) {
         initDefaultSubmitRequirements(config);
       }

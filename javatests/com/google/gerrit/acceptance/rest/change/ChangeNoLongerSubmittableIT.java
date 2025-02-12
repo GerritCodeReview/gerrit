@@ -30,6 +30,8 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -190,14 +192,43 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().upsertLabelType(verified.build());
 
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName("Verified-SR")
+                  .setAllowOverrideInChildProjects(false)
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          "label:Verified=MAX AND -label:Verified=MIN"))
+                  .build());
+
       LabelType.Builder fooBar =
           labelBuilder("Foo-Bar", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().upsertLabelType(fooBar.build());
 
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName("Verified-SR")
+                  .setAllowOverrideInChildProjects(false)
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          "label:Verified=MAX AND -label:Verified=MIN"))
+                  .build());
+
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName("Foo-Bar-SR")
+                  .setAllowOverrideInChildProjects(false)
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          "label:Foo-Bar=MAX AND -label:Foo-Bar=MIN"))
+                  .build());
+
       LabelType.Builder barBaz =
           labelBuilder("Bar-Baz", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().upsertLabelType(barBaz.build());
-
       u.save();
     }
     projectOperations
@@ -268,11 +299,11 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
     assertThat(message.body())
         .contains(
             "The change is no longer submittable:"
-                + " Code-Review, Foo-Bar and Verified are unsatisfied now.\n");
+                + " Code-Review, Foo-Bar-SR and Verified-SR are unsatisfied now.\n");
     assertThat(message.htmlBody())
         .contains(
             "<p>The change is no longer submittable:"
-                + " Code-Review, Foo-Bar and Verified are unsatisfied now.</p>");
+                + " Code-Review, Foo-Bar-SR and Verified-SR are unsatisfied now.</p>");
   }
 
   @Test

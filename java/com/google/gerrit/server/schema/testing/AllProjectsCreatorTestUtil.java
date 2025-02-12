@@ -97,7 +97,7 @@ public class AllProjectsCreatorTestUtil {
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_LABEL_SECTION =
       ImmutableList.of(
           "[label \"Code-Review\"]",
-          "  function = MaxWithBlock",
+          "  function = NoBlock",
           "  defaultValue = 0",
           "  copyCondition = changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE OR is:MIN",
           "  value = -2 This shall not be submitted",
@@ -112,6 +112,14 @@ public class AllProjectsCreatorTestUtil {
           "  applicableIf = has:unresolved",
           "  submittableIf = -has:unresolved",
           "  canOverrideInChildProjects = false");
+  private static final ImmutableList<String>
+      DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION =
+          ImmutableList.of(
+              "[submit-requirement \"Code-Review\"]",
+              "  description = Changes must have at least one MAX Code-Review vote and no MIN to be"
+                  + " submittable.",
+              "  submittableIf = label:Code-Review=MAX AND -label:Code-Review=MIN",
+              "  canOverrideInChildProjects = true");
 
   public static String getDefaultAllProjectsWithAllDefaultSections() {
     return Streams.stream(
@@ -122,6 +130,7 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
         .collect(Collectors.joining("\n"));
   }
@@ -133,6 +142,7 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
         .collect(Collectors.joining("\n"));
   }
@@ -145,7 +155,8 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
-                DEFAULT_ALL_PROJECTS_LABEL_SECTION))
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION))
         .collect(Collectors.joining("\n"));
   }
 

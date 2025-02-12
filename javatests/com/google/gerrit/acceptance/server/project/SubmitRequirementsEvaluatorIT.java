@@ -979,6 +979,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   private void removeDefaultSubmitRequirements() throws RestApiException {
     gApi.projects().name(allProjects.get()).submitRequirement("No-Unresolved-Comments").delete();
+    gApi.projects().name(allProjects.get()).submitRequirement("Code-Review").delete();
   }
 
   /** Submit requirement predicate that always throws an error on match. */

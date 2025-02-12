@@ -1152,7 +1152,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
       u.getConfig()
           .upsertSubmitRequirement(
               SubmitRequirement.builder()
-                  .setName(TestLabels.codeReview().getName())
+                  .setName("Code-Review")
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(
@@ -1230,7 +1230,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
       u.getConfig()
           .upsertSubmitRequirement(
               SubmitRequirement.builder()
-                  .setName(TestLabels.codeReview().getName())
+                  .setName("Code-Review")
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(

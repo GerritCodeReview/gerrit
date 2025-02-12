@@ -38,6 +38,9 @@ link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity]::
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb]::
 	Migrates AccountPatchReviewDb from one database backend to another.
 
+link:pgm-MigrateLabelFunctions.html[MigrateLabelFunctions]::
+	Migrates label functions to submit requirements.
+
 === Prolog Utilities (DEPRECATED)
 
 link:pgm-prolog-shell.html[prolog-shell]::

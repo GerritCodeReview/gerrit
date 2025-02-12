@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "639f768d_40f2c3ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-12T20:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05c75320_b14b9304",
+      "range": {
+        "startLine": 14,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ae8119b_1b395c6e",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-12T20:06:41Z",
       "side": 1,
       "message": "```suggestion\nThe use of legacy change ID was breaking API calls like:\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "757c4188_d3aed31f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-12T20:14:11Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8ae8119b_1b395c6e",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1796689_638a1c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-12T20:14:11Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b74469be_f6887354",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 31
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b690f37_3ce07dd7",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-02-12T20:06:41Z",
       "side": 1,
       "message": "```suggestion\nNOTE: This change impacts only the directly REST-API from scripting\nas the UI always use the format \u003cproject-name\u003e~\u003cchange-num\u003e\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "40f227915bd046950ec6e8a4c35fabe12c89351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cccb153_50caccf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-12T20:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b690f37_3ce07dd7",
       "range": {
         "startLine": 20,
         "startChar": 0,

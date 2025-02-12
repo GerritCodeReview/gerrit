@@ -22,8 +22,7 @@ public class ConcurrentBloomFilter<K> {
   private final Runnable builder;
 
   private volatile int estimatedSize;
-  private BloomFilter<K> buildingBloomFilter;
-
+  private volatile BloomFilter<K> buildingBloomFilter;
   private volatile BloomFilter<K> bloomFilter;
 
   public ConcurrentBloomFilter(Funnel<K> funnel, Runnable builder) {
@@ -47,9 +46,6 @@ public class ConcurrentBloomFilter<K> {
 
   public boolean mightContain(K key) {
     BloomFilter<K> b = bloomFilter;
-    if (bloomFilter == null) { // Avoid synchronized most of the time
-      initIfNeeded();
-    }
     return b == null || b.mightContain(key);
   }
 
@@ -70,14 +66,15 @@ public class ConcurrentBloomFilter<K> {
   }
 
   public void put(K key) {
-    BloomFilter<K> b;
+    boolean referencesChanged;
     do {
-      b = bloomFilter;
-      if (b != null) {
-        b.put(key);
-      }
+      BloomFilter<K> b = putIfFilterNotNull(bloomFilter, key);
+      BloomFilter<K> bb = putIfFilterNotNull(buildingBloomFilter, key);
       // Was there a concurrent update by another thread?
-    } while (!suppressReferenceEqualityWarning(b, bloomFilter));
+      referencesChanged =
+          !suppressReferenceEqualityWarning(b, bloomFilter)
+              || !suppressReferenceEqualityWarning(bb, buildingBloomFilter);
+    } while (referencesChanged);
   }
 
   public void clear() {
@@ -87,6 +84,13 @@ public class ConcurrentBloomFilter<K> {
   private BloomFilter<K> newBloomFilter() {
     int cnt = Math.max(64 * 1024, 2 * estimatedSize);
     return BloomFilter.create(funnel, cnt);
+  }
+
+  private static <K> BloomFilter<K> putIfFilterNotNull(BloomFilter<K> b, K key) {
+    if (b != null) {
+      b.put(key);
+    }
+    return b;
   }
 
   @SuppressWarnings("ReferenceEquality")

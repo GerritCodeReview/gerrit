@@ -70,6 +70,7 @@ public class H2CacheTest {
         StringCacheSerializer.INSTANCE,
         version,
         1 << 20,
+        25,
         expireAfterWrite,
         refreshAfterWrite,
         true,

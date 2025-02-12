@@ -30,6 +30,7 @@ import java.util.function.Consumer;
 import org.junit.Test;
 
 public class ConcurrentBloomFilterTest {
+  private static int MAX_INVALIDATED = 25;
   private static int NUM_THREADS = 100;
   private static int ITERATIONS = 1000;
 
@@ -68,7 +69,7 @@ public class ConcurrentBloomFilterTest {
   @Test
   public void mightContainWorksWithoutInit() {
     ConcurrentBloomFilter<Integer> filter =
-        new ConcurrentBloomFilter<>(Funnels.integerFunnel(), () -> {});
+        new ConcurrentBloomFilter<>(Funnels.integerFunnel(), () -> {}, MAX_INVALIDATED);
     filter.mightContain(1); // Passes if no exception
   }
 
@@ -81,6 +82,58 @@ public class ConcurrentBloomFilterTest {
     assertThat(filter.mightContain(1)).isTrue();
     filter.clear();
     assertThat(filter.mightContain(1)).isFalse();
+  }
+
+  @Test
+  public void invalidateRebuildsAfter25Percent() {
+    AtomicInteger start = new AtomicInteger(0);
+    ConcurrentBloomFilter<Integer> filter =
+        create(
+            b -> {
+              b.setEstimatedSize(12);
+              for (int i = start.get(); i < (start.get() + 12); i++) {
+                b.buildPut(i);
+              }
+              b.build();
+            });
+    filter.initIfNeeded();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(0);
+    start.set(100);
+    filter.invalidate(0);
+    filter.startBuildIfNeeded();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(1);
+    filter.invalidate(1);
+    filter.startBuildIfNeeded();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(2);
+    filter.invalidate(2);
+    assertThat(filter.mightContain(2)).isTrue();
+    filter.startBuildIfNeeded();
+    assertThat(filter.mightContain(2)).isFalse();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(0);
+  }
+
+  @Test
+  public void rebuildsCanBeDisabled() {
+    ConcurrentBloomFilter<Integer> filter =
+        new ConcurrentBloomFilter<>(Funnels.integerFunnel(), () -> {}, 0);
+    filter.initIfNeeded();
+    filter.put(1);
+    assertThat(filter.mightContain(1)).isTrue();
+    filter.put(2);
+    assertThat(filter.mightContain(2)).isTrue();
+    filter.put(3);
+    assertThat(filter.mightContain(3)).isTrue();
+    filter.put(4);
+    assertThat(filter.mightContain(4)).isTrue();
+    filter.invalidate(0);
+    assertThat(filter.mightContain(1)).isTrue();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(1);
+    filter.invalidate(1);
+    assertThat(filter.mightContain(1)).isTrue();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(2);
+    filter.invalidate(2);
+    assertThat(filter.mightContain(1)).isTrue();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(3);
   }
 
   @Test
@@ -186,7 +239,9 @@ public class ConcurrentBloomFilterTest {
         executor.shutdown();
       }
       executor = Executors.newFixedThreadPool(threads);
-      filter = new ConcurrentBloomFilter<>(Funnels.integerFunnel(), () -> builder.accept(filter));
+      filter =
+          new ConcurrentBloomFilter<>(
+              Funnels.integerFunnel(), () -> builder.accept(filter), MAX_INVALIDATED);
     }
 
     void setup(Consumer<ConcurrentBloomFilter<Integer>> consumer) {
@@ -232,7 +287,8 @@ public class ConcurrentBloomFilterTest {
       Consumer<ConcurrentBloomFilter<Integer>> builder) {
     AtomicReference<Runnable> buiderRef = new AtomicReference<>();
     ConcurrentBloomFilter<Integer> b =
-        new ConcurrentBloomFilter<>(Funnels.integerFunnel(), () -> buiderRef.getPlain().run());
+        new ConcurrentBloomFilter<>(
+            Funnels.integerFunnel(), () -> buiderRef.getPlain().run(), MAX_INVALIDATED);
     buiderRef.setPlain(() -> builder.accept(b));
     return b;
   }

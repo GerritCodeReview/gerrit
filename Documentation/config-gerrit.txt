@@ -856,6 +856,28 @@ for detail.
 +
 Default is `false`.
 
+[[cache.h2MaxInvalidated]]cache.h2MaxInvalidated::
++
+The amount of cache invalidations required to cause the Gerrit bloom
+filters for H2 caches to be invalidated. This amount is expressed as
+a percentage of the cache's estimatedSize (which is derived from the
+number of entries on disk on startup). This number takes no units.
++
+Some caches of Gerrit are persistent and are backed by an H2 database.
+Gerrit uses a bloom filter to avoid querying the H2 DB when the filter
+indicates that the entry cannot be on disk. As cache entries are
+invalidated, this filter will become less effective, and will result
+in queries to the H2 DB which could have been avoided had the filter
+been more effective. The only way to improve the effectiveness of the
+filter is to rebuild it once it is no longer effective. A rebuild
+will iterate over all the entries from the DB and create a new
+bloom filter for them.
++
+Default is 25 (percent of the estimatedSize).
++
+Valid values are 0, and positive integers. Setting this to 0 will
+cause the filter to never be rebuilt.
++
 [[cache.openFiles]]cache.openFiles::
 +
 The number of file descriptors to add to the limit set by the Gerrit daemon.

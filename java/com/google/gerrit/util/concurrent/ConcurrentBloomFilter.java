@@ -16,10 +16,12 @@ package com.google.gerrit.util.concurrent;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class ConcurrentBloomFilter<K> {
   private final Funnel<K> funnel;
   private final Runnable builder;
+  private final AtomicLong invalidatedCount = new AtomicLong();
 
   private volatile int estimatedSize;
   private volatile BloomFilter<K> buildingBloomFilter;
@@ -44,12 +46,22 @@ public class ConcurrentBloomFilter<K> {
     }
   }
 
+  public long getInvalidatedCount() {
+    return invalidatedCount.get();
+  }
+
+  public void startBuildIfNeeded() {
+    if (invalidatedCount.get() >= estimatedSize / 4) {
+      startBuild();
+    }
+  }
+
   public boolean mightContain(K key) {
     BloomFilter<K> b = bloomFilter;
     return b == null || b.mightContain(key);
   }
 
-  private void startBuild() {
+  private synchronized void startBuild() {
     buildingBloomFilter = newBloomFilter();
     builder.run();
   }
@@ -63,6 +75,7 @@ public class ConcurrentBloomFilter<K> {
   public void build() {
     bloomFilter = buildingBloomFilter;
     buildingBloomFilter = null;
+    invalidatedCount.set(0);
   }
 
   public void put(K key) {
@@ -77,11 +90,16 @@ public class ConcurrentBloomFilter<K> {
     } while (referencesChanged);
   }
 
+  public void invalidate(K key) {
+    invalidatedCount.incrementAndGet();
+  }
+
   public void clear() {
     bloomFilter = newBloomFilter();
   }
 
   private BloomFilter<K> newBloomFilter() {
+    invalidatedCount.set(0);
     int cnt = Math.max(64 * 1024, 2 * estimatedSize);
     return BloomFilter.create(funnel, cnt);
   }

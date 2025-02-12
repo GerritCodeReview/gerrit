@@ -84,6 +84,34 @@ public class ConcurrentBloomFilterTest {
   }
 
   @Test
+  public void invalidateRebuildsAfter25Percent() {
+    AtomicInteger start = new AtomicInteger(0);
+    ConcurrentBloomFilter<Integer> filter =
+        create(
+            b -> {
+              b.setEstimatedSize(12);
+              for (int i = start.get(); i < (start.get() + 12); i++) {
+                b.buildPut(i);
+              }
+              b.build();
+            });
+    filter.initIfNeeded();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(0);
+    start.set(100);
+    filter.invalidate(0);
+    filter.startBuildIfNeeded();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(1);
+    filter.invalidate(1);
+    filter.startBuildIfNeeded();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(2);
+    filter.invalidate(2);
+    assertThat(filter.mightContain(2)).isTrue();
+    filter.startBuildIfNeeded();
+    assertThat(filter.mightContain(2)).isFalse();
+    assertThat(filter.getInvalidatedCount()).isEqualTo(0);
+  }
+
+  @Test
   public void initIsConcurrent() {
     AtomicInteger buildCnt = new AtomicInteger();
     ConcurrentTest c = new ConcurrentTest(NUM_THREADS);

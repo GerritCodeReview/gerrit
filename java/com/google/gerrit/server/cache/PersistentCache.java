@@ -23,12 +23,14 @@ public interface PersistentCache {
     private final long space;
     private final long hitCount;
     private final long missCount;
+    private final long invalidatedCount;
 
-    public DiskStats(long size, long space, long hitCount, long missCount) {
+    public DiskStats(long size, long space, long hitCount, long missCount, long invalidatedCount) {
       this.size = size;
       this.space = space;
       this.hitCount = hitCount;
       this.missCount = missCount;
+      this.invalidatedCount = invalidatedCount;
     }
 
     public long size() {
@@ -45,6 +47,10 @@ public interface PersistentCache {
 
     public long requestCount() {
       return hitCount + missCount;
+    }
+
+    public long invalidatedCount() {
+      return invalidatedCount;
     }
   }
 }

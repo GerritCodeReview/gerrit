@@ -216,6 +216,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14fd2dff_42df660a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-13T18:39:38Z",
+      "side": 1,
+      "message": "Probably make sense yeah, shall I do this in a follow-up change maybe?",
+      "parentUuid": "acc92e95_1cf66119",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4c8ea62_1ae15d69",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 4
@@ -227,6 +245,24 @@
       "writtenOn": "2025-02-13T16:03:34Z",
       "side": 1,
       "message": "I think this should go in the `initDefaultAclsForRegisteredUsers()` method above, probably just below L220:\n```\n    config.upsertAccessSection(\n        AccessSection.ALL,\n        all -\u003e {\n          grant(config, all, Permission.REVIEW, registered);\n        });\n```",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d722de8_63dba09d",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-13T18:39:38Z",
+      "side": 1,
+      "message": "Yeah, initially, I thought that too, but that doesn\u0027t work. Somewhat surprisingly, the permission in java/com/google/Gerrit/server/restapi/change/PostReview.java#L228 is actually applied against `refs/heads/master`, so I thought of applying it on `refs/*` as the default, as really, for what we need, we just want a method to spot someone from either reviewing or not.\n\nWe could move this to L254, together with `Code-Review` if we wanted to be stricter?",
+      "parentUuid": "a4c8ea62_1ae15d69",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -250,6 +286,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45136bb0_9cd03f76",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-13T18:39:38Z",
+      "side": 1,
+      "message": "Yeah this is something @ekempin@google.com brought up too in an earlier comment. Waiting for him to confirm if it\u0027s needed or not.",
+      "parentUuid": "f5341180_94f94080",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a376801_1cedd016",
         "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
         "patchSetId": 4
@@ -261,6 +315,30 @@
       "writtenOn": "2025-02-13T16:03:34Z",
       "side": 1,
       "message": "```suggestion\n// Copyright (C) 2025 The Android Open Source Project\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d627b107_62e610b7",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-13T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a376801_1cedd016",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -290,6 +368,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ec55a97_d94c782b",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-13T18:39:38Z",
+      "side": 1,
+      "message": "I\u0027m really not sure how Google will be using this script internally, I\u0027ve followed the same pattern of [Create \"Revert\" Permission](https://gerrit-review.googlesource.com/c/gerrit/+/258754), which provides a bit more flexibility, but agreed that it\u0027s probably not needed.\n\nWhile I think your suggestion makes sense, my concern is that we\u0027re limiting usability of this class for not much gain.\nI don\u0027t have a use case for which someone would call execute with a different project, but some else might?",
+      "parentUuid": "8354820b_7df5f1ff",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae23337a_5392e995",
         "filename": "java/com/google/gerrit/server/schema/Schema_186.java",
         "patchSetId": 4
@@ -301,6 +397,24 @@
       "writtenOn": "2025-02-13T16:03:34Z",
       "side": 1,
       "message": "Missing copyright/license header",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44c960ef_fee25044",
+        "filename": "java/com/google/gerrit/server/schema/Schema_186.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-13T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae23337a_5392e995",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

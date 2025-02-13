@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Lists;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.project.ProjectCache;
@@ -23,8 +22,6 @@ import com.google.inject.Inject;
 
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
     private final GarbageCollectionRunner gcRunner;
@@ -60,7 +57,6 @@ public class GarbageCollectionRunner implements Runnable {
 
   @Override
   public void run() {
-    logger.atInfo().log("Triggering gc on all repositories");
     garbageCollectionFactory.create().run(Lists.newArrayList(projectCache.all()));
   }
 

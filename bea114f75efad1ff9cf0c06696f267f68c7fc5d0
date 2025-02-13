@@ -195,6 +195,114 @@
       "parentUuid": "53db672a_07d5e8bb",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acc92e95_1cf66119",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-13T16:03:34Z",
+      "side": 1,
+      "message": "We probably also want to use this perm for adding reviewers/CCs (implmented in [PostReviewers.java](https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/restapi/change/PostReviewers.java) and documented [here](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#add-reviewer)) to a change since that also writes to notedb and updates the \"last updated\" timestamp.",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c8ea62_1ae15d69",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-13T16:03:34Z",
+      "side": 1,
+      "message": "I think this should go in the `initDefaultAclsForRegisteredUsers()` method above, probably just below L220:\n```\n    config.upsertAccessSection(\n        AccessSection.ALL,\n        all -\u003e {\n          grant(config, all, Permission.REVIEW, registered);\n        });\n```",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5341180_94f94080",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-13T16:03:34Z",
+      "side": 1,
+      "message": "I think you\u0027ll need to split this change so that this class is available before the parts of this change that start to use the new permission. See these two changes for the Revert perm as an example:\n\n1. [Create class that grants \"Revert\" permission](https://gerrit-review.googlesource.com/c/gerrit/+/258754)\n2. [Create \"Revert\" permission](https://gerrit-review.googlesource.com/c/gerrit/+/251435)",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a376801_1cedd016",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-13T16:03:34Z",
+      "side": 1,
+      "message": "```suggestion\n// Copyright (C) 2025 The Android Open Source Project\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8354820b_7df5f1ff",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-13T16:03:34Z",
+      "side": 1,
+      "message": "If it\u0027s always going to be used with AllProjects, can you inject `AllProjectsName` in the constructor and then remove the `projectName` parameter from the `execute()` method?",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae23337a_5392e995",
+        "filename": "java/com/google/gerrit/server/schema/Schema_186.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-13T16:03:34Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

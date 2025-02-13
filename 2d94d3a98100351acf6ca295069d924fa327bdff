@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c63084fe_4f822fba",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-13T10:09:31Z",
+      "side": 1,
+      "message": "shouldn\u0027t this empty line be rather between 24 and 25?",
+      "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91af9f22_7422c4d1",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-13T10:09:31Z",
+      "side": 1,
+      "message": "This variable is supposed to hold the information if the `bloomFilter` or `buildingFloomFilter` references changed since the last `put` was done. They could change due to the rebuild process or (in future) do to something else, so maybe give it a less assuming name like `referencesChanged`?",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 72,
+        "endChar": 21
+      },
+      "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04efbb33_832d7ee1",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-13T10:09:31Z",
+      "side": 1,
+      "message": "As discussed in the previous change, this condition may be invalidated immediately after this statement.",
+      "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -32,7 +32,7 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   @Inject
   public GarbageCollectionLogFile(SitePaths sitePaths, @GerritServerConfig Config config) {
     if (SystemLog.shouldConfigure()) {
-      initLogSystem(sitePaths.logs_dir, config.getBoolean("log", "rotate", true));
+      initGcLogger(sitePaths.logs_dir, config.getBoolean("log", "rotate", true));
     }
   }
 
@@ -42,19 +42,13 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   @Override
   public void stop() {
     getLogger(GarbageCollection.class).removeAllAppenders();
-    getLogger(GarbageCollectionRunner.class).removeAllAppenders();
   }
-
-  private static void initLogSystem(Path logdir, boolean rotate) {
-    initGcLogger(logdir, rotate, getLogger(GarbageCollection.class));
-    initGcLogger(logdir, rotate, getLogger(GarbageCollectionRunner.class));
-  }
-
   private static Logger getLogger(Class<?> clazz) {
     return LogManager.getLogger(Platform.getBackend(clazz.getName()).getLoggerName());
   }
 
-  private static void initGcLogger(Path logdir, boolean rotate, Logger gcLogger) {
+  private static void initGcLogger(Path logdir, boolean rotate) {
+    Logger gcLogger = getLogger(GarbageCollection.class);
     gcLogger.removeAllAppenders();
     gcLogger.addAppender(
         SystemLog.createAppender(

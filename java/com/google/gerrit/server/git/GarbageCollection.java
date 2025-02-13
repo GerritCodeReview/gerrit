@@ -79,6 +79,7 @@ public class GarbageCollection {
   @CanIgnoreReturnValue
   public GarbageCollectionResult run(
       List<Project.NameKey> projectNames, boolean aggressive, @Nullable PrintWriter writer) {
+    logger.atInfo().log("Triggering gc on all repositories");
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName :

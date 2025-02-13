@@ -378,6 +378,48 @@
       },
       "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "233330ed_af4730f2",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-13T09:55:10Z",
+      "side": 1,
+      "message": "Yes, let me do that.",
+      "parentUuid": "174a7443_c0a494a9",
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c9da99_7c86cfb1",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-13T09:55:10Z",
+      "side": 1,
+      "message": "I see your point, the scope shall be reduced to minimum. But maybe this scenario never occurs in the future and we have to read `!referenceEqualsSuppressed(b, bloomFilter)` instead of `b !\u003d bloomFilter` forever.",
+      "parentUuid": "20e90940_49caeb65",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "a90948ae2cefbacd9841965e6bbf9f2a9ab22bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

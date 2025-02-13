@@ -66,6 +66,7 @@ java_library(
         "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
+        "//java/com/google/gerrit/util/concurrent",
         "//java/org/apache/commons/net",
         "//lib:args4j",
         "//lib:autolink",

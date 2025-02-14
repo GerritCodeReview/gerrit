@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
       AllRefsWatcher allRefsWatcher,
       UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
       AllUsersName allUsersName,
+      ReceiveConfig receiveConfig,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName,
       Account.Id user) {
@@ -49,42 +51,57 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
         allRefsWatcher,
         usersSelfAdvertiseRefsHook,
         allUsersName,
+        receiveConfig,
         queryProvider,
         projectName,
         user,
         false);
   }
 
-  /**
-   * Returns a single {@link AdvertiseRefsHook} that encompasses a chain of {@link
-   * AdvertiseRefsHook} to be used for advertising when processing a Git push. Omits {@link
-   * HackPushNegotiateHook} as that does not advertise refs on it's own but adds {@code .have} based
-   * on history which is not relevant for the tests we have.
-   */
   @VisibleForTesting
-  public static AdvertiseRefsHook createForTest(
-      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName, CurrentUser user) {
-    return create(
-        new AllRefsWatcher(),
-        new UsersSelfAdvertiseRefsHook(Providers.of(user)),
-        new AllUsersName(AllUsersNameProvider.DEFAULT),
-        queryProvider,
-        projectName,
-        user.getAccountId(),
-        true);
+  public static class ForTestProvider {
+    private final ReceiveConfig receiveConfig;
+
+    @Inject
+    ForTestProvider(ReceiveConfig receiveConfig) {
+      this.receiveConfig = receiveConfig;
+    }
+
+    /**
+     * Returns a single {@link AdvertiseRefsHook} that encompasses a chain of {@link
+     * AdvertiseRefsHook} to be used for advertising when processing a Git push. Omits {@link
+     * HackPushNegotiateHook} as that does not advertise refs on it's own but adds {@code .have}
+     * based on history which is not relevant for the tests we have.
+     */
+    public AdvertiseRefsHook get(
+        Provider<InternalChangeQuery> queryProvider,
+        Project.NameKey projectName,
+        CurrentUser user) {
+      return create(
+          new AllRefsWatcher(),
+          new UsersSelfAdvertiseRefsHook(Providers.of(user)),
+          new AllUsersName(AllUsersNameProvider.DEFAULT),
+          receiveConfig,
+          queryProvider,
+          projectName,
+          user.getAccountId(),
+          true);
+    }
   }
 
   private static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
       UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
       AllUsersName allUsersName,
+      ReceiveConfig receiveConfig,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName,
       Account.Id user,
       boolean skipHackPushNegotiateHook) {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>();
     advHooks.add(allRefsWatcher);
-    advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName, user));
+    advHooks.add(
+        new ReceiveCommitsAdvertiseRefsHook(receiveConfig, queryProvider, projectName, user));
     if (!skipHackPushNegotiateHook) {
       advHooks.add(new HackPushNegotiateHook());
     }

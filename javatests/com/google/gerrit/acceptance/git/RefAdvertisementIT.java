@@ -86,6 +86,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private IndexOperations.Change changeIndexOperations;
+  @Inject private ReceiveCommitsAdvertiseRefsHookChain.ForTestProvider chainProvider;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID serviceUsers;
@@ -1134,6 +1135,24 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "receive.advertiseOpenChangesRefs", value = "0")
+  public void receivePackHasNoAdditionalHavesWhenAdvertiseOpenChangesRefsIsDisabled()
+      throws Exception {
+    TestRefAdvertiser.Result r = getReceivePackRefs();
+    assertThat(r.allRefs()).hasSize(6);
+    assertThat(r.additionalHaves()).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.advertiseOpenChangesRefs", value = "1")
+  public void receivePackHasAdditionalHavesAccordingToAdvertiseOpenChangesRefsConfiguredValue()
+      throws Exception {
+    TestRefAdvertiser.Result r = getReceivePackRefs();
+    assertThat(r.allRefs()).hasSize(6);
+    assertThat(r.additionalHaves()).hasSize(1);
+  }
+
+  @Test
   public void receivePackRespectsVisibilityOfOpenChanges() throws Exception {
     projectOperations
         .project(project)
@@ -1517,8 +1536,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private TestRefAdvertiser.Result getReceivePackRefs() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       AdvertiseRefsHook adv =
-          ReceiveCommitsAdvertiseRefsHookChain.createForTest(
-              queryProvider, project, identifiedUserFactory.create(admin.id()));
+          chainProvider.get(queryProvider, project, identifiedUserFactory.create(admin.id()));
       ReceivePack rp = new ReceivePack(repo);
       rp.setAdvertiseRefsHook(adv);
       TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);

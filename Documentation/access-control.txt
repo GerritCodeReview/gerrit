@@ -444,8 +444,8 @@ within projects, enabling functionality for that group's members.
 === Abandon
 
 This category controls whether users are allowed to abandon changes
-to projects in Gerrit. It can give permission to abandon a specific
-change to a given ref.
+to projects in Gerrit. If granted, it gives permission to abandon
+changes against the specified ref.
 
 The uploader of a change, anyone granted the <<category_owner,`Owner`>>
 permission at the ref or project level, and anyone granted the

@@ -22,6 +22,30 @@
       },
       "revId": "0f0d312723f0574986b9fd2ff4bfc56a7a65a7de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec366534_531c32f3",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-14T09:06:47Z",
+      "side": 1,
+      "message": "Good point, I considered moving it to L69 as that\u0027s only called by the GarbageCollectionRunner, however, it could be incorrect so I\u0027ve now opted for removing this entirely.",
+      "parentUuid": "656385ac_e1ab8161",
+      "range": {
+        "startLine": 82,
+        "startChar": 42,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "0f0d312723f0574986b9fd2ff4bfc56a7a65a7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

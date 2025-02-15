@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9068dfb6_1ffe41e2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4165,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-15T12:06:09Z",
+      "side": 1,
+      "message": "This isn\u0027t something that Gerrit supports, but it is rather the JNDI/LDAP provider. Some of them support multiple LDAP bases, while others do not. Why not just refer to Java\u0027s JNDI docs instead? We should not give the impression that Gerrit would do some _magic_ around it.",
+      "range": {
+        "startLine": 4165,
+        "startChar": 55,
+        "endLine": 4165,
+        "endChar": 59
+      },
+      "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

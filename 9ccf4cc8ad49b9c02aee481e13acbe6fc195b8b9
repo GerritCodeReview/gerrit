@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c06e425_8b5f311c",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-15T12:18:26Z",
+      "side": 0,
+      "message": "We should check with @ekempin@google.com why this split with two loggers was introduced. Though I don\u0027t believe that\u0027s the culprit, but rather a side-effect of another issue.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 75
+      },
+      "revId": "9ccf4cc8ad49b9c02aee481e13acbe6fc195b8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

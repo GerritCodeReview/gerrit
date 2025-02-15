@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecc3164f_21be8d0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-15T12:18:26Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is the correct fix, but I may be wrong.",
+      "revId": "3b3efcb1ae3d6a0eb602ff72527e2ed47c96807f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc81915b_e41cee77",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-15T12:18:26Z",
+      "side": 1,
+      "message": "I believe *THIS* was the issue: we create two appenders if the `initGcLogger` is called twice. Why don\u0027t we just create a single appender to the file and keep the two loggers instead?\n\n@ekempin@google.com WDYT?",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 32
+      },
+      "revId": "3b3efcb1ae3d6a0eb602ff72527e2ed47c96807f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

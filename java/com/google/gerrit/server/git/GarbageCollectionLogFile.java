@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 import java.nio.file.Path;
+import org.apache.log4j.Appender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
@@ -46,19 +47,19 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    initGcLogger(logdir, rotate, getLogger(GarbageCollection.class));
-    initGcLogger(logdir, rotate, getLogger(GarbageCollectionRunner.class));
+    Appender appender =
+        SystemLog.createAppender(logdir, LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate);
+    initGcLogger(getLogger(GarbageCollection.class), appender);
+    initGcLogger(getLogger(GarbageCollectionRunner.class), appender);
   }
 
   private static Logger getLogger(Class<?> clazz) {
     return LogManager.getLogger(Platform.getBackend(clazz.getName()).getLoggerName());
   }
 
-  private static void initGcLogger(Path logdir, boolean rotate, Logger gcLogger) {
+  private static void initGcLogger(Logger gcLogger, Appender appender) {
     gcLogger.removeAllAppenders();
-    gcLogger.addAppender(
-        SystemLog.createAppender(
-            logdir, LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate));
+    gcLogger.addAppender(appender);
     gcLogger.setAdditivity(false);
   }
 }

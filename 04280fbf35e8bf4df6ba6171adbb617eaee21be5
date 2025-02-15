@@ -1,5 +1,52 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ade2e484_90fe7af7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-15T18:52:01Z",
+      "side": 1,
+      "message": "nit: extra whitespace",
+      "range": {
+        "startLine": 10,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "04280fbf35e8bf4df6ba6171adbb617eaee21be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3938ae96_62bcc11a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-15T18:52:01Z",
+      "side": 1,
+      "message": "nit: quite core functionality (GC logging) gets fixed with this change, I believe it deserves mention in the `Release-Notes` WDYT?",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "04280fbf35e8bf4df6ba6171adbb617eaee21be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "744b013e_58e31397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-15T18:56:36Z",
+      "side": 1,
+      "message": "I\u0027d prefer to keep the cherry-pick as-is as it is merged already on master.",
+      "parentUuid": "ade2e484_90fe7af7",
+      "range": {
+        "startLine": 10,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "04280fbf35e8bf4df6ba6171adbb617eaee21be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3938ae96_62bcc11a",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-15T18:52:01Z",
       "side": 1,
       "message": "nit: quite core functionality (GC logging) gets fixed with this change, I believe it deserves mention in the `Release-Notes` WDYT?",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "04280fbf35e8bf4df6ba6171adbb617eaee21be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "896a0a23_887ed22f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-15T18:56:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3938ae96_62bcc11a",
       "range": {
         "startLine": 15,
         "startChar": 15,

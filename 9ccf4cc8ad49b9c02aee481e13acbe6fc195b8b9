@@ -22,6 +22,30 @@
       },
       "revId": "9ccf4cc8ad49b9c02aee481e13acbe6fc195b8b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "171344ae_fca60178",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionLogFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-15T13:16:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "1c06e425_8b5f311c",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 75
+      },
+      "revId": "9ccf4cc8ad49b9c02aee481e13acbe6fc195b8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

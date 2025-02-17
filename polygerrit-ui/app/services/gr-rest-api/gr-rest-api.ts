@@ -198,7 +198,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<BranchInfo[] | undefined>;
 
   getChangeDetail(
-    changeNum?: number | string,
+    changeNum: number | string,
     errFn?: ErrorCallback
   ): Promise<ParsedChangeInfo | undefined>;
 

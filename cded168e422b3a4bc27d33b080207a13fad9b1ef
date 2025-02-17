@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "177aa84d_2b9bb331",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-17T13:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa7215bd_d9e50c36",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "cded168e422b3a4bc27d33b080207a13fad9b1ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9af7abde_110a371a",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8bc4641_966b09c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-17T13:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af7abde_110a371a",
+      "revId": "cded168e422b3a4bc27d33b080207a13fad9b1ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4d7fef7_e913ea46",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-02-17T13:09:48Z",
       "side": 1,
       "message": "```suggestion\n            externalIdsRefExpirySecs,\n```",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 52
+      },
+      "revId": "cded168e422b3a4bc27d33b080207a13fad9b1ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907b916f_10f871c0",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-17T13:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4d7fef7_e913ea46",
       "range": {
         "startLine": 122,
         "startChar": 12,

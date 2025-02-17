@@ -22,6 +22,30 @@
       },
       "revId": "210e3b25de287c4203371bcb27a74526dea17d37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8317359d_5ff22c20",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-17T14:41:38Z",
+      "side": 1,
+      "message": "Maybe we can do `allUsersSupplier` an `Supplier\u003cObjectId\u003e` ?",
+      "parentUuid": "25e87220_fec32fd6",
+      "range": {
+        "startLine": 112,
+        "startChar": 18,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "210e3b25de287c4203371bcb27a74526dea17d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

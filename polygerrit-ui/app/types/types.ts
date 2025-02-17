@@ -142,5 +142,5 @@ export interface EditRevisionInfo extends Partial<RevisionInfo> {
 export interface ParsedChangeInfo
   extends Omit<ChangeInfo, 'reviewer_updates' | 'revisions'> {
   revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo};
-  reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
+  reviewer_updates: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
 }

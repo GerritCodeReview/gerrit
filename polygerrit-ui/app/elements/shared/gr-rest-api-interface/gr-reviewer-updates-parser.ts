@@ -64,10 +64,7 @@ interface UpdateItem {
 type ReviewersGroupByMessage = {[message: string]: AccountInfo[]};
 
 export class GrReviewerUpdatesParser {
-  // TODO(TS): The parser several times reassigns different types to
-  // reviewer_updates. After parse complete, the result has ParsedChangeInfo
-  // type. This class should be refactored to avoid reassignment.
-  private readonly result: ChangeInfoParserInput;
+  private readonly result: ChangeViewChangeInfo;
 
   private batch: ParserBatch | null = null;
 
@@ -75,8 +72,8 @@ export class GrReviewerUpdatesParser {
 
   private readonly _lastState: {[accountId: string]: ReviewerState} = {};
 
-  constructor(change: ChangeInfoParserInput) {
-    this.result = {...change};
+  constructor(change: ChangeViewChangeInfo) {
+    this.result = change;
   }
 
   /**
@@ -85,7 +82,10 @@ export class GrReviewerUpdatesParser {
    * Private but used in tests.
    */
   _filterRemovedMessages() {
-    this.result.messages = this.result.messages.filter(
+    if (!this.result.messages) {
+      return;
+    }
+    this.result.messages = this.result?.messages.filter(
       message => message.tag !== MessageTag.TAG_DELETE_REVIEWER
     );
   }
@@ -128,8 +128,11 @@ export class GrReviewerUpdatesParser {
    * - Non-change updates are discarded within a group
    * - Groups with no-change updates are discarded (eg CC -> CC)
    */
-  _groupUpdates(): ParserBatchWithNonEmptyUpdates[] {
+  _groupUpdates() {
     const updates = this.result.reviewer_updates;
+    if (!updates) {
+      return;
+    }
     const newUpdates = updates.reduce((newUpdates, update) => {
       if (!this.batch) {
         this.batch = this._startBatch(update);
@@ -172,7 +175,7 @@ export class GrReviewerUpdatesParser {
     (this.result
       .reviewer_updates as unknown as ParserBatchWithNonEmptyUpdates[]) =
       newUpdates;
-    return newUpdates;
+    return;
   }
 
   /**
@@ -238,6 +241,9 @@ export class GrReviewerUpdatesParser {
     const updates = this.result
       .reviewer_updates as unknown as FormattedReviewerUpdateInfo[];
     const messages = this.result.messages;
+    if (!messages) {
+      return;
+    }
     messages.forEach((message, index) => {
       const messageDate = parseDate(message.date).getTime();
       const nextMessageDate =
@@ -268,10 +274,9 @@ export class GrReviewerUpdatesParser {
   static parse(
     change: ChangeViewChangeInfo | undefined
   ): ParsedChangeInfo | undefined {
-    if (!change || !isChangeInfoParserInput(change)) {
-      return change;
+    if (!change) {
+      return;
     }
-
     const parser = new GrReviewerUpdatesParser(change);
     parser._filterRemovedMessages();
     parser._groupUpdates();

@@ -16,6 +16,24 @@
       "message": "Please add a \"Release-Notes: skip\" footer here to make the \"Release-Notes\" submit requirement pass.",
       "revId": "8665d4459d4e213d0b5fe039c800e2e6d4c51e16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b99ad72d_36976d31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1148210
+      },
+      "writtenOn": "2025-02-17T07:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "998c7e5b_87c58675",
+      "revId": "8665d4459d4e213d0b5fe039c800e2e6d4c51e16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

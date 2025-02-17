@@ -8,7 +8,7 @@ import {MessageTag, Side} from '../constants/constants';
 import {
   AccountInfo,
   BasePatchSetNum,
-  ChangeViewChangeInfo,
+  ChangeInfo,
   CommitInfo,
   EditPatchSet,
   PatchSetNum,
@@ -140,7 +140,7 @@ export interface EditRevisionInfo extends Partial<RevisionInfo> {
 }
 
 export interface ParsedChangeInfo
-  extends Omit<ChangeViewChangeInfo, 'reviewer_updates' | 'revisions'> {
+  extends Omit<ChangeInfo, 'reviewer_updates' | 'revisions'> {
   revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo};
   reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
 }

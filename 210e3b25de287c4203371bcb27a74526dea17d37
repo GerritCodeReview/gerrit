@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25e87220_fec32fd6",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-17T14:37:25Z",
+      "side": 1,
+      "message": "`ExpiringMemoizingSupplier` doesn\u0027t accept 0 as value, it must be \u003e 0.\n\n```\nCaused by: IllegalArgumentException: duration (0 SECONDS) must be \u003e 0\n\tat Preconditions.checkArgument(Preconditions.java:386)\n\tat Suppliers$ExpiringMemoizingSupplier.\u003cinit\u003e(Suppliers.java:243)\n\tat Suppliers.memoizeWithExpiration(Suppliers.java:227)\n\tat ExternalIdReader.\u003cinit\u003e(ExternalIdReader.java:112)\n```\n\nWe need to think of a different way of defaulting it",
+      "range": {
+        "startLine": 112,
+        "startChar": 18,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "210e3b25de287c4203371bcb27a74526dea17d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

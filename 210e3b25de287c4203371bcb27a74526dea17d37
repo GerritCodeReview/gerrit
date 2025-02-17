@@ -46,6 +46,30 @@
       },
       "revId": "210e3b25de287c4203371bcb27a74526dea17d37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f717e130_6115cb4b",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-02-17T14:51:16Z",
+      "side": 1,
+      "message": "\u003e Maybe we can do allUsersSupplier an Supplier\u003cObjectId\u003e ?\n\nSorry I meant an `Optional\u003cSupplier\u003cObjectId\u003e\u003e`",
+      "parentUuid": "8317359d_5ff22c20",
+      "range": {
+        "startLine": 112,
+        "startChar": 18,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "210e3b25de287c4203371bcb27a74526dea17d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

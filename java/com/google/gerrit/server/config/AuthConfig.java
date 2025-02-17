@@ -66,6 +66,7 @@ public class AuthConfig {
   private final boolean allowRegisterNewEmail;
   private final boolean userNameCaseInsensitive;
   private final boolean userNameCaseInsensitiveMigrationMode;
+  private final int externalIdsRefExpirySecs;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
@@ -100,6 +101,9 @@ public class AuthConfig {
     userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     userNameCaseInsensitiveMigrationMode =
         cfg.getBoolean("auth", "userNameCaseInsensitiveMigrationMode", false);
+    externalIdsRefExpirySecs =
+        (int)
+            ConfigUtil.getTimeUnit(cfg, "auth", null, "externalIdsRefExpiry", 0, TimeUnit.SECONDS);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -216,6 +220,10 @@ public class AuthConfig {
 
   public boolean getCookieSecure() {
     return cookieSecure;
+  }
+
+  public int getExternalIdsRefExpirySecs() {
+    return externalIdsRefExpirySecs;
   }
 
   public SignedToken getEmailRegistrationToken() {

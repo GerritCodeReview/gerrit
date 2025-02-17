@@ -15,7 +15,9 @@
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.metrics.Description;
@@ -30,6 +32,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -54,6 +58,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ExternalIdReader {
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  /** Defined only for handling the case when externalIdsRefExpirySecs is zero */
+  private static final Supplier<ObjectId> UNUSED_OBJECT_ID_SUPPLIER =
+      Suppliers.ofInstance(ObjectId.zeroId());
+
   public static ObjectId readRevision(Repository repo) throws IOException {
     Ref ref = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
     return ref != null ? ref.getObjectId() : ObjectId.zeroId();
@@ -73,6 +84,8 @@ public class ExternalIdReader {
   private final Timer0 readSingleLatency;
   private final ExternalIdFactoryNoteDbImpl externalIdFactory;
   private final AuthConfig authConfig;
+  private final Supplier<ObjectId> allUsersSupplier;
+  private final int externalIdsRefExpirySecs;
 
   @VisibleForTesting
   @Inject
@@ -98,6 +111,22 @@ public class ExternalIdReader {
                 .setUnit(Units.MILLISECONDS));
     this.externalIdFactory = externalIdFactory;
     this.authConfig = authConfig;
+    this.externalIdsRefExpirySecs = authConfig.getExternalIdsRefExpirySecs();
+    this.allUsersSupplier =
+        externalIdsRefExpirySecs > 0
+            ? Suppliers.memoizeWithExpiration(
+                () -> {
+                  try {
+                    logger.atFine().log("Refreshing external-ids revision from All-Users repo");
+                    return readRevision(repoManager, allUsersName);
+                  } catch (IOException e) {
+                    throw new IllegalStateException(
+                        "Couldn't refresh external-ids from All-Users repo", e);
+                  }
+                },
+                externalIdsRefExpirySecs,
+                TimeUnit.SECONDS)
+            : UNUSED_OBJECT_ID_SUPPLIER;
   }
 
   @VisibleForTesting
@@ -112,6 +141,13 @@ public class ExternalIdReader {
   }
 
   public ObjectId readRevision() throws IOException {
+    return externalIdsRefExpirySecs > 0
+        ? allUsersSupplier.get()
+        : readRevision(repoManager, allUsersName);
+  }
+
+  private static ObjectId readRevision(GitRepositoryManager repoManager, AllUsersName allUsersName)
+      throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readRevision(repo);
     }

@@ -7861,8 +7861,9 @@ revision of the base change (if in the link:#merge-patch-set-input[MergePatchSet
 link:rest-api-projects.html#cherry-pick-commit[Cherry Pick Commit] REST endpoints "ours" is the
 SHA1 of the commit onto which the revision/commit is being cherry-picked (e.g. the head of the
 target branch or the revision of the base change). +
-- For the link:#rebase-change[Rebase Change] and the link:#rebase-chain[Rebase Chain] REST
-endpoints "ours" is the SHA1 of the patch set that is being rebased. +
+- For the link:#rebase-change[Rebase Change], the link:#rebase-revision[Rebase Revision] and the
+link:#rebase-chain[Rebase Chain] REST endpoints "ours" is the SHA1 of the patch set that is being
+rebased. +
 Guaranteed to be set if `contains_conflicts` is `true`. If `contains_conflicts` is `false`, only
 set if the revision was created by Gerrit as a result of performing a Git merge.
 |`theirs`             |optional|
@@ -7874,8 +7875,9 @@ link:#merge-input[MergeInput]). +
 - For the link:#cherry-pick[Cherry Pick Revision] and the
 link:rest-api-projects.html#cherry-pick-commit[Cherry Pick Commit] REST endpoints "theirs" is the
 SHA1 of the revision/commit that is being cherry-picked. +
-- For the link:#rebase-change[Rebase Change] and the link:#rebase-chain[Rebase Chain] REST endpoints
-"theirs" is the SHA1 of the new base onto which the patch set is being rebased. +
+- For the link:#rebase-change[Rebase Change], the link:#rebase-revision[Rebase Revision] and the
+link:#rebase-chain[Rebase Chain] REST endpoints" theirs" is the SHA1 of the new base onto which the
+patch set is being rebased. +
 Guaranteed to be set if `contains_conflicts` is `true`. If `contains_conflicts` is `false`, only
 set if the revision was created by Gerrit as a result of performing a Git merge.
 |`contains_conflicts` ||

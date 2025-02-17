@@ -1319,7 +1319,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   async getChangeDetail(
-    changeNum?: NumericChangeId,
+    changeNum: NumericChangeId,
     errFn?: ErrorCallback
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;

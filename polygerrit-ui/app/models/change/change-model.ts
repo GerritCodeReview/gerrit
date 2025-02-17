@@ -572,7 +572,9 @@ export class ChangeModel extends Model<ChangeState> {
       .pipe(
         switchMap(changeNum => {
           this.updateStateLoading(changeNum);
-          // if changeNum is undefined restApi calls return undefined.
+          if (!changeNum) {
+            return forkJoin([undefined, undefined]);
+          }
           const change = this.restApiService.getChangeDetail(changeNum);
           const edit = this.restApiService.getChangeEdit(changeNum);
           return forkJoin([change, edit]);

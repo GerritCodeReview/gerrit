@@ -420,10 +420,34 @@ suite('change model tests', () => {
       ...knownChangeNoRevision,
       messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
     };
-    stubRestApi('getChange').returns(Promise.resolve(actualChange));
+    const getChangeStub = stubRestApi('getChange').returns(
+      Promise.resolve(actualChange)
+    );
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);
+    assert.deepEqual(getChangeStub.lastCall.args, [42, undefined, undefined]);
+    assert.deepEqual(result.newMessages, {
+      ...createChangeMessageInfo(),
+      message: 'blah blah',
+    });
+  });
+
+  test('changeModel.fetchChangeUpdates new messages with extra options', async () => {
+    const actualChange = {
+      ...knownChangeNoRevision,
+      messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
+    };
+    const getChangeStub = stubRestApi('getChange').returns(
+      Promise.resolve(actualChange)
+    );
+    const result = await changeModel.fetchChangeUpdates(
+      knownChange,
+      /* includeExtraOptions=*/ true
+    );
+    assert.isTrue(result.isLatest);
+    assert.isNotOk(result.newStatus);
+    assert.deepEqual(getChangeStub.lastCall.args, [42, undefined, '80204']);
     assert.deepEqual(result.newMessages, {
       ...createChangeMessageInfo(),
       message: 'blah blah',

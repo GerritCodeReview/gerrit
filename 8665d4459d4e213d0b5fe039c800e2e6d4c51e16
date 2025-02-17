@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "998c7e5b_87c58675",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-17T07:07:28Z",
+      "side": 1,
+      "message": "Please add a \"Release-Notes: skip\" footer here to make the \"Release-Notes\" submit requirement pass.",
+      "revId": "8665d4459d4e213d0b5fe039c800e2e6d4c51e16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -2310,7 +2310,7 @@ export class GrChangeView extends LitElement {
       }
       const change = this.change;
       this.getChangeModel()
-        .fetchChangeUpdates(change)
+        .fetchChangeUpdates(change, /* includeExtraOptions = */ true)
         .then(result => {
           let toastMessage = null;
           if (!result.isLatest) {

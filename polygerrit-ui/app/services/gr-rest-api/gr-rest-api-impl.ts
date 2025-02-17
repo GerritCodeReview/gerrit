@@ -1328,7 +1328,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this._getChangeDetail(changeNum, optionsHex, errFn).then(detail =>
       // detail has ChangeViewChangeInfo type because the optionsHex always
       // includes ALL_REVISIONS flag.
-      GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
+      GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo | undefined)
     );
   }
 

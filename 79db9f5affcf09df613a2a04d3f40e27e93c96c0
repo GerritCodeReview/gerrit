@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dedabb3_b2615236",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2025-02-18T15:43:46Z",
+      "side": 1,
+      "message": "`--no-divider` is new to git 2.19.2.  this script tries to be compatible with older versions like git 2.8.  if we\u0027re going to cut off support, we should be clear at the top of the script.",
+      "revId": "79db9f5affcf09df613a2a04d3f40e27e93c96c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

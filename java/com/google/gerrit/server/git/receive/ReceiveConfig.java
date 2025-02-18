@@ -24,7 +24,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-class ReceiveConfig {
+public class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
   final int maxBatchCommits;

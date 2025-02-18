@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a5eca99_ab5616c2",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-18T08:48:07Z",
+      "side": 1,
+      "message": "Should we only call parse, if includeExtraOptions is true? I thought you said, that it can\u0027t function correctly without these options",
+      "range": {
+        "startLine": 749,
+        "startChar": 4,
+        "endLine": 749,
+        "endChar": 64
+      },
+      "revId": "bd27e22f8e4ec30d1cc24c21cd84c5a5d511a2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

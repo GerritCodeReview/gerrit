@@ -77,7 +77,7 @@ else
   pattern=".*"
 fi
 
-if git interpret-trailers --parse < "$1" | grep -q "^$token: $pattern$" ; then
+if git interpret-trailers --no-divider --parse < "$1" | grep -q "^$token: $pattern$" ; then
   exit 0
 fi
 
@@ -85,6 +85,7 @@ fi
 # sentinel at the end to make sure there is one.
 # Avoid the --in-place option which only appeared in Git 2.8
 if ! git interpret-trailers \
+         --no-divider \
          --trailer "Signed-off-by: SENTINEL" < "$1" > "$dest-2" ; then
   echo "cannot insert Signed-off-by sentinel line in $1"
   exit 1
@@ -96,6 +97,7 @@ fi
 # Avoid the --in-place option which only appeared in Git 2.8
 # Avoid the --where option which only appeared in Git 2.15
 if ! git -c trailer.where=before interpret-trailers \
+         --no-divider \
          --trailer "Signed-off-by: $token: $value" < "$dest-2" |
      sed -e "s/^Signed-off-by: \($token: \)/\1/" \
          -e "/^Signed-off-by: SENTINEL/d" > "$dest" ; then

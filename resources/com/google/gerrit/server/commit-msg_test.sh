@@ -243,6 +243,26 @@ EOF
   fi
 }
 
+# Change-Id goes after --- line.
+function test_triple_dash {
+  cat << EOF > input
+bla bla
+
+---
+
+bla bla
+EOF
+
+  ${hook} input || fail "failed hook execution"
+  result=$(tail -1 input | grep ^Change-Id) || :
+  if [[ -z "${result}" ]] ; then
+    echo "after: "
+    cat input
+
+    fail "did not find Change-Id at end"
+  fi
+}
+
 # Change-Id goes before Signed-off-by trailers.
 function test_before_signed_off_by {
   cat << EOF > input

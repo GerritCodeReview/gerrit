@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "488a686e_69c7ff14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-18T11:24:53Z",
+      "side": 1,
+      "message": "As commented on [1] we intent to look into this only in Q2. Unassigning myself until then.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/451902",
+      "revId": "d4deaded1ccf1e8abb13106dbafead752c2718d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

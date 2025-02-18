@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -49,8 +50,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -62,6 +66,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class CreateBranch
     implements RestCollectionCreateView<ProjectResource, BranchResource, BranchInput> {
   private final Provider<IdentifiedUser> identifiedUser;
+  private final Provider<PersonIdent> serverIdent;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
@@ -71,12 +76,14 @@ public class CreateBranch
   @Inject
   CreateBranch(
       Provider<IdentifiedUser> identifiedUser,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
       CreateRefControl createRefControl) {
     this.identifiedUser = identifiedUser;
+    this.serverIdent = serverIdent;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
@@ -104,9 +111,16 @@ public class CreateBranch
       if (input.revision != null) {
         input.revision = input.revision.trim();
       }
-      if (Strings.isNullOrEmpty(input.revision)) {
-        input.revision = Constants.HEAD;
+      if (input.createEmptyCommit) {
+        if (input.revision != null) {
+          throw new BadRequestException("createEmptyCommit and revision are mutually exclusive");
+        }
+      } else {
+        if (Strings.isNullOrEmpty(input.revision)) {
+          input.revision = Constants.HEAD;
+        }
       }
+
       while (ref.startsWith("/")) {
         ref = ref.substring(1);
       }
@@ -129,7 +143,12 @@ public class CreateBranch
 
       BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
       try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-        ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
+        ObjectId revid;
+        if (input.createEmptyCommit) {
+          revid = createEmptyCommit(repo);
+        } else {
+          revid = RefUtil.parseBaseRevision(repo, input.revision);
+        }
         RevWalk rw = RefUtil.verifyConnected(repo, revid);
         RevObject object = rw.parseAny(revid);
 
@@ -140,20 +159,25 @@ public class CreateBranch
           object = rw.parseCommit(object);
         }
 
-        Ref sourceRef = repo.exactRef(input.revision);
-        if (sourceRef == null) {
-          createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
+        if (input.createEmptyCommit) {
+          permissionBackend.user(identifiedUser.get()).ref(name).check(RefPermission.CREATE);
         } else {
-          if (sourceRef.isSymbolic()) {
-            sourceRef = sourceRef.getTarget();
+          Ref sourceRef = repo.exactRef(input.revision);
+          if (sourceRef == null) {
+            createRefControl.checkCreateRef(
+                identifiedUser, repo, name, object, /* forPush= */ false);
+          } else {
+            if (sourceRef.isSymbolic()) {
+              sourceRef = sourceRef.getTarget();
+            }
+            createRefControl.checkCreateRef(
+                identifiedUser,
+                repo,
+                name,
+                object,
+                /* forPush= */ false,
+                BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
           }
-          createRefControl.checkCreateRef(
-              identifiedUser,
-              repo,
-              name,
-              object,
-              /* forPush= */ false,
-              BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
         }
 
         RefUpdate u = repo.updateRef(ref);
@@ -219,6 +243,19 @@ public class CreateBranch
         }
         return Response.created(info);
       }
+    }
+  }
+
+  private ObjectId createEmptyCommit(Repository repo) throws IOException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
+      cb.setCommitter(serverIdent.get());
+      cb.setAuthor(identifiedUser.get().newCommitterIdent(cb.getCommitter()));
+      cb.setMessage("Initial empty branch\n");
+      ObjectId commitId = oi.insert(cb);
+      oi.flush();
+      return commitId;
     }
   }
 

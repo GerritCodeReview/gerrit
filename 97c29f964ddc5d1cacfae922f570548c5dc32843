@@ -70,6 +70,30 @@
       },
       "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "960a9add_9216da17",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4165,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-18T16:10:26Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com done, let me know what you think",
+      "parentUuid": "203e5d3f_a93b26ff",
+      "range": {
+        "startLine": 4165,
+        "startChar": 55,
+        "endLine": 4165,
+        "endChar": 59
+      },
+      "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

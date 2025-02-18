@@ -22,6 +22,30 @@
       },
       "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "103788b3_b0855328",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4165,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-18T15:51:22Z",
+      "side": 1,
+      "message": "The JNDI protocol does not give specifics on this [1], as you say, this is down to the provider implementations for different JDKs.\n\nIt used to be documented up to Java 8 [2], but I cannot find any specific documentation on more recent versions of Java or any specific distribution.\n\nI can see from the `openjdk` implementation (which the majority of java distributions are based on) that the space-separated URLs are still supported [3], but this is not officially documented anywhere.\n\n\nI will try to clarify this.\n\n[1] https://docs.oracle.com/en/java/javase/11/docs/api/java.naming/javax/naming/Context.html#PROVIDER_URL\n\n[2] https://docs.oracle.com/javase/8/docs/technotes/guides/jndi/jndi-ldap-gl.html#protocol\n\n[3] https://github.com/openjdk/jdk/blob/master/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsUrl.java#L89",
+      "parentUuid": "9068dfb6_1ffe41e2",
+      "range": {
+        "startLine": 4165,
+        "startChar": 55,
+        "endLine": 4165,
+        "endChar": 59
+      },
+      "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

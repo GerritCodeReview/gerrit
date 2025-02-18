@@ -199,6 +199,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1b9d3f9_6090e833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-18T11:23:48Z",
+      "side": 1,
+      "message": "Thanks much, I didn\u0027t have time to look further into this. We have now scheduled looking into this as a candidate for Q2. It\u0027s unlikely that we\u0027ll have time to look into this before Q2.",
+      "parentUuid": "90be1e09_83eb8b3c",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "acc92e95_1cf66119",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
         "patchSetId": 4
@@ -298,6 +316,24 @@
       "side": 1,
       "message": "Yeah this is something @ekempin@google.com brought up too in an earlier comment. Waiting for him to confirm if it\u0027s needed or not.",
       "parentUuid": "f5341180_94f94080",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b25af99_ec1b4f1a",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-18T11:23:48Z",
+      "side": 1,
+      "message": "Yes, I think we need to split this change as suggested by Nasser.",
+      "parentUuid": "45136bb0_9cd03f76",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

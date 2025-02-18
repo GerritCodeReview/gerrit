@@ -17,6 +17,7 @@ import {
   CommitId,
   RevisionInfo,
   ListChangesOption,
+  ChangeViewChangeInfo,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
@@ -54,6 +55,7 @@ import {computeTruncatedPath} from '../../utils/path-list-util';
 import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
+import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -720,23 +722,41 @@ export class ChangeModel extends Model<ChangeState> {
    * @return The state of the latest change compared with the argument.
    * Callers can use the delta to show certain notifications to users.
    */
-  async fetchChangeUpdates(change: ChangeInfo | ParsedChangeInfo) {
+  async fetchChangeUpdates(
+    change: ChangeInfo | ParsedChangeInfo,
+    includeExtraOptions = false
+  ) {
     const knownLatest = change.current_revision_number;
-    const detail = await this.restApiService.getChange(
+    // The extra options need to be passed so that the GrReviewerUpdatesParser.parse
+    // can group the messages correctly.
+    // getChangeDetail calls the parse method automatically but since we are using
+    // getChange to avoid passing all the options, we need to add some options manually.
+    // GrReviewerUpdatesParser groups messages so that we properly compare the message length
+    const detail = (await this.restApiService.getChange(
       change._number,
       undefined,
-      listChangesOptionsToHex(ListChangesOption.MESSAGES)
-    );
+      includeExtraOptions
+        ? listChangesOptionsToHex(
+            ListChangesOption.MESSAGES,
+            ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.REVIEWER_UPDATES
+          )
+        : undefined
+    )) as ChangeViewChangeInfo | undefined;
     if (!detail) {
       throw new Error('Change request failed.');
     }
-    const actualLatest = detail.current_revision_number;
+    const parsedChange = includeExtraOptions
+      ? GrReviewerUpdatesParser.parse(detail)!
+      : detail;
+    const actualLatest = parsedChange.current_revision_number;
     return {
       isLatest: actualLatest <= knownLatest,
-      newStatus: change.status !== detail.status ? detail.status : null,
+      newStatus:
+        change.status !== parsedChange.status ? parsedChange.status : null,
       newMessages:
-        (change.messages || []).length < (detail.messages || []).length
-          ? detail.messages![detail.messages!.length - 1]
+        (change.messages || []).length < (parsedChange.messages || []).length
+          ? parsedChange.messages![parsedChange.messages!.length - 1]
           : undefined,
     };
   }

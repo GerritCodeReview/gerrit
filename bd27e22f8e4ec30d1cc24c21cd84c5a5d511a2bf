@@ -22,6 +22,30 @@
       },
       "revId": "bd27e22f8e4ec30d1cc24c21cd84c5a5d511a2bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43eb03f1_5a6993cb",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-18T09:23:17Z",
+      "side": 1,
+      "message": "\u003e I thought you said, that it can\u0027t function correctly without these options\n\nThe method does not do anything in case we don\u0027t pass the options. It\u0027s the `messages.length` comparison that fails.\n\nWhen `includeExtraOptions\u003dfalse` then technically we don\u0027t do message length comparison.\n\nThis can be made more readable though. Updated.",
+      "parentUuid": "3a5eca99_ab5616c2",
+      "range": {
+        "startLine": 749,
+        "startChar": 4,
+        "endLine": 749,
+        "endChar": 64
+      },
+      "revId": "bd27e22f8e4ec30d1cc24c21cd84c5a5d511a2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class BranchInput {
   @DefaultInput public String revision;
+  public boolean createEmptyCommit;
   public String ref;
   public Map<String, String> validationOptions;
 }

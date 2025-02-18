@@ -4197,15 +4197,22 @@ a new branch.
 
 [options="header",cols="1,^2,4"]
 |=======================
-|Field Name          ||Description
-|`ref`               |optional|
+|Field Name           ||Description
+|`ref`                |optional|
 The name of the branch. The prefix `refs/heads/` can be
 omitted. +
 If set, must match the branch ID in the URL.
-|`revision`          |optional|
+|`revision`           |optional|
 The base revision of the new branch. +
-If not set, `HEAD` will be used as base revision.
-|`validation_options`|optional|
+If not set and `create_empty_commit` is `true` the branch is created with an empty initial commit. +
+If not set and `create_empty_commit` is `false` or unset `HEAD` will be used as base revision.
+|`create_empty_commit`|`false` if not set|
+Whether the branch should be created with an empty initial commit. +
+Cannot be used in combination with setting a `revision`. +
+Can be used to review the initial content of a branch (create the branch with
+an empty initial commit, make a second commit with the initial content, e.g. by
+merging in another branch, and push the commit for review).
+|`validation_options` |optional|
 Map with key-value pairs that are forwarded as options to the ref operation
 validation listeners (e.g. can be used to skip certain validations). Which
 validation options are supported depends on the installed ref operation

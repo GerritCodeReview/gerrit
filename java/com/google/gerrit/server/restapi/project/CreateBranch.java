@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -49,8 +50,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -62,6 +66,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class CreateBranch
     implements RestCollectionCreateView<ProjectResource, BranchResource, BranchInput> {
   private final Provider<IdentifiedUser> identifiedUser;
+  private final Provider<PersonIdent> serverIdent;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
@@ -71,12 +76,14 @@ public class CreateBranch
   @Inject
   CreateBranch(
       Provider<IdentifiedUser> identifiedUser,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
       CreateRefControl createRefControl) {
     this.identifiedUser = identifiedUser;
+    this.serverIdent = serverIdent;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
@@ -104,9 +111,16 @@ public class CreateBranch
       if (input.revision != null) {
         input.revision = input.revision.trim();
       }
-      if (Strings.isNullOrEmpty(input.revision)) {
-        input.revision = Constants.HEAD;
+      if (input.createEmptyCommit) {
+        if (!Strings.isNullOrEmpty(input.revision)) {
+          throw new BadRequestException("create_empty_commit and revision are mutually exclusive");
+        }
+      } else {
+        if (Strings.isNullOrEmpty(input.revision)) {
+          input.revision = Constants.HEAD;
+        }
       }
+
       while (ref.startsWith("/")) {
         ref = ref.substring(1);
       }
@@ -127,38 +141,29 @@ public class CreateBranch
                 + "\". Not allowed to create branches under Gerrit internal or tags refs.");
       }
 
-      BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
+      BranchNameKey branchNameKey = BranchNameKey.create(rsrc.getNameKey(), ref);
       try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-        ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
+        ObjectId revid;
+        if (input.createEmptyCommit) {
+          revid = createEmptyCommit(repo);
+        } else {
+          revid = RefUtil.parseBaseRevision(repo, input.revision);
+        }
         RevWalk rw = RefUtil.verifyConnected(repo, revid);
-        RevObject object = rw.parseAny(revid);
+        RevObject revObject = rw.parseAny(revid);
 
         if (ref.startsWith(Constants.R_HEADS)) {
           // Ensure that what we start the branch from is a commit. If we
           // were given a tag, dereference to the commit instead.
           //
-          object = rw.parseCommit(object);
+          revObject = rw.parseCommit(revObject);
         }
 
-        Ref sourceRef = repo.exactRef(input.revision);
-        if (sourceRef == null) {
-          createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
-        } else {
-          if (sourceRef.isSymbolic()) {
-            sourceRef = sourceRef.getTarget();
-          }
-          createRefControl.checkCreateRef(
-              identifiedUser,
-              repo,
-              name,
-              object,
-              /* forPush= */ false,
-              BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
-        }
+        checkCreateRefPermissions(input, repo, branchNameKey, revObject);
 
         RefUpdate u = repo.updateRef(ref);
         u.setExpectedOldObjectId(ObjectId.zeroId());
-        u.setNewObjectId(object.copy());
+        u.setNewObjectId(revObject.copy());
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
         refCreationValidator.validateRefOperation(
@@ -172,7 +177,10 @@ public class CreateBranch
           case NEW:
           case NO_CHANGE:
             referenceUpdated.fire(
-                name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
+                branchNameKey.project(),
+                u,
+                ReceiveCommand.Type.CREATE,
+                identifiedUser.get().state());
             break;
           case LOCK_FAILURE:
             if (repo.getRefDatabase().exactRef(ref) != null) {
@@ -207,18 +215,76 @@ public class CreateBranch
         info.ref = ref;
         info.revision = revid.getName();
 
-        if (isConfigRef(name.branch())) {
+        if (isConfigRef(branchNameKey.branch())) {
           // Never allow to delete the meta config branch.
           info.canDelete = null;
         } else {
           info.canDelete =
-              (permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
+              (permissionBackend.currentUser().ref(branchNameKey).testOrFalse(RefPermission.DELETE)
                       && rsrc.getProjectState().statePermitsWrite())
                   ? true
                   : null;
         }
         return Response.created(info);
       }
+    }
+  }
+
+  /**
+   * Checks whether the user is allowed to create the branch based on the given RevObject.
+   *
+   * <p>This checks whether the user has the {@code Create} permission to create the branch and that
+   * the commit on which the branch is being created is visible to the user (through any visible
+   * branch or open change).
+   *
+   * <p>If the branch is created for an empty initial commit the visibility check for the empty
+   * commit is skipped (since we just created it there is no ref yet through which the user could
+   * see this commit and hence the visibility check for this commit would always fail).
+   *
+   * @param input the input for the branch creation
+   * @param repo the repository in which the branch should be created
+   * @param branchNameKey the name key of the branch that should be created
+   * @param revObject the RevObject that should be used as base for creating the branch
+   */
+  private void checkCreateRefPermissions(
+      BranchInput input, Repository repo, BranchNameKey branchNameKey, RevObject revObject)
+      throws AuthException,
+          PermissionBackendException,
+          ResourceConflictException,
+          IOException,
+          NoSuchProjectException {
+    if (input.createEmptyCommit) {
+      permissionBackend.user(identifiedUser.get()).ref(branchNameKey).check(RefPermission.CREATE);
+    } else {
+      Ref sourceRef = repo.exactRef(input.revision);
+      if (sourceRef == null) {
+        createRefControl.checkCreateRef(
+            identifiedUser, repo, branchNameKey, revObject, /* forPush= */ false);
+      } else {
+        if (sourceRef.isSymbolic()) {
+          sourceRef = sourceRef.getTarget();
+        }
+        createRefControl.checkCreateRef(
+            identifiedUser,
+            repo,
+            branchNameKey,
+            revObject,
+            /* forPush= */ false,
+            BranchNameKey.create(branchNameKey.project(), sourceRef.getName()));
+      }
+    }
+  }
+
+  private ObjectId createEmptyCommit(Repository repo) throws IOException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
+      cb.setCommitter(serverIdent.get());
+      cb.setAuthor(identifiedUser.get().newCommitterIdent(cb.getCommitter()));
+      cb.setMessage("Initial empty branch\n");
+      ObjectId commitId = oi.insert(cb);
+      oi.flush();
+      return commitId;
     }
   }
 

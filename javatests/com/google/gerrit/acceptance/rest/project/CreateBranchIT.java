@@ -63,7 +63,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -372,6 +374,27 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEmptyCommitAndRevisionAreMutuallyExclusive() throws Exception {
+    BranchInput input = new BranchInput();
+    input.createEmptyCommit = true;
+    input.revision = "master";
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> branch(testBranch).create(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("create_empty_commit and revision are mutually exclusive");
+  }
+
+  @Test
+  public void createBranchWithEmptyCommit() throws Exception {
+    BranchInput input = new BranchInput();
+    input.createEmptyCommit = true;
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertEmptyCommit(testBranch);
+  }
+
+  @Test
   public void cannotCreateBranchInMagicBranchNamespace() throws Exception {
     assertCreateFails(
         BranchNameKey.create(project, MagicBranch.NEW_CHANGE + "foo"),
@@ -602,6 +625,18 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestApiException thrown = assertThrows(errType, () -> branch(branch).create(in));
     if (errMsg != null) {
       assertThat(thrown).hasMessageThat().contains(errMsg);
+    }
+  }
+
+  private void assertEmptyCommit(BranchNameKey branchNameKey) throws Exception {
+    try (Repository repo = repoManager.openRepository(branchNameKey.project());
+        RevWalk rw = new RevWalk(repo);
+        TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
+      RevCommit commit = rw.lookupCommit(repo.exactRef(branchNameKey.branch()).getObjectId());
+      rw.parseBody(commit);
+      tw.addTree(commit.getTree());
+      assertThat(tw.next()).isFalse();
+      tw.reset();
     }
   }
 

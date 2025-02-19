@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42c19fe_2067ad67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-19T11:37:47Z",
+      "side": 1,
+      "message": "Please add \"Forward-Compatible: checked\" and \"Release-Notes: skip\" footers to make the submit requirements pass.",
+      "revId": "3d3832931f853858daf2f4b538b9807c2d28d3fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7225b20_daa4547e",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-19T11:37:47Z",
+      "side": 1,
+      "message": "nit: on",
+      "range": {
+        "startLine": 72,
+        "startChar": 43,
+        "endLine": 72,
+        "endChar": 45
+      },
+      "revId": "3d3832931f853858daf2f4b538b9807c2d28d3fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6538aa3_08a5ada7",
+        "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-19T11:37:47Z",
+      "side": 1,
+      "message": "nit: on",
+      "range": {
+        "startLine": 75,
+        "startChar": 47,
+        "endLine": 75,
+        "endChar": 49
+      },
+      "revId": "3d3832931f853858daf2f4b538b9807c2d28d3fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

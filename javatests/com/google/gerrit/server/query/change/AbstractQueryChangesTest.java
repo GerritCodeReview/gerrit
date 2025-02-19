@@ -3480,10 +3480,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-is:submittable", change2);
 
     assertQuery("label:CodE-RevieW=ok", change1);
-    assertQuery("label:CodE-RevieW=may,user=" + userAccount.preferredEmail(), change1);
-    assertQuery("label:CodE-RevieW=may,Administrators", change1);
-    assertQuery("label:CodE-RevieW=may,group=Administrators", change1);
-    assertQuery("label:CodE-RevieW=may,owner", change1);
+    assertQuery(codeReviewLabelAllowedQuery() + ",user=" + userAccount.preferredEmail(), change1);
+    assertQuery(codeReviewLabelAllowedQuery() + ",Administrators", change1);
+    assertQuery(codeReviewLabelAllowedQuery() + ",group=Administrators", change1);
+    assertQuery(codeReviewLabelAllowedQuery() + ",owner", change1);
     assertQuery("label:CodE-RevieW=ok,user1");
     assertQuery("label:CodE-RevieW=need", change2);
     // NEED records don't have associated users.
@@ -4682,6 +4682,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     input.name = project.get();
     input.parent = parent.get();
     gApi.projects().create(input);
+  }
+
+  protected String codeReviewLabelAllowedQuery() {
+    return "label:CodE-RevieW=may";
   }
 
   protected QueryRequest newQuery(Object query) {

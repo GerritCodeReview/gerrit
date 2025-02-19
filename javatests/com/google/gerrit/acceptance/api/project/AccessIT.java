@@ -68,6 +68,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.GrantRevertPermission;
+import com.google.gerrit.server.schema.GrantReviewPermission;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -97,6 +98,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private GrantRevertPermission grantRevertPermission;
+  @Inject private GrantReviewPermission grantReviewPermission;
 
   private Project.NameKey newProjectName;
 
@@ -203,6 +205,38 @@ public class AccessIT extends AbstractDaemonTest {
       AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
 
       Permission permission = all.getPermission(Permission.REVERT);
+      assertThat(permission.getRules()).hasSize(1);
+    }
+  }
+
+  @Test
+  public void grantReviewPermission() throws Exception {
+    String ref = "refs/*";
+    String groupId = "global:Registered-Users";
+
+    grantReviewPermission.execute(newProjectName);
+
+    ProjectAccessInfo info = pApi().access();
+    assertThat(info.local.containsKey(ref)).isTrue();
+    AccessSectionInfo accessSectionInfo = info.local.get(ref);
+    assertThat(accessSectionInfo.permissions.containsKey(Permission.REVIEW)).isTrue();
+    PermissionInfo permissionInfo = accessSectionInfo.permissions.get(Permission.REVIEW);
+    assertThat(permissionInfo.rules.containsKey(groupId)).isTrue();
+    PermissionRuleInfo permissionRuleInfo = permissionInfo.rules.get(groupId);
+    assertThat(permissionRuleInfo.action).isEqualTo(PermissionRuleInfo.Action.ALLOW);
+  }
+
+  @Test
+  public void grantReviewPermissionOnlyWorksOnce() throws Exception {
+    grantReviewPermission.execute(newProjectName);
+    grantReviewPermission.execute(newProjectName);
+
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      ProjectConfig projectConfig = projectConfigFactory.read(md);
+      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
+
+      Permission permission = all.getPermission(Permission.REVIEW);
       assertThat(permission.getRules()).hasSize(1);
     }
   }

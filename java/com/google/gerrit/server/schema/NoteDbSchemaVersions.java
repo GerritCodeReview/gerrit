@@ -34,7 +34,8 @@ public class NoteDbSchemaVersions {
               Schema_182.class,
               Schema_183.class,
               Schema_184.class,
-              Schema_185.class)
+              Schema_185.class,
+              Schema_186.class)
           .collect(toImmutableSortedMap(naturalOrder(), v -> guessVersion(v).get(), v -> v));
 
   public static final int FIRST = ALL.firstKey();

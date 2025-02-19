@@ -68,6 +68,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.schema.GrantPostReviewCommentPermission;
 import com.google.gerrit.server.schema.GrantRevertPermission;
 import com.google.inject.Inject;
 import java.util.Arrays;
@@ -98,6 +99,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private GrantRevertPermission grantRevertPermission;
+  @Inject private GrantPostReviewCommentPermission grantPostReviewCommentPermission;
 
   private Project.NameKey newProjectName;
 
@@ -204,6 +206,39 @@ public class AccessIT extends AbstractDaemonTest {
       AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
 
       Permission permission = all.getPermission(Permission.REVERT);
+      assertThat(permission.getRules()).hasSize(1);
+    }
+  }
+
+  @Test
+  public void grantPostReviewCommentPermission() throws Exception {
+    String ref = "refs/*";
+    String groupId = "global:Registered-Users";
+
+    grantPostReviewCommentPermission.execute(newProjectName);
+
+    ProjectAccessInfo info = pApi().access();
+    assertThat(info.local.containsKey(ref)).isTrue();
+    AccessSectionInfo accessSectionInfo = info.local.get(ref);
+    assertThat(accessSectionInfo.permissions.containsKey(Permission.POST_REVIEW_COMMENT)).isTrue();
+    PermissionInfo permissionInfo =
+        accessSectionInfo.permissions.get(Permission.POST_REVIEW_COMMENT);
+    assertThat(permissionInfo.rules.containsKey(groupId)).isTrue();
+    PermissionRuleInfo permissionRuleInfo = permissionInfo.rules.get(groupId);
+    assertThat(permissionRuleInfo.action).isEqualTo(PermissionRuleInfo.Action.ALLOW);
+  }
+
+  @Test
+  public void grantPostReviewCommentPermissionOnlyWorksOnce() throws Exception {
+    grantPostReviewCommentPermission.execute(newProjectName);
+    grantPostReviewCommentPermission.execute(newProjectName);
+
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      ProjectConfig projectConfig = projectConfigFactory.read(md);
+      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
+
+      Permission permission = all.getPermission(Permission.POST_REVIEW_COMMENT);
       assertThat(permission.getRules()).hasSize(1);
     }
   }

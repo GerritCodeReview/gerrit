@@ -161,6 +161,10 @@ public abstract class AllProjectsInput {
         SubmitRequirement codeReviewSubmitRequirement);
 
     @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder codeReviewSubmitRequirement(
+        Optional<SubmitRequirement> codeReviewSubmitRequirement);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder projectDescription(String projectDescription);
 
     public abstract ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean>

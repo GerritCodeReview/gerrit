@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dd3111_6af20e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-19T15:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07598dd0_a98f95f1",
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "833bd2c6_77806519",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "958577a9_22909150",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-19T15:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833bd2c6_77806519",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7841e60a_f8baf572",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-02-19T12:19:01Z",
       "side": 1,
       "message": "Maybe better: \"review comments\"?\n\nPosting a review usually includes voting on the Code-Review label, but this permission doesn\u0027t allow voting on the Code-Review label. Maybe to avoid confusion say explicitly that this permission doesn\u0027t allow voting on any label?",
+      "range": {
+        "startLine": 960,
+        "startChar": 43,
+        "endLine": 960,
+        "endChar": 50
+      },
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b17b345_1399454f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-19T15:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7841e60a_f8baf572",
       "range": {
         "startLine": 960,
         "startChar": 43,
@@ -94,6 +160,24 @@
       "writtenOn": "2025-02-19T12:19:01Z",
       "side": 1,
       "message": "[optional] None of the other permissions mentions whether they are assigned per default. I agree it\u0027s useful to document which permissions are assigned per default for new sites. I wonder if that should rather be a seperate section? Maybe just drop this for now.",
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7c9819_995b520e",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-19T15:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60175338_6db0ba2f",
       "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

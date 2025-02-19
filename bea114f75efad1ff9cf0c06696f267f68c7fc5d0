@@ -303,6 +303,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b6df3d5_15c0f011",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-02-19T16:02:48Z",
+      "side": 1,
+      "message": "Apologies, my bad, hadn\u0027t... pretty obvious it should live there yes...",
+      "parentUuid": "2c453c48_90508a8e",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5341180_94f94080",

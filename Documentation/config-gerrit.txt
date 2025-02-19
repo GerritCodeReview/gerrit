@@ -563,6 +563,22 @@ values can't be accessed by client side scripts.
 +
 By default, `true`.
 
+[[auth.externalIdsRefExpiry]]auth.externalIdsRefExpiry::
++
+Define TTL value for memoizing the refs/meta/external-ids sha1 rather than opening
+the All-Users repo. This allows faster external-ids refs lookup.
++
+Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
++
++ Setting this to `0` disables memoization.
++
+**Note** during the memoization time exterenal-ids modification are not visible by Gerrit.
++
+By default `0`.
+
 [[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of

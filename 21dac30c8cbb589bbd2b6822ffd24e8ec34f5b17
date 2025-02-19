@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "621eeb04_0c459c39",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-19T09:25:50Z",
+      "side": 1,
+      "message": "nit: We can probably do is nullOrEmpty, for consistency.",
+      "range": {
+        "startLine": 115,
+        "startChar": 18,
+        "endLine": 115,
+        "endChar": 26
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0f3d82ed_61baeeb1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+              "range": {
+                "startLine": 115,
+                "startChar": 0,
+                "endLine": 116,
+                "endChar": 0
+              },
+              "replacement": "        if (!Strings.isNullOrEmpty(input.revision)) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "21dac30c8cbb589bbd2b6822ffd24e8ec34f5b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a1e90d_7c13f749",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-19T09:25:50Z",
+      "side": 1,
+      "message": "Since this is shown to the caller, and the caller used \"create_empty_commit\" (ie. snakeline) than the error should probably use that name as well",
+      "range": {
+        "startLine": 116,
+        "startChar": 41,
+        "endLine": 116,
+        "endChar": 58
+      },
+      "revId": "21dac30c8cbb589bbd2b6822ffd24e8ec34f5b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5a861d8_28e09d7d",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-19T09:25:50Z",
+      "side": 1,
+      "message": "nit: I think it would be a bit cleaner, if this is it\u0027s own function. With it:\n- Then the docstring can explain, why we check different permissions based on createEmptyCommit.\n- The apply method becomes more readable and easier to understand. As it\u0027s already very long",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "21dac30c8cbb589bbd2b6822ffd24e8ec34f5b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

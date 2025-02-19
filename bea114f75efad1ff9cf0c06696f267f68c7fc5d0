@@ -287,6 +287,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c453c48_90508a8e",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-19T12:19:01Z",
+      "side": 1,
+      "message": "\u003e I think this should go in the initDefaultAclsForRegisteredUsers() method above\n\n+1 initDefaultAclsForRegisteredUsers() can assign this permission on any ref we want.",
+      "parentUuid": "1d722de8_63dba09d",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5341180_94f94080",
         "filename": "java/com/google/gerrit/server/schema/GrantReviewPermission.java",
         "patchSetId": 4

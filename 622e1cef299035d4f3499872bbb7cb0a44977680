@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c909f2a7_9c945100",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-02-20T14:49:38Z",
+      "side": 1,
+      "message": "Will tooltips thus always bullet points?\nDo you want to use \u003cbr/\u003e instaed?",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 13
+      },
+      "revId": "622e1cef299035d4f3499872bbb7cb0a44977680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

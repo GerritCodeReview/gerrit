@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "620dc08d_c56d6c3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-20T13:17:53Z",
+      "side": 1,
+      "message": "Can you define an issue on issues.gerritcodereview.com and link it here?",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca6d47f_5a08bc97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-20T13:17:53Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Fix the missing retry upon LOCK_FAILURE when\u003d creating new changes \nChange-Id: I4394f112af0844435bed80ee26ec6dffa9ce2111\n```",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9f7bf93f_f8a9e8d5",

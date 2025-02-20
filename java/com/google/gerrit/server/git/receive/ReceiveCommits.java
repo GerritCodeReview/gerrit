@@ -1043,13 +1043,13 @@ class ReceiveCommits {
             // TODO: Retry lock failures on new change insertions. The retry will
             //  likely have to move to a higher layer to be able to achieve that
             //  due to state that needs to be reset with each retry attempt.
-            insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
+            insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress, true);
           } else {
             retryHelper
                 .changeUpdate(
                     "insertPatchSets",
                     updateFactory -> {
-                      insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
+                      insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress, false);
                       return null;
                     })
                 .defaultTimeoutMultiplier(5)
@@ -1086,7 +1086,10 @@ class ReceiveCommits {
   }
 
   private void insertChangesAndPatchSets(
-      ReceiveCommand magicBranchCmd, List<CreateRequest> newChanges, Task replaceProgress)
+      ReceiveCommand magicBranchCmd,
+      List<CreateRequest> newChanges,
+      Task replaceProgress,
+      boolean shouldRetry)
       throws RestApiException, IOException {
     try (BatchUpdate bu =
             batchUpdateFactory.create(
@@ -1138,7 +1141,29 @@ class ReceiveCommits {
 
       logger.atFine().log("Executing batch");
       try {
-        bu.execute();
+        // TEMP FIX TO RETRY IN CASE OF LOCK FAILURES
+        if (shouldRetry) {
+          retryHelper
+              .changeUpdate(
+                  "insertChange",
+                  updateFactory -> {
+                    {
+                      try {
+                        bu.execute();
+                      } catch (UpdateException e) {
+                        // clear commands from ctx, without java.lang.IllegalArgumentException:
+                        // cannot chain ref update CREATE: ... with different new ID
+                        bu.resetRepoViewForRetry();
+                        throw e;
+                      }
+                    }
+                    return null;
+                  })
+              .defaultTimeoutMultiplier(5)
+              .call();
+        } else {
+          bu.execute();
+        }
       } catch (UpdateException e) {
         throw asRestApiException(e);
       }
@@ -2834,10 +2859,7 @@ class ReceiveCommits {
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
-      throws RestApiException,
-          UpdateException,
-          IOException,
-          ConfigInvalidException,
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
     try (TraceTimer traceTimer = newTimer("submit")) {
       Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());

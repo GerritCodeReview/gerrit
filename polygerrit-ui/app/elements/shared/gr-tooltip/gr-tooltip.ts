@@ -16,6 +16,8 @@ declare global {
 
 @customElement('gr-tooltip')
 export class GrTooltip extends LitElement {
+  // text can be ';' separated list of strings. Each one will be on a
+  // separate line.
   @property({type: String})
   text = '';
 
@@ -85,7 +87,7 @@ export class GrTooltip extends LitElement {
         class="arrowPositionBelow arrow"
         style=${styleMap({marginLeft: this.arrowCenterOffset})}
       ></i>
-      <div class="text">${this.text}</div>
+      <div class="text">${this.text.split(';').map(t => html`${t}<br />`)}</div>
       <i
         class="arrowPositionAbove arrow"
         style=${styleMap({marginLeft: this.arrowCenterOffset})}

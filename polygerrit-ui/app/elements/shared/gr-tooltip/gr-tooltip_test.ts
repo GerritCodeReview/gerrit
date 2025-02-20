@@ -26,7 +26,11 @@ suite('gr-tooltip tests', () => {
       /* HTML */ `
         <div class="tooltip" aria-live="polite" role="tooltip">
           <i class="arrow arrowPositionBelow" style="margin-left:0;"> </i>
-          <div class="text">tooltipText</div>
+          <div>
+            <ul>
+              <li>tooltipText</li>
+            </ul>
+          </div>
           <i class="arrow arrowPositionAbove" style="margin-left:0;"> </i>
         </div>
       `

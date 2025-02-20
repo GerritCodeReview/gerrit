@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a63c7f1_c7e7528e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-20T20:25:37Z",
+      "side": 1,
+      "message": "Are you sure you are referring to the correct change? I do not see any retries being removed in that change? That change appears to add a retry mechanism, at a higher level then the refupdate since updating notedb is unlikely to succeed after a retry if the starting sha1 has changed by another update to the same ref.\n\nCan you add a clear explanation as to what use case your change is attempting to address, perhaps when an update fails simply because the packed-refs file was locked, not because the same notedeb ref was updated? If that is the case, can you explain why the retry at the higher level would not also work in this case?Also, if that is that case, then I suspect it should be important to differentiate that sort of LOCK_FAILURE from the other kind, and to avoid looping uselessy in both cases if the opposite use case was hit.",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "620dc08d_c56d6c3c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -21,7 +21,7 @@ public class ConcurrentBloomFilter<K> {
   private final Funnel<K> funnel;
   private final Runnable builder;
 
-  private int estimatedSize;
+  private volatile int estimatedSize;
   private BloomFilter<K> buildingBloomFilter;
 
   private volatile BloomFilter<K> bloomFilter;
@@ -31,12 +31,10 @@ public class ConcurrentBloomFilter<K> {
     this.builder = builder;
   }
 
-  /** Use only on the builder thread */
   public int getEstimatedSize() {
     return estimatedSize;
   }
 
-  /** Use only on the builder thread */
   public void setEstimatedSize(int estimatedSize) {
     this.estimatedSize = estimatedSize;
   }

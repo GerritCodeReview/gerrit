@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa48566b_cd880f01",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-20T07:57:31Z",
+      "side": 1,
+      "message": "This sounds good, but it\u0027s covering my point yet.\n\nHaving the \"Review\" permissions may make users think that this should allow them to vote on changes, which is not the case. We should clarify that having this permission doesnt include being able to vote on changes.",
+      "revId": "78803dd3d2b132cd47a6d7c1873e8ee1a8ce473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

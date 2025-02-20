@@ -94,6 +94,30 @@
       },
       "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "953d0980_36b16119",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4165,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-20T09:34:31Z",
+      "side": 1,
+      "message": "LGTM 👍 leaving up to @luca.milanesio@gmail.com to resolve the comment and unblock the submission with that 😊",
+      "parentUuid": "960a9add_9216da17",
+      "range": {
+        "startLine": 4165,
+        "startChar": 55,
+        "endLine": 4165,
+        "endChar": 59
+      },
+      "revId": "97c29f964ddc5d1cacfae922f570548c5dc32843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

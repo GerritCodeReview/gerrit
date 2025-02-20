@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e41322c6_380bf0a7",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-20T23:57:44Z",
+      "side": 1,
+      "message": "The intent is to group non final building things together, estimatedSize is used for building, not for normal running, so I kept those together. I guess you think that should be the case because you want to group the volatiles together? That will change in a follow on change though, so I just got rid of the blank line.\n\nThis made me realize that estimated size could be accessed from mutliple threads, a bug that has been in the code prior to me moving it to this class; fixed that in a change before this now.",
+      "parentUuid": "c63084fe_4f822fba",
+      "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91af9f22_7422c4d1",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ae33b1_0b73f91a",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-20T23:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91af9f22_7422c4d1",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 72,
+        "endChar": 21
+      },
+      "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04efbb33_832d7ee1",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-02-13T10:09:31Z",
       "side": 1,
       "message": "As discussed in the previous change, this condition may be invalidated immediately after this statement.",
+      "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6febcb22_83797416",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-20T23:57:44Z",
+      "side": 1,
+      "message": "Agreed, but beyond the scope of what this change is trying to achieve.",
+      "parentUuid": "04efbb33_832d7ee1",
       "revId": "2d94d3a98100351acf6ca295069d924fa327bdff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

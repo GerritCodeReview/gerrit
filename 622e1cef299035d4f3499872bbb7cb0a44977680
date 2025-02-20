@@ -46,6 +46,30 @@
       },
       "revId": "622e1cef299035d4f3499872bbb7cb0a44977680",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d56851_d968f3e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-02-20T17:35:49Z",
+      "side": 1,
+      "message": "the \u003cbr\u003e is still a no/op for gerrit",
+      "parentUuid": "a7ef121c_4ccf081f",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 13
+      },
+      "revId": "622e1cef299035d4f3499872bbb7cb0a44977680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

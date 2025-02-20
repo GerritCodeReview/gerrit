@@ -558,6 +558,14 @@ public class BatchUpdate implements AutoCloseable {
     return repoView;
   }
 
+  /** ResetRepoView for new change retry. */
+  public void resetRepoViewForRetry() throws IOException {
+    if (!repoView.getCommands().isEmpty()) {
+      repoView = null;
+      initRepository();
+    }
+  }
+
   private Optional<AccountState> getAccount() {
     return user.isIdentifiedUser()
         ? Optional.of(user.asIdentifiedUser().state())

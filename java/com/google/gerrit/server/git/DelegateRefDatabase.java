@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -109,6 +110,17 @@ public class DelegateRefDatabase extends RefDatabase {
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
     return delegate.getRefDatabase().getRefs(prefix);
+  }
+
+  @Override
+  public ReflogReader getReflogReader(String refName) throws IOException {
+    return delegate.getReflogReader(refName);
+  }
+
+  @Override
+  @NonNull
+  public ReflogReader getReflogReader(@NonNull Ref ref) throws IOException {
+    return delegate.getReflogReader(ref);
   }
 
   @Override

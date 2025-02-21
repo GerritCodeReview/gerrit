@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.entities.PatchSet;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
+import com.google.gerrit.extensions.config.ExternalChangeIncludedIn;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -23,25 +25,53 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.IncludedIn;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
 public class ChangeIncludedIn implements RestReadView<ChangeResource> {
-  private PatchSetUtil psUtil;
-  private IncludedIn includedIn;
+  private final IncludedIn includedIn;
+  private final PluginSetContext<ExternalChangeIncludedIn> externalChangeIncludedIn;
+  private final PatchSetUtil psUtil;
 
   @Inject
-  ChangeIncludedIn(PatchSetUtil psUtil, IncludedIn includedIn) {
-    this.psUtil = psUtil;
+  ChangeIncludedIn(
+      IncludedIn includedIn,
+      PluginSetContext<ExternalChangeIncludedIn> externalChangeIncludedIn,
+      PatchSetUtil psUtil) {
     this.includedIn = includedIn;
+    this.externalChangeIncludedIn = externalChangeIncludedIn;
+    this.psUtil = psUtil;
   }
 
   @Override
   public Response<IncludedInInfo> apply(ChangeResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
-    PatchSet ps = psUtil.current(rsrc.getNotes());
-    return Response.ok(includedIn.apply(rsrc.getProject(), ps.commitId().name()));
+    String revisionId = psUtil.current(rsrc.getNotes()).commitId().name();
+    IncludedInInfo includedInInfo = includedIn.apply(rsrc.getProject(), revisionId);
+    ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
+    externalChangeIncludedIn.runEach(
+        ext -> {
+          ListMultimap<String, String> extIncludedIns =
+              ext.getIncludedIn(
+                  rsrc.getId().get(),
+                  rsrc.getProject().get(),
+                  revisionId,
+                  includedInInfo.tags,
+                  includedInInfo.branches);
+          if (extIncludedIns != null) {
+            external.putAll(extIncludedIns);
+          }
+        });
+    if (!external.isEmpty()) {
+      if (includedInInfo.external != null) {
+        includedInInfo.external.putAll(external.asMap());
+      } else {
+        includedInInfo.external = external.asMap();
+      }
+    }
+    return Response.ok(includedInInfo);
   }
 }

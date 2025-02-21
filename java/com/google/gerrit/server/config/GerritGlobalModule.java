@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.config.ExternalChangeIncludedIn;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
@@ -436,6 +437,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), GerritConfigListener.class)
         .toInstance(SuggestReviewers.configListener());
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
+    DynamicSet.setOf(binder(), ExternalChangeIncludedIn.class);
     DynamicSet.setOf(binder(), FilterIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PluginPushOption.class);

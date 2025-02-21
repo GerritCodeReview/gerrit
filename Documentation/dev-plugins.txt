@@ -2414,7 +2414,8 @@ drop-down panel shows the branches and tags in which the change is
 included.
 
 Plugins can add additional systems in which the change can be included
-by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
+by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`
+and/or `com.google.gerrit.extensions.config.ExternalChangeIncludedIn`,
 e.g. a plugin can provide a list of servers on which the change was
 deployed.
 

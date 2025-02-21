@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46ef5ac6_9b5686bf",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-21T14:54:29Z",
+      "side": 1,
+      "message": "Should the permission here be assigned on refs/heads/* so that we are testing that the label for refs/heads/develop is not returned due to the branch restriction (rather than not being returned because the user has no permission to vote)?",
+      "range": {
+        "startLine": 336,
+        "startChar": 47,
+        "endLine": 336,
+        "endChar": 53
+      },
+      "revId": "26446b4557a629df6a21b36f3584e58a0824cf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

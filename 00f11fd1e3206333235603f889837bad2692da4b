@@ -1,5 +1,120 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc8975c2_eca35339",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T17:50:22Z",
+      "side": 1,
+      "message": "We have problem with importing to google latest changes because build fails on this changes. Should I send you a change with these changes? Thanks",
+      "revId": "00f11fd1e3206333235603f889837bad2692da4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9fc15aa_a7c8d5a8",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T17:50:22Z",
+      "side": 1,
+      "message": "When importing to google - build failed because it needs import com.google.common.base.Supplier;",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 35
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "60e59e31_8a4f4ac9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+              "range": {
+                "startLine": 18,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": "import com.google.common.base.Supplier;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+              "range": {
+                "startLine": 36,
+                "startChar": 0,
+                "endLine": 37,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "00f11fd1e3206333235603f889837bad2692da4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad50ed8c_81e9b591",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T17:50:22Z",
+      "side": 1,
+      "message": "When importing to google - build failed because this has @donotcall\n\nand you should use Suppliers.memoizeWithExpiration(Suplier, duration)\n```suggestion\n            ? Suppliers.memoizeWithExpiration(\n                () -\u003e {\n                  try {\n                    logger.atFine().log(\"Refreshing external-ids revision from All-Users repo\");\n                    return readRevision(repoManager, allUsersName);\n                  } catch (IOException e) {\n                    throw new IllegalStateException(\n                        \"Couldn\u0027t refresh external-ids from All-Users repo\", e);\n                  }\n                },\n                Duration.ofSeconds(externalIdsRefExpirySecs))\n```\n\n\nand import \n```\nimport java.time.Duration;\n```",
+      "range": {
+        "startLine": 117,
+        "startChar": 14,
+        "endLine": 128,
+        "endChar": 33
+      },
+      "revId": "00f11fd1e3206333235603f889837bad2692da4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e4f689_bf16c089",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T17:50:22Z",
+      "side": 1,
+      "message": "NIT: I would suggest to put all overloads readRevision in one block",
+      "range": {
+        "startLine": 143,
+        "startChar": 1,
+        "endLine": 154,
+        "endChar": 3
+      },
+      "revId": "00f11fd1e3206333235603f889837bad2692da4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

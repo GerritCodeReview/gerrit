@@ -148,10 +148,10 @@ public abstract class PermissionBackendCondition
 
   public static class ForRef extends PermissionBackendCondition {
     private final PermissionBackend.ForRef impl;
-    private final RefPermission perm;
+    private final RefPermissionOrLabel perm;
     private final CurrentUser user;
 
-    public ForRef(PermissionBackend.ForRef impl, RefPermission perm, CurrentUser user) {
+    public ForRef(PermissionBackend.ForRef impl, RefPermissionOrLabel perm, CurrentUser user) {
       this.impl = impl;
       this.perm = perm;
       this.user = user;
@@ -161,7 +161,7 @@ public abstract class PermissionBackendCondition
       return impl;
     }
 
-    public RefPermission permission() {
+    public RefPermissionOrLabel permission() {
       return perm;
     }
 

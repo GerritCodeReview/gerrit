@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7eb661f_a48543ab",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T13:50:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "533d91a3_efec81ef",
+      "range": {
+        "startLine": 656,
+        "startChar": 4,
+        "endLine": 656,
+        "endChar": 11
+      },
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54d6983c_9fd656fe",
@@ -102,6 +126,24 @@
       "writtenOn": "2025-02-21T07:54:40Z",
       "side": 1,
       "message": "Please cover the new functionality in ListLabelsIT.",
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f3995e_c0d29d07",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T13:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d6983c_9fd656fe",
       "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

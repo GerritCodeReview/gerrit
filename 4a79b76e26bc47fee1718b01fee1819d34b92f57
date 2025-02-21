@@ -16,6 +16,24 @@
       "message": "I think we also need to check whether the ref is visible to the caller.\n\nSince callers must not be able to use this API to probe whether a branch exists, we need to return the same response code if a branch doesn\u0027t exist or if an existing branch is not visible.",
       "revId": "4a79b76e26bc47fee1718b01fee1819d34b92f57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ffc4edf_5b1a8d54",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T13:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "437f6d94_388ce134",
+      "revId": "4a79b76e26bc47fee1718b01fee1819d34b92f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

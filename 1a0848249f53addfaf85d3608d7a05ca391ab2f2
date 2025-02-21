@@ -147,6 +147,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15ed8fc3_51b30c00",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-21T09:17:01Z",
+      "side": 1,
+      "message": "Thanks, I like option 1. the most.\n\nI could also imagine having `--ref \u003cREF\u003e` to filter for labels that apply to the ref (only return labels where the ref matches labelType.getRefPatterns()), and have `--votable` as a boolean to filter for labels that the user can vote on. Then the caller would specify both options.\n\nSupporting `--ref \u003cREF\u003e` alone could make sense, and we could reject using `--votable` without `--ref \u003cREF\u003e`.\n\nBut I\u0027m not having a strong opinion here.",
+      "parentUuid": "c6e15b6f_c35dbef8",
+      "range": {
+        "startLine": 63,
+        "startChar": 17,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4806e22_6370e379",
         "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
         "patchSetId": 12

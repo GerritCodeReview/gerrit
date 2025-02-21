@@ -25,10 +25,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
+import com.google.gerrit.extensions.config.ExternalChangeIncludedIn;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -59,17 +61,52 @@ public class IncludedIn {
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
   private final PluginSetContext<FilterIncludedIn> filterIncludedIn;
+  private final PluginSetContext<ExternalChangeIncludedIn> externalChangeIncludedIn;
+  private final PatchSetUtil psUtil;
+  private RevCommit rev;
 
   @Inject
   IncludedIn(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       PluginSetContext<ExternalIncludedIn> externalIncludedIn,
-      PluginSetContext<FilterIncludedIn> filterIncludedIn) {
+      PluginSetContext<FilterIncludedIn> filterIncludedIn,
+      PluginSetContext<ExternalChangeIncludedIn> externalChangeIncludedIn,
+      PatchSetUtil psUtil) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.externalIncludedIn = externalIncludedIn;
     this.filterIncludedIn = filterIncludedIn;
+    this.externalChangeIncludedIn = externalChangeIncludedIn;
+    this.psUtil = psUtil;
+  }
+
+  public IncludedInInfo apply(ChangeResource rsrc)
+      throws RestApiException, IOException, PermissionBackendException {
+    IncludedInInfo includedInInfo =
+        apply(rsrc.getProject(), psUtil.current(rsrc.getNotes()).commitId().name());
+    ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
+    externalChangeIncludedIn.runEach(
+        ext -> {
+          ListMultimap<String, String> extIncludedIns =
+              ext.getIncludedIn(
+                  rsrc.getId().get(),
+                  rsrc.getProject().get(),
+                  rev.name(),
+                  includedInInfo.tags,
+                  includedInInfo.branches);
+          if (extIncludedIns != null) {
+            external.putAll(extIncludedIns);
+          }
+        });
+    if (!external.isEmpty()) {
+      if (includedInInfo.external != null) {
+        includedInInfo.external.putAll(external.asMap());
+      } else {
+        includedInInfo.external = external.asMap();
+      }
+    }
+    return includedInInfo;
   }
 
   public IncludedInInfo apply(Project.NameKey project, String revisionId)
@@ -77,7 +114,6 @@ public class IncludedIn {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       rw.setRetainBody(false);
-      RevCommit rev;
       try {
         rev = rw.parseCommit(ObjectId.fromString(revisionId));
       } catch (IncorrectObjectTypeException err) {
@@ -98,7 +134,7 @@ public class IncludedIn {
               .map(Ref::getName)
               .collect(Collectors.toSet());
 
-      // Filter branches and tags according to their visbility by the user
+      // Filter branches and tags according to their visibility by the user
       Stream<String> filteredBranchesStream =
           sortedShortNames(
               filterReadableRefs(

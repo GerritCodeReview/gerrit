@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a5db503_b103f602",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-21T20:42:27Z",
+      "side": 1,
+      "message": "I can fix it and thanks for the review and suggestions.",
+      "parentUuid": "fc8975c2_eca35339",
+      "revId": "00f11fd1e3206333235603f889837bad2692da4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9fc15aa_a7c8d5a8",
         "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdReader.java",
         "patchSetId": 7

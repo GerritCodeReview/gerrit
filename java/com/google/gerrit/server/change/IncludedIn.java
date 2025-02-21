@@ -23,6 +23,8 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
@@ -74,6 +76,12 @@ public class IncludedIn {
 
   public IncludedInInfo apply(Project.NameKey project, String revisionId)
       throws RestApiException, IOException, PermissionBackendException {
+    return apply(project, null, revisionId);
+  }
+
+  public IncludedInInfo apply(
+      Project.NameKey project, @Nullable Change.Id changeId, String revisionId)
+      throws RestApiException, IOException, PermissionBackendException {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       rw.setRetainBody(false);
@@ -121,7 +129,8 @@ public class IncludedIn {
       externalIncludedIn.runEach(
           ext -> {
             ListMultimap<String, String> extIncludedIns =
-                ext.getIncludedIn(project.get(), rev.name(), filteredBranches, filteredTags);
+                ext.getIncludedIn(
+                    project.get(), changeId.get(), rev.name(), filteredBranches, filteredTags);
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }

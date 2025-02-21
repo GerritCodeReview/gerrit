@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f25d43c3_6eb13299",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2025-02-21T15:45:20Z",
+      "side": 1,
+      "message": "No sorry my mistake I put proper one in commit msg and its I7f87affd8570cafc2e6ce6b483496f674968cced.\n\nYes You are correct about the case. More in issue 398125794. \nI didn\u0027t find any retry mechanism at higher level in this case.",
+      "parentUuid": "6a63c7f1_c7e7528e",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "620dc08d_c56d6c3c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d63471f_0a3a9b0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2025-02-21T15:45:20Z",
+      "side": 1,
+      "message": "Done shoule put in different way in description?",
+      "parentUuid": "620dc08d_c56d6c3c",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aca6d47f_5a08bc97",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2025-02-20T13:17:53Z",
       "side": 1,
       "message": "```suggestion\nRelease-Notes: Fix the missing retry upon LOCK_FAILURE when\u003d creating new changes \nChange-Id: I4394f112af0844435bed80ee26ec6dffa9ce2111\n```",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86670792_89ecde4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2025-02-21T15:45:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "aca6d47f_5a08bc97",
       "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

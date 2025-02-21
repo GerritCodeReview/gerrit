@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15368a1a_f9c92490",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T10:07:34Z",
+      "side": 1,
+      "message": "I actually restore it back to protected and back to the same class. But it\u0027s good idea to try to import to google before submitting",
+      "parentUuid": "57d30ec7_4f6ea6c6",
+      "range": {
+        "startLine": 656,
+        "startChar": 4,
+        "endLine": 656,
+        "endChar": 11
+      },
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54d6983c_9fd656fe",
         "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
         "patchSetId": 12
@@ -71,6 +95,30 @@
       "writtenOn": "2025-02-21T07:54:40Z",
       "side": 1,
       "message": "Maybe be more specific about what \"voteable\" means. Looking at the code it seems it means being able to vote with a positive value?",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 46
+      },
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fef0544a_0a32b3d5",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T10:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e15a0f6f_3d8edeb2",
       "range": {
         "startLine": 62,
         "startChar": 38,
@@ -169,6 +217,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09ba1c2a_fdd296b3",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T10:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f15a13ca_dda5ff0e",
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9afeae7d_f236530d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T10:07:34Z",
+      "side": 1,
+      "message": "I prefer just one --voteable-on-ref for now. --ref can be introduced later if needed.",
+      "parentUuid": "15ed8fc3_51b30c00",
+      "range": {
+        "startLine": 63,
+        "startChar": 17,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4806e22_6370e379",
@@ -186,6 +276,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d59208_c8c9a7dc",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T10:07:34Z",
+      "side": 1,
+      "message": "Good idea. Added",
+      "parentUuid": "f4806e22_6370e379",
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efb35aec_9063cfa7",
@@ -199,6 +307,24 @@
       "writtenOn": "2025-02-21T07:54:40Z",
       "side": 1,
       "message": "Labels can also define for which refs they apply, see [1]. I think we should only return labels that are enabled for the requested ref (for this you would need to check against the ref against the patterns from labelType.getRefPatterns()).\n\nE.g. if a label applies only to \u0027refs/heads/main\u0027, but permissions for the label are granted on \u0027refs/heads/*\u0027 the user cannot vote on the label for \"refs/heads/stable\" although they are granted the permission (because the label doesn\u0027t apply to this branch).\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_branch",
+      "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69398fb5_47e29da2",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-02-21T10:07:34Z",
+      "side": 1,
+      "message": "Cool, thanks. I didn\u0027t know.",
+      "parentUuid": "efb35aec_9063cfa7",
       "revId": "1a0848249f53addfaf85d3608d7a05ca391ab2f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

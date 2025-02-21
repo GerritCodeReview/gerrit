@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.config;
 
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.Collection;
 
@@ -23,18 +24,26 @@ public interface ExternalIncludedIn {
 
   /**
    * Returns additional entries for IncludedInInfo as multimap where the key is the row title and
-   * the values are a list of systems that include the given commit (e.g. names of servers on which
-   * this commit is deployed).
+   * the values are a list of systems that include the given change or commit (e.g. names of
+   * artifacts in which the change is included or names of servers on which this commit is
+   * deployed).
    *
    * <p>The tags and branches in which the commit is included are provided so that a RevWalk can be
    * avoided when a system runs a certain tag or branch.
    *
    * @param project the name of the project
-   * @param commit the ID of the commit for which it should be checked if it is included
+   * @param changeNumber the ID of the change that needs to be checked if it is included (can be
+   *     null)
+   * @param commit the ID of the commit, it can be used alongside or as an alternative to
+   *     changeNumber to find additional included-ins
    * @param tags the tags that include the commit
    * @param branches the branches that include the commit
    * @return additional entries for IncludedInInfo
    */
   ListMultimap<String, String> getIncludedIn(
-      String project, String commit, Collection<String> tags, Collection<String> branches);
+      String project,
+      @Nullable Integer changeNumber,
+      String commit,
+      Collection<String> tags,
+      Collection<String> branches);
 }

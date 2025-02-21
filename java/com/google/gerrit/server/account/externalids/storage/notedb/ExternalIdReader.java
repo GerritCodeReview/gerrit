@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -31,9 +32,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -124,8 +124,7 @@ public class ExternalIdReader {
                         "Couldn't refresh external-ids from All-Users repo", e);
                   }
                 },
-                externalIdsRefExpirySecs,
-                TimeUnit.SECONDS)
+                Duration.ofSeconds(externalIdsRefExpirySecs))
             : UNUSED_OBJECT_ID_SUPPLIER;
   }
 

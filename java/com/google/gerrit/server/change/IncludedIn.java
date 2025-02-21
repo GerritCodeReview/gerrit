@@ -25,10 +25,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
+import com.google.gerrit.extensions.config.ExternalChangeIncludedIn;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -56,23 +58,69 @@ public class IncludedIn {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
+  private final PluginSetContext<ExternalChangeIncludedIn> externalChangeIncludedIn;
+  private final PatchSetUtil psUtil;
+  private RevCommit rev;
 
   @Inject
   IncludedIn(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
+      PluginSetContext<ExternalIncludedIn> externalIncludedIn,
+      PluginSetContext<ExternalChangeIncludedIn> externalChangeIncludedIn,
+      PatchSetUtil psUtil) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.externalIncludedIn = externalIncludedIn;
+    this.externalChangeIncludedIn = externalChangeIncludedIn;
+    this.psUtil = psUtil;
+  }
+
+  public IncludedInInfo apply(ChangeResource rsrc)
+      throws RestApiException, IOException, PermissionBackendException {
+    IncludedInInfo includedInInfo =
+        getIncludedInTagsAndBranches(
+            rsrc.getProject(), psUtil.current(rsrc.getNotes()).commitId().name());
+    ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
+    externalChangeIncludedIn.runEach(
+        ext -> {
+          ListMultimap<String, String> extIncludedIns =
+              ext.getIncludedIn(
+                  rsrc.getId().get(),
+                  rsrc.getProject().get(),
+                  rev.name(),
+                  includedInInfo.tags,
+                  includedInInfo.branches);
+          if (extIncludedIns != null) {
+            external.putAll(extIncludedIns);
+          }
+        });
+    includedInInfo.external = !external.isEmpty() ? external.asMap() : null;
+    return includedInInfo;
   }
 
   public IncludedInInfo apply(Project.NameKey project, String revisionId)
       throws RestApiException, IOException, PermissionBackendException {
+    IncludedInInfo includedInInfo = getIncludedInTagsAndBranches(project, revisionId);
+    ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
+    externalIncludedIn.runEach(
+        ext -> {
+          ListMultimap<String, String> extIncludedIns =
+              ext.getIncludedIn(
+                  project.get(), rev.name(), includedInInfo.tags, includedInInfo.branches);
+          if (extIncludedIns != null) {
+            external.putAll(extIncludedIns);
+          }
+        });
+    includedInInfo.external = !external.isEmpty() ? external.asMap() : null;
+    return includedInInfo;
+  }
+
+  private IncludedInInfo getIncludedInTagsAndBranches(Project.NameKey project, String revisionId)
+      throws RestApiException, IOException, PermissionBackendException {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       rw.setRetainBody(false);
-      RevCommit rev;
       try {
         rev = rw.parseCommit(ObjectId.fromString(revisionId));
       } catch (IncorrectObjectTypeException err) {
@@ -102,18 +150,7 @@ public class IncludedIn {
           sortedShortNames(
               filterReadableRefs(project, getMatchingRefNames(allMatchingTagsAndBranches, tags)));
 
-      ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
-      externalIncludedIn.runEach(
-          ext -> {
-            ListMultimap<String, String> extIncludedIns =
-                ext.getIncludedIn(project.get(), rev.name(), filteredBranches, filteredTags);
-            if (extIncludedIns != null) {
-              external.putAll(extIncludedIns);
-            }
-          });
-
-      return new IncludedInInfo(
-          filteredBranches, filteredTags, (!external.isEmpty() ? external.asMap() : null));
+      return new IncludedInInfo(filteredBranches, filteredTags);
     }
   }
 

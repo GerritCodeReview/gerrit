@@ -23,6 +23,11 @@ public class IncludedInInfo {
   public List<String> tags;
   public Map<String, Collection<String>> external;
 
+  public IncludedInInfo(Collection<String> branches, Collection<String> tags) {
+    this.branches = new ArrayList<>(branches);
+    this.tags = new ArrayList<>(tags);
+  }
+
   public IncludedInInfo(
       Collection<String> branches,
       Collection<String> tags,

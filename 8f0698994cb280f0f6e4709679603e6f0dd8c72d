@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2869f868_f88e8d2a",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be3fcf2c_9b3735e1",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 42
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5e00fc8_2bc8a847",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-11T08:52:58Z",
       "side": 1,
       "message": "I see a lot of copy\u0026paste of the commit method for introducing the _withoutFiring_ variant. Eventually, everything goes back to the `updateRef()` that has a flag for firing the event or not.\n\nWhy not just introduce the variant with the flag for firing the event and delegate the legacy call without parameter to the one with the flag set to true?\n\n\n\n```suggestion\n    RevCommit commit(boolean fireEvent) throws IOException;\n```",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 35
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8269b5f9_595f1b09",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5e00fc8_2bc8a847",
       "range": {
         "startLine": 283,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea9b5085_2a90a867",
+        "filename": "java/com/google/gerrit/server/git/meta/VersionedMetaData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79cad176_d630fa83",
+      "range": {
+        "startLine": 441,
+        "startChar": 23,
+        "endLine": 441,
+        "endChar": 42
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "584d88d2_af80fe24",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-02-11T08:52:58Z",
       "side": 1,
       "message": "If this fails, the project is created anyway, and we don\u0027t have project-created  or ref-updated event.",
+      "range": {
+        "startLine": 203,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 71
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66ce6f92_60d2a2b4",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "584d88d2_af80fe24",
       "range": {
         "startLine": 203,
         "startChar": 6,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "443485d2_9a0e0b0c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectCacheIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "In line #148 there is first check with `+1` and then new project is created that results in extra `2` misses hence the value `3`. IOW `3` here means extra `2` since the last check...\nI have restored the original order of the events firing in the `ProjectCreator` hence the change was reverted back to `3`.\n\nThe open question is if we should actually change this order too IOW invalidate the projects cache prior sending `project-created` and `ref-updated` events but that, if `true`, should be IMHO a subject of the follow-up so that not too many changes are mixed in a single commit. @luca.milanesio@gmail.com, @maczech@gmail.com WDYT?",
+      "parentUuid": "adb321b9_c52208ec",
+      "range": {
+        "startLine": 153,
+        "startChar": 38,
+        "endLine": 153,
+        "endChar": 94
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa4594b0_2b8879dc",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 10
@@ -135,6 +255,47 @@
         "endLine": 57,
         "endChar": 96
       },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7292e98f_e1e37dc5",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Removed. Using `MAX_DURATION_FOR_RECEIVING_EVENTS` as it is being used for other TCs.",
+      "parentUuid": "aa4594b0_2b8879dc",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 96
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e337b6e2_c4986c01",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "nit: there is no need to wait before each TC, only project create specific TCs require it",
       "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -157,6 +318,53 @@
         "startChar": 45,
         "endLine": 196,
         "endChar": 60
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30e201d_189578c2",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "None. Removed annotation.",
+      "parentUuid": "e410da58_6ff6dab9",
+      "range": {
+        "startLine": 196,
+        "startChar": 45,
+        "endLine": 196,
+        "endChar": 60
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6db4fb1c_674c6f16",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "removed as not enabled by default",
+      "range": {
+        "startLine": 230,
+        "startChar": 2,
+        "endLine": 230,
+        "endChar": 85
       },
       "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -185,6 +393,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d0669c_e525f451",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a39ad7c6_bfb62de9",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 11
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16bca6a3_5c469f7a",
@@ -198,6 +430,30 @@
       "writtenOn": "2025-02-11T08:52:58Z",
       "side": 1,
       "message": "Remember that tests are the only part of the code that isn\u0027t tested. This code looks quite complex: why not simply capture the events and leave the assertion to the caller?",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 337,
+        "endChar": 3
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "146aeba8_30f08353",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Reduced to simple function that collects events - caller decides how many events are callected",
+      "parentUuid": "16bca6a3_5c469f7a",
       "range": {
         "startLine": 318,
         "startChar": 0,

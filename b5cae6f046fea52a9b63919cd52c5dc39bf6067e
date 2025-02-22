@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "116af57c_89199ca1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7f892cf_d995af76",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "b5cae6f046fea52a9b63919cd52c5dc39bf6067e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2f91e21_6474a540",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-11T08:29:32Z",
       "side": 1,
       "message": "```suggestion\nRelease-Notes: Swap project-created/ref-updated in stream events upon project creation\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "b5cae6f046fea52a9b63919cd52c5dc39bf6067e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "799dd705_ee17cf71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:15:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2f91e21_6474a540",
       "range": {
         "startLine": 19,
         "startChar": 15,

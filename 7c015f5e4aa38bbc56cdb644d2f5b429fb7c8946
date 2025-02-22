@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebffeccb_0b67247d",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-22T19:18:48Z",
+      "side": 1,
+      "message": "nit: can be private",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 61
+      },
+      "revId": "7c015f5e4aa38bbc56cdb644d2f5b429fb7c8946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

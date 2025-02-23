@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c62a8056_1083b905",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-23T21:09:12Z",
+      "side": 1,
+      "message": "We should add a validation test for the delete repository use-case in the LocalDiskRepositoryManager, so that similar problems won\u0027t happen again in the future.",
+      "revId": "23aa9517b03b34b5dba8ffbdcd3157cc72413b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -84,4 +84,11 @@ public interface GitRepositoryManager {
   default Boolean canPerformGC() {
     return false;
   }
+
+  /**
+   * Perform the necessary cleanup when a repository has been removed.
+   *
+   * @param name – the repository name, relative to the base directory.
+   */
+  default void repositoryDeleted(Project.NameKey name) {}
 }

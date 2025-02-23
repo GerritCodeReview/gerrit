@@ -282,6 +282,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return Collections.unmodifiableNavigableSet(visitor.found);
   }
 
+  @Override
+  public void repositoryDeleted(NameKey name) {
+    fileKeyByProject.remove(name);
+  }
+
   protected void scanProjects(ProjectVisitor visitor) {
     try {
       Files.walkFileTree(

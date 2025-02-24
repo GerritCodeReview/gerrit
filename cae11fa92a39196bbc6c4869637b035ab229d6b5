@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e9b72c_1c886869",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-24T11:20:59Z",
+      "side": 1,
+      "message": "Failures reportedby BB:\n\n```\n        at com.google.gerrit.acceptance.ssh.StreamEventsIT.projectCreatedShowInStreamEventsBeforeRefUpdates(StreamEventsIT.java:200)\n2) projectCreatedShowInStreamEventsBeforeBatchRefUpdates[default](com.google.gerrit.acceptance.ssh.StreamEventsIT)\nexpected to contain: \"type\":\"project-created\"\nbut was            : \n        at com.google.gerrit.acceptance.ssh.StreamEventsIT.projectCreatedShowBefore(StreamEventsIT.java:221)\n        at com.google.gerrit.acceptance.ssh.StreamEventsIT.projectCreatedShowInStreamEventsBeforeBatchRefUpdates(StreamEventsIT.java:206)\nFAILURES!!!\nTests run: 95,  Failures: 2\n```",
+      "revId": "cae11fa92a39196bbc6c4869637b035ab229d6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

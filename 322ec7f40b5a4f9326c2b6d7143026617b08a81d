@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3a7dfca0_14a94391",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-24T08:56:41Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "553cc8f3_fa575e3e",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 34
+      },
+      "revId": "322ec7f40b5a4f9326c2b6d7143026617b08a81d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d18c6896_f4cc218f",
         "filename": "javatests/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
         "patchSetId": 5

@@ -41,6 +41,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
   private Set<RepositoryTracking> openRepositories;
   private final AllUsersName allUsersName;
   private final AllProjectsName allProjectsName;
+  private boolean cleared;
 
   private class RepositoryTracking extends DelegateRepository {
     private final AtomicInteger referenceCounter = new AtomicInteger(1);
@@ -116,6 +117,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
+      if (decrementCallersStacks == null || openRepositories == null) {
+        return;
+      }
       decrementCallersStacks.add(getCallers());
       int counter = referenceCounter.decrementAndGet();
 
@@ -125,6 +129,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
 
     synchronized void incrementReferenceCounting() {
+      if (incrementCallersStacks == null) {
+        return;
+      }
       incrementCallersStacks.add(getCallers());
       int unused = referenceCounter.incrementAndGet();
     }
@@ -142,17 +149,24 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     this.delegate = delegate;
     this.allUsersName = allUsersName;
     this.allProjectsName = allProjectsName;
+    this.cleared = false;
   }
 
-  public void clear() {
+  public synchronized void clear() {
+    if (cleared) {
+      cleared = false;
+      return;
+    }
+
     if (openRepositories != null) {
       openRepositories.forEach(RepositoryTracking::clear);
       openRepositories.clear();
       openRepositories = null;
+      cleared = true;
     }
   }
 
-  public void init() {
+  public synchronized void init() {
     if (openRepositories != null) {
       clear();
     }

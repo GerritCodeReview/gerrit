@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "553cc8f3_fa575e3e",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-24T07:25:09Z",
+      "side": 1,
+      "message": "nit: only when `useFileKeyByProjectCache \u003d\u003d true` so that it gets consistent with other places but feel free to ignore it 😊\n```suggestion\n    if(useFileKeyByProjectCache) {\n      fileKeyByProject.remove(name);\n    }\n```",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 34
+      },
+      "revId": "322ec7f40b5a4f9326c2b6d7143026617b08a81d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d18c6896_f4cc218f",

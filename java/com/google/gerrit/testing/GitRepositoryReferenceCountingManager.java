@@ -116,15 +116,23 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
+      if (decrementCallersStacks == null) {
+        return;
+      }
       decrementCallersStacks.add(getCallers());
       int counter = referenceCounter.decrementAndGet();
 
       if (counter == 0) {
-        openRepositories.remove(this);
+        synchronized (GitRepositoryReferenceCountingManager.this) {
+          openRepositories.remove(this);
+        }
       }
     }
 
     synchronized void incrementReferenceCounting() {
+      if (incrementCallersStacks == null) {
+        return;
+      }
       incrementCallersStacks.add(getCallers());
       int unused = referenceCounter.incrementAndGet();
     }
@@ -134,6 +142,10 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
       decrementCallersStacks.clear();
       incrementCallersStacks = null;
       decrementCallersStacks = null;
+    }
+
+    private boolean isNotClosed() {
+      return referenceCounter.get() > 0;
     }
   }
 
@@ -187,26 +199,31 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
         : ImmutableSet.copyOf(openRepositories);
   }
 
-  public void assertThatAllRepositoriesAreClosed(String testName) {
+  public synchronized void assertThatAllRepositoriesAreClosed(String testName) {
     if (openRepositories != null && !openRepositories.isEmpty()) {
-      fail(
-          "All repositories were expected to be closed at the end of the following test:\n"
-              + testName
-              + "\n\n"
-              + "P.S. Hints to resolve the issue:\n"
-              + "     See below the tracking information of when the Repository was created,\n"
-              + "     referenced and closed throughout the test. Look carefully at the\n"
-              + "     open/close or incrementOpen/close pairs for all the AutoCloseable \n"
-              + "     objects (either Repository or one of its wrappers, like\n"
-              + "     RepoView or RepoRefCache) that is not managed properly inside a\n"
-              + "     try-with-resource enclosure.\n"
-              + "\n"
-              + "See below more details about the Repository objects created / opened and not"
-              + " closed.\n"
-              + "------------\n"
-              + String.join(
-                  "\n------------\n",
-                  openRepositories.stream().map(RepositoryTracking::toString).toList()));
+      List<String> repositoriesToReport =
+          openRepositories.stream()
+              .filter(RepositoryTracking::isNotClosed)
+              .map(RepositoryTracking::toString)
+              .toList();
+      if (!repositoriesToReport.isEmpty()) {
+        fail(
+            "All repositories were expected to be closed at the end of the following test:\n"
+                + testName
+                + "\n\n"
+                + "P.S. Hints to resolve the issue:\n"
+                + "     See below the tracking information of when the Repository was created,\n"
+                + "     referenced and closed throughout the test. Look carefully at the\n"
+                + "     open/close or incrementOpen/close pairs for all the AutoCloseable \n"
+                + "     objects (either Repository or one of its wrappers, like\n"
+                + "     RepoView or RepoRefCache) that is not managed properly inside a\n"
+                + "     try-with-resource enclosure.\n"
+                + "\n"
+                + "See below more details about the Repository objects created / opened and not"
+                + " closed.\n"
+                + "------------\n"
+                + String.join("\n------------\n", repositoriesToReport));
+      }
     }
   }
 

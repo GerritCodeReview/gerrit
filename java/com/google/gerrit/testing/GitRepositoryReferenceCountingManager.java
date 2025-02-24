@@ -116,6 +116,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
+      if (decrementCallersStacks == null || openRepositories == null) {
+        return;
+      }
       decrementCallersStacks.add(getCallers());
       int counter = referenceCounter.decrementAndGet();
 
@@ -125,6 +128,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
 
     synchronized void incrementReferenceCounting() {
+      if (incrementCallersStacks == null) {
+        return;
+      }
       incrementCallersStacks.add(getCallers());
       int unused = referenceCounter.incrementAndGet();
     }

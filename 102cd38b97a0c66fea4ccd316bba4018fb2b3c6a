@@ -46,6 +46,30 @@
       },
       "revId": "102cd38b97a0c66fea4ccd316bba4018fb2b3c6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8e0ba10_c00085aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-24T09:58:48Z",
+      "side": 1,
+      "message": "\u003e Didn\u0027t it just revert a change that was not working and that was part of the same release (see commit message)?\n\nThe I054595415 was included in v3.5.5 and I\u0027ve added into the release notes that the retry was introduced, but this change reverted it in v3.5.6 and I never mentioned that removal in the release notes of v3.5.6.\n\nI believe this is what has confused some users and this was then reported in the discussion on https://groups.google.com/g/repo-discuss/c/XTgq8ON7rxg. I believe also revert of some features or functionalities should be reported in the release notes *IF* those features or functionalities were released to the public. If they were added and then removed before releasing them, then they don\u0027t see the point of mentioning it.",
+      "parentUuid": "d18a7985_5eb63ef2",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "102cd38b97a0c66fea4ccd316bba4018fb2b3c6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb61a695_8e811624",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-24T23:01:48Z",
+      "side": 1,
+      "message": "misplaced 😞",
+      "revId": "274435ecc09866bce3f2a3a6a9bb4d60f42aadf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

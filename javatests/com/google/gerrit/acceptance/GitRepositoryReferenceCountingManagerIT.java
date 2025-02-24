@@ -35,10 +35,10 @@ public class GitRepositoryReferenceCountingManagerIT extends AbstractDaemonTest 
   }
 
   @Test(expected = AssertionError.class)
-  @SuppressWarnings("resource")
   public void shouldFailTestWhenRepositoryIsLeftOpen() throws Exception {
-    Repository unused = repoManager.openRepository(project);
-    afterTest();
+    try (Repository unused = repoManager.openRepository(project)) {
+      afterTest();
+    }
   }
 
   @Test
@@ -50,21 +50,21 @@ public class GitRepositoryReferenceCountingManagerIT extends AbstractDaemonTest 
   }
 
   @Test
-  @SuppressWarnings("resource")
   public void shouldFailMentioningTheRepositoryLeftOpen() throws IOException {
-    Repository unused = repoManager.openRepository(project);
-    AssertionError error = assertThrows(AssertionError.class, this::afterTest);
-    assertThat(error.getLocalizedMessage()).contains(project.get());
+    try (Repository unused = repoManager.openRepository(project)) {
+      AssertionError error = assertThrows(AssertionError.class, this::afterTest);
+      assertThat(error.getLocalizedMessage()).contains(project.get());
+    }
   }
 
   @Test
-  @SuppressWarnings("resource")
   public void shouldFailMentioningTheCallersLeavingTheRepositoryOpen() throws IOException {
     CallerLeavingRepositoryOpen caller = new CallerLeavingRepositoryOpen();
-    Repository unused = caller.openRepository();
-    AssertionError error = assertThrows(AssertionError.class, this::afterTest);
-    assertThat(error.getLocalizedMessage()).contains(caller.getClass().getName());
-    assertThat(error.getLocalizedMessage()).contains("openRepository");
+    try (Repository unused = caller.openRepository()) {
+      AssertionError error = assertThrows(AssertionError.class, this::afterTest);
+      assertThat(error.getLocalizedMessage()).contains(caller.getClass().getName());
+      assertThat(error.getLocalizedMessage()).contains("openRepository");
+    }
   }
 
   @Test

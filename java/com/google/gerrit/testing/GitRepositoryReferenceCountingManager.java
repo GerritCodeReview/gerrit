@@ -41,6 +41,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
   private Set<RepositoryTracking> openRepositories;
   private final AllUsersName allUsersName;
   private final AllProjectsName allProjectsName;
+  private boolean cleared;
 
   private class RepositoryTracking extends DelegateRepository {
     private final AtomicInteger referenceCounter = new AtomicInteger(1);
@@ -116,6 +117,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
+      if (decrementCallersStacks == null || openRepositories == null) {
+        return;
+      }
       decrementCallersStacks.add(getCallers());
       int counter = referenceCounter.decrementAndGet();
 
@@ -125,6 +129,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
 
     synchronized void incrementReferenceCounting() {
+      if (incrementCallersStacks == null) {
+        return;
+      }
       incrementCallersStacks.add(getCallers());
       int unused = referenceCounter.incrementAndGet();
     }
@@ -142,17 +149,24 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     this.delegate = delegate;
     this.allUsersName = allUsersName;
     this.allProjectsName = allProjectsName;
+    this.cleared = false;
   }
 
-  public void clear() {
+  public synchronized void clear() {
+    if (cleared) {
+      cleared = false;
+      return;
+    }
+
     if (openRepositories != null) {
       openRepositories.forEach(RepositoryTracking::clear);
       openRepositories.clear();
       openRepositories = null;
+      cleared = true;
     }
   }
 
-  public void init() {
+  public synchronized void init() {
     if (openRepositories != null) {
       clear();
     }
@@ -187,8 +201,13 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
         : ImmutableSet.copyOf(openRepositories);
   }
 
-  public void assertThatAllRepositoriesAreClosed(String testName) {
+  public synchronized void assertThatAllRepositoriesAreClosed(String testName) {
     if (openRepositories != null && !openRepositories.isEmpty()) {
+      List<String> repositoriesToReport =
+          openRepositories.stream().map(RepositoryTracking::toString).toList();
+      if (repositoriesToReport.isEmpty()) {
+        return;
+      }
       fail(
           "All repositories were expected to be closed at the end of the following test:\n"
               + testName
@@ -204,9 +223,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
               + "See below more details about the Repository objects created / opened and not"
               + " closed.\n"
               + "------------\n"
-              + String.join(
-                  "\n------------\n",
-                  openRepositories.stream().map(RepositoryTracking::toString).toList()));
+              + String.join("\n------------\n", repositoriesToReport));
     }
   }
 
@@ -215,7 +232,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     return delegate.getRepositoryStatus(name);
   }
 
-  private Repository trackRepository(Project.NameKey name, Repository repository) {
+  private synchronized Repository trackRepository(Project.NameKey name, Repository repository) {
     if (openRepositories == null || name.equals(allUsersName) || name.equals(allProjectsName)) {
       return repository;
     }

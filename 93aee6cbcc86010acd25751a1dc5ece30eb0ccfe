@@ -22,6 +22,30 @@
       },
       "revId": "93aee6cbcc86010acd25751a1dc5ece30eb0ccfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d415a9b_ac4a1458",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-24T09:15:57Z",
+      "side": 1,
+      "message": "That would assume you are using the delete-project plugin; therefore, it would be an inversion of control in which the core depends on a plugin.\n\nThe ProjectDeleteListener should actually be moved to the plugin and not in core, as it is never triggered by Gerrit.",
+      "parentUuid": "d0c44d9f_bcb49458",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 3
+      },
+      "revId": "93aee6cbcc86010acd25751a1dc5ece30eb0ccfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

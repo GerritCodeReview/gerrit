@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce306e1_4f8ecb9e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2418,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-02-24T06:25:23Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "53587ed9_966367cc",
+      "range": {
+        "startLine": 2418,
+        "startChar": 0,
+        "endLine": 2418,
+        "endChar": 2
+      },
+      "revId": "fe6a3159694c79d2660d7338411fb4fc701eaf8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19083db1_1e48072d",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-21T20:40:11Z",
       "side": 1,
       "message": "```suggestion\n   * the values are a list of external systems or artifacts that include the given change.\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 86
+      },
+      "revId": "fe6a3159694c79d2660d7338411fb4fc701eaf8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16316600_5af86408",
+        "filename": "java/com/google/gerrit/extensions/config/ExternalChangeIncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-02-24T06:25:23Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "19083db1_1e48072d",
       "range": {
         "startLine": 25,
         "startChar": 0,

@@ -116,16 +116,20 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
-      decrementCallersStacks.add(getCallers());
+      if (decrementCallersStacks != null) {
+        decrementCallersStacks.add(getCallers());
+      }
       int counter = referenceCounter.decrementAndGet();
 
-      if (counter == 0) {
+      if (counter == 0 && openRepositories != null) {
         openRepositories.remove(this);
       }
     }
 
     synchronized void incrementReferenceCounting() {
-      incrementCallersStacks.add(getCallers());
+      if (incrementCallersStacks != null) {
+        incrementCallersStacks.add(getCallers());
+      }
       int unused = referenceCounter.incrementAndGet();
     }
 

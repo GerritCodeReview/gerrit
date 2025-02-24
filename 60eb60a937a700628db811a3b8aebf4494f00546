@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e05e61b_9c63f1f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-24T23:44:12Z",
+      "side": 1,
+      "message": "That is worrying, does that mean that any cleanup in the after test would potentially have conflicts with the next test execution? Or does that mean that tests are actually running concurrently on the same Gerrit daemon?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23a6569e_c233ba56",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-24T23:44:12Z",
+      "side": 1,
+      "message": "I do not follow: you are making the double call to clear another init?",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 5
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d26e4b50_080ac289",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-24T23:44:12Z",
+      "side": 1,
+      "message": "openRepositories \u003d\u003d null and clear \u003d true have the same meaning here. Do we need yet another flag?",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 21
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

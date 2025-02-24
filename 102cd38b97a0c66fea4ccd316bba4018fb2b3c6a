@@ -22,6 +22,30 @@
       },
       "revId": "102cd38b97a0c66fea4ccd316bba4018fb2b3c6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d18a7985_5eb63ef2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-24T07:37:39Z",
+      "side": 1,
+      "message": "Didn\u0027t it just revert a change that was not working and that was part of the same release (see commit message)?",
+      "parentUuid": "c365f81c_377fe844",
+      "range": {
+        "startLine": 20,
+        "startChar": 15,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "102cd38b97a0c66fea4ccd316bba4018fb2b3c6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

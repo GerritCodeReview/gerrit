@@ -116,6 +116,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
+      if (decrementCallersStacks == null) {
+        return;
+      }
       decrementCallersStacks.add(getCallers());
       int counter = referenceCounter.decrementAndGet();
 
@@ -125,6 +128,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
 
     synchronized void incrementReferenceCounting() {
+      if (incrementCallersStacks == null) {
+        return;
+      }
       incrementCallersStacks.add(getCallers());
       int unused = referenceCounter.incrementAndGet();
     }
@@ -189,6 +195,11 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
 
   public void assertThatAllRepositoriesAreClosed(String testName) {
     if (openRepositories != null && !openRepositories.isEmpty()) {
+      List<String> repositoriesToReport =
+          openRepositories.stream().map(RepositoryTracking::toString).toList();
+      if (repositoriesToReport.isEmpty()) {
+        return;
+      }
       fail(
           "All repositories were expected to be closed at the end of the following test:\n"
               + testName
@@ -204,9 +215,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
               + "See below more details about the Repository objects created / opened and not"
               + " closed.\n"
               + "------------\n"
-              + String.join(
-                  "\n------------\n",
-                  openRepositories.stream().map(RepositoryTracking::toString).toList()));
+              + String.join("\n------------\n", repositoriesToReport));
     }
   }
 

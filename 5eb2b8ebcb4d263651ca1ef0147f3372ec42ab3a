@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f90723ca_d832255a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-24T23:17:40Z",
+      "side": 1,
+      "message": "synchronize `init` and `clear` so that they are not interleaned between each other and `cleared` flag works as expected 😊",
+      "range": {
+        "startLine": 155,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 22
+      },
+      "revId": "5eb2b8ebcb4d263651ca1ef0147f3372ec42ab3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

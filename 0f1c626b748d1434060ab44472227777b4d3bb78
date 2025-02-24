@@ -16,6 +16,24 @@
       "message": "Should we rather extend the existing ExternalIncludedIn extension point, instead of adding a new extension point. E.g. add an optional changeId parameter to the ExternalIncludedIn.getIncludedIn method?",
       "revId": "0f1c626b748d1434060ab44472227777b4d3bb78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e072f744_fd029bd8",
+        "filename": "java/com/google/gerrit/extensions/config/ExternalChangeIncludedIn.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-02-24T11:47:00Z",
+      "side": 1,
+      "message": "Won\u0027t that be a breaking change for existing users of the extension ?",
+      "parentUuid": "0f70c89b_22c225be",
+      "revId": "0f1c626b748d1434060ab44472227777b4d3bb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

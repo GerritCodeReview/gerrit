@@ -34,6 +34,24 @@
       "parentUuid": "0f70c89b_22c225be",
       "revId": "0f1c626b748d1434060ab44472227777b4d3bb78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d47e1863_a28d6cc9",
+        "filename": "java/com/google/gerrit/extensions/config/ExternalChangeIncludedIn.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-24T11:49:29Z",
+      "side": 1,
+      "message": "Yes, but we don\u0027t mind breaking plugins as long as they can be adapted easily:\nhttps://gerrit-review.googlesource.com/Documentation/dev-plugins.html#:~:text\u003dPlugins%20are%20tightly%20coupled%20to%20a%20specific%20major.minor%20server%20version%20and%20may%20require%20source%20code%20changes%20to%20compile%20against%20a%20different%20server%20version.",
+      "parentUuid": "e072f744_fd029bd8",
+      "revId": "0f1c626b748d1434060ab44472227777b4d3bb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

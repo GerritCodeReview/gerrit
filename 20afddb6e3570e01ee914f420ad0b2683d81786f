@@ -34,6 +34,24 @@
       "parentUuid": "f9f59132_95c04e2e",
       "revId": "20afddb6e3570e01ee914f420ad0b2683d81786f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5714da3e_ac5b2a36",
+        "filename": "java/com/google/gerrit/util/concurrent/ConcurrentBloomFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-24T08:15:47Z",
+      "side": 1,
+      "message": "yes, a percentage makes sense, I think we can start with a default of 25%",
+      "parentUuid": "b7b040ee_fa04d97c",
+      "revId": "20afddb6e3570e01ee914f420ad0b2683d81786f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

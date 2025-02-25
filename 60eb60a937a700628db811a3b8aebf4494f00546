@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9301cd62_35742e78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T00:51:22Z",
+      "side": 1,
+      "message": "I got that impression for a moment but that is not correct. I believe the problem that we see is that `RepositoryTracking.close` competes with `GitRepositoryReferenceCountingManager.assertThatAllRepositoriesAreClosed` - see this [comment](https://gerrit-review.googlesource.com/c/gerrit/+/456061/comment/7c63c80d_0b244e72/) producing false negatives every now and then - fixed with the lates PS, also cleaned code",
+      "parentUuid": "8e05e61b_9c63f1f9",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23a6569e_c233ba56",
         "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-24T23:44:12Z",
       "side": 1,
       "message": "I do not follow: you are making the double call to clear another init?",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 5
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74cf18dc_7286f86c",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T00:51:22Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "23a6569e_c233ba56",
       "range": {
         "startLine": 156,
         "startChar": 0,
@@ -60,6 +108,30 @@
       "writtenOn": "2025-02-24T23:44:12Z",
       "side": 1,
       "message": "openRepositories \u003d\u003d null and clear \u003d true have the same meaning here. Do we need yet another flag?",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 21
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bce9d4a2_636e03f6",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T00:51:22Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "d26e4b50_080ac289",
       "range": {
         "startLine": 164,
         "startChar": 0,

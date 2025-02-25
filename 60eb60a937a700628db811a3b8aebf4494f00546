@@ -180,6 +180,30 @@
       },
       "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6714b402_856c8bb6",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "Yes, this method needs to be synchronised.",
+      "parentUuid": "7c63c80d_0b244e72",
+      "range": {
+        "startLine": 223,
+        "startChar": 18,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

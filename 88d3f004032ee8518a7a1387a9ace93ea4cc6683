@@ -89,6 +89,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01684a58_bc72a4ee",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "Once it is cleared, it *must not* be used anymore. If it is still used, then there\u0027s something wrong.",
+      "parentUuid": "d289ddd7_310ba959",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 36
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ff299c_96ca8f9d",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "This should be synchronised, to make sure that the picture of open/closed repositories *DO NOT CHANGE* during the assertion, otherwise it would end up with false positives.",
+      "range": {
+        "startLine": 196,
+        "startChar": 2,
+        "endLine": 196,
+        "endChar": 8
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4bbdd12_b5c097f9",
         "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
         "patchSetId": 8
@@ -100,6 +147,29 @@
       "writtenOn": "2025-02-25T12:29:50Z",
       "side": 1,
       "message": "since the `fail` call is terminal, how about losing the extra `return` and just checking for `if (!repositoriesToReport.isEmpty())`",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "730c624d_fa19087f",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "This is a suboptimal solution to the key issue: the missing `synchronised` in the method definition.",
       "range": {
         "startLine": 200,
         "startChar": 0,
@@ -128,6 +198,76 @@
         "startChar": 0,
         "endLine": 42,
         "endChar": 3
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "423956d1_9efb68d5",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "Agreed, this change in unrelated.",
+      "parentUuid": "92673907_211f1390",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53234367_8ad4eaf9",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "Unrelated change.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41845fe_c2cc0eb8",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T13:39:31Z",
+      "side": 1,
+      "message": "Unrelated change.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
       },
       "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

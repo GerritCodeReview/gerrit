@@ -22,9 +22,8 @@ export class GrValidationOptions extends LitElement {
     return [
       css`
         .selectionLabel {
-          padding: 10px;
-          margin: -10px;
           display: block;
+          margin-left: -4px;
         }
       `,
     ];
@@ -50,7 +49,7 @@ export class GrValidationOptions extends LitElement {
   }
 
   private renderValidationOption(option: ValidationOptionInfo) {
-    return html` <div class="validationOptionContainer">
+    return html`
       <label class="selectionLabel">
         <input
           type="checkbox"
@@ -59,8 +58,7 @@ export class GrValidationOptions extends LitElement {
         />
         ${option.description}
       </label>
-      <div></div>
-    </div>`;
+    `;
   }
 
   private toggleCheckbox(option: ValidationOptionInfo) {

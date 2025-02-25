@@ -30,20 +30,16 @@ suite('gr-trigger-vote tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ` <div class="validationOptionContainer">
-          <label class="selectionLabel">
-            <input type="checkbox" />
-            option 1
-          </label>
-          <div></div>
-        </div>
-        <div class="validationOptionContainer">
-          <label class="selectionLabel">
-            <input type="checkbox" />
-            option 2
-          </label>
-          <div></div>
-        </div>`
+      /* HTML */ `
+        <label class="selectionLabel">
+          <input type="checkbox" />
+          option 1
+        </label>
+        <label class="selectionLabel">
+          <input type="checkbox" />
+          option 2
+        </label>
+      `
     );
   });
 

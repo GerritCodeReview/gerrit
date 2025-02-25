@@ -1857,6 +1857,20 @@ change cleanups.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[draftsCleanup]]
+[[draftsCleanup.startTime]]draftsCleanup.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+drat comments cleanup.
+
+[[draftsCleanup.interval]]draftsCleanup.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+drat comments cleanup.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
 [[attentionSet]]
 === Section attentionSet
 

@@ -22,4 +22,5 @@ export enum KnownExperimentId {
   COMMENT_AUTOCOMPLETION = 'UiFeature__comment_autocompletion_enabled',
   SAVE_PROJECT_CONFIG_FOR_REVIEW = 'UiFeature__save_project_config_for_review',
   PARALLEL_DASHBOARD_REQUESTS = 'UiFeature__parallel_dashboard_requests',
+  GET_AI_FIX = 'UiFeature__get_ai_fix',
 }

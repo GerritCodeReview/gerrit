@@ -222,7 +222,7 @@ suite('gr-button tests', () => {
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
         path: 'html>body>div>div#test>gr-button.testBtn',
-        text: 'CLICK ME',
+        text: 'Click Me',
       });
     });
   });

@@ -68,7 +68,7 @@ suite('gr-user-suggestion-fix tests', () => {
               role="button"
               tabindex="0"
               flatten=""
-              >Show edit</gr-button
+              >Show Edit</gr-button
             ><gr-button
               aria-disabled="true"
               disabled=""
@@ -78,7 +78,7 @@ suite('gr-user-suggestion-fix tests', () => {
               tabindex="-1"
               flatten=""
               title="Fix is still loading ..."
-              >Apply edit</gr-button
+              >Apply Edit</gr-button
             >
           </div>
         </div>

@@ -390,7 +390,7 @@ suite('gr-repo tests', () => {
                 role="button"
                 tabindex="-1"
               >
-                Save changes
+                Save Changes
               </gr-button>
               <gr-button
                 id="saveReviewBtn"
@@ -400,7 +400,7 @@ suite('gr-repo tests', () => {
                 role="button"
                 tabindex="-1"
               >
-                Save for review
+                Save For Review
               </gr-button>
             </fieldset>
             <gr-endpoint-decorator name="repo-config">

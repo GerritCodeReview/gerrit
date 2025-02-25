@@ -88,7 +88,7 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
       IdentifiedUser.GenericFactory userFactory) {
     this(
         cleanupPercentage,
-        /* dryRun= */ true,
+        /* dryRun= */ false,
         (msg) -> {},
         repoManager,
         allUsers,

@@ -386,7 +386,7 @@ export class GrChangeSummary extends LitElement {
           Not logged in
         </div>
         <div class="right">
-          <gr-button @click=${this.loginCallback} link>Sign in</gr-button>
+          <gr-button @click=${this.loginCallback} link>Sign In</gr-button>
         </div>
       </div>
     `;

@@ -171,7 +171,7 @@ export class GrChecksFixPreview extends LitElement {
             .disabled=${!this.previewLoaded}
             @click=${this.showFix}
           >
-            Show fix side-by-side
+            Show Fix Side-By-Side
           </gr-button>
           <gr-button
             class="applyFix"
@@ -182,7 +182,7 @@ export class GrChecksFixPreview extends LitElement {
             @click=${this.applyFix}
             .title=${this.computeApplyFixTooltip()}
           >
-            Apply fix
+            Apply Fix
           </gr-button>
         </div>
       </div>

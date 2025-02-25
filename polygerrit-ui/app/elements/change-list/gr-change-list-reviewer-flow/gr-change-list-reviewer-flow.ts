@@ -186,7 +186,7 @@ export class GrChangeListReviewerFlow extends LitElement {
         .disabled=${this.isFlowDisabled()}
         flatten
         @click=${() => this.openOverlay()}
-        >add reviewer/cc</gr-button
+        >Add Reviewer/CC</gr-button
       >
       <dialog id="flow" tabindex="-1">
         ${this.isOverlayOpen ? this.renderDialog() : nothing}

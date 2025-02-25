@@ -75,7 +75,7 @@ suite('gr-notifications-prompt tests', () => {
               Continue
             </gr-button>
             <gr-button aria-disabled="false" role="button" tabindex="0">
-              Disable in settings
+              Disable In Settings
             </gr-button>
           </div>
         </div>

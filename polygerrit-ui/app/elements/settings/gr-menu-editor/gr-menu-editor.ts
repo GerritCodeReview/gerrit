@@ -103,7 +103,7 @@ export class GrMenuEditor extends LitElement {
             </tfoot>
           </table>
           <gr-button id="save" @click=${this.handleSave} ?disabled=${unchanged}
-            >Save changes</gr-button
+            >Save Changes</gr-button
           >
           <gr-button id="reset" link @click=${this.handleReset}
             >Reset</gr-button

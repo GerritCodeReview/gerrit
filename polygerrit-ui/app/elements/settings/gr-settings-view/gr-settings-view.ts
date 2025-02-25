@@ -372,7 +372,7 @@ export class GrSettingsView extends LitElement {
                 this.accountInfo.save();
               }}
               ?disabled=${!this.accountInfoChanged}
-              >Save changes</gr-button
+              >Save Changes</gr-button
             >
             <gr-button
               class="account-button"
@@ -451,7 +451,7 @@ ${this.accountState}</textarea
                 this.diffPrefs.save();
               }}
               ?disabled=${!this.diffPrefsChanged}
-              >Save changes</gr-button
+              >Save Changes</gr-button
             >
           </fieldset>
           <gr-edit-preferences id="EditPreferences"></gr-edit-preferences>
@@ -480,7 +480,7 @@ ${this.accountState}</textarea
               id="saveChangeTable"
               @click=${this.handleSaveChangeTable}
               ?disabled=${!this.changeTableChanged}
-              >Save changes</gr-button
+              >Save Changes</gr-button
             >
           </fieldset>
           <h2
@@ -504,7 +504,7 @@ ${this.accountState}</textarea
               }}
               ?disabled=${!this.watchedProjectsChanged}
               id="_handleSaveWatchedProjects"
-              >Save changes</gr-button
+              >Save Changes</gr-button
             >
           </fieldset>
           <h2
@@ -527,7 +527,7 @@ ${this.accountState}</textarea
                 await this.emailEditor.save();
               }}
               ?disabled=${!this.emailsChanged}
-              >Save changes</gr-button
+              >Save Changes</gr-button
             >
           </fieldset>
           <fieldset id="newEmail">
@@ -565,7 +565,7 @@ ${this.accountState}</textarea
             <gr-button
               ?disabled=${!this.computeAddEmailButtonEnabled()}
               @click=${this.handleAddEmailButton}
-              >Send verification</gr-button
+              >Send Verification</gr-button
             >
           </fieldset>
           ${when(

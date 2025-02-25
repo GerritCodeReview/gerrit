@@ -62,7 +62,7 @@ suite('gr-editable-content tests', () => {
           >
             <div>
               <gr-icon icon="expand_more" small></gr-icon>
-              <span>Show all</span>
+              <span>Show All</span>
             </div>
           </gr-button>
           <div class="flex-space"></div>

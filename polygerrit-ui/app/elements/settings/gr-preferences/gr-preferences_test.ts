@@ -259,7 +259,7 @@ suite('gr-preferences tests', () => {
             role="button"
             tabindex="-1"
           >
-            Save changes
+            Save Changes
           </gr-button>
         </fieldset>
       `

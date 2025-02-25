@@ -122,7 +122,7 @@ suite('gr-settings-view tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
             <gr-button
               aria-disabled="false"
@@ -200,7 +200,7 @@ suite('gr-settings-view tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
           </fieldset>
           <gr-edit-preferences id="EditPreferences"> </gr-edit-preferences>
@@ -215,7 +215,7 @@ suite('gr-settings-view tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
           </fieldset>
           <h2 id="Notifications">Notifications</h2>
@@ -229,7 +229,7 @@ suite('gr-settings-view tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
           </fieldset>
           <h2 id="EmailAddresses">Email Addresses</h2>
@@ -241,7 +241,7 @@ suite('gr-settings-view tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
           </fieldset>
           <fieldset id="newEmail">
@@ -271,7 +271,7 @@ suite('gr-settings-view tests', () => {
               role="button"
               tabindex="-1"
             >
-              Send verification
+              Send Verification
             </gr-button>
           </fieldset>
           <h2 id="Groups">Groups</h2>

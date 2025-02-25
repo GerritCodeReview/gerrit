@@ -2194,11 +2194,11 @@ suite('gr-reply-dialog tests', () => {
   test('sendButton text', async () => {
     element.canBeStarted = false;
     await element.updateComplete;
-    assert.equal(element.sendButton?.innerText, 'SEND');
+    assert.equal(element.sendButton?.innerText, 'Send');
 
     element.canBeStarted = true;
     await element.updateComplete;
-    assert.equal(element.sendButton?.innerText, 'SEND AND START REVIEW');
+    assert.equal(element.sendButton?.innerText, 'Send and Start Review');
   });
 
   test('handle400Error reviewers and CCs', async () => {

@@ -236,7 +236,7 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private renderShowHideConditionButton() {
-    const buttonText = this.expanded ? 'Hide conditions' : 'View conditions';
+    const buttonText = this.expanded ? 'Hide Conditions' : 'View Conditions';
     const icon = this.expanded ? 'expand_less' : 'expand_more';
 
     return html` <div class="button">

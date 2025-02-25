@@ -213,14 +213,14 @@ export class GrRepo extends LitElement {
                   this.disableSaveWithoutReview ||
                   !configChanged}
                   @click=${this.handleSaveRepoConfig}
-                  >Save changes</gr-button
+                  >Save Changes</gr-button
                 >
                 <gr-button
                   id="saveReviewBtn"
                   ?disabled=${this.readOnly || !configChanged}
                   ?hidden=${!this.showSaveForReviewButton}
                   @click=${this.handleSaveRepoConfigForReview}
-                  >Save for review</gr-button
+                  >Save For Review</gr-button
                 >
               </fieldset>
               <gr-endpoint-decorator name="repo-config">

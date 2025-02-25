@@ -394,7 +394,7 @@ suite('gr-comment tests', () => {
                   title="This button copies the text to make a suggestion"
                 >
                   <gr-icon filled="" icon="edit" id="icon"> </gr-icon>
-                  Suggest edit
+                  Suggest Edit
                 </gr-button>
                 <span class="patchset-text">Patchset 1</span>
                 <span class="separator"></span>
@@ -970,7 +970,7 @@ suite('gr-comment tests', () => {
           tabindex="0"
           title="This button copies the text to make a suggestion"
         >
-          <gr-icon icon="edit" id="icon" filled></gr-icon> Suggest edit
+          <gr-icon icon="edit" id="icon" filled></gr-icon> Suggest Edit
         </gr-button> `
       );
     });

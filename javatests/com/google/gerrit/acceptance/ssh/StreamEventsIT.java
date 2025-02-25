@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 
@@ -34,6 +35,7 @@ import java.io.Reader;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -72,14 +74,17 @@ public class StreamEventsIT extends AbstractDaemonTest {
 
   @Test
   public void publishedDraftPatchSetLevelCommentShowsUpInStreamEvents() throws Exception {
-    change = createChange().getChange();
+    createChangeAndDrainStreamEvents();
 
     String firstDraftComment = String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT);
     String secondDraftComment = String.format("%s 2", TEST_REVIEW_DRAFT_COMMENT);
 
     draftReviewChange(PATCHSET_LEVEL, firstDraftComment);
+    drainStreamEvents(1 /* ref-update create draft comments */);
     draftReviewChange(PATCHSET_LEVEL, secondDraftComment);
+    drainStreamEvents(1 /* ref-update update draft comments */);
     publishDraftReviews();
+    drainStreamEvents(2 /* ref-update delete draft comment; update change /meta review */);
 
     waitForEvent(
         () ->
@@ -115,7 +120,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "true")
   public void draftCommentRefsShowInStreamEventsWithRefUpdated() throws Exception {
-    change = createChange().getChange();
+    createChangeAndDrainStreamEvents();
 
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
 
@@ -127,7 +132,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "false")
   public void draftCommentRefsDontShowInStreamEventsWithRefUpdated() throws Exception {
-    change = createChange().getChange();
+    createChangeAndDrainStreamEvents();
 
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
 
@@ -139,7 +144,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "true")
   public void draftCommentRefsShowInStreamEventsWithBatchRefUpdated() throws Exception {
-    change = createChange().getChange();
+    createChangeAndDrainStreamEvents();
 
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
 
@@ -152,12 +157,11 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "false")
   public void draftCommentRefsDontShowInStreamEventsWithBatchRefUpdated() throws Exception {
-    change = createChange().getChange();
+    createChangeAndDrainStreamEvents();
 
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
 
-    waitForEvent(
-        () -> pollEventsContaining("batch-ref-updated", "refs/draft-comments/").size() == 1);
+    waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
   }
 
   @Test
@@ -165,19 +169,31 @@ public class StreamEventsIT extends AbstractDaemonTest {
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "true")
   public void draftCommentRefsDeletionShowInStreamEventsUponPublishing() throws Exception {
-    change = createChange().getChange();
-
+    createChangeAndDrainStreamEvents();
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
+    drainStreamEvents(1 /* ref-update: draft comment */);
+
     publishDraftReviews();
 
-    waitForEvent(
-        () ->
-            pollEventsContaining(
-                        "ref-updated",
-                        "refs/draft-comments/",
-                        "\"newRev\":\"" + ObjectId.zeroId().name() + "\"")
-                    .size()
-                == 1);
+    List<String> eventsReceived = pollEventsContaining("ref-updated");
+    Optional<String> draftCommentEvent =
+        eventsReceived.stream()
+            .filter(
+                ev ->
+                    ev.contains("refs/draft-comments")
+                        && ev.contains("\"newRev\":\"" + ObjectId.zeroId().name() + "\""))
+            .findFirst();
+    assertThat(draftCommentEvent).isPresent();
+  }
+
+  private void createChangeAndDrainStreamEvents() throws Exception {
+    change = createChange().getChange();
+    drainStreamEvents(2 /* ref-updates: patch-set, meta-ref */);
+  }
+
+  private void drainStreamEvents(int expectedNumberOfEvents) throws InterruptedException {
+    AtomicInteger numEventsReceived = new AtomicInteger();
+    waitForEvent(() -> numEventsReceived.addAndGet(pollEvents().size()) >= expectedNumberOfEvents);
   }
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {
@@ -217,8 +233,23 @@ public class StreamEventsIT extends AbstractDaemonTest {
           .filter(
               event ->
                   event.contains(String.format("\"type\":\"%s\"", eventType))
-                      && Stream.of(expectedContent).allMatch(event::contains))
+                      && (expectedContent.length == 0
+                          || Stream.of(expectedContent).allMatch(event::contains)))
           .collect(Collectors.toList());
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  private List<String> pollEvents() {
+    try {
+      char[] cbuf = new char[2048];
+      StringBuilder eventsOutput = new StringBuilder();
+      while (streamEventsReader.ready()) {
+        int read = streamEventsReader.read(cbuf);
+        eventsOutput.append(Arrays.copyOfRange(cbuf, 0, read));
+      }
+      return Splitter.on('\n').trimResults().splitToList(eventsOutput.toString());
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }

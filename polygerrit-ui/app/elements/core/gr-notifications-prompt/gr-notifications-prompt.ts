@@ -119,7 +119,7 @@ export class GrNotificationsPrompt extends LitElement {
               this.hideNotificationsPrompt = true;
               this.getNavigation().setUrl(createSettingsUrl());
             }}
-            >Disable in settings</gr-button
+            >Disable In Settings</gr-button
           >
         </div>
       </div>

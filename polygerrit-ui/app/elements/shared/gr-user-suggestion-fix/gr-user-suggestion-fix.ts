@@ -162,7 +162,7 @@ export class GrUserSuggestionsFix extends LitElement {
             class="action show-fix"
             @click=${this.handleShowFix}
           >
-            Show edit
+            Show Edit
           </gr-button>
           <gr-button
             secondary
@@ -173,7 +173,7 @@ export class GrUserSuggestionsFix extends LitElement {
             @click=${this.handleApplyFix}
             .title=${this.computeApplyEditTooltip()}
           >
-            Apply edit
+            Apply Edit
           </gr-button>
         </div>
       </div>

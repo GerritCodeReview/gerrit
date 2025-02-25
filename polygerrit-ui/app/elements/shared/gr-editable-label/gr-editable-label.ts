@@ -59,9 +59,6 @@ export class GrEditableLabel extends LitElement {
   @property({type: Boolean})
   readOnly = false;
 
-  @property({type: Boolean, reflect: true})
-  uppercase = false;
-
   @property({type: Number})
   maxLength?: number;
 
@@ -95,9 +92,6 @@ export class GrEditableLabel extends LitElement {
         :host {
           align-items: center;
           display: inline-flex;
-        }
-        :host([uppercase]) label {
-          text-transform: uppercase;
         }
         input,
         label {
@@ -171,7 +165,7 @@ export class GrEditableLabel extends LitElement {
               <gr-button primary id="saveBtn" @click=${this.save}
                 >${this.confirmLabel}</gr-button
               >
-              <gr-button id="cancelBtn" @click=${this.cancel}>cancel</gr-button>
+              <gr-button id="cancelBtn" @click=${this.cancel}>Cancel</gr-button>
             </div>
           </div>
         </div>

@@ -118,7 +118,7 @@ export class GrReviewerList extends LitElement {
               id="addReviewer"
               class="addReviewer"
               @click=${this.handleAddTap}
-              title=${this.ccsOnly ? 'Add CC' : 'Add reviewer'}
+              title=${this.ccsOnly ? 'Add CC' : 'Add Reviewer'}
             >
               <div>
                 <gr-icon icon="edit" filled small></gr-icon>

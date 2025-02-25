@@ -250,7 +250,7 @@ export class GrRepoAccess extends LitElement {
               primary
               ?disabled=${!this.modified}
               @click=${this.handleSaveForReview}
-              >Save for review</gr-button
+              >Save For Review</gr-button
             >
           </div>
         </div>

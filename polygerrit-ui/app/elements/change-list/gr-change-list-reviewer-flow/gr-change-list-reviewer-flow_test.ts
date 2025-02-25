@@ -120,7 +120,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           aria-disabled="false"
           role="button"
           tabindex="0"
-          >add reviewer/cc</gr-button
+          >Add Reviewer/CC</gr-button
         >
         <dialog id="flow" tabindex="-1"></dialog>
       `
@@ -197,7 +197,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
             aria-disabled="false"
             role="button"
             tabindex="0"
-            >add reviewer/cc</gr-button
+            >Add Reviewer/CC</gr-button
           >
           <dialog id="flow" open="" tabindex="-1">
             <gr-dialog role="dialog">
@@ -628,7 +628,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
             aria-disabled="false"
             role="button"
             tabindex="0"
-            >add reviewer/cc</gr-button
+            >Add Reviewer/CC</gr-button
           >
           <dialog id="flow" open="" tabindex="-1">
             <gr-dialog role="dialog">
@@ -744,7 +744,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
             role="button"
             tabindex="0"
           >
-            add reviewer/cc
+            Add Reviewer/CC
           </gr-button>
           <dialog
             id="flow"

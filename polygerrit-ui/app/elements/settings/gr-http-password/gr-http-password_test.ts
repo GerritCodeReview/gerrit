@@ -54,7 +54,7 @@ suite('gr-http-password tests', () => {
               role="button"
               tabindex="0"
             >
-              Generate new password
+              Generate New Password
             </gr-button>
           </div>
           <span hidden="">

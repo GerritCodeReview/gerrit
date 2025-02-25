@@ -40,7 +40,6 @@ export class GrEditFileControls extends LitElement {
           --gr-button-padding: var(--spacing-xs) var(--spacing-s);
           --gr-dropdown-item-background-color: transparent;
           --gr-dropdown-item-border: none;
-          --gr-dropdown-item-text-transform: uppercase;
         }
         #actions {
           margin-right: var(--spacing-l);

@@ -206,7 +206,6 @@ export class GrDropdownList extends LitElement {
         link
         class="dropdown-trigger"
         slot="dropdown-trigger"
-        no-uppercase
         @click=${this.showDropdownTapHandler}
       >
         <span id="triggerText">${this.text}</span>

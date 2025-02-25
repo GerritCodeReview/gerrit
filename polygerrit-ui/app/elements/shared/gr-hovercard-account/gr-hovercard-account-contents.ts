@@ -226,7 +226,6 @@ export class GrHovercardAccountContents extends LitElement {
         <gr-button
           class="removeReviewerOrCC"
           link
-          no-uppercase
           @click=${this.handleRemoveReviewerOrCC}
         >
           Remove ${this.computeReviewerOrCCText()}
@@ -236,7 +235,6 @@ export class GrHovercardAccountContents extends LitElement {
         <gr-button
           class="changeReviewerOrCC"
           link
-          no-uppercase
           @click=${this.handleChangeReviewerOrCCStatus}
         >
           ${this.computeChangeReviewerOrCCText()}
@@ -356,10 +354,9 @@ export class GrHovercardAccountContents extends LitElement {
         <gr-button
           class="addToAttentionSet"
           link
-          no-uppercase
           @click=${this.handleClickAddToAttentionSet}
         >
-          Add to attention set
+          Add to Attention Set
         </gr-button>
       </div>
     `;
@@ -372,10 +369,9 @@ export class GrHovercardAccountContents extends LitElement {
         <gr-button
           class="removeFromAttentionSet"
           link
-          no-uppercase
           @click=${this.handleClickRemoveFromAttentionSet}
         >
-          Remove from attention set
+          Remove from Attention Set
         </gr-button>
       </div>
     `;

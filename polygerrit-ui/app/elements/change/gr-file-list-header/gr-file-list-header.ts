@@ -207,6 +207,8 @@ export class GrFileListHeader extends LitElement {
         }
         .fileViewActions gr-button {
           margin: 0;
+        }
+        .fileViewActions {
           --gr-button-padding: 2px 4px;
         }
         .fileViewActions,

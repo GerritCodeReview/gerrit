@@ -118,7 +118,7 @@ export class GrHttpPassword extends LitElement {
             <span class="value">${this.username ?? ''}</span>
           </section>
           <gr-button id="generateButton" @click=${this._handleGenerateTap}
-            >Generate new password</gr-button
+            >Generate New Password</gr-button
           >
         </div>
         <span ?hidden=${!this.passwordUrl}>

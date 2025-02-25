@@ -20,7 +20,6 @@ declare global {
   }
 }
 /**
- * @attr {Boolean} no-uppercase - text in button is not uppercased
  * @attr {Boolean} position-below
  * @attr {Boolean} primary - set primary button color
  * @attr {Boolean} secondary - set secondary button color
@@ -78,8 +77,10 @@ export class GrButton extends LitElement {
         :host([hidden]) {
           display: none;
         }
-        :host([no-uppercase]) paper-button {
+        :host paper-button {
           text-transform: none;
+          font-weight: var(--font-weight-bold);
+          font-family: var(--header-font-family);
         }
         paper-button {
           /* paper-button sets this to anti-aliased, which appears different than
@@ -143,9 +144,6 @@ export class GrButton extends LitElement {
         :host([link]) {
           --background-color: transparent;
           --margin: 0;
-        }
-        :host([link]) paper-button {
-          padding: var(--gr-button-padding, var(--spacing-s));
         }
         :host([disabled][link]),
         :host([loading][link]) {
@@ -232,7 +230,9 @@ export class GrButton extends LitElement {
 
     this.reporting.reportInteraction(Interaction.BUTTON_CLICK, {
       path: getEventPath(e),
-      text: this.innerText,
+      // Before change 456201 `<gr-button>` used css text-transform:uppercase.
+      // We are using `toUpperCase()` here to keep the logs consistent.
+      text: this.innerText.toUpperCase(),
     });
   }
 }

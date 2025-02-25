@@ -1080,7 +1080,7 @@ export class GrDiffView extends LitElement {
               link=""
               title="Edit current file"
               @click=${this.goToEditFile}
-              >edit</gr-button
+              >Edit</gr-button
             >
           </span>
         `
@@ -1146,7 +1146,7 @@ export class GrDiffView extends LitElement {
       !isMagicPath(this.path) && !isImageDiff(this.diff) ? 'show' : '';
     let blameToggleLabel = 'Loading blame ...';
     if (!this.isBlameLoading) {
-      blameToggleLabel = this.isBlameLoaded ? 'Hide blame' : 'Show blame';
+      blameToggleLabel = this.isBlameLoaded ? 'Hide Blame' : 'Show Blame';
     }
     return html` <span class="blameLoader ${blameLoaderClass}">
       <gr-button

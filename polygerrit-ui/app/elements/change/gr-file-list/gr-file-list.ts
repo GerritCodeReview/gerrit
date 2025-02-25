@@ -516,9 +516,11 @@ export class GrFileList extends LitElement {
         }
         .newFilePath {
           color: var(--primary-text-color);
+          font-weight: var(--font-weight-bold);
         }
         .fileName {
           color: var(--link-color);
+          font-weight: var(--font-weight-bold);
         }
         .truncatedFileName {
           display: none;

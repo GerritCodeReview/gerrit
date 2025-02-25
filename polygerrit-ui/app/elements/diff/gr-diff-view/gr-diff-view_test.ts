@@ -279,6 +279,16 @@ suite('gr-diff-view tests', () => {
                     <gr-endpoint-param name="openSidebar"></gr-endpoint-param>
                   </gr-endpoint-decorator>
                 </div>
+                <gr-button
+                  aria-disabled="false"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                  title="Toggle all diff context (shortcut: Shift+x)"
+                >
+                  Show Entire File
+                </gr-button>
+                <span class="separator"> </span>
                 <span class="blameLoader show">
                   <gr-button
                     aria-disabled="false"

@@ -182,6 +182,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fe1917a_d103fa22",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T17:54:23Z",
+      "side": 1,
+      "message": "yea and no - just keep in mind that it also competes with `RepositoryTracking.close` which cannot be synchronized with it. I will give it a try and will mention if it worked 😊",
+      "parentUuid": "730c624d_fa19087f",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92673907_211f1390",
         "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
         "patchSetId": 8

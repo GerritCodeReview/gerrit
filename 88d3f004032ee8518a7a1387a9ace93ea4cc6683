@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d829e60a_fb379c43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b209ded3_0b6ca270",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42ef0338_aae34345",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b2cf712_d0044fd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42ef0338_aae34345",
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2658958f_a68e8024",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-02-25T12:29:50Z",
       "side": 1,
       "message": "```suggestion\nThis also reduces the flakiness of some integration tests e.g.\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 61
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aefb291_c80862d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2658958f_a68e8024",
       "range": {
         "startLine": 45,
         "startChar": 0,
@@ -101,6 +167,30 @@
       "side": 1,
       "message": "Once it is cleared, it *must not* be used anymore. If it is still used, then there\u0027s something wrong.",
       "parentUuid": "d289ddd7_310ba959",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 36
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc1b8dc7_1019618f",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01684a58_bc72a4ee",
       "range": {
         "startLine": 141,
         "startChar": 0,
@@ -206,6 +296,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "345e3f8e_b5af0268",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "having _just_ sycnhroznied fails with the following:\n```\n1) draftCommentRefsDeletionShowInStreamEventsUponPublishing[default](com.google.gerrit.acceptance.ssh.StreamEventsIT)\njava.lang.AssertionError: All repositories were expected to be closed at the end of the following test:\ncom.google.gerrit.acceptance.ssh.StreamEventsIT.draftCommentRefsDeletionShowInStreamEventsUponPublishing[default]()\n\nP.S. Hints to resolve the issue:\n     See below the tracking information of when the Repository was created,\n     referenced and closed throughout the test. Look carefully at the\n     open/close or incrementOpen/close pairs for all the AutoCloseable \n     objects (either Repository or one of its wrappers, like\n     RepoView or RepoRefCache) that is not managed properly inside a\n     try-with-resource enclosure.\n\nSee below more details about the Repository objects created / opened and not closed.\n------------\n```\nand no repository is mentioned 😞\n\nI\u0027m probably missing sth obvious so bear with me but I don\u0027t understand how synchronizing only on `GitRepositoryReferenceCountingManager` object (which is adding `synchroznied` here) prevents from concurrent acces from `RepostoryTracking.close` function which is synchronized on `RepositoryTracking` instance which is different then the one here... IOW adding synchronized here doesn\u0027t prevent modification during assertion. Synchronizing `RepositoryTracking` close internals on `synchronized (GitRepositoryReferenceCountingManager.this)` fixes the concurrent access problem but introduces antoher one\n```\nJGit Repository object com.google.gerrit.acceptance.ssh.StreamEventsIT_draftCommentRefsDeletionShowInStreamEventsUponPublishingdefault_project\nwas opened 1 time(s) but closed only 1 time(s), leaving a reference counting of 0 instance leaked\n------------\n  opened from com.google.gerrit.server.query.change.ChangeData.loadCommitData(ChangeData.java:911)\n              called by com.google.gerrit.server.query.change.ChangeData.commitMessage(ChangeData.java:865)\n              called by com.google.gerrit.server.events.EventFactory.addCommitMessage(EventFactory.java:355)\n              called by com.google.gerrit.server.events.EventFactory.asChangeAttribute(EventFactory.java:153)\n              called by com.google.gerrit.server.events.StreamEventsApiListener.lambda$changeAttributeSupplier$0(StreamEventsApiListener.java:197)\n  closed from com.google.gerrit.server.query.change.ChangeData.loadCommitData(ChangeData.java:919)\n              called by com.google.gerrit.server.query.change.ChangeData.commitMessage(ChangeData.java:865)\n              called by com.google.gerrit.server.events.EventFactory.addCommitMessage(EventFactory.java:355)\n              called by com.google.gerrit.server.events.EventFactory.asChangeAttribute(EventFactory.java:153)\n              called by com.google.gerrit.server.events.StreamEventsApiListener.lambda$changeAttributeSupplier$0(StreamEventsApiListener.java:197)\n```\nwhere repository was correctly opened and closed but was not removed from the `openRepositories` cuz assertion check is blocking access to it. But that was also addressed.",
+      "parentUuid": "5fe1917a_d103fa22",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92673907_211f1390",
         "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
         "patchSetId": 8
@@ -251,6 +365,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5887943_f0d9a075",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423956d1_9efb68d5",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53234367_8ad4eaf9",
@@ -274,6 +412,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1069fcd0_e140397b",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53234367_8ad4eaf9",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e41845fe_c2cc0eb8",
@@ -287,6 +449,30 @@
       "writtenOn": "2025-02-25T13:39:31Z",
       "side": 1,
       "message": "Unrelated change.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee7da7f_9ac28ed7",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T22:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e41845fe_c2cc0eb8",
       "range": {
         "startLine": 63,
         "startChar": 0,

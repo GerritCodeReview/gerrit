@@ -16,6 +16,24 @@
       "message": "Would it be possible to include https://github.com/eclipse-jgit/jgit/commit/e10f876b4c08f880c5a26805f974e7fe27770290 in the servlet-4 branch?\n\nWe have encountered unexpected ssh disconnects to gerrit because of the ed25519/jre combo and that commit would help us fix it in gerrit.",
       "revId": "02f37cddc7663c180a643556d72ee99170dab4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cdc7f7b_6c2e6c1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-25T14:19:37Z",
+      "side": 1,
+      "message": "as soon as this initial update has been submitted we will merge master to servlet-4 from time to time so that Gerrit can consume everything landing on master",
+      "parentUuid": "cd14287c_0efb3c41",
+      "revId": "02f37cddc7663c180a643556d72ee99170dab4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7a9f150_e051bd67",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-02-25T15:13:29Z",
+      "side": 1,
+      "message": "Changing this is fine for us (Google). Internally we only use the create where dryRun is explicitly given.",
+      "revId": "293a75a43ce814d43c8d1774d615389b7abed349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

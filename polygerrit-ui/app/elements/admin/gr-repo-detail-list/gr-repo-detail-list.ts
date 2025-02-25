@@ -257,7 +257,7 @@ export class GrRepoDetailList extends LitElement {
                 this.handleEditRevision(index);
               }}
             >
-              edit
+              Edit
             </gr-button>
             <iron-input
               class="editItem"

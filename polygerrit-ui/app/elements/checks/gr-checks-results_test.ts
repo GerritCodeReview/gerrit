@@ -335,7 +335,7 @@ suite('gr-checks-results test', () => {
             </div>
             <div class="right">
               <div class="goToLatest">
-                <gr-button link=""> Go to latest patchset </gr-button>
+                <gr-button link=""> Go To Latest Patchset </gr-button>
               </div>
               <gr-dropdown-list value="latest"> </gr-dropdown-list>
               <gr-dropdown-list value="0"> </gr-dropdown-list>

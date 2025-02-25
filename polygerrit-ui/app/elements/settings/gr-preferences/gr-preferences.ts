@@ -427,7 +427,7 @@ export class GrPreferences extends LitElement {
             await this.save();
           }}
           ?disabled=${!this.hasUnsavedChanges()}
-          >Save changes</gr-button
+          >Save Changes</gr-button
         >
       </fieldset>
     `;

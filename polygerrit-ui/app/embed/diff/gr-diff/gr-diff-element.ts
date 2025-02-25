@@ -272,10 +272,10 @@ export class GrDiffElement extends LitElement {
           large (about ${getDiffLength(this.diff)} lines).
         </p>
         <gr-button @click=${this.collapseContext}>
-          Render with limited context
+          Render With Limited Context
         </gr-button>
         <gr-button @click=${this.handleFullBypass}>
-          Render anyway (may be slow)
+          Render Anyway (may be slow)
         </gr-button>
       </div>
     `;

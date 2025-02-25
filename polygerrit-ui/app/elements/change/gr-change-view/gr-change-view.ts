@@ -863,6 +863,7 @@ export class GrChangeView extends LitElement {
         }
         #replyBtn {
           margin-bottom: var(--spacing-m);
+          --gr-button-padding: var(--spacing-s) var(--spacing-xl);
         }
         gr-change-star {
           margin-left: var(--spacing-s);
@@ -1505,7 +1506,7 @@ export class GrChangeView extends LitElement {
             class="show-robot-comments"
             @click=${this.toggleShowRobotComments}
           >
-            ${this.showAllRobotComments ? 'Show Less' : 'Show more'}
+            ${this.showAllRobotComments ? 'Show Less' : 'Show More'}
           </gr-button>
         `
       )}

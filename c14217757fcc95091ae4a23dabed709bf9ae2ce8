@@ -1,6 +1,30 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aca475d_82360680",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-25T11:17:07Z",
+      "side": 1,
+      "message": "This assumes uniform distribution of the values and it also iterates the whole `zombieRefs` list. Why not just use the `limit(N)`:\n```\nint n \u003d zombieRefs.size * cleanupPercentage / 100;\nzombieRefs.limit(n).collect(toImmutableList());\n```",
+      "range": {
+        "startLine": 81,
+        "startChar": 53,
+        "endLine": 81,
+        "endChar": 99
+      },
+      "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "dee0701e_aff3801e",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
@@ -20,10 +44,10 @@
         "endChar": 40
       },
       "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e9d04a3d_98f37ac2",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
@@ -44,8 +68,7 @@
         "endChar": 40
       },
       "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

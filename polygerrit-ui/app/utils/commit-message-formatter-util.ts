@@ -349,6 +349,21 @@ function parseCommitMessageString(messageString: string): CommitMessage {
     firstNonEmptyLineIndex(lines, footerStartIndex - 1, /* direction */ -1) + 1
   );
 
+  // Check if footer contains any lines in the format "key: value"
+  // If not, move footer lines to body and make footer empty
+  // This is typically the case when creating a new commit message and the footer is not yet formatted
+  const hasFormattedFooterLine = footer.some(line =>
+    /^[^:]+:.+/.test(line.trim())
+  );
+  if (!hasFormattedFooterLine && footer.length > 0) {
+    // If body is not empty, add a blank line before appending footer
+    if (body.length > 0) {
+      body.push('');
+    }
+    body = body.concat(footer);
+    footer = [];
+  }
+
   return {subject, body, footer, hasTrailingBlankLine};
 }
 

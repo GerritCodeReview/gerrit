@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01c0d4db_3ca79722",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-25T11:19:46Z",
+      "side": 1,
+      "message": "Or without using the stream API:\n```\nzombieRefs \u003d zombieRefs.subList(0, zombieRefs.size * cleanupPercentage / 100);\n```",
+      "parentUuid": "2aca475d_82360680",
+      "range": {
+        "startLine": 81,
+        "startChar": 53,
+        "endLine": 81,
+        "endChar": 99
+      },
+      "revId": "c14217757fcc95091ae4a23dabed709bf9ae2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dee0701e_aff3801e",
         "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
         "patchSetId": 10

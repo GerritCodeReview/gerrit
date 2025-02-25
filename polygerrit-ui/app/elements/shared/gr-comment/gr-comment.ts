@@ -42,6 +42,7 @@ import {
   getUserSuggestion,
   hasUserSuggestion,
   id,
+  isFileLevelComment,
   NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
@@ -1065,7 +1066,9 @@ export class GrComment extends LitElement {
     if (
       !this.editing ||
       this.permanentEditingMode ||
-      this.comment?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+      !this.comment ||
+      this.comment.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS ||
+      isFileLevelComment(this.comment)
     ) {
       return nothing;
     }
@@ -1156,7 +1159,7 @@ export class GrComment extends LitElement {
           getFileExtension(this.comment.path)
         )) &&
       this.comment === this.comments?.[0] && // Is first comment
-      (this.comment.range || this.comment.line) && // Disabled for File comments
+      !isFileLevelComment(this.comment) &&
       !hasUserSuggestion(this.comment) &&
       this.getChangeModel().getChange()?.is_private !== true
     );

@@ -80,7 +80,7 @@ public class DeleteZombieCommentsRefsTest {
 
       assertThat(usersRepo.getRefDatabase().getRefs()).hasSize(3);
 
-      int cleanupPercentage = 50;
+      int cleanupPercentage = 70;
       try (DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
               new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {})) {
@@ -102,7 +102,7 @@ public class DeleteZombieCommentsRefsTest {
       assertThat(usersRepo.exactRef(ref3.getName())).isNotNull();
 
       /* Increase the cleanup percentage */
-      cleanupPercentage = 70;
+      cleanupPercentage = 100;
       try (DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
               new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {})) {

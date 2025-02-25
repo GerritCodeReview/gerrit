@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac3e26e_def0911f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-25T21:27:46Z",
+      "side": 1,
+      "message": "Tested E2E, before and after the draining on MacOS with Apple M1, repeated 50 times, but I still see some undrained events at times.\n\nLet me double-check if I drained them all.",
+      "revId": "4916cd666a0c702f0179c5696ebcec09ae8b349b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

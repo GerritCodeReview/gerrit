@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b209ded3_0b6ca270",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-25T12:29:50Z",
+      "side": 1,
+      "message": "```suggestion\n* ensure that any operation on the reference counting is NPE protected\n```",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ef0338_aae34345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-25T12:29:50Z",
+      "side": 1,
+      "message": "```suggestion\n  any repository is there prior to failing the test\n```",
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2658958f_a68e8024",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-25T12:29:50Z",
+      "side": 1,
+      "message": "```suggestion\nThis also reduces the flakiness of some integration tests e.g.\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 61
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d289ddd7_310ba959",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-25T12:29:50Z",
+      "side": 1,
+      "message": "instead of null-checking these, have you considered, setting these to empty lists, as well as initializing them as such at L48-L49?",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 36
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4bbdd12_b5c097f9",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-25T12:29:50Z",
+      "side": 1,
+      "message": "since the `fail` call is terminal, how about losing the extra `return` and just checking for `if (!repositoriesToReport.isEmpty())`",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92673907_211f1390",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-02-25T12:29:50Z",
+      "side": 1,
+      "message": "I understand this refactoring, since we are explicitly calling the `afterTest()`, there\u0027s no reason to *actually* keep the repository open.\nimho this should be a separate change though.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

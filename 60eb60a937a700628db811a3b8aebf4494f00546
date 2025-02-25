@@ -68,6 +68,46 @@
       },
       "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b3ca58_34a7fc56",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T00:03:41Z",
+      "side": 1,
+      "message": "also synchronize the check so that it doesn\u0027t produce warning without details e.g.\n```\nP.S. Hints to resolve the issue:\n     See below the tracking information of when the Repository was created,\n     referenced and closed throughout the test. Look carefully at the\n     open/close or incrementOpen/close pairs for all the AutoCloseable \n     objects (either Repository or one of its wrappers, like\n     RepoView or RepoRefCache) that is not managed properly inside a\n     try-with-resource enclosure.\n\nSee below more details about the Repository objects created / opened and not closed.\n------------\n```\nwhich basically means that it was called somewhere in the middle of `clear`",
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c63c80d_0b244e72",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-25T00:03:41Z",
+      "side": 1,
+      "message": "another race is here - when `Repository.clear` is called after line #285 and before here then again false negative is being reported - callect repo names first and in case there is still sth to report, report it",
+      "range": {
+        "startLine": 223,
+        "startChar": 18,
+        "endLine": 223,
+        "endChar": 87
+      },
+      "revId": "60eb60a937a700628db811a3b8aebf4494f00546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -38,6 +38,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -170,10 +171,12 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
               cleanupPercentage, reason, drafts.size()));
       return drafts;
     }
-    ImmutableList<KeyT> res =
-        drafts.stream()
-            .filter(key -> getChangeId(key).get() % 100 < cleanupPercentage)
-            .collect(toImmutableList());
+    if (cleanupPercentage <= 0) {
+      return Collections.emptyList();
+    }
+
+    int resultSize = drafts.size() * cleanupPercentage / 100;
+    List<KeyT> res = drafts.subList(0, resultSize);
     logInfo(
         String.format(
             "Cleanup percentage = %d"

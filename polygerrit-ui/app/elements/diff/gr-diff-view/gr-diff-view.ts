@@ -248,6 +248,9 @@ export class GrDiffView extends LitElement {
   @state()
   commentsForPath: Comment[] = [];
 
+  @state()
+  isShowingEntireFile = false;
+
   // visible for testing
   reviewedFiles = new Set<string>();
 
@@ -1070,7 +1073,8 @@ export class GrDiffView extends LitElement {
   private renderRightControls() {
     const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
     return html` <div class="rightControls">
-      ${this.renderSidebarTriggers()} ${this.renderBlameButton()}
+      ${this.renderSidebarTriggers()} ${this.renderShowEntireFileButton()}
+      ${this.renderBlameButton()}
       ${when(
         this.computeCanEdit(),
         () => html`
@@ -1140,6 +1144,20 @@ export class GrDiffView extends LitElement {
     </div>`;
   }
 
+  private renderShowEntireFileButton() {
+    return html`<gr-button
+      link=""
+      title=${this.createTitle(
+        Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
+        ShortcutSection.DIFFS
+      )}
+      @click=${this.handleToggleAllDiffContext}
+      >${this.isShowingEntireFile
+        ? 'Hide Unchanged Lines'
+        : 'Show Entire File'}</gr-button
+    >`;
+  }
+
   private renderBlameButton() {
     if (!this.allowBlame) return;
     const blameLoaderClass =
@@ -1148,16 +1166,20 @@ export class GrDiffView extends LitElement {
     if (!this.isBlameLoading) {
       blameToggleLabel = this.isBlameLoaded ? 'Hide blame' : 'Show blame';
     }
-    return html` <span class="blameLoader ${blameLoaderClass}">
-      <gr-button
-        link=""
-        id="toggleBlame"
-        title=${this.createTitle(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS)}
-        ?disabled=${this.isBlameLoading}
-        @click=${this.toggleBlame}
-        >${blameToggleLabel}</gr-button
-      >
-    </span>`;
+    return html`<span class="separator"></span
+      ><span class="blameLoader ${blameLoaderClass}">
+        <gr-button
+          link=""
+          id="toggleBlame"
+          title=${this.createTitle(
+            Shortcut.TOGGLE_BLAME,
+            ShortcutSection.DIFFS
+          )}
+          ?disabled=${this.isBlameLoading}
+          @click=${this.toggleBlame}
+          >${blameToggleLabel}</gr-button
+        >
+      </span>`;
   }
 
   private renderDialogs() {
@@ -1906,6 +1928,7 @@ export class GrDiffView extends LitElement {
 
   private handleToggleAllDiffContext() {
     assertIsDefined(this.diffHost, 'diffHost');
+    this.isShowingEntireFile = !this.isShowingEntireFile;
     this.diffHost.toggleAllContext();
   }
 

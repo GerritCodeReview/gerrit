@@ -404,11 +404,11 @@ suite('commit-message-formatter-util tests', () => {
 
     test('body and footer without blank line separator', () => {
       assertParseResult(
-        'Subject\n\nBody line\n\nFooter line 1\nFooter line 2',
+        'Subject\n\nBody line\n\nFooter line 1\nfooter: Footer line 2',
         {
           subject: 'Subject',
           body: ['Body line'],
-          footer: ['Footer line 1', 'Footer line 2'],
+          footer: ['Footer line 1', 'footer: Footer line 2'],
           hasTrailingBlankLine: false,
         },
         'body and footer without blank line separator'
@@ -425,6 +425,40 @@ suite('commit-message-formatter-util tests', () => {
           hasTrailingBlankLine: true,
         },
         'with trailing blank line'
+      );
+    });
+
+    test('footer without proper format is moved to body', () => {
+      assertParseResult(
+        'Subject\n\nBody line\n\nThis is not a proper footer line\nNeither is this one',
+        {
+          subject: 'Subject',
+          body: [
+            'Body line',
+            '',
+            'This is not a proper footer line',
+            'Neither is this one',
+          ],
+          footer: [],
+          hasTrailingBlankLine: false,
+        },
+        'footer without proper format should be moved to body'
+      );
+    });
+
+    test('footer with at least one proper format line is kept as footer', () => {
+      assertParseResult(
+        'Subject\n\nBody line\n\nThis is not a proper footer line\nSigned-off-by: User <user@example.com>',
+        {
+          subject: 'Subject',
+          body: ['Body line'],
+          footer: [
+            'This is not a proper footer line',
+            'Signed-off-by: User <user@example.com>',
+          ],
+          hasTrailingBlankLine: false,
+        },
+        'footer with at least one proper format line should be kept as footer'
       );
     });
   });

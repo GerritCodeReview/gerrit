@@ -207,7 +207,7 @@ export class GrFixSuggestions extends LitElement {
             class="action show-fix"
             @click=${this.handleShowFix}
           >
-            Show edit
+            Show Edit
           </gr-button>
           ${when(
             this.isOwner && !this.collapsed,
@@ -221,7 +221,7 @@ export class GrFixSuggestions extends LitElement {
                 @click=${this.handleApplyFix}
                 .title=${this.computeApplyEditTooltip()}
               >
-                Apply edit
+                Apply Edit
               </gr-button>`
           )}
           ${this.renderToggle()}

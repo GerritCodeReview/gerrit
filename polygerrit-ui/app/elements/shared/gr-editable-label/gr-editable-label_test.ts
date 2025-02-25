@@ -85,7 +85,7 @@ suite('gr-editable-label tests', () => {
               role="button"
               tabindex="0"
             >
-              cancel
+              Cancel
             </gr-button>
           </div>
         </div>

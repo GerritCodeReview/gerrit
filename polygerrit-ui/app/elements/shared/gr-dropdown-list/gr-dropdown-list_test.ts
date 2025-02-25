@@ -62,7 +62,6 @@ suite('gr-dropdown-list tests', () => {
           down-arrow=""
           id="trigger"
           link=""
-          no-uppercase=""
           role="button"
           slot="dropdown-trigger"
           tabindex="0"

@@ -1077,7 +1077,7 @@ export class GrComment extends LitElement {
       class="action suggestEdit"
       title="This button copies the text to make a suggestion"
       @click=${this.createSuggestEdit}
-      ><gr-icon icon="edit" id="icon" filled></gr-icon> Suggest edit</gr-button
+      ><gr-icon icon="edit" id="icon" filled></gr-icon> Suggest Edit</gr-button
     >`;
   }
 

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9479e3b_2421aa98",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "```suggestion\ndraft comments cleanup.\n```",
+      "range": {
+        "startLine": 1864,
+        "startChar": 0,
+        "endLine": 1864,
+        "endChar": 5
+      },
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfff5481_5cfd51b4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "```suggestion\ndraft comments cleanup.\n```",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b2737d5_e5a17524",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "Drafts is a pretty generic term hence I would choose a more specific classname\n\n```suggestion\npublic class DraftCommentsCleanupRunner implements Runnable {\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3162e40c_8de37dce",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "```suggestion\n  private static final String SECTION \u003d \"draftCommentsCleanup\";\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 41,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff31c1a7_198e05f7",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "```suggestion\n      logger.atInfo().log(\"Starting draft comments cleanup\");\n```",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe99e46d_1da795cc",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "```suggestion\n      logger.atInfo().log(\"Finished draft comments cleanup\");\n```",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d843e685_b8f1faed",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:09:10Z",
+      "side": 1,
+      "message": "```suggestion\n      logger.atSevere().withCause(e).log(\"Draft comments cleanup error\");\n```",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

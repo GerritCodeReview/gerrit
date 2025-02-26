@@ -151,7 +151,6 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
                 u.updateExternalId(
                     externalIdFactory.createWithPassword(
                         extId.key(), extId.accountId(), extId.email(), newPassword)));
-
     try {
       emailFactories
           .createOutgoingEmail(

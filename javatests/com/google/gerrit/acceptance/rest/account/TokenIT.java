@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.common.TokenInput;
-import com.google.gerrit.server.account.VersionedAuthTokens;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TokenIT extends AbstractDaemonTest {
-  @Inject VersionedAuthTokens.Accessor tokenAccessor;
+  @Inject AuthTokenAccessor tokenAccessor;
 
   private TokenInput tokenInput;
 
@@ -52,7 +52,7 @@ public class TokenIT extends AbstractDaemonTest {
     assertThat(createdToken.get("id").getAsString()).isEqualTo(tokenInput.id);
     assertThat(createdToken.get("token").getAsString()).isNotNull();
 
-    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isNotNull();
+    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isPresent();
   }
 
   @Test
@@ -90,7 +90,7 @@ public class TokenIT extends AbstractDaemonTest {
     assertThat(createdToken.get("id").getAsString()).isEqualTo(tokenInput.id);
     assertThat(createdToken.get("token").getAsString()).isEqualTo(tokenInput.token);
 
-    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isNotNull();
+    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isPresent();
   }
 
   @Test
@@ -118,7 +118,7 @@ public class TokenIT extends AbstractDaemonTest {
     userRestSession
         .delete(String.format("/accounts/%d/tokens/userToken1", user.id().get()))
         .assertNoContent();
-    assertThat(tokenAccessor.getToken(user.id(), "userToken1")).isNull();
+    assertThat(tokenAccessor.getToken(user.id(), "userToken1")).isEmpty();
   }
 
   @Test

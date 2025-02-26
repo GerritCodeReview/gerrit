@@ -22,6 +22,7 @@ import {
   queryAndAssert,
   stubRestApi,
   waitUntilCalled,
+  waitUntil,
   MockPromise,
 } from '../../../test/test-utils';
 import {
@@ -44,6 +45,8 @@ import {
   changeViewModelToken,
 } from '../../../models/views/change';
 import {GerritView} from '../../../services/router/router-model';
+import {GrComment} from '../gr-comment/gr-comment';
+import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 const c1: CommentInfo = {
   author: {name: 'Kermit'},
@@ -376,10 +379,120 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('handle Quote', async () => {
+      // Use @ts-ignore to bypass TypeScript's private method restriction
+      // @ts-ignore
+      const addQuoteStub = sinon.stub(element, 'addQuote');
+      await element.updateComplete;
       assert.equal(element.thread?.comments.length, 2);
       queryAndAssert<GrButton>(element, '#quoteBtn').click();
       assert.isTrue(stubAdd.called);
-      assert.equal(stubAdd.lastCall.firstArg.message.trim(), `> ${c2.message}`);
+      assert.equal(stubAdd.lastCall.firstArg.message, '');
+      assert.isTrue(addQuoteStub.calledWith('> keep it going\n\n'));
+    });
+
+    test('cancel after reply discards the comment', async () => {
+      element.thread = createThread(c1, {...c2, unresolved: true});
+      await element.updateComplete;
+
+      // Restore the original stub before creating a new one
+      stubAdd.restore();
+
+      // Create a stub that actually adds a draft to the thread
+      stubAdd = sinon
+        .stub(testResolver(commentsModelToken), 'addNewDraft')
+        .callsFake(draft => {
+          const newDraft = {
+            ...draft,
+            id: 'new-draft' as UrlEncodedCommentId,
+            __draft: true,
+          };
+          if (element.thread) {
+            element.thread = {
+              ...element.thread,
+              comments: [...element.thread.comments, newDraft],
+            };
+          }
+          return Promise.resolve(newDraft);
+        });
+
+      // Click reply button to create a new draft
+      queryAndAssert<GrButton>(element, '#replyBtn').click();
+      assert.isTrue(stubAdd.called);
+      await element.updateComplete;
+      const draftElement = queryAndAssert<GrComment>(
+        element,
+        'gr-comment.draft'
+      );
+
+      // Simulate user adding additional text to the quoted text
+      draftElement.editing = true;
+      draftElement.messageText = 'My comment text';
+      await draftElement.updateComplete;
+
+      // Simulate cancel action
+      const cancelSpy = sinon.spy(draftElement, 'cancel');
+      draftElement.cancel();
+      assert.isTrue(cancelSpy.called);
+      // The draft should be discarded completely
+      assert.equal(draftElement.messageText, '');
+    });
+
+    test('cancel after quote only discards user input but keeps quoted text', async () => {
+      element.thread = createThread(c1, {...c2, unresolved: true});
+      await element.updateComplete;
+
+      // Restore the original stub before creating a new one
+      stubAdd.restore();
+
+      // Create a stub that actually adds a draft to the thread with the quoted text
+      stubAdd = sinon
+        .stub(testResolver(commentsModelToken), 'addNewDraft')
+        .callsFake(draft => {
+          const newDraft = {
+            ...draft,
+            id: 'new-draft' as UrlEncodedCommentId,
+            __draft: true,
+          };
+          if (element.thread) {
+            element.thread = {
+              ...element.thread,
+              comments: [...element.thread.comments, newDraft],
+            };
+          }
+          return Promise.resolve(newDraft);
+        });
+
+      // Click quote button to create a new draft with quoted text
+      queryAndAssert<GrButton>(element, '#quoteBtn').click();
+      assert.isTrue(stubAdd.called);
+      await element.updateComplete;
+
+      const draftElement = queryAndAssert<GrComment>(
+        element,
+        'gr-comment.draft'
+      );
+      await draftElement.updateComplete;
+      await waitUntil(
+        () => !!draftElement.textarea,
+        'textarea element not found'
+      );
+      const textarea = queryAndAssert<GrSuggestionTextarea>(
+        draftElement,
+        '#editTextarea'
+      );
+      await textarea.updateComplete;
+
+      // Verify the draft contains the quoted text
+      assert.equal(draftElement.messageText, '> keep it going\n\n');
+
+      // Simulate cancel action
+      const cancelSpy = sinon.spy(draftElement, 'cancel');
+      draftElement.cancel();
+      await draftElement.updateComplete;
+      assert.isTrue(cancelSpy.called);
+
+      // The draft should be discarded completely
+      assert.equal(draftElement.messageText, '');
     });
   });
 

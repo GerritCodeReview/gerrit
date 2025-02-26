@@ -1552,6 +1552,15 @@ export class GrComment extends LitElement {
     this.editing = true;
   }
 
+  async addQuote(quote: string) {
+    await waitUntil(
+      () => !!this.textarea,
+      'textarea element not found',
+      5 * 1000
+    );
+    this.messageText = quote + this.messageText;
+  }
+
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
   // property.
   private hasHumanReply() {

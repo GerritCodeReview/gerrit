@@ -685,6 +685,15 @@ export class GrCommentThread extends LitElement {
     this.draftElement!.edit();
   }
 
+  private async addQuote(quote: string) {
+    await waitUntil(
+      () => !!this.draftElement,
+      'draft element not found',
+      5 * 1000
+    );
+    this.draftElement!.addQuote(quote);
+  }
+
   private isDraft() {
     return isDraft(this.getLastComment());
   }
@@ -829,7 +838,8 @@ export class GrCommentThread extends LitElement {
   private async createReplyComment(
     content: string,
     userWantsToEdit: boolean,
-    unresolved: boolean
+    unresolved: boolean,
+    quote?: string
   ) {
     const replyingTo = this.getLastComment();
     assertIsDefined(this.thread, 'thread');
@@ -839,6 +849,9 @@ export class GrCommentThread extends LitElement {
     if (userWantsToEdit) {
       this.getCommentsModel().addNewDraft(newReply);
       noAwait(this.editDraft());
+      if (quote) {
+        noAwait(this.addQuote(quote));
+      }
     } else {
       try {
         this.saving = true;
@@ -857,8 +870,10 @@ export class GrCommentThread extends LitElement {
       const msg = comment.message;
       if (!msg) throw new Error('Quoting empty comment.');
       content = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
+      this.createReplyComment('', true, comment.unresolved ?? true, content);
+    } else {
+      this.createReplyComment(content, true, comment.unresolved ?? true);
     }
-    this.createReplyComment(content, true, comment.unresolved ?? true);
   }
 
   private handleCommentAck() {

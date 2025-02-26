@@ -16,6 +16,24 @@
       "message": "Note that in the base version this test easily break by just changing the change IDs here. This is because the extraction of the sublist by percentage was based on the modul0-100 operation and, for example 50% would include 1005 and 1006, where 70% would include all of these which is obviously wrong.",
       "revId": "52afdc442aabc9e3ab599ef4935ebd67b6ae6c5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76635099_c248f5c2",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:04:06Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "41d50456_5d209f9b",
+      "revId": "52afdc442aabc9e3ab599ef4935ebd67b6ae6c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

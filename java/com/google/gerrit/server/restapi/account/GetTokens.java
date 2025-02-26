@@ -22,7 +22,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthToken;
-import com.google.gerrit.server.account.VersionedAuthTokens;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -44,13 +44,13 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 public class GetTokens implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final VersionedAuthTokens.Accessor tokenAccessor;
+  private final AuthTokenAccessor tokenAccessor;
 
   @Inject
   GetTokens(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      VersionedAuthTokens.Accessor tokenAccessor) {
+      AuthTokenAccessor tokenAccessor) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.tokenAccessor = tokenAccessor;
@@ -69,7 +69,7 @@ public class GetTokens implements RestReadView<AccountResource> {
     return Response.ok(apply(rsrc.getUser()));
   }
 
-  public List<TokenInfo> apply(IdentifiedUser user) throws IOException, ConfigInvalidException {
+  public List<TokenInfo> apply(IdentifiedUser user) {
     List<TokenInfo> tokenInfos = new ArrayList<>();
     for (AuthToken token : tokenAccessor.getTokens(user.getAccountId())) {
       tokenInfos.add(newTokenInfo(token));

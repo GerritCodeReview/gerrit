@@ -52,6 +52,24 @@
       "parentUuid": "e072f744_fd029bd8",
       "revId": "0f1c626b748d1434060ab44472227777b4d3bb78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39df7439_7de5f3c3",
+        "filename": "java/com/google/gerrit/extensions/config/ExternalChangeIncludedIn.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-02-26T08:22:14Z",
+      "side": 1,
+      "message": "Done, Used @Nullable as per the guidelines \nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#:~:text\u003dOptionals%20in%20arguments%20are%20discouraged%20(use%20%40Nullable%20instead)",
+      "parentUuid": "d47e1863_a28d6cc9",
+      "revId": "0f1c626b748d1434060ab44472227777b4d3bb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

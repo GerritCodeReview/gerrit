@@ -128,7 +128,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   }
 
   @Deprecated
-  private ImmutableList<AuthToken> fallBackToLegacyHttpPassword(Account.Id accountId) {
+  ImmutableList<AuthToken> fallBackToLegacyHttpPassword(Account.Id accountId) {
     AccountState accountState = accountCache.getEvenIfMissing(accountId);
     Optional<ExternalId> optUser =
         accountState.externalIds().stream()

@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -236,7 +237,10 @@ public class InMemoryModule extends FactoryModule {
     install(new SuperprojectUpdateSubmissionListenerModule());
     install(new WorkQueueModule());
 
-    install(new AuthTokenModule());
+    boolean useAuthTokenCache =
+        authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+            || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP;
+    install(new AuthTokenModule(useAuthTokenCache));
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

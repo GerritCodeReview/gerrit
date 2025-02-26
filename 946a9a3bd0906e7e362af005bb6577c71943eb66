@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01bf34d1_22bebb37",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-02-26T11:36:45Z",
+      "side": 1,
+      "message": "Added twice?",
+      "range": {
+        "startLine": 572,
+        "startChar": 6,
+        "endLine": 572,
+        "endChar": 52
+      },
+      "revId": "946a9a3bd0906e7e362af005bb6577c71943eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

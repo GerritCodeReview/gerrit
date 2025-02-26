@@ -1,4 +1,4 @@
-// Copyright (C) 2021 The Android Open Source Project
+// Copyright (C) 2025 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account;
 
-import com.google.gerrit.server.account.AuthTokenVerifier;
-import com.google.inject.AbstractModule;
+import com.google.auto.value.AutoValue;
 
-public class ExternalIdModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(ExternalIdKeyFactory.class);
-    bind(AuthTokenVerifier.class);
+@AutoValue
+public abstract class AuthToken {
+  public static AuthToken createWithPlainToken(String token) {
+    return create(HashedPassword.fromPassword(token).encode());
   }
+
+  public static AuthToken create(String hashedToken) {
+    return new AutoValue_AuthToken(hashedToken);
+  }
+
+  public abstract String hashedToken();
 }

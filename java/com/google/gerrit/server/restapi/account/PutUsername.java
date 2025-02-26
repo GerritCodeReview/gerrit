@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthTokenCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -66,6 +67,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final SshKeyCache sshKeyCache;
+  private final AuthTokenCache tokenCache;
   private final Realm realm;
   private final ExternalIdFactory externalIdFactory;
   private final ExternalIdKeyFactory externalIdKeyFactory;
@@ -77,6 +79,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       ExternalIds externalIds,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       SshKeyCache sshKeyCache,
+      AuthTokenCache tokenCache,
       Realm realm,
       ExternalIdFactory externalIdFactory,
       ExternalIdKeyFactory externalIdKeyFactory) {
@@ -85,6 +88,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
+    this.tokenCache = tokenCache;
     this.realm = realm;
     this.externalIdFactory = externalIdFactory;
     this.externalIdKeyFactory = externalIdKeyFactory;
@@ -135,6 +139,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
     }
 
     sshKeyCache.evict(input.username);
+    tokenCache.evict(accountId);
     return Response.ok(input.username);
   }
 }

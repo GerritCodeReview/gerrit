@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthToken;
-import com.google.gerrit.server.account.VersionedAuthTokens;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,7 +39,7 @@ public class TokensCollection implements ChildCollection<AccountResource, Accoun
   private final GetTokens list;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final VersionedAuthTokens.Accessor tokenAccessor;
+  private final AuthTokenAccessor tokenAccessor;
 
   @Inject
   TokensCollection(
@@ -47,7 +47,7 @@ public class TokensCollection implements ChildCollection<AccountResource, Accoun
       GetTokens list,
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      VersionedAuthTokens.Accessor tokenAccessor) {
+      AuthTokenAccessor tokenAccessor) {
     this.views = views;
     this.list = list;
     this.self = self;

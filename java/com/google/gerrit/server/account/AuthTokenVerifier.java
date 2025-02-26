@@ -19,17 +19,15 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.inject.Inject;
-import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Checks if a given username and token match a user's credentials. */
 public class AuthTokenVerifier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final VersionedAuthTokens.Accessor tokenAccessor;
+  private final AuthTokenAccessor tokenAccessor;
 
   @Inject
-  public AuthTokenVerifier(VersionedAuthTokens.Accessor tokenAccessor) {
+  public AuthTokenVerifier(AuthTokenAccessor tokenAccessor) {
     this.tokenAccessor = tokenAccessor;
   }
 
@@ -50,7 +48,7 @@ public class AuthTokenVerifier {
           }
         }
       }
-    } catch (HashedPassword.DecoderException | IOException | ConfigInvalidException e) {
+    } catch (HashedPassword.DecoderException e) {
       logger.atSevere().withCause(e).log(
           "Could not validate token for account %s: %s ", accountId, e.getMessage());
     }

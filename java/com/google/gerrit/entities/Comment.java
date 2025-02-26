@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -34,6 +35,7 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>Consider updating {@link #getCommentFieldApproximateSize()} when adding/changing fields.
  */
+@ConvertibleToProto
 public abstract class Comment {
   public enum Status {
     DRAFT('d'),
@@ -242,17 +244,50 @@ public abstract class Comment {
   public String serverId;
 
   public Comment(Comment c) {
-    this(new Key(c.key), c.author.getId(), c.writtenOn.toInstant(), c.side, c.message, c.serverId);
+    this(
+        new Key(c.key),
+        c.author.getId(),
+        c.writtenOn.toInstant(),
+        c.side,
+        c.message,
+        c.serverId,
+        c.revId,
+        c.parentUuid,
+        c.tag,
+        c.fixSuggestions,
+        c.realAuthor == null ? null : c.realAuthor.getId());
     this.lineNbr = c.lineNbr;
-    this.realAuthor = c.realAuthor;
-    this.parentUuid = c.parentUuid;
     this.range = c.range != null ? new Range(c.range) : null;
-    this.tag = c.tag;
-    this.revId = c.revId;
   }
 
   public Comment(
       Key key, Account.Id author, Instant writtenOn, short side, String message, String serverId) {
+    this(
+        key,
+        author,
+        writtenOn,
+        side,
+        message,
+        serverId,
+        /* revId= */ null,
+        /* parentUuid= */ null,
+        /* tag= */ null,
+        /* fixSuggestions= */ null,
+        /* realAuthor= */ null);
+  }
+
+  public Comment(
+      Key key,
+      Account.Id author,
+      Instant writtenOn,
+      short side,
+      String message,
+      String serverId,
+      @Nullable String revId,
+      @Nullable String parentUuid,
+      @Nullable String tag,
+      @Nullable List<FixSuggestion> fixSuggestions,
+      @Nullable Account.Id realAuthor) {
     this.key = key;
     this.author = new Comment.Identity(author);
     this.realAuthor = this.author;
@@ -260,6 +295,11 @@ public abstract class Comment {
     this.side = side;
     this.message = message;
     this.serverId = serverId;
+    this.revId = revId;
+    this.parentUuid = parentUuid;
+    this.tag = tag;
+    this.fixSuggestions = fixSuggestions;
+    this.setRealAuthor(realAuthor);
   }
 
   public void setWrittenOn(Instant writtenOn) {

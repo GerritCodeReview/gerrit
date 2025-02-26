@@ -75,9 +75,15 @@ public abstract class CurrentUser {
    * that ID.
    */
   public void updateRealAccountId(Consumer<Account.Id> setter) {
+    realAccountId().ifPresent(id -> setter.accept(id));
+  }
+
+  /** If the {@link #getRealUser()} has an account ID associated with it, return it. */
+  public Optional<Account.Id> realAccountId() {
     if (getRealUser().isIdentifiedUser()) {
-      setter.accept(getRealUser().getAccountId());
+      return Optional.of(getRealUser().getAccountId());
     }
+    return Optional.empty();
   }
 
   /**

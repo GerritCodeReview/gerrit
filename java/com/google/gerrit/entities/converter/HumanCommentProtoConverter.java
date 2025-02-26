@@ -14,18 +14,24 @@
 
 package com.google.gerrit.entities.converter;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.Immutable;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.Comment.Range;
+import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.Entities.HumanComment.InFilePosition;
 import com.google.gerrit.proto.Entities.HumanComment.InFilePosition.Side;
+import com.google.gerrit.proto.Entities.HumanComment.Range;
 import com.google.protobuf.Parser;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -61,12 +67,7 @@ public enum HumanCommentProtoConverter
               .setFilePath(val.key.filename)
               .setSide(val.side <= 0 ? Side.PARENT : Side.REVISION);
       if (val.range != null) {
-        inFilePos.setPositionRange(
-            InFilePosition.Range.newBuilder()
-                .setStartLine(val.range.startLine)
-                .setStartChar(val.range.startChar)
-                .setEndLine(val.range.endLine)
-                .setEndChar(val.range.endChar));
+        inFilePos.setPositionRange(toRangeProto(val.range));
       }
       if (val.lineNbr != 0) {
         inFilePos.setLineNumber(val.lineNbr);
@@ -86,8 +87,33 @@ public enum HumanCommentProtoConverter
     if (val.getCommitId() != null) {
       res.setDestCommitId(objectIdConverter.toProto(val.getCommitId()));
     }
-
+    if (val.fixSuggestions != null) {
+      for (FixSuggestion suggestion : val.fixSuggestions) {
+        res.addFixSuggestions(
+            Entities.HumanComment.FixSuggestion.newBuilder()
+                .setFixId(suggestion.fixId)
+                .setDescription(suggestion.description)
+                .addAllReplacements(
+                    suggestion.replacements.stream()
+                        .map(
+                            r ->
+                                Entities.HumanComment.FixReplacement.newBuilder()
+                                    .setPath(r.path)
+                                    .setRange(toRangeProto(r.range))
+                                    .setReplacement(r.replacement)
+                                    .build())
+                        .collect(toImmutableList())));
+      }
+    }
     return res.build();
+  }
+
+  private Range.Builder toRangeProto(Comment.Range range) {
+    return Range.newBuilder()
+        .setStartLine(range.startLine)
+        .setStartChar(range.startChar)
+        .setEndLine(range.endLine)
+        .setEndChar(range.endChar);
   }
 
   @Override
@@ -99,6 +125,7 @@ public enum HumanCommentProtoConverter
             proto.getCommentUuid(),
             optInFilePosition.isPresent() ? optInFilePosition.get().getFilePath() : PATCHSET_LEVEL,
             proto.getPatchsetId());
+
     HumanComment res =
         new HumanComment(
             key,
@@ -109,33 +136,57 @@ public enum HumanCommentProtoConverter
                 : Side.REVISION_VALUE,
             proto.getCommentText(),
             proto.getServerId(),
-            proto.getUnresolved());
+            proto.getUnresolved(),
+            proto.hasDestCommitId()
+                ? objectIdConverter.fromProto(proto.getDestCommitId()).getName()
+                : null,
+            proto.hasParentCommentUuid() ? proto.getParentCommentUuid() : null,
+            proto.hasTag() ? proto.getTag() : null,
+            fromFixSuggestionsProto(proto.getFixSuggestionsList()),
+            /* realAuthor= */ null);
 
-    res.parentUuid = proto.hasParentCommentUuid() ? proto.getParentCommentUuid() : null;
-    res.tag = proto.hasTag() ? proto.getTag() : null;
     if (proto.hasRealAuthor()) {
+      // Not setting real author from the constructor because if the proto has a value - we want to
+      // set it even if it's the same as the `author`.
       res.realAuthor = new Comment.Identity(accountIdConverter.fromProto(proto.getRealAuthor()));
-    }
-    if (proto.hasDestCommitId()) {
-      res.setCommitId(objectIdConverter.fromProto(proto.getDestCommitId()));
     }
 
     optInFilePosition.ifPresent(
         inFilePosition -> {
           if (inFilePosition.hasPositionRange()) {
-            var range = inFilePosition.getPositionRange();
-            res.range =
-                new Range(
-                    range.getStartLine(),
-                    range.getStartChar(),
-                    range.getEndLine(),
-                    range.getEndChar());
+            res.range = fromRangeProto(inFilePosition.getPositionRange());
           }
           if (inFilePosition.hasLineNumber()) {
             res.lineNbr = inFilePosition.getLineNumber();
           }
         });
     return res;
+  }
+
+  private Comment.Range fromRangeProto(Range range) {
+    return new Comment.Range(
+        range.getStartLine(), range.getStartChar(), range.getEndLine(), range.getEndChar());
+  }
+
+  @Nullable
+  private ImmutableList<FixSuggestion> fromFixSuggestionsProto(
+      List<Entities.HumanComment.FixSuggestion> suggestionsList) {
+    if (suggestionsList.isEmpty()) {
+      return null;
+    }
+    return suggestionsList.stream()
+        .map(
+            s ->
+                new FixSuggestion(
+                    s.getFixId(),
+                    s.getDescription(),
+                    s.getReplacementsList().stream()
+                        .map(
+                            r ->
+                                new FixReplacement(
+                                    r.getPath(), fromRangeProto(r.getRange()), r.getReplacement()))
+                        .collect(toImmutableList())))
+        .collect(toImmutableList());
   }
 
   @Override

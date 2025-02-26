@@ -15,7 +15,9 @@
 package com.google.gerrit.entities;
 
 import com.google.gerrit.common.ConvertibleToProto;
+import com.google.gerrit.common.Nullable;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -40,7 +42,46 @@ public class HumanComment extends Comment {
       String message,
       String serverId,
       boolean unresolved) {
-    super(key, author, writtenOn, side, message, serverId);
+    this(
+        key,
+        author,
+        writtenOn,
+        side,
+        message,
+        serverId,
+        unresolved,
+        /* revId= */ null,
+        /* parentUuid= */ null,
+        /* tag= */ null,
+        /* fixSuggestions= */ null,
+        /* realAuthor= */ null);
+  }
+
+  public HumanComment(
+      Key key,
+      Account.Id author,
+      Instant writtenOn,
+      short side,
+      String message,
+      String serverId,
+      boolean unresolved,
+      @Nullable String revId,
+      @Nullable String parentUuid,
+      @Nullable String tag,
+      @Nullable List<FixSuggestion> fixSuggestions,
+      @Nullable Account.Id realAuthor) {
+    super(
+        key,
+        author,
+        writtenOn,
+        side,
+        message,
+        serverId,
+        revId,
+        parentUuid,
+        tag,
+        fixSuggestions,
+        realAuthor);
     this.unresolved = unresolved;
   }
 

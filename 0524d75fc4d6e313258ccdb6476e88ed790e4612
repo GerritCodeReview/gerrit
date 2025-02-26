@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc20868_66631906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-26T17:33:38Z",
+      "side": 1,
+      "message": "We don\u0027t typically use `fixup!` for a subject line in commits that aren\u0027t WIP/debug.\n\n```suggestion\nFix potential NPE introduced in change I000096fb79c4d\n\nchangeId is Nullable and must be checked before dereferencing.\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "0524d75fc4d6e313258ccdb6476e88ed790e4612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

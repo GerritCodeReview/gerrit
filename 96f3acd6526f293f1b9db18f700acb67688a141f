@@ -33,6 +33,24 @@
       "message": "1. This option should not be placed between the `maxIntervalTime` and `maxIntervalUnit` as they represent one value\n\n2. If you are already at this, consider replacing the two parameters`maxIntervalTime` and `maxIntervalUnit` with one: `Duration maxInterval`.",
       "revId": "96f3acd6526f293f1b9db18f700acb67688a141f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df5e2343_f55ad433",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T14:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d6a670_4b620275",
+      "revId": "96f3acd6526f293f1b9db18f700acb67688a141f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

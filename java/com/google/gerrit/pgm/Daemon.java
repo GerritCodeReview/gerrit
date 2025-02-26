@@ -24,6 +24,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritAuthModule;
@@ -221,6 +222,7 @@ public class Daemon extends SiteProgram {
   private Injector cfgInjector;
   private Config config;
   private LogConfig logConfig;
+  private AuthConfig authConfig;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector webInjector;
@@ -399,6 +401,7 @@ public class Daemon extends SiteProgram {
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    authConfig = cfgInjector.getInstance(AuthConfig.class);
     indexType = IndexModule.getIndexType(cfgInjector);
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
@@ -554,7 +557,11 @@ public class Daemon extends SiteProgram {
     } else {
       modules.add(NoSshKeyCache.module());
     }
-    modules.add(new AuthTokenModule());
+    boolean useAuthTokenCache =
+        authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+            || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP;
+    modules.add(new AuthTokenModule(useAuthTokenCache));
+
     modules.add(
         new AbstractModule() {
           @Override

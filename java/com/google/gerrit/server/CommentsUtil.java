@@ -160,10 +160,12 @@ public class CommentsUtil {
             side,
             message,
             serverId,
-            unresolved);
-    c.parentUuid = parentUuid;
-    c.fixSuggestions = fixSuggestions;
-    currentUser.updateRealAccountId(c::setRealAuthor);
+            unresolved,
+            /* revId= */ null,
+            parentUuid,
+            /* tag= */ null,
+            fixSuggestions,
+            currentUser.realAccountId().orElse(null));
     return c;
   }
 

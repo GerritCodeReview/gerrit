@@ -17,9 +17,13 @@ package com.google.gerrit.entities.converter;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Comment.Range;
 import com.google.gerrit.entities.CommentRange;
+import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
@@ -41,10 +45,17 @@ public class HumanCommentProtoConverterTest {
             (short) 1,
             "message",
             "server",
-            /* unresolved= */ true);
-    orig.tag = "tag";
-    orig.setCommitId(VALID_OBJECT_ID);
-    orig.setRealAuthor(Account.id(271));
+            /* unresolved= */ true,
+            VALID_OBJECT_ID.getName(),
+            "parent uuid",
+            "tag",
+            ImmutableList.of(
+                new FixSuggestion(
+                    "fixId",
+                    "fixDesc",
+                    ImmutableList.of(
+                        new FixReplacement("fixPath", new Range(1, 2, 3, 4), "fixReplacement")))),
+            Account.id(314));
 
     HumanComment res = converter.fromProto(converter.toProto(orig));
 

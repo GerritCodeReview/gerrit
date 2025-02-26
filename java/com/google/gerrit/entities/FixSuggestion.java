@@ -14,15 +14,21 @@
 
 package com.google.gerrit.entities;
 
+import com.google.gerrit.common.ConvertibleToProto;
 import java.util.List;
 import java.util.Objects;
+import org.eclipse.jgit.annotations.NonNull;
 
+@ConvertibleToProto
 public final class FixSuggestion {
   public final String fixId;
   public final String description;
   public final List<FixReplacement> replacements;
 
-  public FixSuggestion(String fixId, String description, List<FixReplacement> replacements) {
+  public FixSuggestion(
+      @NonNull String fixId,
+      @NonNull String description,
+      @NonNull List<FixReplacement> replacements) {
     this.fixId = fixId;
     this.description = description;
     this.replacements = replacements;

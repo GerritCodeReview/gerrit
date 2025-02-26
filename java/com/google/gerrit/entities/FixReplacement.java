@@ -14,14 +14,18 @@
 
 package com.google.gerrit.entities;
 
+import com.google.gerrit.common.ConvertibleToProto;
 import java.util.Objects;
+import org.eclipse.jgit.annotations.NonNull;
 
+@ConvertibleToProto
 public final class FixReplacement {
   public final String path;
   public final Comment.Range range;
   public final String replacement;
 
-  public FixReplacement(String path, Comment.Range range, String replacement) {
+  public FixReplacement(
+      @NonNull String path, @NonNull Comment.Range range, @NonNull String replacement) {
     this.path = path;
     this.range = range;
     this.replacement = replacement;

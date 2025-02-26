@@ -15,13 +15,9 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static org.mockito.Mockito.doReturn;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,27 +29,16 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class AuthTokenVerifierTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
   private AuthTokenVerifier tokenVerifier;
-  @Mock private VersionedAuthTokens.Accessor tokenAccessor;
-  @Mock private ExternalIds externalIds;
+  @Mock private DirectAuthTokenAccessor tokenAccessor;
 
   @Before
   public void setUp() throws Exception {
-    tokenVerifier = new AuthTokenVerifier(tokenAccessor, externalIds);
     List<AuthToken> tokens =
         List.of(
             AuthToken.createWithPlainToken("id1", "hashedToken"),
             AuthToken.createWithPlainToken("id2", "another_Token"));
     doReturn(tokens).when(tokenAccessor).getTokens(ACCOUNT_ID);
-    doReturn(
-            ImmutableSet.of(
-                ExternalId.create(
-                    ExternalId.Key.create(SCHEME_USERNAME, "user", false),
-                    ACCOUNT_ID,
-                    null,
-                    HashedPassword.fromPassword("secret").encode(),
-                    null)))
-        .when(externalIds)
-        .byAccount(ACCOUNT_ID, SCHEME_USERNAME);
+    tokenVerifier = new AuthTokenVerifier(tokenAccessor);
   }
 
   @Test
@@ -62,10 +47,5 @@ public class AuthTokenVerifierTest {
     assertThat(tokenVerifier.checkToken(ACCOUNT_ID, "another_Token")).isTrue();
     assertThat(tokenVerifier.checkToken(ACCOUNT_ID, "invalid")).isFalse();
     assertThat(tokenVerifier.checkToken(ACCOUNT_ID, "another_token")).isFalse();
-  }
-
-  @Test
-  public void checkHttpPassword() {
-    assertThat(tokenVerifier.checkToken(ACCOUNT_ID, "secret")).isTrue();
   }
 }

@@ -86,6 +86,7 @@ public class AccountManager {
   private final SetInactiveFlag setInactiveFlag;
   private final ExternalIdFactory externalIdFactory;
   private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final AuthTokenCache tokenCache;
 
   @VisibleForTesting
   @Inject
@@ -103,7 +104,8 @@ public class AccountManager {
       GroupsUpdate.Factory groupsUpdateFactory,
       SetInactiveFlag setInactiveFlag,
       ExternalIdFactory externalIdFactory,
-      ExternalIdKeyFactory externalIdKeyFactory) {
+      ExternalIdKeyFactory externalIdKeyFactory,
+      AuthTokenCache tokenCache) {
     this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -121,6 +123,7 @@ public class AccountManager {
     this.setInactiveFlag = setInactiveFlag;
     this.externalIdFactory = externalIdFactory;
     this.externalIdKeyFactory = externalIdKeyFactory;
+    this.tokenCache = tokenCache;
   }
 
   /** Returns a user identified by this external identity string */
@@ -596,6 +599,14 @@ public class AccountManager {
             (a, u) -> {
               u.addExternalIds(newExtIds);
             });
+
+    // TODO(Thomas): Can be removed as soon as the HTTP password feature is removed
+    for (ExternalId extId : newExtIds) {
+      if (extId.isScheme(SCHEME_USERNAME) && extId.password() != null) {
+        tokenCache.evict(extId.accountId());
+        break;
+      }
+    }
   }
 
   /**
@@ -651,5 +662,13 @@ public class AccountManager {
                 u.setPreferredEmail(null);
               }
             });
+
+    // TODO(Thomas): Can be removed as soon as the HTTP password feature is removed
+    for (ExternalId extId : extIds) {
+      if (extId.isScheme(SCHEME_USERNAME) && extId.password() != null) {
+        tokenCache.evict(extId.accountId());
+        break;
+      }
+    }
   }
 }

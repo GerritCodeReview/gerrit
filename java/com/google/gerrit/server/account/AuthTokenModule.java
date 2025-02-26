@@ -17,8 +17,19 @@ package com.google.gerrit.server.account;
 import com.google.inject.AbstractModule;
 
 public class AuthTokenModule extends AbstractModule {
+  private final boolean useCache;
+
+  public AuthTokenModule(boolean useCache) {
+    this.useCache = useCache;
+  }
+
   @Override
   public void configure() {
-    bind(AuthTokenAccessor.class).to(DirectAuthTokenAccessor.class);
+    if (useCache) {
+      install(AuthTokenCache.module());
+      bind(AuthTokenAccessor.class).to(CachingAuthTokenAccessor.class);
+    } else {
+      bind(AuthTokenAccessor.class).to(DirectAuthTokenAccessor.class);
+    }
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -57,6 +58,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final Project.NameKey projectNameKey;
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
+  private final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private List<HumanComment> comments = new ArrayList<>();
   private ChangeMessage message;
@@ -92,6 +94,10 @@ public class PublishCommentsOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, UnprocessableEntityException, IOException,
           PatchListNotAvailableException, CommentsRejectedException {
+    logger.atInfo().log(
+        "Updating change %d at meta-ref %s",
+        ctx.getChange().getChangeId(), ctx.getNotes().getMetaId());
+
     user = ctx.getIdentifiedUser();
     comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
 
@@ -103,6 +109,9 @@ public class PublishCommentsOp implements BatchUpdateOp {
     //   2. Each ChangeUpdate results in 1 commit in NoteDb
     // We do it this way so that the execution results in 2 different commits in NoteDb
     ChangeUpdate changeUpdate = ctx.getDistinctUpdate(psId);
+    logger.atInfo().log(
+        "New ChangeUpdate %s for change %d", changeUpdate, ctx.getChange().getChangeId());
+
     publishCommentUtil.publish(ctx, changeUpdate, comments, null);
     return insertMessage(ctx, changeUpdate);
   }

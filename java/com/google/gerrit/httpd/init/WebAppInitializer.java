@@ -20,6 +20,7 @@ import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritAuthModule;
@@ -53,7 +54,11 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
+import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gerrit.server.account.AuthTokenModule;
+import com.google.gerrit.server.account.DirectAuthTokenAccessor;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
+import com.google.gerrit.server.account.NoAuthTokenCache;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
@@ -157,6 +162,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Injector dbInjector;
   private Injector cfgInjector;
   private Config config;
+  private AuthConfig authConfig;
   private Injector sysInjector;
   private Injector webInjector;
   private Injector sshInjector;
@@ -222,6 +228,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       dbInjector = createDbInjector();
       initIndexType();
       config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+      authConfig = cfgInjector.getInstance(AuthConfig.class);
       sysInjector = createSysInjector();
       if (!sshdOff()) {
         sshInjector = createSshInjector();
@@ -359,6 +366,21 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
     SshSessionFactoryInitializer.init();
     modules.add(SshKeyCacheImpl.module());
+
+    if (authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+        || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP) {
+      modules.add(new AuthTokenModule());
+    } else {
+      modules.add(
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(AuthTokenAccessor.class).to(DirectAuthTokenAccessor.class);
+              install(NoAuthTokenCache.module());
+            }
+          });
+    }
+
     modules.add(
         new AbstractModule() {
           @Override

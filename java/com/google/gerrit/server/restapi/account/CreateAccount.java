@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthTokenCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -80,6 +81,7 @@ public class CreateAccount
   private final GroupResolver groupResolver;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
+  private final AuthTokenCache tokenCache;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AccountLoader.Factory infoLoader;
   private final PluginSetContext<AccountExternalIdCreator> externalIdCreators;
@@ -94,6 +96,7 @@ public class CreateAccount
       GroupResolver groupResolver,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
+      AuthTokenCache tokenCache,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AccountLoader.Factory infoLoader,
       PluginSetContext<AccountExternalIdCreator> externalIdCreators,
@@ -105,6 +108,7 @@ public class CreateAccount
     this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
+    this.tokenCache = tokenCache;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
@@ -195,6 +199,10 @@ public class CreateAccount
       } catch (InvalidSshKeyException e) {
         throw new BadRequestException(e.getMessage());
       }
+    }
+
+    if (input.httpPassword != null) {
+      tokenCache.evict(accountId);
     }
 
     AccountLoader loader = infoLoader.create(true);

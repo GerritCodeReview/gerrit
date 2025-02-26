@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -48,7 +49,11 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequence.LightweightGroups;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gerrit.server.account.AuthTokenModule;
+import com.google.gerrit.server.account.DirectAuthTokenAccessor;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.NoAuthTokenCache;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
@@ -231,6 +236,14 @@ public class InMemoryModule extends FactoryModule {
     install(new SubscriptionGraphModule());
     install(new SuperprojectUpdateSubmissionListenerModule());
     install(new WorkQueueModule());
+
+    if (authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+        || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP) {
+      install(new AuthTokenModule());
+    } else {
+      bind(AuthTokenAccessor.class).to(DirectAuthTokenAccessor.class);
+      install(NoAuthTokenCache.module());
+    }
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

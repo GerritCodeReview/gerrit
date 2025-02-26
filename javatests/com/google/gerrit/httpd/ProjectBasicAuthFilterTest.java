@@ -35,8 +35,8 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthToken;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.AuthTokenVerifier;
-import com.google.gerrit.server.account.VersionedAuthTokens;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -89,7 +89,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Mock private WebSessionManager webSessionManager;
 
-  @Mock private VersionedAuthTokens.Accessor tokenAccessor;
+  @Mock private AuthTokenAccessor tokenAccessor;
 
   private WebSession webSession;
   private FakeHttpServletRequest req;
@@ -108,7 +108,7 @@ public class ProjectBasicAuthFilterTest {
     extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
     extIdFactory = new ExternalIdFactoryNoteDbImpl(extIdKeyFactory, authConfig);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
-    tokenVerifier = new AuthTokenVerifier(tokenAccessor, null);
+    tokenVerifier = new AuthTokenVerifier(tokenAccessor);
 
     authSuccessful =
         new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);

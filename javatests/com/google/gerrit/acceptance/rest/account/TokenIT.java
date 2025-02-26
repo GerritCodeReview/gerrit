@@ -16,10 +16,12 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.common.TokenInput;
-import com.google.gerrit.server.account.VersionedAuthTokens;
+import com.google.gerrit.server.account.AuthToken;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TokenIT extends AbstractDaemonTest {
-  @Inject VersionedAuthTokens.Accessor tokenAccessor;
+  @Inject AuthTokenAccessor tokenAccessor;
 
   private TokenInput tokenInput;
 
@@ -52,7 +54,7 @@ public class TokenIT extends AbstractDaemonTest {
     assertThat(createdToken.get("id").getAsString()).isEqualTo(tokenInput.id);
     assertThat(createdToken.get("token").getAsString()).isNotNull();
 
-    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isNotNull();
+    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isPresent();
   }
 
   @Test
@@ -90,7 +92,7 @@ public class TokenIT extends AbstractDaemonTest {
     assertThat(createdToken.get("id").getAsString()).isEqualTo(tokenInput.id);
     assertThat(createdToken.get("token").getAsString()).isEqualTo(tokenInput.token);
 
-    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isNotNull();
+    assertThat(tokenAccessor.getToken(user.id(), tokenInput.id)).isPresent();
   }
 
   @Test
@@ -118,7 +120,7 @@ public class TokenIT extends AbstractDaemonTest {
     userRestSession
         .delete(String.format("/accounts/%d/tokens/userToken1", user.id().get()))
         .assertNoContent();
-    assertThat(tokenAccessor.getToken(user.id(), "userToken1")).isNull();
+    assertThat(tokenAccessor.getToken(user.id(), "userToken1")).isEmpty();
   }
 
   @Test
@@ -135,11 +137,13 @@ public class TokenIT extends AbstractDaemonTest {
         .assertForbidden();
   }
 
-  private void addUserTokens() throws Exception {
-    tokenAccessor.addPlainToken(user.id(), "userToken1", "http-pass");
+  @CanIgnoreReturnValue
+  private AuthToken addUserTokens() throws Exception {
+    return tokenAccessor.addPlainToken(user.id(), "userToken1", "http-pass");
   }
 
-  private void addAdminTokens() throws Exception {
-    tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass");
+  @CanIgnoreReturnValue
+  private AuthToken addAdminTokens() throws Exception {
+    return tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass");
   }
 }

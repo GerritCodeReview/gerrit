@@ -69,7 +69,7 @@ public class InternalAuthBackend implements AuthBackend {
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!passwordVerifier.checkPassword(who.externalIds(), username, req.getPassword().get())) {
+    if (!passwordVerifier.checkPassword(username, req.getPassword().get())) {
       throw new InvalidCredentialsException();
     }
     return new AuthUser(AuthUser.UUID.create(username), username);

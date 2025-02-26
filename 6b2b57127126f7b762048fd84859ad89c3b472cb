@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f1260dc_8173c8e2",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-26T13:44:16Z",
+      "side": 1,
+      "message": "Should we update copy constructor as well?",
+      "range": {
+        "startLine": 246,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 3
+      },
+      "revId": "6b2b57127126f7b762048fd84859ad89c3b472cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c66d17_0ae2e524",
+        "filename": "java/com/google/gerrit/entities/converter/HumanCommentProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-26T13:44:16Z",
+      "side": 1,
+      "message": "nit: setters of proto fields in a Builder accept builder, so the build is not necessary.",
+      "range": {
+        "startLine": 106,
+        "startChar": 17,
+        "endLine": 106,
+        "endChar": 22
+      },
+      "revId": "6b2b57127126f7b762048fd84859ad89c3b472cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff9c6d7d_5ed2015f",
+        "filename": "proto/entities.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-26T13:44:16Z",
+      "side": 1,
+      "message": "Why did this definition move? It made sense before \"optional Range position_range \u003d 3;\"",
+      "range": {
+        "startLine": 454,
+        "startChar": 1,
+        "endLine": 464,
+        "endChar": 2
+      },
+      "revId": "6b2b57127126f7b762048fd84859ad89c3b472cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

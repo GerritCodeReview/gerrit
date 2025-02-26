@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c188ef_63f7cd34",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-02-26T17:13:37Z",
+      "side": 1,
+      "message": "`changeId` is Nullable, so you can\u0027t call `get()` without checking it for null first.",
+      "range": {
+        "startLine": 133,
+        "startChar": 35,
+        "endLine": 133,
+        "endChar": 49
+      },
+      "revId": "ee87c9ca2db354d612c394df098249086541f875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

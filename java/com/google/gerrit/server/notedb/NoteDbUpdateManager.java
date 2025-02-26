@@ -23,6 +23,7 @@ import static com.google.gerrit.server.logging.TraceContext.newTimer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -42,11 +43,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -89,6 +93,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> changesToDelete;
+  private final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
@@ -271,6 +276,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
           deleteChangeMessageRewriter.getRefName());
       rewriters.put(deleteChangeMessageRewriter.getRefName(), deleteChangeMessageRewriter);
     }
+    
+//    logger.atInfo().log("Add changeUpdate %s to NoteDbUpdateManager of repo %s\nCalled from: %s", update, changeRepo,
+//    		String.join("\n  at ", 
+//    		Arrays.asList(Thread.currentThread().getStackTrace()).stream().map(StackTraceElement::toString).collect(Collectors.toList())));
 
     changeUpdates.put(update.getRefName(), update);
   }
@@ -379,6 +388,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
 
     if (!dryrun) {
+        logger.atInfo().log("Execute BatchRefUpdate %s to NoteDbUpdateManager of repo %s", bru, changeRepo);
+
       RefUpdateUtil.executeChecked(bru, or.rw);
     }
     return bru;

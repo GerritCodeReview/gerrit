@@ -24,8 +24,11 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
+import com.google.common.flogger.FluentLogger;
+
 /** {@link RefCache} backed directly by a repository. */
 public class RepoRefCache implements RefCache {
+	private final static FluentLogger logger = FluentLogger.forEnclosingClass();
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
   private final Repository repo;
@@ -41,10 +44,13 @@ public class RepoRefCache implements RefCache {
   public Optional<ObjectId> get(String refName) throws IOException {
     Optional<ObjectId> id = ids.get(refName);
     if (id != null) {
+    	logger.atInfo().log("[%s] Getting cached SHA1: %s => %s", System.identityHashCode(ids), refName, id);
       return id;
     }
     Ref ref = refdb.exactRef(refName);
     id = Optional.ofNullable(ref).map(Ref::getObjectId);
+	logger.atInfo().log("[%s] Getting refdb SHA1: %s => %s", System.identityHashCode(ids), refName, id);
+
     ids.put(refName, id);
     return id;
   }

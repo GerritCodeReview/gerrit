@@ -247,7 +247,7 @@ export function createCommentThreads(comments: Comment[]) {
       range: comment.range,
       rootId: id(comment),
     };
-    if (!comment.line && !comment.range) {
+    if (isFileLevelComment(comment)) {
       newThread.line = FILE;
     }
     threads.push(newThread);
@@ -691,4 +691,8 @@ export function convertToCommentInput(comment: Comment): CommentInput {
     output.fix_suggestions = comment.fix_suggestions;
   }
   return output;
+}
+
+export function isFileLevelComment(comment: Comment) {
+  return !comment.line && !comment.range;
 }

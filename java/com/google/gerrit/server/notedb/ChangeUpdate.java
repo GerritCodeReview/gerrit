@@ -1021,4 +1021,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private static boolean isIllegalTopic(String topic) {
     return (topic != null && topic.contains("\""));
   }
+
+  @Override
+  public String toString() {
+    return "ChangeUpdate for change " + getChange();
+  }
 }

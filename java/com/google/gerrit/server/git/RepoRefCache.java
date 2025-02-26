@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.eclipse.jgit.lib.Repository;
 
 /** {@link RefCache} backed directly by a repository. */
 public class RepoRefCache implements RefCache {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
   private final Repository repo;
@@ -41,10 +43,15 @@ public class RepoRefCache implements RefCache {
   public Optional<ObjectId> get(String refName) throws IOException {
     Optional<ObjectId> id = ids.get(refName);
     if (id != null) {
+      logger.atInfo().log(
+          "[%s] Getting cached SHA1: %s => %s", System.identityHashCode(ids), refName, id);
       return id;
     }
     Ref ref = refdb.exactRef(refName);
     id = Optional.ofNullable(ref).map(Ref::getObjectId);
+    logger.atInfo().log(
+        "[%s] Getting refdb SHA1: %s => %s", System.identityHashCode(ids), refName, id);
+
     ids.put(refName, id);
     return id;
   }

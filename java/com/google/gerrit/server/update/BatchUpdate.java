@@ -507,6 +507,7 @@ public class BatchUpdate implements AutoCloseable {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     requireNonNull(op);
     ops.put(id, op);
+    logger.atInfo().log("BatchUpdate %s: adding op %s", this, op);
     return this;
   }
 

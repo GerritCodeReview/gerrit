@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -43,6 +44,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * objects that are jointly closed when invoking {@link #close}.
  */
 class OpenRepo implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   final Repository repo;
   final RevWalk rw;
   final ChainedReceiveCommands cmds;
@@ -138,6 +141,9 @@ class OpenRepo implements AutoCloseable {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
       ObjectId old = cmds.get(refName).orElse(ObjectId.zeroId());
+      logger.atInfo().log(
+          "Adding update for OpenRepo %s: refName=%s oldRev=%s", this, refName, old);
+
       // Only actually write to the ref if one of the updates explicitly allows
       // us to do so, i.e. it is known to represent a new change. This avoids
       // writing partial change meta if the change hasn't been backfilled yet.
@@ -183,6 +189,9 @@ class OpenRepo implements AutoCloseable {
                       + " Change-Id, then abandon this one.",
                   update.getId(), maxUpdates.get()));
         }
+        logger.atInfo().log(
+            "Updated for OpenRepo %s: refName=%s oldRev=%s => newRef=%s", this, refName, old, next);
+
         curr = next;
       }
       if (!old.equals(curr)) {

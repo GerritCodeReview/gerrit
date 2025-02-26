@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4448f97_081c01e9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9479e3b_2421aa98",
+      "range": {
+        "startLine": 1864,
+        "startChar": 0,
+        "endLine": 1864,
+        "endChar": 5
+      },
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfff5481_5cfd51b4",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46fe3e3e_c0332c5d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfff5481_5cfd51b4",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b2737d5_e5a17524",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-02-26T14:09:10Z",
       "side": 1,
       "message": "Drafts is a pretty generic term hence I would choose a more specific classname\n\n```suggestion\npublic class DraftCommentsCleanupRunner implements Runnable {\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45709ebe_ac43d4f0",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b2737d5_e5a17524",
       "range": {
         "startLine": 32,
         "startChar": 13,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d31b74_e0e8ff6b",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3162e40c_8de37dce",
+      "range": {
+        "startLine": 35,
+        "startChar": 41,
+        "endLine": 35,
+        "endChar": 54
+      },
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff31c1a7_198e05f7",
@@ -100,6 +190,24 @@
       "writtenOn": "2025-02-26T14:09:10Z",
       "side": 1,
       "message": "```suggestion\n      logger.atInfo().log(\"Starting draft comments cleanup\");\n```",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "617d6cc3_ca4994e0",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff31c1a7_198e05f7",
       "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -121,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8e5167_30ef02fa",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe99e46d_1da795cc",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d843e685_b8f1faed",
@@ -134,6 +260,24 @@
       "writtenOn": "2025-02-26T14:09:10Z",
       "side": 1,
       "message": "```suggestion\n      logger.atSevere().withCause(e).log(\"Draft comments cleanup error\");\n```",
+      "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79cebed6_da94cbeb",
+        "filename": "java/com/google/gerrit/server/change/DraftsCleanupRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-26T15:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d843e685_b8f1faed",
       "revId": "ecc3f8e09964fd263641b78428d0a63eb07b60d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

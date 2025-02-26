@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.VersionedAuthTokens;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -50,14 +50,14 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final VersionedAuthTokens.Accessor tokenAccessor;
+  private final AuthTokenAccessor tokenAccessor;
   private final EmailFactories emailFactories;
 
   @Inject
   DeleteToken(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      VersionedAuthTokens.Accessor tokenAccessor,
+      AuthTokenAccessor tokenAccessor,
       EmailFactories emailFactories) {
     this.self = self;
     this.permissionBackend = permissionBackend;

@@ -17,22 +17,18 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -46,80 +42,6 @@ import org.eclipse.jgit.lib.Repository;
  * format, where each token is a subsection.
  */
 public class VersionedAuthTokens extends VersionedMetaData {
-
-  /** Read/write authentication tokens by user ID. */
-  @Singleton
-  public static class Accessor {
-    private final GitRepositoryManager repoManager;
-    private final AllUsersName allUsersName;
-    private final VersionedAuthTokens.Factory authTokenFactory;
-    private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
-    private final IdentifiedUser.GenericFactory userFactory;
-
-    @Inject
-    Accessor(
-        GitRepositoryManager repoManager,
-        AllUsersName allUsersName,
-        VersionedAuthTokens.Factory authTokenFactory,
-        Provider<MetaDataUpdate.User> metaDataUpdateFactory,
-        IdentifiedUser.GenericFactory userFactory) {
-      this.repoManager = repoManager;
-      this.allUsersName = allUsersName;
-      this.authTokenFactory = authTokenFactory;
-      this.metaDataUpdateFactory = metaDataUpdateFactory;
-      this.userFactory = userFactory;
-    }
-
-    public List<AuthToken> getTokens(Account.Id accountId)
-        throws IOException, ConfigInvalidException {
-      return read(accountId).getTokens();
-    }
-
-    public AuthToken getToken(Account.Id accountId, String id)
-        throws IOException, ConfigInvalidException {
-      return read(accountId).getToken(id);
-    }
-
-    @CanIgnoreReturnValue
-    public synchronized AuthToken addPlainToken(Account.Id accountId, String id, String token)
-        throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-      String hashedToken = HashedPassword.fromPassword(token).encode();
-      return addToken(accountId, id, hashedToken);
-    }
-
-    @CanIgnoreReturnValue
-    private synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
-        throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-      VersionedAuthTokens authTokens = read(accountId);
-      AuthToken token = authTokens.addToken(id, hashedToken);
-      commit(authTokens);
-      return token;
-    }
-
-    public synchronized void deleteToken(Account.Id accountId, String id)
-        throws IOException, ConfigInvalidException {
-      VersionedAuthTokens authTokens = read(accountId);
-      if (authTokens.deleteToken(id)) {
-        commit(authTokens);
-      }
-    }
-
-    private VersionedAuthTokens read(Account.Id accountId)
-        throws IOException, ConfigInvalidException {
-      try (Repository git = repoManager.openRepository(allUsersName)) {
-        return authTokenFactory.create(accountId).load();
-      }
-    }
-
-    private void commit(VersionedAuthTokens authTokens) throws IOException {
-      try (MetaDataUpdate md =
-          metaDataUpdateFactory
-              .get()
-              .create(allUsersName, userFactory.create(authTokens.accountId))) {
-        authTokens.commit(md, false);
-      }
-    }
-  }
 
   public interface Factory {
     VersionedAuthTokens create(Account.Id accountId);
@@ -186,9 +108,9 @@ public class VersionedAuthTokens extends VersionedMetaData {
   }
 
   /** Returns all tokens. */
-  private List<AuthToken> getTokens() {
+  ImmutableList<AuthToken> getTokens() {
     checkLoaded();
-    return List.copyOf(tokens.values());
+    return ImmutableList.copyOf(tokens.values());
   }
 
   /**
@@ -198,7 +120,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
    * @return the token, <code>null</code> if there is no token with this id
    */
   @Nullable
-  private AuthToken getToken(String id) {
+  AuthToken getToken(String id) {
     checkLoaded();
     return tokens.get(id);
   }
@@ -211,7 +133,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
    * @return the new Token
    * @throws InvalidAuthTokenException if the token or its ID is invalid
    */
-  private AuthToken addToken(String id, String hashedToken) throws InvalidAuthTokenException {
+  AuthToken addToken(String id, String hashedToken) throws InvalidAuthTokenException {
     checkLoaded();
 
     AuthToken token = AuthToken.create(id, hashedToken);
@@ -244,7 +166,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
    * @return <code>true</code> if a token with this id was found and deleted, <code>false
    *     </code> if no token with the given id exists
    */
-  private boolean deleteToken(String id) {
+  boolean deleteToken(String id) {
     checkLoaded();
     return tokens.remove(id) != null;
   }

@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthTokenCache;
 import com.google.gerrit.server.account.SetInactiveFlag;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -75,6 +76,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Inject private AuthRequest.Factory authRequestFactory;
   @Inject private ExternalIdFactory externalIdFactory;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+  @Inject private AuthTokenCache tokenCache;
 
   @Test
   public void authenticateNewAccountWithEmail() throws Exception {
@@ -256,7 +258,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
             groupsUpdateFactory,
             setInactiveFlag,
             externalIdFactory,
-            externalIdKeyFactory));
+            externalIdKeyFactory,
+            tokenCache));
   }
 
   private void authenticateWithUsernameAndUpdateDisplayName(AccountManager am) throws Exception {

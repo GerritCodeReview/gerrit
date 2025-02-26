@@ -34,6 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthTokenCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -82,6 +83,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final EmailFactories emailFactories;
   private final ExternalIdFactory externalIdFactory;
   private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final AuthTokenCache tokenCache;
 
   @Inject
   PutHttpPassword(
@@ -91,7 +93,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       EmailFactories emailFactories,
       ExternalIdFactory externalIdFactory,
-      ExternalIdKeyFactory externalIdKeyFactory) {
+      ExternalIdKeyFactory externalIdKeyFactory,
+      AuthTokenCache tokenCache) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
@@ -99,6 +102,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     this.emailFactories = emailFactories;
     this.externalIdFactory = externalIdFactory;
     this.externalIdKeyFactory = externalIdKeyFactory;
+    this.tokenCache = tokenCache;
   }
 
   @Override
@@ -151,7 +155,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
                 u.updateExternalId(
                     externalIdFactory.createWithPassword(
                         extId.key(), extId.accountId(), extId.email(), newPassword)));
-
+    tokenCache.evict(extId.accountId());
     try {
       emailFactories
           .createOutgoingEmail(

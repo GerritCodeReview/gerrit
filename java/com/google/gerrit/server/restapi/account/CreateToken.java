@@ -34,8 +34,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthToken;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.InvalidAuthTokenException;
-import com.google.gerrit.server.account.VersionedAuthTokens;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -76,14 +76,14 @@ public class CreateToken
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final EmailFactories emailFactories;
-  private final VersionedAuthTokens.Accessor tokensAccessor;
+  private final AuthTokenAccessor tokensAccessor;
 
   @Inject
   CreateToken(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       EmailFactories emailFactories,
-      VersionedAuthTokens.Accessor tokensAccessor) {
+      AuthTokenAccessor tokensAccessor) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.emailFactories = emailFactories;

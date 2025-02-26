@@ -14,61 +14,29 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
-import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.account.HashedPassword;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.account.TokenCache;
+import com.google.gerrit.server.account.TokenCacheEntry;
 import com.google.inject.Inject;
-import java.util.Collection;
 
 /** Checks if a given username and password match a user's external IDs. */
 public class PasswordVerifier {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private final ExternalIdKeyFactory externalIdKeyFactory;
-
-  private AuthConfig authConfig;
+  private final TokenCache tokenCache;
 
   @Inject
-  public PasswordVerifier(ExternalIdKeyFactory externalIdKeyFactory, AuthConfig authConfig) {
-    this.externalIdKeyFactory = externalIdKeyFactory;
-    this.authConfig = authConfig;
+  public PasswordVerifier(TokenCache tokenCache) {
+    this.tokenCache = tokenCache;
   }
 
   /** Returns {@code true} if there is an external ID matching both the username and password. */
-  public boolean checkPassword(
-      Collection<ExternalId> externalIds, String username, @Nullable String password) {
+  public boolean checkPassword(String username, @Nullable String password) {
     if (password == null) {
       return false;
     }
 
-    for (ExternalId id : externalIds) {
-      // Only process the "username:$USER" entry, which is unique.
-      if (!id.isScheme(SCHEME_USERNAME)) {
-        continue;
-      }
-
-      if (!id.key().equals(externalIdKeyFactory.create(SCHEME_USERNAME, username))) {
-        if (!authConfig.isUserNameCaseInsensitiveMigrationMode()) {
-          continue;
-        }
-
-        if (!id.key().equals(externalIdKeyFactory.create(SCHEME_USERNAME, username, false))) {
-          continue;
-        }
-      }
-
-      String hashedStr = id.password();
-      if (!Strings.isNullOrEmpty(hashedStr)) {
-        try {
-          return HashedPassword.decode(hashedStr).checkPassword(password);
-        } catch (HashedPassword.DecoderException e) {
-          logger.atSevere().log("DecoderException for user %s: %s ", username, e.getMessage());
-          return false;
-        }
+    for (TokenCacheEntry token : tokenCache.get(username)) {
+      if (token.checkToken(password)) {
+        return true;
       }
     }
     return false;

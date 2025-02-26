@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e1d401b_25b8ec48",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-02-26T16:18:11Z",
+      "side": 1,
+      "message": "```suggestion\ndraft comments cleanup.\n```",
+      "range": {
+        "startLine": 1869,
+        "startChar": 0,
+        "endLine": 1869,
+        "endChar": 4
+      },
+      "revId": "57eded8006bee8f4b98e934cab9b665102d922bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

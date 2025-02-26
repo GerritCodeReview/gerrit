@@ -22,6 +22,30 @@
       },
       "revId": "a456367a37f582d1f87f6964c5fcac6345d54895",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c001beb8_19f67229",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-02-26T08:58:28Z",
+      "side": 1,
+      "message": "I tried doing that initially but gerrit build was failing and the other extensions like `java/com/google/gerrit/extensions/events/ChangeIndexedListener.java` and `java/com/google/gerrit/extensions/webui/DiffWebLink.java` are using Integer as well so went ahead with Integer.\n```\njava/com/google/gerrit/extensions/config/ExternalIncludedIn.java:19: error: symbol not found com.google.gerrit.entities.Change\nimport com.google.gerrit.entities.Change;\n       ^\njava/com/google/gerrit/extensions/config/ExternalIncludedIn.java:46: error: could not resolve Change.Id\n      @Nullable Change.Id changeNumber,\n                ^\nTarget //:gerrit failed to build\n```",
+      "parentUuid": "7416b558_a96912ed",
+      "range": {
+        "startLine": 82,
+        "startChar": 41,
+        "endLine": 82,
+        "endChar": 48
+      },
+      "revId": "a456367a37f582d1f87f6964c5fcac6345d54895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

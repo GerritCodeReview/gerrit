@@ -33,7 +33,7 @@ public class AuthTokenVerifierTest {
           AuthToken.createWithPlainToken("id1", "hashedToken"),
           AuthToken.createWithPlainToken("id2", "another_Token"));
   private AuthTokenVerifier tokenVerifier;
-  @Mock private VersionedAuthTokens.Accessor tokenAccessor;
+  @Mock private AuthTokenAccessor tokenAccessor;
 
   @Before
   public void setUp() throws Exception {

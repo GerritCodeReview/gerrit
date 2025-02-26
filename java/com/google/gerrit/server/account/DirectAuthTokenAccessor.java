@@ -69,10 +69,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
       logger.atSevere().withCause(e).log("Error reading auth tokens for account %s", accountId);
       throw new StorageException(e);
     }
-    Optional<AuthToken> legacyHttpPassword = getLegacyHttpPassword(accountId);
-    return legacyHttpPassword.isPresent()
-        ? ImmutableList.of(legacyHttpPassword.get())
-        : ImmutableList.of();
+    return fallBackToLegacyHttpPassword(accountId);
   }
 
   @Override
@@ -131,24 +128,24 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   }
 
   @Deprecated
-  Optional<AuthToken> getLegacyHttpPassword(Account.Id accountId) {
+  ImmutableList<AuthToken> fallBackToLegacyHttpPassword(Account.Id accountId) {
     AccountState accountState = accountCache.getEvenIfMissing(accountId);
     Optional<ExternalId> optUser =
         accountState.externalIds().stream()
             .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
             .findFirst();
     if (optUser.isEmpty()) {
-      return Optional.empty();
+      return ImmutableList.of();
     }
     ExternalId user = optUser.get();
     String password = user.password();
     if (password != null) {
       try {
-        return Optional.of(AuthToken.create("legacy", password));
+        return ImmutableList.of(AuthToken.create("legacy", password));
       } catch (InvalidAuthTokenException e1) {
         // Can be ignored because the token ID is hardcoded.
       }
     }
-    return Optional.empty();
+    return ImmutableList.of();
   }
 }

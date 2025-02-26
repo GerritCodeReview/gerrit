@@ -18,10 +18,12 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-public class AuthTokenModule extends FactoryModule {
+public class CachingAuthTokenModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    install(AuthTokenCache.module());
+    factory(CachingAuthTokenAccessor.Factory.class);
     factory(HttpPasswordFallbackAuthTokenAccessor.Factory.class);
   }
 
@@ -29,7 +31,8 @@ public class AuthTokenModule extends FactoryModule {
   @Singleton
   public AuthTokenAccessor createAuthTokenAccessor(
       HttpPasswordFallbackAuthTokenAccessor.Factory fallbackFactory,
+      CachingAuthTokenAccessor.Factory cachingFactory,
       DirectAuthTokenAccessor directAccessor) {
-    return fallbackFactory.create(directAccessor);
+    return fallbackFactory.create(cachingFactory.create(directAccessor));
   }
 }

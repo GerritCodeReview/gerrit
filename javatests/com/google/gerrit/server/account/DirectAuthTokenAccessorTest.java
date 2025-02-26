@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import java.time.Instant;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,12 +36,14 @@ public class DirectAuthTokenAccessorTest {
   @Mock private VersionedAuthTokens versionedAuthTokens;
   @Mock private VersionedAuthTokens.Factory authTokenFactory;
   @Mock private AccountCache accountCache;
-  private DirectAuthTokenAccessor tokenAccessor;
+  private HttpPasswordFallbackAuthTokenAccessor tokenAccessor;
   private ImmutableList<AuthToken> tokens;
 
   @Before
   public void setUp() throws Exception {
-    tokenAccessor = new DirectAuthTokenAccessor(accountCache, null, authTokenFactory, null, null);
+    tokenAccessor =
+        new HttpPasswordFallbackAuthTokenAccessor(
+            accountCache, new DirectAuthTokenAccessor(null, authTokenFactory, null, null));
     tokens =
         ImmutableList.of(
             AuthToken.createWithPlainToken("id1", "hashedToken"),
@@ -81,7 +84,7 @@ public class DirectAuthTokenAccessorTest {
   @Test
   public void getTokensReturnsHttpPasswordIfNoAuthTokenExists() throws Exception {
     doReturn(ImmutableList.of()).when(versionedAuthTokens).getTokens();
-    ImmutableList<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
+    List<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
     assertThat(result).hasSize(1);
     assertThat(result.get(0))
         .isEqualTo(AuthToken.create(DirectAuthTokenAccessor.LEGACY_ID, "secret"));
@@ -91,7 +94,7 @@ public class DirectAuthTokenAccessorTest {
   public void getTokensReturnsEmptyListIfNeitherTokensOrPasswordExists() throws Exception {
     doReturn(ImmutableList.of()).when(versionedAuthTokens).getTokens();
     doReturn(AccountState.forAccount(account)).when(accountCache).getEvenIfMissing(ACCOUNT_ID);
-    ImmutableList<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
+    List<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
     assertThat(result).hasSize(0);
   }
 }

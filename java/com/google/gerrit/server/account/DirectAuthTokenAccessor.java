@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
@@ -38,7 +35,6 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String LEGACY_ID = "legacy";
 
-  private final AccountCache accountCache;
   private final AllUsersName allUsersName;
   private final VersionedAuthTokens.Factory authTokenFactory;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
@@ -46,12 +42,10 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
 
   @Inject
   DirectAuthTokenAccessor(
-      AccountCache accountCache,
       AllUsersName allUsersName,
       VersionedAuthTokens.Factory authTokenFactory,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       IdentifiedUser.GenericFactory userFactory) {
-    this.accountCache = accountCache;
     this.allUsersName = allUsersName;
     this.authTokenFactory = authTokenFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -61,15 +55,11 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   @Override
   public ImmutableList<AuthToken> getTokens(Account.Id accountId) {
     try {
-      ImmutableList<AuthToken> tokens = readFromNoteDb(accountId).getTokens();
-      if (!tokens.isEmpty()) {
-        return tokens;
-      }
+      return readFromNoteDb(accountId).getTokens();
     } catch (IOException | ConfigInvalidException e) {
       logger.atSevere().withCause(e).log("Error reading auth tokens for account %s", accountId);
       throw new StorageException(e);
     }
-    return fallBackToLegacyHttpPassword(accountId);
   }
 
   @Override
@@ -131,27 +121,5 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
         metaDataUpdateFactory.get().create(allUsersName, userFactory.create(accountId))) {
       authTokens.commit(md, false);
     }
-  }
-
-  @Deprecated
-  private ImmutableList<AuthToken> fallBackToLegacyHttpPassword(Account.Id accountId) {
-    AccountState accountState = accountCache.getEvenIfMissing(accountId);
-    Optional<ExternalId> optUser =
-        accountState.externalIds().stream()
-            .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
-            .findFirst();
-    if (optUser.isEmpty()) {
-      return ImmutableList.of();
-    }
-    ExternalId user = optUser.get();
-    String password = user.password();
-    if (password != null) {
-      try {
-        return ImmutableList.of(AuthToken.create(LEGACY_ID, password));
-      } catch (InvalidAuthTokenException e1) {
-        // Can be ignored because the token ID is hardcoded.
-      }
-    }
-    return ImmutableList.of();
   }
 }

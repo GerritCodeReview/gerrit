@@ -34,6 +34,9 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.Token;
+import com.google.gerrit.server.account.TokenCacheEntry;
+import com.google.gerrit.server.account.TokenCacheImpl;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -47,6 +50,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -86,6 +90,8 @@ public class ProjectBasicAuthFilterTest {
 
   @Mock private WebSessionManager webSessionManager;
 
+  @Mock private TokenCacheImpl tokenCache;
+
   private WebSession webSession;
   private FakeHttpServletRequest req;
   private HttpServletResponse res;
@@ -103,7 +109,7 @@ public class ProjectBasicAuthFilterTest {
     extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
     extIdFactory = new ExternalIdFactoryNoteDbImpl(extIdKeyFactory, authConfig);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
-    pwdVerifier = new PasswordVerifier(extIdKeyFactory, authConfig);
+    pwdVerifier = new PasswordVerifier(tokenCache);
 
     authSuccessful =
         new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);
@@ -115,6 +121,16 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSessionValue)
         .when(webSessionManager)
         .createVal(any(), any(), eq(false), any(), any(), any());
+    doReturn(
+            List.of(
+                new TokenCacheEntry(
+                    AUTH_ACCOUNT_ID,
+                    new Token(
+                        extIdFactory
+                            .createUsername(AUTH_USER, AUTH_ACCOUNT_ID, AUTH_PASSWORD)
+                            .password()))))
+        .when(tokenCache)
+        .get(AUTH_USER);
   }
 
   @Test

@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -49,6 +50,8 @@ import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequence.LightweightGroups;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.NoTokenCache;
+import com.google.gerrit.server.account.TokenCacheImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
@@ -231,6 +234,13 @@ public class InMemoryModule extends FactoryModule {
     install(new SubscriptionGraphModule());
     install(new SuperprojectUpdateSubmissionListenerModule());
     install(new WorkQueueModule());
+
+    if (authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+        || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP) {
+      install(TokenCacheImpl.module());
+    } else {
+      install(NoTokenCache.module());
+    }
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

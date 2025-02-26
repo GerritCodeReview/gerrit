@@ -161,7 +161,7 @@ class ProjectBasicAuthFilter implements Filter {
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
-      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
+      if (passwordVerifier.checkPassword(username, password)) {
         logger.atFine().log(
             "HTTP:%s %s username/password authentication succeeded",
             req.getMethod(), req.getRequestURI());
@@ -183,7 +183,7 @@ class ProjectBasicAuthFilter implements Filter {
           "HTTP:%s %s Realm authentication succeeded", req.getMethod(), req.getRequestURI());
       return true;
     } catch (NoSuchUserException e) {
-      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
+      if (passwordVerifier.checkPassword(username, password)) {
         return succeedAuthentication(who, null);
       }
       logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(username, req));

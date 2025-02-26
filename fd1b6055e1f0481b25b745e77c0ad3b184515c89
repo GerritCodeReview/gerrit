@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0193a976_f3797cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-26T17:29:57Z",
+      "side": 1,
+      "message": "an element should be able to \"Allow\" propagation\n\nWhat does it mean for \"ESC\" to allow something\n\nIs the statement supposed to mean that GrReplyDialog would allow propagation of the \"ESC\" event (I assume to GrComment?)",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1e560c2_594b2874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-26T17:29:57Z",
+      "side": 1,
+      "message": "unclear what \"it\" refers to here",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c3aec7_3dc400aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-26T17:29:57Z",
+      "side": 1,
+      "message": "same with this phrasing\n\nThe restoration is done by some component and not the \"key\"\n\nWhich component is that? Ideally link to the code where it\u0027s happening as well.",
+      "range": {
+        "startLine": 12,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c9ffc0f_5c2c03cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-26T17:29:57Z",
+      "side": 1,
+      "message": "why was this added?\n\nI see that you mention later whether it\u0027s useful so I\u0027m curious what the motivation behind this change was\n\nCan we also clean up this feature?",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff31e65f_ec31a946",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2651,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-26T17:29:57Z",
+      "side": 1,
+      "message": "should this be \"Text is not restored when empty patchset level comment is cancelled\"?\n\nIIUC the \"bug\" is a WAI feature that pressing Esc when PS level comment is empty gets restored when it shouldn\u0027t?",
+      "range": {
+        "startLine": 2651,
+        "startChar": 10,
+        "endLine": 2651,
+        "endChar": 79
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -42,6 +42,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -130,7 +131,11 @@ public class IncludedIn {
           ext -> {
             ListMultimap<String, String> extIncludedIns =
                 ext.getIncludedIn(
-                    project.get(), changeId.get(), rev.name(), filteredBranches, filteredTags);
+                    project.get(),
+                    Optional.ofNullable(changeId).map(Change.Id::get).orElse(null),
+                    rev.name(),
+                    filteredBranches,
+                    filteredTags);
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }

@@ -369,7 +369,7 @@ export class GrChangeMetadata extends LitElement {
       link
       class="show-all-button"
       @click=${this.onShowAllClick}
-      >${this.showAllSections ? 'Show less' : 'Show all'}
+      >${this.showAllSections ? 'Show Less' : 'Show All'}
       <gr-icon icon="expand_more" ?hidden=${this.showAllSections}></gr-icon>
       <gr-icon icon="expand_less" ?hidden=${!this.showAllSections}></gr-icon>
     </gr-button>`;
@@ -768,7 +768,6 @@ export class GrChangeMetadata extends LitElement {
           !this.hashtagReadOnly,
           () => html`
             <gr-editable-label
-              uppercase
               labelText="Add a hashtag"
               .placeholder=${this.computeHashtagPlaceholder()}
               .readOnly=${this.hashtagReadOnly}

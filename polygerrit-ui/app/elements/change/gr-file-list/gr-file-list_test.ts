@@ -156,7 +156,7 @@ suite('gr-file-list tests', () => {
               role="button"
               tabindex="0"
             >
-              Show -200 more
+              Show -200 More
             </gr-button>
             <gr-tooltip-content title="">
               <gr-button
@@ -167,7 +167,7 @@ suite('gr-file-list tests', () => {
                 role="button"
                 tabindex="0"
               >
-                Show all 0 files
+                Show All 0 Files
               </gr-button>
             </gr-tooltip-content>
           </div>
@@ -452,11 +452,11 @@ suite('gr-file-list tests', () => {
           element,
           '#incrementButton'
         ).textContent!.trim(),
-        'Show 50 more'
+        'Show 50 More'
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#showAllButton').textContent!.trim(),
-        'Show all 250 files'
+        'Show All 250 Files'
       );
 
       queryAndAssert<GrButton>(element, '#showAllButton').click();
@@ -1704,7 +1704,7 @@ suite('gr-file-list tests', () => {
         normalize({}, 'file2.txt'),
         normalize({}, 'file3.txt'),
       ];
-      assert.equal(element.computeShowAllText(), 'Show all 3 files');
+      assert.equal(element.computeShowAllText(), 'Show All 3 Files');
 
       // Files with commit message - should exclude from count
       element.files = [
@@ -1712,11 +1712,11 @@ suite('gr-file-list tests', () => {
         normalize({}, 'file1.txt'),
         normalize({}, 'file2.txt'),
       ];
-      assert.equal(element.computeShowAllText(), 'Show all 2 files');
+      assert.equal(element.computeShowAllText(), 'Show All 2 Files');
 
       // Only commit message file
       element.files = [normalize({}, '/COMMIT_MSG')];
-      assert.equal(element.computeShowAllText(), 'Show all 0 files');
+      assert.equal(element.computeShowAllText(), 'Show All 0 Files');
     });
   });
 

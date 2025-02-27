@@ -219,7 +219,7 @@ export class GrEditPreferences extends LitElement {
           id="saveEditPrefs"
           @click=${this.handleSaveEditPreferences}
           ?disabled=${!this.hasUnsavedChanges()}
-          >Save changes</gr-button
+          >Save Changes</gr-button
         >
       </fieldset>
     `;

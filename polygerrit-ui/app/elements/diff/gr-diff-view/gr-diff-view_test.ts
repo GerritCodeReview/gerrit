@@ -298,7 +298,7 @@ suite('gr-diff-view tests', () => {
                     tabindex="0"
                     title="Toggle blame (shortcut: b)"
                   >
-                    Show blame
+                    Show Blame
                   </gr-button>
                 </span>
                 <span class="separator"> </span>
@@ -310,7 +310,7 @@ suite('gr-diff-view tests', () => {
                     tabindex="0"
                     title="Edit current file"
                   >
-                    edit
+                    Edit
                   </gr-button>
                 </span>
                 <span class="separator"> </span>

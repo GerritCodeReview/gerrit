@@ -1207,7 +1207,7 @@ export class GrChecksResults extends LitElement {
           <div class="right">
             <div class="goToLatest">
               <gr-button @click=${this.goToLatestPatchset} link
-                >Go to latest patchset</gr-button
+                >Go To Latest Patchset</gr-button
               >
             </div>
             ${when(

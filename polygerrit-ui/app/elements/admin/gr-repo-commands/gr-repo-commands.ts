@@ -136,7 +136,7 @@ export class GrRepoCommands extends LitElement {
                   this.createNewChange();
                 }}
               >
-                Create change
+                Create Change
               </gr-button>
             </div>
             <h2 class="heading-2">Edit repo config</h2>
@@ -156,7 +156,7 @@ export class GrRepoCommands extends LitElement {
                   this.handleEditRepoConfig();
                 }}
               >
-                Edit repo config
+                Edit Repo Config
               </gr-button>
             </div>
             ${this.renderRepoGarbageCollector()}

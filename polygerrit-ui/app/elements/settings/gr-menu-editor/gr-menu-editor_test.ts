@@ -226,7 +226,7 @@ suite('gr-menu-editor tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
             <gr-button
               aria-disabled="false"

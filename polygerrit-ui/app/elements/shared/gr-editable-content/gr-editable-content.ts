@@ -357,7 +357,7 @@ export class GrEditableContent extends LitElement {
                   this.commitCollapsed,
                   () => html`<gr-icon icon="expand_more" small></gr-icon>`
                 )}
-                <span>${this.commitCollapsed ? 'Show all' : 'Show less'}</span>
+                <span>${this.commitCollapsed ? 'Show All' : 'Show Less'}</span>
               </div>
             </gr-button>
             <div class="flex-space"></div>

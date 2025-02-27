@@ -147,7 +147,7 @@ export class GrSshEditor extends LitElement {
           <gr-button
             @click=${() => this.save()}
             ?disabled=${!this.hasUnsavedChanges}
-            >Save changes</gr-button
+            >Save Changes</gr-button
           >
         </fieldset>
         <fieldset>
@@ -170,7 +170,7 @@ export class GrSshEditor extends LitElement {
             link=""
             ?disabled=${!this.newKey.length}
             @click=${() => this.handleAddKey()}
-            >Add new SSH key</gr-button
+            >Add New SSH Key</gr-button
           >
         </fieldset>
       </div>
@@ -186,7 +186,7 @@ export class GrSshEditor extends LitElement {
           link=""
           @click=${(e: Event) => this.showKey(e)}
           data-index=${index}
-          >Click to View</gr-button
+          >Click To View</gr-button
         >
       </td>
       <td>

@@ -176,7 +176,7 @@ suite('gr-repo-access tests', () => {
                 role="button"
                 tabindex="0"
               >
-                Save for review
+                Save For Review
               </gr-button>
             </div>
           </div>

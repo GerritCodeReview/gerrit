@@ -51,7 +51,7 @@ suite('gr-repo-commands tests', () => {
               </div>
               <div>
                 <gr-button aria-disabled="false" role="button" tabindex="0">
-                  Create change
+                  Create Change
                 </gr-button>
               </div>
               <h2 class="heading-2">Edit repo config</h2>
@@ -71,7 +71,7 @@ suite('gr-repo-commands tests', () => {
                   role="button"
                   tabindex="0"
                 >
-                  Edit repo config
+                  Edit Repo Config
                 </gr-button>
               </div>
               <gr-endpoint-decorator name="repo-command">

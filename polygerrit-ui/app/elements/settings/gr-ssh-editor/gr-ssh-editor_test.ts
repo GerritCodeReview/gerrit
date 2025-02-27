@@ -77,7 +77,7 @@ suite('gr-ssh-editor tests', () => {
                       role="button"
                       tabindex="0"
                     >
-                      Click to View
+                      Click To View
                     </gr-button>
                   </td>
                   <td>
@@ -107,7 +107,7 @@ suite('gr-ssh-editor tests', () => {
                       role="button"
                       tabindex="0"
                     >
-                      Click to View
+                      Click To View
                     </gr-button>
                   </td>
                   <td>
@@ -158,7 +158,7 @@ suite('gr-ssh-editor tests', () => {
               role="button"
               tabindex="-1"
             >
-              Save changes
+              Save Changes
             </gr-button>
           </fieldset>
           <fieldset>
@@ -182,7 +182,7 @@ suite('gr-ssh-editor tests', () => {
               role="button"
               tabindex="-1"
             >
-              Add new SSH key
+              Add New SSH Key
             </gr-button>
           </fieldset>
         </div>

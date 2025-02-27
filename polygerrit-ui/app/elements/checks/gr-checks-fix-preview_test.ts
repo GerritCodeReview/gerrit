@@ -62,7 +62,7 @@ suite('gr-checks-fix-preview test', () => {
               secondary=""
               tabindex="-1"
             >
-              Show fix side-by-side
+              Show Fix Side-By-Side
             </gr-button>
             <gr-button
               class="applyFix"
@@ -74,7 +74,7 @@ suite('gr-checks-fix-preview test', () => {
               tabindex="-1"
               title="Fix is still loading ..."
             >
-              Apply fix
+              Apply Fix
             </gr-button>
           </div>
         </div>
@@ -162,7 +162,7 @@ suite('gr-checks-fix-preview test', () => {
               secondary=""
               tabindex="0"
             >
-              Show fix side-by-side
+              Show Fix Side-By-Side
             </gr-button>
             <gr-button
               aria-disabled="false"
@@ -173,7 +173,7 @@ suite('gr-checks-fix-preview test', () => {
               tabindex="0"
               title=""
             >
-              Apply fix
+              Apply Fix
             </gr-button>
           </div>
         </div>

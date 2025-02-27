@@ -2327,7 +2327,7 @@ export class GrFileList extends LitElement {
       this.fileListIncrement,
       this.files.length - this.numFilesShown
     );
-    return `Show ${text} more`;
+    return `Show ${text} More`;
   }
 
   // Private but used in tests.
@@ -2336,7 +2336,7 @@ export class GrFileList extends LitElement {
     const fileCount = this.files.filter(
       f => f.__path !== SpecialFilePath.COMMIT_MESSAGE
     ).length;
-    return `Show all ${fileCount} files`;
+    return `Show All ${fileCount} Files`;
   }
 
   private computeWarnShowAll() {

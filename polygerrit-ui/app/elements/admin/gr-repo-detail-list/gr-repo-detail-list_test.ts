@@ -155,7 +155,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -222,7 +222,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -291,7 +291,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -360,7 +360,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -429,7 +429,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -498,7 +498,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -567,7 +567,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -636,7 +636,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -705,7 +705,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -774,7 +774,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -843,7 +843,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -912,7 +912,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -981,7 +981,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1050,7 +1050,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1119,7 +1119,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1188,7 +1188,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1257,7 +1257,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1326,7 +1326,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1395,7 +1395,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1464,7 +1464,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1533,7 +1533,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1602,7 +1602,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1671,7 +1671,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1740,7 +1740,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1809,7 +1809,7 @@ suite('gr-repo-detail-list', () => {
                           role="button"
                           tabindex="0"
                         >
-                          edit
+                          Edit
                         </gr-button>
                         <iron-input class="editItem">
                           <input />
@@ -1997,7 +1997,7 @@ suite('gr-repo-detail-list', () => {
           'none'
         );
 
-        // The revision and edit button are visible.
+        // The revision and Edit button are visible.
         assert.notEqual(getComputedStyle(revisionWithEditing).display, 'none');
         assert.notEqual(getComputedStyle(editBtn).display, 'none');
 
@@ -2013,7 +2013,7 @@ suite('gr-repo-detail-list', () => {
 
         editBtn.click();
         await element.updateComplete;
-        // The revision and edit button are not visible.
+        // The revision and Edit button are not visible.
         assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
         assert.equal(getComputedStyle(editBtn).display, 'none');
 

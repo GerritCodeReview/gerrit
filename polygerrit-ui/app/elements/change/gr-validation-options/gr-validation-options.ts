@@ -11,6 +11,7 @@ import {
   ValidationOptionInfo,
 } from '../../../api/rest-api';
 import {repeat} from 'lit/directives/repeat.js';
+import {capitalizeFirstLetter} from '../../../utils/string-util';
 
 @customElement('gr-validation-options')
 export class GrValidationOptions extends LitElement {
@@ -56,7 +57,7 @@ export class GrValidationOptions extends LitElement {
           .checked=${!!this.isOptionSelected.get(option.name)}
           @click=${() => this.toggleCheckbox(option)}
         />
-        ${option.description}
+        ${capitalizeFirstLetter(option.description)}
       </label>
     `;
   }

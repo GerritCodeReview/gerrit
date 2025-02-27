@@ -212,7 +212,7 @@ public class AccountManager {
     AuthResult res = link(extAccId, who);
     accountsUpdateProvider
         .get()
-        .update(
+        .updateForUserManagementRequests(
             "remove existing LDAP externalId with matching e-mail",
             extAccId,
             u -> {
@@ -518,7 +518,7 @@ public class AccountManager {
 
     accountsUpdateProvider
         .get()
-        .update(
+        .updateForUserManagementRequests(
             "Update External IDs on Update Link",
             to,
             (a, u) -> {
@@ -578,7 +578,7 @@ public class AccountManager {
 
     accountsUpdateProvider
         .get()
-        .update(
+        .updateForUserManagementRequests(
             "Unlink External ID" + (extIds.size() > 1 ? "s" : ""),
             from,
             (a, u) -> {

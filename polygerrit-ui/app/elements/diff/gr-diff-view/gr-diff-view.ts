@@ -1145,6 +1145,7 @@ export class GrDiffView extends LitElement {
   }
 
   private renderShowEntireFileButton() {
+    if (isImageDiff(this.diff) || isMagicPath(this.path)) return;
     return html`<gr-button
       link=""
       title=${this.createTitle(

@@ -62,6 +62,7 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
+import com.google.gerrit.server.account.AuthTokenModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
@@ -562,6 +563,7 @@ public class Daemon extends SiteProgram {
     } else {
       modules.add(NoSshKeyCache.module());
     }
+    modules.add(new AuthTokenModule());
     modules.add(
         new AbstractModule() {
           @Override

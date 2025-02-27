@@ -1,4 +1,4 @@
-// Copyright (C) 2021 The Android Open Source Project
+// Copyright (C) 2025 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.inject.AbstractModule;
+public class InvalidAuthTokenException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-public class AccountModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(AuthRequest.Factory.class);
-    bind(AuthTokenVerifier.class);
+  public InvalidAuthTokenException(String message) {
+    super(message);
+  }
+
+  public InvalidAuthTokenException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

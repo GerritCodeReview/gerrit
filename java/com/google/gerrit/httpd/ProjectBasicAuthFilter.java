@@ -33,8 +33,8 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthTokenVerifier;
 import com.google.gerrit.server.account.AuthenticationFailedException;
-import com.google.gerrit.server.account.externalids.PasswordVerifier;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
@@ -77,7 +77,7 @@ class ProjectBasicAuthFilter implements Filter {
   private final AccountManager accountManager;
   private final AuthConfig authConfig;
   private final AuthRequest.Factory authRequestFactory;
-  private final PasswordVerifier passwordVerifier;
+  private final AuthTokenVerifier tokenVerifier;
 
   @Inject
   ProjectBasicAuthFilter(
@@ -86,13 +86,13 @@ class ProjectBasicAuthFilter implements Filter {
       AccountManager accountManager,
       AuthConfig authConfig,
       AuthRequest.Factory authRequestFactory,
-      PasswordVerifier passwordVerifier) {
+      AuthTokenVerifier tokenVerifier) {
     this.session = session;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
     this.authConfig = authConfig;
     this.authRequestFactory = authRequestFactory;
-    this.passwordVerifier = passwordVerifier;
+    this.tokenVerifier = tokenVerifier;
   }
 
   @Override
@@ -161,7 +161,7 @@ class ProjectBasicAuthFilter implements Filter {
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
-      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
+      if (tokenVerifier.checkToken(who.account().id(), password)) {
         logger.atFine().log(
             "HTTP:%s %s username/password authentication succeeded",
             req.getMethod(), req.getRequestURI());
@@ -183,7 +183,7 @@ class ProjectBasicAuthFilter implements Filter {
           "HTTP:%s %s Realm authentication succeeded", req.getMethod(), req.getRequestURI());
       return true;
     } catch (NoSuchUserException e) {
-      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
+      if (tokenVerifier.checkToken(who.account().id(), password)) {
         return succeedAuthentication(who, null);
       }
       logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(username, req));

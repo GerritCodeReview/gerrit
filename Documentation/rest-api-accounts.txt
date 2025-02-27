@@ -581,6 +581,95 @@ Deletes the HTTP password of an account.
   HTTP/1.1 204 No Content
 ----
 
+[[create-token]]
+=== Create Authentication token
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/tokens/\{token-id\}'
+--
+
+Creates a new token for an account. The token is usually generated.
+Administrators can also set a specific token for an account.
+
+The options for setting the token must be provided in the
+request body inside a link:#auth-token-input[AuthTokenInput] entity.
+
+The account must have a username.
+The token-id must be unique among other token-ids used by the account. It has to
+start with a letter and must only contain upper- or lowercase letters, digits,
+`-` or `_`.
+
+.Request
+----
+  PUT /accounts/self/tokens/example HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+As response a link:#auth-token-info[AuthTokenInfo] containing the new token
+is returned. Note, that this is the only time the plain text token
+will be returned by Gerrit.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "example",
+    "token": "someRandomToken"
+  }
+----
+
+[[get-tokens]]
+=== List Authentication Tokens
+--
+'GET /accounts/link:#account-id[\{account-id\}]/tokens'
+--
+
+Lists the token ids of an account as a list of link:#auth-token-info[AuthTokenInfos].
+The plain text token will never be returned.
+
+.Request
+----
+  GET /accounts/self/tokens HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+        "id": "example"
+    },
+    {
+        "id": "another"
+    }
+  ]
+----
+
+[[delete-token]]
+=== Delete Authentication Token
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]/tokens/\{token-id\}'
+--
+
+Deletes the token with the given `token-id` of an account.
+
+.Request
+----
+  DELETE /accounts/self/tokens/example HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-oauth-token]]
 === Get OAuth Access Token
 --
@@ -2775,6 +2864,32 @@ The new HTTP password. Only Gerrit administrators may set the HTTP
 password directly. +
 If empty or not set and `generate` is false or not set, the HTTP
 password is deleted.
+|============================
+
+[[auth-token-input]]
+=== AuthTokenInput
+The `AuthTokenInput` entity contains information for setting/generating
+an authentication token.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`id`           |If not set, the id in the URL will be used.|
+Must be the same as the id used in the URL.
+|`token`        |optional|
+The new token. Only Gerrit administrators may set the token directly.
+|============================
+
+[[auth-token-info]]
+=== AuthTokenInfo
+The `AuthTokenInfo` entity contains information about an authentication token.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`id`           ||The id of the token.
+|`token`        |optional|
+The token in plain text. Will only be returned once when creating the token.
 |============================
 
 [[oauth-token-info]]

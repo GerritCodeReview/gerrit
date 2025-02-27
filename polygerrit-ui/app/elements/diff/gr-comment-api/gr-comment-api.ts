@@ -367,7 +367,7 @@ export class ChangeComments {
    */
   computeCommentThreads(
     file: PatchSetFile | PatchNumOnly,
-    ignorePatchsetLevelComments?: boolean
+    ignorePatchsetLevelComments = false
   ) {
     let comments: Comment[] = [];
     if (isPatchSetFile(file)) {

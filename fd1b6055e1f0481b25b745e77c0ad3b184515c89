@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e787d02d_26aadd35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-27T14:09:28Z",
+      "side": 1,
+      "message": "It\u0027s the opposite, gr-comment allows the event to bubble up to gr-reply-dialog. Updated the wording",
+      "parentUuid": "0193a976_f3797cde",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1e560c2_594b2874",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-26T17:29:57Z",
       "side": 1,
       "message": "unclear what \"it\" refers to here",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2350ca84_ce44f615",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-27T14:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1e560c2_594b2874",
       "range": {
         "startLine": 11,
         "startChar": 20,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3198c0b_4c771630",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-27T14:09:28Z",
+      "side": 1,
+      "message": "This paragraph talks about gr-comment logic. Updated the phrasing for better clarity",
+      "parentUuid": "17c3aec7_3dc400aa",
+      "range": {
+        "startLine": 12,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c9ffc0f_5c2c03cb",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bee2780d_b0ef9ab0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-27T14:09:28Z",
+      "side": 1,
+      "message": "esc does the same as pressing \"Cancel\", except according to the comment (https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts;drc\u003daaa127c85174cde28e62f40f4a89611d1494493b;l\u003d1660) vim users kept discarding what they typed (I guess because of muscle memory). So it was changed to only trigger when the message is empty. (https://gerrit-review.git.corp.google.com/c/gerrit/+/90790)\n\nBefore we clean it up we would need to figure out how often people actually use it. I would prefer this was done separately.\n\nAdded a bug in our Fixit hotlist https://b.corp.google.com/issues/399613295",
+      "parentUuid": "6c9ffc0f_5c2c03cb",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff31e65f_ec31a946",
@@ -106,6 +202,30 @@
       "writtenOn": "2025-02-26T17:29:57Z",
       "side": 1,
       "message": "should this be \"Text is not restored when empty patchset level comment is cancelled\"?\n\nIIUC the \"bug\" is a WAI feature that pressing Esc when PS level comment is empty gets restored when it shouldn\u0027t?",
+      "range": {
+        "startLine": 2651,
+        "startChar": 10,
+        "endLine": 2651,
+        "endChar": 79
+      },
+      "revId": "fd1b6055e1f0481b25b745e77c0ad3b184515c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad76eab_f9312963",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2651,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-02-27T14:09:28Z",
+      "side": 1,
+      "message": "You shouldn\u0027t be able to \"cancel\" the comment. (We don\u0027t show the \"cancel\" button when permanent editing mode is on\").\n\nI would not call it WAI, since actual press on \"cancel\" button of reply dialog doesn\u0027t behave the same way and this only happens when the comment is empty. It\u0027s clearly inconsistent and unexpected.\n\nI don\u0027t think suggested name makes more sense, since we are explicitly not cancelling the comment but cancelling the dialog.",
+      "parentUuid": "ff31e65f_ec31a946",
       "range": {
         "startLine": 2651,
         "startChar": 10,

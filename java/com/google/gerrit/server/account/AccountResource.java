@@ -34,6 +34,8 @@ public class AccountResource implements RestResource {
   public static final TypeLiteral<RestView<StarredChange>> STARRED_CHANGE_KIND =
       new TypeLiteral<>() {};
 
+  public static final TypeLiteral<RestView<Token>> TOKEN_KIND = new TypeLiteral<>() {};
+
   private final IdentifiedUser user;
 
   public AccountResource(IdentifiedUser user) {
@@ -128,6 +130,19 @@ public class AccountResource implements RestResource {
 
     public Set<String> getLabels() {
       return labels;
+    }
+  }
+
+  public static class Token extends AccountResource {
+    private final String id;
+
+    public Token(IdentifiedUser user, String id) {
+      super(user);
+      this.id = id;
+    }
+
+    public String getId() {
+      return id;
     }
   }
 }

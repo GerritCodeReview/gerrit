@@ -691,7 +691,7 @@ export class GrCommentThread extends LitElement {
       'draft element not found',
       5 * 1000
     );
-    this.draftElement!.addQuote(quote);
+    await this.draftElement!.addQuote(quote);
   }
 
   private isDraft() {

@@ -30,8 +30,8 @@ public class TokenVerifierTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
   private static final List<TokenCacheEntry> TOKEN_CACHE_ENTRIES =
       List.of(
-          new TokenCacheEntry(ACCOUNT_ID, Token.createWithPlainToken("hashedToken")),
-          new TokenCacheEntry(ACCOUNT_ID, Token.createWithPlainToken("another_Token")));
+          new TokenCacheEntry(ACCOUNT_ID, Token.createWithPlainToken("id1", "hashedToken")),
+          new TokenCacheEntry(ACCOUNT_ID, Token.createWithPlainToken("id2", "another_Token")));
   private TokenVerifier tokenVerifier;
   @Mock private TokenCache tokenCache;
 

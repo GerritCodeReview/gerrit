@@ -36,8 +36,10 @@ public class TokenCacheTest {
 
   @Mock private AccountCache accountCache;
 
+  @Mock private VersionedAuthorizationTokens.Accessor tokenAccessor;
+
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     Account account =
         Account.builder(ACCOUNT_ID, Instant.EPOCH)
             .setFullName("foo bar")
@@ -60,7 +62,8 @@ public class TokenCacheTest {
                         null))))
         .when(accountCache)
         .getEvenIfMissing(ACCOUNT_ID);
-    cacheLoader = new TokenCacheImpl.Loader(accountCache);
+    doReturn(List.of()).when(tokenAccessor).getTokens(ACCOUNT_ID);
+    cacheLoader = new TokenCacheImpl.Loader(accountCache, tokenAccessor);
   }
 
   @Test

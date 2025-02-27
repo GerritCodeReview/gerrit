@@ -40,7 +40,6 @@ public class TokenCacheImpl implements TokenCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "tokens";
-  static final Iterable<TokenCacheEntry> NO_SUCH_USER = none();
   static final Iterable<TokenCacheEntry> NO_TOKENS = none();
 
   private final LoadingCache<Account.Id, Iterable<TokenCacheEntry>> cache;
@@ -79,17 +78,19 @@ public class TokenCacheImpl implements TokenCache {
   @Override
   public void evict(Account.Id accountId) {
     if (accountId != null) {
-      logger.atFine().log("Evict authentication token for username %d", accountId.get());
+      logger.atFine().log("Evict authentication token for account %d", accountId.get());
       cache.invalidate(accountId);
     }
   }
 
   static class Loader extends CacheLoader<Account.Id, Iterable<TokenCacheEntry>> {
     private final AccountCache accountCache;
+    private final VersionedAuthorizationTokens.Accessor versionedTokens;
 
     @Inject
-    Loader(AccountCache accountCache) {
+    Loader(AccountCache accountCache, VersionedAuthorizationTokens.Accessor versionedTokens) {
       this.accountCache = accountCache;
+      this.versionedTokens = versionedTokens;
     }
 
     @Override
@@ -98,27 +99,43 @@ public class TokenCacheImpl implements TokenCache {
           TraceContext.newTimer(
               "Loading authentication tokens for account with username",
               Metadata.builder().accountId(accountId.get()).build())) {
-        AccountState accountState = accountCache.getEvenIfMissing(accountId);
-        Optional<ExternalId> optUser =
-            accountState.externalIds().stream()
-                .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
-                .findFirst();
-        if (!optUser.isPresent()) {
-          return NO_SUCH_USER;
-        }
 
         List<TokenCacheEntry> tokens = new ArrayList<>(1);
-        ExternalId user = optUser.get();
-        String password = user.password();
-        if (password != null) {
-          tokens.add(new TokenCacheEntry(user.accountId(), Token.create(password)));
+
+        for (Token token : versionedTokens.getTokens(accountId)) {
+          tokens.add(new TokenCacheEntry(accountId, token));
         }
 
+        // Fall back to legacy HTTP password if no tokens are present.
         if (tokens.isEmpty()) {
-          return NO_TOKENS;
+          Optional<TokenCacheEntry> legacyHttpPassword = getLegacyHttpPassword(accountId);
+          if (legacyHttpPassword.isPresent()) {
+            tokens.add(legacyHttpPassword.get());
+          } else {
+            return NO_TOKENS;
+          }
         }
+
         return Collections.unmodifiableList(tokens);
       }
+    }
+
+    @Deprecated
+    private Optional<TokenCacheEntry> getLegacyHttpPassword(Account.Id accountId) {
+      AccountState accountState = accountCache.getEvenIfMissing(accountId);
+      Optional<ExternalId> optUser =
+          accountState.externalIds().stream()
+              .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
+              .findFirst();
+      if (optUser.isEmpty()) {
+        return Optional.empty();
+      }
+      ExternalId user = optUser.get();
+      String password = user.password();
+      if (password != null) {
+        return Optional.of(new TokenCacheEntry(user.accountId(), Token.create("legacy", password)));
+      }
+      return Optional.empty();
     }
   }
 }

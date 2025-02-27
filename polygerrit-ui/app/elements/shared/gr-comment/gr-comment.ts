@@ -343,11 +343,21 @@ export class GrComment extends LitElement {
   constructor() {
     super();
     provide(this, commentModelToken, () => this.commentModel);
-    // Allow the shortcuts to bubble up so that GrReplyDialog can respond to
-    // them as well.
-    this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc(), {
-      preventDefault: false,
-    });
+    this.shortcuts.addLocal(
+      {key: Key.ESC},
+      e => {
+        // We don't stop propagation for patchset comment
+        // (this.permanentEditingMode = true), but we stop it for normal
+        // comments. We don't want ESC to close both the comment and the dialog,
+        // when editing inside the reply dialog.
+        if (!this.permanentEditingMode) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        this.handleEsc();
+      },
+      {preventDefault: false}
+    );
     for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
       this.shortcuts.addLocal(
         {key: Key.ENTER, modifiers: [modifier]},
@@ -1722,6 +1732,8 @@ export class GrComment extends LitElement {
 
   // private, but visible for testing
   cancel() {
+    // If permanent editing mode is on, comment can't be cancelled.
+    if (this.permanentEditingMode) return;
     assertIsDefined(this.comment, 'comment');
     assert(isDraft(this.comment), 'only drafts are editable');
     this.messageText = this.originalMessage;

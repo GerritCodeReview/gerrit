@@ -40,4 +40,8 @@ public class TokenCacheEntry {
     }
     return false;
   }
+
+  public Token getToken() {
+    return token;
+  }
 }

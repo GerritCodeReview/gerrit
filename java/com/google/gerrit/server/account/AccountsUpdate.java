@@ -229,6 +229,15 @@ public abstract class AccountsUpdate {
   }
 
   /**
+   * Perform update provided. Some implementations of AccountsUpdate want the ability to delete the
+   * externalIds instead of hiding them hence we allow those implementations to override this
+   * method.
+   */
+  public default void updateForUserManagementRequests(UpdateArguments update) {
+    return this.update(update.message, update.accountId, update.delta);
+  }
+
+  /**
    * Inserts a new account.
    *
    * <p>If the current account state is not needed, use {@link #insert(String, Account.Id,

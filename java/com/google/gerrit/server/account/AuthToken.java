@@ -15,16 +15,32 @@
 package com.google.gerrit.server.account;
 
 import com.google.auto.value.AutoValue;
+import java.util.regex.Pattern;
 
 @AutoValue
 public abstract class AuthToken {
-  public static AuthToken createWithPlainToken(String token) {
-    return create(HashedPassword.fromPassword(token).encode());
+  private static final Pattern TOKEN_ID_PATTERN = Pattern.compile("^[a-zA-Z0-9-_]+$");
+
+  public static AuthToken createWithPlainToken(String id, String plainToken) {
+    return create(id, HashedPassword.fromPassword(plainToken).encode());
   }
 
-  public static AuthToken create(String hashedToken) {
-    return new AutoValue_AuthToken(hashedToken);
+  public static AuthToken create(String id, String hashedToken) {
+    if (id == null || id.isEmpty()) {
+      id = "token_" + System.currentTimeMillis();
+    }
+    validateId(id);
+    return new AutoValue_AuthToken(id, hashedToken);
   }
+
+  public abstract String id();
 
   public abstract String hashedToken();
+
+  private static void validateId(String id) {
+    if (!TOKEN_ID_PATTERN.matcher(id).matches()) {
+      throw new IllegalArgumentException(
+          "Token ID must contain only letters, numbers, hyphens and underscores.");
+    }
+  }
 }

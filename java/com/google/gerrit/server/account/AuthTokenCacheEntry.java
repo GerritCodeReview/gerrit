@@ -39,4 +39,8 @@ public class AuthTokenCacheEntry {
     }
     return false;
   }
+
+  public AuthToken getToken() {
+    return token;
+  }
 }

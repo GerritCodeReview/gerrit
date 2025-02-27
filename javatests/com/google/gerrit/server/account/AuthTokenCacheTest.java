@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static org.mockito.Mockito.doReturn;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import java.time.Instant;
@@ -36,8 +37,10 @@ public class AuthTokenCacheTest {
 
   @Mock private AccountCache accountCache;
 
+  @Mock private VersionedAuthTokens.Accessor tokenAccessor;
+
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     Account account =
         Account.builder(ACCOUNT_ID, Instant.EPOCH)
             .setFullName("foo bar")
@@ -60,12 +63,39 @@ public class AuthTokenCacheTest {
                         null))))
         .when(accountCache)
         .getEvenIfMissing(ACCOUNT_ID);
-    cacheLoader = new AuthTokenCacheImpl.Loader(accountCache);
+    cacheLoader = new AuthTokenCacheImpl.Loader(accountCache, tokenAccessor);
   }
 
   @Test
   public void loadTokenFromExternalId() throws Exception {
+    doReturn(List.of()).when(tokenAccessor).getTokens(ACCOUNT_ID);
     Iterable<AuthTokenCacheEntry> tokens = cacheLoader.load(ACCOUNT_ID);
     assertThat(tokens.iterator().next().checkToken("secret")).isTrue();
+  }
+
+  @Test
+  public void loadTokenFromUserRef() throws Exception {
+    List<AuthToken> tokensInCache =
+        List.of(
+            AuthToken.createWithPlainToken("id1", "password"),
+            AuthToken.createWithPlainToken("id2", "1234abcd"));
+    doReturn(tokensInCache).when(tokenAccessor).getTokens(ACCOUNT_ID);
+    ImmutableList<AuthTokenCacheEntry> tokens = ImmutableList.copyOf(cacheLoader.load(ACCOUNT_ID));
+
+    assertToken(tokens, "secret", false);
+    assertToken(tokens, "password", true);
+    assertToken(tokens, "1234abcd", true);
+  }
+
+  private void assertToken(
+      ImmutableList<AuthTokenCacheEntry> tokens, String providedToken, boolean expected) {
+    boolean isTokenValid = false;
+    for (AuthTokenCacheEntry token : tokens) {
+      if (token.checkToken(providedToken)) {
+        isTokenValid = true;
+        break;
+      }
+    }
+    assertThat(isTokenValid).isEqualTo(expected);
   }
 }

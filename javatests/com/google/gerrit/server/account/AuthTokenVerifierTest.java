@@ -30,8 +30,9 @@ public class AuthTokenVerifierTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
   private static final List<AuthTokenCacheEntry> TOKEN_CACHE_ENTRIES =
       List.of(
-          new AuthTokenCacheEntry(ACCOUNT_ID, AuthToken.createWithPlainToken("hashedToken")),
-          new AuthTokenCacheEntry(ACCOUNT_ID, AuthToken.createWithPlainToken("another_Token")));
+          new AuthTokenCacheEntry(ACCOUNT_ID, AuthToken.createWithPlainToken("id1", "hashedToken")),
+          new AuthTokenCacheEntry(
+              ACCOUNT_ID, AuthToken.createWithPlainToken("id2", "another_Token")));
   private AuthTokenVerifier tokenVerifier;
   @Mock private AuthTokenCache tokenCache;
 

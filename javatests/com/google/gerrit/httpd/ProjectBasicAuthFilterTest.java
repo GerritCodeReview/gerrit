@@ -126,6 +126,7 @@ public class ProjectBasicAuthFilterTest {
                 new AuthTokenCacheEntry(
                     AUTH_ACCOUNT_ID,
                     AuthToken.create(
+                        "token",
                         extIdFactory
                             .createUsername(AUTH_USER, AUTH_ACCOUNT_ID, AUTH_PASSWORD)
                             .password()))))

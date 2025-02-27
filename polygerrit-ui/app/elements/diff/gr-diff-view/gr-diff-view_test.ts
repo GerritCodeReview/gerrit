@@ -284,6 +284,7 @@ suite('gr-diff-view tests', () => {
                   link=""
                   role="button"
                   tabindex="0"
+                  id="toggleEntireFile"
                   title="Toggle all diff context (shortcut: Shift+x)"
                 >
                   Show Entire File
@@ -1988,6 +1989,45 @@ suite('gr-diff-view tests', () => {
           'index.php'
         ),
         '/changes/test~12/revisions/1/patch?zip&path=index.php'
+      );
+    });
+
+    test('show entire file button is hidden for magic paths and images', async () => {
+      // Setup for regular file
+      element.path = 'regular_file.txt';
+      element.diff = createDiff();
+      await element.updateComplete;
+
+      // Button should be visible for regular files
+      let showEntireFileBtn = query(element, 'gr-button#toggleEntireFile');
+      assert.isDefined(
+        showEntireFileBtn,
+        'Button should be visible for regular files'
+      );
+      // Test with magic path
+      element.path = '/COMMIT_MSG';
+      await element.updateComplete;
+
+      showEntireFileBtn = query(element, 'gr-button#toggleEntireFile');
+      assert.isUndefined(
+        showEntireFileBtn,
+        'Button should be hidden for magic paths'
+      );
+
+      // Test with image diff
+      element.path = 'image.png';
+      element.diff = {
+        ...createDiff(),
+        binary: true,
+        content: [],
+        meta_a: {content_type: 'image/png', name: 'image.png', lines: 1},
+      };
+      await element.updateComplete;
+
+      showEntireFileBtn = query(element, 'gr-button#toggleEntireFile');
+      assert.isUndefined(
+        showEntireFileBtn,
+        'Button should be hidden for image diffs'
       );
     });
   });

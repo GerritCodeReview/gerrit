@@ -355,7 +355,8 @@ export class GrPatchRangeSelect extends LitElement {
           path: this.path,
           patchNum,
         },
-        true
+        // don't ignore patchset level comments if the path is not set
+        this.path !== undefined /* ignorePatchsetLevelComments*/
       ),
     };
     const date = this.computePatchSetDate(patchNum);

@@ -239,12 +239,12 @@ def declare_nongoogle_deps():
         sha1 = "bfb9e4281a4cea34f0ec85b3acd47621cfab35b4",
     )
 
-    FLOGGER_VERS = "0.7.4"
+    FLOGGER_VERS = "0.8"
 
     maven_jar(
         name = "flogger",
         artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-        sha1 = "cec29ed8b58413c2e935d86b12d6b696dc285419",
+        sha1 = "753f5ef5b084dbff3ab3030158ed128711745b06",
     )
 
     maven_jar(
@@ -256,13 +256,13 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "flogger-google-extensions",
         artifact = "com.google.flogger:google-extensions:" + FLOGGER_VERS,
-        sha1 = "c49493bd815e3842b8406e21117119d560399977",
+        sha1 = "42781a3d970e18c96bb0a8d3ddd94d6237aa0612",
     )
 
     maven_jar(
         name = "flogger-system-backend",
         artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-        sha1 = "4bee7ebbd97c63ca7fb17529aeb49a57b670d061",
+        sha1 = "24b2a20600b1f313540ead4b393813efa13ce14a",
     )
 
     maven_jar(

@@ -1145,8 +1145,10 @@ export class GrDiffView extends LitElement {
   }
 
   private renderShowEntireFileButton() {
+    if (isImageDiff(this.diff) || isMagicPath(this.path)) return;
     return html`<gr-button
       link=""
+      id="toggleEntireFile"
       title=${this.createTitle(
         Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
         ShortcutSection.DIFFS

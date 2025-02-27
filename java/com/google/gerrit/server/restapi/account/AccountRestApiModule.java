@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
+import static com.google.gerrit.server.account.AccountResource.TOKEN_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -34,6 +35,7 @@ public class AccountRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), EMAIL_KIND);
+    DynamicMap.mapOf(binder(), TOKEN_KIND);
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
@@ -71,14 +73,19 @@ public class AccountRestApiModule extends RestApiModule {
     get(ACCOUNT_KIND, "name").to(GetName.class);
     put(ACCOUNT_KIND, "name").to(PutName.class);
     delete(ACCOUNT_KIND, "name").to(PutName.class);
-    put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
-    delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     get(ACCOUNT_KIND, "preferences").to(GetPreferences.class);
     put(ACCOUNT_KIND, "preferences").to(SetPreferences.class);
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(ACCOUNT_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
+
+    put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+    delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+
+    child(ACCOUNT_KIND, "tokens").to(TokensCollection.class);
+    create(TOKEN_KIND).to(CreateToken.class);
+    delete(TOKEN_KIND).to(DeleteToken.class);
 
     child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
     postOnCollection(SSH_KEY_KIND).to(AddSshKey.class);

@@ -20,6 +20,5 @@ public class ExternalIdModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(ExternalIdKeyFactory.class);
-    bind(PasswordVerifier.class);
   }
 }

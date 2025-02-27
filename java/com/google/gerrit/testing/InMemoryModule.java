@@ -48,6 +48,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequence.LightweightGroups;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AuthTokenModule;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
@@ -234,6 +235,8 @@ public class InMemoryModule extends FactoryModule {
     install(new SubscriptionGraphModule());
     install(new SuperprojectUpdateSubmissionListenerModule());
     install(new WorkQueueModule());
+
+    install(new AuthTokenModule());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

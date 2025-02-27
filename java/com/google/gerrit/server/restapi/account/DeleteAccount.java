@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AccountConfig;
@@ -93,6 +94,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final PublicKeyStoreUtil publicKeyStoreUtil;
   private final AccountConfig accountConfig;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final AuthTokenAccessor tokenAccessor;
 
   @Inject
   public DeleteAccount(
@@ -110,7 +112,8 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       ChangeEditUtil changeEditUtil,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
       PublicKeyStoreUtil publicKeyStoreUtil,
-      AccountConfig accountConfig) {
+      AccountConfig accountConfig,
+      AuthTokenAccessor tokenAccessor) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -126,6 +129,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     this.publicKeyStoreUtil = publicKeyStoreUtil;
     this.accountConfig = accountConfig;
     this.groupsUpdateProvider = groupsUpdateProvider;
+    this.tokenAccessor = tokenAccessor;
   }
 
   @Override
@@ -146,6 +150,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       deleteSshKeys(user);
       deleteStarredChanges(userId);
       deleteChangeEdits(userId);
+      tokenAccessor.deleteAllTokens(user.getAccountId());
       deleteDraftCommentsUtil.deleteDraftComments(user, null);
       accountPatchReviewStore.run(a -> a.clearReviewedBy(userId));
       removeUserFromGroups(user);

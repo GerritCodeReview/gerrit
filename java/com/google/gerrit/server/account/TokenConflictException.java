@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.Account;
 
-@AutoValue
-public abstract class Token {
-  public static Token create(String id, String hashedToken) {
-    return new AutoValue_Token(id, hashedToken);
+public class TokenConflictException extends Exception {
+  private static final long serialVersionUID = 1L;
+
+  public TokenConflictException(String id, Account.Id accountId) {
+    super(message(id, accountId));
   }
 
-  public abstract String id();
+  public TokenConflictException(String id, Account.Id accountId, Throwable cause) {
+    super(message(id, accountId), cause);
+  }
 
-  public abstract String hashedToken();
+  private static String message(String id, Account.Id accountId) {
+    return String.format("A token with id %s already exists for account %d.", id, accountId.get());
+  }
 }

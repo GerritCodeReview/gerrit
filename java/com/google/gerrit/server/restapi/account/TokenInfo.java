@@ -12,17 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.restapi.account;
 
-import com.google.auto.value.AutoValue;
-
-@AutoValue
-public abstract class Token {
-  public static Token create(String id, String hashedToken) {
-    return new AutoValue_Token(id, hashedToken);
-  }
-
-  public abstract String id();
-
-  public abstract String hashedToken();
+public class TokenInfo {
+  public String id;
 }

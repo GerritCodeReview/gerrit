@@ -33,11 +33,11 @@ suite('gr-trigger-vote tests', () => {
       /* HTML */ `
         <label class="selectionLabel">
           <input type="checkbox" />
-          option 1
+          Option 1
         </label>
         <label class="selectionLabel">
           <input type="checkbox" />
-          option 2
+          Option 2
         </label>
       `
     );

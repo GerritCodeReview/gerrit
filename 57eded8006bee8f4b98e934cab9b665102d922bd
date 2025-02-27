@@ -22,6 +22,30 @@
       },
       "revId": "57eded8006bee8f4b98e934cab9b665102d922bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "513b9a71_cdcc4fb5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-02-27T09:45:38Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5e1d401b_25b8ec48",
+      "range": {
+        "startLine": 1869,
+        "startChar": 0,
+        "endLine": 1869,
+        "endChar": 4
+      },
+      "revId": "57eded8006bee8f4b98e934cab9b665102d922bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -11,7 +11,7 @@ AUTO_COMMON_VERSION = "1.2.2"
 
 AUTO_FACTORY_VERSION = "1.0.1"
 
-AUTO_VALUE_VERSION = "1.10.4"
+AUTO_VALUE_VERSION = "1.11.0"
 
 GUAVA_VERSION = "33.1.0-jre"
 
@@ -224,13 +224,13 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "auto-value",
         artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-        sha1 = "90f9629eaa123f88551cc26a64bc386967ee24cc",
+        sha1 = "d1fd0e74d20e922145c3fede3f05e246bb6be281",
     )
 
     maven_jar(
         name = "auto-value-annotations",
         artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-        sha1 = "9679de8286eb0a151db6538ba297a8951c4a1224",
+        sha1 = "f0d047931d07cfbc6fa4079854f181ff62891d6f",
     )
 
     maven_jar(

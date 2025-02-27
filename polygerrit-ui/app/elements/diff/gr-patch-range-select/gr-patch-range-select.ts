@@ -339,11 +339,8 @@ export class GrPatchRangeSelect extends LitElement {
     return `${prefix}${patchNum} | ${sha}`;
   }
 
-  private createDropdownEntry(
-    patchNum: PatchSetNum,
-    prefix: string,
-    sha: string
-  ) {
+  // Private method, but visible for testing.
+  createDropdownEntry(patchNum: PatchSetNum, prefix: string, sha: string) {
     const entry: DropdownItem = {
       triggerText: `${prefix}${patchNum}`,
       text: this.computeText(patchNum, prefix, sha),
@@ -355,7 +352,8 @@ export class GrPatchRangeSelect extends LitElement {
           path: this.path,
           patchNum,
         },
-        true
+        // don't ignore patchset level comments if the path is not set
+        !!this.path /* ignorePatchsetLevelComments*/
       ),
     };
     const date = this.computePatchSetDate(patchNum);
@@ -436,7 +434,8 @@ export class GrPatchRangeSelect extends LitElement {
         path: this.path,
         patchNum,
       },
-      true
+      // don't ignore patchset level comments if the path is not set
+      !!this.path /* ignorePatchsetLevelComments*/
     ).length;
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
@@ -445,7 +444,8 @@ export class GrPatchRangeSelect extends LitElement {
         path: this.path,
         patchNum,
       },
-      true
+      // don't ignore patchset level comments if the path is not set
+      !!this.path /* ignorePatchsetLevelComments*/
     );
     const unresolvedString =
       unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;

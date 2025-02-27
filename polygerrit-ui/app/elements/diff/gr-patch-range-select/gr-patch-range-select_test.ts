@@ -382,7 +382,7 @@ suite('gr-patch-range-select tests', () => {
 
     assert.equal(
       element.computePatchSetCommentsString(1 as PatchSetNum),
-      ' (3 comments, 1 unresolved)'
+      ' (4 comments, 2 unresolved)'
     );
 
     // Test string for specific file path.
@@ -398,13 +398,16 @@ suite('gr-patch-range-select tests', () => {
     element.changeComments = new ChangeComments(comments);
     assert.equal(
       element.computePatchSetCommentsString(1 as PatchSetNum),
-      ' (2 comments)'
+      ' (3 comments, 1 unresolved)'
     );
 
     // Test string with no comments.
     delete comments['bar'];
     element.changeComments = new ChangeComments(comments);
-    assert.equal(element.computePatchSetCommentsString(1 as PatchSetNum), '');
+    assert.equal(
+      element.computePatchSetCommentsString(1 as PatchSetNum),
+      ' (1 comment, 1 unresolved)'
+    );
   });
 
   test('patch-range-change fires', async () => {
@@ -476,5 +479,55 @@ suite('gr-patch-range-select tests', () => {
 
     fire(element.patchNumDropdown, 'value-change', {value: '2'});
     assert.isTrue(stub.called);
+  });
+
+  test('createDropdownEntry includes patchset level comments when path is undefined', async () => {
+    element.availablePatches = [{num: 1, sha: '4'} as PatchSet];
+    element.sortedRevisions = [createRevision(1)];
+    element.revisionInfo = getInfo(element.sortedRevisions);
+
+    // Create mock ChangeComments with a spy on computeCommentThreads
+    element.changeComments = new ChangeComments();
+    const computeCommentThreadsSpy = sinon.spy(
+      element.changeComments,
+      'computeCommentThreads'
+    );
+
+    // First test with path undefined
+    element.path = undefined;
+    await element.updateComplete;
+    computeCommentThreadsSpy.resetHistory();
+
+    element.createDropdownEntry(1 as PatchSetNum, 'Patchset ', '4');
+
+    // Verify computeCommentThreads was called with the correct ignorePatchsetLevelComments value
+    assert.isTrue(computeCommentThreadsSpy.called);
+    assert.deepEqual(computeCommentThreadsSpy.firstCall.args[0], {
+      path: undefined,
+      patchNum: 1 as PatchSetNum,
+    });
+    assert.isFalse(
+      computeCommentThreadsSpy.firstCall.args[1],
+      'Should not ignore patchset level comments when path is undefined'
+    );
+    // Reset the spy
+    computeCommentThreadsSpy.resetHistory();
+
+    // Now test with path defined
+    element.path = 'some/file/path';
+    await element.updateComplete;
+
+    element.createDropdownEntry(1 as PatchSetNum, 'Patchset ', '4');
+
+    // Verify computeCommentThreads was called with the correct ignorePatchsetLevelComments value
+    assert.isTrue(computeCommentThreadsSpy.called);
+    assert.deepEqual(computeCommentThreadsSpy.firstCall.args[0], {
+      path: 'some/file/path',
+      patchNum: 1 as PatchSetNum,
+    });
+    assert.isTrue(
+      computeCommentThreadsSpy.firstCall.args[1],
+      'Should ignore patchset level comments when path is defined'
+    );
   });
 });

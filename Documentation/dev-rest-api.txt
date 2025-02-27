@@ -73,7 +73,7 @@ file (on Windows, `_netrc`):
  curl -n http://localhost:8080/a/path/to/api/
 ----
 
-In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
+In both cases, the password should be one of the user's link:user-upload.html#http[authentication tokens].
 
 === Verifying Header Content
 

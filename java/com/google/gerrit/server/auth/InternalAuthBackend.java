@@ -16,7 +16,7 @@ package com.google.gerrit.server.auth;
 
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.externalids.PasswordVerifier;
+import com.google.gerrit.server.account.AuthTokenVerifier;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -26,14 +26,14 @@ import java.util.Locale;
 public class InternalAuthBackend implements AuthBackend {
   private final AccountCache accountCache;
   private final AuthConfig authConfig;
-  private final PasswordVerifier passwordVerifier;
+  private final AuthTokenVerifier tokenVerifier;
 
   @Inject
   InternalAuthBackend(
-      AccountCache accountCache, AuthConfig authConfig, PasswordVerifier passwordVerifier) {
+      AccountCache accountCache, AuthConfig authConfig, AuthTokenVerifier tokenVerifier) {
     this.accountCache = accountCache;
     this.authConfig = authConfig;
-    this.passwordVerifier = passwordVerifier;
+    this.tokenVerifier = tokenVerifier;
   }
 
   @Override
@@ -69,7 +69,7 @@ public class InternalAuthBackend implements AuthBackend {
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!passwordVerifier.checkPassword(who.externalIds(), username, req.getPassword().get())) {
+    if (!tokenVerifier.checkToken(who.account().id(), req.getPassword().get())) {
       throw new InvalidCredentialsException();
     }
     return new AuthUser(AuthUser.UUID.create(username), username);

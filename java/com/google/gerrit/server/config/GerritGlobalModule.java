@@ -109,6 +109,7 @@ import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.ServiceUserClassifierImpl;
+import com.google.gerrit.server.account.VersionedAuthTokens;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -522,6 +523,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedByPushOp.Factory.class);
     factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);
+    factory(VersionedAuthTokens.Factory.class);
     factory(StoreSubmitRequirementsOp.Factory.class);
     factory(FileEditsPredicate.Factory.class);
 

@@ -306,8 +306,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "gson",
-        artifact = "com.google.code.gson:gson:2.10.1",
-        sha1 = "b3add478d4382b78ea20b1671390a858002feb6c",
+        artifact = "com.google.code.gson:gson:2.12.1",
+        sha1 = "4e773a317740b83b43cfc3d652962856041697cb",
     )
 
     maven_jar(

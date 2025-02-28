@@ -335,30 +335,30 @@ def declare_nongoogle_deps():
         sha1 = "48462eb319817c90c27d377341684b6b81372e08",
     )
 
-    TRUTH_VERS = "1.4.2"
+    TRUTH_VERS = "1.4.4"
 
     maven_jar(
         name = "truth",
         artifact = "com.google.truth:truth:" + TRUTH_VERS,
-        sha1 = "2322d861290bd84f84cbb178e43539725a4588fd",
+        sha1 = "33810058273a2a3b6ce6d1f8c8621bfc85493f67",
     )
 
     maven_jar(
         name = "truth-java8-extension",
         artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-        sha1 = "bfa44a01e1bb5a1df50bc9c678d6588b4d9eb73a",
+        sha1 = "49129ba5889b6811e96a9d49af61122f21314670",
     )
 
     maven_jar(
         name = "truth-liteproto-extension",
         artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-        sha1 = "062a2716b3b0ba9d8e72c913dad43a8139b12202",
+        sha1 = "b6282dbc163474900ac914c2dbeca101008f72da",
     )
 
     maven_jar(
         name = "truth-proto-extension",
         artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-        sha1 = "53cfc94dfa435c5dcd6f8b6844b82b423ea0a5af",
+        sha1 = "4b88990178086ffdd482246b35a5a48b4d26896c",
     )
 
     LUCENE_VERS = "9.8.0"

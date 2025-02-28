@@ -40,6 +40,7 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
@@ -99,7 +100,7 @@ public class QueryBuilder<V> {
         q.add(toQuery(p.getChild(i)), SHOULD);
       }
       return q.build();
-    } catch (BooleanQuery.TooManyClauses e) {
+    } catch (IndexSearcher.TooManyClauses e) {
       throw new QueryParseException("cannot create query for index: " + p, e);
     }
   }
@@ -125,7 +126,7 @@ public class QueryBuilder<V> {
         b.add(q, MUST_NOT);
       }
       return b.build();
-    } catch (BooleanQuery.TooManyClauses e) {
+    } catch (IndexSearcher.TooManyClauses e) {
       throw new QueryParseException("cannot create query for index: " + p, e);
     }
   }

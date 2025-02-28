@@ -88,26 +88,19 @@ public class PatchListEntry {
     patchType = toPatchType(hdr);
 
     switch (changeType) {
-      case DELETED:
+      case DELETED -> {
         oldName = null;
         newName = hdr.getOldPath();
-        break;
-
-      case ADDED:
-      case MODIFIED:
-      case REWRITE:
+      }
+      case ADDED, MODIFIED, REWRITE -> {
         oldName = null;
         newName = hdr.getNewPath();
-        break;
-
-      case COPIED:
-      case RENAMED:
+      }
+      case COPIED, RENAMED -> {
         oldName = hdr.getOldPath();
         newName = hdr.getNewPath();
-        break;
-
-      default:
-        throw new IllegalArgumentException("Unsupported type " + changeType);
+      }
+      default -> throw new IllegalArgumentException("Unsupported type " + changeType);
     }
 
     header = compact(hdr);
@@ -332,36 +325,24 @@ public class PatchListEntry {
   }
 
   private static ChangeType toChangeType(FileHeader hdr) {
-    switch (hdr.getChangeType()) {
-      case ADD:
-        return Patch.ChangeType.ADDED;
-      case MODIFY:
-        return Patch.ChangeType.MODIFIED;
-      case DELETE:
-        return Patch.ChangeType.DELETED;
-      case RENAME:
-        return Patch.ChangeType.RENAMED;
-      case COPY:
-        return Patch.ChangeType.COPIED;
-      default:
-        throw new IllegalArgumentException("Unsupported type " + hdr.getChangeType());
-    }
+    return switch (hdr.getChangeType()) {
+      case ADD -> Patch.ChangeType.ADDED;
+      case MODIFY -> Patch.ChangeType.MODIFIED;
+      case DELETE -> Patch.ChangeType.DELETED;
+      case RENAME -> Patch.ChangeType.RENAMED;
+      case COPY -> Patch.ChangeType.COPIED;
+      default -> throw new IllegalArgumentException("Unsupported type " + hdr.getChangeType());
+    };
   }
 
   private static PatchType toPatchType(FileHeader hdr) {
-    PatchType pt;
 
-    switch (hdr.getPatchType()) {
-      case UNIFIED:
-        pt = Patch.PatchType.UNIFIED;
-        break;
-      case GIT_BINARY:
-      case BINARY:
-        pt = Patch.PatchType.BINARY;
-        break;
-      default:
-        throw new IllegalArgumentException("Unsupported type " + hdr.getPatchType());
-    }
+    PatchType pt =
+        switch (hdr.getPatchType()) {
+          case UNIFIED -> Patch.PatchType.UNIFIED;
+          case GIT_BINARY, BINARY -> Patch.PatchType.BINARY;
+          default -> throw new IllegalArgumentException("Unsupported type " + hdr.getPatchType());
+        };
 
     if (pt != PatchType.BINARY) {
       final byte[] buf = hdr.getBuffer();

@@ -408,19 +408,14 @@ public class CheckAccessIT extends AbstractDaemonTest {
       }
 
       switch (want) {
-        case 403:
+        case 403 -> {
           if (tc.permission != null) {
             assertThat(info.message).contains("lacks permission " + tc.permission);
           }
-          break;
-        case 404:
-          assertThat(info.message).contains("does not exist");
-          break;
-        case 200:
-          assertThat(info.message).isNull();
-          break;
-        default:
-          assertWithMessage(String.format("unknown code %d", want)).fail();
+        }
+        case 404 -> assertThat(info.message).contains("does not exist");
+        case 200 -> assertThat(info.message).isNull();
+        default -> assertWithMessage(String.format("unknown code %d", want)).fail();
       }
 
       if (!info.debugLogs.equals(tc.expectedDebugLogs)) {

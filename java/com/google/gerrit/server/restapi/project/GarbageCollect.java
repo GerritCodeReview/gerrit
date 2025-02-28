@@ -128,30 +128,25 @@ public class GarbageCollect
           String msg = "Garbage collection completed successfully.";
           if (result.hasErrors()) {
             for (GcError e : result.getErrors()) {
-              switch (e.getType()) {
-                case REPOSITORY_NOT_FOUND:
-                  msg = "Error: project \"" + e.getProjectName() + "\" not found.";
-                  break;
-                case GC_ALREADY_SCHEDULED:
-                  msg =
-                      "Error: garbage collection for project \""
-                          + e.getProjectName()
-                          + "\" was already scheduled.";
-                  break;
-                case GC_FAILED:
-                  msg =
-                      "Error: garbage collection for project \""
-                          + e.getProjectName()
-                          + "\" failed.";
-                  break;
-                default:
-                  msg =
-                      "Error: garbage collection for project \""
-                          + e.getProjectName()
-                          + "\" failed: "
-                          + e.getType()
-                          + ".";
-              }
+              msg =
+                  switch (e.getType()) {
+                    case REPOSITORY_NOT_FOUND ->
+                        "Error: project \"" + e.getProjectName() + "\" not found.";
+                    case GC_ALREADY_SCHEDULED ->
+                        "Error: garbage collection for project \""
+                            + e.getProjectName()
+                            + "\" was already scheduled.";
+                    case GC_FAILED ->
+                        "Error: garbage collection for project \""
+                            + e.getProjectName()
+                            + "\" failed.";
+                    default ->
+                        "Error: garbage collection for project \""
+                            + e.getProjectName()
+                            + "\" failed: "
+                            + e.getType()
+                            + ".";
+                  };
             }
           }
           writer.println(msg);

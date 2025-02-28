@@ -80,21 +80,22 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
     }
 
     switch (input.operation) {
-      case FLUSH_ALL:
+      case FLUSH_ALL -> {
         if (input.caches != null) {
           throw new BadRequestException(
               "specifying caches is not allowed for operation 'FLUSH_ALL'");
         }
         flushAll();
         return Response.ok();
-      case FLUSH:
+      }
+      case FLUSH -> {
         if (input.caches == null || input.caches.isEmpty()) {
           throw new BadRequestException("caches must be specified for operation 'FLUSH'");
         }
         flush(input.caches);
         return Response.ok();
-      default:
-        throw new BadRequestException("unsupported operation: " + input.operation);
+      }
+      default -> throw new BadRequestException("unsupported operation: " + input.operation);
     }
   }
 

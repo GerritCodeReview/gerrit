@@ -454,40 +454,19 @@ public class ProjectControl {
     }
 
     private boolean can(ProjectPermission perm) throws PermissionBackendException {
-      switch (perm) {
-        case ACCESS:
-          return user.isInternalUser() || isOwner() || canPerformOnAnyRef(Permission.READ);
-
-        case READ:
-          return allRefsAreVisible(Collections.emptySet());
-
-        case CREATE_REF:
-          return canAddRefs();
-        case CREATE_TAG_REF:
-          return canAddTagRefs();
-        case CREATE_CHANGE:
-          return canCreateChanges();
-
-        case RUN_RECEIVE_PACK:
-          return canRunReceivePack();
-        case RUN_UPLOAD_PACK:
-          return canRunUploadPack();
-
-        case PUSH_AT_LEAST_ONE_REF:
-          return canPushToAtLeastOneRef();
-
-        case READ_CONFIG:
-          return controlForRef(RefNames.REFS_CONFIG).hasReadPermissionOnRef(false);
-
-        case BAN_COMMIT:
-        case READ_REFLOG:
-        case WRITE_CONFIG:
-          return isOwner();
-
-        case UPDATE_CONFIG_WITHOUT_CREATING_CHANGE:
-          return canUpdateConfigWithoutCreatingChange();
-      }
-      throw new PermissionBackendException(perm + " unsupported");
+      return switch (perm) {
+        case ACCESS -> user.isInternalUser() || isOwner() || canPerformOnAnyRef(Permission.READ);
+        case READ -> allRefsAreVisible(Collections.emptySet());
+        case CREATE_REF -> canAddRefs();
+        case CREATE_TAG_REF -> canAddTagRefs();
+        case CREATE_CHANGE -> canCreateChanges();
+        case RUN_RECEIVE_PACK -> canRunReceivePack();
+        case RUN_UPLOAD_PACK -> canRunUploadPack();
+        case PUSH_AT_LEAST_ONE_REF -> canPushToAtLeastOneRef();
+        case READ_CONFIG -> controlForRef(RefNames.REFS_CONFIG).hasReadPermissionOnRef(false);
+        case BAN_COMMIT, READ_REFLOG, WRITE_CONFIG -> isOwner();
+        case UPDATE_CONFIG_WITHOUT_CREATING_CHANGE -> canUpdateConfigWithoutCreatingChange();
+      };
     }
   }
 }

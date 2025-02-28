@@ -50,21 +50,15 @@ public class DiffMappings {
 
   private static FileMapping toFileMapping(
       Patch.ChangeType changeType, String oldName, String newName) {
-    switch (changeType) {
-      case ADDED:
-        return FileMapping.forAddedFile(newName);
-      case MODIFIED:
-      case REWRITE:
-        return FileMapping.forModifiedFile(newName);
-      case DELETED:
-        // Name of deleted file is mentioned as newName.
-        return FileMapping.forDeletedFile(newName);
-      case RENAMED:
-      case COPIED:
-        return FileMapping.forRenamedFile(oldName, newName);
-      default:
-        throw new IllegalStateException("Unmapped diff type: " + changeType);
-    }
+    return switch (changeType) {
+      case ADDED -> FileMapping.forAddedFile(newName);
+      case MODIFIED, REWRITE -> FileMapping.forModifiedFile(newName);
+      case DELETED ->
+          // Name of deleted file is mentioned as newName.
+          FileMapping.forDeletedFile(newName);
+      case RENAMED, COPIED -> FileMapping.forRenamedFile(oldName, newName);
+      default -> throw new IllegalStateException("Unmapped diff type: " + changeType);
+    };
   }
 
   private static ImmutableSet<RangeMapping> toRangeMappings(PatchListEntry patchListEntry) {

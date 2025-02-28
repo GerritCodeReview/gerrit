@@ -277,23 +277,23 @@ public class AuthConfig {
 
   public boolean isIdentityTrustable(Collection<ExternalId> ids) {
     switch (getAuthType()) {
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-      case OAUTH:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT,
+          HTTP,
+          HTTP_LDAP,
+          LDAP,
+          LDAP_BIND,
+          CLIENT_SSL_CERT_LDAP,
+          CUSTOM_EXTENSION,
+          OAUTH -> {
         // only way in is through some external system that the admin trusts
         //
         return true;
-
-      case OPENID_SSO:
+      }
+      case OPENID_SSO -> {
         // There's only one provider in SSO mode, so it must be okay.
         return true;
-
-      case OPENID:
+      }
+      case OPENID -> {
         // All identities must be trusted in order to trust the account.
         //
         for (ExternalId e : ids) {
@@ -302,11 +302,12 @@ public class AuthConfig {
           }
         }
         return true;
-
-      default:
+      }
+      default -> {
         // Assume not, we don't understand the login format.
         //
         return false;
+      }
     }
   }
 

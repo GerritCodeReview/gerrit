@@ -1,0 +1,94 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb85fb7_d51d691f",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-28T07:40:30Z",
+      "side": 1,
+      "message": "\"hiding\" is a GAIA concept. Maybe something like:\n\n```\n\u003cp\u003eSome implementations of AccountsUpdate have different behaviours for account updates initiated by the users and those initiated by account management requests. Overriding this method allows this distinction.\n```",
+      "fixSuggestions": [
+        {
+          "fixId": "a81dc624_0b695c60",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 232,
+                "startChar": 0,
+                "endLine": 235,
+                "endChar": 0
+              },
+              "replacement": "   * Perform update provided. Some implementations of AccountsUpdate have different behaviours for\n   * account updates initiated by the users and those initiated by account management.\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 244,
+                "startChar": 0,
+                "endLine": 247,
+                "endChar": 0
+              },
+              "replacement": "   * Perform update provided. Some implementations of AccountsUpdate have different behaviours for\n   * account updates initiated by the users and those initiated by account management.\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 256,
+                "startChar": 0,
+                "endLine": 259,
+                "endChar": 0
+              },
+              "replacement": "   * Perform update provided. Some implementations of AccountsUpdate have different behaviours for\n   * account updates initiated by the users and those initiated by account management.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a15988a0ae7169fbc65c1bae9e0ed205902c84d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0e6663_a8e44297",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-28T07:40:30Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this and the following variation. The few callers of this method can pass an unused context if needed.",
+      "fixSuggestions": [
+        {
+          "fixId": "7c9bc8d3_4ee4c7e6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 242,
+                "startChar": 0,
+                "endLine": 266,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "a15988a0ae7169fbc65c1bae9e0ed205902c84d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

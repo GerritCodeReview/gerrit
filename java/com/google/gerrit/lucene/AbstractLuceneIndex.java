@@ -81,6 +81,7 @@ import org.apache.lucene.index.IndexCommit;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.SnapshotDeletionPolicy;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
@@ -607,9 +608,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
                 ? searcher.searchAfter((ScoreDoc) opts.searchAfter(), query, realLimit, sort, false)
                 : searcher.search(query, realLimit, sort);
         ImmutableList.Builder<T> b = ImmutableList.builderWithExpectedSize(docs.scoreDocs.length);
+        StoredFields storedFields = searcher.getIndexReader().storedFields();
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           scoreDoc = docs.scoreDocs[i];
-          Document doc = searcher.doc(scoreDoc.doc, opts.fields());
+          Document doc = storedFields.document(scoreDoc.doc, opts.fields());
           T mapperResult = mapper.apply(doc);
           if (mapperResult != null) {
             b.add(mapperResult);

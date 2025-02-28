@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
@@ -149,15 +148,13 @@ public interface ExceptionHook {
     return Optional.empty();
   }
 
-  @AutoValue
-  public abstract class Status {
-    public abstract int statusCode();
-
-    public abstract String statusMessage();
+  public record Status(int statusCode, String statusMessage) {
+    public Status {
+      requireNonNull(statusMessage, "statusMessage");
+    }
 
     public static Status create(int statusCode, String statusMessage) {
-      return new AutoValue_ExceptionHook_Status(
-          statusCode, requireNonNull(statusMessage, "statusMessage"));
+      return new Status(statusCode, requireNonNull(statusMessage, "statusMessage"));
     }
   }
 }

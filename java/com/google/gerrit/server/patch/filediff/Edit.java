@@ -14,17 +14,19 @@
 
 package com.google.gerrit.server.patch.filediff;
 
-import com.google.auto.value.AutoValue;
-
 /**
  * A modified region between 2 versions of the same content. This is the Gerrit entity class
  * corresponding to {@link org.eclipse.jgit.diff.Edit} and is needed to ensure immutability when
  * included as fields of the diff persisted caches.
+ *
+ * @param beginA Start of a region in sequence A.
+ * @param endA End of a region in sequence A.
+ * @param beginB Start of a region in sequence B.
+ * @param endB End of a region in sequence B.
  */
-@AutoValue
-public abstract class Edit {
+public record Edit(int beginA, int endA, int beginB, int endB) {
   public static Edit create(int beginA, int endA, int beginB, int endB) {
-    return new AutoValue_Edit(beginA, endA, beginB, endB);
+    return new Edit(beginA, endA, beginB, endB);
   }
 
   public static Edit fromJGitEdit(org.eclipse.jgit.diff.Edit jgitEdit) {
@@ -39,16 +41,4 @@ public abstract class Edit {
   public org.eclipse.jgit.diff.Edit asJGitEdit() {
     return new org.eclipse.jgit.diff.Edit(beginA(), endA(), beginB(), endB());
   }
-
-  /** Start of a region in sequence A. */
-  public abstract int beginA();
-
-  /** End of a region in sequence A. */
-  public abstract int endA();
-
-  /** Start of a region in sequence B. */
-  public abstract int beginB();
-
-  /** End of a region in sequence B. */
-  public abstract int endB();
 }

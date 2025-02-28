@@ -15,8 +15,9 @@
 package com.google.gerrit.server.patch.filediff;
 
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableList;
@@ -35,79 +36,72 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** File diff for a single file path. Produced as output of the {@link FileDiffCache}. */
-@AutoValue
-public abstract class FileDiffOutput implements Serializable {
+/**
+ * File diff for a single file path. Produced as output of the {@link FileDiffCache}.
+ *
+ * @param oldCommitId The 20 bytes SHA-1 object ID of the old git commit used in the diff, or {@link
+ *     ObjectId#zeroId()} if {@link #newCommitId()} was a root commit.
+ * @param newCommitId The 20 bytes SHA-1 object ID of the new git commit used in the diff.
+ * @param comparisonType Comparison type of old and new commits: against another patchset, parent or
+ *     auto-merge.
+ * @param oldPath The file path at the old commit. Returns an empty Optional if {@link
+ *     #changeType()} is equal to {@link ChangeType#ADDED}.
+ * @param newPath The file path at the new commit. Returns an empty optional if {@link
+ *     #changeType()} is equal to {@link ChangeType#DELETED}.
+ * @param oldMode The file mode of the old file at the old git tree diff identified by {@link
+ *     #oldCommitId()} ()}.
+ * @param newMode The file mode of the new file at the new git tree diff identified by {@link
+ *     #newCommitId()} ()}.
+ * @param changeType The change type of the underlying file, e.g. added, deleted, renamed, etc...
+ * @param patchType The patch type of the underlying file, e.g. unified, binary , etc...
+ * @param headerLines A list of strings representation of the header lines of the {@link
+ *     org.eclipse.jgit.patch.FileHeader} that is produced as output of the diff.
+ * @param edits The list of edits resulting from the diff hunks of the file.
+ * @param size The file size at the new commit.
+ * @param sizeDelta Difference in file size between the old and new commits.
+ * @param negative Returns {@code true} if the diff computation was not able to compute a diff, i.e.
+ *     for diffs taking a very long time to compute. We cache negative result in this case.
+ */
+public record FileDiffOutput(
+    ObjectId oldCommitId,
+    ObjectId newCommitId,
+    ComparisonType comparisonType,
+    Optional<String> oldPath,
+    Optional<String> newPath,
+    Optional<Patch.FileMode> oldMode,
+    Optional<Patch.FileMode> newMode,
+    Patch.ChangeType changeType,
+    Optional<Patch.PatchType> patchType,
+    ImmutableList<String> headerLines,
+    ImmutableList<TaggedEdit> edits,
+    long size,
+    long sizeDelta,
+    Optional<Boolean> negative)
+    implements Serializable {
+  public FileDiffOutput {
+    requireNonNull(oldCommitId, "oldCommitId");
+    requireNonNull(newCommitId, "newCommitId");
+    requireNonNull(comparisonType, "comparisonType");
+    requireNonNull(oldPath, "oldPath");
+    requireNonNull(newPath, "newPath");
+    requireNonNull(oldMode, "oldMode");
+    requireNonNull(newMode, "newMode");
+    requireNonNull(changeType, "changeType");
+    requireNonNull(patchType, "patchType");
+    requireNonNull(headerLines, "headerLines");
+    requireNonNull(edits, "edits");
+    requireNonNull(negative, "negative");
+  }
+
   private static final long serialVersionUID = 1L;
-
-  /**
-   * The 20 bytes SHA-1 object ID of the old git commit used in the diff, or {@link
-   * ObjectId#zeroId()} if {@link #newCommitId()} was a root commit.
-   */
-  public abstract ObjectId oldCommitId();
-
-  /** The 20 bytes SHA-1 object ID of the new git commit used in the diff. */
-  public abstract ObjectId newCommitId();
-
-  /** Comparison type of old and new commits: against another patchset, parent or auto-merge. */
-  public abstract ComparisonType comparisonType();
-
-  /**
-   * The file path at the old commit. Returns an empty Optional if {@link #changeType()} is equal to
-   * {@link ChangeType#ADDED}.
-   */
-  public abstract Optional<String> oldPath();
-
-  /**
-   * The file path at the new commit. Returns an empty optional if {@link #changeType()} is equal to
-   * {@link ChangeType#DELETED}.
-   */
-  public abstract Optional<String> newPath();
 
   public String getDefaultPath() {
     return oldPath().isPresent() ? oldPath().get() : newPath().get();
   }
 
-  /**
-   * The file mode of the old file at the old git tree diff identified by {@link #oldCommitId()}
-   * ()}.
-   */
-  public abstract Optional<Patch.FileMode> oldMode();
-
-  /**
-   * The file mode of the new file at the new git tree diff identified by {@link #newCommitId()}
-   * ()}.
-   */
-  public abstract Optional<Patch.FileMode> newMode();
-
-  /** The change type of the underlying file, e.g. added, deleted, renamed, etc... */
-  public abstract Patch.ChangeType changeType();
-
-  /** The patch type of the underlying file, e.g. unified, binary , etc... */
-  public abstract Optional<Patch.PatchType> patchType();
-
-  /**
-   * A list of strings representation of the header lines of the {@link
-   * org.eclipse.jgit.patch.FileHeader} that is produced as output of the diff.
-   */
-  public abstract ImmutableList<String> headerLines();
-
-  /** The list of edits resulting from the diff hunks of the file. */
-  public abstract ImmutableList<TaggedEdit> edits();
-
-  /** The file size at the new commit. */
-  public abstract long size();
-
-  /** Difference in file size between the old and new commits. */
-  public abstract long sizeDelta();
-
-  /**
-   * Returns {@code true} if the diff computation was not able to compute a diff, i.e. for diffs
-   * taking a very long time to compute. We cache negative result in this case.
-   */
-  public abstract Optional<Boolean> negative();
-
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_FileDiffOutput_Builder(this);
+  }
 
   /** A boolean indicating if all underlying edits of the file diff are due to rebase. */
   public boolean allEditsDueToRebase() {
@@ -177,7 +171,7 @@ public abstract class FileDiffOutput implements Serializable {
   }
 
   public static Builder builder() {
-    return new AutoValue_FileDiffOutput.Builder();
+    return new AutoBuilder_FileDiffOutput_Builder();
   }
 
   public int weight() {
@@ -206,7 +200,7 @@ public abstract class FileDiffOutput implements Serializable {
     return result;
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder oldCommitId(ObjectId value);

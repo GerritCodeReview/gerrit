@@ -14,25 +14,28 @@
 
 package com.google.gerrit.acceptance.testsuite.account;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import java.util.Optional;
 
-@AutoValue
-public abstract class TestAccount {
-  public abstract Account.Id accountId();
-
-  public abstract Optional<String> fullname();
-
-  public abstract Optional<String> preferredEmail();
-
-  public abstract Optional<String> username();
-
-  public abstract boolean active();
-
-  public abstract ImmutableSet<String> emails();
+public record TestAccount(
+    Account.Id accountId,
+    Optional<String> fullname,
+    Optional<String> preferredEmail,
+    Optional<String> username,
+    boolean active,
+    ImmutableSet<String> emails) {
+  public TestAccount {
+    requireNonNull(accountId, "accountId");
+    requireNonNull(fullname, "fullname");
+    requireNonNull(preferredEmail, "preferredEmail");
+    requireNonNull(username, "username");
+    requireNonNull(emails, "emails");
+  }
 
   public ImmutableSet<String> secondaryEmails() {
     if (!preferredEmail().isPresent()) {
@@ -43,10 +46,10 @@ public abstract class TestAccount {
   }
 
   static Builder builder() {
-    return new AutoValue_TestAccount.Builder();
+    return new AutoBuilder_TestAccount_Builder();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   abstract static class Builder {
     abstract Builder accountId(Account.Id accountId);
 

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
@@ -25,9 +27,20 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Representation of a magic file which appears as a file with content to Gerrit users. */
-@AutoValue
-public abstract class MagicFile {
+/**
+ * Representation of a magic file which appears as a file with content to Gerrit users.
+ *
+ * @param generatedContent Generated part of the file. Any generated contents should go here. Can be
+ *     empty.
+ * @param modifiableContent Non-generated part of the file. This should correspond to some actual
+ *     content derived from somewhere else which can also be modified (e.g. by suggested fixes). Can
+ *     be empty.
+ */
+public record MagicFile(String generatedContent, String modifiableContent) {
+  public MagicFile {
+    requireNonNull(generatedContent, "generatedContent");
+    requireNonNull(modifiableContent, "modifiableContent");
+  }
 
   public static MagicFile forCommitMessage(ObjectReader reader, AnyObjectId commitId)
       throws IOException {
@@ -134,15 +147,6 @@ public abstract class MagicFile {
     }
   }
 
-  /** Generated part of the file. Any generated contents should go here. Can be empty. */
-  public abstract String generatedContent();
-
-  /**
-   * Non-generated part of the file. This should correspond to some actual content derived from
-   * somewhere else which can also be modified (e.g. by suggested fixes). Can be empty.
-   */
-  public abstract String modifiableContent();
-
   /** Whole content of the file as it appears to users. */
   public String getFileContent() {
     return generatedContent() + modifiableContent();
@@ -156,10 +160,10 @@ public abstract class MagicFile {
   }
 
   static Builder builder() {
-    return new AutoValue_MagicFile.Builder().generatedContent("").modifiableContent("");
+    return new AutoBuilder_MagicFile_Builder().generatedContent("").modifiableContent("");
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   abstract static class Builder {
 
     /** See {@link #generatedContent()}. Use an empty string to denote no such content. */

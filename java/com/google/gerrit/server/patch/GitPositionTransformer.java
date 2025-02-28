@@ -18,10 +18,11 @@ import static com.google.common.collect.Comparators.emptiesFirst;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -264,22 +265,20 @@ public class GitPositionTransformer {
   /**
    * A mapping from a {@link Position} in one Git commit/tree (source) to a {@link Position} in
    * another Git commit/tree (target).
+   *
+   * @param file A mapping describing how the attributes of one file are mapped from source to
+   *     target.
+   * @param ranges Mappings describing how line ranges within the file indicated by {@link #file()}
+   *     are mapped from source to target.
    */
-  @AutoValue
-  public abstract static class Mapping {
-
-    /** A mapping describing how the attributes of one file are mapped from source to target. */
-    public abstract FileMapping file();
-
-    /**
-     * Mappings describing how line ranges within the file indicated by {@link #file()} are mapped
-     * from source to target.
-     */
-    public abstract ImmutableSet<RangeMapping> ranges();
+  public record Mapping(FileMapping file, ImmutableSet<RangeMapping> ranges) {
+    public Mapping {
+      requireNonNull(file, "file");
+      requireNonNull(ranges, "ranges");
+    }
 
     public static Mapping create(FileMapping fileMapping, Iterable<RangeMapping> rangeMappings) {
-      return new AutoValue_GitPositionTransformer_Mapping(
-          fileMapping, ImmutableSet.copyOf(rangeMappings));
+      return new Mapping(fileMapping, ImmutableSet.copyOf(rangeMappings));
     }
   }
 
@@ -289,18 +288,17 @@ public class GitPositionTransformer {
    *
    * <p>At the moment, only the file path is considered. Other attributes like file mode would be
    * imaginable too but are currently not supported.
+   *
+   * @param oldPath File path in the source tree. For file additions, this is an empty {@link
+   *     Optional}.
+   * @param newPath File path in the target tree. Can be the same as {@link #oldPath()} if
+   *     unchanged. For file deletions, this is an empty {@link Optional}.
    */
-  @AutoValue
-  public abstract static class FileMapping {
-
-    /** File path in the source tree. For file additions, this is an empty {@link Optional}. */
-    public abstract Optional<String> oldPath();
-
-    /**
-     * File path in the target tree. Can be the same as {@link #oldPath()} if unchanged. For file
-     * deletions, this is an empty {@link Optional}.
-     */
-    public abstract Optional<String> newPath();
+  public record FileMapping(Optional<String> oldPath, Optional<String> newPath) {
+    public FileMapping {
+      requireNonNull(oldPath, "oldPath");
+      requireNonNull(newPath, "newPath");
+    }
 
     /**
      * Creates a {@link FileMapping} for a file addition.
@@ -312,46 +310,42 @@ public class GitPositionTransformer {
      * modifications between the trees.
      */
     public static FileMapping forAddedFile(String filePath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(
-          Optional.empty(), Optional.of(filePath));
+      return new FileMapping(Optional.empty(), Optional.of(filePath));
     }
 
     /** Creates a {@link FileMapping} for a file deletion. */
     public static FileMapping forDeletedFile(String filePath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(
-          Optional.of(filePath), Optional.empty());
+      return new FileMapping(Optional.of(filePath), Optional.empty());
     }
 
     /** Creates a {@link FileMapping} for a file modification. */
     public static FileMapping forModifiedFile(String filePath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(
-          Optional.of(filePath), Optional.of(filePath));
+      return new FileMapping(Optional.of(filePath), Optional.of(filePath));
     }
 
     /** Creates a {@link FileMapping} for a file renaming. */
     public static FileMapping forRenamedFile(String oldPath, String newPath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(
-          Optional.of(oldPath), Optional.of(newPath));
+      return new FileMapping(Optional.of(oldPath), Optional.of(newPath));
     }
 
     /** Creates a {@link FileMapping} using the old and new paths. */
     public static FileMapping forFile(Optional<String> oldPath, Optional<String> newPath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(oldPath, newPath);
+      return new FileMapping(oldPath, newPath);
     }
   }
 
   /**
    * A mapping of a line range in one Git tree (source) to the corresponding line range in another
    * Git tree (target).
+   *
+   * @param oldLineRange Range in the source tree.
+   * @param newLineRange Range in the target tree.
    */
-  @AutoValue
-  public abstract static class RangeMapping {
-
-    /** Range in the source tree. */
-    public abstract Range oldLineRange();
-
-    /** Range in the target tree. */
-    public abstract Range newLineRange();
+  public record RangeMapping(Range oldLineRange, Range newLineRange) {
+    public RangeMapping {
+      requireNonNull(oldLineRange, "oldLineRange");
+      requireNonNull(newLineRange, "newLineRange");
+    }
 
     /**
      * Creates a new {@code RangeMapping}.
@@ -360,7 +354,7 @@ public class GitPositionTransformer {
      * @param newRange see {@link #newLineRange()}
      */
     public static RangeMapping create(Range oldRange, Range newRange) {
-      return new AutoValue_GitPositionTransformer_RangeMapping(oldRange, newRange);
+      return new RangeMapping(oldRange, newRange);
     }
   }
 
@@ -378,18 +372,16 @@ public class GitPositionTransformer {
    * <p>We only refer to lines and not character offsets within the lines here as Git only works
    * with line precision. In theory, we could do better in Gerrit as we also have intraline diffs.
    * Incorporating those requires careful considerations, though.
+   *
+   * @param filePath Absolute file path.
+   * @param lineRange Affected lines. An empty {@link Optional} indicates that this position does
+   *     not refer to any specific lines (e.g. used for a file comment).
    */
-  @AutoValue
-  public abstract static class Position {
-
-    /** Absolute file path. */
-    public abstract Optional<String> filePath();
-
-    /**
-     * Affected lines. An empty {@link Optional} indicates that this position does not refer to any
-     * specific lines (e.g. used for a file comment).
-     */
-    public abstract Optional<Range> lineRange();
+  public record Position(Optional<String> filePath, Optional<Range> lineRange) {
+    public Position {
+      requireNonNull(filePath, "filePath");
+      requireNonNull(lineRange, "lineRange");
+    }
 
     /**
      * Creates a copy of this {@code Position} whose range is shifted by the indicated amount.
@@ -429,14 +421,16 @@ public class GitPositionTransformer {
       return toBuilder().filePath(filePath).build();
     }
 
-    abstract Builder toBuilder();
+    Builder toBuilder() {
+      return new AutoBuilder_GitPositionTransformer_Position_Builder(this);
+    }
 
     public static Builder builder() {
-      return new AutoValue_GitPositionTransformer_Position.Builder();
+      return new AutoBuilder_GitPositionTransformer_Position_Builder();
     }
 
     /** Builder of a {@link Position}. */
-    @AutoValue.Builder
+    @AutoBuilder
     public abstract static class Builder {
 
       /** See {@link #filePath()}. */
@@ -452,15 +446,13 @@ public class GitPositionTransformer {
     }
   }
 
-  /** A range. In the context of {@link GitPositionTransformer}, this is a line range. */
-  @AutoValue
-  public abstract static class Range {
-
-    /** Start of the range. (inclusive) */
-    public abstract int start();
-
-    /** End of the range. (exclusive) */
-    public abstract int end();
+  /**
+   * A range. In the context of {@link GitPositionTransformer}, this is a line range.
+   *
+   * @param start Start of the range. (inclusive)
+   * @param end End of the range. (exclusive)
+   */
+  public record Range(int start, int end) {
 
     /**
      * Creates a copy of this {@code Range} which is shifted by the indicated amount. A shift
@@ -477,7 +469,7 @@ public class GitPositionTransformer {
     }
 
     public static Range create(int start, int end) {
-      return new AutoValue_GitPositionTransformer_Range(start, end);
+      return new Range(start, end);
     }
   }
 

@@ -15,21 +15,30 @@
 package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.CharMatcher;
 
-/** Describes a submit record requirement. Contains the requirement name and a description. */
-@AutoValue
-@AutoValue.CopyAnnotations
-public abstract class LegacySubmitRequirement {
+/**
+ * Describes a submit record requirement. Contains the requirement name and a description.
+ *
+ * @param fallbackText Requirement description and explanation of what it does
+ * @param type Requirement name
+ */
+public record LegacySubmitRequirement(String fallbackText, String type) {
+  public LegacySubmitRequirement {
+    requireNonNull(fallbackText, "fallbackText");
+    requireNonNull(type, "type");
+  }
+
   private static final CharMatcher TYPE_MATCHER =
       CharMatcher.inRange('a', 'z')
           .or(CharMatcher.inRange('A', 'Z'))
           .or(CharMatcher.inRange('0', '9'))
           .or(CharMatcher.anyOf("-_"));
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setType(String value);
 
@@ -46,14 +55,8 @@ public abstract class LegacySubmitRequirement {
     abstract LegacySubmitRequirement autoBuild();
   }
 
-  /** Requirement description and explanation of what it does */
-  public abstract String fallbackText();
-
-  /** Requirement name */
-  public abstract String type();
-
   public static Builder builder() {
-    return new AutoValue_LegacySubmitRequirement.Builder();
+    return new AutoBuilder_LegacySubmitRequirement_Builder();
   }
 
   private static boolean validateType(String type) {

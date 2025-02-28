@@ -14,15 +14,47 @@
 
 package com.google.gerrit.extensions.validators;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.errorprone.annotations.InlineMe;
 
 /**
  * Holds a comment's text and some metadata in order to pass it to a validation plugin.
  *
  * @see CommentValidator
+ * @param text Returns the comment text. Note that especially for robot comments the total size may
+ *     be significantly larger and should be determined by using {@link #getApproximateSize()}.
+ * @param approximateSize Returns this instance's approximate size in bytes for the purpose of
+ *     applying size limits. For robot comments this may be significantly larger than the size of
+ *     the comment text.
  */
-@AutoValue
-public abstract class CommentForValidation {
+public record CommentForValidation(
+    CommentSource source, CommentType type, String text, int approximateSize) {
+  public CommentForValidation {
+    requireNonNull(source, "source");
+    requireNonNull(type, "type");
+    requireNonNull(text, "text");
+  }
+
+  @InlineMe(replacement = "this.source()")
+  public CommentSource getSource() {
+    return source();
+  }
+
+  @InlineMe(replacement = "this.type()")
+  public CommentType getType() {
+    return type();
+  }
+
+  @InlineMe(replacement = "this.text()")
+  public String getText() {
+    return text();
+  }
+
+  @InlineMe(replacement = "this.approximateSize()")
+  public int getApproximateSize() {
+    return approximateSize();
+  }
 
   /** The creator of the comment. */
   public enum CommentSource {
@@ -44,24 +76,8 @@ public abstract class CommentForValidation {
 
   public static CommentForValidation create(
       CommentSource source, CommentType type, String text, int size) {
-    return new AutoValue_CommentForValidation(source, type, text, size);
+    return new CommentForValidation(source, type, text, size);
   }
-
-  public abstract CommentSource getSource();
-
-  public abstract CommentType getType();
-
-  /**
-   * Returns the comment text. Note that especially for robot comments the total size may be
-   * significantly larger and should be determined by using {@link #getApproximateSize()}.
-   */
-  public abstract String getText();
-
-  /**
-   * Returns this instance's approximate size in bytes for the purpose of applying size limits. For
-   * robot comments this may be significantly larger than the size of the comment text.
-   */
-  public abstract int getApproximateSize();
 
   public CommentValidationFailure failValidation(String message) {
     return CommentValidationFailure.create(this, message);

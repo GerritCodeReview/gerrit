@@ -20,11 +20,11 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE_NUMBER;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
@@ -1818,8 +1818,11 @@ public class ChangeField {
     return str;
   }
 
-  @AutoValue
-  abstract static class StarField {
+  record StarField(Account.Id accountId) {
+    StarField {
+      requireNonNull(accountId, "accountId");
+    }
+
     private static final String SEPARATOR = ":";
 
     @Nullable
@@ -1843,10 +1846,8 @@ public class ChangeField {
     }
 
     static StarField create(Account.Id accountId) {
-      return new AutoValue_ChangeField_StarField(accountId);
+      return new StarField(accountId);
     }
-
-    public abstract Account.Id accountId();
 
     @Override
     public final String toString() {

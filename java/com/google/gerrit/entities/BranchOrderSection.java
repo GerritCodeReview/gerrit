@@ -15,8 +15,8 @@
 package com.google.gerrit.entities;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 
@@ -26,23 +26,20 @@ import java.util.Collection;
  * <p>The REST API supports automatically checking if changes on development branches can be merged
  * into stable branches. This is configured by the {@code branchOrder.branch} project setting. This
  * class represents the ordered list of branches, by increasing stability.
+ *
+ * @param order Branch names ordered from least to the most stable.
+ *     <p>Typically the order will be like: master, stable-M.N, stable-M.N-1, ...
+ *     <p>Ref names in this list are exactly as they appear in {@code project.config}
  */
-@AutoValue
-public abstract class BranchOrderSection {
-
-  /**
-   * Branch names ordered from least to the most stable.
-   *
-   * <p>Typically the order will be like: master, stable-M.N, stable-M.N-1, ...
-   *
-   * <p>Ref names in this list are exactly as they appear in {@code project.config}
-   */
-  public abstract ImmutableList<String> order();
+public record BranchOrderSection(ImmutableList<String> order) {
+  public BranchOrderSection {
+    requireNonNull(order, "order");
+  }
 
   public static BranchOrderSection create(Collection<String> order) {
     // Do not mutate the given list as this will be written back to disk when ProjectConfig is
     // stored.
-    return new AutoValue_BranchOrderSection(ImmutableList.copyOf(order));
+    return new BranchOrderSection(ImmutableList.copyOf(order));
   }
 
   /**

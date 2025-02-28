@@ -14,33 +14,29 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 
 /** Formatter for git command-line progress messages. */
 public interface ChangeReportFormatter {
-  @AutoValue
-  public abstract static class Input {
-    public abstract Change change();
-
-    @Nullable
-    public abstract String subject();
-
-    @Nullable
-    public abstract Boolean isEdit();
-
-    @Nullable
-    public abstract Boolean isPrivate();
-
-    @Nullable
-    public abstract Boolean isWorkInProgress();
-
-    public static Builder builder() {
-      return new AutoValue_ChangeReportFormatter_Input.Builder();
+  public record Input(
+      Change change,
+      @Nullable String subject,
+      @Nullable Boolean isEdit,
+      @Nullable Boolean isPrivate,
+      @Nullable Boolean isWorkInProgress) {
+    public Input {
+      requireNonNull(change, "change");
     }
 
-    @AutoValue.Builder
+    public static Builder builder() {
+      return new AutoBuilder_ChangeReportFormatter_Input_Builder();
+    }
+
+    @AutoBuilder
     public abstract static class Builder {
       public abstract Builder setChange(Change val);
 

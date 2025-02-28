@@ -15,8 +15,8 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -174,7 +174,7 @@ public class AuditLogReader {
       }
     }
     return Optional.of(
-        new AutoValue_AuditLogReader_ParsedCommit(
+        new ParsedCommit(
             authorId.get(),
             c.getAuthorIdent().getWhenAsInstant(),
             ImmutableList.copyOf(addedMembers),
@@ -241,40 +241,42 @@ public class AuditLogReader {
         .getId();
   }
 
-  @AutoValue
-  abstract static class MemberKey {
+  record MemberKey(AccountGroup.Id groupId, Account.Id memberId) {
+    MemberKey {
+      requireNonNull(groupId, "groupId");
+      requireNonNull(memberId, "memberId");
+    }
+
     static MemberKey create(AccountGroup.Id groupId, Account.Id memberId) {
-      return new AutoValue_AuditLogReader_MemberKey(groupId, memberId);
+      return new MemberKey(groupId, memberId);
     }
-
-    abstract AccountGroup.Id groupId();
-
-    abstract Account.Id memberId();
   }
 
-  @AutoValue
-  abstract static class SubgroupKey {
+  record SubgroupKey(AccountGroup.Id groupId, AccountGroup.UUID subgroupUuid) {
+    SubgroupKey {
+      requireNonNull(groupId, "groupId");
+      requireNonNull(subgroupUuid, "subgroupUuid");
+    }
+
     static SubgroupKey create(AccountGroup.Id groupId, AccountGroup.UUID subgroupUuid) {
-      return new AutoValue_AuditLogReader_SubgroupKey(groupId, subgroupUuid);
+      return new SubgroupKey(groupId, subgroupUuid);
     }
-
-    abstract AccountGroup.Id groupId();
-
-    abstract AccountGroup.UUID subgroupUuid();
   }
 
-  @AutoValue
-  abstract static class ParsedCommit {
-    abstract Account.Id authorId();
-
-    abstract Instant when();
-
-    abstract ImmutableList<Account.Id> addedMembers();
-
-    abstract ImmutableList<Account.Id> removedMembers();
-
-    abstract ImmutableList<AccountGroup.UUID> addedSubgroups();
-
-    abstract ImmutableList<AccountGroup.UUID> removedSubgroups();
+  record ParsedCommit(
+      Account.Id authorId,
+      Instant when,
+      ImmutableList<Account.Id> addedMembers,
+      ImmutableList<Account.Id> removedMembers,
+      ImmutableList<AccountGroup.UUID> addedSubgroups,
+      ImmutableList<AccountGroup.UUID> removedSubgroups) {
+    ParsedCommit {
+      requireNonNull(authorId, "authorId");
+      requireNonNull(when, "when");
+      requireNonNull(addedMembers, "addedMembers");
+      requireNonNull(removedMembers, "removedMembers");
+      requireNonNull(addedSubgroups, "addedSubgroups");
+      requireNonNull(removedSubgroups, "removedSubgroups");
+    }
   }
 }

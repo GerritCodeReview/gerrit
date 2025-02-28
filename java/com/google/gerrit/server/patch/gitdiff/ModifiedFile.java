@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.patch.gitdiff;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.gerrit.entities.Patch.ChangeType;
@@ -28,36 +30,33 @@ import java.util.Optional;
  * An entity representing a Modified file due to a diff between 2 git trees. This entity contains
  * the change type and the old & new paths, but does not include any actual content diff of the
  * file.
+ *
+ * @param changeType Returns the change type (i.e. add, delete, modify, rename, etc...) associated
+ *     with this modified file.
+ * @param oldPath Returns the old name associated with this file. An empty optional is returned if
+ *     {@link #changeType()} is equal to {@link ChangeType#ADDED}.
+ * @param newPath Returns the new name associated with this file. An empty optional is returned if
+ *     {@link #changeType()} is equal to {@link ChangeType#DELETED}
  */
-@AutoValue
-public abstract class ModifiedFile {
-  /**
-   * Returns the change type (i.e. add, delete, modify, rename, etc...) associated with this
-   * modified file.
-   */
-  public abstract ChangeType changeType();
-
-  /**
-   * Returns the old name associated with this file. An empty optional is returned if {@link
-   * #changeType()} is equal to {@link ChangeType#ADDED}.
-   */
-  public abstract Optional<String> oldPath();
-
-  /**
-   * Returns the new name associated with this file. An empty optional is returned if {@link
-   * #changeType()} is equal to {@link ChangeType#DELETED}
-   */
-  public abstract Optional<String> newPath();
+public record ModifiedFile(
+    ChangeType changeType, Optional<String> oldPath, Optional<String> newPath) {
+  public ModifiedFile {
+    requireNonNull(changeType, "changeType");
+    requireNonNull(oldPath, "oldPath");
+    requireNonNull(newPath, "newPath");
+  }
 
   public String getDefaultPath() {
     return newPath().isPresent() ? newPath().get() : oldPath().get();
   }
 
   public static Builder builder() {
-    return new AutoValue_ModifiedFile.Builder();
+    return new AutoBuilder_ModifiedFile_Builder();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_ModifiedFile_Builder(this);
+  }
 
   /** Computes this object's weight, which is its size in bytes. */
   public int weight() {
@@ -71,7 +70,7 @@ public abstract class ModifiedFile {
     return weight;
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder changeType(ChangeType value);

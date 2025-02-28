@@ -15,8 +15,8 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -380,14 +380,14 @@ public class PerformanceLogContextTest {
     ((CopyOnWriteArrayList<?>) itemsField.get(performanceLoggers)).clear();
   }
 
-  @AutoValue
-  abstract static class PerformanceLogEntry {
-    static PerformanceLogEntry create(String operation, Metadata metadata) {
-      return new AutoValue_PerformanceLogContextTest_PerformanceLogEntry(operation, metadata);
+  record PerformanceLogEntry(String operation, Metadata metadata) {
+    PerformanceLogEntry {
+      requireNonNull(operation, "operation");
+      requireNonNull(metadata, "metadata");
     }
 
-    abstract String operation();
-
-    abstract Metadata metadata();
+    static PerformanceLogEntry create(String operation, Metadata metadata) {
+      return new PerformanceLogEntry(operation, metadata);
+    }
   }
 }

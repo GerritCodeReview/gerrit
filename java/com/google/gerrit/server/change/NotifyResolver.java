@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
@@ -38,8 +37,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class NotifyResolver {
-  @AutoValue
-  public abstract static class Result {
+  public record Result(
+      NotifyHandling handling, ImmutableSetMultimap<RecipientType, Account.Id> accounts) {
+    public Result {
+      requireNonNull(handling, "handling");
+      requireNonNull(accounts, "accounts");
+    }
+
     public static Result none() {
       return create(NotifyHandling.NONE);
     }
@@ -54,12 +58,8 @@ public class NotifyResolver {
 
     public static Result create(
         NotifyHandling handling, ImmutableSetMultimap<RecipientType, Account.Id> recipients) {
-      return new AutoValue_NotifyResolver_Result(handling, recipients);
+      return new Result(handling, recipients);
     }
-
-    public abstract NotifyHandling handling();
-
-    public abstract ImmutableSetMultimap<RecipientType, Account.Id> accounts();
 
     public Result withHandling(NotifyHandling notifyHandling) {
       return create(notifyHandling, accounts());

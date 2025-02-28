@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
@@ -147,18 +148,18 @@ public class SectionSortCache {
     }
   }
 
-  @AutoValue
-  abstract static class EntryVal {
-    /**
-     * Maps the input index to the output index.
-     *
-     * <p>For {@code x == order[y]} the expression means move the item at source position {@code x}
-     * to the output position {@code y}.
-     */
-    abstract ImmutableList<Integer> order();
+  /**
+   * @param order Maps the input index to the output index.
+   *     <p>For {@code x == order[y]} the expression means move the item at source position {@code
+   *     x} to the output position {@code y}.
+   */
+  record EntryVal(ImmutableList<Integer> order) {
+    EntryVal {
+      requireNonNull(order, "order");
+    }
 
     static EntryVal create(ImmutableList<Integer> order) {
-      return new AutoValue_SectionSortCache_EntryVal(order);
+      return new EntryVal(order);
     }
   }
 }

@@ -14,31 +14,33 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
-/** Representation of a human comment used for testing purposes. */
-@AutoValue
-public abstract class TestHumanComment {
-
-  /** The UUID of the comment. Should be unique. */
-  public abstract String uuid();
-
-  /** UUID of another comment to which this comment is a reply. */
-  public abstract Optional<String> parentUuid();
-
-  /** Tag of a comment. */
-  public abstract Optional<String> tag();
-
-  /** Unresolved state of a comment. */
-  public abstract boolean unresolved();
-
-  static Builder builder() {
-    return new AutoValue_TestHumanComment.Builder();
+/**
+ * Representation of a human comment used for testing purposes.
+ *
+ * @param uuid The UUID of the comment. Should be unique.
+ * @param parentUuid UUID of another comment to which this comment is a reply.
+ * @param tag Tag of a comment.
+ * @param unresolved Unresolved state of a comment.
+ */
+public record TestHumanComment(
+    String uuid, Optional<String> parentUuid, Optional<String> tag, boolean unresolved) {
+  public TestHumanComment {
+    requireNonNull(uuid, "uuid");
+    requireNonNull(parentUuid, "parentUuid");
+    requireNonNull(tag, "tag");
   }
 
-  @AutoValue.Builder
+  static Builder builder() {
+    return new AutoBuilder_TestHumanComment_Builder();
+  }
+
+  @AutoBuilder
   abstract static class Builder {
     abstract Builder uuid(String uuid);
 

@@ -17,7 +17,9 @@ package com.google.gerrit.entities;
 import static com.google.gerrit.entities.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.entities.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_USERS;
+import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoBuilder;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
@@ -46,9 +48,34 @@ import java.util.Optional;
  *       is found.
  *   <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side and unified diff
  * </ul>
+ *
+ * @param registeredOn Date and time the user registered with the review server.
+ * @param fullName Full name of the user ("Given-name Surname" style).
+ * @param displayName Optional display name of the user to be shown in the UI.
+ * @param preferredEmail Email address the user prefers to be contacted through.
+ * @param inactive Is this user inactive? This is used to avoid showing some users (eg. former
+ *     employees) in auto-suggest.
+ * @param status The user-settable status of this account (e.g. busy, OOO, available)
+ * @param metaId ID of the user branch from which the account was read.
+ * @param uniqueTag A unique tag which identifies the current version of the account.
+ *     <p>It can be any non-empty string. For open-source gerrit it is the same as metaId;
+ *     internally in google a different value is assigned.
+ *     <p>The value can be null only during account updating/creation.
  */
-@AutoValue
-public abstract class Account {
+public record Account(
+    Id id,
+    Instant registeredOn,
+    @Nullable String fullName,
+    @Nullable String displayName,
+    @Nullable String preferredEmail,
+    boolean inactive,
+    @Nullable String status,
+    @Nullable String metaId,
+    @Nullable String uniqueTag) {
+  public Account {
+    requireNonNull(id, "id");
+    requireNonNull(registeredOn, "registeredOn");
+  }
 
   /** Placeholder for indicating an account-id that does not correspond to any local account */
   public static final Id UNKNOWN_ACCOUNT_ID = id(0);
@@ -132,48 +159,6 @@ public abstract class Account {
     }
   }
 
-  public abstract Id id();
-
-  /** Date and time the user registered with the review server. */
-  public abstract Instant registeredOn();
-
-  /** Full name of the user ("Given-name Surname" style). */
-  @Nullable
-  public abstract String fullName();
-
-  /** Optional display name of the user to be shown in the UI. */
-  @Nullable
-  public abstract String displayName();
-
-  /** Email address the user prefers to be contacted through. */
-  @Nullable
-  public abstract String preferredEmail();
-
-  /**
-   * Is this user inactive? This is used to avoid showing some users (eg. former employees) in
-   * auto-suggest.
-   */
-  public abstract boolean inactive();
-
-  /** The user-settable status of this account (e.g. busy, OOO, available) */
-  @Nullable
-  public abstract String status();
-
-  /** ID of the user branch from which the account was read. */
-  @Nullable
-  public abstract String metaId();
-
-  /**
-   * A unique tag which identifies the current version of the account.
-   *
-   * <p>It can be any non-empty string. For open-source gerrit it is the same as metaId; internally
-   * in google a different value is assigned.
-   *
-   * <p>The value can be null only during account updating/creation.
-   */
-  @Nullable
-  public abstract String uniqueTag();
-
   /**
    * Create a new account.
    *
@@ -181,7 +166,7 @@ public abstract class Account {
    * @param registeredOn when the account was registered.
    */
   public static Account.Builder builder(Account.Id newId, Instant registeredOn) {
-    return new AutoValue_Account.Builder()
+    return new AutoBuilder_Account_Builder()
         .setInactive(false)
         .setId(newId)
         .setRegisteredOn(registeredOn);
@@ -245,9 +230,11 @@ public abstract class Account {
     return !inactive();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_Account_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Id id();
 

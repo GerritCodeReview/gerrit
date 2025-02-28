@@ -14,19 +14,35 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Instant;
 import java.util.Optional;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
-@AutoValue
-public abstract class AccountGroupMemberAudit {
-  public static Builder builder() {
-    return new AutoValue_AccountGroupMemberAudit.Builder();
+public record AccountGroupMemberAudit(
+    AccountGroup.Id groupId,
+    Account.Id memberId,
+    Account.Id addedBy,
+    Instant addedOn,
+    Optional<Account.Id> removedBy,
+    Optional<Instant> removedOn) {
+  public AccountGroupMemberAudit {
+    requireNonNull(groupId, "groupId");
+    requireNonNull(memberId, "memberId");
+    requireNonNull(addedBy, "addedBy");
+    requireNonNull(addedOn, "addedOn");
+    requireNonNull(removedBy, "removedBy");
+    requireNonNull(removedOn, "removedOn");
   }
 
-  @AutoValue.Builder
+  public static Builder builder() {
+    return new AutoBuilder_AccountGroupMemberAudit_Builder();
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder groupId(AccountGroup.Id groupId);
 
@@ -57,19 +73,9 @@ public abstract class AccountGroupMemberAudit {
     public abstract AccountGroupMemberAudit build();
   }
 
-  public abstract AccountGroup.Id groupId();
-
-  public abstract Account.Id memberId();
-
-  public abstract Account.Id addedBy();
-
-  public abstract Instant addedOn();
-
-  public abstract Optional<Account.Id> removedBy();
-
-  public abstract Optional<Instant> removedOn();
-
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_AccountGroupMemberAudit_Builder(this);
+  }
 
   public boolean isActive() {
     return !removedOn().isPresent();

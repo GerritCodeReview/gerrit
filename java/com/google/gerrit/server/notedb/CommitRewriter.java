@@ -24,8 +24,8 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_PATTERN;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -166,18 +166,21 @@ public class CommitRewriter {
     public List<String> refsFailedToFix = new ArrayList<>();
   }
 
-  /** Diff result of a single commit rewrite */
-  @AutoValue
-  public abstract static class CommitDiff {
-    public static CommitDiff create(ObjectId oldSha1, String commitDiff) {
-      return new AutoValue_CommitRewriter_CommitDiff(oldSha1, commitDiff);
+  /**
+   * Diff result of a single commit rewrite
+   *
+   * @param oldSha1 SHA1 of the overwritten commit
+   * @param diff Diff applied to the commit with {@link #oldSha1}
+   */
+  public record CommitDiff(ObjectId oldSha1, String diff) {
+    public CommitDiff {
+      requireNonNull(oldSha1, "oldSha1");
+      requireNonNull(diff, "diff");
     }
 
-    /** SHA1 of the overwritten commit */
-    public abstract ObjectId oldSha1();
-
-    /** Diff applied to the commit with {@link #oldSha1} */
-    public abstract String diff();
+    public static CommitDiff create(ObjectId oldSha1, String commitDiff) {
+      return new CommitDiff(oldSha1, commitDiff);
+    }
   }
 
   public static final String DEFAULT_ACCOUNT_REPLACEMENT = "Gerrit Account";
@@ -1344,28 +1347,33 @@ public class CommitRewriter {
    * Account info parsed from {@link Account#getNameEmail}. See {@link
    * #getAccountInfoFromNameEmail}.
    */
-  @AutoValue
-  abstract static class ParsedAccountInfo {
+  record ParsedAccountInfo(String name, Optional<String> email) {
+    ParsedAccountInfo {
+      requireNonNull(name, "name");
+      requireNonNull(email, "email");
+    }
 
     static ParsedAccountInfo create(String fullName, String email) {
-      return new AutoValue_CommitRewriter_ParsedAccountInfo(fullName, Optional.ofNullable(email));
+      return new ParsedAccountInfo(fullName, Optional.ofNullable(email));
     }
 
     static ParsedAccountInfo create(String fullName) {
-      return new AutoValue_CommitRewriter_ParsedAccountInfo(fullName, Optional.empty());
+      return new ParsedAccountInfo(fullName, Optional.empty());
     }
-
-    abstract String name();
-
-    abstract Optional<String> email();
   }
 
   /**
    * Objects, needed to fix Refs in a single {@link BatchRefUpdate}. Number of changes in a batch
    * are limited by {@link RunOptions#maxRefsInBatch}.
    */
-  @AutoValue
-  abstract static class RefsUpdate implements AutoCloseable {
+  record RefsUpdate(BatchRefUpdate batchRefUpdate, RevWalk revWalk, ObjectInserter inserter)
+      implements AutoCloseable {
+    RefsUpdate {
+      requireNonNull(batchRefUpdate, "batchRefUpdate");
+      requireNonNull(revWalk, "revWalk");
+      requireNonNull(inserter, "inserter");
+    }
+
     static RefsUpdate create(Repository repo) {
       RevWalk revWalk = new RevWalk(repo);
       ObjectInserter inserter = newPackInserter(repo);
@@ -1373,7 +1381,7 @@ public class CommitRewriter {
       bru.setForceRefLog(true);
       bru.setRefLogMessage(CommitRewriter.class.getName(), false);
       bru.setAllowNonFastForwards(true);
-      return new AutoValue_CommitRewriter_RefsUpdate(bru, revWalk, inserter);
+      return new RefsUpdate(bru, revWalk, inserter);
     }
 
     @Override
@@ -1381,11 +1389,5 @@ public class CommitRewriter {
       inserter().close();
       revWalk().close();
     }
-
-    abstract BatchRefUpdate batchRefUpdate();
-
-    abstract RevWalk revWalk();
-
-    abstract ObjectInserter inserter();
   }
 }

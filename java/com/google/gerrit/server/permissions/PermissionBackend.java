@@ -17,7 +17,7 @@ package com.google.gerrit.server.permissions;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -349,27 +349,30 @@ public abstract class PermissionBackend {
         throws PermissionBackendException;
   }
 
-  /** Options for filtering refs using {@link ForProject}. */
-  @AutoValue
-  public abstract static class RefFilterOptions {
-    /** Remove all NoteDb refs (refs/changes/*, refs/users/*, edit refs) from the result. */
-    public abstract boolean filterMeta();
+  /**
+   * Options for filtering refs using {@link ForProject}.
+   *
+   * @param filterMeta Remove all NoteDb refs (refs/changes/*, refs/users/*, edit refs) from the
+   *     result.
+   * @param prefixes Select only refs with names matching prefixes per {@link
+   *     org.eclipse.jgit.lib.RefDatabase#getRefsByPrefix}.
+   */
+  public record RefFilterOptions(boolean filterMeta, ImmutableList<String> prefixes) {
+    public RefFilterOptions {
+      requireNonNull(prefixes, "prefixes");
+    }
 
-    /**
-     * Select only refs with names matching prefixes per {@link
-     * org.eclipse.jgit.lib.RefDatabase#getRefsByPrefix}.
-     */
-    public abstract ImmutableList<String> prefixes();
-
-    public abstract Builder toBuilder();
+    public Builder toBuilder() {
+      return new AutoBuilder_PermissionBackend_RefFilterOptions_Builder(this);
+    }
 
     public static Builder builder() {
-      return new AutoValue_PermissionBackend_RefFilterOptions.Builder()
+      return new AutoBuilder_PermissionBackend_RefFilterOptions_Builder()
           .setFilterMeta(false)
           .setPrefixes(Collections.singletonList(""));
     }
 
-    @AutoValue.Builder
+    @AutoBuilder
     public abstract static class Builder {
       public abstract Builder setFilterMeta(boolean val);
 

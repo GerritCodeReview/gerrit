@@ -1,6 +1,7 @@
 package com.google.gerrit.server.mail.send;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
@@ -14,12 +15,13 @@ public interface MessageIdGenerator {
    * A unique id used which is a part of the header of all emails sent through by Gerrit. All of the
    * emails are sent via {@link OutgoingEmail#send()}.
    */
-  @AutoValue
-  abstract class MessageId {
-    public abstract String id();
+  public record MessageId(String id) {
+    public MessageId {
+      requireNonNull(id, "id");
+    }
 
     public static MessageId create(String id) {
-      return new AutoValue_MessageIdGenerator_MessageId(id);
+      return new MessageId(id);
     }
   }
 

@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
@@ -25,17 +25,14 @@ import com.google.inject.Module;
 import java.util.concurrent.CountDownLatch;
 
 class IndexUpgradeController implements OnlineUpgradeListener {
-  @AutoValue
-  abstract static class UpgradeAttempt {
-    static UpgradeAttempt create(String name, int oldVersion, int newVersion) {
-      return new AutoValue_IndexUpgradeController_UpgradeAttempt(name, oldVersion, newVersion);
+  record UpgradeAttempt(String name, int oldVersion, int newVersion) {
+    UpgradeAttempt {
+      requireNonNull(name, "name");
     }
 
-    abstract String name();
-
-    abstract int oldVersion();
-
-    abstract int newVersion();
+    static UpgradeAttempt create(String name, int oldVersion, int newVersion) {
+      return new UpgradeAttempt(name, oldVersion, newVersion);
+    }
   }
 
   private final int numExpected;

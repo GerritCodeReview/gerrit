@@ -158,12 +158,6 @@ limit or a supplied `n` query parameter, the last change object has a
 The `S` or `start` query parameter can be supplied to skip a number
 of changes from the list.
 
-Administrators can use the `skip-visibility` query parameter to skip visibility filtering.
-This can be used to ensure that no changes are missed e.g. when querying for changes which
-need to be reindexed. Without this parameter query results the user has no permission to read
-are filtered out. REST requests with the skip-visibility option are rejected when the current
-user doesn't have the ADMINISTRATE_SERVER capability.
-
 The `allow-incomplete-results` query parameter can be used. This is a boolean
 parameter that can optionally be set to true. If set, the server can tolerate
 handling faulty records when parsed from the change index, for example if a

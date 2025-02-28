@@ -41,16 +41,22 @@ import javax.inject.Inject;
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
   public interface Factory {
-    ChangeControl create(RefControl refControl, ChangeData changeData);
+    ChangeControl create(
+        ProjectControl projectControl, RefControl refControl, ChangeData changeData);
   }
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final ProjectControl projectControl;
   private final RefControl refControl;
   private final ChangeData changeData;
 
   @Inject
-  protected ChangeControl(@Assisted RefControl refControl, @Assisted ChangeData changeData) {
+  protected ChangeControl(
+      @Assisted ProjectControl projectControl,
+      @Assisted RefControl refControl,
+      @Assisted ChangeData changeData) {
+    this.projectControl = projectControl;
     this.refControl = refControl;
     this.changeData = changeData;
   }
@@ -202,6 +208,13 @@ public class ChangeControl {
   }
 
   private boolean isPrivateVisible(ChangeData cd) {
+    if (projectControl.isAdmin()) {
+      logger.atFine().log(
+          "%s can see private change %s because this user is an admin",
+          getUser().getLoggableName(), cd.getId());
+      return true;
+    }
+
     if (isOwner()) {
       logger.atFine().log(
           "%s can see private change %s because this user is the change owner",

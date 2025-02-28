@@ -23,6 +23,7 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
@@ -140,6 +141,8 @@ public class PrivateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void accessPrivate() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
@@ -149,21 +152,25 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     // Owner can always access its private changes.
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
 
-    // Add admin as a reviewer.
-    gApi.changes().id(result.getChangeId()).addReviewer(admin.id().toString());
+    // Add user2 as a reviewer.
+    gApi.changes().id(result.getChangeId()).addReviewer(user2.id().toString());
 
-    // This change should be visible for admin as a reviewer.
-    requestScopeOperations.setApiUser(admin.id());
+    // This change should be visible for user2 as a reviewer.
+    requestScopeOperations.setApiUser(user2.id());
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
 
-    // Remove admin from reviewers.
-    gApi.changes().id(result.getChangeId()).reviewer(admin.id().toString()).remove();
+    // Remove user from reviewers.
+    gApi.changes().id(result.getChangeId()).reviewer(user2.id().toString()).remove();
 
-    // This change should not be visible for admin anymore.
+    // This change should not be visible for user2 anymore.
     ResourceNotFoundException thrown =
         assertThrows(
             ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()));
     assertThat(thrown).hasMessageThat().contains("Not found: " + result.getChangeId());
+
+    // Admins can always see all private changes.
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
   }
 
   @Test

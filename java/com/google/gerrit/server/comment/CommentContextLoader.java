@@ -121,23 +121,21 @@ public class CommentContextLoader {
           }
           String filePath = contextInput.filePath();
           switch (filePath) {
-            case COMMIT_MSG:
-              result.put(
-                  contextInput,
-                  getContextForCommitMessage(
-                      rw.getObjectReader(), commit, range.get(), contextInput.contextPadding()));
-              break;
-            case MERGE_LIST:
-              result.put(
-                  contextInput,
-                  getContextForMergeList(
-                      rw.getObjectReader(), commit, range.get(), contextInput.contextPadding()));
-              break;
-            default:
-              result.put(
-                  contextInput,
-                  getContextForFilePath(
-                      repo, rw, commit, filePath, range.get(), contextInput.contextPadding()));
+            case COMMIT_MSG ->
+                result.put(
+                    contextInput,
+                    getContextForCommitMessage(
+                        rw.getObjectReader(), commit, range.get(), contextInput.contextPadding()));
+            case MERGE_LIST ->
+                result.put(
+                    contextInput,
+                    getContextForMergeList(
+                        rw.getObjectReader(), commit, range.get(), contextInput.contextPadding()));
+            default ->
+                result.put(
+                    contextInput,
+                    getContextForFilePath(
+                        repo, rw, commit, filePath, range.get(), contextInput.contextPadding()));
           }
         }
       }

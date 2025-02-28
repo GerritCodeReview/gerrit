@@ -67,20 +67,13 @@ public class AccountLimits {
     for (PermissionRule r : capabilities.priority) {
       if (match(groups, r)) {
         switch (r.getAction()) {
-          case INTERACTIVE:
+          case INTERACTIVE -> {
             if (!SystemGroupBackend.isAnonymousOrRegistered(r.getGroup())) {
               return QueueProvider.QueueType.INTERACTIVE;
             }
-            break;
-
-          case BATCH:
-            batch = true;
-            break;
-
-          case ALLOW:
-          case BLOCK:
-          case DENY:
-            break;
+          }
+          case BATCH -> batch = true;
+          case ALLOW, BLOCK, DENY -> {}
         }
       }
     }

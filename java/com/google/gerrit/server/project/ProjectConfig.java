@@ -1793,15 +1793,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private String convertLegacyPermission(String permissionName) {
-    switch (permissionName) {
-      case LEGACY_PERMISSION_PUSH_TAG:
+    return switch (permissionName) {
+      case LEGACY_PERMISSION_PUSH_TAG -> {
         hasLegacyPermissions = true;
-        return Permission.CREATE_TAG;
-      case LEGACY_PERMISSION_PUSH_SIGNED_TAG:
+        yield Permission.CREATE_TAG;
+      }
+      case LEGACY_PERMISSION_PUSH_SIGNED_TAG -> {
         hasLegacyPermissions = true;
-        return Permission.CREATE_SIGNED_TAG;
-      default:
-        return permissionName;
-    }
+        yield Permission.CREATE_SIGNED_TAG;
+      }
+      default -> permissionName;
+    };
   }
 }

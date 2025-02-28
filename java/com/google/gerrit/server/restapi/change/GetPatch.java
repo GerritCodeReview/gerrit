@@ -124,7 +124,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
               public void writeTo(OutputStream out) throws IOException {
                 try {
                   switch (outputType) {
-                    case ZIP:
+                    case ZIP -> {
                       ZipOutputStream zos = new ZipOutputStream(out);
                       ZipEntry e = new ZipEntry(fileName(rw, commit));
                       e.setTime(commit.getCommitTime() * 1000L);
@@ -132,11 +132,8 @@ public class GetPatch implements RestReadView<RevisionResource> {
                       format(zos);
                       zos.closeEntry();
                       zos.finish();
-                      break;
-                    case RAW:
-                    case BASE64:
-                      format(out);
-                      break;
+                    }
+                    case RAW, BASE64 -> format(out);
                   }
                 } finally {
                   rw.close();
@@ -158,20 +155,17 @@ public class GetPatch implements RestReadView<RevisionResource> {
         }
 
         switch (outputType) {
-          case ZIP:
-            bin.disableGzip()
-                .setContentType("application/zip")
-                .setAttachmentName(fileName(rw, commit) + ".zip");
-            break;
-          case BASE64:
-            bin.base64()
-                .setContentType("application/mbox")
-                .setAttachmentName(download ? fileName(rw, commit) + ".base64" : null);
-            break;
-          case RAW:
-            bin.setContentType("text/plain")
-                .setAttachmentName(download ? fileName(rw, commit) : null);
-            break;
+          case ZIP ->
+              bin.disableGzip()
+                  .setContentType("application/zip")
+                  .setAttachmentName(fileName(rw, commit) + ".zip");
+          case BASE64 ->
+              bin.base64()
+                  .setContentType("application/mbox")
+                  .setAttachmentName(download ? fileName(rw, commit) + ".base64" : null);
+          case RAW ->
+              bin.setContentType("text/plain")
+                  .setAttachmentName(download ? fileName(rw, commit) : null);
         }
 
         close = false;

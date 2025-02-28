@@ -40,13 +40,10 @@ public class CloudSpannerAccountPatchReviewStore extends JdbcAccountPatchReviewS
 
   @Override
   public StorageException convertError(String op, SQLException err) {
-    switch (err.getErrorCode()) {
-      case ERR_DUP_KEY:
-        return new DuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
-
-      default:
-        return new StorageException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
-    }
+    return switch (err.getErrorCode()) {
+      case ERR_DUP_KEY -> new DuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
+      default -> new StorageException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
+    };
   }
 
   @Override

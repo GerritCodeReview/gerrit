@@ -63,22 +63,15 @@ public class RestApiCallHelper {
 
     RestResponse response;
     switch (restCall.httpMethod()) {
-      case GET:
-        response = restSession.get(uri);
-        break;
-      case PUT:
-        response = restSession.put(uri);
-        break;
-      case POST:
-        response = restSession.post(uri);
-        break;
-      case DELETE:
-        response = restSession.delete(uri);
-        break;
-      default:
+      case GET -> response = restSession.get(uri);
+      case PUT -> response = restSession.put(uri);
+      case POST -> response = restSession.post(uri);
+      case DELETE -> response = restSession.delete(uri);
+      default -> {
         assertWithMessage(String.format("unsupported method: %s", restCall.httpMethod().name()))
             .fail();
         throw new IllegalStateException();
+      }
     }
 
     int status = response.getStatusCode();

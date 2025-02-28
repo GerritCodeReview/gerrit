@@ -59,18 +59,18 @@ public class AttentionSetChangeEmailDecoratorImpl implements AttentionSetChangeE
     changeEmail.ccExistingReviewers();
 
     switch (attentionSetChange) {
-      case USER_ADDED:
+      case USER_ADDED -> {
         email.appendText(email.textTemplate("AddToAttentionSet"));
         if (email.useHtml()) {
           email.appendHtml(email.soyHtmlTemplate("AddToAttentionSetHtml"));
         }
-        break;
-      case USER_REMOVED:
+      }
+      case USER_REMOVED -> {
         email.appendText(email.textTemplate("RemoveFromAttentionSet"));
         if (email.useHtml()) {
           email.appendHtml(email.soyHtmlTemplate("RemoveFromAttentionSetHtml"));
         }
-        break;
+      }
     }
   }
 }

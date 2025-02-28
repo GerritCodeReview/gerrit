@@ -251,29 +251,15 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   }
 
   private Predicate<T> toPredicate(Tree r) throws QueryParseException, IllegalArgumentException {
-    Predicate<T> result;
-    switch (r.getType()) {
-      case AND:
-        result = and(children(r));
-        break;
-      case OR:
-        result = or(children(r));
-        break;
-      case NOT:
-        result = not(toPredicate(onlyChildOf(r)));
-        break;
-
-      case DEFAULT_FIELD:
-        result = defaultField(concatenateChildText(r));
-        break;
-
-      case FIELD_NAME:
-        result = operator(r.getText(), concatenateChildText(r));
-        break;
-
-      default:
-        throw error("Unsupported operator: " + r);
-    }
+    Predicate<T> result =
+        switch (r.getType()) {
+          case AND -> and(children(r));
+          case OR -> or(children(r));
+          case NOT -> not(toPredicate(onlyChildOf(r)));
+          case DEFAULT_FIELD -> defaultField(concatenateChildText(r));
+          case FIELD_NAME -> operator(r.getText(), concatenateChildText(r));
+          default -> throw error("Unsupported operator: " + r);
+        };
     result.setPredicateString(getPredicateString(r));
     return result;
   }
@@ -327,17 +313,14 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     if (r.getChildCount() != 0) {
       throw error("Expected no children under: " + r);
     }
-    switch (r.getType()) {
-      case SINGLE_WORD:
-      case COLON:
-      case EXACT_PHRASE:
-        return r.getText();
-      default:
-        throw error(
-            String.format(
-                "Unsupported %s node in operator %s: %s",
-                QueryParser.tokenNames[r.getType()], r.getParent(), r));
-    }
+    return switch (r.getType()) {
+      case SINGLE_WORD, COLON, EXACT_PHRASE -> r.getText();
+      default ->
+          throw error(
+              String.format(
+                  "Unsupported %s node in operator %s: %s",
+                  QueryParser.tokenNames[r.getType()], r.getParent(), r));
+    };
   }
 
   @SuppressWarnings("unchecked")

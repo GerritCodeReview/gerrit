@@ -245,7 +245,7 @@ public class PublicKeyChecker {
     while (allSigs.hasNext()) {
       PGPSignature sig = allSigs.next();
       switch (sig.getSignatureType()) {
-        case KEY_REVOCATION:
+        case KEY_REVOCATION -> {
           if (sig.getKeyID() == key.getKeyID()) {
             sig.init(new BcPGPContentVerifierBuilderProvider(), key);
             if (sig.verifyCertification(key)) {
@@ -257,13 +257,13 @@ public class PublicKeyChecker {
               revocations.add(sig);
             }
           }
-          break;
-        case DIRECT_KEY:
+        }
+        case DIRECT_KEY -> {
           RevocationKey r = getRevocationKey(key, sig);
           if (r != null) {
             revokers.put(Fingerprint.getId(r.getFingerprint()), r);
           }
-          break;
+        }
       }
     }
     return null;
@@ -344,21 +344,14 @@ public class PublicKeyChecker {
       return r.append("no reason provided)").toString();
     }
     switch (reason.getRevocationReason()) {
-      case NO_REASON:
-        r.append("no reason code specified");
-        break;
-      case KEY_SUPERSEDED:
-        r.append("superseded");
-        break;
-      case KEY_COMPROMISED:
-        r.append("key material has been compromised");
-        break;
-      case KEY_RETIRED:
-        r.append("retired and no longer valid");
-        break;
-      default:
-        r.append("reason code ").append(Integer.toString(reason.getRevocationReason())).append(')');
-        break;
+      case NO_REASON -> r.append("no reason code specified");
+      case KEY_SUPERSEDED -> r.append("superseded");
+      case KEY_COMPROMISED -> r.append("key material has been compromised");
+      case KEY_RETIRED -> r.append("retired and no longer valid");
+      default ->
+          r.append("reason code ")
+              .append(Integer.toString(reason.getRevocationReason()))
+              .append(')');
     }
     r.append(')');
     String desc = reason.getRevocationDescription();

@@ -38,15 +38,17 @@ public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
   @Override
   public StorageException convertError(String op, SQLException err) {
     switch (getSQLStateInt(err)) {
-      case 23001: // UNIQUE CONSTRAINT VIOLATION
-      case 23505: // DUPLICATE_KEY_1
+      case 23001, 23505 -> {
+        // UNIQUE CONSTRAINT VIOLATION
+        // DUPLICATE_KEY_1
         return new DuplicateKeyException("account_patch_reviews", err);
-
-      default:
+      }
+      default -> {
         if (err.getCause() == null && err.getNextException() != null) {
           err.initCause(err.getNextException());
         }
         return new StorageException(op + " failure on account_patch_reviews", err);
+      }
     }
   }
 }

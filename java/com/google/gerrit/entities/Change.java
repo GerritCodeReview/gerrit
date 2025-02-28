@@ -216,18 +216,19 @@ public final class Change {
         return -1;
       }
       switch (ce - cs) {
-        case 0:
+        case 0 -> {
           return -1;
-        case 1:
+        }
+        case 1 -> {
           if (ref.charAt(ls) != '0' || ref.charAt(ls + 1) != ref.charAt(cs)) {
             return -1;
           }
-          break;
-        default:
+        }
+        default -> {
           if (ref.charAt(ls) != ref.charAt(ce - 2) || ref.charAt(ls + 1) != ref.charAt(ce - 1)) {
             return -1;
           }
-          break;
+        }
       }
       return cs;
     }

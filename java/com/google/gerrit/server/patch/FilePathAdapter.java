@@ -33,19 +33,12 @@ public class FilePathAdapter {
    */
   @Nullable
   public static String getOldPath(Optional<String> oldName, ChangeType changeType) {
-    switch (changeType) {
-      case DELETED:
-      case ADDED:
-      case MODIFIED:
-        return null;
-      case COPIED:
-      case RENAMED:
-        return oldName.get();
-      case REWRITE:
-        return oldName.isPresent() ? oldName.get() : null;
-      default:
-        throw new IllegalArgumentException("Unsupported type " + changeType);
-    }
+    return switch (changeType) {
+      case DELETED, ADDED, MODIFIED -> null;
+      case COPIED, RENAMED -> oldName.get();
+      case REWRITE -> oldName.isPresent() ? oldName.get() : null;
+      default -> throw new IllegalArgumentException("Unsupported type " + changeType);
+    };
   }
 
   /**
@@ -53,17 +46,10 @@ public class FilePathAdapter {
    */
   public static String getNewPath(
       Optional<String> oldName, Optional<String> newName, ChangeType changeType) {
-    switch (changeType) {
-      case DELETED:
-        return oldName.get();
-      case ADDED:
-      case MODIFIED:
-      case REWRITE:
-      case COPIED:
-      case RENAMED:
-        return newName.get();
-      default:
-        throw new IllegalArgumentException("Unsupported type " + changeType);
-    }
+    return switch (changeType) {
+      case DELETED -> oldName.get();
+      case ADDED, MODIFIED, REWRITE, COPIED, RENAMED -> newName.get();
+      default -> throw new IllegalArgumentException("Unsupported type " + changeType);
+    };
   }
 }

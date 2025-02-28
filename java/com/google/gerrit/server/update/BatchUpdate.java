@@ -633,16 +633,10 @@ public class BatchUpdate implements AutoCloseable {
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
         switch (e.getValue()) {
-          case UPSERTED:
-            indexFutures.add(indexer.indexAsync(project, id));
-            break;
-          case DELETED:
-            indexFutures.add(indexer.deleteAsync(project, id));
-            break;
-          case SKIPPED:
-            break;
-          default:
-            throw new IllegalStateException("unexpected result: " + e.getValue());
+          case UPSERTED -> indexFutures.add(indexer.indexAsync(project, id));
+          case DELETED -> indexFutures.add(indexer.deleteAsync(project, id));
+          case SKIPPED -> {}
+          default -> throw new IllegalStateException("unexpected result: " + e.getValue());
         }
       }
       if (indexAsync) {

@@ -39,16 +39,18 @@ public class MariaDBAccountPatchReviewStore extends JdbcAccountPatchReviewStore 
   @Override
   public StorageException convertError(String op, SQLException err) {
     switch (err.getErrorCode()) {
-      case 1022: // ER_DUP_KEY
-      case 1062: // ER_DUP_ENTRY
-      case 1169: // ER_DUP_UNIQUE;
+      case 1022, 1062, 1169 -> {
+        // ER_DUP_KEY
+        // ER_DUP_ENTRY
+        // ER_DUP_UNIQUE;
         return new DuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
-
-      default:
+      }
+      default -> {
         if (err.getCause() == null && err.getNextException() != null) {
           err.initCause(err.getNextException());
         }
         return new StorageException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
+      }
     }
   }
 

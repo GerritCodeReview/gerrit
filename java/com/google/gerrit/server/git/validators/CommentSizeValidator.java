@@ -44,28 +44,29 @@ public class CommentSizeValidator implements CommentValidator {
   }
 
   private boolean exceedsSizeLimit(CommentForValidation comment) {
-    switch (comment.getSource()) {
-      case HUMAN:
-        return commentSizeLimit > 0 && comment.getApproximateSize() > commentSizeLimit;
-      case ROBOT:
-        return robotCommentSizeLimit > 0 && comment.getApproximateSize() > robotCommentSizeLimit;
-    }
-    throw new RuntimeException(
-        "Unknown comment source (should not have compiled): " + comment.getSource());
+    return switch (comment.getSource()) {
+      case HUMAN -> commentSizeLimit > 0 && comment.getApproximateSize() > commentSizeLimit;
+      case ROBOT ->
+          robotCommentSizeLimit > 0 && comment.getApproximateSize() > robotCommentSizeLimit;
+      default ->
+          throw new RuntimeException(
+              "Unknown comment source (should not have compiled): " + comment.getSource());
+    };
   }
 
   private String buildErrorMessage(CommentForValidation comment) {
-    switch (comment.getSource()) {
-      case HUMAN:
-        return String.format(
-            "Comment size exceeds limit (%d > %d)", comment.getApproximateSize(), commentSizeLimit);
-
-      case ROBOT:
-        return String.format(
-            "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
-            comment.getApproximateSize(), robotCommentSizeLimit);
-    }
-    throw new RuntimeException(
-        "Unknown comment source (should not have compiled): " + comment.getSource());
+    return switch (comment.getSource()) {
+      case HUMAN ->
+          String.format(
+              "Comment size exceeds limit (%d > %d)",
+              comment.getApproximateSize(), commentSizeLimit);
+      case ROBOT ->
+          String.format(
+              "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
+              comment.getApproximateSize(), robotCommentSizeLimit);
+      default ->
+          throw new RuntimeException(
+              "Unknown comment source (should not have compiled): " + comment.getSource());
+    };
   }
 }

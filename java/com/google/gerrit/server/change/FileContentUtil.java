@@ -308,7 +308,7 @@ public class FileContentUtil {
   public static String resolveContentType(
       ProjectState project, String path, FileMode fileMode, String mimeType) {
     switch (fileMode) {
-      case FILE:
+      case FILE -> {
         if (Patch.COMMIT_MSG.equals(path)) {
           return TEXT_X_GERRIT_COMMIT_MESSAGE;
         }
@@ -324,12 +324,14 @@ public class FileContentUtil {
           }
         }
         return mimeType;
-      case GITLINK:
+      }
+      case GITLINK -> {
         return X_GIT_GITLINK;
-      case SYMLINK:
+      }
+      case SYMLINK -> {
         return X_GIT_SYMLINK;
-      default:
-        throw new IllegalStateException("file mode: " + fileMode);
+      }
+      default -> throw new IllegalStateException("file mode: " + fileMode);
     }
   }
 

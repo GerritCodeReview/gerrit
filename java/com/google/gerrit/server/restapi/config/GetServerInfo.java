@@ -195,32 +195,22 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     }
 
     switch (info.authType) {
-      case LDAP:
-      case LDAP_BIND:
+      case LDAP, LDAP_BIND -> {
         info.registerUrl = authConfig.getRegisterUrl();
         info.registerText = authConfig.getRegisterText();
         info.editFullNameUrl = authConfig.getEditFullNameUrl();
-        break;
-
-      case CUSTOM_EXTENSION:
+      }
+      case CUSTOM_EXTENSION -> {
         info.registerUrl = authConfig.getRegisterUrl();
         info.registerText = authConfig.getRegisterText();
         info.editFullNameUrl = authConfig.getEditFullNameUrl();
         info.httpPasswordUrl = authConfig.getHttpPasswordUrl();
-        break;
-
-      case HTTP:
-      case HTTP_LDAP:
+      }
+      case HTTP, HTTP_LDAP -> {
         info.loginUrl = authConfig.getLoginUrl();
         info.loginText = authConfig.getLoginText();
-        break;
-
-      case CLIENT_SSL_CERT_LDAP:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case OAUTH:
-      case OPENID:
-      case OPENID_SSO:
-        break;
+      }
+      case CLIENT_SSL_CERT_LDAP, DEVELOPMENT_BECOME_ANY_ACCOUNT, OAUTH, OPENID, OPENID_SSO -> {}
     }
     return info;
   }

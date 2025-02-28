@@ -86,12 +86,8 @@ public class AttentionSetObserver {
     HashSet<Integer> added = new HashSet<>();
     HashSet<Integer> removed = new HashSet<>();
     switch (update.operation()) {
-      case ADD:
-        added.add(target.account().id().get());
-        break;
-      case REMOVE:
-        removed.add(target.account().id().get());
-        break;
+      case ADD -> added.add(target.account().id().get());
+      case REMOVE -> removed.add(target.account().id().get());
     }
 
     try {

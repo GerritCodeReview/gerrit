@@ -83,33 +83,15 @@ public class WebModule extends LifecycleModule {
 
   private void installAuthModule() {
     switch (authConfig.getAuthType()) {
-      case HTTP:
-      case HTTP_LDAP:
-        install(new HttpAuthModule(authConfig));
-        break;
-
-      case CLIENT_SSL_CERT_LDAP:
-        install(new HttpsClientSslCertModule());
-        break;
-
-      case LDAP:
-      case LDAP_BIND:
-        install(new LdapAuthModule());
-        break;
-
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new BecomeAnyAccountModule());
-        break;
-
-      case OAUTH:
-      // OAuth support is bound in WebAppInitializer and Daemon.
-      case OPENID:
-      case OPENID_SSO:
-      // OpenID support is bound in WebAppInitializer and Daemon.
-      case CUSTOM_EXTENSION:
-        break;
-      default:
-        throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
+      case HTTP, HTTP_LDAP -> install(new HttpAuthModule(authConfig));
+      case CLIENT_SSL_CERT_LDAP -> install(new HttpsClientSslCertModule());
+      case LDAP, LDAP_BIND -> install(new LdapAuthModule());
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT -> install(new BecomeAnyAccountModule());
+      case OAUTH, OPENID, OPENID_SSO, CUSTOM_EXTENSION -> {
+        // OAuth support is bound in WebAppInitializer and Daemon.
+        // OpenID support is bound in WebAppInitializer and Daemon.
+      }
+      default -> throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
   }
 }

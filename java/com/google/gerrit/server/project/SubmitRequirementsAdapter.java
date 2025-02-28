@@ -246,18 +246,11 @@ public class SubmitRequirementsAdapter {
   }
 
   private static Status mapStatus(Label label) {
-    SubmitRequirementExpressionResult.Status status = Status.PASS;
-    switch (label.status) {
-      case OK:
-      case MAY:
-        status = Status.PASS;
-        break;
-      case REJECT:
-      case NEED:
-      case IMPOSSIBLE:
-        status = Status.FAIL;
-        break;
-    }
+    SubmitRequirementExpressionResult.Status status =
+        switch (label.status) {
+          case OK, MAY -> Status.PASS;
+          case REJECT, NEED, IMPOSSIBLE -> Status.FAIL;
+        };
     return status;
   }
 

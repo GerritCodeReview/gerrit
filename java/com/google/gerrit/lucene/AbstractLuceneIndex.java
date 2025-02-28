@@ -59,7 +59,6 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -79,6 +78,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexCommit;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.SnapshotDeletionPolicy;
 import org.apache.lucene.index.Term;
@@ -99,6 +99,24 @@ import org.apache.lucene.store.FSDirectory;
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public interface FunctionThrows<T, R, E extends Exception> {
+    R apply(T t) throws E;
+  }
+
+  public interface IndexManager {
+    ListenableFuture<?> submit(FunctionThrows<IndexWriter, Long, IOException> writeTask);
+
+    void deleteAll() throws IOException;
+
+    IndexSearcher acquire() throws IOException;
+
+    default void release(IndexSearcher searcher) throws IOException {}
+
+    IndexWriter getSnapshotWriter() throws IOException;
+
+    default void close() {}
+  }
+
   static String sortFieldName(SchemaField<?, ?> f) {
     return f.getName() + "_SORT";
   }
@@ -108,16 +126,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final Directory dir;
   private final String name;
   private final ImmutableSet<String> skipFields;
-  private final ListeningExecutorService writerThread;
-  private final IndexWriter writer;
-  private final ReferenceManager<IndexSearcher> searcherManager;
-  private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
-  private final Set<NrtFuture> notDoneNrtFutures;
-  private final AutoFlush autoFlush;
-  private ScheduledExecutorService autoCommitExecutor;
   private final Function<V, K> valueToKeyFunction;
+  private final IndexManager indexManager;
 
-  @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
       Schema<V> schema,
       SitePaths sitePaths,
@@ -135,188 +146,289 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.dir = dir;
     this.name = name;
     this.skipFields = skipFields;
-    this.autoFlush = autoFlush;
     this.valueToKeyFunction = valueToKeyFunction;
-    String index = Joiner.on('_').skipNulls().join(name, subIndex);
-    long commitPeriod = writerConfig.getCommitWithinMs();
 
-    writerConfig.setIndexDeletionPolicy(
-        new SnapshotDeletionPolicy(writerConfig.getIndexDeletionPolicy()));
-
-    if (commitPeriod < 0) {
-      writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
-    } else if (commitPeriod == 0) {
-      writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
-    } else {
-      final AutoCommitWriter autoCommitWriter =
-          new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
-      writer = autoCommitWriter;
-
-      autoCommitExecutor =
-          new LoggingContextAwareScheduledExecutorService(
-              new ScheduledThreadPoolExecutor(
-                  1,
-                  new ThreadFactoryBuilder()
-                      .setNameFormat(index + " Commit-%d")
-                      .setDaemon(true)
-                      .build()));
-      @SuppressWarnings("unused") // Error handling within Runnable.
-      Future<?> possiblyIgnoredError =
-          autoCommitExecutor.scheduleAtFixedRate(
-              () -> {
-                try {
-                  if (autoCommitWriter.hasUncommittedChanges()) {
-                    autoCommitWriter.manualFlush();
-                    autoCommitWriter.commit();
-                  }
-                } catch (IOException e) {
-                  logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
-                } catch (OutOfMemoryError e) {
-                  logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
-                  try {
-                    autoCommitWriter.close();
-                  } catch (IOException e2) {
-                    logger.atSevere().withCause(e).log(
-                        "SEVERE: Error closing %s Lucene index after OOM;"
-                            + " index may be corrupted.",
-                        index);
-                  }
-                }
-              },
-              commitPeriod,
-              commitPeriod,
-              MILLISECONDS);
-    }
-    searcherManager = new WrappableSearcherManager(writer, true, searcherFactory);
-
-    notDoneNrtFutures = Sets.newConcurrentHashSet();
-
-    writerThread =
-        MoreExecutors.listeningDecorator(
-            new LoggingContextAwareExecutorService(
-                Executors.newFixedThreadPool(
-                    1,
-                    new ThreadFactoryBuilder()
-                        .setNameFormat(index + " Write-%d")
-                        .setDaemon(true)
-                        .build())));
-
-    reopenThread =
-        new ControlledRealTimeReopenThread<>(
-            writer,
-            searcherManager,
-            0.500 /* maximum stale age (seconds) */,
-            0.010 /* minimum stale age (seconds) */);
-    reopenThread.setName(index + " NRT");
-    reopenThread.setPriority(
-        Math.min(Thread.currentThread().getPriority() + 2, Thread.MAX_PRIORITY));
-    reopenThread.setDaemon(true);
-
-    // This must be added after the reopen thread is created. The reopen thread
-    // adds its own listener which copies its internally last-refreshed
-    // generation to the searching generation. removeIfDone() depends on the
-    // searching generation being up to date when calling
-    // reopenThread.waitForGeneration(gen, 0), therefore the reopen thread's
-    // internal listener needs to be called first.
-    // TODO(dborowitz): This may have been fixed by
-    // http://issues.apache.org/jira/browse/LUCENE-5461
-    searcherManager.addListener(
-        new RefreshListener() {
-          @Override
-          public void beforeRefresh() throws IOException {}
-
-          @Override
-          public void afterRefresh(boolean didRefresh) throws IOException {
-            for (NrtFuture f : notDoneNrtFutures) {
-              f.removeIfDone();
-            }
-          }
-        });
-
-    if (autoFlush.equals(AutoFlush.ENABLED)) {
-      reopenThread.start();
-    }
+    indexManager =
+        new ThreadedIndexManager(dir, name, subIndex, writerConfig, searcherFactory, autoFlush);
   }
 
-  private final class NrtFuture extends AbstractFuture<Void> {
-    private final long gen;
+  public static class ThreadedIndexManager implements IndexManager {
+    private final String name;
+    private final IndexWriter writer;
+    private final ReferenceManager<IndexSearcher> searcherManager;
+    private final Set<NrtFuture> notDoneNrtFutures;
+    private final ListeningExecutorService writerThread;
+    private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
+    private final AutoFlush autoFlush;
+    private ScheduledExecutorService autoCommitExecutor;
 
-    NrtFuture(long gen) {
-      this.gen = gen;
-    }
+    @SuppressWarnings("ThreadPriorityCheck")
+    ThreadedIndexManager(
+        Directory dir,
+        String name,
+        String subIndex,
+        GerritIndexWriterConfig writerConfig,
+        SearcherFactory searcherFactory,
+        AutoFlush autoFlush)
+        throws IOException {
+      this.name = name;
+      this.autoFlush = autoFlush;
 
-    @Override
-    public Void get() throws InterruptedException, ExecutionException {
-      if (!isDone()) {
-        reopenThread.waitForGeneration(gen);
-        set(null);
+      IndexWriterConfig luceneConfig = writerConfig.getLuceneConfig();
+      luceneConfig.setIndexDeletionPolicy(
+          new SnapshotDeletionPolicy(luceneConfig.getIndexDeletionPolicy()));
+
+      String index = Joiner.on('_').skipNulls().join(name, subIndex);
+      long commitPeriod = writerConfig.getCommitWithinMs();
+
+      if (commitPeriod < 0) {
+        writer = new AutoCommitWriter(dir, luceneConfig);
+      } else if (commitPeriod == 0) {
+        writer = new AutoCommitWriter(dir, luceneConfig, true);
+      } else {
+        final AutoCommitWriter autoCommitWriter = new AutoCommitWriter(dir, luceneConfig);
+        writer = autoCommitWriter;
+
+        autoCommitExecutor =
+            new LoggingContextAwareScheduledExecutorService(
+                new ScheduledThreadPoolExecutor(
+                    1,
+                    new ThreadFactoryBuilder()
+                        .setNameFormat(index + " Commit-%d")
+                        .setDaemon(true)
+                        .build()));
+        @SuppressWarnings("unused") // Error handling within Runnable.
+        Future<?> possiblyIgnoredError =
+            autoCommitExecutor.scheduleAtFixedRate(
+                () -> {
+                  try {
+                    if (autoCommitWriter.hasUncommittedChanges()) {
+                      autoCommitWriter.manualFlush();
+                      autoCommitWriter.commit();
+                    }
+                  } catch (IOException e) {
+                    logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
+                  } catch (OutOfMemoryError e) {
+                    logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
+                    try {
+                      autoCommitWriter.close();
+                    } catch (IOException e2) {
+                      logger.atSevere().withCause(e).log(
+                          "SEVERE: Error closing %s Lucene index after OOM;"
+                              + " index may be corrupted.",
+                          index);
+                    }
+                  }
+                },
+                commitPeriod,
+                commitPeriod,
+                MILLISECONDS);
       }
-      return super.get();
+      searcherManager = new WrappableSearcherManager(writer, true, searcherFactory);
+
+      notDoneNrtFutures = Sets.newConcurrentHashSet();
+
+      writerThread =
+          MoreExecutors.listeningDecorator(
+              new LoggingContextAwareExecutorService(
+                  Executors.newFixedThreadPool(
+                      1,
+                      new ThreadFactoryBuilder()
+                          .setNameFormat(index + " Write-%d")
+                          .setDaemon(true)
+                          .build())));
+
+      reopenThread =
+          new ControlledRealTimeReopenThread<>(
+              writer,
+              searcherManager,
+              0.500 /* maximum stale age (seconds) */,
+              0.010 /* minimum stale age (seconds) */);
+      reopenThread.setName(index + " NRT");
+      reopenThread.setPriority(
+          Math.min(Thread.currentThread().getPriority() + 2, Thread.MAX_PRIORITY));
+      reopenThread.setDaemon(true);
+
+      // This must be added after the reopen thread is created. The reopen thread
+      // adds its own listener which copies its internally last-refreshed
+      // generation to the searching generation. removeIfDone() depends on the
+      // searching generation being up to date when calling
+      // reopenThread.waitForGeneration(gen, 0), therefore the reopen thread's
+      // internal listener needs to be called first.
+      // TODO(dborowitz): This may have been fixed by
+      // http://issues.apache.org/jira/browse/LUCENE-5461
+      searcherManager.addListener(
+          new RefreshListener() {
+            @Override
+            public void beforeRefresh() throws IOException {}
+
+            @Override
+            public void afterRefresh(boolean didRefresh) throws IOException {
+              for (NrtFuture f : notDoneNrtFutures) {
+                f.removeIfDone();
+              }
+            }
+          });
+
+      if (autoFlush.equals(AutoFlush.ENABLED)) {
+        reopenThread.start();
+      }
     }
 
     @Override
-    public Void get(long timeout, TimeUnit unit)
-        throws InterruptedException, TimeoutException, ExecutionException {
-      if (!isDone()) {
-        if (!reopenThread.waitForGeneration(gen, (int) unit.toMillis(timeout))) {
-          throw new TimeoutException();
+    public ListenableFuture<?> submit(FunctionThrows<IndexWriter, Long, IOException> writeTask) {
+      ListenableFuture<Long> future =
+          Futures.nonCancellationPropagating(writerThread.submit(() -> writeTask.apply(writer)));
+      return Futures.transformAsync(
+          future,
+          gen -> {
+            // Tell the reopen thread a future is waiting on this
+            // generation so it uses the min stale time when refreshing.
+            reopenThread.waitForGeneration(gen, 0);
+            return new NrtFuture(gen);
+          },
+          directExecutor());
+    }
+
+    @Override
+    public void deleteAll() throws IOException {
+      writer.deleteAll();
+    }
+
+    @Override
+    public IndexSearcher acquire() throws IOException {
+      return searcherManager.acquire();
+    }
+
+    @Override
+    public void release(IndexSearcher searcher) throws IOException {
+      searcherManager.release(searcher);
+    }
+
+    @Override
+    public IndexWriter getSnapshotWriter() throws IOException {
+      return writer;
+    }
+
+    @Override
+    public void close() {
+      if (autoCommitExecutor != null) {
+        autoCommitExecutor.shutdown();
+      }
+
+      writerThread.shutdown();
+      try {
+        if (!writerThread.awaitTermination(5, TimeUnit.SECONDS)) {
+          logger.atWarning().log("shutting down %s index with pending Lucene writes", name);
         }
-        set(null);
+      } catch (InterruptedException e) {
+        logger.atWarning().withCause(e).log(
+            "interrupted waiting for pending Lucene writes of %s index", name);
       }
-      return super.get(timeout, unit);
+      reopenThread.close();
+
+      // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we
+      // still need to refresh the searcher manager to let pending NrtFutures
+      // know.
+      //
+      // Any futures created after this method (which may happen due to undefined
+      // shutdown ordering behavior) will finish immediately, even though they may
+      // not have flushed.
+      try {
+        searcherManager.maybeRefreshBlocking();
+      } catch (IOException e) {
+        logger.atWarning().withCause(e).log("error finishing pending Lucene writes");
+      }
+
+      try {
+        writer.close();
+      } catch (AlreadyClosedException e) {
+        // Ignore.
+      } catch (IOException e) {
+        logger.atWarning().withCause(e).log("error closing Lucene writer");
+      }
     }
 
-    @Override
-    public boolean isDone() {
-      if (super.isDone()) {
-        return true;
-      } else if (isGenAvailableNowForCurrentSearcher()) {
-        set(null);
-        return true;
-      } else if (!reopenThread.isAlive()) {
-        setException(new IllegalStateException("NRT thread is dead"));
-        return true;
-      }
-      return false;
-    }
+    private final class NrtFuture extends AbstractFuture<Void> {
+      private final long gen;
 
-    @Override
-    public void addListener(Runnable listener, Executor executor) {
-      if (isGenAvailableNowForCurrentSearcher() && !isCancelled()) {
-        set(null);
-      } else if (!isDone()) {
-        notDoneNrtFutures.add(this);
+      NrtFuture(long gen) {
+        this.gen = gen;
       }
-      super.addListener(listener, executor);
-    }
 
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-      boolean result = super.cancel(mayInterruptIfRunning);
-      if (result) {
-        notDoneNrtFutures.remove(this);
-      }
-      return result;
-    }
-
-    void removeIfDone() {
-      if (isGenAvailableNowForCurrentSearcher()) {
-        notDoneNrtFutures.remove(this);
-        if (!isCancelled()) {
+      @Override
+      public Void get() throws InterruptedException, ExecutionException {
+        if (!isDone()) {
+          reopenThread.waitForGeneration(gen);
           set(null);
         }
+        return super.get();
       }
-    }
 
-    private boolean isGenAvailableNowForCurrentSearcher() {
-      if (autoFlush.equals(AutoFlush.DISABLED)) {
-        return true;
+      @Override
+      public Void get(long timeout, TimeUnit unit)
+          throws InterruptedException, TimeoutException, ExecutionException {
+        if (!isDone()) {
+          if (!reopenThread.waitForGeneration(gen, (int) unit.toMillis(timeout))) {
+            throw new TimeoutException();
+          }
+          set(null);
+        }
+        return super.get(timeout, unit);
       }
-      try {
-        return reopenThread.waitForGeneration(gen, 0);
-      } catch (InterruptedException e) {
-        logger.atWarning().withCause(e).log("Interrupted waiting for searcher generation");
+
+      @Override
+      public boolean isDone() {
+        if (super.isDone()) {
+          return true;
+        } else if (isGenAvailableNowForCurrentSearcher()) {
+          set(null);
+          return true;
+        } else if (!reopenThread.isAlive()) {
+          setException(new IllegalStateException("NRT thread is dead"));
+          return true;
+        }
         return false;
+      }
+
+      @Override
+      public void addListener(Runnable listener, Executor executor) {
+        if (isGenAvailableNowForCurrentSearcher() && !isCancelled()) {
+          set(null);
+        } else if (!isDone()) {
+          notDoneNrtFutures.add(this);
+        }
+        super.addListener(listener, executor);
+      }
+
+      @Override
+      public boolean cancel(boolean mayInterruptIfRunning) {
+        boolean result = super.cancel(mayInterruptIfRunning);
+        if (result) {
+          notDoneNrtFutures.remove(this);
+        }
+        return result;
+      }
+
+      void removeIfDone() {
+        if (isGenAvailableNowForCurrentSearcher()) {
+          notDoneNrtFutures.remove(this);
+          if (!isCancelled()) {
+            set(null);
+          }
+        }
+      }
+
+      private boolean isGenAvailableNowForCurrentSearcher() {
+        if (autoFlush.equals(AutoFlush.DISABLED)) {
+          return true;
+        }
+        try {
+          return reopenThread.waitForGeneration(gen, 0);
+        } catch (InterruptedException e) {
+          logger.atWarning().withCause(e).log("Interrupted waiting for searcher generation");
+          return false;
+        }
       }
     }
   }
@@ -328,41 +440,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   @Override
   public void close() {
-    if (autoCommitExecutor != null) {
-      autoCommitExecutor.shutdown();
-    }
-
-    writerThread.shutdown();
-    try {
-      if (!writerThread.awaitTermination(5, TimeUnit.SECONDS)) {
-        logger.atWarning().log("shutting down %s index with pending Lucene writes", name);
-      }
-    } catch (InterruptedException e) {
-      logger.atWarning().withCause(e).log(
-          "interrupted waiting for pending Lucene writes of %s index", name);
-    }
-    reopenThread.close();
-
-    // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we
-    // still need to refresh the searcher manager to let pending NrtFutures
-    // know.
-    //
-    // Any futures created after this method (which may happen due to undefined
-    // shutdown ordering behavior) will finish immediately, even though they may
-    // not have flushed.
-    try {
-      searcherManager.maybeRefreshBlocking();
-    } catch (IOException e) {
-      logger.atWarning().withCause(e).log("error finishing pending Lucene writes");
-    }
-
-    try {
-      writer.close();
-    } catch (AlreadyClosedException e) {
-      // Ignore.
-    } catch (IOException e) {
-      logger.atWarning().withCause(e).log("error closing Lucene writer");
-    }
+    indexManager.close();
     try {
       dir.close();
     } catch (IOException e) {
@@ -371,28 +449,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   ListenableFuture<?> insert(Document doc) {
-    return submit(() -> writer.addDocument(doc));
+    return indexManager.submit(w -> w.addDocument(doc));
   }
 
   ListenableFuture<?> replace(Term term, Document doc) {
-    return submit(() -> writer.updateDocument(term, doc));
+    return indexManager.submit(w -> w.updateDocument(term, doc));
   }
 
   ListenableFuture<?> delete(Term term) {
-    return submit(() -> writer.deleteDocuments(term));
-  }
-
-  private ListenableFuture<?> submit(Callable<Long> task) {
-    ListenableFuture<Long> future = Futures.nonCancellationPropagating(writerThread.submit(task));
-    return Futures.transformAsync(
-        future,
-        gen -> {
-          // Tell the reopen thread a future is waiting on this
-          // generation so it uses the min stale time when refreshing.
-          reopenThread.waitForGeneration(gen, 0);
-          return new NrtFuture(gen);
-        },
-        directExecutor());
+    return indexManager.submit(w -> w.deleteDocuments(term));
   }
 
   @Override
@@ -403,7 +468,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() {
     try {
-      writer.deleteAll();
+      indexManager.deleteAll();
     } catch (IOException e) {
       throw new StorageException(e);
     }
@@ -424,16 +489,12 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
   }
 
-  public IndexWriter getWriter() {
-    return writer;
-  }
-
   IndexSearcher acquire() throws IOException {
-    return searcherManager.acquire();
+    return indexManager.acquire();
   }
 
   void release(IndexSearcher searcher) throws IOException {
-    searcherManager.release(searcher);
+    indexManager.release(searcher);
   }
 
   Document toDocument(V obj) {
@@ -543,7 +604,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   @Override
   public boolean snapshot(String id) throws IOException {
     SnapshotDeletionPolicy snapshooter =
-        (SnapshotDeletionPolicy) writer.getConfig().getIndexDeletionPolicy();
+        (SnapshotDeletionPolicy)
+            indexManager.getSnapshotWriter().getConfig().getIndexDeletionPolicy();
 
     IndexCommit commit = snapshooter.snapshot();
     try {

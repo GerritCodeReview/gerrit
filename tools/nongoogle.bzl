@@ -235,8 +235,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "error-prone-annotations",
-        artifact = "com.google.errorprone:error_prone_annotations:2.22.0",
-        sha1 = "bfb9e4281a4cea34f0ec85b3acd47621cfab35b4",
+        artifact = "com.google.errorprone:error_prone_annotations:2.36.0",
+        sha1 = "227d4d4957ccc3dc5761bd897e3a0ee587e750a7",
     )
 
     FLOGGER_VERS = "0.8"

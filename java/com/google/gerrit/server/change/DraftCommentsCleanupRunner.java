@@ -65,7 +65,7 @@ public class DraftCommentsCleanupRunner implements Runnable {
     public void stop() {}
   }
 
-  private DeleteZombieCommentsRefs.Factory factory;
+  private final DeleteZombieCommentsRefs.Factory factory;
 
   @Inject
   DraftCommentsCleanupRunner(DeleteZombieCommentsRefs.Factory factory) {

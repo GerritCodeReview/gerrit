@@ -1218,6 +1218,8 @@ public class ProjectIT extends AbstractDaemonTest {
     // Blocking read permission on master so that refs/changes/01/1/1 becomes non-visible
     blockReadPermission(R_HEADS_MASTER);
 
+    // Use a non-admin user, since admins can always see all changes.
+    requestScopeOperations.setApiUser(user.id());
     assertThat(
             getCommitsIncludedInRefs(
                 change.getCommit().getName(), Arrays.asList(change.getPatchSet().refName())))

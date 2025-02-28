@@ -22,10 +22,12 @@ import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
+import com.google.gerrit.server.project.LockManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -66,20 +68,31 @@ public class DraftCommentsCleanupRunner implements Runnable {
   }
 
   private final DeleteZombieCommentsRefs.Factory factory;
+  private final LockManager lockManager;
 
   @Inject
-  DraftCommentsCleanupRunner(DeleteZombieCommentsRefs.Factory factory) {
+  DraftCommentsCleanupRunner(DeleteZombieCommentsRefs.Factory factory, LockManager lockManager) {
     this.factory = factory;
+    this.lockManager = lockManager;
   }
 
   @Override
   public void run() {
+    Lock lock = lockManager.getLock("draft-comments-cleanup");
+    if (!lock.tryLock()) {
+      logger.atInfo().log(
+          "Couldn't acquire draft-comments-cleanup lock. Assuming the task is running");
+      return;
+    }
+
     try (DeleteZombieCommentsRefs task = factory.create(100)) {
       logger.atInfo().log("Starting draft comments cleanup");
       task.execute();
       logger.atInfo().log("Finished draft comments cleanup");
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Draft comments cleanup error");
+    } finally {
+      lock.unlock();
     }
   }
 }

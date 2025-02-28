@@ -74,9 +74,9 @@ public class DraftCommentsCleanupRunner implements Runnable {
 
   @Override
   public void run() {
-    try {
+    try (DeleteZombieCommentsRefs task = factory.create(100)) {
       logger.atInfo().log("Starting draft comments cleanup");
-      factory.create(100).execute();
+      task.execute();
       logger.atInfo().log("Finished draft comments cleanup");
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Draft comments cleanup error");

@@ -65,17 +65,12 @@ public class ChangeKindCreator {
   public String createChange(
       ChangeKind kind, TestRepository<InMemoryRepository> testRepo, TestAccount user)
       throws Exception {
-    switch (kind) {
-      case NO_CODE_CHANGE:
-      case REWORK:
-      case TRIVIAL_REBASE:
-      case NO_CHANGE:
-        return createChange(testRepo, user).getChangeId();
-      case MERGE_FIRST_PARENT_UPDATE:
-        return createChangeForMergeCommit(testRepo, user);
-      default:
-        throw new IllegalStateException("unexpected change kind: " + kind);
-    }
+    return switch (kind) {
+      case NO_CODE_CHANGE, REWORK, TRIVIAL_REBASE, TRIVIAL_REBASE_WITH_MESSAGE_UPDATE, NO_CHANGE ->
+          createChange(testRepo, user).getChangeId();
+      case MERGE_FIRST_PARENT_UPDATE -> createChangeForMergeCommit(testRepo, user);
+      default -> throw new IllegalStateException("unexpected change kind: " + kind);
+    };
   }
 
   /** Updates a change with the given {@link ChangeKind}. */
@@ -87,23 +82,27 @@ public class ChangeKindCreator {
       Project.NameKey project)
       throws Exception {
     switch (changeKind) {
-      case NO_CODE_CHANGE:
+      case NO_CODE_CHANGE -> {
         noCodeChange(changeId, testRepo, user);
         return;
-      case REWORK:
+      }
+      case REWORK -> {
         rework(changeId, testRepo, user);
         return;
-      case TRIVIAL_REBASE:
+      }
+      case TRIVIAL_REBASE -> {
         trivialRebase(changeId, testRepo, user, project);
         return;
-      case MERGE_FIRST_PARENT_UPDATE:
+      }
+      case MERGE_FIRST_PARENT_UPDATE -> {
         updateFirstParent(changeId, testRepo, user);
         return;
-      case NO_CHANGE:
+      }
+      case NO_CHANGE -> {
         noChange(changeId, testRepo, user);
         return;
-      default:
-        assertWithMessage("unexpected change kind: " + changeKind).fail();
+      }
+      default -> assertWithMessage("unexpected change kind: " + changeKind).fail();
     }
   }
 

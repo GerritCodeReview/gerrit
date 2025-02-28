@@ -46,20 +46,14 @@ public class MagicValuePredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    switch (value) {
-      case ANY:
-        return true;
-      case MIN:
-        return ctx.approvalValue() == ctx.labelType().getMaxNegative();
-      case MAX:
-        return ctx.approvalValue() == ctx.labelType().getMaxPositive();
-      case POSITIVE:
-        return ctx.approvalValue() > 0;
-      case NEGATIVE:
-        return ctx.approvalValue() < 0;
-      default:
-        throw new IllegalArgumentException("unrecognized label value: " + value);
-    }
+    return switch (value) {
+      case ANY -> true;
+      case MIN -> ctx.approvalValue() == ctx.labelType().getMaxNegative();
+      case MAX -> ctx.approvalValue() == ctx.labelType().getMaxPositive();
+      case POSITIVE -> ctx.approvalValue() > 0;
+      case NEGATIVE -> ctx.approvalValue() < 0;
+      default -> throw new IllegalArgumentException("unrecognized label value: " + value);
+    };
   }
 
   @Override

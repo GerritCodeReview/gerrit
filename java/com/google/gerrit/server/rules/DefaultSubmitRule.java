@@ -72,15 +72,8 @@ public final class DefaultSubmitRule implements SubmitRule {
       submitRecord.labels.add(label);
 
       switch (label.status) {
-        case OK:
-        case MAY:
-          break;
-
-        case NEED:
-        case REJECT:
-        case IMPOSSIBLE:
-          submitRecord.status = SubmitRecord.Status.NOT_READY;
-          break;
+        case OK, MAY -> {}
+        case NEED, REJECT, IMPOSSIBLE -> submitRecord.status = SubmitRecord.Status.NOT_READY;
       }
     }
 

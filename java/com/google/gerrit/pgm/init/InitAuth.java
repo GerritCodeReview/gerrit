@@ -78,83 +78,67 @@ class InitAuth implements InitStep {
             "type",
             flags.dev ? AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT : AuthType.OPENID);
     switch (authType) {
-      case HTTP:
-      case HTTP_LDAP:
-        {
-          String hdr = auth.get("httpHeader");
-          if (ui.yesno(hdr != null, "Get username from custom HTTP header")) {
-            auth.string("Username HTTP header", "httpHeader", "SM_USER");
-          } else if (hdr != null) {
-            auth.unset("httpHeader");
-          }
-          auth.string("SSO logout URL", "logoutUrl", null);
-          break;
+      case HTTP, HTTP_LDAP -> {
+        String hdr = auth.get("httpHeader");
+        if (ui.yesno(hdr != null, "Get username from custom HTTP header")) {
+          auth.string("Username HTTP header", "httpHeader", "SM_USER");
+        } else if (hdr != null) {
+          auth.unset("httpHeader");
         }
-
-      case LDAP:
-        {
+        auth.string("SSO logout URL", "logoutUrl", null);
+      }
+      case LDAP ->
           auth.select(
               "Git/HTTP authentication",
               "gitBasicAuthPolicy",
               HTTP,
               EnumSet.of(HTTP, HTTP_LDAP, LDAP));
-          break;
-        }
-      case OAUTH:
-        {
-          GitBasicAuthPolicy gitBasicAuth =
-              auth.select(
-                  "Git/HTTP authentication", "gitBasicAuthPolicy", HTTP, EnumSet.of(HTTP, OAUTH));
+      case OAUTH -> {
+        GitBasicAuthPolicy gitBasicAuth =
+            auth.select(
+                "Git/HTTP authentication", "gitBasicAuthPolicy", HTTP, EnumSet.of(HTTP, OAUTH));
 
-          if (gitBasicAuth == OAUTH) {
-            ui.message(
-                "*WARNING* Please make sure that your chosen OAuth provider\n"
-                    + "supports Git token authentication.\n");
-          }
-          break;
+        if (gitBasicAuth == OAUTH) {
+          ui.message(
+              "*WARNING* Please make sure that your chosen OAuth provider\n"
+                  + "supports Git token authentication.\n");
         }
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case LDAP_BIND:
-      case OPENID:
-      case OPENID_SSO:
-        break;
+      }
+      case CLIENT_SSL_CERT_LDAP,
+          CUSTOM_EXTENSION,
+          DEVELOPMENT_BECOME_ANY_ACCOUNT,
+          LDAP_BIND,
+          OPENID,
+          OPENID_SSO -> {}
     }
 
     switch (authType) {
-      case LDAP:
-      case LDAP_BIND:
-      case HTTP_LDAP:
-        {
-          String server = ldap.string("LDAP server", "server", "ldap://localhost");
-          if (server != null //
-              && !server.startsWith("ldap://") //
-              && !server.startsWith("ldaps://")) {
-            if (ui.yesno(false, "Use SSL")) {
-              server = "ldaps://" + server;
-            } else {
-              server = "ldap://" + server;
-            }
-            ldap.set("server", server);
+      case LDAP, LDAP_BIND, HTTP_LDAP -> {
+        String server = ldap.string("LDAP server", "server", "ldap://localhost");
+        if (server != null //
+            && !server.startsWith("ldap://") //
+            && !server.startsWith("ldaps://")) {
+          if (ui.yesno(false, "Use SSL")) {
+            server = "ldaps://" + server;
+          } else {
+            server = "ldap://" + server;
           }
-
-          ldap.string("LDAP username", "username", null);
-          ldap.password("username", "password");
-
-          String aBase = ldap.string("Account BaseDN", "accountBase", dnOf(server));
-          ldap.string("Group BaseDN", "groupBase", aBase);
-          break;
+          ldap.set("server", server);
         }
 
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
-      case OAUTH:
-      case OPENID:
-      case OPENID_SSO:
-        break;
+        ldap.string("LDAP username", "username", null);
+        ldap.password("username", "password");
+
+        String aBase = ldap.string("Account BaseDN", "accountBase", dnOf(server));
+        ldap.string("Group BaseDN", "groupBase", aBase);
+      }
+      case CLIENT_SSL_CERT_LDAP,
+          CUSTOM_EXTENSION,
+          DEVELOPMENT_BECOME_ANY_ACCOUNT,
+          HTTP,
+          OAUTH,
+          OPENID,
+          OPENID_SSO -> {}
     }
   }
 

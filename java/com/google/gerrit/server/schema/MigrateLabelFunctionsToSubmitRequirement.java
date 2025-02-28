@@ -314,20 +314,16 @@ public class MigrateLabelFunctionsToSubmitRequirement {
         String.format("label:%s=MAX", labelName)
             + (attributes.ignoreSelfApproval() ? ",user=non_uploader" : "");
     switch (attributes.function()) {
-      case "MaxWithBlock":
-        builder.setSubmittabilityExpression(
-            SubmitRequirementExpression.create(
-                String.format("%s AND -label:%s=MIN", maxPart, labelName)));
-        break;
-      case "AnyWithBlock":
-        builder.setSubmittabilityExpression(
-            SubmitRequirementExpression.create(String.format("-label:%s=MIN", labelName)));
-        break;
-      case "MaxNoBlock":
-        builder.setSubmittabilityExpression(SubmitRequirementExpression.create(maxPart));
-        break;
-      default:
-        break;
+      case "MaxWithBlock" ->
+          builder.setSubmittabilityExpression(
+              SubmitRequirementExpression.create(
+                  String.format("%s AND -label:%s=MIN", maxPart, labelName)));
+      case "AnyWithBlock" ->
+          builder.setSubmittabilityExpression(
+              SubmitRequirementExpression.create(String.format("-label:%s=MIN", labelName)));
+      case "MaxNoBlock" ->
+          builder.setSubmittabilityExpression(SubmitRequirementExpression.create(maxPart));
+      default -> {}
     }
     if (!attributes.refPatterns().isEmpty()) {
       builder.setApplicabilityExpression(

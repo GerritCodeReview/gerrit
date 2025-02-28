@@ -343,10 +343,12 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
 
       switch (inputMode) {
-        case 100755:
+        case 100755 -> {
           return EXECUTABLE_FILE.getMode();
-        case 100644:
+        }
+        case 100644 -> {
           return REGULAR_FILE.getMode();
+        }
       }
 
       throw new BadRequestException(

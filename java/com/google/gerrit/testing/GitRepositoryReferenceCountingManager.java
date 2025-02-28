@@ -16,7 +16,7 @@ package com.google.gerrit.testing;
 
 import static org.junit.Assert.fail;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
@@ -31,7 +31,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NavigableSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -43,7 +42,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
   private final AllUsersName allUsersName;
   private final AllProjectsName allProjectsName;
 
-  private static class RepositoryTracking extends DelegateRepository {
+  private class RepositoryTracking extends DelegateRepository {
     private final AtomicInteger referenceCounter = new AtomicInteger(1);
     private final List<StackTraceElement> openCallerStack;
     private List<List<StackTraceElement>> incrementCallersStacks;
@@ -117,17 +116,15 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     @Override
     public synchronized void close() {
       super.close();
-      if (decrementCallersStacks == null) {
-        return;
-      }
       decrementCallersStacks.add(getCallers());
-      int unused = referenceCounter.decrementAndGet();
+      int counter = referenceCounter.decrementAndGet();
+
+      if (counter == 0) {
+        openRepositories.remove(this);
+      }
     }
 
     synchronized void incrementReferenceCounting() {
-      if (incrementCallersStacks == null) {
-        return;
-      }
       incrementCallersStacks.add(getCallers());
       int unused = referenceCounter.incrementAndGet();
     }
@@ -137,10 +134,6 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
       decrementCallersStacks.clear();
       incrementCallersStacks = null;
       decrementCallersStacks = null;
-    }
-
-    private synchronized Optional<String> reportIfOpen() {
-      return referenceCounter.get() > 0 ? Optional.of(toString()) : Optional.empty();
     }
   }
 
@@ -188,14 +181,14 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     return delegate.canPerformGC();
   }
 
+  public Set<? extends Repository> openRepositories() {
+    return openRepositories == null
+        ? Collections.emptySet()
+        : ImmutableSet.copyOf(openRepositories);
+  }
+
   public void assertThatAllRepositoriesAreClosed(String testName) {
-    List<String> repositoriesToReport =
-        MoreObjects.<Set<RepositoryTracking>>firstNonNull(openRepositories, Collections.emptySet())
-            .stream()
-            .map(RepositoryTracking::reportIfOpen)
-            .flatMap(Optional::stream)
-            .toList();
-    if (!repositoriesToReport.isEmpty()) {
+    if (openRepositories != null && !openRepositories.isEmpty()) {
       fail(
           "All repositories were expected to be closed at the end of the following test:\n"
               + testName
@@ -211,7 +204,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
               + "See below more details about the Repository objects created / opened and not"
               + " closed.\n"
               + "------------\n"
-              + String.join("\n------------\n", repositoriesToReport));
+              + String.join(
+                  "\n------------\n",
+                  openRepositories.stream().map(RepositoryTracking::toString).toList()));
     }
   }
 

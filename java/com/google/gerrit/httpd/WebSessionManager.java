@@ -288,31 +288,38 @@ public class WebSessionManager {
       for (; ; ) {
         final int tag = readVarInt32(in);
         switch (tag) {
-          case 0:
+          case 0 -> {
             break PARSE;
-          case 1:
+          }
+          case 1 -> {
             accountId = Account.id(readVarInt32(in));
             continue;
-          case 2:
+          }
+          case 2 -> {
             refreshCookieAt = readFixInt64(in);
             continue;
-          case 3:
+          }
+          case 3 -> {
             persistentCookie = readVarInt32(in) != 0;
             continue;
-          case 4:
+          }
+          case 4 -> {
             externalId = externalIdKeyFactory.parse(readString(in));
             continue;
-          case 5:
+          }
+          case 5 -> {
             sessionId = readString(in);
             continue;
-          case 6:
+          }
+          case 6 -> {
             expiresAt = readFixInt64(in);
             continue;
-          case 7:
+          }
+          case 7 -> {
             auth = readString(in);
             continue;
-          default:
-            throw new IOException("Unknown tag found in object: " + tag);
+          }
+          default -> throw new IOException("Unknown tag found in object: " + tag);
         }
       }
       if (expiresAt == 0) {

@@ -80,6 +80,7 @@ import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -455,7 +456,9 @@ public class LuceneChangeIndex implements ChangeIndex {
         List<Document> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
-          result.add(searchers[sd.shardIndex].doc(sd.doc, fields));
+          IndexSearcher searcher = searchers[sd.shardIndex];
+          StoredFields storedFields = searcher.getIndexReader().storedFields();
+          result.add(storedFields.document(sd.doc, fields));
         }
         return new Results(result, searchAfterBySubIndex);
       } finally {

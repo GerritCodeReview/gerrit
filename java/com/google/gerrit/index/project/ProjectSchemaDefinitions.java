@@ -75,6 +75,7 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
           .addSearchSpecs(ProjectField.PARENT_NAME_2_SPEC)
           .build();
 
+  @Deprecated
   static final Schema<ProjectData> V8 =
       new Schema.Builder<ProjectData>()
           .add(V7)
@@ -82,7 +83,10 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
           .build();
 
   // Upgrade Lucene to 9.x requires reindexing.
-  static final Schema<ProjectData> V9 = schema(V8);
+  @Deprecated static final Schema<ProjectData> V9 = schema(V8);
+
+  // Upgrade Lucene to 10.x requires reindexing.
+  static final Schema<ProjectData> V10 = schema(V9);
 
   /**
    * Name of the project index to be used when contacting index backends or loading configurations.

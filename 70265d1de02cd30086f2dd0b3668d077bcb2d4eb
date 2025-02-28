@@ -329,6 +329,30 @@
       },
       "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ef00cd_1e3f16d6",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-28T09:42:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0cc26d66_42fef509",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 24
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

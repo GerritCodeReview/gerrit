@@ -69,6 +69,24 @@
       "parentUuid": "e55858c7_ab38ed2b",
       "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b3b007_6120d614",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-28T13:31:08Z",
+      "side": 1,
+      "message": "\u003e with the correct owner account\n\n`externalId.accountId()` should definetly be the same account, but if it already exists on that account - that means the link is already done.",
+      "parentUuid": "d2d6ce4c_97444001",
+      "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

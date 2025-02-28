@@ -936,6 +936,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Project.NameKey visibleProject = Project.nameKey("visibleProject");
     createProject(visibleProject);
     Change visibleChange = insert(visibleProject, newChange(visibleProject));
+
+    // Use a non-admin user, since admins can always see all changes.
+    setRequestContextForUser(createAccount("user2"));
+
     assertQuery("project:visibleProject", visibleChange);
     assertQuery("project:hiddenProject");
     assertQuery("project:visibleProject OR project:hiddenProject", visibleChange);
@@ -4870,7 +4874,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  private void setRequestContextForUser(Account.Id userId) {
+  protected void setRequestContextForUser(Account.Id userId) {
     @SuppressWarnings("unused")
     var unused = requestContext.setContext(newRequestContext(userId));
   }

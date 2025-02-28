@@ -123,15 +123,18 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     assertQuery(newQuery("status:new").withLimit(1), expected);
 
     // create 2 new private changes
-    Account.Id user2 =
-        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
-
-    Change invisibleChange1 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
-    Change invisibleChange2 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange1 =
+        insert(project, newChangeWithStatus(repo, Change.Status.NEW), user.getAccountId());
+    Change invisibleChange2 =
+        insert(project, newChangeWithStatus(repo, Change.Status.NEW), user.getAccountId());
     gApi.changes().id(invisibleChange1.getKey().get()).setPrivate(true, null);
     gApi.changes().id(invisibleChange2.getKey().get()).setPrivate(true, null);
 
-    // pagination should back-fill when the results skipped because of the visibility
+    // Pagination should back-fill when the results skipped because of the visibility.
+    // Use a non-admin user, since admins can always see all changes.
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+    setRequestContextForUser(user2);
     assertQuery(newQuery("status:new").withLimit(1), expected);
   }
 }

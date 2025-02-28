@@ -159,6 +159,9 @@ public class QueryChangesIT extends AbstractDaemonTest {
   @UseClockStep
   @SuppressWarnings("unchecked")
   public void withPagedResults() throws Exception {
+    // Use a non-admin user, since admins can always see all changes.
+    requestScopeOperations.setApiUser(user.id());
+
     // Create 4 visible changes.
     createChange(testRepo);
     createChange(testRepo);
@@ -310,9 +313,9 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void skipVisibility_noReadPermission() throws Exception {
-    createChange();
+  public void adminsCanSeeAllChangesWithoutExplicitReadPermissions() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
+    createChange();
     QueryChanges queryChanges = queryChangesProvider.get();
 
     queryChanges.addQuery("is:open repo:" + project.get());
@@ -330,26 +333,12 @@ public class QueryChangesIT extends AbstractDaemonTest {
     queryChanges.addQuery("is:open repo:" + project.get());
     List<List<ChangeInfo>> result2 =
         (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
-    assertThat(result2).hasSize(0);
-
-    queryChanges = queryChangesProvider.get();
-    queryChanges.addQuery("is:open repo:" + project.get());
-    queryChanges.skipVisibility(true);
-    List<List<ChangeInfo>> result3 =
-        (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
-    assertThat(result3).hasSize(1);
-  }
-
-  @Test
-  public void testInvalidListChangeOption() throws Exception {
-    PushOneCommit.Result r = createChange();
-    RestResponse rep = adminRestSession.get("/changes/" + r.getChange().getId() + "/?O=ffffffff");
-    rep.assertBadRequest();
+    assertThat(result2).hasSize(1);
   }
 
   @Test
   @SuppressWarnings("unchecked")
-  public void skipVisibility_privateChange() throws Exception {
+  public void adminsCanSeePrivateChanges() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
@@ -358,18 +347,17 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
     QueryChanges queryChanges = queryChangesProvider.get();
-
     queryChanges.addQuery("is:open repo:" + project.get());
     List<List<ChangeInfo>> result2 =
         (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
-    assertThat(result2).hasSize(0);
+    assertThat(result2).hasSize(1);
+  }
 
-    queryChanges = queryChangesProvider.get();
-    queryChanges.addQuery("is:open repo:" + project.get());
-    queryChanges.skipVisibility(true);
-    List<List<ChangeInfo>> result3 =
-        (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
-    assertThat(result3).hasSize(1);
+  @Test
+  public void testInvalidListChangeOption() throws Exception {
+    PushOneCommit.Result r = createChange();
+    RestResponse rep = adminRestSession.get("/changes/" + r.getChange().getId() + "/?O=ffffffff");
+    rep.assertBadRequest();
   }
 
   /**

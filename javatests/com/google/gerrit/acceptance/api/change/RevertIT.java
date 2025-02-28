@@ -572,6 +572,9 @@ public class RevertIT extends AbstractDaemonTest {
         .forUpdate()
         .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
         .update();
+
+    // Use a non-admin user, since admins can always see all changes.
+    requestScopeOperations.setApiUser(user.id());
     ResourceNotFoundException thrown =
         assertThrows(
             ResourceNotFoundException.class, () -> gApi.changes().id(r.getChangeId()).revert());
@@ -701,6 +704,13 @@ public class RevertIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
   public void cantCreateRevertSubmissionWithoutReadPermission() throws Exception {
+    // Allow all users to revert changes.
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
     String secondProject = "secondProject";
     projectOperations.newProject().name(secondProject).create();
     TestRepository<InMemoryRepository> secondRepo =
@@ -722,7 +732,9 @@ public class RevertIT extends AbstractDaemonTest {
         .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
         .update();
 
-    // assert that if first repository has no read permissions, it will fail.
+    // Assert that if first repository has no read permissions, it will fail.
+    // Use a non-admin user, since admins can always see all changes.
+    requestScopeOperations.setApiUser(user.id());
     ResourceNotFoundException resourceNotFoundException =
         assertThrows(
             ResourceNotFoundException.class, () -> gApi.changes().id(change1).revertSubmission());

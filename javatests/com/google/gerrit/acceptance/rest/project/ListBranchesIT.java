@@ -208,7 +208,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
         projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name(),
         false);
     BranchInfo masterBranch = createBranch("refs/heads/master", false);
-    BranchInfo branch1 = createBranch("refs/heads/someBranch1", true);
+    BranchInfo branch1 = createBranch("refs/heads/someBranch1", false);
 
     // Hide refs/meta/config branch.
     projectOperations
@@ -216,7 +216,10 @@ public class ListBranchesIT extends AbstractDaemonTest {
         .forUpdate()
         .add(block(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
         .update();
+
     // refs/meta/config is not visible.
+    // Use a non-admin user, since admins can always see all refs.
+    requestScopeOperations.setApiUser(user.id());
     assertRefs(ImmutableList.of(headBranch, masterBranch, branch1), list().get());
 
     // Try listing branches using the next-page-token

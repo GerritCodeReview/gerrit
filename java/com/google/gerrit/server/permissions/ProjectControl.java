@@ -120,7 +120,7 @@ public class ProjectControl {
   }
 
   ChangeControl controlFor(ChangeData cd) {
-    return changeControlFactory.create(controlForRef(cd.branchOrThrow()), cd);
+    return changeControlFactory.create(this, controlForRef(cd.branchOrThrow()), cd);
   }
 
   RefControl controlForRef(BranchNameKey ref) {

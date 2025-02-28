@@ -771,6 +771,11 @@ changes, comments, code diffs, and Git access over SSH or HTTP.
 A user must have this access granted in order to see a project, its
 changes, or any of its data.
 
+Users that have the link:#capability_administrateServer[Administrate
+Server] global capability can always read all changes, branches and
+tag, including private change and `refs/meta/config` branches, even
+if the `Read` access right is not assigned or blocked.
+
 [[read_special_behaviors]]
 ==== Special behaviors
 
@@ -1376,7 +1381,9 @@ capabilities granted to them automatically.
 In most installations only those users who have direct filesystem and
 database access should be granted this capability.
 
-This capability does not imply any other access rights. Users that have
+This capability includes read access to all changes, branches and tags,
+including private changes and `refs/meta/config` branches. Beyond that,
+this capability does not imply any other access rights. Users that have
 this capability do not automatically get code review approval or submit
 rights in projects. This is a feature designed to permit administrative
 users to otherwise access Gerrit as any other normal user would,

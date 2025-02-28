@@ -109,14 +109,21 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     Change visibleChange1 = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
 
     // create 4 private changes
-    Change invisibleChange2 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
-    Change invisibleChange3 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
-    Change invisibleChange4 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
-    Change invisibleChange5 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange2 =
+        insert(project, newChangeWithStatus(repo, Change.Status.NEW), user.getAccountId());
+    Change invisibleChange3 =
+        insert(project, newChangeWithStatus(repo, Change.Status.NEW), user.getAccountId());
+    Change invisibleChange4 =
+        insert(project, newChangeWithStatus(repo, Change.Status.NEW), user.getAccountId());
+    Change invisibleChange5 =
+        insert(project, newChangeWithStatus(repo, Change.Status.NEW), user.getAccountId());
     gApi.changes().id(invisibleChange2.getKey().get()).setPrivate(true, null);
     gApi.changes().id(invisibleChange3.getKey().get()).setPrivate(true, null);
     gApi.changes().id(invisibleChange4.getKey().get()).setPrivate(true, null);
     gApi.changes().id(invisibleChange5.getKey().get()).setPrivate(true, null);
+
+    // Use a non-admin user, since admins can always see all changes.
+    setRequestContextForUser(user2);
 
     AbstractFakeIndex<?, ?, ?> idx =
         (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();

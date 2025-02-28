@@ -279,6 +279,44 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotGetInvisibleChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Remove read access
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(project.get(), r.getChange().getId().get()).get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("Not found: %s~%d", project.get(), r.getChange().getId().get()));
+  }
+
+  @Test
+  public void adminCanGetChangeWithoutExplicitReadPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Remove read access
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInfo changeInfo = gApi.changes().id(project.get(), r.getChange().getId().get()).get();
+    assertThat(changeInfo.id)
+        .isEqualTo(String.format("%s~%d", project.get(), r.getChange().getId().get()));
+  }
+
+  @Test
   public void diffStatShouldComputeInsertionsAndDeletions() throws Exception {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";

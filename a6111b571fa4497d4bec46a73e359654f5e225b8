@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cecfb85_209ce774",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-28T12:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "490d795a_be368634",
+      "revId": "a6111b571fa4497d4bec46a73e359654f5e225b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc6a8e56_212db913",
@@ -49,6 +67,24 @@
       "writtenOn": "2025-02-28T12:21:37Z",
       "side": 1,
       "message": "I think you want to iterate on `extIdKeys` as you did before, just do the \"fetching\" from the new `extIdsSet`.",
+      "revId": "a6111b571fa4497d4bec46a73e359654f5e225b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99de5e28_f73cd088",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-28T12:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc6a8e56_212db913",
       "revId": "a6111b571fa4497d4bec46a73e359654f5e225b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

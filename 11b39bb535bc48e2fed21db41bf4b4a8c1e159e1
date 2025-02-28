@@ -51,6 +51,24 @@
       "message": "External IDs are always associated with an ID, so given the ID is not associated with another account, it should not be present at all. So actually, this row is not reachable, and you should support adding inexisting IDs below.\n\nI think that also implies you must recieve the full ExternalId and not just the key.",
       "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d6ce4c_97444001",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-28T12:56:06Z",
+      "side": 1,
+      "message": "\u003e External IDs are always associated with an ID, so given the ID is not associated with another account, it should not be present at all\n\nI\u0027m not sure I understood this.\n\nMy expectation from the caller is that it only sends Ids with the correct `owner` account.\n\nOtherwise I think some sort of `unlinking` also needs to happen?\n\n\u003e I think that also implies you must recieve the full ExternalId and not just the key.\n\nUpdated this part.",
+      "parentUuid": "e55858c7_ab38ed2b",
+      "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

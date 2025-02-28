@@ -212,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d60ec01f_4d9bd3be",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-28T08:44:27Z",
+      "side": 1,
+      "message": "I believe it won\u0027t be needed anymore.",
+      "parentUuid": "7218b6fa_ac8be6ae",
+      "range": {
+        "startLine": 202,
+        "startChar": 9,
+        "endLine": 202,
+        "endChar": 21
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62765afe_bc8c2124",

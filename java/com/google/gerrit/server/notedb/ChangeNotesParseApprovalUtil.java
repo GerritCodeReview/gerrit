@@ -16,8 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
@@ -41,31 +42,32 @@ public class ChangeNotesParseApprovalUtil {
    * the raw fields, parsed from the NoteDB footer line, without any interpretation of the parsed
    * values. See {@link #parseApproval} and {@link #parseCopiedApproval} for the valid {@link
    * #footerLine} values.
+   *
+   * @param footerLine The original footer value, that this entity was parsed from.
+   * @param labelVote Either <LABEL>=VOTE or <LABEL> for {@link #isRemoval}.
    */
-  @AutoValue
-  public abstract static class ParsedPatchSetApproval {
-
-    /** The original footer value, that this entity was parsed from. */
-    public abstract String footerLine();
-
-    public abstract boolean isRemoval();
-
-    /** Either <LABEL>=VOTE or <LABEL> for {@link #isRemoval}. */
-    public abstract String labelVote();
-
-    public abstract Optional<String> uuid();
-
-    public abstract Optional<String> accountIdent();
-
-    public abstract Optional<String> realAccountIdent();
-
-    public abstract Optional<String> tag();
-
-    public static Builder builder() {
-      return new AutoValue_ChangeNotesParseApprovalUtil_ParsedPatchSetApproval.Builder();
+  public record ParsedPatchSetApproval(
+      String footerLine,
+      boolean isRemoval,
+      String labelVote,
+      Optional<String> uuid,
+      Optional<String> accountIdent,
+      Optional<String> realAccountIdent,
+      Optional<String> tag) {
+    public ParsedPatchSetApproval {
+      requireNonNull(footerLine, "footerLine");
+      requireNonNull(labelVote, "labelVote");
+      requireNonNull(uuid, "uuid");
+      requireNonNull(accountIdent, "accountIdent");
+      requireNonNull(realAccountIdent, "realAccountIdent");
+      requireNonNull(tag, "tag");
     }
 
-    @AutoValue.Builder
+    public static Builder builder() {
+      return new AutoBuilder_ChangeNotesParseApprovalUtil_ParsedPatchSetApproval_Builder();
+    }
+
+    @AutoBuilder
     public abstract static class Builder {
 
       abstract Builder footerLine(String labelLine);

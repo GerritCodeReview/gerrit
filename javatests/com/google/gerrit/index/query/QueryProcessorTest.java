@@ -27,8 +27,6 @@ import org.mockito.Mock;
 
 public class QueryProcessorTest {
 
-  private boolean noLimit = false;
-
   private int userQueryLimit = 1000;
 
   private int userProvidedLimit = 0;
@@ -70,7 +68,6 @@ public class QueryProcessorTest {
             return "";
           }
         };
-    processor.setNoLimit(noLimit);
     processor.setUserProvidedLimit(userProvidedLimit, /* applyDefaultLimit */ true);
     return processor;
   }
@@ -134,18 +131,5 @@ public class QueryProcessorTest {
 
       assertThat(createProcessor().getEffectiveLimit(p)).isEqualTo(271);
     }
-  }
-
-  @Test
-  public void getEffectiveLimit_NoLimit() {
-    noLimit = true;
-    assertThat(createProcessor().getEffectiveLimit(Predicate.any())).isEqualTo(Integer.MAX_VALUE);
-
-    // noLimit has precedence over all other limits
-    userProvidedLimit = 1;
-    userQueryLimit = 1;
-    maxLimit = 1;
-    defaultLimit = 1;
-    assertThat(createProcessor().getEffectiveLimit(Predicate.any())).isEqualTo(Integer.MAX_VALUE);
   }
 }

@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -300,13 +299,10 @@ public class DeadlineChecker implements RequestStateProvider {
     }
   }
 
-  @AutoValue
-  abstract static class ServerDeadline {
-    abstract String id();
-
-    abstract long timeout();
-
-    abstract boolean isAdvisory();
+  record ServerDeadline(String id, long timeout, boolean isAdvisory) {
+    ServerDeadline {
+      requireNonNull(id, "id");
+    }
 
     boolean hasTimeout() {
       return timeout() > 0;
@@ -325,13 +321,12 @@ public class DeadlineChecker implements RequestStateProvider {
                   /* defaultValue= */ false);
       try {
         Optional<Long> timeout = parseTimeout(timeoutValue);
-        return new AutoValue_DeadlineChecker_ServerDeadline(
-            requestConfig.id(), timeout.orElse(0L), isAdvisory);
+        return new ServerDeadline(requestConfig.id(), timeout.orElse(0L), isAdvisory);
       } catch (InvalidDeadlineException e) {
         logger.atWarning().log(
             "Ignoring invalid deadline configuration %s.%s.timeout: %s",
             requestConfig.section(), requestConfig.id(), e.getMessage());
-        return new AutoValue_DeadlineChecker_ServerDeadline(requestConfig.id(), 0, isAdvisory);
+        return new ServerDeadline(requestConfig.id(), 0, isAdvisory);
       }
     }
   }

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import java.time.Instant;
@@ -31,15 +32,15 @@ import java.util.Objects;
 public final class ChangeMessage {
 
   public static Key key(Change.Id changeId, String uuid) {
-    return new AutoValue_ChangeMessage_Key(changeId, uuid);
+    return new Key(changeId, uuid);
   }
 
-  @AutoValue
   @ConvertibleToProto
-  public abstract static class Key {
-    public abstract Change.Id changeId();
-
-    public abstract String uuid();
+  public record Key(Change.Id changeId, String uuid) {
+    public Key {
+      requireNonNull(changeId, "changeId");
+      requireNonNull(uuid, "uuid");
+    }
   }
 
   private Key key;

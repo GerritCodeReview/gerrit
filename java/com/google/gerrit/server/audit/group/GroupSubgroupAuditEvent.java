@@ -14,31 +14,58 @@
 
 package com.google.gerrit.server.audit.group;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import java.time.Instant;
 
-@AutoValue
-public abstract class GroupSubgroupAuditEvent implements GroupAuditEvent {
+/**
+ * @param modifiedSubgroups Gets the added or deleted subgroups of the updated group.
+ */
+public record GroupSubgroupAuditEvent(
+    Account.Id actor,
+    AccountGroup.UUID updatedGroup,
+    Instant timestamp,
+    ImmutableSet<AccountGroup.UUID> modifiedSubgroups)
+    implements GroupAuditEvent {
+  public GroupSubgroupAuditEvent {
+    requireNonNull(actor, "actor");
+    requireNonNull(updatedGroup, "updatedGroup");
+    requireNonNull(timestamp, "timestamp");
+    requireNonNull(modifiedSubgroups, "modifiedSubgroups");
+  }
+
+  @InlineMe(replacement = "this.actor()")
+  @Override
+  public Account.Id getActor() {
+    return actor();
+  }
+
+  @InlineMe(replacement = "this.updatedGroup()")
+  @Override
+  public AccountGroup.UUID getUpdatedGroup() {
+    return updatedGroup();
+  }
+
+  @InlineMe(replacement = "this.timestamp()")
+  @Override
+  public Instant getTimestamp() {
+    return timestamp();
+  }
+
+  @InlineMe(replacement = "this.modifiedSubgroups()")
+  public ImmutableSet<AccountGroup.UUID> getModifiedSubgroups() {
+    return modifiedSubgroups();
+  }
+
   public static GroupSubgroupAuditEvent create(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<AccountGroup.UUID> modifiedSubgroups,
       Instant timestamp) {
-    return new AutoValue_GroupSubgroupAuditEvent(actor, updatedGroup, modifiedSubgroups, timestamp);
+    return new GroupSubgroupAuditEvent(actor, updatedGroup, modifiedSubgroups, timestamp);
   }
-
-  @Override
-  public abstract Account.Id getActor();
-
-  @Override
-  public abstract AccountGroup.UUID getUpdatedGroup();
-
-  /** Gets the added or deleted subgroups of the updated group. */
-  public abstract ImmutableSet<AccountGroup.UUID> getModifiedSubgroups();
-
-  @Override
-  public abstract Instant getTimestamp();
 }

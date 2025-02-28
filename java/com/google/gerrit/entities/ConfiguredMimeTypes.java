@@ -14,7 +14,8 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import java.util.Objects;
@@ -26,14 +27,15 @@ import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.lib.Config;
 
-@AutoValue
-public abstract class ConfiguredMimeTypes {
+public record ConfiguredMimeTypes(ImmutableList<TypeMatcher> matchers) {
+  public ConfiguredMimeTypes {
+    requireNonNull(matchers, "matchers");
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String MIMETYPE = "mimetype";
   private static final String KEY_PATH = "path";
-
-  public abstract ImmutableList<TypeMatcher> matchers();
 
   public static ConfiguredMimeTypes create(String projectName, Config rc) {
     Set<String> types = rc.getSubsections(MIMETYPE);
@@ -55,11 +57,11 @@ public abstract class ConfiguredMimeTypes {
         }
       }
     }
-    return new AutoValue_ConfiguredMimeTypes(matchers.build());
+    return new ConfiguredMimeTypes(matchers.build());
   }
 
   public static ConfiguredMimeTypes create(ImmutableList<TypeMatcher> matchers) {
-    return new AutoValue_ConfiguredMimeTypes(matchers);
+    return new ConfiguredMimeTypes(matchers);
   }
 
   @Nullable

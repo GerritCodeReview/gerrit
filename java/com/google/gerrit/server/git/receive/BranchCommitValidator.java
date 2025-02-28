@@ -15,9 +15,9 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -65,30 +65,30 @@ public class BranchCommitValidator {
         ProjectState projectState, BranchNameKey branch, IdentifiedUser user);
   }
 
-  /** A boolean validation status and a list of additional messages. */
-  @AutoValue
-  abstract static class Result {
+  /**
+   * A boolean validation status and a list of additional messages.
+   *
+   * @param isValid Whether the commit is valid.
+   * @param validationInfos Map that maps a validator name to a {@link CommitValidationInfo} (result
+   *     of running the validator).
+   * @param messages A list of messages related to the validation. Messages may be present
+   *     regardless of the {@link #isValid()} status.
+   */
+  record Result(
+      boolean isValid,
+      ImmutableMap<String, CommitValidationInfo> validationInfos,
+      ImmutableList<CommitValidationMessage> messages) {
+    Result {
+      requireNonNull(validationInfos, "validationInfos");
+      requireNonNull(messages, "messages");
+    }
+
     static Result create(
         boolean isValid,
         ImmutableMap<String, CommitValidationInfo> validationInfos,
         ImmutableList<CommitValidationMessage> messages) {
-      return new AutoValue_BranchCommitValidator_Result(isValid, validationInfos, messages);
+      return new Result(isValid, validationInfos, messages);
     }
-
-    /** Whether the commit is valid. */
-    abstract boolean isValid();
-
-    /**
-     * Map that maps a validator name to a {@link CommitValidationInfo} (result of running the
-     * validator).
-     */
-    abstract ImmutableMap<String, CommitValidationInfo> validationInfos();
-
-    /**
-     * A list of messages related to the validation. Messages may be present regardless of the
-     * {@link #isValid()} status.
-     */
-    abstract ImmutableList<CommitValidationMessage> messages();
   }
 
   @Inject

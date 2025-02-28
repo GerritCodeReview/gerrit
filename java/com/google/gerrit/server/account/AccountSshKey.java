@@ -14,14 +14,20 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
 import java.util.List;
 
 /** An SSH key approved for use by an {@link Account}. */
-@AutoValue
-public abstract class AccountSshKey {
+public record AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+  public AccountSshKey {
+    requireNonNull(accountId, "accountId");
+    requireNonNull(sshPublicKey, "sshPublicKey");
+  }
+
   public static AccountSshKey create(Account.Id accountId, int seq, String sshPublicKey) {
     return create(accountId, seq, sshPublicKey, true);
   }
@@ -36,7 +42,7 @@ public abstract class AccountSshKey {
 
   public static AccountSshKey create(
       Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
-    return new AutoValue_AccountSshKey.Builder()
+    return new AutoBuilder_AccountSshKey_Builder()
         .setAccountId(accountId)
         .setSeq(seq)
         .setSshPublicKey(stripOffNewLines(sshPublicKey))
@@ -47,14 +53,6 @@ public abstract class AccountSshKey {
   private static String stripOffNewLines(String s) {
     return s.replace("\n", "").replace("\r", "");
   }
-
-  public abstract Account.Id accountId();
-
-  public abstract int seq();
-
-  public abstract String sshPublicKey();
-
-  public abstract boolean valid();
 
   private String publicKeyPart(int index, String defaultValue) {
     String s = sshPublicKey();
@@ -79,7 +77,7 @@ public abstract class AccountSshKey {
     return publicKeyPart(2, "");
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   abstract static class Builder {
     public abstract Builder setAccountId(Account.Id accountId);
 

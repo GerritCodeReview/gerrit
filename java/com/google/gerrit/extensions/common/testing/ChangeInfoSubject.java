@@ -16,8 +16,8 @@ package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import com.google.gerrit.entities.Account;
@@ -97,16 +97,14 @@ public class ChangeInfoSubject extends Subject {
     return Vote.create(labelId, accountId, value);
   }
 
-  @AutoValue
-  public abstract static class Vote {
-    static Vote create(String labelId, Account.Id accountId, int value) {
-      return new AutoValue_ChangeInfoSubject_Vote(labelId, accountId, value);
+  public record Vote(String labelId, Account.Id accountId, int value) {
+    public Vote {
+      requireNonNull(labelId, "labelId");
+      requireNonNull(accountId, "accountId");
     }
 
-    public abstract String labelId();
-
-    public abstract Account.Id accountId();
-
-    public abstract int value();
+    static Vote create(String labelId, Account.Id accountId, int value) {
+      return new Vote(labelId, accountId, value);
+    }
   }
 }

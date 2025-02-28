@@ -15,9 +15,9 @@
 package com.google.gerrit.server.notedb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.flogger.FluentLogger;
@@ -41,8 +41,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /** An object blob in a Git repository that stores a single integer value. */
-@AutoValue
-public abstract class IntBlob {
+public record IntBlob(ObjectId id, int value) {
+  public IntBlob {
+    requireNonNull(id, "id");
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static Optional<IntBlob> parse(Repository repo, String refName) throws IOException {
@@ -128,10 +131,6 @@ public abstract class IntBlob {
 
   @VisibleForTesting
   static IntBlob create(AnyObjectId id, int value) {
-    return new AutoValue_IntBlob(id.copy(), value);
+    return new IntBlob(id.copy(), value);
   }
-
-  public abstract ObjectId id();
-
-  public abstract int value();
 }

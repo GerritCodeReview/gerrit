@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git.receive.testing;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -37,15 +37,14 @@ import org.eclipse.jgit.transport.RefAdvertiser;
 public class TestRefAdvertiser extends RefAdvertiser {
 
   @VisibleForTesting
-  @AutoValue
-  public abstract static class Result {
-    public abstract ImmutableMap<String, Ref> allRefs();
-
-    public abstract ImmutableSet<ObjectId> additionalHaves();
+  public record Result(ImmutableMap<String, Ref> allRefs, ImmutableSet<ObjectId> additionalHaves) {
+    public Result {
+      requireNonNull(allRefs, "allRefs");
+      requireNonNull(additionalHaves, "additionalHaves");
+    }
 
     public static Result create(Map<String, Ref> allRefs, Set<ObjectId> additionalHaves) {
-      return new AutoValue_TestRefAdvertiser_Result(
-          ImmutableMap.copyOf(allRefs), ImmutableSet.copyOf(additionalHaves));
+      return new Result(ImmutableMap.copyOf(allRefs), ImmutableSet.copyOf(additionalHaves));
     }
   }
 

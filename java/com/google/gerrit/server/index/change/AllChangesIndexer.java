@@ -18,8 +18,8 @@ import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
@@ -151,27 +151,27 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     this.reuseExistingDocuments = reuseExistingDocuments;
   }
 
-  @AutoValue
-  public abstract static class ProjectSlice {
-    public abstract Project.NameKey name();
-
-    public abstract int slice();
-
-    public abstract int slices();
-
-    public abstract ImmutableMap<Change.Id, ObjectId> metaIdByChange();
+  public record ProjectSlice(
+      Project.NameKey name,
+      int slice,
+      int slices,
+      ImmutableMap<Change.Id, ObjectId> metaIdByChange) {
+    public ProjectSlice {
+      requireNonNull(name, "name");
+      requireNonNull(metaIdByChange, "metaIdByChange");
+    }
 
     private static ProjectSlice create(
         Project.NameKey name,
         int slice,
         int slices,
         ImmutableMap<Change.Id, ObjectId> metaIdByChange) {
-      return new AutoValue_AllChangesIndexer_ProjectSlice(name, slice, slices, metaIdByChange);
+      return new ProjectSlice(name, slice, slices, metaIdByChange);
     }
 
     private static ProjectSlice oneSlice(
         Project.NameKey name, ImmutableMap<Change.Id, ObjectId> metaIdByChange) {
-      return new AutoValue_AllChangesIndexer_ProjectSlice(name, 0, 1, metaIdByChange);
+      return new ProjectSlice(name, 0, 1, metaIdByChange);
     }
   }
 

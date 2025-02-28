@@ -17,8 +17,8 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -93,15 +93,15 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 public class CherryPickChange {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @AutoValue
-  abstract static class Result {
-    static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
-      return new AutoValue_CherryPickChange_Result(changeId, filesWithGitConflicts);
+  record Result(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
+    Result {
+      requireNonNull(changeId, "changeId");
+      requireNonNull(filesWithGitConflicts, "filesWithGitConflicts");
     }
 
-    abstract Change.Id changeId();
-
-    abstract ImmutableSet<String> filesWithGitConflicts();
+    static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
+      return new Result(changeId, filesWithGitConflicts);
+    }
   }
 
   private final Sequences seq;

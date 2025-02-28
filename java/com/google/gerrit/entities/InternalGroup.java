@@ -14,50 +14,103 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import java.io.Serializable;
 import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
 
-@AutoValue
-public abstract class InternalGroup implements Serializable {
-  private static final long serialVersionUID = 1L;
+public record InternalGroup(
+    AccountGroup.Id id,
+    AccountGroup.NameKey nameKey,
+    @Nullable String description,
+    AccountGroup.UUID ownerGroupUUID,
+    boolean visibleToAll,
+    AccountGroup.UUID groupUUID,
+    Instant createdOn,
+    ImmutableSet<Account.Id> members,
+    ImmutableSet<AccountGroup.UUID> subgroups,
+    @Nullable ObjectId refState)
+    implements Serializable {
+  public InternalGroup {
+    requireNonNull(id, "id");
+    requireNonNull(nameKey, "nameKey");
+    requireNonNull(ownerGroupUUID, "ownerGroupUUID");
+    requireNonNull(groupUUID, "groupUUID");
+    requireNonNull(createdOn, "createdOn");
+    requireNonNull(members, "members");
+    requireNonNull(subgroups, "subgroups");
+  }
 
-  public abstract AccountGroup.Id getId();
+  @InlineMe(replacement = "this.id()")
+  public AccountGroup.Id getId() {
+    return id();
+  }
+
+  @InlineMe(replacement = "this.nameKey()")
+  public AccountGroup.NameKey getNameKey() {
+    return nameKey();
+  }
+
+  @InlineMe(replacement = "this.description()")
+  public @Nullable String getDescription() {
+    return description();
+  }
+
+  @InlineMe(replacement = "this.ownerGroupUUID()")
+  public AccountGroup.UUID getOwnerGroupUUID() {
+    return ownerGroupUUID();
+  }
+
+  @InlineMe(replacement = "this.visibleToAll()")
+  public boolean isVisibleToAll() {
+    return visibleToAll();
+  }
+
+  @InlineMe(replacement = "this.groupUUID()")
+  public AccountGroup.UUID getGroupUUID() {
+    return groupUUID();
+  }
+
+  @InlineMe(replacement = "this.createdOn()")
+  public Instant getCreatedOn() {
+    return createdOn();
+  }
+
+  @InlineMe(replacement = "this.members()")
+  public ImmutableSet<Account.Id> getMembers() {
+    return members();
+  }
+
+  @InlineMe(replacement = "this.subgroups()")
+  public ImmutableSet<AccountGroup.UUID> getSubgroups() {
+    return subgroups();
+  }
+
+  @InlineMe(replacement = "this.refState()")
+  public @Nullable ObjectId getRefState() {
+    return refState();
+  }
+
+  private static final long serialVersionUID = 1L;
 
   public String getName() {
     return getNameKey().get();
   }
 
-  public abstract AccountGroup.NameKey getNameKey();
-
-  @Nullable
-  public abstract String getDescription();
-
-  public abstract AccountGroup.UUID getOwnerGroupUUID();
-
-  public abstract boolean isVisibleToAll();
-
-  public abstract AccountGroup.UUID getGroupUUID();
-
-  public abstract Instant getCreatedOn();
-
-  public abstract ImmutableSet<Account.Id> getMembers();
-
-  public abstract ImmutableSet<AccountGroup.UUID> getSubgroups();
-
-  @Nullable
-  public abstract ObjectId getRefState();
-
-  public abstract Builder toBuilder();
-
-  public static Builder builder() {
-    return new AutoValue_InternalGroup.Builder();
+  public Builder toBuilder() {
+    return new AutoBuilder_InternalGroup_Builder(this);
   }
 
-  @AutoValue.Builder
+  public static Builder builder() {
+    return new AutoBuilder_InternalGroup_Builder();
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setId(AccountGroup.Id id);
 

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.approval;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -25,38 +25,39 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.RepoView;
 
-/** Entity representing all required information to match predicates for copying approvals. */
-@AutoValue
-public abstract class ApprovalContext {
-  public abstract PatchSet.Id sourcePatchSetId();
-
-  public abstract Account.Id approverId();
-
-  public abstract LabelType labelType();
-
-  /** Value of the approval on the source patch set to be copied. */
-  public abstract short approvalValue();
-
-  /**
-   * Target change and patch set for the approval. This must be used instead of getting the PatchSet
-   * from {@link #changeNotes()} because it is possible we are now creating the patch-set, so it
-   * doesn't exist in changeNotes yet.
-   */
-  public abstract PatchSet targetPatchSet();
-
-  /** {@link ChangeNotes} of the change in question. */
-  public abstract ChangeNotes changeNotes();
-
-  /** {@link ChangeData } of the change in question. */
-  public abstract ChangeData changeData();
-
-  /** {@link ChangeKind} of the delta between the origin and target patch set. */
-  public abstract ChangeKind changeKind();
-
-  /** Whether the new patch set is a merge commit. */
-  public abstract boolean isMerge();
-
-  public abstract RepoView repoView();
+/**
+ * Entity representing all required information to match predicates for copying approvals.
+ *
+ * @param approvalValue Value of the approval on the source patch set to be copied.
+ * @param targetPatchSet Target change and patch set for the approval. This must be used instead of
+ *     getting the PatchSet from {@link #changeNotes()} because it is possible we are now creating
+ *     the patch-set, so it doesn't exist in changeNotes yet.
+ * @param changeNotes {@link ChangeNotes} of the change in question.
+ * @param changeData {@link ChangeData} of the change in question.
+ * @param changeKind {@link ChangeKind} of the delta between the origin and target patch set.
+ * @param isMerge Whether the new patch set is a merge commit.
+ */
+public record ApprovalContext(
+    PatchSet.Id sourcePatchSetId,
+    Account.Id approverId,
+    LabelType labelType,
+    short approvalValue,
+    PatchSet targetPatchSet,
+    ChangeNotes changeNotes,
+    ChangeData changeData,
+    ChangeKind changeKind,
+    boolean isMerge,
+    RepoView repoView) {
+  public ApprovalContext {
+    requireNonNull(sourcePatchSetId, "sourcePatchSetId");
+    requireNonNull(approverId, "approverId");
+    requireNonNull(labelType, "labelType");
+    requireNonNull(targetPatchSet, "targetPatchSet");
+    requireNonNull(changeNotes, "changeNotes");
+    requireNonNull(changeData, "changeData");
+    requireNonNull(changeKind, "changeKind");
+    requireNonNull(repoView, "repoView");
+  }
 
   public static ApprovalContext create(
       ChangeData changeData,
@@ -79,7 +80,7 @@ public abstract class ApprovalContext {
     // As explained in the commit message of this change doing this check is only possible if there
     // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
     // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
-    return new AutoValue_ApprovalContext(
+    return new ApprovalContext(
         sourcePatchSetId,
         approverId,
         labelType,

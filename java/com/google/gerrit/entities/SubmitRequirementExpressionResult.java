@@ -14,6 +14,9 @@
 
 package com.google.gerrit.entities;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -21,43 +24,38 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
-/** Result of evaluating a submit requirement expression on a given Change. */
-@AutoValue
-public abstract class SubmitRequirementExpressionResult {
-
-  /** Submit requirement expression for which this result is evaluated. */
-  public abstract SubmitRequirementExpression expression();
-
-  /** Status of evaluation. */
-  public abstract Status status();
-
-  /**
-   * Optional error message. Populated if the evaluator fails to evaluate the expression for a
-   * certain change.
-   */
-  public abstract Optional<String> errorMessage();
-
-  /**
-   * List leaf predicates that are fulfilled, for example the expression
-   *
-   * <p><i>label:Code-Review=+2 and branch:refs/heads/master</i>
-   *
-   * <p>has two leaf predicates:
-   *
-   * <ul>
-   *   <li>label:Code-Review=+2
-   *   <li>branch:refs/heads/master
-   * </ul>
-   *
-   * This method will return the leaf predicates that were fulfilled, for example if only the first
-   * predicate was fulfilled, the returned list will be equal to ["label:Code-Review=+2"].
-   */
-  public abstract ImmutableList<String> passingAtoms();
-
-  /**
-   * List of leaf predicates that are not fulfilled. See {@link #passingAtoms()} for more details.
-   */
-  public abstract ImmutableList<String> failingAtoms();
+/**
+ * Result of evaluating a submit requirement expression on a given Change.
+ *
+ * @param expression Submit requirement expression for which this result is evaluated.
+ * @param status Status of evaluation.
+ * @param errorMessage Optional error message. Populated if the evaluator fails to evaluate the
+ *     expression for a certain change.
+ * @param passingAtoms List leaf predicates that are fulfilled, for example the expression
+ *     <p><i>label:Code-Review=+2 and branch:refs/heads/master</i>
+ *     <p>has two leaf predicates:
+ *     <ul>
+ *       <li>label:Code-Review=+2
+ *       <li>branch:refs/heads/master
+ *     </ul>
+ *     This method will return the leaf predicates that were fulfilled, for example if only the
+ *     first predicate was fulfilled, the returned list will be equal to ["label:Code-Review=+2"].
+ * @param failingAtoms List of leaf predicates that are not fulfilled. See {@link #passingAtoms()}
+ *     for more details.
+ */
+public record SubmitRequirementExpressionResult(
+    SubmitRequirementExpression expression,
+    Status status,
+    Optional<String> errorMessage,
+    ImmutableList<String> passingAtoms,
+    ImmutableList<String> failingAtoms) {
+  public SubmitRequirementExpressionResult {
+    requireNonNull(expression, "expression");
+    requireNonNull(status, "status");
+    requireNonNull(errorMessage, "errorMessage");
+    requireNonNull(passingAtoms, "passingAtoms");
+    requireNonNull(failingAtoms, "failingAtoms");
+  }
 
   public static SubmitRequirementExpressionResult create(
       SubmitRequirementExpression expression, PredicateResult predicateResult) {
@@ -82,13 +80,13 @@ public abstract class SubmitRequirementExpressionResult {
       ImmutableList<String> passingAtoms,
       ImmutableList<String> failingAtoms,
       Optional<String> errorMessage) {
-    return new AutoValue_SubmitRequirementExpressionResult(
+    return new SubmitRequirementExpressionResult(
         expression, status, errorMessage, passingAtoms, failingAtoms);
   }
 
   public static SubmitRequirementExpressionResult error(
       SubmitRequirementExpression expression, String errorMessage) {
-    return new AutoValue_SubmitRequirementExpressionResult(
+    return new SubmitRequirementExpressionResult(
         expression,
         Status.ERROR,
         Optional.of(errorMessage),
@@ -105,9 +103,11 @@ public abstract class SubmitRequirementExpressionResult {
     return new AutoValue_SubmitRequirementExpressionResult.GsonTypeAdapter(gson);
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_SubmitRequirementExpressionResult_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder expression(SubmitRequirementExpression expression);
 

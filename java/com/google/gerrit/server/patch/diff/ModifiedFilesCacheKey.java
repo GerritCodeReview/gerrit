@@ -15,8 +15,9 @@
 package com.google.gerrit.server.patch.diff;
 
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
@@ -26,24 +27,22 @@ import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Cache key for the {@link com.google.gerrit.server.patch.diff.ModifiedFilesCache} */
-@AutoValue
-public abstract class ModifiedFilesCacheKey {
-
-  /** A specific git project / repository. */
-  public abstract Project.NameKey project();
-
-  /** Returns the old commit ID used in the git tree diff */
-  public abstract ObjectId aCommit();
-
-  /** Returns the new commit ID used in the git tree diff */
-  public abstract ObjectId bCommit();
-
-  /**
-   * Percentage score used to identify a file as a "rename". A special value of -1 means that the
-   * computation will ignore renames and rename detection will be disabled.
-   */
-  public abstract int renameScore();
+/**
+ * Cache key for the {@link com.google.gerrit.server.patch.diff.ModifiedFilesCache}
+ *
+ * @param project A specific git project / repository.
+ * @param aCommit Returns the old commit ID used in the git tree diff
+ * @param bCommit Returns the new commit ID used in the git tree diff
+ * @param renameScore Percentage score used to identify a file as a "rename". A special value of -1
+ *     means that the computation will ignore renames and rename detection will be disabled.
+ */
+public record ModifiedFilesCacheKey(
+    Project.NameKey project, ObjectId aCommit, ObjectId bCommit, int renameScore) {
+  public ModifiedFilesCacheKey {
+    requireNonNull(project, "project");
+    requireNonNull(aCommit, "aCommit");
+    requireNonNull(bCommit, "bCommit");
+  }
 
   public boolean renameDetectionEnabled() {
     return renameScore() != -1;
@@ -57,10 +56,10 @@ public abstract class ModifiedFilesCacheKey {
   }
 
   public static ModifiedFilesCacheKey.Builder builder() {
-    return new AutoValue_ModifiedFilesCacheKey.Builder();
+    return new AutoBuilder_ModifiedFilesCacheKey_Builder();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract ModifiedFilesCacheKey.Builder project(NameKey value);

@@ -15,8 +15,9 @@
 package com.google.gerrit.server.patch.gitfilediff;
 
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.gerrit.entities.Project;
@@ -30,37 +31,34 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
 import org.eclipse.jgit.lib.ObjectId;
 
-@AutoValue
-public abstract class GitFileDiffCacheKey {
-
-  /** A specific git project / repository. */
-  public abstract Project.NameKey project();
-
-  /**
-   * The old 20 bytes SHA-1 git tree ID used in the git tree diff. If equals to {@link
-   * ObjectId#zeroId()}, a null tree is used for the diff scan, and {@link #newTree()} ()} is
-   * treated as an added tree.
-   */
-  public abstract ObjectId oldTree();
-
-  /** The new 20 bytes SHA-1 git tree ID used in the git tree diff */
-  public abstract ObjectId newTree();
-
-  /** File name in the tree identified by {@link #newTree()} */
-  public abstract String newFilePath();
-
-  /**
-   * Percentage score used to identify a file as a "rename". A special value of -1 means that the
-   * computation will ignore renames and rename detection will be disabled.
-   */
-  public abstract int renameScore();
-
-  public abstract DiffAlgorithm diffAlgorithm();
-
-  public abstract DiffPreferencesInfo.Whitespace whitespace();
-
-  /** Employ a timeout on the git computation while formatting the file header. */
-  public abstract boolean useTimeout();
+/**
+ * @param project A specific git project / repository.
+ * @param oldTree The old 20 bytes SHA-1 git tree ID used in the git tree diff. If equals to {@link
+ *     ObjectId#zeroId()}, a null tree is used for the diff scan, and {@link #newTree()} ()} is
+ *     treated as an added tree.
+ * @param newTree The new 20 bytes SHA-1 git tree ID used in the git tree diff
+ * @param newFilePath File name in the tree identified by {@link #newTree()}
+ * @param renameScore Percentage score used to identify a file as a "rename". A special value of -1
+ *     means that the computation will ignore renames and rename detection will be disabled.
+ * @param useTimeout Employ a timeout on the git computation while formatting the file header.
+ */
+public record GitFileDiffCacheKey(
+    Project.NameKey project,
+    ObjectId oldTree,
+    ObjectId newTree,
+    String newFilePath,
+    int renameScore,
+    DiffAlgorithm diffAlgorithm,
+    DiffPreferencesInfo.Whitespace whitespace,
+    boolean useTimeout) {
+  public GitFileDiffCacheKey {
+    requireNonNull(project, "project");
+    requireNonNull(oldTree, "oldTree");
+    requireNonNull(newTree, "newTree");
+    requireNonNull(newFilePath, "newFilePath");
+    requireNonNull(diffAlgorithm, "diffAlgorithm");
+    requireNonNull(whitespace, "whitespace");
+  }
 
   public int weight() {
     return stringSize(project().get())
@@ -73,10 +71,10 @@ public abstract class GitFileDiffCacheKey {
   }
 
   public static Builder builder() {
-    return new AutoValue_GitFileDiffCacheKey.Builder();
+    return new AutoBuilder_GitFileDiffCacheKey_Builder();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder project(NameKey value);

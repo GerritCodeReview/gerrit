@@ -15,16 +15,32 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import java.util.Set;
 import java.util.function.Function;
 
-@AutoValue
-public abstract class QueryOptions {
+/**
+ * @param allowIncompleteResults When set to true, entities that fail to get parsed from the index
+ *     are replaced with a canonical erroneous record. If false, parsing would throw an exception.
+ */
+public record QueryOptions(
+    IndexConfig config,
+    int start,
+    @Nullable Object searchAfter,
+    int pageSize,
+    int pageSizeMultiplier,
+    int limit,
+    boolean allowIncompleteResults,
+    ImmutableSet<String> fields) {
+  public QueryOptions {
+    requireNonNull(config, "config");
+    requireNonNull(fields, "fields");
+  }
+
   public static QueryOptions create(IndexConfig config, int start, int limit, Set<String> fields) {
     return create(config, start, null, limit, config.pageSizeMultiplier(), limit, fields);
   }
@@ -89,7 +105,7 @@ public abstract class QueryOptions {
     if (searchAfter != null) {
       checkArgument(start == 0, "start must be 0 when searchAfter is specified: %s", start);
     }
-    return new AutoValue_QueryOptions(
+    return new QueryOptions(
         config,
         start,
         searchAfter,
@@ -120,27 +136,6 @@ public abstract class QueryOptions {
         allowIncompleteResults(),
         fields());
   }
-
-  public abstract IndexConfig config();
-
-  public abstract int start();
-
-  @Nullable
-  public abstract Object searchAfter();
-
-  public abstract int pageSize();
-
-  public abstract int pageSizeMultiplier();
-
-  public abstract int limit();
-
-  /**
-   * When set to true, entities that fail to get parsed from the index are replaced with a canonical
-   * erroneous record. If false, parsing would throw an exception.
-   */
-  public abstract boolean allowIncompleteResults();
-
-  public abstract ImmutableSet<String> fields();
 
   public QueryOptions withPageSize(int pageSize) {
     return create(

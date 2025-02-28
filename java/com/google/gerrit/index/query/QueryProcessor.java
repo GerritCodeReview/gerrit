@@ -269,9 +269,6 @@ public abstract class QueryProcessor<T> {
         // it helps improve performance and also prevents no-limit queries from severely degrading
         // when pagination type is OFFSET.
         int pageSizeMultiplier = indexConfig.pageSizeMultiplier();
-        if (isNoLimit && pageSizeMultiplier == 1) {
-          pageSizeMultiplier = 10;
-        }
 
         QueryOptions opts =
             createOptions(
@@ -430,9 +427,6 @@ public abstract class QueryProcessor<T> {
   }
 
   public int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return Integer.MAX_VALUE;
-    }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());

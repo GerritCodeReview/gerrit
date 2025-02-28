@@ -16,6 +16,24 @@
       "message": "shouldn\u0027t this option be limited to the range 0..100 ?",
       "revId": "b3ccff92d12ddf72bd45df083eb7f3e072bb90d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c47ef08_f2974be7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-28T23:40:18Z",
+      "side": 1,
+      "message": "Not neccessarily, it isn\u0027t today 😜. I would not recommend high values, but I don\u0027t know that higher than 100% does not make sense, since I think that invalidates could be for duplicate keys?",
+      "parentUuid": "58263643_75ed7974",
+      "revId": "b3ccff92d12ddf72bd45df083eb7f3e072bb90d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

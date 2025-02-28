@@ -177,16 +177,11 @@ public class MagicLabelPredicates {
         return false; // Label is not defined by this project.
       }
 
-      switch (magicLabelVote.value()) {
-        case ANY:
-          return matchAny(cd, labelType);
-        case MIN:
-          return matchNumeric(cd, magicLabelVote.label(), labelType.getMin().getValue());
-        case MAX:
-          return matchNumeric(cd, magicLabelVote.label(), labelType.getMax().getValue());
-      }
-
-      throw new IllegalStateException("Unsupported magic label value: " + magicLabelVote.value());
+      return switch (magicLabelVote.value()) {
+        case ANY -> matchAny(cd, labelType);
+        case MIN -> matchNumeric(cd, magicLabelVote.label(), labelType.getMin().getValue());
+        case MAX -> matchNumeric(cd, magicLabelVote.label(), labelType.getMax().getValue());
+      };
     }
 
     public String getLabel() {

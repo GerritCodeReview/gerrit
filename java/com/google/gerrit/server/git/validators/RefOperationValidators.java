@@ -126,18 +126,13 @@ public class RefOperationValidators {
   }
 
   private static String formatReceiveCommandType(ReceiveCommand.Type type) {
-    switch (type) {
-      case CREATE:
-        return "creation";
-      case DELETE:
-        return "deletion";
-      case UPDATE:
-        return "update";
-      case UPDATE_NONFASTFORWARD:
-        return "non-fast-forward update";
-      default:
-        return type.toString().toLowerCase(Locale.US);
-    }
+    return switch (type) {
+      case CREATE -> "creation";
+      case DELETE -> "deletion";
+      case UPDATE -> "update";
+      case UPDATE_NONFASTFORWARD -> "non-fast-forward update";
+      default -> type.toString().toLowerCase(Locale.US);
+    };
   }
 
   private static class DisallowCreationAndDeletionOfGerritMaintainedBranches

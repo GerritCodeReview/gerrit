@@ -49,20 +49,17 @@ public abstract class MagicFile {
       throws IOException {
     StringBuilder b = new StringBuilder();
     switch (c.getParentCount()) {
-      case 0:
-        break;
-      case 1:
-        {
-          RevCommit p = c.getParent(0);
-          rw.parseBody(p);
-          b.append("Parent:     ");
-          b.append(abbreviateName(p, reader));
-          b.append(" (");
-          b.append(p.getShortMessage());
-          b.append(")\n");
-          break;
-        }
-      default:
+      case 0 -> {}
+      case 1 -> {
+        RevCommit p = c.getParent(0);
+        rw.parseBody(p);
+        b.append("Parent:     ");
+        b.append(abbreviateName(p, reader));
+        b.append(" (");
+        b.append(p.getShortMessage());
+        b.append(")\n");
+      }
+      default -> {
         for (int i = 0; i < c.getParentCount(); i++) {
           RevCommit p = c.getParent(i);
           rw.parseBody(p);
@@ -72,6 +69,7 @@ public abstract class MagicFile {
           b.append(p.getShortMessage());
           b.append(")\n");
         }
+      }
     }
     appendPersonIdent(b, "Author", c.getAuthorIdent());
     appendPersonIdent(b, "Commit", c.getCommitterIdent());
@@ -85,13 +83,9 @@ public abstract class MagicFile {
       RevCommit c = rw.parseCommit(commitId);
       StringBuilder b = new StringBuilder();
       switch (c.getParentCount()) {
-        case 0:
-          break;
-        case 1:
-          {
-            break;
-          }
-        default:
+        case 0 -> {}
+        case 1 -> {}
+        default -> {
           int uninterestingParent =
               comparisonType.isAgainstParent() ? comparisonType.getParentNum().get() : 1;
 
@@ -103,6 +97,7 @@ public abstract class MagicFile {
             b.append(commit.getShortMessage());
             b.append("\n");
           }
+        }
       }
       return MagicFile.builder().generatedContent(b.toString()).build();
     }

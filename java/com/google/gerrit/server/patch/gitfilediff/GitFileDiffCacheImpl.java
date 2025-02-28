@@ -405,23 +405,20 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       buf.append(diffEntry.getChangeType());
       buf.append(" ");
       switch (diffEntry.getChangeType()) {
-        case ADD:
-          buf.append(String.format("%s (%s)", diffEntry.getNewPath(), diffEntry.getNewId().name()));
-          break;
-        case COPY:
-        case RENAME:
-          buf.append(
-              String.format(
-                  "%s (%s) -> %s (%s)",
-                  diffEntry.getOldPath(),
-                  diffEntry.getOldId().name(),
-                  diffEntry.getNewPath(),
-                  diffEntry.getNewId().name()));
-          break;
-        case DELETE:
-        case MODIFY:
-          buf.append(String.format("%s (%s)", diffEntry.getOldPath(), diffEntry.getOldId().name()));
-          break;
+        case ADD ->
+            buf.append(
+                String.format("%s (%s)", diffEntry.getNewPath(), diffEntry.getNewId().name()));
+        case COPY, RENAME ->
+            buf.append(
+                String.format(
+                    "%s (%s) -> %s (%s)",
+                    diffEntry.getOldPath(),
+                    diffEntry.getOldId().name(),
+                    diffEntry.getNewPath(),
+                    diffEntry.getNewId().name()));
+        case DELETE, MODIFY ->
+            buf.append(
+                String.format("%s (%s)", diffEntry.getOldPath(), diffEntry.getOldId().name()));
       }
       buf.append("]");
       return buf.toString();

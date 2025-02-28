@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "254cc8f9_ab9c10af",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-28T00:09:50Z",
+      "side": 1,
+      "message": "```suggestion\n\n\n```\n\nActually, you can remove it altogether because you\u0027ve added the `isNotClosed()` at L147",
+      "parentUuid": "876e940d_85d837b6",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 9
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8531004_ca474b52",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-28T00:09:50Z",
+      "side": 1,
+      "message": "```suggestion\n    private boolean isOpen() {\n```\n\nI typically avoid using negatives in names.",
+      "range": {
+        "startLine": 147,
+        "startChar": 20,
+        "endLine": 147,
+        "endChar": 31
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62765afe_bc8c2124",
         "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
         "patchSetId": 11

@@ -537,7 +537,62 @@ public class AccountManager {
   }
 
   /**
-   * Unlink an external identity from an existing account.
+   * Link an external identity to an existing account.
+   *
+   * @param to account to link the external identity tp
+   * @param extIdKey the key of the external ID that should be added
+   * @throws AccountException the identity belongs to a different account, or the identity was not
+   *     found
+   */
+  public void link(Account.Id to, ExternalId.Key extIdKey)
+      throws AccountException, IOException, ConfigInvalidException {
+    link(to, ImmutableList.of(extIdKey));
+  }
+
+  /**
+   * Link external identities to an existing account.
+   *
+   * @param to account to link the external identity to
+   * @param extIdKeys the keys of the external IDs that should be added
+   * @throws AccountException any of the identity belongs to a different account, or any of the
+   *     identity was not found
+   */
+  public void link(Account.Id to, Collection<ExternalId.Key> extIdKeys)
+      throws AccountException, IOException, ConfigInvalidException {
+    if (extIdKeys.isEmpty()) {
+      return;
+    }
+
+    List<ExternalId> extIds = new ArrayList<>(extIdKeys.size());
+    for (ExternalId.Key extIdKey : extIdKeys) {
+      Optional<ExternalId> extId = externalIds.get(extIdKey);
+      if (extId.isPresent()) {
+        if (!extId.get().accountId().equals(to)) {
+          throw new AccountException("Identity '" + extIdKey.get() + "' in use by another account");
+        }
+        extIds.add(extId.get());
+      } else {
+        throw new AccountException("Identity '" + extIdKey.get() + "' not found");
+      }
+    }
+
+    accountsUpdateProvider
+        .get()
+        .updateForUserManagementRequests(
+            "Link External ID" + (extIds.size() > 1 ? "s" : ""),
+            to,
+            (a, u) -> {
+              u.addExternalIds(extIds);
+              if (a.account().preferredEmail() != null
+                  && extIds.stream()
+                      .anyMatch(e -> a.account().preferredEmail().equals(e.email()))) {
+                u.setPreferredEmail(null);
+              }
+            });
+  }
+
+  /**
+   * Unlink external identity from an existing account.
    *
    * @param from account to unlink the external identity from
    * @param extIdKey the key of the external ID that should be deleted

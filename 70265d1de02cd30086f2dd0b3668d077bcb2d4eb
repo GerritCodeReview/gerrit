@@ -281,6 +281,30 @@
       },
       "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2580cbe_7ac5eb0a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-28T08:48:54Z",
+      "side": 1,
+      "message": "Why not making a new conditional `toString()` instead?\n\n\n\n```suggestion\n    if (openRepositories !\u003d null \u0026\u0026 !openRepositories.isEmpty()) {\n      List\u003cString\u003e repositoriesToReport \u003d\n          openRepositories.stream()\n              .filter(RepositoryTracking::toStringIfOpen)\n              .flatMap(Optional::stream)\n              .toList();\n```\n\nThen you also make `toStringIfOpen` synchronized and you\u0027ve removed all raciness.",
+      "parentUuid": "0a02bc7e_fd45eb76",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 24
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

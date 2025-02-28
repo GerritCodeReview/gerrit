@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4550c8fb_e3b379f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-02-28T21:19:41Z",
+      "side": 1,
+      "message": "While this prevents rebuilding while pruning, it does not prevent pruning while rebuilding. It may make more sense to force a prune before rebuilding instead of trying to make them \"dodge\" each other. I guess this depends a little on whether pruning is now (since H2 is multi-threaded) something that we consider more safe to run at any time, such as during peak loads (with H2 v1 this has been disastrous for us with large caches)?",
+      "revId": "4362feadea7d04008666f56e74acfe4cafe94e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

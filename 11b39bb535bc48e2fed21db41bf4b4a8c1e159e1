@@ -16,6 +16,24 @@
       "message": "Please use externalIds.get(Set\u003cExternalId.Key\u003e keys) outside of this loop then compare to the result set within the loop.\n\nInternally, this is more efficient.",
       "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8ca7a6_ac544998",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-28T12:09:38Z",
+      "side": 1,
+      "message": "PTAL\nNot sure if I resolved it correctly.",
+      "parentUuid": "7ba02aa9_b52e7d89",
+      "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

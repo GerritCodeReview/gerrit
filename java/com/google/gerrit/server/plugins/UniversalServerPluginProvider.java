@@ -49,14 +49,11 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
   @Override
   public boolean handles(Path srcPath) {
     List<ServerPluginProvider> providers = providersForHandlingPlugin(srcPath);
-    switch (providers.size()) {
-      case 1:
-        return true;
-      case 0:
-        return false;
-      default:
-        throw new MultipleProvidersForPluginException(srcPath, providers);
-    }
+    return switch (providers.size()) {
+      case 1 -> true;
+      case 0 -> false;
+      default -> throw new MultipleProvidersForPluginException(srcPath, providers);
+    };
   }
 
   @Override
@@ -66,16 +63,14 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
 
   private ServerPluginProvider providerOf(Path srcPath) {
     List<ServerPluginProvider> providers = providersForHandlingPlugin(srcPath);
-    switch (providers.size()) {
-      case 1:
-        return providers.get(0);
-      case 0:
-        throw new IllegalArgumentException(
-            "No ServerPluginProvider found/loaded to handle plugin file "
-                + srcPath.toAbsolutePath());
-      default:
-        throw new MultipleProvidersForPluginException(srcPath, providers);
-    }
+    return switch (providers.size()) {
+      case 1 -> providers.get(0);
+      case 0 ->
+          throw new IllegalArgumentException(
+              "No ServerPluginProvider found/loaded to handle plugin file "
+                  + srcPath.toAbsolutePath());
+      default -> throw new MultipleProvidersForPluginException(srcPath, providers);
+    };
   }
 
   private List<ServerPluginProvider> providersForHandlingPlugin(Path srcPath) {

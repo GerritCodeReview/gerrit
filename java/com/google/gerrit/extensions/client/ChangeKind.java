@@ -38,23 +38,17 @@ public enum ChangeKind {
   NO_CHANGE;
 
   public boolean matches(ChangeKind changeKind, boolean isMerge) {
-    switch (changeKind) {
-      case REWORK:
-        // REWORK inlcudes all other change kinds, since those are just more trivial cases of a
-        // rework
-        return true;
-      case TRIVIAL_REBASE:
-        return isTrivialRebase();
-      case TRIVIAL_REBASE_WITH_MESSAGE_UPDATE:
-        return isTrivialRebaseWithMessageUpdate();
-      case MERGE_FIRST_PARENT_UPDATE:
-        return isMergeFirstParentUpdate(isMerge);
-      case NO_CHANGE:
-        return this == NO_CHANGE;
-      case NO_CODE_CHANGE:
-        return isNoCodeChange();
-    }
-    throw new IllegalStateException("unexpected change kind: " + changeKind);
+    return switch (changeKind) {
+      case REWORK ->
+          // REWORK includes all other change kinds, since those are just more trivial cases of a
+          // rework
+          true;
+      case TRIVIAL_REBASE -> isTrivialRebase();
+      case TRIVIAL_REBASE_WITH_MESSAGE_UPDATE -> isTrivialRebaseWithMessageUpdate();
+      case MERGE_FIRST_PARENT_UPDATE -> isMergeFirstParentUpdate(isMerge);
+      case NO_CHANGE -> this == NO_CHANGE;
+      case NO_CODE_CHANGE -> isNoCodeChange();
+    };
   }
 
   public boolean isNoCodeChange() {

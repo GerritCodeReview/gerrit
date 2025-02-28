@@ -487,22 +487,22 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
             b -> {
               Map<String, Object> map = new HashMap<>();
               switch (b.type) {
-                case PARAGRAPH:
+                case PARAGRAPH -> {
                   map.put("type", "paragraph");
                   map.put("text", b.text);
-                  break;
-                case PRE_FORMATTED:
+                }
+                case PRE_FORMATTED -> {
                   map.put("type", "pre");
                   map.put("text", b.text);
-                  break;
-                case QUOTE:
+                }
+                case QUOTE -> {
                   map.put("type", "quote");
                   map.put("quotedBlocks", commentBlocksToSoyData(b.quotedBlocks));
-                  break;
-                case LIST:
+                }
+                case LIST -> {
                   map.put("type", "list");
                   map.put("items", b.items);
-                  break;
+                }
               }
               return map;
             })

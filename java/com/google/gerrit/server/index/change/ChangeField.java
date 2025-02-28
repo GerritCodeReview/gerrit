@@ -1601,9 +1601,7 @@ public class ChangeField {
     List<String> result = new ArrayList<>();
     for (SubmitRequirementResult srResult : srResults) {
       switch (srResult.status()) {
-        case SATISFIED:
-        case OVERRIDDEN:
-        case FORCED:
+        case SATISFIED, OVERRIDDEN, FORCED -> {
           result.add(
               SubmitRecord.Label.Status.OK.name()
                   + ","
@@ -1612,8 +1610,8 @@ public class ChangeField {
               SubmitRecord.Label.Status.MAY.name()
                   + ","
                   + srResult.submitRequirement().name().toLowerCase(Locale.US));
-          break;
-        case UNSATISFIED:
+        }
+        case UNSATISFIED -> {
           result.add(
               SubmitRecord.Label.Status.NEED.name()
                   + ","
@@ -1622,13 +1620,12 @@ public class ChangeField {
               SubmitRecord.Label.Status.REJECT.name()
                   + ","
                   + srResult.submitRequirement().name().toLowerCase(Locale.US));
-          break;
-        case NOT_APPLICABLE:
-        case ERROR:
-          result.add(
-              SubmitRecord.Label.Status.IMPOSSIBLE.name()
-                  + ","
-                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
+        }
+        case NOT_APPLICABLE, ERROR ->
+            result.add(
+                SubmitRecord.Label.Status.IMPOSSIBLE.name()
+                    + ","
+                    + srResult.submitRequirement().name().toLowerCase(Locale.US));
       }
     }
     return result;

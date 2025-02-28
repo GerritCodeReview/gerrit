@@ -159,15 +159,9 @@ public interface ChangeEmail extends OutgoingEmail.EmailDecorator {
         lineData.put("type", "common");
       } else {
         switch (diffLine.charAt(0)) {
-          case '+':
-            lineData.put("type", "add");
-            break;
-          case '-':
-            lineData.put("type", "remove");
-            break;
-          default:
-            lineData.put("type", "common");
-            break;
+          case '+' -> lineData.put("type", "add");
+          case '-' -> lineData.put("type", "remove");
+          default -> lineData.put("type", "common");
         }
       }
       result.add(lineData.build());

@@ -66,22 +66,16 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
       linesInserted += fileDiff.insertions();
       linesDeleted += fileDiff.deletions();
       switch (fileDiff.changeType()) {
-        case ADDED:
-        case MODIFIED:
-        case DELETED:
-        case COPIED:
-        case REWRITE:
-          r.add(
-              FilePathAdapter.getNewPath(
-                  fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()));
-          break;
-
-        case RENAMED:
+        case ADDED, MODIFIED, DELETED, COPIED, REWRITE ->
+            r.add(
+                FilePathAdapter.getNewPath(
+                    fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()));
+        case RENAMED -> {
           r.add(FilePathAdapter.getOldPath(fileDiff.oldPath(), fileDiff.changeType()));
           r.add(
               FilePathAdapter.getNewPath(
                   fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()));
-          break;
+        }
       }
     }
     return new DiffSummary(r.stream().sorted().toArray(String[]::new), linesInserted, linesDeleted);

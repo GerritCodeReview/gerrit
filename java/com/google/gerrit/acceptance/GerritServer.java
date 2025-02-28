@@ -305,14 +305,10 @@ public class GerritServer implements AutoCloseable {
     if (value.isEmpty()) {
       value = Strings.nullToEmpty(System.getProperty("gerrit.forceLocalDisk"));
     }
-    switch (value.trim().toLowerCase(Locale.US)) {
-      case "1":
-      case "yes":
-      case "true":
-        return true;
-      default:
-        return false;
-    }
+    return switch (value.trim().toLowerCase(Locale.US)) {
+      case "1", "yes", "true" -> true;
+      default -> false;
+    };
   }
 
   /**

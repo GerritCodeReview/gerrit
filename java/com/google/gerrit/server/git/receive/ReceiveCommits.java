@@ -771,18 +771,13 @@ class ReceiveCommits {
                   " (%s)", requestCancelledException.get().getCancellationMessage().get()));
         }
 
-        MetricBucket metricBucket = MetricBucket.INTERNAL_SERVER_ERROR;
-        switch (requestCancelledException.get().getCancellationReason()) {
-          case CLIENT_CLOSED_REQUEST:
-            metricBucket = MetricBucket.CLIENT_CLOSED_REQUEST;
-            break;
-          case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
-            metricBucket = MetricBucket.CLIENT_PROVIDED_DEADLINE_EXCEEDED;
-            break;
-          case SERVER_DEADLINE_EXCEEDED:
-            metricBucket = MetricBucket.SERVER_DEADLINE_EXCEEDED;
-            break;
-        }
+        MetricBucket metricBucket =
+            switch (requestCancelledException.get().getCancellationReason()) {
+              case CLIENT_CLOSED_REQUEST -> MetricBucket.CLIENT_CLOSED_REQUEST;
+              case CLIENT_PROVIDED_DEADLINE_EXCEEDED ->
+                  MetricBucket.CLIENT_PROVIDED_DEADLINE_EXCEEDED;
+              case SERVER_DEADLINE_EXCEEDED -> MetricBucket.SERVER_DEADLINE_EXCEEDED;
+            };
 
         rejectRemaining(commands, RejectionReason.create(metricBucket, msg.toString()));
       } finally {
@@ -1031,19 +1026,15 @@ class ReceiveCommits {
                 // that should happen in this loops are things that can't happen within one
                 // BatchUpdate because they involve kicking off an additional BatchUpdate.
                 switch (c.getType()) {
-                  case CREATE:
-                  case UPDATE:
-                  case UPDATE_NONFASTFORWARD:
+                  case CREATE, UPDATE, UPDATE_NONFASTFORWARD -> {
                     Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
                     try (RefUpdateContext ctx =
                         RefUpdateContext.open(RefUpdateType.AUTO_CLOSE_CHANGES)) {
                       autoCloseChanges(globalRevWalk, ins, c, closeProgress);
                     }
                     closeProgress.end();
-                    break;
-
-                  case DELETE:
-                    break;
+                  }
+                  case DELETE -> {}
                 }
               });
     }
@@ -1460,29 +1451,18 @@ class ReceiveCommits {
       }
 
       switch (cmd.getType()) {
-        case CREATE:
-          parseCreate(globalRevWalk, ins, cmd);
-          break;
-
-        case UPDATE:
-          parseUpdate(globalRevWalk, ins, cmd);
-          break;
-
-        case DELETE:
-          parseDelete(cmd);
-          break;
-
-        case UPDATE_NONFASTFORWARD:
-          parseRewind(globalRevWalk, ins, cmd);
-          break;
-
-        default:
+        case CREATE -> parseCreate(globalRevWalk, ins, cmd);
+        case UPDATE -> parseUpdate(globalRevWalk, ins, cmd);
+        case DELETE -> parseDelete(cmd);
+        case UPDATE_NONFASTFORWARD -> parseRewind(globalRevWalk, ins, cmd);
+        default -> {
           reject(
               cmd,
               RejectionReason.create(
                   MetricBucket.UNKNOWN_COMMAND_TYPE,
                   "prohibited by Gerrit: unknown command type " + cmd.getType()));
           return;
+        }
       }
 
       if (cmd.getResult() != NOT_ATTEMPTED) {
@@ -1512,9 +1492,7 @@ class ReceiveCommits {
       }
 
       switch (cmd.getType()) {
-        case CREATE:
-        case UPDATE:
-        case UPDATE_NONFASTFORWARD:
+        case CREATE, UPDATE, UPDATE_NONFASTFORWARD -> {
           try {
             ProjectConfig cfg = projectConfigFactory.create(project.getNameKey());
             cfg.load(project.getNameKey(), globalRevWalk, cmd.getNewId());
@@ -1592,18 +1570,15 @@ class ReceiveCommits {
                 user.getLoggableName(), cmd.getNewId().name(), project.getName());
             return;
           }
-          break;
-
-        case DELETE:
-          break;
-
-        default:
-          reject(
-              cmd,
-              RejectionReason.create(
-                  MetricBucket.UNKNOWN_COMMAND_TYPE,
-                  "prohibited by Gerrit: don't know how to handle config update of type "
-                      + cmd.getType()));
+        }
+        case DELETE -> {}
+        default ->
+            reject(
+                cmd,
+                RejectionReason.create(
+                    MetricBucket.UNKNOWN_COMMAND_TYPE,
+                    "prohibited by Gerrit: don't know how to handle config update of type "
+                        + cmd.getType()));
       }
     }
   }

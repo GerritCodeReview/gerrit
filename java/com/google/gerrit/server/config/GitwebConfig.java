@@ -244,14 +244,10 @@ public class GitwebConfig {
    * <p>"$-_.+!',"
    */
   static boolean isValidPathSeparator(char c) {
-    switch (c) {
-      case '*':
-      case '(':
-      case ')':
-        return true;
-      default:
-        return false;
-    }
+    return switch (c) {
+      case '*', '(', ')' -> true;
+      default -> false;
+    };
   }
 
   @Singleton

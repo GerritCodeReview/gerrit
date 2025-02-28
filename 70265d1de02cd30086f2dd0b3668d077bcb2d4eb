@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06e7f4ee_fbf0796a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-02-28T00:18:22Z",
+      "side": 1,
+      "message": "This can now be set to static.\n\n\n\n```suggestion\n  private static class RepositoryTracking extends DelegateRepository {\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 34
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "876e940d_85d837b6",
         "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
         "patchSetId": 11

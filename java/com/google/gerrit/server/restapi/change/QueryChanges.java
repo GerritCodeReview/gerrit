@@ -60,7 +60,6 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private Integer limit;
   private Integer start;
   private Boolean noLimit;
-  private Boolean skipVisibility;
   private Boolean allowIncompleteResults;
 
   @Option(
@@ -105,13 +104,22 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     this.noLimit = on;
   }
 
+  /**
+   * Skip visibility check, only for administrators.
+   *
+   * <p>This option has been deprecated and is a no-op now.
+   *
+   * @param on whether the visibility check should be skipped
+   * @deprecated admins can always see all changes, hence skipping the visibility check for them is
+   *     not needed
+   */
+  @Deprecated
   @Option(name = "--skip-visibility", usage = "Skip visibility check, only for administrators")
   public void skipVisibility(boolean on) throws AuthException, PermissionBackendException {
     if (on) {
       CurrentUser user = userProvider.get();
       permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
-    skipVisibility = on;
   }
 
   @Option(name = "--allow-incomplete-results", usage = "Return partial results")
@@ -199,9 +207,6 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
     if (noLimit != null && !AnonymousUser.class.isAssignableFrom(userProvider.get().getClass())) {
       queryProcessor.setNoLimit(noLimit);
-    }
-    if (skipVisibility != null) {
-      queryProcessor.enforceVisibility(!skipVisibility);
     }
     if (allowIncompleteResults != null) {
       queryProcessor.setAllowIncompleteResults(allowIncompleteResults);

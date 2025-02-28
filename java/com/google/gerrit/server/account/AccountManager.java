@@ -135,9 +135,10 @@ public class AccountManager {
    *
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
-   * @throws AccountException the account does not exist, and cannot be created, or exists, but
-   *     cannot be located, is unable to be activated or deactivated, or is inactive, or cannot be
-   *     added to the admin group (only for the first account).
+   * @throws com.google.gerrit.server.account.AccountException the account does not exist, and
+   *     cannot be created, or exists, but cannot be located, is unable to be activated or
+   *     deactivated, or is inactive, or cannot be added to the admin group (only for the first
+   *     account).
    */
   @CanIgnoreReturnValue
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
@@ -186,9 +187,10 @@ public class AccountManager {
    *
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
-   * @throws AccountException the account does not exist, and cannot be created, or exists, but
-   *     cannot be located, is unable to be activated or deactivated, or is inactive, or cannot be
-   *     added to the admin group (only for the first account).
+   * @throws com.google.gerrit.server.account.AccountException the account does not exist, and
+   *     cannot be created, or exists, but cannot be located, is unable to be activated or
+   *     deactivated, or is inactive, or cannot be added to the admin group (only for the first
+   *     account).
    */
   private AuthResult createOrLinkAccount(AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
@@ -462,8 +464,8 @@ public class AccountManager {
    * @param to account to link the identity onto.
    * @param who the additional identity.
    * @return the result of linking the identity to the user.
-   * @throws AccountException the identity belongs to a different account, or it cannot be linked at
-   *     this time.
+   * @throws com.google.gerrit.server.account.AccountException the identity belongs to a different
+   *     account, or it cannot be linked at this time.
    */
   @CanIgnoreReturnValue
   public AuthResult link(Account.Id to, AuthRequest who)
@@ -504,8 +506,8 @@ public class AccountManager {
    * @param to account to link the identity onto.
    * @param who the additional identity.
    * @return the result of linking the identity to the user.
-   * @throws AccountException the identity belongs to a different account, or it cannot be linked at
-   *     this time.
+   * @throws com.google.gerrit.server.account.AccountException the identity belongs to a different
+   *     account, or it cannot be linked at this time.
    */
   @CanIgnoreReturnValue
   public AuthResult updateLink(Account.Id to, AuthRequest who)
@@ -537,12 +539,75 @@ public class AccountManager {
   }
 
   /**
-   * Unlink an external identity from an existing account.
+   * Link an external identity to an existing account.
+   *
+   * @param to account to link the external identity tp
+   * @param extId external ID that should be added
+   * @throws com.google.gerrit.server.account.AccountException the identity belongs to a different
+   *     account, or the identity was not found
+   */
+  public void link(Account.Id to, ExternalId extId)
+      throws AccountException, IOException, ConfigInvalidException {
+    link(to, ImmutableList.of(extId));
+  }
+
+  /**
+   * Link external identities to an existing account.
+   *
+   * @param to account to link the external identity to
+   * @param extIds the external IDs that should be added. The IDs should already have been unlinked
+   *     from the other account if they belong to another account. This method will create external
+   *     IDs with the new accountID.
+   * @throws com.google.gerrit.server.account.AccountException any of the identity belongs to a
+   *     different account, or any of the identity was not found
+   */
+  public void link(Account.Id to, Collection<ExternalId> extIds)
+      throws AccountException, IOException, ConfigInvalidException {
+    if (extIds.isEmpty()) {
+      return;
+    }
+    List<ExternalId> validExtIds = new ArrayList<>(extIds.size());
+    ImmutableSet<ExternalId.Key> keys =
+        extIds.stream().map(id -> id.key()).collect(toImmutableSet());
+    ImmutableSet<ExternalId> existingExtIds = externalIds.get(keys);
+    for (ExternalId extId : extIds) {
+      if (!existingExtIds.contains(extId)) {
+        // This is a brand new external ID so we link it directly
+        validExtIds.add(extId);
+        continue;
+      }
+      if (extId.accountId().equals(to)) {
+        // This external already has the correct accountID set so we assume it's already linked
+        continue;
+      }
+      // Create a copy of the externalID but with the "to" account as the owner
+      ExternalId copiedExternalId =
+          externalIdFactory.create(extId.key(), to, extId.email(), null);
+      validExtIds.add(copiedExternalId);
+    }
+
+    accountsUpdateProvider
+        .get()
+        .updateForUserManagementRequests(
+            "Link External ID" + (validExtIds.size() > 1 ? "s" : ""),
+            to,
+            (a, u) -> {
+              u.addExternalIds(validExtIds);
+              if (a.account().preferredEmail() != null
+                  && validExtIds.stream()
+                      .anyMatch(e -> a.account().preferredEmail().equals(e.email()))) {
+                u.setPreferredEmail(null);
+              }
+            });
+  }
+
+  /**
+   * Unlink external identity from an existing account.
    *
    * @param from account to unlink the external identity from
    * @param extIdKey the key of the external ID that should be deleted
-   * @throws AccountException the identity belongs to a different account, or the identity was not
-   *     found
+   * @throws com.google.gerrit.server.account.AccountException the identity belongs to a different
+   *     account, or the identity was not found
    */
   public void unlink(Account.Id from, ExternalId.Key extIdKey)
       throws AccountException, IOException, ConfigInvalidException {
@@ -554,8 +619,8 @@ public class AccountManager {
    *
    * @param from account to unlink the external identity from
    * @param extIdKeys the keys of the external IDs that should be deleted
-   * @throws AccountException any of the identity belongs to a different account, or any of the
-   *     identity was not found
+   * @throws com.google.gerrit.server.account.AccountException any of the identity belongs to a
+   *     different account, or any of the identity was not found
    */
   public void unlink(Account.Id from, Collection<ExternalId.Key> extIdKeys)
       throws AccountException, IOException, ConfigInvalidException {

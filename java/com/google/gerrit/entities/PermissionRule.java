@@ -125,24 +125,11 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
     StringBuilder r = new StringBuilder();
 
     switch (getAction()) {
-      case ALLOW:
-        break;
-
-      case DENY:
-        r.append("deny ");
-        break;
-
-      case BLOCK:
-        r.append("block ");
-        break;
-
-      case INTERACTIVE:
-        r.append("interactive ");
-        break;
-
-      case BATCH:
-        r.append("batch ");
-        break;
+      case ALLOW -> {}
+      case DENY -> r.append("deny ");
+      case BLOCK -> r.append("block ");
+      case INTERACTIVE -> r.append("interactive ");
+      case BATCH -> r.append("batch ");
     }
 
     if (getForce()) {

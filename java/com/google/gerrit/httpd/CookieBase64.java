@@ -71,26 +71,22 @@ class CookieBase64 {
             | (numSigBytes > 2 ? ((in[inOffset + 2] << 24) >>> 24) : 0);
 
     switch (numSigBytes) {
-      case 3:
+      case 3 -> {
         out.append(enc[(inBuff >>> 18)]);
         out.append(enc[(inBuff >>> 12) & 0x3f]);
         out.append(enc[(inBuff >>> 6) & 0x3f]);
         out.append(enc[inBuff & 0x3f]);
-        break;
-
-      case 2:
+      }
+      case 2 -> {
         out.append(enc[(inBuff >>> 18)]);
         out.append(enc[(inBuff >>> 12) & 0x3f]);
         out.append(enc[(inBuff >>> 6) & 0x3f]);
-        break;
-
-      case 1:
+      }
+      case 1 -> {
         out.append(enc[(inBuff >>> 18)]);
         out.append(enc[(inBuff >>> 12) & 0x3f]);
-        break;
-
-      default:
-        break;
+      }
+      default -> {}
     }
   }
 

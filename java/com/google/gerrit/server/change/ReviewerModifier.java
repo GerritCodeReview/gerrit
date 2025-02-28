@@ -544,7 +544,7 @@ public class ReviewerModifier {
       // the Op because the accounts are in a different table.
       ReviewerOp.Result opResult = op.getResult();
       switch (state()) {
-        case CC:
+        case CC -> {
           result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
           for (Account.Id accountId : opResult.addedCCs()) {
             result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
@@ -553,8 +553,8 @@ public class ReviewerModifier {
           for (Address a : opResult.addedCCsByEmail()) {
             result.ccs.add(new AccountInfo(a.name(), a.email()));
           }
-          break;
-        case REVIEWER:
+        }
+        case REVIEWER -> {
           result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
           for (PatchSetApproval psa : opResult.addedReviewers()) {
             // New reviewers have value 0, don't bother normalizing.
@@ -569,8 +569,8 @@ public class ReviewerModifier {
           for (Address a : opResult.addedReviewersByEmail()) {
             result.reviewers.add(ReviewerInfo.byEmail(a.name(), a.email()));
           }
-          break;
-        case REMOVED:
+        }
+        case REMOVED -> {
           if (opResult.deletedReviewer().isPresent()) {
             result.removed =
                 json.format(
@@ -584,10 +584,10 @@ public class ReviewerModifier {
                     opResult.deletedReviewerByEmail().get().name(),
                     opResult.deletedReviewerByEmail().get().email());
           }
-          break;
-        default:
-          throw new IllegalStateException(
-              String.format("Illegal ReviewerState argument is %s", state().name()));
+        }
+        default ->
+            throw new IllegalStateException(
+                String.format("Illegal ReviewerState argument is %s", state().name()));
       }
     }
 

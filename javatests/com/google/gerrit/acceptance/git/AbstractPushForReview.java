@@ -202,17 +202,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   protected void selectProtocol(Protocol p) throws Exception {
-    String url;
-    switch (p) {
-      case SSH:
-        url = adminSshSession.getUrl();
-        break;
-      case HTTP:
-        url = admin.getHttpUrl(server);
-        break;
-      default:
-        throw new IllegalArgumentException("unexpected protocol: " + p);
-    }
+    String url =
+        switch (p) {
+          case SSH -> adminSshSession.getUrl();
+          case HTTP -> admin.getHttpUrl(server);
+          default -> throw new IllegalArgumentException("unexpected protocol: " + p);
+        };
     testRepo = GitUtil.cloneProject(project, url + "/" + project.get());
   }
 

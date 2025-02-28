@@ -407,28 +407,24 @@ public class MergeOp implements AutoCloseable {
 
     for (SubmitRequirementResult srResult : srResults.values()) {
       switch (srResult.status()) {
-        case SATISFIED:
-        case NOT_APPLICABLE:
-        case OVERRIDDEN:
-        case FORCED:
-          break;
-
-        case ERROR:
-          throw new ResourceConflictException(
-              String.format(
-                  "submit requirement '%s' has an error: %s",
-                  srResult.submitRequirement().name(), srResult.errorMessage().orElse("")));
-
-        case UNSATISFIED:
-          throw new ResourceConflictException(
-              String.format(
-                  "submit requirement '%s' is unsatisfied.", srResult.submitRequirement().name()));
-
-        default:
-          throw new IllegalStateException(
-              String.format(
-                  "Unexpected submit requirement status %s for %s in %s",
-                  srResult.status().name(), patchSet.id().getId(), cd.change().getProject().get()));
+        case SATISFIED, NOT_APPLICABLE, OVERRIDDEN, FORCED -> {}
+        case ERROR ->
+            throw new ResourceConflictException(
+                String.format(
+                    "submit requirement '%s' has an error: %s",
+                    srResult.submitRequirement().name(), srResult.errorMessage().orElse("")));
+        case UNSATISFIED ->
+            throw new ResourceConflictException(
+                String.format(
+                    "submit requirement '%s' is unsatisfied.",
+                    srResult.submitRequirement().name()));
+        default ->
+            throw new IllegalStateException(
+                String.format(
+                    "Unexpected submit requirement status %s for %s in %s",
+                    srResult.status().name(),
+                    patchSet.id().getId(),
+                    cd.change().getProject().get()));
       }
     }
     throw new IllegalStateException();

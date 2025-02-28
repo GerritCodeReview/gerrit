@@ -259,19 +259,15 @@ public class ChangeOperationsImpl implements ChangeOperations {
   }
 
   private ImmutableList<String> getGroups(TestCommitIdentifier parentCommit) {
-    switch (parentCommit.getKind()) {
-      case BRANCH:
-        return ImmutableList.of();
-      case CHANGE_ID:
-        return getGroupsFromChange(parentCommit.changeId());
-      case COMMIT_SHA_1:
-        return ImmutableList.of();
-      case PATCHSET_ID:
-        return getGroupsFromPatchset(parentCommit.patchsetId());
-      default:
-        throw new IllegalStateException(
-            String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
-    }
+    return switch (parentCommit.getKind()) {
+      case BRANCH -> ImmutableList.of();
+      case CHANGE_ID -> getGroupsFromChange(parentCommit.changeId());
+      case COMMIT_SHA_1 -> ImmutableList.of();
+      case PATCHSET_ID -> getGroupsFromPatchset(parentCommit.patchsetId());
+      default ->
+          throw new IllegalStateException(
+              String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
+    };
   }
 
   private ImmutableList<String> getGroupsFromChange(Change.Id changeId) {
@@ -326,19 +322,15 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
   private ObjectId resolveCommit(
       Repository repository, RevWalk revWalk, TestCommitIdentifier parentCommit) {
-    switch (parentCommit.getKind()) {
-      case BRANCH:
-        return resolveBranchTip(repository, parentCommit.branch());
-      case CHANGE_ID:
-        return resolveChange(parentCommit.changeId());
-      case COMMIT_SHA_1:
-        return resolveCommitFromSha1(revWalk, parentCommit.commitSha1());
-      case PATCHSET_ID:
-        return resolvePatchset(parentCommit.patchsetId());
-      default:
-        throw new IllegalStateException(
-            String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
-    }
+    return switch (parentCommit.getKind()) {
+      case BRANCH -> resolveBranchTip(repository, parentCommit.branch());
+      case CHANGE_ID -> resolveChange(parentCommit.changeId());
+      case COMMIT_SHA_1 -> resolveCommitFromSha1(revWalk, parentCommit.commitSha1());
+      case PATCHSET_ID -> resolvePatchset(parentCommit.patchsetId());
+      default ->
+          throw new IllegalStateException(
+              String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
+    };
   }
 
   private static ObjectId resolveBranchTip(Repository repository, String branchName) {

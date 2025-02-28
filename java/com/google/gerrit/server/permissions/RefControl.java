@@ -538,7 +538,7 @@ public class RefControl {
       if (!can(perm)) {
         PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
         switch (perm) {
-          case UPDATE:
+          case UPDATE -> {
             if (refName.equals(RefNames.REFS_CONFIG)) {
               pde.setAdvice(
                   "Configuration changes can only be pushed by project owners\n"
@@ -550,76 +550,51 @@ public class RefControl {
                       + RefNames.shortName(refName)
                       + " to create a review, or get 'Push' rights to update the branch.");
             }
-            break;
-          case DELETE:
-            pde.setAdvice(
-                "You need 'Delete Reference' rights or 'Push' rights with the \n"
-                    + "'Force Push' flag set to delete references.");
-            break;
-          case CREATE_CHANGE:
-            // This is misleading in the default permission backend, since "create change" on a
-            // branch is encoded as "push" on refs/for/DESTINATION.
-            pde.setAdvice(
-                "You need 'Create Change' rights to upload code review requests.\n"
-                    + "Verify that you are pushing to the right branch.");
-            break;
-          case CREATE:
-            pde.setAdvice("You need 'Create' rights to create new references.");
-            break;
-          case CREATE_SIGNED_TAG:
-            pde.setAdvice("You need 'Create Signed Tag' rights to push a signed tag.");
-            break;
-          case CREATE_TAG:
-            pde.setAdvice("You need 'Create Tag' rights to push a normal tag.");
-            break;
-          case FORCE_UPDATE:
-            pde.setAdvice(
-                "You need 'Push' rights with 'Force' flag set to do a non-fastforward push.");
-            break;
-          case FORGE_AUTHOR:
-            pde.setAdvice(
-                "You need 'Forge Author' rights to push commits with another user as author.");
-            break;
-          case FORGE_COMMITTER:
-            pde.setAdvice(
-                "You need 'Forge Committer' rights to push commits with another user as"
-                    + " committer.");
-            break;
-          case FORGE_SERVER:
-            pde.setAdvice(
-                "You need 'Forge Server' rights to push merge commits authored by the server.");
-            break;
-          case MERGE:
-            pde.setAdvice(
-                "You need 'Push Merge' in addition to 'Push' rights to push merge commits.");
-            break;
-
-          case READ:
-            pde.setAdvice("You need 'Read' rights to fetch or clone this ref.");
-            break;
-
-          case READ_CONFIG:
-            pde.setAdvice("You need 'Read' rights on refs/meta/config to see the configuration.");
-            break;
-          case READ_PRIVATE_CHANGES:
-            pde.setAdvice("You need 'Read Private Changes' to see private changes.");
-            break;
-          case SET_HEAD:
-            pde.setAdvice("You need 'Set HEAD' rights to set the default branch.");
-            break;
-          case SKIP_VALIDATION:
-            pde.setAdvice(
-                "You need 'Forge Author', 'Forge Server', 'Forge Committer'\n"
-                    + "and 'Push Merge' rights to skip validation.");
-            break;
-          case UPDATE_BY_SUBMIT:
-            pde.setAdvice(
-                "You need 'Submit' rights on refs/for/ to submit changes during change upload.");
-            break;
-
-          case WRITE_CONFIG:
-            pde.setAdvice("You need 'Write' rights on refs/meta/config.");
-            break;
+          }
+          case DELETE ->
+              pde.setAdvice(
+                  "You need 'Delete Reference' rights or 'Push' rights with the \n"
+                      + "'Force Push' flag set to delete references.");
+          case CREATE_CHANGE ->
+              // This is misleading in the default permission backend, since "create change" on a
+              // branch is encoded as "push" on refs/for/DESTINATION.
+              pde.setAdvice(
+                  "You need 'Create Change' rights to upload code review requests.\n"
+                      + "Verify that you are pushing to the right branch.");
+          case CREATE -> pde.setAdvice("You need 'Create' rights to create new references.");
+          case CREATE_SIGNED_TAG ->
+              pde.setAdvice("You need 'Create Signed Tag' rights to push a signed tag.");
+          case CREATE_TAG -> pde.setAdvice("You need 'Create Tag' rights to push a normal tag.");
+          case FORCE_UPDATE ->
+              pde.setAdvice(
+                  "You need 'Push' rights with 'Force' flag set to do a non-fastforward push.");
+          case FORGE_AUTHOR ->
+              pde.setAdvice(
+                  "You need 'Forge Author' rights to push commits with another user as author.");
+          case FORGE_COMMITTER ->
+              pde.setAdvice(
+                  "You need 'Forge Committer' rights to push commits with another user as"
+                      + " committer.");
+          case FORGE_SERVER ->
+              pde.setAdvice(
+                  "You need 'Forge Server' rights to push merge commits authored by the server.");
+          case MERGE ->
+              pde.setAdvice(
+                  "You need 'Push Merge' in addition to 'Push' rights to push merge commits.");
+          case READ -> pde.setAdvice("You need 'Read' rights to fetch or clone this ref.");
+          case READ_CONFIG ->
+              pde.setAdvice("You need 'Read' rights on refs/meta/config to see the configuration.");
+          case READ_PRIVATE_CHANGES ->
+              pde.setAdvice("You need 'Read Private Changes' to see private changes.");
+          case SET_HEAD -> pde.setAdvice("You need 'Set HEAD' rights to set the default branch.");
+          case SKIP_VALIDATION ->
+              pde.setAdvice(
+                  "You need 'Forge Author', 'Forge Server', 'Forge Committer'\n"
+                      + "and 'Push Merge' rights to skip validation.");
+          case UPDATE_BY_SUBMIT ->
+              pde.setAdvice(
+                  "You need 'Submit' rights on refs/for/ to submit changes during change upload.");
+          case WRITE_CONFIG -> pde.setAdvice("You need 'Write' rights on refs/meta/config.");
         }
         throw pde;
       }
@@ -680,7 +655,7 @@ public class RefControl {
 
   protected boolean can(RefPermission perm) throws PermissionBackendException {
     switch (perm) {
-      case READ:
+      case READ -> {
         /* Internal users such as plugin users should be able to read all refs. */
         if (getUser().isInternalUser()) {
           return true;
@@ -689,52 +664,61 @@ public class RefControl {
           return isTagVisible();
         }
         return refVisibilityControl.isVisible(projectControl, refName);
-      case CREATE:
+      }
+      case CREATE -> {
         // TODO This isn't an accurate test.
         return canPerform(refPermissionName(perm));
-      case DELETE:
+      }
+      case DELETE -> {
         return canDelete();
-      case UPDATE:
+      }
+      case UPDATE -> {
         return canUpdate();
-      case FORCE_UPDATE:
+      }
+      case FORCE_UPDATE -> {
         return canForceUpdate();
-      case SET_HEAD:
+      }
+      case SET_HEAD -> {
         return projectControl.isOwner();
-
-      case FORGE_AUTHOR:
+      }
+      case FORGE_AUTHOR -> {
         return canForgeAuthor();
-      case FORGE_COMMITTER:
+      }
+      case FORGE_COMMITTER -> {
         return canForgeCommitter();
-      case FORGE_SERVER:
+      }
+      case FORGE_SERVER -> {
         return canForgeGerritServerIdentity();
-      case MERGE:
+      }
+      case MERGE -> {
         return canUploadMerges();
-
-      case CREATE_CHANGE:
+      }
+      case CREATE_CHANGE -> {
         return canUpload();
-
-      case CREATE_TAG:
-      case CREATE_SIGNED_TAG:
+      }
+      case CREATE_TAG, CREATE_SIGNED_TAG -> {
         return canPerform(refPermissionName(perm));
-
-      case UPDATE_BY_SUBMIT:
+      }
+      case UPDATE_BY_SUBMIT -> {
         return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
-
-      case READ_PRIVATE_CHANGES:
+      }
+      case READ_PRIVATE_CHANGES -> {
         return canPerform(Permission.VIEW_PRIVATE_CHANGES);
-
-      case READ_CONFIG:
+      }
+      case READ_CONFIG -> {
         return projectControl
             .controlForRef(RefNames.REFS_CONFIG)
             .canPerform(RefPermission.READ.name());
-      case WRITE_CONFIG:
+      }
+      case WRITE_CONFIG -> {
         return isOwner();
-
-      case SKIP_VALIDATION:
+      }
+      case SKIP_VALIDATION -> {
         return canForgeAuthor()
             && canForgeCommitter()
             && canForgeGerritServerIdentity()
             && canUploadMerges();
+      }
     }
     throw new PermissionBackendException(perm + " unsupported");
   }

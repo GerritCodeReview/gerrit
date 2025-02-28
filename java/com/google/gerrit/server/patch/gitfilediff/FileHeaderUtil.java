@@ -89,18 +89,10 @@ public class FileHeaderUtil {
    */
   public static Optional<String> getOldPath(FileHeader header) {
     Patch.ChangeType changeType = getChangeType(header);
-    switch (changeType) {
-      case DELETED:
-      case COPIED:
-      case RENAMED:
-      case MODIFIED:
-        return Optional.of(header.getOldPath());
-
-      case ADDED:
-      case REWRITE:
-        return Optional.empty();
-    }
-    return Optional.empty();
+    return switch (changeType) {
+      case DELETED, COPIED, RENAMED, MODIFIED -> Optional.of(header.getOldPath());
+      case ADDED, REWRITE -> Optional.empty();
+    };
   }
 
   /**
@@ -109,18 +101,10 @@ public class FileHeaderUtil {
    */
   public static Optional<String> getNewPath(FileHeader header) {
     Patch.ChangeType changeType = getChangeType(header);
-    switch (changeType) {
-      case DELETED:
-        return Optional.empty();
-
-      case ADDED:
-      case MODIFIED:
-      case REWRITE:
-      case COPIED:
-      case RENAMED:
-        return Optional.of(header.getNewPath());
-    }
-    return Optional.empty();
+    return switch (changeType) {
+      case DELETED -> Optional.empty();
+      case ADDED, MODIFIED, REWRITE, COPIED, RENAMED -> Optional.of(header.getNewPath());
+    };
   }
 
   /** Returns the change type associated with the file header. */
@@ -130,36 +114,25 @@ public class FileHeaderUtil {
     // them as fields of keys / values of persisted caches).
 
     // TODO(ghareeb): remove the dead code of the value REWRITE and all its handling
-    switch (header.getChangeType()) {
-      case ADD:
-        return Patch.ChangeType.ADDED;
-      case MODIFY:
-        return Patch.ChangeType.MODIFIED;
-      case DELETE:
-        return Patch.ChangeType.DELETED;
-      case RENAME:
-        return Patch.ChangeType.RENAMED;
-      case COPY:
-        return Patch.ChangeType.COPIED;
-      default:
-        throw new IllegalArgumentException("Unsupported type " + header.getChangeType());
-    }
+    return switch (header.getChangeType()) {
+      case ADD -> Patch.ChangeType.ADDED;
+      case MODIFY -> Patch.ChangeType.MODIFIED;
+      case DELETE -> Patch.ChangeType.DELETED;
+      case RENAME -> Patch.ChangeType.RENAMED;
+      case COPY -> Patch.ChangeType.COPIED;
+      default -> throw new IllegalArgumentException("Unsupported type " + header.getChangeType());
+    };
   }
 
   public static PatchType getPatchType(FileHeader header) {
-    PatchType patchType;
 
-    switch (header.getPatchType()) {
-      case UNIFIED:
-        patchType = Patch.PatchType.UNIFIED;
-        break;
-      case GIT_BINARY:
-      case BINARY:
-        patchType = Patch.PatchType.BINARY;
-        break;
-      default:
-        throw new IllegalArgumentException("Unsupported type " + header.getPatchType());
-    }
+    PatchType patchType =
+        switch (header.getPatchType()) {
+          case UNIFIED -> Patch.PatchType.UNIFIED;
+          case GIT_BINARY, BINARY -> Patch.PatchType.BINARY;
+          default ->
+              throw new IllegalArgumentException("Unsupported type " + header.getPatchType());
+        };
 
     if (patchType != PatchType.BINARY) {
       byte[] buf = header.getBuffer();

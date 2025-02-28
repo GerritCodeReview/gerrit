@@ -166,18 +166,14 @@ public class ConfigUpdatedEvent {
     /** Note: The toString() is used to format the output from @see ReloadConfig. */
     @Override
     public String toString() {
-      switch (getUpdateType()) {
-        case ADDED:
-          return String.format("+ %s = %s", key, newVal);
-        case MODIFIED:
-          return String.format("* %s = [%s => %s]", key, oldVal, newVal);
-        case REMOVED:
-          return String.format("- %s = %s", key, oldVal);
-        case UNMODIFIED:
-          return String.format("  %s = %s", key, newVal);
-        default:
-          throw new IllegalStateException("Unexpected UpdateType: " + getUpdateType().name());
-      }
+      return switch (getUpdateType()) {
+        case ADDED -> String.format("+ %s = %s", key, newVal);
+        case MODIFIED -> String.format("* %s = [%s => %s]", key, oldVal, newVal);
+        case REMOVED -> String.format("- %s = %s", key, oldVal);
+        case UNMODIFIED -> String.format("  %s = %s", key, newVal);
+        default ->
+            throw new IllegalStateException("Unexpected UpdateType: " + getUpdateType().name());
+      };
     }
 
     public ConfigEntryType getUpdateType() {

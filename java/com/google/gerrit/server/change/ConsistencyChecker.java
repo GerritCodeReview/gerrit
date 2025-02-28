@@ -459,7 +459,7 @@ public class ConsistencyChecker {
         thisCommitPsIds.add(psId);
       }
       switch (thisCommitPsIds.size()) {
-        case 0:
+        case 0 -> {
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
           String changeId = Iterables.getFirst(changeUtil.getChangeIdsFromFooter(commit), null);
@@ -472,9 +472,8 @@ public class ConsistencyChecker {
             return;
           }
           insertMergedPatchSet(commit, null, false);
-          break;
-
-        case 1:
+        }
+        case 1 -> {
           // Existing patch set ref pointing to this commit.
           PatchSet.Id id = thisCommitPsIds.get(0);
           if (id.equals(change().currentPatchSetId())) {
@@ -489,17 +488,15 @@ public class ConsistencyChecker {
             // ref, and use a new ID when inserting a new merged patch set.
             insertMergedPatchSet(commit, id, false);
           }
-          break;
-
-        default:
-          problem(
-              String.format(
-                  "Multiple patch sets for expected merged commit %s: %s",
-                  commit.name(),
-                  thisCommitPsIds.stream()
-                      .sorted(comparing(PatchSet.Id::get))
-                      .collect(toImmutableList())));
-          break;
+        }
+        default ->
+            problem(
+                String.format(
+                    "Multiple patch sets for expected merged commit %s: %s",
+                    commit.name(),
+                    thisCommitPsIds.stream()
+                        .sorted(comparing(PatchSet.Id::get))
+                        .collect(toImmutableList())));
       }
     } catch (IOException e) {
       ProblemInfo problem =

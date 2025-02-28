@@ -56,18 +56,12 @@ public class ListMailFilter implements MailFilter {
     if (modeString == null) {
       modeString = "";
     }
-    switch (modeString) {
-      case LEGACY_ALLOW:
-      case "ALLOW":
-        mode = ListFilterMode.ALLOW;
-        break;
-      case LEGACY_BLOCK:
-      case "BLOCK":
-        mode = ListFilterMode.BLOCK;
-        break;
-      default:
-        mode = ListFilterMode.OFF;
-    }
+    mode =
+        switch (modeString) {
+          case LEGACY_ALLOW, "ALLOW" -> ListFilterMode.ALLOW;
+          case LEGACY_BLOCK, "BLOCK" -> ListFilterMode.BLOCK;
+          default -> ListFilterMode.OFF;
+        };
     return mode;
   }
 

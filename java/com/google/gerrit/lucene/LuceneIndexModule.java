@@ -27,7 +27,7 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.inject.Scopes;
-import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
 import org.eclipse.jgit.lib.Config;
 
 @ModuleImpl(name = AbstractIndexModule.INDEX_MODULE)
@@ -101,8 +101,8 @@ public class LuceneIndexModule extends AbstractIndexModule {
 
   @Override
   protected IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    BooleanQuery.setMaxClauseCount(
-        cfg.getInt("index", "maxTerms", BooleanQuery.getMaxClauseCount()));
+    IndexSearcher.setMaxClauseCount(
+        cfg.getInt("index", "maxTerms", IndexSearcher.getMaxClauseCount()));
     return super.getIndexConfig(cfg);
   }
 }

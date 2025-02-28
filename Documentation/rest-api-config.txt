@@ -1808,6 +1808,25 @@ The change cleanup will run asynchronously.
   Content-Disposition: attachment
 ----
 
+[[cleanup.draft.comments]]
+=== Cleanup of already published draft comments
+
+This endpoint allows Gerrit administrators to cleanup already published draft
+comments that were not deleted.
+
+This cleanup task will run asynchronously.
+
+.Request
+----
+  POST /config/server/cleanup.draft.comments HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
 [[experiment-endpoints]]
 == Experiment Endpoints
 

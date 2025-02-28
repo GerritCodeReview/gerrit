@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.common.net.InetAddresses;
@@ -29,8 +29,19 @@ import java.util.Arrays;
 import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 
-@AutoValue
-public abstract class TestAccount {
+public record TestAccount(
+    Account.Id id,
+    @Nullable String username,
+    @Nullable String email,
+    @Nullable String fullName,
+    @Nullable String displayName,
+    @Nullable String httpPassword,
+    ImmutableList<String> tags) {
+  public TestAccount {
+    requireNonNull(id, "id");
+    requireNonNull(tags, "tags");
+  }
+
   public static ImmutableList<Account.Id> ids(Iterable<TestAccount> accounts) {
     return Streams.stream(accounts).map(TestAccount::id).collect(toImmutableList());
   }
@@ -51,28 +62,8 @@ public abstract class TestAccount {
       @Nullable String displayName,
       @Nullable String httpPassword,
       ImmutableList<String> tags) {
-    return new AutoValue_TestAccount(
-        id, username, email, fullName, displayName, httpPassword, tags);
+    return new TestAccount(id, username, email, fullName, displayName, httpPassword, tags);
   }
-
-  public abstract Account.Id id();
-
-  @Nullable
-  public abstract String username();
-
-  @Nullable
-  public abstract String email();
-
-  @Nullable
-  public abstract String fullName();
-
-  @Nullable
-  public abstract String displayName();
-
-  @Nullable
-  public abstract String httpPassword();
-
-  public abstract ImmutableList<String> tags();
 
   public PersonIdent newIdent() {
     return new PersonIdent(fullName(), email());

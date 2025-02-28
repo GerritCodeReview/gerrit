@@ -15,9 +15,9 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -574,15 +574,13 @@ public class LabelsJson {
     return permittedVotingRanges;
   }
 
-  @AutoValue
-  abstract static class LabelWithStatus {
-    private static LabelWithStatus create(LabelInfo label, SubmitRecord.Label.Status status) {
-      return new AutoValue_LabelsJson_LabelWithStatus(label, status);
+  record LabelWithStatus(LabelInfo label, @Nullable SubmitRecord.Label.Status status) {
+    LabelWithStatus {
+      requireNonNull(label, "label");
     }
 
-    abstract LabelInfo label();
-
-    @Nullable
-    abstract SubmitRecord.Label.Status status();
+    private static LabelWithStatus create(LabelInfo label, SubmitRecord.Label.Status status) {
+      return new LabelWithStatus(label, status);
+    }
   }
 }

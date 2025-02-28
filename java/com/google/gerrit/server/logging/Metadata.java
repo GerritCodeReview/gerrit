@@ -15,176 +15,176 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
-/** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
-@AutoValue
-public abstract class Metadata {
-  /** The numeric ID of an account. */
-  public abstract Optional<Integer> accountId();
-
-  /**
-   * The type of an action (ACCOUNT_UPDATE, CHANGE_UPDATE, GROUP_UPDATE, INDEX_QUERY,
-   * PLUGIN_UPDATE).
-   */
-  public abstract Optional<String> actionType();
-
-  /**
-   * Number of attempt. The first execution has {@code attempt=1}, the first retry has {@code
-   * attempt=2}.
-   */
-  public abstract Optional<Integer> attempt();
-
-  /** An authentication domain name. */
-  public abstract Optional<String> authDomainName();
-
-  /** The name of a branch. */
-  public abstract Optional<String> branchName();
-
-  /** Key of an entity in a cache. */
-  public abstract Optional<String> cacheKey();
-
-  /** The name of a cache. */
-  public abstract Optional<String> cacheName();
-
-  /** The caller that triggered the operation. */
-  public abstract Optional<String> caller();
-
-  /** The name of the implementation class. */
-  public abstract Optional<String> className();
-
-  /**
-   * The reason of a request cancellation (CLIENT_CLOSED_REQUEST, CLIENT_PROVIDED_DEADLINE_EXCEEDED,
-   * SERVER_DEADLINE_EXCEEDED).
-   */
-  public abstract Optional<String> cancellationReason();
-
-  /** The numeric ID of a change. */
-  public abstract Optional<Integer> changeId();
-
-  /**
-   * The type of change ID which the user used to identify a change (e.g. numeric ID, triplet etc.).
-   */
-  public abstract Optional<String> changeIdType();
-
-  /** The cause of an error. */
-  public abstract Optional<String> cause();
-
-  /** The command name of an SSH request. */
-  public abstract Optional<String> commandName();
-
-  /** Side where the comment is written: <= 0 for parent, 1 for revision. */
-  public abstract Optional<Integer> commentSide();
-
-  /** The SHA1 of a commit. */
-  public abstract Optional<String> commit();
-
-  /** Diff algorithm used in diff computation. */
-  public abstract Optional<String> diffAlgorithm();
-
-  /** The type of an event. */
-  public abstract Optional<String> eventType();
-
-  /** The name of an exception which failed an SSH request. */
-  public abstract Optional<String> exception();
-
-  /** The value of the @Export annotation which was used to register a plugin extension. */
-  public abstract Optional<String> exportValue();
-
-  /** Path of a file in a repository. */
-  public abstract Optional<String> filePath();
-
-  /** Garbage collector name. */
-  public abstract Optional<String> garbageCollectorName();
-
-  /** Git operation (CLONE, FETCH). */
-  public abstract Optional<String> gitOperation();
-
-  /** The numeric ID of an internal group. */
-  public abstract Optional<Integer> groupId();
-
-  /** The name of a group. */
-  public abstract Optional<String> groupName();
-
-  /** The group system being queried. */
-  public abstract Optional<String> groupSystem();
-
-  /** The UUID of a group. */
-  public abstract Optional<String> groupUuid();
-
-  /** HTTP status response code. */
-  public abstract Optional<Integer> httpStatus();
-
-  /** The name of a secondary index. */
-  public abstract Optional<String> indexName();
-
-  /** The version of a secondary index. */
-  public abstract Optional<Integer> indexVersion();
-
-  /** The name of the implementation method. */
-  public abstract Optional<String> memoryPoolName();
-
-  /** The name of the implementation method. */
-  public abstract Optional<String> methodName();
-
-  /** One or more resources */
-  public abstract Optional<Boolean> multiple();
-
-  /** The name of an operation that is performed. */
-  public abstract Optional<String> operationName();
-
-  /** Partial or full computation */
-  public abstract Optional<Boolean> partial();
-
-  /** If a value is still current or not */
-  public abstract Optional<Boolean> outdated();
-
-  /** Path of a metadata file in NoteDb. */
-  public abstract Optional<String> noteDbFilePath();
-
-  /** Name of a metadata ref in NoteDb. */
-  public abstract Optional<String> noteDbRefName();
-
-  /** Type of a sequence in NoteDb (ACCOUNTS, CHANGES, GROUPS). */
-  public abstract Optional<String> noteDbSequenceType();
-
-  /** The ID of a patch set. */
-  public abstract Optional<Integer> patchSetId();
-
-  /** Plugin metadata that doesn't fit into any other category. */
-  public abstract ImmutableList<PluginMetadata> pluginMetadata();
-
-  /** The name of a plugin. */
-  public abstract Optional<String> pluginName();
-
-  /** The name of a Gerrit project (aka Git repository). */
-  public abstract Optional<String> projectName();
-
-  /** The type of a Git push to Gerrit (CREATE_REPLACE, NORMAL, AUTOCLOSE). */
-  public abstract Optional<String> pushType();
-
-  /** The type of a Git push to Gerrit (GIT_RECEIVE, GIT_UPLOAD, REST, SSH). */
-  public abstract Optional<String> requestType();
-
-  /** The number of resources that is processed. */
-  public abstract Optional<Integer> resourceCount();
-
-  /** The name of a REST view. */
-  public abstract Optional<String> restViewName();
-
-  public abstract Optional<String> submitRequirementName();
-
-  /** The SHA1 of Git commit. */
-  public abstract Optional<String> revision();
-
-  /** The username of an account. */
-  public abstract Optional<String> username();
+/**
+ * Metadata that is provided to {@link PerformanceLogger}s as context for performance records.
+ *
+ * @param accountId The numeric ID of an account.
+ * @param actionType The type of an action (ACCOUNT_UPDATE, CHANGE_UPDATE, GROUP_UPDATE,
+ *     INDEX_QUERY, PLUGIN_UPDATE).
+ * @param attempt Number of attempt. The first execution has {@code attempt=1}, the first retry has
+ *     {@code attempt=2}.
+ * @param authDomainName An authentication domain name.
+ * @param branchName The name of a branch.
+ * @param cacheKey Key of an entity in a cache.
+ * @param cacheName The name of a cache.
+ * @param caller The caller that triggered the operation.
+ * @param className The name of the implementation class.
+ * @param cancellationReason The reason of a request cancellation (CLIENT_CLOSED_REQUEST,
+ *     CLIENT_PROVIDED_DEADLINE_EXCEEDED, SERVER_DEADLINE_EXCEEDED).
+ * @param changeId The numeric ID of a change.
+ * @param changeIdType The type of change ID which the user used to identify a change (e.g. numeric
+ *     ID, triplet etc.).
+ * @param cause The cause of an error.
+ * @param commandName The command name of an SSH request.
+ * @param commentSide Side where the comment is written: <= 0 for parent, 1 for revision.
+ * @param commit The SHA1 of a commit.
+ * @param diffAlgorithm Diff algorithm used in diff computation.
+ * @param eventType The type of an event.
+ * @param exception The name of an exception which failed an SSH request.
+ * @param exportValue The value of the @Export annotation which was used to register a plugin
+ *     extension.
+ * @param filePath Path of a file in a repository.
+ * @param garbageCollectorName Garbage collector name.
+ * @param gitOperation Git operation (CLONE, FETCH).
+ * @param groupId The numeric ID of an internal group.
+ * @param groupName The name of a group.
+ * @param groupSystem The group system being queried.
+ * @param groupUuid The UUID of a group.
+ * @param httpStatus HTTP status response code.
+ * @param indexName The name of a secondary index.
+ * @param indexVersion The version of a secondary index.
+ * @param memoryPoolName The name of the implementation method.
+ * @param methodName The name of the implementation method.
+ * @param multiple One or more resources
+ * @param operationName The name of an operation that is performed.
+ * @param partial Partial or full computation
+ * @param outdated If a value is still current or not
+ * @param noteDbFilePath Path of a metadata file in NoteDb.
+ * @param noteDbRefName Name of a metadata ref in NoteDb.
+ * @param noteDbSequenceType Type of a sequence in NoteDb (ACCOUNTS, CHANGES, GROUPS).
+ * @param patchSetId The ID of a patch set.
+ * @param pluginMetadata Plugin metadata that doesn't fit into any other category.
+ * @param pluginName The name of a plugin.
+ * @param projectName The name of a Gerrit project (aka Git repository).
+ * @param pushType The type of a Git push to Gerrit (CREATE_REPLACE, NORMAL, AUTOCLOSE).
+ * @param requestType The type of a Git push to Gerrit (GIT_RECEIVE, GIT_UPLOAD, REST, SSH).
+ * @param resourceCount The number of resources that is processed.
+ * @param restViewName The name of a REST view.
+ * @param revision The SHA1 of Git commit.
+ * @param username The username of an account.
+ */
+public record Metadata(
+    Optional<Integer> accountId,
+    Optional<String> actionType,
+    Optional<Integer> attempt,
+    Optional<String> authDomainName,
+    Optional<String> branchName,
+    Optional<String> cacheKey,
+    Optional<String> cacheName,
+    Optional<String> caller,
+    Optional<String> className,
+    Optional<String> cancellationReason,
+    Optional<Integer> changeId,
+    Optional<String> changeIdType,
+    Optional<String> cause,
+    Optional<String> commandName,
+    Optional<Integer> commentSide,
+    Optional<String> commit,
+    Optional<String> diffAlgorithm,
+    Optional<String> eventType,
+    Optional<String> exception,
+    Optional<String> exportValue,
+    Optional<String> filePath,
+    Optional<String> garbageCollectorName,
+    Optional<String> gitOperation,
+    Optional<Integer> groupId,
+    Optional<String> groupName,
+    Optional<String> groupSystem,
+    Optional<String> groupUuid,
+    Optional<Integer> httpStatus,
+    Optional<String> indexName,
+    Optional<Integer> indexVersion,
+    Optional<String> memoryPoolName,
+    Optional<String> methodName,
+    Optional<Boolean> multiple,
+    Optional<String> operationName,
+    Optional<Boolean> partial,
+    Optional<Boolean> outdated,
+    Optional<String> noteDbFilePath,
+    Optional<String> noteDbRefName,
+    Optional<String> noteDbSequenceType,
+    Optional<Integer> patchSetId,
+    ImmutableList<PluginMetadata> pluginMetadata,
+    Optional<String> pluginName,
+    Optional<String> projectName,
+    Optional<String> pushType,
+    Optional<String> requestType,
+    Optional<Integer> resourceCount,
+    Optional<String> restViewName,
+    Optional<String> submitRequirementName,
+    Optional<String> revision,
+    Optional<String> username) {
+  public Metadata {
+    requireNonNull(accountId, "accountId");
+    requireNonNull(actionType, "actionType");
+    requireNonNull(attempt, "attempt");
+    requireNonNull(authDomainName, "authDomainName");
+    requireNonNull(branchName, "branchName");
+    requireNonNull(cacheKey, "cacheKey");
+    requireNonNull(cacheName, "cacheName");
+    requireNonNull(caller, "caller");
+    requireNonNull(className, "className");
+    requireNonNull(cancellationReason, "cancellationReason");
+    requireNonNull(changeId, "changeId");
+    requireNonNull(changeIdType, "changeIdType");
+    requireNonNull(cause, "cause");
+    requireNonNull(commandName, "commandName");
+    requireNonNull(commentSide, "commentSide");
+    requireNonNull(commit, "commit");
+    requireNonNull(diffAlgorithm, "diffAlgorithm");
+    requireNonNull(eventType, "eventType");
+    requireNonNull(exception, "exception");
+    requireNonNull(exportValue, "exportValue");
+    requireNonNull(filePath, "filePath");
+    requireNonNull(garbageCollectorName, "garbageCollectorName");
+    requireNonNull(gitOperation, "gitOperation");
+    requireNonNull(groupId, "groupId");
+    requireNonNull(groupName, "groupName");
+    requireNonNull(groupSystem, "groupSystem");
+    requireNonNull(groupUuid, "groupUuid");
+    requireNonNull(httpStatus, "httpStatus");
+    requireNonNull(indexName, "indexName");
+    requireNonNull(indexVersion, "indexVersion");
+    requireNonNull(memoryPoolName, "memoryPoolName");
+    requireNonNull(methodName, "methodName");
+    requireNonNull(multiple, "multiple");
+    requireNonNull(operationName, "operationName");
+    requireNonNull(partial, "partial");
+    requireNonNull(outdated, "outdated");
+    requireNonNull(noteDbFilePath, "noteDbFilePath");
+    requireNonNull(noteDbRefName, "noteDbRefName");
+    requireNonNull(noteDbSequenceType, "noteDbSequenceType");
+    requireNonNull(patchSetId, "patchSetId");
+    requireNonNull(pluginMetadata, "pluginMetadata");
+    requireNonNull(pluginName, "pluginName");
+    requireNonNull(projectName, "projectName");
+    requireNonNull(pushType, "pushType");
+    requireNonNull(requestType, "requestType");
+    requireNonNull(resourceCount, "resourceCount");
+    requireNonNull(restViewName, "restViewName");
+    requireNonNull(submitRequirementName, "submitRequirementName");
+    requireNonNull(revision, "revision");
+    requireNonNull(username, "username");
+  }
 
   /**
    * Returns a string representation of this instance that is suitable for logging.
@@ -287,14 +287,14 @@ public abstract class Metadata {
   }
 
   public static Metadata.Builder builder() {
-    return new AutoValue_Metadata.Builder();
+    return new AutoBuilder_Metadata_Builder();
   }
 
   public static Metadata empty() {
     return builder().build();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder accountId(int accountId);
 

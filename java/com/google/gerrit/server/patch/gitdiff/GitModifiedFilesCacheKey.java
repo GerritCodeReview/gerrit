@@ -15,8 +15,9 @@
 package com.google.gerrit.server.patch.gitdiff;
 
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
@@ -29,34 +30,27 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Cache key for the {@link GitModifiedFilesCache}. */
-@AutoValue
-public abstract class GitModifiedFilesCacheKey {
-
-  /** A specific git project / repository. */
-  public abstract Project.NameKey project();
-
-  /**
-   * The git SHA-1 {@link ObjectId} of the first git tree object for which the diff should be
-   * computed. If equals to {@link ObjectId#zeroId()}, a null tree is used for the diff scan, and
-   * {@link #bTree()} is treated as an added tree.
-   */
-  public abstract ObjectId aTree();
-
-  /**
-   * The git SHA-1 {@link ObjectId} of the second git tree object for which the diff should be
-   * computed.
-   */
-  public abstract ObjectId bTree();
-
-  /**
-   * Percentage score used to identify a file as a rename. This value is only available if {@link
-   * #renameDetection()} is true. Otherwise, this method will return -1.
-   *
-   * <p>This value will be used to set the rename score of {@link
-   * org.eclipse.jgit.diff.DiffFormatter#getRenameDetector()}.
-   */
-  public abstract int renameScore();
+/**
+ * Cache key for the {@link GitModifiedFilesCache}.
+ *
+ * @param project A specific git project / repository.
+ * @param aTree The git SHA-1 {@link ObjectId} of the first git tree object for which the diff
+ *     should be computed. If equals to {@link ObjectId#zeroId()}, a null tree is used for the diff
+ *     scan, and {@link #bTree()} is treated as an added tree.
+ * @param bTree The git SHA-1 {@link ObjectId} of the second git tree object for which the diff
+ *     should be computed.
+ * @param renameScore Percentage score used to identify a file as a rename. This value is only
+ *     available if {@link #renameDetection()} is true. Otherwise, this method will return -1.
+ *     <p>This value will be used to set the rename score of {@link
+ *     org.eclipse.jgit.diff.DiffFormatter#getRenameDetector()}.
+ */
+public record GitModifiedFilesCacheKey(
+    Project.NameKey project, ObjectId aTree, ObjectId bTree, int renameScore) {
+  public GitModifiedFilesCacheKey {
+    requireNonNull(project, "project");
+    requireNonNull(aTree, "aTree");
+    requireNonNull(bTree, "bTree");
+  }
 
   /** Returns true if rename detection was set for this key. */
   public boolean renameDetection() {
@@ -72,7 +66,7 @@ public abstract class GitModifiedFilesCacheKey {
   }
 
   public static Builder builder() {
-    return new AutoValue_GitModifiedFilesCacheKey.Builder();
+    return new AutoBuilder_GitModifiedFilesCacheKey_Builder();
   }
 
   /** Returns the size of the object in bytes */
@@ -82,7 +76,7 @@ public abstract class GitModifiedFilesCacheKey {
         + 4; // rename score
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder project(NameKey value);

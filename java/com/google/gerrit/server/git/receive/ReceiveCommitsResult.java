@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git.receive;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -23,9 +25,20 @@ import com.google.gerrit.entities.Change;
 import java.util.Arrays;
 import java.util.EnumMap;
 
-/** Keeps track of the change IDs thus far updated by {@link ReceiveCommits}. */
-@AutoValue
-public abstract class ReceiveCommitsResult {
+/**
+ * Keeps track of the change IDs thus far updated by {@link ReceiveCommits}.
+ *
+ * @param changes Returns change IDs of the given type for which the BatchUpdate succeeded, or empty
+ *     list if there are none.
+ * @param magicPush Indicate that the ReceiveCommits call involved a magic branch, such as {@code
+ *     refs/for/}.
+ */
+public record ReceiveCommitsResult(
+    ImmutableMap<ChangeStatus, ImmutableSet<Change.Id>> changes, boolean magicPush) {
+  public ReceiveCommitsResult {
+    requireNonNull(changes, "changes");
+  }
+
   /** Status of a change. Used to aggregate metrics. */
   public enum ChangeStatus {
     CREATED,
@@ -33,24 +46,15 @@ public abstract class ReceiveCommitsResult {
     AUTOCLOSED,
   }
 
-  /**
-   * Returns change IDs of the given type for which the BatchUpdate succeeded, or empty list if
-   * there are none.
-   */
-  public abstract ImmutableMap<ChangeStatus, ImmutableSet<Change.Id>> changes();
-
-  /** Indicate that the ReceiveCommits call involved a magic branch, such as {@code refs/for/}. */
-  public abstract boolean magicPush();
-
   public static Builder builder() {
-    return new AutoValue_ReceiveCommitsResult.Builder().magicPush(false);
+    return new AutoBuilder_ReceiveCommitsResult_Builder().magicPush(false);
   }
 
   public static ReceiveCommitsResult empty() {
     return builder().build();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     private EnumMap<ChangeStatus, ImmutableSet.Builder<Change.Id>> changes;
 

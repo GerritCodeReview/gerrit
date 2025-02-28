@@ -15,15 +15,19 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.LabelType;
 import java.util.Locale;
 
 /** An entity representing a special label vote that's not numeric, e.g. MAX, MIN, etc... */
-@AutoValue
-public abstract class MagicLabelVote {
+public record MagicLabelVote(String label, MagicLabelValue value) {
+  public MagicLabelVote {
+    requireNonNull(label, "label");
+    requireNonNull(value, "value");
+  }
+
   public static MagicLabelVote parseWithEquals(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
@@ -34,12 +38,8 @@ public abstract class MagicLabelVote {
   }
 
   public static MagicLabelVote create(String label, MagicLabelValue value) {
-    return new AutoValue_MagicLabelVote(LabelType.checkNameInternal(label), value);
+    return new MagicLabelVote(LabelType.checkNameInternal(label), value);
   }
-
-  public abstract String label();
-
-  public abstract MagicLabelValue value();
 
   public String formatLabel() {
     return label().toLowerCase(Locale.US) + "=" + value().name();

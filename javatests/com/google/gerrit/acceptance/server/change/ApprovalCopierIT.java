@@ -25,8 +25,8 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.truth.ListSubject.elements;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
 import com.google.common.truth.FailureMetadata;
@@ -666,18 +666,16 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
    * AutoValue class that contains all properties of a PatchSetApproval that are relevant to do
    * assertions in tests (patch set ID, account ID, label name, voting value).
    */
-  @AutoValue
-  public abstract static class PatchSetApprovalTestId {
-    public abstract PatchSet.Id patchSetId();
-
-    public abstract Account.Id accountId();
-
-    public abstract LabelId labelId();
-
-    public abstract short value();
+  public record PatchSetApprovalTestId(
+      PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId, short value) {
+    public PatchSetApprovalTestId {
+      requireNonNull(patchSetId, "patchSetId");
+      requireNonNull(accountId, "accountId");
+      requireNonNull(labelId, "labelId");
+    }
 
     public static PatchSetApprovalTestId create(PatchSetApproval patchSetApproval) {
-      return new AutoValue_ApprovalCopierIT_PatchSetApprovalTestId(
+      return new PatchSetApprovalTestId(
           patchSetApproval.patchSetId(),
           patchSetApproval.accountId(),
           patchSetApproval.labelId(),
@@ -686,7 +684,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
 
     public static PatchSetApprovalTestId create(
         PatchSet.Id patchSetId, Account.Id accountId, String labelId, int value) {
-      return new AutoValue_ApprovalCopierIT_PatchSetApprovalTestId(
+      return new PatchSetApprovalTestId(
           patchSetId, accountId, LabelId.create(labelId), (short) value);
     }
   }

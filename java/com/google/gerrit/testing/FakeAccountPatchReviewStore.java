@@ -14,7 +14,8 @@
 
 package com.google.gerrit.testing;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
@@ -56,16 +57,15 @@ public class FakeAccountPatchReviewStore implements AccountPatchReviewStore, Lif
     }
   }
 
-  @AutoValue
-  abstract static class Entity {
-    abstract PatchSet.Id psId();
-
-    abstract Account.Id accountId();
-
-    abstract String path();
+  record Entity(PatchSet.Id psId, Account.Id accountId, String path) {
+    Entity {
+      requireNonNull(psId, "psId");
+      requireNonNull(accountId, "accountId");
+      requireNonNull(path, "path");
+    }
 
     static Entity create(PatchSet.Id psId, Account.Id accountId, String path) {
-      return new AutoValue_FakeAccountPatchReviewStore_Entity(psId, accountId, path);
+      return new Entity(psId, accountId, path);
     }
   }
 

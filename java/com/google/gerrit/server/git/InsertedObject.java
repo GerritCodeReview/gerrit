@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,8 +23,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 
-@AutoValue
-public abstract class InsertedObject {
+public record InsertedObject(ObjectId id, int type, ByteString data) {
+  public InsertedObject {
+    requireNonNull(id, "id");
+    requireNonNull(data, "data");
+  }
+
   static InsertedObject create(int type, InputStream in) throws IOException {
     return create(type, ByteString.readFrom(in));
   }
@@ -35,18 +40,12 @@ public abstract class InsertedObject {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
-    return new AutoValue_InsertedObject(id, type, bs);
+    return new InsertedObject(id, type, bs);
   }
 
   static InsertedObject create(int type, byte[] src, int off, int len) {
     return create(type, ByteString.copyFrom(src, off, len));
   }
-
-  public abstract ObjectId id();
-
-  public abstract int type();
-
-  public abstract ByteString data();
 
   ObjectLoader newLoader() {
     return new ObjectLoader.SmallObject(type(), data().toByteArray());

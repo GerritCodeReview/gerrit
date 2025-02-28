@@ -15,8 +15,8 @@
 package com.google.gerrit.server.patch.filediff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import java.util.Optional;
 
@@ -24,28 +24,28 @@ import java.util.Optional;
  * An entity class containing the list of edits between two commits for a file, and the old and new
  * paths.
  */
-@AutoValue
-public abstract class FileEdits {
+public record FileEdits(
+    ImmutableList<Edit> edits, Optional<String> oldPath, Optional<String> newPath) {
+  public FileEdits {
+    requireNonNull(edits, "edits");
+    requireNonNull(oldPath, "oldPath");
+    requireNonNull(newPath, "newPath");
+  }
+
   public static FileEdits create(
       ImmutableList<Edit> edits, Optional<String> oldPath, Optional<String> newPath) {
-    return new AutoValue_FileEdits(edits, oldPath, newPath);
+    return new FileEdits(edits, oldPath, newPath);
   }
 
   public static FileEdits createFromJgitEdits(
       ImmutableList<org.eclipse.jgit.diff.Edit> jgitEdits,
       Optional<String> oldPath,
       Optional<String> newPath) {
-    return new AutoValue_FileEdits(
+    return new FileEdits(
         jgitEdits.stream().map(Edit::fromJGitEdit).collect(toImmutableList()), oldPath, newPath);
   }
 
-  public abstract ImmutableList<Edit> edits();
-
-  public abstract Optional<String> oldPath();
-
-  public abstract Optional<String> newPath();
-
   public static FileEdits empty() {
-    return new AutoValue_FileEdits(ImmutableList.of(), Optional.empty(), Optional.empty());
+    return new FileEdits(ImmutableList.of(), Optional.empty(), Optional.empty());
   }
 }

@@ -17,9 +17,9 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
@@ -196,7 +196,7 @@ public class DefaultRefFilter {
       throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
     if (!projectState.statePermitsRead()) {
-      return new AutoValue_DefaultRefFilter_Result(ImmutableList.of(), ImmutableList.of());
+      return new Result(ImmutableList.of(), ImmutableList.of());
     }
 
     // TODO(hiesel): Remove when optimization is done.
@@ -208,15 +208,13 @@ public class DefaultRefFilter {
         metrics.skipFilterCount.increment();
         logger.atFinest().log(
             "Fast path, all refs are visible because user has READ on refs/*: %s", refs);
-        return new AutoValue_DefaultRefFilter_Result(
-            ImmutableList.copyOf(refs), ImmutableList.of());
+        return new Result(ImmutableList.copyOf(refs), ImmutableList.of());
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         metrics.skipFilterCount.increment();
         refs = fastHideRefsMetaConfig(refs);
         logger.atFinest().log(
             "Fast path, all refs except %s are visible: %s", RefNames.REFS_CONFIG, refs);
-        return new AutoValue_DefaultRefFilter_Result(
-            ImmutableList.copyOf(refs), ImmutableList.of());
+        return new Result(ImmutableList.copyOf(refs), ImmutableList.of());
       }
     }
     logger.atFinest().log("Doing full ref filtering");
@@ -275,7 +273,7 @@ public class DefaultRefFilter {
         resultRefs.add(ref);
       }
     }
-    Result result = new AutoValue_DefaultRefFilter_Result(resultRefs.build(), deferredTags.build());
+    Result result = new Result(resultRefs.build(), deferredTags.build());
     logger.atFinest().log("Result of ref filtering = %s", result);
     return result;
   }
@@ -374,15 +372,15 @@ public class DefaultRefFilter {
     return forProject.test(perm);
   }
 
-  @AutoValue
-  abstract static class Result {
-    /** Subset of the refs passed into the computation that is visible to the user. */
-    abstract ImmutableList<Ref> visibleRefs();
-
-    /**
-     * List of tags where we couldn't figure out visibility in the first pass and need to do an
-     * expensive ref walk.
-     */
-    abstract ImmutableList<Ref> deferredTags();
+  /**
+   * @param visibleRefs Subset of the refs passed into the computation that is visible to the user.
+   * @param deferredTags List of tags where we couldn't figure out visibility in the first pass and
+   *     need to do an expensive ref walk.
+   */
+  record Result(ImmutableList<Ref> visibleRefs, ImmutableList<Ref> deferredTags) {
+    Result {
+      requireNonNull(visibleRefs, "visibleRefs");
+      requireNonNull(deferredTags, "deferredTags");
+    }
   }
 }

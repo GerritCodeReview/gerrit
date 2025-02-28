@@ -14,18 +14,20 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 
 /**
  * Stable identifier for options passed to a particular submit rule evaluator.
  *
  * <p>Used to test whether it is ok to reuse a cached list of submit records. Does not include a
  * change or patch set ID; callers are responsible for checking those on their own.
+ *
+ * @param recomputeOnClosedChanges True if the submit rules should be recomputed even when the
+ *     change is already closed (merged).
  */
-@AutoValue
-public abstract class SubmitRuleOptions {
+public record SubmitRuleOptions(boolean recomputeOnClosedChanges) {
   private static final SubmitRuleOptions defaults =
-      new AutoValue_SubmitRuleOptions.Builder().recomputeOnClosedChanges(false).build();
+      new AutoBuilder_SubmitRuleOptions_Builder().recomputeOnClosedChanges(false).build();
 
   public static SubmitRuleOptions defaults() {
     return defaults;
@@ -35,14 +37,11 @@ public abstract class SubmitRuleOptions {
     return defaults.toBuilder();
   }
 
-  /**
-   * True if the submit rules should be recomputed even when the change is already closed (merged).
-   */
-  public abstract boolean recomputeOnClosedChanges();
+  public Builder toBuilder() {
+    return new AutoBuilder_SubmitRuleOptions_Builder(this);
+  }
 
-  public abstract Builder toBuilder();
-
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract SubmitRuleOptions.Builder recomputeOnClosedChanges(boolean allowClosed);
 

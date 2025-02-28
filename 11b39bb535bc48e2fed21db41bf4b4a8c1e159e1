@@ -34,6 +34,23 @@
       "parentUuid": "7ba02aa9_b52e7d89",
       "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e55858c7_ab38ed2b",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-02-28T12:21:37Z",
+      "side": 1,
+      "message": "External IDs are always associated with an ID, so given the ID is not associated with another account, it should not be present at all. So actually, this row is not reachable, and you should support adding inexisting IDs below.\n\nI think that also implies you must recieve the full ExternalId and not just the key.",
+      "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

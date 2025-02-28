@@ -56,6 +56,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8db834b7_bab82c82",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-28T08:16:37Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "2fb85fb7_d51d691f",
+      "revId": "a15988a0ae7169fbc65c1bae9e0ed205902c84d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac0e6663_a8e44297",
@@ -87,6 +105,24 @@
           ]
         }
       ],
+      "revId": "a15988a0ae7169fbc65c1bae9e0ed205902c84d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a3c99bc_4b2492fe",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-02-28T08:16:37Z",
+      "side": 1,
+      "message": "The build fails if I remove those methods\n\nThe second implementation is used by AccountManager here: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/account/AccountManager.java;l\u003d209?q\u003d%22private%20AuthResult%20migrateLdapAccountToOauth%22\u0026sq\u003d\n\nThird implementation is used here:\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/account/AccountManager.java;l\u003d579?q\u003d%22public%20void%20unlink(Account.Id%20from%22",
+      "parentUuid": "ac0e6663_a8e44297",
       "revId": "a15988a0ae7169fbc65c1bae9e0ed205902c84d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

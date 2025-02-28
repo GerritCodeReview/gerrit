@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b54dc38_88556905",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06e7f4ee_fbf0796a",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 34
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "876e940d_85d837b6",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a92d987b_c6efbade",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "254cc8f9_ab9c10af",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 9
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8531004_ca474b52",
@@ -94,6 +142,76 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fccae60_c9105f71",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8531004_ca474b52",
+      "range": {
+        "startLine": 147,
+        "startChar": 20,
+        "endLine": 147,
+        "endChar": 31
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "077ab317_687fb671",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "nit: not used anymore",
+      "range": {
+        "startLine": 196,
+        "startChar": 2,
+        "endLine": 200,
+        "endChar": 3
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7218b6fa_ac8be6ae",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com is it still needed?",
+      "range": {
+        "startLine": 202,
+        "startChar": 9,
+        "endLine": 202,
+        "endChar": 21
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62765afe_bc8c2124",
@@ -107,6 +225,30 @@
       "writtenOn": "2025-02-27T23:54:10Z",
       "side": 1,
       "message": "This is actually a good idea: to get a copy of the list **first** and then check.\n\nShould this be moved before the if() and used there?\n\n\n\n```suggestion\n    List\u003cString\u003e repositoriesToReport \u003d\n        MoreObjects.firstNotNull(openRepositories, Collections.emptyList())\n            .stream()\n            .filter(RepositoryTracking::isNotClosed)\n            .map(RepositoryTracking::toString)\n            .toList();\n    if (!repositoriesToReport.isEmpty()) {\n\n```",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 24
+      },
+      "revId": "70265d1de02cd30086f2dd0b3668d077bcb2d4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a02bc7e_fd45eb76",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "Done. However there is still race between `isNotClosed` and `toString` as these are 2 operations called one-after-another IOW there is still a chance to have `isNotClosed\u003dtrue` and receive empty joined repositories list. Considering that I had to merge them into a single (synchronized) `map` (called `report`) operation.",
+      "parentUuid": "62765afe_bc8c2124",
       "range": {
         "startLine": 203,
         "startChar": 0,

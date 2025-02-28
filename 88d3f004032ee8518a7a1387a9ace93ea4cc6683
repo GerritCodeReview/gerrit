@@ -342,6 +342,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c44d7a6_5106907a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4bbdd12_b5c097f9",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc0a2bb0_aec04c33",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-02-28T07:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345e3f8e_b5af0268",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 7
+      },
+      "revId": "88d3f004032ee8518a7a1387a9ace93ea4cc6683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92673907_211f1390",

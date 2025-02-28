@@ -660,9 +660,19 @@ public class RefControl {
         if (getUser().isInternalUser()) {
           return true;
         }
+
+        /* Admins should be able to read all branches and tags refs (including 'refs/meta/config'). */
+        if (projectControl.isAdmin()
+            && (refName.equals(RefNames.REFS_CONFIG)
+                || refName.startsWith(Constants.R_HEADS)
+                || refName.startsWith(Constants.R_TAGS))) {
+          return true;
+        }
+
         if (refName.startsWith(Constants.R_TAGS)) {
           return isTagVisible();
         }
+
         return refVisibilityControl.isVisible(projectControl, refName);
       }
       case CREATE -> {
@@ -703,7 +713,8 @@ public class RefControl {
         return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
       }
       case READ_PRIVATE_CHANGES -> {
-        return canPerform(Permission.VIEW_PRIVATE_CHANGES);
+        // Admins should be able to see all changes.
+        return projectControl.isAdmin() || canPerform(Permission.VIEW_PRIVATE_CHANGES);
       }
       case READ_CONFIG -> {
         return projectControl

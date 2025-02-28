@@ -91,7 +91,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated static final Schema<AccountState> V13 = schema(V12);
 
   // Upgrade Lucene to 9.x requires reindexing.
-  static final Schema<AccountState> V14 = schema(V13);
+  @Deprecated static final Schema<AccountState> V14 = schema(V13);
+
+  // Upgrade Lucene to 10.x requires reindexing.
+  static final Schema<AccountState> V15 = schema(V14);
 
   /**
    * Name of the account index to be used when contacting index backends or loading configurations.

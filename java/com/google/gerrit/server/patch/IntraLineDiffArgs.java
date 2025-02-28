@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
@@ -23,8 +24,24 @@ import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 
-@AutoValue
-public abstract class IntraLineDiffArgs {
+public record IntraLineDiffArgs(
+    Text aText,
+    Text bText,
+    ImmutableList<Edit> edits,
+    ImmutableSet<Edit> editsDueToRebase,
+    Project.NameKey project,
+    ObjectId commit,
+    String path) {
+  public IntraLineDiffArgs {
+    requireNonNull(aText, "aText");
+    requireNonNull(bText, "bText");
+    requireNonNull(edits, "edits");
+    requireNonNull(editsDueToRebase, "editsDueToRebase");
+    requireNonNull(project, "project");
+    requireNonNull(commit, "commit");
+    requireNonNull(path, "path");
+  }
+
   public static IntraLineDiffArgs create(
       Text aText,
       Text bText,
@@ -33,7 +50,7 @@ public abstract class IntraLineDiffArgs {
       Project.NameKey project,
       ObjectId commit,
       String path) {
-    return new AutoValue_IntraLineDiffArgs(
+    return new IntraLineDiffArgs(
         aText, bText, deepCopyEdits(edits), deepCopyEdits(editsDueToRebase), project, commit, path);
   }
 
@@ -49,17 +66,4 @@ public abstract class IntraLineDiffArgs {
     return new Edit(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
   }
 
-  public abstract Text aText();
-
-  public abstract Text bText();
-
-  public abstract ImmutableList<Edit> edits();
-
-  public abstract ImmutableSet<Edit> editsDueToRebase();
-
-  public abstract Project.NameKey project();
-
-  public abstract ObjectId commit();
-
-  public abstract String path();
 }

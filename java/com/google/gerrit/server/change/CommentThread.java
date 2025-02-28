@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
@@ -31,12 +33,12 @@ import java.util.Optional;
  *
  * @param <T> type of comments in the thread. Can also be {@link Comment} if the thread mixes
  *     comments of different types.
+ * @param comments Comments in the thread in exactly the order they appear in the thread.
  */
-@AutoValue
-public abstract class CommentThread<T extends Comment> {
-
-  /** Comments in the thread in exactly the order they appear in the thread. */
-  public abstract ImmutableList<T> comments();
+public record CommentThread<T extends Comment>(ImmutableList<T> comments) {
+  public CommentThread {
+    requireNonNull(comments, "comments");
+  }
 
   /** Whether the whole thread is considered as unresolved. */
   public boolean unresolved() {
@@ -51,10 +53,10 @@ public abstract class CommentThread<T extends Comment> {
   }
 
   public static <T extends Comment> Builder<T> builder() {
-    return new AutoValue_CommentThread.Builder<>();
+    return new AutoBuilder_CommentThread_Builder<>();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder<T extends Comment> {
 
     public abstract Builder<T> comments(List<T> value);

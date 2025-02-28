@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.HashBasedTable;
@@ -1601,14 +1600,15 @@ public class ChangeData {
     }
   }
 
-  @AutoValue
-  abstract static class ReviewedByEvent {
-    private static ReviewedByEvent create(ChangeMessage msg) {
-      return new AutoValue_ChangeData_ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
+  record ReviewedByEvent(Account.Id author, Instant ts) {
+    ReviewedByEvent {
+      requireNonNull(author, "author");
+      requireNonNull(ts, "ts");
     }
 
-    public abstract Account.Id author();
+    private static ReviewedByEvent create(ChangeMessage msg) {
+      return new ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
+    }
 
-    public abstract Instant ts();
   }
 }

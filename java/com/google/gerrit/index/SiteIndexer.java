@@ -17,7 +17,6 @@ package com.google.gerrit.index;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -37,19 +36,10 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Result of an operation to index a subset or all of the entities of a given type. */
-  @AutoValue
-  public abstract static class Result {
-    public abstract long elapsedNanos();
-
-    public abstract boolean success();
-
-    public abstract int doneCount();
-
-    public abstract int failedCount();
+  public record Result(long elapsedNanos, boolean success, int doneCount, int failedCount) {
 
     public static Result create(Stopwatch sw, boolean success, int done, int failed) {
-      return new AutoValue_SiteIndexer_Result(
-          sw.elapsed(TimeUnit.NANOSECONDS), success, done, failed);
+      return new Result(sw.elapsed(TimeUnit.NANOSECONDS), success, done, failed);
     }
 
     public long elapsed(TimeUnit timeUnit) {

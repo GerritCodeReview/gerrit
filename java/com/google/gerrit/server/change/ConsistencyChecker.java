@@ -22,7 +22,6 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -92,19 +91,16 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ConsistencyChecker {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @AutoValue
-  public abstract static class Result {
-    private static Result create(ChangeNotes notes, List<ProblemInfo> problems) {
-      return new AutoValue_ConsistencyChecker_Result(
-          notes.getChangeId(), notes.getChange(), ImmutableList.copyOf(problems));
+  public record Result(Change.Id id, @Nullable Change change, ImmutableList<ProblemInfo> problems) {
+    public Result {
+      requireNonNull(id, "id");
+      requireNonNull(problems, "problems");
     }
 
-    public abstract Change.Id id();
+    private static Result create(ChangeNotes notes, List<ProblemInfo> problems) {
+      return new Result(notes.getChangeId(), notes.getChange(), ImmutableList.copyOf(problems));
+    }
 
-    @Nullable
-    public abstract Change change();
-
-    public abstract ImmutableList<ProblemInfo> problems();
   }
 
   private final ChangeNotes.Factory notesFactory;

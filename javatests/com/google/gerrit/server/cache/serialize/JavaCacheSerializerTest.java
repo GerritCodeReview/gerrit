@@ -15,8 +15,8 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Project;
 import java.io.Serializable;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class JavaCacheSerializerTest {
 
   @Test
   public void customType() throws Exception {
-    assertRoundTrip(new AutoValue_JavaCacheSerializerTest_MyType(123, "four five six"));
+    assertRoundTrip(new MyType(123, "four five six"));
   }
 
   @Test
@@ -39,13 +39,13 @@ public class JavaCacheSerializerTest {
     assertRoundTrip(Project.nameKey("foo"));
   }
 
-  @AutoValue
-  abstract static class MyType implements Serializable {
+  record MyType(int anInt, String aString) implements Serializable {
+    MyType {
+      requireNonNull(aString, "aString");
+    }
+
     private static final long serialVersionUID = 1L;
 
-    abstract int anInt();
-
-    abstract String aString();
   }
 
   private static <T extends Serializable> void assertRoundTrip(T input) throws Exception {

@@ -16,10 +16,11 @@ package com.google.gerrit.entities;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -31,9 +32,84 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/** Projects match a source code repository managed by Gerrit */
-@AutoValue
-public abstract class Project {
+/**
+ * Projects match a source code repository managed by Gerrit
+ *
+ * @param submitType Submit type as configured in {@code project.config}.
+ *     <p>Does not take inheritance into account, i.e. may return {@link SubmitType#INHERIT}.
+ * @param parent Name key of the parent project.
+ *     <p>{@code null} if this project is the wild project, {@code null} or the name key of the wild
+ *     project if this project is a direct child of the wild project.
+ * @param configRefState The {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD.
+ */
+public record Project(
+    NameKey nameKey,
+    @Nullable String description,
+    ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanConfigs,
+    SubmitType submitType,
+    ProjectState state,
+    @Nullable NameKey parent,
+    @Nullable String maxObjectSizeLimit,
+    @Nullable String defaultDashboard,
+    @Nullable String localDefaultDashboard,
+    @Nullable String configRefState) {
+  public Project {
+    requireNonNull(nameKey, "nameKey");
+    requireNonNull(booleanConfigs, "booleanConfigs");
+    requireNonNull(submitType, "submitType");
+    requireNonNull(state, "state");
+  }
+
+  @InlineMe(replacement = "this.nameKey()")
+  public NameKey getNameKey() {
+    return nameKey();
+  }
+
+  @InlineMe(replacement = "this.description()")
+  public @Nullable String getDescription() {
+    return description();
+  }
+
+  @InlineMe(replacement = "this.booleanConfigs()")
+  public ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs() {
+    return booleanConfigs();
+  }
+
+  @InlineMe(replacement = "this.submitType()")
+  public SubmitType getSubmitType() {
+    return submitType();
+  }
+
+  @InlineMe(replacement = "this.state()")
+  public ProjectState getState() {
+    return state();
+  }
+
+  @InlineMe(replacement = "this.parent()")
+  public @Nullable NameKey getParent() {
+    return parent();
+  }
+
+  @InlineMe(replacement = "this.maxObjectSizeLimit()")
+  public @Nullable String getMaxObjectSizeLimit() {
+    return maxObjectSizeLimit();
+  }
+
+  @InlineMe(replacement = "this.defaultDashboard()")
+  public @Nullable String getDefaultDashboard() {
+    return defaultDashboard();
+  }
+
+  @InlineMe(replacement = "this.localDefaultDashboard()")
+  public @Nullable String getLocalDefaultDashboard() {
+    return localDefaultDashboard();
+  }
+
+  @InlineMe(replacement = "this.configRefState()")
+  public @Nullable String getConfigRefState() {
+    return configRefState();
+  }
+
   /** Default submit type for new projects. */
   public static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
 
@@ -101,47 +177,9 @@ public abstract class Project {
     }
   }
 
-  public abstract NameKey getNameKey();
-
-  @Nullable
-  public abstract String getDescription();
-
-  public abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs();
-
-  /**
-   * Submit type as configured in {@code project.config}.
-   *
-   * <p>Does not take inheritance into account, i.e. may return {@link SubmitType#INHERIT}.
-   */
-  public abstract SubmitType getSubmitType();
-
-  public abstract ProjectState getState();
-
-  /**
-   * Name key of the parent project.
-   *
-   * <p>{@code null} if this project is the wild project, {@code null} or the name key of the wild
-   * project if this project is a direct child of the wild project.
-   */
-  @Nullable
-  public abstract NameKey getParent();
-
-  @Nullable
-  public abstract String getMaxObjectSizeLimit();
-
-  @Nullable
-  public abstract String getDefaultDashboard();
-
-  @Nullable
-  public abstract String getLocalDefaultDashboard();
-
-  /** The {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
-  @Nullable
-  public abstract String getConfigRefState();
-
   public static Builder builder(Project.NameKey nameKey) {
     Builder builder =
-        new AutoValue_Project.Builder()
+        new AutoBuilder_Project_Builder()
             .setNameKey(nameKey)
             .setSubmitType(SubmitType.MERGE_IF_NECESSARY)
             .setState(ProjectState.ACTIVE);
@@ -192,9 +230,11 @@ public abstract class Project {
     return Optional.ofNullable(getName()).orElse("<null>");
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_Project_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setDescription(String description);
 

@@ -14,24 +14,23 @@
 
 package com.google.gerrit.server.patch.filediff;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An entity class encapsulating a JGit {@link Edit} along with extra attributes (e.g. identifying a
  * rebase edit).
  */
-@AutoValue
-public abstract class TaggedEdit {
-
-  public static TaggedEdit create(Edit edit, boolean dueToRebase) {
-    return new AutoValue_TaggedEdit(edit, dueToRebase);
+public record TaggedEdit(Edit edit, boolean dueToRebase) {
+  public TaggedEdit {
+    requireNonNull(edit, "edit");
   }
 
-  public abstract Edit edit();
+  public static TaggedEdit create(Edit edit, boolean dueToRebase) {
+    return new TaggedEdit(edit, dueToRebase);
+  }
 
   public org.eclipse.jgit.diff.Edit jgitEdit() {
     return Edit.toJGitEdit(edit());
   }
 
-  public abstract boolean dueToRebase();
 }

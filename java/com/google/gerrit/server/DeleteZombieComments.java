@@ -17,8 +17,8 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -65,14 +65,14 @@ import org.eclipse.jgit.lib.Repository;
  * </uL>
  */
 public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
-  @AutoValue
-  abstract static class ChangeUserIDsPair {
-    abstract Change.Id changeId();
-
-    abstract Account.Id accountId();
+  record ChangeUserIDsPair(Change.Id changeId, Account.Id accountId) {
+    ChangeUserIDsPair {
+      requireNonNull(changeId, "changeId");
+      requireNonNull(accountId, "accountId");
+    }
 
     static ChangeUserIDsPair create(Change.Id changeId, Account.Id accountId) {
-      return new AutoValue_DeleteZombieComments_ChangeUserIDsPair(changeId, accountId);
+      return new ChangeUserIDsPair(changeId, accountId);
     }
   }
 

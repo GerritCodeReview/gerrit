@@ -14,18 +14,20 @@
 
 package com.google.gerrit.server.patch.filediff;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiff;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheKey;
 
 /** An entity containing a {@link GitFileDiffCacheKey} and its loaded value {@link GitFileDiff}. */
-@AutoValue
-abstract class GitDiffEntity {
-  public static GitDiffEntity create(GitFileDiffCacheKey gitKey, GitFileDiff gitDiff) {
-    return new AutoValue_GitDiffEntity(gitKey, gitDiff);
+record GitDiffEntity(GitFileDiffCacheKey gitKey, GitFileDiff gitDiff) {
+  GitDiffEntity {
+    requireNonNull(gitKey, "gitKey");
+    requireNonNull(gitDiff, "gitDiff");
   }
 
-  abstract GitFileDiffCacheKey gitKey();
+  public static GitDiffEntity create(GitFileDiffCacheKey gitKey, GitFileDiff gitDiff) {
+    return new GitDiffEntity(gitKey, gitDiff);
+  }
 
-  abstract GitFileDiff gitDiff();
 }

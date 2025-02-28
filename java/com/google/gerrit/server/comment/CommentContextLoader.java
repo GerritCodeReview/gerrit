@@ -17,9 +17,10 @@ package com.google.gerrit.server.comment;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -237,17 +238,14 @@ public class CommentContextLoader {
     return Optional.empty();
   }
 
-  @AutoValue
-  abstract static class Range {
+  /**
+   * @param start Start line of the comment (inclusive).
+   * @param end End line of the comment (exclusive).
+   */
+  record Range(int start, int end) {
     static Range create(int start, int end) {
-      return new AutoValue_CommentContextLoader_Range(start, end);
+      return new Range(start, end);
     }
-
-    /** Start line of the comment (inclusive). */
-    abstract int start();
-
-    /** End line of the comment (exclusive). */
-    abstract int end();
 
     /** Number of lines covered by this range. */
     int size() {
@@ -255,11 +253,32 @@ public class CommentContextLoader {
     }
   }
 
-  /** This entity only contains comment fields needed to load the comment context. */
-  @AutoValue
-  abstract static class ContextInput {
+  /**
+   * This entity only contains comment fields needed to load the comment context.
+   *
+   * @param commitId 20 bytes SHA-1 of the patchset commit containing the file where the comment is
+   *     written.
+   * @param filePath File path where the comment is written.
+   * @param range Position of the comment in the file (start line, start char, end line, end char).
+   *     This field can be null if the range is not available for this comment.
+   * @param lineNumber The 1-based line number where the comment is written. A value 0 means that
+   *     the line number is not available for this comment.
+   * @param contextPadding Number of extra lines of context that should be added before and after
+   *     the comment range.
+   */
+  record ContextInput(
+      ObjectId commitId,
+      String filePath,
+      @Nullable Comment.Range range,
+      int lineNumber,
+      int contextPadding) {
+    ContextInput {
+      requireNonNull(commitId, "commitId");
+      requireNonNull(filePath, "filePath");
+    }
+
     static ContextInput fromComment(Comment comment, int contextPadding) {
-      return new AutoValue_CommentContextLoader_ContextInput.Builder()
+      return new AutoBuilder_CommentContextLoader_ContextInput_Builder()
           .commitId(comment.getCommitId())
           .filePath(comment.key.filename)
           .range(comment.range)
@@ -268,29 +287,7 @@ public class CommentContextLoader {
           .build();
     }
 
-    /** 20 bytes SHA-1 of the patchset commit containing the file where the comment is written. */
-    abstract ObjectId commitId();
-
-    /** File path where the comment is written. */
-    abstract String filePath();
-
-    /**
-     * Position of the comment in the file (start line, start char, end line, end char). This field
-     * can be null if the range is not available for this comment.
-     */
-    @Nullable
-    abstract Comment.Range range();
-
-    /**
-     * The 1-based line number where the comment is written. A value 0 means that the line number is
-     * not available for this comment.
-     */
-    abstract int lineNumber();
-
-    /** Number of extra lines of context that should be added before and after the comment range. */
-    abstract int contextPadding();
-
-    @AutoValue.Builder
+    @AutoBuilder
     public abstract static class Builder {
 
       public abstract Builder commitId(ObjectId commitId);

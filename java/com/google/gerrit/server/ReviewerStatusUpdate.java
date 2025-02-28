@@ -14,37 +14,44 @@
 
 package com.google.gerrit.server;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import java.time.Instant;
 import java.util.Optional;
 
-/** Change to a reviewer's status. */
-@AutoValue
-public abstract class ReviewerStatusUpdate {
+/**
+ * Change to a reviewer's status.
+ *
+ * @param reviewer Not set if a reviewer for which no Gerrit account exists is added by email.
+ * @param reviewerByEmail Only set for reviewers that have no Gerrit account and that have been
+ *     added by email.
+ */
+public record ReviewerStatusUpdate(
+    Instant date,
+    Account.Id updatedBy,
+    Optional<Account.Id> reviewer,
+    Optional<Address> reviewerByEmail,
+    ReviewerStateInternal state) {
+  public ReviewerStatusUpdate {
+    requireNonNull(date, "date");
+    requireNonNull(updatedBy, "updatedBy");
+    requireNonNull(reviewer, "reviewer");
+    requireNonNull(reviewerByEmail, "reviewerByEmail");
+    requireNonNull(state, "state");
+  }
+
   public static ReviewerStatusUpdate createForReviewer(
       Instant ts, Account.Id updatedBy, Account.Id reviewer, ReviewerStateInternal state) {
-    return new AutoValue_ReviewerStatusUpdate(
-        ts, updatedBy, Optional.of(reviewer), Optional.empty(), state);
+    return new ReviewerStatusUpdate(ts, updatedBy, Optional.of(reviewer), Optional.empty(), state);
   }
 
   public static ReviewerStatusUpdate createForReviewerByEmail(
       Instant ts, Account.Id updatedBy, Address reviewerByEmail, ReviewerStateInternal state) {
-    return new AutoValue_ReviewerStatusUpdate(
+    return new ReviewerStatusUpdate(
         ts, updatedBy, Optional.empty(), Optional.of(reviewerByEmail), state);
   }
 
-  public abstract Instant date();
-
-  public abstract Account.Id updatedBy();
-
-  /** Not set if a reviewer for which no Gerrit account exists is added by email. */
-  public abstract Optional<Account.Id> reviewer();
-
-  /** Only set for reviewers that have no Gerrit account and that have been added by email. */
-  public abstract Optional<Address> reviewerByEmail();
-
-  public abstract ReviewerStateInternal state();
 }

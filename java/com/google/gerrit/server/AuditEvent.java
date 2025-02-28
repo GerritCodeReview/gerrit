@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -37,14 +36,15 @@ public class AuditEvent {
   public final long elapsed;
   public final UUID uuid;
 
-  @AutoValue
-  public abstract static class UUID {
-    private static UUID create() {
-      return new AutoValue_AuditEvent_UUID(
-          String.format("audit:%s", java.util.UUID.randomUUID().toString()));
+  public record UUID(String uuid) {
+    public UUID {
+      requireNonNull(uuid, "uuid");
     }
 
-    public abstract String uuid();
+    private static UUID create() {
+      return new UUID(String.format("audit:%s", java.util.UUID.randomUUID().toString()));
+    }
+
   }
 
   /**

@@ -14,20 +14,23 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.errorprone.annotations.FormatMethod;
 import java.util.Optional;
 
 /** Structured result of a staleness check. */
-@AutoValue
-public abstract class StalenessCheckResult {
+public record StalenessCheckResult(boolean isStale, Optional<String> reason) {
+  public StalenessCheckResult {
+    requireNonNull(reason, "reason");
+  }
 
   public static StalenessCheckResult notStale() {
-    return new AutoValue_StalenessCheckResult(false, Optional.empty());
+    return new StalenessCheckResult(false, Optional.empty());
   }
 
   public static StalenessCheckResult stale(String reason) {
-    return new AutoValue_StalenessCheckResult(true, Optional.of(reason));
+    return new StalenessCheckResult(true, Optional.of(reason));
   }
 
   @FormatMethod
@@ -35,7 +38,4 @@ public abstract class StalenessCheckResult {
     return stale(String.format(reason, args));
   }
 
-  public abstract boolean isStale();
-
-  public abstract Optional<String> reason();
 }

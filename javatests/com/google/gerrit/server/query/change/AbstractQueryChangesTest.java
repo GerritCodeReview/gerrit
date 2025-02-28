@@ -116,7 +116,6 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -4087,201 +4086,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   @Test
   public void namedDestination() throws Exception {
-    Project.NameKey project1 = Project.nameKey("repo1");
-    createProject(project1);
-    Change change1 = insert(project1, newChange(project1));
-    Project.NameKey project2 = Project.nameKey("repo2");
-    createProject(project2);
-    Change change2 = insert(project2, newChange(project2));
-
     assertThatQueryException("destination:foo")
         .hasMessageThat()
-        .isEqualTo("Unknown named destination: foo");
-
-    String group = "test-group";
-    AccountGroup.UUID groupId = groupOperations.newGroup().name(group).create();
-    Account.Id anotherUserId =
-        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
-    String destination1 = "refs/heads/master\trepo1";
-    String destination2 = "refs/heads/master\trepo2";
-    String destination3 = "refs/heads/master\trepo1\nrefs/heads/master\trepo2";
-    String destination4 = "refs/heads/master\trepo3";
-    String destination5 = "refs/heads/other\trepo1";
-
-    try (TestRepository<Repository> allUsers =
-        new TestRepository<>(repoManager.openRepository(allUsersName))) {
-      String refsUsers = RefNames.refsUsers(userId);
-      allUsers.branch(refsUsers).commit().add("destinations/destination1", destination1).create();
-      allUsers.branch(refsUsers).commit().add("destinations/destination2", destination2).create();
-      allUsers.branch(refsUsers).commit().add("destinations/destination3", destination3).create();
-      allUsers.branch(refsUsers).commit().add("destinations/destination4", destination4).create();
-      allUsers.branch(refsUsers).commit().add("destinations/destination5", destination5).create();
-
-      String anotherRefsUsers = RefNames.refsUsers(anotherUserId);
-      allUsers
-          .branch(anotherRefsUsers)
-          .commit()
-          .add("destinations/destination6", destination1)
-          .create();
-      allUsers
-          .branch(anotherRefsUsers)
-          .commit()
-          .add("destinations/destination7", destination2)
-          .create();
-      allUsers
-          .branch(anotherRefsUsers)
-          .commit()
-          .add("destinations/destination8", destination3)
-          .create();
-      allUsers
-          .branch(anotherRefsUsers)
-          .commit()
-          .add("destinations/destination9", destination4)
-          .create();
-
-      Ref userRef = allUsers.getRepository().exactRef(refsUsers);
-      Ref anotherUserRef = allUsers.getRepository().exactRef(anotherRefsUsers);
-      assertThat(userRef).isNotNull();
-      assertThat(anotherUserRef).isNotNull();
-
-      String groupRef = RefNames.refsGroups(groupId);
-      allUsers.branch(groupRef).commit().add("destinations/destination1", destination1).create();
-      allUsers.branch(groupRef).commit().add("destinations/destination2", destination2).create();
-      allUsers.branch(groupRef).commit().add("destinations/destination3", destination3).create();
-      allUsers.branch(groupRef).commit().add("destinations/destination4", destination4).create();
-      assertThat(allUsers.getRepository().exactRef(groupRef)).isNotNull();
-    }
-
-    assertQuery("destination:destination1", change1);
-    assertQuery("destination:destination2", change2);
-    assertQuery("destination:destination3", change2, change1);
-    assertQuery("destination:destination4");
-    assertQuery("destination:destination5");
-    assertQuery("destination:destination6,user=" + anotherUserId, change1);
-    assertQuery("destination:name=destination6,user=" + anotherUserId, change1);
-    assertQuery("destination:user=" + anotherUserId + ",destination7", change2);
-    assertQuery("destination:user=" + anotherUserId + ",name=destination8", change2, change1);
-    assertQuery("destination:destination9,user=" + anotherUserId);
-
-    assertThatQueryException("destination:destination3,user=" + anotherUserId)
-        .hasMessageThat()
-        .isEqualTo("Unknown named destination: destination3");
-    assertThatQueryException("destination:destination3,user=non-existent")
-        .hasMessageThat()
-        .isEqualTo("Account 'non-existent' not found");
-
-    setRequestContextForUser(anotherUserId);
-    // account userId is not visible to 'anotheruser' as they are not an admin
-    assertThatQueryException("destination:destination3,user=" + userId)
-        .hasMessageThat()
-        .isEqualTo(String.format("Account '%s' not found", userId));
-
-    // Group destinations
-    setRequestContextForUser(userId);
-    assertThatQueryException("destination:non-existent-dest,group=" + group)
-        .hasMessageThat()
-        .isEqualTo("Unknown named destination: non-existent-dest");
-    assertThatQueryException("destination:destination1,group=non-existent-group")
-        .hasMessageThat()
-        .isEqualTo("Group non-existent-group not found");
-    assertThatQueryException("destination:destination1,group=" + group + ",user=" + userId)
-        .hasMessageThat()
-        .isEqualTo("User and group arguments are mutually exclusive");
-
-    assertQuery("destination:destination1,group=" + group, change1);
-    assertQuery("destination:name=destination1,group=" + group, change1);
-    assertQuery("destination:group=" + group + ",destination2", change2);
-    assertQuery("destination:group=" + group + ",name=destination3", change2, change1);
-    assertQuery("destination:destination4,group=" + group);
+        .isEqualTo("named destinations are disabled");
   }
 
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   @Test
   public void namedQuery() throws Exception {
-    Project.NameKey project = Project.nameKey("repo");
-    repo = createAndOpenProject(project);
-    Change change1 = insert(project, newChange(repo));
-    Change change2 = insert(project, newChangeForBranch(repo, "stable"));
-
-    String group = "test-group";
-    AccountGroup.UUID groupId = groupOperations.newGroup().name(group).create();
-    Account.Id anotherUserId = createAccount("anotheruser");
-    String queryListText =
-        "query1\tproject:repo\n"
-            + "query2\tproject:repo status:open\n"
-            + "query3\tproject:repo branch:stable\n"
-            + "query4\tproject:repo branch:other";
-    String anotherQueryListText =
-        "query5\tproject:repo\n"
-            + "query6\tproject:repo status:merged\n"
-            + "query7\tproject:repo branch:stable\n"
-            + "query8\tproject:repo branch:other";
-
-    try (TestRepository<Repository> allUsers =
-            new TestRepository<>(repoManager.openRepository(allUsersName));
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
-        MetaDataUpdate anotherMd = metaDataUpdateFactory.create(allUsersName)) {
-      VersionedAccountQueries queries =
-          VersionedAccountQueries.forBranch(
-              BranchNameKey.create(allUsersName, RefNames.refsUsers(userId)));
-      queries.load(md);
-      queries.setQueryList(queryListText);
-      queries.commit(md);
-      VersionedAccountQueries anotherQueries =
-          VersionedAccountQueries.forBranch(
-              BranchNameKey.create(allUsersName, RefNames.refsUsers(anotherUserId)));
-      anotherQueries.load(anotherMd);
-      anotherQueries.setQueryList(anotherQueryListText);
-      anotherQueries.commit(anotherMd);
-
-      allUsers.branch(RefNames.refsGroups(groupId)).commit().add("queries", queryListText).create();
-    }
-
-    assertThat(gApi.accounts().self().get()._accountId).isEqualTo(userId.get());
-    assertThatQueryException("query:foo").hasMessageThat().isEqualTo("Unknown named query: foo");
-    assertThatQueryException("query:query1,user=" + anotherUserId)
-        .hasMessageThat()
-        .isEqualTo("Unknown named query: query1");
-    assertThatQueryException("query:query1,user=non-existent")
-        .hasMessageThat()
-        .isEqualTo("Account 'non-existent' not found");
-
-    setRequestContextForUser(anotherUserId);
-    // account 1000000 is not visible to 'anotheruser' as they are not an admin
-    assertThatQueryException("query:query1,user=" + userId)
-        .hasMessageThat()
-        .isEqualTo(String.format("Account '%s' not found", userId));
-    setRequestContextForUser(userId);
-
-    assertQuery("query:query1", change2, change1);
-    assertQuery("query:query2", change2, change1);
-    assertQuery("query:name=query5,user=" + anotherUserId, change2, change1);
-    assertQuery("query:user=" + anotherUserId + ",name=query6");
-    getChangeApi(change1).current().review(ReviewInput.approve());
-    getChangeApi(change1).current().submit();
-    assertQuery("query:query2", change2);
-    assertQuery("query:query3", change2);
-    assertQuery("query:query4");
-    assertQuery("query:query6,user=" + anotherUserId, change1);
-    assertQuery("query:user=" + anotherUserId + ",query7", change2);
-    assertQuery("query:query8,user=" + anotherUserId);
-
-    // Group queries
-    assertThatQueryException("query:non-existent,group=" + group)
-        .hasMessageThat()
-        .isEqualTo("Unknown named query: non-existent");
-    assertThatQueryException("query:query1,group=non-existent-group")
-        .hasMessageThat()
-        .isEqualTo("Group non-existent-group not found");
-    assertThatQueryException("query:query1,group=" + group + ",user=" + userId)
-        .hasMessageThat()
-        .isEqualTo("User and group arguments are mutually exclusive");
-
-    assertQuery("query:name=query1,group=" + group, change1, change2);
-    assertQuery("query:query1,group=" + group, change1, change2);
-    assertQuery("query:group=" + group + ",name=query2", change2);
-    assertQuery("query:group=" + group + ",query4");
-    assertQuery("query:name=query4,group=" + group);
+    assertThatQueryException("query:foo").hasMessageThat().isEqualTo("named queries are disabled");
   }
 
   @Test

@@ -14,19 +14,35 @@
 
 package com.google.gerrit.extensions.validators;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
 
-/** A comment or review message was rejected by a {@link CommentValidator}. */
-@AutoValue
-public abstract class CommentValidationFailure {
-  static CommentValidationFailure create(
-      CommentForValidation commentForValidation, String message) {
-    return new AutoValue_CommentValidationFailure(commentForValidation, message);
+import com.google.errorprone.annotations.InlineMe;
+
+/**
+ * A comment or review message was rejected by a {@link CommentValidator}.
+ *
+ * @param comment Returns the offending comment.
+ * @param message A friendly message set by the {@link CommentValidator}.
+ */
+public record CommentValidationFailure(CommentForValidation comment, String message) {
+  public CommentValidationFailure {
+    requireNonNull(comment, "comment");
+    requireNonNull(message, "message");
   }
 
-  /** Returns the offending comment. */
-  public abstract CommentForValidation getComment();
+  @InlineMe(replacement = "this.comment()")
+  public CommentForValidation getComment() {
+    return comment();
+  }
 
-  /** A friendly message set by the {@link CommentValidator}. */
-  public abstract String getMessage();
+  @InlineMe(replacement = "this.message()")
+  public String getMessage() {
+    return message();
+  }
+
+  static CommentValidationFailure create(
+      CommentForValidation commentForValidation, String message) {
+    return new CommentValidationFailure(commentForValidation, message);
+  }
+
 }

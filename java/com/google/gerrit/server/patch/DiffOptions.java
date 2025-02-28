@@ -14,20 +14,17 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 
-@AutoValue
-public abstract class DiffOptions {
+public record DiffOptions(boolean skipFilesWithAllEditsDueToRebase) {
   public static final DiffOptions DEFAULTS =
       DiffOptions.builder().skipFilesWithAllEditsDueToRebase(true).build();
 
-  public abstract boolean skipFilesWithAllEditsDueToRebase();
-
   public static DiffOptions.Builder builder() {
-    return new AutoValue_DiffOptions.Builder();
+    return new AutoBuilder_DiffOptions_Builder();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder skipFilesWithAllEditsDueToRebase(boolean value);
 

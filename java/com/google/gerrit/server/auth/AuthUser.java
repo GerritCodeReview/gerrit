@@ -16,15 +16,17 @@ package com.google.gerrit.server.auth;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 
 /** An authenticated user as specified by the AuthBackend. */
 public class AuthUser {
 
   /** Globally unique identifier for the user. */
-  @AutoValue
-  public abstract static class UUID {
+  public record UUID(String uuid) {
+    public UUID {
+      requireNonNull(uuid, "uuid");
+    }
+
     /**
      * A new unique identifier.
      *
@@ -32,10 +34,9 @@ public class AuthUser {
      * @return identifier instance.
      */
     public static UUID create(String uuid) {
-      return new AutoValue_AuthUser_UUID(uuid);
+      return new UUID(uuid);
     }
 
-    public abstract String uuid();
   }
 
   private final UUID uuid;

@@ -14,15 +14,31 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexDefinition;
 
-@AutoValue
-public abstract class IndexInfo {
+public record IndexInfo(String name, ImmutableMap<Integer, IndexVersionInfo> versions) {
+  public IndexInfo {
+    requireNonNull(name, "name");
+    requireNonNull(versions, "versions");
+  }
+
+  @InlineMe(replacement = "this.name()")
+  public String getName() {
+    return name();
+  }
+
+  @InlineMe(replacement = "this.versions()")
+  public ImmutableMap<Integer, IndexVersionInfo> getVersions() {
+    return versions();
+  }
 
   public static IndexInfo fromIndexCollection(
       String name, IndexCollection<?, ?, ?> indexCollection) {
@@ -42,16 +58,12 @@ public abstract class IndexInfo {
       versions.put(searchIndexVersion, IndexVersionInfo.create(false, true, searchIndex.numDocs()));
     }
 
-    return new AutoValue_IndexInfo(name, versions.build());
+    return new IndexInfo(name, versions.build());
   }
 
   public static IndexInfo fromIndexDefinition(IndexDefinition<?, ?, ?> def) {
     return fromIndexCollection(def.getName(), def.getIndexCollection());
   }
-
-  public abstract String getName();
-
-  public abstract ImmutableMap<Integer, IndexVersionInfo> getVersions();
 
   @AutoValue
   public abstract static class IndexVersionInfo {

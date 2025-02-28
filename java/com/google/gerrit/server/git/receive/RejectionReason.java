@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static java.util.Objects.requireNonNull;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
@@ -23,12 +24,15 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_REQUEST_TIMEOUT;
 
-import com.google.auto.value.AutoValue;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import java.util.Locale;
 
-@AutoValue
-public abstract class RejectionReason {
+public record RejectionReason(int statusCode, String metricBucket, String why) {
+  public RejectionReason {
+    requireNonNull(metricBucket, "metricBucket");
+    requireNonNull(why, "why");
+  }
+
   private static final int SC_CLIENT_CLOSED_REQUEST = 499;
 
   public enum MetricBucket {
@@ -95,11 +99,11 @@ public abstract class RejectionReason {
   }
 
   public static RejectionReason create(MetricBucket metricBucket, String why) {
-    return new AutoValue_RejectionReason(metricBucket.statusCode, metricBucket.name(), why);
+    return new RejectionReason(metricBucket.statusCode, metricBucket.name(), why);
   }
 
   public static RejectionReason create(PermissionDeniedException permissionDenied) {
-    return new AutoValue_RejectionReason(
+    return new RejectionReason(
         SC_FORBIDDEN,
         "CANNOT_"
             + permissionDenied
@@ -112,9 +116,4 @@ public abstract class RejectionReason {
             + permissionDenied.describePermission());
   }
 
-  public abstract int statusCode();
-
-  public abstract String metricBucket();
-
-  public abstract String why();
 }

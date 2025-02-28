@@ -14,22 +14,40 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import java.io.Serializable;
 import org.eclipse.jgit.lib.ObjectId;
 
-@AutoValue
-public abstract class IntraLineDiffKey implements Serializable {
+public record IntraLineDiffKey(ObjectId blobA, ObjectId blobB, Whitespace whitespace)
+    implements Serializable {
+  public IntraLineDiffKey {
+    requireNonNull(blobA, "blobA");
+    requireNonNull(blobB, "blobB");
+    requireNonNull(whitespace, "whitespace");
+  }
+
+  @InlineMe(replacement = "this.blobA()")
+  public ObjectId getBlobA() {
+    return blobA();
+  }
+
+  @InlineMe(replacement = "this.blobB()")
+  public ObjectId getBlobB() {
+    return blobB();
+  }
+
+  @InlineMe(replacement = "this.whitespace()")
+  public Whitespace getWhitespace() {
+    return whitespace();
+  }
+
   public static final long serialVersionUID = 13L;
 
   public static IntraLineDiffKey create(ObjectId aId, ObjectId bId, Whitespace whitespace) {
-    return new AutoValue_IntraLineDiffKey(aId, bId, whitespace);
+    return new IntraLineDiffKey(aId, bId, whitespace);
   }
 
-  public abstract ObjectId getBlobA();
-
-  public abstract ObjectId getBlobB();
-
-  public abstract Whitespace getWhitespace();
 }

@@ -14,19 +14,20 @@
 
 package com.google.gerrit.httpd.plugins;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.server.plugins.Plugin;
 
-@AutoValue
-abstract class PluginResourceKey implements ResourceKey {
-  static PluginResourceKey create(Plugin p, String r) {
-    return new AutoValue_PluginResourceKey(p.getCacheKey(), r);
+record PluginResourceKey(Plugin.CacheKey plugin, String resource) implements ResourceKey {
+  PluginResourceKey {
+    requireNonNull(plugin, "plugin");
+    requireNonNull(resource, "resource");
   }
 
-  public abstract Plugin.CacheKey plugin();
-
-  public abstract String resource();
+  static PluginResourceKey create(Plugin p, String r) {
+    return new PluginResourceKey(p.getCacheKey(), r);
+  }
 
   @Override
   public int weigh() {

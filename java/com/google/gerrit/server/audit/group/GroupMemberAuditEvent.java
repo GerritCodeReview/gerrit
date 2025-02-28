@@ -14,31 +14,59 @@
 
 package com.google.gerrit.server.audit.group;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import java.time.Instant;
 
-@AutoValue
-public abstract class GroupMemberAuditEvent implements GroupAuditEvent {
+/**
+ * @param modifiedMembers Gets the added or deleted members of the updated group.
+ */
+public record GroupMemberAuditEvent(
+    Account.Id actor,
+    AccountGroup.UUID updatedGroup,
+    Instant timestamp,
+    ImmutableSet<Account.Id> modifiedMembers)
+    implements GroupAuditEvent {
+  public GroupMemberAuditEvent {
+    requireNonNull(actor, "actor");
+    requireNonNull(updatedGroup, "updatedGroup");
+    requireNonNull(timestamp, "timestamp");
+    requireNonNull(modifiedMembers, "modifiedMembers");
+  }
+
+  @InlineMe(replacement = "this.actor()")
+  @Override
+  public Account.Id getActor() {
+    return actor();
+  }
+
+  @InlineMe(replacement = "this.updatedGroup()")
+  @Override
+  public AccountGroup.UUID getUpdatedGroup() {
+    return updatedGroup();
+  }
+
+  @InlineMe(replacement = "this.timestamp()")
+  @Override
+  public Instant getTimestamp() {
+    return timestamp();
+  }
+
+  @InlineMe(replacement = "this.modifiedMembers()")
+  public ImmutableSet<Account.Id> getModifiedMembers() {
+    return modifiedMembers();
+  }
+
   public static GroupMemberAuditEvent create(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
       ImmutableSet<Account.Id> modifiedMembers,
       Instant timestamp) {
-    return new AutoValue_GroupMemberAuditEvent(actor, updatedGroup, modifiedMembers, timestamp);
+    return new GroupMemberAuditEvent(actor, updatedGroup, modifiedMembers, timestamp);
   }
 
-  @Override
-  public abstract Account.Id getActor();
-
-  @Override
-  public abstract AccountGroup.UUID getUpdatedGroup();
-
-  /** Gets the added or deleted members of the updated group. */
-  public abstract ImmutableSet<Account.Id> getModifiedMembers();
-
-  @Override
-  public abstract Instant getTimestamp();
 }

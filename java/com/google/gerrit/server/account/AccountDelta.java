@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
@@ -45,131 +48,154 @@ import java.util.Set;
  *
  * <p>For the account properties there are getters in this class and setters in the {@link Builder}
  * that correspond to the fields in {@link Account}.
+ *
+ * @param fullName Returns the new value for the full name. the new value for the full name, {@code
+ *     Optional#empty()} if the full name is not being updated, {@code Optional#of("")} if the full
+ *     name is unset, the wrapped value is never {@code null}
+ * @param displayName Returns the new value for the display name. the new value for the display
+ *     name, {@code Optional#empty()} if the display name is not being updated, {@code
+ *     Optional#of("")} if the display name is unset, the wrapped value is never {@code null}
+ * @param preferredEmail Returns the new value for the preferred email. the new value for the
+ *     preferred email, {@code Optional#empty()} if the preferred email is not being updated, {@code
+ *     Optional#of("")} if the preferred email is unset, the wrapped value is never {@code null}
+ * @param active Returns the new value for the active flag. the new value for the active flag,
+ *     {@code Optional#empty()} if the active flag is not being updated, the wrapped value is never
+ *     {@code null}
+ * @param status Returns the new value for the status. the new value for the status, {@code
+ *     Optional#empty()} if the status is not being updated, {@code Optional#of("")} if the status
+ *     is unset, the wrapped value is never {@code null}
+ * @param createdExternalIds Returns external IDs that should be newly created for the account.
+ *     external IDs that should be newly created for the account
+ * @param updatedExternalIds Returns external IDs that should be updated for the account. external
+ *     IDs that should be updated for the account
+ * @param deletedExternalIds Returns external IDs that should be deleted for the account. external
+ *     IDs that should be deleted for the account
+ * @param updatedProjectWatches Returns external IDs that should be updated for the account.
+ *     external IDs that should be updated for the account
+ * @param deletedProjectWatches Returns project watches that should be deleted for the account.
+ *     project watches that should be deleted for the account
+ * @param generalPreferences Returns the new value for the general preferences.
+ *     <p>Only preferences that are non-null in the returned GeneralPreferencesInfo should be
+ *     updated. the new value for the general preferences, {@code Optional#empty()} if the general
+ *     preferences are not being updated, the wrapped value is never {@code null}
+ * @param diffPreferences Returns the new value for the diff preferences.
+ *     <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
+ *     the new value for the diff preferences, {@code Optional#empty()} if the diff preferences are
+ *     not being updated, the wrapped value is never {@code null}
+ * @param editPreferences Returns the new value for the edit preferences.
+ *     <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
+ *     the new value for the edit preferences, {@code Optional#empty()} if the edit preferences are
+ *     not being updated, the wrapped value is never {@code null}
+ * @param shouldDeleteAccount Returns whether the delta for this account is deleting the account.
+ *     <p>If set to true, deletion takes precedence on any other change in this delta. whether the
+ *     account should be deleted.
  */
-@AutoValue
-public abstract class AccountDelta {
-  public static Builder builder() {
-    return new Builder.WrapperThatConvertsNullStringArgsToEmptyStrings(
-        new AutoValue_AccountDelta.Builder());
+public record AccountDelta(
+    Optional<String> fullName,
+    Optional<String> displayName,
+    Optional<String> preferredEmail,
+    Optional<Boolean> active,
+    Optional<String> status,
+    ImmutableSet<ExternalId> createdExternalIds,
+    ImmutableSet<ExternalId> updatedExternalIds,
+    ImmutableSet<ExternalId> deletedExternalIds,
+    ImmutableMap<ProjectWatchKey, Set<NotifyType>> updatedProjectWatches,
+    ImmutableSet<ProjectWatchKey> deletedProjectWatches,
+    Optional<GeneralPreferencesInfo> generalPreferences,
+    Optional<DiffPreferencesInfo> diffPreferences,
+    Optional<EditPreferencesInfo> editPreferences,
+    Optional<Boolean> shouldDeleteAccount) {
+  public AccountDelta {
+    requireNonNull(fullName, "fullName");
+    requireNonNull(displayName, "displayName");
+    requireNonNull(preferredEmail, "preferredEmail");
+    requireNonNull(active, "active");
+    requireNonNull(status, "status");
+    requireNonNull(createdExternalIds, "createdExternalIds");
+    requireNonNull(updatedExternalIds, "updatedExternalIds");
+    requireNonNull(deletedExternalIds, "deletedExternalIds");
+    requireNonNull(updatedProjectWatches, "updatedProjectWatches");
+    requireNonNull(deletedProjectWatches, "deletedProjectWatches");
+    requireNonNull(generalPreferences, "generalPreferences");
+    requireNonNull(diffPreferences, "diffPreferences");
+    requireNonNull(editPreferences, "editPreferences");
+    requireNonNull(shouldDeleteAccount, "shouldDeleteAccount");
   }
 
-  /**
-   * Returns the new value for the full name.
-   *
-   * @return the new value for the full name, {@code Optional#empty()} if the full name is not being
-   *     updated, {@code Optional#of("")} if the full name is unset, the wrapped value is never
-   *     {@code null}
-   */
-  public abstract Optional<String> getFullName();
+  @InlineMe(replacement = "this.fullName()")
+  public Optional<String> getFullName() {
+    return fullName();
+  }
 
-  /**
-   * Returns the new value for the display name.
-   *
-   * @return the new value for the display name, {@code Optional#empty()} if the display name is not
-   *     being updated, {@code Optional#of("")} if the display name is unset, the wrapped value is
-   *     never {@code null}
-   */
-  public abstract Optional<String> getDisplayName();
+  @InlineMe(replacement = "this.displayName()")
+  public Optional<String> getDisplayName() {
+    return displayName();
+  }
 
-  /**
-   * Returns the new value for the preferred email.
-   *
-   * @return the new value for the preferred email, {@code Optional#empty()} if the preferred email
-   *     is not being updated, {@code Optional#of("")} if the preferred email is unset, the wrapped
-   *     value is never {@code null}
-   */
-  public abstract Optional<String> getPreferredEmail();
+  @InlineMe(replacement = "this.preferredEmail()")
+  public Optional<String> getPreferredEmail() {
+    return preferredEmail();
+  }
 
-  /**
-   * Returns the new value for the active flag.
-   *
-   * @return the new value for the active flag, {@code Optional#empty()} if the active flag is not
-   *     being updated, the wrapped value is never {@code null}
-   */
-  public abstract Optional<Boolean> getActive();
+  @InlineMe(replacement = "this.active()")
+  public Optional<Boolean> getActive() {
+    return active();
+  }
 
-  /**
-   * Returns the new value for the status.
-   *
-   * @return the new value for the status, {@code Optional#empty()} if the status is not being
-   *     updated, {@code Optional#of("")} if the status is unset, the wrapped value is never {@code
-   *     null}
-   */
-  public abstract Optional<String> getStatus();
+  @InlineMe(replacement = "this.status()")
+  public Optional<String> getStatus() {
+    return status();
+  }
 
-  /**
-   * Returns external IDs that should be newly created for the account.
-   *
-   * @return external IDs that should be newly created for the account
-   */
-  public abstract ImmutableSet<ExternalId> getCreatedExternalIds();
+  @InlineMe(replacement = "this.createdExternalIds()")
+  public ImmutableSet<ExternalId> getCreatedExternalIds() {
+    return createdExternalIds();
+  }
 
-  /**
-   * Returns external IDs that should be updated for the account.
-   *
-   * @return external IDs that should be updated for the account
-   */
-  public abstract ImmutableSet<ExternalId> getUpdatedExternalIds();
+  @InlineMe(replacement = "this.updatedExternalIds()")
+  public ImmutableSet<ExternalId> getUpdatedExternalIds() {
+    return updatedExternalIds();
+  }
 
-  /**
-   * Returns external IDs that should be deleted for the account.
-   *
-   * @return external IDs that should be deleted for the account
-   */
-  public abstract ImmutableSet<ExternalId> getDeletedExternalIds();
+  @InlineMe(replacement = "this.deletedExternalIds()")
+  public ImmutableSet<ExternalId> getDeletedExternalIds() {
+    return deletedExternalIds();
+  }
 
-  /**
-   * Returns external IDs that should be updated for the account.
-   *
-   * @return external IDs that should be updated for the account
-   */
-  public abstract ImmutableMap<ProjectWatchKey, Set<NotifyType>> getUpdatedProjectWatches();
+  @InlineMe(replacement = "this.updatedProjectWatches()")
+  public ImmutableMap<ProjectWatchKey, Set<NotifyType>> getUpdatedProjectWatches() {
+    return updatedProjectWatches();
+  }
 
-  /**
-   * Returns project watches that should be deleted for the account.
-   *
-   * @return project watches that should be deleted for the account
-   */
-  public abstract ImmutableSet<ProjectWatchKey> getDeletedProjectWatches();
+  @InlineMe(replacement = "this.deletedProjectWatches()")
+  public ImmutableSet<ProjectWatchKey> getDeletedProjectWatches() {
+    return deletedProjectWatches();
+  }
 
-  /**
-   * Returns the new value for the general preferences.
-   *
-   * <p>Only preferences that are non-null in the returned GeneralPreferencesInfo should be updated.
-   *
-   * @return the new value for the general preferences, {@code Optional#empty()} if the general
-   *     preferences are not being updated, the wrapped value is never {@code null}
-   */
-  public abstract Optional<GeneralPreferencesInfo> getGeneralPreferences();
+  @InlineMe(replacement = "this.generalPreferences()")
+  public Optional<GeneralPreferencesInfo> getGeneralPreferences() {
+    return generalPreferences();
+  }
 
-  /**
-   * Returns the new value for the diff preferences.
-   *
-   * <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
-   *
-   * @return the new value for the diff preferences, {@code Optional#empty()} if the diff
-   *     preferences are not being updated, the wrapped value is never {@code null}
-   */
-  public abstract Optional<DiffPreferencesInfo> getDiffPreferences();
+  @InlineMe(replacement = "this.diffPreferences()")
+  public Optional<DiffPreferencesInfo> getDiffPreferences() {
+    return diffPreferences();
+  }
 
-  /**
-   * Returns the new value for the edit preferences.
-   *
-   * <p>Only preferences that are non-null in the returned DiffPreferencesInfo should be updated.
-   *
-   * @return the new value for the edit preferences, {@code Optional#empty()} if the edit
-   *     preferences are not being updated, the wrapped value is never {@code null}
-   */
-  public abstract Optional<EditPreferencesInfo> getEditPreferences();
+  @InlineMe(replacement = "this.editPreferences()")
+  public Optional<EditPreferencesInfo> getEditPreferences() {
+    return editPreferences();
+  }
 
-  /**
-   * Returns whether the delta for this account is deleting the account.
-   *
-   * <p>If set to true, deletion takes precedence on any other change in this delta.
-   *
-   * @return whether the account should be deleted.
-   */
-  public abstract Optional<Boolean> getShouldDeleteAccount();
+  @InlineMe(replacement = "this.shouldDeleteAccount()")
+  public Optional<Boolean> getShouldDeleteAccount() {
+    return shouldDeleteAccount();
+  }
+
+  public static Builder builder() {
+    return new Builder.WrapperThatConvertsNullStringArgsToEmptyStrings(
+        new AutoBuilder_AccountDelta_Builder());
+  }
 
   public boolean hasExternalIdUpdates() {
     return !this.getCreatedExternalIds().isEmpty()
@@ -186,7 +212,7 @@ public abstract class AccountDelta {
    * string by using the {@link WrapperThatConvertsNullStringArgsToEmptyStrings} wrapper, see {@link
    * AccountDelta#builder()}).
    */
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     /**
      * Sets a new full name for the account.

@@ -15,8 +15,9 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import org.eclipse.jgit.lib.Config;
@@ -26,9 +27,41 @@ import org.eclipse.jgit.lib.Config;
  *
  * <p>Contains configuration that is tied to a specific index implementation but is otherwise
  * global, i.e. not tied to a specific {@link Index} and schema version.
+ *
+ * @param defaultLimit Returns default limit for index queries, if the user does not provide one. If
+ *     this is not set, then the max permitted limit for each user is used, which might be much
+ *     higher than intended.
+ * @param maxLimit Returns maximum limit supported by the underlying index, or limited for
+ *     performance reasons.
+ * @param maxPages Returns maximum number of pages (limit / start) supported by the underlying
+ *     index, or limited for performance reasons.
+ * @param maxTerms Returns maximum number of total index query terms supported by the underlying
+ *     index, or limited for performance reasons.
+ * @param type Returns index type.
+ * @param separateChangeSubIndexes Returns whether different subsets of changes may be stored in
+ *     different physical sub-indexes.
+ * @param paginationType Returns pagination type to use when index queries are repeated to obtain
+ *     the next set of results.
+ * @param pageSizeMultiplier Returns multiplier to be used to determine the limit when queries are
+ *     repeated to obtain the next set of results.
+ * @param maxPageSize Returns maximum allowed limit when repeating index queries to obtain the next
+ *     set of results.
  */
-@AutoValue
-public abstract class IndexConfig {
+public record IndexConfig(
+    int defaultLimit,
+    int maxLimit,
+    int maxPages,
+    int maxTerms,
+    String type,
+    boolean separateChangeSubIndexes,
+    PaginationType paginationType,
+    int pageSizeMultiplier,
+    int maxPageSize) {
+  public IndexConfig {
+    requireNonNull(type, "type");
+    requireNonNull(paginationType, "paginationType");
+  }
+
   private static final int DEFAULT_MAX_TERMS = 1024;
   private static final int DEFAULT_PAGE_SIZE_MULTIPLIER = 1;
 
@@ -67,7 +100,7 @@ public abstract class IndexConfig {
   }
 
   public static Builder builder() {
-    return new AutoValue_IndexConfig.Builder()
+    return new AutoBuilder_IndexConfig_Builder()
         .defaultLimit(Integer.MAX_VALUE)
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
@@ -79,7 +112,7 @@ public abstract class IndexConfig {
         .paginationType(PaginationType.OFFSET);
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder defaultLimit(int defaultLimit);
 
@@ -127,51 +160,4 @@ public abstract class IndexConfig {
     checkArgument(limit > 0, "%s must be positive: %s", name, limit);
   }
 
-  /**
-   * Returns default limit for index queries, if the user does not provide one. If this is not set,
-   * then the max permitted limit for each user is used, which might be much higher than intended.
-   */
-  public abstract int defaultLimit();
-
-  /**
-   * Returns maximum limit supported by the underlying index, or limited for performance reasons.
-   */
-  public abstract int maxLimit();
-
-  /**
-   * Returns maximum number of pages (limit / start) supported by the underlying index, or limited
-   * for performance reasons.
-   */
-  public abstract int maxPages();
-
-  /**
-   * Returns maximum number of total index query terms supported by the underlying index, or limited
-   * for performance reasons.
-   */
-  public abstract int maxTerms();
-
-  /** Returns index type. */
-  public abstract String type();
-
-  /**
-   * Returns whether different subsets of changes may be stored in different physical sub-indexes.
-   */
-  public abstract boolean separateChangeSubIndexes();
-
-  /**
-   * Returns pagination type to use when index queries are repeated to obtain the next set of
-   * results.
-   */
-  public abstract PaginationType paginationType();
-
-  /**
-   * Returns multiplier to be used to determine the limit when queries are repeated to obtain the
-   * next set of results.
-   */
-  public abstract int pageSizeMultiplier();
-
-  /**
-   * Returns maximum allowed limit when repeating index queries to obtain the next set of results.
-   */
-  public abstract int maxPageSize();
 }

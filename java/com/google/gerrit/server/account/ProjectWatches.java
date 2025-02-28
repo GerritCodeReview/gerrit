@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
@@ -79,17 +78,16 @@ import org.eclipse.jgit.lib.Config;
  * <p>The project watches are lazily parsed.
  */
 public class ProjectWatches {
-  @AutoValue
   @ConvertibleToProto
-  public abstract static class ProjectWatchKey {
-
-    public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
-      return new AutoValue_ProjectWatches_ProjectWatchKey(project, Strings.emptyToNull(filter));
+  public record ProjectWatchKey(Project.NameKey project, @Nullable String filter) {
+    public ProjectWatchKey {
+      requireNonNull(project, "project");
     }
 
-    public abstract Project.NameKey project();
+    public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
+      return new ProjectWatchKey(project, Strings.emptyToNull(filter));
+    }
 
-    public abstract @Nullable String filter();
   }
 
   public static final String FILTER_ALL = "*";
@@ -201,8 +199,12 @@ public class ProjectWatches {
     return b.build();
   }
 
-  @AutoValue
-  public abstract static class NotifyValue {
+  public record NotifyValue(
+      @Nullable String filter, ImmutableSet<NotifyConfig.NotifyType> notifyTypes) {
+    public NotifyValue {
+      requireNonNull(notifyTypes, "notifyTypes");
+    }
+
     @Nullable
     public static NotifyValue parse(
         Account.Id accountId,
@@ -251,13 +253,8 @@ public class ProjectWatches {
 
     public static NotifyValue create(
         @Nullable String filter, Collection<NotifyConfig.NotifyType> notifyTypes) {
-      return new AutoValue_ProjectWatches_NotifyValue(
-          Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
+      return new NotifyValue(Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
     }
-
-    public abstract @Nullable String filter();
-
-    public abstract ImmutableSet<NotifyConfig.NotifyType> notifyTypes();
 
     @Override
     public final String toString() {

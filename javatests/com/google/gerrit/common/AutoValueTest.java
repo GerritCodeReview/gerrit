@@ -15,18 +15,20 @@
 package com.google.gerrit.common;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import org.junit.Test;
 
 public class AutoValueTest {
-  @AutoValue
-  abstract static class Auto {
-    static Auto create(String val) {
-      return new AutoValue_AutoValueTest_Auto(val);
+  record Auto(String val) {
+    Auto {
+      requireNonNull(val, "val");
     }
 
-    abstract String val();
+    static Auto create(String val) {
+      return new Auto(val);
+    }
+
   }
 
   @Test

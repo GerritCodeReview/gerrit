@@ -14,7 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -169,15 +170,14 @@ public class TestMetricMaker extends DisabledMetricMaker {
     };
   }
 
-  @AutoValue
-  abstract static class CounterKey {
-    abstract String name();
-
-    abstract ImmutableList<Object> fieldValues();
+  record CounterKey(String name, ImmutableList<Object> fieldValues) {
+    CounterKey {
+      requireNonNull(name, "name");
+      requireNonNull(fieldValues, "fieldValues");
+    }
 
     static CounterKey create(String name, Object... fieldValues) {
-      return new AutoValue_TestMetricMaker_CounterKey(
-          name, ImmutableList.copyOf(Arrays.asList(fieldValues)));
+      return new CounterKey(name, ImmutableList.copyOf(Arrays.asList(fieldValues)));
     }
   }
 }

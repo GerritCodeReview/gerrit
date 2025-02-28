@@ -75,15 +75,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               ctx.repoView(),
               ins,
               /* enableRenameDetection= */ false);
-      Map<String, ModifiedFile> priorVsCurrent =
-          diffOperations.loadModifiedFilesIfNecessary(
-              ctx.changeNotes().getProjectName(),
-              sourcePatchSet.commitId(),
-              targetPatchSet.commitId(),
-              ctx.repoView().getRevWalk(),
-              ctx.repoView().getConfig(),
-              /* enableRenameDetection= */ false);
-      return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
+      return match(baseVsCurrent, baseVsPrior);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
@@ -98,8 +90,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
    */
   public boolean match(
       Map<String, ModifiedFile> baseVsCurrent,
-      Map<String, ModifiedFile> baseVsPrior,
-      Map<String, ModifiedFile> priorVsCurrent) {
+      Map<String, ModifiedFile> baseVsPrior) {
     Set<String> allFiles = new HashSet<>();
     allFiles.addAll(baseVsCurrent.keySet());
     allFiles.addAll(baseVsPrior.keySet());
@@ -109,11 +100,6 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
       }
       ModifiedFile modifiedFile1 = baseVsCurrent.get(file);
       ModifiedFile modifiedFile2 = baseVsPrior.get(file);
-      if (!priorVsCurrent.containsKey(file)) {
-        // If the file is not modified between prior and current patchsets, then scan safely skip
-        // it. The file might have been modified due to rebase.
-        continue;
-      }
       if (modifiedFile1 == null || modifiedFile2 == null) {
         return false;
       }

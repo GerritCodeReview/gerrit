@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -38,9 +39,32 @@ import java.util.StringJoiner;
  *
  * <p>Most callers should not construct AccountStates directly but rather lookup accounts via the
  * account cache (see {@link AccountCache#get(Account.Id)}).
+ *
+ * @param account Get the cached account metadata.
+ * @param externalIds The external identities that identify the account holder.
+ * @param userName Get the username, if one has been declared for this user.
+ *     <p>The username is the {@link ExternalId} using the scheme {@link
+ *     ExternalId#SCHEME_USERNAME}. the username, {@link Optional#empty()} if the user has no
+ *     username, or if the username is empty
+ * @param projectWatches The project watches of the account.
+ * @param defaultPreferences Gerrit's default preferences as stored in {@code preferences.config}.
+ * @param userPreferences User preferences as stored in {@code preferences.config}.
  */
-@AutoValue
-public abstract class AccountState {
+public record AccountState(
+    Account account,
+    ImmutableSet<ExternalId> externalIds,
+    Optional<String> userName,
+    ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
+    Optional<CachedPreferences> defaultPreferences,
+    Optional<CachedPreferences> userPreferences) {
+  public AccountState {
+    requireNonNull(account, "account");
+    requireNonNull(externalIds, "externalIds");
+    requireNonNull(userName, "userName");
+    requireNonNull(projectWatches, "projectWatches");
+    requireNonNull(defaultPreferences, "defaultPreferences");
+    requireNonNull(userPreferences, "userPreferences");
+  }
 
   /**
    * Creates an AccountState for a given account with no external IDs, no project watches and
@@ -63,7 +87,7 @@ public abstract class AccountState {
       CachedAccountDetails account, CachedPreferences defaultConfig, ExternalIds externalIds)
       throws IOException {
     ImmutableSet<ExternalId> extIds = externalIds.byAccount(account.account().id());
-    return new AutoValue_AccountState(
+    return new AccountState(
         account.account(),
         extIds,
         ExternalId.getUserName(extIds),
@@ -80,7 +104,7 @@ public abstract class AccountState {
    * @return the account state
    */
   public static AccountState forAccount(Account account, Collection<ExternalId> extIds) {
-    return new AutoValue_AccountState(
+    return new AccountState(
         account,
         ImmutableSet.copyOf(extIds),
         ExternalId.getUserName(extIds),
@@ -97,28 +121,9 @@ public abstract class AccountState {
       ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
       Optional<CachedPreferences> defaultPreferences,
       Optional<CachedPreferences> userPreferences) {
-    return new AutoValue_AccountState(
+    return new AccountState(
         account, externalIds, userName, projectWatches, defaultPreferences, userPreferences);
   }
-
-  /** Get the cached account metadata. */
-  public abstract Account account();
-
-  /** The external identities that identify the account holder. */
-  public abstract ImmutableSet<ExternalId> externalIds();
-
-  /**
-   * Get the username, if one has been declared for this user.
-   *
-   * <p>The username is the {@link ExternalId} using the scheme {@link ExternalId#SCHEME_USERNAME}.
-   *
-   * @return the username, {@link Optional#empty()} if the user has no username, or if the username
-   *     is empty
-   */
-  public abstract Optional<String> userName();
-
-  /** The project watches of the account. */
-  public abstract ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches();
 
   /** The general preferences of the account. */
 
@@ -162,9 +167,4 @@ public abstract class AccountState {
         + "\n]";
   }
 
-  /** Gerrit's default preferences as stored in {@code preferences.config}. */
-  public abstract Optional<CachedPreferences> defaultPreferences();
-
-  /** User preferences as stored in {@code preferences.config}. */
-  public abstract Optional<CachedPreferences> userPreferences();
 }

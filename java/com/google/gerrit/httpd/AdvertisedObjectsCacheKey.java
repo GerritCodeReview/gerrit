@@ -14,17 +14,19 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 
-@AutoValue
-abstract class AdvertisedObjectsCacheKey {
-  static AdvertisedObjectsCacheKey create(Account.Id account, Project.NameKey project) {
-    return new AutoValue_AdvertisedObjectsCacheKey(account, project);
+record AdvertisedObjectsCacheKey(Account.Id account, Project.NameKey project) {
+  AdvertisedObjectsCacheKey {
+    requireNonNull(account, "account");
+    requireNonNull(project, "project");
   }
 
-  public abstract Account.Id account();
+  static AdvertisedObjectsCacheKey create(Account.Id account, Project.NameKey project) {
+    return new AdvertisedObjectsCacheKey(account, project);
+  }
 
-  public abstract Project.NameKey project();
 }

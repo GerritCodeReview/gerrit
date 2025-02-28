@@ -14,25 +14,25 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 
 /** The difference between two {@link ChangeInfo}s returned by {@link ChangeInfoDiffer}. */
-@AutoValue
-public abstract class ChangeInfoDifference {
-
-  public abstract ChangeInfo oldChangeInfo();
-
-  public abstract ChangeInfo newChangeInfo();
-
-  public abstract ChangeInfo added();
-
-  public abstract ChangeInfo removed();
-
-  public static Builder builder() {
-    return new AutoValue_ChangeInfoDifference.Builder();
+public record ChangeInfoDifference(
+    ChangeInfo oldChangeInfo, ChangeInfo newChangeInfo, ChangeInfo added, ChangeInfo removed) {
+  public ChangeInfoDifference {
+    requireNonNull(oldChangeInfo, "oldChangeInfo");
+    requireNonNull(newChangeInfo, "newChangeInfo");
+    requireNonNull(added, "added");
+    requireNonNull(removed, "removed");
   }
 
-  @AutoValue.Builder
+  public static Builder builder() {
+    return new AutoBuilder_ChangeInfoDifference();
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder setOldChangeInfo(ChangeInfo oldChangeInfo);

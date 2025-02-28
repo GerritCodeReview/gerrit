@@ -15,8 +15,8 @@
 package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -54,11 +54,15 @@ public final class Patch {
   }
 
   public static Key key(PatchSet.Id patchSetId, String fileName) {
-    return new AutoValue_Patch_Key(patchSetId, fileName);
+    return new Key(patchSetId, fileName);
   }
 
-  @AutoValue
-  public abstract static class Key {
+  public record Key(PatchSet.Id patchSetId, String fileName) {
+    public Key {
+      requireNonNull(patchSetId, "patchSetId");
+      requireNonNull(fileName, "fileName");
+    }
+
     /** Parse a Patch.Key out of a string representation. */
     public static Key parse(String str) {
       List<String> parts = Splitter.on(',').limit(3).splitToList(str);
@@ -74,9 +78,6 @@ public final class Patch {
       checkArgument(test, "invalid patch key: %s", input);
     }
 
-    public abstract PatchSet.Id patchSetId();
-
-    public abstract String fileName();
   }
 
   /**

@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoBuilder;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
@@ -191,57 +192,45 @@ public abstract class ChangeNotesState {
    *
    * <p>Fields should match the column names in {@link Change}, and are in listed column order.
    */
-  @AutoValue
-  abstract static class ChangeColumns {
-
-    static Builder builder() {
-      return new AutoValue_ChangeNotesState_ChangeColumns.Builder();
+  record ChangeColumns(
+      Change.Key changeKey,
+      Instant createdOn,
+      Instant lastUpdatedOn,
+      Account.Id owner,
+      String branch,
+      @Nullable Change.Status status,
+      @Nullable PatchSet.Id currentPatchSetId,
+      String subject,
+      @Nullable String topic,
+      @Nullable String originalSubject,
+      @Nullable String submissionId,
+      boolean isPrivate,
+      boolean workInProgress,
+      boolean reviewStarted,
+      @Nullable Change.Id revertOf,
+      @Nullable PatchSet.Id cherryPickOf) {
+    ChangeColumns {
+      requireNonNull(changeKey, "changeKey");
+      requireNonNull(createdOn, "createdOn");
+      requireNonNull(lastUpdatedOn, "lastUpdatedOn");
+      requireNonNull(owner, "owner");
+      requireNonNull(branch, "branch");
+      requireNonNull(subject, "subject");
     }
 
-    abstract Change.Key changeKey();
-
-    abstract Instant createdOn();
-
-    abstract Instant lastUpdatedOn();
-
-    abstract Account.Id owner();
+    static Builder builder() {
+      return new AutoBuilder_ChangeNotesState_ChangeColumns_Builder();
+    }
 
     // Project not included, as it's not stored anywhere in the meta ref.
-    abstract String branch();
 
     // TODO(dborowitz): Use a sensible default other than null
-    @Nullable
-    abstract Change.Status status();
 
-    @Nullable
-    abstract PatchSet.Id currentPatchSetId();
+    Builder toBuilder() {
+      return new AutoBuilder_ChangeNotesState_ChangeColumns_Builder(this);
+}
 
-    abstract String subject();
-
-    @Nullable
-    abstract String topic();
-
-    @Nullable
-    abstract String originalSubject();
-
-    @Nullable
-    abstract String submissionId();
-
-    abstract boolean isPrivate();
-
-    abstract boolean workInProgress();
-
-    abstract boolean reviewStarted();
-
-    @Nullable
-    abstract Change.Id revertOf();
-
-    @Nullable
-    abstract PatchSet.Id cherryPickOf();
-
-    abstract Builder toBuilder();
-
-    @AutoValue.Builder
+    @AutoBuilder
     abstract static class Builder {
 
       abstract Builder changeKey(Change.Key changeKey);

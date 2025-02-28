@@ -14,24 +14,25 @@
 
 package com.google.gerrit.server.diff;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.data.PatchScript.PatchScriptFileInfo;
 
 /** Contains settings for one of two sides in diff view. Each diff view has exactly 2 sides. */
-@AutoValue
-public abstract class DiffSide {
+public record DiffSide(PatchScriptFileInfo fileInfo, String fileName, Type type) {
+  public DiffSide {
+    requireNonNull(fileInfo, "fileInfo");
+    requireNonNull(fileName, "fileName");
+    requireNonNull(type, "type");
+  }
+
   public enum Type {
     SIDE_A,
     SIDE_B
   }
 
   public static DiffSide create(PatchScriptFileInfo fileInfo, String fileName, Type type) {
-    return new AutoValue_DiffSide(fileInfo, fileName, type);
+    return new DiffSide(fileInfo, fileName, type);
   }
 
-  public abstract PatchScriptFileInfo fileInfo();
-
-  public abstract String fileName();
-
-  public abstract Type type();
 }

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.quota;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -22,24 +24,27 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import java.util.Optional;
 
-@AutoValue
-public abstract class QuotaRequestContext {
-
-  public static Builder builder() {
-    return new AutoValue_QuotaRequestContext.Builder().user(new AnonymousUser());
+public record QuotaRequestContext(
+    CurrentUser user,
+    Optional<Project.NameKey> project,
+    Optional<Change.Id> change,
+    Optional<Account.Id> account) {
+  public QuotaRequestContext {
+    requireNonNull(user, "user");
+    requireNonNull(project, "project");
+    requireNonNull(change, "change");
+    requireNonNull(account, "account");
   }
 
-  public abstract CurrentUser user();
+  public static Builder builder() {
+    return new AutoBuilder_QuotaRequestContext_Builder().user(new AnonymousUser());
+  }
 
-  public abstract Optional<Project.NameKey> project();
+  public Builder toBuilder() {
+    return new AutoBuilder_QuotaRequestContext_Builder(this);
+  }
 
-  public abstract Optional<Change.Id> change();
-
-  public abstract Optional<Account.Id> account();
-
-  public abstract Builder toBuilder();
-
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract QuotaRequestContext.Builder user(CurrentUser user);
 

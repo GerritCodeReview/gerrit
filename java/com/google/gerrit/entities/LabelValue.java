@@ -14,10 +14,25 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
 
-@AutoValue
-public abstract class LabelValue {
+import com.google.errorprone.annotations.InlineMe;
+
+public record LabelValue(short value, String text) {
+  public LabelValue {
+    requireNonNull(text, "text");
+  }
+
+  @InlineMe(replacement = "this.value()")
+  public short getValue() {
+    return value();
+  }
+
+  @InlineMe(replacement = "this.text()")
+  public String getText() {
+    return text();
+  }
+
   public static String formatValue(short value) {
     if (value < 0) {
       return Short.toString(value);
@@ -28,12 +43,8 @@ public abstract class LabelValue {
     }
   }
 
-  public abstract short getValue();
-
-  public abstract String getText();
-
   public static LabelValue create(short value, String text) {
-    return new AutoValue_LabelValue(value, text);
+    return new LabelValue(value, text);
   }
 
   public String formatValue() {

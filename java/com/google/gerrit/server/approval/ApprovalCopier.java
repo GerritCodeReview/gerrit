@@ -16,8 +16,8 @@ package com.google.gerrit.server.approval;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
@@ -85,30 +85,28 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ApprovalCopier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @AutoValue
-  public abstract static class Result {
-    /**
-     * Approvals that have been copied from the previous patch set.
-     *
-     * <p>An approval is copied if:
-     *
-     * <ul>
-     *   <li>the approval on the previous patch set matches the copy condition of its label
-     *   <li>the approval is not overridden by a current approval on the patch set
-     * </ul>
-     */
-    public abstract ImmutableSet<PatchSetApprovalData> copiedApprovals();
-
-    /**
-     * Approvals on the previous patch set that have not been copied to the patch set.
-     *
-     * <p>These approvals didn't match the copy condition of their labels and hence haven't been
-     * copied.
-     *
-     * <p>Only returns non-copied approvals of the previous patch set. Approvals from earlier patch
-     * sets that were outdated before are not included.
-     */
-    public abstract ImmutableSet<PatchSetApprovalData> outdatedApprovals();
+  /**
+   * @param copiedApprovals Approvals that have been copied from the previous patch set.
+   *     <p>An approval is copied if:
+   *     <ul>
+   *       <li>the approval on the previous patch set matches the copy condition of its label
+   *       <li>the approval is not overridden by a current approval on the patch set
+   *     </ul>
+   *
+   * @param outdatedApprovals Approvals on the previous patch set that have not been copied to the
+   *     patch set.
+   *     <p>These approvals didn't match the copy condition of their labels and hence haven't been
+   *     copied.
+   *     <p>Only returns non-copied approvals of the previous patch set. Approvals from earlier
+   *     patch sets that were outdated before are not included.
+   */
+  public record Result(
+      ImmutableSet<PatchSetApprovalData> copiedApprovals,
+      ImmutableSet<PatchSetApprovalData> outdatedApprovals) {
+    public Result {
+      requireNonNull(copiedApprovals, "copiedApprovals");
+      requireNonNull(outdatedApprovals, "outdatedApprovals");
+    }
 
     static Result empty() {
       return create(
@@ -119,95 +117,82 @@ public class ApprovalCopier {
     public static Result create(
         ImmutableSet<PatchSetApprovalData> copiedApprovals,
         ImmutableSet<PatchSetApprovalData> outdatedApprovals) {
-      return new AutoValue_ApprovalCopier_Result(copiedApprovals, outdatedApprovals);
+      return new Result(copiedApprovals, outdatedApprovals);
     }
 
     /**
      * A {@link PatchSetApproval} with information about which atoms of the copy condition are
      * passing/failing.
+     *
+     * @param patchSetApproval The approval.
+     * @param approvalCopyResult Details about the evaluation of approval copy condition.
      */
-    @AutoValue
-    public abstract static class PatchSetApprovalData {
-      /** The approval. */
-      public abstract PatchSetApproval patchSetApproval();
-
-      /** Details about the evaluation of approval copy condition. */
-      public abstract ApprovalCopyResult approvalCopyResult();
+    public record PatchSetApprovalData(
+        PatchSetApproval patchSetApproval, ApprovalCopyResult approvalCopyResult) {
+      public PatchSetApprovalData {
+        requireNonNull(patchSetApproval, "patchSetApproval");
+        requireNonNull(approvalCopyResult, "approvalCopyResult");
+      }
 
       @VisibleForTesting
       public static PatchSetApprovalData create(
           PatchSetApproval approval, ApprovalCopyResult copyResult) {
-        return new AutoValue_ApprovalCopier_Result_PatchSetApprovalData(approval, copyResult);
+        return new PatchSetApprovalData(approval, copyResult);
       }
 
       private static PatchSetApprovalData createForMissingLabelType(PatchSetApproval approval) {
-        return new AutoValue_ApprovalCopier_Result_PatchSetApprovalData(
-            approval, ApprovalCopyResult.createEvaluationSkipped());
+        return new PatchSetApprovalData(approval, ApprovalCopyResult.createEvaluationSkipped());
       }
     }
   }
 
-  /** Result for checking if an approval can be copied to the next patch set. */
-  @AutoValue
-  public abstract static class ApprovalCopyResult {
-    /** Whether the approval can be copied to the next patch set. */
-    public abstract boolean canCopy();
-
-    /** Label's copyCondition */
-    public abstract @Nullable String labelCopyCondition();
-
-    /** Whether the approval can be copied to the next patch set based on label's copyCondition. */
-    public abstract boolean labelCopy();
-
-    /** Condition that forces copy based on server configuration */
-    public abstract @Nullable String copyEnforcement();
-
-    /**
-     * Whether the approval must be copied to the next patch set based on servers copyEnforcement.
-     */
-    public abstract boolean forcedCopy();
-
-    /** Condition that forces copy not to be made based on server configuration */
-    public abstract @Nullable String copyRestriction();
-
-    /**
-     * Whether the approval must be not be copied to the next patch set based on servers
-     * copyRestriction.
-     */
-    public abstract boolean forcedNonCopy();
-
-    /**
-     * Lists the leaf predicates of the copy condition that are fulfilled.
-     *
-     * <p>Example: The expression
-     *
-     * <pre>
-     * changekind:TRIVIAL_REBASE OR is:MIN
-     * </pre>
-     *
-     * has two leaf predicates:
-     *
-     * <ul>
-     *   <li>changekind:TRIVIAL_REBASE
-     *   <li>is:MIN
-     * </ul>
-     *
-     * This method will return the leaf predicates that are fulfilled, for example if only the first
-     * predicate is fulfilled, the returned list will be equal to ["changekind:TRIVIAL_REBASE"].
-     *
-     * <p>Empty if the label type is missing, if there is no copy condition or if the copy condition
-     * is not parseable.
-     */
-    public abstract ImmutableSet<String> passingAtoms();
-
-    /**
-     * Lists the leaf predicates of the copy condition that are not fulfilled. See {@link
-     * #passingAtoms()} for more details.
-     *
-     * <p>Empty if the label type is missing, if there is no copy condition or if the copy condition
-     * is not parseable.
-     */
-    public abstract ImmutableSet<String> failingAtoms();
+  /**
+   * Result for checking if an approval can be copied to the next patch set.
+   *
+   * @param canCopy Whether the approval can be copied to the next patch set.
+   * @param labelCopyCondition Label's copyCondition
+   * @param labelCopy Whether the approval can be copied to the next patch set based on label's
+   *     copyCondition.
+   * @param copyEnforcement Condition that forces copy based on server configuration
+   * @param forcedCopy Whether the approval must be copied to the next patch set based on servers
+   *     copyEnforcement.
+   * @param copyRestriction Condition that forces copy not to be made based on server configuration
+   * @param forcedNonCopy Whether the approval must be not be copied to the next patch set based on
+   *     servers copyRestriction.
+   * @param passingAtoms Lists the leaf predicates of the copy condition that are fulfilled.
+   *     <p>Example: The expression
+   *     <pre>
+   * changekind:TRIVIAL_REBASE OR is:MIN
+   * </pre>
+   *     has two leaf predicates:
+   *     <ul>
+   *       <li>changekind:TRIVIAL_REBASE
+   *       <li>is:MIN
+   *     </ul>
+   *     This method will return the leaf predicates that are fulfilled, for example if only the
+   *     first predicate is fulfilled, the returned list will be equal to
+   *     ["changekind:TRIVIAL_REBASE"].
+   *     <p>Empty if the label type is missing, if there is no copy condition or if the copy
+   *     condition is not parseable.
+   * @param failingAtoms Lists the leaf predicates of the copy condition that are not fulfilled. See
+   *     {@link #passingAtoms()} for more details.
+   *     <p>Empty if the label type is missing, if there is no copy condition or if the copy
+   *     condition is not parseable.
+   */
+  public record ApprovalCopyResult(
+      boolean canCopy,
+      @Nullable String labelCopyCondition,
+      boolean labelCopy,
+      @Nullable String copyEnforcement,
+      boolean forcedCopy,
+      @Nullable String copyRestriction,
+      boolean forcedNonCopy,
+      ImmutableSet<String> passingAtoms,
+      ImmutableSet<String> failingAtoms) {
+    public ApprovalCopyResult {
+      requireNonNull(passingAtoms, "passingAtoms");
+      requireNonNull(failingAtoms, "failingAtoms");
+    }
 
     public static ApprovalCopyResult create(
         @Nullable String labelCopyCondition,
@@ -218,7 +203,7 @@ public class ApprovalCopier {
         boolean forcedNonCopy,
         Set<String> passingAtoms,
         Set<String> failingAtoms) {
-      return new AutoValue_ApprovalCopier_ApprovalCopyResult(
+      return new ApprovalCopyResult(
           forcedCopy || (labelCopy && !forcedNonCopy),
           labelCopyCondition,
           labelCopy,
@@ -231,7 +216,7 @@ public class ApprovalCopier {
     }
 
     public static ApprovalCopyResult createEvaluationSkipped() {
-      return new AutoValue_ApprovalCopier_ApprovalCopyResult(
+      return new ApprovalCopyResult(
           false, null, false, null, false, null, false, ImmutableSet.of(), ImmutableSet.of());
     }
   }

@@ -15,7 +15,9 @@
 package com.google.gerrit.server.quota;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoBuilder;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -25,8 +27,14 @@ import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
-@AutoValue
-public abstract class QuotaResponse {
+public record QuotaResponse(
+    Status status, Optional<Long> availableTokens, Optional<String> message) {
+  public QuotaResponse {
+    requireNonNull(status, "status");
+    requireNonNull(availableTokens, "availableTokens");
+    requireNonNull(message, "message");
+  }
+
   public enum Status {
     /** The quota requests succeeded. */
     OK,
@@ -53,28 +61,25 @@ public abstract class QuotaResponse {
   }
 
   public static QuotaResponse ok() {
-    return new AutoValue_QuotaResponse.Builder().status(Status.OK).build();
+    return new AutoBuilder_QuotaResponse_Builder().status(Status.OK).build();
   }
 
   public static QuotaResponse ok(long tokens) {
-    return new AutoValue_QuotaResponse.Builder().status(Status.OK).availableTokens(tokens).build();
+    return new AutoBuilder_QuotaResponse_Builder()
+        .status(Status.OK)
+        .availableTokens(tokens)
+        .build();
   }
 
   public static QuotaResponse noOp() {
-    return new AutoValue_QuotaResponse.Builder().status(Status.NO_OP).build();
+    return new AutoBuilder_QuotaResponse_Builder().status(Status.NO_OP).build();
   }
 
   public static QuotaResponse error(String message) {
-    return new AutoValue_QuotaResponse.Builder().status(Status.ERROR).message(message).build();
+    return new AutoBuilder_QuotaResponse_Builder().status(Status.ERROR).message(message).build();
   }
 
-  public abstract Status status();
-
-  public abstract Optional<Long> availableTokens();
-
-  public abstract Optional<String> message();
-
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract QuotaResponse.Builder status(Status status);
 

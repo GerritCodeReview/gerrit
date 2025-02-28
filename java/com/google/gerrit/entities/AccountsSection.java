@@ -14,15 +14,23 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.List;
 
-@AutoValue
-public abstract class AccountsSection {
-  public abstract ImmutableList<PermissionRule> getSameGroupVisibility();
+public record AccountsSection(ImmutableList<PermissionRule> sameGroupVisibility) {
+  public AccountsSection {
+    requireNonNull(sameGroupVisibility, "sameGroupVisibility");
+  }
+
+  @InlineMe(replacement = "this.sameGroupVisibility()")
+  public ImmutableList<PermissionRule> getSameGroupVisibility() {
+    return sameGroupVisibility();
+  }
 
   public static AccountsSection create(List<PermissionRule> sameGroupVisibility) {
-    return new AutoValue_AccountsSection(ImmutableList.copyOf(sameGroupVisibility));
+    return new AccountsSection(ImmutableList.copyOf(sameGroupVisibility));
   }
 }

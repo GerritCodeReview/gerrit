@@ -14,25 +14,29 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
-/** Representation of a robot comment used for testing purposes. */
-@AutoValue
-public abstract class TestRobotComment {
-
-  /** The UUID of the comment. Should be unique. */
-  public abstract String uuid();
-
-  /** UUID of another comment to which this comment is a reply. */
-  public abstract Optional<String> parentUuid();
-
-  static Builder builder() {
-    return new AutoValue_TestRobotComment.Builder();
+/**
+ * Representation of a robot comment used for testing purposes.
+ *
+ * @param uuid The UUID of the comment. Should be unique.
+ * @param parentUuid UUID of another comment to which this comment is a reply.
+ */
+public record TestRobotComment(String uuid, Optional<String> parentUuid) {
+  public TestRobotComment {
+    requireNonNull(uuid, "uuid");
+    requireNonNull(parentUuid, "parentUuid");
   }
 
-  @AutoValue.Builder
+  static Builder builder() {
+    return new AutoBuilder_TestRobotComment_Builder();
+  }
+
+  @AutoBuilder
   abstract static class Builder {
     abstract Builder uuid(String uuid);
 

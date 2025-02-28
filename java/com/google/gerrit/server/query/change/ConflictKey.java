@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
@@ -27,8 +28,14 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-@AutoValue
-public abstract class ConflictKey {
+public record ConflictKey(
+    ObjectId commit, ObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
+  public ConflictKey {
+    requireNonNull(commit, "commit");
+    requireNonNull(otherCommit, "otherCommit");
+    requireNonNull(submitType, "submitType");
+  }
+
   public static ConflictKey create(
       AnyObjectId commit, AnyObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
     ObjectId commitCopy = commit.copy();
@@ -36,11 +43,11 @@ public abstract class ConflictKey {
     if (submitType == SubmitType.FAST_FORWARD_ONLY) {
       // The conflict check for FF-only is non-symmetrical, and we need to treat (X, Y) differently
       // from (Y, X). Store the commits in the input order.
-      return new AutoValue_ConflictKey(commitCopy, otherCommitCopy, submitType, contentMerge);
+      return new ConflictKey(commitCopy, otherCommitCopy, submitType, contentMerge);
     }
     // Otherwise, the check is symmetrical; sort commit/otherCommit before storing, so the actual
     // key is independent of the order in which they are passed to this method.
-    return new AutoValue_ConflictKey(
+    return new ConflictKey(
         Ordering.natural().min(commitCopy, otherCommitCopy),
         Ordering.natural().max(commitCopy, otherCommitCopy),
         submitType,
@@ -50,16 +57,8 @@ public abstract class ConflictKey {
   @VisibleForTesting
   static ConflictKey createWithoutNormalization(
       AnyObjectId commit, AnyObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
-    return new AutoValue_ConflictKey(commit.copy(), otherCommit.copy(), submitType, contentMerge);
+    return new ConflictKey(commit.copy(), otherCommit.copy(), submitType, contentMerge);
   }
-
-  public abstract ObjectId commit();
-
-  public abstract ObjectId otherCommit();
-
-  public abstract SubmitType submitType();
-
-  public abstract boolean contentMerge();
 
   public enum Serializer implements CacheSerializer<ConflictKey> {
     INSTANCE;

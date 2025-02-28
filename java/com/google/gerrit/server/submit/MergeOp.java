@@ -29,7 +29,6 @@ import static java.util.stream.Collectors.toSet;
 
 import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryListener;
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
@@ -42,6 +41,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -443,14 +443,24 @@ public class MergeOp implements AutoCloseable {
   }
 
   /** A problem preventing merge and change on which it occurred. */
-  @AutoValue
-  public abstract static class ChangeProblem {
-    public abstract Change.Id getChangeId();
+  public record ChangeProblem(Change.Id changeId, String problem) {
+    public ChangeProblem {
+      requireNonNull(changeId, "changeId");
+      requireNonNull(problem, "problem");
+    }
 
-    public abstract String getProblem();
+    @InlineMe(replacement = "this.changeId()")
+    public Change.Id getChangeId() {
+      return changeId();
+    }
+
+    @InlineMe(replacement = "this.problem()")
+    public String getProblem() {
+      return problem();
+    }
 
     public static ChangeProblem create(Change.Id changeId, String problem) {
-      return new AutoValue_MergeOp_ChangeProblem(changeId, problem);
+      return new ChangeProblem(changeId, problem);
     }
   }
 
@@ -1288,12 +1298,10 @@ public class MergeOp implements AutoCloseable {
     return alreadyAccepted;
   }
 
-  @AutoValue
-  abstract static class BranchBatch {
-    @Nullable
-    abstract SubmitType submitType();
-
-    abstract ImmutableSet<CodeReviewCommit> commits();
+  record BranchBatch(@Nullable SubmitType submitType, ImmutableSet<CodeReviewCommit> commits) {
+    BranchBatch {
+      requireNonNull(commits, "commits");
+    }
   }
 
   private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted) {
@@ -1409,7 +1417,7 @@ public class MergeOp implements AutoCloseable {
       toSubmit.add(commit);
     }
     logger.atFine().log("Submitting on this run: %s", toSubmit);
-    return new AutoValue_MergeOp_BranchBatch(submitType, ImmutableSet.copyOf(toSubmit));
+    return new BranchBatch(submitType, ImmutableSet.copyOf(toSubmit));
   }
 
   private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or, Collection<ChangeData> cds) {

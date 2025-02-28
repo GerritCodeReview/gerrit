@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.patch.filediff;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import java.util.Optional;
 
 /**
@@ -27,23 +29,25 @@ import java.util.Optional;
  *   <li>The old parent vs. the new parent
  * </ol>
  */
-@AutoValue
-abstract class AllFileGitDiffs {
-  abstract AugmentedFileDiffCacheKey augmentedKey();
-
-  abstract GitDiffEntity mainDiff();
-
-  abstract Optional<GitDiffEntity> oldVsParentDiff();
-
-  abstract Optional<GitDiffEntity> newVsParentDiff();
-
-  abstract Optional<GitDiffEntity> parentVsParentDiff();
-
-  static AllFileGitDiffs.Builder builder() {
-    return new AutoValue_AllFileGitDiffs.Builder();
+record AllFileGitDiffs(
+    AugmentedFileDiffCacheKey augmentedKey,
+    GitDiffEntity mainDiff,
+    Optional<GitDiffEntity> oldVsParentDiff,
+    Optional<GitDiffEntity> newVsParentDiff,
+    Optional<GitDiffEntity> parentVsParentDiff) {
+  AllFileGitDiffs {
+    requireNonNull(augmentedKey, "augmentedKey");
+    requireNonNull(mainDiff, "mainDiff");
+    requireNonNull(oldVsParentDiff, "oldVsParentDiff");
+    requireNonNull(newVsParentDiff, "newVsParentDiff");
+    requireNonNull(parentVsParentDiff, "parentVsParentDiff");
   }
 
-  @AutoValue.Builder
+  static AllFileGitDiffs.Builder builder() {
+    return new AutoBuilder_AllFileGitDiffs_Builder();
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder augmentedKey(AugmentedFileDiffCacheKey value);

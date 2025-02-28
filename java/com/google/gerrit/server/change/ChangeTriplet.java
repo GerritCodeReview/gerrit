@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -22,8 +23,12 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.Url;
 import java.util.Optional;
 
-@AutoValue
-public abstract class ChangeTriplet {
+public record ChangeTriplet(BranchNameKey branch, Change.Key id) {
+  public ChangeTriplet {
+    requireNonNull(branch, "branch");
+    requireNonNull(id, "id");
+  }
+
   public static String format(Change change) {
     return format(change.getDest(), change.getKey());
   }
@@ -57,17 +62,13 @@ public abstract class ChangeTriplet {
     String branch = Url.decode(triplet.substring(y + 1, z));
     String changeId = triplet.substring(z + 1);
     return Optional.of(
-        new AutoValue_ChangeTriplet(
+        new ChangeTriplet(
             BranchNameKey.create(Project.nameKey(project), branch), Change.key(changeId)));
   }
 
   public final Project.NameKey project() {
     return branch().project();
   }
-
-  public abstract BranchNameKey branch();
-
-  public abstract Change.Key id();
 
   @Override
   public final String toString() {

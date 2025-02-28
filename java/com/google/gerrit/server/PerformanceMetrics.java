@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Counter3;
@@ -135,16 +136,15 @@ public class PerformanceMetrics implements PerformanceLogger {
     perRequestLatencyNanos.clear();
   }
 
-  @AutoValue
-  abstract static class MetricKey {
-    abstract String operation();
-
-    abstract String requestTag();
-
-    abstract String pluginTag();
+  record MetricKey(String operation, String requestTag, String pluginTag) {
+    MetricKey {
+      requireNonNull(operation, "operation");
+      requireNonNull(requestTag, "requestTag");
+      requireNonNull(pluginTag, "pluginTag");
+    }
 
     public static MetricKey create(String operation, String requestTag, String pluginTag) {
-      return new AutoValue_PerformanceMetrics_MetricKey(operation, requestTag, pluginTag);
+      return new MetricKey(operation, requestTag, pluginTag);
     }
   }
 }

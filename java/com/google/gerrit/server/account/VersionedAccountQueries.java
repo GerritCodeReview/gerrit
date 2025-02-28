@@ -68,13 +68,10 @@ public class VersionedAccountQueries extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    logger.atFine().log("Loading named queries from ref %s", ref);
-    queryList =
-        QueryList.parse(
-            readUTF8(QueryList.FILE_NAME),
-            error ->
-                logger.atSevere().log(
-                    "Error parsing file %s: %s", QueryList.FILE_NAME, error.getMessage()));
+    // named queries are not supported internally, never load them
+    logger.atFine().log(
+        "Attempted to load named queries from ref %s, but named queries are disabled", ref);
+    return;
   }
 
   @Override

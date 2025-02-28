@@ -15,8 +15,9 @@
 package com.google.gerrit.server.patch.filediff;
 
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -28,38 +29,36 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Cache key for the {@link FileDiffCache}. */
-@AutoValue
-public abstract class FileDiffCacheKey {
-
-  /** A specific git project / repository. */
-  public abstract Project.NameKey project();
-
-  /**
-   * The 20 bytes SHA-1 commit ID of the old commit used in the diff. If set to {@link
-   * ObjectId#zeroId()}, an empty tree is used for the diff.
-   */
-  public abstract ObjectId oldCommit();
-
-  /** The 20 bytes SHA-1 commit ID of the new commit used in the diff. */
-  public abstract ObjectId newCommit();
-
-  /** File path identified by its name. */
-  public abstract String newFilePath();
-
-  /**
-   * Percentage score used to identify a file as a "rename". A special value of -1 means that the
-   * computation will ignore renames and rename detection will be disabled.
-   */
-  public abstract int renameScore();
-
-  /** The diff algorithm that should be used in the computation. */
-  public abstract DiffAlgorithm diffAlgorithm();
-
-  public abstract DiffPreferencesInfo.Whitespace whitespace();
-
-  /** Employ a timeout on the git computation while formatting the file header. */
-  public abstract boolean useTimeout();
+/**
+ * Cache key for the {@link FileDiffCache}.
+ *
+ * @param project A specific git project / repository.
+ * @param oldCommit The 20 bytes SHA-1 commit ID of the old commit used in the diff. If set to
+ *     {@link ObjectId#zeroId()}, an empty tree is used for the diff.
+ * @param newCommit The 20 bytes SHA-1 commit ID of the new commit used in the diff.
+ * @param newFilePath File path identified by its name.
+ * @param renameScore Percentage score used to identify a file as a "rename". A special value of -1
+ *     means that the computation will ignore renames and rename detection will be disabled.
+ * @param diffAlgorithm The diff algorithm that should be used in the computation.
+ * @param useTimeout Employ a timeout on the git computation while formatting the file header.
+ */
+public record FileDiffCacheKey(
+    Project.NameKey project,
+    ObjectId oldCommit,
+    ObjectId newCommit,
+    String newFilePath,
+    int renameScore,
+    DiffAlgorithm diffAlgorithm,
+    DiffPreferencesInfo.Whitespace whitespace,
+    boolean useTimeout) {
+  public FileDiffCacheKey {
+    requireNonNull(project, "project");
+    requireNonNull(oldCommit, "oldCommit");
+    requireNonNull(newCommit, "newCommit");
+    requireNonNull(newFilePath, "newFilePath");
+    requireNonNull(diffAlgorithm, "diffAlgorithm");
+    requireNonNull(whitespace, "whitespace");
+  }
 
   /** Number of bytes that this entity occupies. */
   public int weight() {
@@ -73,12 +72,14 @@ public abstract class FileDiffCacheKey {
   }
 
   public static FileDiffCacheKey.Builder builder() {
-    return new AutoValue_FileDiffCacheKey.Builder();
+    return new AutoBuilder_FileDiffCacheKey_Builder();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_FileDiffCacheKey_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract FileDiffCacheKey.Builder project(NameKey value);

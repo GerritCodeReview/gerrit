@@ -15,8 +15,8 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
@@ -139,21 +139,20 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
   }
 
-  @AutoValue
-  public abstract static class Key {
+  public record Key(ObjectId prior, ObjectId next, String strategyName) {
+    public Key {
+      requireNonNull(prior, "prior");
+      requireNonNull(next, "next");
+      requireNonNull(strategyName, "strategyName");
+    }
+
     public static Key create(AnyObjectId prior, AnyObjectId next, String strategyName) {
-      return new AutoValue_ChangeKindCacheImpl_Key(prior.copy(), next.copy(), strategyName);
+      return new Key(prior.copy(), next.copy(), strategyName);
     }
 
     private static Key create(AnyObjectId prior, AnyObjectId next, boolean useRecursiveMerge) {
       return create(prior, next, MergeUtil.mergeStrategyName(true, useRecursiveMerge));
     }
-
-    public abstract ObjectId prior();
-
-    public abstract ObjectId next();
-
-    public abstract String strategyName();
 
     @VisibleForTesting
     static class Serializer implements CacheSerializer<Key> {

@@ -15,8 +15,9 @@
 package com.google.gerrit.metrics;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.server.logging.Metadata;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -28,9 +29,27 @@ import java.util.regex.Pattern;
  * Describes a bucketing field used by a metric.
  *
  * @param <T> type of field
+ * @param name Returns name of this field within the metric.
+ * @param valueType Returns type of value used within the field.
+ * @param metadataMapper Returns mapper that maps a field value to a field in the {@link Metadata}
+ *     class.
+ * @param description Returns description text for the field explaining its range of values.
+ * @param formatter Returns formatter to format field values.
  */
-@AutoValue
-public abstract class Field<T> {
+public record Field<T>(
+    String name,
+    Class<T> valueType,
+    BiConsumer<Metadata.Builder, T> metadataMapper,
+    Optional<String> description,
+    Function<T, String> formatter) {
+  public Field {
+    requireNonNull(name, "name");
+    requireNonNull(valueType, "valueType");
+    requireNonNull(metadataMapper, "metadataMapper");
+    requireNonNull(description, "description");
+    requireNonNull(formatter, "formatter");
+  }
+
   public static <T> BiConsumer<Metadata.Builder, T> ignoreMetadata() {
     return (metadataBuilder, fieldValue) -> {};
   }
@@ -43,7 +62,7 @@ public abstract class Field<T> {
    */
   public static Field.Builder<Boolean> ofBoolean(
       String name, BiConsumer<Metadata.Builder, Boolean> metadataMapper) {
-    return new AutoValue_Field.Builder<Boolean>()
+    return new AutoBuilder_Field_Builder<Boolean>()
         .valueType(Boolean.class)
         .formatter(Object::toString)
         .name(name)
@@ -59,7 +78,7 @@ public abstract class Field<T> {
    */
   public static <E extends Enum<E>> Field.Builder<E> ofEnum(
       Class<E> enumType, String name, BiConsumer<Metadata.Builder, String> metadataMapper) {
-    return new AutoValue_Field.Builder<E>()
+    return new AutoBuilder_Field_Builder<E>()
         .valueType(enumType)
         .formatter(Enum::name)
         .name(name)
@@ -79,7 +98,7 @@ public abstract class Field<T> {
    */
   public static Field.Builder<Integer> ofInteger(
       String name, BiConsumer<Metadata.Builder, Integer> metadataMapper) {
-    return new AutoValue_Field.Builder<Integer>()
+    return new AutoBuilder_Field_Builder<Integer>()
         .valueType(Integer.class)
         .formatter(Object::toString)
         .name(name)
@@ -97,7 +116,7 @@ public abstract class Field<T> {
    */
   public static Field.Builder<String> ofString(
       String name, BiConsumer<Metadata.Builder, String> metadataMapper) {
-    return new AutoValue_Field.Builder<String>()
+    return new AutoBuilder_Field_Builder<String>()
         .valueType(String.class)
         .formatter(s -> s)
         .name(name)
@@ -112,29 +131,14 @@ public abstract class Field<T> {
    * @return builder for the project name field
    */
   public static Field.Builder<String> ofProjectName(String fieldName) {
-    return new AutoValue_Field.Builder<String>()
+    return new AutoBuilder_Field_Builder<String>()
         .valueType(String.class)
         .formatter(Field::sanitizeProjectName)
         .name(fieldName)
         .metadataMapper(Metadata.Builder::projectName);
   }
 
-  /** Returns name of this field within the metric. */
-  public abstract String name();
-
-  /** Returns type of value used within the field. */
-  public abstract Class<T> valueType();
-
-  /** Returns mapper that maps a field value to a field in the {@link Metadata} class. */
-  public abstract BiConsumer<Metadata.Builder, T> metadataMapper();
-
-  /** Returns description text for the field explaining its range of values. */
-  public abstract Optional<String> description();
-
-  /** Returns formatter to format field values. */
-  public abstract Function<T, String> formatter();
-
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder<T> {
     abstract Builder<T> name(String name);
 

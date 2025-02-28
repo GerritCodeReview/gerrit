@@ -228,6 +228,12 @@ public class RepoRefCacheTest {
         }
 
         @Override
+        public ReflogReader getReflogReader(Ref ref) throws IOException {
+          checkIsOpen();
+          return refDatabase.getReflogReader(ref);
+        }
+
+        @Override
         public void refresh() {
           checkIsOpen();
           refDatabase.refresh();

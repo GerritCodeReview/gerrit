@@ -14,23 +14,27 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
 
-/** Representation of a range used for testing purposes. */
-@AutoValue
-public abstract class TestRange {
+import com.google.auto.value.AutoBuilder;
 
-  /** Start position of the range. (inclusive) */
-  public abstract Position start();
-
-  /** End position of the range. (exclusive) */
-  public abstract Position end();
-
-  static Builder builder() {
-    return new AutoValue_TestRange.Builder();
+/**
+ * Representation of a range used for testing purposes.
+ *
+ * @param start Start position of the range. (inclusive)
+ * @param end End position of the range. (exclusive)
+ */
+public record TestRange(Position start, Position end) {
+  public TestRange {
+    requireNonNull(start, "start");
+    requireNonNull(end, "end");
   }
 
-  @AutoValue.Builder
+  static Builder builder() {
+    return new AutoBuilder_TestRange_Builder();
+  }
+
+  @AutoBuilder
   abstract static class Builder {
 
     abstract Builder setStart(Position start);
@@ -40,21 +44,19 @@ public abstract class TestRange {
     abstract TestRange build();
   }
 
-  /** Position (start/end) of a range. */
-  @AutoValue
-  public abstract static class Position {
-
-    /** 1-based line. */
-    public abstract int line();
-
-    /** 0-based character offset within the line. */
-    public abstract int charOffset();
+  /**
+   * Position (start/end) of a range.
+   *
+   * @param line 1-based line.
+   * @param charOffset 0-based character offset within the line.
+   */
+  public record Position(int line, int charOffset) {
 
     static Builder builder() {
-      return new AutoValue_TestRange_Position.Builder();
+      return new AutoBuilder_TestRange_Position_Builder();
     }
 
-    @AutoValue.Builder
+    @AutoBuilder
     abstract static class Builder {
 
       abstract Builder line(int line);

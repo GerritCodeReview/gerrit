@@ -17,18 +17,14 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Converter;
 import org.junit.Test;
 
 public class CacheSerializerTest {
-  @AutoValue
-  abstract static class MyAutoValue {
+  record MyAutoValue(int val) {
     static MyAutoValue create(int val) {
-      return new AutoValue_CacheSerializerTest_MyAutoValue(val);
+      return new MyAutoValue(val);
     }
-
-    abstract int val();
   }
 
   private static final CacheSerializer<MyAutoValue> SERIALIZER =

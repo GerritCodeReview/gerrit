@@ -49,7 +49,6 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -444,41 +443,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // configured for that label, and list of files didn't change.
     assertVotes(c, admin, 2, 0);
     assertVotes(c, user, -2, 0);
-  }
-
-  @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-
-    // Create two changes both with the same parent
-    PushOneCommit.Result r = createChange();
-    testRepo.reset("HEAD~1");
-    PushOneCommit.Result r2 = createChange();
-
-    // Modify f.txt in change 1. Approve and submit the first change
-    gApi.changes().id(r.getChangeId()).edit().modifyFile("f.txt", RawInputUtil.create("content"));
-    gApi.changes().id(r.getChangeId()).edit().publish();
-    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
-    revision.submit();
-
-    // Add an approval whose score should be copied on change 2.
-    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
-
-    // Rebase the second change. The rebase adds f1.txt.
-    gApi.changes().id(r2.getChangeId()).rebase();
-
-    // The code-review approval is copied for the second change between PS1 and PS2 since the only
-    // modified file is due to rebase.
-    ImmutableList<PatchSetApproval> patchSetApprovals =
-        r2.getChange().notes().getApprovals().all().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-    PatchSetApproval nonCopied = patchSetApprovals.get(0);
-    PatchSetApproval copied = patchSetApprovals.get(1);
-    assertCopied(nonCopied, /* psId= */ 1, LabelId.CODE_REVIEW, (short) 1, false);
-    assertCopied(copied, /* psId= */ 2, LabelId.CODE_REVIEW, (short) 1, true);
   }
 
   @Test

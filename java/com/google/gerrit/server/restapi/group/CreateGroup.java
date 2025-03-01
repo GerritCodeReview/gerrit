@@ -233,7 +233,7 @@ public class CreateGroup
         GroupDelta.builder().setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupUuid != null) {
       Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupUuid);
-      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(groupDeltaBuilder::setOwnerGroupUUID);
+      ownerGroup.map(InternalGroup::groupUUID).ifPresent(groupDeltaBuilder::setOwnerGroupUUID);
     }
     if (createGroupArgs.groupDescription != null) {
       groupDeltaBuilder.setDescription(createGroupArgs.groupDescription);

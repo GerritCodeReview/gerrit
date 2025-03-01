@@ -1156,7 +1156,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(
-                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.save();
@@ -1234,7 +1234,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(
-                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.save();
@@ -1453,7 +1453,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .ref("refs/*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))

@@ -397,7 +397,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
             delta.get(),
             externalIdsDeletedInTransaction);
 
-        if (delta.get().getShouldDeleteAccount().orElse(false)) {
+        if (delta.get().shouldDeleteAccount().orElse(false)) {
           return new DeletedAccount(updateArguments.message, accountConfig.getRefName());
         }
 
@@ -429,19 +429,19 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
       // This makes e.g. preferences updates faster.
       checkSameAccount(
           Iterables.concat(
-              update.getCreatedExternalIds(),
-              update.getUpdatedExternalIds(),
-              update.getDeletedExternalIds()),
+              update.createdExternalIds(),
+              update.updatedExternalIds(),
+              update.deletedExternalIds()),
           accountId);
       if (externalIdNotes == null) {
         externalIdNotes = extIdNotesFactory.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
       }
       externalIdNotes.replace(
           accountId,
-          update.getDeletedExternalIds(),
-          update.getCreatedExternalIds(),
+          update.deletedExternalIds(),
+          update.createdExternalIds(),
           externalIdsDeletedInTransaction);
-      externalIdNotes.upsert(update.getUpdatedExternalIds());
+      externalIdNotes.upsert(update.updatedExternalIds());
     }
   }
 
@@ -659,7 +659,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
       for (Optional<AccountDelta> delta : deltaPerAccount.values()) {
         if (delta.isPresent()) {
           externalIdsDeletedInTransaction.addAll(
-              delta.get().getDeletedExternalIds().stream()
+              delta.get().deletedExternalIds().stream()
                   .map(ExternalId::key)
                   .collect(toImmutableSet()));
         }

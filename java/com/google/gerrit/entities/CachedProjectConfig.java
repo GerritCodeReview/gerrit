@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.InlineMe;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -100,119 +99,14 @@ public record CachedProjectConfig(
     requireNonNull(parsedProjectLevelConfigs, "parsedProjectLevelConfigs");
   }
 
-  @InlineMe(replacement = "this.project()")
-  public Project getProject() {
-    return project();
-  }
-
-  @InlineMe(replacement = "this.groups()")
-  public ImmutableMap<AccountGroup.UUID, GroupReference> getGroups() {
-    return groups();
-  }
-
-  @InlineMe(replacement = "this.accountsSection()")
-  public AccountsSection getAccountsSection() {
-    return accountsSection();
-  }
-
-  @InlineMe(replacement = "this.accessSections()")
-  public ImmutableSortedMap<String, AccessSection> getAccessSections() {
-    return accessSections();
-  }
-
-  @InlineMe(replacement = "this.branchOrderSection()")
-  public Optional<BranchOrderSection> getBranchOrderSection() {
-    return branchOrderSection();
-  }
-
-  @InlineMe(replacement = "this.contributorAgreements()")
-  public ImmutableMap<String, ContributorAgreement> getContributorAgreements() {
-    return contributorAgreements();
-  }
-
-  @InlineMe(replacement = "this.notifySections()")
-  public ImmutableMap<String, NotifyConfig> getNotifySections() {
-    return notifySections();
-  }
-
-  @InlineMe(replacement = "this.labelSections()")
-  public ImmutableMap<String, LabelType> getLabelSections() {
-    return labelSections();
-  }
-
-  @InlineMe(replacement = "this.submitRequirementSections()")
-  public ImmutableMap<String, SubmitRequirement> getSubmitRequirementSections() {
-    return submitRequirementSections();
-  }
-
-  @InlineMe(replacement = "this.mimeTypes()")
-  public ConfiguredMimeTypes getMimeTypes() {
-    return mimeTypes();
-  }
-
-  @InlineMe(replacement = "this.subscribeSections()")
-  public ImmutableMap<Project.NameKey, SubscribeSection> getSubscribeSections() {
-    return subscribeSections();
-  }
-
-  @InlineMe(replacement = "this.commentLinkSections()")
-  public ImmutableMap<String, StoredCommentLinkInfo> getCommentLinkSections() {
-    return commentLinkSections();
-  }
-
-  @InlineMe(replacement = "this.rulesId()")
-  public Optional<ObjectId> getRulesId() {
-    return rulesId();
-  }
-
-  @InlineMe(replacement = "this.revision()")
-  public Optional<ObjectId> getRevision() {
-    return revision();
-  }
-
-  @InlineMe(replacement = "this.maxObjectSizeLimit()")
-  public long getMaxObjectSizeLimit() {
-    return maxObjectSizeLimit();
-  }
-
-  @InlineMe(replacement = "this.checkReceivedObjects()")
-  public boolean getCheckReceivedObjects() {
-    return checkReceivedObjects();
-  }
-
-  @InlineMe(replacement = "this.extensionPanelSections()")
-  public ImmutableMap<String, ImmutableList<String>> getExtensionPanelSections() {
-    return extensionPanelSections();
-  }
-
-  @InlineMe(replacement = "this.pluginConfigs()")
-  public ImmutableMap<String, String> getPluginConfigs() {
-    return pluginConfigs();
-  }
-
-  @InlineMe(replacement = "this.projectLevelConfigs()")
-  public ImmutableMap<String, String> getProjectLevelConfigs() {
-    return projectLevelConfigs();
-  }
-
-  @InlineMe(replacement = "this.parsedProjectLevelConfigs()")
-  public ImmutableMap<String, ImmutableConfig> getParsedProjectLevelConfigs() {
-    return parsedProjectLevelConfigs();
-  }
-
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /** Returns a set of all groups used by this configuration. */
-  public ImmutableSet<AccountGroup.UUID> getAllGroupUUIDs() {
-    return getGroups().keySet();
-  }
 
   /**
    * Returns the group reference for a {@link AccountGroup.UUID}, if the group is used by at least
    * one rule.
    */
   public Optional<GroupReference> getGroup(AccountGroup.UUID uuid) {
-    return Optional.ofNullable(getGroups().get(uuid));
+    return Optional.ofNullable(groups().get(uuid));
   }
 
   /**
@@ -223,23 +117,23 @@ public record CachedProjectConfig(
     if (name == null) {
       return Optional.empty();
     }
-    return getGroups().values().stream().filter(g -> name.equals(g.getName())).findAny();
+    return groups().values().stream().filter(g -> name.equals(g.getName())).findAny();
   }
 
   /** Returns the {@link AccessSection} with to the given name. */
   public Optional<AccessSection> getAccessSection(String refName) {
-    return Optional.ofNullable(getAccessSections().get(refName));
+    return Optional.ofNullable(accessSections().get(refName));
   }
 
   /** Returns all {@link AccessSection} names. */
   public ImmutableSet<String> getAccessSectionNames() {
-    return ImmutableSet.copyOf(getAccessSections().keySet());
+    return ImmutableSet.copyOf(accessSections().keySet());
   }
 
   // TODO(hiesel): This should not have to be an Optional.
 
   public ImmutableList<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
-    return filterSubscribeSectionsByBranch(getSubscribeSections().values(), branch);
+    return filterSubscribeSectionsByBranch(subscribeSections().values(), branch);
   }
 
   public static Builder builder() {
@@ -274,7 +168,7 @@ public record CachedProjectConfig(
 
     @CanIgnoreReturnValue
     public Builder addContributorAgreement(ContributorAgreement contributorAgreement) {
-      contributorAgreementsBuilder().put(contributorAgreement.getName(), contributorAgreement);
+      contributorAgreementsBuilder().put(contributorAgreement.name(), contributorAgreement);
       return this;
     }
 
@@ -286,7 +180,7 @@ public record CachedProjectConfig(
 
     @CanIgnoreReturnValue
     public Builder addLabelSection(LabelType labelType) {
-      labelSectionsBuilder().put(labelType.getName(), labelType);
+      labelSectionsBuilder().put(labelType.name(), labelType);
       return this;
     }
 
@@ -306,7 +200,7 @@ public record CachedProjectConfig(
 
     @CanIgnoreReturnValue
     public Builder addCommentLinkSection(StoredCommentLinkInfo storedCommentLinkInfo) {
-      commentLinkSectionsBuilder().put(storedCommentLinkInfo.getName(), storedCommentLinkInfo);
+      commentLinkSectionsBuilder().put(storedCommentLinkInfo.name(), storedCommentLinkInfo);
       return this;
     }
 

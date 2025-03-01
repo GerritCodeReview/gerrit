@@ -79,7 +79,7 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
   }
 
   private ImmutableList<SubmitRequirementInfo> listSubmitRequirements(ProjectState projectState) {
-    return projectState.getConfig().getSubmitRequirementSections().values().stream()
+    return projectState.getConfig().submitRequirementSections().values().stream()
         .map(SubmitRequirementJson::format)
         .collect(ImmutableList.toImmutableList());
   }

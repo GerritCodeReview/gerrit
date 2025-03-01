@@ -1397,7 +1397,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       u.getConfig().upsertLabelType(codeReview);
       u.getConfig()
           .updateLabelType(
-              codeReview.getName(),
+              codeReview.name(),
               lt -> lt.setCopyCondition("changekind:" + ChangeKind.NO_CODE_CHANGE.name()));
       u.save();
     }

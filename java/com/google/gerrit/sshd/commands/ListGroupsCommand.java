@@ -69,7 +69,7 @@ public class ListGroupsCommand extends SshCommand {
         formatter.addColumn(Url.decode(info.id));
         formatter.addColumn(Strings.nullToEmpty(info.description));
         formatter.addColumn(group.map(InternalGroup::getName).orElse("n/a"));
-        formatter.addColumn(group.map(g -> g.getGroupUUID().get()).orElse(""));
+        formatter.addColumn(group.map(g -> g.groupUUID().get()).orElse(""));
         formatter.addColumn(
             Boolean.toString(MoreObjects.firstNonNull(info.options.visibleToAll, Boolean.FALSE)));
       }

@@ -138,9 +138,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
             projectName, input.commitMessage, "Modified project settings")) {
       updateConfig(projectState, updater.getConfig(), input);
       updater.commitConfigUpdate();
-      updater
-          .getRepository()
-          .setGitwebDescription(updater.getConfig().getProject().getDescription());
+      updater.getRepository().setGitwebDescription(updater.getConfig().getProject().description());
       ProjectState newProjectState =
           projectStateFactory.create(
               projectConfigFactory.read(updater.getRepository(), projectName).getCacheable());

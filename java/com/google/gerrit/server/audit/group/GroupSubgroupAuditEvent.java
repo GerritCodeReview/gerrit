@@ -17,7 +17,6 @@ package com.google.gerrit.server.audit.group;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import java.time.Instant;
@@ -38,29 +37,6 @@ public record GroupSubgroupAuditEvent(
     requireNonNull(updatedGroup, "updatedGroup");
     requireNonNull(timestamp, "timestamp");
     requireNonNull(modifiedSubgroups, "modifiedSubgroups");
-  }
-
-  @InlineMe(replacement = "this.actor()")
-  @Override
-  public Account.Id getActor() {
-    return actor();
-  }
-
-  @InlineMe(replacement = "this.updatedGroup()")
-  @Override
-  public AccountGroup.UUID getUpdatedGroup() {
-    return updatedGroup();
-  }
-
-  @InlineMe(replacement = "this.timestamp()")
-  @Override
-  public Instant getTimestamp() {
-    return timestamp();
-  }
-
-  @InlineMe(replacement = "this.modifiedSubgroups()")
-  public ImmutableSet<AccountGroup.UUID> getModifiedSubgroups() {
-    return modifiedSubgroups();
   }
 
   public static GroupSubgroupAuditEvent create(

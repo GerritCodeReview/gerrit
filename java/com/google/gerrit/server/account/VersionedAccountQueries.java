@@ -60,7 +60,7 @@ public class VersionedAccountQueries extends VersionedMetaData {
     List<ValidationError> errors = new ArrayList<>();
     QueryList newQueryList = QueryList.parse(text, error -> errors.add(error));
     if (!errors.isEmpty()) {
-      String messages = errors.stream().map(ValidationError::getMessage).collect(joining(", "));
+      String messages = errors.stream().map(ValidationError::message).collect(joining(", "));
       throw new ConfigInvalidException("Invalid named queries: " + messages);
     }
     queryList = newQueryList;
@@ -74,7 +74,7 @@ public class VersionedAccountQueries extends VersionedMetaData {
             readUTF8(QueryList.FILE_NAME),
             error ->
                 logger.atSevere().log(
-                    "Error parsing file %s: %s", QueryList.FILE_NAME, error.getMessage()));
+                    "Error parsing file %s: %s", QueryList.FILE_NAME, error.message()));
   }
 
   @Override

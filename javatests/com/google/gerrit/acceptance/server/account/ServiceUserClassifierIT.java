@@ -93,6 +93,6 @@ public class ServiceUserClassifierIT extends AbstractDaemonTest {
     return groupCache
         .get(AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS))
         .orElseThrow(() -> new IllegalStateException("unable to find 'Service Users'"))
-        .getGroupUUID();
+        .groupUUID();
   }
 }

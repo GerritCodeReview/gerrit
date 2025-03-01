@@ -52,19 +52,19 @@ public class ProjectJson {
     for (LabelType t : projectState.getLabelTypes().getLabelTypes()) {
       LabelTypeInfo labelInfo = new LabelTypeInfo();
       labelInfo.values =
-          t.getValues().stream()
+          t.values().stream()
               .collect(
                   toMap(
                       LabelValue::formatValue,
-                      LabelValue::getText,
+                      LabelValue::text,
                       (v1, v2) -> {
                         logger.atSevere().log(
                             "Duplicate values for project: %s, label: %s found: '%s':'%s'",
-                            projectState.getName(), t.getName(), v1, v2);
+                            projectState.getName(), t.name(), v1, v2);
                         return v1;
                       }));
-      labelInfo.defaultValue = t.getDefaultValue();
-      info.labels.put(t.getName(), labelInfo);
+      labelInfo.defaultValue = t.defaultValue();
+      info.labels.put(t.name(), labelInfo);
     }
 
     return info;
@@ -75,8 +75,8 @@ public class ProjectJson {
     info.name = p.getName();
     Project.NameKey parentName = p.getParent(allProjects);
     info.parent = parentName != null ? parentName.get() : null;
-    info.description = Strings.emptyToNull(p.getDescription());
-    info.state = p.getState();
+    info.description = Strings.emptyToNull(p.description());
+    info.state = p.state();
     info.id = Url.encode(info.name);
     ImmutableList<WebLinkInfo> links = webLinks.getProjectLinks(p.getName());
     info.webLinks = links.isEmpty() ? null : links;

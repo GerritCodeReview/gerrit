@@ -88,7 +88,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     GroupApi groupApi = gApi.groups().id(g.get());
     groupApi.description("CLA test group");
     InternalGroup caGroup = group(AccountGroup.uuid(groupApi.detail().id));
-    GroupReference groupRef = GroupReference.create(caGroup.getGroupUUID(), caGroup.getName());
+    GroupReference groupRef = GroupReference.create(caGroup.groupUUID(), caGroup.getName());
     PermissionRule rule =
         PermissionRule.builder(groupRef).setAction(PermissionRule.Action.ALLOW).build();
     if (autoVerify) {
@@ -158,7 +158,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.accounts().self().signAgreement(caNoAutoVerify.getName()));
+            () -> gApi.accounts().self().signAgreement(caNoAutoVerify.name()));
     assertThat(thrown).hasMessageThat().contains("cannot enter a non-autoVerify agreement");
   }
 
@@ -171,7 +171,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assertThat(result).isEmpty();
 
     // Sign the agreement
-    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+    gApi.accounts().self().signAgreement(caAutoVerify.name());
 
     // Explicitly reset the user to force a new request context
     requestScopeOperations.setApiUser(user.id());
@@ -183,7 +183,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assertAgreement(info, caAutoVerify);
 
     // Signing the same agreement again has no effect
-    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+    gApi.accounts().self().signAgreement(caAutoVerify.name());
     result = gApi.accounts().self().listAgreements();
     assertThat(result).hasSize(1);
   }
@@ -210,7 +210,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(
             AuthException.class,
-            () -> gApi.accounts().id(admin.id().get()).signAgreement(caAutoVerify.getName()));
+            () -> gApi.accounts().id(admin.id().get()).signAgreement(caAutoVerify.name()));
     assertThat(thrown).hasMessageThat().contains("not allowed to enter contributor agreement");
   }
 
@@ -219,8 +219,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUserAnonymous();
     AuthException thrown =
         assertThrows(
-            AuthException.class,
-            () -> gApi.accounts().self().signAgreement(caAutoVerify.getName()));
+            AuthException.class, () -> gApi.accounts().self().signAgreement(caAutoVerify.name()));
     assertThat(thrown).hasMessageThat().contains("Authentication required");
   }
 
@@ -230,7 +229,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     MethodNotAllowedException thrown =
         assertThrows(
             MethodNotAllowedException.class,
-            () -> gApi.accounts().self().signAgreement(caAutoVerify.getName()));
+            () -> gApi.accounts().self().signAgreement(caAutoVerify.name()));
     assertThat(thrown).hasMessageThat().contains("contributor agreements disabled");
   }
 
@@ -361,7 +360,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
 
     // Sign the agreement
-    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+    gApi.accounts().self().signAgreement(caAutoVerify.name());
 
     // Explicitly reset the user to force a new request context
     requestScopeOperations.setApiUser(user.id());
@@ -382,11 +381,11 @@ public class AgreementsIT extends AbstractDaemonTest {
   }
 
   private void assertAgreement(AgreementInfo info, ContributorAgreement ca) {
-    assertThat(info.name).isEqualTo(ca.getName());
-    assertThat(info.description).isEqualTo(ca.getDescription());
-    assertThat(info.url).isEqualTo(ca.getAgreementUrl());
-    if (ca.getAutoVerify() != null) {
-      assertThat(info.autoVerifyGroup.name).isEqualTo(ca.getAutoVerify().getName());
+    assertThat(info.name).isEqualTo(ca.name());
+    assertThat(info.description).isEqualTo(ca.description());
+    assertThat(info.url).isEqualTo(ca.agreementUrl());
+    if (ca.autoVerify() != null) {
+      assertThat(info.autoVerifyGroup.name).isEqualTo(ca.autoVerify().getName());
     } else {
       assertThat(info.autoVerifyGroup).isNull();
     }

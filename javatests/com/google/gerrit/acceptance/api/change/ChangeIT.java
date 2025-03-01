@@ -1996,7 +1996,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(verified.getName())
+            allowLabel(verified.name())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))
@@ -2609,7 +2609,7 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(CHANGE_OWNER).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(CHANGE_OWNER).range(-1, 1))
         .add(allowLabel(LabelId.CODE_REVIEW).ref(heads).group(REGISTERED_USERS).range(-2, +2))
         .update();
 
@@ -2618,7 +2618,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String commit = r.getCommit().name();
     ReviewInput input = ReviewInput.approve();
-    input.label(verified.getName(), 1);
+    input.label(verified.name(), 1);
     gApi.changes().id(changeId).revision(commit).review(input);
 
     // Reviewers should only be "admin"
@@ -3135,9 +3135,9 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel(custom1.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel(custom2.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(verified.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(custom1.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(custom2.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
         .update();
 
     PushOneCommit.Result r1 = createChange();
@@ -3578,7 +3578,7 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(registeredUsers).range(-1, 1))
         .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
@@ -3593,7 +3593,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
-        .review(new ReviewInput().label(verified.getName(), verified.getMax().getValue()));
+        .review(new ReviewInput().label(verified.name(), verified.getMax().value()));
     change = gApi.changes().id(r.getChangeId()).get();
     assertPermitted(change, LabelId.VERIFIED, -1, 0, 1);
     assertOnlyRemovableLabel(change, LabelId.VERIFIED, "+1", admin);
@@ -3601,16 +3601,14 @@ public class ChangeIT extends AbstractDaemonTest {
     try (ProjectConfigUpdate u = updateProject(project)) {
       // remove label and assert that it's no longer returned for existing
       // changes, even if there is an approval for it
-      u.getConfig().getLabelSections().remove(verified.getName());
+      u.getConfig().getLabelSections().remove(verified.name());
       u.save();
     }
     projectOperations
         .project(project)
         .forUpdate()
         .remove(
-            permissionKey(Permission.forLabel(verified.getName()))
-                .ref(heads)
-                .group(registeredUsers))
+            permissionKey(Permission.forLabel(verified.name())).ref(heads).group(registeredUsers))
         .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
@@ -3652,20 +3650,20 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(registeredUsers).range(-1, 1))
         .update();
 
     // Submit the change
-    voteLabel(r.getChangeId(), TestLabels.verified().getName(), 1);
+    voteLabel(r.getChangeId(), TestLabels.verified().name(), 1);
     gApi.changes().id(r.getChangeId()).current().submit();
 
     // Make sure label votes are available if DETAILED_LABELS is not requested.
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get(options);
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(change.labels.keySet())
-        .containsExactly(LabelId.CODE_REVIEW, TestLabels.verified().getName());
+        .containsExactly(LabelId.CODE_REVIEW, TestLabels.verified().name());
     List<ApprovalInfo> codeReviewApprovals = change.labels.get(LabelId.CODE_REVIEW).all;
-    List<ApprovalInfo> verifiedApprovals = change.labels.get(TestLabels.verified().getName()).all;
+    List<ApprovalInfo> verifiedApprovals = change.labels.get(TestLabels.verified().name()).all;
 
     assertThat(codeReviewApprovals).hasSize(1);
     assertThat(codeReviewApprovals.get(0).value).isEqualTo(2);
@@ -3707,7 +3705,7 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(registeredUsers).range(-1, 1))
         .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
@@ -3745,7 +3743,7 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(registeredUsers).range(-1, 1))
         .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
@@ -3778,7 +3776,7 @@ public class ChangeIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(registeredUsers).range(-1, 1))
         .update();
 
     change = gApi.changes().id(r.getChangeId()).get();

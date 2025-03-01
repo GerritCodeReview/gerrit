@@ -108,7 +108,7 @@ public class ReviewerJson {
     out.approvals = new TreeMap<>(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
       Optional<LabelType> at = labelTypes.byLabel(ca.labelId());
-      at.ifPresent(lt -> out.approvals.put(lt.getName(), formatValue(ca.value())));
+      at.ifPresent(lt -> out.approvals.put(lt.name(), formatValue(ca.value())));
     }
 
     // Add dummy approvals for all permitted labels for the user even if they

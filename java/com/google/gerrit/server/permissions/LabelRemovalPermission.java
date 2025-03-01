@@ -28,7 +28,7 @@ public class LabelRemovalPermission extends AbstractLabelPermission {
    * @param type type description of the label.
    */
   public LabelRemovalPermission(LabelType type) {
-    this(type.getName());
+    this(type.name());
   }
 
   /**
@@ -54,7 +54,7 @@ public class LabelRemovalPermission extends AbstractLabelPermission {
      * @param value numeric score assigned to the label.
      */
     public WithValue(LabelType type, LabelValue value) {
-      this(type.getName(), value.getValue());
+      this(type.name(), value.value());
     }
 
     /**
@@ -64,7 +64,7 @@ public class LabelRemovalPermission extends AbstractLabelPermission {
      * @param value numeric score assigned to the label.
      */
     public WithValue(LabelType type, short value) {
-      this(type.getName(), value);
+      this(type.name(), value);
     }
 
     /**

@@ -17,7 +17,6 @@ package com.google.gerrit.server.group.db;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoBuilder;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.AccountGroup;
 
 /**
@@ -36,21 +35,6 @@ public record InternalGroupCreation(
     requireNonNull(id, "id");
     requireNonNull(nameKey, "nameKey");
     requireNonNull(groupUUID, "groupUUID");
-  }
-
-  @InlineMe(replacement = "this.id()")
-  public AccountGroup.Id getId() {
-    return id();
-  }
-
-  @InlineMe(replacement = "this.nameKey()")
-  public AccountGroup.NameKey getNameKey() {
-    return nameKey();
-  }
-
-  @InlineMe(replacement = "this.groupUUID()")
-  public AccountGroup.UUID getGroupUUID() {
-    return groupUUID();
   }
 
   public static Builder builder() {

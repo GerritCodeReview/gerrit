@@ -109,7 +109,7 @@ public class AccountControl {
       CurrentUser user,
       IdentifiedUser.GenericFactory userFactory,
       AccountVisibility accountVisibility) {
-    this.accountsSection = projectCache.getAllProjects().getConfig().getAccountsSection();
+    this.accountsSection = projectCache.getAllProjects().getConfig().accountsSection();
     this.groupControlFactory = groupControlFactory;
     this.perm = permissionBackend.user(user);
     this.user = user;
@@ -187,16 +187,16 @@ public class AccountControl {
       case SAME_GROUP:
         {
           Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
-          for (PermissionRule rule : accountsSection.getSameGroupVisibility()) {
+          for (PermissionRule rule : accountsSection.sameGroupVisibility()) {
             if (rule.isBlock() || rule.isDeny()) {
               logger.atFine().log(
                   "ignoring group %s of user %s for %s account visibility check"
                       + " because there is a blocked/denied sameGroupVisibility rule: %s",
-                  rule.getGroup().getUUID(),
+                  rule.group().getUUID(),
                   otherUser.getUser().getLoggableName(),
                   AccountVisibility.SAME_GROUP,
                   rule);
-              usersGroups.remove(rule.getGroup().getUUID());
+              usersGroups.remove(rule.group().getUUID());
             }
           }
 

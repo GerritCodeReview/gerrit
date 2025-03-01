@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import java.util.List;
 
@@ -39,41 +38,6 @@ public record ContributorAgreement(
     requireNonNull(matchProjectsRegexes, "matchProjectsRegexes");
   }
 
-  @InlineMe(replacement = "this.name()")
-  public String getName() {
-    return name();
-  }
-
-  @InlineMe(replacement = "this.description()")
-  public @Nullable String getDescription() {
-    return description();
-  }
-
-  @InlineMe(replacement = "this.accepted()")
-  public ImmutableList<PermissionRule> getAccepted() {
-    return accepted();
-  }
-
-  @InlineMe(replacement = "this.autoVerify()")
-  public @Nullable GroupReference getAutoVerify() {
-    return autoVerify();
-  }
-
-  @InlineMe(replacement = "this.agreementUrl()")
-  public @Nullable String getAgreementUrl() {
-    return agreementUrl();
-  }
-
-  @InlineMe(replacement = "this.excludeProjectsRegexes()")
-  public ImmutableList<String> getExcludeProjectsRegexes() {
-    return excludeProjectsRegexes();
-  }
-
-  @InlineMe(replacement = "this.matchProjectsRegexes()")
-  public ImmutableList<String> getMatchProjectsRegexes() {
-    return matchProjectsRegexes();
-  }
-
   public static ContributorAgreement.Builder builder(String name) {
     return new AutoBuilder_ContributorAgreement_Builder()
         .setName(name)
@@ -84,12 +48,12 @@ public record ContributorAgreement(
 
   @Override
   public final int compareTo(ContributorAgreement o) {
-    return getName().compareTo(o.getName());
+    return name().compareTo(o.name());
   }
 
   @Override
   public final String toString() {
-    return "ContributorAgreement[" + getName() + "]";
+    return "ContributorAgreement[" + name() + "]";
   }
 
   public Builder toBuilder() {

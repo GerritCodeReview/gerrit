@@ -272,16 +272,16 @@ public class DefaultPermissionBackend extends PermissionBackend {
       return user.getEffectiveGroups()
           .containsAnyOf(
               rules.stream()
-                  .filter(r -> r.getAction() == Action.ALLOW)
-                  .map(r -> r.getGroup().getUUID())
+                  .filter(r -> r.action() == Action.ALLOW)
+                  .map(r -> r.group().getUUID())
                   .collect(toSet()));
     }
 
     private boolean notDenied(Collection<PermissionRule> rules) {
       Set<AccountGroup.UUID> denied =
           rules.stream()
-              .filter(r -> r.getAction() != Action.ALLOW)
-              .map(r -> r.getGroup().getUUID())
+              .filter(r -> r.action() != Action.ALLOW)
+              .map(r -> r.group().getUUID())
               .collect(toSet());
       return denied.isEmpty() || !user.getEffectiveGroups().containsAnyOf(denied);
     }

@@ -108,7 +108,7 @@ public class GroupResolver {
         if (group.isPresent()) {
           logger.atFine().log(
               "Found internal group %s (UUID = %s)",
-              group.get().getName(), group.get().getGroupUUID().get());
+              group.get().getName(), group.get().groupUUID().get());
           return new InternalGroupDescription(group.get());
         }
       } catch (IllegalArgumentException e) {

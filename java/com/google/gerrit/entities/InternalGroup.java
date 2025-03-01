@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import java.io.Serializable;
 import java.time.Instant;
@@ -46,60 +45,10 @@ public record InternalGroup(
     requireNonNull(subgroups, "subgroups");
   }
 
-  @InlineMe(replacement = "this.id()")
-  public AccountGroup.Id getId() {
-    return id();
-  }
-
-  @InlineMe(replacement = "this.nameKey()")
-  public AccountGroup.NameKey getNameKey() {
-    return nameKey();
-  }
-
-  @InlineMe(replacement = "this.description()")
-  public @Nullable String getDescription() {
-    return description();
-  }
-
-  @InlineMe(replacement = "this.ownerGroupUUID()")
-  public AccountGroup.UUID getOwnerGroupUUID() {
-    return ownerGroupUUID();
-  }
-
-  @InlineMe(replacement = "this.visibleToAll()")
-  public boolean isVisibleToAll() {
-    return visibleToAll();
-  }
-
-  @InlineMe(replacement = "this.groupUUID()")
-  public AccountGroup.UUID getGroupUUID() {
-    return groupUUID();
-  }
-
-  @InlineMe(replacement = "this.createdOn()")
-  public Instant getCreatedOn() {
-    return createdOn();
-  }
-
-  @InlineMe(replacement = "this.members()")
-  public ImmutableSet<Account.Id> getMembers() {
-    return members();
-  }
-
-  @InlineMe(replacement = "this.subgroups()")
-  public ImmutableSet<AccountGroup.UUID> getSubgroups() {
-    return subgroups();
-  }
-
-  @InlineMe(replacement = "this.refState()")
-  public @Nullable ObjectId getRefState() {
-    return refState();
-  }
-
   private static final long serialVersionUID = 1L;
 
   public String getName() {
-    return getNameKey().get();
+    return nameKey().get();
   }
 
   public Builder toBuilder() {

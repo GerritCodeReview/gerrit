@@ -94,7 +94,7 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
               ProjectConfig.PROJECT_CONFIG,
               event.commit.getName(),
               RefNames.REFS_CONFIG,
-              event.project.getNameKey()),
+              event.project.nameKey()),
           e);
     }
   }
@@ -114,7 +114,7 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
     return receiveEvent
         .diffOperations
         .loadModifiedFilesAgainstParentIfNecessary(
-            receiveEvent.project.getNameKey(),
+            receiveEvent.project.nameKey(),
             receiveEvent.commit,
             /* parentNum= */ 0,
             /* enableRenameDetection= */ true)
@@ -125,7 +125,7 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
 
   private ProjectConfig getProjectConfig(CommitReceivedEvent receiveEvent)
       throws IOException, ConfigInvalidException {
-    ProjectConfig projectConfig = projectConfigFactory.create(receiveEvent.project.getNameKey());
+    ProjectConfig projectConfig = projectConfigFactory.create(receiveEvent.project.nameKey());
     projectConfig.load(receiveEvent.revWalk, receiveEvent.commit);
     return projectConfig;
   }

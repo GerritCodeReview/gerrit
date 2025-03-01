@@ -51,7 +51,7 @@ public class ExternalIdUpdateValidator implements CommitValidationListener {
   @Override
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
-    if (allUsers.equals(receiveEvent.project.getNameKey())
+    if (allUsers.equals(receiveEvent.project.nameKey())
         && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
       try {
         List<ConsistencyProblemInfo> problems =

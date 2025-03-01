@@ -317,7 +317,7 @@ public class FileContentUtil {
         }
         if (project != null) {
           for (ProjectState p : project.tree()) {
-            String t = p.getConfig().getMimeTypes().getMimeType(path);
+            String t = p.getConfig().mimeTypes().getMimeType(path);
             if (t != null) {
               return t;
             }

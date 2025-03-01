@@ -23,7 +23,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import java.time.Instant;
@@ -98,19 +97,6 @@ public record PatchSet(
   /** Is the reference name a change reference? */
   public static boolean isChangeRef(String name) {
     return Id.fromRef(name) != null;
-  }
-
-  /**
-   * Is the reference name a change reference?
-   *
-   * @deprecated use isChangeRef instead.
-   */
-  @Deprecated
-  @InlineMe(
-      replacement = "PatchSet.isChangeRef(name)",
-      imports = "com.google.gerrit.entities.PatchSet")
-  public static boolean isRef(String name) {
-    return isChangeRef(name);
   }
 
   public static String joinGroups(List<String> groups) {

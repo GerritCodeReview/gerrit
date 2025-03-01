@@ -641,7 +641,7 @@ public class PostReviewOp implements BatchUpdateOp {
       LabelTypes labelTypes, Map<String, Short> current, Map<String, Short> input) {
     Map<String, Short> allApprovals = new HashMap<>();
     for (LabelType lt : labelTypes.getLabelTypes()) {
-      allApprovals.put(lt.getName(), (short) 0);
+      allApprovals.put(lt.name(), (short) 0);
     }
     // set approvals to existing votes
     if (current != null) {
@@ -703,8 +703,8 @@ public class PostReviewOp implements BatchUpdateOp {
               .byLabel(name)
               .orElseThrow(() -> new IllegalStateException("no label config for " + name));
 
-      PatchSetApproval c = current.remove(lt.getName());
-      String normName = lt.getName();
+      PatchSetApproval c = current.remove(lt.name());
+      String normName = lt.name();
       approvals.put(normName, (short) 0);
       if (ent.getValue() == null || ent.getValue() == 0) {
         // User requested delete of this label.
@@ -815,8 +815,8 @@ public class PostReviewOp implements BatchUpdateOp {
           labelTypes
               .byLabel(psa.label())
               .orElseThrow(() -> new IllegalStateException("no label config for " + psa.label()));
-      String normName = lt.getName();
-      if (!lt.isAllowPostSubmit()) {
+      String normName = lt.name();
+      if (!lt.allowPostSubmit()) {
         disallowed.add(normName);
       }
       Short prev = previous.get(normName);
@@ -830,8 +830,8 @@ public class PostReviewOp implements BatchUpdateOp {
           labelTypes
               .byLabel(psa.label())
               .orElseThrow(() -> new IllegalStateException("no label config for " + psa.label()));
-      String normName = lt.getName();
-      if (!lt.isAllowPostSubmit()) {
+      String normName = lt.name();
+      if (!lt.allowPostSubmit()) {
         disallowed.add(normName);
       }
       Short prev = previous.get(normName);
@@ -873,7 +873,7 @@ public class PostReviewOp implements BatchUpdateOp {
 
       Optional<LabelType> lt = labelTypes.byLabel(a.labelId());
       if (lt.isPresent()) {
-        current.put(lt.get().getName(), a);
+        current.put(lt.get().name(), a);
       } else {
         del.add(a);
       }
@@ -1097,7 +1097,7 @@ public class PostReviewOp implements BatchUpdateOp {
             projectState
                 .getLabelTypes(ctx.getNotes())
                 .byLabel(e.getKey().label())
-                .map(LabelType::getCopyCondition)
+                .map(LabelType::copyCondition)
                 .map(Optional::get);
         buf.append(formatVotesCopiedToFollowUpPatchSets(e.getKey(), e.getValue(), copyCondition));
       }

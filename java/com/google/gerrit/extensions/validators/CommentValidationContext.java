@@ -16,8 +16,6 @@ package com.google.gerrit.extensions.validators;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.InlineMe;
-
 /**
  * Holds a comment validators context in order to pass it to a validation plugin.
  *
@@ -34,21 +32,6 @@ public record CommentValidationContext(int changeId, String project, String refN
   public CommentValidationContext {
     requireNonNull(project, "project");
     requireNonNull(refName, "refName");
-  }
-
-  @InlineMe(replacement = "this.changeId()")
-  public int getChangeId() {
-    return changeId();
-  }
-
-  @InlineMe(replacement = "this.project()")
-  public String getProject() {
-    return project();
-  }
-
-  @InlineMe(replacement = "this.refName()")
-  public String getRefName() {
-    return refName();
   }
 
   public static CommentValidationContext create(int changeId, String project, String refName) {

@@ -87,7 +87,7 @@ public class GroupConfigTest {
         getPrefilledGroupCreationBuilder().setNameKey(groupName).build();
     createGroup(groupCreation);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().nameKey().isEqualTo(groupName);
   }
 
@@ -100,7 +100,7 @@ public class GroupConfigTest {
     GroupDelta groupDelta = GroupDelta.builder().setName(anotherName).build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().nameKey().isEqualTo(anotherName);
   }
 
@@ -123,7 +123,7 @@ public class GroupConfigTest {
     InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().setId(groupId).build();
     createGroup(groupCreation);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().id().isEqualTo(groupId);
   }
 
@@ -151,7 +151,7 @@ public class GroupConfigTest {
             .build();
     createGroup(groupCreation);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().description().isNull();
   }
 
@@ -163,7 +163,7 @@ public class GroupConfigTest {
     GroupDelta groupDelta = GroupDelta.builder().setDescription(description).build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().description().isEqualTo(description);
   }
 
@@ -173,7 +173,7 @@ public class GroupConfigTest {
     GroupDelta groupDelta = GroupDelta.builder().setDescription("").build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().description().isNull();
   }
 
@@ -187,7 +187,7 @@ public class GroupConfigTest {
             .build();
     createGroup(groupCreation);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().ownerGroupUuid().isEqualTo(groupUuid);
   }
 
@@ -199,7 +199,7 @@ public class GroupConfigTest {
     GroupDelta groupDelta = GroupDelta.builder().setOwnerGroupUUID(ownerGroupUuid).build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().ownerGroupUuid().isEqualTo(ownerGroupUuid);
   }
 
@@ -228,7 +228,7 @@ public class GroupConfigTest {
             .build();
     createGroup(groupCreation);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().visibleToAll().isFalse();
   }
 
@@ -238,7 +238,7 @@ public class GroupConfigTest {
     GroupDelta groupDelta = GroupDelta.builder().setVisibleToAll(true).build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().visibleToAll().isTrue();
   }
 
@@ -255,7 +255,7 @@ public class GroupConfigTest {
             .build();
     createGroup(groupCreation);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().createdOn().isAtLeast(testStart);
   }
 
@@ -267,7 +267,7 @@ public class GroupConfigTest {
     GroupDelta groupDelta = GroupDelta.builder().setUpdatedOn(createdOn).build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().createdOn().isEqualTo(createdOn);
   }
 
@@ -283,7 +283,7 @@ public class GroupConfigTest {
             .build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().members().containsExactly(member1, member2);
   }
 
@@ -299,7 +299,7 @@ public class GroupConfigTest {
             .build();
     createGroup(groupCreation, groupDelta);
 
-    Optional<InternalGroup> group = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> group = loadGroup(groupCreation.groupUUID());
     assertThatGroup(group).value().subgroups().containsExactly(subgroup1, subgroup2);
   }
 
@@ -618,7 +618,7 @@ public class GroupConfigTest {
             .setName(AccountGroup.nameKey("Another name"))
             .setUpdatedOn(updatedOn)
             .build();
-    Optional<InternalGroup> group = updateGroup(groupCreation.getGroupUUID(), laterGroupDelta);
+    Optional<InternalGroup> group = updateGroup(groupCreation.groupUUID(), laterGroupDelta);
 
     assertThatGroup(group).value().createdOn().isEqualTo(createdOn);
     Optional<InternalGroup> reloadedGroup = loadGroup(groupUuid);
@@ -725,7 +725,7 @@ public class GroupConfigTest {
     InternalGroupCreation groupCreation = getPrefilledGroupCreationBuilder().build();
 
     Optional<InternalGroup> createdGroup = createGroup(groupCreation);
-    Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.groupUUID());
 
     assertThat(createdGroup).isEqualTo(reloadedGroup);
   }
@@ -745,7 +745,7 @@ public class GroupConfigTest {
             .build();
 
     Optional<InternalGroup> createdGroup = createGroup(groupCreation, groupDelta);
-    Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.groupUUID());
 
     assertThat(createdGroup).isEqualTo(reloadedGroup);
   }
@@ -792,8 +792,8 @@ public class GroupConfigTest {
     GroupDelta groupDelta =
         GroupDelta.builder().setName(AccountGroup.nameKey("Another name")).build();
 
-    Optional<InternalGroup> updatedGroup = updateGroup(groupCreation.getGroupUUID(), groupDelta);
-    Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.getGroupUUID());
+    Optional<InternalGroup> updatedGroup = updateGroup(groupCreation.groupUUID(), groupDelta);
+    Optional<InternalGroup> reloadedGroup = loadGroup(groupCreation.groupUUID());
 
     assertThat(updatedGroup).isEqualTo(reloadedGroup);
   }

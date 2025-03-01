@@ -112,9 +112,9 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     // Comment were validated twice: first when the draft was created, and second when it was
     // published.
     assertThat(captureCtx.getAllValues()).hasSize(2);
-    assertThat(captureCtx.getValue().getProject()).isEqualTo(result.getChange().project().get());
-    assertThat(captureCtx.getValue().getChangeId()).isEqualTo(result.getChange().getId().get());
-    assertThat(captureCtx.getValue().getRefName()).isEqualTo("refs/heads/master");
+    assertThat(captureCtx.getValue().project()).isEqualTo(result.getChange().project().get());
+    assertThat(captureCtx.getValue().changeId()).isEqualTo(result.getChange().getId().get());
+    assertThat(captureCtx.getValue().refName()).isEqualTo("refs/heads/master");
     assertThat(capture.getValue()).containsExactly(COMMENT_FOR_VALIDATION);
   }
 
@@ -223,9 +223,9 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     // Validation was called 3 times: once for each draft, and once when both drafts were published
     assertThat(capture.getAllValues()).hasSize(3);
 
-    assertThat(captureCtx.getValue().getProject()).isEqualTo(result.getChange().project().get());
-    assertThat(captureCtx.getValue().getChangeId()).isEqualTo(result.getChange().getId().get());
-    assertThat(captureCtx.getValue().getRefName()).isEqualTo("refs/heads/master");
+    assertThat(captureCtx.getValue().project()).isEqualTo(result.getChange().project().get());
+    assertThat(captureCtx.getValue().changeId()).isEqualTo(result.getChange().getId().get());
+    assertThat(captureCtx.getValue().refName()).isEqualTo("refs/heads/master");
 
     CommentForValidation firstValidatedDraft =
         CommentForValidation.create(

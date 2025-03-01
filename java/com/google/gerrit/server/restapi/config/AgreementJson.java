@@ -51,10 +51,10 @@ public class AgreementJson {
 
   public AgreementInfo format(ContributorAgreement ca) throws PermissionBackendException {
     AgreementInfo info = new AgreementInfo();
-    info.name = ca.getName();
-    info.description = ca.getDescription();
-    info.url = ca.getAgreementUrl();
-    GroupReference autoVerifyGroup = ca.getAutoVerify();
+    info.name = ca.name();
+    info.description = ca.description();
+    info.url = ca.agreementUrl();
+    GroupReference autoVerifyGroup = ca.autoVerify();
     if (autoVerifyGroup != null && self.get().isIdentifiedUser()) {
       IdentifiedUser user = identifiedUserFactory.create(self.get().getAccountId());
       try {
@@ -64,7 +64,7 @@ public class AgreementJson {
       } catch (NoSuchGroupException | StorageException e) {
         logger.atWarning().log(
             "autoverify group \"%s\" does not exist, referenced in CLA \"%s\"",
-            autoVerifyGroup.getName(), ca.getName());
+            autoVerifyGroup.getName(), ca.name());
       }
     }
     return info;

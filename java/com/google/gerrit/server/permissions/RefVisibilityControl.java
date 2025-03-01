@@ -90,7 +90,7 @@ public class RefVisibilityControl {
       // Change ref is visible only if the change is visible.
       ChangeData cd;
       try {
-        cd = changeDataFactory.create(projectControl.getProject().getNameKey(), changeId);
+        cd = changeDataFactory.create(projectControl.getProject().nameKey(), changeId);
         checkState(cd.change().getId().equals(changeId));
       } catch (StorageException e) {
         if (Throwables.getCausalChain(e).stream()

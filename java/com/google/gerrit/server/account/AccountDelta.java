@@ -21,7 +21,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
@@ -122,85 +121,15 @@ public record AccountDelta(
     requireNonNull(shouldDeleteAccount, "shouldDeleteAccount");
   }
 
-  @InlineMe(replacement = "this.fullName()")
-  public Optional<String> getFullName() {
-    return fullName();
-  }
-
-  @InlineMe(replacement = "this.displayName()")
-  public Optional<String> getDisplayName() {
-    return displayName();
-  }
-
-  @InlineMe(replacement = "this.preferredEmail()")
-  public Optional<String> getPreferredEmail() {
-    return preferredEmail();
-  }
-
-  @InlineMe(replacement = "this.active()")
-  public Optional<Boolean> getActive() {
-    return active();
-  }
-
-  @InlineMe(replacement = "this.status()")
-  public Optional<String> getStatus() {
-    return status();
-  }
-
-  @InlineMe(replacement = "this.createdExternalIds()")
-  public ImmutableSet<ExternalId> getCreatedExternalIds() {
-    return createdExternalIds();
-  }
-
-  @InlineMe(replacement = "this.updatedExternalIds()")
-  public ImmutableSet<ExternalId> getUpdatedExternalIds() {
-    return updatedExternalIds();
-  }
-
-  @InlineMe(replacement = "this.deletedExternalIds()")
-  public ImmutableSet<ExternalId> getDeletedExternalIds() {
-    return deletedExternalIds();
-  }
-
-  @InlineMe(replacement = "this.updatedProjectWatches()")
-  public ImmutableMap<ProjectWatchKey, Set<NotifyType>> getUpdatedProjectWatches() {
-    return updatedProjectWatches();
-  }
-
-  @InlineMe(replacement = "this.deletedProjectWatches()")
-  public ImmutableSet<ProjectWatchKey> getDeletedProjectWatches() {
-    return deletedProjectWatches();
-  }
-
-  @InlineMe(replacement = "this.generalPreferences()")
-  public Optional<GeneralPreferencesInfo> getGeneralPreferences() {
-    return generalPreferences();
-  }
-
-  @InlineMe(replacement = "this.diffPreferences()")
-  public Optional<DiffPreferencesInfo> getDiffPreferences() {
-    return diffPreferences();
-  }
-
-  @InlineMe(replacement = "this.editPreferences()")
-  public Optional<EditPreferencesInfo> getEditPreferences() {
-    return editPreferences();
-  }
-
-  @InlineMe(replacement = "this.shouldDeleteAccount()")
-  public Optional<Boolean> getShouldDeleteAccount() {
-    return shouldDeleteAccount();
-  }
-
   public static Builder builder() {
     return new Builder.WrapperThatConvertsNullStringArgsToEmptyStrings(
         new AutoBuilder_AccountDelta_Builder());
   }
 
   public boolean hasExternalIdUpdates() {
-    return !this.getCreatedExternalIds().isEmpty()
-        || !this.getDeletedExternalIds().isEmpty()
-        || !this.getUpdatedExternalIds().isEmpty();
+    return !this.createdExternalIds().isEmpty()
+        || !this.deletedExternalIds().isEmpty()
+        || !this.updatedExternalIds().isEmpty();
   }
 
   /**

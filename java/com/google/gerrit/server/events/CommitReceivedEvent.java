@@ -74,7 +74,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return project.getNameKey();
+    return project.nameKey();
   }
 
   @Override

@@ -31,7 +31,7 @@ public class RefReceivedEvent extends RefEvent {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return project.getNameKey();
+    return project.nameKey();
   }
 
   @Override

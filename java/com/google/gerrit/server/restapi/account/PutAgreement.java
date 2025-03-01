@@ -82,16 +82,16 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
     String agreementName = Strings.nullToEmpty(input.name);
     ContributorAgreement ca =
-        projectCache.getAllProjects().getConfig().getContributorAgreements().get(agreementName);
+        projectCache.getAllProjects().getConfig().contributorAgreements().get(agreementName);
     if (ca == null) {
       throw new UnprocessableEntityException("contributor agreement not found");
     }
 
-    if (ca.getAutoVerify() == null) {
+    if (ca.autoVerify() == null) {
       throw new BadRequestException("cannot enter a non-autoVerify agreement");
     }
 
-    AccountGroup.UUID uuid = ca.getAutoVerify().getUUID();
+    AccountGroup.UUID uuid = ca.autoVerify().getUUID();
     if (uuid == null) {
       throw new ResourceConflictException("autoverify group uuid not found");
     }

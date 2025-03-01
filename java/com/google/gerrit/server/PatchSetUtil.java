@@ -175,7 +175,7 @@ public class PatchSetUtil {
       Optional<LabelType> type = projectState.getLabelTypes(notes).byLabel(ap.label());
       if (type.isPresent()
           && ap.value() == 1
-          && type.get().getFunction() == LabelFunction.PATCH_SET_LOCK) {
+          && type.get().function() == LabelFunction.PATCH_SET_LOCK) {
         return true;
       }
     }

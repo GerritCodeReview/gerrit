@@ -66,7 +66,7 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
 
   @Nullable
   private ProjectState computeNext(ProjectState n) {
-    Project.NameKey parentName = n.getProject().getParent();
+    Project.NameKey parentName = n.getProject().parent();
     if (parentName != null && visit(parentName)) {
       Optional<ProjectState> p = cache.get(parentName);
       if (p.isPresent()) {

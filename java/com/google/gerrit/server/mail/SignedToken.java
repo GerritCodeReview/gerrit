@@ -19,6 +19,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Random;
 import javax.crypto.Mac;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
@@ -38,6 +39,7 @@ import org.apache.commons.codec.binary.Base64;
 public class SignedToken {
   private static final int INT_SZ = 4;
   private static final String MAC_ALG = "HmacSHA1";
+  private static final Random rng = new SecureRandom();
 
   /**
    * Generate a random key for use with the XSRF library.
@@ -46,13 +48,12 @@ public class SignedToken {
    */
   public static String generateRandomKey() {
     final byte[] r = new byte[26];
-    new SecureRandom().nextBytes(r);
+    rng.nextBytes(r);
     return encodeBase64PrivateKey(r);
   }
 
   private final int maxAge;
   private final SecretKeySpec key;
-  private final SecureRandom rng;
   private final int tokenLength;
 
   /**
@@ -65,7 +66,6 @@ public class SignedToken {
   public SignedToken(final int age, final String keyBase64) throws XsrfException {
     maxAge = age > 5 ? age / 5 : age;
     key = new SecretKeySpec(decodeBase64PrivateKey(keyBase64), MAC_ALG);
-    rng = new SecureRandom();
     tokenLength = 2 * INT_SZ + newMac().getMacLength();
   }
 

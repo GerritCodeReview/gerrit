@@ -46,7 +46,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -65,15 +64,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int LEN = 31;
-  private static final SecureRandom rng;
-
-  static {
-    try {
-      rng = SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException("Cannot create RNG for password generator", e);
-    }
-  }
+  private static final SecureRandom rng = new SecureRandom();
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;

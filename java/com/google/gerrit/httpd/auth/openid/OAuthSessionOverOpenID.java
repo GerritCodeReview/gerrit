@@ -39,7 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
 import javax.servlet.ServletRequest;
@@ -53,7 +52,7 @@ class OAuthSessionOverOpenID {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String GERRIT_LOGIN = "/login";
-  private static final SecureRandom randomState = newRandomGenerator();
+  private static final SecureRandom randomState = new SecureRandom();
   private final String state;
   private final DynamicItem<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -222,14 +221,6 @@ class OAuthSessionOverOpenID {
       return false;
     }
     return true;
-  }
-
-  private static SecureRandom newRandomGenerator() {
-    try {
-      return SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException("No SecureRandom available for GitHub authentication", e);
-    }
   }
 
   private static String generateRandomState() {

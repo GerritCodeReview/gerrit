@@ -35,7 +35,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,11 +153,7 @@ class SignedPushModule extends AbstractModule {
 
   private static String randomString(int len) {
     Random random;
-    try {
-      random = SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException(e);
-    }
+    random = new SecureRandom();
     StringBuilder sb = new StringBuilder(len);
     for (int i = 0; i < len; i++) {
       sb.append((char) random.nextInt());

@@ -1108,7 +1108,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(
-                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.save();
@@ -1176,10 +1176,10 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
       u.getConfig()
           .upsertSubmitRequirement(
               SubmitRequirement.builder()
-                  .setName(TestLabels.verified().getName())
+                  .setName(TestLabels.verified().name())
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
-                          String.format("label:%s=MAX", TestLabels.verified().getName())))
+                          String.format("label:%s=MAX", TestLabels.verified().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.getConfig()
@@ -1189,7 +1189,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(
-                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.save();
@@ -1214,7 +1214,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeToBeTheNewBase.get())
         .current()
-        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
+        .review(ReviewInput.approve().label(TestLabels.verified().name(), 1));
     testMetricMaker.reset();
     gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
@@ -1229,7 +1229,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeToBeRebased.get())
         .current()
-        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
+        .review(ReviewInput.approve().label(TestLabels.verified().name(), 1));
 
     // The change is submittable because the approval is from a user (the rebaser) that is not the
     // uploader.
@@ -1252,10 +1252,10 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
       u.getConfig()
           .upsertSubmitRequirement(
               SubmitRequirement.builder()
-                  .setName(TestLabels.verified().getName())
+                  .setName(TestLabels.verified().name())
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
-                          String.format("label:%s=MAX", TestLabels.verified().getName())))
+                          String.format("label:%s=MAX", TestLabels.verified().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.getConfig()
@@ -1265,7 +1265,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                   .setSubmittabilityExpression(
                       SubmitRequirementExpression.create(
                           String.format(
-                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().getName())))
+                              "label:%s=MAX,user=non_uploader", TestLabels.codeReview().name())))
                   .setAllowOverrideInChildProjects(false)
                   .build());
       u.save();
@@ -1290,7 +1290,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeToBeTheNewBase.get())
         .current()
-        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
+        .review(ReviewInput.approve().label(TestLabels.verified().name(), 1));
     testMetricMaker.reset();
     gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
@@ -1305,7 +1305,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeToBeRebased.get())
         .current()
-        .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
+        .review(ReviewInput.approve().label(TestLabels.verified().name(), 1));
 
     // Approve the change as another user.
     requestScopeOperations.setApiUser(approver);
@@ -1388,7 +1388,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .ref("refs/*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))
@@ -1411,7 +1411,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.verified().getName())
+            allowLabel(TestLabels.verified().name())
                 .ref("refs/*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))

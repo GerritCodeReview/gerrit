@@ -91,9 +91,9 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
           continue;
         }
         if (ca.value() > 0) {
-          pos.put(ca.accountId(), lt.get().getName(), ca);
+          pos.put(ca.accountId(), lt.get().name(), ca);
         } else if (ca.value() < 0) {
-          neg.put(ca.accountId(), lt.get().getName(), ca);
+          neg.put(ca.accountId(), lt.get().name(), ca);
         }
       }
 
@@ -116,7 +116,7 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
       txt.append(": ");
       boolean first = true;
       for (LabelType lt : labelTypes.getLabelTypes()) {
-        PatchSetApproval ca = approvals.get(id, lt.getName());
+        PatchSetApproval ca = approvals.get(id, lt.name());
         if (ca == null) {
           continue;
         }
@@ -129,9 +129,9 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
 
         LabelValue v = lt.getValue(ca);
         if (v != null) {
-          txt.append(v.getText());
+          txt.append(v.text());
         } else {
-          txt.append(lt.getName());
+          txt.append(lt.name());
           txt.append('=');
           txt.append(LabelValue.formatValue(ca.value()));
         }

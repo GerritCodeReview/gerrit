@@ -54,7 +54,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   }
 
   boolean isAllProjects() {
-    return allProjectsName.equals(project.getNameKey());
+    return allProjectsName.equals(project.nameKey());
   }
 
   Project getProject() {
@@ -82,6 +82,6 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
 
   @Override
   public int compareTo(ProjectNode o) {
-    return project.getNameKey().compareTo(o.project.getNameKey());
+    return project.nameKey().compareTo(o.project.nameKey());
   }
 }

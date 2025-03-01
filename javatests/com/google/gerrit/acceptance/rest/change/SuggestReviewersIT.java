@@ -722,7 +722,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return groupCache
         .get(AccountGroup.nameKey("Service Users"))
         .orElseThrow(() -> new IllegalStateException("unable to find 'Service Users'"))
-        .getGroupUUID();
+        .groupUUID();
   }
 
   private void reviewChange(String changeId, TestAccount reviewer) throws RestApiException {

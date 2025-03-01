@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 
 /**
@@ -79,7 +78,7 @@ public abstract class SparseFileContent {
     }
 
     public int first() {
-      return content.getRanges().isEmpty() ? getSize() : content.getRanges().get(0).getBase();
+      return content.getRanges().isEmpty() ? getSize() : content.getRanges().get(0).base();
     }
 
     public int next(int idx) {
@@ -97,7 +96,7 @@ public abstract class SparseFileContent {
         if (++currentRangeIdx < high) {
           // Its not plus one, its the base of the next range.
           //
-          return ranges.get(currentRangeIdx).getBase();
+          return ranges.get(currentRangeIdx).base();
         }
       }
 
@@ -120,7 +119,7 @@ public abstract class SparseFileContent {
           if (mid + 1 < ranges.size()) {
             // Its the base of the next range.
             currentRangeIdx = mid + 1;
-            return ranges.get(currentRangeIdx).getBase();
+            return ranges.get(currentRangeIdx).base();
           }
 
           // No more lines in the file.
@@ -128,7 +127,7 @@ public abstract class SparseFileContent {
           return getSize();
         }
 
-        if (idx < cur.getBase()) {
+        if (idx < cur.base()) {
           high = mid;
         } else {
           low = mid + 1;
@@ -173,7 +172,7 @@ public abstract class SparseFileContent {
           currentRangeIdx = mid;
           return cur.get(idx);
         }
-        if (idx < cur.getBase()) {
+        if (idx < cur.base()) {
           high = mid;
         } else {
           low = mid + 1;
@@ -201,36 +200,26 @@ public abstract class SparseFileContent {
       requireNonNull(lines, "lines");
     }
 
-    @InlineMe(replacement = "this.base()")
-    int getBase() {
-      return base();
-    }
-
-    @InlineMe(replacement = "this.lines()")
-    ImmutableList<String> getLines() {
-      return lines();
-    }
-
     static Range create(int base, ImmutableList<String> lines) {
       return new Range(base, lines);
     }
 
     private String get(int i) {
-      return getLines().get(i - getBase());
+      return lines().get(i - base());
     }
 
     private int end() {
-      return getBase() + getLines().size();
+      return base() + lines().size();
     }
 
     private boolean contains(int i) {
-      return getBase() <= i && i < end();
+      return base() <= i && i < end();
     }
 
     @Override
     public final String toString() {
       // Usage of [ and ) is intentional to denote inclusive/exclusive range
-      return "Range[" + getBase() + "," + end() + ")";
+      return "Range[" + base() + "," + end() + ")";
     }
   }
 }

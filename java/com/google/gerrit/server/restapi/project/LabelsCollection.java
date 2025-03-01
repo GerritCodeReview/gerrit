@@ -67,7 +67,7 @@ public class LabelsCollection implements ChildCollection<ProjectResource, LabelR
         .currentUser()
         .project(parent.getNameKey())
         .check(ProjectPermission.READ_CONFIG);
-    LabelType labelType = parent.getProjectState().getConfig().getLabelSections().get(id.get());
+    LabelType labelType = parent.getProjectState().getConfig().labelSections().get(id.get());
     if (labelType == null) {
       throw new ResourceNotFoundException(id);
     }

@@ -900,7 +900,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .impersonation(true)
                 .ref("refs/heads/*")
                 .group(REGISTERED_USERS)
@@ -920,7 +920,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT_AS).ref(heads).group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref(heads).group(REGISTERED_USERS))
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .ref(heads)
                 .group(REGISTERED_USERS)
                 .range(-2, 2))

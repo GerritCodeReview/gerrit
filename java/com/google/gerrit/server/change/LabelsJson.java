@@ -133,22 +133,22 @@ public class LabelsJson {
       boolean isMerged = cd.change().isMerged();
       Map<String, Short> currentUserVotes = currentLabels(filterApprovalsBy, cd);
       for (LabelType labelType : cd.getLabelTypes().getLabelTypes()) {
-        if (isMerged && !labelType.isAllowPostSubmit()) {
+        if (isMerged && !labelType.allowPostSubmit()) {
           continue;
         }
         Set<LabelPermission.WithValue> can =
             permissionBackend.absentUser(filterApprovalsBy).change(cd).test(labelType);
-        for (LabelValue v : labelType.getValues()) {
+        for (LabelValue v : labelType.values()) {
           boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
           if (isMerged) {
             // Votes cannot be decreased if the change is merged. Only accept the label value if
             // it's
             // greater or equal than the user's latest vote.
-            short prev = currentUserVotes.getOrDefault(labelType.getName(), (short) 0);
-            ok &= v.getValue() >= prev;
+            short prev = currentUserVotes.getOrDefault(labelType.name(), (short) 0);
+            ok &= v.value() >= prev;
           }
           if (ok) {
-            permitted.put(labelType.getName(), v.formatValue());
+            permitted.put(labelType.name(), v.formatValue());
           }
         }
       }
@@ -277,10 +277,10 @@ public class LabelsJson {
   }
 
   private void setLabelValues(LabelType type, LabelWithStatus l) {
-    l.label().defaultValue = type.getDefaultValue();
+    l.label().defaultValue = type.defaultValue();
     l.label().values = new LinkedHashMap<>();
-    for (LabelValue v : type.getValues()) {
-      l.label().values.put(v.formatValue(), v.getText());
+    for (LabelValue v : type.values()) {
+      l.label().values.put(v.formatValue(), v.text());
     }
     if (isOnlyZero(l.label().values.keySet())) {
       l.label().values = null;
@@ -322,7 +322,7 @@ public class LabelsJson {
       allUsers.add(a.accountId());
       Optional<LabelType> type = labelTypes.byLabel(a.labelId());
       if (type.isPresent()) {
-        labelNames.add(type.get().getName());
+        labelNames.add(type.get().name());
         // Not worth the effort to distinguish between votable/non-votable for 0
         // values on closed changes, since they can't vote anyway.
         current.put(a.accountId(), a);
@@ -371,10 +371,10 @@ public class LabelsJson {
         }
 
         short val = psa.value();
-        ApprovalInfo info = byLabel.get(type.get().getName());
+        ApprovalInfo info = byLabel.get(type.get().name());
         if (info != null) {
           info.value = Integer.valueOf(val);
-          info.permittedVotingRange = pvr.getOrDefault(type.get().getName(), null);
+          info.permittedVotingRange = pvr.getOrDefault(type.get().name(), null);
           info.setDate(psa.granted());
           info.tag = psa.tag().orElse(null);
           if (psa.postSubmit()) {
@@ -385,7 +385,7 @@ public class LabelsJson {
           continue;
         }
 
-        setLabelScores(accountLoader, type.get(), labels.get(type.get().getName()), val, accountId);
+        setLabelScores(accountLoader, type.get(), labels.get(type.get().name()), val, accountId);
       }
     }
     return labels;
@@ -440,7 +440,7 @@ public class LabelsJson {
         continue;
       }
       LabelWithStatus labelWithStatus = entry.getValue();
-      labelWithStatus.label().description = type.get().getDescription().orElse(null);
+      labelWithStatus.label().description = type.get().description().orElse(null);
     }
   }
 
@@ -460,9 +460,9 @@ public class LabelsJson {
     }
 
     if (score != 0) {
-      if (score == type.getMin().getValue()) {
+      if (score == type.getMin().value()) {
         l.label().rejected = accountLoader.get(accountId);
-      } else if (score == type.getMax().getValue()) {
+      } else if (score == type.getMax().value()) {
         l.label().approved = accountLoader.get(accountId);
       } else if (score < 0) {
         l.label().disliked = accountLoader.get(accountId);
@@ -517,10 +517,10 @@ public class LabelsJson {
         }
         Integer value;
         VotingRangeInfo permittedVotingRange =
-            pvr == null ? null : pvr.getOrDefault(lt.get().getName(), null);
+            pvr == null ? null : pvr.getOrDefault(lt.get().name(), null);
         String tag = null;
         Instant date = null;
-        PatchSetApproval psa = current.get(accountId, lt.get().getName());
+        PatchSetApproval psa = current.get(accountId, lt.get().name());
         if (psa != null) {
           value = Integer.valueOf(psa.value());
           if (value == 0) {

@@ -586,7 +586,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         logger.atFine().log(
             "skipping on behalf of permission check for label %s"
                 + " because caller is an internal user",
-            type.get().getName());
+            type.get().name());
       } else {
         try {
           perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type.get(), ent.getValue()));
@@ -594,7 +594,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           throw new AuthException(
               String.format(
                   "not permitted to modify label \"%s\" on behalf of \"%s\"",
-                  type.get().getName(), in.onBehalfOf),
+                  type.get().name(), in.onBehalfOf),
               e);
         }
       }
@@ -661,7 +661,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         perm.check(new LabelPermission.WithValue(lt.get(), val));
       } catch (AuthException e) {
         throw new AuthException(
-            String.format("Applying label \"%s\": %d is restricted", lt.get().getName(), val), e);
+            String.format("Applying label \"%s\": %d is restricted", lt.get().name(), val), e);
       }
     }
   }

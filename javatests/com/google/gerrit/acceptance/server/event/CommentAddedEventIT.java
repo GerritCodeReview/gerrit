@@ -55,8 +55,8 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(label.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel(pLabel.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
+        .add(allowLabel(label.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(pLabel.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
         .update();
   }
 
@@ -87,11 +87,11 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
    */
   private ApprovalValues getApprovalValues(LabelType label, TestListener listener) {
     ApprovalValues res = new ApprovalValues();
-    ApprovalInfo info = listener.getLastCommentAddedEvent().getApprovals().get(label.getName());
+    ApprovalInfo info = listener.getLastCommentAddedEvent().getApprovals().get(label.name());
     if (info != null) {
       res.value = info.value;
     }
-    info = listener.getLastCommentAddedEvent().getOldApprovals().get(label.getName());
+    info = listener.getLastCommentAddedEvent().getOldApprovals().get(label.name());
     if (info != null) {
       res.oldValue = info.value;
     }
@@ -106,13 +106,13 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       // push a new change with -1 vote
       PushOneCommit.Result r = createChange();
-      ReviewInput reviewInput = new ReviewInput().label(label.getName(), (short) -1);
+      ReviewInput reviewInput = new ReviewInput().label(label.name(), (short) -1);
       revision(r).review(reviewInput);
       ApprovalValues attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isEqualTo(0);
       assertThat(attr.value).isEqualTo(-1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: %s-1", label.getName()));
+          .isEqualTo(String.format("Patch Set 1: %s-1", label.name()));
     }
   }
 
@@ -122,20 +122,20 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
 
     // push a new change
     PushOneCommit.Result r = createChange();
-    ReviewInput reviewInput = new ReviewInput().message(label.getName());
+    ReviewInput reviewInput = new ReviewInput().message(label.name());
     revision(r).review(reviewInput);
     TestListener listener = new TestListener();
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       // push a new revision with +1 vote
       ChangeInfo c = info(r.getChangeId());
       r = amendChange(c.changeId);
-      reviewInput = new ReviewInput().label(label.getName(), (short) 1);
+      reviewInput = new ReviewInput().label(label.name(), (short) 1);
       revision(r).review(reviewInput);
       ApprovalValues attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isEqualTo(0);
       assertThat(attr.value).isEqualTo(1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 2: %s+1", label.getName()));
+          .isEqualTo(String.format("Patch Set 2: %s+1", label.name()));
     }
   }
 
@@ -149,59 +149,59 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     TestListener listener = new TestListener();
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       // review with message only, do not apply votes
-      ReviewInput reviewInput = new ReviewInput().message(label.getName());
+      ReviewInput reviewInput = new ReviewInput().message(label.name());
       revision(r).review(reviewInput);
       // reply message only so vote is shown as 0
       ApprovalValues attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isNull();
       assertThat(attr.value).isEqualTo(0);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1:\n\n%s", label.getName()));
+          .isEqualTo(String.format("Patch Set 1:\n\n%s", label.name()));
 
       // transition from un-voted to -1 vote
-      reviewInput = new ReviewInput().label(label.getName(), -1);
+      reviewInput = new ReviewInput().label(label.name(), -1);
       revision(r).review(reviewInput);
       attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isEqualTo(0);
       assertThat(attr.value).isEqualTo(-1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: %s-1", label.getName()));
+          .isEqualTo(String.format("Patch Set 1: %s-1", label.name()));
 
       // transition vote from -1 to 0
-      reviewInput = new ReviewInput().label(label.getName(), 0);
+      reviewInput = new ReviewInput().label(label.name(), 0);
       revision(r).review(reviewInput);
       attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isEqualTo(-1);
       assertThat(attr.value).isEqualTo(0);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: -%s", label.getName()));
+          .isEqualTo(String.format("Patch Set 1: -%s", label.name()));
 
       // transition vote from 0 to 1
-      reviewInput = new ReviewInput().label(label.getName(), 1);
+      reviewInput = new ReviewInput().label(label.name(), 1);
       revision(r).review(reviewInput);
       attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isEqualTo(0);
       assertThat(attr.value).isEqualTo(1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: %s+1", label.getName()));
+          .isEqualTo(String.format("Patch Set 1: %s+1", label.name()));
 
       // transition vote from 1 to -1
-      reviewInput = new ReviewInput().label(label.getName(), -1);
+      reviewInput = new ReviewInput().label(label.name(), -1);
       revision(r).review(reviewInput);
       attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isEqualTo(1);
       assertThat(attr.value).isEqualTo(-1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: %s-1", label.getName()));
+          .isEqualTo(String.format("Patch Set 1: %s-1", label.name()));
 
       // review with message only, do not apply votes
-      reviewInput = new ReviewInput().message(label.getName());
+      reviewInput = new ReviewInput().message(label.name());
       revision(r).review(reviewInput);
       attr = getApprovalValues(label, listener);
       assertThat(attr.oldValue).isNull(); // no vote change so not included
       assertThat(attr.value).isEqualTo(-1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1:\n\n%s", label.getName()));
+          .isEqualTo(String.format("Patch Set 1:\n\n%s", label.name()));
 
       // review with patch set level comment
       reviewInput = new ReviewInput().patchSetLevelComment("a patch set level comment");
@@ -244,18 +244,18 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       saveLabelConfig();
       PushOneCommit.Result r = createChange();
-      ReviewInput reviewInput = new ReviewInput().label(label.getName(), -1);
-      reviewInput.message = label.getName();
+      ReviewInput reviewInput = new ReviewInput().label(label.name(), -1);
+      reviewInput.message = label.name();
       revision(r).review(reviewInput);
 
       ChangeInfo c = get(r.getChangeId(), DETAILED_LABELS);
-      LabelInfo q = c.labels.get(label.getName());
+      LabelInfo q = c.labels.get(label.name());
       assertThat(q.all).hasSize(1);
       ApprovalValues labelAttr = getApprovalValues(label, listener);
       assertThat(labelAttr.oldValue).isEqualTo(0);
       assertThat(labelAttr.value).isEqualTo(-1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: %s-1\n\n%s", label.getName(), label.getName()));
+          .isEqualTo(String.format("Patch Set 1: %s-1\n\n%s", label.name(), label.name()));
 
       // there should be 3 approval labels (label, pLabel, and CRVV)
       assertThat(listener.getLastCommentAddedEvent().getApprovals()).hasSize(3);
@@ -271,18 +271,18 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
       assertThat(crlAttr.value).isEqualTo(0);
 
       // update pLabel approval
-      reviewInput = new ReviewInput().label(pLabel.getName(), 1);
-      reviewInput.message = pLabel.getName();
+      reviewInput = new ReviewInput().label(pLabel.name(), 1);
+      reviewInput.message = pLabel.name();
       revision(r).review(reviewInput);
 
       c = get(r.getChangeId(), DETAILED_LABELS);
-      q = c.labels.get(label.getName());
+      q = c.labels.get(label.name());
       assertThat(q.all).hasSize(1);
       pLabelAttr = getApprovalValues(pLabel, listener);
       assertThat(pLabelAttr.oldValue).isEqualTo(0);
       assertThat(pLabelAttr.value).isEqualTo(1);
       assertThat(listener.getLastCommentAddedEvent().getComment())
-          .isEqualTo(String.format("Patch Set 1: %s+1\n\n%s", pLabel.getName(), pLabel.getName()));
+          .isEqualTo(String.format("Patch Set 1: %s+1\n\n%s", pLabel.name(), pLabel.name()));
 
       // check the approvals that were not voted on
       labelAttr = getApprovalValues(label, listener);

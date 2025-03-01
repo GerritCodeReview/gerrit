@@ -211,12 +211,12 @@ public class PermissionCollection {
         }
         seen.add(sr);
 
-        if (pr.getAction() == BLOCK) {
+        if (pr.action() == BLOCK) {
           // Block rules are handled elsewhere.
           continue;
         }
 
-        if (pr.getAction() == PermissionRule.Action.DENY) {
+        if (pr.action() == PermissionRule.Action.DENY) {
           // DENY rules work by not adding ALLOW rules. Nothing else to do.
           continue;
         }
@@ -242,7 +242,7 @@ public class PermissionCollection {
           continue;
         }
         for (PermissionRule pr : p.getRules()) {
-          if (blockFound || pr.getAction() == Action.BLOCK) {
+          if (blockFound || pr.action() == Action.BLOCK) {
             blockFound = true;
             break;
           }
@@ -292,7 +292,7 @@ public class PermissionCollection {
 
     static SeenRule create(AccessSection section, @Nullable PermissionRule rule) {
       AccountGroup.UUID group =
-          rule != null && rule.getGroup() != null ? rule.getGroup().getUUID() : null;
+          rule != null && rule.group() != null ? rule.group().getUUID() : null;
       return new SeenRule(section.getName(), group);
     }
   }

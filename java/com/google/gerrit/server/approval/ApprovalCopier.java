@@ -392,11 +392,10 @@ public class ApprovalCopier {
       ChangeKind changeKind,
       boolean isMerge,
       RepoView repoView) {
-    String forcedCopyCondition =
-        cfg.getString("label", labelType.getName(), "labelCopyEnforcement");
+    String forcedCopyCondition = cfg.getString("label", labelType.name(), "labelCopyEnforcement");
     String forcedNonCopyCondition =
-        cfg.getString("label", labelType.getName(), "labelCopyRestriction");
-    String labelCopyCondition = labelType.getCopyCondition().orElse(null);
+        cfg.getString("label", labelType.name(), "labelCopyRestriction");
+    String labelCopyCondition = labelType.copyCondition().orElse(null);
     if (Strings.isNullOrEmpty(forcedCopyCondition)
         && Strings.isNullOrEmpty(forcedNonCopyCondition)
         && Strings.isNullOrEmpty(labelCopyCondition)) {
@@ -438,7 +437,7 @@ public class ApprovalCopier {
           "%s copy %s of account %d on change %d from patch set %d to patch set %d"
               + " (%s%s%spassingAtoms = %s, failingAtoms = %s, changeKind = %s)",
           result.canCopy() ? "Can" : "Cannot",
-          LabelVote.create(labelType.getName(), approvalValue).format(),
+          LabelVote.create(labelType.name(), approvalValue).format(),
           approverId.get(),
           changeNotes.getChangeId().get(),
           sourcePatchSetId.get(),

@@ -62,11 +62,11 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       config.updateProject(p -> p.setDescription(Strings.emptyToNull(desc)));
 
       configUpdater.commitConfigUpdate();
-      configUpdater.getRepository().setGitwebDescription(config.getProject().getDescription());
+      configUpdater.getRepository().setGitwebDescription(config.getProject().description());
 
-      return Strings.isNullOrEmpty(config.getProject().getDescription())
+      return Strings.isNullOrEmpty(config.getProject().description())
           ? Response.none()
-          : Response.ok(config.getProject().getDescription());
+          : Response.ok(config.getProject().description());
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(resource.getName(), notFound);
     } catch (ConfigInvalidException e) {

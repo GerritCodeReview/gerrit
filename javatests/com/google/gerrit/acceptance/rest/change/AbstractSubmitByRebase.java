@@ -67,7 +67,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
         .add(block(Permission.ADD_PATCH_SET).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(REGISTERED_USERS))
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .ref("refs/heads/*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))

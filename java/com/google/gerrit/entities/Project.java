@@ -20,7 +20,6 @@ import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -58,56 +57,6 @@ public record Project(
     requireNonNull(booleanConfigs, "booleanConfigs");
     requireNonNull(submitType, "submitType");
     requireNonNull(state, "state");
-  }
-
-  @InlineMe(replacement = "this.nameKey()")
-  public NameKey getNameKey() {
-    return nameKey();
-  }
-
-  @InlineMe(replacement = "this.description()")
-  public @Nullable String getDescription() {
-    return description();
-  }
-
-  @InlineMe(replacement = "this.booleanConfigs()")
-  public ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs() {
-    return booleanConfigs();
-  }
-
-  @InlineMe(replacement = "this.submitType()")
-  public SubmitType getSubmitType() {
-    return submitType();
-  }
-
-  @InlineMe(replacement = "this.state()")
-  public ProjectState getState() {
-    return state();
-  }
-
-  @InlineMe(replacement = "this.parent()")
-  public @Nullable NameKey getParent() {
-    return parent();
-  }
-
-  @InlineMe(replacement = "this.maxObjectSizeLimit()")
-  public @Nullable String getMaxObjectSizeLimit() {
-    return maxObjectSizeLimit();
-  }
-
-  @InlineMe(replacement = "this.defaultDashboard()")
-  public @Nullable String getDefaultDashboard() {
-    return defaultDashboard();
-  }
-
-  @InlineMe(replacement = "this.localDefaultDashboard()")
-  public @Nullable String getLocalDefaultDashboard() {
-    return localDefaultDashboard();
-  }
-
-  @InlineMe(replacement = "this.configRefState()")
-  public @Nullable String getConfigRefState() {
-    return configRefState();
   }
 
   /** Default submit type for new projects. */
@@ -193,11 +142,11 @@ public record Project(
 
   @Nullable
   public String getName() {
-    return getNameKey() != null ? getNameKey().get() : null;
+    return nameKey() != null ? nameKey().get() : null;
   }
 
   public InheritableBoolean getBooleanConfig(BooleanProjectConfig config) {
-    return getBooleanConfigs().get(config);
+    return booleanConfigs().get(config);
   }
 
   /**
@@ -209,11 +158,11 @@ public record Project(
    */
   @Nullable
   public Project.NameKey getParent(Project.NameKey allProjectsName) {
-    if (getParent() != null) {
-      return getParent();
+    if (parent() != null) {
+      return parent();
     }
 
-    if (getNameKey().equals(allProjectsName)) {
+    if (nameKey().equals(allProjectsName)) {
       return null;
     }
 
@@ -222,7 +171,7 @@ public record Project(
 
   @Nullable
   public String getParentName() {
-    return getParent() != null ? getParent().get() : null;
+    return parent() != null ? parent().get() : null;
   }
 
   @Override

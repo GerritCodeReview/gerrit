@@ -125,12 +125,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))
         .add(
-            allowLabel(TestLabels.verified().getName())
+            allowLabel(TestLabels.verified().name())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))
@@ -1084,7 +1084,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .impersonation(true)
                 .ref("refs/heads/*")
                 .group(REGISTERED_USERS)
@@ -1133,7 +1133,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .impersonation(true)
                 .ref("refs/heads/*")
                 .group(REGISTERED_USERS)
@@ -1299,7 +1299,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
                   .filter(
                       a ->
                           a.accountId().equals(user.id())
-                              && a.label().equals(TestLabels.verified().getName())
+                              && a.label().equals(TestLabels.verified().name())
                               && a.patchSetId().get() == 3)
                   .collect(Collectors.toList()))
           .isEmpty();
@@ -1321,14 +1321,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
               .filter(
                   a ->
                       a.accountId().equals(user.id())
-                          && a.label().equals(TestLabels.verified().getName())
+                          && a.label().equals(TestLabels.verified().name())
                           && a.patchSetId().get() == 3)
               .collect(MoreCollectors.onlyElement());
 
       assertCopied(
           verifiedApproval,
           /* psId= */ 3,
-          TestLabels.verified().getName(),
+          TestLabels.verified().name(),
           (short) 1,
           /* copied= */ true);
     }

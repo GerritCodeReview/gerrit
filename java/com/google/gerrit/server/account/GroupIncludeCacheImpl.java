@@ -218,7 +218,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
                 "loadGroupWithMember",
                 q ->
                     q.byMember(memberId).stream()
-                        .map(InternalGroup::getGroupUUID)
+                        .map(InternalGroup::groupUUID)
                         .collect(toImmutableSet()))
             .call();
       }

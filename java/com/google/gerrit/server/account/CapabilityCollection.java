@@ -67,7 +67,7 @@ public class CapabilityCollection {
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
         if (!permission.getName().equals(GlobalCapability.EMAIL_REVIEWERS)
-            && rule.getAction() == PermissionRule.Action.DENY) {
+            && rule.action() == PermissionRule.Action.DENY) {
           continue;
         }
 
@@ -115,7 +115,7 @@ public class CapabilityCollection {
       r.add(PermissionRule.create(g));
     }
     for (PermissionRule rule : rules) {
-      if (!admins.contains(rule.getGroup())) {
+      if (!admins.contains(rule.group())) {
         r.add(rule);
       }
     }

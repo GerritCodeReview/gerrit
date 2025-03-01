@@ -35,7 +35,7 @@ public class InternalGroupDescription implements GroupDescription.Internal {
 
   @Override
   public AccountGroup.UUID getGroupUUID() {
-    return internalGroup.getGroupUUID();
+    return internalGroup.groupUUID();
   }
 
   @Override
@@ -57,37 +57,37 @@ public class InternalGroupDescription implements GroupDescription.Internal {
 
   @Override
   public AccountGroup.Id getId() {
-    return internalGroup.getId();
+    return internalGroup.id();
   }
 
   @Override
   @Nullable
   public String getDescription() {
-    return internalGroup.getDescription();
+    return internalGroup.description();
   }
 
   @Override
   public AccountGroup.UUID getOwnerGroupUUID() {
-    return internalGroup.getOwnerGroupUUID();
+    return internalGroup.ownerGroupUUID();
   }
 
   @Override
   public boolean isVisibleToAll() {
-    return internalGroup.isVisibleToAll();
+    return internalGroup.visibleToAll();
   }
 
   @Override
   public Instant getCreatedOn() {
-    return internalGroup.getCreatedOn();
+    return internalGroup.createdOn();
   }
 
   @Override
   public ImmutableSet<Account.Id> getMembers() {
-    return internalGroup.getMembers();
+    return internalGroup.members();
   }
 
   @Override
   public ImmutableSet<AccountGroup.UUID> getSubgroups() {
-    return internalGroup.getSubgroups();
+    return internalGroup.subgroups();
   }
 }

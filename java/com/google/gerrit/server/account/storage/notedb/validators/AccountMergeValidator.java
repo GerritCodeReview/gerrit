@@ -67,7 +67,7 @@ public class AccountMergeValidator implements MergeValidationListener {
     }
 
     ChangeData cd =
-        changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
+        changeDataFactory.create(destProject.getProject().nameKey(), patchSetId.changeId());
     try {
       if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
         return;

@@ -89,24 +89,22 @@ public class GroupsConsistencyChecker {
 
     problems.addAll(checkCycle(g, byUUID));
 
-    if (byUUID.get(g.getOwnerGroupUUID()) == null
-        && groupBackend.get(g.getOwnerGroupUUID()) == null) {
+    if (byUUID.get(g.ownerGroupUUID()) == null && groupBackend.get(g.ownerGroupUUID()) == null) {
       problems.add(
           error(
               "group %s (%s) has nonexistent owner group %s",
-              g.getName(), g.getGroupUUID(), g.getOwnerGroupUUID()));
+              g.getName(), g.groupUUID(), g.ownerGroupUUID()));
     }
 
-    for (AccountGroup.UUID subUuid : g.getSubgroups()) {
+    for (AccountGroup.UUID subUuid : g.subgroups()) {
       if (byUUID.get(subUuid) == null && groupBackend.get(subUuid) == null) {
         problems.add(
             error(
-                "group %s (%s) has nonexistent subgroup %s",
-                g.getName(), g.getGroupUUID(), subUuid));
+                "group %s (%s) has nonexistent subgroup %s", g.getName(), g.groupUUID(), subUuid));
       }
     }
 
-    for (Account.Id id : g.getMembers().asList()) {
+    for (Account.Id id : g.members().asList()) {
       Optional<AccountState> account;
       try {
         account = accounts.get(id);
@@ -114,12 +112,12 @@ public class GroupsConsistencyChecker {
         problems.add(
             error(
                 "group %s (%s) has member %s with invalid configuration: %s",
-                g.getName(), g.getGroupUUID(), id, e.getMessage()));
+                g.getName(), g.groupUUID(), id, e.getMessage()));
         continue;
       }
       if (!account.isPresent()) {
         problems.add(
-            error("group %s (%s) has nonexistent member %s", g.getName(), g.getGroupUUID(), id));
+            error("group %s (%s) has nonexistent member %s", g.getName(), g.groupUUID(), id));
       }
     }
     return problems;
@@ -143,7 +141,7 @@ public class GroupsConsistencyChecker {
       seen.add(t);
 
       // We don't check for owner cycles, since those are normal in self-administered groups.
-      for (AccountGroup.UUID subUuid : t.getSubgroups()) {
+      for (AccountGroup.UUID subUuid : t.subgroups()) {
         InternalGroup g = byUUID.get(subUuid);
         if (g == null) {
           continue;
@@ -153,7 +151,7 @@ public class GroupsConsistencyChecker {
           problems.add(
               warning(
                   "group %s (%s) contains a cycle: %s (%s) points to it as subgroup.",
-                  root.getName(), root.getGroupUUID(), t.getName(), t.getGroupUUID()));
+                  root.getName(), root.groupUUID(), t.getName(), t.groupUUID()));
         }
 
         todo.add(g);

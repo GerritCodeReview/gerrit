@@ -70,8 +70,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
 
       if (updateLabel(config, labelType, input)) {
         String newName = Strings.nullToEmpty(input.name).trim();
-        labelType =
-            config.getLabelSections().get(newName.isEmpty() ? labelType.getName() : newName);
+        labelType = config.getLabelSections().get(newName.isEmpty() ? labelType.name() : newName);
         configUpdater.commitConfigUpdate();
       }
     }
@@ -99,7 +98,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       if (newName.isEmpty()) {
         throw new BadRequestException("name cannot be empty");
       }
-      if (!newName.equals(labelType.getName())) {
+      if (!newName.equals(labelType.name())) {
         if (config.getLabelSections().containsKey(newName)) {
           throw new ResourceConflictException(String.format("name %s already in use", newName));
         }
@@ -191,7 +190,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       dirty = true;
     }
 
-    config.getLabelSections().remove(labelType.getName());
+    config.getLabelSections().remove(labelType.name());
     config.upsertLabelType(labelTypeBuilder.build());
 
     return dirty;

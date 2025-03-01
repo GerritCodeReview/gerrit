@@ -88,7 +88,7 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     try (ProjectConfigUpdate u = updateProject(project)) {
       Map<String, LabelType> localLabelSections = u.getConfig().getLabelSections();
       if (localLabelSections.isEmpty()) {
-        localLabelSections.putAll(projectCache.getAllProjects().getConfig().getLabelSections());
+        localLabelSections.putAll(projectCache.getAllProjects().getConfig().labelSections());
       }
       u.getConfig()
           .updateLabelType(

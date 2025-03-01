@@ -38,7 +38,7 @@ public class LabelPermission extends AbstractLabelPermission {
    * @param type type description of the label.
    */
   public LabelPermission(ForUser forUser, LabelType type) {
-    this(forUser, type.getName());
+    this(forUser, type.name());
   }
 
   /**
@@ -84,7 +84,7 @@ public class LabelPermission extends AbstractLabelPermission {
      * @param value numeric score assigned to the label.
      */
     public WithValue(LabelType type, short value) {
-      this(SELF, type.getName(), value);
+      this(SELF, type.name(), value);
     }
 
     /**
@@ -95,7 +95,7 @@ public class LabelPermission extends AbstractLabelPermission {
      * @param value numeric score assigned to the label.
      */
     public WithValue(ForUser forUser, LabelType type, LabelValue value) {
-      this(forUser, type.getName(), value.getValue());
+      this(forUser, type.name(), value.value());
     }
 
     /**
@@ -106,7 +106,7 @@ public class LabelPermission extends AbstractLabelPermission {
      * @param value numeric score assigned to the label.
      */
     public WithValue(ForUser forUser, LabelType type, short value) {
-      this(forUser, type.getName(), value);
+      this(forUser, type.name(), value);
     }
 
     /**

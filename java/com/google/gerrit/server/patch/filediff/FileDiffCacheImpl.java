@@ -579,8 +579,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
               .map(Optional::get)
               .map(Edit::fromJGitEdit)
               .collect(toImmutableList()),
-          edits.iterator().next().getOldFilePath(),
-          edits.iterator().next().getNewFilePath());
+          edits.iterator().next().oldFilePath(),
+          edits.iterator().next().newFilePath());
     }
   }
 }

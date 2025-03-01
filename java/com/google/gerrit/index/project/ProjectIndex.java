@@ -34,5 +34,5 @@ public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
     return new ProjectPredicate(ProjectField.NAME_SPEC, nameKey.get());
   }
 
-  Function<ProjectData, Project.NameKey> ENTITY_TO_KEY = (p) -> p.getProject().getNameKey();
+  Function<ProjectData, Project.NameKey> ENTITY_TO_KEY = (p) -> p.getProject().nameKey();
 }

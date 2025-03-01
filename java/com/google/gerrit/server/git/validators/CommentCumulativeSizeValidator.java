@@ -53,7 +53,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
   public ImmutableList<CommentValidationFailure> validateComments(
       CommentValidationContext ctx, ImmutableList<CommentForValidation> comments) {
     ChangeNotes notes =
-        notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
+        notesFactory.createChecked(Project.nameKey(ctx.project()), Change.id(ctx.changeId()));
     int existingCumulativeSize =
         Stream.concat(
                     notes.getHumanComments().values().stream(),
@@ -61,8 +61,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
                 .mapToInt(Comment::getApproximateSize)
                 .sum()
             + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();
-    int newCumulativeSize =
-        comments.stream().mapToInt(CommentForValidation::getApproximateSize).sum();
+    int newCumulativeSize = comments.stream().mapToInt(CommentForValidation::approximateSize).sum();
     ImmutableList.Builder<CommentValidationFailure> failures = ImmutableList.builder();
     if (!comments.isEmpty() && !isEnoughSpace(notes, newCumulativeSize, maxCumulativeSize)) {
       // This warning really applies to the set of all comments, but we need to pick one to attach

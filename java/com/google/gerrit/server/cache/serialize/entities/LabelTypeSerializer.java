@@ -52,22 +52,22 @@ public class LabelTypeSerializer {
 
   public static Cache.LabelTypeProto serialize(LabelType autoValue) {
     return Cache.LabelTypeProto.newBuilder()
-        .setName(autoValue.getName())
+        .setName(autoValue.name())
         .addAllValues(
-            autoValue.getValues().stream()
+            autoValue.values().stream()
                 .map(LabelValueSerializer::serialize)
                 .collect(toImmutableList()))
-        .setDescription(autoValue.getDescription().orElse(""))
-        .setFunction(FUNCTION_CONVERTER.reverse().convert(autoValue.getFunction()))
-        .setCopyCondition(autoValue.getCopyCondition().orElse(""))
-        .setAllowPostSubmit(autoValue.isAllowPostSubmit())
-        .setIgnoreSelfApproval(autoValue.isIgnoreSelfApproval())
-        .setDefaultValue(Shorts.saturatedCast(autoValue.getDefaultValue()))
-        .setMaxNegative(Shorts.saturatedCast(autoValue.getMaxNegative()))
-        .setMaxPositive(Shorts.saturatedCast(autoValue.getMaxPositive()))
+        .setDescription(autoValue.description().orElse(""))
+        .setFunction(FUNCTION_CONVERTER.reverse().convert(autoValue.function()))
+        .setCopyCondition(autoValue.copyCondition().orElse(""))
+        .setAllowPostSubmit(autoValue.allowPostSubmit())
+        .setIgnoreSelfApproval(autoValue.ignoreSelfApproval())
+        .setDefaultValue(Shorts.saturatedCast(autoValue.defaultValue()))
+        .setMaxNegative(Shorts.saturatedCast(autoValue.maxNegative()))
+        .setMaxPositive(Shorts.saturatedCast(autoValue.maxPositive()))
         .addAllRefPatterns(
-            autoValue.getRefPatterns() == null ? ImmutableList.of() : autoValue.getRefPatterns())
-        .setCanOverride(autoValue.isCanOverride())
+            autoValue.refPatterns() == null ? ImmutableList.of() : autoValue.refPatterns())
+        .setCanOverride(autoValue.canOverride())
         .build();
   }
 

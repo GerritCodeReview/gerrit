@@ -94,17 +94,17 @@ public class GetAgreements implements RestReadView<AccountResource> {
 
     List<AgreementInfo> results = new ArrayList<>();
     ImmutableCollection<ContributorAgreement> cas =
-        projectCache.getAllProjects().getConfig().getContributorAgreements().values();
+        projectCache.getAllProjects().getConfig().contributorAgreements().values();
     for (ContributorAgreement ca : cas) {
       List<AccountGroup.UUID> groupIds = new ArrayList<>();
-      for (PermissionRule rule : ca.getAccepted()) {
-        if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)) {
-          if (rule.getGroup().getUUID() != null) {
-            groupIds.add(rule.getGroup().getUUID());
+      for (PermissionRule rule : ca.accepted()) {
+        if ((rule.action() == Action.ALLOW) && (rule.group() != null)) {
+          if (rule.group().getUUID() != null) {
+            groupIds.add(rule.group().getUUID());
           } else {
             logger.atWarning().log(
                 "group \"%s\" does not exist, referenced in CLA \"%s\"",
-                rule.getGroup().getName(), ca.getName());
+                rule.group().getName(), ca.name());
           }
         }
       }

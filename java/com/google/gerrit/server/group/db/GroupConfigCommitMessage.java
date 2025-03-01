@@ -82,7 +82,7 @@ class GroupConfigCommitMessage {
 
   private Stream<String> getFootersForMemberModifications() {
     return getFooters(
-        InternalGroup::getMembers,
+        InternalGroup::members,
         AuditLogFormatter::getParsableAccount,
         FOOTER_ADD_MEMBER,
         FOOTER_REMOVE_MEMBER);
@@ -90,7 +90,7 @@ class GroupConfigCommitMessage {
 
   private Stream<String> getFootersForSubgroupModifications() {
     return getFooters(
-        InternalGroup::getSubgroups,
+        InternalGroup::subgroups,
         AuditLogFormatter::getParsableGroup,
         FOOTER_ADD_GROUP,
         FOOTER_REMOVE_GROUP);

@@ -338,7 +338,7 @@ public class EqualsLabelPredicates {
     }
 
     for (LabelType lt : types.getLabelTypes()) {
-      if (toFind.equalsIgnoreCase(lt.getName())) {
+      if (toFind.equalsIgnoreCase(lt.name())) {
         return lt;
       }
     }

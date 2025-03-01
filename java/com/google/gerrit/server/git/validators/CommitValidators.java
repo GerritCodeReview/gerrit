@@ -599,7 +599,7 @@ public class CommitValidators {
         }
         if (changedFiles > FILE_COUNT_WARNING_THRESHOLD) {
           String host = getGerritHost(urlFormatter.getWebUrl().orElse(null));
-          String project = receiveEvent.project.getNameKey().get();
+          String project = receiveEvent.project.nameKey().get();
           logger.atWarning().log(
               "Warning: Change with %d files on host %s, project %s, ref %s",
               changedFiles, host, project, refName);
@@ -666,16 +666,16 @@ public class CommitValidators {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {
-          ProjectConfig cfg = projectConfigFactory.create(receiveEvent.project.getNameKey());
+          ProjectConfig cfg = projectConfigFactory.create(receiveEvent.project.nameKey());
           cfg.load(rw, receiveEvent.command.getNewId());
           if (!cfg.getValidationErrors().isEmpty()) {
             addError("Invalid project configuration:", messages);
             for (ValidationError err : cfg.getValidationErrors()) {
-              addError("  " + err.getMessage(), messages);
+              addError("  " + err.message(), messages);
             }
             throw new CommitValidationException("invalid project configuration", messages);
           }
-          if (allUsers.equals(receiveEvent.project.getNameKey())
+          if (allUsers.equals(receiveEvent.project.nameKey())
               && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
             addError("Invalid project configuration:", messages);
             addError(
@@ -920,7 +920,7 @@ public class CommitValidators {
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
       // Groups are stored inside the 'All-Users' repository.
-      if (!allUsers.equals(receiveEvent.project.getNameKey())) {
+      if (!allUsers.equals(receiveEvent.project.nameKey())) {
         return Collections.emptyList();
       }
 

@@ -119,7 +119,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.codeReview().getName())
+            allowLabel(TestLabels.codeReview().name())
                 .ref("refs/heads/master")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))

@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Strings;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 
@@ -28,8 +27,8 @@ import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
  *
  * @param match A regular expression to match for the commentlink to apply.
  * @param link The link to replace the match with.
- *     <p>The constructed link is using {@link #getLink()} {@link #getPrefix()} {@link #getSuffix()}
- *     and {@link #getText()}, and has the shape of
+ *     <p>The constructed link is using {@link #link()} {@link #prefix()} {@link #suffix()} and
+ *     {@link #text()}, and has the shape of
  *     <p>{@code PREFIX<a href="LINK">TEXT</a>SUFFIX}
  * @param prefix The optional text before the link tag that the match is replaced with.
  * @param suffix The optional text after the link tag that the match is replaced with.
@@ -50,46 +49,6 @@ public record StoredCommentLinkInfo(
     boolean overrideOnly) {
   public StoredCommentLinkInfo {
     requireNonNull(name, "name");
-  }
-
-  @InlineMe(replacement = "this.name()")
-  public String getName() {
-    return name();
-  }
-
-  @InlineMe(replacement = "this.match()")
-  public @Nullable String getMatch() {
-    return match();
-  }
-
-  @InlineMe(replacement = "this.link()")
-  public @Nullable String getLink() {
-    return link();
-  }
-
-  @InlineMe(replacement = "this.prefix()")
-  public @Nullable String getPrefix() {
-    return prefix();
-  }
-
-  @InlineMe(replacement = "this.suffix()")
-  public @Nullable String getSuffix() {
-    return suffix();
-  }
-
-  @InlineMe(replacement = "this.text()")
-  public @Nullable String getText() {
-    return text();
-  }
-
-  @InlineMe(replacement = "this.enabled()")
-  public @Nullable Boolean getEnabled() {
-    return enabled();
-  }
-
-  @InlineMe(replacement = "this.overrideOnly()")
-  public boolean getOverrideOnly() {
-    return overrideOnly();
   }
 
   /**
@@ -130,13 +89,13 @@ public record StoredCommentLinkInfo(
   /** Returns an {@link CommentLinkInfo} instance with the same values. */
   public CommentLinkInfo toInfo() {
     CommentLinkInfo info = new CommentLinkInfo();
-    info.name = getName();
-    info.match = getMatch();
-    info.link = getLink();
-    info.prefix = getPrefix();
-    info.suffix = getSuffix();
-    info.text = getText();
-    info.enabled = getEnabled();
+    info.name = name();
+    info.match = match();
+    info.link = link();
+    info.prefix = prefix();
+    info.suffix = suffix();
+    info.text = text();
+    info.enabled = enabled();
     return info;
   }
 

@@ -123,7 +123,7 @@ public class AccountValidator {
     if (messages != null) {
       messages.addAll(
           accountConfig.getValidationErrors().stream()
-              .map(ValidationError::getMessage)
+              .map(ValidationError::message)
               .collect(toSet()));
     }
     return accountConfig.getLoadedAccount();

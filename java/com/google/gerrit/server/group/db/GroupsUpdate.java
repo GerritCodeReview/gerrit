@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -280,7 +279,7 @@ public class GroupsUpdate {
         TraceContext.newTimer(
             "Creating group",
             Metadata.builder()
-                .groupName(groupDelta.getName().orElseGet(groupCreation::getNameKey).get())
+                .groupName(groupDelta.name().orElseGet(groupCreation::nameKey).get())
                 .build())) {
       InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupDelta);
       evictCachesOnGroupCreation(createdGroup);
@@ -303,7 +302,7 @@ public class GroupsUpdate {
     try (TraceTimer ignored =
         TraceContext.newTimer(
             "Updating group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
-      Optional<Instant> updatedOn = groupDelta.getUpdatedOn();
+      Optional<Instant> updatedOn = groupDelta.updatedOn();
       if (!updatedOn.isPresent()) {
         updatedOn = Optional.of(TimeUtil.now());
         groupDelta = groupDelta.toBuilder().setUpdatedOn(updatedOn.get()).build();
@@ -355,10 +354,10 @@ public class GroupsUpdate {
       InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws IOException, ConfigInvalidException, DuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      AccountGroup.NameKey groupName = groupDelta.getName().orElseGet(groupCreation::getNameKey);
+      AccountGroup.NameKey groupName = groupDelta.name().orElseGet(groupCreation::nameKey);
       GroupNameNotes groupNameNotes =
           GroupNameNotes.forNewGroup(
-              allUsersName, allUsersRepo, groupCreation.getGroupUUID(), groupName);
+              allUsersName, allUsersRepo, groupCreation.groupUUID(), groupName);
 
       GroupConfig groupConfig =
           GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
@@ -404,9 +403,9 @@ public class GroupsUpdate {
 
         InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
         GroupNameNotes groupNameNotes = null;
-        if (groupDelta.getName().isPresent()) {
-          AccountGroup.NameKey oldName = originalGroup.getNameKey();
-          AccountGroup.NameKey newName = groupDelta.getName().get();
+        if (groupDelta.name().isPresent()) {
+          AccountGroup.NameKey oldName = originalGroup.nameKey();
+          AccountGroup.NameKey newName = groupDelta.name().get();
           groupNameNotes =
               GroupNameNotes.forRename(allUsersName, allUsersRepo, groupUuid, oldName, newName);
         }
@@ -446,10 +445,9 @@ public class GroupsUpdate {
         }
         InternalGroup group = groupConfig.getLoadedGroup().get();
         GroupNameNotes groupNameNotes =
-            GroupNameNotes.forDeletingGroup(
-                allUsersName, allUsersRepo, groupUuid, group.getNameKey());
+            GroupNameNotes.forDeletingGroup(allUsersName, allUsersRepo, groupUuid, group.nameKey());
         commit(allUsersRepo, null, groupNameNotes);
-        deleteSingleRefNote(group.getGroupUUID().get());
+        deleteSingleRefNote(group.groupUUID().get());
         return buildDeleteResult(group);
       }
     }
@@ -495,39 +493,38 @@ public class GroupsUpdate {
 
   private static UpdateResult getUpdateResult(
       InternalGroup originalGroup, InternalGroup updatedGroup) {
-    Set<Account.Id> addedMembers =
-        Sets.difference(updatedGroup.getMembers(), originalGroup.getMembers());
+    Set<Account.Id> addedMembers = Sets.difference(updatedGroup.members(), originalGroup.members());
     Set<Account.Id> deletedMembers =
-        Sets.difference(originalGroup.getMembers(), updatedGroup.getMembers());
+        Sets.difference(originalGroup.members(), updatedGroup.members());
     Set<AccountGroup.UUID> addedSubgroups =
-        Sets.difference(updatedGroup.getSubgroups(), originalGroup.getSubgroups());
+        Sets.difference(updatedGroup.subgroups(), originalGroup.subgroups());
     Set<AccountGroup.UUID> deletedSubgroups =
-        Sets.difference(originalGroup.getSubgroups(), updatedGroup.getSubgroups());
+        Sets.difference(originalGroup.subgroups(), updatedGroup.subgroups());
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
-            .setGroupUuid(updatedGroup.getGroupUUID())
-            .setGroupId(updatedGroup.getId())
-            .setGroupName(updatedGroup.getNameKey())
+            .setGroupUuid(updatedGroup.groupUUID())
+            .setGroupId(updatedGroup.id())
+            .setGroupName(updatedGroup.nameKey())
             .setAddedMembers(addedMembers)
             .setDeletedMembers(deletedMembers)
             .setAddedSubgroups(addedSubgroups)
             .setDeletedSubgroups(deletedSubgroups);
-    if (!Objects.equals(originalGroup.getNameKey(), updatedGroup.getNameKey())) {
-      resultBuilder.setPreviousGroupName(originalGroup.getNameKey());
+    if (!Objects.equals(originalGroup.nameKey(), updatedGroup.nameKey())) {
+      resultBuilder.setPreviousGroupName(originalGroup.nameKey());
     }
     return resultBuilder.build();
   }
 
   private static DeleteResult buildDeleteResult(InternalGroup deletedGroup) {
-    ImmutableSet<Account.Id> deletedMembers = deletedGroup.getMembers();
-    ImmutableSet<AccountGroup.UUID> deletedSubgroups = deletedGroup.getSubgroups();
+    ImmutableSet<Account.Id> deletedMembers = deletedGroup.members();
+    ImmutableSet<AccountGroup.UUID> deletedSubgroups = deletedGroup.subgroups();
 
     DeleteResult.Builder resultBuilder =
         DeleteResult.builder()
-            .setDeletedGroupUuid(deletedGroup.getGroupUUID())
-            .setDeletedGroupId(deletedGroup.getId())
-            .setDeletedGroupName(deletedGroup.getNameKey())
+            .setDeletedGroupUuid(deletedGroup.groupUUID())
+            .setDeletedGroupId(deletedGroup.id())
+            .setDeletedGroupName(deletedGroup.nameKey())
             .setDeletedGroupMembers(deletedMembers)
             .setDeletedGroupSubgroups(deletedSubgroups);
     return resultBuilder.build();
@@ -559,57 +556,53 @@ public class GroupsUpdate {
   }
 
   private void evictCachesOnGroupCreation(InternalGroup createdGroup) {
-    logger.atFine().log("evict caches on creation of group %s", createdGroup.getGroupUUID());
+    logger.atFine().log("evict caches on creation of group %s", createdGroup.groupUUID());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
-    groupCache.evict(createdGroup.getGroupUUID());
-    indexer.get().index(createdGroup.getGroupUUID());
+    groupCache.evict(createdGroup.groupUUID());
+    indexer.get().index(createdGroup.groupUUID());
     // These caches use the result from the index and hence must be evicted after refreshing the
     // index.
-    groupCache.evict(createdGroup.getId());
-    groupCache.evict(createdGroup.getNameKey());
-    createdGroup.getMembers().forEach(groupIncludeCache::evictGroupsWithMember);
-    createdGroup.getSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+    groupCache.evict(createdGroup.id());
+    groupCache.evict(createdGroup.nameKey());
+    createdGroup.members().forEach(groupIncludeCache::evictGroupsWithMember);
+    createdGroup.subgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void evictCachesOnGroupUpdate(UpdateResult result) {
-    logger.atFine().log("evict caches on update of group %s", result.getGroupUuid());
+    logger.atFine().log("evict caches on update of group %s", result.groupUuid());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
-    groupCache.evict(result.getGroupUuid());
-    indexer.get().index(result.getGroupUuid());
+    groupCache.evict(result.groupUuid());
+    indexer.get().index(result.groupUuid());
     // These caches use the result from the index and hence must be evicted after refreshing the
     // index.
-    groupCache.evict(result.getGroupId());
-    groupCache.evict(result.getGroupName());
-    result.getPreviousGroupName().ifPresent(groupCache::evict);
+    groupCache.evict(result.groupId());
+    groupCache.evict(result.groupName());
+    result.previousGroupName().ifPresent(groupCache::evict);
 
-    result.getAddedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
-    result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
-    result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
-    result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+    result.addedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.deletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.addedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+    result.deletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void evictCacheOnGroupDeletion(DeleteResult result) {
-    logger.atFine().log("evict caches on deletion of group %s", result.getDeletedGroupUuid());
-    groupCache.evict(result.getDeletedGroupUuid());
-    indexer.get().index(result.getDeletedGroupUuid());
-    groupCache.evict(result.getDeletedGroupId());
-    groupCache.evict(AccountGroup.nameKey(result.getDeletedGroupName().get()));
-    result.getDeletedGroupMembers().forEach(groupIncludeCache::evictGroupsWithMember);
-    result.getDeletedGroupSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+    logger.atFine().log("evict caches on deletion of group %s", result.deletedGroupUuid());
+    groupCache.evict(result.deletedGroupUuid());
+    indexer.get().index(result.deletedGroupUuid());
+    groupCache.evict(result.deletedGroupId());
+    groupCache.evict(AccountGroup.nameKey(result.deletedGroupName().get()));
+    result.deletedGroupMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.deletedGroupSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void updateNameInProjectConfigsIfNecessary(UpdateResult result) {
-    if (result.getPreviousGroupName().isPresent()) {
-      AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
+    if (result.previousGroupName().isPresent()) {
+      AccountGroup.NameKey previousName = result.previousGroupName().get();
 
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError =
           renameGroupOpFactory
-              .create(
-                  authorIdent,
-                  result.getGroupUuid(),
-                  previousName.get(),
-                  result.getGroupName().get())
+              .create(authorIdent, result.groupUuid(), previousName.get(), result.groupName().get())
               .start(0, TimeUnit.MILLISECONDS);
     }
   }
@@ -619,19 +612,19 @@ public class GroupsUpdate {
       return;
     }
 
-    if (!createdGroup.getMembers().isEmpty()) {
+    if (!createdGroup.members().isEmpty()) {
       groupAuditService.dispatchAddMembers(
           currentUser.get().getAccountId(),
-          createdGroup.getGroupUUID(),
-          createdGroup.getMembers(),
-          createdGroup.getCreatedOn());
+          createdGroup.groupUUID(),
+          createdGroup.members(),
+          createdGroup.createdOn());
     }
-    if (!createdGroup.getSubgroups().isEmpty()) {
+    if (!createdGroup.subgroups().isEmpty()) {
       groupAuditService.dispatchAddSubgroups(
           currentUser.get().getAccountId(),
-          createdGroup.getGroupUUID(),
-          createdGroup.getSubgroups(),
-          createdGroup.getCreatedOn());
+          createdGroup.groupUUID(),
+          createdGroup.subgroups(),
+          createdGroup.createdOn());
     }
   }
 
@@ -640,32 +633,23 @@ public class GroupsUpdate {
       return;
     }
 
-    if (!result.getAddedMembers().isEmpty()) {
+    if (!result.addedMembers().isEmpty()) {
       groupAuditService.dispatchAddMembers(
-          currentUser.get().getAccountId(),
-          result.getGroupUuid(),
-          result.getAddedMembers(),
-          updatedOn);
+          currentUser.get().getAccountId(), result.groupUuid(), result.addedMembers(), updatedOn);
     }
-    if (!result.getDeletedMembers().isEmpty()) {
+    if (!result.deletedMembers().isEmpty()) {
       groupAuditService.dispatchDeleteMembers(
-          currentUser.get().getAccountId(),
-          result.getGroupUuid(),
-          result.getDeletedMembers(),
-          updatedOn);
+          currentUser.get().getAccountId(), result.groupUuid(), result.deletedMembers(), updatedOn);
     }
-    if (!result.getAddedSubgroups().isEmpty()) {
+    if (!result.addedSubgroups().isEmpty()) {
       groupAuditService.dispatchAddSubgroups(
-          currentUser.get().getAccountId(),
-          result.getGroupUuid(),
-          result.getAddedSubgroups(),
-          updatedOn);
+          currentUser.get().getAccountId(), result.groupUuid(), result.addedSubgroups(), updatedOn);
     }
-    if (!result.getDeletedSubgroups().isEmpty()) {
+    if (!result.deletedSubgroups().isEmpty()) {
       groupAuditService.dispatchDeleteSubgroups(
           currentUser.get().getAccountId(),
-          result.getGroupUuid(),
-          result.getDeletedSubgroups(),
+          result.groupUuid(),
+          result.deletedSubgroups(),
           updatedOn);
     }
   }
@@ -695,46 +679,6 @@ public class GroupsUpdate {
       requireNonNull(deletedMembers, "deletedMembers");
       requireNonNull(addedSubgroups, "addedSubgroups");
       requireNonNull(deletedSubgroups, "deletedSubgroups");
-    }
-
-    @InlineMe(replacement = "this.groupUuid()")
-    AccountGroup.UUID getGroupUuid() {
-      return groupUuid();
-    }
-
-    @InlineMe(replacement = "this.groupId()")
-    AccountGroup.Id getGroupId() {
-      return groupId();
-    }
-
-    @InlineMe(replacement = "this.groupName()")
-    AccountGroup.NameKey getGroupName() {
-      return groupName();
-    }
-
-    @InlineMe(replacement = "this.previousGroupName()")
-    Optional<AccountGroup.NameKey> getPreviousGroupName() {
-      return previousGroupName();
-    }
-
-    @InlineMe(replacement = "this.addedMembers()")
-    ImmutableSet<Account.Id> getAddedMembers() {
-      return addedMembers();
-    }
-
-    @InlineMe(replacement = "this.deletedMembers()")
-    ImmutableSet<Account.Id> getDeletedMembers() {
-      return deletedMembers();
-    }
-
-    @InlineMe(replacement = "this.addedSubgroups()")
-    ImmutableSet<AccountGroup.UUID> getAddedSubgroups() {
-      return addedSubgroups();
-    }
-
-    @InlineMe(replacement = "this.deletedSubgroups()")
-    ImmutableSet<AccountGroup.UUID> getDeletedSubgroups() {
-      return deletedSubgroups();
     }
 
     static Builder builder() {
@@ -775,31 +719,6 @@ public class GroupsUpdate {
       requireNonNull(deletedGroupName, "deletedGroupName");
       requireNonNull(deletedGroupMembers, "deletedGroupMembers");
       requireNonNull(deletedGroupSubgroups, "deletedGroupSubgroups");
-    }
-
-    @InlineMe(replacement = "this.deletedGroupUuid()")
-    AccountGroup.UUID getDeletedGroupUuid() {
-      return deletedGroupUuid();
-    }
-
-    @InlineMe(replacement = "this.deletedGroupId()")
-    AccountGroup.Id getDeletedGroupId() {
-      return deletedGroupId();
-    }
-
-    @InlineMe(replacement = "this.deletedGroupName()")
-    AccountGroup.NameKey getDeletedGroupName() {
-      return deletedGroupName();
-    }
-
-    @InlineMe(replacement = "this.deletedGroupMembers()")
-    ImmutableSet<Account.Id> getDeletedGroupMembers() {
-      return deletedGroupMembers();
-    }
-
-    @InlineMe(replacement = "this.deletedGroupSubgroups()")
-    ImmutableSet<AccountGroup.UUID> getDeletedGroupSubgroups() {
-      return deletedGroupSubgroups();
     }
 
     static Builder builder() {

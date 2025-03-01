@@ -80,7 +80,7 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
         readUTF8(GroupList.FILE_NAME),
         error ->
             logger.atSevere().log(
-                "Error parsing file %s: %s", GroupList.FILE_NAME, error.getMessage()));
+                "Error parsing file %s: %s", GroupList.FILE_NAME, error.message()));
   }
 
   public void save(String pluginName, String message) throws IOException, ConfigInvalidException {

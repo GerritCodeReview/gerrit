@@ -134,7 +134,7 @@ public class DefaultRefFilter {
         skipFullRefEvaluationIfAllRefsAreVisible);
     logger.atFinest().log(
         "Project state %s permits read = %s",
-        projectState.getProject().getState(), projectState.statePermitsRead());
+        projectState.getProject().state(), projectState.statePermitsRead());
 
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting

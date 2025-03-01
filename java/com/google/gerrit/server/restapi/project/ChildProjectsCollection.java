@@ -59,7 +59,7 @@ public class ChildProjectsCollection
     parent.getProjectState().checkStatePermitsRead();
     ProjectResource p = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     for (ProjectState pp : p.getProjectState().parents()) {
-      if (parent.getNameKey().equals(pp.getProject().getNameKey())) {
+      if (parent.getNameKey().equals(pp.getProject().nameKey())) {
         return new ChildProjectResource(parent, p.getProjectState());
       }
     }

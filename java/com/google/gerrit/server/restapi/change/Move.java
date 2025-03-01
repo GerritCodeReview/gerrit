@@ -268,7 +268,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
         // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.
         if (!type.isPresent()
-            || (type.get().isMaxNegative(psa) && type.get().getFunction().isBlock())) {
+            || (type.get().isMaxNegative(psa) && type.get().function().isBlock())) {
           continue;
         }
 

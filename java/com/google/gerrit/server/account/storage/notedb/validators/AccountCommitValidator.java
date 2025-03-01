@@ -52,7 +52,7 @@ public class AccountCommitValidator implements CommitValidationListener {
   @Override
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
-    if (!allUsers.equals(receiveEvent.project.getNameKey())) {
+    if (!allUsers.equals(receiveEvent.project.nameKey())) {
       return Collections.emptyList();
     }
 

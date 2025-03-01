@@ -26,7 +26,7 @@ public class LabelTypeTest {
     LabelValue v1 = LabelValue.create((short) 1, "One");
     LabelValue v2 = LabelValue.create((short) 2, "Two");
     LabelType types = LabelType.create("Label", ImmutableList.of(v2, v0, v1));
-    assertThat(types.getValues()).containsExactly(v0, v1, v2).inOrder();
+    assertThat(types.values()).containsExactly(v0, v1, v2).inOrder();
   }
 
   @Test
@@ -35,7 +35,7 @@ public class LabelTypeTest {
     LabelValue v2 = LabelValue.create((short) 2, "Two");
     LabelValue v5 = LabelValue.create((short) 5, "Five");
     LabelType types = LabelType.create("Label", ImmutableList.of(v2, v5, v0));
-    assertThat(types.getValues())
+    assertThat(types.values())
         .containsExactly(
             v0,
             LabelValue.create((short) 1, ""),

@@ -94,11 +94,11 @@ public class IncludingGroupMembership implements GroupMembership {
         if (group == null) {
           continue;
         }
-        if (user.isIdentifiedUser() && group.getMembers().contains(user.getAccountId())) {
+        if (user.isIdentifiedUser() && group.members().contains(user.getAccountId())) {
           memberOf.put(id, true);
           return true;
         }
-        if (search(group.getSubgroups())) {
+        if (search(group.subgroups())) {
           memberOf.put(id, true);
           return true;
         }

@@ -115,7 +115,7 @@ public class GroupConfig extends VersionedMetaData {
   public static GroupConfig createForNewGroup(
       Project.NameKey projectName, Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, DuplicateKeyException {
-    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
+    GroupConfig groupConfig = new GroupConfig(groupCreation.groupUUID());
     groupConfig.load(projectName, repository);
     groupConfig.setGroupCreation(groupCreation);
     return groupConfig;
@@ -317,7 +317,7 @@ public class GroupConfig extends VersionedMetaData {
     // for new groups, we explicitly need to truncate the timestamp here.
     Instant commitTimestamp =
         TimeUtil.truncateToSecond(
-            groupDelta.flatMap(GroupDelta::getUpdatedOn).orElseGet(TimeUtil::now));
+            groupDelta.flatMap(GroupDelta::updatedOn).orElseGet(TimeUtil::now));
     commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
     commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
 
@@ -339,10 +339,10 @@ public class GroupConfig extends VersionedMetaData {
 
   private Optional<String> getNewName() {
     if (groupDelta.isPresent()) {
-      return groupDelta.get().getName().map(n -> Strings.nullToEmpty(n.get()));
+      return groupDelta.get().name().map(n -> Strings.nullToEmpty(n.get()));
     }
     if (groupCreation.isPresent()) {
-      return Optional.of(Strings.nullToEmpty(groupCreation.get().getNameKey().get()));
+      return Optional.of(Strings.nullToEmpty(groupCreation.get().nameKey().get()));
     }
     return Optional.empty();
   }
@@ -352,14 +352,14 @@ public class GroupConfig extends VersionedMetaData {
     Config config = updateGroupProperties();
 
     ImmutableSet<Account.Id> originalMembers =
-        loadedGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
+        loadedGroup.map(InternalGroup::members).orElseGet(ImmutableSet::of);
     Optional<ImmutableSet<Account.Id>> updatedMembers = updateMembers(originalMembers);
 
     ImmutableSet<AccountGroup.UUID> originalSubgroups =
-        loadedGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
+        loadedGroup.map(InternalGroup::subgroups).orElseGet(ImmutableSet::of);
     Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups = updateSubgroups(originalSubgroups);
 
-    Instant createdOn = loadedGroup.map(InternalGroup::getCreatedOn).orElse(commitTimestamp);
+    Instant createdOn = loadedGroup.map(InternalGroup::createdOn).orElse(commitTimestamp);
 
     return createFrom(
         groupUuid,
@@ -388,7 +388,7 @@ public class GroupConfig extends VersionedMetaData {
       throws IOException {
     Optional<ImmutableSet<Account.Id>> updatedMembers =
         groupDelta
-            .map(GroupDelta::getMemberModification)
+            .map(GroupDelta::memberModification)
             .map(memberModification -> memberModification.apply(originalMembers))
             .map(ImmutableSet::copyOf)
             .filter(members -> !originalMembers.equals(members));
@@ -402,7 +402,7 @@ public class GroupConfig extends VersionedMetaData {
       ImmutableSet<AccountGroup.UUID> originalSubgroups) throws IOException {
     Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups =
         groupDelta
-            .map(GroupDelta::getSubgroupModification)
+            .map(GroupDelta::subgroupModification)
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
             .map(ImmutableSet::copyOf)
             .filter(subgroups -> !originalSubgroups.equals(subgroups));

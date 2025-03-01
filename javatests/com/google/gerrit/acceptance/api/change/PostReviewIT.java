@@ -144,9 +144,9 @@ public class PostReviewIT extends AbstractDaemonTest {
               (left, right) ->
                   left != null
                       && right != null
-                      && left.getSource() == right.getSource()
-                      && left.getType() == right.getType()
-                      && left.getText().equals(right.getText()),
+                      && left.source() == right.source()
+                      && left.type() == right.type()
+                      && left.text().equals(right.text()),
               "matches (ignoring size approximation)");
 
   @Override
@@ -214,8 +214,8 @@ public class PostReviewIT extends AbstractDaemonTest {
             Iterables.getOnlyElement(
                     ((CommentsRejectedException) badRequestException.getCause())
                         .getCommentValidationFailures())
-                .getComment()
-                .getText())
+                .comment()
+                .text())
         .isEqualTo(COMMENT_TEXT);
     assertThat(badRequestException.getCause()).hasMessageThat().contains("Oh no!");
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
@@ -281,8 +281,8 @@ public class PostReviewIT extends AbstractDaemonTest {
             Iterables.getOnlyElement(
                     ((CommentsRejectedException) badRequestException.getCause())
                         .getCommentValidationFailures())
-                .getComment()
-                .getText())
+                .comment()
+                .text())
         .isEqualTo(draft.message);
     assertThat(badRequestException.getCause()).hasMessageThat().contains("Oh no!");
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
@@ -356,8 +356,8 @@ public class PostReviewIT extends AbstractDaemonTest {
             Iterables.getOnlyElement(
                     ((CommentsRejectedException) badRequestException.getCause())
                         .getCommentValidationFailures())
-                .getComment()
-                .getText())
+                .comment()
+                .text())
         .isEqualTo(COMMENT_TEXT);
     assertThat(badRequestException.getCause()).hasMessageThat().contains("Oh no!");
     assertThat(gApi.changes().id(r.getChangeId()).get().messages)

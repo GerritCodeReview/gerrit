@@ -70,7 +70,7 @@ public class SubmitRequirementsCollection
         .check(ProjectPermission.READ_CONFIG);
 
     SubmitRequirement submitRequirement =
-        parent.getProjectState().getConfig().getSubmitRequirementSections().get(id.get());
+        parent.getProjectState().getConfig().submitRequirementSections().get(id.get());
 
     if (submitRequirement == null) {
       throw new ResourceNotFoundException(

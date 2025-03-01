@@ -93,7 +93,7 @@ public class WatchConfigTest implements ValidationError.Sink {
     var unused = ProjectWatches.parse(Account.id(1000000), cfg, this);
 
     assertThat(validationErrors).hasSize(1);
-    assertThat(validationErrors.get(0).getMessage())
+    assertThat(validationErrors.get(0).message())
         .isEqualTo(
             "watch.config: Invalid notify type INVALID in project watch of"
                 + " account 1000000 for project myProject: branch:master"

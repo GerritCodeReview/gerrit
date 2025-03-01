@@ -433,7 +433,7 @@ public class ReviewersUtil {
     }
 
     try {
-      Set<Account> members = groupMembers.listAccounts(group.getUUID(), project.getNameKey());
+      Set<Account> members = groupMembers.listAccounts(group.getUUID(), project.nameKey());
 
       if (members.isEmpty()) {
         logger.atFine().log("Ignore group %s since it has no members", group.getUUID());

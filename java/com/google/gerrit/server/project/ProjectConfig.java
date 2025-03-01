@@ -361,7 +361,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public void addCommentLinkSection(StoredCommentLinkInfo commentLink) {
-    commentLinkSections.put(commentLink.getName(), commentLink);
+    commentLinkSections.put(commentLink.name(), commentLink);
   }
 
   public void removeCommentLinkSection(String name) {
@@ -515,14 +515,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void replace(ContributorAgreement section) {
     ContributorAgreement.Builder ca = section.toBuilder();
-    ca.setAutoVerify(resolve(section.getAutoVerify()));
+    ca.setAutoVerify(resolve(section.autoVerify()));
     ImmutableList.Builder<PermissionRule> newRules = ImmutableList.builder();
-    for (PermissionRule rule : section.getAccepted()) {
-      newRules.add(rule.toBuilder().setGroup(resolve(rule.getGroup())).build());
+    for (PermissionRule rule : section.accepted()) {
+      newRules.add(rule.toBuilder().setGroup(resolve(rule.group())).build());
     }
     ca.setAccepted(newRules.build());
 
-    contributorAgreements.put(section.getName(), ca.build());
+    contributorAgreements.put(section.name(), ca.build());
   }
 
   public Collection<NotifyConfig> getNotifyConfigs() {
@@ -553,7 +553,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   /** Adds or replaces the given {@link LabelType} in this config. */
   public void upsertLabelType(LabelType labelType) {
-    labelSections.put(labelType.getName(), labelType);
+    labelSections.put(labelType.name(), labelType);
   }
 
   /** Allows a mutation of an existing {@link LabelType}. */
@@ -567,8 +567,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   /** Adds or replaces the given {@link ContributorAgreement} in this config. */
   public void upsertContributorAgreement(ContributorAgreement ca) {
-    contributorAgreements.remove(ca.getName());
-    contributorAgreements.put(ca.getName(), ca);
+    contributorAgreements.remove(ca.name());
+    contributorAgreements.put(ca.name(), ca);
   }
 
   public Collection<StoredCommentLinkInfo> getCommentLinkSections() {
@@ -753,13 +753,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             String.format(
                 "Invalid rule in %s.%s.%s: at most one group may be set",
                 CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY));
-      } else if (rules.get(0).getAction() != Action.ALLOW) {
+      } else if (rules.get(0).action() != Action.ALLOW) {
         error(
             String.format(
                 "Invalid rule in %s.%s.%s: the group must be allowed",
                 CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY));
       } else {
-        ca.setAutoVerify(rules.get(0).getGroup());
+        ca.setAutoVerify(rules.get(0).group());
       }
       contributorAgreements.put(name, ca.build());
     }
@@ -938,13 +938,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      GroupReference ref = groupList.byName(rule.getGroup().getName());
+      GroupReference ref = groupList.byName(rule.group().getName());
       if (ref == null) {
         // The group wasn't mentioned in the groups table, so there is
         // no valid UUID for it. Pool the reference anyway so at least
         // all rules in the same file share the same GroupReference.
         //
-        ref = groupList.resolve(rule.getGroup());
+        ref = groupList.resolve(rule.group());
         error(String.format("group \"%s\" not in %s", ref.getName(), GroupList.FILE_NAME));
       }
 
@@ -1113,7 +1113,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
         try {
           LabelValue labelValue = parseLabelValue(value);
-          if (allValues.add(labelValue.getValue())) {
+          if (allValues.add(labelValue.value())) {
             values.add(labelValue);
           } else {
             error(String.format("Duplicate %s \"%s\" for label \"%s\"", KEY_VALUE, value, name));
@@ -1190,7 +1190,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private boolean isInRange(short value, List<LabelValue> labelValues) {
     for (LabelValue lv : labelValues) {
-      if (lv.getValue() == value) {
+      if (lv.value() == value) {
         return true;
       }
     }
@@ -1319,8 +1319,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     Config rc = readConfig(PROJECT_CONFIG);
     Project p = project;
 
-    if (p.getDescription() != null && !p.getDescription().isEmpty()) {
-      rc.setString(PROJECT, null, KEY_DESCRIPTION, p.getDescription());
+    if (p.description() != null && !p.description().isEmpty()) {
+      rc.setString(PROJECT, null, KEY_DESCRIPTION, p.description());
     } else {
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
@@ -1341,14 +1341,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         RECEIVE,
         null,
         KEY_MAX_OBJECT_SIZE_LIMIT,
-        validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
+        validMaxObjectSizeLimit(p.maxObjectSizeLimit()));
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_TYPE);
+    set(rc, SUBMIT, null, KEY_ACTION, p.submitType(), DEFAULT_SUBMIT_TYPE);
 
-    set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
+    set(rc, PROJECT, null, KEY_STATE, p.state(), DEFAULT_STATE_VALUE);
 
-    set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
-    set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());
+    set(rc, DASHBOARD, null, KEY_DEFAULT, p.defaultDashboard());
+    set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.localDefaultDashboard());
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<>();
     saveAccountsSection(rc, keepGroups);
@@ -1404,7 +1404,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           ACCOUNTS,
           null,
           KEY_SAME_GROUP_VISIBILITY,
-          ruleToStringList(accountsSection.getSameGroupVisibility(), keepGroups));
+          ruleToStringList(accountsSection.sameGroupVisibility(), keepGroups));
     }
   }
 
@@ -1413,23 +1413,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (commentLinkSections != null) {
       for (StoredCommentLinkInfo cm : commentLinkSections.values()) {
         // Match and Link can be empty if the commentlink is override only.
-        if (!Strings.isNullOrEmpty(cm.getMatch())) {
-          rc.setString(COMMENTLINK, cm.getName(), KEY_MATCH, cm.getMatch());
+        if (!Strings.isNullOrEmpty(cm.match())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_MATCH, cm.match());
         }
-        if (!Strings.isNullOrEmpty(cm.getLink())) {
-          rc.setString(COMMENTLINK, cm.getName(), KEY_LINK, cm.getLink());
+        if (!Strings.isNullOrEmpty(cm.link())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_LINK, cm.link());
         }
-        if (!Strings.isNullOrEmpty(cm.getPrefix())) {
-          rc.setString(COMMENTLINK, cm.getName(), KEY_PREFIX, cm.getPrefix());
+        if (!Strings.isNullOrEmpty(cm.prefix())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_PREFIX, cm.prefix());
         }
-        if (!Strings.isNullOrEmpty(cm.getSuffix())) {
-          rc.setString(COMMENTLINK, cm.getName(), KEY_SUFFIX, cm.getSuffix());
+        if (!Strings.isNullOrEmpty(cm.suffix())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_SUFFIX, cm.suffix());
         }
-        if (!Strings.isNullOrEmpty(cm.getText())) {
-          rc.setString(COMMENTLINK, cm.getName(), KEY_TEXT, cm.getText());
+        if (!Strings.isNullOrEmpty(cm.text())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_TEXT, cm.text());
         }
-        if (cm.getEnabled() != null && !cm.getEnabled()) {
-          rc.setBoolean(COMMENTLINK, cm.getName(), KEY_ENABLED, cm.getEnabled());
+        if (cm.enabled() != null && !cm.enabled()) {
+          rc.setBoolean(COMMENTLINK, cm.name(), KEY_ENABLED, cm.enabled());
         }
       }
     }
@@ -1438,34 +1438,34 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveContributorAgreements(Config rc, Set<AccountGroup.UUID> keepGroups) {
     unsetSection(rc, CONTRIBUTOR_AGREEMENT);
     for (ContributorAgreement ca : sort(contributorAgreements.values())) {
-      set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_DESCRIPTION, ca.getDescription());
-      set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AGREEMENT_URL, ca.getAgreementUrl());
+      set(rc, CONTRIBUTOR_AGREEMENT, ca.name(), KEY_DESCRIPTION, ca.description());
+      set(rc, CONTRIBUTOR_AGREEMENT, ca.name(), KEY_AGREEMENT_URL, ca.agreementUrl());
 
-      if (ca.getAutoVerify() != null) {
-        if (ca.getAutoVerify().getUUID() != null) {
-          keepGroups.add(ca.getAutoVerify().getUUID());
+      if (ca.autoVerify() != null) {
+        if (ca.autoVerify().getUUID() != null) {
+          keepGroups.add(ca.autoVerify().getUUID());
         }
-        String autoVerify = PermissionRule.create(ca.getAutoVerify()).asString(false);
-        set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY, autoVerify);
+        String autoVerify = PermissionRule.create(ca.autoVerify()).asString(false);
+        set(rc, CONTRIBUTOR_AGREEMENT, ca.name(), KEY_AUTO_VERIFY, autoVerify);
       } else {
-        rc.unset(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY);
+        rc.unset(CONTRIBUTOR_AGREEMENT, ca.name(), KEY_AUTO_VERIFY);
       }
 
       rc.setStringList(
           CONTRIBUTOR_AGREEMENT,
-          ca.getName(),
+          ca.name(),
           KEY_ACCEPTED,
-          ruleToStringList(ca.getAccepted(), keepGroups));
+          ruleToStringList(ca.accepted(), keepGroups));
       rc.setStringList(
           CONTRIBUTOR_AGREEMENT,
-          ca.getName(),
+          ca.name(),
           KEY_EXCLUDE_PROJECTS,
-          patternToStringList(ca.getExcludeProjectsRegexes()));
+          patternToStringList(ca.excludeProjectsRegexes()));
       rc.setStringList(
           CONTRIBUTOR_AGREEMENT,
-          ca.getName(),
+          ca.name(),
           KEY_MATCH_PROJECTS,
-          patternToStringList(ca.getMatchProjectsRegexes()));
+          patternToStringList(ca.matchProjectsRegexes()));
     }
   }
 
@@ -1516,8 +1516,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       List<PermissionRule> list, Set<AccountGroup.UUID> keepGroups) {
     List<String> rules = new ArrayList<>();
     for (PermissionRule rule : sort(list)) {
-      if (rule.getGroup().getUUID() != null) {
-        keepGroups.add(rule.getGroup().getUUID());
+      if (rule.group().getUUID() != null) {
+        keepGroups.add(rule.group().getUUID());
       }
       rules.add(rule.asString(false));
     }
@@ -1535,7 +1535,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         boolean needRange = GlobalCapability.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
-          GroupReference group = resolve(rule.getGroup());
+          GroupReference group = resolve(rule.group());
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }
@@ -1580,7 +1580,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         boolean needRange = Permission.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
         for (PermissionRule rule : sort(permission.getRules())) {
-          GroupReference group = resolve(rule.getGroup());
+          GroupReference group = resolve(rule.group());
           if (group.getUUID() != null) {
             keepGroups.add(group.getUUID());
           }
@@ -1616,42 +1616,42 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String name = e.getKey();
       LabelType label = e.getValue();
       toUnset.remove(name);
-      if (label.getDescription().isPresent() && !label.getDescription().get().isEmpty()) {
-        rc.setString(LABEL, name, KEY_LABEL_DESCRIPTION, label.getDescription().get());
+      if (label.description().isPresent() && !label.description().get().isEmpty()) {
+        rc.setString(LABEL, name, KEY_LABEL_DESCRIPTION, label.description().get());
       } else {
         rc.unset(LABEL, name, KEY_LABEL_DESCRIPTION);
       }
-      rc.setString(LABEL, name, KEY_FUNCTION, label.getFunction().getFunctionName());
-      rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
+      rc.setString(LABEL, name, KEY_FUNCTION, label.function().getFunctionName());
+      rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.defaultValue());
 
       setBooleanConfigKey(
           rc,
           LABEL,
           name,
           KEY_ALLOW_POST_SUBMIT,
-          label.isAllowPostSubmit(),
+          label.allowPostSubmit(),
           LabelType.DEF_ALLOW_POST_SUBMIT);
       setBooleanConfigKey(
           rc,
           LABEL,
           name,
           KEY_IGNORE_SELF_APPROVAL,
-          label.isIgnoreSelfApproval(),
+          label.ignoreSelfApproval(),
           LabelType.DEF_IGNORE_SELF_APPROVAL);
       setBooleanConfigKey(
-          rc, LABEL, name, KEY_CAN_OVERRIDE, label.isCanOverride(), LabelType.DEF_CAN_OVERRIDE);
-      List<String> values = new ArrayList<>(label.getValues().size());
-      for (LabelValue value : label.getValues()) {
+          rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
+      List<String> values = new ArrayList<>(label.values().size());
+      for (LabelValue value : label.values()) {
         values.add(value.format().trim());
       }
       rc.setStringList(LABEL, name, KEY_VALUE, values);
-      if (label.getCopyCondition().isPresent()) {
-        rc.setString(LABEL, name, KEY_COPY_CONDITION, label.getCopyCondition().get());
+      if (label.copyCondition().isPresent()) {
+        rc.setString(LABEL, name, KEY_COPY_CONDITION, label.copyCondition().get());
       } else {
         rc.unset(LABEL, name, KEY_COPY_CONDITION);
       }
 
-      ImmutableList<String> refPatterns = label.getRefPatterns();
+      ImmutableList<String> refPatterns = label.refPatterns();
       if (refPatterns != null && !refPatterns.isEmpty()) {
         rc.setStringList(LABEL, name, KEY_BRANCH, refPatterns);
       } else {

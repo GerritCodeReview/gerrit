@@ -73,7 +73,7 @@ public class GroupOperationsImpl implements GroupOperations {
     InternalGroupCreation internalGroupCreation = toInternalGroupCreation(groupCreation);
     GroupDelta groupDelta = toGroupDelta(groupCreation);
     InternalGroup internalGroup = groupsUpdate.createGroup(internalGroupCreation, groupDelta);
-    return internalGroup.getGroupUUID();
+    return internalGroup.groupUUID();
   }
 
   private InternalGroupCreation toInternalGroupCreation(TestGroupCreation groupCreation) {
@@ -127,15 +127,15 @@ public class GroupOperationsImpl implements GroupOperations {
 
     private TestGroup toTestGroup(InternalGroup internalGroup) {
       return TestGroup.builder()
-          .groupUuid(internalGroup.getGroupUUID())
-          .groupId(internalGroup.getId())
-          .nameKey(internalGroup.getNameKey())
-          .description(Optional.ofNullable(internalGroup.getDescription()))
-          .ownerGroupUuid(internalGroup.getOwnerGroupUUID())
-          .visibleToAll(internalGroup.isVisibleToAll())
-          .createdOn(internalGroup.getCreatedOn())
-          .members(internalGroup.getMembers())
-          .subgroups(internalGroup.getSubgroups())
+          .groupUuid(internalGroup.groupUUID())
+          .groupId(internalGroup.id())
+          .nameKey(internalGroup.nameKey())
+          .description(Optional.ofNullable(internalGroup.description()))
+          .ownerGroupUuid(internalGroup.ownerGroupUUID())
+          .visibleToAll(internalGroup.visibleToAll())
+          .createdOn(internalGroup.createdOn())
+          .members(internalGroup.members())
+          .subgroups(internalGroup.subgroups())
           .build();
     }
 

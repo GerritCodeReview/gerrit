@@ -177,10 +177,10 @@ public class SchemaCreatorImpl implements SchemaCreator {
         GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
-    AccountGroup.NameKey groupName = groupDelta.getName().orElseGet(groupCreation::getNameKey);
+    AccountGroup.NameKey groupName = groupDelta.name().orElseGet(groupCreation::nameKey);
     GroupNameNotes groupNameNotes =
         GroupNameNotes.forNewGroup(
-            allUsersName, allUsersRepo, groupCreation.getGroupUUID(), groupName);
+            allUsersName, allUsersRepo, groupCreation.groupUUID(), groupName);
 
     commit(allUsersRepo, groupConfig, groupNameNotes);
 

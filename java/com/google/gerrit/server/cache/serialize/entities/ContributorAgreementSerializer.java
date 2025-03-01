@@ -43,17 +43,17 @@ public class ContributorAgreementSerializer {
   public static Cache.ContributorAgreementProto serialize(ContributorAgreement autoValue) {
     Cache.ContributorAgreementProto.Builder builder =
         Cache.ContributorAgreementProto.newBuilder()
-            .setName(autoValue.getName())
-            .setDescription(nullToEmpty(autoValue.getDescription()))
+            .setName(autoValue.name())
+            .setDescription(nullToEmpty(autoValue.description()))
             .addAllAccepted(
-                autoValue.getAccepted().stream()
+                autoValue.accepted().stream()
                     .map(PermissionRuleSerializer::serialize)
                     .collect(toImmutableList()))
-            .setUrl(nullToEmpty(autoValue.getAgreementUrl()))
-            .addAllExcludeRegularExpressions(autoValue.getExcludeProjectsRegexes())
-            .addAllMatchRegularExpressions(autoValue.getMatchProjectsRegexes());
-    if (autoValue.getAutoVerify() != null) {
-      builder.setAutoVerify(GroupReferenceSerializer.serialize(autoValue.getAutoVerify()));
+            .setUrl(nullToEmpty(autoValue.agreementUrl()))
+            .addAllExcludeRegularExpressions(autoValue.excludeProjectsRegexes())
+            .addAllMatchRegularExpressions(autoValue.matchProjectsRegexes());
+    if (autoValue.autoVerify() != null) {
+      builder.setAutoVerify(GroupReferenceSerializer.serialize(autoValue.autoVerify()));
     }
     return builder.build();
   }

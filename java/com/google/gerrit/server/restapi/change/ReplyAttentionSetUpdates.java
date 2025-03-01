@@ -370,7 +370,7 @@ public class ReplyAttentionSetUpdates {
               .filter(
                   a ->
                       a.label().equals(LabelId.CODE_REVIEW)
-                          && a.value() == maxCRValue.get().getValue())
+                          && a.value() == maxCRValue.get().value())
               .map(a -> a.accountId())
               .collect(toImmutableSet());
     } else {

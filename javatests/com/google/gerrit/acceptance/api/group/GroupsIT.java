@@ -601,9 +601,9 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void getGroup() throws Exception {
     InternalGroup adminGroup = adminGroup();
-    testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
+    testGetGroup(adminGroup.groupUUID().get(), adminGroup);
     testGetGroup(adminGroup.getName(), adminGroup);
-    testGetGroup(adminGroup.getId().get(), adminGroup);
+    testGetGroup(adminGroup.id().get(), adminGroup);
   }
 
   private void testGetGroup(Object id, InternalGroup expectedGroup) throws Exception {
@@ -619,9 +619,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
     InternalGroup postUpdateState = groupCache.get(uuid).get();
     assertThat(postUpdateState).isNotEqualTo(preUpdateState);
-    assertThat(groupCache.getFromMetaId(uuid, preUpdateState.getRefState()))
-        .isEqualTo(preUpdateState);
-    assertThat(groupCache.getFromMetaId(uuid, postUpdateState.getRefState()))
+    assertThat(groupCache.getFromMetaId(uuid, preUpdateState.refState())).isEqualTo(preUpdateState);
+    assertThat(groupCache.getFromMetaId(uuid, postUpdateState.refState()))
         .isEqualTo(postUpdateState);
   }
 

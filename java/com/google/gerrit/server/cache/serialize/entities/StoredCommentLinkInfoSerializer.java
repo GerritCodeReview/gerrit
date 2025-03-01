@@ -37,14 +37,14 @@ public class StoredCommentLinkInfoSerializer {
 
   public static Cache.StoredCommentLinkInfoProto serialize(StoredCommentLinkInfo autoValue) {
     return Cache.StoredCommentLinkInfoProto.newBuilder()
-        .setName(autoValue.getName())
-        .setMatch(nullToEmpty(autoValue.getMatch()))
-        .setLink(nullToEmpty(autoValue.getLink()))
-        .setPrefix(nullToEmpty(autoValue.getPrefix()))
-        .setSuffix(nullToEmpty(autoValue.getSuffix()))
-        .setText(nullToEmpty(autoValue.getText()))
-        .setEnabled(Optional.ofNullable(autoValue.getEnabled()).orElse(true))
-        .setOverrideOnly(autoValue.getOverrideOnly())
+        .setName(autoValue.name())
+        .setMatch(nullToEmpty(autoValue.match()))
+        .setLink(nullToEmpty(autoValue.link()))
+        .setPrefix(nullToEmpty(autoValue.prefix()))
+        .setSuffix(nullToEmpty(autoValue.suffix()))
+        .setText(nullToEmpty(autoValue.text()))
+        .setEnabled(Optional.ofNullable(autoValue.enabled()).orElse(true))
+        .setOverrideOnly(autoValue.overrideOnly())
         .build();
   }
 

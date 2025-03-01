@@ -70,7 +70,7 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
             groupCache
                 .get(AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS))
                 .get()
-                .getGroupUUID())
+                .groupUUID())
         .forUpdate()
         .addMember(serviceUser)
         .update();

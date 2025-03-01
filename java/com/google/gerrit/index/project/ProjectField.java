@@ -30,8 +30,8 @@ import com.google.gerrit.index.SchemaUtil;
  */
 public class ProjectField {
   private static byte[] toRefState(Project project) {
-    return RefState.create(RefNames.REFS_CONFIG, project.getConfigRefState())
-        .toByteArray(project.getNameKey());
+    return RefState.create(RefNames.REFS_CONFIG, project.configRefState())
+        .toByteArray(project.nameKey());
   }
 
   public static final IndexedField<ProjectData, String> NAME_FIELD =
@@ -50,7 +50,7 @@ public class ProjectField {
   public static final IndexedField<ProjectData, String> DESCRIPTION_FIELD =
       IndexedField.<ProjectData>stringBuilder("Description")
           .stored()
-          .build(p -> p.getProject().getDescription());
+          .build(p -> p.getProject().description());
 
   public static final IndexedField<ProjectData, String>.SearchSpec DESCRIPTION_SPEC =
       DESCRIPTION_FIELD.fullText("description");
@@ -80,7 +80,7 @@ public class ProjectField {
   public static final IndexedField<ProjectData, String> STATE_FIELD =
       IndexedField.<ProjectData>stringBuilder("State")
           .stored()
-          .build(p -> p.getProject().getState().name());
+          .build(p -> p.getProject().state().name());
 
   public static final IndexedField<ProjectData, String>.SearchSpec STATE_SPEC =
       STATE_FIELD.exact("state");
@@ -105,7 +105,7 @@ public class ProjectField {
           .build(
               projectData ->
                   projectData.tree().stream()
-                      .filter(p -> p.getProject().getConfigRefState() != null)
+                      .filter(p -> p.getProject().configRefState() != null)
                       .map(p -> toRefState(p.getProject()))
                       .collect(toImmutableList()));
 

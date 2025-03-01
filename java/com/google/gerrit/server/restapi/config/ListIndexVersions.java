@@ -32,6 +32,6 @@ public class ListIndexVersions implements RestReadView<IndexResource> {
   public Response<Map<Integer, IndexInfo.IndexVersionInfo>> apply(IndexResource rsrc)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
     IndexInfo info = IndexInfo.fromIndexDefinition(rsrc.getIndexDefinition());
-    return Response.ok(info.getVersions());
+    return Response.ok(info.versions());
   }
 }

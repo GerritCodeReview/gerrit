@@ -77,7 +77,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
         .add(
             allow(Permission.READ)
                 .ref("refs/*")
-                .group(groupCache.get(AccountGroup.nameKey(group)).get().getGroupUUID()))
+                .group(groupCache.get(AccountGroup.nameKey(group)).get().groupUUID()))
         .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
         .update();
 

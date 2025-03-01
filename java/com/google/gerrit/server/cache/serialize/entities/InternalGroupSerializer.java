@@ -57,22 +57,22 @@ public class InternalGroupSerializer {
   public static Cache.InternalGroupProto serialize(InternalGroup autoValue) {
     Cache.InternalGroupProto.Builder builder =
         Cache.InternalGroupProto.newBuilder()
-            .setId(autoValue.getId().get())
+            .setId(autoValue.id().get())
             .setName(autoValue.getName())
-            .setOwnerGroupUuid(autoValue.getOwnerGroupUUID().get())
-            .setIsVisibleToAll(autoValue.isVisibleToAll())
-            .setGroupUuid(autoValue.getGroupUUID().get())
-            .setCreatedOn(autoValue.getCreatedOn().toEpochMilli());
+            .setOwnerGroupUuid(autoValue.ownerGroupUUID().get())
+            .setIsVisibleToAll(autoValue.visibleToAll())
+            .setGroupUuid(autoValue.groupUUID().get())
+            .setCreatedOn(autoValue.createdOn().toEpochMilli());
 
-    autoValue.getMembers().stream().forEach(m -> builder.addMembersIds(m.get()));
-    autoValue.getSubgroups().stream().forEach(s -> builder.addSubgroupUuids(s.get()));
+    autoValue.members().stream().forEach(m -> builder.addMembersIds(m.get()));
+    autoValue.subgroups().stream().forEach(s -> builder.addSubgroupUuids(s.get()));
 
-    if (autoValue.getDescription() != null) {
-      builder.setDescription(autoValue.getDescription());
+    if (autoValue.description() != null) {
+      builder.setDescription(autoValue.description());
     }
 
-    if (autoValue.getRefState() != null) {
-      builder.setRefState(ObjectIdConverter.create().toByteString(autoValue.getRefState()));
+    if (autoValue.refState() != null) {
+      builder.setRefState(ObjectIdConverter.create().toByteString(autoValue.refState()));
     }
 
     return builder.build();

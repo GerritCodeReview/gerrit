@@ -16,21 +16,9 @@ package com.google.gerrit.entities;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.InlineMe;
-
 public record LabelValue(short value, String text) {
   public LabelValue {
     requireNonNull(text, "text");
-  }
-
-  @InlineMe(replacement = "this.value()")
-  public short getValue() {
-    return value();
-  }
-
-  @InlineMe(replacement = "this.text()")
-  public String getText() {
-    return text();
   }
 
   public static String formatValue(short value) {
@@ -48,13 +36,13 @@ public record LabelValue(short value, String text) {
   }
 
   public String formatValue() {
-    return formatValue(getValue());
+    return formatValue(value());
   }
 
   public String format() {
     StringBuilder sb = new StringBuilder(formatValue());
-    if (!getText().isEmpty()) {
-      sb.append(' ').append(getText());
+    if (!text().isEmpty()) {
+      sb.append(' ').append(text());
     }
     return sb.toString();
   }

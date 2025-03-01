@@ -39,9 +39,9 @@ public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<InternalGrou
   @Override
   public boolean match(InternalGroup group) {
     try {
-      boolean canSee = groupControlFactory.controlFor(user, group.getGroupUUID()).isVisible();
+      boolean canSee = groupControlFactory.controlFor(user, group.groupUUID()).isVisible();
       if (!canSee) {
-        logger.atFine().log("Filter out non-visisble group: %s", group.getGroupUUID());
+        logger.atFine().log("Filter out non-visisble group: %s", group.groupUUID());
       }
       return canSee;
     } catch (NoSuchGroupException e) {

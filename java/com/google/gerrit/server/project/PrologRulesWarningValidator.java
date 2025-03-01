@@ -79,7 +79,7 @@ public class PrologRulesWarningValidator implements CommitValidationListener {
         receiveEvent
             .diffOperations
             .loadModifiedFilesAgainstParentIfNecessary(
-                receiveEvent.project.getNameKey(),
+                receiveEvent.project.nameKey(),
                 receiveEvent.commit,
                 /* parentNum= */ 0,
                 /* enableRenameDetection= */ true)

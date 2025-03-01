@@ -881,10 +881,10 @@ public class ChangeField {
       @Nullable Integer count) {
     List<String> labels = new ArrayList<>();
     if (labelType.isPresent()) {
-      if (labelVal == labelType.get().getMaxPositive()) {
+      if (labelVal == labelType.get().maxPositive()) {
         labels.add(formatLabel(label, MagicLabelValue.MAX.name(), accountId, count));
       }
-      if (labelVal == labelType.get().getMaxNegative()) {
+      if (labelVal == labelType.get().maxNegative()) {
         labels.add(formatLabel(label, MagicLabelValue.MIN.name(), accountId, count));
       }
     }

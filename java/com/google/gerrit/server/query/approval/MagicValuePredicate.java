@@ -50,9 +50,9 @@ public class MagicValuePredicate extends ApprovalPredicate {
       case ANY:
         return true;
       case MIN:
-        return ctx.approvalValue() == ctx.labelType().getMaxNegative();
+        return ctx.approvalValue() == ctx.labelType().maxNegative();
       case MAX:
-        return ctx.approvalValue() == ctx.labelType().getMaxPositive();
+        return ctx.approvalValue() == ctx.labelType().maxPositive();
       case POSITIVE:
         return ctx.approvalValue() > 0;
       case NEGATIVE:

@@ -35,5 +35,5 @@ public interface GroupIndex extends Index<AccountGroup.UUID, InternalGroup> {
     return GroupPredicates.uuid(uuid);
   }
 
-  Function<InternalGroup, AccountGroup.UUID> ENTITY_TO_KEY = (g) -> g.getGroupUUID();
+  Function<InternalGroup, AccountGroup.UUID> ENTITY_TO_KEY = (g) -> g.groupUUID();
 }

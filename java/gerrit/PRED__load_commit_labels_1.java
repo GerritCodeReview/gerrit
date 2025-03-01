@@ -46,7 +46,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
 
       StructureTerm labelTerm =
           new StructureTerm(
-              sym_label, SymbolTerm.intern(t.get().getName()), new IntegerTerm(a.value()));
+              sym_label, SymbolTerm.intern(t.get().name()), new IntegerTerm(a.value()));
 
       StructureTerm userTerm = new StructureTerm(sym_user, new IntegerTerm(a.accountId().get()));
 

@@ -25,19 +25,19 @@ public interface GroupAuditEvent {
    *
    * @return the {@link com.google.gerrit.entities.Account.Id} of the acting user.
    */
-  Account.Id getActor();
+  Account.Id actor();
 
   /**
    * Gets the {@link com.google.gerrit.entities.AccountGroup.UUID} of the updated group.
    *
    * @return the {@link com.google.gerrit.entities.AccountGroup.UUID} of the updated group.
    */
-  AccountGroup.UUID getUpdatedGroup();
+  AccountGroup.UUID updatedGroup();
 
   /**
    * Gets the {@link Instant} of the action.
    *
    * @return the {@link Instant} of the action.
    */
-  Instant getTimestamp();
+  Instant timestamp();
 }

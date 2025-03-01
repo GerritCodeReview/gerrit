@@ -113,8 +113,7 @@ public class ListLabels implements RestReadView<ProjectResource> {
   }
 
   private List<LabelDefinitionInfo> listLabels(ProjectState projectState) {
-    ImmutableCollection<LabelType> labelTypes =
-        projectState.getConfig().getLabelSections().values();
+    ImmutableCollection<LabelType> labelTypes = projectState.getConfig().labelSections().values();
     List<LabelDefinitionInfo> labels = new ArrayList<>(labelTypes.size());
     for (LabelType labelType : labelTypes) {
       labels.add(LabelDefinitionJson.format(projectState.getNameKey(), labelType));
@@ -168,9 +167,9 @@ public class ListLabels implements RestReadView<ProjectResource> {
               .ref(branchNameKey.branch())
               .test(labelType);
 
-      for (LabelValue v : labelType.getValues()) {
+      for (LabelValue v : labelType.values()) {
         boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
-        if (ok && v.getValue() > 0) {
+        if (ok && v.value() > 0) {
           labelsThatUserCanVoteOn.add(label);
           break;
         }
@@ -181,11 +180,11 @@ public class ListLabels implements RestReadView<ProjectResource> {
   }
 
   private boolean matchesAnyRefPattern(LabelType labelType, String branchName) {
-    if (labelType.getRefPatterns() == null) {
+    if (labelType.refPatterns() == null) {
       return true;
     }
 
-    for (String refPattern : labelType.getRefPatterns()) {
+    for (String refPattern : labelType.refPatterns()) {
       if (RefPatternMatcher.getMatcher(refPattern).match(branchName, null)) {
         return true;
       }

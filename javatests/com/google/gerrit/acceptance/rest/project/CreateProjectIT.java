@@ -227,8 +227,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(p.name).isEqualTo(newProjectName);
     Project project = projectCache.get(Project.nameKey(newProjectName)).get().getProject();
     assertProjectInfo(project, p);
-    assertThat(project.getDescription()).isEqualTo(in.description);
-    assertThat(project.getSubmitType()).isEqualTo(in.submitType);
+    assertThat(project.description()).isEqualTo(in.description);
+    assertThat(project.submitType()).isEqualTo(in.submitType);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS))
         .isEqualTo(in.useContributorAgreements);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY))
@@ -273,7 +273,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
     Optional<InternalGroup> group = groupCache.get(AccountGroup.nameKey("Administrators"));
     if (group.isPresent()) {
-      in.owners.add(Integer.toString(group.get().getId().get())); // by ID
+      in.owners.add(Integer.toString(group.get().id().get())); // by ID
     }
 
     gApi.projects().create(in);

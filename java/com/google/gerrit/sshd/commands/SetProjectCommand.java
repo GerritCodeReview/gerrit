@@ -146,7 +146,7 @@ final class SetProjectCommand extends SshCommand {
     if (Strings.emptyToNull(projectDescription) != null) {
       configInput.description = projectDescription;
     } else {
-      configInput.description = projectState.getProject().getDescription();
+      configInput.description = projectState.getProject().description();
     }
 
     try {

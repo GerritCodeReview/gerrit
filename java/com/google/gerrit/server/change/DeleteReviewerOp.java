@@ -143,7 +143,7 @@ public class DeleteReviewerOp extends ReviewerOp {
             .getLabelTypes(ctx.getNotes());
     // removing a reviewer will remove all her votes
     for (LabelType lt : labelTypes.getLabelTypes()) {
-      newApprovals.put(lt.getName(), (short) 0);
+      newApprovals.put(lt.name(), (short) 0);
     }
     String ccOrReviewer =
         approvalsUtil

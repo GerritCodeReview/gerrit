@@ -159,7 +159,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
           String.format(
               "Found an invalid draft comment after validation: %s",
               validationFailures.stream()
-                  .map(CommentValidationFailure::getMessage)
+                  .map(CommentValidationFailure::message)
                   .collect(Collectors.toList())),
           new CommentsRejectedException(validationFailures));
     }

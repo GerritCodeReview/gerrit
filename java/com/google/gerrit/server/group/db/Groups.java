@@ -170,7 +170,7 @@ public class Groups {
       }
       Optional<InternalGroup> group =
           getGroupFromNoteDb(allUsersName, allUsersRepo, uuid, internalGroupRef.getObjectId());
-      group.map(InternalGroup::getSubgroups).ifPresent(allSubgroups::addAll);
+      group.map(InternalGroup::subgroups).ifPresent(allSubgroups::addAll);
     }
     return allSubgroups.build().stream().filter(groupUuid -> !groupUuid.isInternalGroup());
   }

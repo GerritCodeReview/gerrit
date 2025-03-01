@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
@@ -104,9 +103,7 @@ class EditTransformer {
             toMultimap(
                 c -> {
                   String path =
-                      c.getNewFilePath().isPresent()
-                          ? c.getNewFilePath().get()
-                          : c.getOldFilePath().get();
+                      c.newFilePath().isPresent() ? c.newFilePath().get() : c.oldFilePath().get();
                   return path;
                 },
                 Function.identity(),
@@ -155,41 +152,6 @@ class EditTransformer {
       requireNonNull(newFilePath, "newFilePath");
     }
 
-    @InlineMe(replacement = "this.oldFilePath()")
-    public Optional<String> getOldFilePath() {
-      return oldFilePath();
-    }
-
-    @InlineMe(replacement = "this.newFilePath()")
-    public Optional<String> getNewFilePath() {
-      return newFilePath();
-    }
-
-    @InlineMe(replacement = "this.beginA()")
-    public int getBeginA() {
-      return beginA();
-    }
-
-    @InlineMe(replacement = "this.endA()")
-    public int getEndA() {
-      return endA();
-    }
-
-    @InlineMe(replacement = "this.beginB()")
-    public int getBeginB() {
-      return beginB();
-    }
-
-    @InlineMe(replacement = "this.endB()")
-    public int getEndB() {
-      return endB();
-    }
-
-    @InlineMe(replacement = "this.implicitRename()")
-    public boolean isImplicitRename() {
-      return implicitRename();
-    }
-
     static ContextAwareEdit create(Optional<String> oldPath, Optional<String> newPath, Edit edit) {
       // TODO(ghareeb): Look if the new FileEdits class is capable of representing renames/copies
       // and in this case we can get rid of the ContextAwareEdit class.
@@ -225,12 +187,11 @@ class EditTransformer {
     // Used for equals(), for which this value is important.
 
     public Optional<org.eclipse.jgit.diff.Edit> toEdit() {
-      if (getBeginA() < 0) {
+      if (beginA() < 0) {
         return Optional.empty();
       }
 
-      return Optional.of(
-          new org.eclipse.jgit.diff.Edit(getBeginA(), getEndA(), getBeginB(), getEndB()));
+      return Optional.of(new org.eclipse.jgit.diff.Edit(beginA(), endA(), beginB(), endB()));
     }
   }
 
@@ -246,12 +207,10 @@ class EditTransformer {
     @Override
     public Position extractPosition(ContextAwareEdit edit) {
       String filePath =
-          edit.getOldFilePath().isPresent()
-              ? edit.getOldFilePath().get()
-              : edit.getNewFilePath().get();
+          edit.oldFilePath().isPresent() ? edit.oldFilePath().get() : edit.newFilePath().get();
       return Position.builder()
           .filePath(filePath)
-          .lineRange(Range.create(edit.getBeginA(), edit.getEndA()))
+          .lineRange(Range.create(edit.beginA(), edit.endA()))
           .build();
     }
 
@@ -277,12 +236,12 @@ class EditTransformer {
       }
       return ContextAwareEdit.create(
           Optional.of(updatedFilePath),
-          edit.getNewFilePath(),
+          edit.newFilePath(),
           updatedRange.start(),
           updatedRange.end(),
-          edit.getBeginB(),
-          edit.getEndB(),
-          !Objects.equals(edit.getOldFilePath(), Optional.of(updatedFilePath)));
+          edit.beginB(),
+          edit.endB(),
+          !Objects.equals(edit.oldFilePath(), Optional.of(updatedFilePath)));
     }
   }
 
@@ -292,12 +251,10 @@ class EditTransformer {
     @Override
     public Position extractPosition(ContextAwareEdit edit) {
       String filePath =
-          edit.getNewFilePath().isPresent()
-              ? edit.getNewFilePath().get()
-              : edit.getOldFilePath().get();
+          edit.newFilePath().isPresent() ? edit.newFilePath().get() : edit.oldFilePath().get();
       return Position.builder()
           .filePath(filePath)
-          .lineRange(Range.create(edit.getBeginB(), edit.getEndB()))
+          .lineRange(Range.create(edit.beginB(), edit.endB()))
           .build();
     }
 
@@ -311,13 +268,13 @@ class EditTransformer {
       Optional<String> updatedFilePath =
           Optional.of(newPosition.filePath().orElse(Patch.PATCHSET_LEVEL));
       return ContextAwareEdit.create(
-          edit.getOldFilePath(),
+          edit.oldFilePath(),
           updatedFilePath,
-          edit.getBeginA(),
-          edit.getEndA(),
+          edit.beginA(),
+          edit.endA(),
           updatedRange.start(),
           updatedRange.end(),
-          !Objects.equals(edit.getNewFilePath(), updatedFilePath));
+          !Objects.equals(edit.newFilePath(), updatedFilePath));
     }
   }
 }

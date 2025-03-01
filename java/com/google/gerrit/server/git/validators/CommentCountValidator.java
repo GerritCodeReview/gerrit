@@ -43,7 +43,7 @@ public class CommentCountValidator implements CommentValidator {
       CommentValidationContext ctx, ImmutableList<CommentForValidation> comments) {
     ImmutableList.Builder<CommentValidationFailure> failures = ImmutableList.builder();
     ChangeNotes notes =
-        notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
+        notesFactory.createChecked(Project.nameKey(ctx.project()), Change.id(ctx.changeId()));
     int numExistingCommentsAndChangeMessages =
         notes.getHumanComments().size()
             + notes.getRobotComments().size()

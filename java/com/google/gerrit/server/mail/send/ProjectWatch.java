@@ -100,7 +100,7 @@ public class ProjectWatch {
     }
 
     for (ProjectState state : projectState.tree()) {
-      for (NotifyConfig nc : state.getConfig().getNotifySections().values()) {
+      for (NotifyConfig nc : state.getConfig().notifySections().values()) {
         if (nc.isNotify(type)) {
           try {
             add(matching, state.getNameKey(), nc);

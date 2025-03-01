@@ -257,10 +257,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(patchSetLock.getName())
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(0, 1))
+            allowLabel(patchSetLock.name()).ref("refs/heads/*").group(REGISTERED_USERS).range(0, 1))
         .update();
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 

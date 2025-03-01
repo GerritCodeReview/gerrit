@@ -104,7 +104,7 @@ final class SetParentCommand extends SshCommand {
     final StringBuilder err = new StringBuilder();
 
     if (newParent != null) {
-      newParentKey = newParent.getProject().getNameKey();
+      newParentKey = newParent.getProject().nameKey();
     }
 
     final List<Project.NameKey> childProjects =
@@ -159,7 +159,7 @@ final class SetParentCommand extends SshCommand {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (ProjectState excludedChild : excludedChildren) {
-      excluded.add(excludedChild.getProject().getNameKey());
+      excluded.add(excludedChild.getProject().nameKey());
     }
     final List<Project.NameKey> automaticallyExcluded = new ArrayList<>(excludedChildren.size());
     if (newParentKey != null) {

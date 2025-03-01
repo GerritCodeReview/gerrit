@@ -246,7 +246,7 @@ public class StreamEventsApiListener
         a.oldValue = Short.toString(oldApprovals.get(approval.getKey()));
       }
     }
-    labelTypes.byLabel(approval.getKey()).ifPresent(lt -> a.description = lt.getName());
+    labelTypes.byLabel(approval.getKey()).ifPresent(lt -> a.description = lt.name());
     if (approval.getValue() != null) {
       a.value = Short.toString(approval.getValue());
     }

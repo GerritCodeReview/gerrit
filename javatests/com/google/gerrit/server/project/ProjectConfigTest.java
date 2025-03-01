@@ -133,23 +133,23 @@ public class ProjectConfigTest {
             .create();
 
     ProjectConfig cfg = read(rev);
-    assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
+    assertThat(cfg.getAccountsSection().sameGroupVisibility()).hasSize(2);
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
-    assertThat(ca.getName()).isEqualTo("Individual");
-    assertThat(ca.getDescription()).isEqualTo("A simple description");
-    assertThat(ca.getMatchProjectsRegexes())
+    assertThat(ca.name()).isEqualTo("Individual");
+    assertThat(ca.description()).isEqualTo("A simple description");
+    assertThat(ca.matchProjectsRegexes())
         .containsExactly("^/ourproject", "^/ourotherproject", "^/someotherroot/ourproject");
-    assertThat(ca.getExcludeProjectsRegexes())
+    assertThat(ca.excludeProjectsRegexes())
         .containsExactly(
             "^/theirproject",
             "^/theirotherproject",
             "^/someotherroot/theirproject",
             "^/someotherroot/theirotherproject");
-    assertThat(ca.getAgreementUrl()).isEqualTo("http://www.example.com/agree");
-    assertThat(ca.getAccepted()).hasSize(2);
-    assertThat(ca.getAccepted().get(0).getGroup()).isEqualTo(developers);
-    assertThat(ca.getAccepted().get(1).getGroup().getName()).isEqualTo("Staff");
-    assertThat(ca.getAutoVerify().getName()).isEqualTo("Developers");
+    assertThat(ca.agreementUrl()).isEqualTo("http://www.example.com/agree");
+    assertThat(ca.accepted()).hasSize(2);
+    assertThat(ca.accepted().get(0).group()).isEqualTo(developers);
+    assertThat(ca.accepted().get(1).group().getName()).isEqualTo("Staff");
+    assertThat(ca.autoVerify().getName()).isEqualTo("Developers");
 
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     assertThat(section).isNotNull();
@@ -182,7 +182,7 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
-    Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
+    Short dv = labels.entrySet().iterator().next().getValue().defaultValue();
     assertThat((int) dv).isEqualTo(0);
   }
 
@@ -287,7 +287,7 @@ public class ProjectConfigTest {
                 .setAllowOverrideInChildProjects(false)
                 .build());
     assertThat(cfg.getValidationErrors()).hasSize(1);
-    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).message())
         .isEqualTo(
             "project.config: Submit requirement 'Code-Review' conflicts with 'code-review'.");
   }
@@ -307,7 +307,7 @@ public class ProjectConfigTest {
     Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
     assertThat(submitRequirements).isEmpty();
     assertThat(cfg.getValidationErrors()).hasSize(1);
-    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).message())
         .isEqualTo(
             "project.config: Setting a submittability expression for submit requirement"
                 + " 'Code-Review' is required: Missing"
@@ -330,7 +330,7 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
-    Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
+    Short dv = labels.entrySet().iterator().next().getValue().defaultValue();
     assertThat((int) dv).isEqualTo(0);
   }
 
@@ -350,7 +350,7 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
-    Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
+    Short dv = labels.entrySet().iterator().next().getValue().defaultValue();
     assertThat((int) dv).isEqualTo(-1);
   }
 
@@ -370,7 +370,7 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getValidationErrors()).hasSize(1);
-    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).message())
         .isEqualTo("project.config: Invalid defaultValue \"-2\" for label \"CustomLabel\"");
   }
 
@@ -391,7 +391,7 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getValidationErrors()).hasSize(1);
-    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).message())
         .isEqualTo(
             "project.config: Invalid ref pattern \"^***\""
                 + " in label.CustomLabel.branch: Dangling meta character '*' near index 2\n"
@@ -410,7 +410,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     LabelType type = labels.entrySet().iterator().next().getValue();
-    assertThat(type.getCopyCondition()).hasValue(COPY_CONDITION);
+    assertThat(type.copyCondition()).hasValue(COPY_CONDITION);
   }
 
   @Test
@@ -663,7 +663,7 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getValidationErrors()).hasSize(1);
-    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).message())
         .isEqualTo(
             "project.config: group \"" + staff.getName() + "\" not in " + GroupList.FILE_NAME);
   }
@@ -728,7 +728,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(StoredCommentLinkInfo.enabled("bugzilla"));
-    assertThat(Iterables.getOnlyElement(cfg.getCommentLinkSections()).getEnabled()).isNull();
+    assertThat(Iterables.getOnlyElement(cfg.getCommentLinkSections()).enabled()).isNull();
   }
 
   @Test
@@ -740,7 +740,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(StoredCommentLinkInfo.disabled("bugzilla"));
-    assertThat(Iterables.getOnlyElement(cfg.getCommentLinkSections()).getEnabled()).isFalse();
+    assertThat(Iterables.getOnlyElement(cfg.getCommentLinkSections()).enabled()).isFalse();
   }
 
   @Test
@@ -760,8 +760,7 @@ public class ProjectConfigTest {
                 .setLink("http://bugs.example.com/show_bug.cgi?id=$2")
                 .build());
     StoredCommentLinkInfo stored = Iterables.getOnlyElement(cfg.getCommentLinkSections());
-    assertThat(StoredCommentLinkInfo.fromInfo(stored.toInfo(), stored.getEnabled()))
-        .isEqualTo(stored);
+    assertThat(StoredCommentLinkInfo.fromInfo(stored.toInfo(), stored.enabled())).isEqualTo(stored);
   }
 
   @Test
@@ -1028,7 +1027,7 @@ public class ProjectConfigTest {
   private RevCommit commit(ProjectConfig cfg)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     try (MetaDataUpdate md =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, cfg.getProject().getNameKey(), db)) {
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, cfg.getProject().nameKey(), db)) {
       tr.tick(5);
       tr.setAuthorAndCommitter(md.getCommitBuilder());
       md.setMessage("Edit\n");

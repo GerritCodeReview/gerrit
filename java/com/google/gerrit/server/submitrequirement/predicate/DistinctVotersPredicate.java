@@ -112,10 +112,10 @@ public class DistinctVotersPredicate extends SubmitRequirementPredicate {
       return false;
     }
 
-    if (enforceMaxVote && psa.value() != labelType.get().getMaxPositive()) {
+    if (enforceMaxVote && psa.value() != labelType.get().maxPositive()) {
       return false;
     }
-    if (enforceMinVote && psa.value() != labelType.get().getMaxNegative()) {
+    if (enforceMinVote && psa.value() != labelType.get().maxNegative()) {
       return false;
     }
     if (enforceIntegerVote.isPresent() && psa.value() != enforceIntegerVote.get()) {

@@ -85,7 +85,7 @@ public class AllUsersCreator {
   @UsedAt(UsedAt.Project.GOOGLE)
   public AllUsersCreator setCodeReviewLabel(LabelType labelType) {
     checkArgument(
-        labelType.getName().equals(LabelId.CODE_REVIEW),
+        labelType.name().equals(LabelId.CODE_REVIEW),
         "label should have 'Code-Review' as its name");
     this.codeReviewLabel = labelType;
     return this;

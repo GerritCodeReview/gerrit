@@ -289,30 +289,30 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
   private void saveProjectWatches() throws IOException {
     if (accountDelta.isPresent()
-        && (!accountDelta.get().getDeletedProjectWatches().isEmpty()
-            || !accountDelta.get().getUpdatedProjectWatches().isEmpty())) {
+        && (!accountDelta.get().deletedProjectWatches().isEmpty()
+            || !accountDelta.get().updatedProjectWatches().isEmpty())) {
       Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches =
           new HashMap<>(projectWatches.getProjectWatches());
-      accountDelta.get().getDeletedProjectWatches().forEach(newProjectWatches::remove);
-      accountDelta.get().getUpdatedProjectWatches().forEach(newProjectWatches::put);
+      accountDelta.get().deletedProjectWatches().forEach(newProjectWatches::remove);
+      accountDelta.get().updatedProjectWatches().forEach(newProjectWatches::put);
       saveConfig(ProjectWatches.WATCH_CONFIG, projectWatches.save(newProjectWatches));
     }
   }
 
   private void savePreferences() throws IOException, ConfigInvalidException {
     if (!accountDelta.isPresent()
-        || (!accountDelta.get().getGeneralPreferences().isPresent()
-            && !accountDelta.get().getDiffPreferences().isPresent()
-            && !accountDelta.get().getEditPreferences().isPresent())) {
+        || (!accountDelta.get().generalPreferences().isPresent()
+            && !accountDelta.get().diffPreferences().isPresent()
+            && !accountDelta.get().editPreferences().isPresent())) {
       return;
     }
 
     saveConfig(
         StoredPreferences.PREFERENCES_CONFIG,
         preferences.saveGeneralPreferences(
-            accountDelta.get().getGeneralPreferences(),
-            accountDelta.get().getDiffPreferences(),
-            accountDelta.get().getEditPreferences()));
+            accountDelta.get().generalPreferences(),
+            accountDelta.get().diffPreferences(),
+            accountDelta.get().editPreferences()));
   }
 
   private void checkLoaded() {

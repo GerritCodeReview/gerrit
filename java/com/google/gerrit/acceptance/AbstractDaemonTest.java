@@ -1418,11 +1418,11 @@ public abstract class AbstractDaemonTest {
       boolean expectedForce,
       int expectedMin,
       int expectedMax) {
-    assertThat(rule.getGroup()).isEqualTo(expectedGroupReference);
-    assertThat(rule.getAction()).isEqualTo(expectedAction);
-    assertThat(rule.getForce()).isEqualTo(expectedForce);
-    assertThat(rule.getMin()).isEqualTo(expectedMin);
-    assertThat(rule.getMax()).isEqualTo(expectedMax);
+    assertThat(rule.group()).isEqualTo(expectedGroupReference);
+    assertThat(rule.action()).isEqualTo(expectedAction);
+    assertThat(rule.force()).isEqualTo(expectedForce);
+    assertThat(rule.min()).isEqualTo(expectedMin);
+    assertThat(rule.max()).isEqualTo(expectedMax);
   }
 
   protected void assertHead(String projectName, String expectedRef) throws Exception {
@@ -1455,11 +1455,11 @@ public abstract class AbstractDaemonTest {
   protected GroupReference groupRef(String groupName) {
     InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).isNotNull();
-    return GroupReference.create(group.getGroupUUID(), group.getName());
+    return GroupReference.create(group.groupUUID(), group.getName());
   }
 
   protected AccountGroup.UUID groupUuid(String groupName) {
-    return group(groupName).getGroupUUID();
+    return group(groupName).groupUUID();
   }
 
   protected InternalGroup adminGroup() {

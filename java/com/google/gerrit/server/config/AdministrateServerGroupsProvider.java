@@ -44,7 +44,7 @@ public class AdministrateServerGroupsProvider implements Provider<ImmutableSet<G
       ImmutableSet.Builder<GroupReference> builder = ImmutableSet.builder();
       for (String value : config.getStringList("capability", null, "administrateServer")) {
         PermissionRule rule = PermissionRule.fromString(value, false);
-        String name = rule.getGroup().getName();
+        String name = rule.group().getName();
         GroupReference g = GroupBackends.findBestSuggestion(groupBackend, name);
         if (g != null) {
           builder.add(g);

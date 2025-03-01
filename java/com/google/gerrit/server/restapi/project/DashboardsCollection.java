@@ -237,7 +237,7 @@ public class DashboardsCollection implements ChildCollection<ProjectResource, Da
   private static String defaultOf(Project proj) {
     final String defaultId =
         MoreObjects.firstNonNull(
-            proj.getLocalDefaultDashboard(), Strings.nullToEmpty(proj.getDefaultDashboard()));
+            proj.localDefaultDashboard(), Strings.nullToEmpty(proj.defaultDashboard()));
     if (defaultId.startsWith(REFS_DASHBOARDS)) {
       return defaultId.substring(REFS_DASHBOARDS.length());
     }

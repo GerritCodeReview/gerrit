@@ -78,9 +78,9 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
         Maps.newHashMapWithExpectedSize(groups.size());
     subgroupIds.stream().forEach(c -> parentsByChild.put(c, new HashSet<>()));
     for (InternalGroup parent : groups) {
-      for (AccountGroup.UUID child : parent.getSubgroups()) {
+      for (AccountGroup.UUID child : parent.subgroups()) {
         if (subgroupIds.contains(child)) {
-          parentsByChild.get(child).add(parent.getGroupUUID());
+          parentsByChild.get(child).add(parent.groupUUID());
         }
       }
     }
@@ -100,7 +100,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
     }
 
     ImmutableList<AccountGroup.UUID> groupUuids =
-        groups.stream().map(InternalGroup::getGroupUUID).collect(toImmutableList());
+        groups.stream().map(InternalGroup::groupUUID).collect(toImmutableList());
     logger.atWarning().log("Ambiguous %s for groups %s.", groupDescription, groupUuids);
     return Optional.empty();
   }

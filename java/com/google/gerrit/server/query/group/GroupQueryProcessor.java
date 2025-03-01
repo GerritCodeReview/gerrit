@@ -94,6 +94,6 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
 
   @Override
   protected String formatForLogging(InternalGroup internalGroup) {
-    return internalGroup.getGroupUUID().get();
+    return internalGroup.groupUUID().get();
   }
 }

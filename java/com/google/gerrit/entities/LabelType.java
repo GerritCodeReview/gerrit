@@ -22,7 +22,6 @@ import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,71 +48,6 @@ public record LabelType(
     requireNonNull(values, "values");
     requireNonNull(copyCondition, "copyCondition");
     requireNonNull(byValue, "byValue");
-  }
-
-  @InlineMe(replacement = "this.name()")
-  public String getName() {
-    return name();
-  }
-
-  @InlineMe(replacement = "this.description()")
-  public Optional<String> getDescription() {
-    return description();
-  }
-
-  @InlineMe(replacement = "this.function()")
-  public LabelFunction getFunction() {
-    return function();
-  }
-
-  @InlineMe(replacement = "this.allowPostSubmit()")
-  public boolean isAllowPostSubmit() {
-    return allowPostSubmit();
-  }
-
-  @InlineMe(replacement = "this.ignoreSelfApproval()")
-  public boolean isIgnoreSelfApproval() {
-    return ignoreSelfApproval();
-  }
-
-  @InlineMe(replacement = "this.defaultValue()")
-  public short getDefaultValue() {
-    return defaultValue();
-  }
-
-  @InlineMe(replacement = "this.values()")
-  public ImmutableList<LabelValue> getValues() {
-    return values();
-  }
-
-  @InlineMe(replacement = "this.maxNegative()")
-  public short getMaxNegative() {
-    return maxNegative();
-  }
-
-  @InlineMe(replacement = "this.maxPositive()")
-  public short getMaxPositive() {
-    return maxPositive();
-  }
-
-  @InlineMe(replacement = "this.canOverride()")
-  public boolean isCanOverride() {
-    return canOverride();
-  }
-
-  @InlineMe(replacement = "this.copyCondition()")
-  public Optional<String> getCopyCondition() {
-    return copyCondition();
-  }
-
-  @InlineMe(replacement = "this.refPatterns()")
-  public @Nullable ImmutableList<String> getRefPatterns() {
-    return refPatterns();
-  }
-
-  @InlineMe(replacement = "this.byValue()")
-  public ImmutableMap<Short, LabelValue> getByValue() {
-    return byValue();
   }
 
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
@@ -159,13 +93,13 @@ public record LabelType(
     if (values.isEmpty()) {
       return ImmutableList.of();
     }
-    values = values.stream().sorted(comparing(LabelValue::getValue)).collect(toList());
-    short v = values.get(0).getValue();
+    values = values.stream().sorted(comparing(LabelValue::value)).collect(toList());
+    short v = values.get(0).value();
     short i = 0;
     ImmutableList.Builder<LabelValue> result = ImmutableList.builder();
     // Fill in any missing values with empty text.
     while (i < values.size()) {
-      while (v < values.get(i).getValue()) {
+      while (v < values.get(i).value()) {
         result.add(LabelValue.create(v++, ""));
       }
       v++;
@@ -193,23 +127,23 @@ public record LabelType(
   }
 
   public boolean matches(PatchSetApproval psa) {
-    return psa.labelId().get().equalsIgnoreCase(getName());
+    return psa.labelId().get().equalsIgnoreCase(name());
   }
 
   @Nullable
   public LabelValue getMin() {
-    if (getValues().isEmpty()) {
+    if (values().isEmpty()) {
       return null;
     }
-    return getValues().get(0);
+    return values().get(0);
   }
 
   @Nullable
   public LabelValue getMax() {
-    if (getValues().isEmpty()) {
+    if (values().isEmpty()) {
       return null;
     }
-    return getValues().get(getValues().size() - 1);
+    return values().get(values().size() - 1);
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {
@@ -217,7 +151,7 @@ public record LabelType(
   }
 
   public boolean isMaxNegative(short value) {
-    return getMaxNegative() == value;
+    return maxNegative() == value;
   }
 
   public boolean isMaxPositive(PatchSetApproval ca) {
@@ -225,29 +159,29 @@ public record LabelType(
   }
 
   public boolean isMaxPositive(short value) {
-    return getMaxPositive() == value;
+    return maxPositive() == value;
   }
 
   public LabelValue getValue(short value) {
-    return getByValue().get(value);
+    return byValue().get(value);
   }
 
   public LabelValue getValue(PatchSetApproval ca) {
-    return getByValue().get(ca.value());
+    return byValue().get(ca.value());
   }
 
   public LabelId getLabelId() {
-    return LabelId.create(getName());
+    return LabelId.create(name());
   }
 
   @Override
   public final String toString() {
-    StringBuilder sb = new StringBuilder(getName()).append('[');
+    StringBuilder sb = new StringBuilder(name()).append('[');
     LabelValue min = getMin();
     LabelValue max = getMax();
     if (min != null && max != null) {
       sb.append(
-          new PermissionRange(Permission.forLabel(getName()), min.getValue(), max.getValue())
+          new PermissionRange(Permission.forLabel(name()), min.value(), max.value())
               .toString()
               .trim());
     } else if (min != null) {
@@ -355,17 +289,17 @@ public record LabelType(
       ImmutableList<LabelValue> valueList = sortValues(getValues());
       setValues(valueList);
       if (!valueList.isEmpty()) {
-        if (valueList.get(0).getValue() < 0) {
-          setMaxNegative(valueList.get(0).getValue());
+        if (valueList.get(0).value() < 0) {
+          setMaxNegative(valueList.get(0).value());
         }
-        if (valueList.get(valueList.size() - 1).getValue() > 0) {
-          setMaxPositive(valueList.get(valueList.size() - 1).getValue());
+        if (valueList.get(valueList.size() - 1).value() > 0) {
+          setMaxPositive(valueList.get(valueList.size() - 1).value());
         }
       }
 
       ImmutableMap.Builder<Short, LabelValue> byValue = ImmutableMap.builder();
       for (LabelValue v : valueList) {
-        byValue.put(v.getValue(), v);
+        byValue.put(v.value(), v);
       }
       setByValue(byValue.build());
 

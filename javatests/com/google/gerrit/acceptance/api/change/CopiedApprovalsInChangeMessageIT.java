@@ -150,7 +150,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   @Test
   public void formatCopiedApproval_withCopyCondition_withUserInPredicate() throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 2);
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
@@ -176,7 +176,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   @Test
   public void formatOutdatedApproval_withCopyCondition_withUserInPredicate() throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
@@ -202,7 +202,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   public void formatCopiedApproval_withCopyCondition_withUserInPredicateThatContainNonVisibleGroup()
       throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 2);
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
@@ -237,7 +237,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatOutdatedpproval_withCopyCondition_withUserInPredicateThatContainNonVisibleGroup()
           throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
@@ -270,7 +270,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   public void formatOutdatedApproval_withNonParseableCopyCondition_withUserInPredicate()
       throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
@@ -499,7 +499,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatMultipleApprovals_sameVote_withCopyCondition_withUserInPredicate_samePassingAtoms()
           throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(user, "Code-Review", 2);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(admin, "Code-Review", 2);
     ApprovalCopier.Result approvalCopierResult =
@@ -538,7 +538,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatMultipleApprovals_sameVote_withCopyCondition_withUserInPredicate_differentPassingAtoms()
           throws Exception {
     String administratorsGroupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     String registeredUsersGroupUuid = SystemGroupBackend.REGISTERED_USERS.get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(user, "Code-Review", 2);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(admin, "Code-Review", 2);
@@ -589,7 +589,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   public void formatMultipleApprovals_differentLabel_withCopyCondition_withUserInPredicate()
       throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(user, "Code-Review", -2);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(admin, "Verified", 1);
     ApprovalCopier.Result approvalCopierResult =
@@ -631,7 +631,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatMultipleApprovals_differentValue_withCopyCondition_withUserInPredicate_samePassingAtoms()
           throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(admin, "Code-Review", 2);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(user, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
@@ -670,7 +670,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatMultipleApprovals_differentValue_withCopyCondition_withUserInPredicate_differentPassingAtoms()
           throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(admin, "Code-Review", 2);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(user, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
@@ -765,7 +765,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   public void formatMultipleApprovals_sameVote_withNonParseableCopyCondition_withUserInPredicate()
       throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(admin, "Code-Review", 1);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(user, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
@@ -792,7 +792,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatMultipleApprovals_differentLabel_withNonParseableCopyCondition_withUserInPredicate()
           throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(admin, "Code-Review", 1);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(user, "Verified", 1);
     ApprovalCopier.Result approvalCopierResult =
@@ -821,7 +821,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       formatMultipleApprovals_differentValue_withNonParseableCopyCondition_withUserInPredicate()
           throws Exception {
     String groupUuid =
-        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().groupUUID().get();
     PatchSetApproval patchSetApproval1 = createPatchSetApproval(admin, "Code-Review", 2);
     PatchSetApproval patchSetApproval2 = createPatchSetApproval(user, "Code-Review", 1);
     ApprovalCopier.Result approvalCopierResult =
@@ -858,7 +858,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.verified().getName())
+            allowLabel(TestLabels.verified().name())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))
@@ -904,7 +904,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.verified().getName())
+            allowLabel(TestLabels.verified().name())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))
@@ -954,7 +954,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.verified().getName())
+            allowLabel(TestLabels.verified().name())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))

@@ -77,7 +77,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
             @Override
             public Project.NameKey getProjectName() {
               Project project = projectState.getProject();
-              return project.getNameKey();
+              return project.nameKey();
             }
           },
           AccessPath.GIT);
@@ -97,7 +97,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   private void service() throws IOException, PermissionBackendException, Failure {
     project = projectState.getProject();
-    projectName = project.getNameKey();
+    projectName = project.nameKey();
 
     try {
       repo = repoManager.openRepository(projectName);

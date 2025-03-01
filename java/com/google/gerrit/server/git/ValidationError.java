@@ -16,17 +16,10 @@ package com.google.gerrit.server.git;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.InlineMe;
-
 /** Indicates a problem with Git based data. */
 public record ValidationError(String message) {
   public ValidationError {
     requireNonNull(message, "message");
-  }
-
-  @InlineMe(replacement = "this.message()")
-  public String getMessage() {
-    return message();
   }
 
   public static ValidationError create(String file, String message) {

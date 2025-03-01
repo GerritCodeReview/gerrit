@@ -80,12 +80,12 @@ public class StalenessChecker {
     SetMultimap<Project.NameKey, RefState> currentRefStates =
         MultimapBuilder.hashKeys().hashSetValues().build();
     projectData.tree().stream()
-        .filter(p -> p.getProject().getConfigRefState() != null)
+        .filter(p -> p.getProject().configRefState() != null)
         .forEach(
             p ->
                 currentRefStates.put(
-                    p.getProject().getNameKey(),
-                    RefState.create(RefNames.REFS_CONFIG, p.getProject().getConfigRefState())));
+                    p.getProject().nameKey(),
+                    RefState.create(RefNames.REFS_CONFIG, p.getProject().configRefState())));
 
     if (currentRefStates.equals(indexedRefStates)) {
       return StalenessCheckResult.notStale();

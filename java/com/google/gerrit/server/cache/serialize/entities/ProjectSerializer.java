@@ -71,17 +71,17 @@ public class ProjectSerializer {
     Cache.ProjectProto.Builder builder =
         Cache.ProjectProto.newBuilder()
             .setName(autoValue.getName())
-            .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(autoValue.getSubmitType()))
-            .setState(PROJECT_STATE_CONVERTER.reverse().convert(autoValue.getState()))
-            .setDescription(nullToEmpty(autoValue.getDescription()))
+            .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(autoValue.submitType()))
+            .setState(PROJECT_STATE_CONVERTER.reverse().convert(autoValue.state()))
+            .setDescription(nullToEmpty(autoValue.description()))
             .setParent(nullToEmpty(autoValue.getParentName()))
-            .setMaxObjectSizeLimit(nullToEmpty(autoValue.getMaxObjectSizeLimit()))
-            .setDefaultDashboard(nullToEmpty(autoValue.getDefaultDashboard()))
-            .setLocalDefaultDashboard(nullToEmpty(autoValue.getLocalDefaultDashboard()))
-            .setConfigRefState(nullToEmpty(autoValue.getConfigRefState()));
+            .setMaxObjectSizeLimit(nullToEmpty(autoValue.maxObjectSizeLimit()))
+            .setDefaultDashboard(nullToEmpty(autoValue.defaultDashboard()))
+            .setLocalDefaultDashboard(nullToEmpty(autoValue.localDefaultDashboard()))
+            .setConfigRefState(nullToEmpty(autoValue.configRefState()));
 
     autoValue
-        .getBooleanConfigs()
+        .booleanConfigs()
         .entrySet()
         .forEach(
             configEntry -> {

@@ -354,7 +354,7 @@ public class LabelConfigValidator implements CommitValidationListener {
   private Config loadNewConfig(CommitReceivedEvent receiveEvent)
       throws IOException, ConfigInvalidException {
     VersionedConfigFile bareConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
-    bareConfig.load(receiveEvent.project.getNameKey(), receiveEvent.revWalk, receiveEvent.commit);
+    bareConfig.load(receiveEvent.project.nameKey(), receiveEvent.revWalk, receiveEvent.commit);
     return bareConfig.getConfig();
   }
 
@@ -367,9 +367,7 @@ public class LabelConfigValidator implements CommitValidationListener {
     try {
       VersionedConfigFile bareConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
       bareConfig.load(
-          receiveEvent.project.getNameKey(),
-          receiveEvent.revWalk,
-          receiveEvent.commit.getParent(0));
+          receiveEvent.project.nameKey(), receiveEvent.revWalk, receiveEvent.commit.getParent(0));
       return Optional.of(bareConfig.getConfig());
     } catch (ConfigInvalidException e) {
       // the old config is not parseable, treat this the same way as if an old config didn't exist

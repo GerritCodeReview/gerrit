@@ -211,18 +211,14 @@ public class GroupsNoteDbConsistencyChecker {
       // Check ids.
       Map<AccountGroup.Id, InternalGroup> groupById = new HashMap<>();
       for (InternalGroup g : uuidToGroupMap.values()) {
-        InternalGroup before = groupById.get(g.getId());
+        InternalGroup before = groupById.get(g.id());
         if (before != null) {
           problems.add(
               error(
                   "shared group id %s for %s (%s) and %s (%s)",
-                  g.getId(),
-                  before.getName(),
-                  before.getGroupUUID(),
-                  g.getName(),
-                  g.getGroupUUID()));
+                  g.id(), before.getName(), before.groupUUID(), g.getName(), g.groupUUID()));
         }
-        groupById.put(g.getId(), g);
+        groupById.put(g.id(), g);
       }
     }
 
@@ -233,7 +229,7 @@ public class GroupsNoteDbConsistencyChecker {
       Repository allUsersRepo, InternalGroup group) throws IOException {
     ImmutableList<ConsistencyCheckInfo.ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
-            allUsersRepo, group.getNameKey(), group.getGroupUUID());
+            allUsersRepo, group.nameKey(), group.groupUUID());
     problems.forEach(GroupsNoteDbConsistencyChecker::logConsistencyProblem);
   }
 

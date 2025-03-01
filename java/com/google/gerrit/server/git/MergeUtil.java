@@ -662,7 +662,7 @@ public class MergeUtil {
         if (!lt.isPresent()) {
           continue;
         }
-        tag = lt.get().getName();
+        tag = lt.get().name();
       }
 
       if (!contains(footers, new FooterKey(tag), identbuf.toString())) {

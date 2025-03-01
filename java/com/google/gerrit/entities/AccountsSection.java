@@ -17,17 +17,11 @@ package com.google.gerrit.entities;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.InlineMe;
 import java.util.List;
 
 public record AccountsSection(ImmutableList<PermissionRule> sameGroupVisibility) {
   public AccountsSection {
     requireNonNull(sameGroupVisibility, "sameGroupVisibility");
-  }
-
-  @InlineMe(replacement = "this.sameGroupVisibility()")
-  public ImmutableList<PermissionRule> getSameGroupVisibility() {
-    return sameGroupVisibility();
   }
 
   public static AccountsSection create(List<PermissionRule> sameGroupVisibility) {

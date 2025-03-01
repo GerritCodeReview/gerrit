@@ -65,7 +65,7 @@ public class SchemaCreatorImplTest {
   public void createSchema_LabelTypes() throws Exception {
     List<String> labels = new ArrayList<>();
     for (LabelType label : getLabelTypes().getLabelTypes()) {
-      labels.add(label.getName());
+      labels.add(label.name());
     }
     assertThat(labels).containsExactly("Code-Review");
   }
@@ -74,10 +74,10 @@ public class SchemaCreatorImplTest {
   public void createSchema_Label_CodeReview() throws Exception {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review").get();
     assertThat(codeReview).isNotNull();
-    assertThat(codeReview.getName()).isEqualTo("Code-Review");
-    assertThat(codeReview.getDefaultValue()).isEqualTo(0);
-    assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.NO_BLOCK);
-    assertThat(codeReview.getCopyCondition())
+    assertThat(codeReview.name()).isEqualTo("Code-Review");
+    assertThat(codeReview.defaultValue()).isEqualTo(0);
+    assertThat(codeReview.function()).isEqualTo(LabelFunction.NO_BLOCK);
+    assertThat(codeReview.copyCondition())
         .hasValue(
             String.format(
                 "changekind:%s OR changekind:%s OR is:MIN",
@@ -96,14 +96,14 @@ public class SchemaCreatorImplTest {
     assertThat(rangeList).isNotEmpty();
     assertThat(rangeList).isInStrictOrder();
 
-    assertThat(label.getValues().stream().map(v -> (int) v.getValue()))
+    assertThat(label.values().stream().map(v -> (int) v.value()))
         .containsExactlyElementsIn(rangeList)
         .inOrder();
-    assertThat(label.getMax().getValue()).isEqualTo(Collections.max(rangeList));
-    assertThat(label.getMin().getValue()).isEqualTo(Collections.min(rangeList));
-    for (LabelValue v : label.getValues()) {
-      assertThat(v.getText()).isNotNull();
-      assertThat(v.getText()).isNotEmpty();
+    assertThat(label.getMax().value()).isEqualTo(Collections.max(rangeList));
+    assertThat(label.getMin().value()).isEqualTo(Collections.min(rangeList));
+    for (LabelValue v : label.values()) {
+      assertThat(v.text()).isNotNull();
+      assertThat(v.text()).isNotEmpty();
     }
   }
 

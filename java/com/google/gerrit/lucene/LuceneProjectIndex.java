@@ -61,7 +61,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   private static final String NAME_SORT_FIELD = sortFieldName(NAME_SPEC);
 
   private static Term idTerm(ProjectData projectState) {
-    return idTerm(projectState.getProject().getNameKey());
+    return idTerm(projectState.getProject().nameKey());
   }
 
   private static Term idTerm(Project.NameKey nameKey) {

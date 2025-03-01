@@ -181,9 +181,9 @@ public class MagicLabelPredicates {
         case ANY:
           return matchAny(cd, labelType);
         case MIN:
-          return matchNumeric(cd, magicLabelVote.label(), labelType.getMin().getValue());
+          return matchNumeric(cd, magicLabelVote.label(), labelType.getMin().value());
         case MAX:
-          return matchNumeric(cd, magicLabelVote.label(), labelType.getMax().getValue());
+          return matchNumeric(cd, magicLabelVote.label(), labelType.getMax().value());
       }
 
       throw new IllegalStateException("Unsupported magic label value: " + magicLabelVote.value());
@@ -204,9 +204,9 @@ public class MagicLabelPredicates {
 
     private boolean matchAny(ChangeData changeData, LabelType labelType) {
       List<Predicate<ChangeData>> predicates = new ArrayList<>();
-      for (LabelValue labelValue : labelType.getValues()) {
-        if (labelValue.getValue() != 0) {
-          predicates.add(numericPredicate(labelType.getName(), labelValue.getValue()));
+      for (LabelValue labelValue : labelType.values()) {
+        if (labelValue.value() != 0) {
+          predicates.add(numericPredicate(labelType.name(), labelValue.value()));
         }
       }
       return Predicate.or(predicates).asMatchable().match(changeData);

@@ -107,13 +107,13 @@ public class AccountProperties {
   }
 
   public static void writeToAccountConfig(AccountDelta accountDelta, Config cfg) {
-    accountDelta.getActive().ifPresent(active -> setActive(cfg, active));
-    accountDelta.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
-    accountDelta.getDisplayName().ifPresent(displayName -> set(cfg, KEY_DISPLAY_NAME, displayName));
+    accountDelta.active().ifPresent(active -> setActive(cfg, active));
+    accountDelta.fullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
+    accountDelta.displayName().ifPresent(displayName -> set(cfg, KEY_DISPLAY_NAME, displayName));
     accountDelta
-        .getPreferredEmail()
+        .preferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
-    accountDelta.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
+    accountDelta.status().ifPresent(status -> set(cfg, KEY_STATUS, status));
   }
 
   /**

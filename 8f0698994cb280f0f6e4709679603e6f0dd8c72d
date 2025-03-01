@@ -462,6 +462,30 @@
       },
       "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4410bfa_e8971c92",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-01T07:14:29Z",
+      "side": 1,
+      "message": "Done, simple poll function was introduced in the rebased code",
+      "parentUuid": "146aeba8_30f08353",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 337,
+        "endChar": 3
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

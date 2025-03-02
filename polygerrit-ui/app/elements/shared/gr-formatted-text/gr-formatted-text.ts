@@ -72,6 +72,10 @@ export class GrFormattedText extends LitElement {
         pre.plaintext {
           margin: 0;
         }
+        gr-buganizer-hovercard {
+          display: inline-block;
+          width: 71px;
+        }
         blockquote {
           border-left: var(--spacing-xxs) solid
             var(--comment-quote-marker-color);

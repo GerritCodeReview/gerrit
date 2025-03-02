@@ -18,6 +18,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Sets;
+import com.google.gerrit.acceptance.NoGitRepositoryReferenceCounting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -36,6 +37,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.runner.Description;
 
 public class GitRepositoryReferenceCountingManager implements GitRepositoryManager {
   private final GitRepositoryManager delegate;
@@ -159,10 +161,16 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
   }
 
-  public void init() {
+  public void init(Description testDescription) {
     if (openRepositories != null) {
       clear();
     }
+
+    if (isDisabled(testDescription)) {
+      openRepositories = null;
+      return;
+    }
+
     openRepositories = Sets.newConcurrentHashSet();
   }
 
@@ -228,5 +236,20 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     RepositoryTracking trackedRepository = new RepositoryTracking(name.get(), repository);
     openRepositories.add(trackedRepository);
     return trackedRepository;
+  }
+
+  private static boolean isDisabled(Description testDescription) {
+    if (testDescription.getAnnotation(NoGitRepositoryReferenceCounting.class) != null) {
+      return true;
+    }
+
+    Class<?> clazz = testDescription.getTestClass();
+    for (; clazz != null; clazz = clazz.getSuperclass()) {
+      if (clazz.getAnnotation(NoGitRepositoryReferenceCounting.class) != null) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

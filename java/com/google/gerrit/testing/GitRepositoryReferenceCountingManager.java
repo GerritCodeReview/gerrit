@@ -14,9 +14,11 @@
 
 package com.google.gerrit.testing;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryExistsException;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +41,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 public class GitRepositoryReferenceCountingManager implements GitRepositoryManager {
+  private static final Duration TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES = Duration.ofSeconds(30);
   private final GitRepositoryManager delegate;
   private Set<RepositoryTracking> openRepositories;
   private final AllUsersName allUsersName;
@@ -189,12 +193,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
   }
 
   public void assertThatAllRepositoriesAreClosed(String testName) {
-    List<String> repositoriesToReport =
-        MoreObjects.<Set<RepositoryTracking>>firstNonNull(openRepositories, Collections.emptySet())
-            .stream()
-            .map(RepositoryTracking::reportIfOpen)
-            .flatMap(Optional::stream)
-            .toList();
+    List<String> repositoriesToReport = waitUntilAllRepositoriesAreClosed();
     if (!repositoriesToReport.isEmpty()) {
       fail(
           "All repositories were expected to be closed at the end of the following test:\n"
@@ -213,6 +212,33 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
               + "------------\n"
               + String.join("\n------------\n", repositoriesToReport));
     }
+  }
+
+  private List<String> waitUntilAllRepositoriesAreClosed() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    List<String> openRepositoriesToReport = getOpenRepositoriesToReport();
+    while (!openRepositoriesToReport.isEmpty()) {
+      if (stopwatch.elapsed().compareTo(TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES) > 0) {
+        return openRepositoriesToReport;
+      }
+      try {
+        MILLISECONDS.sleep(50);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+      openRepositoriesToReport = getOpenRepositoriesToReport();
+    }
+
+    return openRepositoriesToReport;
+  }
+
+  private List<String> getOpenRepositoriesToReport() {
+    return MoreObjects.<Set<RepositoryTracking>>firstNonNull(
+            openRepositories, Collections.emptySet())
+        .stream()
+        .map(RepositoryTracking::reportIfOpen)
+        .flatMap(Optional::stream)
+        .toList();
   }
 
   @Override

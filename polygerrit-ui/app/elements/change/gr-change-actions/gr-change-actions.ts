@@ -1352,6 +1352,13 @@ export class GrChangeActions
     );
   }
 
+  sendPublishEditEvent() {
+    if (!this.change) return;
+    const change = this.change as ChangeInfo;
+    const revision = this.getRevision(change, this.latestPatchNum);
+    this.getPluginLoader().jsApiService.handlePublishEdit(change, revision);
+  }
+
   // private but used in test
   getRevision(change: ChangeInfo, patchNum?: PatchSetNumber) {
     for (const rev of Object.values(change.revisions ?? {})) {
@@ -1750,6 +1757,7 @@ export class GrChangeActions
       false,
       {notify: NotifyType.NONE}
     );
+    this.sendPublishEditEvent();
   }
 
   // private but used in test

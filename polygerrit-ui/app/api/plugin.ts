@@ -36,6 +36,7 @@ export enum EventType {
   ADMIN_MENU_LINKS = 'admin-menu-links',
   SHOW_DIFF = 'showdiff',
   REPLY_SENT = 'replysent',
+  PUBLISH_EDIT = 'publish-edit',
 }
 
 export declare interface PluginApi {

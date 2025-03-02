@@ -16,7 +16,7 @@ directories:
 targets:
   //...:all
 
-java_language_level: 17
+java_language_level: 21
 
 workspace_type: java
 

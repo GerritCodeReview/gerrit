@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.runner.Description;
 
 public class GitRepositoryReferenceCountingManager implements GitRepositoryManager {
   private final GitRepositoryManager delegate;
@@ -159,10 +160,16 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
   }
 
-  public void init() {
+  public void init(Description testDescription) {
     if (openRepositories != null) {
       clear();
     }
+
+    if (isDisabled(testDescription)) {
+      openRepositories = null;
+      return;
+    }
+
     openRepositories = Sets.newConcurrentHashSet();
   }
 
@@ -228,5 +235,21 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     RepositoryTracking trackedRepository = new RepositoryTracking(name.get(), repository);
     openRepositories.add(trackedRepository);
     return trackedRepository;
+  }
+
+  private static boolean isDisabled(Description testDescription) {
+    if (testDescription.getAnnotation(NoGitRepositoryCheckIfClosed.class) != null) {
+      return true;
+    }
+
+    for (Class<?> clazz = testDescription.getTestClass();
+        clazz != null;
+        clazz = clazz.getSuperclass()) {
+      if (clazz.getAnnotation(NoGitRepositoryCheckIfClosed.class) != null) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "584103e7_399c5490",
+        "filename": "java/com/google/gerrit/acceptance/TestExtensions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T13:11:59Z",
+      "side": 1,
+      "message": "We do retry more than once. \n\nIncluding the attempt count is likely possible, but we don\u0027t have it readily available at the place where this method is called and I didn\u0027t want to spend time on it, when we don\u0027t have a use case for it. But I can give it a try.",
+      "parentUuid": "9d24d28e_e794952e",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 23
+      },
+      "revId": "4fef4f173fb1eb122b0c4ca638ef7d70eed2a3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b982d73_d0b64e66",
         "filename": "java/com/google/gerrit/server/update/RetryListener.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2025-03-03T12:42:15Z",
       "side": 1,
       "message": "Why can this be null? When do we use that?",
+      "range": {
+        "startLine": 25,
+        "startChar": 23,
+        "endLine": 25,
+        "endChar": 84
+      },
+      "revId": "4fef4f173fb1eb122b0c4ca638ef7d70eed2a3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae6f0e4_d95c8849",
+        "filename": "java/com/google/gerrit/server/update/RetryListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T13:11:59Z",
+      "side": 1,
+      "message": "Historic reasons. I actually think nowadays it\u0027s always set. Let me try if we can make this non-optional.",
+      "parentUuid": "6b982d73_d0b64e66",
       "range": {
         "startLine": 25,
         "startChar": 23,

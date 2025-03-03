@@ -102,7 +102,7 @@ export class GrSubmitRequirements extends LitElement {
           max-width: 390px;
         }
         gr-limited-text.name {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         table {
           border-collapse: collapse;

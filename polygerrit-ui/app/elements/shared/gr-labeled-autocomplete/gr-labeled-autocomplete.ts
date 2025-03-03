@@ -53,7 +53,7 @@ export class GrLabeledAutocomplete extends LitElement {
       }
       #header {
         color: var(--deemphasized-text-color);
-        font-weight: var(--font-weight-bold);
+        font-weight: var(--font-weight-medium);
         font-size: var(--font-size-small);
       }
       #body {

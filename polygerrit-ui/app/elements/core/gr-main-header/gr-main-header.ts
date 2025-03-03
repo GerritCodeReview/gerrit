@@ -313,7 +313,7 @@ export class GrMainHeader extends LitElement {
 
         .linksTitle {
           display: inline-block;
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           position: relative;
           text-transform: uppercase;
         }

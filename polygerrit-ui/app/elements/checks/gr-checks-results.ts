@@ -215,7 +215,7 @@ export class GrResultRow extends LitElement {
           display: flex;
         }
         td .summary-cell .summary {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           flex-shrink: 1;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -1115,7 +1115,7 @@ export class GrChecksResults extends LitElement {
         }
         tr.headerRow th {
           text-align: left;
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           padding: var(--spacing-s);
         }
         tr.headerRow th.nameCol {

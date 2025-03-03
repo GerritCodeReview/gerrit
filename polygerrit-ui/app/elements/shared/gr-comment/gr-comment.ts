@@ -517,7 +517,7 @@ export class GrComment extends LitElement {
           padding-bottom: 0px;
         }
         .headerLeft > span {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .headerMiddle {
           color: var(--deemphasized-text-color);
@@ -525,7 +525,7 @@ export class GrComment extends LitElement {
           overflow: hidden;
         }
         .draftTooltip {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           display: inline;
         }
         .draftTooltip gr-icon {
@@ -646,7 +646,7 @@ export class GrComment extends LitElement {
           width: 150px;
         }
         .headerLeft gr-account-label::part(gr-account-label-text) {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .draft gr-account-label {
           width: unset;

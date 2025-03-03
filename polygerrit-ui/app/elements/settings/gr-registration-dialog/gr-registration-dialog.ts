@@ -95,7 +95,7 @@ export class GrRegistrationDialog extends LitElement {
         }
         header {
           border-bottom: 1px solid var(--border-color);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           margin-bottom: var(--spacing-l);
         }
         .container {

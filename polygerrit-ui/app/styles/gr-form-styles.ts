@@ -20,7 +20,7 @@ export const grFormStyles = css`
     margin-bottom: var(--spacing-s);
   }
   .gr-form-styles h4 {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
   }
   .gr-form-styles fieldset {
     border: none;
@@ -40,7 +40,7 @@ export const grFormStyles = css`
   }
   .gr-form-styles .title {
     color: var(--deemphasized-text-color);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     padding-right: var(--spacing-m);
     width: 15em;
   }

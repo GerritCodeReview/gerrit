@@ -85,7 +85,7 @@ export class GrNotificationsPrompt extends LitElement {
           position: relative;
         }
         b {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
       `,
     ];

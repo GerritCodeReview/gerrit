@@ -442,7 +442,7 @@ export class GrReplyDialog extends LitElement {
           margin-top: var(--spacing-l);
         }
         .groupName {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .groupSize {
           font-style: italic;

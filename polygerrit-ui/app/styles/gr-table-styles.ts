@@ -63,7 +63,7 @@ export const tableStyles = css`
   .genericList .topHeader,
   .genericList .groupHeader {
     color: var(--primary-text-color);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     text-align: left;
     vertical-align: middle;
   }

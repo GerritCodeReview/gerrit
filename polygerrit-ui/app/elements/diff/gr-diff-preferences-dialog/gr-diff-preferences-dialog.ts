@@ -36,7 +36,7 @@ export class GrDiffPreferencesDialog extends LitElement {
         }
         .diffHeader {
           border-bottom: 1px solid var(--border-color);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .diffActions {
           border-top: 1px solid var(--border-color);

@@ -26,7 +26,7 @@ export class GrKeyBindingDisplay extends LitElement {
           border: 1px solid var(--border-color);
           border-radius: var(--border-radius);
           display: inline-block;
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           padding: var(--spacing-xxs) var(--spacing-m);
           text-align: center;
         }

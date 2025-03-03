@@ -102,7 +102,7 @@ export class GrChecksRun extends LitElement {
           margin-left: var(--spacing-s);
         }
         .name {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .eta {
           color: var(--deemphasized-text-color);

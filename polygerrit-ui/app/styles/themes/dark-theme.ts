@@ -197,7 +197,6 @@ const darkThemeCss = safeStyleSheet`
     --file-status-reverted: var(--gray-500);
 
     /* fonts */
-    --font-weight-bold: 700; /* 700 is the same as 'bold' */
 
     /* spacing */
 

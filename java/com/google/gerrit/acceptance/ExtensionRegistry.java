@@ -63,6 +63,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeHasOperand
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.rules.SubmitRule;
+import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.inject.Inject;
@@ -116,6 +117,7 @@ public class ExtensionRegistry {
   private final DynamicSet<AttentionSetListener> attentionSetListeners;
   private final DynamicSet<ValidationOptionsListener> validationOptionsListeners;
   private final DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners;
+  private final DynamicSet<RetryListener> retryListeners;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -169,6 +171,7 @@ public class ExtensionRegistry {
       DynamicSet<AttentionSetListener> attentionSetListeners,
       DynamicSet<ValidationOptionsListener> validationOptionsListeners,
       DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners,
+      DynamicSet<RetryListener> retryListeners,
       DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
@@ -215,6 +218,7 @@ public class ExtensionRegistry {
     this.attentionSetListeners = attentionSetListeners;
     this.validationOptionsListeners = validationOptionsListeners;
     this.commitValidationInfoListeners = commitValidationInfoListeners;
+    this.retryListeners = retryListeners;
     this.reviewerSuggestions = reviewerSuggestions;
   }
 
@@ -420,6 +424,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(CommitValidationInfoListener commitValidationInfoListener) {
       return add(commitValidationInfoListeners, commitValidationInfoListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(RetryListener retryListener) {
+      return add(retryListeners, retryListener);
     }
 
     @CanIgnoreReturnValue

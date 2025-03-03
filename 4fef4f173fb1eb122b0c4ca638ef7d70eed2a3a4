@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a84ddd50_1584184d",
+        "filename": "java/com/google/gerrit/acceptance/TestExtensions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-03T13:22:15Z",
+      "side": 1,
+      "message": "I just thought that it\u0027s harder to update the API once, there are more usages of it (which is possible). And this seems like a property that is generally useful (if you want to do something once, vs. every time it retries). But if that is difficult, than let\u0027s not bother",
+      "parentUuid": "584103e7_399c5490",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 23
+      },
+      "revId": "4fef4f173fb1eb122b0c4ca638ef7d70eed2a3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b982d73_d0b64e66",
         "filename": "java/com/google/gerrit/server/update/RetryListener.java",
         "patchSetId": 2

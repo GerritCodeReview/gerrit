@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -219,7 +220,9 @@ public class DefaultRefFilter {
             ImmutableList.copyOf(refs), ImmutableList.of());
       }
     }
-    logger.atInfo().log("Performing visibility check for all refs. This can be expensive.");
+    logger.atInfo().atMostEvery(1, TimeUnit.SECONDS).log(
+        "Performing visibility check for all refs. This can be expensive.");
+    logger.atFine().log("Performing visibility check for all refs. This can be expensive.");
     metrics.fullFilterCount.increment();
 
     boolean hasAccessDatabase =

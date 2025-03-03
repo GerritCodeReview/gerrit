@@ -16,6 +16,24 @@
       "message": "Can we also add an internal one that does a streamz?",
       "revId": "1e14b66c790f5592294bdd0f05421304255aaacb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa5e788e_fa769cd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T13:11:39Z",
+      "side": 1,
+      "message": "We could, but we already have sufficient metrics for retrying:\nhttps://gerrit-review.googlesource.com/Documentation/metrics.html#_actions",
+      "parentUuid": "d5f87556_49f74af5",
+      "revId": "1e14b66c790f5592294bdd0f05421304255aaacb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

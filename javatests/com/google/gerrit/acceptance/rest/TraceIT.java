@@ -1199,7 +1199,7 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   private static class TraceSubmitRule implements SubmitRule {
-    static RuntimeException FAILURE = new IllegalStateException("forced failure from test");
+    static final RuntimeException FAILURE = new IllegalStateException("forced failure from test");
 
     ImmutableSet<String> traceIds;
     Boolean isLoggingForced;

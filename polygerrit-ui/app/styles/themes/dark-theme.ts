@@ -177,15 +177,15 @@ const darkThemeCss = safeStyleSheet`
     --tag-brown: var(--brown-tonal);
 
     /* status colors */
-    --status-merged: var(--green-400);
+    --status-merged: #a4a4a4;
     --status-abandoned: var(--gray-300);
     --status-wip: #bcaaa4;
     --status-private: var(--purple-200);
     --status-conflict: var(--red-300);
     --status-revert: var(--gray-200);
     --status-revert-created: #ff8a65;
-    --status-active: var(--blue-400);
-    --status-ready: var(--pink-500);
+    --status-active: #f4ce5d;
+    --status-ready: #55c374;
     --status-custom: var(--purple-400);
 
     /* file status colors */

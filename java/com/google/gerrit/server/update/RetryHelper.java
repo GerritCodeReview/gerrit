@@ -542,7 +542,10 @@ public class RetryHelper {
       return executeWithTimeoutCount(actionType, action, opts, retryerBuilder.build(), listener);
     } finally {
       if (listener.getAttemptCount() > 1) {
-        logger.atWarning().log("%s was attempted %d times", actionType, listener.getAttemptCount());
+        logger.atWarning().log(
+            "%s was attempted %d times",
+            opts.actionName().isPresent() ? actionType + "." + opts.actionName().get() : actionType,
+            listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
             opts.actionName().orElse("N/A"),

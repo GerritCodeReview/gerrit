@@ -59,7 +59,7 @@ export class GrRelatedChange extends LitElement {
         }
         .status {
           color: var(--deemphasized-text-color);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           margin-left: var(--spacing-xs);
           margin-right: var(--spacing-m);
         }

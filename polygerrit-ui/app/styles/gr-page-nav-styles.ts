@@ -39,14 +39,14 @@ export const pageNavStyles = css`
     margin-top: var(--spacing-l);
   }
   .navStyles .title {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     margin: var(--spacing-s) 0;
   }
   .navStyles .selected {
     background-color: var(--view-background-color);
     border-bottom: 1px solid var(--border-color);
     border-top: 1px solid var(--border-color);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
   }
   .navStyles a {
     color: var(--primary-text-color);

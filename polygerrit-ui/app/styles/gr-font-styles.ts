@@ -41,7 +41,7 @@ export const fontStyles = css`
     line-height: var(--line-height-normal);
   }
   strong {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
   }
 `;
 

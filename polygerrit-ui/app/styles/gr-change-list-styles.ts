@@ -44,7 +44,7 @@ export const changeListStyles = css`
   }
   .groupTitle td {
     color: var(--deemphasized-text-color);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     font-family: var(--header-font-family);
     text-align: left;
   }

@@ -554,7 +554,7 @@ export class GrDiffView extends LitElement {
         }
         .headerSubject {
           margin-right: var(--spacing-m);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .patchRangeLeft {
           align-items: center;

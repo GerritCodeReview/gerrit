@@ -156,7 +156,7 @@ export class GrGroupMembers extends LitElement {
         }
         th {
           border-bottom: 1px solid var(--border-color);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           text-align: left;
         }
         .canModify #groupMemberSearchInput,

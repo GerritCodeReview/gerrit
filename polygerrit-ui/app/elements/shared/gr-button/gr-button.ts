@@ -79,7 +79,7 @@ export class GrButton extends LitElement {
         }
         :host paper-button {
           text-transform: none;
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           font-family: var(--header-font-family);
         }
         paper-button {

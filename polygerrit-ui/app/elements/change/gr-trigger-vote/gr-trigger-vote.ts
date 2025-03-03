@@ -65,7 +65,7 @@ export class GrTriggerVote extends LitElement {
       }
       .label {
         padding-right: var(--spacing-s);
-        font-weight: var(--font-weight-bold);
+        font-weight: var(--font-weight-medium);
       }
       gr-vote-chip {
         --gr-vote-chip-width: 14px;

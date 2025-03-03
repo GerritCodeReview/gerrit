@@ -29,7 +29,7 @@ export const dashboardHeaderStyles = css`
   }
   .info > div > span {
     display: inline-block;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     width: 3.5em;
   }
 `;

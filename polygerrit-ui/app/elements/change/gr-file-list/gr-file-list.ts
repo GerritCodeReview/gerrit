@@ -480,7 +480,7 @@ export class GrFileList extends LitElement {
         }
         .drafts {
           color: var(--error-foreground);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .show-hide-icon:focus {
           outline: none;
@@ -516,11 +516,11 @@ export class GrFileList extends LitElement {
         }
         .newFilePath {
           color: var(--primary-text-color);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .fileName {
           color: var(--link-color);
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .truncatedFileName {
           display: none;

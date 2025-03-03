@@ -109,7 +109,7 @@ export class GrDownloadCommands extends LitElement {
           display: block;
         }
         label {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .schemes {
           display: flex;

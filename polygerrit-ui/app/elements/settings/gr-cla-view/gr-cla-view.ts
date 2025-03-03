@@ -76,10 +76,10 @@ export class GrClaView extends LitElement {
           padding: var(--spacing-s);
         }
         #claNewAgreementsLabel {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .contributorAgreementButton {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .alreadySubmittedText {
           color: var(--error-text-color);

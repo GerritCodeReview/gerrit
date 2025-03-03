@@ -398,8 +398,9 @@ const appThemeCss = safeStyleSheet`
     --line-height-h3: 1.715rem; /* 24px */
     --line-height-h2: 2rem; /* 28px */
     --line-height-h1: 2.286rem; /* 32px */
-    --font-weight-normal: 400; /* 400 is the same as 'normal' */
-    --font-weight-bold: 500;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
     --font-weight-h1: 500;
     --font-weight-h2: 500;
     --font-weight-h3: 400;

@@ -126,7 +126,7 @@ export class GrDropdown extends LitElement {
           text-transform: var(--gr-dropdown-item-text-transform);
         }
         .bold-text {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
       `,
     ];

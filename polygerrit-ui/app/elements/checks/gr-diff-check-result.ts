@@ -103,7 +103,7 @@ export class GrDiffCheckResult extends LitElement {
           margin-right: var(--spacing-m);
         }
         .summary {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           flex-shrink: 1;
           overflow: hidden;
           text-overflow: ellipsis;

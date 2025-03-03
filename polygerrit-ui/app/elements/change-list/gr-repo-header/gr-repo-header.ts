@@ -35,7 +35,7 @@ export class GrRepoHeader extends LitElement {
       css`
         .browse {
           display: inline-block;
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           text-align: right;
           width: 4em;
         }

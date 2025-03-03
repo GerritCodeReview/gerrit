@@ -93,7 +93,7 @@ export class GrRevisionParents extends LitElement {
           margin: 0;
         }
         .title {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .messageContainer {
           display: flex;

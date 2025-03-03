@@ -149,7 +149,7 @@ export class GrEditControls extends LitElement {
           background-color: #f0f0f0;
         }
         #dragDropArea > p {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           padding: var(--spacing-s);
         }
         .loadingSpin {

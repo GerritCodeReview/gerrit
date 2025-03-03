@@ -217,7 +217,7 @@ export class GrFileListHeader extends LitElement {
           display: flex;
         }
         .label {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
           margin-right: 24px;
         }
         gr-commit-info,

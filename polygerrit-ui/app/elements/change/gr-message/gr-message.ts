@@ -190,7 +190,7 @@ export class GrMessage extends LitElement {
           );
         }
         .name {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         .message {
           --gr-formatted-text-prose-max-width: 120ch;
@@ -291,7 +291,7 @@ export class GrMessage extends LitElement {
           padding-right: var(--spacing-m);
         }
         gr-account-label::part(gr-account-label-text) {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         @media screen and (max-width: 50em) {
           .expanded .content {

@@ -230,7 +230,7 @@ export class GrConfirmCherrypickDialog
           margin-top: var(--spacing-m);
         }
         .title {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-medium);
         }
         tr > td {
           padding: var(--spacing-m);

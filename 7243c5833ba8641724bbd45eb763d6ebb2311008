@@ -40,6 +40,30 @@
       ],
       "revId": "7243c5833ba8641724bbd45eb763d6ebb2311008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88375eb8_78aa02f8",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T11:45:11Z",
+      "side": 1,
+      "message": "Sounds good, done.",
+      "parentUuid": "987bbe5e_37d75795",
+      "range": {
+        "startLine": 222,
+        "startChar": 25,
+        "endLine": 222,
+        "endChar": 49
+      },
+      "revId": "7243c5833ba8641724bbd45eb763d6ebb2311008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

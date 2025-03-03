@@ -180,6 +180,7 @@ public class RefUpdateContext implements AutoCloseable {
     return result;
   }
 
+  /** Add custom data. */
   @UsedAt(UsedAt.Project.GOOGLE)
   public void addCustomData(Object data) {
     // Store the data in the top-level context only.
@@ -195,6 +196,8 @@ public class RefUpdateContext implements AutoCloseable {
     customData.add(data);
   }
 
+  /** Get all custom data that has a type that is assignable from the given class. */
+  @UsedAt(UsedAt.Project.GOOGLE)
   @SuppressWarnings("unchecked")
   public <T> ImmutableList<T> getCustomData(Class<T> clazz) {
     // The data is available in the top-level context only.
@@ -211,6 +214,23 @@ public class RefUpdateContext implements AutoCloseable {
         .filter(data -> clazz.isAssignableFrom(data.getClass()))
         .map(data -> (T) data)
         .collect(toImmutableList());
+  }
+
+  /** Remove all custom data that has a type that is assignable from the given class. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public <T> void clearCustomData(Class<T> clazz) {
+    // The data is available in the top-level context only.
+    RefUpdateContext currentContext = current.get().getFirst();
+    if (this != currentContext) {
+      currentContext.clearCustomData(clazz);
+      return;
+    }
+
+    if (customData == null) {
+      return;
+    }
+
+    customData.removeAll(getCustomData(clazz));
   }
 
   /**

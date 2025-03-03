@@ -157,12 +157,42 @@ public class RefUpdateContextTest {
         };
 
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-      assertThat(ctx.getCustomData(String.class)).isEmpty();
+      assertThat(ctx.getCustomData(Callback.class)).isEmpty();
       try (RefUpdateContext nestedCtx = RefUpdateContext.open(INIT_REPO)) {
         nestedCtx.addCustomData(callback);
         assertThat(nestedCtx.getCustomData(Callback.class)).containsExactly(callback);
       }
       assertThat(ctx.getCustomData(Callback.class)).containsExactly(callback);
+    }
+  }
+
+  @Test
+  public void clearCustomData() {
+    Callback callback =
+        new Callback() {
+          @Override
+          public void callback() {}
+        };
+
+    String customData = "customData";
+
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      assertThat(ctx.getCustomData(Callback.class)).isEmpty();
+      assertThat(ctx.getCustomData(String.class)).isEmpty();
+      try (RefUpdateContext nestedCtx = RefUpdateContext.open(INIT_REPO)) {
+        nestedCtx.addCustomData(callback);
+        nestedCtx.addCustomData(customData);
+        assertThat(nestedCtx.getCustomData(Callback.class)).containsExactly(callback);
+        assertThat(nestedCtx.getCustomData(String.class)).containsExactly(customData);
+
+        nestedCtx.clearCustomData(String.class);
+        assertThat(nestedCtx.getCustomData(Callback.class)).containsExactly(callback);
+        assertThat(nestedCtx.getCustomData(String.class)).isEmpty();
+      }
+      assertThat(ctx.getCustomData(Callback.class)).containsExactly(callback);
+
+      ctx.clearCustomData(Callback.class);
+      assertThat(ctx.getCustomData(Callback.class)).isEmpty();
     }
   }
 

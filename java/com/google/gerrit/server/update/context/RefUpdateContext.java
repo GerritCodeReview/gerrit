@@ -158,7 +158,9 @@ public class RefUpdateContext implements AutoCloseable {
   /**
    * Custom data, e.g. Google-specific data.
    *
-   * <p>This data is only stored on the top-level context.
+   * <p>This data is only stored on the top-level context (on which nesting level custom data is
+   * added is not relevant and storing it only on the top-level makes it easier to read custom data
+   * as then it's not needed to iterate over all contexts to collect/merge all the custom data).
    */
   private List<Object> customData;
 
@@ -180,6 +182,11 @@ public class RefUpdateContext implements AutoCloseable {
     return result;
   }
 
+  /**
+   * Add custom data.
+   *
+   * <p>Custom data is always stored on the top-level context, but can be added through any context.
+   */
   @UsedAt(UsedAt.Project.GOOGLE)
   public void addCustomData(Object data) {
     // Store the data in the top-level context only.
@@ -195,6 +202,13 @@ public class RefUpdateContext implements AutoCloseable {
     customData.add(data);
   }
 
+  /**
+   * Get all custom data that has a type that is assignable from the given class.
+   *
+   * <p>Custom data is always stored on the top-level context, but can be retrieved through any
+   * context.
+   */
+  @UsedAt(UsedAt.Project.GOOGLE)
   @SuppressWarnings("unchecked")
   public <T> ImmutableList<T> getCustomData(Class<T> clazz) {
     // The data is available in the top-level context only.
@@ -211,6 +225,28 @@ public class RefUpdateContext implements AutoCloseable {
         .filter(data -> clazz.isAssignableFrom(data.getClass()))
         .map(data -> (T) data)
         .collect(toImmutableList());
+  }
+
+  /**
+   * Remove all custom data that has a type that is assignable from the given class.
+   *
+   * <p>Custom data is only stored on the top-level context, but clearing custom data can be done
+   * through any context.
+   */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public <T> void clearCustomData(Class<T> clazz) {
+    // The data is available in the top-level context only.
+    RefUpdateContext currentContext = current.get().getFirst();
+    if (this != currentContext) {
+      currentContext.clearCustomData(clazz);
+      return;
+    }
+
+    if (customData == null) {
+      return;
+    }
+
+    customData.removeAll(getCustomData(clazz));
   }
 
   /**

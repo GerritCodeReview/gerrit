@@ -550,15 +550,15 @@ public class ChangeJson {
           }
           continue;
         }
-        Change.Id cdUniqueId = cd.virtualId();
-        ChangeInfo info = cache.get(cdUniqueId);
-        if (info != null && isCacheable) {
-          changeInfos.add(info);
-          continue;
-        }
-
-        // Compute and cache if possible
         try {
+          Change.Id cdUniqueId = cd.virtualId();
+          ChangeInfo info = cache.get(cdUniqueId);
+          if (info != null && isCacheable) {
+            changeInfos.add(info);
+            continue;
+          }
+
+          // Compute and cache if possible
           ensureLoaded(Collections.singleton(cd));
           info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
           changeInfos.add(info);

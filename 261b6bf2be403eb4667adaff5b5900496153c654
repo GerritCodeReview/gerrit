@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d32e499b_17ff8259",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1151774
+      },
+      "writtenOn": "2025-03-03T16:00:03Z",
+      "side": 1,
+      "message": "Thanks for doing this!",
+      "revId": "261b6bf2be403eb4667adaff5b5900496153c654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "994c61f1_90595266",
+        "filename": "java/com/google/gerrit/server/mail/SignedToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1151774
+      },
+      "writtenOn": "2025-03-03T16:00:03Z",
+      "side": 1,
+      "message": "The changes in this file are different than the other ones -- this file was already using `new SecureRandom()` without demanding a particular algorithm, but it used to be giving each token its own `SecureRandom` instance and now you\u0027re sharing a static `SecureRandom` instance across all tokens.  By my read of the docs, I think that should be fine, but I wanted to flag it in a comment b/c I\u0027m not enough of a crypto expert to be certain that this doesn\u0027t e.g. allow information leakage between tokens that could be exploited somehow.",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 4
+      },
+      "revId": "261b6bf2be403eb4667adaff5b5900496153c654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

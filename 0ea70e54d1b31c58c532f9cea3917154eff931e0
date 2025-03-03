@@ -46,6 +46,30 @@
       },
       "revId": "0ea70e54d1b31c58c532f9cea3917154eff931e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f7553c9_6494eebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-03T13:48:58Z",
+      "side": 1,
+      "message": "The change is NOT in the change, because `-bold` was NOT changed to `-medium`. :-) Sorry, should have split into two changes. :-/",
+      "parentUuid": "8de74c46_17fb5251",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "0ea70e54d1b31c58c532f9cea3917154eff931e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

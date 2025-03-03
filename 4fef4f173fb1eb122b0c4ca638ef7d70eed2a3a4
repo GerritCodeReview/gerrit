@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fd691e7_36c22bc1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T13:58:38Z",
+      "side": 1,
+      "message": "Yeah, let me avoid ther term action here. Done.",
+      "parentUuid": "cb354991_11d94e3c",
+      "range": {
+        "startLine": 588,
+        "startChar": 16,
+        "endLine": 588,
+        "endChar": 22
+      },
+      "revId": "4fef4f173fb1eb122b0c4ca638ef7d70eed2a3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d24d28e_e794952e",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05c78777_179df6a8",
+        "filename": "java/com/google/gerrit/acceptance/TestExtensions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T13:58:38Z",
+      "side": 1,
+      "message": "Turned out that this was actually not difficult. Done.",
+      "parentUuid": "a84ddd50_1584184d",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 23
+      },
+      "revId": "4fef4f173fb1eb122b0c4ca638ef7d70eed2a3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b982d73_d0b64e66",
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "Historic reasons. I actually think nowadays it\u0027s always set. Let me try if we can make this non-optional.",
       "parentUuid": "6b982d73_d0b64e66",
+      "range": {
+        "startLine": 25,
+        "startChar": 23,
+        "endLine": 25,
+        "endChar": 84
+      },
+      "revId": "4fef4f173fb1eb122b0c4ca638ef7d70eed2a3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0ca80ad_b5a7a641",
+        "filename": "java/com/google/gerrit/server/update/RetryListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-03T13:58:38Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/457604",
+      "parentUuid": "0ae6f0e4_d95c8849",
       "range": {
         "startLine": 25,
         "startChar": 23,

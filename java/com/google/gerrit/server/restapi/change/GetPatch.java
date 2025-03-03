@@ -98,10 +98,8 @@ public class GetPatch implements RestReadView<RevisionResource> {
       outputType = OutputType.BASE64;
     }
 
-    final Repository repo = repoManager.openRepository(rsrc.getProject());
-    boolean close = true;
-    try {
-      final RevWalk rw = new RevWalk(repo);
+    try (Repository repo = repoManager.openRepository(rsrc.getProject());
+        RevWalk rw = new RevWalk(repo)) {
       BinaryResult bin = null;
       try {
         final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
@@ -122,7 +120,8 @@ public class GetPatch implements RestReadView<RevisionResource> {
             new BinaryResult() {
               @Override
               public void writeTo(OutputStream out) throws IOException {
-                try {
+                try (Repository repo = repoManager.openRepository(rsrc.getProject());
+                    RevWalk rw = new RevWalk(repo)) {
                   switch (outputType) {
                     case ZIP:
                       ZipOutputStream zos = new ZipOutputStream(out);
@@ -138,9 +137,6 @@ public class GetPatch implements RestReadView<RevisionResource> {
                       format(out);
                       break;
                   }
-                } finally {
-                  rw.close();
-                  repo.close();
                 }
               }
 
@@ -174,19 +170,11 @@ public class GetPatch implements RestReadView<RevisionResource> {
             break;
         }
 
-        close = false;
         return Response.ok(bin);
       } finally {
-        if (close) {
-          rw.close();
-          if (bin != null) {
-            bin.close();
-          }
+        if (bin != null) {
+          bin.close();
         }
-      }
-    } finally {
-      if (close) {
-        repo.close();
       }
     }
   }

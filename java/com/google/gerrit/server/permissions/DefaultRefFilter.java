@@ -219,7 +219,7 @@ public class DefaultRefFilter {
             ImmutableList.copyOf(refs), ImmutableList.of());
       }
     }
-    logger.atFinest().log("Doing full ref filtering");
+    logger.atInfo().log("Performing visibility check for all refs. This can be expensive.");
     metrics.fullFilterCount.increment();
 
     boolean hasAccessDatabase =

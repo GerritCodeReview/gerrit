@@ -16,6 +16,24 @@
       "message": "or if the key exists and belongs to another account.",
       "revId": "7902991395d5dc7f28b268167a7778b61b3ff491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d8db3e_804fa04e",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-03T10:26:21Z",
+      "side": 1,
+      "message": "`throw new AccountException(\"Identity \u0027\" + extId + \"\u0027 in use by another account\");`\n\nthis is what the exception thrown mentions as well right?\n\nThat it belongs to some other account?",
+      "parentUuid": "6edc9191_1b7a2f98",
+      "revId": "7902991395d5dc7f28b268167a7778b61b3ff491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

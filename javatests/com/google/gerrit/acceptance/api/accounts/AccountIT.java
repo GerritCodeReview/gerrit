@@ -172,6 +172,7 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.restapi.account.GetCapabilities;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -266,6 +267,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private StalenessChecker stalenessChecker;
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
+  @Inject private PluginSetContext<RetryListener> retryListeners;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactoryNoteDbImpl externalIdFactoryNoteDbImpl;
   @Inject private AuthConfig authConfig;
@@ -2384,6 +2386,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 null,
                 exceptionHooks,
+                retryListeners,
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)));
@@ -3990,6 +3993,7 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             null,
             exceptionHooks,
+            retryListeners,
             r -> r.withBlockStrategy(noSleepBlockStrategy)));
   }
 

@@ -223,6 +223,8 @@ import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePr
 import com.google.gerrit.server.submitrequirement.predicate.SubmitRequirementLabelExtensionPredicate;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.LoggingRetryListener;
+import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
@@ -473,6 +475,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), AccountTagProvider.class);
     DynamicSet.setOf(binder(), AttentionSetListener.class);
     DynamicSet.setOf(binder(), ValidationOptionsListener.class);
+    DynamicSet.setOf(binder(), RetryListener.class);
+    DynamicSet.bind(binder(), RetryListener.class).to(LoggingRetryListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

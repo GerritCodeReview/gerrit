@@ -16,10 +16,12 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
@@ -33,7 +35,9 @@ import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,6 +123,31 @@ public class TestExtensions {
     @Override
     public boolean isOptionEnabled(Project.NameKey project, BranchNameKey branch) {
       return enabled;
+    }
+  }
+
+  public static class TestRetryListener implements RetryListener {
+    private List<Retry> retries = new ArrayList<>();
+
+    @Override
+    public void onRetry(String actionType, String actionName, long nextAttempt, Throwable cause) {
+      this.retries.add(new Retry(actionType, actionName, nextAttempt, cause));
+    }
+
+    public ImmutableList<Retry> getRetries() {
+      return ImmutableList.copyOf(retries);
+    }
+
+    public Retry getOnlyRetry() {
+      return Iterables.getOnlyElement(retries);
+    }
+
+    public record Retry(String actionType, String actionName, long nextAttempt, Throwable cause) {
+      public Retry {
+        requireNonNull(actionType, "actionType");
+        requireNonNull(actionName, "actionName");
+        requireNonNull(cause, "cause");
+      }
     }
   }
 

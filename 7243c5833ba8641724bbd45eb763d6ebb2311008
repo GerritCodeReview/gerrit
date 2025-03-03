@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "987bbe5e_37d75795",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-03T11:37:38Z",
+      "side": 1,
+      "message": "Can we have a bit more verbose logging here. So that it can be clearer what this means without going to the code. Ie. something like \"Performing visibility check for all refs. This can be expensive\"",
+      "range": {
+        "startLine": 222,
+        "startChar": 25,
+        "endLine": 222,
+        "endChar": 49
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3269eab0_e8e7ee2d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+              "range": {
+                "startLine": 222,
+                "startChar": 0,
+                "endLine": 223,
+                "endChar": 0
+              },
+              "replacement": "    logger.atInfo().log(\n        \"Performing visibility check for all refs. This can be expensive. refs \u003d %s\", refs);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7243c5833ba8641724bbd45eb763d6ebb2311008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -371,6 +371,7 @@ public class MergeUtil {
 
     MergeFormatter fmt = new MergeFormatter();
     Map<String, ObjectId> resolved = new HashMap<>();
+    // A comment to trigger a diff and change stuff
     for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
       MergeResult<? extends Sequence> p = entry.getValue();
       TemporaryBuffer buf = null;

@@ -101,6 +101,9 @@ export function changeStatuses(
   if (change.status === ChangeStatus.ABANDONED) {
     return [ChangeStates.ABANDONED];
   }
+  if (change.work_in_progress) {
+    states.push(ChangeStates.WIP);
+  }
 
   if (change.revert_of) {
     states.push(ChangeStates.REVERT);
@@ -110,9 +113,6 @@ export function changeStatuses(
     states.push(ChangeStates.MERGE_CONFLICT);
   } else if (change.contains_git_conflicts) {
     states.push(ChangeStates.GIT_CONFLICT);
-  }
-  if (change.work_in_progress) {
-    states.push(ChangeStates.WIP);
   }
   if (change.is_private) {
     states.push(ChangeStates.PRIVATE);

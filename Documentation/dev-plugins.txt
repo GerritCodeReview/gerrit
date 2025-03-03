@@ -578,7 +578,7 @@ Update of the project secondary index
 * `com.google.gerrit.httpd.WebLoginListener`:
 +
 User login or logout interactively on the Web user interface.
-
++
 The event listener is under the Gerrit http package to automatically
 inherit the javax.servlet.http dependencies and allowing to influence
 the login or logout flow with additional redirections.

@@ -219,7 +219,7 @@ public class DefaultRefFilter {
             ImmutableList.copyOf(refs), ImmutableList.of());
       }
     }
-    logger.atFinest().log("Doing full ref filtering");
+    logger.atInfo().log("Doing full ref filtering");
     metrics.fullFilterCount.increment();
 
     boolean hasAccessDatabase =

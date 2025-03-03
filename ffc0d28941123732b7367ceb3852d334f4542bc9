@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d20648c_99ec1b63",
+        "filename": "java/com/google/gerrit/server/update/context/RefUpdateContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-03T13:01:01Z",
+      "side": 1,
+      "message": "Why is it stored only in the top-level context? Can we add that information to the docstring?",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 52
+      },
+      "revId": "ffc0d28941123732b7367ceb3852d334f4542bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

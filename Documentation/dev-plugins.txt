@@ -583,6 +583,10 @@ The event listener is under the Gerrit http package to automatically
 inherit the javax.servlet.http dependencies and allowing to influence
 the login or logout flow with additional redirections.
 
+* `com.google.gerrit.server.update.RetryListener`:
++
+Invoked when Gerrit retries a block of code because there was a failure.
+
 [[stream-events]]
 == Sending Events to the Events Stream
 

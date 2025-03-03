@@ -32,6 +32,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -99,7 +100,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
     }
 
     final Repository repo = repoManager.openRepository(rsrc.getProject());
-    boolean close = true;
+    AtomicBoolean repoClosed = new AtomicBoolean(false);
     try {
       final RevWalk rw = new RevWalk(repo);
       BinaryResult bin = null;
@@ -139,8 +140,10 @@ public class GetPatch implements RestReadView<RevisionResource> {
                       break;
                   }
                 } finally {
-                  rw.close();
-                  repo.close();
+                  if (!repoClosed.getAndSet(true)) {
+                    rw.close();
+                    repo.close();
+                  }
                 }
               }
 
@@ -174,10 +177,9 @@ public class GetPatch implements RestReadView<RevisionResource> {
             break;
         }
 
-        close = false;
         return Response.ok(bin);
       } finally {
-        if (close) {
+        if (!repoClosed.get()) {
           rw.close();
           if (bin != null) {
             bin.close();
@@ -185,7 +187,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
         }
       }
     } finally {
-      if (close) {
+      if (!repoClosed.getAndSet(true)) {
         repo.close();
       }
     }

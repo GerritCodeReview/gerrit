@@ -192,6 +192,7 @@ public class RetryHelper {
   private final Provider<InternalChangeQuery> internalChangeQuery;
   private final Provider<InternalGroupQuery> internalGroupQuery;
   private final PluginSetContext<ExceptionHook> exceptionHooks;
+  private final PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners;
   private final Duration defaultTimeout;
   private final Map<String, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
@@ -203,6 +204,7 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       PluginSetContext<ExceptionHook> exceptionHooks,
+      PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
       BatchUpdate.Factory updateFactory,
       Provider<InternalAccountQuery> internalAccountQuery,
       Provider<InternalChangeQuery> internalChangeQuery,
@@ -215,6 +217,7 @@ public class RetryHelper {
         internalChangeQuery,
         internalGroupQuery,
         exceptionHooks,
+        retryListeners,
         null);
   }
 
@@ -227,6 +230,7 @@ public class RetryHelper {
       Provider<InternalChangeQuery> internalChangeQuery,
       Provider<InternalGroupQuery> internalGroupQuery,
       PluginSetContext<ExceptionHook> exceptionHooks,
+      PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.cfg = cfg;
     this.metrics = metrics;
@@ -235,6 +239,7 @@ public class RetryHelper {
     this.internalChangeQuery = internalChangeQuery;
     this.internalGroupQuery = internalGroupQuery;
     this.exceptionHooks = exceptionHooks;
+    this.retryListeners = retryListeners;
     this.defaultTimeout =
         Duration.ofMillis(
             cfg.getTimeUnit("retry", null, "timeout", SECONDS.toMillis(20), MILLISECONDS));
@@ -478,6 +483,7 @@ public class RetryHelper {
               opts,
               t -> {
                 String cause = formatCause(t);
+                long nextAttempt = listener.getAttemptCount() + 1;
 
                 // Do not retry if retrying was already done and failed.
                 if (Throwables.getCausalChain(t).stream()
@@ -491,6 +497,9 @@ public class RetryHelper {
                   logger.atFine().withCause(t).log(
                       "Retry: %s failed with possibly temporary error (cause = %s)",
                       opts.actionName(), cause);
+                  retryListeners.runEach(
+                      retryListener ->
+                          retryListener.onRetry(actionType, opts.actionName(), nextAttempt, t));
                   return true;
                 }
 
@@ -500,6 +509,9 @@ public class RetryHelper {
                   logger.atFine().withCause(t).log(
                       "Retry: %s failed with possibly temporary error (cause = %s)",
                       opts.actionName(), cause);
+                  retryListeners.runEach(
+                      retryListener ->
+                          retryListener.onRetry(actionType, opts.actionName(), nextAttempt, t));
                   return true;
                 }
 
@@ -523,6 +535,9 @@ public class RetryHelper {
                         opts.actionName(), cause);
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     metrics.autoRetryCount.increment(actionType, opts.actionName(), cause);
+                    retryListeners.runEach(
+                        retryListener ->
+                            retryListener.onRetry(actionType, opts.actionName(), nextAttempt, t));
                     return true;
                   }
 

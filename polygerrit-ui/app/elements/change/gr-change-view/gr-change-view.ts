@@ -822,9 +822,31 @@ export class GrChangeView extends LitElement {
         .header {
           align-items: center;
           background-color: var(--background-color-primary);
-          border-bottom: 1px solid var(--border-color);
+          border-bottom: 2px solid var(--border-color);
           display: flex;
           padding: var(--spacing-s) var(--spacing-l);
+        }
+        .header.active {
+          border-color: var(--status-active);
+        }
+        .header.abandoned {
+          border-color: var(--status-abandoned);
+        }
+        .header.merged {
+          border-color: var(--status-merged);
+        }
+        .header.private {
+          border-color: var(--status-private);
+        }
+        .header.ready-to-submit {
+          border-color: var(--status-ready);
+        }
+        .header.wip {
+          border-color: var(--status-wip);
+        }
+        .header.merge-conflict,
+        .header.git-conflict {
+          border-color: var(--status-conflict);
         }
         .header.editMode {
           background-color: var(--edit-mode-background-color);
@@ -2375,6 +2397,10 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   computeHeaderClass() {
     const classes = ['header'];
+    const status = this.computeChangeStatusChips()?.[0];
+    if (status) {
+      classes.push(status.toLowerCase());
+    }
     if (this.editMode) {
       classes.push('editMode');
     }

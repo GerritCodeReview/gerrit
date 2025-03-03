@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
 
+import com.github.rholder.retry.Attempt;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.util.List;
 
@@ -119,6 +121,38 @@ public class TestExtensions {
     @Override
     public boolean isOptionEnabled(Project.NameKey project, BranchNameKey branch) {
       return enabled;
+    }
+  }
+
+  public static class TestRetryListener implements RetryListener {
+    private boolean invoked;
+    private String actionType;
+    private String actionName;
+    private long attemptNumber;
+
+    @Override
+    public <V> void onRetry(String actionType, @Nullable String actionName, Attempt<V> attempt) {
+      this.invoked = true;
+      this.actionType = actionType;
+      this.actionName = actionName;
+      this.attemptNumber = attempt.getAttemptNumber();
+    }
+
+    public boolean isInvoked() {
+      return invoked;
+    }
+
+    public String getActionType() {
+      return actionType;
+    }
+
+    @Nullable
+    public String getActionName() {
+      return actionName;
+    }
+
+    public long getAttemptNumber() {
+      return attemptNumber;
     }
   }
 

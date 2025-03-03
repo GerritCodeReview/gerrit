@@ -37,6 +37,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.TestExtensions.TestRetryListener;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
@@ -61,6 +62,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -1027,6 +1029,27 @@ public class TraceIT extends AbstractDaemonTest {
       assertThat(response.getHeaders(RestApiServlet.X_GERRIT_TRACE)).doesNotContain("issue123");
       assertThat(reviewerSuggestion.traceIds).doesNotContain("issue123");
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
+  public void listenOnRetries() throws Exception {
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+
+    TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
+    traceSubmitRule.failAlways = true;
+    TestRetryListener testRetryListener = new TestRetryListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(traceSubmitRule).add(testRetryListener)) {
+      RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
+      assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
+      assertThat(testRetryListener.isInvoked()).isTrue();
+      assertThat(testRetryListener.getActionType()).isEqualTo(ActionType.REST_WRITE_REQUEST.name());
+      assertThat(testRetryListener.getActionName())
+          .isEqualTo("restapi.change.Submit.CurrentRevision");
+      assertThat(testRetryListener.getAttemptNumber()).isEqualTo(2);
     }
   }
 

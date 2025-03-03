@@ -192,6 +192,7 @@ public class RetryHelper {
   private final Provider<InternalChangeQuery> internalChangeQuery;
   private final Provider<InternalGroupQuery> internalGroupQuery;
   private final PluginSetContext<ExceptionHook> exceptionHooks;
+  private final PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners;
   private final Duration defaultTimeout;
   private final Map<String, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
@@ -203,6 +204,7 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       PluginSetContext<ExceptionHook> exceptionHooks,
+      PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
       BatchUpdate.Factory updateFactory,
       Provider<InternalAccountQuery> internalAccountQuery,
       Provider<InternalChangeQuery> internalChangeQuery,
@@ -215,6 +217,7 @@ public class RetryHelper {
         internalChangeQuery,
         internalGroupQuery,
         exceptionHooks,
+        retryListeners,
         null);
   }
 
@@ -227,6 +230,7 @@ public class RetryHelper {
       Provider<InternalChangeQuery> internalChangeQuery,
       Provider<InternalGroupQuery> internalGroupQuery,
       PluginSetContext<ExceptionHook> exceptionHooks,
+      PluginSetContext<com.google.gerrit.server.update.RetryListener> retryListeners,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.cfg = cfg;
     this.metrics = metrics;
@@ -235,6 +239,7 @@ public class RetryHelper {
     this.internalChangeQuery = internalChangeQuery;
     this.internalGroupQuery = internalGroupQuery;
     this.exceptionHooks = exceptionHooks;
+    this.retryListeners = retryListeners;
     this.defaultTimeout =
         Duration.ofMillis(
             cfg.getTimeUnit("retry", null, "timeout", SECONDS.toMillis(20), MILLISECONDS));
@@ -622,6 +627,16 @@ public class RetryHelper {
     if (opts.listener() != null) {
       retryerBuilder.withRetryListener(opts.listener());
     }
+
+    retryListeners.runEach(
+        retryListener ->
+            retryerBuilder.withRetryListener(
+                new RetryListener() {
+                  @Override
+                  public <V> void onRetry(Attempt<V> attempt) {
+                    retryListener.onRetry(actionType, opts.actionName().orElse(null), attempt);
+                  }
+                }));
 
     if (overwriteDefaultRetryerStrategySetup != null) {
       overwriteDefaultRetryerStrategySetup.accept(retryerBuilder);

@@ -89,7 +89,7 @@ public class RetryHelper {
     @Nullable
     abstract Duration timeout();
 
-    abstract Optional<String> actionName();
+    abstract String actionName();
 
     abstract Optional<Predicate<Throwable>> retryWithTrace();
 
@@ -477,7 +477,6 @@ public class RetryHelper {
               actionType,
               opts,
               t -> {
-                String actionName = opts.actionName().orElse("N/A");
                 String cause = formatCause(t);
 
                 // Do not retry if retrying was already done and failed.
@@ -491,16 +490,16 @@ public class RetryHelper {
                 if (exceptionPredicate.test(t)) {
                   logger.atFine().withCause(t).log(
                       "Retry: %s failed with possibly temporary error (cause = %s)",
-                      actionName, cause);
+                      opts.actionName(), cause);
                   return true;
                 }
 
                 // Exception hooks may identify additional exceptions for retry.
                 if (exceptionHooks.stream()
-                    .anyMatch(h -> h.shouldRetry(actionType, actionName, t))) {
+                    .anyMatch(h -> h.shouldRetry(actionType, opts.actionName(), t))) {
                   logger.atFine().withCause(t).log(
                       "Retry: %s failed with possibly temporary error (cause = %s)",
-                      actionName, cause);
+                      opts.actionName(), cause);
                   return true;
                 }
 
@@ -512,7 +511,7 @@ public class RetryHelper {
                   // Exception hooks may identify exceptions for which retrying with trace should be
                   // skipped.
                   if (exceptionHooks.stream()
-                      .anyMatch(h -> h.skipRetryWithTrace(actionType, actionName, t))) {
+                      .anyMatch(h -> h.skipRetryWithTrace(actionType, opts.actionName(), t))) {
                     return false;
                   }
 
@@ -521,9 +520,9 @@ public class RetryHelper {
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
                     logger.atWarning().withCause(t).log(
                         "AutoRetry: %s failed, retry with tracing enabled (cause = %s)",
-                        actionName, cause);
+                        opts.actionName(), cause);
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
-                    metrics.autoRetryCount.increment(actionType, actionName, cause);
+                    metrics.autoRetryCount.increment(actionType, opts.actionName(), cause);
                     return true;
                   }
 
@@ -531,8 +530,9 @@ public class RetryHelper {
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
                   logger.atWarning().withCause(t).log(
-                      "AutoRetry: auto-retry of %s has failed (cause = %s)", actionName, cause);
-                  metrics.failuresOnAutoRetryCount.increment(actionType, actionName, cause);
+                      "AutoRetry: auto-retry of %s has failed (cause = %s)",
+                      opts.actionName(), cause);
+                  metrics.failuresOnAutoRetryCount.increment(actionType, opts.actionName(), cause);
                   return false;
                 }
 
@@ -543,12 +543,11 @@ public class RetryHelper {
     } finally {
       if (listener.getAttemptCount() > 1) {
         logger.atWarning().log(
-            "%s was attempted %d times",
-            opts.actionName().isPresent() ? actionType + "." + opts.actionName().get() : actionType,
-            listener.getAttemptCount());
+            "%s.%s was attempted %d times",
+            actionType, opts.actionName(), listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
-            opts.actionName().orElse("N/A"),
+            opts.actionName(),
             listener.getOriginalCause().map(this::formatCause).orElse("_unknown"),
             listener.getAttemptCount() - 1);
       }
@@ -604,7 +603,7 @@ public class RetryHelper {
       if (e instanceof RetryException) {
         metrics.timeoutCount.increment(
             actionType,
-            opts.actionName().orElse("N/A"),
+            opts.actionName(),
             listener.getOriginalCause().map(this::formatCause).orElse("_unknown"));
 
         // Re-throw the RetryException so that retrying is not re-attempted on an outer level.

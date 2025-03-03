@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1f588ce_9ac0ec84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-03T08:09:15Z",
+      "side": 1,
+      "message": "What does \"limit padding\" mean and how does it help to fix the referenced bug? Maybe add the answer to the commit message.",
+      "revId": "26f7c42848078b962ce5b773281fb7e8ade598e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45263195_b4fd388f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-03T08:09:15Z",
+      "side": 1,
+      "message": "Maybe add a comment to both lines explaining why they have to be added and why 71 exactly.",
+      "range": {
+        "startLine": 76,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 22
+      },
+      "revId": "26f7c42848078b962ce5b773281fb7e8ade598e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

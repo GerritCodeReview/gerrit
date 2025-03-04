@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
@@ -71,6 +72,7 @@ public class SubmitRequirementsJson {
     info.status = SubmitRequirementExpressionInfo.Status.valueOf(result.status().name());
     info.passingAtoms = hide ? null : result.passingAtoms();
     info.failingAtoms = hide ? null : result.failingAtoms();
+    info.atomExplanations = hide ? null : result.atomExplanations().orElse(ImmutableMap.of());
     info.errorMessage = result.errorMessage().isPresent() ? result.errorMessage().get() : null;
     return info;
   }

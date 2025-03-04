@@ -46,6 +46,30 @@
       },
       "revId": "349ebc133746f5d37971bc44160593ff0ef214b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea299daf_a180ae7a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-03-04T07:56:49Z",
+      "side": 1,
+      "message": "was just a nit, let\u0027s leave it as-is.",
+      "parentUuid": "e3fb41d5_40bcc220",
+      "range": {
+        "startLine": 320,
+        "startChar": 8,
+        "endLine": 320,
+        "endChar": 41
+      },
+      "revId": "349ebc133746f5d37971bc44160593ff0ef214b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

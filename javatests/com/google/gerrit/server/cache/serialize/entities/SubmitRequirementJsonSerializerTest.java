@@ -67,7 +67,8 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"status\":\"FAIL\","
           + "\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"label:Code-Review=MAX\"],"
-          + "\"failingAtoms\":[\"label:Code-Review=MIN\"]}";
+          + "\"failingAtoms\":[\"label:Code-Review=MIN\"],"
+          + "\"atomExplanations\":{}}";
 
   private static final SubmitRequirementResult srReqResult =
       SubmitRequirementResult.builder()

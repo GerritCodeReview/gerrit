@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -43,6 +44,16 @@ public class SubmitRequirementExpressionInfo {
    * has two atoms: ["branch:refs/heads/foo", "project:bar"].
    */
   public List<String> failingAtoms;
+
+  /**
+   * Map of leaf predicates to their explanations.
+   *
+   * <p>This is used to provide more information about complex atoms, which may otherwise be opaque
+   * and hard to debug.
+   *
+   * <p>This will only be populated/implemented for some atoms.
+   */
+  public Map<String, String> atomExplanations;
 
   /**
    * Optional error message. Contains an explanation of why the submit requirement expression failed
@@ -77,15 +88,16 @@ public class SubmitRequirementExpressionInfo {
       return false;
     }
     SubmitRequirementExpressionInfo that = (SubmitRequirementExpressionInfo) o;
-    return fulfilled == that.fulfilled
-        && Objects.equals(expression, that.expression)
+    return fulfilled == that.fulfilled && Objects.equals(expression, that.expression)
         && Objects.equals(passingAtoms, that.passingAtoms)
         && Objects.equals(failingAtoms, that.failingAtoms)
+        && Objects.equals(atomExplanations, that.atomExplanations)
         && Objects.equals(errorMessage, that.errorMessage);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(expression, fulfilled, passingAtoms, failingAtoms, errorMessage);
+    return Objects.hash(expression, fulfilled, passingAtoms, failingAtoms, atomExplanations,
+        errorMessage);
   }
 }

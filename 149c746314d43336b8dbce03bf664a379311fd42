@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb19bae4_bd96eaa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T16:39:14Z",
+      "side": 1,
+      "message": "Nice!!",
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38d00961_42d2eacb",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T16:39:14Z",
+      "side": 1,
+      "message": "nit: branches",
+      "range": {
+        "startLine": 689,
+        "startChar": 45,
+        "endLine": 689,
+        "endChar": 51
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5d10cce2_2e370f7f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/permissions/RefControl.java",
+              "range": {
+                "startLine": 689,
+                "startChar": 0,
+                "endLine": 690,
+                "endChar": 0
+              },
+              "replacement": "        /* Admins should be able to read all branches and tags refs (including \u0027refs/meta/config\u0027). */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "AFAIU this flag guaranteed that repository will not be closed until the response is processed - without it there is a race between closing the in various finally blocks and using the repo to process the respose - how about opening spliting these two cases and opening the repo in `writeTo` for the purpose of the response processing? Then all these flags are no longer needed...",
       "revId": "4e95d2bc2b36259eca0f0ff2893d96999fd23f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b51b9841_b9e0070b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T08:19:58Z",
+      "side": 0,
+      "message": "I believe you are right: the two repos have a different lifetime, forcing them to follow the same makes things so complicated.",
+      "parentUuid": "9e72727e_01d4a601",
+      "revId": "4e95d2bc2b36259eca0f0ff2893d96999fd23f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

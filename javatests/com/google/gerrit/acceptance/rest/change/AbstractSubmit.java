@@ -1022,6 +1022,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "retry.timeout", value = "1s")
   public void submitChangeMissingInIndexComputeMergeSupersetRetried() throws Throwable {
     // Cherry-pick strategy does not query from index
     assume().that(getSubmitType()).isNotEqualTo(CHERRY_PICK);

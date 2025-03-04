@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0d41f4_54bda9cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T09:00:27Z",
+      "side": 1,
+      "message": "Build is failing due to the delete-project required change.",
+      "revId": "ad5a2f1200b6104dfb6ba2b0f9be18b8d6f48a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

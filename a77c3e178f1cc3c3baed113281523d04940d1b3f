@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c72f19c_2e00751b",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T10:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1019e8bc_a1a196f8",
+      "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de900ce4_02df290c",
@@ -59,6 +77,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "438b3792_3c970aea",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T10:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de900ce4_02df290c",
+      "range": {
+        "startLine": 579,
+        "startChar": 10,
+        "endLine": 579,
+        "endChar": 15
+      },
+      "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50d593da_20052ee0",
@@ -96,6 +138,30 @@
           ]
         }
       ],
+      "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94604bfc_b4a2db06",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T10:17:41Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "50d593da_20052ee0",
+      "range": {
+        "startLine": 594,
+        "startChar": 14,
+        "endLine": 597,
+        "endChar": 42
+      },
       "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

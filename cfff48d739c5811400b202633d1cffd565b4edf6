@@ -140,6 +140,30 @@
       },
       "revId": "cfff48d739c5811400b202633d1cffd565b4edf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cfe067e_b85a0a18",
+        "filename": "java/com/google/gerrit/testing/NoGitRepositoryReferenceCounting.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-04T07:46:49Z",
+      "side": 1,
+      "message": "OK so how about `NoGitRepositoryCheckIfClosed` so that we describe what we disable and not how it gets achieved?",
+      "parentUuid": "09d78d2b_a2955403",
+      "range": {
+        "startLine": 33,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 50
+      },
+      "revId": "cfff48d739c5811400b202633d1cffd565b4edf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

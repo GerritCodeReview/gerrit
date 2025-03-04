@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -43,6 +44,16 @@ public class SubmitRequirementExpressionInfo {
    * has two atoms: ["branch:refs/heads/foo", "project:bar"].
    */
   public List<String> failingAtoms;
+
+  /**
+   * Map of leaf predicates to their explanations.
+   *
+   * <p>This is used to provide more information about complex atoms, which may otherwise be opaque
+   * and hard to debug.
+   *
+   * <p>This will only be populated/implemented for some atoms.
+   */
+  public Map<String, String> atomExplanations;
 
   /**
    * Optional error message. Contains an explanation of why the submit requirement expression failed

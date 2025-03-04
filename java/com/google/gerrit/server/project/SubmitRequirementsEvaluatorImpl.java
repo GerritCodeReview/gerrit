@@ -232,10 +232,12 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   /** Evaluate the predicate recursively using change data. */
   private PredicateResult evaluatePredicateTree(
       Predicate<ChangeData> predicate, ChangeData changeData) {
+    MatchResult match = predicate.asMatchable().matchResult(changeData)
     PredicateResult.Builder predicateResult =
         PredicateResult.builder()
             .predicateString(predicate.isLeaf() ? predicate.getPredicateString() : "")
-            .status(predicate.asMatchable().match(changeData));
+            .explanation(predicate.isLeaf() ? match.explanation : "")
+            .status(match.status);
     predicate
         .getChildren()
         .forEach(

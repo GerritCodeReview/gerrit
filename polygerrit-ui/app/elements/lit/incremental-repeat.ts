@@ -51,7 +51,8 @@ class IncrementalRepeat<T> extends AsyncDirective {
       options.endAt === undefined ? offset : Math.min(options.endAt, offset);
     const values = options.values.slice(start, end);
     if (options.mapFn) {
-      return values.map(options.mapFn);
+      const mapFn = options.mapFn;
+      return values.map((val, idx) => mapFn(val, idx + start));
     }
     return values;
   }

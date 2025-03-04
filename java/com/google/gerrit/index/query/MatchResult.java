@@ -14,12 +14,16 @@
 
 package com.google.gerrit.index.query;
 
-public interface Matchable<T> {
-  /** Does this predicate match this object? */
-  boolean match(T object);
+/** Result returned by {@link Matchable}. */
+public class MatchResult {
+  /** true if matches */
+  public final boolean status;
 
-  MatchResult matchResult(T object);
+  /** explanation for why it matched or not */
+  public final String explanation;
 
-  /** Returns a cost estimate to run this predicate, higher figures cost more. */
-  int getCost();
+  public MatchResult(boolean status, String explanation) {
+    this.status = status;
+    this.explanation = explanation;
+  }
 }

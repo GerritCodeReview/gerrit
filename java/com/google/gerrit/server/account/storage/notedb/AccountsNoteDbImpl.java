@@ -24,13 +24,13 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
@@ -188,8 +188,8 @@ public class AccountsNoteDbImpl implements Accounts {
 
     // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
     // an open Repository instance.
-    ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
-        projectWatches = accountConfig.getProjectWatches();
+    ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches =
+        accountConfig.getProjectWatches();
 
     return Optional.of(
         AccountState.withState(

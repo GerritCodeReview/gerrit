@@ -64,3 +64,24 @@ junit_tests(
         "//lib/guice",
     ],
 )
+
+junit_tests(
+    name = "internal_query_test",
+    size = "large",
+    srcs = glob(
+        ["InternalAccountQueryTest.java"],
+    ),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":abstract_query_tests",
+        "//java/com/google/gerrit/acceptance/config",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:guava",
+        "//lib:jgit",
+        "//lib/guice",
+        "//lib/truth",
+    ],
+)

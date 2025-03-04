@@ -144,7 +144,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected ExternalIds externalIds;
 
-  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+  @Inject protected ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject protected AuthRequest.Factory authRequestFactory;
 
@@ -852,7 +852,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return name + "_" + suffix;
   }
 
-  private Account.Id createAccount(String username, String fullName, String email, boolean active)
+  protected Account.Id createAccount(String username, String fullName, String email, boolean active)
       throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
       Account.Id id =

@@ -22,6 +22,29 @@
       },
       "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c44932_13ff16c5",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-04T09:29:00Z",
+      "side": 1,
+      "message": "Maybe a naive question: since the `Repository` is an `AutoCloseable` why not use a try-with-resources here:\n```\ntry (Repository repo \u003d repoManager.openRepository(rsrc.getProject())) {\n  ...\n}\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 9
+      },
+      "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

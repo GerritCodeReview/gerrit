@@ -14,18 +14,15 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.entities.converter.AccountProtoConverter;
+import com.google.gerrit.entities.converter.CachedProjectWatchProtoConverter;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -100,6 +97,8 @@ public abstract class CachedAccountDetails {
 
     private static final AccountProtoConverter ACCOUNT_PROTO_CONVERTER =
         AccountProtoConverter.INSTANCE;
+    private static final CachedProjectWatchProtoConverter PROJECT_WATCH_PROTO_CONVERTER =
+        CachedProjectWatchProtoConverter.INSTANCE;
 
     @Override
     public byte[] serialize(CachedAccountDetails cachedAccountDetails) {
@@ -110,18 +109,7 @@ public abstract class CachedAccountDetails {
 
       for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> watch :
           cachedAccountDetails.projectWatches().entrySet()) {
-        Cache.ProjectWatchProto.Builder proto =
-            Cache.ProjectWatchProto.newBuilder().setProject(watch.getKey().project().get());
-        if (watch.getKey().filter() != null) {
-          proto.setFilter(watch.getKey().filter());
-        }
-        watch
-            .getValue()
-            .forEach(
-                n ->
-                    proto.addNotifyType(
-                        Enums.stringConverter(NotifyConfig.NotifyType.class).reverse().convert(n)));
-        serialized.addProjectWatchProto(proto);
+        serialized.addProjectWatchProto(PROJECT_WATCH_PROTO_CONVERTER.toProto(watch));
       }
 
       Optional<Cache.CachedPreferencesProto> cachedPreferencesProto =
@@ -141,13 +129,7 @@ public abstract class CachedAccountDetails {
       ImmutableMap.Builder<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches =
           ImmutableMap.builder();
       proto.getProjectWatchProtoList().stream()
-          .forEach(
-              p ->
-                  projectWatches.put(
-                      ProjectWatchKey.create(Project.nameKey(p.getProject()), p.getFilter()),
-                      p.getNotifyTypeList().stream()
-                          .map(e -> Enums.stringConverter(NotifyConfig.NotifyType.class).convert(e))
-                          .collect(toImmutableSet())));
+          .forEach(p -> projectWatches.put(PROJECT_WATCH_PROTO_CONVERTER.fromProto(p)));
 
       return CachedAccountDetails.create(
           account,

@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;

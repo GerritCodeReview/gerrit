@@ -238,6 +238,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95f7f940_658f16a6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectCacheIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T15:18:25Z",
+      "side": 1,
+      "message": "My comment was more on avoiding _magic numbers_ in tests: the fact that the number isn\u0027t clear is justified by the need of adding a comment to it.\n\nAlso, the trouble here is that if _\"Two evictions happened ...\"_ was the justification of the magic number `2`, then in this change it becomes even more obscure because the number is increased to `3` but the comment still mentions the original `2`, which is very confusing IMHO.\n\n\n\n```suggestion\n        .isGreaterThan(initialNumMisses + 1);\n```",
+      "parentUuid": "443485d2_9a0e0b0c",
+      "range": {
+        "startLine": 153,
+        "startChar": 38,
+        "endLine": 153,
+        "endChar": 94
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa4594b0_2b8879dc",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 10

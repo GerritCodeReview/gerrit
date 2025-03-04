@@ -1,0 +1,111 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "993b14f1_d3b31374",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T19:57:10Z",
+      "side": 1,
+      "message": "Looks correct to me. :) \n\nCould you please add a test in AccountManagerIT.java?",
+      "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c756448_ec3bb5c6",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T19:57:10Z",
+      "side": 1,
+      "message": "Consider using stream\u0027s indexingBy collector.",
+      "fixSuggestions": [
+        {
+          "fixId": "f676c4e7_4002ffaf",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 19,
+                "startChar": 0,
+                "endLine": 19,
+                "endChar": 0
+              },
+              "replacement": "import static com.google.common.labs.collect.EvenMoreCollectors.indexingBy;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 60,
+                "startChar": 0,
+                "endLine": 61,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 574,
+                "startChar": 0,
+                "endLine": 578,
+                "endChar": 0
+              },
+              "replacement": "    Map\u003cExternalId.Key, ExternalId\u003e existingExtIds \u003d\n        externalIds.get(keys).stream().collect(indexingBy(ExternalId::key));\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd4bb7e4_57d33afc",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T19:57:10Z",
+      "side": 1,
+      "message": "Maybe use containsKey?",
+      "fixSuggestions": [
+        {
+          "fixId": "049fffc0_f88999b1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 579,
+                "startChar": 0,
+                "endLine": 580,
+                "endChar": 0
+              },
+              "replacement": "      if (!existingExtIds.containsKey(extId.key())) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,9 +18,11 @@ import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -45,6 +47,8 @@ public class SubmitRequirementExpressionResultSerializer {
         status,
         proto.getPassingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         proto.getFailingAtomsList().stream().collect(ImmutableList.toImmutableList()),
+        proto.getAtomExplanationsMap().entrySet().stream()
+            .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)),
         Optional.ofNullable(Strings.emptyToNull(proto.getErrorMessage())));
   }
 
@@ -55,6 +59,7 @@ public class SubmitRequirementExpressionResultSerializer {
         .setStatus(STATUS_CONVERTER.reverse().convert(r.status()))
         .addAllPassingAtoms(r.passingAtoms())
         .addAllFailingAtoms(r.failingAtoms())
+        .putAllAtomExplanations(r.atomExplanations())
         .setErrorMessage(r.errorMessage().orElse(""))
         .build();
   }

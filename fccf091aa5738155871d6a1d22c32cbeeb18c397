@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52894cdc_7559851f",
+        "filename": "java/com/google/gerrit/sshd/commands/CleanupDraftComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-03-04T10:04:19Z",
+      "side": 1,
+      "message": "In the documentation you say it just requires the MAINTAIN_SERVER capability",
+      "range": {
+        "startLine": 26,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "fccf091aa5738155871d6a1d22c32cbeeb18c397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

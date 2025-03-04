@@ -24,6 +24,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.entities.converter.AccountProtoConverter;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache;
@@ -80,8 +81,7 @@ public abstract class CachedAccountDetails {
   public abstract Account account();
 
   /** Projects that the user has configured to watch. */
-  public abstract ImmutableMap<
-          ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
+  public abstract ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
       projectWatches();
 
   /** Preferences that this user has. Serialized as Git-config style string. */
@@ -89,8 +89,7 @@ public abstract class CachedAccountDetails {
 
   public static CachedAccountDetails create(
       Account account,
-      ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
-          projectWatches,
+      ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches,
       CachedPreferences preferences) {
     return new AutoValue_CachedAccountDetails(account, projectWatches, preferences);
   }
@@ -109,7 +108,7 @@ public abstract class CachedAccountDetails {
       Account account = cachedAccountDetails.account();
       serialized.setAccount(ACCOUNT_PROTO_CONVERTER.toProto(account));
 
-      for (Map.Entry<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> watch :
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> watch :
           cachedAccountDetails.projectWatches().entrySet()) {
         Cache.ProjectWatchProto.Builder proto =
             Cache.ProjectWatchProto.newBuilder().setProject(watch.getKey().project().get());
@@ -139,14 +138,13 @@ public abstract class CachedAccountDetails {
           Protos.parseUnchecked(Cache.AccountDetailsProto.parser(), in);
       Account account = ACCOUNT_PROTO_CONVERTER.fromProto(proto.getAccount());
 
-      ImmutableMap.Builder<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
-          projectWatches = ImmutableMap.builder();
+      ImmutableMap.Builder<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches =
+          ImmutableMap.builder();
       proto.getProjectWatchProtoList().stream()
           .forEach(
               p ->
                   projectWatches.put(
-                      ProjectWatches.ProjectWatchKey.create(
-                          Project.nameKey(p.getProject()), p.getFilter()),
+                      ProjectWatchKey.create(Project.nameKey(p.getProject()), p.getFilter()),
                       p.getNotifyTypeList().stream()
                           .map(e -> Enums.stringConverter(NotifyConfig.NotifyType.class).convert(e))
                           .collect(toImmutableSet())));

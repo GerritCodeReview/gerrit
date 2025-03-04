@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -62,6 +64,9 @@ public class ChangeNoteJson {
         .registerTypeAdapter(
             new TypeLiteral<ImmutableList<String>>() {}.getType(),
             new ImmutableListAdapter().nullSafe())
+        .registerTypeAdapter(
+            new TypeLiteral<ImmutableMap<String, String>>() {}.getType(),
+            new ImmutableMapAdapter().nullSafe())
         .registerTypeAdapter(
             new TypeLiteral<Optional<Boolean>>() {}.getType(),
             new OptionalBooleanAdapter().nullSafe())
@@ -161,6 +166,30 @@ public class ChangeNoteJson {
       }
       in.endArray();
       return builder.build();
+    }
+  }
+
+  static class ImmutableMapAdapter extends TypeAdapter<ImmutableMap<String, String>> {
+
+    @Override
+    public void write(JsonWriter out, ImmutableMap<String, String> value) throws IOException {
+      out.beginObject();
+      for (Map.Entry<String, String> entry : value.entrySet()) {
+        out.name(entry.getKey());
+        out.value(entry.getValue());
+      }
+      out.endObject();
+    }
+
+    @Override
+    public ImmutableMap<String, String> read(JsonReader in) throws IOException {
+      ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+      in.beginObject();
+      while (in.hasNext()) {
+        builder.put(in.nextName(), in.nextString());
+      }
+      in.endObject();
+      return builder.buildOrThrow();
     }
   }
 

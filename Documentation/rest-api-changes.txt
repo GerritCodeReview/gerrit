@@ -9325,6 +9325,9 @@ fulfilled for the change.
 |`failing_atoms`|optional|
 A list of failing atoms. This is similar to `passing_atoms` except that it
 contains the list of predicates that are not fulfilled for the change.
+|`atom_explanations`|optional|
+A map of atoms (as strings) to strings explaining the result. This
+field only contains atoms for which the explanation is available.
 |`error_message`|optional|
 If the submit requirement fails during evaluation, this string will contain
 an error message describing why it failed.

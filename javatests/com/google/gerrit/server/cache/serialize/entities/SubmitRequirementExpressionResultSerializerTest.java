@@ -40,6 +40,7 @@ public class SubmitRequirementExpressionResultSerializerTest {
           Status.ERROR,
           ImmutableList.of(),
           ImmutableList.of(),
+          Optional.empty(),
           Optional.of("Failed to parse the code review label"));
 
   @Test

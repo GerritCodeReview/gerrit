@@ -1,0 +1,103 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1019e8bc_a1a196f8",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T09:42:31Z",
+      "side": 1,
+      "message": "This comparison should use the keys, because rn an ID linked to another account will be considered as \"new\". Maybe change `existingExtIds` to be a map of key\u003d\u003efull existing ID.",
+      "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de900ce4_02df290c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T09:42:31Z",
+      "side": 1,
+      "message": "This should check existingExtIds[extId.key()].",
+      "range": {
+        "startLine": 579,
+        "startChar": 10,
+        "endLine": 579,
+        "endChar": 15
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c4ec5e71_ae33d80b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 579,
+                "startChar": 0,
+                "endLine": 580,
+                "endChar": 0
+              },
+              "replacement": "      if (existingExtIds.get(extId.key()).accountId().equals(to)) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d593da_20052ee0",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T09:42:31Z",
+      "side": 1,
+      "message": "I assume this was copied from unlink? It should be removed.",
+      "range": {
+        "startLine": 594,
+        "startChar": 14,
+        "endLine": 597,
+        "endChar": 42
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "bb3f16d9_339fedd7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 594,
+                "startChar": 0,
+                "endLine": 599,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "a77c3e178f1cc3c3baed113281523d04940d1b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

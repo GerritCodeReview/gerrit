@@ -294,6 +294,7 @@ public class SubmitRequirementsAdapter {
         status,
         status == Status.PASS ? atoms : ImmutableList.of(),
         status == Status.FAIL ? atoms : ImmutableList.of(),
+        ImmutableMap.of(),
         Optional.ofNullable(Strings.emptyToNull(errorMessage)));
   }
 

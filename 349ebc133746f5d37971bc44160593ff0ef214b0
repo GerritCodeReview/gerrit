@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4b4b48_f890d87c",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-03-04T06:57:49Z",
+      "side": 1,
+      "message": "nit: I think this duration is misused here, as it represents the time for waiting to receive events, not for waiting for listeners to be registered.",
+      "range": {
+        "startLine": 320,
+        "startChar": 8,
+        "endLine": 320,
+        "endChar": 41
+      },
+      "revId": "349ebc133746f5d37971bc44160593ff0ef214b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

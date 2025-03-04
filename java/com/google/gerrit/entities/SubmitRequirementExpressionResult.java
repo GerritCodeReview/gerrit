@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -59,13 +60,24 @@ public abstract class SubmitRequirementExpressionResult {
    */
   public abstract ImmutableList<String> failingAtoms();
 
+  /**
+   * Map of leaf predicates to their explanations.
+   *
+   * <p>This is used to provide more information about complex atoms, which may otherwise be opaque
+   * and hard to debug.
+   *
+   * <p>This will only be populated/implemented for some atoms.
+   */
+  public abstract Optional<ImmutableMap<String, String>> atomExplanations();
+
   public static SubmitRequirementExpressionResult create(
       SubmitRequirementExpression expression, PredicateResult predicateResult) {
     return create(
         expression,
         predicateResult.status() ? Status.PASS : Status.FAIL,
         predicateResult.getPassingAtoms(),
-        predicateResult.getFailingAtoms());
+        predicateResult.getFailingAtoms(),
+        Optional.of(predicateResult.getAtomExplanations()));
   }
 
   public static SubmitRequirementExpressionResult create(
@@ -81,9 +93,20 @@ public abstract class SubmitRequirementExpressionResult {
       Status status,
       ImmutableList<String> passingAtoms,
       ImmutableList<String> failingAtoms,
+      Optional<ImmutableMap<String, String>> atomExplanations) {
+    return create(
+        expression, status, passingAtoms, failingAtoms, atomExplanations, Optional.empty());
+  }
+
+  public static SubmitRequirementExpressionResult create(
+      SubmitRequirementExpression expression,
+      Status status,
+      ImmutableList<String> passingAtoms,
+      ImmutableList<String> failingAtoms,
+      Optional<ImmutableMap<String, String>> atomExplanations,
       Optional<String> errorMessage) {
     return new AutoValue_SubmitRequirementExpressionResult(
-        expression, status, errorMessage, passingAtoms, failingAtoms);
+        expression, status, errorMessage, passingAtoms, failingAtoms, atomExplanations);
   }
 
   public static SubmitRequirementExpressionResult error(
@@ -93,7 +116,8 @@ public abstract class SubmitRequirementExpressionResult {
         Status.ERROR,
         Optional.of(errorMessage),
         ImmutableList.of(),
-        ImmutableList.of());
+        ImmutableList.of(),
+        Optional.empty());
   }
 
   public static SubmitRequirementExpressionResult notEvaluated(SubmitRequirementExpression expr) {
@@ -118,6 +142,9 @@ public abstract class SubmitRequirementExpressionResult {
     public abstract Builder passingAtoms(ImmutableList<String> passingAtoms);
 
     public abstract Builder failingAtoms(ImmutableList<String> failingAtoms);
+
+    public abstract Builder atomExplanations(
+        Optional<ImmutableMap<String, String>> atomExplanations);
 
     public abstract SubmitRequirementExpressionResult build();
   }
@@ -160,6 +187,16 @@ public abstract class SubmitRequirementExpressionResult {
     /** true if the predicate is passing for a given change. */
     abstract boolean status();
 
+    /**
+     * An explanation of the predicate result.
+     *
+     * <p>This is used to provide more information about complex atoms, which may otherwise be
+     * opaque and hard to debug.
+     *
+     * <p>This will be empty for most predicate results and all non-leaf predicates.
+     */
+    public abstract String explanation();
+
     /** Returns a list of leaf predicate results whose {@link PredicateResult#status()} is true. */
     ImmutableList<String> getPassingAtoms() {
       return getAtoms(/* status= */ true).stream()
@@ -174,6 +211,20 @@ public abstract class SubmitRequirementExpressionResult {
           .collect(ImmutableList.toImmutableList());
     }
 
+    ImmutableMap<String, String> getAtomExplanations() {
+      return getAtoms().stream()
+          .collect(
+              ImmutableMap.toImmutableMap(
+                  PredicateResult::predicateString, PredicateResult::explanation, (a, b) -> a));
+    }
+
+    /** Returns the list of leaf {@link PredicateResult}. */
+    private ImmutableList<PredicateResult> getAtoms() {
+      ImmutableList.Builder<PredicateResult> atomsList = ImmutableList.builder();
+      getAtomsRecursively(atomsList);
+      return atomsList.build();
+    }
+
     /**
      * Returns the list of leaf {@link PredicateResult} whose {@link #status()} is equal to the
      * {@code status} parameter.
@@ -182,6 +233,14 @@ public abstract class SubmitRequirementExpressionResult {
       ImmutableList.Builder<PredicateResult> atomsList = ImmutableList.builder();
       getAtomsRecursively(atomsList, status);
       return atomsList.build();
+    }
+
+    private void getAtomsRecursively(ImmutableList.Builder<PredicateResult> list) {
+      if (!predicateString().isEmpty()) {
+        list.add(this);
+        return;
+      }
+      childPredicateResults().forEach(c -> c.getAtomsRecursively(list));
     }
 
     private void getAtomsRecursively(ImmutableList.Builder<PredicateResult> list, boolean status) {
@@ -203,6 +262,8 @@ public abstract class SubmitRequirementExpressionResult {
       public abstract Builder predicateString(String value);
 
       public abstract Builder status(boolean value);
+
+      public abstract Builder explanation(String value);
 
       @CanIgnoreReturnValue
       public Builder addChildPredicateResult(PredicateResult result) {

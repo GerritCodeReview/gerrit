@@ -180,6 +180,18 @@ public abstract class Predicate<T> {
     return (Matchable<T>) this;
   }
 
+  /**
+   * Returns an explanation of the result of evaluating this predicate.
+   *
+   * <p>This is used to provide more information about complex atoms, which may otherwise be opaque
+   * and hard to debug.
+   *
+   * <p>Most predicates can use the default implementation.
+   */
+  public MatchResult matchResult(T object) {
+    return new MatchResult(asMatchable().match(object), "");
+  }
+
   /** Returns a cost estimate to run this predicate, higher figures cost more. */
   public int estimateCost() {
     if (!isMatchable()) {

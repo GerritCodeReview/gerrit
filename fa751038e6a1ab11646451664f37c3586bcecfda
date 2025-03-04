@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71e95768_7c3966c1",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T15:01:17Z",
+      "side": 1,
+      "message": "\u003e Maybe a naive question: since the `Repository` is an `AutoCloseable` why not use a try-with-resources here:\n\u003e ```\n\u003e try (Repository repo \u003d repoManager.openRepository(rsrc.getProject())) {\n\u003e   ...\n\u003e }\n\u003e ```\n\nThat wasn\u0027t possible because `repo` was indirectly used in the `BinaryResult` download at L130.",
+      "parentUuid": "72c44932_13ff16c5",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 9
+      },
+      "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60aaeffd_222f81b0",
         "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
         "patchSetId": 2
@@ -60,6 +84,24 @@
       "writtenOn": "2025-03-04T10:07:03Z",
       "side": 1,
       "message": "This will close the repository if the current value of the `repoClosed` is `false`. The base version would close the repository if the value of the `close` was `true`. \nThe old code wouldn\u0027t close the repository in the `return Response.ok` case while the new could would close it in that case.\n\nIIUC, the main problem was that the repository remained open after an `ok` response was returned. If it gets closed here then streaming the response after that is likely going to fail (assuming we need open repo for the streaming of the response to work).\n\nIMHO, we either must create a `BinaryResult` which doesn\u0027t depend on the repository being open or we have to stream the result from within this try-finally block i.e. before the repositoyr is closed.",
+      "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7599c7cc_400a2f17",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T15:01:17Z",
+      "side": 1,
+      "message": "\u003e IMHO, we either must create a `BinaryResult` which doesn\u0027t depend on the repository being open or we have to stream the result from within this try-finally block i.e. before the repositoyr is closed.\n\nI believe it makes sense to just reopen the repo in the `BinaryResult` instead of reusing the repository.",
+      "parentUuid": "60aaeffd_222f81b0",
       "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

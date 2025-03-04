@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d17429a_435ba912",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-04T20:19:53Z",
+      "side": 1,
+      "message": "Note for myself, I still need to update the description of the Administrate Server capability in the documentation.",
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38d00961_42d2eacb",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 5

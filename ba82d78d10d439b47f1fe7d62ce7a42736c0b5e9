@@ -92,6 +92,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c798961e_a3f6f20c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T08:45:51Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b059499b_5e234813",
+      "range": {
+        "startLine": 569,
+        "startChar": 21,
+        "endLine": 569,
+        "endChar": 32
+      },
+      "revId": "ba82d78d10d439b47f1fe7d62ce7a42736c0b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3551ed4c_45a52b7b",
@@ -105,6 +129,30 @@
       "writtenOn": "2025-03-04T08:41:56Z",
       "side": 1,
       "message": "I\u0027m not clear about this part.\nIIUC, we get here only if the extID exists and linked to a different account. In this case, we should throw an error.",
+      "range": {
+        "startLine": 583,
+        "startChar": 6,
+        "endLine": 585,
+        "endChar": 40
+      },
+      "revId": "ba82d78d10d439b47f1fe7d62ce7a42736c0b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52459ea6_ceffca74",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T08:45:51Z",
+      "side": 1,
+      "message": "IIUC we get here if the \"unlinking\" happened already and then the caller wants to link that externalID to some other account(using this method)\n\nThe removed externalID still attached to the `from` account will need to be attached to the `to` account hence we create a new externalID here",
+      "parentUuid": "3551ed4c_45a52b7b",
       "range": {
         "startLine": 583,
         "startChar": 6,

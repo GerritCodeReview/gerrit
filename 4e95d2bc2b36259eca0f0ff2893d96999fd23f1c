@@ -34,6 +34,24 @@
       "parentUuid": "9e72727e_01d4a601",
       "revId": "4e95d2bc2b36259eca0f0ff2893d96999fd23f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0615fb9d_447406b0",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-04T10:07:03Z",
+      "side": 0,
+      "message": "When you talk about a \"race\" do you refer to several threads being involved here?",
+      "parentUuid": "b51b9841_b9e0070b",
+      "revId": "4e95d2bc2b36259eca0f0ff2893d96999fd23f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

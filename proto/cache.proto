@@ -524,13 +524,14 @@ message SubmitRequirementResultProto {
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementExpressionResult.
-// Next ID: 6
+// Next ID: 7
 message SubmitRequirementExpressionResultProto {
   string expression = 1;
-  string status = 2; // enum as string
+  string status = 2;  // enum as string
   string error_message = 3;
   repeated string passing_atoms = 4;
   repeated string failing_atoms = 5;
+  map<string, string> atom_explanations = 6;
 }
 
 // Serialized form of com.google.gerrit.server.project.ConfiguredMimeTypes.

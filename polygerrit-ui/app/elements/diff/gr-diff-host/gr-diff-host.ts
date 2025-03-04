@@ -6,7 +6,7 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
-import {getDiffLength, isImageDiff} from '../../../utils/diff-util';
+import {getDiffLength, getDiffContentLength, isImageDiff} from '../../../utils/diff-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -76,6 +76,7 @@ import {Category} from '../../../api/checks';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {
   CODE_MAX_LINES,
+  CODE_MAX_LENGTH,
   highlightServiceToken,
 } from '../../../services/highlight/highlight-service';
 import {html, LitElement, PropertyValues} from 'lit';
@@ -1173,6 +1174,15 @@ export class GrDiffHost extends LitElement {
       );
       return false;
     }
+    if(getDiffContentLength(this.diff) > CODE_MAX_LENGTH) {
+      fireAlert(
+            this,
+            `Files with more than ${CODE_MAX_LENGTH} characters` +
+              '  will not be syntax highlighted.'
+          );
+          return false;
+    }
+
     return true;
   }
 

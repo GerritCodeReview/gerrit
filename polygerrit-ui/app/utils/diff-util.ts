@@ -74,6 +74,22 @@ export function getDiffLength(diff?: DiffInfo): number {
   }, 0);
 }
 
+export function getDiffContentLength(diff?: DiffInfo): number {
+  if (!diff) return 0;
+  return diff.content.reduce((sum, sec) => {
+    if (sec.ab) {
+      return sum + getContentLength(sec.ab);
+    } else {
+      return sum + Math.max(getContentLength(sec.a) ?? 0, getContentLength(sec.b) ?? 0);
+    }
+  }, 0);
+}
+
+function getContentLength(content?: string[]) {
+  if (!content) return 0;
+  return content.reduce((partialSum, a) => partialSum + a.length, 0)
+}
+
 export function isImageDiff(diff?: DiffInfo) {
   return (
     !!diff?.meta_a?.content_type.startsWith('image/') ||

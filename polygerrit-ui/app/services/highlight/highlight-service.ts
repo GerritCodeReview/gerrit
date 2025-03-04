@@ -38,7 +38,7 @@ export const CODE_MAX_LINES = 20 * 1000;
 /**
  * Safe guard for not killing the browser. Maximum in number of chars.
  */
-const CODE_MAX_LENGTH = 25 * CODE_MAX_LINES;
+export const CODE_MAX_LENGTH = 25 * CODE_MAX_LINES;
 
 export const highlightServiceToken =
   define<HighlightService>('highlight-service');

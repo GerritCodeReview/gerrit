@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0996db_b6457cbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T15:10:56Z",
+      "side": 1,
+      "message": "The error_log was full of continuous `close() called when useCnt is already zero for ...` errors. To trigger the flooding was the GetPatch bringing the counter negative and then anything else was triggering the rest.",
+      "parentUuid": "bf03c6de_b83bc60e",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72c44932_13ff16c5",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d62e0541_d4e18fe8",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T15:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e95768_7c3966c1",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 9
+      },
+      "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60aaeffd_222f81b0",
@@ -102,6 +150,24 @@
       "side": 1,
       "message": "\u003e IMHO, we either must create a `BinaryResult` which doesn\u0027t depend on the repository being open or we have to stream the result from within this try-finally block i.e. before the repositoyr is closed.\n\nI believe it makes sense to just reopen the repo in the `BinaryResult` instead of reusing the repository.",
       "parentUuid": "60aaeffd_222f81b0",
+      "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eff47684_eee6e88e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-04T15:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7599c7cc_400a2f17",
       "revId": "fa751038e6a1ab11646451664f37c3586bcecfda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -238,6 +238,89 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
   }
 
+  private final class NrtFuture extends AbstractFuture<Void> {
+    private final long gen;
+
+    NrtFuture(long gen) {
+      this.gen = gen;
+    }
+
+    @Override
+    public Void get() throws InterruptedException, ExecutionException {
+      if (!isDone()) {
+        reopenThread.waitForGeneration(gen);
+        set(null);
+      }
+      return super.get();
+    }
+
+    @Override
+    public Void get(long timeout, TimeUnit unit)
+        throws InterruptedException, TimeoutException, ExecutionException {
+      if (!isDone()) {
+        if (!reopenThread.waitForGeneration(gen, (int) unit.toMillis(timeout))) {
+          throw new TimeoutException();
+        }
+        set(null);
+      }
+      return super.get(timeout, unit);
+    }
+
+    @Override
+    public boolean isDone() {
+      if (super.isDone()) {
+        return true;
+      } else if (isGenAvailableNowForCurrentSearcher()) {
+        set(null);
+        return true;
+      } else if (!reopenThread.isAlive()) {
+        setException(new IllegalStateException("NRT thread is dead"));
+        return true;
+      }
+      return false;
+    }
+
+    @Override
+    public void addListener(Runnable listener, Executor executor) {
+      if (isGenAvailableNowForCurrentSearcher() && !isCancelled()) {
+        set(null);
+      } else if (!isDone()) {
+        notDoneNrtFutures.add(this);
+      }
+      super.addListener(listener, executor);
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      boolean result = super.cancel(mayInterruptIfRunning);
+      if (result) {
+        notDoneNrtFutures.remove(this);
+      }
+      return result;
+    }
+
+    void removeIfDone() {
+      if (isGenAvailableNowForCurrentSearcher()) {
+        notDoneNrtFutures.remove(this);
+        if (!isCancelled()) {
+          set(null);
+        }
+      }
+    }
+
+    private boolean isGenAvailableNowForCurrentSearcher() {
+      if (autoFlush.equals(AutoFlush.DISABLED)) {
+        return true;
+      }
+      try {
+        return reopenThread.waitForGeneration(gen, 0);
+      } catch (InterruptedException e) {
+        logger.atWarning().withCause(e).log("Interrupted waiting for searcher generation");
+        return false;
+      }
+    }
+  }
+
   @Override
   public void markReady(boolean ready) {
     IndexUtils.setReady(sitePaths, name, schema.getVersion(), ready);
@@ -450,89 +533,6 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   static int getLimitBasedOnPaginationType(QueryOptions opts, int pagesize) {
     return PaginationType.NONE == opts.config().paginationType() ? opts.limit() : pagesize;
-  }
-
-  private final class NrtFuture extends AbstractFuture<Void> {
-    private final long gen;
-
-    NrtFuture(long gen) {
-      this.gen = gen;
-    }
-
-    @Override
-    public Void get() throws InterruptedException, ExecutionException {
-      if (!isDone()) {
-        reopenThread.waitForGeneration(gen);
-        set(null);
-      }
-      return super.get();
-    }
-
-    @Override
-    public Void get(long timeout, TimeUnit unit)
-        throws InterruptedException, TimeoutException, ExecutionException {
-      if (!isDone()) {
-        if (!reopenThread.waitForGeneration(gen, (int) unit.toMillis(timeout))) {
-          throw new TimeoutException();
-        }
-        set(null);
-      }
-      return super.get(timeout, unit);
-    }
-
-    @Override
-    public boolean isDone() {
-      if (super.isDone()) {
-        return true;
-      } else if (isGenAvailableNowForCurrentSearcher()) {
-        set(null);
-        return true;
-      } else if (!reopenThread.isAlive()) {
-        setException(new IllegalStateException("NRT thread is dead"));
-        return true;
-      }
-      return false;
-    }
-
-    @Override
-    public void addListener(Runnable listener, Executor executor) {
-      if (isGenAvailableNowForCurrentSearcher() && !isCancelled()) {
-        set(null);
-      } else if (!isDone()) {
-        notDoneNrtFutures.add(this);
-      }
-      super.addListener(listener, executor);
-    }
-
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-      boolean result = super.cancel(mayInterruptIfRunning);
-      if (result) {
-        notDoneNrtFutures.remove(this);
-      }
-      return result;
-    }
-
-    void removeIfDone() {
-      if (isGenAvailableNowForCurrentSearcher()) {
-        notDoneNrtFutures.remove(this);
-        if (!isCancelled()) {
-          set(null);
-        }
-      }
-    }
-
-    private boolean isGenAvailableNowForCurrentSearcher() {
-      if (autoFlush.equals(AutoFlush.DISABLED)) {
-        return true;
-      }
-      try {
-        return reopenThread.waitForGeneration(gen, 0);
-      } catch (InterruptedException e) {
-        logger.atWarning().withCause(e).log("Interrupted waiting for searcher generation");
-        return false;
-      }
-    }
   }
 
   @Override

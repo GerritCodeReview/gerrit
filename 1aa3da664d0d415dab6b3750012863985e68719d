@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a21f57_d7c5891f",
+        "filename": "java/com/google/gerrit/server/restapi/config/CleanupDraftComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-04T14:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12cc22dc_8f49d7b8",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "1aa3da664d0d415dab6b3750012863985e68719d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fd57d9c_ee9ef7ed",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-03-04T10:12:21Z",
       "side": 1,
       "message": "Please cover testing the REST API binding in ConfigRestApiBindingsIT.",
+      "revId": "1aa3da664d0d415dab6b3750012863985e68719d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e15e50fa_f56292bc",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-04T14:20:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd57d9c_ee9ef7ed",
       "revId": "1aa3da664d0d415dab6b3750012863985e68719d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

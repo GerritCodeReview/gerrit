@@ -67,7 +67,8 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"status\":\"FAIL\","
           + "\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"label:Code-Review=MAX\"],"
-          + "\"failingAtoms\":[\"label:Code-Review=MIN\"]}";
+          + "\"failingAtoms\":[\"label:Code-Review=MIN\"],"
+          + "\"atomExplanations\":{\"value\":null}}";
 
   private static final SubmitRequirementResult srReqResult =
       SubmitRequirementResult.builder()
@@ -117,17 +118,20 @@ public class SubmitRequirementJsonSerializerTest {
           + "\"expression\":{\"expressionString\":\"branch:refs/heads/master\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"refs/heads/master\"],"
-          + "\"failingAtoms\":[]}},"
+          + "\"failingAtoms\":[],"
+          + "\"atomExplanations\":{\"value\":null}}},"
           + "\"submittabilityExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:\\\"Code-Review=+2\\\"\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[\"label:\\\"Code-Review=+2\\\"\"],"
-          + "\"failingAtoms\":[]}},"
+          + "\"failingAtoms\":[],"
+          + "\"atomExplanations\":{\"value\":null}}},"
           + "\"overrideExpressionResult\":{\"value\":{"
           + "\"expression\":{\"expressionString\":\"label:Override=+1\"},"
           + "\"status\":\"PASS\",\"errorMessage\":{\"value\":null},"
           + "\"passingAtoms\":[],"
-          + "\"failingAtoms\":[\"label:Override=+1\"]}},"
+          + "\"failingAtoms\":[\"label:Override=+1\"],"
+          + "\"atomExplanations\":{\"value\":null}}},"
           + "\"patchSetCommitId\":\"4663ab9e9eb49a214e68e60f0fe5d0b6f44f763e\","
           + "\"legacy\":{\"value\":true},"
           + "\"forced\":{\"value\":null},"

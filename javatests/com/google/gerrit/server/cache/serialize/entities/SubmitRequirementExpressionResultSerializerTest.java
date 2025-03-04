@@ -19,6 +19,7 @@ import static com.google.gerrit.server.cache.serialize.entities.SubmitRequiremen
 import static com.google.gerrit.server.cache.serialize.entities.SubmitRequirementExpressionResultSerializer.serialize;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
@@ -40,6 +41,7 @@ public class SubmitRequirementExpressionResultSerializerTest {
           Status.ERROR,
           ImmutableList.of(),
           ImmutableList.of(),
+          Optional.empty(),
           Optional.of("Failed to parse the code review label"));
 
   @Test

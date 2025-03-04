@@ -235,6 +235,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     PredicateResult.Builder predicateResult =
         PredicateResult.builder()
             .predicateString(predicate.isLeaf() ? predicate.getPredicateString() : "")
+            .explanation(predicate.isLeaf() ? predicate.explainResult(changeData) : "")
             .status(predicate.asMatchable().match(changeData));
     predicate
         .getChildren()

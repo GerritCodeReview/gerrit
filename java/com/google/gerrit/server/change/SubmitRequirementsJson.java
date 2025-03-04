@@ -71,6 +71,7 @@ public class SubmitRequirementsJson {
     info.status = SubmitRequirementExpressionInfo.Status.valueOf(result.status().name());
     info.passingAtoms = hide ? null : result.passingAtoms();
     info.failingAtoms = hide ? null : result.failingAtoms();
+    info.atomExplanations = hide ? null : result.atomExplanations();
     info.errorMessage = result.errorMessage().isPresent() ? result.errorMessage().get() : null;
     return info;
   }

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b059499b_5e234813",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T08:41:56Z",
+      "side": 1,
+      "message": "Maybe `newExtIds`?",
+      "range": {
+        "startLine": 569,
+        "startChar": 21,
+        "endLine": 569,
+        "endChar": 32
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "78790b55_869d79ff",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 569,
+                "startChar": 0,
+                "endLine": 570,
+                "endChar": 0
+              },
+              "replacement": "    List\u003cExternalId\u003e newExtIds \u003d new ArrayList\u003c\u003e(extIds.size());\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 576,
+                "startChar": 0,
+                "endLine": 577,
+                "endChar": 0
+              },
+              "replacement": "        newExtIds.add(extId);\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 585,
+                "startChar": 0,
+                "endLine": 586,
+                "endChar": 0
+              },
+              "replacement": "      newExtIds.add(copiedExternalId);\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 591,
+                "startChar": 0,
+                "endLine": 592,
+                "endChar": 0
+              },
+              "replacement": "            \"Link External ID\" + (newExtIds.size() \u003e 1 ? \"s\" : \"\"),\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 594,
+                "startChar": 0,
+                "endLine": 595,
+                "endChar": 0
+              },
+              "replacement": "              u.addExternalIds(newExtIds);\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountManager.java",
+              "range": {
+                "startLine": 596,
+                "startChar": 0,
+                "endLine": 597,
+                "endChar": 0
+              },
+              "replacement": "                  \u0026\u0026 newExtIds.stream()\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ba82d78d10d439b47f1fe7d62ce7a42736c0b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3551ed4c_45a52b7b",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-04T08:41:56Z",
+      "side": 1,
+      "message": "I\u0027m not clear about this part.\nIIUC, we get here only if the extID exists and linked to a different account. In this case, we should throw an error.",
+      "range": {
+        "startLine": 583,
+        "startChar": 6,
+        "endLine": 585,
+        "endChar": 40
+      },
+      "revId": "ba82d78d10d439b47f1fe7d62ce7a42736c0b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

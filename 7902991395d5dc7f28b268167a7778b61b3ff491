@@ -34,6 +34,24 @@
       "parentUuid": "6edc9191_1b7a2f98",
       "revId": "7902991395d5dc7f28b268167a7778b61b3ff491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f06c828_a9d34f57",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T08:28:29Z",
+      "side": 1,
+      "message": "I think I misunderstood the code initially.\n\nRemoved this exception. PTAL",
+      "parentUuid": "14d8db3e_804fa04e",
+      "revId": "7902991395d5dc7f28b268167a7778b61b3ff491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

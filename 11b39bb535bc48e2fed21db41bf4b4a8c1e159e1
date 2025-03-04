@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19112c11_ab0879d0",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T08:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f8ca7a6_ac544998",
+      "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e55858c7_ab38ed2b",
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "\u003e but if it already exists on that account - that means the link is already done.\n\nI expect the caller to just do the creation of the ExternalIDs with the correct owner already.\n\nThey let the linking then be done as part of this API.\n\nIt is possible that the caller forgot to generate the ExternalID with the new owner set in the `accountId` hence this check is here.\n\nMaybe I am misunderstanding the comment? A code edit might help clarify.",
       "parentUuid": "e6b3b007_6120d614",
+      "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3deca82d_f22e6f1c",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T08:28:29Z",
+      "side": 1,
+      "message": "\u003e but if it already exists on that account - that means the link is already done.\n\nOk I see why we can make the assumption. It does make the code simpler. Updated to assume if account is the same then link is already done.\n\nPTAL.",
+      "parentUuid": "a062f9b4_3af38c95",
       "revId": "11b39bb535bc48e2fed21db41bf4b4a8c1e159e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

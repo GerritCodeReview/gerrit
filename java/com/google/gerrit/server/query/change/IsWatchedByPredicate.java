@@ -16,11 +16,11 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.mail.send.ProjectWatch;
 import java.util.ArrayList;
 import java.util.Collections;

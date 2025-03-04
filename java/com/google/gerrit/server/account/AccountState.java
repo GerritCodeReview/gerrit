@@ -20,10 +20,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.CachedPreferences;
@@ -94,7 +94,7 @@ public abstract class AccountState {
       Account account,
       ImmutableSet<ExternalId> externalIds,
       Optional<String> userName,
-      ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
+      ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
       Optional<CachedPreferences> defaultPreferences,
       Optional<CachedPreferences> userPreferences) {
     return new AutoValue_AccountState(

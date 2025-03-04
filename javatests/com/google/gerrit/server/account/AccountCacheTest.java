@@ -21,6 +21,7 @@ import com.google.common.truth.extensions.proto.ProtoTruth;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.CachedPreferences;
@@ -160,8 +161,7 @@ public class AccountCacheTest {
 
   @Test
   public void projectWatch_roundTrip() throws Exception {
-    ProjectWatches.ProjectWatchKey key =
-        ProjectWatches.ProjectWatchKey.create(Project.nameKey("pro/ject"), "*");
+    ProjectWatchKey key = ProjectWatchKey.create(Project.nameKey("pro/ject"), "*");
     CachedAccountDetails original =
         CachedAccountDetails.create(
             ACCOUNT,
@@ -184,8 +184,7 @@ public class AccountCacheTest {
 
   @Test
   public void projectWatch_roundTripNullFilter() throws Exception {
-    ProjectWatches.ProjectWatchKey key =
-        ProjectWatches.ProjectWatchKey.create(Project.nameKey("pro/ject"), null);
+    ProjectWatchKey key = ProjectWatchKey.create(Project.nameKey("pro/ject"), null);
     CachedAccountDetails original =
         CachedAccountDetails.create(
             ACCOUNT,

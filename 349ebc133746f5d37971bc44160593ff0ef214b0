@@ -22,6 +22,30 @@
       },
       "revId": "349ebc133746f5d37971bc44160593ff0ef214b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3fb41d5_40bcc220",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-04T07:45:18Z",
+      "side": 1,
+      "message": "We have the following options to handle it:\n1. restore the original constant (`MAX_DURATION_FOR_LISTENERS_REGISTRATION`) introduced by Diege [here](https://gerrit-review.googlesource.com/c/gerrit/+/448925/comment/aa4594b0_2b8879dc/) - but I\u0027m not sure if `100ms` is good enough\n2. rename `MAX_DURATION_FOR_RECEIVING_EVENTS` to `MAX_WAITING_DURATION` so that it is not events specific\n3. leave it as it is 😊",
+      "parentUuid": "ab4b4b48_f890d87c",
+      "range": {
+        "startLine": 320,
+        "startChar": 8,
+        "endLine": 320,
+        "endChar": 41
+      },
+      "revId": "349ebc133746f5d37971bc44160593ff0ef214b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

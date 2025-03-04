@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec64823a_6e64b505",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-04T16:40:00Z",
+      "side": 1,
+      "message": "Optional: Maybe also link a bug to the commit message for someone interested in the broader context although the commit message does a wonderful job of explaining everything already.",
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38d00961_42d2eacb",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 5

@@ -549,6 +549,22 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void linkExternalId() throws Exception {
+    // Create an account with a SCHEME_GERRIT external ID and no email
+    String username = "foo";
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId extId = externalIdFactory.create(gerritExtIdKey, accountId);
+
+    accountsUpdate.insert("Create Test Account", accountId, u -> u.setActive(true));
+
+    accountManager.link(accountId, extId);
+
+    ImmutableSet<ExternalId> linkedIds = externalIds.byAccount(accountId);
+    assertThat(linkedIds.contains(extId)).isTrue();
+  }
+
+  @Test
   public void linkNewExternalId() throws Exception {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";

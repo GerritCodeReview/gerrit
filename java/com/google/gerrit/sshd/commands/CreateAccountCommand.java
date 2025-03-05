@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.account.TokenConflictException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -72,7 +73,11 @@ final class CreateAccountCommand extends SshCommand {
 
   @Override
   protected void run()
-      throws IOException, ConfigInvalidException, UnloggedFailure, PermissionBackendException {
+      throws IOException,
+          ConfigInvalidException,
+          UnloggedFailure,
+          PermissionBackendException,
+          TokenConflictException {
     enableGracefulStop();
     AccountInput input = new AccountInput();
     input.username = username;

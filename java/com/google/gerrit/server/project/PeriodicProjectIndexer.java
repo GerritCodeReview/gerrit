@@ -34,6 +34,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.project.ProjectIndexerImpl;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class PeriodicProjectIndexer implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager gitRepoManager;
-  private final ProjectIndexer indexer;
+  private final ProjectIndexerImpl.Factory indexerFactory;
   private ListeningExecutorService executor;
   private final ProjectIndexCollection indexes;
   private final IndexConfig indexConfig;
@@ -54,12 +55,12 @@ public class PeriodicProjectIndexer implements Runnable {
   @Inject
   PeriodicProjectIndexer(
       GitRepositoryManager gitRepoManager,
-      ProjectIndexer indexer,
+      ProjectIndexerImpl.Factory indexerFactory,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ProjectIndexCollection indexes,
       IndexConfig indexConfig) {
     this.gitRepoManager = gitRepoManager;
-    this.indexer = indexer;
+    this.indexerFactory = indexerFactory;
     this.executor = executor;
     this.indexes = indexes;
     this.indexConfig = indexConfig;
@@ -68,6 +69,7 @@ public class PeriodicProjectIndexer implements Runnable {
   @Override
   public void run() {
     logger.atInfo().log("reindexing projects");
+    ProjectIndexer indexer = indexerFactory.create(indexes, false);
     Set<Project.NameKey> gitRepos = gitRepoManager.list();
     List<ListenableFuture<?>> indexingTasks = new ArrayList<>();
     for (Project.NameKey n : gitRepos) {

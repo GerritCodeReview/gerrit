@@ -15,13 +15,17 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectField;
@@ -43,6 +47,8 @@ public class PeriodicProjectIndexerIT extends AbstractDaemonTest {
   @Inject private IndexConfig indexConfig;
 
   @Inject private PeriodicProjectIndexer periodicIndexer;
+
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ProjectField.NAME_SPEC.getName());
@@ -67,5 +73,18 @@ public class PeriodicProjectIndexerIT extends AbstractDaemonTest {
     periodicIndexer.run();
     result = i.getRaw(foo, QueryOptions.create(indexConfig, 0, 1, FIELDS));
     assertThat(result).isEmpty();
+  }
+
+  @Test
+  public void doesNotNotifiyListeners() throws Exception {
+    Project.NameKey foo = Project.nameKey("foo");
+    gApi.projects().create(foo.get());
+
+    ProjectIndexedListener listener = mock(ProjectIndexedListener.class);
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(listener)) {
+      periodicIndexer.run();
+      verifyNoInteractions(listener);
+    }
   }
 }

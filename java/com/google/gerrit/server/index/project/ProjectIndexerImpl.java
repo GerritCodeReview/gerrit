@@ -46,6 +46,8 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   public interface Factory {
     ProjectIndexerImpl create(ProjectIndexCollection indexes);
 
+    ProjectIndexerImpl create(ProjectIndexCollection indexes, boolean notifyListeners);
+
     ProjectIndexerImpl create(@Nullable ProjectIndex index);
   }
 
@@ -53,16 +55,23 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   private final PluginSetContext<ProjectIndexedListener> indexedListener;
   @Nullable private final ProjectIndexCollection indexes;
   @Nullable private final ProjectIndex index;
+  private final boolean notifyListeners;
 
   @AssistedInject
   ProjectIndexerImpl(
       ProjectCache projectCache,
       PluginSetContext<ProjectIndexedListener> indexedListener,
       @Assisted ProjectIndexCollection indexes) {
-    this.projectCache = projectCache;
-    this.indexedListener = indexedListener;
-    this.indexes = indexes;
-    this.index = null;
+    this(projectCache, indexedListener, indexes, true);
+  }
+
+  @AssistedInject
+  ProjectIndexerImpl(
+      ProjectCache projectCache,
+      PluginSetContext<ProjectIndexedListener> indexedListener,
+      @Assisted ProjectIndexCollection indexes,
+      @Assisted boolean notifyListeners) {
+    this(projectCache, indexedListener, indexes, null, notifyListeners);
   }
 
   @AssistedInject
@@ -70,10 +79,20 @@ public class ProjectIndexerImpl implements ProjectIndexer {
       ProjectCache projectCache,
       PluginSetContext<ProjectIndexedListener> indexedListener,
       @Assisted @Nullable ProjectIndex index) {
+    this(projectCache, indexedListener, null, index, true);
+  }
+
+  private ProjectIndexerImpl(
+      ProjectCache projectCache,
+      PluginSetContext<ProjectIndexedListener> indexedListener,
+      ProjectIndexCollection indexes,
+      ProjectIndex index,
+      boolean notifyListeners) {
     this.projectCache = projectCache;
     this.indexedListener = indexedListener;
-    this.indexes = null;
+    this.indexes = indexes;
     this.index = index;
+    this.notifyListeners = notifyListeners;
   }
 
   @Override
@@ -123,7 +142,9 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   }
 
   private void fireProjectIndexedEvent(String name) {
-    indexedListener.runEach(l -> l.onProjectIndexed(name));
+    if (notifyListeners) {
+      indexedListener.runEach(l -> l.onProjectIndexed(name));
+    }
   }
 
   private Collection<ProjectIndex> getWriteIndexes() {

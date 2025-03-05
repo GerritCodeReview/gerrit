@@ -106,27 +106,27 @@ public class CachedProjectConfigSerializer {
   public static Cache.CachedProjectConfigProto serialize(CachedProjectConfig autoValue) {
     Cache.CachedProjectConfigProto.Builder builder =
         Cache.CachedProjectConfigProto.newBuilder()
-            .setProject(ProjectSerializer.serialize(autoValue.getProject()))
-            .setMaxObjectSizeLimit(autoValue.getMaxObjectSizeLimit())
-            .setCheckReceivedObjects(autoValue.getCheckReceivedObjects());
+            .setProject(ProjectSerializer.serialize(autoValue.project()))
+            .setMaxObjectSizeLimit(autoValue.maxObjectSizeLimit())
+            .setCheckReceivedObjects(autoValue.checkReceivedObjects());
 
-    if (autoValue.getBranchOrderSection().isPresent()) {
+    if (autoValue.branchOrderSection().isPresent()) {
       builder.setBranchOrderSection(
-          BranchOrderSectionSerializer.serialize(autoValue.getBranchOrderSection().get()));
+          BranchOrderSectionSerializer.serialize(autoValue.branchOrderSection().get()));
     }
-    autoValue.getMimeTypes().matchers().stream()
+    autoValue.mimeTypes().matchers().stream()
         .map(ConfiguredMimeTypeSerializer::serialize)
         .forEach(builder::addMimeTypes);
 
-    if (autoValue.getRulesId().isPresent()) {
-      builder.setRulesId(ObjectIdConverter.create().toByteString(autoValue.getRulesId().get()));
+    if (autoValue.rulesId().isPresent()) {
+      builder.setRulesId(ObjectIdConverter.create().toByteString(autoValue.rulesId().get()));
     }
-    if (autoValue.getRevision().isPresent()) {
-      builder.setRevision(ObjectIdConverter.create().toByteString(autoValue.getRevision().get()));
+    if (autoValue.revision().isPresent()) {
+      builder.setRevision(ObjectIdConverter.create().toByteString(autoValue.revision().get()));
     }
 
     autoValue
-        .getExtensionPanelSections()
+        .extensionPanelSections()
         .entrySet()
         .forEach(
             panelSection -> {
@@ -136,36 +136,36 @@ public class CachedProjectConfigSerializer {
                       .addAllSection(panelSection.getValue())
                       .build());
             });
-    autoValue.getAccountsSection().getSameGroupVisibility().stream()
+    autoValue.accountsSection().sameGroupVisibility().stream()
         .map(PermissionRuleSerializer::serialize)
         .forEach(builder::addAccountsSection);
 
-    autoValue.getGroups().values().stream()
+    autoValue.groups().values().stream()
         .map(GroupReferenceSerializer::serialize)
         .forEach(builder::addGroupList);
-    autoValue.getAccessSections().values().stream()
+    autoValue.accessSections().values().stream()
         .map(AccessSectionSerializer::serialize)
         .forEach(builder::addAccessSections);
-    autoValue.getContributorAgreements().values().stream()
+    autoValue.contributorAgreements().values().stream()
         .map(ContributorAgreementSerializer::serialize)
         .forEach(builder::addContributorAgreements);
-    autoValue.getNotifySections().values().stream()
+    autoValue.notifySections().values().stream()
         .map(NotifyConfigSerializer::serialize)
         .forEach(builder::addNotifyConfigs);
-    autoValue.getLabelSections().values().stream()
+    autoValue.labelSections().values().stream()
         .map(LabelTypeSerializer::serialize)
         .forEach(builder::addLabelSections);
-    autoValue.getSubmitRequirementSections().values().stream()
+    autoValue.submitRequirementSections().values().stream()
         .map(SubmitRequirementSerializer::serialize)
         .forEach(builder::addSubmitRequirementSections);
-    autoValue.getSubscribeSections().values().stream()
+    autoValue.subscribeSections().values().stream()
         .map(SubscribeSectionSerializer::serialize)
         .forEach(builder::addSubscribeSections);
-    autoValue.getCommentLinkSections().values().stream()
+    autoValue.commentLinkSections().values().stream()
         .map(StoredCommentLinkInfoSerializer::serialize)
         .forEach(builder::addCommentLinks);
-    builder.putAllPluginConfigs(autoValue.getPluginConfigs());
-    builder.putAllProjectLevelConfigs(autoValue.getProjectLevelConfigs());
+    builder.putAllPluginConfigs(autoValue.pluginConfigs());
+    builder.putAllProjectLevelConfigs(autoValue.projectLevelConfigs());
 
     return builder.build();
   }

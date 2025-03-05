@@ -242,7 +242,7 @@ public class SetAccessUtil {
           PermissionBackendException,
           BadRequestException {
     if (newParentProjectName != null
-        && !config.getProject().getNameKey().equals(allProjects)
+        && !config.getProject().nameKey().equals(allProjects)
         && !config.getProject().getParent(allProjects).equals(newParentProjectName)) {
       try {
         setParent

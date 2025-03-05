@@ -572,7 +572,7 @@ public class EventFactory {
     a.oldValue = null;
 
     Optional<LabelType> lt = labelTypes.byLabel(approval.labelId());
-    lt.ifPresent(l -> a.description = l.getName());
+    lt.ifPresent(l -> a.description = l.name());
     return a;
   }
 

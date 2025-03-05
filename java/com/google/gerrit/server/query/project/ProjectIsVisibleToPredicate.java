@@ -37,7 +37,7 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
 
   @Override
   public boolean match(ProjectData pd) {
-    if (!pd.getProject().getState().permitsRead()) {
+    if (!pd.getProject().state().permitsRead()) {
       logger.atFine().log("Filter out non-readable project: %s", pd);
       return false;
     }
@@ -45,7 +45,7 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
     boolean canSee =
         permissionBackend
             .user(user)
-            .project(pd.getProject().getNameKey())
+            .project(pd.getProject().nameKey())
             .testOrFalse(ProjectPermission.ACCESS);
     if (!canSee) {
       logger.atFine().log("Filter out non-visible project: %s", pd);

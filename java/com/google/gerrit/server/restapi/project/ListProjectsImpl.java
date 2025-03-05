@@ -389,14 +389,14 @@ public class ListProjectsImpl extends AbstractListProjects {
       while (projectStatesIt.hasNext()) {
         ProjectState e = projectStatesIt.next();
         Project.NameKey projectName = e.getNameKey();
-        if (e.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
+        if (e.getProject().state() == HIDDEN && !all && state != HIDDEN) {
           // If we can't get it from the cache, pretend it's not present.
           // If all wasn't selected, and it's HIDDEN, pretend it's not present.
           // If state HIDDEN wasn't selected, and it's HIDDEN, pretend it's not present.
           continue;
         }
 
-        if (state != null && e.getProject().getState() != state) {
+        if (state != null && e.getProject().state() != state) {
           continue;
         }
 
@@ -430,9 +430,9 @@ public class ListProjectsImpl extends AbstractListProjects {
         }
 
         if (showDescription) {
-          info.description = emptyToNull(e.getProject().getDescription());
+          info.description = emptyToNull(e.getProject().description());
         }
-        info.state = e.getProject().getState();
+        info.state = e.getProject().state();
 
         try {
           if (!showBranch.isEmpty()) {

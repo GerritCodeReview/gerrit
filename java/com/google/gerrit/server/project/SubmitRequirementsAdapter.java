@@ -145,7 +145,7 @@ public class SubmitRequirementsAdapter {
           SubmitRequirement.builder()
               .setName(label.label)
               .setSubmittabilityExpression(toExpression(atoms))
-              .setAllowOverrideInChildProjects(labelType.isCanOverride());
+              .setAllowOverrideInChildProjects(labelType.canOverride());
       result.add(
           SubmitRequirementResult.builder()
               .legacy(Optional.of(true))
@@ -217,7 +217,7 @@ public class SubmitRequirementsAdapter {
   }
 
   private static boolean isBlocking(LabelType labelType) {
-    return labelType.getFunction().isBlock() || labelType.getFunction().isRequired();
+    return labelType.function().isBlock() || labelType.function().isRequired();
   }
 
   private static SubmitRequirementExpression toExpression(List<String> atoms) {
@@ -226,17 +226,17 @@ public class SubmitRequirementsAdapter {
 
   private static ImmutableList<String> toExpressionAtomList(LabelType lt) {
     String ignoreSelfApproval =
-        lt.isIgnoreSelfApproval() ? ",user=" + ChangeQueryBuilder.ARG_ID_NON_UPLOADER : "";
-    switch (lt.getFunction()) {
+        lt.ignoreSelfApproval() ? ",user=" + ChangeQueryBuilder.ARG_ID_NON_UPLOADER : "";
+    switch (lt.function()) {
       case MAX_WITH_BLOCK:
         return ImmutableList.of(
-            String.format("label:%s=MAX", lt.getName()) + ignoreSelfApproval,
-            String.format("-label:%s=MIN", lt.getName()));
+            String.format("label:%s=MAX", lt.name()) + ignoreSelfApproval,
+            String.format("-label:%s=MIN", lt.name()));
       case ANY_WITH_BLOCK:
-        return ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.getName())));
+        return ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.name())));
       case MAX_NO_BLOCK:
         return ImmutableList.of(
-            String.format(String.format("label:%s=MAX", lt.getName())) + ignoreSelfApproval);
+            String.format(String.format("label:%s=MAX", lt.name())) + ignoreSelfApproval);
       case NO_BLOCK:
       case NO_OP:
       case PATCH_SET_LOCK:
@@ -292,9 +292,7 @@ public class SubmitRequirementsAdapter {
 
   private static Optional<LabelType> getLabelType(List<LabelType> labelTypes, String labelName) {
     List<LabelType> label =
-        labelTypes.stream()
-            .filter(lt -> lt.getName().equals(labelName))
-            .collect(Collectors.toList());
+        labelTypes.stream().filter(lt -> lt.name().equals(labelName)).collect(Collectors.toList());
     if (label.isEmpty()) {
       // Label might have been removed from the project.
       logger.atFine().log("Label '%s' was not found for the project.", labelName);

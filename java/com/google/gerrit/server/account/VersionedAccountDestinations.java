@@ -61,8 +61,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
           destinations.parseLabel(
               label,
               readUTF8(path),
-              error ->
-                  logger.atSevere().log("Error parsing file %s: %s", path, error.getMessage()));
+              error -> logger.atSevere().log("Error parsing file %s: %s", path, error.message()));
         }
       }
     }

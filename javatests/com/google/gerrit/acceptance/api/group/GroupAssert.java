@@ -36,13 +36,13 @@ public class GroupAssert {
       // 'name' is not set if returned in a map
       assertThat(info.name).isEqualTo(group.getName());
     }
-    assertThat(Url.decode(info.id)).isEqualTo(group.getGroupUUID().get());
-    assertThat(info.groupId).isEqualTo(Integer.valueOf(group.getId().get()));
-    assertThat(info.url).isEqualTo("#/admin/groups/uuid-" + Url.encode(group.getGroupUUID().get()));
-    assertThat(toBoolean(info.options.visibleToAll)).isEqualTo(group.isVisibleToAll());
-    assertThat(info.description).isEqualTo(group.getDescription());
-    assertThat(Url.decode(info.ownerId)).isEqualTo(group.getOwnerGroupUUID().get());
-    assertThat(info.createdOn.toInstant()).isEqualTo(group.getCreatedOn());
+    assertThat(Url.decode(info.id)).isEqualTo(group.groupUUID().get());
+    assertThat(info.groupId).isEqualTo(Integer.valueOf(group.id().get()));
+    assertThat(info.url).isEqualTo("#/admin/groups/uuid-" + Url.encode(group.groupUUID().get()));
+    assertThat(toBoolean(info.options.visibleToAll)).isEqualTo(group.visibleToAll());
+    assertThat(info.description).isEqualTo(group.description());
+    assertThat(Url.decode(info.ownerId)).isEqualTo(group.ownerGroupUUID().get());
+    assertThat(info.createdOn.toInstant()).isEqualTo(group.createdOn());
   }
 
   public static boolean toBoolean(Boolean b) {

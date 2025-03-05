@@ -234,7 +234,7 @@ public class CommitsCollectionTest {
             .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
     return adminPermission.getRules().stream()
-        .map(PermissionRule::getGroup)
+        .map(PermissionRule::group)
         .map(GroupReference::getUUID)
         .collect(ImmutableList.toImmutableList());
   }

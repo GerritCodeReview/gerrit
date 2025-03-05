@@ -288,7 +288,7 @@ public class AsyncReceiveCommits {
     receivePack.setRefLogIdent(user.newRefLogIdent());
     receivePack.setTimeout(transferConfig.getTimeout());
     receivePack.setMaxObjectSizeLimit(projectState.getEffectiveMaxObjectSizeLimit().value);
-    receivePack.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
+    receivePack.setCheckReceivedObjects(projectState.getConfig().checkReceivedObjects());
     receivePack.setRefFilter(new ReceiveRefFilter());
     receivePack.setAllowPushOptions(true);
     receivePack.setPreReceiveHook(asHook());
@@ -399,7 +399,7 @@ public class AsyncReceiveCommits {
       // WorkQueue does not support Callable<T>, so we have to covert it here.
       FutureTask<ReceiveCommitsResult> runnable =
           ProjectRunnable.fromCallable(
-              callable, receiveCommits.getProject().getNameKey(), "receive-commits", null, false);
+              callable, receiveCommits.getProject().nameKey(), "receive-commits", null, false);
       monitor.waitFor(
           executor.submit(scopePropagator.wrap(runnable)),
           receiveTimeoutMillis,

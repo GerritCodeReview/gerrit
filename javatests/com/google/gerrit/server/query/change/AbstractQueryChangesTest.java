@@ -1576,7 +1576,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(verified.getName()).ref(heads).group(REGISTERED_USERS).range(-1, 1))
+        .add(allowLabel(verified.name()).ref(heads).group(REGISTERED_USERS).range(-1, 1))
         .update();
 
     ReviewInput reviewVerified = new ReviewInput().label(LabelId.VERIFIED, 1);

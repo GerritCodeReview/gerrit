@@ -310,7 +310,7 @@ public class MergeValidators {
       // But it is still useful to allow users to update files apart from group
       // files. For example, users can upload named destinations into group refs.
       ChangeData cd =
-          changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
+          changeDataFactory.create(destProject.getProject().nameKey(), patchSetId.changeId());
       try {
         if (cd.currentFilePaths().contains(GroupConfig.GROUP_CONFIG_FILE)
             || cd.currentFilePaths().contains(GroupConfig.MEMBERS_FILE)

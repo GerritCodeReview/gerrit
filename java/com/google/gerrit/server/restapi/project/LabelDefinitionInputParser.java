@@ -63,7 +63,7 @@ public class LabelDefinitionInputParser {
 
   public static short parseDefaultValue(LabelType.Builder labelType, short defaultValue)
       throws BadRequestException {
-    if (!labelType.getValues().stream().anyMatch(v -> v.getValue() == defaultValue)) {
+    if (!labelType.getValues().stream().anyMatch(v -> v.value() == defaultValue)) {
       throw new BadRequestException("invalid default value: " + defaultValue);
     }
     return defaultValue;

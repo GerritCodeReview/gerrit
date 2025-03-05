@@ -26,8 +26,8 @@ public class LabelValueSerializer {
 
   public static Cache.LabelValueProto serialize(LabelValue autoValue) {
     return Cache.LabelValueProto.newBuilder()
-        .setText(autoValue.getText())
-        .setValue(autoValue.getValue())
+        .setText(autoValue.text())
+        .setValue(autoValue.value())
         .build();
   }
 

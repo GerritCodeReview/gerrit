@@ -237,7 +237,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public void evictAndReindex(Project p) {
-    evictAndReindex(p.getNameKey());
+    evictAndReindex(p.nameKey());
   }
 
   @Override
@@ -248,7 +248,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public void remove(Project p) {
-    remove(p.getNameKey());
+    remove(p.nameKey());
   }
 
   @Override
@@ -309,7 +309,7 @@ public class ProjectCacheImpl implements ProjectCache {
                       .map(n -> inMemoryProjectCache.getIfPresent(n))
                       .filter(Objects::nonNull)
                       .filter(Optional::isPresent)
-                      .flatMap(p -> p.get().getAllGroupUUIDs().stream())
+                      .flatMap(p -> p.get().groups().keySet().stream())
                       // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
                       // against them just in case there is a bug or corner case.
                       .filter(id -> id != null && id.get() != null))
@@ -429,7 +429,7 @@ public class ProjectCacheImpl implements ProjectCache {
           Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
           if (oldState.isPresent()) {
             if (configRef != null
-                && configRef.getObjectId().equals(oldState.get().getRevision().get())) {
+                && configRef.getObjectId().equals(oldState.get().revision().get())) {
               // Old and new state are equivalent
               refreshCounter.increment(CACHE_NAME, false);
               return Futures.immediateFuture(oldState);

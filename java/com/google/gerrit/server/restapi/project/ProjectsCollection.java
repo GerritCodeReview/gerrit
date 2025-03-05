@@ -144,7 +144,7 @@ public class ProjectsCollection
       return null;
     }
 
-    logger.atFine().log("Project %s has state %s", nameKey, state.get().getProject().getState());
+    logger.atFine().log("Project %s has state %s", nameKey, state.get().getProject().state());
 
     if (checkAccess) {
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.

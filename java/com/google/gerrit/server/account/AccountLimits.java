@@ -66,9 +66,9 @@ public class AccountLimits {
     boolean batch = false;
     for (PermissionRule r : capabilities.priority) {
       if (match(groups, r)) {
-        switch (r.getAction()) {
+        switch (r.action()) {
           case INTERACTIVE -> {
-            if (!SystemGroupBackend.isAnonymousOrRegistered(r.getGroup())) {
+            if (!SystemGroupBackend.isAnonymousOrRegistered(r.group())) {
               return QueueProvider.QueueType.INTERACTIVE;
             }
           }
@@ -121,8 +121,8 @@ public class AccountLimits {
       }
     } else {
       for (PermissionRule rule : ruleList) {
-        min = Math.min(min, rule.getMin());
-        max = Math.max(max, rule.getMax());
+        min = Math.min(min, rule.min());
+        max = Math.max(max, rule.max());
       }
     }
     return new PermissionRange(permissionName, min, max);
@@ -142,6 +142,6 @@ public class AccountLimits {
   }
 
   private static boolean match(GroupMembership groups, PermissionRule rule) {
-    return groups.contains(rule.getGroup().getUUID());
+    return groups.contains(rule.group().getUUID());
   }
 }

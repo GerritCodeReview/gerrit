@@ -18,38 +18,12 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoBuilder;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.InlineMe;
 
 public record PermissionRule(Action action, boolean force, int min, int max, GroupReference group)
     implements Comparable<PermissionRule> {
   public PermissionRule {
     requireNonNull(action, "action");
     requireNonNull(group, "group");
-  }
-
-  @InlineMe(replacement = "this.action()")
-  public Action getAction() {
-    return action();
-  }
-
-  @InlineMe(replacement = "this.force()")
-  public boolean getForce() {
-    return force();
-  }
-
-  @InlineMe(replacement = "this.min()")
-  public int getMin() {
-    return min();
-  }
-
-  @InlineMe(replacement = "this.max()")
-  public int getMax() {
-    return max();
-  }
-
-  @InlineMe(replacement = "this.group()")
-  public GroupReference getGroup() {
-    return group();
   }
 
   public static final boolean DEF_FORCE = false;
@@ -81,29 +55,29 @@ public record PermissionRule(Action action, boolean force, int min, int max, Gro
 
   static PermissionRule merge(PermissionRule src, PermissionRule dest) {
     PermissionRule.Builder result = dest.toBuilder();
-    if (dest.getAction() != src.getAction()) {
-      if (dest.getAction() == Action.BLOCK || src.getAction() == Action.BLOCK) {
+    if (dest.action() != src.action()) {
+      if (dest.action() == Action.BLOCK || src.action() == Action.BLOCK) {
         result.setAction(Action.BLOCK);
 
-      } else if (dest.getAction() == Action.DENY || src.getAction() == Action.DENY) {
+      } else if (dest.action() == Action.DENY || src.action() == Action.DENY) {
         result.setAction(Action.DENY);
 
-      } else if (dest.getAction() == Action.BATCH || src.getAction() == Action.BATCH) {
+      } else if (dest.action() == Action.BATCH || src.action() == Action.BATCH) {
         result.setAction(Action.BATCH);
       }
     }
 
-    result.setForce(dest.getForce() || src.getForce());
-    result.setRange(Math.min(dest.getMin(), src.getMin()), Math.max(dest.getMax(), src.getMax()));
+    result.setForce(dest.force() || src.force());
+    result.setRange(Math.min(dest.min(), src.min()), Math.max(dest.max(), src.max()));
     return result.build();
   }
 
   public boolean isDeny() {
-    return getAction() == Action.DENY;
+    return action() == Action.DENY;
   }
 
   public boolean isBlock() {
-    return getAction() == Action.BLOCK;
+    return action() == Action.BLOCK;
   }
 
   @Override
@@ -119,7 +93,7 @@ public record PermissionRule(Action action, boolean force, int min, int max, Gro
   }
 
   private static int action(PermissionRule a) {
-    switch (a.getAction()) {
+    switch (a.action()) {
       case DENY:
         return 0;
       case ALLOW:
@@ -127,16 +101,16 @@ public record PermissionRule(Action action, boolean force, int min, int max, Gro
       case BLOCK:
       case INTERACTIVE:
       default:
-        return 1 + a.getAction().ordinal();
+        return 1 + a.action().ordinal();
     }
   }
 
   private static int range(PermissionRule a) {
-    return Math.abs(a.getMin()) + Math.abs(a.getMax());
+    return Math.abs(a.min()) + Math.abs(a.max());
   }
 
   private static String group(PermissionRule a) {
-    return a.getGroup().getName() != null ? a.getGroup().getName() : "";
+    return a.group().getName() != null ? a.group().getName() : "";
   }
 
   @Override
@@ -147,7 +121,7 @@ public record PermissionRule(Action action, boolean force, int min, int max, Gro
   public String asString(boolean canUseRange) {
     StringBuilder r = new StringBuilder();
 
-    switch (getAction()) {
+    switch (action()) {
       case ALLOW -> {}
       case DENY -> r.append("deny ");
       case BLOCK -> r.append("block ");
@@ -155,24 +129,24 @@ public record PermissionRule(Action action, boolean force, int min, int max, Gro
       case BATCH -> r.append("batch ");
     }
 
-    if (getForce()) {
+    if (force()) {
       r.append("+force ");
     }
 
-    if (canUseRange && (getMin() != 0 || getMax() != 0)) {
-      if (0 <= getMin()) {
+    if (canUseRange && (min() != 0 || max() != 0)) {
+      if (0 <= min()) {
         r.append('+');
       }
-      r.append(getMin());
+      r.append(min());
       r.append("..");
-      if (0 <= getMax()) {
+      if (0 <= max()) {
         r.append('+');
       }
-      r.append(getMax());
+      r.append(max());
       r.append(' ');
     }
 
-    r.append(getGroup().toConfigValue());
+    r.append(group().toConfigValue());
 
     return r.toString();
   }
@@ -236,7 +210,7 @@ public record PermissionRule(Action action, boolean force, int min, int max, Gro
   }
 
   public boolean hasRange() {
-    return getMin() != 0 || getMax() != 0;
+    return min() != 0 || max() != 0;
   }
 
   public static int parseInt(String value) {

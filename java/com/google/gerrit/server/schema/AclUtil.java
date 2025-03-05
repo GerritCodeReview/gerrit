@@ -92,7 +92,7 @@ public class AclUtil {
       int max,
       boolean exclusive,
       GroupReference... groupList) {
-    String name = Permission.LABEL + type.getName();
+    String name = Permission.LABEL + type.name();
     Permission.Builder p = section.upsertPermission(name);
     p.setExclusiveGroup(exclusive);
     for (GroupReference group : groupList) {

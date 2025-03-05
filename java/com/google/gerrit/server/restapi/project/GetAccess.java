@@ -161,7 +161,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(projectState.getConfig().getRevision().orElse(null))) {
+          && !config.getRevision().equals(projectState.getConfig().revision().orElse(null))) {
         projectCache.evictAndReindex(config.getProject());
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
@@ -217,7 +217,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
             Permission.Builder dstPerm = null;
 
             for (PermissionRule srcRule : srcPerm.getRules()) {
-              AccountGroup.UUID groupId = srcRule.getGroup().getUUID();
+              AccountGroup.UUID groupId = srcRule.group().getUUID();
               if (groupId == null) {
                 continue;
               }
@@ -329,13 +329,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
       PermissionInfo pInfo = new PermissionInfo(p.getLabel(), p.getExclusiveGroup() ? true : null);
       pInfo.rules = new HashMap<>();
       for (PermissionRule r : p.getRules()) {
-        PermissionRuleInfo info =
-            new PermissionRuleInfo(ACTION_TYPE.get(r.getAction()), r.getForce());
+        PermissionRuleInfo info = new PermissionRuleInfo(ACTION_TYPE.get(r.action()), r.force());
         if (r.hasRange()) {
-          info.max = r.getMax();
-          info.min = r.getMin();
+          info.max = r.max();
+          info.min = r.min();
         }
-        AccountGroup.UUID group = r.getGroup().getUUID();
+        AccountGroup.UUID group = r.group().getUUID();
         if (group != null) {
           pInfo.rules.putIfAbsent(group.get(), info); // First entry for the group wins
           loadGroup(groups, group);

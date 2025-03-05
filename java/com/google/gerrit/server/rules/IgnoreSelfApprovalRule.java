@@ -52,8 +52,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   public Optional<SubmitRecord> evaluate(ChangeData cd) {
     List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
     List<PatchSetApproval> approvals = cd.currentApprovals();
-    boolean shouldIgnoreSelfApproval =
-        labelTypes.stream().anyMatch(LabelType::isIgnoreSelfApproval);
+    boolean shouldIgnoreSelfApproval = labelTypes.stream().anyMatch(LabelType::ignoreSelfApproval);
     if (!shouldIgnoreSelfApproval) {
       // Shortcut to avoid further processing if no label should ignore uploader approvals
       return Optional.empty();
@@ -66,12 +65,12 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
     submitRecord.requirements = new ArrayList<>();
 
     for (LabelType t : labelTypes) {
-      if (!t.isIgnoreSelfApproval()) {
+      if (!t.ignoreSelfApproval()) {
         // The default rules are enough in this case.
         continue;
       }
 
-      LabelFunction labelFunction = t.getFunction();
+      LabelFunction labelFunction = t.function();
       if (labelFunction == null) {
         continue;
       }

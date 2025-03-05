@@ -55,7 +55,7 @@ public abstract class PluginConfig {
     ImmutableMap.Builder<AccountGroup.UUID, GroupReference> groupReferences =
         ImmutableMap.builder();
     if (projectConfig != null) {
-      groupReferences.putAll(projectConfig.getGroups());
+      groupReferences.putAll(projectConfig.groups());
     }
     return new AutoValue_PluginConfig(
         pluginName, copyConfig(cfg), Optional.ofNullable(projectConfig), groupReferences.build());

@@ -143,7 +143,7 @@ public class GroupsOnInit {
     AuditLogFormatter auditLogFormatter = getAuditLogFormatter(account);
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
-    commit(repository, groupConfig, group.getCreatedOn());
+    commit(repository, groupConfig, group.createdOn());
   }
 
   @Nullable

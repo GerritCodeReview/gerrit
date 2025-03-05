@@ -101,8 +101,8 @@ public class ProjectState {
       TransferConfig transferConfig,
       @Assisted CachedProjectConfig cachedProjectConfig) {
     this.projectCache = projectCache;
-    this.isAllProjects = cachedProjectConfig.getProject().getNameKey().equals(allProjectsName);
-    this.isAllUsers = cachedProjectConfig.getProject().getNameKey().equals(allUsersName);
+    this.isAllProjects = cachedProjectConfig.project().nameKey().equals(allProjectsName);
+    this.isAllUsers = cachedProjectConfig.project().nameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
     this.commentLinks = commentLinks;
     this.cachedConfig = cachedProjectConfig;
@@ -125,8 +125,8 @@ public class ProjectState {
         Permission owner = all.get().getPermission(Permission.OWNER);
         if (owner != null) {
           for (PermissionRule rule : owner.getRules()) {
-            GroupReference ref = rule.getGroup();
-            if (rule.getAction() == ALLOW && ref.getUUID() != null) {
+            GroupReference ref = rule.group();
+            if (rule.action() == ALLOW && ref.getUUID() != null) {
               groups.add(ref.getUUID());
             }
           }
@@ -150,23 +150,23 @@ public class ProjectState {
    */
   public boolean hasPrologRules() {
     // We check if this project has a rules.pl file
-    if (getConfig().getRulesId().isPresent()) {
+    if (getConfig().rulesId().isPresent()) {
       return true;
     }
 
     // If not, we check the parents.
     return parents().stream()
         .map(ProjectState::getConfig)
-        .map(CachedProjectConfig::getRulesId)
+        .map(CachedProjectConfig::rulesId)
         .anyMatch(Optional::isPresent);
   }
 
   public Project getProject() {
-    return cachedConfig.getProject();
+    return cachedConfig.project();
   }
 
   public Project.NameKey getNameKey() {
-    return getProject().getNameKey();
+    return getProject().nameKey();
   }
 
   public String getName() {
@@ -180,15 +180,15 @@ public class ProjectState {
   public ProjectLevelConfig getConfig(String fileName) {
     checkState(fileName.endsWith(".config"), "file name must end in .config. is: " + fileName);
     return new ProjectLevelConfig(
-        fileName, this, cachedConfig.getParsedProjectLevelConfigs().get(fileName));
+        fileName, this, cachedConfig.parsedProjectLevelConfigs().get(fileName));
   }
 
   public long getMaxObjectSizeLimit() {
-    return cachedConfig.getMaxObjectSizeLimit();
+    return cachedConfig.maxObjectSizeLimit();
   }
 
   public boolean statePermitsRead() {
-    return getProject().getState().permitsRead();
+    return getProject().state().permitsRead();
   }
 
   public void checkStatePermitsRead() throws ResourceConflictException {
@@ -197,13 +197,13 @@ public class ProjectState {
           "project "
               + getName()
               + " has state "
-              + getProject().getState().name()
+              + getProject().state().name()
               + " does not permit read");
     }
   }
 
   public boolean statePermitsWrite() {
-    return getProject().getState().permitsWrite();
+    return getProject().state().permitsWrite();
   }
 
   public void checkStatePermitsWrite() throws ResourceConflictException {
@@ -212,7 +212,7 @@ public class ProjectState {
           "project "
               + getName()
               + " has state "
-              + getProject().getState().name()
+              + getProject().state().name()
               + " does not permit write");
     }
   }
@@ -241,21 +241,21 @@ public class ProjectState {
   public EffectiveMaxObjectSizeLimit getEffectiveMaxObjectSizeLimit() {
     EffectiveMaxObjectSizeLimit result = new EffectiveMaxObjectSizeLimit();
 
-    result.value = cachedConfig.getMaxObjectSizeLimit();
+    result.value = cachedConfig.maxObjectSizeLimit();
 
     if (inheritProjectMaxObjectSizeLimit) {
       for (ProjectState parent : parents()) {
-        long parentValue = parent.cachedConfig.getMaxObjectSizeLimit();
+        long parentValue = parent.cachedConfig.maxObjectSizeLimit();
         if (parentValue > 0 && result.value > 0) {
           if (parentValue < result.value) {
             result.value = parentValue;
             result.summary =
-                String.format(OVERRIDDEN_BY_PARENT, parent.cachedConfig.getProject().getNameKey());
+                String.format(OVERRIDDEN_BY_PARENT, parent.cachedConfig.project().nameKey());
           }
         } else if (parentValue > 0) {
           result.value = parentValue;
           result.summary =
-              String.format(INHERITED_FROM_PARENT, parent.cachedConfig.getProject().getNameKey());
+              String.format(INHERITED_FROM_PARENT, parent.cachedConfig.project().nameKey());
         }
       }
     }
@@ -278,8 +278,8 @@ public class ProjectState {
     if (localAccessSections != null) {
       return localAccessSections;
     }
-    List<SectionMatcher> sm = new ArrayList<>(cachedConfig.getAccessSections().values().size());
-    for (AccessSection section : cachedConfig.getAccessSections().values()) {
+    List<SectionMatcher> sm = new ArrayList<>(cachedConfig.accessSections().values().size());
+    for (AccessSection section : cachedConfig.accessSections().values()) {
       SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
       if (matcher != null) {
         sm.add(matcher);
@@ -388,7 +388,7 @@ public class ProjectState {
   public Map<String, SubmitRequirement> getSubmitRequirements() {
     Map<String, SubmitRequirement> requirements = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {
-      for (SubmitRequirement requirement : s.getConfig().getSubmitRequirementSections().values()) {
+      for (SubmitRequirement requirement : s.getConfig().submitRequirementSections().values()) {
         String lowerName = requirement.name().toLowerCase(Locale.US);
         SubmitRequirement old = requirements.get(lowerName);
         if (old == null || old.allowOverrideInChildProjects()) {
@@ -403,17 +403,17 @@ public class ProjectState {
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = new LinkedHashMap<>();
     for (ProjectState s : treeInOrder()) {
-      for (LabelType type : s.getConfig().getLabelSections().values()) {
-        String lower = type.getName().toLowerCase(Locale.US);
+      for (LabelType type : s.getConfig().labelSections().values()) {
+        String lower = type.name().toLowerCase(Locale.US);
         LabelType old = types.get(lower);
-        if (old == null || old.isCanOverride()) {
+        if (old == null || old.canOverride()) {
           types.put(lower, type);
         }
       }
     }
     List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
     for (LabelType type : types.values()) {
-      if (!type.getValues().isEmpty()) {
+      if (!type.values().isEmpty()) {
         all.add(type);
       }
     }
@@ -431,7 +431,7 @@ public class ProjectState {
 
     List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
     for (LabelType l : all) {
-      ImmutableList<String> refs = l.getRefPatterns();
+      ImmutableList<String> refs = l.refPatterns();
       if (refs == null) {
         r.add(l);
       } else {
@@ -461,14 +461,14 @@ public class ProjectState {
       cls.put(cl.name.toLowerCase(Locale.US), cl);
     }
     for (ProjectState s : treeInOrder()) {
-      for (StoredCommentLinkInfo cl : s.getConfig().getCommentLinkSections().values()) {
-        String name = cl.getName().toLowerCase(Locale.US);
-        if (cl.getOverrideOnly()) {
+      for (StoredCommentLinkInfo cl : s.getConfig().commentLinkSections().values()) {
+        String name = cl.name().toLowerCase(Locale.US);
+        if (cl.overrideOnly()) {
           CommentLinkInfo parent = cls.get(name);
           if (parent == null) {
             continue; // Ignore invalid overrides.
           }
-          cls.put(name, StoredCommentLinkInfo.fromInfo(parent, cl.getEnabled()).toInfo());
+          cls.put(name, StoredCommentLinkInfo.fromInfo(parent, cl.enabled()).toInfo());
         } else {
           cls.put(name, cl.toInfo());
         }
@@ -485,7 +485,7 @@ public class ProjectState {
    */
   public PluginConfig getPluginConfig(String pluginName) {
     Config config = new Config();
-    String cachedPluginConfig = getConfig().getPluginConfigs().get(pluginName);
+    String cachedPluginConfig = getConfig().pluginConfigs().get(pluginName);
     if (cachedPluginConfig != null) {
       try {
         config.fromText(cachedPluginConfig);
@@ -501,7 +501,7 @@ public class ProjectState {
 
   public Optional<BranchOrderSection> getBranchOrderSection() {
     for (ProjectState s : tree()) {
-      Optional<BranchOrderSection> section = s.getConfig().getBranchOrderSection();
+      Optional<BranchOrderSection> section = s.getConfig().branchOrderSection();
       if (section.isPresent()) {
         return section;
       }
@@ -527,7 +527,7 @@ public class ProjectState {
 
   public SubmitType getSubmitType() {
     for (ProjectState s : tree()) {
-      SubmitType t = s.getProject().getSubmitType();
+      SubmitType t = s.getProject().submitType();
       if (t != SubmitType.INHERIT) {
         return t;
       }
@@ -541,7 +541,7 @@ public class ProjectState {
       final AccessSection section = matcher.getSection();
       for (Permission permission : section.getPermissions()) {
         for (PermissionRule rule : permission.getRules()) {
-          all.add(rule.getGroup());
+          all.add(rule.group());
         }
       }
     }

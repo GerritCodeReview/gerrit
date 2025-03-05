@@ -41,7 +41,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -445,16 +444,6 @@ public class MergeOp implements AutoCloseable {
       requireNonNull(problem, "problem");
     }
 
-    @InlineMe(replacement = "this.changeId()")
-    public Change.Id getChangeId() {
-      return changeId();
-    }
-
-    @InlineMe(replacement = "this.problem()")
-    public String getProblem() {
-      return problem();
-    }
-
     public static ChangeProblem create(Change.Id changeId, String problem) {
       return new ChangeProblem(changeId, problem);
     }
@@ -649,7 +638,7 @@ public class MergeOp implements AutoCloseable {
   private void checkSubmitRulesAndState(Change triggeringChange, ChangeSet cs, boolean allowMerged)
       throws ResourceConflictException {
     checkCommonSubmitProblems(triggeringChange, cs, allowMerged, permissionBackend, caller).stream()
-        .forEach(cp -> commitStatus.problem(cp.getChangeId(), cp.getProblem()));
+        .forEach(cp -> commitStatus.problem(cp.changeId(), cp.problem()));
     commitStatus.maybeFailVerbose();
     mergeMetrics.countChangesThatWereSubmittedWithRebaserApproval(cs);
   }

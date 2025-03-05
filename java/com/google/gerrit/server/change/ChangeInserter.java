@@ -661,8 +661,8 @@ public class ChangeInserter implements InsertChangeOp {
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {
-          allApprovals.put(lt.getName(), (short) 0);
-          oldApprovals.put(lt.getName(), null);
+          allApprovals.put(lt.name(), (short) 0);
+          oldApprovals.put(lt.name(), null);
         }
         for (Map.Entry<String, Short> entry : approvals.entrySet()) {
           if (entry.getValue() != 0) {

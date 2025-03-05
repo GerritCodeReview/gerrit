@@ -63,7 +63,7 @@ public class ConfigInfoCreator {
       DynamicMap<RestView<ProjectResource>> views) {
     ConfigInfo configInfo = new ConfigInfo();
     Project p = projectState.getProject();
-    configInfo.description = Strings.emptyToNull(p.getDescription());
+    configInfo.description = Strings.emptyToNull(p.description());
 
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
@@ -86,7 +86,7 @@ public class ConfigInfoCreator {
     configInfo.defaultSubmitType.value = projectState.getSubmitType();
     configInfo.defaultSubmitType.configuredValue =
         MoreObjects.firstNonNull(
-            projectState.getConfig().getProject().getSubmitType(), Project.DEFAULT_SUBMIT_TYPE);
+            projectState.getConfig().project().submitType(), Project.DEFAULT_SUBMIT_TYPE);
     ProjectState parent =
         projectState.isAllProjects() ? projectState : projectState.parents().get(0);
     configInfo.defaultSubmitType.inheritedValue = parent.getSubmitType();
@@ -94,9 +94,7 @@ public class ConfigInfoCreator {
     configInfo.submitType = configInfo.defaultSubmitType.value;
 
     configInfo.state =
-        p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE
-            ? p.getState()
-            : null;
+        p.state() != com.google.gerrit.extensions.client.ProjectState.ACTIVE ? p.state() : null;
 
     configInfo.commentlinks = new LinkedHashMap<>();
     for (CommentLinkInfo cl : projectState.getCommentLinks()) {
@@ -111,7 +109,7 @@ public class ConfigInfoCreator {
       configInfo.actions.put(d.getId(), new ActionInfo(d));
     }
 
-    configInfo.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+    configInfo.extensionPanelNames = projectState.getConfig().extensionPanelSections();
     return configInfo;
   }
 
@@ -121,7 +119,7 @@ public class ConfigInfoCreator {
     EffectiveMaxObjectSizeLimit limit = projectState.getEffectiveMaxObjectSizeLimit();
     long value = limit.value;
     info.value = value == 0 ? null : String.valueOf(value);
-    info.configuredValue = p.getMaxObjectSizeLimit();
+    info.configuredValue = p.maxObjectSizeLimit();
     info.summary = limit.summary;
     return info;
   }

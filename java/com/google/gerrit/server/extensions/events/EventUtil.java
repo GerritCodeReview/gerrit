@@ -90,7 +90,7 @@ public class EventUtil {
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
-    return revisionInfo(project.getNameKey(), ps);
+    return revisionInfo(project.nameKey(), ps);
   }
 
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)

@@ -121,11 +121,11 @@ public class GroupMembers {
   private Set<Account> getGroupMembers(
       InternalGroup group, @Nullable Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchProjectException, IOException {
-    seen.add(group.getGroupUUID());
+    seen.add(group.groupUUID());
     GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
 
     ImmutableSet<Account> directMembers =
-        group.getMembers().stream()
+        group.members().stream()
             .filter(groupControl::canSeeMember)
             .map(accountCache::get)
             .flatMap(Streams::stream)
@@ -134,7 +134,7 @@ public class GroupMembers {
 
     Set<Account> indirectMembers = new HashSet<>();
     if (groupControl.canSeeGroup()) {
-      for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
+      for (AccountGroup.UUID subgroupUuid : group.subgroups()) {
         if (!seen.contains(subgroupUuid)) {
           indirectMembers.addAll(listAccounts(subgroupUuid, project, seen));
         }

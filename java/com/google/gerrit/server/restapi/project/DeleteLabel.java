@@ -57,8 +57,8 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
             rsrc.getProject().getNameKey(), input.commitMessage, "Delete label")) {
       ProjectConfig config = configUpdater.getConfig();
 
-      if (!deleteLabel(config, rsrc.getLabelType().getName())) {
-        throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getLabelType().getName()));
+      if (!deleteLabel(config, rsrc.getLabelType().name())) {
+        throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getLabelType().name()));
       }
       configUpdater.commitConfigUpdate();
     }

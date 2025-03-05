@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cfdcc57_d00644b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-05T15:26:24Z",
+      "side": 1,
+      "message": "nit: `s/NoGitRepositoryReferenceCounting/NoGitRepositoryCheckIfClosed/`",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "0d400260f053f2dba36694b2fb832c330ce317c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf966eb6_1ebd1170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-05T15:26:24Z",
+      "side": 1,
+      "message": "nit: `s/NoGitRepositoryReferenceCounting/NoGitRepositoryCheckIfClosed`",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "0d400260f053f2dba36694b2fb832c330ce317c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bbcbe12_b363a7bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-05T15:26:24Z",
+      "side": 1,
+      "message": "nit: `s/NoGitRepositoryReferenceCounting/NoGitRepositoryCheckIfClosed`",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "0d400260f053f2dba36694b2fb832c330ce317c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60194fc_ad1c2fec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-05T15:26:24Z",
+      "side": 1,
+      "message": "nit: `s/NoGitRepositoryReferenceCounting/NoGitRepositoryCheckIfClosed`",
+      "range": {
+        "startLine": 30,
+        "startChar": 20,
+        "endLine": 30,
+        "endChar": 52
+      },
+      "revId": "0d400260f053f2dba36694b2fb832c330ce317c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

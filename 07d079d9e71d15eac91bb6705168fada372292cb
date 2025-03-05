@@ -46,6 +46,30 @@
       },
       "revId": "07d079d9e71d15eac91bb6705168fada372292cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75a7d30_ad8da642",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-05T12:56:20Z",
+      "side": 1,
+      "message": "That doesn\u0027t quite make sense to me.\n\n\u003e the former one potentially returns multiple entries\n\nWhy would it return an entry that doesn\u0027t pass the check in the filter? The \"non-exact version\" (ie. preferredEmail predicate) should return all non-case-sensitive matches no (which is the same as normalize+equal does afterwards)? Or does it match something else?\n\n\u003e The previous code\n\nYeah... I don\u0027t understand why it\u0027s needed in the previous code either",
+      "parentUuid": "6258eb56_f5f7c3fa",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 96
+      },
+      "revId": "07d079d9e71d15eac91bb6705168fada372292cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

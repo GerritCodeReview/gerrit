@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -55,6 +56,13 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
     return authTokenCache.get(accountId).stream()
         .filter(token -> token.id().equals(id))
         .findFirst();
+  }
+
+  @Override
+  public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+    directAuthTokenAccessor.addTokens(accountId, tokens);
+    authTokenCache.evict(accountId);
   }
 
   @Override

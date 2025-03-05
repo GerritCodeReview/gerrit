@@ -252,6 +252,7 @@ public abstract class ExternalId implements Serializable {
     }
   }
 
+  @Deprecated
   public static ExternalId create(
       Key key,
       Account.Id accountId,
@@ -267,6 +268,12 @@ public abstract class ExternalId implements Serializable {
         blobId);
   }
 
+  public static ExternalId create(
+      Key key, Account.Id accountId, @Nullable String email, @Nullable ObjectId blobId) {
+    return new AutoValue_ExternalId(
+        key, accountId, key.isCaseInsensitive(), Strings.emptyToNull(email), null, blobId);
+  }
+
   public abstract Key key();
 
   public abstract Account.Id accountId();
@@ -275,6 +282,7 @@ public abstract class ExternalId implements Serializable {
 
   public abstract @Nullable String email();
 
+  @Deprecated
   public abstract @Nullable String password();
 
   /**

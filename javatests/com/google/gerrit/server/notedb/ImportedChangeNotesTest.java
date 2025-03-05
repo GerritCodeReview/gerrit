@@ -187,7 +187,7 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
           ExternalId.Key.create(
               ExternalId.SCHEME_IMPORTED, importedAccount + "@" + IMPORTED_SERVER_ID, false);
       ExternalId linkedExternalId =
-          ExternalId.create(importedAccountIdKey, localAccountId, null, null, null);
+          ExternalId.create(importedAccountIdKey, localAccountId, null, null);
 
       when(externalIdCacheMock.byKey(eq(importedAccountIdKey)))
           .thenReturn(Optional.of(linkedExternalId));

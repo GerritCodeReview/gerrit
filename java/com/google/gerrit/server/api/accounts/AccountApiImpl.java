@@ -614,6 +614,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Nullable
   @Override
+  @Deprecated
   public String generateHttpPassword() throws RestApiException {
     HttpPasswordInput input = new HttpPasswordInput();
     input.generate = true;
@@ -629,6 +630,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Nullable
   @Override
+  @Deprecated
   public String setHttpPassword(String password) throws RestApiException {
     HttpPasswordInput input = new HttpPasswordInput();
     input.generate = false;

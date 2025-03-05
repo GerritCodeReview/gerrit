@@ -14,6 +14,25 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.common.ConvertibleToProto;
+import java.util.Objects;
+
+@ConvertibleToProto
 public class TokenInput {
+  public String id;
   public String token;
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, token);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (!(obj instanceof TokenInput)) return false;
+    TokenInput other = (TokenInput) obj;
+    return Objects.equals(id, other.id) && Objects.equals(token, other.token);
+  }
 }

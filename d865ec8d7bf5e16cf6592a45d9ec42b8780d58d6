@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6116e6f2_f46a96e5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-05T08:55:45Z",
+      "side": 1,
+      "message": "```suggestion\n  public void cannotGetInvisibleChange() throws Exception {\n```",
+      "revId": "d865ec8d7bf5e16cf6592a45d9ec42b8780d58d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5327f04_70c16808",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-05T08:55:45Z",
+      "side": 1,
+      "message": "why wasn\u0027t this already necessary earlier ?",
+      "revId": "d865ec8d7bf5e16cf6592a45d9ec42b8780d58d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

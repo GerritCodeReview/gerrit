@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -77,6 +78,16 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     String hashedToken = HashedPassword.fromPassword(token).encode();
     return addToken(accountId, id, hashedToken);
+  }
+
+  @Override
+  public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+    VersionedAuthTokens authTokens = readFromNoteDb(accountId);
+    for (AuthToken token : tokens) {
+      authTokens.addToken(token);
+    }
+    commit(accountId, authTokens);
   }
 
   @CanIgnoreReturnValue

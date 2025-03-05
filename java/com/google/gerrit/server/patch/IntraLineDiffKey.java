@@ -16,7 +16,6 @@ package com.google.gerrit.server.patch;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import java.io.Serializable;
 import org.eclipse.jgit.lib.ObjectId;
@@ -27,21 +26,6 @@ public record IntraLineDiffKey(ObjectId blobA, ObjectId blobB, Whitespace whites
     requireNonNull(blobA, "blobA");
     requireNonNull(blobB, "blobB");
     requireNonNull(whitespace, "whitespace");
-  }
-
-  @InlineMe(replacement = "this.blobA()")
-  public ObjectId getBlobA() {
-    return blobA();
-  }
-
-  @InlineMe(replacement = "this.blobB()")
-  public ObjectId getBlobB() {
-    return blobB();
-  }
-
-  @InlineMe(replacement = "this.whitespace()")
-  public Whitespace getWhitespace() {
-    return whitespace();
   }
 
   public static final long serialVersionUID = 13L;

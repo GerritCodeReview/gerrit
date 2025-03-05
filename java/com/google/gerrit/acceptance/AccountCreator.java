@@ -135,7 +135,7 @@ public class AccountCreator {
         if (!group.isPresent()) {
           throw new NoSuchGroupException(n);
         }
-        addGroupMember(group.get().getGroupUUID(), id);
+        addGroupMember(group.get().groupUUID(), id);
       }
     }
   }

@@ -46,12 +46,12 @@ public class InternalGroupSubject extends Subject {
 
   public ComparableSubject<AccountGroup.UUID> groupUuid() {
     isNotNull();
-    return check("getGroupUUID()").that(group.getGroupUUID());
+    return check("getGroupUUID()").that(group.groupUUID());
   }
 
   public ComparableSubject<AccountGroup.NameKey> nameKey() {
     isNotNull();
-    return check("getNameKey()").that(group.getNameKey());
+    return check("getNameKey()").that(group.nameKey());
   }
 
   public StringSubject name() {
@@ -61,41 +61,41 @@ public class InternalGroupSubject extends Subject {
 
   public Subject id() {
     isNotNull();
-    return check("getId()").that(group.getId());
+    return check("getId()").that(group.id());
   }
 
   public StringSubject description() {
     isNotNull();
-    return check("getDescription()").that(group.getDescription());
+    return check("getDescription()").that(group.description());
   }
 
   public ComparableSubject<AccountGroup.UUID> ownerGroupUuid() {
     isNotNull();
-    return check("getOwnerGroupUUID()").that(group.getOwnerGroupUUID());
+    return check("getOwnerGroupUUID()").that(group.ownerGroupUUID());
   }
 
   public BooleanSubject visibleToAll() {
     isNotNull();
-    return check("isVisibleToAll()").that(group.isVisibleToAll());
+    return check("isVisibleToAll()").that(group.visibleToAll());
   }
 
   public ComparableSubject<Instant> createdOn() {
     isNotNull();
-    return check("getCreatedOn()").that(group.getCreatedOn());
+    return check("getCreatedOn()").that(group.createdOn());
   }
 
   public IterableSubject members() {
     isNotNull();
-    return check("getMembers()").that(group.getMembers());
+    return check("getMembers()").that(group.members());
   }
 
   public IterableSubject subgroups() {
     isNotNull();
-    return check("getSubgroups()").that(group.getSubgroups());
+    return check("getSubgroups()").that(group.subgroups());
   }
 
   public ComparableSubject<ObjectId> refState() {
     isNotNull();
-    return check("getRefState()").that(group.getRefState());
+    return check("refState()").that(group.refState());
   }
 }

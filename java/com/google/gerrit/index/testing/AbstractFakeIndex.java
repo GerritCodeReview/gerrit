@@ -382,7 +382,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     protected AccountGroup.UUID keyFor(InternalGroup value) {
-      return value.getGroupUUID();
+      return value.groupUUID();
     }
 
     @Override
@@ -397,7 +397,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     protected Comparator<InternalGroup> sortingComparator() {
-      return Comparator.comparing(g -> g.getId().get());
+      return Comparator.comparing(g -> g.id().get());
     }
 
     @Override
@@ -419,7 +419,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     protected Project.NameKey keyFor(ProjectData value) {
-      return value.getProject().getNameKey();
+      return value.getProject().nameKey();
     }
 
     @Override

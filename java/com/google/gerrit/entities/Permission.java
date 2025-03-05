@@ -203,10 +203,10 @@ public abstract class Permission implements Comparable<Permission> {
   }
 
   private static boolean sameGroup(PermissionRule rule, GroupReference group) {
-    if (group.getUUID() != null && rule.getGroup().getUUID() != null) {
-      return group.getUUID().equals(rule.getGroup().getUUID());
-    } else if (group.getName() != null && rule.getGroup().getName() != null) {
-      return group.getName().equals(rule.getGroup().getName());
+    if (group.getUUID() != null && rule.group().getUUID() != null) {
+      return group.getUUID().equals(rule.group().getUUID());
+    } else if (group.getName() != null && rule.group().getName() != null) {
+      return group.getName().equals(rule.group().getName());
     } else {
       return false;
     }
@@ -289,7 +289,7 @@ public abstract class Permission implements Comparable<Permission> {
     @CanIgnoreReturnValue
     public Builder remove(PermissionRule rule) {
       if (rule != null) {
-        return removeRule(rule.getGroup());
+        return removeRule(rule.group());
       }
       return this;
     }

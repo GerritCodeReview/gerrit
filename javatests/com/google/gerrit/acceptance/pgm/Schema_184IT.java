@@ -38,7 +38,7 @@ public class Schema_184IT extends AbstractDaemonTest {
   @Test
   public void groupGetsRenamed() throws Exception {
     groupOperations
-        .group(groupCache.get(SERVICE_USERS).get().getGroupUUID())
+        .group(groupCache.get(SERVICE_USERS).get().groupUUID())
         .forUpdate()
         .name(NON_INTERACTIVE_USERS.get())
         .update();
@@ -53,7 +53,7 @@ public class Schema_184IT extends AbstractDaemonTest {
   @Test
   public void upgradeIsIdempotent() throws Exception {
     groupOperations
-        .group(groupCache.get(SERVICE_USERS).get().getGroupUUID())
+        .group(groupCache.get(SERVICE_USERS).get().groupUUID())
         .forUpdate()
         .name(NON_INTERACTIVE_USERS.get())
         .update();

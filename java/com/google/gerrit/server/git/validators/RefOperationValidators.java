@@ -149,7 +149,7 @@ public class RefOperationValidators {
     @Override
     public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
         throws ValidationException {
-      if (refEvent.project.getNameKey().equals(allUsersName)) {
+      if (refEvent.project.nameKey().equals(allUsersName)) {
         if (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
             && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT)) {
           if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {

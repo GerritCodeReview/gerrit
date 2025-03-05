@@ -49,7 +49,7 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
     for (String name : subsections) {
       try {
         StoredCommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name);
-        if (cl.getOverrideOnly()) {
+        if (cl.overrideOnly()) {
           logger.atWarning().log("commentlink %s empty except for \"enabled\"", name);
           continue;
         }

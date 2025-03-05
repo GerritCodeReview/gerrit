@@ -235,10 +235,7 @@ public class AuditLogReader {
   private AccountGroup.Id getGroupId(Repository allUsersRepo, AccountGroup.UUID uuid)
       throws ConfigInvalidException, IOException {
     // TODO(dborowitz): This re-walks all commits just to find createdOn, which we don't need.
-    return GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid)
-        .getLoadedGroup()
-        .get()
-        .getId();
+    return GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid).getLoadedGroup().get().id();
   }
 
   record MemberKey(AccountGroup.Id groupId, Account.Id memberId) {

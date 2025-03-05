@@ -93,8 +93,8 @@ public class IntraLineLoader implements Callable<IntraLineDiff> {
           args.project(),
           args.commit().name(),
           args.path(),
-          key.getBlobA().name(),
-          key.getBlobB().name());
+          key.blobA().name(),
+          key.blobB().name());
       result.cancel(true);
       return new IntraLineDiff(IntraLineDiff.Status.TIMEOUT);
     } catch (ExecutionException e) {

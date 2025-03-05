@@ -44,29 +44,27 @@ public class CommentSizeValidator implements CommentValidator {
   }
 
   private boolean exceedsSizeLimit(CommentForValidation comment) {
-    return switch (comment.getSource()) {
-      case HUMAN -> commentSizeLimit > 0 && comment.getApproximateSize() > commentSizeLimit;
-      case ROBOT ->
-          robotCommentSizeLimit > 0 && comment.getApproximateSize() > robotCommentSizeLimit;
+    return switch (comment.source()) {
+      case HUMAN -> commentSizeLimit > 0 && comment.approximateSize() > commentSizeLimit;
+      case ROBOT -> robotCommentSizeLimit > 0 && comment.approximateSize() > robotCommentSizeLimit;
       default ->
           throw new RuntimeException(
-              "Unknown comment source (should not have compiled): " + comment.getSource());
+              "Unknown comment source (should not have compiled): " + comment.source());
     };
   }
 
   private String buildErrorMessage(CommentForValidation comment) {
-    return switch (comment.getSource()) {
+    return switch (comment.source()) {
       case HUMAN ->
           String.format(
-              "Comment size exceeds limit (%d > %d)",
-              comment.getApproximateSize(), commentSizeLimit);
+              "Comment size exceeds limit (%d > %d)", comment.approximateSize(), commentSizeLimit);
       case ROBOT ->
           String.format(
               "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
-              comment.getApproximateSize(), robotCommentSizeLimit);
+              comment.approximateSize(), robotCommentSizeLimit);
       default ->
           throw new RuntimeException(
-              "Unknown comment source (should not have compiled): " + comment.getSource());
+              "Unknown comment source (should not have compiled): " + comment.source());
     };
   }
 }

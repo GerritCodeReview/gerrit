@@ -88,8 +88,8 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(label.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel(pLabel.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
+        .add(allowLabel(label.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(pLabel.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
         .update();
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().upsertLabelType(label);
@@ -118,8 +118,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
     // Give voting permissions to all users
     requestScopeOperations.setApiUser(admin.id());
-    allowLabelPermission(
-        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+    allowLabelPermission(codeReview().name(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
 
     // The predicate uses the MAX_COUNT_INTERNAL in label predicate, and the SR expression matches
     // even if the change has more than 5 votes.
@@ -417,8 +416,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
     assertAuthor(changeInfo, "authoremail@example.com");
 
-    allowLabelPermission(
-        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+    allowLabelPermission(codeReview().name(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
 
     // Vote from author does not match
     requestScopeOperations.setApiUser(authorId);
@@ -446,8 +444,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
     assertCommitter(changeInfo, "committeremail@example.com");
 
-    allowLabelPermission(
-        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+    allowLabelPermission(codeReview().name(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
 
     // Vote from committer does not match
     requestScopeOperations.setApiUser(committerId);
@@ -468,8 +465,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     assertUploader(changeInfo, admin.email());
     assertAuthor(changeInfo, user.email());
 
-    allowLabelPermission(
-        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+    allowLabelPermission(codeReview().name(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
 
     // Vote from admin (a.k.a. uploader) does not match
     requestScopeOperations.setApiUser(user.id());

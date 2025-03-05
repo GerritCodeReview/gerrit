@@ -613,7 +613,7 @@ class ReceiveCommits {
     // Immutable fields derived from constructor arguments.
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
-    permissions = permissionBackend.user(user).project(project.getNameKey());
+    permissions = permissionBackend.user(user).project(project.nameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
     // Collections populated during processing.
@@ -725,10 +725,10 @@ class ReceiveCommits {
       RequestInfo requestInfo =
           RequestInfo.builder(
                   RequestInfo.RequestType.GIT_RECEIVE, "git-receive-pack", user, traceContext)
-              .project(project.getNameKey())
+              .project(project.nameKey())
               .build();
       requestListeners.runEach(l -> l.onRequest(requestInfo));
-      traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
+      traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.nameKey().get()));
 
       aclInfoController.enableAclLoggingIfUserCanViewAccess(traceContext);
 
@@ -846,7 +846,7 @@ class ReceiveCommits {
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     logger.atFine().log("Calling user: %s, commands: %d", user.getLoggableName(), commands.size());
 
-    if (!projectState.getProject().getState().permitsWrite()) {
+    if (!projectState.getProject().state().permitsWrite()) {
       for (ReceiveCommand cmd : commands) {
         reject(
             cmd,
@@ -988,7 +988,7 @@ class ReceiveCommits {
       Map<BranchNameKey, ReceiveCommand> branches;
       try (BatchUpdate bu =
               batchUpdateFactory.create(
-                  project.getNameKey(), user.materializedCopy(), TimeUtil.now());
+                  project.nameKey(), user.materializedCopy(), TimeUtil.now());
           ObjectReader reader = ins.newReader();
           RevWalk rw = new RevWalk(reader);
           MergeOpRepoManager orm = ormProvider.get()) {
@@ -1240,8 +1240,7 @@ class ReceiveCommits {
       Task replaceProgress)
       throws RestApiException, IOException {
     try (BatchUpdate bu =
-            batchUpdateFactory.create(
-                project.getNameKey(), user.materializedCopy(), TimeUtil.now());
+            batchUpdateFactory.create(project.nameKey(), user.materializedCopy(), TimeUtil.now());
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo, rw, ins);
@@ -1258,7 +1257,7 @@ class ReceiveCommits {
           if (magicBranch.shouldPublishComments()) {
             bu.addOp(
                 replace.notes.getChangeId(),
-                publishCommentsOp.create(replace.psId, project.getNameKey()));
+                publishCommentsOp.create(replace.psId, project.nameKey()));
             Optional<ChangeNotes> changeNotes = getChangeNotes(replace.notes.getChangeId());
             if (!changeNotes.isPresent()) {
               // If not present, no need to update attention set here since this is
@@ -1494,12 +1493,12 @@ class ReceiveCommits {
       switch (cmd.getType()) {
         case CREATE, UPDATE, UPDATE_NONFASTFORWARD -> {
           try {
-            ProjectConfig cfg = projectConfigFactory.create(project.getNameKey());
-            cfg.load(project.getNameKey(), globalRevWalk, cmd.getNewId());
+            ProjectConfig cfg = projectConfigFactory.create(project.nameKey());
+            cfg.load(project.nameKey(), globalRevWalk, cmd.getNewId());
             if (!cfg.getValidationErrors().isEmpty()) {
               addError("Invalid project configuration:");
               for (ValidationError err : cfg.getValidationErrors()) {
-                addError("  " + err.getMessage());
+                addError("  " + err.message());
               }
               reject(
                   cmd,
@@ -1528,7 +1527,7 @@ class ReceiveCommits {
                 if (allowProjectOwnersToChangeParent) {
                   if (!permissionBackend
                       .user(user)
-                      .project(project.getNameKey())
+                      .project(project.nameKey())
                       .test(ProjectPermission.WRITE_CONFIG)) {
                     reject(
                         cmd,
@@ -1677,7 +1676,7 @@ class ReceiveCommits {
 
       if (validRefOperation(cmd)) {
         validateRegularPushCommits(
-            globalRevWalk, ins, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
+            globalRevWalk, ins, BranchNameKey.create(project.nameKey(), cmd.getRefName()), cmd);
       }
     }
   }
@@ -1695,10 +1694,7 @@ class ReceiveCommits {
         }
         if (validRefOperation(cmd)) {
           validateRegularPushCommits(
-              globalRevWalk,
-              ins,
-              BranchNameKey.create(project.getNameKey(), cmd.getRefName()),
-              cmd);
+              globalRevWalk, ins, BranchNameKey.create(project.nameKey(), cmd.getRefName()), cmd);
         }
       } else {
         rejectProhibited(cmd, err.get());
@@ -1781,7 +1777,7 @@ class ReceiveCommits {
         return;
       }
       validateRegularPushCommits(
-          globalRevWalk, ins, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
+          globalRevWalk, ins, BranchNameKey.create(project.nameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -2246,7 +2242,7 @@ class ReceiveCommits {
         return;
       }
 
-      magicBranch.dest = BranchNameKey.create(project.getNameKey(), ref);
+      magicBranch.dest = BranchNameKey.create(project.nameKey(), ref);
       magicBranch.perm = permissions.ref(ref);
 
       Optional<AuthException> err = checkRefPermission(magicBranch.perm, RefPermission.READ);
@@ -2269,8 +2265,8 @@ class ReceiveCommits {
 
       boolean privateByDefault =
           projectCache
-              .get(project.getNameKey())
-              .orElseThrow(illegalState(project.getNameKey()))
+              .get(project.nameKey())
+              .orElseThrow(illegalState(project.nameKey()))
               .is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
       setChangeAsPrivate =
           magicBranch.isPrivate || (privateByDefault && !magicBranch.removePrivate);
@@ -2528,7 +2524,7 @@ class ReceiveCommits {
         commentValidationFailures.forEach(
             failure ->
                 addMessage(
-                    "Comment validation failure: " + failure.getMessage(),
+                    "Comment validation failure: " + failure.message(),
                     ValidationMessage.Type.WARNING));
       }
 
@@ -2562,7 +2558,7 @@ class ReceiveCommits {
       List<CreateRequest> newChanges = new ArrayList<>();
 
       GroupCollector groupCollector =
-          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, project.getNameKey());
+          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, project.nameKey());
 
       BranchCommitValidator validator =
           commitValidatorFactory.create(projectState, magicBranch.dest, user);
@@ -2581,8 +2577,8 @@ class ReceiveCommits {
         boolean rejectImplicitMerges =
             start.getParentCount() == 1
                 && projectCache
-                    .get(project.getNameKey())
-                    .orElseThrow(illegalState(project.getNameKey()))
+                    .get(project.nameKey())
+                    .orElseThrow(illegalState(project.nameKey()))
                     .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES)
                 // Don't worry about implicit merges when creating changes for
                 // already-merged commits; they're already in history, so it's too
@@ -2834,13 +2830,13 @@ class ReceiveCommits {
   private boolean foundInExistingPatchSets(Collection<PatchSet.Id> existingPatchSets) {
     try (TraceTimer traceTimer = newTimer("foundInExistingPatchSet")) {
       for (PatchSet.Id psId : existingPatchSets) {
-        ChangeNotes notes = notesFactory.create(project.getNameKey(), psId.changeId());
+        ChangeNotes notes = notesFactory.create(project.nameKey(), psId.changeId());
         Change change = notes.getChange();
         if (change.getDest().equals(magicBranch.dest)) {
           logger.atFine().log("Found change %s from existing refs.", change.getKey());
           // Reindex the change asynchronously, ignoring errors.
           @SuppressWarnings("unused")
-          Future<?> possiblyIgnoredError = indexer.indexAsync(project.getNameKey(), change.getId());
+          Future<?> possiblyIgnoredError = indexer.indexAsync(project.nameKey(), change.getId());
           return true;
         }
       }
@@ -3188,7 +3184,7 @@ class ReceiveCommits {
     try (TraceTimer traceTimer = newTimer("readChangesForReplace")) {
       replaceByChange.values().stream()
           .map(r -> r.ontoChange)
-          .map(id -> notesFactory.create(repo, project.getNameKey(), id))
+          .map(id -> notesFactory.create(repo, project.nameKey(), id))
           .forEach(notes -> replaceByChange.get(notes.getChangeId()).notes = notes);
     }
   }
@@ -3601,20 +3597,20 @@ class ReceiveCommits {
       String refName = cmd.getRefName();
       if (cmd.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
         logger.atFine().log("Updating tag cache on fast-forward of %s", cmd.getRefName());
-        tagCache.updateFastForward(project.getNameKey(), refName, cmd.getOldId(), cmd.getNewId());
+        tagCache.updateFastForward(project.nameKey(), refName, cmd.getOldId(), cmd.getNewId());
       }
       if (isConfig(cmd)) {
         logger.atFine().log("Reloading project in cache");
         projectCache.evictAndReindex(project);
         ProjectState ps =
-            projectCache.get(project.getNameKey()).orElseThrow(illegalState(project.getNameKey()));
+            projectCache.get(project.nameKey()).orElseThrow(illegalState(project.nameKey()));
         try {
           logger.atFine().log("Updating project description");
-          repo.setGitwebDescription(ps.getProject().getDescription());
+          repo.setGitwebDescription(ps.getProject().description());
         } catch (IOException e) {
           throw new StorageException("cannot update description of " + project.getName(), e);
         }
-        if (allProjectsName.equals(project.getNameKey())) {
+        if (allProjectsName.equals(project.nameKey())) {
           try {
             createGroupPermissionSyncer.syncIfNeeded();
           } catch (IOException | ConfigInvalidException e) {
@@ -3810,7 +3806,7 @@ class ReceiveCommits {
                         // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
                         RevCommit newTip = rw.parseCommit(cmd.getNewId());
-                        BranchNameKey branch = BranchNameKey.create(project.getNameKey(), refName);
+                        BranchNameKey branch = BranchNameKey.create(project.nameKey(), refName);
 
                         rw.reset();
                         rw.sort(RevSort.REVERSE);
@@ -3942,7 +3938,7 @@ class ReceiveCommits {
 
   private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) {
     try {
-      return Optional.of(notesFactory.createChecked(project.getNameKey(), changeId));
+      return Optional.of(notesFactory.createChecked(project.nameKey(), changeId));
     } catch (NoSuchChangeException e) {
       return Optional.empty();
     }

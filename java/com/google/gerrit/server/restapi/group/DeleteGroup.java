@@ -182,7 +182,7 @@ public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInp
                           "Could not check if group %s is subgroup of %s",
                           groupName, entry.getName()));
                 }
-                if (groups.getGroup(entry.getUUID()).get().getSubgroups().contains(uuid)) {
+                if (groups.getGroup(entry.getUUID()).get().subgroups().contains(uuid)) {
                   allGroupsWithSubGroups.add(entry.getName());
                 }
               } catch (IOException | ConfigInvalidException | ResourceNotFoundException e) {

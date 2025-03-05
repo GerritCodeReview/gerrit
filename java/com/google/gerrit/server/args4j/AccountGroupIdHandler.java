@@ -49,7 +49,7 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
     if (!group.isPresent()) {
       throw new CmdLineException(owner, localizable("Group \"%s\" does not exist"), n);
     }
-    setter.addValue(group.get().getId());
+    setter.addValue(group.get().id());
     return 1;
   }
 

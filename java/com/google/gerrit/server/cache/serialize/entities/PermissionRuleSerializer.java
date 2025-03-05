@@ -35,11 +35,11 @@ public class PermissionRuleSerializer {
 
   public static Cache.PermissionRuleProto serialize(PermissionRule autoValue) {
     return Cache.PermissionRuleProto.newBuilder()
-        .setAction(ACTION_CONVERTER.reverse().convert(autoValue.getAction()))
-        .setForce(autoValue.getForce())
-        .setMin(autoValue.getMin())
-        .setMax(autoValue.getMax())
-        .setGroup(GroupReferenceSerializer.serialize(autoValue.getGroup()))
+        .setAction(ACTION_CONVERTER.reverse().convert(autoValue.action()))
+        .setForce(autoValue.force())
+        .setMin(autoValue.min())
+        .setMax(autoValue.max())
+        .setGroup(GroupReferenceSerializer.serialize(autoValue.group()))
         .build();
   }
 

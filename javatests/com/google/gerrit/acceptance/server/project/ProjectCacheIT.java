@@ -114,7 +114,7 @@ public class ProjectCacheIT extends AbstractDaemonTest {
 
   @Test
   public void allProjectsProjectsConfig_ChangeInFileInvalidatesPersistedCache() throws Exception {
-    assertThat(projectCache.getAllProjects().getConfig().getCheckReceivedObjects()).isTrue();
+    assertThat(projectCache.getAllProjects().getConfig().checkReceivedObjects()).isTrue();
     // Change etc/All-Projects-project.config
     FileBasedConfig fileBasedConfig =
         new FileBasedConfig(
@@ -128,7 +128,7 @@ public class ProjectCacheIT extends AbstractDaemonTest {
     fileBasedConfig.save();
     // Invalidate only the in-memory cache
     inMemoryProjectCache.invalidate(allProjects);
-    assertThat(projectCache.getAllProjects().getConfig().getCheckReceivedObjects()).isFalse();
+    assertThat(projectCache.getAllProjects().getConfig().checkReceivedObjects()).isFalse();
   }
 
   @Test

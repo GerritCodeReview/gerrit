@@ -25,18 +25,18 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 public class LabelDefinitionJson {
   public static LabelDefinitionInfo format(Project.NameKey projectName, LabelType labelType) {
     LabelDefinitionInfo label = new LabelDefinitionInfo();
-    label.name = labelType.getName();
-    label.description = labelType.getDescription().orElse(null);
+    label.name = labelType.name();
+    label.description = labelType.description().orElse(null);
     label.projectName = projectName.get();
-    label.function = labelType.getFunction().getFunctionName();
+    label.function = labelType.function().getFunctionName();
     label.values =
-        labelType.getValues().stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
-    label.defaultValue = labelType.getDefaultValue();
-    label.branches = labelType.getRefPatterns() != null ? labelType.getRefPatterns() : null;
-    label.canOverride = toBoolean(labelType.isCanOverride());
-    label.copyCondition = labelType.getCopyCondition().orElse(null);
-    label.allowPostSubmit = toBoolean(labelType.isAllowPostSubmit());
-    label.ignoreSelfApproval = toBoolean(labelType.isIgnoreSelfApproval());
+        labelType.values().stream().collect(toMap(LabelValue::formatValue, LabelValue::text));
+    label.defaultValue = labelType.defaultValue();
+    label.branches = labelType.refPatterns() != null ? labelType.refPatterns() : null;
+    label.canOverride = toBoolean(labelType.canOverride());
+    label.copyCondition = labelType.copyCondition().orElse(null);
+    label.allowPostSubmit = toBoolean(labelType.allowPostSubmit());
+    label.ignoreSelfApproval = toBoolean(labelType.ignoreSelfApproval());
     return label;
   }
 

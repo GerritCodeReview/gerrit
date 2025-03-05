@@ -140,14 +140,14 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void getProjectConfig() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
-    assertThat(projectOperations.project(key).getProjectConfig().getProject().getDescription())
+    assertThat(projectOperations.project(key).getProjectConfig().getProject().description())
         .isEmpty();
 
     ConfigInput input = new ConfigInput();
     input.description = "my fancy project";
     gApi.projects().name(key.get()).config(input);
 
-    assertThat(projectOperations.project(key).getProjectConfig().getProject().getDescription())
+    assertThat(projectOperations.project(key).getProjectConfig().getProject().description())
         .isEqualTo("my fancy project");
   }
 

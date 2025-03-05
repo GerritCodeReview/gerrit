@@ -50,7 +50,7 @@ enum GroupConfigEntry {
 
     @Override
     void initNewConfig(Config config, InternalGroupCreation group) {
-      AccountGroup.Id id = group.getId();
+      AccountGroup.Id id = group.id();
 
       // Do not use config.setInt(...) to write the group ID because config.setInt(...) persists
       // integers that can be expressed in KiB as a unit strings, e.g. "1024" is stored as "1k".
@@ -82,14 +82,14 @@ enum GroupConfigEntry {
 
     @Override
     void initNewConfig(Config config, InternalGroupCreation group) {
-      AccountGroup.NameKey name = group.getNameKey();
+      AccountGroup.NameKey name = group.nameKey();
       config.setString(SECTION_NAME, null, super.keyName, name.get());
     }
 
     @Override
     void updateConfigValue(Config config, GroupDelta groupDelta) {
       groupDelta
-          .getName()
+          .name()
           .ifPresent(name -> config.setString(SECTION_NAME, null, super.keyName, name.get()));
     }
   },
@@ -114,7 +114,7 @@ enum GroupConfigEntry {
     @Override
     void updateConfigValue(Config config, GroupDelta groupDelta) {
       groupDelta
-          .getDescription()
+          .description()
           .ifPresent(
               description ->
                   config.setString(
@@ -140,13 +140,13 @@ enum GroupConfigEntry {
 
     @Override
     void initNewConfig(Config config, InternalGroupCreation group) {
-      config.setString(SECTION_NAME, null, super.keyName, group.getGroupUUID().get());
+      config.setString(SECTION_NAME, null, super.keyName, group.groupUUID().get());
     }
 
     @Override
     void updateConfigValue(Config config, GroupDelta groupDelta) {
       groupDelta
-          .getOwnerGroupUUID()
+          .ownerGroupUUID()
           .ifPresent(
               ownerGroupUuid ->
                   config.setString(SECTION_NAME, null, super.keyName, ownerGroupUuid.get()));
@@ -173,7 +173,7 @@ enum GroupConfigEntry {
     @Override
     void updateConfigValue(Config config, GroupDelta groupDelta) {
       groupDelta
-          .getVisibleToAll()
+          .visibleToAll()
           .ifPresent(
               visibleToAll -> config.setBoolean(SECTION_NAME, null, super.keyName, visibleToAll));
     }

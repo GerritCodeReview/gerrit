@@ -19,7 +19,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexDefinition;
@@ -28,16 +27,6 @@ public record IndexInfo(String name, ImmutableMap<Integer, IndexVersionInfo> ver
   public IndexInfo {
     requireNonNull(name, "name");
     requireNonNull(versions, "versions");
-  }
-
-  @InlineMe(replacement = "this.name()")
-  public String getName() {
-    return name();
-  }
-
-  @InlineMe(replacement = "this.versions()")
-  public ImmutableMap<Integer, IndexVersionInfo> getVersions() {
-    return versions();
   }
 
   public static IndexInfo fromIndexCollection(

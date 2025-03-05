@@ -60,11 +60,11 @@ public final class DefaultSubmitRule implements SubmitRule {
     submitRecord.labels = new ArrayList<>(labelTypes.size());
 
     for (LabelType t : labelTypes) {
-      LabelFunction labelFunction = t.getFunction();
+      LabelFunction labelFunction = t.function();
       checkState(
           labelFunction != null,
           "Unable to find the LabelFunction for label %s, change %s",
-          t.getName(),
+          t.name(),
           cd.getId());
 
       ImmutableList<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);

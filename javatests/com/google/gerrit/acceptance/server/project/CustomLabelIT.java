@@ -285,11 +285,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertPermitted(info, LABEL_NAME);
 
     ReviewInput postSubmitReview1 = new ReviewInput();
-    postSubmitReview1.label(P.getName(), P.getMax().getValue());
+    postSubmitReview1.label(P.name(), P.getMax().value());
     revision(r).review(postSubmitReview1);
 
     ReviewInput postSubmitReview2 = new ReviewInput();
-    postSubmitReview2.label(LABEL.getName(), LABEL.getMax().getValue());
+    postSubmitReview2.label(LABEL.name(), LABEL.getMax().value());
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> revision(r).review(postSubmitReview2));
     assertThat(thrown)
@@ -355,7 +355,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig(LABEL.toBuilder().setRefPatterns(ImmutableList.of("master")));
     CachedProjectConfig cfg =
         projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
-    assertThat(cfg.getLabelSections().get(LABEL_NAME).getRefPatterns()).contains("master");
+    assertThat(cfg.labelSections().get(LABEL_NAME).refPatterns()).contains("master");
   }
 
   private void assertLabelStatus(String changeId, String testLabel) throws Exception {

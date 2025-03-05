@@ -176,12 +176,12 @@ public class ProjectControl {
   }
 
   boolean match(PermissionRule rule, boolean isChangeOwner) {
-    return match(rule.getGroup().getUUID(), isChangeOwner);
+    return match(rule.group().getUUID(), isChangeOwner);
   }
 
   boolean allRefsAreVisible(Set<String> ignore) {
     return user.isInternalUser()
-        || (!getProject().getNameKey().equals(allUsersName)
+        || (!getProject().nameKey().equals(allUsersName)
             && canPerformOnAllRefs(Permission.READ, ignore));
   }
 
@@ -338,7 +338,7 @@ public class ProjectControl {
   }
 
   private boolean match(PermissionRule rule) {
-    return match(rule.getGroup().getUUID());
+    return match(rule.group().getUUID());
   }
 
   private boolean match(AccountGroup.UUID uuid) {
@@ -403,7 +403,7 @@ public class ProjectControl {
     }
 
     private void checkProject(Project.NameKey changeProject) {
-      Project.NameKey project = getProject().getNameKey();
+      Project.NameKey project = getProject().nameKey();
       checkArgument(
           project.equals(changeProject),
           "expected change in project %s, not %s",

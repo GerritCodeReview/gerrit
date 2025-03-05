@@ -104,7 +104,7 @@ public class BranchCommitValidator {
     this.branch = branch;
     this.commitValidatorsFactory = commitValidatorsFactory;
     project = projectState.getProject();
-    permissions = permissionBackend.user(user).project(project.getNameKey());
+    permissions = permissionBackend.user(user).project(project.nameKey());
   }
 
   /**

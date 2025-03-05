@@ -180,16 +180,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
+        .add(allowLabel(patchSetLock.name()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
         .add(
-            allowLabel(patchSetLock.getName())
-                .ref("refs/heads/*")
-                .group(ANONYMOUS_USERS)
-                .range(0, 1))
-        .add(
-            allowLabel(patchSetLock.getName())
-                .ref("refs/heads/*")
-                .group(adminGroupUuid())
-                .range(0, 1))
+            allowLabel(patchSetLock.name()).ref("refs/heads/*").group(adminGroupUuid()).range(0, 1))
         .update();
   }
 

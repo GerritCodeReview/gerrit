@@ -72,25 +72,25 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
         return false;
       }
       List<AccountGroup.UUID> toTraverse = new ArrayList<>();
-      toTraverse.add(maybeGroup.get().getGroupUUID());
+      toTraverse.add(maybeGroup.get().groupUUID());
       Set<AccountGroup.UUID> seen = new HashSet<>();
       while (!toTraverse.isEmpty()) {
         InternalGroup currentGroup =
             groupCache
                 .get(toTraverse.remove(0))
                 .orElseThrow(() -> new IllegalStateException("invalid subgroup"));
-        if (seen.contains(currentGroup.getGroupUUID())) {
+        if (seen.contains(currentGroup.groupUUID())) {
           logger.atFine().log(
-              "Skipping %s because it's a cyclic subgroup", currentGroup.getGroupUUID());
+              "Skipping %s because it's a cyclic subgroup", currentGroup.groupUUID());
           continue;
         }
-        seen.add(currentGroup.getGroupUUID());
-        if (currentGroup.getMembers().contains(user)) {
+        seen.add(currentGroup.groupUUID());
+        if (currentGroup.members().contains(user)) {
           // The user is a member of the 'Service Users' group or a subgroup.
           return true;
         }
         boolean hasExternalSubgroup =
-            currentGroup.getSubgroups().stream().anyMatch(g -> !internalGroupBackend.handles(g));
+            currentGroup.subgroups().stream().anyMatch(g -> !internalGroupBackend.handles(g));
         if (hasExternalSubgroup) {
           // 'Service Users or a subgroup of Service User' contains an external subgroup, so we have
           // to default to the more expensive evaluation of getting all of the user's group
@@ -98,9 +98,9 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
           return identifiedUserFactory
               .create(user)
               .getEffectiveGroups()
-              .contains(maybeGroup.get().getGroupUUID());
+              .contains(maybeGroup.get().groupUUID());
         }
-        toTraverse.addAll(currentGroup.getSubgroups());
+        toTraverse.addAll(currentGroup.subgroups());
       }
       return false;
     }

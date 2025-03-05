@@ -61,7 +61,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   private static final String UUID_SORT_FIELD = sortFieldName(UUID_FIELD_SPEC);
 
   private static Term idTerm(InternalGroup group) {
-    return idTerm(group.getGroupUUID());
+    return idTerm(group.groupUUID());
   }
 
   private static Term idTerm(AccountGroup.UUID uuid) {

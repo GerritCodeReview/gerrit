@@ -310,12 +310,12 @@ public class RefControl {
   }
 
   private static boolean isAllow(PermissionRule pr, boolean withForce) {
-    return pr.getAction() == Action.ALLOW && (pr.getForce() || !withForce);
+    return pr.action() == Action.ALLOW && (pr.force() || !withForce);
   }
 
   private static boolean isBlock(PermissionRule pr, boolean withForce) {
     // BLOCK with force specified is a weaker rule than without.
-    return pr.getAction() == Action.BLOCK && (!pr.getForce() || withForce);
+    return pr.action() == Action.BLOCK && (!pr.force() || withForce);
   }
 
   protected PermissionRange toRange(String permissionName, boolean isChangeOwner) {
@@ -329,7 +329,7 @@ public class RefControl {
       for (Permission p : ps) {
         if (p.getExclusiveGroup()) {
           for (PermissionRule pr : p.getRules()) {
-            if (pr.getAction() == Action.ALLOW && projectControl.match(pr, isChangeOwner)) {
+            if (pr.action() == Action.ALLOW && projectControl.match(pr, isChangeOwner)) {
               // exclusive override, usually for a more specific ref.
               continue projectLoop;
             }
@@ -337,18 +337,18 @@ public class RefControl {
         }
 
         for (PermissionRule pr : p.getRules()) {
-          if (pr.getAction() == Action.BLOCK && projectControl.match(pr, isChangeOwner)) {
-            projectBlockAllowMin = pr.getMin() + 1;
-            projectBlockAllowMax = pr.getMax() - 1;
+          if (pr.action() == Action.BLOCK && projectControl.match(pr, isChangeOwner)) {
+            projectBlockAllowMin = pr.min() + 1;
+            projectBlockAllowMax = pr.max() - 1;
             blockFound = true;
           }
         }
 
         if (blockFound) {
           for (PermissionRule pr : p.getRules()) {
-            if (pr.getAction() == Action.ALLOW && projectControl.match(pr, isChangeOwner)) {
-              projectBlockAllowMin = pr.getMin();
-              projectBlockAllowMax = pr.getMax();
+            if (pr.action() == Action.ALLOW && projectControl.match(pr, isChangeOwner)) {
+              projectBlockAllowMin = pr.min();
+              projectBlockAllowMax = pr.max();
               break;
             }
           }
@@ -362,11 +362,10 @@ public class RefControl {
 
     int voteMin = 0, voteMax = 0;
     for (PermissionRule pr : relevant.getAllowRules(permissionName)) {
-      if (pr.getAction() == PermissionRule.Action.ALLOW
-          && projectControl.match(pr, isChangeOwner)) {
+      if (pr.action() == PermissionRule.Action.ALLOW && projectControl.match(pr, isChangeOwner)) {
         // For votes, contrary to normal permissions, we aggregate all applicable rules.
-        voteMin = Math.min(voteMin, pr.getMin());
-        voteMax = Math.max(voteMax, pr.getMax());
+        voteMin = Math.min(voteMin, pr.min());
+        voteMax = Math.max(voteMax, pr.max());
       }
     }
 
@@ -402,7 +401,7 @@ public class RefControl {
 
         boolean blocked = false;
         for (PermissionRule pr : p.getRules()) {
-          if (!withForce && pr.getForce()) {
+          if (!withForce && pr.force()) {
             // force on block rule only applies to withForce permission.
             continue;
           }
@@ -462,7 +461,7 @@ public class RefControl {
                   withForce,
                   projectControl.getProject().getName(),
                   refName,
-                  pr.getGroup().getUUID().get(),
+                  pr.group().getUUID().get(),
                   pr);
           LoggingContext.getInstance().addAclLogRecord(logMessage);
           logger.atFine().log("%s", logMessage);
@@ -511,7 +510,7 @@ public class RefControl {
 
     @Override
     public ForChange change(ChangeNotes notes) {
-      Project.NameKey project = getProjectControl().getProject().getNameKey();
+      Project.NameKey project = getProjectControl().getProject().nameKey();
       Change change = notes.getChange();
       checkArgument(
           project.equals(change.getProject()),
@@ -738,7 +737,7 @@ public class RefControl {
     }
 
     try (Repository repo =
-        repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
+        repositoryManager.openRepository(projectControl.getProject().nameKey())) {
       // Tag visibility requires going through RefFilter because it entails loading all taggable
       // refs and filtering them all by visibility.
       Ref resolvedRef = repo.getRefDatabase().exactRef(refName);

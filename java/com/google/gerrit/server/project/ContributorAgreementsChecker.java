@@ -91,31 +91,31 @@ public class ContributorAgreementsChecker {
 
     IdentifiedUser iUser = user.asIdentifiedUser();
     ImmutableCollection<ContributorAgreement> contributorAgreements =
-        projectCache.getAllProjects().getConfig().getContributorAgreements().values();
+        projectCache.getAllProjects().getConfig().contributorAgreements().values();
     List<UUID> okGroupIds = new ArrayList<>();
     for (ContributorAgreement ca : contributorAgreements) {
       List<AccountGroup.UUID> groupIds;
       groupIds = okGroupIds;
 
       // matchProjects defaults to match all projects when missing.
-      ImmutableList<String> matchProjectsRegexes = ca.getMatchProjectsRegexes();
+      ImmutableList<String> matchProjectsRegexes = ca.matchProjectsRegexes();
       if (!matchProjectsRegexes.isEmpty()
           && !projectMatchesAnyPattern(project.get(), matchProjectsRegexes)) {
         // Doesn't match, isn't checked.
         continue;
       }
       // excludeProjects defaults to exclude no projects when missing.
-      ImmutableList<String> excludeProjectsRegexes = ca.getExcludeProjectsRegexes();
+      ImmutableList<String> excludeProjectsRegexes = ca.excludeProjectsRegexes();
       if (!excludeProjectsRegexes.isEmpty()
           && projectMatchesAnyPattern(project.get(), excludeProjectsRegexes)) {
         // Matches, isn't checked.
         continue;
       }
-      for (PermissionRule rule : ca.getAccepted()) {
-        if ((rule.getAction() == Action.ALLOW)
-            && (rule.getGroup() != null)
-            && (rule.getGroup().getUUID() != null)) {
-          groupIds.add(AccountGroup.uuid(rule.getGroup().getUUID().get()));
+      for (PermissionRule rule : ca.accepted()) {
+        if ((rule.action() == Action.ALLOW)
+            && (rule.group() != null)
+            && (rule.group().getUUID() != null)) {
+          groupIds.add(AccountGroup.uuid(rule.group().getUUID().get()));
         }
       }
     }

@@ -172,7 +172,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
   private AccountGroup.UUID parseGroup(String groupNameOrUuid) throws QueryParseException {
     Optional<InternalGroup> group = args.groupCache.get(AccountGroup.uuid(groupNameOrUuid));
     if (group.isPresent()) {
-      return group.get().getGroupUUID();
+      return group.get().groupUUID();
     }
     GroupReference groupReference =
         GroupBackends.findBestSuggestion(args.groupBackend, groupNameOrUuid);

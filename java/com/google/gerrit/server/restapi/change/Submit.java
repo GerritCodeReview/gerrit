@@ -255,7 +255,7 @@ public class Submit
     Optional<String> reason =
         MergeOp.checkCommonSubmitProblems(cd.change(), cs, false, permissionBackend, user).stream()
             .findFirst()
-            .map(MergeOp.ChangeProblem::getProblem);
+            .map(MergeOp.ChangeProblem::problem);
     if (reason.isPresent()) {
       return reason.get();
     }

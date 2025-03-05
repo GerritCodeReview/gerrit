@@ -16,8 +16,6 @@ package com.google.gerrit.extensions.validators;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.InlineMe;
-
 /**
  * A comment or review message was rejected by a {@link CommentValidator}.
  *
@@ -28,16 +26,6 @@ public record CommentValidationFailure(CommentForValidation comment, String mess
   public CommentValidationFailure {
     requireNonNull(comment, "comment");
     requireNonNull(message, "message");
-  }
-
-  @InlineMe(replacement = "this.comment()")
-  public CommentForValidation getComment() {
-    return comment();
-  }
-
-  @InlineMe(replacement = "this.message()")
-  public String getMessage() {
-    return message();
   }
 
   static CommentValidationFailure create(

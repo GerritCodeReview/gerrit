@@ -397,7 +397,7 @@ public class AccountManager {
               .orElseThrow(() -> new IllegalStateException("access section does not exist"))
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
-      AccountGroup.UUID adminGroupUuid = admin.getRules().get(0).getGroup().getUUID();
+      AccountGroup.UUID adminGroupUuid = admin.getRules().get(0).group().getUUID();
       addGroupMember(adminGroupUuid, user);
     }
 

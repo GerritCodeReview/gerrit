@@ -448,7 +448,7 @@ public abstract class PermissionBackend {
     public abstract BooleanCondition testCond(RefPermissionOrLabel perm);
 
     private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
-      return label.getValues().stream()
+      return label.values().stream()
           .map(v -> new LabelPermission.WithValue(label, v))
           .collect(toSet());
     }
@@ -548,13 +548,13 @@ public abstract class PermissionBackend {
     }
 
     private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
-      return label.getValues().stream()
+      return label.values().stream()
           .map(v -> new LabelPermission.WithValue(label, v))
           .collect(toSet());
     }
 
     private static Set<LabelRemovalPermission.WithValue> removalValuesOf(LabelType label) {
-      return label.getValues().stream()
+      return label.values().stream()
           .map(v -> new LabelRemovalPermission.WithValue(label, v))
           .collect(toSet());
     }

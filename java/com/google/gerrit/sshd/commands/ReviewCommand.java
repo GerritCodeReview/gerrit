@@ -379,9 +379,9 @@ public class ReviewCommand extends SshCommand {
     }
 
     for (LabelType type : allProjectsState.getLabelTypes().getLabelTypes()) {
-      StringBuilder usage = new StringBuilder("score for ").append(type.getName()).append("\n");
+      StringBuilder usage = new StringBuilder("score for ").append(type.name()).append("\n");
 
-      for (LabelValue v : type.getValues()) {
+      for (LabelValue v : type.values()) {
         usage.append(v.format()).append("\n");
       }
 
@@ -392,7 +392,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private static String asOptionName(LabelType type) {
-    return "--" + type.getName().toLowerCase(Locale.US);
+    return "--" + type.name().toLowerCase(Locale.US);
   }
 
   private static Option newApproveOption(LabelType type, String usage) {
@@ -427,7 +427,7 @@ public class ReviewCommand extends SshCommand {
     }
 
     String getLabelName() {
-      return type.getName();
+      return type.name();
     }
 
     @Override
@@ -476,7 +476,7 @@ public class ReviewCommand extends SshCommand {
       LabelValue min = type.getMin();
       LabelValue max = type.getMax();
 
-      if (value < min.getValue() || value > max.getValue()) {
+      if (value < min.value() || value > max.value()) {
         String e =
             "\""
                 + token

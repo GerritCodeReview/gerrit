@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c35ebc8_e5bc04d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-05T16:56:08Z",
+      "side": 1,
+      "message": "this still fails some serialization tests, see https://pastebin.com/p2rcUzZD",
+      "revId": "de20820aed83046aae02e9fede1f102fd61aba55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

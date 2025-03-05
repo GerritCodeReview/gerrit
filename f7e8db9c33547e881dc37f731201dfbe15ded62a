@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "785d4b1e_1472cf78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-05T10:15:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "993b14f1_d3b31374",
+      "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c756448_ec3bb5c6",
@@ -73,6 +91,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69db1dc5_87af110f",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-05T10:15:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "4c756448_ec3bb5c6",
+      "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd4bb7e4_57d33afc",
@@ -104,6 +140,24 @@
           ]
         }
       ],
+      "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6336791e_8789dd65",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-05T10:15:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "dd4bb7e4_57d33afc",
       "revId": "f7e8db9c33547e881dc37f731201dfbe15ded62a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

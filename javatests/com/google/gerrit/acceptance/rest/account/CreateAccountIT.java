@@ -19,10 +19,19 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
+import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.inject.Inject;
+import java.util.List;
 import org.junit.Test;
 
 public class CreateAccountIT extends AbstractDaemonTest {
+  @Inject AuthTokenAccessor tokenAccessor;
+
   @Test
   public void createAccountRestApi() throws Exception {
     AccountInput input = new AccountInput();
@@ -31,6 +40,22 @@ public class CreateAccountIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
     r.assertCreated();
     assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  public void createAccountWithTokenAsAdminSucceeds() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "foo";
+    AuthTokenInput token = new AuthTokenInput();
+    token.id = "test";
+    token.token = "secret";
+    input.tokens = List.of(token);
+    RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
+    r.assertCreated();
+
+    JsonObject json = JsonParser.parseReader(r.getReader()).getAsJsonObject();
+    assertThat(tokenAccessor.getToken(Account.id(json.get("_account_id").getAsInt()), token.id))
+        .isNotNull();
   }
 
   @Test

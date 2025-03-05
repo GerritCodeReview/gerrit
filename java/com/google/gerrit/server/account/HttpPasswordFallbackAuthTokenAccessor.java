@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -62,6 +63,12 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
   public AuthToken addPlainToken(Account.Id accountId, String id, String token)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     return accessor.addPlainToken(accountId, id, token);
+  }
+
+  @Override
+  public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+    accessor.addTokens(accountId, tokens);
   }
 
   @Override

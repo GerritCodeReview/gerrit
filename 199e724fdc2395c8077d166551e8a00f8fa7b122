@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3bf0d7_045994fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-03-05T06:59:57Z",
+      "side": 1,
+      "message": "LGTM! I\u0027ll leave the final blessing to @geminica.programs@gmail.com, if he also agrees.",
+      "revId": "199e724fdc2395c8077d166551e8a00f8fa7b122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

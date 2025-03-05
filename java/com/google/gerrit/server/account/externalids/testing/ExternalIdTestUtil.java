@@ -49,8 +49,7 @@ public class ExternalIdTestUtil {
         ident,
         (ins, noteMap) -> {
           ExternalId extId =
-              ExternalId.create(
-                  ExternalId.Key.parse(externalId, false), accountId, null, null, null);
+              ExternalId.create(ExternalId.Key.parse(externalId, false), accountId, null, null);
           ObjectId noteId = extId.key().sha1();
           Config c = new Config();
           extId.writeToConfig(c);
@@ -72,8 +71,7 @@ public class ExternalIdTestUtil {
         ident,
         (ins, noteMap) -> {
           ExternalId extId =
-              ExternalId.create(
-                  ExternalId.Key.parse(externalId, false), accountId, null, null, null);
+              ExternalId.create(ExternalId.Key.parse(externalId, false), accountId, null, null);
           ObjectId noteId = ExternalId.Key.parse(externalId + "x", false).sha1();
           Config c = new Config();
           extId.writeToConfig(c);

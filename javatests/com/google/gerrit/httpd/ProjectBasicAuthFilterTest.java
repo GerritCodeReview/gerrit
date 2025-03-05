@@ -345,6 +345,7 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSession).when(webSessionItem).get();
   }
 
+  @Deprecated
   private ExternalId createUsernamePasswordExternalId() {
     return extIdFactory.createWithPassword(
         extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),

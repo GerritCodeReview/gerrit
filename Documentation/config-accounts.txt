@@ -379,7 +379,9 @@ consists of scheme and ID in the format '<scheme>:<id>', is used as
 subsection name.
 
 The `accountId` field is mandatory. The `email` and `password` fields
-are optional.
+are optional. The `password` field is deprecated, because passwords
+are being replaced by tokens, which are stored in the account's user
+reference.
 
 Note that git will automatically nest these notes at varying levels. If
 refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef is not

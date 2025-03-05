@@ -59,7 +59,6 @@ public class AccountFieldTest {
             ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com", false),
             id,
             "foo.bar@example.com",
-            null,
             ObjectId.fromString("1b9a0cf038ea38a0ab08617c39aa8e28413a27ca"));
     ExternalId extId2 =
         ExternalId.create(

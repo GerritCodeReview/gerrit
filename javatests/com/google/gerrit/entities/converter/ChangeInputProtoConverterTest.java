@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.proto.Entities;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
@@ -69,6 +70,10 @@ public class ChangeInputProtoConverterTest {
     accountInput.sshKey = "test-ssh-key";
     accountInput.httpPassword = "test-http-password";
     accountInput.groups = ImmutableList.of("test-group");
+    TokenInput tokenInput = new TokenInput();
+    tokenInput.id = "test-id";
+    tokenInput.token = "secret";
+    accountInput.tokens = ImmutableList.of(tokenInput);
     return accountInput;
   }
 

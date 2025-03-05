@@ -20,10 +20,10 @@ import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUs
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -728,8 +728,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
    * Used to compare existing {@link HumanComment}-s with {@link CommentInput} comments by copying
    * only the fields to compare.
    */
-  @AutoValue
-  abstract static class CommentSetEntry {
+  record CommentSetEntry(
+      String filename,
+      int patchSetId,
+      @Nullable Integer line,
+      Side side,
+      HashCode message,
+      @Nullable Comment.Range range) {
+    CommentSetEntry {
+      requireNonNull(filename, "filename");
+      requireNonNull(side, "side");
+      requireNonNull(message, "message");
+    }
+
     private static CommentSetEntry create(
         String filename,
         int patchSetId,
@@ -737,8 +748,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         Side side,
         HashCode message,
         Comment.Range range) {
-      return new AutoValue_PostReview_CommentSetEntry(
-          filename, patchSetId, line, side, message, range);
+      return new CommentSetEntry(filename, patchSetId, line, side, message, range);
     }
 
     public static CommentSetEntry create(Comment comment) {
@@ -750,19 +760,5 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           Hashing.murmur3_128().hashString(comment.message, UTF_8),
           comment.range);
     }
-
-    abstract String filename();
-
-    abstract int patchSetId();
-
-    @Nullable
-    abstract Integer line();
-
-    abstract Side side();
-
-    abstract HashCode message();
-
-    @Nullable
-    abstract Comment.Range range();
   }
 }

@@ -23,7 +23,6 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
@@ -842,17 +841,20 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  /** Data needed to execute a {@link RepoOnlyOp} or a {@link BatchUpdateOp}. */
-  @AutoValue
-  abstract static class OpData<T extends RepoOnlyOp> {
-    /** Op that should be executed. */
-    abstract T op();
-
-    /** User that should be used to execute the {@link #op}. */
-    abstract CurrentUser user();
+  /**
+   * Data needed to execute a {@link RepoOnlyOp} or a {@link BatchUpdateOp}.
+   *
+   * @param op Op that should be executed.
+   * @param user User that should be used to execute the {@link #op}.
+   */
+  record OpData<T extends RepoOnlyOp>(T op, CurrentUser user) {
+    OpData {
+      requireNonNull(op, "op");
+      requireNonNull(user, "user");
+    }
 
     static <T extends RepoOnlyOp> OpData<T> create(T op, CurrentUser user) {
-      return new AutoValue_BatchUpdate_OpData<>(op, user);
+      return new OpData<>(op, user);
     }
   }
 }

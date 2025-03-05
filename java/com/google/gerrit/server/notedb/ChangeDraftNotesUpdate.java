@@ -17,9 +17,9 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.logging.TraceContext.newTimer;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
@@ -94,11 +94,11 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
         Instant when);
   }
 
-  @AutoValue
-  abstract static class Key {
-    abstract ObjectId commitId();
-
-    abstract Comment.Key key();
+  record Key(ObjectId commitId, Comment.Key key) {
+    Key {
+      requireNonNull(commitId, "commitId");
+      requireNonNull(key, "key");
+    }
   }
 
   enum DeleteReason {
@@ -108,7 +108,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   }
 
   private static Key key(Comment c) {
-    return new AutoValue_ChangeDraftNotesUpdate_Key(c.getCommitId(), c.key);
+    return new Key(c.getCommitId(), c.key);
   }
 
   public static class Executor implements ChangeDraftUpdateExecutor, AutoCloseable {

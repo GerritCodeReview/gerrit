@@ -15,50 +15,82 @@
 package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 
-/** Info about a single commentlink section in a config. */
-@AutoValue
-public abstract class StoredCommentLinkInfo {
-  public abstract String getName();
+/**
+ * Info about a single commentlink section in a config.
+ *
+ * @param match A regular expression to match for the commentlink to apply.
+ * @param link The link to replace the match with.
+ *     <p>The constructed link is using {@link #getLink()} {@link #getPrefix()} {@link #getSuffix()}
+ *     and {@link #getText()}, and has the shape of
+ *     <p>{@code PREFIX<a href="LINK">TEXT</a>SUFFIX}
+ * @param prefix The optional text before the link tag that the match is replaced with.
+ * @param suffix The optional text after the link tag that the match is replaced with.
+ * @param text The content of the link tag that the match is replaced with. If not set full match is
+ *     used.
+ * @param enabled Weather this comment link is active. {@code null} means true.
+ * @param overrideOnly If set, {@link StoredCommentLinkInfo} has to be overridden to take any
+ *     effect.
+ */
+public record StoredCommentLinkInfo(
+    String name,
+    @Nullable String match,
+    @Nullable String link,
+    @Nullable String prefix,
+    @Nullable String suffix,
+    @Nullable String text,
+    @Nullable Boolean enabled,
+    boolean overrideOnly) {
+  public StoredCommentLinkInfo {
+    requireNonNull(name, "name");
+  }
 
-  /** A regular expression to match for the commentlink to apply. */
-  @Nullable
-  public abstract String getMatch();
+  @InlineMe(replacement = "this.name()")
+  public String getName() {
+    return name();
+  }
 
-  /**
-   * The link to replace the match with.
-   *
-   * <p>The constructed link is using {@link #getLink()} {@link #getPrefix()} {@link #getSuffix()}
-   * and {@link #getText()}, and has the shape of
-   *
-   * <p>{@code PREFIX<a href="LINK">TEXT</a>SUFFIX}
-   */
-  @Nullable
-  public abstract String getLink();
+  @InlineMe(replacement = "this.match()")
+  public @Nullable String getMatch() {
+    return match();
+  }
 
-  /** The optional text before the link tag that the match is replaced with. */
-  @Nullable
-  public abstract String getPrefix();
+  @InlineMe(replacement = "this.link()")
+  public @Nullable String getLink() {
+    return link();
+  }
 
-  /** The optional text after the link tag that the match is replaced with. */
-  @Nullable
-  public abstract String getSuffix();
+  @InlineMe(replacement = "this.prefix()")
+  public @Nullable String getPrefix() {
+    return prefix();
+  }
 
-  /** The content of the link tag that the match is replaced with. If not set full match is used. */
-  @Nullable
-  public abstract String getText();
+  @InlineMe(replacement = "this.suffix()")
+  public @Nullable String getSuffix() {
+    return suffix();
+  }
 
-  /** Weather this comment link is active. {@code null} means true. */
-  @Nullable
-  public abstract Boolean getEnabled();
+  @InlineMe(replacement = "this.text()")
+  public @Nullable String getText() {
+    return text();
+  }
 
-  /** If set, {@link StoredCommentLinkInfo} has to be overridden to take any effect. */
-  public abstract boolean getOverrideOnly();
+  @InlineMe(replacement = "this.enabled()")
+  public @Nullable Boolean getEnabled() {
+    return enabled();
+  }
+
+  @InlineMe(replacement = "this.overrideOnly()")
+  public boolean getOverrideOnly() {
+    return overrideOnly();
+  }
 
   /**
    * Creates an enabled {@link StoredCommentLinkInfo} that can be overridden but doesn't do anything
@@ -79,7 +111,7 @@ public abstract class StoredCommentLinkInfo {
   /** Creates and returns a new {@link StoredCommentLinkInfo.Builder} instance. */
   public static Builder builder(String name) {
     checkArgument(name != null, "invalid commentlink.name");
-    return new AutoValue_StoredCommentLinkInfo.Builder().setName(name).setOverrideOnly(false);
+    return new AutoBuilder_StoredCommentLinkInfo_Builder().setName(name).setOverrideOnly(false);
   }
 
   /** Creates and returns a new {@link StoredCommentLinkInfo} instance with the same values. */
@@ -108,7 +140,7 @@ public abstract class StoredCommentLinkInfo {
     return info;
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setName(String value);
 

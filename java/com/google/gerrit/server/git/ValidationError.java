@@ -14,12 +14,20 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.errorprone.annotations.InlineMe;
 
 /** Indicates a problem with Git based data. */
-@AutoValue
-public abstract class ValidationError {
-  public abstract String getMessage();
+public record ValidationError(String message) {
+  public ValidationError {
+    requireNonNull(message, "message");
+  }
+
+  @InlineMe(replacement = "this.message()")
+  public String getMessage() {
+    return message();
+  }
 
   public static ValidationError create(String file, String message) {
     return create(file + ": " + message);
@@ -30,7 +38,7 @@ public abstract class ValidationError {
   }
 
   public static ValidationError create(String message) {
-    return new AutoValue_ValidationError(message);
+    return new ValidationError(message);
   }
 
   public interface Sink {

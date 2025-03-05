@@ -15,19 +15,107 @@
 package com.google.gerrit.entities;
 
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AutoValue
-public abstract class LabelType {
+public record LabelType(
+    String name,
+    Optional<String> description,
+    LabelFunction function,
+    boolean allowPostSubmit,
+    boolean ignoreSelfApproval,
+    short defaultValue,
+    ImmutableList<LabelValue> values,
+    short maxNegative,
+    short maxPositive,
+    boolean canOverride,
+    Optional<String> copyCondition,
+    @Nullable ImmutableList<String> refPatterns,
+    ImmutableMap<Short, LabelValue> byValue) {
+  public LabelType {
+    requireNonNull(name, "name");
+    requireNonNull(description, "description");
+    requireNonNull(function, "function");
+    requireNonNull(values, "values");
+    requireNonNull(copyCondition, "copyCondition");
+    requireNonNull(byValue, "byValue");
+  }
+
+  @InlineMe(replacement = "this.name()")
+  public String getName() {
+    return name();
+  }
+
+  @InlineMe(replacement = "this.description()")
+  public Optional<String> getDescription() {
+    return description();
+  }
+
+  @InlineMe(replacement = "this.function()")
+  public LabelFunction getFunction() {
+    return function();
+  }
+
+  @InlineMe(replacement = "this.allowPostSubmit()")
+  public boolean isAllowPostSubmit() {
+    return allowPostSubmit();
+  }
+
+  @InlineMe(replacement = "this.ignoreSelfApproval()")
+  public boolean isIgnoreSelfApproval() {
+    return ignoreSelfApproval();
+  }
+
+  @InlineMe(replacement = "this.defaultValue()")
+  public short getDefaultValue() {
+    return defaultValue();
+  }
+
+  @InlineMe(replacement = "this.values()")
+  public ImmutableList<LabelValue> getValues() {
+    return values();
+  }
+
+  @InlineMe(replacement = "this.maxNegative()")
+  public short getMaxNegative() {
+    return maxNegative();
+  }
+
+  @InlineMe(replacement = "this.maxPositive()")
+  public short getMaxPositive() {
+    return maxPositive();
+  }
+
+  @InlineMe(replacement = "this.canOverride()")
+  public boolean isCanOverride() {
+    return canOverride();
+  }
+
+  @InlineMe(replacement = "this.copyCondition()")
+  public Optional<String> getCopyCondition() {
+    return copyCondition();
+  }
+
+  @InlineMe(replacement = "this.refPatterns()")
+  public @Nullable ImmutableList<String> getRefPatterns() {
+    return refPatterns();
+  }
+
+  @InlineMe(replacement = "this.byValue()")
+  public ImmutableMap<Short, LabelValue> getByValue() {
+    return byValue();
+  }
+
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
@@ -86,39 +174,12 @@ public abstract class LabelType {
     return result.build();
   }
 
-  public abstract String getName();
-
-  public abstract Optional<String> getDescription();
-
-  public abstract LabelFunction getFunction();
-
-  public abstract boolean isAllowPostSubmit();
-
-  public abstract boolean isIgnoreSelfApproval();
-
-  public abstract short getDefaultValue();
-
-  public abstract ImmutableList<LabelValue> getValues();
-
-  public abstract short getMaxNegative();
-
-  public abstract short getMaxPositive();
-
-  public abstract boolean isCanOverride();
-
-  public abstract Optional<String> getCopyCondition();
-
-  @Nullable
-  public abstract ImmutableList<String> getRefPatterns();
-
-  public abstract ImmutableMap<Short, LabelValue> getByValue();
-
   public static LabelType create(String name, List<LabelValue> valueList) {
     return LabelType.builder(name, valueList).build();
   }
 
   public static LabelType.Builder builder(String name, List<LabelValue> valueList) {
-    return new AutoValue_LabelType.Builder()
+    return new AutoBuilder_LabelType_Builder()
         .setName(name)
         .setDescription(Optional.empty())
         .setValues(valueList)
@@ -198,9 +259,11 @@ public abstract class LabelType {
     return sb.toString();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_LabelType_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setName(String name);
 

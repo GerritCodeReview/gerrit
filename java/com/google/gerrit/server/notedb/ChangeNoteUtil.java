@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -151,26 +151,18 @@ public class ChangeNoteUtil {
     return Optional.of(range);
   }
 
-  @AutoValue
-  public abstract static class CommitMessageRange {
-
-    public abstract int subjectStart();
-
-    public abstract int subjectEnd();
-
-    public abstract int changeMessageStart();
-
-    public abstract int changeMessageEnd();
+  public record CommitMessageRange(
+      int subjectStart, int subjectEnd, int changeMessageStart, int changeMessageEnd) {
 
     public boolean hasChangeMessage() {
       return changeMessageStart() < changeMessageEnd();
     }
 
     public static Builder builder() {
-      return new AutoValue_ChangeNoteUtil_CommitMessageRange.Builder();
+      return new AutoBuilder_ChangeNoteUtil_CommitMessageRange_Builder();
     }
 
-    @AutoValue.Builder
+    @AutoBuilder
     public abstract static class Builder {
 
       abstract Builder subjectStart(int subjectStart);

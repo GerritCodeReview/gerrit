@@ -14,20 +14,19 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 
-@AutoValue
 @ConvertibleToProto
-public abstract class ProjectWatchKey {
-
-  public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
-    return new AutoValue_ProjectWatchKey(project, Strings.emptyToNull(filter));
+public record ProjectWatchKey(Project.NameKey project, @Nullable String filter) {
+  public ProjectWatchKey {
+    requireNonNull(project, "project");
   }
 
-  public abstract Project.NameKey project();
-
-  public abstract @Nullable String filter();
+  public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {
+    return new ProjectWatchKey(project, Strings.emptyToNull(filter));
+  }
 }

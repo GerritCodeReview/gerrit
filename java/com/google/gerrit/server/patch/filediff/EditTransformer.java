@@ -17,13 +17,14 @@ package com.google.gerrit.server.patch.filediff;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.Multimaps.toMultimap;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
@@ -141,8 +142,54 @@ class EditTransformer {
         edit, sideStrategy::extractPosition, sideStrategy::createEditAtNewPosition);
   }
 
-  @AutoValue
-  abstract static class ContextAwareEdit {
+  record ContextAwareEdit(
+      Optional<String> oldFilePath,
+      Optional<String> newFilePath,
+      int beginA,
+      int endA,
+      int beginB,
+      int endB,
+      boolean implicitRename) {
+    ContextAwareEdit {
+      requireNonNull(oldFilePath, "oldFilePath");
+      requireNonNull(newFilePath, "newFilePath");
+    }
+
+    @InlineMe(replacement = "this.oldFilePath()")
+    public Optional<String> getOldFilePath() {
+      return oldFilePath();
+    }
+
+    @InlineMe(replacement = "this.newFilePath()")
+    public Optional<String> getNewFilePath() {
+      return newFilePath();
+    }
+
+    @InlineMe(replacement = "this.beginA()")
+    public int getBeginA() {
+      return beginA();
+    }
+
+    @InlineMe(replacement = "this.endA()")
+    public int getEndA() {
+      return endA();
+    }
+
+    @InlineMe(replacement = "this.beginB()")
+    public int getBeginB() {
+      return beginB();
+    }
+
+    @InlineMe(replacement = "this.endB()")
+    public int getEndB() {
+      return endB();
+    }
+
+    @InlineMe(replacement = "this.implicitRename()")
+    public boolean isImplicitRename() {
+      return implicitRename();
+    }
+
     static ContextAwareEdit create(Optional<String> oldPath, Optional<String> newPath, Edit edit) {
       // TODO(ghareeb): Look if the new FileEdits class is capable of representing renames/copies
       // and in this case we can get rid of the ContextAwareEdit class.
@@ -171,24 +218,11 @@ class EditTransformer {
               && oldFilePath.isPresent()
               && !Objects.equals(oldFilePath.get(), newFilePath.get())
               && filePathAdjusted;
-      return new AutoValue_EditTransformer_ContextAwareEdit(
+      return new ContextAwareEdit(
           adjustedFilePath, newFilePath, beginA, endA, beginB, endB, implicitRename);
     }
 
-    public abstract Optional<String> getOldFilePath();
-
-    public abstract Optional<String> getNewFilePath();
-
-    public abstract int getBeginA();
-
-    public abstract int getEndA();
-
-    public abstract int getBeginB();
-
-    public abstract int getEndB();
-
     // Used for equals(), for which this value is important.
-    public abstract boolean isImplicitRename();
 
     public Optional<org.eclipse.jgit.diff.Edit> toEdit() {
       if (getBeginA() < 0) {

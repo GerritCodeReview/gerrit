@@ -14,9 +14,12 @@
 
 package com.google.gerrit.prettify.common;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 
 /**
@@ -193,15 +196,24 @@ public abstract class SparseFileContent {
     return b.toString();
   }
 
-  @AutoValue
-  abstract static class Range {
-    static Range create(int base, ImmutableList<String> lines) {
-      return new AutoValue_SparseFileContent_Range(base, lines);
+  record Range(int base, ImmutableList<String> lines) {
+    Range {
+      requireNonNull(lines, "lines");
     }
 
-    abstract int getBase();
+    @InlineMe(replacement = "this.base()")
+    int getBase() {
+      return base();
+    }
 
-    abstract ImmutableList<String> getLines();
+    @InlineMe(replacement = "this.lines()")
+    ImmutableList<String> getLines() {
+      return lines();
+    }
+
+    static Range create(int base, ImmutableList<String> lines) {
+      return new Range(base, lines);
+    }
 
     private String get(int i) {
       return getLines().get(i - getBase());

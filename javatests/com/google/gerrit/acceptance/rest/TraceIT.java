@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.util.Objects.requireNonNull;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -27,7 +28,6 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -1222,14 +1222,14 @@ public class TraceIT extends AbstractDaemonTest {
     }
   }
 
-  @AutoValue
-  abstract static class PerformanceLogEntry {
-    static PerformanceLogEntry create(String operation, Metadata metadata) {
-      return new AutoValue_TraceIT_PerformanceLogEntry(operation, metadata);
+  record PerformanceLogEntry(String operation, Metadata metadata) {
+    PerformanceLogEntry {
+      requireNonNull(operation, "operation");
+      requireNonNull(metadata, "metadata");
     }
 
-    abstract String operation();
-
-    abstract Metadata metadata();
+    static PerformanceLogEntry create(String operation, Metadata metadata) {
+      return new PerformanceLogEntry(operation, metadata);
+    }
   }
 }

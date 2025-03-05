@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -24,9 +25,23 @@ import com.google.common.collect.ImmutableMap;
  * <p>Note, if a commit is rejected by a {@link CommitValidationListener} it throws a {@link
  * CommitValidationException} and no {@code CommitValidationInfo} is returned. Hence {@code
  * CommitValidationInfo} doesn't cover rejections.
+ *
+ * @param status Status of the commit validation run.
+ * @param metadata Metadata about the commit validation that has been performed, for example the
+ *     version ID of the configuration that was used for the commit validation or the SHA1 from
+ *     which the configuration that was used for the commit validation was read.
+ * @param validationMessages Validation messages collected during the commit validation run.
  */
-@AutoValue
-public abstract class CommitValidationInfo {
+public record CommitValidationInfo(
+    Status status,
+    ImmutableMap<String, String> metadata,
+    ImmutableList<CommitValidationMessage> validationMessages) {
+  public CommitValidationInfo {
+    requireNonNull(status, "status");
+    requireNonNull(metadata, "metadata");
+    requireNonNull(validationMessages, "validationMessages");
+  }
+
   /** Empty metadata map. */
   public static final ImmutableMap<String, String> NO_METADATA = ImmutableMap.of();
 
@@ -44,30 +59,17 @@ public abstract class CommitValidationInfo {
     SKIPPED_BY_USER,
   }
 
-  /** Status of the commit validation run. */
-  public abstract Status status();
-
-  /**
-   * Metadata about the commit validation that has been performed, for example the version ID of the
-   * configuration that was used for the commit validation or the SHA1 from which the configuration
-   * that was used for the commit validation was read.
-   */
-  public abstract ImmutableMap<String, String> metadata();
-
-  /** Validation messages collected during the commit validation run. */
-  public abstract ImmutableList<CommitValidationMessage> validationMessages();
-
   public static CommitValidationInfo passed(
       ImmutableMap<String, String> metadata,
       ImmutableList<CommitValidationMessage> validationMessages) {
-    return new AutoValue_CommitValidationInfo(Status.PASSED, metadata, validationMessages);
+    return new CommitValidationInfo(Status.PASSED, metadata, validationMessages);
   }
 
   public static CommitValidationInfo notApplicable(ImmutableMap<String, String> metadata) {
-    return new AutoValue_CommitValidationInfo(Status.NOT_APPLICABLE, metadata, ImmutableList.of());
+    return new CommitValidationInfo(Status.NOT_APPLICABLE, metadata, ImmutableList.of());
   }
 
   public static CommitValidationInfo skippedByUser(ImmutableMap<String, String> metadata) {
-    return new AutoValue_CommitValidationInfo(Status.SKIPPED_BY_USER, metadata, ImmutableList.of());
+    return new CommitValidationInfo(Status.SKIPPED_BY_USER, metadata, ImmutableList.of());
   }
 }

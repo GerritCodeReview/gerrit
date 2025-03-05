@@ -18,8 +18,9 @@ import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static java.util.Comparator.naturalOrder;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -468,32 +469,31 @@ public class DiffOperationsImpl implements DiffOperations {
                 naturalOrder(), ModifiedFile::getDefaultPath, Function.identity()));
   }
 
-  @AutoValue
-  abstract static class DiffParameters {
-    abstract Project.NameKey project();
-
-    abstract ObjectId newCommit();
-
-    /**
-     * Base commit represents the old commit of the diff. For diffs against the root commit, this
-     * should be set to {@link ObjectId#zeroId()}.
-     */
-    abstract ObjectId baseCommit();
-
-    abstract ComparisonType comparisonType();
-
-    @Nullable
-    abstract Integer parent();
-
-    /** Compute the diff for {@value Patch#COMMIT_MSG} and {@link Patch#MERGE_LIST} only. */
-    @Nullable
-    abstract Boolean skipFiles();
-
-    static Builder builder() {
-      return new AutoValue_DiffOperationsImpl_DiffParameters.Builder();
+  /**
+   * @param baseCommit Base commit represents the old commit of the diff. For diffs against the root
+   *     commit, this should be set to {@link ObjectId#zeroId()}.
+   * @param skipFiles Compute the diff for {@value Patch#COMMIT_MSG} and {@link Patch#MERGE_LIST}
+   *     only.
+   */
+  record DiffParameters(
+      Project.NameKey project,
+      ObjectId newCommit,
+      ObjectId baseCommit,
+      ComparisonType comparisonType,
+      @Nullable Integer parent,
+      @Nullable Boolean skipFiles) {
+    DiffParameters {
+      requireNonNull(project, "project");
+      requireNonNull(newCommit, "newCommit");
+      requireNonNull(baseCommit, "baseCommit");
+      requireNonNull(comparisonType, "comparisonType");
     }
 
-    @AutoValue.Builder
+    static Builder builder() {
+      return new AutoBuilder_DiffOperationsImpl_DiffParameters_Builder();
+    }
+
+    @AutoBuilder
     abstract static class Builder {
 
       abstract Builder project(Project.NameKey project);

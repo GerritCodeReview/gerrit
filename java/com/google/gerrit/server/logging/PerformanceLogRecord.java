@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.logging;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import java.time.Instant;
 import java.util.Optional;
 
@@ -24,8 +25,14 @@ import java.util.Optional;
  * <p>Metadata to provide additional context can be included by providing a {@link Metadata}
  * instance.
  */
-@AutoValue
-public abstract class PerformanceLogRecord {
+public record PerformanceLogRecord(
+    String operation, long durationNanos, Instant endTime, Optional<Metadata> metadata) {
+  public PerformanceLogRecord {
+    requireNonNull(operation, "operation");
+    requireNonNull(endTime, "endTime");
+    requireNonNull(metadata, "metadata");
+  }
+
   /**
    * Creates a performance log record without meta data.
    *
@@ -34,8 +41,7 @@ public abstract class PerformanceLogRecord {
    * @return the performance log record
    */
   public static PerformanceLogRecord create(String operation, long durationNanos) {
-    return new AutoValue_PerformanceLogRecord(
-        operation, durationNanos, Instant.now(), Optional.empty());
+    return new PerformanceLogRecord(operation, durationNanos, Instant.now(), Optional.empty());
   }
 
   /**
@@ -48,17 +54,8 @@ public abstract class PerformanceLogRecord {
    */
   public static PerformanceLogRecord create(
       String operation, long durationNanos, Metadata metadata) {
-    return new AutoValue_PerformanceLogRecord(
-        operation, durationNanos, Instant.now(), Optional.of(metadata));
+    return new PerformanceLogRecord(operation, durationNanos, Instant.now(), Optional.of(metadata));
   }
-
-  public abstract String operation();
-
-  public abstract long durationNanos();
-
-  public abstract Instant endTime();
-
-  public abstract Optional<Metadata> metadata();
 
   void writeTo(PerformanceLogger performanceLogger) {
     if (metadata().isPresent()) {

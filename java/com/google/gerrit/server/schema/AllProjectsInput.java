@@ -15,8 +15,9 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.entities.LabelId.CODE_REVIEW;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -32,8 +33,46 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.Sequences;
 import java.util.Optional;
 
-@AutoValue
-public abstract class AllProjectsInput {
+/**
+ * All-Projects input.
+ *
+ * @param administratorsGroup The administrator group which gets default permissions granted.
+ * @param serviceUsersGroup The group which gets stream-events permission granted and appropriate
+ *     properties set.
+ * @param blockedUsersGroup The group for which read access gets blocked.
+ * @param commitMessage The commit message used when commit the project config change.
+ * @param firstChangeIdForNoteDb The first change-id used in this host.
+ * @param codeReviewLabel The "Code-Review" label to be defined in All-Projects.
+ * @param codeReviewSubmitRequirement The "Code-Review" submit requirement to be defined in
+ *     All-Projects.
+ * @param projectDescription Description for the All-Projects.
+ * @param booleanProjectConfigs Boolean project configs to be set in All-Projects.
+ * @param initDefaultAcls Whether initializing default access sections in All-Projects.
+ * @param initDefaultSubmitRequirements Whether default submit requirements should be initialized in
+ *     All-Projects.
+ */
+public record AllProjectsInput(
+    Optional<GroupReference> administratorsGroup,
+    Optional<GroupReference> serviceUsersGroup,
+    Optional<GroupReference> blockedUsersGroup,
+    Optional<String> commitMessage,
+    @UsedAt(UsedAt.Project.GOOGLE) int firstChangeIdForNoteDb,
+    @UsedAt(UsedAt.Project.GOOGLE) Optional<LabelType> codeReviewLabel,
+    @UsedAt(UsedAt.Project.GOOGLE) Optional<SubmitRequirement> codeReviewSubmitRequirement,
+    Optional<String> projectDescription,
+    ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs,
+    boolean initDefaultAcls,
+    boolean initDefaultSubmitRequirements) {
+  public AllProjectsInput {
+    requireNonNull(administratorsGroup, "administratorsGroup");
+    requireNonNull(serviceUsersGroup, "serviceUsersGroup");
+    requireNonNull(blockedUsersGroup, "blockedUsersGroup");
+    requireNonNull(commitMessage, "commitMessage");
+    requireNonNull(codeReviewLabel, "codeReviewLabel");
+    requireNonNull(codeReviewSubmitRequirement, "codeReviewSubmitRequirement");
+    requireNonNull(projectDescription, "projectDescription");
+    requireNonNull(booleanProjectConfigs, "booleanProjectConfigs");
+  }
 
   /** Default boolean configs set when initializing All-Projects. */
   public static final ImmutableMap<BooleanProjectConfig, InheritableBoolean>
@@ -86,47 +125,13 @@ public abstract class AllProjectsInput {
         .build();
   }
 
-  /** The administrator group which gets default permissions granted. */
-  public abstract Optional<GroupReference> administratorsGroup();
-
-  /** The group which gets stream-events permission granted and appropriate properties set. */
-  public abstract Optional<GroupReference> serviceUsersGroup();
-
-  /** The group for which read access gets blocked. */
-  public abstract Optional<GroupReference> blockedUsersGroup();
-
-  /** The commit message used when commit the project config change. */
-  public abstract Optional<String> commitMessage();
-
-  /** The first change-id used in this host. */
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public abstract int firstChangeIdForNoteDb();
-
-  /** The "Code-Review" label to be defined in All-Projects. */
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public abstract Optional<LabelType> codeReviewLabel();
-
-  /** The "Code-Review" submit requirement to be defined in All-Projects. */
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public abstract Optional<SubmitRequirement> codeReviewSubmitRequirement();
-
-  /** Description for the All-Projects. */
-  public abstract Optional<String> projectDescription();
-
-  /** Boolean project configs to be set in All-Projects. */
-  public abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs();
-
-  /** Whether initializing default access sections in All-Projects. */
-  public abstract boolean initDefaultAcls();
-
-  /** Whether default submit requirements should be initialized in All-Projects. */
-  public abstract boolean initDefaultSubmitRequirements();
-
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_AllProjectsInput_Builder(this);
+  }
 
   public static Builder builder() {
     Builder builder =
-        new AutoValue_AllProjectsInput.Builder()
+        new AutoBuilder_AllProjectsInput_Builder()
             .codeReviewLabel(getDefaultCodeReviewLabelWithNoBlockFunction())
             .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirements())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
@@ -138,10 +143,10 @@ public abstract class AllProjectsInput {
   }
 
   public static Builder builderWithNoDefault() {
-    return new AutoValue_AllProjectsInput.Builder();
+    return new AutoBuilder_AllProjectsInput_Builder();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
@@ -178,7 +183,7 @@ public abstract class AllProjectsInput {
     }
 
     @UsedAt(UsedAt.Project.GOOGLE)
-    public abstract Builder initDefaultAcls(boolean initDefaultACLs);
+    public abstract Builder initDefaultAcls(boolean initDefaultAcls);
 
     public abstract Builder initDefaultSubmitRequirements(boolean initDefaultSubmitRequirements);
 

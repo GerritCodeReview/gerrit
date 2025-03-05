@@ -14,11 +14,44 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import static java.util.Objects.requireNonNull;
 
-@AutoValue
-public abstract class PermissionRule implements Comparable<PermissionRule> {
+import com.google.auto.value.AutoBuilder;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
+
+public record PermissionRule(Action action, boolean force, int min, int max, GroupReference group)
+    implements Comparable<PermissionRule> {
+  public PermissionRule {
+    requireNonNull(action, "action");
+    requireNonNull(group, "group");
+  }
+
+  @InlineMe(replacement = "this.action()")
+  public Action getAction() {
+    return action();
+  }
+
+  @InlineMe(replacement = "this.force()")
+  public boolean getForce() {
+    return force();
+  }
+
+  @InlineMe(replacement = "this.min()")
+  public int getMin() {
+    return min();
+  }
+
+  @InlineMe(replacement = "this.max()")
+  public int getMax() {
+    return max();
+  }
+
+  @InlineMe(replacement = "this.group()")
+  public GroupReference getGroup() {
+    return group();
+  }
+
   public static final boolean DEF_FORCE = false;
 
   public enum Action {
@@ -30,16 +63,6 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
     BATCH
   }
 
-  public abstract Action getAction();
-
-  public abstract boolean getForce();
-
-  public abstract int getMin();
-
-  public abstract int getMax();
-
-  public abstract GroupReference getGroup();
-
   public static PermissionRule.Builder builder(GroupReference group) {
     return builder().setGroup(group);
   }
@@ -48,8 +71,8 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
     return builder().setGroup(group).build();
   }
 
-  protected static Builder builder() {
-    return new AutoValue_PermissionRule.Builder()
+  public static Builder builder() {
+    return new AutoBuilder_PermissionRule_Builder()
         .setMin(0)
         .setMax(0)
         .setAction(Action.ALLOW)
@@ -223,9 +246,11 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
     return Integer.parseInt(value);
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_PermissionRule_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     @CanIgnoreReturnValue
     public Builder setDeny() {

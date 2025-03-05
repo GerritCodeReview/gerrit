@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.entities.RefNames;
@@ -43,19 +44,21 @@ public class GroupsSnapshotReader {
     this.allUsersName = allUsersName;
   }
 
-  @AutoValue
-  public abstract static class Snapshot {
-    /**
-     * 128-bit hash of all group ref {@link com.google.gerrit.git.ObjectIds}. To be used as cache
-     * key.
-     */
-    public abstract String hash();
-
-    /** Snapshot of the state of all relevant NoteDb group refs. */
-    public abstract ImmutableList<Ref> groupsRefs();
+  /**
+   * Snapshot of the state of the internal groups in NoteDb.
+   *
+   * @param hash 128-bit hash of all group ref {@link com.google.gerrit.git.ObjectIds}. To be used
+   *     as cache key.
+   * @param groupsRefs Snapshot of the state of all relevant NoteDb group refs.
+   */
+  public record Snapshot(String hash, ImmutableList<Ref> groupsRefs) {
+    public Snapshot {
+      requireNonNull(hash, "hash");
+      requireNonNull(groupsRefs, "groupsRefs");
+    }
 
     public static Snapshot create(String hash, ImmutableList<Ref> groupsRefs) {
-      return new AutoValue_GroupsSnapshotReader_Snapshot(hash, groupsRefs);
+      return new Snapshot(hash, groupsRefs);
     }
   }
 

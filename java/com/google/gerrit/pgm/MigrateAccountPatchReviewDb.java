@@ -14,7 +14,8 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -105,15 +106,10 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     return 0;
   }
 
-  @AutoValue
-  abstract static class Row {
-    abstract int accountId();
-
-    abstract int changeId();
-
-    abstract int patchSetId();
-
-    abstract String fileName();
+  record Row(int accountId, int changeId, int patchSetId, String fileName) {
+    Row {
+      requireNonNull(fileName, "fileName");
+    }
   }
 
   private static boolean isTargetTableEmpty(JdbcAccountPatchReviewStore store) throws SQLException {
@@ -134,7 +130,7 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     try (ResultSet rs = stmt.executeQuery()) {
       while (rs.next()) {
         results.add(
-            new AutoValue_MigrateAccountPatchReviewDb_Row(
+            new Row(
                 rs.getInt("account_id"),
                 rs.getInt("change_id"),
                 rs.getInt("patch_set_id"),

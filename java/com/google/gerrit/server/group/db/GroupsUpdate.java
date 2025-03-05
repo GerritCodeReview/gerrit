@@ -15,15 +15,17 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.GROUPS_UPDATE;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -675,29 +677,71 @@ public class GroupsUpdate {
         throws IOException;
   }
 
-  @AutoValue
-  abstract static class UpdateResult {
-    abstract AccountGroup.UUID getGroupUuid();
-
-    abstract AccountGroup.Id getGroupId();
-
-    abstract AccountGroup.NameKey getGroupName();
-
-    abstract Optional<AccountGroup.NameKey> getPreviousGroupName();
-
-    abstract ImmutableSet<Account.Id> getAddedMembers();
-
-    abstract ImmutableSet<Account.Id> getDeletedMembers();
-
-    abstract ImmutableSet<AccountGroup.UUID> getAddedSubgroups();
-
-    abstract ImmutableSet<AccountGroup.UUID> getDeletedSubgroups();
-
-    static Builder builder() {
-      return new AutoValue_GroupsUpdate_UpdateResult.Builder();
+  record UpdateResult(
+      AccountGroup.UUID groupUuid,
+      AccountGroup.Id groupId,
+      AccountGroup.NameKey groupName,
+      Optional<AccountGroup.NameKey> previousGroupName,
+      ImmutableSet<Account.Id> addedMembers,
+      ImmutableSet<Account.Id> deletedMembers,
+      ImmutableSet<AccountGroup.UUID> addedSubgroups,
+      ImmutableSet<AccountGroup.UUID> deletedSubgroups) {
+    UpdateResult {
+      requireNonNull(groupUuid, "groupUuid");
+      requireNonNull(groupId, "groupId");
+      requireNonNull(groupName, "groupName");
+      requireNonNull(previousGroupName, "previousGroupName");
+      requireNonNull(addedMembers, "addedMembers");
+      requireNonNull(deletedMembers, "deletedMembers");
+      requireNonNull(addedSubgroups, "addedSubgroups");
+      requireNonNull(deletedSubgroups, "deletedSubgroups");
     }
 
-    @AutoValue.Builder
+    @InlineMe(replacement = "this.groupUuid()")
+    AccountGroup.UUID getGroupUuid() {
+      return groupUuid();
+    }
+
+    @InlineMe(replacement = "this.groupId()")
+    AccountGroup.Id getGroupId() {
+      return groupId();
+    }
+
+    @InlineMe(replacement = "this.groupName()")
+    AccountGroup.NameKey getGroupName() {
+      return groupName();
+    }
+
+    @InlineMe(replacement = "this.previousGroupName()")
+    Optional<AccountGroup.NameKey> getPreviousGroupName() {
+      return previousGroupName();
+    }
+
+    @InlineMe(replacement = "this.addedMembers()")
+    ImmutableSet<Account.Id> getAddedMembers() {
+      return addedMembers();
+    }
+
+    @InlineMe(replacement = "this.deletedMembers()")
+    ImmutableSet<Account.Id> getDeletedMembers() {
+      return deletedMembers();
+    }
+
+    @InlineMe(replacement = "this.addedSubgroups()")
+    ImmutableSet<AccountGroup.UUID> getAddedSubgroups() {
+      return addedSubgroups();
+    }
+
+    @InlineMe(replacement = "this.deletedSubgroups()")
+    ImmutableSet<AccountGroup.UUID> getDeletedSubgroups() {
+      return deletedSubgroups();
+    }
+
+    static Builder builder() {
+      return new AutoBuilder_GroupsUpdate_UpdateResult_Builder();
+    }
+
+    @AutoBuilder
     abstract static class Builder {
       abstract Builder setGroupUuid(AccountGroup.UUID groupUuid);
 
@@ -719,23 +763,50 @@ public class GroupsUpdate {
     }
   }
 
-  @AutoValue
-  abstract static class DeleteResult {
-    abstract AccountGroup.UUID getDeletedGroupUuid();
-
-    abstract AccountGroup.Id getDeletedGroupId();
-
-    abstract AccountGroup.NameKey getDeletedGroupName();
-
-    abstract ImmutableSet<Account.Id> getDeletedGroupMembers();
-
-    abstract ImmutableSet<AccountGroup.UUID> getDeletedGroupSubgroups();
-
-    static Builder builder() {
-      return new AutoValue_GroupsUpdate_DeleteResult.Builder();
+  record DeleteResult(
+      AccountGroup.UUID deletedGroupUuid,
+      AccountGroup.Id deletedGroupId,
+      AccountGroup.NameKey deletedGroupName,
+      ImmutableSet<Account.Id> deletedGroupMembers,
+      ImmutableSet<AccountGroup.UUID> deletedGroupSubgroups) {
+    DeleteResult {
+      requireNonNull(deletedGroupUuid, "deletedGroupUuid");
+      requireNonNull(deletedGroupId, "deletedGroupId");
+      requireNonNull(deletedGroupName, "deletedGroupName");
+      requireNonNull(deletedGroupMembers, "deletedGroupMembers");
+      requireNonNull(deletedGroupSubgroups, "deletedGroupSubgroups");
     }
 
-    @AutoValue.Builder
+    @InlineMe(replacement = "this.deletedGroupUuid()")
+    AccountGroup.UUID getDeletedGroupUuid() {
+      return deletedGroupUuid();
+    }
+
+    @InlineMe(replacement = "this.deletedGroupId()")
+    AccountGroup.Id getDeletedGroupId() {
+      return deletedGroupId();
+    }
+
+    @InlineMe(replacement = "this.deletedGroupName()")
+    AccountGroup.NameKey getDeletedGroupName() {
+      return deletedGroupName();
+    }
+
+    @InlineMe(replacement = "this.deletedGroupMembers()")
+    ImmutableSet<Account.Id> getDeletedGroupMembers() {
+      return deletedGroupMembers();
+    }
+
+    @InlineMe(replacement = "this.deletedGroupSubgroups()")
+    ImmutableSet<AccountGroup.UUID> getDeletedGroupSubgroups() {
+      return deletedGroupSubgroups();
+    }
+
+    static Builder builder() {
+      return new AutoBuilder_GroupsUpdate_DeleteResult_Builder();
+    }
+
+    @AutoBuilder
     abstract static class Builder {
       abstract Builder setDeletedGroupUuid(AccountGroup.UUID groupUuid);
 

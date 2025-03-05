@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.patch.gitfilediff;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -450,8 +450,19 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
   }
 
   /** An entity representing the options affecting the diff computation. */
-  @AutoValue
-  abstract static class DiffOptions {
+  record DiffOptions(
+      ObjectId oldTree,
+      ObjectId newTree,
+      int renameScore,
+      Whitespace whitespace,
+      DiffAlgorithm diffAlgorithm) {
+    DiffOptions {
+      requireNonNull(oldTree, "oldTree");
+      requireNonNull(newTree, "newTree");
+      requireNonNull(whitespace, "whitespace");
+      requireNonNull(diffAlgorithm, "diffAlgorithm");
+    }
+
     /** Convert a {@link GitFileDiffCacheKey} input to a {@link DiffOptions}. */
     static DiffOptions fromKey(GitFileDiffCacheKey key) {
       return create(
@@ -464,18 +475,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         int renameScore,
         Whitespace whitespace,
         DiffAlgorithm diffAlgorithm) {
-      return new AutoValue_GitFileDiffCacheImpl_DiffOptions(
-          oldTree, newTree, renameScore, whitespace, diffAlgorithm);
+      return new DiffOptions(oldTree, newTree, renameScore, whitespace, diffAlgorithm);
     }
-
-    abstract ObjectId oldTree();
-
-    abstract ObjectId newTree();
-
-    abstract int renameScore();
-
-    abstract Whitespace whitespace();
-
-    abstract DiffAlgorithm diffAlgorithm();
   }
 }

@@ -14,25 +14,29 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.entities.PatchSet;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Representation of a patchset used for testing purposes. */
-@AutoValue
-public abstract class TestPatchset {
-
-  /** The numeric patchset ID. */
-  public abstract PatchSet.Id patchsetId();
-
-  /** The commit SHA-1 of the patchset. */
-  public abstract ObjectId commitId();
-
-  static Builder builder() {
-    return new AutoValue_TestPatchset.Builder();
+/**
+ * Representation of a patchset used for testing purposes.
+ *
+ * @param patchsetId The numeric patchset ID.
+ * @param commitId The commit SHA-1 of the patchset.
+ */
+public record TestPatchset(PatchSet.Id patchsetId, ObjectId commitId) {
+  public TestPatchset {
+    requireNonNull(patchsetId, "patchsetId");
+    requireNonNull(commitId, "commitId");
   }
 
-  @AutoValue.Builder
+  static Builder builder() {
+    return new AutoBuilder_TestPatchset_Builder();
+  }
+
+  @AutoBuilder
   abstract static class Builder {
     abstract Builder patchsetId(PatchSet.Id patchsetId);
 

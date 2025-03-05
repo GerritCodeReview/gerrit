@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.logging;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
@@ -28,15 +29,15 @@ import java.util.Optional;
  * <p>Plugins should use PluginMetadata only for metadata kinds that are not known to Gerrit core
  * (metadata for which {@link Metadata} doesn't have a dedicated field).
  */
-@AutoValue
-public abstract class PluginMetadata {
-  public static PluginMetadata create(String key, @Nullable String value) {
-    return new AutoValue_PluginMetadata(key, Optional.ofNullable(value));
+public record PluginMetadata(String key, Optional<String> value) {
+  public PluginMetadata {
+    requireNonNull(key, "key");
+    requireNonNull(value, "value");
   }
 
-  public abstract String key();
-
-  public abstract Optional<String> value();
+  public static PluginMetadata create(String key, @Nullable String value) {
+    return new PluginMetadata(key, Optional.ofNullable(value));
+  }
 
   public String toStringForLogging() {
     return MoreObjects.toStringHelper("PluginMetadata").add(key(), value().orElse(null)).toString();

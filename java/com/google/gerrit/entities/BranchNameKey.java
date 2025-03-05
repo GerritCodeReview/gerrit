@@ -14,22 +14,23 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
 
 /** Branch name key */
-@AutoValue
-public abstract class BranchNameKey implements Comparable<BranchNameKey> {
+public record BranchNameKey(Project.NameKey project, String branch)
+    implements Comparable<BranchNameKey> {
+  public BranchNameKey {
+    requireNonNull(project, "project");
+    requireNonNull(branch, "branch");
+  }
+
   public static BranchNameKey create(Project.NameKey projectName, String branchName) {
-    return new AutoValue_BranchNameKey(projectName, RefNames.fullName(branchName));
+    return new BranchNameKey(projectName, RefNames.fullName(branchName));
   }
 
   public static BranchNameKey create(String projectName, String branchName) {
     return create(Project.nameKey(projectName), branchName);
   }
-
-  public abstract Project.NameKey project();
-
-  public abstract String branch();
 
   public String shortName() {
     return RefNames.shortName(branch());

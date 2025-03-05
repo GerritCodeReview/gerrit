@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -103,9 +104,21 @@ public class PostReviewOp implements BatchUpdateOp {
    * Update of a copied label that has been performed on a follow-up patch set after a vote has been
    * applied on an outdated patch set (follow-up patch sets = all patch sets that are newer than the
    * outdated patch set on which the user voted).
+   *
+   * @param patchSetId The ID of the (follow-up) patch set on which the copied label update has been
+   *     performed.
+   * @param oldLabelVote The old copied label vote that has been updated or that has been removed.
+   *     <p>Not set if {@link #type()} is {@link Type#ADDED}.
+   * @param type The type of the update that has been performed for the copied vote on the
+   *     (follow-up) patch set.
    */
-  @AutoValue
-  abstract static class CopiedLabelUpdate {
+  record CopiedLabelUpdate(PatchSet.Id patchSetId, Optional<LabelVote> oldLabelVote, Type type) {
+    CopiedLabelUpdate {
+      requireNonNull(patchSetId, "patchSetId");
+      requireNonNull(oldLabelVote, "oldLabelVote");
+      requireNonNull(type, "type");
+    }
+
     /**
      * Type of the update that has been performed for a copied vote on a follow-up patch set.
      *
@@ -129,22 +142,6 @@ public class PostReviewOp implements BatchUpdateOp {
       /** An existing copied vote has been removed. */
       REMOVED;
     }
-
-    /** The ID of the (follow-up) patch set on which the copied label update has been performed. */
-    abstract PatchSet.Id patchSetId();
-
-    /**
-     * The old copied label vote that has been updated or that has been removed.
-     *
-     * <p>Not set if {@link #type()} is {@link Type#ADDED}.
-     */
-    abstract Optional<LabelVote> oldLabelVote();
-
-    /**
-     * The type of the update that has been performed for the copied vote on the (follow-up) patch
-     * set.
-     */
-    abstract Type type();
 
     /** Returns a string with the patch set number and if present the old label vote. */
     private String formatPatchSetWithOldLabelVote() {
@@ -170,7 +167,7 @@ public class PostReviewOp implements BatchUpdateOp {
 
     private static CopiedLabelUpdate create(
         PatchSet.Id patchSetId, Optional<LabelVote> oldLabelVote, Type type) {
-      return new AutoValue_PostReviewOp_CopiedLabelUpdate(patchSetId, oldLabelVote, type);
+      return new CopiedLabelUpdate(patchSetId, oldLabelVote, type);
     }
   }
 

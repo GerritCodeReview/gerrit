@@ -15,8 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
@@ -439,17 +439,17 @@ public class MigrateLabelFunctionsToSubmitRequirement {
     }
   }
 
-  @AutoValue
-  abstract static class LabelAttributes {
-    abstract String function();
-
-    abstract boolean canOverride();
-
-    abstract boolean ignoreSelfApproval();
-
-    abstract ImmutableList<String> values();
-
-    abstract ImmutableList<String> refPatterns();
+  record LabelAttributes(
+      String function,
+      boolean canOverride,
+      boolean ignoreSelfApproval,
+      ImmutableList<String> values,
+      ImmutableList<String> refPatterns) {
+    LabelAttributes {
+      requireNonNull(function, "function");
+      requireNonNull(values, "values");
+      requireNonNull(refPatterns, "refPatterns");
+    }
 
     static LabelAttributes create(
         String function,
@@ -457,8 +457,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
         boolean ignoreSelfApproval,
         ImmutableList<String> values,
         ImmutableList<String> refPatterns) {
-      return new AutoValue_MigrateLabelFunctionsToSubmitRequirement_LabelAttributes(
-          function, canOverride, ignoreSelfApproval, values, refPatterns);
+      return new LabelAttributes(function, canOverride, ignoreSelfApproval, values, refPatterns);
     }
   }
 }

@@ -14,30 +14,30 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.entities.Change;
 
-/** Representation of a change used for testing purposes. */
-@AutoValue
-public abstract class TestChange {
-
-  /**
-   * The numeric change ID, sometimes also called change number or legacy change ID. Unique per
-   * host.
-   */
-  public abstract Change.Id numericChangeId();
-
-  /**
-   * The Change-Id as specified in the commit message. Consists of an {@code I} followed by a 40-hex
-   * string. Only unique per project-branch.
-   */
-  public abstract String changeId();
-
-  static Builder builder() {
-    return new AutoValue_TestChange.Builder();
+/**
+ * Representation of a change used for testing purposes.
+ *
+ * @param numericChangeId The numeric change ID, sometimes also called change number or legacy
+ *     change ID. Unique per host.
+ * @param changeId The Change-Id as specified in the commit message. Consists of an {@code I}
+ *     followed by a 40-hex string. Only unique per project-branch.
+ */
+public record TestChange(Change.Id numericChangeId, String changeId) {
+  public TestChange {
+    requireNonNull(numericChangeId, "numericChangeId");
+    requireNonNull(changeId, "changeId");
   }
 
-  @AutoValue.Builder
+  static Builder builder() {
+    return new AutoBuilder_TestChange_Builder();
+  }
+
+  @AutoBuilder
   abstract static class Builder {
     abstract Builder numericChangeId(Change.Id numericChangeId);
 

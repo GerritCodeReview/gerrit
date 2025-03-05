@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.UsedAt;
@@ -32,24 +33,40 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Details of an account that are cached persistently in {@link AccountCache}. */
+/**
+ * Details of an account that are cached persistently in {@link AccountCache}.
+ *
+ * @param account Essential attributes of the account, such as name or registration time.
+ * @param projectWatches Projects that the user has configured to watch.
+ * @param preferences Preferences that this user has. Serialized as Git-config style string.
+ */
 @UsedAt(UsedAt.Project.GOOGLE)
-@AutoValue
-public abstract class CachedAccountDetails {
-  @AutoValue
-  public abstract static class Key {
-    public static Key create(Account.Id accountId, ObjectId id) {
-      return new AutoValue_CachedAccountDetails_Key(accountId, id.copy());
+public record CachedAccountDetails(
+    Account account,
+    ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches,
+    CachedPreferences preferences) {
+  public CachedAccountDetails {
+    requireNonNull(account, "account");
+    requireNonNull(projectWatches, "projectWatches");
+    requireNonNull(preferences, "preferences");
+  }
+
+  /**
+   * Key to load an account from the cache.
+   *
+   * @param accountId Identifier of the account.
+   * @param id Git revision at which the account was loaded. Corresponds to a revision on the
+   *     account ref ({@code refs/users/<sharded-id>}).
+   */
+  public record Key(Account.Id accountId, ObjectId id) {
+    public Key {
+      requireNonNull(accountId, "accountId");
+      requireNonNull(id, "id");
     }
 
-    /** Identifier of the account. */
-    public abstract Account.Id accountId();
-
-    /**
-     * Git revision at which the account was loaded. Corresponds to a revision on the account ref
-     * ({@code refs/users/<sharded-id>}).
-     */
-    public abstract ObjectId id();
+    public static Key create(Account.Id accountId, ObjectId id) {
+      return new Key(accountId, id.copy());
+    }
 
     /** Serializer used to read this entity from and write it to a persistent storage. */
     public enum Serializer implements CacheSerializer<Key> {
@@ -74,21 +91,11 @@ public abstract class CachedAccountDetails {
     }
   }
 
-  /** Essential attributes of the account, such as name or registration time. */
-  public abstract Account account();
-
-  /** Projects that the user has configured to watch. */
-  public abstract ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
-      projectWatches();
-
-  /** Preferences that this user has. Serialized as Git-config style string. */
-  public abstract CachedPreferences preferences();
-
   public static CachedAccountDetails create(
       Account account,
       ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches,
       CachedPreferences preferences) {
-    return new AutoValue_CachedAccountDetails(account, projectWatches, preferences);
+    return new CachedAccountDetails(account, projectWatches, preferences);
   }
 
   /** Serializer used to read this entity from and write it to a persistent storage. */

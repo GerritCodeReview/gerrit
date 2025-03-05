@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -28,8 +29,16 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import java.util.stream.Stream;
 
 /** Cache value containing all external IDs. */
-@AutoValue
-public abstract class AllExternalIds {
+public record AllExternalIds(
+    ImmutableMap<ExternalId.Key, ExternalId> byKey,
+    ImmutableSetMultimap<Account.Id, ExternalId> byAccount,
+    ImmutableSetMultimap<String, ExternalId> byEmail) {
+  public AllExternalIds {
+    requireNonNull(byKey, "byKey");
+    requireNonNull(byAccount, "byAccount");
+    requireNonNull(byEmail, "byEmail");
+  }
+
   static AllExternalIds create(Stream<ExternalId> externalIds) {
     ImmutableMap.Builder<ExternalId.Key, ExternalId> byKey = ImmutableMap.builder();
     ImmutableSetMultimap.Builder<Account.Id, ExternalId> byAccount = ImmutableSetMultimap.builder();
@@ -43,21 +52,15 @@ public abstract class AllExternalIds {
           }
         });
 
-    return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
+    return new AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
   static AllExternalIds create(
       ImmutableMap<ExternalId.Key, ExternalId> byKey,
       ImmutableSetMultimap<Account.Id, ExternalId> byAccount,
       ImmutableSetMultimap<String, ExternalId> byEmail) {
-    return new AutoValue_AllExternalIds(byKey, byAccount, byEmail);
+    return new AllExternalIds(byKey, byAccount, byEmail);
   }
-
-  public abstract ImmutableMap<ExternalId.Key, ExternalId> byKey();
-
-  public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();
-
-  public abstract ImmutableSetMultimap<String, ExternalId> byEmail();
 
   enum Serializer implements CacheSerializer<AllExternalIds> {
     INSTANCE;

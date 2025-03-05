@@ -15,8 +15,9 @@
 package com.google.gerrit.git;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -62,8 +63,13 @@ public class GitUpdateFailureException extends IOException {
     return failures;
   }
 
-  @AutoValue
-  public abstract static class GitUpdateFailure {
+  public record GitUpdateFailure(String ref, String result, Optional<String> message) {
+    public GitUpdateFailure {
+      requireNonNull(ref, "ref");
+      requireNonNull(result, "result");
+      requireNonNull(message, "message");
+    }
+
     private static GitUpdateFailure create(RefUpdate refUpdate) {
       return builder().ref(refUpdate.getName()).result(refUpdate.getResult().name()).build();
     }
@@ -76,17 +82,11 @@ public class GitUpdateFailureException extends IOException {
           .build();
     }
 
-    public abstract String ref();
-
-    public abstract String result();
-
-    public abstract Optional<String> message();
-
     public static GitUpdateFailure.Builder builder() {
-      return new AutoValue_GitUpdateFailureException_GitUpdateFailure.Builder();
+      return new AutoBuilder_GitUpdateFailureException_GitUpdateFailure_Builder();
     }
 
-    @AutoValue.Builder
+    @AutoBuilder
     abstract static class Builder {
       abstract Builder ref(String ref);
 

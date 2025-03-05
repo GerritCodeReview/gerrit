@@ -14,19 +14,25 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
-/** Describe a applicability, blocking or override expression of a {@link SubmitRequirement}. */
-@AutoValue
-public abstract class SubmitRequirementExpression {
+/**
+ * Describe a applicability, blocking or override expression of a {@link SubmitRequirement}.
+ *
+ * @param expressionString Returns the underlying String representing this {@link
+ *     SubmitRequirementExpression}.
+ */
+public record SubmitRequirementExpression(String expressionString) {
+  public SubmitRequirementExpression {
+    requireNonNull(expressionString, "expressionString");
+  }
 
   public static SubmitRequirementExpression create(String expression) {
-    return new AutoValue_SubmitRequirementExpression(expression);
+    return new SubmitRequirementExpression(expression);
   }
 
   /**
@@ -39,13 +45,6 @@ public abstract class SubmitRequirementExpression {
   public static Optional<SubmitRequirementExpression> of(@Nullable String expression) {
     return Optional.ofNullable(Strings.emptyToNull(expression))
         .map(SubmitRequirementExpression::create);
-  }
-
-  /** Returns the underlying String representing this {@link SubmitRequirementExpression}. */
-  public abstract String expressionString();
-
-  public static TypeAdapter<SubmitRequirementExpression> typeAdapter(Gson gson) {
-    return new AutoValue_SubmitRequirementExpression.GsonTypeAdapter(gson);
   }
 
   /**

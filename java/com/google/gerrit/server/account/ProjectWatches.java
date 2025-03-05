@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
@@ -189,8 +188,12 @@ public class ProjectWatches {
     return b.build();
   }
 
-  @AutoValue
-  public abstract static class NotifyValue {
+  public record NotifyValue(
+      @Nullable String filter, ImmutableSet<NotifyConfig.NotifyType> notifyTypes) {
+    public NotifyValue {
+      requireNonNull(notifyTypes, "notifyTypes");
+    }
+
     @Nullable
     public static NotifyValue parse(
         Account.Id accountId,
@@ -239,13 +242,8 @@ public class ProjectWatches {
 
     public static NotifyValue create(
         @Nullable String filter, Collection<NotifyConfig.NotifyType> notifyTypes) {
-      return new AutoValue_ProjectWatches_NotifyValue(
-          Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
+      return new NotifyValue(Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
     }
-
-    public abstract @Nullable String filter();
-
-    public abstract ImmutableSet<NotifyConfig.NotifyType> notifyTypes();
 
     @Override
     public final String toString() {

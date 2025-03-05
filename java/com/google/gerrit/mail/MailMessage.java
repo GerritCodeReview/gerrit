@@ -14,7 +14,9 @@
 
 package com.google.gerrit.mail;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
@@ -30,46 +32,47 @@ import java.time.Instant;
  * <p>A valid {@link MailMessage} contains at least the following fields: id, from, to, subject and
  * dateReceived.
  */
-@AutoValue
-public abstract class MailMessage {
-  // Unique Identifier
-  public abstract String id();
-
-  // Envelop Information
-  public abstract Address from();
-
-  public abstract ImmutableList<Address> to();
-
-  public abstract ImmutableList<Address> cc();
-
-  // Metadata
-  public abstract Instant dateReceived();
-
-  public abstract ImmutableList<String> additionalHeaders();
-
-  // Content
-  public abstract String subject();
-
-  @Nullable
-  public abstract String textContent();
-
-  @Nullable
-  public abstract String htmlContent();
-
-  // Raw content as received over the wire
-  @Nullable
-  public abstract ImmutableList<Integer> rawContent();
-
-  @Nullable
-  public abstract String rawContentUTF();
-
-  public static Builder builder() {
-    return new AutoValue_MailMessage.Builder();
+public record MailMessage(
+    String id,
+    Address from,
+    ImmutableList<Address> to,
+    ImmutableList<Address> cc,
+    Instant dateReceived,
+    ImmutableList<String> additionalHeaders,
+    String subject,
+    @Nullable String textContent,
+    @Nullable String htmlContent,
+    @Nullable ImmutableList<Integer> rawContent,
+    @Nullable String rawContentUTF) {
+  public MailMessage {
+    requireNonNull(id, "id");
+    requireNonNull(from, "from");
+    requireNonNull(to, "to");
+    requireNonNull(cc, "cc");
+    requireNonNull(dateReceived, "dateReceived");
+    requireNonNull(additionalHeaders, "additionalHeaders");
+    requireNonNull(subject, "subject");
   }
 
-  public abstract Builder toBuilder();
+  // Unique Identifier
 
-  @AutoValue.Builder
+  // Envelop Information
+
+  // Metadata
+
+  // Content
+
+  // Raw content as received over the wire
+
+  public static Builder builder() {
+    return new AutoBuilder_MailMessage_Builder();
+  }
+
+  public Builder toBuilder() {
+    return new AutoBuilder_MailMessage_Builder(this);
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder id(String val);
 

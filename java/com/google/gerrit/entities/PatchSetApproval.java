@@ -14,27 +14,59 @@
 
 package com.google.gerrit.entities;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.ConvertibleToProto;
 import java.time.Instant;
 import java.util.Optional;
 
-/** An approval (or negative approval) on a patch set. */
-@AutoValue
-public abstract class PatchSetApproval {
-  public static Key key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {
-    return new AutoValue_PatchSetApproval_Key(patchSetId, accountId, labelId);
+/**
+ * An approval (or negative approval) on a patch set.
+ *
+ * @param value Value assigned by the user.
+ *     <p>The precise meaning of "value" is up to each category.
+ *     <p>In general:
+ *     <ul>
+ *       <li><b>&lt; 0:</b> The approval is rejected/revoked.
+ *       <li><b>= 0:</b> No indication either way is provided.
+ *       <li><b>&gt; 0:</b> The approval is approved/positive.
+ *     </ul>
+ *     and in the negative and positive direction a magnitude can be assumed.The further from 0 the
+ *     more assertive the approval.
+ * @param realAccountId Real user that made this approval on behalf of the user recorded in {@link
+ *     Key#accountId}.
+ */
+public record PatchSetApproval(
+    Key key,
+    Optional<UUID> uuid,
+    short value,
+    Instant granted,
+    Optional<String> tag,
+    Account.Id realAccountId,
+    boolean postSubmit,
+    boolean copied) {
+  public PatchSetApproval {
+    requireNonNull(key, "key");
+    requireNonNull(uuid, "uuid");
+    requireNonNull(granted, "granted");
+    requireNonNull(tag, "tag");
+    requireNonNull(realAccountId, "realAccountId");
   }
 
-  @AutoValue
+  public static Key key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {
+    return new Key(patchSetId, accountId, labelId);
+  }
+
   @ConvertibleToProto
-  public abstract static class Key {
-    public abstract PatchSet.Id patchSetId();
-
-    public abstract Account.Id accountId();
-
-    public abstract LabelId labelId();
+  public record Key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {
+    public Key {
+      requireNonNull(patchSetId, "patchSetId");
+      requireNonNull(accountId, "accountId");
+      requireNonNull(labelId, "labelId");
+    }
 
     public boolean isLegacySubmit() {
       return LabelId.LEGACY_SUBMIT_NAME.equals(labelId().get());
@@ -72,10 +104,10 @@ public abstract class PatchSetApproval {
   }
 
   public static Builder builder() {
-    return new AutoValue_PatchSetApproval.Builder().postSubmit(false).copied(false);
+    return new AutoBuilder_PatchSetApproval_Builder().postSubmit(false).copied(false);
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder key(Key key);
 
@@ -122,40 +154,9 @@ public abstract class PatchSetApproval {
     }
   }
 
-  public abstract Key key();
-
-  public abstract Optional<UUID> uuid();
-
-  /**
-   * Value assigned by the user.
-   *
-   * <p>The precise meaning of "value" is up to each category.
-   *
-   * <p>In general:
-   *
-   * <ul>
-   *   <li><b>&lt; 0:</b> The approval is rejected/revoked.
-   *   <li><b>= 0:</b> No indication either way is provided.
-   *   <li><b>&gt; 0:</b> The approval is approved/positive.
-   * </ul>
-   *
-   * and in the negative and positive direction a magnitude can be assumed.The further from 0 the
-   * more assertive the approval.
-   */
-  public abstract short value();
-
-  public abstract Instant granted();
-
-  public abstract Optional<String> tag();
-
-  /** Real user that made this approval on behalf of the user recorded in {@link Key#accountId}. */
-  public abstract Account.Id realAccountId();
-
-  public abstract boolean postSubmit();
-
-  public abstract boolean copied();
-
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_PatchSetApproval_Builder(this);
+  }
 
   /**
    * Makes a copy of {@link PatchSetApproval} that applies to {@code psId}.

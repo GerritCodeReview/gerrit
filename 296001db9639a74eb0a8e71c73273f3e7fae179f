@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "511400cf_b7f4e312",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentSizeValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T10:27:55Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4c768089_b5b63ae9",
+      "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5f71b94_012f64eb",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f0f2da_34fc1469",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentSizeValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T10:27:55Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d5f71b94_012f64eb",
+      "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af4dca19_2bc8c578",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-03-05T09:21:12Z",
       "side": 0,
       "message": "Same.",
+      "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e23cd1c_aed3a9ca",
+        "filename": "java/com/google/gerrit/server/query/change/MagicLabelPredicates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T10:27:55Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "af4dca19_2bc8c578",
       "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -424,7 +424,7 @@ public class AccountIT extends AbstractDaemonTest {
       accountIndexedCounter.assertReindexOf(accountId, 1);
       assertThat(getExternalIdsReader().byAccount(accountId))
           .containsExactly(
-              getExternalIdFactory().createUsername(input.username, accountId, null),
+              getExternalIdFactory().createUsername(input.username, accountId),
               getExternalIdFactory().createEmail(accountId, input.email));
     }
   }

@@ -16,6 +16,29 @@
       "message": "Missing `Release-Notes`",
       "revId": "f351b5afb2e22a5dde1bfcf7909610e706fc9aea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a355b60b_c2821ad3",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-05T15:24:24Z",
+      "side": 1,
+      "message": "```suggestion\ncontain more than 20,000 lines of code or are bigger than 500 kb to ensure\n```",
+      "range": {
+        "startLine": 858,
+        "startChar": 18,
+        "endLine": 858,
+        "endChar": 24
+      },
+      "revId": "f351b5afb2e22a5dde1bfcf7909610e706fc9aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

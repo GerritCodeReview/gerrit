@@ -89,11 +89,13 @@ class BaseCommitUtil {
       throws IOException {
     RevCommit current = repoView.getRevWalk().parseCommit(commitId);
     switch (current.getParentCount()) {
-      case 0:
+      case 0 -> {
         return null;
-      case 1:
+      }
+      case 1 -> {
         return current.getParent(0);
-      default:
+      }
+      default -> {
         if (parentNum != null) {
           RevCommit r = current.getParent(parentNum - 1);
           repoView.getRevWalk().parseBody(r);
@@ -110,6 +112,7 @@ class BaseCommitUtil {
           return getAutoMergeFromGitOrCreate(repoView, ins, current);
         }
         return null;
+      }
     }
   }
 

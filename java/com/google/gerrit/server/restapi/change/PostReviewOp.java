@@ -399,8 +399,7 @@ public class PostReviewOp implements BatchUpdateOp {
         resolveInputCommentsAndDrafts(inputComments, existingComments, savedDraftsToPublish, ctx);
 
     switch (in.drafts) {
-      case PUBLISH:
-      case PUBLISH_ALL_REVISIONS:
+      case PUBLISH, PUBLISH_ALL_REVISIONS -> {
         validateSavedDraftIds(savedDraftsForAllRevisions);
         Collection<HumanComment> filteredDrafts =
             in.draftIdsToPublish == null
@@ -416,11 +415,10 @@ public class PostReviewOp implements BatchUpdateOp {
                 newRobotComments.stream()));
         publishCommentUtil.publish(ctx, ctx.getUpdate(psId), filteredDrafts, in.tag);
         comments.addAll(savedDraftsToPublish.values());
-        break;
-      case KEEP:
-        validateComments(
-            ctx, Streams.concat(inputCommentsToPublish.stream(), newRobotComments.stream()));
-        break;
+      }
+      case KEEP ->
+          validateComments(
+              ctx, Streams.concat(inputCommentsToPublish.stream(), newRobotComments.stream()));
     }
     commentsUtil.putHumanComments(
         ctx.getUpdate(psId), HumanComment.Status.PUBLISHED, inputCommentsToPublish);

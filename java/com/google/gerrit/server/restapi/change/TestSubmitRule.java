@@ -103,36 +103,36 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
 
   private static void label(TestSubmitRuleInfo info, SubmitRecord.Label n, AccountInfo who) {
     switch (n.status) {
-      case OK:
+      case OK -> {
         if (info.ok == null) {
           info.ok = new LinkedHashMap<>();
         }
         info.ok.put(n.label, who);
-        break;
-      case REJECT:
+      }
+      case REJECT -> {
         if (info.reject == null) {
           info.reject = new LinkedHashMap<>();
         }
         info.reject.put(n.label, who);
-        break;
-      case NEED:
+      }
+      case NEED -> {
         if (info.need == null) {
           info.need = new LinkedHashMap<>();
         }
         info.need.put(n.label, TestSubmitRuleInfo.None.INSTANCE);
-        break;
-      case MAY:
+      }
+      case MAY -> {
         if (info.may == null) {
           info.may = new LinkedHashMap<>();
         }
         info.may.put(n.label, who);
-        break;
-      case IMPOSSIBLE:
+      }
+      case IMPOSSIBLE -> {
         if (info.impossible == null) {
           info.impossible = new LinkedHashMap<>();
         }
         info.impossible.put(n.label, TestSubmitRuleInfo.None.INSTANCE);
-        break;
+      }
     }
   }
 }

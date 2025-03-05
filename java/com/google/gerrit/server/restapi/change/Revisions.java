@@ -94,15 +94,13 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         match.add(rsrc);
       }
     }
-    switch (match.size()) {
-      case 0:
-        throw new ResourceNotFoundException(id);
-      case 1:
-        return match.get(0);
-      default:
-        throw new ResourceNotFoundException(
-            "Multiple patch sets for \"" + id.get() + "\": " + Joiner.on("; ").join(match));
-    }
+    return switch (match.size()) {
+      case 0 -> throw new ResourceNotFoundException(id);
+      case 1 -> match.get(0);
+      default ->
+          throw new ResourceNotFoundException(
+              "Multiple patch sets for \"" + id.get() + "\": " + Joiner.on("; ").join(match));
+    };
   }
 
   private boolean visible(ChangeResource change) throws PermissionBackendException {

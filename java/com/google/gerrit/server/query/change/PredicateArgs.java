@@ -96,19 +96,13 @@ public class PredicateArgs {
   }
 
   private Operator getOperator(String operator) {
-    switch (operator) {
-      case "<":
-        return Operator.LESS;
-      case "<=":
-        return Operator.LESS_EQUAL;
-      case "=":
-        return Operator.EQUAL;
-      case ">=":
-        return Operator.GREATER_EQUAL;
-      case ">":
-        return Operator.GREATER;
-      default:
-        throw new IllegalArgumentException("Invalid Operator " + operator);
-    }
+    return switch (operator) {
+      case "<" -> Operator.LESS;
+      case "<=" -> Operator.LESS_EQUAL;
+      case "=" -> Operator.EQUAL;
+      case ">=" -> Operator.GREATER_EQUAL;
+      case ">" -> Operator.GREATER;
+      default -> throw new IllegalArgumentException("Invalid Operator " + operator);
+    };
   }
 }

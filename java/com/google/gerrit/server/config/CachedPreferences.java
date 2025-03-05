@@ -87,14 +87,13 @@ public abstract class CachedPreferences {
   public Config asConfig() {
     try {
       switch (config().getPreferencesCase()) {
-        case LEGACY_GIT_CONFIG:
-        // continue below
-        case PREFERENCES_NOT_SET:
+        case LEGACY_GIT_CONFIG, PREFERENCES_NOT_SET -> {
+          // continue below
           Config cfg = new Config();
           cfg.fromText(config().getLegacyGitConfig());
           return cfg;
-        case USER_PREFERENCES:
-          break;
+        }
+        case USER_PREFERENCES -> {}
       }
     } catch (ConfigInvalidException e) {
       throw new StorageException(e);
@@ -124,19 +123,18 @@ public abstract class CachedPreferences {
       PreferencesParser<PreferencesT> preferencesParser) {
     try {
       CachedPreferencesProto userPreferencesProto = userPreferences.config();
-      switch (userPreferencesProto.getPreferencesCase()) {
-        case USER_PREFERENCES:
-          return preferencesParser.fromUserPreferences(
-              userPreferencesProto.getUserPreferences(), configOrNull(defaultPreferences));
-        case LEGACY_GIT_CONFIG:
-          return preferencesParser.parse(
-              userPreferences.asConfig(), configOrNull(defaultPreferences), null);
-        case PREFERENCES_NOT_SET:
-          throw new ConfigInvalidException("Invalid config " + userPreferences);
-      }
+      return switch (userPreferencesProto.getPreferencesCase()) {
+        case USER_PREFERENCES ->
+            preferencesParser.fromUserPreferences(
+                userPreferencesProto.getUserPreferences(), configOrNull(defaultPreferences));
+        case LEGACY_GIT_CONFIG ->
+            preferencesParser.parse(
+                userPreferences.asConfig(), configOrNull(defaultPreferences), null);
+        case PREFERENCES_NOT_SET ->
+            throw new ConfigInvalidException("Invalid config " + userPreferences);
+      };
     } catch (ConfigInvalidException e) {
       return preferencesParser.getJavaDefaults();
     }
-    return preferencesParser.getJavaDefaults();
   }
 }

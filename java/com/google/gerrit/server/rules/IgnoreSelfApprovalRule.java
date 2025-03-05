@@ -106,17 +106,10 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   }
 
   private static boolean labelCheckPassed(SubmitRecord.Label label) {
-    switch (label.status) {
-      case OK:
-      case MAY:
-        return true;
-
-      case NEED:
-      case REJECT:
-      case IMPOSSIBLE:
-        return false;
-    }
-    return false;
+    return switch (label.status) {
+      case OK, MAY -> true;
+      case NEED, REJECT, IMPOSSIBLE -> false;
+    };
   }
 
   @VisibleForTesting

@@ -253,17 +253,15 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     boolean createTag = tagName == null;
     tagName = MoreObjects.firstNonNull(tagName, "v1_" + System.nanoTime());
     switch (tagType) {
-      case LIGHTWEIGHT:
-        break;
-      case ANNOTATED:
+      case LIGHTWEIGHT -> {}
+      case ANNOTATED -> {
         if (createTag) {
           createAnnotatedTag(testRepo, tagName, user.newIdent());
         } else {
           updateAnnotatedTag(testRepo, tagName, user.newIdent());
         }
-        break;
-      default:
-        throw new IllegalStateException("unexpected tag type: " + tagType);
+      }
+      default -> throw new IllegalStateException("unexpected tag type: " + tagType);
     }
 
     if (!newCommit) {

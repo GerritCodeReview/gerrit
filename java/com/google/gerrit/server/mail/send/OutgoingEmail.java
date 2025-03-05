@@ -710,15 +710,9 @@ public final class OutgoingEmail {
           smtpBccRcptTo.remove(addr);
         }
         switch (rt) {
-          case TO:
-            ((AddressList) headers.get(FieldName.TO)).add(addr);
-            break;
-          case CC:
-            ((AddressList) headers.get(FieldName.CC)).add(addr);
-            break;
-          case BCC:
-            smtpBccRcptTo.add(addr);
-            break;
+          case TO -> ((AddressList) headers.get(FieldName.TO)).add(addr);
+          case CC -> ((AddressList) headers.get(FieldName.CC)).add(addr);
+          case BCC -> smtpBccRcptTo.add(addr);
         }
       }
     }

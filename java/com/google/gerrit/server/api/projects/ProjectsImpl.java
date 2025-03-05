@@ -107,20 +107,14 @@ class ProjectsImpl implements Projects {
       lp.addShowBranch(branch);
     }
 
-    FilterType type;
-    switch (request.getFilterType()) {
-      case ALL:
-        type = FilterType.ALL;
-        break;
-      case CODE:
-        type = FilterType.CODE;
-        break;
-      case PERMISSIONS:
-        type = FilterType.PERMISSIONS;
-        break;
-      default:
-        throw new BadRequestException("Unknown filter type: " + request.getFilterType());
-    }
+    FilterType type =
+        switch (request.getFilterType()) {
+          case ALL -> FilterType.ALL;
+          case CODE -> FilterType.CODE;
+          case PERMISSIONS -> FilterType.PERMISSIONS;
+          default ->
+              throw new BadRequestException("Unknown filter type: " + request.getFilterType());
+        };
     lp.setFilterType(type);
 
     lp.setAll(request.isAll());

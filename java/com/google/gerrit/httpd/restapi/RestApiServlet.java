@@ -1835,16 +1835,11 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static int getCancellationStatusCode(RequestStateProvider.Reason cancellationReason) {
-    switch (cancellationReason) {
-      case CLIENT_CLOSED_REQUEST:
-        return SC_CLIENT_CLOSED_REQUEST;
-      case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
-        return SC_REQUEST_TIMEOUT;
-      case SERVER_DEADLINE_EXCEEDED:
-        return SC_INTERNAL_SERVER_ERROR;
-    }
-    logger.atSevere().log("Unexpected cancellation reason: %s", cancellationReason);
-    return SC_INTERNAL_SERVER_ERROR;
+    return switch (cancellationReason) {
+      case CLIENT_CLOSED_REQUEST -> SC_CLIENT_CLOSED_REQUEST;
+      case CLIENT_PROVIDED_DEADLINE_EXCEEDED -> SC_REQUEST_TIMEOUT;
+      case SERVER_DEADLINE_EXCEEDED -> SC_INTERNAL_SERVER_ERROR;
+    };
   }
 
   private static String getCancellationMessage(

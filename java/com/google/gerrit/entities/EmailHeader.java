@@ -86,19 +86,15 @@ public abstract class EmailHeader {
 
   static boolean needsQuotedPrintableWithinPhrase(int cp) {
     switch (cp) {
-      case '!':
-      case '*':
-      case '+':
-      case '-':
-      case '/':
-      case '=':
-      case '_':
+      case '!', '*', '+', '-', '/', '=', '_' -> {
         return false;
-      default:
+      }
+      default -> {
         if (('a' <= cp && cp <= 'z') || ('A' <= cp && cp <= 'Z') || ('0' <= cp && cp <= '9')) {
           return false;
         }
         return true;
+      }
     }
   }
 

@@ -45,17 +45,14 @@ public class DefaultRealm extends AbstractRealm {
   @Override
   public boolean allowsEdit(AccountFieldName field) {
     if (authConfig.getAuthType() == AuthType.HTTP) {
-      switch (field) {
-        case USER_NAME:
-          return false;
-        case FULL_NAME:
-          return Strings.emptyToNull(authConfig.getHttpDisplaynameHeader()) == null;
-        case REGISTER_NEW_EMAIL:
-          return authConfig.isAllowRegisterNewEmail()
-              && Strings.emptyToNull(authConfig.getHttpEmailHeader()) == null;
-        default:
-          return true;
-      }
+      return switch (field) {
+        case USER_NAME -> false;
+        case FULL_NAME -> Strings.emptyToNull(authConfig.getHttpDisplaynameHeader()) == null;
+        case REGISTER_NEW_EMAIL ->
+            authConfig.isAllowRegisterNewEmail()
+                && Strings.emptyToNull(authConfig.getHttpEmailHeader()) == null;
+        default -> true;
+      };
     }
     switch (field) {
       case REGISTER_NEW_EMAIL:

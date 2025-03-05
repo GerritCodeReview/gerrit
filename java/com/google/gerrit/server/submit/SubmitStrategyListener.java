@@ -115,26 +115,21 @@ public class SubmitStrategyListener implements BatchUpdateListener {
         logger.atFine().log("change %d: Status for commit %s is %s.", id.get(), commit.name(), s);
       }
       switch (s) {
-        case CLEAN_MERGE:
-        case CLEAN_REBASE:
-        case CLEAN_PICK:
-        case SKIPPED_IDENTICAL_TREE:
-          break; // Merge strategy accepted this change.
-
-        case ALREADY_MERGED:
-          // Already an ancestor of tip.
-          alreadyMerged.add(commit.getPatchsetId().changeId());
-          break;
-
-        case PATH_CONFLICT:
-        case REBASE_MERGE_CONFLICT:
-        case MANUAL_RECURSIVE_MERGE:
-        case CANNOT_CHERRY_PICK_ROOT:
-        case CANNOT_REBASE_ROOT:
-        case NOT_FAST_FORWARD:
-        case EMPTY_COMMIT:
-        case MISSING_DEPENDENCY:
-        case FAST_FORWARD_INDEPENDENT_CHANGES:
+        case CLEAN_MERGE, CLEAN_REBASE, CLEAN_PICK, SKIPPED_IDENTICAL_TREE -> {
+          // Merge strategy accepted this change.
+        }
+        case ALREADY_MERGED ->
+            // Already an ancestor of tip.
+            alreadyMerged.add(commit.getPatchsetId().changeId());
+        case PATH_CONFLICT,
+            REBASE_MERGE_CONFLICT,
+            MANUAL_RECURSIVE_MERGE,
+            CANNOT_CHERRY_PICK_ROOT,
+            CANNOT_REBASE_ROOT,
+            NOT_FAST_FORWARD,
+            EMPTY_COMMIT,
+            MISSING_DEPENDENCY,
+            FAST_FORWARD_INDEPENDENT_CHANGES -> {
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
           String message = s.getDescription();
@@ -142,11 +137,8 @@ public class SubmitStrategyListener implements BatchUpdateListener {
             message += " " + commit.getStatusMessage().get();
           }
           commitStatus.problem(id, CharMatcher.is('\n').collapseFrom(message, ' '));
-          break;
-
-        default:
-          commitStatus.problem(id, "unspecified merge failure: " + s);
-          break;
+        }
+        default -> commitStatus.problem(id, "unspecified merge failure: " + s);
       }
     }
     commitStatus.maybeFailVerbose();

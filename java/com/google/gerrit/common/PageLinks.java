@@ -135,15 +135,17 @@ public class PageLinks {
   }
 
   public static String topicQuery(Status status, String topic) {
-    switch (status) {
-      case ABANDONED:
-        return toChangeQuery(status(status) + " " + op("topic", topic));
-      case MERGED:
-      case NEW:
-        return toChangeQuery(
-            op("topic", topic) + " (" + status(Status.NEW) + " OR " + status(Status.MERGED) + ")");
-    }
-    return toChangeQuery(status(status) + " " + op("topic", topic));
+    return switch (status) {
+      case ABANDONED -> toChangeQuery(status(status) + " " + op("topic", topic));
+      case MERGED, NEW ->
+          toChangeQuery(
+              op("topic", topic)
+                  + " ("
+                  + status(Status.NEW)
+                  + " OR "
+                  + status(Status.MERGED)
+                  + ")");
+    };
   }
 
   public static String toGroup(AccountGroup.UUID uuid) {

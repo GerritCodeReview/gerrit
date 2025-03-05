@@ -173,14 +173,11 @@ public class JarPluginProvider implements ServerPluginProvider {
   }
 
   private ClassLoader parentFor(ApiType type) {
-    switch (type) {
-      case PLUGIN:
-        return pluginApiClassLoader;
-
+    return switch (type) {
+      case PLUGIN -> pluginApiClassLoader;
       // $CASES-OMITTED$
-      default:
-        return PluginUtil.parentFor(type);
-    }
+      default -> PluginUtil.parentFor(type);
+    };
   }
 
   private JarScanner createJarScanner(Path srcJar) throws InvalidPluginException {

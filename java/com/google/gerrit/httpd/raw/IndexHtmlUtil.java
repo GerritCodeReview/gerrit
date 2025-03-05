@@ -127,8 +127,7 @@ public class IndexHtmlUtil {
     IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
     Integer basePatchNum = computeBasePatchNum(requestedPath);
     switch (page) {
-      case CHANGE:
-      case DIFF:
+      case CHANGE, DIFF -> {
         if (basePatchNum.equals(0)) {
           data.put(
               "defaultChangeDetailHex",
@@ -142,13 +141,11 @@ public class IndexHtmlUtil {
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
         data.put("changeNum", IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
-        break;
-      case PROFILE:
-      case DASHBOARD:
-      // Dashboard is preloaded queries are added later when we check user is
-      // authenticated.
-      case PAGE_WITHOUT_PRELOADING:
-        break;
+      }
+      case PROFILE, DASHBOARD, PAGE_WITHOUT_PRELOADING -> {
+        // Dashboard is preloaded queries are added later when we check user is
+        // authenticated.
+      }
     }
 
     try {

@@ -1,7 +1,7 @@
 /**
  * @license
  * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: Apache-3.0
  */
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';

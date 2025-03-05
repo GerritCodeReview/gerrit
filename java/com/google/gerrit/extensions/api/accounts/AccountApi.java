@@ -123,6 +123,7 @@ public interface AccountApi {
    *
    * @return the generated password.
    */
+  @Deprecated
   String generateHttpPassword() throws RestApiException;
 
   /**
@@ -134,6 +135,7 @@ public interface AccountApi {
    * @return the new password, {@code null} if the password was removed.
    */
   @CanIgnoreReturnValue
+  @Deprecated
   String setHttpPassword(String httpPassword) throws RestApiException;
 
   void delete() throws RestApiException;

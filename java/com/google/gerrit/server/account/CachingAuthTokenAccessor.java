@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Account;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -47,6 +48,13 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
   @Override
   public Optional<AuthToken> getToken(Account.Id accountId, String id) {
     return getTokens(accountId).stream().filter(token -> token.id().equals(id)).findFirst();
+  }
+
+  @Override
+  public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+    accessor.addTokens(accountId, tokens);
+    authTokenCache.evict(accountId);
   }
 
   @Override

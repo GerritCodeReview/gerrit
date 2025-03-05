@@ -34,6 +34,23 @@
       "parentUuid": "fb6868da_e0dd9383",
       "revId": "00adcf0fbffe845820331109ecbeff79c8b4fdf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d1b0fc8_7be64f26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-05T22:33:23Z",
+      "side": 1,
+      "message": "Looks like using the RetryHelper might be problematic, I may need more bindings in the Lucene module, and I am not sure that would be considered OK to make it depend on the caches?\n\nTime: 51.564\nThere were 8 failures:\n1) offlineReindexForChangesIsNotPossibleInSlaveMode[default](com.google.gerrit.acceptance.pgm.LuceneReindexIT)\ncom.google.inject.CreationException: Unable to create injector, see the following errors:\n\n1) [Guice/MissingImplementation]: No implementation for Cache\u003cChangeNotesCache$Key, ChangeNotesState\u003e annotated with @Named(\"change_notes\") was bound.\n\nRequested by:\n1  : ChangeNotesCache.\u003cinit\u003e(ChangeNotesCache.java:390)\n      \\_ for 1st parameter cache\n     at AbstractChangeNotes$Args.\u003cinit\u003e(AbstractChangeNotes.java:72)\n      \\_ for 5th parameter cache\n     at ChangeNotes$Factory.\u003cinit\u003e(ChangeNotes.java:109)\n      \\_ for 1st parameter args\n     at InternalChangeQuery.\u003cinit\u003e(InternalChangeQuery.java:102)\n      \\_ for 5th parameter notesFactory\n     at RetryHelper.\u003cinit\u003e(RetryHelper.java:212)\n      \\_ for 7th parameter internalChangeQuery\n     at LuceneAccountIndex.\u003cinit\u003e(LuceneAccountIndex.java:104)\n      \\_ for 6th parameter retryHelper\n     at IndexDefinition$IndexFactory.create(IndexDefinition.java:1)\n     at FactoryProvider2.initialize(FactoryProvider2.java:786)\n     at LuceneIndexModuleOnInit.configure(LuceneIndexModuleOnInit.java:29)\n      \\_ installed by: LuceneIndexModuleOnInit -\u003e FactoryModuleBuilder$1\n2  : ChangeNotesCache.\u003cinit\u003e(ChangeNotesCache.java:390)\n      \\_ for 1st parameter cache\n     at AbstractChangeNotes$Args.\u003cinit\u003e(AbstractChangeNotes.java:72)\n      \\_ for 5th parameter cache\n     at ChangeNotes$Factory.\u003cinit\u003e(ChangeNotes.java:109)\n      \\_ for 1st parameter args\n     at InternalChangeQuery.\u003cinit\u003e(InternalChangeQuery.java:102)\n      \\_ for 5th parameter notesFactory\n     at RetryHelper.\u003cinit\u003e(RetryHelper.java:212)\n      \\_ for 7th parameter internalChangeQuery\n     at LuceneGroupIndex.\u003cinit\u003e(LuceneGroupIndex.java:94)\n      \\_ for 6th parameter retryHelper\n     at IndexDefinition$IndexFactory.create(IndexDefinition.java:1)\n     at FactoryProvider2.initialize(FactoryProvider2.java:786)\n     at LuceneIndexModuleOnInit.configure(LuceneIndexModuleOnInit.java:34)\n      \\_ installed by: LuceneIndexModuleOnInit -\u003e FactoryModuleBuilder$1",
+      "revId": "00adcf0fbffe845820331109ecbeff79c8b4fdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

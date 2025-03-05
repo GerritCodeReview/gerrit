@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6868da_e0dd9383",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-05T19:25:43Z",
+      "side": 1,
+      "message": "Preliminary testing shows no performance difference with this on local disk (I have not tried it on NFS yet). \n\nThe testing I have done is to run 11 parallel threads querying a single change 1K consecutive times (approximately ~3:05min each) from a change while the 1K consecutive comment/votes are posted to the same change (single thread ~1:20m). This is all done via the REST-API, and the result differences are all in the noise.",
+      "revId": "00adcf0fbffe845820331109ecbeff79c8b4fdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

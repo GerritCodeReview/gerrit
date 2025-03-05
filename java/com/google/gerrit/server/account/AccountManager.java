@@ -282,7 +282,8 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       ExternalId extIdWithNewEmail =
-          externalIdFactory.create(extId.key(), extId.accountId(), newEmail, extId.password());
+          externalIdFactory.createWithPassword(
+              extId.key(), extId.accountId(), newEmail, extId.password());
       checkEmailNotUsed(extId.accountId(), extIdWithNewEmail);
       accountUpdates.add(u -> u.replaceExternalId(extId, extIdWithNewEmail));
 

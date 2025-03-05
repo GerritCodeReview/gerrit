@@ -124,12 +124,7 @@ public class ProjectBasicAuthFilterTest {
     doReturn(
             List.of(
                 new TokenCacheEntry(
-                    AUTH_ACCOUNT_ID,
-                    Token.create(
-                        "token",
-                        extIdFactory
-                            .createUsername(AUTH_USER, AUTH_ACCOUNT_ID, AUTH_PASSWORD)
-                            .password()))))
+                    AUTH_ACCOUNT_ID, Token.createWithPlainToken("token", AUTH_PASSWORD))))
         .when(tokenCache)
         .get(AUTH_ACCOUNT_ID);
   }
@@ -354,6 +349,7 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSession).when(webSessionItem).get();
   }
 
+  @Deprecated
   private ExternalId createUsernamePasswordExternalId() {
     return extIdFactory.createWithPassword(
         extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),

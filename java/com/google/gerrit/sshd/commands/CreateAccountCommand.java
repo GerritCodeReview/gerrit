@@ -22,9 +22,11 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -65,6 +67,9 @@ final class CreateAccountCommand extends SshCommand {
       usage = "password for HTTP authentication")
   private String httpPassword;
 
+  @Option(name = "--token", metaVar = "TOKEN", usage = "token for HTTP authentication")
+  private List<String> tokens = new ArrayList<>();
+
   @Argument(index = 0, required = true, metaVar = "USERNAME", usage = "name of the user account")
   private String username;
 
@@ -80,12 +85,21 @@ final class CreateAccountCommand extends SshCommand {
     input.name = fullName;
     input.sshKey = readSshKey();
     input.httpPassword = httpPassword;
+
+    List<TokenInput> tokenInputs = new ArrayList<>();
+    for (String token : tokens) {
+      TokenInput tokenInput = new TokenInput();
+      tokenInput.token = token;
+      tokenInputs.add(tokenInput);
+    }
+    input.tokens = tokenInputs;
+
     input.groups = Lists.transform(groups, AccountGroup.Id::toString);
     try {
       @SuppressWarnings("unused")
       var unused =
           createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
-    } catch (RestApiException e) {
+    } catch (RestApiException | InvalidAuthTokenException e) {
       throw die(e.getMessage());
     }
   }

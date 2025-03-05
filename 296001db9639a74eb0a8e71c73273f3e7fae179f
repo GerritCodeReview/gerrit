@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c768089_b5b63ae9",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentSizeValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-05T09:21:12Z",
+      "side": 0,
+      "message": "Should that be a default?",
+      "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f71b94_012f64eb",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentSizeValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-05T09:21:12Z",
+      "side": 0,
+      "message": "Same.",
+      "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4dca19_2bc8c578",
+        "filename": "java/com/google/gerrit/server/query/change/MagicLabelPredicates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-05T09:21:12Z",
+      "side": 0,
+      "message": "Same.",
+      "revId": "296001db9639a74eb0a8e71c73273f3e7fae179f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

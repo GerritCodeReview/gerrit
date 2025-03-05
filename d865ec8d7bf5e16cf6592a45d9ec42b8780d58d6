@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe0a786c_c0bb2d9d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T09:03:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6116e6f2_f46a96e5",
+      "revId": "d865ec8d7bf5e16cf6592a45d9ec42b8780d58d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5327f04_70c16808",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-05T08:55:45Z",
       "side": 1,
       "message": "why wasn\u0027t this already necessary earlier ?",
+      "revId": "d865ec8d7bf5e16cf6592a45d9ec42b8780d58d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "796c768a_a889458d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T09:03:04Z",
+      "side": 1,
+      "message": "The submit method approves and submit the change. Earlier this was done by the admin user who created the project and is a project owner. Project owners can approve and submit changes by default (default permissions that are assigned to the magic \"Project-Owners\" group). Now the approval and submit is done by a regular user (i.e. not a project owner), which doesn\u0027t have these permissions by default, hence we need to grant them.",
+      "parentUuid": "a5327f04_70c16808",
       "revId": "d865ec8d7bf5e16cf6592a45d9ec42b8780d58d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

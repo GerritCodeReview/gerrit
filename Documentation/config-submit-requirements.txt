@@ -699,6 +699,20 @@ Note, the footer key cannot contain underscores (e.g. using
 For more information about the "users=human_reviewers" arg see
 link:#operator_label_with_users_arg[above].
 
+[[remove-inherited-verified]]
+=== Remove inherited Verified submit requirement
+
+To remove an inherited 'Verified' approval we need to remove both the 'Verified' label and
+the 'Verified' submit requirement.
+
+----
+[label "Verified"]
+  value = 0 No score
+[submit-requirement "Verified"]
+  applicableIf = is:false
+  submittableIf = is:false
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

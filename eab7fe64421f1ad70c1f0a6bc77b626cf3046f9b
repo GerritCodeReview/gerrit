@@ -22,6 +22,30 @@
       },
       "revId": "eab7fe64421f1ad70c1f0a6bc77b626cf3046f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9411d8d_b1bc7825",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-05T11:00:24Z",
+      "side": 1,
+      "message": "We run master and I think we need to bump the schema version to ensure reindexing when the new lucene version is deployed. Looking at the lucene version bumps above, it seems we always did that when bumping lucene to the next major version.",
+      "parentUuid": "6d2ce9f1_aa80a259",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 0
+      },
+      "revId": "eab7fe64421f1ad70c1f0a6bc77b626cf3046f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

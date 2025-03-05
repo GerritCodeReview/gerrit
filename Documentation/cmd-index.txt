@@ -118,6 +118,9 @@ git upload-pack::
 [[admin_commands]]
 === Administrator Commands
 
+link:cmd-cleanup-draft-comments.html[gerrit cleanup-draft-comments]::
+  Cleanup draft comments that are already published.
+
 link:cmd-close-connection.html[gerrit close-connection]::
 	Close the specified SSH connection.
 

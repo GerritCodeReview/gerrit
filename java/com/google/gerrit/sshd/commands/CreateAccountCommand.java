@@ -16,15 +16,18 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -65,6 +68,16 @@ final class CreateAccountCommand extends SshCommand {
       usage = "password for HTTP authentication")
   private String httpPassword;
 
+  @Option(name = "--token", metaVar = "TOKEN", usage = "token for HTTP authentication")
+  private String token;
+
+  @Option(
+      name = "--token-id",
+      depends = {"--token"},
+      metaVar = "TOKEN",
+      usage = "ID for the authentication token")
+  private String tokenId;
+
   @Argument(index = 0, required = true, metaVar = "USERNAME", usage = "name of the user account")
   private String username;
 
@@ -80,12 +93,25 @@ final class CreateAccountCommand extends SshCommand {
     input.name = fullName;
     input.sshKey = readSshKey();
     input.httpPassword = httpPassword;
+
+    if (!Strings.isNullOrEmpty(token)) {
+      AuthTokenInput tokenInput = new AuthTokenInput();
+      if (!Strings.isNullOrEmpty(tokenId)) {
+        tokenInput.id = tokenId;
+      }
+      tokenInput.token = token;
+
+      input.tokens = List.of(tokenInput);
+    } else {
+      input.tokens = List.of();
+    }
+
     input.groups = Lists.transform(groups, AccountGroup.Id::toString);
     try {
       @SuppressWarnings("unused")
       var unused =
           createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
-    } catch (RestApiException e) {
+    } catch (RestApiException | InvalidAuthTokenException e) {
       throw die(e.getMessage());
     }
   }

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2822b7d_deb106ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3211497
+      },
+      "writtenOn": "2025-03-05T20:49:27Z",
+      "side": 1,
+      "message": "457841: Add C++ header files (.inc) to MIME type detection | https://gerrit-review.googlesource.com/c/gerrit/+/457841",
+      "revId": "e4584e9dd6ab390fa0fc6ad7ccfce8cee60e85d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

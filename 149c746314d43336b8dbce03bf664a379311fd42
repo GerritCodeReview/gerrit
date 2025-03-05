@@ -52,6 +52,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b91c867_5d1333be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T06:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec64823a_6e64b505",
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a19fed3f_e4f46b74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T06:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d17429a_435ba912",
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38d00961_42d2eacb",
@@ -89,6 +125,30 @@
           ]
         }
       ],
+      "revId": "149c746314d43336b8dbce03bf664a379311fd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "120d9cbf_a89255be",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-05T06:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38d00961_42d2eacb",
+      "range": {
+        "startLine": 689,
+        "startChar": 45,
+        "endLine": 689,
+        "endChar": 51
+      },
       "revId": "149c746314d43336b8dbce03bf664a379311fd42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

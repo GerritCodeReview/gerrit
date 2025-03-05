@@ -39,6 +39,30 @@
       },
       "revId": "199e724fdc2395c8077d166551e8a00f8fa7b122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a2edbf1_b1c3876c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-05T08:58:37Z",
+      "side": 1,
+      "message": "\u003e for the record:\n\u003e 1. if `close` of `BinaryResult` was actually closing anything then we would still need a flag to protect from race betweeen closing resources and transerferring the response\n\u003e 2. all resources are opened and closed in `writeTo` hence `bin` can be closed anytime\n\nI believe the `close()` here isn\u0027t needed anymore, as it doesn\u0027t do anything.\n\nWill upload a new change to clean this up.",
+      "parentUuid": "4b6fd97b_5e9ce7e5",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 9
+      },
+      "revId": "199e724fdc2395c8077d166551e8a00f8fa7b122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

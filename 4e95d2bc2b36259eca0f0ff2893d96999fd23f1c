@@ -88,6 +88,24 @@
       "parentUuid": "9d3e69c9_58aa69bf",
       "revId": "4e95d2bc2b36259eca0f0ff2893d96999fd23f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d4a4c3_a28efdf2",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-05T09:09:17Z",
+      "side": 0,
+      "message": "marked as resolved",
+      "parentUuid": "fa2f4d2f_2b5df599",
+      "revId": "4e95d2bc2b36259eca0f0ff2893d96999fd23f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

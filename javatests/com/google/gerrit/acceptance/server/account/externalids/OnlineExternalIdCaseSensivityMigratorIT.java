@@ -138,11 +138,10 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
 
       extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       ExternalId extId =
-          externalIdFactory.create(
+          externalIdFactory.createWithEmail(
               externalIdKeyFactory.create(SCHEME_USERNAME, "JonDoe", true),
               accountId,
-              "test@email.com",
-              "w1m9Bg85GQ4hijLNxW+6xAfj4r9wyk9rzVQelIHxuQ");
+              "test@email.com");
       extIdNotes.upsert(extId);
       extIdNotes.commit(md);
 

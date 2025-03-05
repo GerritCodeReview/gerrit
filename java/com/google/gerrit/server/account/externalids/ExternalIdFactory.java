@@ -40,6 +40,7 @@ public interface ExternalIdFactory {
    * @param hashedPassword the hashed password of the external ID, may be {@code null}
    * @return the created external ID
    */
+  @Deprecated
   ExternalId create(
       String scheme,
       String id,
@@ -57,21 +58,6 @@ public interface ExternalIdFactory {
   ExternalId create(ExternalId.Key key, Account.Id accountId);
 
   /**
-   * Creates an external ID.
-   *
-   * @param key the external Id key
-   * @param accountId the ID of the account to which the external ID belongs
-   * @param email the email of the external ID, may be {@code null}
-   * @param hashedPassword the hashed password of the external ID, may be {@code null}
-   * @return the created external ID
-   */
-  ExternalId create(
-      ExternalId.Key key,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String hashedPassword);
-
-  /**
    * Creates an external ID adding a hashed password computed from a plain password.
    *
    * @param key the external Id key
@@ -80,6 +66,7 @@ public interface ExternalIdFactory {
    * @param plainPassword the plain HTTP password, may be {@code null}
    * @return the created external ID
    */
+  @Deprecated
   ExternalId createWithPassword(
       ExternalId.Key key,
       Account.Id accountId,
@@ -94,7 +81,17 @@ public interface ExternalIdFactory {
    * @param plainPassword the plain HTTP password, may be {@code null}
    * @return the created external ID
    */
+  @Deprecated
   ExternalId createUsername(String id, Account.Id accountId, @Nullable String plainPassword);
+
+  /**
+   * Create a external ID for a username (scheme "username").
+   *
+   * @param id the external ID, must not contain colons (':')
+   * @param accountId the ID of the account to which the external ID belongs
+   * @return the created external ID
+   */
+  ExternalId createUsername(String id, Account.Id accountId);
 
   /**
    * Creates an external ID with an email.
@@ -129,5 +126,6 @@ public interface ExternalIdFactory {
   ExternalId createEmail(Account.Id accountId, String email);
 
   /** Whether this {@link ExternalIdFactory} supports passwords. */
+  @Deprecated
   boolean arePasswordsAllowed();
 }

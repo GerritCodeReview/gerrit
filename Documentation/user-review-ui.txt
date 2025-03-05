@@ -854,6 +854,10 @@ Controls whether syntax highlighting should be enabled.
 The language for the syntax highlighting is automatically detected from
 the file extension.
 
+Note that syntax highlighting is automatically disabled in files that
+contain more than 20,000 lines of code or are bigger than 500 kb to ensure
+the UI remains responsive.
+
 - [[whitespace-errors]]`Show trailing whitespace`:
 +
 Controls whether trailing whitespace is highlighted.

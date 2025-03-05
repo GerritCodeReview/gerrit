@@ -303,18 +303,16 @@ public abstract class ScheduleConfig {
     }
   }
 
-  @AutoValue
-  public abstract static class Schedule {
-    /** Number of milliseconds between events. */
-    public abstract long interval();
-
-    /**
-     * Milliseconds between constructor invocation and first event time.
-     *
-     * <p>If there is any lag between the constructor invocation and queuing the object into an
-     * executor the event will run later, as there is no method to adjust for the scheduling delay.
-     */
-    public abstract long initialDelay();
+  /**
+   * Schedule
+   *
+   * @param interval Number of milliseconds between events.
+   * @param initialDelay Milliseconds between constructor invocation and first event time.
+   *     <p>If there is any lag between the constructor invocation and queuing the object into an
+   *     executor the event will run later, as there is no method to adjust for the scheduling
+   *     delay.
+   */
+  public record Schedule(long interval, long initialDelay) {
 
     /**
      * Creates a schedule.
@@ -352,7 +350,7 @@ public abstract class ScheduleConfig {
     }
 
     static Schedule create(long interval, long initialDelay) {
-      return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);
+      return new Schedule(interval, initialDelay);
     }
   }
 }

@@ -13,24 +13,22 @@
 // limitations under the License.
 package com.google.gerrit.server.config;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.Nullable;
 
-@AutoValue
-public abstract class ConfigKey {
-  public abstract String section();
-
-  @Nullable
-  public abstract String subsection();
-
-  public abstract String name();
+public record ConfigKey(String section, @Nullable String subsection, String name) {
+  public ConfigKey {
+    requireNonNull(section, "section");
+    requireNonNull(name, "name");
+  }
 
   public static ConfigKey create(String section, String subsection, String name) {
-    return new AutoValue_ConfigKey(section, subsection, name);
+    return new ConfigKey(section, subsection, name);
   }
 
   public static ConfigKey create(String section, String name) {
-    return new AutoValue_ConfigKey(section, null, name);
+    return new ConfigKey(section, null, name);
   }
 
   @Override

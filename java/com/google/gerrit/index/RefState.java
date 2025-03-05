@@ -17,8 +17,8 @@ package com.google.gerrit.index;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
@@ -30,8 +30,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-@AutoValue
-public abstract class RefState {
+public record RefState(String ref, ObjectId id) {
+  public RefState {
+    requireNonNull(ref, "ref");
+    requireNonNull(id, "id");
+  }
+
   public static ImmutableSetMultimap<Project.NameKey, RefState> parseStates(
       Iterable<byte[]> states) {
     RefState.check(states != null, null);
@@ -47,15 +51,15 @@ public abstract class RefState {
   }
 
   public static RefState create(String ref, String sha) {
-    return new AutoValue_RefState(ref, ObjectId.fromString(sha));
+    return new RefState(ref, ObjectId.fromString(sha));
   }
 
   public static RefState create(String ref, @Nullable ObjectId id) {
-    return new AutoValue_RefState(ref, firstNonNull(id, ObjectId.zeroId()));
+    return new RefState(ref, firstNonNull(id, ObjectId.zeroId()));
   }
 
   public static RefState of(Ref ref) {
-    return new AutoValue_RefState(ref.getName(), ref.getObjectId());
+    return new RefState(ref.getName(), ref.getObjectId());
   }
 
   public byte[] toByteArray(Project.NameKey project) {
@@ -69,10 +73,6 @@ public abstract class RefState {
   public static void check(boolean condition, String str) {
     checkArgument(condition, "invalid RefState: %s", str);
   }
-
-  public abstract String ref();
-
-  public abstract ObjectId id();
 
   public boolean match(Repository repo) throws IOException {
     Ref ref = repo.exactRef(ref());

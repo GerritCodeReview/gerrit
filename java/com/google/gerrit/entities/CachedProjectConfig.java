@@ -14,13 +14,16 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -34,14 +37,170 @@ import org.eclipse.jgit.lib.ObjectId;
  * com.google.gerrit.server.project.ProjectConfig}.
  *
  * <p>This class is immutable and thread-safe.
+ *
+ * @param accountsSection Returns the account section containing visibility information about
+ *     accounts.
+ * @param accessSections Returns a map of {@link AccessSection}s keyed by their name.
+ * @param branchOrderSection Returns the {@link BranchOrderSection} containing the order in which
+ *     branches should be shown.
+ * @param contributorAgreements Returns the {@link ContributorAgreement}s keyed by their name.
+ * @param notifySections Returns the {@link NotifyConfig}s keyed by their name.
+ * @param labelSections Returns the {@link LabelType}s keyed by their name.
+ * @param submitRequirementSections Returns the {@link SubmitRequirement}s keyed by their name.
+ * @param mimeTypes Returns configured {@link ConfiguredMimeTypes}s.
+ * @param subscribeSections Returns {@link SubscribeSection} keyed by the {@link Project.NameKey}
+ *     they reference.
+ * @param commentLinkSections Returns {@link StoredCommentLinkInfo} keyed by their name.
+ * @param rulesId Returns the blob ID of the {@code rules.pl} file, if present.
+ * @param revision Returns the SHA1 of the {@code refs/meta/config} branch.
+ * @param maxObjectSizeLimit Returns the maximum allowed object size.
+ * @param checkReceivedObjects Returns {@code true} if received objects should be checked for
+ *     validity.
+ * @param extensionPanelSections Returns a list of panel sections keyed by title.
  */
-@AutoValue
-public abstract class CachedProjectConfig {
+public record CachedProjectConfig(
+    Project project,
+    ImmutableMap<AccountGroup.UUID, GroupReference> groups,
+    AccountsSection accountsSection,
+    ImmutableSortedMap<String, AccessSection> accessSections,
+    Optional<BranchOrderSection> branchOrderSection,
+    ImmutableMap<String, ContributorAgreement> contributorAgreements,
+    ImmutableMap<String, NotifyConfig> notifySections,
+    ImmutableMap<String, LabelType> labelSections,
+    ImmutableMap<String, SubmitRequirement> submitRequirementSections,
+    ConfiguredMimeTypes mimeTypes,
+    ImmutableMap<Project.NameKey, SubscribeSection> subscribeSections,
+    ImmutableMap<String, StoredCommentLinkInfo> commentLinkSections,
+    Optional<ObjectId> rulesId,
+    Optional<ObjectId> revision,
+    long maxObjectSizeLimit,
+    boolean checkReceivedObjects,
+    ImmutableMap<String, ImmutableList<String>> extensionPanelSections,
+    ImmutableMap<String, String> pluginConfigs,
+    ImmutableMap<String, String> projectLevelConfigs,
+    ImmutableMap<String, ImmutableConfig> parsedProjectLevelConfigs) {
+  public CachedProjectConfig {
+    requireNonNull(project, "project");
+    requireNonNull(groups, "groups");
+    requireNonNull(accountsSection, "accountsSection");
+    requireNonNull(accessSections, "accessSections");
+    requireNonNull(branchOrderSection, "branchOrderSection");
+    requireNonNull(contributorAgreements, "contributorAgreements");
+    requireNonNull(notifySections, "notifySections");
+    requireNonNull(labelSections, "labelSections");
+    requireNonNull(submitRequirementSections, "submitRequirementSections");
+    requireNonNull(mimeTypes, "mimeTypes");
+    requireNonNull(subscribeSections, "subscribeSections");
+    requireNonNull(commentLinkSections, "commentLinkSections");
+    requireNonNull(rulesId, "rulesId");
+    requireNonNull(revision, "revision");
+    requireNonNull(extensionPanelSections, "extensionPanelSections");
+    requireNonNull(pluginConfigs, "pluginConfigs");
+    requireNonNull(projectLevelConfigs, "projectLevelConfigs");
+    requireNonNull(parsedProjectLevelConfigs, "parsedProjectLevelConfigs");
+  }
+
+  @InlineMe(replacement = "this.project()")
+  public Project getProject() {
+    return project();
+  }
+
+  @InlineMe(replacement = "this.groups()")
+  public ImmutableMap<AccountGroup.UUID, GroupReference> getGroups() {
+    return groups();
+  }
+
+  @InlineMe(replacement = "this.accountsSection()")
+  public AccountsSection getAccountsSection() {
+    return accountsSection();
+  }
+
+  @InlineMe(replacement = "this.accessSections()")
+  public ImmutableSortedMap<String, AccessSection> getAccessSections() {
+    return accessSections();
+  }
+
+  @InlineMe(replacement = "this.branchOrderSection()")
+  public Optional<BranchOrderSection> getBranchOrderSection() {
+    return branchOrderSection();
+  }
+
+  @InlineMe(replacement = "this.contributorAgreements()")
+  public ImmutableMap<String, ContributorAgreement> getContributorAgreements() {
+    return contributorAgreements();
+  }
+
+  @InlineMe(replacement = "this.notifySections()")
+  public ImmutableMap<String, NotifyConfig> getNotifySections() {
+    return notifySections();
+  }
+
+  @InlineMe(replacement = "this.labelSections()")
+  public ImmutableMap<String, LabelType> getLabelSections() {
+    return labelSections();
+  }
+
+  @InlineMe(replacement = "this.submitRequirementSections()")
+  public ImmutableMap<String, SubmitRequirement> getSubmitRequirementSections() {
+    return submitRequirementSections();
+  }
+
+  @InlineMe(replacement = "this.mimeTypes()")
+  public ConfiguredMimeTypes getMimeTypes() {
+    return mimeTypes();
+  }
+
+  @InlineMe(replacement = "this.subscribeSections()")
+  public ImmutableMap<Project.NameKey, SubscribeSection> getSubscribeSections() {
+    return subscribeSections();
+  }
+
+  @InlineMe(replacement = "this.commentLinkSections()")
+  public ImmutableMap<String, StoredCommentLinkInfo> getCommentLinkSections() {
+    return commentLinkSections();
+  }
+
+  @InlineMe(replacement = "this.rulesId()")
+  public Optional<ObjectId> getRulesId() {
+    return rulesId();
+  }
+
+  @InlineMe(replacement = "this.revision()")
+  public Optional<ObjectId> getRevision() {
+    return revision();
+  }
+
+  @InlineMe(replacement = "this.maxObjectSizeLimit()")
+  public long getMaxObjectSizeLimit() {
+    return maxObjectSizeLimit();
+  }
+
+  @InlineMe(replacement = "this.checkReceivedObjects()")
+  public boolean getCheckReceivedObjects() {
+    return checkReceivedObjects();
+  }
+
+  @InlineMe(replacement = "this.extensionPanelSections()")
+  public ImmutableMap<String, ImmutableList<String>> getExtensionPanelSections() {
+    return extensionPanelSections();
+  }
+
+  @InlineMe(replacement = "this.pluginConfigs()")
+  public ImmutableMap<String, String> getPluginConfigs() {
+    return pluginConfigs();
+  }
+
+  @InlineMe(replacement = "this.projectLevelConfigs()")
+  public ImmutableMap<String, String> getProjectLevelConfigs() {
+    return projectLevelConfigs();
+  }
+
+  @InlineMe(replacement = "this.parsedProjectLevelConfigs()")
+  public ImmutableMap<String, ImmutableConfig> getParsedProjectLevelConfigs() {
+    return parsedProjectLevelConfigs();
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public abstract Project getProject();
-
-  public abstract ImmutableMap<AccountGroup.UUID, GroupReference> getGroups();
 
   /** Returns a set of all groups used by this configuration. */
   public ImmutableSet<AccountGroup.UUID> getAllGroupUUIDs() {
@@ -67,12 +226,6 @@ public abstract class CachedProjectConfig {
     return getGroups().values().stream().filter(g -> name.equals(g.getName())).findAny();
   }
 
-  /** Returns the account section containing visibility information about accounts. */
-  public abstract AccountsSection getAccountsSection();
-
-  /** Returns a map of {@link AccessSection}s keyed by their name. */
-  public abstract ImmutableSortedMap<String, AccessSection> getAccessSections();
-
   /** Returns the {@link AccessSection} with to the given name. */
   public Optional<AccessSection> getAccessSection(String refName) {
     return Optional.ofNullable(getAccessSections().get(refName));
@@ -83,65 +236,21 @@ public abstract class CachedProjectConfig {
     return ImmutableSet.copyOf(getAccessSections().keySet());
   }
 
-  /**
-   * Returns the {@link BranchOrderSection} containing the order in which branches should be shown.
-   */
-  public abstract Optional<BranchOrderSection> getBranchOrderSection();
-
-  /** Returns the {@link ContributorAgreement}s keyed by their name. */
-  public abstract ImmutableMap<String, ContributorAgreement> getContributorAgreements();
-
-  /** Returns the {@link NotifyConfig}s keyed by their name. */
-  public abstract ImmutableMap<String, NotifyConfig> getNotifySections();
-
-  /** Returns the {@link LabelType}s keyed by their name. */
-  public abstract ImmutableMap<String, LabelType> getLabelSections();
-
-  /** Returns the {@link SubmitRequirement}s keyed by their name. */
-  public abstract ImmutableMap<String, SubmitRequirement> getSubmitRequirementSections();
-
-  /** Returns configured {@link ConfiguredMimeTypes}s. */
-  public abstract ConfiguredMimeTypes getMimeTypes();
-
-  /** Returns {@link SubscribeSection} keyed by the {@link Project.NameKey} they reference. */
-  public abstract ImmutableMap<Project.NameKey, SubscribeSection> getSubscribeSections();
-
-  /** Returns {@link StoredCommentLinkInfo} keyed by their name. */
-  public abstract ImmutableMap<String, StoredCommentLinkInfo> getCommentLinkSections();
-
-  /** Returns the blob ID of the {@code rules.pl} file, if present. */
-  public abstract Optional<ObjectId> getRulesId();
-
   // TODO(hiesel): This should not have to be an Optional.
-  /** Returns the SHA1 of the {@code refs/meta/config} branch. */
-  public abstract Optional<ObjectId> getRevision();
-
-  /** Returns the maximum allowed object size. */
-  public abstract long getMaxObjectSizeLimit();
-
-  /** Returns {@code true} if received objects should be checked for validity. */
-  public abstract boolean getCheckReceivedObjects();
-
-  /** Returns a list of panel sections keyed by title. */
-  public abstract ImmutableMap<String, ImmutableList<String>> getExtensionPanelSections();
 
   public ImmutableList<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
     return filterSubscribeSectionsByBranch(getSubscribeSections().values(), branch);
   }
 
-  public abstract ImmutableMap<String, String> getPluginConfigs();
-
-  public abstract ImmutableMap<String, String> getProjectLevelConfigs();
-
-  public abstract ImmutableMap<String, ImmutableConfig> getParsedProjectLevelConfigs();
-
   public static Builder builder() {
-    return new AutoValue_CachedProjectConfig.Builder();
+    return new AutoBuilder_CachedProjectConfig_Builder();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_CachedProjectConfig_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setProject(Project value);
 

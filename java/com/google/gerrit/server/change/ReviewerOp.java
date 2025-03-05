@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -56,29 +56,31 @@ public class ReviewerOp implements BatchUpdateOp {
     this.patchSet = requireNonNull(patchSet);
   }
 
-  @AutoValue
-  public abstract static class Result {
-    public abstract ImmutableList<PatchSetApproval> addedReviewers();
-
-    public abstract ImmutableList<Address> addedReviewersByEmail();
-
-    public abstract ImmutableList<Account.Id> addedCCs();
-
-    public abstract ImmutableList<Address> addedCCsByEmail();
-
-    public abstract Optional<Account.Id> deletedReviewer();
-
-    public abstract Optional<Address> deletedReviewerByEmail();
+  public record Result(
+      ImmutableList<PatchSetApproval> addedReviewers,
+      ImmutableList<Address> addedReviewersByEmail,
+      ImmutableList<Account.Id> addedCCs,
+      ImmutableList<Address> addedCCsByEmail,
+      Optional<Account.Id> deletedReviewer,
+      Optional<Address> deletedReviewerByEmail) {
+    public Result {
+      requireNonNull(addedReviewers, "addedReviewers");
+      requireNonNull(addedReviewersByEmail, "addedReviewersByEmail");
+      requireNonNull(addedCCs, "addedCCs");
+      requireNonNull(addedCCsByEmail, "addedCCsByEmail");
+      requireNonNull(deletedReviewer, "deletedReviewer");
+      requireNonNull(deletedReviewerByEmail, "deletedReviewerByEmail");
+    }
 
     static Builder builder() {
-      return new AutoValue_ReviewerOp_Result.Builder()
+      return new AutoBuilder_ReviewerOp_Result_Builder()
           .setAddedReviewers(ImmutableList.of())
           .setAddedReviewersByEmail(ImmutableList.of())
           .setAddedCCs(ImmutableList.of())
           .setAddedCCsByEmail(ImmutableList.of());
     }
 
-    @AutoValue.Builder
+    @AutoBuilder
     abstract static class Builder {
       abstract Builder setAddedReviewers(Iterable<PatchSetApproval> addedReviewers);
 

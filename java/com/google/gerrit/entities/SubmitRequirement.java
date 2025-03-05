@@ -14,10 +14,10 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
 /**
@@ -30,62 +30,48 @@ import java.util.Optional;
  *       com.google.gerrit.server.project.ProjectState#getSubmitRequirements()}
  *   <li>Bind a global {@link SubmitRequirement} that will be evaluated for all projects.
  * </ul>
+ *
+ * @param name Requirement name.
+ * @param description Description of what this requirement means.
+ * @param applicabilityExpression Expression of the condition that makes the requirement applicable.
+ *     The expression should be evaluated for a specific {@link Change} and if it returns false, the
+ *     requirement becomes irrelevant for the change (i.e. {@link #submittabilityExpression()} and
+ *     {@link #overrideExpression()} are not evaluated).
+ *     <p>An empty {@link Optional} indicates that the requirement is applicable for any change.
+ * @param submittabilityExpression Expression of the condition that allows the submission of a
+ *     change. The expression should be evaluated for a specific {@link Change} and if it returns
+ *     true, the requirement becomes fulfilled for the change.
+ * @param overrideExpression Expression that, if evaluated to true, causes the submit requirement to
+ *     be fulfilled, regardless of the submittability expression. This expression should be
+ *     evaluated for a specific {@link Change}.
+ *     <p>An empty {@link Optional} indicates that the requirement is not overridable.
+ * @param allowOverrideInChildProjects Boolean value indicating if the {@link SubmitRequirement}
+ *     definition can be overridden in child projects.
+ *     <p>For globally bound {@link SubmitRequirement}, indicates if can be overridden by {@link
+ *     SubmitRequirement} in project.config.
+ *     <p>Default is false.
  */
 @ExtensionPoint
-@AutoValue
-public abstract class SubmitRequirement {
-  /** Requirement name. */
-  public abstract String name();
-
-  /** Description of what this requirement means. */
-  public abstract Optional<String> description();
-
-  /**
-   * Expression of the condition that makes the requirement applicable. The expression should be
-   * evaluated for a specific {@link Change} and if it returns false, the requirement becomes
-   * irrelevant for the change (i.e. {@link #submittabilityExpression()} and {@link
-   * #overrideExpression()} are not evaluated).
-   *
-   * <p>An empty {@link Optional} indicates that the requirement is applicable for any change.
-   */
-  public abstract Optional<SubmitRequirementExpression> applicabilityExpression();
-
-  /**
-   * Expression of the condition that allows the submission of a change. The expression should be
-   * evaluated for a specific {@link Change} and if it returns true, the requirement becomes
-   * fulfilled for the change.
-   */
-  public abstract SubmitRequirementExpression submittabilityExpression();
-
-  /**
-   * Expression that, if evaluated to true, causes the submit requirement to be fulfilled,
-   * regardless of the submittability expression. This expression should be evaluated for a specific
-   * {@link Change}.
-   *
-   * <p>An empty {@link Optional} indicates that the requirement is not overridable.
-   */
-  public abstract Optional<SubmitRequirementExpression> overrideExpression();
-
-  /**
-   * Boolean value indicating if the {@link SubmitRequirement} definition can be overridden in child
-   * projects.
-   *
-   * <p>For globally bound {@link SubmitRequirement}, indicates if can be overridden by {@link
-   * SubmitRequirement} in project.config.
-   *
-   * <p>Default is false.
-   */
-  public abstract boolean allowOverrideInChildProjects();
+public record SubmitRequirement(
+    String name,
+    Optional<String> description,
+    Optional<SubmitRequirementExpression> applicabilityExpression,
+    SubmitRequirementExpression submittabilityExpression,
+    Optional<SubmitRequirementExpression> overrideExpression,
+    boolean allowOverrideInChildProjects) {
+  public SubmitRequirement {
+    requireNonNull(name, "name");
+    requireNonNull(description, "description");
+    requireNonNull(applicabilityExpression, "applicabilityExpression");
+    requireNonNull(submittabilityExpression, "submittabilityExpression");
+    requireNonNull(overrideExpression, "overrideExpression");
+  }
 
   public static SubmitRequirement.Builder builder() {
-    return new AutoValue_SubmitRequirement.Builder();
+    return new AutoBuilder_SubmitRequirement_Builder();
   }
 
-  public static TypeAdapter<SubmitRequirement> typeAdapter(Gson gson) {
-    return new AutoValue_SubmitRequirement.GsonTypeAdapter(gson);
-  }
-
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder setName(String name);

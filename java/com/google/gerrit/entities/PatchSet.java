@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoBuilder;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -30,10 +31,70 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** A single revision of a {@link Change}. */
-@AutoValue
+/**
+ * A single revision of a {@link Change}.
+ *
+ * @param id ID of the patch set.
+ * @param commitId Commit ID of the patch set, also known as the revision.
+ *     <p>If this is a deserialized instance that was originally serialized by an older version of
+ *     Gerrit, and the old data erroneously did not include a {@code commitId}, then this method
+ *     will return {@link ObjectId#zeroId()}.
+ * @param branch Name of the target branch where this patch-set should be merged into. If the change
+ *     is moved, different patch-sets will have different target branches.
+ * @param uploader Account that uploaded the patch set.
+ *     <p>If the upload was done on behalf of another user, the impersonated user on whom's behalf
+ *     the patch set was uploaded.
+ *     <p>If this is a deserialized instance that was originally serialized by an older version of
+ *     Gerrit, and the old data erroneously did not include an {@code uploader}, then this method
+ *     will return an account ID of 0.
+ * @param realUploader The real account that uploaded the patch set.
+ *     <p>If this is a deserialized instance that was originally serialized by an older version of
+ *     Gerrit, and the old data did not include an {@code realUploader}, then this method will
+ *     return the {@code uploader}.
+ * @param createdOn When this patch set was first introduced onto the change.
+ *     <p>If this is a deserialized instance that was originally serialized by an older version of
+ *     Gerrit, and the old data erroneously did not include a {@code createdOn}, then this method
+ *     will return a timestamp of 0.
+ * @param groups Opaque group identifier, usually assigned during creation.
+ *     <p>This field is actually a comma-separated list of values, as in rare cases involving merge
+ *     commits a patch set may belong to multiple groups.
+ *     <p>Changes on the same branch having patch sets with intersecting groups are considered
+ *     related, as in the "Related Changes" tab.
+ * @param pushCertificate Certificate sent with a push that created this patch set.
+ * @param description Optional user-supplied description for this patch set.
+ *     <p>When this field is an empty {@code Optional}, the description was never set on the patch
+ *     set. When this field is present but an empty string, the description was set and later
+ *     cleared.
+ * @param conflicts Information about conflicts in this patch set.
+ *     <p>Only set for patch sets that are created by Gerrit as a result of performing a Git merge.
+ *     <p>If this field is not set it's unknown whether this patch set contains any file with
+ *     conflicts.
+ */
 @ConvertibleToProto
-public abstract class PatchSet {
+public record PatchSet(
+    Id id,
+    ObjectId commitId,
+    Optional<String> branch,
+    Account.Id uploader,
+    Account.Id realUploader,
+    Instant createdOn,
+    ImmutableList<String> groups,
+    Optional<String> pushCertificate,
+    Optional<String> description,
+    Optional<Conflicts> conflicts) {
+  public PatchSet {
+    requireNonNull(id, "id");
+    requireNonNull(commitId, "commitId");
+    requireNonNull(branch, "branch");
+    requireNonNull(uploader, "uploader");
+    requireNonNull(realUploader, "realUploader");
+    requireNonNull(createdOn, "createdOn");
+    requireNonNull(groups, "groups");
+    requireNonNull(pushCertificate, "pushCertificate");
+    requireNonNull(description, "description");
+    requireNonNull(conflicts, "conflicts");
+  }
+
   /** Is the reference name a change reference? */
   public static boolean isChangeRef(String name) {
     return Id.fromRef(name) != null;
@@ -158,10 +219,10 @@ public abstract class PatchSet {
   }
 
   public static Builder builder() {
-    return new AutoValue_PatchSet.Builder().groups(ImmutableList.of());
+    return new AutoBuilder_PatchSet_Builder().groups(ImmutableList.of());
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder id(Id id);
 
@@ -200,86 +261,6 @@ public abstract class PatchSet {
     public abstract PatchSet build();
   }
 
-  /** ID of the patch set. */
-  public abstract Id id();
-
-  /**
-   * Commit ID of the patch set, also known as the revision.
-   *
-   * <p>If this is a deserialized instance that was originally serialized by an older version of
-   * Gerrit, and the old data erroneously did not include a {@code commitId}, then this method will
-   * return {@link ObjectId#zeroId()}.
-   */
-  public abstract ObjectId commitId();
-
-  /**
-   * Name of the target branch where this patch-set should be merged into. If the change is moved,
-   * different patch-sets will have different target branches.
-   */
-  public abstract Optional<String> branch();
-
-  /**
-   * Account that uploaded the patch set.
-   *
-   * <p>If the upload was done on behalf of another user, the impersonated user on whom's behalf the
-   * patch set was uploaded.
-   *
-   * <p>If this is a deserialized instance that was originally serialized by an older version of
-   * Gerrit, and the old data erroneously did not include an {@code uploader}, then this method will
-   * return an account ID of 0.
-   */
-  public abstract Account.Id uploader();
-
-  /**
-   * The real account that uploaded the patch set.
-   *
-   * <p>If this is a deserialized instance that was originally serialized by an older version of
-   * Gerrit, and the old data did not include an {@code realUploader}, then this method will return
-   * the {@code uploader}.
-   */
-  public abstract Account.Id realUploader();
-
-  /**
-   * When this patch set was first introduced onto the change.
-   *
-   * <p>If this is a deserialized instance that was originally serialized by an older version of
-   * Gerrit, and the old data erroneously did not include a {@code createdOn}, then this method will
-   * return a timestamp of 0.
-   */
-  public abstract Instant createdOn();
-
-  /**
-   * Opaque group identifier, usually assigned during creation.
-   *
-   * <p>This field is actually a comma-separated list of values, as in rare cases involving merge
-   * commits a patch set may belong to multiple groups.
-   *
-   * <p>Changes on the same branch having patch sets with intersecting groups are considered
-   * related, as in the "Related Changes" tab.
-   */
-  public abstract ImmutableList<String> groups();
-
-  /** Certificate sent with a push that created this patch set. */
-  public abstract Optional<String> pushCertificate();
-
-  /**
-   * Optional user-supplied description for this patch set.
-   *
-   * <p>When this field is an empty {@code Optional}, the description was never set on the patch
-   * set. When this field is present but an empty string, the description was set and later cleared.
-   */
-  public abstract Optional<String> description();
-
-  /**
-   * Information about conflicts in this patch set.
-   *
-   * <p>Only set for patch sets that are created by Gerrit as a result of performing a Git merge.
-   *
-   * <p>If this field is not set it's unknown whether this patch set contains any file with
-   * conflicts.
-   */
-  public abstract Optional<Conflicts> conflicts();
-
   /** Patch set number. */
   public int number() {
     return id().get();
@@ -290,45 +271,38 @@ public abstract class PatchSet {
     return id().toRefName();
   }
 
-  @AutoValue
+  /**
+   * Conflict information for a patch set.
+   *
+   * @param ours The SHA1 of the commit that was used as {@code ours} for the Git merge that created
+   *     the revision.
+   *     <p>Guaranteed to be set if {@link #containsConflicts()} is {@code true}. If {@link
+   *     #containsConflicts()} is {@code false}, only set if the revision was created by Gerrit as a
+   *     result of performing a Git merge.
+   * @param theirs The SHA1 of the commit that was used as {@code theirs} for the Git merge that
+   *     created the revision.
+   *     <p>Guaranteed to be set if {@link #containsConflicts()} is {@code true}. If {@link
+   *     #containsConflicts()} is {@code false}, only set if the revision was created by Gerrit as a
+   *     result of performing a Git merge.
+   * @param containsConflicts Whether any of the files in the revision has a conflict due to merging
+   *     {@link #ours} and {@link #theirs}.
+   *     <p>If {@code true} at least one of the files in the revision has a conflict and contains
+   *     Git conflict markers.
+   *     <p>If {@code false} merging {@link #ours} and {@link #theirs} didn't have any conflict. In
+   *     this case the files in the revision may only contain Git conflict marker if they were
+   *     already present in {@link #ours} or {@link #theirs}.
+   */
   @ConvertibleToProto
-  public abstract static class Conflicts {
-    /**
-     * The SHA1 of the commit that was used as {@code ours} for the Git merge that created the
-     * revision.
-     *
-     * <p>Guaranteed to be set if {@link #containsConflicts()} is {@code true}. If {@link
-     * #containsConflicts()} is {@code false}, only set if the revision was created by Gerrit as a
-     * result of performing a Git merge.
-     */
-    public abstract Optional<ObjectId> ours();
-
-    /**
-     * The SHA1 of the commit that was used as {@code theirs} for the Git merge that created the
-     * revision.
-     *
-     * <p>Guaranteed to be set if {@link #containsConflicts()} is {@code true}. If {@link
-     * #containsConflicts()} is {@code false}, only set if the revision was created by Gerrit as a
-     * result of performing a Git merge.
-     */
-    public abstract Optional<ObjectId> theirs();
-
-    /**
-     * Whether any of the files in the revision has a conflict due to merging {@link #ours} and
-     * {@link #theirs}.
-     *
-     * <p>If {@code true} at least one of the files in the revision has a conflict and contains Git
-     * conflict markers.
-     *
-     * <p>If {@code false} merging {@link #ours} and {@link #theirs} didn't have any conflict. In
-     * this case the files in the revision may only contain Git conflict marker if they were already
-     * present in {@link #ours} or {@link #theirs}.
-     */
-    public abstract boolean containsConflicts();
+  public record Conflicts(
+      Optional<ObjectId> ours, Optional<ObjectId> theirs, boolean containsConflicts) {
+    public Conflicts {
+      requireNonNull(ours, "ours");
+      requireNonNull(theirs, "theirs");
+    }
 
     public static Conflicts create(
         Optional<ObjectId> ours, Optional<ObjectId> theirs, boolean containsConflicts) {
-      return new AutoValue_PatchSet_Conflicts(ours, theirs, containsConflicts);
+      return new Conflicts(ours, theirs, containsConflicts);
     }
   }
 }

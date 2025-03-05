@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.patch.filediff;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -22,21 +24,22 @@ import org.eclipse.jgit.lib.ObjectId;
  * A wrapper entity to the {@link FileDiffCacheKey} that also includes the old parent commit ID, the
  * new parent commit ID and if we should ignore computing the rebase edits for that key.
  */
-@AutoValue
-abstract class AugmentedFileDiffCacheKey {
-  abstract FileDiffCacheKey key();
-
-  abstract boolean ignoreRebase();
-
-  abstract Optional<ObjectId> oldParentId();
-
-  abstract Optional<ObjectId> newParentId();
-
-  static Builder builder() {
-    return new AutoValue_AugmentedFileDiffCacheKey.Builder();
+record AugmentedFileDiffCacheKey(
+    FileDiffCacheKey key,
+    boolean ignoreRebase,
+    Optional<ObjectId> oldParentId,
+    Optional<ObjectId> newParentId) {
+  AugmentedFileDiffCacheKey {
+    requireNonNull(key, "key");
+    requireNonNull(oldParentId, "oldParentId");
+    requireNonNull(newParentId, "newParentId");
   }
 
-  @AutoValue.Builder
+  static Builder builder() {
+    return new AutoBuilder_AugmentedFileDiffCacheKey_Builder();
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder oldParentId(Optional<ObjectId> value);

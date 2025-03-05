@@ -14,7 +14,9 @@
 
 package com.google.gerrit.extensions.validators;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.errorprone.annotations.InlineMe;
 
 /**
  * Holds a comment validators context in order to pass it to a validation plugin.
@@ -24,20 +26,32 @@ import com.google.auto.value.AutoValue;
  * want to validate a comment if it's on a change in the project foo.
  *
  * @see CommentValidator
+ * @param changeId Returns the change id the comment is being added to.
+ * @param project Returns the project the comment is being added to.
+ * @param refName Returns the ref name the comment is being added to.
  */
-@AutoValue
-public abstract class CommentValidationContext {
+public record CommentValidationContext(int changeId, String project, String refName) {
+  public CommentValidationContext {
+    requireNonNull(project, "project");
+    requireNonNull(refName, "refName");
+  }
 
-  /** Returns the change id the comment is being added to. */
-  public abstract int getChangeId();
+  @InlineMe(replacement = "this.changeId()")
+  public int getChangeId() {
+    return changeId();
+  }
 
-  /** Returns the project the comment is being added to. */
-  public abstract String getProject();
+  @InlineMe(replacement = "this.project()")
+  public String getProject() {
+    return project();
+  }
 
-  /** Returns the ref name the comment is being added to. */
-  public abstract String getRefName();
+  @InlineMe(replacement = "this.refName()")
+  public String getRefName() {
+    return refName();
+  }
 
   public static CommentValidationContext create(int changeId, String project, String refName) {
-    return new AutoValue_CommentValidationContext(changeId, project, refName);
+    return new CommentValidationContext(changeId, project, refName);
   }
 }

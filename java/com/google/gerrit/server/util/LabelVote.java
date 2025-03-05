@@ -15,16 +15,19 @@
 package com.google.gerrit.server.util;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
 
 /** A single vote on a label, consisting of a label name and a value. */
-@AutoValue
-public abstract class LabelVote {
+public record LabelVote(String label, short value) {
+  public LabelVote {
+    requireNonNull(label, "label");
+  }
+
   public static LabelVote parse(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     if (text.charAt(0) == '-') {
@@ -68,16 +71,12 @@ public abstract class LabelVote {
   }
 
   public static LabelVote create(String label, short value) {
-    return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value);
+    return new LabelVote(LabelType.checkNameInternal(label), value);
   }
 
   public static LabelVote createFrom(PatchSetApproval psa) {
     return create(psa.label(), psa.value());
   }
-
-  public abstract String label();
-
-  public abstract short value();
 
   public String format() {
     // Max short string length is "-32768".length() == 6.

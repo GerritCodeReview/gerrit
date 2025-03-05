@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
@@ -312,19 +313,19 @@ public class RebaseUtil {
     }
   }
 
-  @AutoValue
-  public abstract static class Base {
+  public record Base(ChangeNotes notes, PatchSet patchSet) {
+    public Base {
+      requireNonNull(notes, "notes");
+      requireNonNull(patchSet, "patchSet");
+    }
+
     @Nullable
     private static Base create(ChangeNotes notes, PatchSet ps) {
       if (notes == null) {
         return null;
       }
-      return new AutoValue_RebaseUtil_Base(notes, ps);
+      return new Base(notes, ps);
     }
-
-    public abstract ChangeNotes notes();
-
-    public abstract PatchSet patchSet();
   }
 
   public Base parseBase(RevisionResource rsrc, String base) {

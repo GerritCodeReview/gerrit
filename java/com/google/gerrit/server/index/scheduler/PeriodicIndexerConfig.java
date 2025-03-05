@@ -14,20 +14,18 @@
 
 package com.google.gerrit.server.index.scheduler;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.server.config.ScheduleConfig;
 
-@AutoValue
-public abstract class PeriodicIndexerConfig {
+public record PeriodicIndexerConfig(
+    boolean runOnStartup, boolean enabled, ScheduleConfig.Schedule schedule) {
+  public PeriodicIndexerConfig {
+    requireNonNull(schedule, "schedule");
+  }
 
   public static PeriodicIndexerConfig create(
       boolean runOnStartup, boolean enabled, ScheduleConfig.Schedule schedule) {
-    return new AutoValue_PeriodicIndexerConfig(runOnStartup, enabled, schedule);
+    return new PeriodicIndexerConfig(runOnStartup, enabled, schedule);
   }
-
-  public abstract boolean runOnStartup();
-
-  public abstract boolean enabled();
-
-  public abstract ScheduleConfig.Schedule schedule();
 }

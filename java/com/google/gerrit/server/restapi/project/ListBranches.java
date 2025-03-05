@@ -15,8 +15,8 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.entities.RefNames.isConfigRef;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
@@ -153,16 +153,17 @@ public class ListBranches implements RestReadView<ProjectResource> {
     return this;
   }
 
-  @AutoValue
-  abstract static class ListBranchResult {
-    /** List of branches in the result set. */
-    abstract ImmutableList<BranchInfo> list();
-
-    /** Indicates if there are more results. */
-    abstract boolean hasMore();
+  /**
+   * @param list List of branches in the result set.
+   * @param hasMore Indicates if there are more results.
+   */
+  record ListBranchResult(ImmutableList<BranchInfo> list, boolean hasMore) {
+    ListBranchResult {
+      requireNonNull(list, "list");
+    }
 
     static ListBranchResult create(ImmutableList<BranchInfo> list, boolean hasMore) {
-      return new AutoValue_ListBranches_ListBranchResult(list, hasMore);
+      return new ListBranchResult(list, hasMore);
     }
   }
 

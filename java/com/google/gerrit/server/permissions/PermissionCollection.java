@@ -17,10 +17,10 @@ package com.google.gerrit.server.permissions;
 import static com.google.gerrit.entities.PermissionRule.Action.BLOCK;
 import static com.google.gerrit.server.project.RefPattern.containsParameters;
 import static com.google.gerrit.server.project.RefPattern.isRE;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
@@ -285,17 +285,15 @@ public class PermissionCollection {
   }
 
   /** (ref, permission, group) tuple. */
-  @AutoValue
-  abstract static class SeenRule {
-    public abstract String refPattern();
-
-    @Nullable
-    public abstract AccountGroup.UUID group();
+  record SeenRule(String refPattern, @Nullable AccountGroup.UUID group) {
+    SeenRule {
+      requireNonNull(refPattern, "refPattern");
+    }
 
     static SeenRule create(AccessSection section, @Nullable PermissionRule rule) {
       AccountGroup.UUID group =
           rule != null && rule.getGroup() != null ? rule.getGroup().getUUID() : null;
-      return new AutoValue_PermissionCollection_SeenRule(section.getName(), group);
+      return new SeenRule(section.getName(), group);
     }
   }
 }

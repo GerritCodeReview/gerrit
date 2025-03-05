@@ -14,7 +14,8 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import java.time.Instant;
@@ -25,9 +26,20 @@ import java.time.Instant;
  * invalidates all previous state, only the most recent record is relevant for each user.
  *
  * <p>See {@link AttentionSetInput} for the representation in the API.
+ *
+ * @param timestamp The time at which this status was set. This is null for instances to be written
+ *     because the timestamp in the commit message will be used.
+ * @param account The user included in or excluded from the attention set.
+ * @param operation Indicates whether the user is added to or removed from the attention set.
+ * @param reason A short human readable reason that explains this status (e.g. "manual").
  */
-@AutoValue
-public abstract class AttentionSetUpdate {
+public record AttentionSetUpdate(
+    @Nullable Instant timestamp, Account.Id account, Operation operation, String reason) {
+  public AttentionSetUpdate {
+    requireNonNull(account, "account");
+    requireNonNull(operation, "operation");
+    requireNonNull(reason, "reason");
+  }
 
   /** Users can be added to or removed from the attention set. */
   public enum Operation {
@@ -36,28 +48,12 @@ public abstract class AttentionSetUpdate {
   }
 
   /**
-   * The time at which this status was set. This is null for instances to be written because the
-   * timestamp in the commit message will be used.
-   */
-  @Nullable
-  public abstract Instant timestamp();
-
-  /** The user included in or excluded from the attention set. */
-  public abstract Account.Id account();
-
-  /** Indicates whether the user is added to or removed from the attention set. */
-  public abstract Operation operation();
-
-  /** A short human readable reason that explains this status (e.g. "manual"). */
-  public abstract String reason();
-
-  /**
    * Create an instance from data read from NoteDB. This includes the timestamp taken from the
    * commit.
    */
   public static AttentionSetUpdate createFromRead(
       Instant timestamp, Account.Id account, Operation operation, String reason) {
-    return new AutoValue_AttentionSetUpdate(timestamp, account, operation, reason);
+    return new AttentionSetUpdate(timestamp, account, operation, reason);
   }
 
   /**
@@ -66,6 +62,6 @@ public abstract class AttentionSetUpdate {
    */
   public static AttentionSetUpdate createForWrite(
       Account.Id account, Operation operation, String reason) {
-    return new AutoValue_AttentionSetUpdate(null, account, operation, reason);
+    return new AttentionSetUpdate(null, account, operation, reason);
   }
 }

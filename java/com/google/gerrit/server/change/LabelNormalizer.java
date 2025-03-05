@@ -17,8 +17,8 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -57,24 +57,26 @@ import java.util.Set;
  */
 @Singleton
 public class LabelNormalizer {
-  @AutoValue
-  public abstract static class Result {
+  public record Result(
+      ImmutableSet<PatchSetApproval> unchanged,
+      ImmutableSet<PatchSetApproval> updated,
+      ImmutableSet<PatchSetApproval> deleted) {
+    public Result {
+      requireNonNull(unchanged, "unchanged");
+      requireNonNull(updated, "updated");
+      requireNonNull(deleted, "deleted");
+    }
+
     @VisibleForTesting
     static Result create(
         Set<PatchSetApproval> unchanged,
         Set<PatchSetApproval> updated,
         Set<PatchSetApproval> deleted) {
-      return new AutoValue_LabelNormalizer_Result(
+      return new Result(
           ImmutableSet.copyOf(unchanged),
           ImmutableSet.copyOf(updated),
           ImmutableSet.copyOf(deleted));
     }
-
-    public abstract ImmutableSet<PatchSetApproval> unchanged();
-
-    public abstract ImmutableSet<PatchSetApproval> updated();
-
-    public abstract ImmutableSet<PatchSetApproval> deleted();
 
     public ImmutableSet<PatchSetApproval> getNormalized() {
       return Streams.concat(unchanged().stream(), updated().stream())

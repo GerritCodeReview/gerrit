@@ -15,9 +15,9 @@
 package com.google.gerrit.testing;
 
 import static com.google.gerrit.common.UsedAt.Project.GOOGLE;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
@@ -59,8 +59,21 @@ public class FakeEmailSender implements EmailSender {
     }
   }
 
-  @AutoValue
-  public abstract static class Message {
+  public record Message(
+      Address from,
+      ImmutableList<Address> rcpt,
+      ImmutableMap<String, EmailHeader> headers,
+      String body,
+      @Nullable String htmlBody,
+      ImmutableList<EmailResource> htmlResources) {
+    public Message {
+      requireNonNull(from, "from");
+      requireNonNull(rcpt, "rcpt");
+      requireNonNull(headers, "headers");
+      requireNonNull(body, "body");
+      requireNonNull(htmlResources, "htmlResources");
+    }
+
     @UsedAt(GOOGLE)
     public static Message create(
         Address from,
@@ -69,7 +82,7 @@ public class FakeEmailSender implements EmailSender {
         String body,
         String htmlBody,
         Collection<EmailResource> htmlResources) {
-      return new AutoValue_FakeEmailSender_Message(
+      return new Message(
           from,
           ImmutableList.copyOf(rcpt),
           ImmutableMap.copyOf(headers),
@@ -77,19 +90,6 @@ public class FakeEmailSender implements EmailSender {
           htmlBody,
           ImmutableList.copyOf(htmlResources));
     }
-
-    public abstract Address from();
-
-    public abstract ImmutableList<Address> rcpt();
-
-    public abstract ImmutableMap<String, EmailHeader> headers();
-
-    public abstract String body();
-
-    @Nullable
-    public abstract String htmlBody();
-
-    public abstract ImmutableList<EmailResource> htmlResources();
   }
 
   private final WorkQueue workQueue;

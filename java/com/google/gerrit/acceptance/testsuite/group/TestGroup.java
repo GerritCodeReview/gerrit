@@ -14,43 +14,45 @@
 
 package com.google.gerrit.acceptance.testsuite.group;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import java.time.Instant;
 import java.util.Optional;
 
-@AutoValue
-public abstract class TestGroup {
-
-  public abstract AccountGroup.UUID groupUuid();
-
-  public abstract AccountGroup.Id groupId();
+public record TestGroup(
+    AccountGroup.UUID groupUuid,
+    AccountGroup.Id groupId,
+    AccountGroup.NameKey nameKey,
+    Optional<String> description,
+    AccountGroup.UUID ownerGroupUuid,
+    boolean visibleToAll,
+    Instant createdOn,
+    ImmutableSet<Account.Id> members,
+    ImmutableSet<AccountGroup.UUID> subgroups) {
+  public TestGroup {
+    requireNonNull(groupUuid, "groupUuid");
+    requireNonNull(groupId, "groupId");
+    requireNonNull(nameKey, "nameKey");
+    requireNonNull(description, "description");
+    requireNonNull(ownerGroupUuid, "ownerGroupUuid");
+    requireNonNull(createdOn, "createdOn");
+    requireNonNull(members, "members");
+    requireNonNull(subgroups, "subgroups");
+  }
 
   public String name() {
     return nameKey().get();
   }
 
-  public abstract AccountGroup.NameKey nameKey();
-
-  public abstract Optional<String> description();
-
-  public abstract AccountGroup.UUID ownerGroupUuid();
-
-  public abstract boolean visibleToAll();
-
-  public abstract Instant createdOn();
-
-  public abstract ImmutableSet<Account.Id> members();
-
-  public abstract ImmutableSet<AccountGroup.UUID> subgroups();
-
   static Builder builder() {
-    return new AutoValue_TestGroup.Builder();
+    return new AutoBuilder_TestGroup_Builder();
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   abstract static class Builder {
 
     public abstract Builder groupUuid(AccountGroup.UUID groupUuid);

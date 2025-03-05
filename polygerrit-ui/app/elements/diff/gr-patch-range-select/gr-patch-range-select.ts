@@ -29,6 +29,7 @@ import {
   PatchSetNum,
   RevisionInfo,
   RevisionPatchSetNum,
+  RelatedChangeAndCommitInfo,
   Timestamp,
   WebLinkInfo,
 } from '../../../types/common';
@@ -51,6 +52,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -119,6 +121,9 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeComments?: ChangeComments;
 
+  @state()
+  relatedChanges: RelatedChangeAndCommitInfo[] = [];
+
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
@@ -129,6 +134,11 @@ export class GrPatchRangeSelect extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
 
   constructor() {
     super();
@@ -166,6 +176,11 @@ export class GrPatchRangeSelect extends LitElement {
       this,
       () => this.getCommentsModel().changeComments$,
       x => (this.changeComments = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().relatedChanges$,
+      x => (this.relatedChanges = x ?? [])
     );
   }
 
@@ -320,6 +335,22 @@ export class GrPatchRangeSelect extends LitElement {
     }
 
     const dropdownContent: DropdownItem[] = [];
+
+    // ancestorChange
+    const ancestorChange = this.relatedChanges?.[0];
+    if (ancestorChange && ancestorChange._change_number !== this.changeNum) {
+      const entry: DropdownItem = this.createDropdownEntry(
+        ancestorChange._revision_number as PatchSetNum,
+        `Change ${ancestorChange._change_number} | Patchset `,
+        'sha'
+      );
+      dropdownContent.push({...entry, disabled: false});
+    }
+
+    //https://gerrit-review.git.corp.google.com/changes/gerrit~448403/revisions/1/files
+    //https://gerrit-review.git.corp.google.com/changes/gerrit~448403/revisions/2/files?base=1
+    //java/com/google/gerrit/server/restapi/change/Files.java
+
     for (const patch of this.availablePatches) {
       const patchNum = patch.num;
       const entry = this.createDropdownEntry(
@@ -332,6 +363,7 @@ export class GrPatchRangeSelect extends LitElement {
         disabled: this.computeRightDisabled(this.basePatchNum, patchNum),
       });
     }
+
     return dropdownContent;
   }
 

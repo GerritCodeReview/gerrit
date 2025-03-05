@@ -48,33 +48,24 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
   }
 
   @Override
+  public ExternalId create(ExternalId.Key key, Account.Id accountId) {
+    return create(key, accountId, null, null);
+  }
+
+  @Override
   public ExternalId create(String scheme, String id, Account.Id accountId) {
     return create(externalIdKeyFactory.create(scheme, id), accountId, null, null);
   }
 
   @Override
+  @Deprecated
   public ExternalId create(
       String scheme,
       String id,
       Account.Id accountId,
       @Nullable String email,
       @Nullable String hashedPassword) {
-    return create(externalIdKeyFactory.create(scheme, id), accountId, email, hashedPassword);
-  }
-
-  @Override
-  public ExternalId create(ExternalId.Key key, Account.Id accountId) {
-    return create(key, accountId, null, null);
-  }
-
-  @Override
-  public ExternalId create(
-      ExternalId.Key key,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String hashedPassword) {
-    return create(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
+    return create(externalIdKeyFactory.create(scheme, id), accountId, email, hashedPassword, null);
   }
 
   ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
@@ -92,6 +83,7 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
    *     {@code null} if the external ID was created in code and is not yet stored in Git.
    * @return the created external ID
    */
+  @Deprecated
   public ExternalId create(
       ExternalId.Key key,
       Account.Id accountId,
@@ -102,7 +94,23 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
         key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), blobId);
   }
 
+  /**
+   * Creates an external ID.
+   *
+   * @param key the external Id key
+   * @param accountId the ID of the account to which the external ID belongs
+   * @param email the email of the external ID, may be {@code null}
+   * @param blobId the ID of the note blob in the external IDs branch that stores this external ID.
+   *     {@code null} if the external ID was created in code and is not yet stored in Git.
+   * @return the created external ID
+   */
+  public ExternalId create(
+      ExternalId.Key key, Account.Id accountId, @Nullable String email, @Nullable ObjectId blobId) {
+    return ExternalId.create(key, accountId, Strings.emptyToNull(email), blobId);
+  }
+
   @Override
+  @Deprecated
   public ExternalId createWithPassword(
       ExternalId.Key key,
       Account.Id accountId,
@@ -111,10 +119,11 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
     plainPassword = Strings.emptyToNull(plainPassword);
     String hashedPassword =
         plainPassword != null ? HashedPassword.fromPassword(plainPassword).encode() : null;
-    return create(key, accountId, email, hashedPassword);
+    return create(key, accountId, email, hashedPassword, null);
   }
 
   @Override
+  @Deprecated
   public ExternalId createUsername(
       String id, Account.Id accountId, @Nullable String plainPassword) {
     return createWithPassword(
@@ -122,6 +131,11 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
         accountId,
         null,
         plainPassword);
+  }
+
+  @Override
+  public ExternalId createUsername(String id, Account.Id accountId) {
+    return create(externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, id), accountId);
   }
 
   @Override

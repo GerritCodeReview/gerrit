@@ -23,19 +23,24 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 public class AccountInputProtoConverterTest {
   private final AccountInputProtoConverter accountInputProtoConverter =
       AccountInputProtoConverter.INSTANCE;
+  private final TokenInputProtoConverter tokenInputProtoConverter =
+      TokenInputProtoConverter.INSTANCE;
 
   private AccountInput createAccountInputInstance() {
+
     AccountInput accountInput = new AccountInput();
     accountInput.username = "test-username";
     accountInput.name = "test-name";
@@ -44,7 +49,20 @@ public class AccountInputProtoConverterTest {
     accountInput.sshKey = "test-ssh-key";
     accountInput.httpPassword = "test-http-password";
     accountInput.groups = List.of("group1", "group2");
+    accountInput.tokens = getTokens();
     return accountInput;
+  }
+
+  private List<AuthTokenInput> getTokens() {
+    AuthTokenInput token1 = new AuthTokenInput();
+    token1.id = "id1";
+    token1.token = "secret";
+
+    AuthTokenInput token2 = new AuthTokenInput();
+    token2.id = "another_token";
+    token2.token = "123456";
+
+    return List.of(token1, token2);
   }
 
   private void assertAccountInputEquals(AccountInput expected, AccountInput actual) {
@@ -55,6 +73,7 @@ public class AccountInputProtoConverterTest {
                 && Objects.equals(expected.email, actual.email)
                 && Objects.equals(expected.sshKey, actual.sshKey)
                 && Objects.equals(expected.httpPassword, actual.httpPassword)
+                && Objects.equals(expected.tokens, actual.tokens)
                 && Objects.equals(expected.groups, actual.groups))
         .isTrue();
   }
@@ -73,6 +92,10 @@ public class AccountInputProtoConverterTest {
             .setSshKey("test-ssh-key")
             .setHttpPassword("test-http-password")
             .addAllGroups(ImmutableList.of("group1", "group2"))
+            .addAllTokens(
+                getTokens().stream()
+                    .map(tokenInputProtoConverter::toProto)
+                    .collect(Collectors.toList()))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -100,6 +123,7 @@ public class AccountInputProtoConverterTest {
                 .put("sshKey", String.class)
                 .put("httpPassword", String.class)
                 .put("groups", new TypeLiteral<List<String>>() {}.getType())
+                .put("tokens", new TypeLiteral<List<AuthTokenInput>>() {}.getType())
                 .build());
   }
 }

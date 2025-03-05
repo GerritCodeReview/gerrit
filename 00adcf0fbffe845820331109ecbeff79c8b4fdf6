@@ -16,6 +16,24 @@
       "message": "Preliminary testing shows no performance difference with this on local disk (I have not tried it on NFS yet). \n\nThe testing I have done is to run 11 parallel threads querying a single change 1K consecutive times (approximately ~3:05min each) from a change while the 1K consecutive comment/votes are posted to the same change (single thread ~1:20m). This is all done via the REST-API, and the result differences are all in the noise.",
       "revId": "00adcf0fbffe845820331109ecbeff79c8b4fdf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e41c1aa_6bcf6393",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-05T22:10:24Z",
+      "side": 1,
+      "message": "My NFS testing results are basically the same, in the noise. I am sure that a full index would be much slower on NFS, but for regular operations we may not see a difference considering how small our reads and writes tend to be.",
+      "parentUuid": "fb6868da_e0dd9383",
+      "revId": "00adcf0fbffe845820331109ecbeff79c8b4fdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class AccountInput {
   public String displayName;
   public String email;
   public String sshKey;
-  public String httpPassword;
+  @Deprecated public String httpPassword;
+  public List<TokenInput> tokens;
   public List<String> groups;
 }

@@ -144,12 +144,17 @@ public class ProjectCacheIT extends AbstractDaemonTest {
   public void invalidatesNegativeCachingAfterProjectCreation() throws Exception {
     long initialNumMisses = inMemoryProjectCache.stats().missCount();
     assertThat(inMemoryProjectCache.get(Project.nameKey(name("foo")))).isEmpty();
-    assertThat(inMemoryProjectCache.stats().missCount())
-        .isEqualTo(initialNumMisses + 1); // Negative voting cached
+    long projectNumMisses = initialNumMisses + 1; // current miss count + 1
+    assertThat(inMemoryProjectCache.stats().missCount()).isEqualTo(projectNumMisses);
+
     Project.NameKey newProjectName =
         createProjectOverAPI("foo", allProjects, true, /* submitType= */ null);
-    assertThat(inMemoryProjectCache.get(newProjectName)).isPresent(); // Another invocation
+    long projectCreatedNumMisses = inMemoryProjectCache.stats().missCount();
+    assertThat(projectCreatedNumMisses)
+        .isGreaterThan(projectNumMisses); // eviction happened during the project creation
+
+    assertThat(inMemoryProjectCache.get(newProjectName)).isPresent(); // project available in cache
     assertThat(inMemoryProjectCache.stats().missCount())
-        .isEqualTo(initialNumMisses + 3); // Two eviction happened during the project creation
+        .isEqualTo(projectCreatedNumMisses); // misses no longer increased
   }
 }

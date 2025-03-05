@@ -260,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb732c19_4e357530",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectCacheIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-05T07:56:29Z",
+      "side": 1,
+      "message": "`ProjectCacheIT` is no longer modified hence I have addressed your comments in the follow-up so that we could safely merge this change. See Iba7664ec58b for details.",
+      "parentUuid": "95f7f940_658f16a6",
+      "range": {
+        "startLine": 153,
+        "startChar": 38,
+        "endLine": 153,
+        "endChar": 94
+      },
+      "revId": "8f0698994cb280f0f6e4709679603e6f0dd8c72d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa4594b0_2b8879dc",

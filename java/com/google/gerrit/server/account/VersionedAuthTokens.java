@@ -32,6 +32,7 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -93,6 +94,15 @@ public class VersionedAuthTokens extends VersionedMetaData {
       AuthToken token = authokens.addToken(id, hashedToken);
       commit(authokens);
       return token;
+    }
+
+    public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+        throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      VersionedAuthTokens authorizedTokens = read(accountId);
+      for (AuthToken token : tokens) {
+        authorizedTokens.addToken(token);
+      }
+      commit(authorizedTokens);
     }
 
     public synchronized void deleteToken(Account.Id accountId, String id)

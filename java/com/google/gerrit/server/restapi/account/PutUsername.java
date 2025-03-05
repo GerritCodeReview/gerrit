@@ -122,7 +122,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
           .update(
               "Set Username via API",
               accountId,
-              u -> u.addExternalId(externalIdFactory.create(key, accountId, null, null)));
+              u -> u.addExternalId(externalIdFactory.create(key, accountId)));
     } catch (DuplicateKeyException dupeErr) {
       // If we are using this identity, don't report the exception.
       Optional<ExternalId> other = externalIds.get(key);

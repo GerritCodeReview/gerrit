@@ -22,6 +22,30 @@
       },
       "revId": "07d079d9e71d15eac91bb6705168fada372292cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6258eb56_f5f7c3fa",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-03-05T12:32:31Z",
+      "side": 1,
+      "message": "Depending on whether the email is supposed to be handled case insenstive or case sensitive we either use the `preferredEmail` or the `preferredEmailExact` predicate. The later one results in a single result, but the former one potentially returns multiple entries. The previous code thus also did additionally filter the result.",
+      "parentUuid": "515c6da8_78dff095",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 96
+      },
+      "revId": "07d079d9e71d15eac91bb6705168fada372292cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

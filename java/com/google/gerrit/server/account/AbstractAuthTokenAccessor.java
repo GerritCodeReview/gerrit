@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
@@ -38,6 +39,16 @@ public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
     this.authTokenFactory = authTokenFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.userFactory = userFactory;
+  }
+
+  @Override
+  public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+    VersionedAuthTokens authTokens = readFromNoteDb(accountId);
+    for (AuthToken token : tokens) {
+      authTokens.addToken(token);
+    }
+    commit(accountId, authTokens);
   }
 
   @Override

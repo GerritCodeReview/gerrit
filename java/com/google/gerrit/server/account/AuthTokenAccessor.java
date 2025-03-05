@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -32,4 +33,7 @@ public interface AuthTokenAccessor {
       throws IOException, ConfigInvalidException;
 
   public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException;
+
+  void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+      throws IOException, ConfigInvalidException, AuthTokenConflictException;
 }

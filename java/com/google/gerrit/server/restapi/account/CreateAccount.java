@@ -29,6 +29,7 @@ import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -42,7 +43,10 @@ import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthToken;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.AuthTokenCache;
+import com.google.gerrit.server.account.AuthTokenConflictException;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -80,6 +84,7 @@ public class CreateAccount
   private final Sequences seq;
   private final GroupResolver groupResolver;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+  private final AuthTokenAccessor tokensAccessor;
   private final SshKeyCache sshKeyCache;
   private final AuthTokenCache tokenCache;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
@@ -95,6 +100,7 @@ public class CreateAccount
       Sequences seq,
       GroupResolver groupResolver,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
+      AuthTokenAccessor tokensAccessor,
       SshKeyCache sshKeyCache,
       AuthTokenCache tokenCache,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
@@ -107,6 +113,7 @@ public class CreateAccount
     this.seq = seq;
     this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
+    this.tokensAccessor = tokensAccessor;
     this.sshKeyCache = sshKeyCache;
     this.tokenCache = tokenCache;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -126,7 +133,8 @@ public class CreateAccount
           UnprocessableEntityException,
           IOException,
           ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException,
+          AuthTokenConflictException {
     return apply(id, input != null ? input : new AccountInput());
   }
 
@@ -136,7 +144,8 @@ public class CreateAccount
           UnprocessableEntityException,
           IOException,
           ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException,
+          AuthTokenConflictException {
     String username = applyCaseOfUsername(id.get());
     if (input.username != null && !username.equals(applyCaseOfUsername(input.username))) {
       throw new BadRequestException("username must match URL");
@@ -161,7 +170,7 @@ public class CreateAccount
       extIds.add(externalIdFactory.createEmail(accountId, input.email));
     }
 
-    extIds.add(externalIdFactory.createUsername(username, accountId, input.httpPassword));
+    extIds.add(externalIdFactory.createUsername(username, accountId));
     externalIdCreators.runEach(c -> extIds.addAll(c.create(accountId, username, input.email)));
 
     try {
@@ -201,7 +210,19 @@ public class CreateAccount
       }
     }
 
+    List<AuthToken> tokens = new ArrayList<>();
+    if (input.tokens != null) {
+      for (TokenInput token : input.tokens) {
+        tokens.add(AuthToken.createWithPlainToken(token.id, token.token));
+      }
+    }
+
     if (input.httpPassword != null) {
+      tokens.add(AuthToken.createWithPlainToken("legacy", input.httpPassword));
+    }
+
+    if (!tokens.isEmpty()) {
+      tokensAccessor.addTokens(accountId, tokens);
       tokenCache.evict(accountId);
     }
 

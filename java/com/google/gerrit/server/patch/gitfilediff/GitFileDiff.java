@@ -16,8 +16,9 @@ package com.google.gerrit.server.patch.gitfilediff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableList;
@@ -41,9 +42,49 @@ import org.eclipse.jgit.patch.FileHeader;
 /**
  * Entity representing a modified file (added, deleted, modified, renamed, etc...) between two
  * different git commits.
+ *
+ * @param edits An {@link ImmutableList} of the modified regions in the file.
+ * @param fileHeader A string representation of the {@link org.eclipse.jgit.patch.FileHeader}.
+ * @param oldPath The file name at the old git tree identified by {@link #oldId()}
+ * @param newPath The file name at the new git tree identified by {@link #newId()}
+ * @param oldId The 20 bytes SHA-1 object ID of the old git tree of the diff, or {@link
+ *     ObjectId#zeroId()} if {@link #newId()} was a root git tree (i.e. has no parents).
+ * @param newId The 20 bytes SHA-1 object ID of the new git tree of the diff.
+ * @param oldMode The file mode of the old file at the old git tree diff identified by {@link
+ *     #oldId()}.
+ * @param newMode The file mode of the new file at the new git tree diff identified by {@link
+ *     #newId()}.
+ * @param changeType The change type associated with the file.
+ * @param patchType The patch type associated with the file.
+ * @param negative Returns {@code true} if the diff computation was not able to compute a diff. We
+ *     cache negative result in this case.
  */
-@AutoValue
-public abstract class GitFileDiff {
+public record GitFileDiff(
+    ImmutableList<Edit> edits,
+    String fileHeader,
+    Optional<String> oldPath,
+    Optional<String> newPath,
+    AbbreviatedObjectId oldId,
+    AbbreviatedObjectId newId,
+    Optional<Patch.FileMode> oldMode,
+    Optional<Patch.FileMode> newMode,
+    ChangeType changeType,
+    Optional<PatchType> patchType,
+    Optional<Boolean> negative) {
+  public GitFileDiff {
+    requireNonNull(edits, "edits");
+    requireNonNull(fileHeader, "fileHeader");
+    requireNonNull(oldPath, "oldPath");
+    requireNonNull(newPath, "newPath");
+    requireNonNull(oldId, "oldId");
+    requireNonNull(newId, "newId");
+    requireNonNull(oldMode, "oldMode");
+    requireNonNull(newMode, "newMode");
+    requireNonNull(changeType, "changeType");
+    requireNonNull(patchType, "patchType");
+    requireNonNull(negative, "negative");
+  }
+
   private static final ImmutableMap<FileMode, Patch.FileMode> fileModeMap =
       ImmutableMap.<FileMode, Patch.FileMode>builder()
           .put(FileMode.TREE, Patch.FileMode.TREE)
@@ -110,45 +151,6 @@ public abstract class GitFileDiff {
     return empty(oldId, newId, newFilePath).toBuilder().negative(Optional.of(true)).build();
   }
 
-  /** An {@link ImmutableList} of the modified regions in the file. */
-  public abstract ImmutableList<Edit> edits();
-
-  /** A string representation of the {@link org.eclipse.jgit.patch.FileHeader}. */
-  public abstract String fileHeader();
-
-  /** The file name at the old git tree identified by {@link #oldId()} */
-  public abstract Optional<String> oldPath();
-
-  /** The file name at the new git tree identified by {@link #newId()} */
-  public abstract Optional<String> newPath();
-
-  /**
-   * The 20 bytes SHA-1 object ID of the old git tree of the diff, or {@link ObjectId#zeroId()} if
-   * {@link #newId()} was a root git tree (i.e. has no parents).
-   */
-  public abstract AbbreviatedObjectId oldId();
-
-  /** The 20 bytes SHA-1 object ID of the new git tree of the diff. */
-  public abstract AbbreviatedObjectId newId();
-
-  /** The file mode of the old file at the old git tree diff identified by {@link #oldId()}. */
-  public abstract Optional<Patch.FileMode> oldMode();
-
-  /** The file mode of the new file at the new git tree diff identified by {@link #newId()}. */
-  public abstract Optional<Patch.FileMode> newMode();
-
-  /** The change type associated with the file. */
-  public abstract ChangeType changeType();
-
-  /** The patch type associated with the file. */
-  public abstract Optional<PatchType> patchType();
-
-  /**
-   * Returns {@code true} if the diff computation was not able to compute a diff. We cache negative
-   * result in this case.
-   */
-  public abstract Optional<Boolean> negative();
-
   /**
    * Returns true if the object was created using the {@link #empty(AbbreviatedObjectId,
    * AbbreviatedObjectId, String)} method.
@@ -197,12 +199,14 @@ public abstract class GitFileDiff {
   }
 
   public static Builder builder() {
-    return new AutoValue_GitFileDiff.Builder();
+    return new AutoBuilder_GitFileDiff_Builder();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_GitFileDiff_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     public abstract Builder edits(ImmutableList<Edit> value);

@@ -14,29 +14,32 @@
 
 package com.google.gerrit.server.edit;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
 
-@AutoValue
-public abstract class CommitModification {
-
-  public abstract ImmutableList<TreeModification> treeModifications();
-
-  public abstract Optional<String> newCommitMessage();
-
-  public abstract Optional<PersonIdent> newAuthor();
-
-  public abstract Optional<PersonIdent> newCommitter();
-
-  public static Builder builder() {
-    return new AutoValue_CommitModification.Builder();
+public record CommitModification(
+    ImmutableList<TreeModification> treeModifications,
+    Optional<String> newCommitMessage,
+    Optional<PersonIdent> newAuthor,
+    Optional<PersonIdent> newCommitter) {
+  public CommitModification {
+    requireNonNull(treeModifications, "treeModifications");
+    requireNonNull(newCommitMessage, "newCommitMessage");
+    requireNonNull(newAuthor, "newAuthor");
+    requireNonNull(newCommitter, "newCommitter");
   }
 
-  @AutoValue.Builder
+  public static Builder builder() {
+    return new AutoBuilder_CommitModification_Builder();
+  }
+
+  @AutoBuilder
   public abstract static class Builder {
     @CanIgnoreReturnValue
     public Builder addTreeModification(TreeModification treeModification) {

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -37,14 +38,14 @@ import java.util.Optional;
 public interface AccountPatchReviewStore {
 
   /** Represents patch set id with reviewed files. */
-  @AutoValue
-  abstract class PatchSetWithReviewedFiles {
-    public abstract PatchSet.Id patchSetId();
-
-    public abstract ImmutableSet<String> files();
+  public record PatchSetWithReviewedFiles(PatchSet.Id patchSetId, ImmutableSet<String> files) {
+    public PatchSetWithReviewedFiles {
+      requireNonNull(patchSetId, "patchSetId");
+      requireNonNull(files, "files");
+    }
 
     public static PatchSetWithReviewedFiles create(PatchSet.Id id, ImmutableSet<String> files) {
-      return new AutoValue_AccountPatchReviewStore_PatchSetWithReviewedFiles(id, files);
+      return new PatchSetWithReviewedFiles(id, files);
     }
   }
 

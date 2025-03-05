@@ -137,49 +137,44 @@ public class SubmitRequirementJsonSerializerTest {
 
   @Test
   public void submitRequirementExpression_serialize() {
-    assertThat(SubmitRequirementExpression.typeAdapter(gson).toJson(srReqExp))
-        .isEqualTo(srReqExpSerial);
+    assertThat(gson.toJson(srReqExp)).isEqualTo(srReqExpSerial);
   }
 
   @Test
   public void submitRequirementExpression_deserialize() throws Exception {
-    assertThat(SubmitRequirementExpression.typeAdapter(gson).fromJson(srReqExpSerial))
+    assertThat(gson.fromJson(srReqExpSerial, SubmitRequirementExpression.class))
         .isEqualTo(srReqExp);
   }
 
   @Test
   public void submitRequirementExpression_roundTrip() throws Exception {
     SubmitRequirementExpression exp = SubmitRequirementExpression.create("label:Code-Review=+2");
-    TypeAdapter<SubmitRequirementExpression> adapter =
-        SubmitRequirementExpression.typeAdapter(gson);
-    assertThat(adapter.fromJson(adapter.toJson(exp))).isEqualTo(exp);
+    assertThat(gson.fromJson(gson.toJson(exp), SubmitRequirementExpression.class)).isEqualTo(exp);
   }
 
   @Test
   public void submitRequirement_serialize() throws Exception {
-    assertThat(SubmitRequirement.typeAdapter(gson).toJson(sr)).isEqualTo(srSerial);
+    assertThat(gson.toJson(sr)).isEqualTo(srSerial);
   }
 
   @Test
   public void submitRequirement_deserialize() throws Exception {
-    assertThat(SubmitRequirement.typeAdapter(gson).fromJson(srSerial)).isEqualTo(sr);
+    assertThat(gson.fromJson(srSerial, SubmitRequirement.class)).isEqualTo(sr);
   }
 
   @Test
   public void submitRequirement_roundTrip() throws Exception {
-    TypeAdapter<SubmitRequirement> adapter = SubmitRequirement.typeAdapter(gson);
-    assertThat(adapter.fromJson(adapter.toJson(sr))).isEqualTo(sr);
+    assertThat(gson.fromJson(gson.toJson(sr), SubmitRequirement.class)).isEqualTo(sr);
   }
 
   @Test
   public void submitRequirementExpressionResult_serialize() throws Exception {
-    assertThat(SubmitRequirementExpressionResult.typeAdapter(gson).toJson(srExpResult))
-        .isEqualTo(srExpResultSerial);
+    assertThat(gson.toJson(srExpResult)).isEqualTo(srExpResultSerial);
   }
 
   @Test
   public void submitRequirementExpressionResult_deserialize() throws Exception {
-    assertThat(SubmitRequirementExpressionResult.typeAdapter(gson).fromJson(srExpResultSerial))
+    assertThat(gson.fromJson(srExpResultSerial, SubmitRequirementExpressionResult.class))
         .isEqualTo(srExpResult);
   }
 

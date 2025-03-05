@@ -15,8 +15,8 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -71,16 +71,15 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     }
   }
 
-  @AutoValue
-  abstract static class QueryKey {
-    private static QueryKey create(BranchNameKey branch, Iterable<String> hashes) {
-      return new AutoValue_LocalMergeSuperSetComputation_QueryKey(
-          branch, ImmutableSet.copyOf(hashes));
+  record QueryKey(BranchNameKey branch, ImmutableSet<String> hashes) {
+    QueryKey {
+      requireNonNull(branch, "branch");
+      requireNonNull(hashes, "hashes");
     }
 
-    abstract BranchNameKey branch();
-
-    abstract ImmutableSet<String> hashes();
+    private static QueryKey create(BranchNameKey branch, Iterable<String> hashes) {
+      return new QueryKey(branch, ImmutableSet.copyOf(hashes));
+    }
   }
 
   private final Provider<InternalChangeQuery> queryProvider;

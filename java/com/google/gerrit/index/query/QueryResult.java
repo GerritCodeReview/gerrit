@@ -14,14 +14,30 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import java.util.List;
 
-/** Results of a query over entities. */
-@AutoValue
-public abstract class QueryResult<T> {
+/**
+ * Results of a query over entities.
+ *
+ * @param query Returns the original query string, or null if the query was created
+ *     programmatically.
+ * @param predicate Returns the predicate after all rewriting and other modification by the query
+ *     subsystem.
+ * @param entities Returns the query results.
+ * @param more Returns whether the query could be retried with a higher start/limit to produce more
+ *     results. Never true if {@link #entities()} is empty.
+ */
+public record QueryResult<T>(
+    @Nullable String query, Predicate<T> predicate, ImmutableList<T> entities, boolean more) {
+  public QueryResult {
+    requireNonNull(predicate, "predicate");
+    requireNonNull(entities, "entities");
+  }
+
   public static <T> QueryResult<T> create(
       @Nullable String query, Predicate<T> predicate, int limit, List<T> entities) {
     boolean more;
@@ -31,22 +47,6 @@ public abstract class QueryResult<T> {
     } else {
       more = false;
     }
-    return new AutoValue_QueryResult<>(query, predicate, ImmutableList.copyOf(entities), more);
+    return new QueryResult<>(query, predicate, ImmutableList.copyOf(entities), more);
   }
-
-  /** Returns the original query string, or null if the query was created programmatically. */
-  @Nullable
-  public abstract String query();
-
-  /** Returns the predicate after all rewriting and other modification by the query subsystem. */
-  public abstract Predicate<T> predicate();
-
-  /** Returns the query results. */
-  public abstract ImmutableList<T> entities();
-
-  /**
-   * Returns whether the query could be retried with a higher start/limit to produce more results.
-   * Never true if {@link #entities()} is empty.
-   */
-  public abstract boolean more();
 }

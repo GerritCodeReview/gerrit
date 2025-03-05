@@ -15,16 +15,27 @@
 package com.google.gerrit.acceptance.rest.util;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
 
 /** Data container for test REST requests. */
 @Ignore
-@AutoValue
-public abstract class RestCall {
+public record RestCall(
+    Method httpMethod,
+    String uriFormat,
+    Optional<Integer> expectedResponseCode,
+    Optional<String> expectedMessage) {
+  public RestCall {
+    requireNonNull(httpMethod, "httpMethod");
+    requireNonNull(uriFormat, "uriFormat");
+    requireNonNull(expectedResponseCode, "expectedResponseCode");
+    requireNonNull(expectedMessage, "expectedMessage");
+  }
+
   public enum Method {
     GET,
     PUT,
@@ -49,16 +60,8 @@ public abstract class RestCall {
   }
 
   public static Builder builder(Method httpMethod, String uriFormat) {
-    return new AutoValue_RestCall.Builder().httpMethod(httpMethod).uriFormat(uriFormat);
+    return new AutoBuilder_RestCall_Builder().httpMethod(httpMethod).uriFormat(uriFormat);
   }
-
-  public abstract Method httpMethod();
-
-  public abstract String uriFormat();
-
-  public abstract Optional<Integer> expectedResponseCode();
-
-  public abstract Optional<String> expectedMessage();
 
   public String uri(String... args) {
     String uriFormat = uriFormat();
@@ -73,7 +76,7 @@ public abstract class RestCall {
     return String.format(uriFormat, (Object[]) args);
   }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder httpMethod(Method httpMethod);
 

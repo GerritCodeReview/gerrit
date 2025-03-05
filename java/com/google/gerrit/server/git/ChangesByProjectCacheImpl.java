@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.flogger.FluentLogger;
@@ -198,9 +199,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     public CachedProjectChanges insert(ChangeData cd) {
       if (cd.isPrivateOrThrow()) {
         privateChangeById.put(
-            cd.getId(),
-            new AutoValue_ChangesByProjectCacheImpl_PrivateChange(
-                cd.change(), cd.reviewers(), cd.metaRevisionOrThrow()));
+            cd.getId(), new PrivateChange(cd.change(), cd.reviewers(), cd.metaRevisionOrThrow()));
       } else {
         metaObjectIdByNonPrivateChangeByBranch
             .computeIfAbsent(cd.branchOrThrow().branch(), b -> new ConcurrentHashMap<>())
@@ -263,15 +262,15 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     }
   }
 
-  @AutoValue
-  abstract static class PrivateChange {
+  record PrivateChange(Change change, @Nullable ReviewerSet reviewers, ObjectId metaRevision) {
+    PrivateChange {
+      requireNonNull(change, "change");
+      requireNonNull(metaRevision, "metaRevision");
+    }
+
     // Fields needed to serve permission checks on private Changes
-    abstract Change change();
 
-    @Nullable
-    abstract ReviewerSet reviewers();
-
-    abstract ObjectId metaRevision(); // Needed to confirm whether up-to-date
+    // Needed to confirm whether up-to-date
 
     public int weigh() {
       int size = 0;

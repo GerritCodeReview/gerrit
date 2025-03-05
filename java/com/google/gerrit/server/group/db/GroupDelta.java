@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.group.db;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import java.time.Instant;
@@ -27,9 +30,85 @@ import java.util.Set;
  *
  * <p>A {@link GroupDelta} specifies the modifications to be applied to a group. Only fields set via
  * {@link GroupDelta.Builder} will be updated.
+ *
+ * @param name Defines the new name of the group. If not specified, the name remains unchanged.
+ * @param description Defines the new description of the group. If not specified, the description
+ *     remains unchanged.
+ *     <p><strong>Note: </strong>Passing the empty string unsets the description.
+ * @param ownerGroupUUID Defines the new owner of the group. If not specified, the owner remains
+ *     unchanged.
+ * @param visibleToAll Defines the new state of the 'visibleToAll' flag of the group. If not
+ *     specified, the flag remains unchanged.
+ * @param memberModification Defines how the members of the group should be modified. By default
+ *     (that is if nothing is specified), the members remain unchanged. a {@link MemberModification}
+ *     which gets the current members of the group as input and outputs the desired resulting
+ *     members
+ * @param subgroupModification Defines how the subgroups of the group should be modified. By default
+ *     (that is if nothing is specified), the subgroups remain unchanged. a {@link
+ *     SubgroupModification} which gets the current subgroups of the group as input and outputs the
+ *     desired resulting subgroups
+ * @param updatedOn Defines the {@code Timestamp} to be used for the NoteDb commits of the update.
+ *     If not specified, the current {@code Timestamp} when creating the commit will be used.
+ *     <p>If this {@link GroupDelta} is passed next to an {@link InternalGroupCreation} during a
+ *     group creation, this {@code Timestamp} is used for the NoteDb commits of the new group.
+ *     Hence, the {@link com.google.gerrit.entities.InternalGroup#getCreatedOn()
+ *     InternalGroup#getCreatedOn()} field will match this {@code Timestamp}.
+ *     <p><strong>Note: </strong>{@code Timestamp}s of NoteDb commits for groups are used for events
+ *     in the audit log. For this reason, specifying this field will have an effect on the resulting
+ *     audit log.
  */
-@AutoValue
-public abstract class GroupDelta {
+public record GroupDelta(
+    Optional<AccountGroup.NameKey> name,
+    Optional<String> description,
+    Optional<AccountGroup.UUID> ownerGroupUUID,
+    Optional<Boolean> visibleToAll,
+    MemberModification memberModification,
+    SubgroupModification subgroupModification,
+    Optional<Instant> updatedOn) {
+  public GroupDelta {
+    requireNonNull(name, "name");
+    requireNonNull(description, "description");
+    requireNonNull(ownerGroupUUID, "ownerGroupUUID");
+    requireNonNull(visibleToAll, "visibleToAll");
+    requireNonNull(memberModification, "memberModification");
+    requireNonNull(subgroupModification, "subgroupModification");
+    requireNonNull(updatedOn, "updatedOn");
+  }
+
+  @InlineMe(replacement = "this.name()")
+  public Optional<AccountGroup.NameKey> getName() {
+    return name();
+  }
+
+  @InlineMe(replacement = "this.description()")
+  public Optional<String> getDescription() {
+    return description();
+  }
+
+  @InlineMe(replacement = "this.ownerGroupUUID()")
+  public Optional<AccountGroup.UUID> getOwnerGroupUUID() {
+    return ownerGroupUUID();
+  }
+
+  @InlineMe(replacement = "this.visibleToAll()")
+  public Optional<Boolean> getVisibleToAll() {
+    return visibleToAll();
+  }
+
+  @InlineMe(replacement = "this.memberModification()")
+  public MemberModification getMemberModification() {
+    return memberModification();
+  }
+
+  @InlineMe(replacement = "this.subgroupModification()")
+  public SubgroupModification getSubgroupModification() {
+    return subgroupModification();
+  }
+
+  @InlineMe(replacement = "this.updatedOn()")
+  public Optional<Instant> getUpdatedOn() {
+    return updatedOn();
+  }
 
   /** Representation of a member modification as defined by {@link #apply(ImmutableSet)}. */
   @FunctionalInterface
@@ -57,68 +136,18 @@ public abstract class GroupDelta {
     Set<AccountGroup.UUID> apply(ImmutableSet<AccountGroup.UUID> originalSubgroups);
   }
 
-  /** Defines the new name of the group. If not specified, the name remains unchanged. */
-  public abstract Optional<AccountGroup.NameKey> getName();
-
-  /**
-   * Defines the new description of the group. If not specified, the description remains unchanged.
-   *
-   * <p><strong>Note: </strong>Passing the empty string unsets the description.
-   */
-  public abstract Optional<String> getDescription();
-
-  /** Defines the new owner of the group. If not specified, the owner remains unchanged. */
-  public abstract Optional<AccountGroup.UUID> getOwnerGroupUUID();
-
-  /**
-   * Defines the new state of the 'visibleToAll' flag of the group. If not specified, the flag
-   * remains unchanged.
-   */
-  public abstract Optional<Boolean> getVisibleToAll();
-
-  /**
-   * Defines how the members of the group should be modified. By default (that is if nothing is
-   * specified), the members remain unchanged.
-   *
-   * @return a {@link MemberModification} which gets the current members of the group as input and
-   *     outputs the desired resulting members
-   */
-  public abstract MemberModification getMemberModification();
-
-  /**
-   * Defines how the subgroups of the group should be modified. By default (that is if nothing is
-   * specified), the subgroups remain unchanged.
-   *
-   * @return a {@link SubgroupModification} which gets the current subgroups of the group as input
-   *     and outputs the desired resulting subgroups
-   */
-  public abstract SubgroupModification getSubgroupModification();
-
-  /**
-   * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
-   * specified, the current {@code Timestamp} when creating the commit will be used.
-   *
-   * <p>If this {@link GroupDelta} is passed next to an {@link InternalGroupCreation} during a group
-   * creation, this {@code Timestamp} is used for the NoteDb commits of the new group. Hence, the
-   * {@link com.google.gerrit.entities.InternalGroup#getCreatedOn() InternalGroup#getCreatedOn()}
-   * field will match this {@code Timestamp}.
-   *
-   * <p><strong>Note: </strong>{@code Timestamp}s of NoteDb commits for groups are used for events
-   * in the audit log. For this reason, specifying this field will have an effect on the resulting
-   * audit log.
-   */
-  public abstract Optional<Instant> getUpdatedOn();
-
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_GroupDelta_Builder(this);
+  }
 
   public static Builder builder() {
-    return new AutoValue_GroupDelta.Builder()
+    return new AutoBuilder_GroupDelta_Builder()
         .setMemberModification(in -> in)
         .setSubgroupModification(in -> in);
   }
 
   /** A builder for a {@link GroupDelta}. */
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
 
     /**

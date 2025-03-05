@@ -14,33 +14,68 @@
 
 package com.google.gerrit.entities;
 
-import com.google.auto.value.AutoValue;
+import static java.util.Objects.requireNonNull;
+
+import com.google.auto.value.AutoBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import java.util.List;
 
 /** Portion of a {@link Project} describing a single contributor agreement. */
-@AutoValue
-public abstract class ContributorAgreement implements Comparable<ContributorAgreement> {
-  public abstract String getName();
+public record ContributorAgreement(
+    String name,
+    @Nullable String description,
+    ImmutableList<PermissionRule> accepted,
+    @Nullable GroupReference autoVerify,
+    @Nullable String agreementUrl,
+    ImmutableList<String> excludeProjectsRegexes,
+    ImmutableList<String> matchProjectsRegexes)
+    implements Comparable<ContributorAgreement> {
+  public ContributorAgreement {
+    requireNonNull(name, "name");
+    requireNonNull(accepted, "accepted");
+    requireNonNull(excludeProjectsRegexes, "excludeProjectsRegexes");
+    requireNonNull(matchProjectsRegexes, "matchProjectsRegexes");
+  }
 
-  @Nullable
-  public abstract String getDescription();
+  @InlineMe(replacement = "this.name()")
+  public String getName() {
+    return name();
+  }
 
-  public abstract ImmutableList<PermissionRule> getAccepted();
+  @InlineMe(replacement = "this.description()")
+  public @Nullable String getDescription() {
+    return description();
+  }
 
-  @Nullable
-  public abstract GroupReference getAutoVerify();
+  @InlineMe(replacement = "this.accepted()")
+  public ImmutableList<PermissionRule> getAccepted() {
+    return accepted();
+  }
 
-  @Nullable
-  public abstract String getAgreementUrl();
+  @InlineMe(replacement = "this.autoVerify()")
+  public @Nullable GroupReference getAutoVerify() {
+    return autoVerify();
+  }
 
-  public abstract ImmutableList<String> getExcludeProjectsRegexes();
+  @InlineMe(replacement = "this.agreementUrl()")
+  public @Nullable String getAgreementUrl() {
+    return agreementUrl();
+  }
 
-  public abstract ImmutableList<String> getMatchProjectsRegexes();
+  @InlineMe(replacement = "this.excludeProjectsRegexes()")
+  public ImmutableList<String> getExcludeProjectsRegexes() {
+    return excludeProjectsRegexes();
+  }
+
+  @InlineMe(replacement = "this.matchProjectsRegexes()")
+  public ImmutableList<String> getMatchProjectsRegexes() {
+    return matchProjectsRegexes();
+  }
 
   public static ContributorAgreement.Builder builder(String name) {
-    return new AutoValue_ContributorAgreement.Builder()
+    return new AutoBuilder_ContributorAgreement_Builder()
         .setName(name)
         .setAccepted(ImmutableList.of())
         .setExcludeProjectsRegexes(ImmutableList.of())
@@ -57,9 +92,11 @@ public abstract class ContributorAgreement implements Comparable<ContributorAgre
     return "ContributorAgreement[" + getName() + "]";
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_ContributorAgreement_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Builder setName(String name);
 

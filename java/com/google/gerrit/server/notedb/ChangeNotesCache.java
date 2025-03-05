@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
@@ -333,19 +335,17 @@ public class ChangeNotesCache {
     }
   }
 
-  @AutoValue
-  abstract static class Value {
-    abstract ChangeNotesState state();
-
-    /**
-     * The {@link RevisionNoteMap} produced while parsing this change.
-     *
-     * <p>These instances are mutable and non-threadsafe, so it is only safe to return it to the
-     * caller that actually incurred the cache miss. It is only used as an optimization; {@link
-     * ChangeNotes} is capable of lazily loading it as necessary.
-     */
-    @Nullable
-    abstract RevisionNoteMap<ChangeRevisionNote> revisionNoteMap();
+  /**
+   * @param revisionNoteMap The {@link RevisionNoteMap} produced while parsing this change.
+   *     <p>These instances are mutable and non-threadsafe, so it is only safe to return it to the
+   *     caller that actually incurred the cache miss. It is only used as an optimization; {@link
+   *     ChangeNotes} is capable of lazily loading it as necessary.
+   */
+  record Value(
+      ChangeNotesState state, @Nullable RevisionNoteMap<ChangeRevisionNote> revisionNoteMap) {
+    Value {
+      requireNonNull(state, "state");
+    }
   }
 
   private class Loader implements Callable<ChangeNotesState> {
@@ -403,7 +403,7 @@ public class ChangeNotesCache {
       Key key = Key.create(project, changeId, metaId);
       Loader loader = new Loader(key, walkSupplier);
       ChangeNotesState s = cache.get(key, loader);
-      return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);
+      return new Value(s, loader.revisionNoteMap);
     } catch (ExecutionException e) {
       throw new IOException(
           String.format(

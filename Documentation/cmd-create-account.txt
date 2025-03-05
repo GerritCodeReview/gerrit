@@ -12,6 +12,7 @@ _ssh_ -p <port> <host> _gerrit create-account_
   [--email <EMAIL>]
   [--ssh-key - | <KEY>]
   [--http-password <PASSWORD>]
+  [--token <TOKEN>]
   <USERNAME>
 --
 
@@ -62,7 +63,14 @@ This most likely requires double quoting the value, for example
 	Preferred email address for the user account.
 
 --http-password::
-    HTTP password for the user account.
+    HTTP password for the user account. (deprecated)
+
+--token::
+    Authentication token for the user account.
+
+--token-id::
+    ID used for the provided token. If not provided, the token id will
+    be generated based on the timestamp.
 
 == EXAMPLES
 Create a new batch/role access user account called `watcher` in

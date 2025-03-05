@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "172c5d43_a0009cb6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-05T09:08:36Z",
+      "side": 1,
+      "message": "This looks much cleaner now.",
+      "revId": "0008fda328b0d3a89533576daebf5c3f50249030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

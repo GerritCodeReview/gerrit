@@ -474,11 +474,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
         createExternalIdWithDuplicateEmail("foo:bar"));
   }
 
-  @Test
-  public void pushToExternalIdsBranchRejectsBadPassword() throws Exception {
-    testPushToExternalIdsBranchRejectsInvalidExternalId(createExternalIdWithBadPassword("foo"));
-  }
-
   private void testPushToExternalIdsBranchRejectsInvalidExternalId(ExternalId invalidExtId)
       throws Exception {
     projectOperations
@@ -566,11 +561,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     // create valid external IDs
     insertExtId(
-        externalIdFactory.createWithPassword(
-            externalIdKeyFactory.parse(nextId(scheme, i)),
-            admin.id(),
-            "admin.other@example.com",
-            "secret-password"));
+        externalIdFactory.createWithEmail(
+            externalIdKeyFactory.parse(nextId(scheme, i)), admin.id(), "admin.other@example.com"));
     insertExtId(externalIdFactory.createEmail(admin.id(), "admin.other@example.com"));
     insertExtId(createExternalIdWithOtherCaseEmail(nextId(scheme, i)));
   }
@@ -610,14 +602,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + "', 'mailto:"
                 + extIdWithDuplicateEmail.email()
                 + "'"));
-
-    ExternalId extIdWithBadPassword = createExternalIdWithBadPassword("admin-username");
-    insertExtId(extIdWithBadPassword);
-    expectedProblems.add(
-        consistencyError(
-            "External ID '"
-                + extIdWithBadPassword.key().get()
-                + "' has an invalid password: unrecognized algorithm"));
 
     return expectedProblems;
   }
@@ -692,14 +676,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
         externalIdKeyFactory.parse(externalId), user.id(), admin.email());
   }
 
-  private ExternalId createExternalIdWithBadPassword(String username) {
-    return externalIdFactory.create(
-        externalIdKeyFactory.create(SCHEME_USERNAME, username),
-        admin.id(),
-        null,
-        "non-hashed-password-is-not-allowed");
-  }
-
   private static String nextId(String scheme, MutableInteger i) {
     return scheme + ":foo" + ++i.value;
   }
@@ -764,6 +740,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Deprecated
   public void unsetHttpPassword() throws Exception {
     ExternalId extId =
         externalIdFactory.createWithPassword(
@@ -805,8 +782,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     // update the first external ID
     ExternalId updatedExtId1 =
-        externalIdFactory.create(
-            extId1.key(), accountId, "foo.bar@example.com", /* hashedPassword= */ null);
+        externalIdFactory.createWithEmail(extId1.key(), accountId, "foo.bar@example.com");
     accountsUpdateProvider
         .get()
         .update("Update External ID", accountId, u -> u.updateExternalId(updatedExtId1));

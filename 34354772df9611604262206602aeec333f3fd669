@@ -39,6 +39,46 @@
       "message": "perhaps instead of always waiting we could mark specific suites (e.g. `HttpPushLightweightTagIT`) with a dedicated wait annotation?",
       "revId": "34354772df9611604262206602aeec333f3fd669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c0709e_52d8ed8c",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-06T09:40:29Z",
+      "side": 1,
+      "message": "In Gerrit core we can use the rholder/guava-retrying library for such cases. Configuring a Retryer with the waiting/stop strategies like required here should be easy.",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 5
+      },
+      "revId": "34354772df9611604262206602aeec333f3fd669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68d2528e_36975282",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-06T09:40:29Z",
+      "side": 1,
+      "message": "The `while` loop exits when this set is empty, or with `return` at 229 or with an exception at 234. Therefore, if we are here this set must be empty. Returning an empty set from here would make this fact more explicit.",
+      "revId": "34354772df9611604262206602aeec333f3fd669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

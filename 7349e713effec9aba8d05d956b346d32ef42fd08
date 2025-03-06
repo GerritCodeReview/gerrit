@@ -18,11 +18,11 @@
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/15197/console",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/15199/console",
       "started": "2025-03-06T12:20:39Z",
-      "finished": "2025-03-06T12:25:02Z",
+      "finished": "2025-03-06T12:27:26Z",
       "created": "2025-03-06T12:15:36Z",
-      "updated": "2025-03-06T12:25:02Z"
+      "updated": "2025-03-06T12:27:27Z"
     }
   }
 }

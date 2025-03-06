@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a320b7_4e6bdcc4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6319,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-06T23:41:30Z",
+      "side": 1,
+      "message": "Should `trustPackedRefsStat \u003d after_open` be added too?",
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,18 +16,22 @@ export interface SubmitRequirementExpressionPart {
   isAtom: boolean;
   // Defined iff isAtom is true.
   atomStatus?: SubmitRequirementExpressionAtomStatus;
+  // Defined iff isAtom is true, but may be empty.
+  atomExplanation?: string;
 }
 
 interface AtomMatch {
   start: number;
   end: number;
   isPassing: boolean;
+  explanation: string;
 }
 
 function appendAllOccurrences(
   text: string,
   match: string,
   isPassing: boolean,
+  explanation: string,
   matchedAtoms: AtomMatch[]
 ) {
   for (let searchStartIndex = 0; ; ) {
@@ -46,6 +50,7 @@ function appendAllOccurrences(
       start: index,
       end: searchStartIndex,
       isPassing: atomIsPassing,
+      explanation,
     });
   }
 }
@@ -56,7 +61,7 @@ function splitExpressionIntoParts(
 ): SubmitRequirementExpressionPart[] {
   const result: SubmitRequirementExpressionPart[] = [];
   let currentIndex = 0;
-  for (const {start, end, isPassing} of matchedAtoms) {
+  for (const {start, end, isPassing, explanation} of matchedAtoms) {
     // We don't handle overlapping matches, but this can happen.
     if (start < currentIndex) continue;
     if (start > currentIndex) {
@@ -71,6 +76,7 @@ function splitExpressionIntoParts(
       atomStatus: isPassing
         ? SubmitRequirementExpressionAtomStatus.PASSING
         : SubmitRequirementExpressionAtomStatus.FAILING,
+      atomExplanation: explanation,
     });
     currentIndex = end;
   }
@@ -99,6 +105,7 @@ export function atomizeExpression(
       expression.expression,
       atom,
       /* isPassing=*/ true,
+      expression.atom_explanations?.[atom] ?? '',
       matchedAtoms
     )
   );
@@ -107,6 +114,7 @@ export function atomizeExpression(
       expression.expression,
       atom,
       /* isPassing=*/ false,
+      expression.atom_explanations?.[atom] ?? '',
       matchedAtoms
     )
   );

@@ -40,6 +40,7 @@ suite('submit-requirement-util', () => {
         value: 'has:unresolved',
         isAtom: true,
         atomStatus: SubmitRequirementExpressionAtomStatus.PASSING,
+        atomExplanation: '',
       },
       {
         value: ' AND ',
@@ -49,6 +50,7 @@ suite('submit-requirement-util', () => {
         value: 'hashtag:allow-unresolved-comments',
         isAtom: true,
         atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        atomExplanation: '',
       },
     ]);
   });
@@ -65,6 +67,7 @@ suite('submit-requirement-util', () => {
         value: '-has:unresolved',
         isAtom: true,
         atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        atomExplanation: '',
       },
       {
         value: ' AND ',
@@ -74,6 +77,7 @@ suite('submit-requirement-util', () => {
         value: 'hashtag:allow-unresolved-comments',
         isAtom: true,
         atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        atomExplanation: '',
       },
     ]);
   });
@@ -97,6 +101,7 @@ suite('submit-requirement-util', () => {
         value: '-has:unresolved',
         isAtom: true,
         atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        atomExplanation: '',
       },
       {
         value: ' AND ',
@@ -106,6 +111,7 @@ suite('submit-requirement-util', () => {
         value: 'hashtag:allow-unresolved-comments',
         isAtom: true,
         atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        atomExplanation: '',
       },
       {
         value: ') OR tested:no',
@@ -137,6 +143,7 @@ suite('submit-requirement-util', () => {
     assert.deepStrictEqual(atomizeExpression(expression), [
       {
         atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        atomExplanation: '',
         isAtom: true,
         value: '-is:android-cherry-pick_exemptedusers',
       },
@@ -146,6 +153,7 @@ suite('submit-requirement-util', () => {
       },
       {
         atomStatus: SubmitRequirementExpressionAtomStatus.PASSING,
+        atomExplanation: '',
         isAtom: true,
         value: 'is:android-cherry-pick_exemptedusers',
       },

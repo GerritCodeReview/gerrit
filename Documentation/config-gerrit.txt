@@ -6306,10 +6306,19 @@ Gerrit uses the `$site_path/etc/jgit.config` file instead of the
 system-wide and user-global Git configuration for its runtime JGit
 configuration.
 
+[NOTE]
+When using a shared filesystem, such as NFS, the JGit settings need
+to be adjusted for being tolerant to the filesystem attributes caching.
+The example below shows a typical setting with an NFS v4 mount
+with default caching settings.
+
 Sample `etc/jgit.config` file:
 ----
 [core]
-  trustFolderStat = false
+    supportsAtomicFileCreation = false
+    trustFolderStat = false
+    trustLooseRefStat = after_open
+    trustPackedRefsStat = after_open
 ----
 
 [[jgit-gc]]

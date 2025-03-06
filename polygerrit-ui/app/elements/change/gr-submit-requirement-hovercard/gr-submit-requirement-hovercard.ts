@@ -362,6 +362,14 @@ export class GrSubmitRequirementHovercard extends base {
     }
   }
 
+  private getTitleFromPart(part: SubmitRequirementExpressionPart) {
+    let title = this.getTitleFromAtomStatus(part.atomStatus!);
+    if (part.atomExplanation) {
+      title += `: ${atom.atomExplanation}`;
+    }
+    return title;
+  }
+
   private getTitleFromAtomStatus(
     status: SubmitRequirementExpressionAtomStatus
   ) {
@@ -385,15 +393,15 @@ export class GrSubmitRequirementHovercard extends base {
         <div class="sectionContent">
           ${name}:<br />
           <span class="expression">
-            ${atomizeExpression(expression).map(part =>
-              part.isAtom
-                ? html`<span
+            ${
+        atomizeExpression(expression)
+            .map(
+                part => part.isAtom ? html`<span
                     class=${this.getClassFromAtomStatus(part.atomStatus!)}
-                    title=${this.getTitleFromAtomStatus(part.atomStatus!)}
+                    title=${this.getTitleFromPart(part)}
                     >${part.value}</span
-                  >`
-                : part.value
-            )}
+                  >` :
+                                      part.value)}
           </span>
         </div>
       </div>

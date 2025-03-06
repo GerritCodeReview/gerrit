@@ -142,7 +142,7 @@ public class VersionedAuthorizationTokens extends VersionedMetaData {
     VersionedAuthorizationTokens create(Account.Id accountId);
   }
 
-  private static final String FILE_NAME = "tokens";
+  public static final String FILE_NAME = "tokens";
 
   private final Account.Id accountId;
   private final String ref;
@@ -161,12 +161,7 @@ public class VersionedAuthorizationTokens extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    tokens = new ArrayList<>();
-    Config tokenConfig = new Config();
-    tokenConfig.fromText(readUTF8(FILE_NAME));
-    for (String id : tokenConfig.getSubsections("token")) {
-      tokens.add(Token.create(id, tokenConfig.getString("token", id, "hash")));
-    }
+    tokens = parse(readUTF8(FILE_NAME));
   }
 
   @Override
@@ -182,6 +177,16 @@ public class VersionedAuthorizationTokens extends VersionedMetaData {
 
     saveUTF8(FILE_NAME, tokenConfig.toText());
     return true;
+  }
+
+  public static List<Token> parse(String s) throws ConfigInvalidException {
+    List<Token> tokens = new ArrayList<>();
+    Config tokenConfig = new Config();
+    tokenConfig.fromText(s);
+    for (String id : tokenConfig.getSubsections("token")) {
+      tokens.add(Token.create(id, tokenConfig.getString("token", id, "hash")));
+    }
+    return tokens;
   }
 
   /** Returns all authorization tokens. */

@@ -43,42 +43,44 @@ public class ProjectCacheWarmer implements LifecycleListener {
 
   @Override
   public void start() {
-    int cpus = Runtime.getRuntime().availableProcessors();
     if (config.getBoolean("cache", "projects", "loadOnStartup", false)) {
-      ExecutorService pool =
-          new LoggingContextAwareExecutorService(
-              new ScheduledThreadPoolExecutor(
-                  config.getInt("cache", "projects", "loadThreads", cpus),
-                  new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build()));
-      Thread scheduler =
-          new Thread(
+      try (ExecutorService pool = createExecutor()) {
+        logger.atInfo().log("Loading project cache");
+        for (Project.NameKey name : cache.all()) {
+          pool.execute(
               () -> {
-                for (Project.NameKey name : cache.all()) {
-                  pool.execute(
-                      () -> {
-                        Optional<ProjectState> project = cache.get(name);
-                        if (!project.isPresent()) {
-                          throw new IllegalStateException(
-                              "race while traversing projects. got "
-                                  + name
-                                  + " when loading all projects, but can't load it now");
-                        }
-                      });
-                }
-                pool.shutdown();
-                try {
-                  pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-                  logger.atInfo().log("Finished loading project cache");
-                } catch (InterruptedException e) {
-                  logger.atWarning().log("Interrupted while waiting for project cache to load");
+                Optional<ProjectState> project = cache.get(name);
+                if (!project.isPresent()) {
+                  throw new IllegalStateException(
+                      String.format(
+                          "Race while traversing projects. Got %s when loading all projects, but"
+                              + " can't load it now.",
+                          name));
                 }
               });
-      scheduler.setName("ProjectCacheWarmer");
-      scheduler.setDaemon(true);
-
-      logger.atInfo().log("Loading project cache");
-      scheduler.start();
+        }
+        pool.shutdown();
+        try {
+          pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+          logger.atInfo().log("Finished loading project cache");
+        } catch (InterruptedException e) {
+          logger.atWarning().log("Interrupted while waiting for project cache to load");
+        }
+      }
     }
+  }
+
+  private LoggingContextAwareExecutorService createExecutor() {
+    int numThreads =
+        config.getInt(
+            "cache", "projects", "loadThreads", Runtime.getRuntime().availableProcessors());
+    return new LoggingContextAwareExecutorService(
+        new ScheduledThreadPoolExecutor(
+            numThreads,
+            new ThreadFactoryBuilder()
+                .setNameFormat("ProjectCacheLoader-%d")
+                .setDaemon(true)
+                .build()));
   }
 
   @Override

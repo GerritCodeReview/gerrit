@@ -34,6 +34,7 @@ import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-s
 import {
   atomizeExpression,
   SubmitRequirementExpressionAtomStatus,
+  SubmitRequirementExpressionPart,
 } from '../../../utils/submit-requirement-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
@@ -362,6 +363,14 @@ export class GrSubmitRequirementHovercard extends base {
     }
   }
 
+  private getTitleFromPart(part: SubmitRequirementExpressionPart) {
+    let title = this.getTitleFromAtomStatus(part.atomStatus!);
+    if (part.atomExplanation) {
+      title += `: ${part.atomExplanation}`;
+    }
+    return title;
+  }
+
   private getTitleFromAtomStatus(
     status: SubmitRequirementExpressionAtomStatus
   ) {
@@ -389,7 +398,7 @@ export class GrSubmitRequirementHovercard extends base {
               part.isAtom
                 ? html`<span
                     class=${this.getClassFromAtomStatus(part.atomStatus!)}
-                    title=${this.getTitleFromAtomStatus(part.atomStatus!)}
+                    title=${this.getTitleFromPart(part)}
                     >${part.value}</span
                   >`
                 : part.value

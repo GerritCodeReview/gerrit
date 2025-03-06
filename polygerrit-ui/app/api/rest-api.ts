@@ -1234,6 +1234,7 @@ export declare interface SubmitRequirementExpressionInfo {
   status?: SubmitRequirementExpressionInfoStatus;
   passing_atoms?: string[];
   failing_atoms?: string[];
+  atom_explanations?: {[atom: string]: string};
   error_message?: string;
 }
 

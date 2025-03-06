@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b44ec750_56352509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-06T10:02:28Z",
+      "side": 1,
+      "message": "IMO, this deserves a design document.",
+      "revId": "c5fa1e914f251571dbc8118cef74520393d00ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Previously, the TraceContext object was opened here, and destroyed when the request processing was done (\u003dby the end of the try block).\n\nI\u0027m not sure how the filtering logic works, can you please verify the object stay alive while needed?",
       "revId": "60c307dd0387ca09436e43f5304fb4b9ae2392bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94297837_9d8869cd",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-06T13:30:58Z",
+      "side": 0,
+      "message": "This is now created in the (new) servlet Filter and that TraceContext stays alive. We reach here from the `chain.doFilter` which is inside that try-with-resources block.",
+      "parentUuid": "7bcc4102_9e0cd269",
+      "revId": "60c307dd0387ca09436e43f5304fb4b9ae2392bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

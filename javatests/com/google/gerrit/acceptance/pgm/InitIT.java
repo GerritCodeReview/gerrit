@@ -21,11 +21,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndexCollection;
+import com.google.gerrit.server.account.TokenCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import java.io.IOException;
@@ -82,8 +84,27 @@ public class InitIT extends StandaloneSiteTest {
     assertThat(projectsLastModified).isEqualTo(projectsLastModifiedAfterInit);
   }
 
+  @Test
+  public void initInDevModeCreatesAdminUserWithToken() throws Exception {
+    initSite("--dev");
+
+    try (ServerContext ctx = startServer()) {
+      TokenCache tokenCache = ctx.getInjector().getInstance(TokenCache.class);
+      assertThat(tokenCache.get(Account.id(10000))).isNotNull();
+    }
+  }
+
   private void initSite() throws Exception {
-    runGerrit("init", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+    initSite("");
+  }
+
+  private void initSite(String... additionalOptions) throws Exception {
+    runGerrit(
+        "init",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--show-stack-trace",
+        String.join(" ", additionalOptions));
   }
 
   private void setProjectsIndexLastModifiedInThePast(Path indexDir, Instant time)

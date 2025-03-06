@@ -45,6 +45,7 @@ public class ProjectCacheWarmer implements LifecycleListener {
   public void start() {
     int cpus = Runtime.getRuntime().availableProcessors();
     if (config.getBoolean("cache", "projects", "loadOnStartup", false)) {
+      @SuppressWarnings("resource")
       ExecutorService pool =
           new LoggingContextAwareExecutorService(
               new ScheduledThreadPoolExecutor(

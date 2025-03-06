@@ -866,6 +866,12 @@ suite('gr-router tests', () => {
         );
       });
 
+      test('CHANGE_LEGACY with hash', async () => {
+        // CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
+        stubRestApi('getRepoName').resolves('project' as RepoName);
+        await checkRedirect('/c/1234#81', '/c/project/+/1234/#81');
+      });
+
       test('DIFF_LEGACY_LINENUM', async () => {
         await checkRedirect(
           '/c/1234/3..8/foo/bar@321',

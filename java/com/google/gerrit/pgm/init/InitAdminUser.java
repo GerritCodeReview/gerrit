@@ -50,6 +50,7 @@ public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
   private final AccountsOnInit accounts;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
+  private final VersionedAuthTokensOnInit.Factory tokenFactory;
   private final ExternalIdsOnInit externalIds;
   private final SequencesOnInit sequencesOnInit;
   private final GroupsOnInit groupsOnInit;
@@ -63,6 +64,7 @@ public class InitAdminUser implements InitStep {
       ConsoleUI ui,
       AccountsOnInit accounts,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
+      VersionedAuthTokensOnInit.Factory tokenFactory,
       ExternalIdsOnInit externalIds,
       SequencesOnInit sequencesOnInit,
       GroupsOnInit groupsOnInit,
@@ -71,6 +73,7 @@ public class InitAdminUser implements InitStep {
     this.ui = ui;
     this.accounts = accounts;
     this.authorizedKeysFactory = authorizedKeysFactory;
+    this.tokenFactory = tokenFactory;
     this.externalIds = externalIds;
     this.sequencesOnInit = sequencesOnInit;
     this.groupsOnInit = groupsOnInit;
@@ -106,12 +109,12 @@ public class InitAdminUser implements InitStep {
         Account.Id id = Account.id(sequencesOnInit.nextAccountId());
         String username = ui.readString("admin", "username");
         String name = ui.readString("Administrator", "name");
-        String httpPassword = ui.readString("secret", "HTTP password");
+        String token = ui.readString("secret", "Authentication token");
         AccountSshKey sshKey = readSshKey(id);
         String email = readEmail(sshKey);
 
         List<ExternalId> extIds = new ArrayList<>(2);
-        extIds.add(externalIdFactory.createUsername(username, id, httpPassword));
+        extIds.add(externalIdFactory.createUsername(username, id));
 
         if (email != null) {
           extIds.add(externalIdFactory.createEmail(id, email));
@@ -133,6 +136,10 @@ public class InitAdminUser implements InitStep {
         }
         GroupReference adminGroup = adminGroupReference.get();
         groupsOnInit.addGroupMember(adminGroup.getUUID(), persistedAccount);
+
+        VersionedAuthTokensOnInit authTokens = tokenFactory.create(id).load();
+        authTokens.addToken("initialToken", token);
+        authTokens.save("Add token for initial admin user\n");
 
         if (sshKey != null) {
           VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();

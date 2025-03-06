@@ -233,10 +233,22 @@ public abstract class AccountsUpdate {
    * account updates initiated by the users and those initiated by account management.
    */
   @CanIgnoreReturnValue
+  public ImmutableList<Optional<AccountState>> updateForUserManagementRequests(
+      List<UpdateArguments> updates) throws ConfigInvalidException, IOException {
+    return executeUpdates(updates);
+  }
+
+  /**
+   * Perform update provided. Some implementations of AccountsUpdate have different behaviours for
+   * account updates initiated by the users and those initiated by account management.
+   */
+  @CanIgnoreReturnValue
   public Optional<AccountState> updateForUserManagementRequests(
       String message, Account.Id accountId, ConfigureDeltaFromStateAndContext configureDelta)
       throws IOException, ConfigInvalidException {
-    return this.update(message, accountId, configureDelta);
+    return updateForUserManagementRequests(
+            ImmutableList.of(new UpdateArguments(message, accountId, configureDelta)))
+        .get(0);
   }
 
   /**
@@ -247,7 +259,9 @@ public abstract class AccountsUpdate {
   public Optional<AccountState> updateForUserManagementRequests(
       String message, Account.Id accountId, ConfigureStatelessDelta configureDelta)
       throws IOException, ConfigInvalidException {
-    return this.update(message, accountId, configureDelta);
+    return updateForUserManagementRequests(
+            ImmutableList.of(new UpdateArguments(message, accountId, configureDelta)))
+        .get(0);
   }
 
   /**
@@ -258,7 +272,9 @@ public abstract class AccountsUpdate {
   public Optional<AccountState> updateForUserManagementRequests(
       String message, Account.Id accountId, ConfigureDeltaFromState configureDelta)
       throws IOException, ConfigInvalidException {
-    return this.update(message, accountId, configureDelta);
+    return updateForUserManagementRequests(
+            ImmutableList.of(new UpdateArguments(message, accountId, configureDelta)))
+        .get(0);
   }
 
   /**

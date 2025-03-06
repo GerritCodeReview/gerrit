@@ -233,7 +233,7 @@ public abstract class AccountsUpdate {
    * account updates initiated by the users and those initiated by account management.
    */
   @CanIgnoreReturnValue
-  public final Optional<AccountState> updateForUserManagementRequests(
+  public Optional<AccountState> updateForUserManagementRequests(
       String message, Account.Id accountId, ConfigureDeltaFromStateAndContext configureDelta)
       throws IOException, ConfigInvalidException {
     return this.update(message, accountId, configureDelta);
@@ -244,7 +244,7 @@ public abstract class AccountsUpdate {
    * account updates initiated by the users and those initiated by account management.
    */
   @CanIgnoreReturnValue
-  public final Optional<AccountState> updateForUserManagementRequests(
+  public Optional<AccountState> updateForUserManagementRequests(
       String message, Account.Id accountId, ConfigureStatelessDelta configureDelta)
       throws IOException, ConfigInvalidException {
     return this.update(message, accountId, configureDelta);
@@ -255,7 +255,7 @@ public abstract class AccountsUpdate {
    * account updates initiated by the users and those initiated by account management.
    */
   @CanIgnoreReturnValue
-  public final Optional<AccountState> updateForUserManagementRequests(
+  public Optional<AccountState> updateForUserManagementRequests(
       String message, Account.Id accountId, ConfigureDeltaFromState configureDelta)
       throws IOException, ConfigInvalidException {
     return this.update(message, accountId, configureDelta);

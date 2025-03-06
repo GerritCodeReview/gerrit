@@ -148,8 +148,8 @@ To use the `HTTP` protocol, run:
 git clone http://username@localhost:8080/projectname
 ----
 
-The default password for user `admin` is `secret`. You can regenerate a
-password in the UI under User Settings -- HTTP credentials. The password can be
+The default token for user `admin` is `secret`. You can generate tokens
+in the UI under User Settings -- HTTP credentials. The tokens can be
 stored locally to avoid retyping it:
 
 ----

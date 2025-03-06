@@ -1,0 +1,59 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92af9163_025fda91",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-06T15:33:46Z",
+      "side": 1,
+      "message": "Please change this and the below methods to call the new one.",
+      "fixSuggestions": [
+        {
+          "fixId": "da898b8f_6931a9c5",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 249,
+                "startChar": 0,
+                "endLine": 250,
+                "endChar": 0
+              },
+              "replacement": "    return updateForUserManagementRequests(\n        ImmutableList.of(new UpdateArguments(message, accountId, configureDelta))).get(0);\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 260,
+                "startChar": 0,
+                "endLine": 261,
+                "endChar": 0
+              },
+              "replacement": "    return updateForUserManagementRequests(\n        ImmutableList.of(new UpdateArguments(message, accountId, configureDelta))).get(0);\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+              "range": {
+                "startLine": 271,
+                "startChar": 0,
+                "endLine": 272,
+                "endChar": 0
+              },
+              "replacement": "    return updateForUserManagementRequests(\n        ImmutableList.of(new UpdateArguments(message, accountId, configureDelta))).get(0);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "be37d6f622cda92a08f79889a01059dd4de4f986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

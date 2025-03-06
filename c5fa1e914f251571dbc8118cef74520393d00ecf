@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "582c0963_d04a347e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-06T13:38:35Z",
+      "side": 1,
+      "message": "This change looks much bigger than the code required to do this. The code to implement the new approach is all in this one file, it just opens and closes the index around each write: https://gerrit-review.googlesource.com/c/gerrit/+/458243/1/java/com/google/gerrit/lucene/OpenCloseIndexManager.java That is the design, I can\u0027t imagine writting a doc to describe it. Here is the basis of the design, a change which mostly comments out all the current unneeded code and makes a simple cloning constructor: https://gerrit-review.googlesource.com/c/gerrit/+/436617\n\nThe rest of this change does 3 main things that aren\u0027t really part of the design, but they are needed to fit this code in here: \n\n1) It moves the really complicated existing code to a file of its own: ThreadedIndexManager\n2) It splits RetryHelper in two so that it can be used with a much simpler Guice configuration. I ran into Guice hell trying to figure out how to make PS1 work for offline indexing and the tests, so I gave up, but that approach could still be pursued if we think it is better. That being said, I do think we could us a simpler RetryHelper so that we could use it in more places without bringing in so many subsystems as the now RetryHelper.Advanced has to bring in. This refactor could go in another change if you think it would make reviewing better?\n3) Make GerritIndexWriter able to create a new LuceneConfig in an efficient way (without having to re-read the config everytime).\nis just refactors to make such a simple approach possible within a core that is so complica",
+      "parentUuid": "b44ec750_56352509",
+      "revId": "c5fa1e914f251571dbc8118cef74520393d00ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19b54e7c_d21dcdc6",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-06T10:03:33Z",
       "side": 1,
       "message": "How does this setting combine with other settings like `commitWithin`?",
+      "revId": "c5fa1e914f251571dbc8118cef74520393d00ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b6a9115_a3db0392",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3779,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-06T13:38:35Z",
+      "side": 1,
+      "message": "Many of the other settings, such as this one, are not relevant to this much simpler design. I was thinking about anotating all the ones that don\u0027t apply when this setting is enabled in the docs, would that make sense?",
+      "parentUuid": "19b54e7c_d21dcdc6",
       "revId": "c5fa1e914f251571dbc8118cef74520393d00ecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

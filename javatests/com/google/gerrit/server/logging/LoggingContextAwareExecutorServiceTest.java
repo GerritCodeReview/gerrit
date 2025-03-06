@@ -88,40 +88,42 @@ public class LoggingContextAwareExecutorServiceTest {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
 
-      ExecutorService executor =
-          new LoggingContextAwareExecutorService(Executors.newFixedThreadPool(1));
-      executor
-          .submit(
-              () -> {
-                // Verify that the tags and force logging flag have been propagated to the new
-                // thread.
-                Map<String, ? extends Set<Object>> threadTagMap =
-                    LoggingContext.getInstance().getTags().asMap();
-                expect.that(threadTagMap.keySet()).containsExactly("foo");
-                expect.that(threadTagMap.get("foo")).containsExactly("bar");
-                expect
-                    .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
-                    .isTrue();
-                expect.that(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
-                expect.that(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
+      try (ExecutorService executor =
+          new LoggingContextAwareExecutorService(Executors.newFixedThreadPool(1))) {
+        executor
+            .submit(
+                () -> {
+                  // Verify that the tags and force logging flag have been propagated to the new
+                  // thread.
+                  Map<String, ? extends Set<Object>> threadTagMap =
+                      LoggingContext.getInstance().getTags().asMap();
+                  expect.that(threadTagMap.keySet()).containsExactly("foo");
+                  expect.that(threadTagMap.get("foo")).containsExactly("bar");
+                  expect
+                      .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
+                      .isTrue();
+                  expect.that(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
+                  expect.that(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
 
-                // Create another performance log record. We expect this to be visible in the outer
-                // thread.
-                TraceContext.newTimer("test2").close();
-                expect.that(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
-              })
-          .get();
+                  // Create another performance log record. We expect this to be visible in the
+                  // outer
+                  // thread.
+                  TraceContext.newTimer("test2").close();
+                  expect.that(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
+                })
+            .get();
 
-      // Verify that logging context values in the outer thread are still set.
-      tagMap = LoggingContext.getInstance().getTags().asMap();
-      assertThat(tagMap.keySet()).containsExactly("foo");
-      assertThat(tagMap.get("foo")).containsExactly("bar");
-      assertForceLogging(true);
-      assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
+        // Verify that logging context values in the outer thread are still set.
+        tagMap = LoggingContext.getInstance().getTags().asMap();
+        assertThat(tagMap.keySet()).containsExactly("foo");
+        assertThat(tagMap.get("foo")).containsExactly("bar");
+        assertForceLogging(true);
+        assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
-      // The performance log record that was added in the inner thread is available in addition to
-      // the performance log record that was created in the outer thread.
-      assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
+        // The performance log record that was added in the inner thread is available in addition to
+        // the performance log record that was created in the outer thread.
+        assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
+      }
     }
 
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();

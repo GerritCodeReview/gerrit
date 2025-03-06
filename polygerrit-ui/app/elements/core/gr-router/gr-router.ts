@@ -1489,7 +1489,8 @@ export class GrRouter implements Finalizable, NavigationService {
       }
       this.redirect(
         `/c/${project}/+/${changeNum}/${ctx.params[1]}` +
-          (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
+          (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '') +
+          (ctx.hash.length > 0 ? `#${ctx.hash}` : '')
       );
     });
   }

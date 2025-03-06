@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34fc1940_8e9e252d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-06T06:52:49Z",
+      "side": 1,
+      "message": "nit: `s/even/every`?",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "34354772df9611604262206602aeec333f3fd669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4375b658_a2abc39f",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-06T06:52:49Z",
+      "side": 1,
+      "message": "perhaps instead of always waiting we could mark specific suites (e.g. `HttpPushLightweightTagIT`) with a dedicated wait annotation?",
+      "revId": "34354772df9611604262206602aeec333f3fd669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

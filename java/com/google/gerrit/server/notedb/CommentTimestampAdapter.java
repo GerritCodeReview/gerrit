@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.Locale;
@@ -58,7 +59,20 @@ class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
    * try to parse with a fixed format if {@link #FALLBACK} doesn't work.
    */
   private static final DateTimeFormatter FIXED_FORMAT_FALLBACK =
-      DateTimeFormatter.ofPattern("MMM d, yyyy h:mm:ss a").withLocale(Locale.US);
+      new DateTimeFormatterBuilder()
+          .parseCaseInsensitive()
+          .appendPattern("MMM d, yyyy[','] h:mm:ss") // Comma is optional
+          .optionalStart()
+          .appendLiteral(' ') // Regular space
+          .optionalEnd()
+          .optionalStart()
+          .appendLiteral('\u00A0') // No-break space
+          .optionalEnd()
+          .optionalStart()
+          .appendLiteral('\u202F') // Narrow no-break space
+          .optionalEnd()
+          .appendPattern("a")
+          .toFormatter(Locale.US);
 
   @Override
   public void write(JsonWriter out, Timestamp ts) throws IOException {

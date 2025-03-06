@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "01a63fb0_9737ab86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-06T10:22:54Z",
+      "side": 1,
+      "message": "```suggestion\nAllow up to 30s for Git Repository objects to close\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec73a40b_a075bea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-06T10:22:54Z",
+      "side": 1,
+      "message": "```suggestion\ntime for concurrent threads to close all the Git Repository objects to be\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0d0e8c_c2438ff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-06T10:22:54Z",
+      "side": 1,
+      "message": "```suggestion\nis constantly monitored every 50 ms until it is found that all\n```",
+      "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bf01c972_583058f7",
@@ -14,6 +77,23 @@
       "writtenOn": "2025-03-04T22:44:41Z",
       "side": 1,
       "message": "@matthias.sohn@gmail.com can you check if this change would help your CI/CD jobs to pass?",
+      "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b972c07_3d54e224",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-06T10:22:54Z",
+      "side": 1,
+      "message": "instead of heuristically waiting a bit shouldn\u0027t we better wait until the `GerritServer.daemonService` which is used in these tests has terminated ?",
       "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

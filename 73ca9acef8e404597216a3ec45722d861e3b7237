@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d54aeb1_af81875a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2393,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-06T16:31:31Z",
+      "side": 1,
+      "message": "Nit: ()?.",
+      "range": {
+        "startLine": 2393,
+        "startChar": 19,
+        "endLine": 2393,
+        "endChar": 53
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "36924c35_782cb11d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 2393,
+                "startChar": 0,
+                "endLine": 2394,
+                "endChar": 0
+              },
+              "replacement": "    const status \u003d this.computeChangeStatusChips()?.[0];\n"
+            }
+          ]
+        }
+      ],
+      "revId": "73ca9acef8e404597216a3ec45722d861e3b7237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5544f915_f3118635",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-06T16:31:31Z",
+      "side": 1,
+      "message": "Is this moved to be the first item in array? Maybe that needs to have test that we need special order.",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "73ca9acef8e404597216a3ec45722d861e3b7237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

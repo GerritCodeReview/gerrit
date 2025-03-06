@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f4bc8bd_6bf755eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-06T12:54:52Z",
+      "side": 1,
+      "message": "Is there any IT which covers this change? If not, is it feasible to add one?",
+      "revId": "3e8b21f68abb8e355293f504dd8adcdef9d6d392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1352703_488d904a",
+        "filename": "java/com/google/gerrit/httpd/EnableTracingFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-06T12:54:52Z",
+      "side": 1,
+      "message": "Can you please add a javadoc?\n\nIt would be useful to mention-\n\n1. Which requests are covered.\n2. How to trigger tracing (can be copied from the method docs below).",
+      "revId": "3e8b21f68abb8e355293f504dd8adcdef9d6d392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35e3391b_d9f9d57f",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 5

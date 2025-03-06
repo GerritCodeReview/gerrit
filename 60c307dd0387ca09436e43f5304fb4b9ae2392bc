@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bcc4102_9e0cd269",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-06T12:54:52Z",
+      "side": 0,
+      "message": "Previously, the TraceContext object was opened here, and destroyed when the request processing was done (\u003dby the end of the try block).\n\nI\u0027m not sure how the filtering logic works, can you please verify the object stay alive while needed?",
+      "revId": "60c307dd0387ca09436e43f5304fb4b9ae2392bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

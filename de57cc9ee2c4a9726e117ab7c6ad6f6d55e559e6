@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd2d1c55_4c205b46",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 9329,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-03-06T22:25:54Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9b3df525_987066e6",
+      "range": {
+        "startLine": 9329,
+        "startChar": 9,
+        "endLine": 9329,
+        "endChar": 16
+      },
+      "revId": "de57cc9ee2c4a9726e117ab7c6ad6f6d55e559e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0ae7f8e_8784af29",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-03-06T09:15:18Z",
       "side": 1,
       "message": "I think we might need to provide a default implementation here, to avoid breaking existing plugins",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "de57cc9ee2c4a9726e117ab7c6ad6f6d55e559e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22c3679_4c23ecef",
+        "filename": "java/com/google/gerrit/index/query/Matchable.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-03-06T22:25:54Z",
+      "side": 1,
+      "message": "AFAICT, the default implement is Predicate?  All Matchable implementations subclass Predicate.\n\nEdit: sorry, I forgot Java interfaces support default methods, Go interfaces don\u0027t (since Go interfaces are implicitly satisfied rather than declared).",
+      "parentUuid": "c0ae7f8e_8784af29",
       "range": {
         "startLine": 21,
         "startChar": 2,
@@ -84,6 +132,30 @@
           ]
         }
       ],
+      "revId": "de57cc9ee2c4a9726e117ab7c6ad6f6d55e559e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b05ddd4b_bef4c670",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-03-06T22:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31c1f8d1_cfe6f6b8",
+      "range": {
+        "startLine": 183,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 3
+      },
       "revId": "de57cc9ee2c4a9726e117ab7c6ad6f6d55e559e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

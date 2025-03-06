@@ -47,7 +47,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
     VersionedAuthTokens create(Account.Id accountId);
   }
 
-  private static final String FILE_NAME = "tokens.config";
+  public static final String FILE_NAME = "tokens.config";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -80,16 +80,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    Config tokenConfig = new Config();
-    tokenConfig.fromText(readUTF8(FILE_NAME));
-    tokens = new HashMap<>(tokenConfig.getSubsections("token").size());
-    for (String id : tokenConfig.getSubsections("token")) {
-      try {
-        tokens.put(id, AuthToken.create(id, tokenConfig.getString("token", id, "hash")));
-      } catch (InvalidAuthTokenException e) {
-        // Token was validated on creation.
-      }
-    }
+    tokens = parse(readUTF8(FILE_NAME));
   }
 
   @Override
@@ -107,7 +98,21 @@ public class VersionedAuthTokens extends VersionedMetaData {
     return true;
   }
 
-  /** Returns all tokens. */
+  public static Map<String, AuthToken> parse(String s) throws ConfigInvalidException {
+    Config tokenConfig = new Config();
+    tokenConfig.fromText(s);
+    Map<String, AuthToken> tokens = new HashMap<>(tokenConfig.getSubsections("token").size());
+    for (String id : tokenConfig.getSubsections("token")) {
+      try {
+        tokens.put(id, AuthToken.create(id, tokenConfig.getString("token", id, "hash")));
+      } catch (InvalidAuthTokenException e) {
+        // Tokens were validated on creation.
+      }
+    }
+    return tokens;
+  }
+
+  /** Returns all authorization tokens. */
   ImmutableList<AuthToken> getTokens() {
     checkLoaded();
     return ImmutableList.copyOf(tokens.values());

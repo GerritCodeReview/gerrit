@@ -45,32 +45,35 @@ public class ProjectCacheWarmer implements LifecycleListener {
   public void start() {
     int cpus = Runtime.getRuntime().availableProcessors();
     if (config.getBoolean("cache", "projects", "loadOnStartup", false)) {
-      ExecutorService pool =
-          new LoggingContextAwareExecutorService(
-              new ScheduledThreadPoolExecutor(
-                  config.getInt("cache", "projects", "loadThreads", cpus),
-                  new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build()));
       Thread scheduler =
           new Thread(
               () -> {
-                for (Project.NameKey name : cache.all()) {
-                  pool.execute(
-                      () -> {
-                        Optional<ProjectState> project = cache.get(name);
-                        if (!project.isPresent()) {
-                          throw new IllegalStateException(
-                              "race while traversing projects. got "
-                                  + name
-                                  + " when loading all projects, but can't load it now");
-                        }
-                      });
-                }
-                pool.shutdown();
-                try {
-                  pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-                  logger.atInfo().log("Finished loading project cache");
-                } catch (InterruptedException e) {
-                  logger.atWarning().log("Interrupted while waiting for project cache to load");
+                try (ExecutorService pool =
+                    new LoggingContextAwareExecutorService(
+                        new ScheduledThreadPoolExecutor(
+                            config.getInt("cache", "projects", "loadThreads", cpus),
+                            new ThreadFactoryBuilder()
+                                .setNameFormat("ProjectCacheLoader-%d")
+                                .build()))) {
+                  for (Project.NameKey name : cache.all()) {
+                    pool.execute(
+                        () -> {
+                          Optional<ProjectState> project = cache.get(name);
+                          if (!project.isPresent()) {
+                            throw new IllegalStateException(
+                                "race while traversing projects. got "
+                                    + name
+                                    + " when loading all projects, but can't load it now");
+                          }
+                        });
+                  }
+                  pool.shutdown();
+                  try {
+                    pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+                    logger.atInfo().log("Finished loading project cache");
+                  } catch (InterruptedException e) {
+                    logger.atWarning().log("Interrupted while waiting for project cache to load");
+                  }
                 }
               });
       scheduler.setName("ProjectCacheWarmer");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6972e43_d96019ca",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-06T06:46:20Z",
+      "side": 1,
+      "message": "nit: `BinaryResults` is `Closeable` therefore eclipse complains in this line with the following warning:\n\n`Mandatory close of resource \u0027bin\u0027 has not been shown at this location`\n\nwhich is kind of OK regardless of the fact that `close()` is by default NOOP\nAny developer coming to this code will potentially have a similar doubts hence we have two options:\n1. comment that `BinaryResult.close()` is NOOP\n2. close it here prior throwing\n\nIt doesn\u0027t complain in `#165` as it assumes that caller will take care of the resources...",
+      "revId": "4907dac6b5bf24a2d53efb86b1420f6e89d1b027",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -50,6 +50,7 @@ public class InitModule extends FactoryModule {
         .toProvider(DisabledGitRefUpdatedRepoAccountsSequenceProvider.class);
     factory(Section.Factory.class);
     factory(VersionedAuthorizedKeysOnInit.Factory.class);
+    factory(VersionedAuthorizationTokensOnInit.Factory.class);
 
     // Steps are executed in the order listed here.
     //

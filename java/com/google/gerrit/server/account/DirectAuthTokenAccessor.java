@@ -36,6 +36,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 /** Read/write authentication tokens by user ID. */
 @Singleton
 public class DirectAuthTokenAccessor implements AuthTokenAccessor {
+  public static final String LEGACY_ID = "legacy";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountCache accountCache;
@@ -146,7 +147,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
     String password = user.password();
     if (password != null) {
       try {
-        return Optional.of(AuthToken.create("legacy", password));
+        return Optional.of(AuthToken.create(LEGACY_ID, password));
       } catch (InvalidAuthTokenException e1) {
         // Can be ignored because the token ID is hardcoded.
       }

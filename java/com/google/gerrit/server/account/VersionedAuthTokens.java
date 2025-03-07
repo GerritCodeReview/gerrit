@@ -29,7 +29,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -145,7 +144,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
    * @throws AuthTokenConflictException if a token with the given id already exists
    */
   @CanIgnoreReturnValue
-  private AuthToken addToken(AuthToken token) throws AuthTokenConflictException {
+  AuthToken addToken(AuthToken token) throws AuthTokenConflictException {
     checkLoaded();
 
     if (tokens.containsKey(token.id())) {

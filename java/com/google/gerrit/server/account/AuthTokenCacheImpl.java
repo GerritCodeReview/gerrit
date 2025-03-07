@@ -37,6 +37,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class AuthTokenCacheImpl implements AuthTokenCache {
+  public static final String LEGACY_ID = "legacy";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "tokens";
@@ -115,10 +116,9 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
         if (tokens.isEmpty()) {
           Optional<AuthToken> legacyHttpPassword = getLegacyHttpPassword(accountId);
           if (legacyHttpPassword.isPresent()) {
-            tokens = ImmutableList.of(legacyHttpPassword.get());
-          } else {
-            return NO_TOKENS;
+            return ImmutableList.of(legacyHttpPassword.get());
           }
+          return NO_TOKENS;
         }
 
         return tokens;
@@ -138,7 +138,7 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
       ExternalId user = optUser.get();
       String password = user.password();
       if (password != null) {
-        return Optional.of(AuthToken.create("legacy", password));
+        return Optional.of(AuthToken.create(LEGACY_ID, password));
       }
       return Optional.empty();
     }

@@ -74,7 +74,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -991,7 +991,7 @@ public class CommitValidators {
   private static String getGerritHost(String canonicalWebUrl) {
     if (canonicalWebUrl != null) {
       try {
-        return new URL(canonicalWebUrl).getHost();
+        return URI.create(canonicalWebUrl).toURL().getHost();
       } catch (MalformedURLException ignored) {
         logger.atWarning().log(
             "configured canonical web URL is invalid, using system default: %s",

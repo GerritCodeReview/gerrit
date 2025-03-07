@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
+import java.net.URI;
 import java.util.zip.ZipException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -88,7 +88,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
       return input.raw.getInputStream();
     }
     try {
-      return new URL(input.url).openStream();
+      return URI.create(input.url).toURL().openStream();
     } catch (IOException e) {
       throw new BadRequestException(e.getMessage());
     }

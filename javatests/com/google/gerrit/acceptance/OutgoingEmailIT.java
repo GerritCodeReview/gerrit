@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.testing.FakeEmailSender;
-import java.net.URL;
+import java.net.URI;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
@@ -135,6 +135,6 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   // Each message-id must start with '<' and end with '>'. Also, it must contain no spaces and it
   // must contain a '@'.
   private String withPrefixAndSuffixForMessageId(String id) throws Exception {
-    return "<" + id + "@" + new URL(canonicalWebUrl.get()).getHost() + ">";
+    return "<" + id + "@" + URI.create(canonicalWebUrl.get()).toURL().getHost() + ">";
   }
 }

@@ -20,6 +20,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import org.eclipse.jgit.lib.Config;
 
@@ -34,7 +35,7 @@ class ProxyPropertiesProvider implements Provider<ProxyProperties> {
   ProxyPropertiesProvider(@GerritServerConfig Config config) throws MalformedURLException {
     String proxyUrlStr = config.getString("http", null, "proxy");
     if (!Strings.isNullOrEmpty(proxyUrlStr)) {
-      proxyUrl = new URL(proxyUrlStr);
+      proxyUrl = URI.create(proxyUrlStr).toURL();
       proxyUser = config.getString("http", null, "proxyUsername");
       proxyPassword = config.getString("http", null, "proxyPassword");
       String userInfo = proxyUrl.getUserInfo();

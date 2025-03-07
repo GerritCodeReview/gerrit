@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -82,7 +82,7 @@ public class SetLoggingLevelCommand extends SshCommand {
     if (Strings.isNullOrEmpty(path)) {
       PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
     } else {
-      PropertyConfigurator.configure(new URL(path));
+      PropertyConfigurator.configure(URI.create(path).toURL());
     }
   }
 

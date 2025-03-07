@@ -26,7 +26,7 @@ public class TagInfo extends RefInfo {
   public String message;
   public GitPerson tagger;
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   public Timestamp created;
 

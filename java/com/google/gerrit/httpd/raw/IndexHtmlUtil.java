@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.raw;
 
-import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObject;
 import static java.util.stream.Collectors.toSet;
 

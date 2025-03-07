@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+@Deprecated
 public class HttpPasswordInput {
   public String httpPassword;
   public boolean generate;

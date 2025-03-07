@@ -88,11 +88,11 @@ public class VersionedAuthTokens extends VersionedMetaData {
     }
 
     @CanIgnoreReturnValue
-    private synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+    public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
         throws IOException, ConfigInvalidException, AuthTokenConflictException {
-      VersionedAuthTokens authokens = read(accountId);
-      AuthToken token = authokens.addToken(id, hashedToken);
-      commit(authokens);
+      VersionedAuthTokens authTokens = read(accountId);
+      AuthToken token = authTokens.addToken(id, hashedToken);
+      commit(authTokens);
       return token;
     }
 

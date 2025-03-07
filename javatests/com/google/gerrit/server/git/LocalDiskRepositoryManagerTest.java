@@ -25,6 +25,7 @@ import com.google.gerrit.server.ioutil.HostPlatform;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -285,6 +286,21 @@ public class LocalDiskRepositoryManagerTest {
     assertThrows(
         RepositoryNotFoundException.class,
         () -> repoManager.openRepository(Project.nameKey("project%?|<>A")));
+  }
+
+  @Test
+  public void testOpenRepositoryAfterDeletionShouldThrowException() throws Exception {
+    Project.NameKey projectNameKey = Project.nameKey("projectForDeletion");
+    repoManager.createRepository(projectNameKey).close();
+    repoManager.openRepository(projectNameKey).close();
+
+    Path projectPath = repoManager.getBasePath(projectNameKey);
+    Path unused =
+        Files.move(projectPath, Path.of(projectPath + ".deleted"), StandardCopyOption.ATOMIC_MOVE);
+
+    repoManager.repositoryDeleted(projectNameKey);
+    assertThrows(
+        RepositoryNotFoundException.class, () -> repoManager.openRepository(projectNameKey));
   }
 
   @Test

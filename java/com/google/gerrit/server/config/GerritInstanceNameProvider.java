@@ -19,7 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -51,7 +51,7 @@ public class GerritInstanceNameProvider implements Provider<String> {
   private static String extractInstanceName(String canonicalUrl) {
     if (canonicalUrl != null) {
       try {
-        return new URL(canonicalUrl).getHost();
+        return URI.create(canonicalUrl).toURL().getHost();
       } catch (MalformedURLException e) {
         // Try something else.
       }

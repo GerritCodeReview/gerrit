@@ -46,7 +46,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -448,7 +448,7 @@ public final class OutgoingEmail {
     Optional<String> gerritUrl = args.urlFormatter.get().getWebUrl();
     if (gerritUrl.isPresent()) {
       try {
-        return new URL(gerritUrl.get()).getHost();
+        return URI.create(gerritUrl.get()).toURL().getHost();
       } catch (MalformedURLException e) {
         // Try something else.
       }

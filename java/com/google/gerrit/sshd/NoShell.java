@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import org.apache.sshd.common.io.IoInputStream;
 import org.apache.sshd.common.io.IoOutputStream;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
@@ -209,7 +209,7 @@ class NoShell implements ShellFactory {
       String url = urlProvider.get();
       if (url != null) {
         try {
-          return new URL(url).getHost();
+          return URI.create(url).toURL().getHost();
         } catch (MalformedURLException e) {
           // Ignored
         }

@@ -717,7 +717,7 @@ public final class GerritLauncher {
       } else if ("jar".equals(u.getProtocol())) {
         String p = u.getPath();
         try {
-          u = new URL(p.substring(0, p.indexOf('!')));
+          u = URI.create(p.substring(0, p.indexOf('!'))).toURL();
         } catch (MalformedURLException e) {
           FileNotFoundException fnfe = new FileNotFoundException("Not a valid jar file: " + u);
           fnfe.initCause(e);

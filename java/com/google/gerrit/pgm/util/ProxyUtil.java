@@ -39,6 +39,7 @@ package com.google.gerrit.pgm.util;
 
 import com.google.common.base.Strings;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import org.eclipse.jgit.util.CachedAuthenticator;
 
@@ -59,7 +60,7 @@ final class ProxyUtil {
       return;
     }
 
-    final URL u = new URL(!s.contains("://") ? "http://" + s : s);
+    final URL u = URI.create(!s.contains("://") ? "http://" + s : s).toURL();
     if (!"http".equals(u.getProtocol())) {
       throw new MalformedURLException("Invalid http_proxy: " + s + ": Only http supported.");
     }

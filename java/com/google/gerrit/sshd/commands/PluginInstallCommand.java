@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.Files;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -74,7 +74,7 @@ final class PluginInstallCommand extends PluginAdminSshCommand {
       }
     } else {
       try {
-        data = new URL(source).openStream();
+        data = URI.create(source).toURL().openStream();
       } catch (MalformedURLException e) {
         throw die("invalid url " + source, e);
       } catch (IOException e) {

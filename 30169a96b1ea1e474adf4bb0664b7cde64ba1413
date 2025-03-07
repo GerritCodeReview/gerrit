@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f29931e_859f2b37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-03-07T13:34:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand how `git describe` relates to this.\nIt makes very little sense to tag a commit with the `git describe` output of the same commit as the output is an identifier in itself.\n\nDid you mean to say that \"existing tags are not the only string that can be resolved to a object, this comparison dissalows users to create a tag corresponding to any recognized annotation of an existing tag or commit.\"?\n\nThe current comparison does block users from pushing tags that can be created by git, but one could debate the usefulness of the tags [it blocks users from pushing](https://javadoc.io/doc/org.eclipse.jgit/org.eclipse.jgit/latest/org.eclipse.jgit/org/eclipse/jgit/lib/Repository.html), such as the tag:\n`git tag create -m test b904a3dab6863ea85bc7129b47333ab0d8783e8f b904a3dab6863ea85bc7129b47333ab0d8783e8f`.\n\nI think there\u0027s actually a case for makeing this configurable since allowing the average user to shoot itself in the foot makes life for the Gerrit admins more difficult.\n\nNot blocking this change, just saying that there\u0027s more to this than what meets the eye.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1852423f_fd52ed2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

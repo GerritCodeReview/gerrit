@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97414ae3_efb9b68c",
+        "filename": "java/com/google/gerrit/index/query/Matchable.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-07T10:21:10Z",
+      "side": 1,
+      "message": "\u003e AFAICT, the default implement is Predicate? All Matchable implementations subclass Predicate.\n\nIt\u0027s a weird class structure. Most classes here end up as `extend Predicate implements Matchable` to make sure they implement both. But the Predicate doesn\u0027t implement methods of Matchable (ie. match() ). So adding matchResult to it would be inconsistent",
+      "parentUuid": "d22c3679_4c23ecef",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "de57cc9ee2c4a9726e117ab7c6ad6f6d55e559e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31c1f8d1_cfe6f6b8",

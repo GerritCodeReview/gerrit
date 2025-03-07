@@ -41,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,6 +77,19 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
   }
 
   protected abstract TagType getTagType();
+
+  @Test
+  public void pushGitDescribeTagIsAllowed() throws Exception {
+    Assume.assumeTrue(ANNOTATED == tagType);
+
+    allowTagCreation();
+    allowPushOnRefsTags();
+    pushTagForExistingCommit(RemoteRefUpdate.Status.OK);
+    commit(user.newIdent(), "commit");
+    String tagName = testRepo.git().describe().call();
+    createTag(tagName, true);
+    pushTagAndVerifyResult(tagName, true, false, Status.OK, null);
+  }
 
   @Test
   public void createTagForExistingCommit() throws Exception {
@@ -252,17 +266,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
 
     boolean createTag = tagName == null;
     tagName = MoreObjects.firstNonNull(tagName, "v1_" + System.nanoTime());
-    switch (tagType) {
-      case LIGHTWEIGHT -> {}
-      case ANNOTATED -> {
-        if (createTag) {
-          createAnnotatedTag(testRepo, tagName, user.newIdent());
-        } else {
-          updateAnnotatedTag(testRepo, tagName, user.newIdent());
-        }
-      }
-      default -> throw new IllegalStateException("unexpected tag type: " + tagType);
-    }
+    createTag(tagName, createTag);
 
     if (!newCommit) {
       projectOperations
@@ -272,17 +276,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
           .update();
       pushHead(testRepo, "refs/for/master%submit");
     }
-
-    String tagRef = tagRef(tagName);
-    PushResult r =
-        tagType == LIGHTWEIGHT
-            ? pushHead(testRepo, tagRef, false, force)
-            : GitUtil.pushTag(testRepo, tagName, !createTag);
-    RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
-    assertWithMessage(tagType.name()).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
-    if (expectedMessage != null) {
-      assertWithMessage(tagType.name()).that(refUpdate.getMessage()).isEqualTo(expectedMessage);
-    }
+    pushTagAndVerifyResult(tagName, createTag, force, expectedStatus, expectedMessage);
     return tagName;
   }
 
@@ -397,6 +391,39 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
 
   private void commit(PersonIdent ident, String subject) throws Exception {
     commitBuilder().ident(ident).message(subject + " (" + System.nanoTime() + ")").create();
+  }
+
+  private void createTag(String tagName, boolean createTag) throws Exception {
+    switch (tagType) {
+      case LIGHTWEIGHT -> {}
+      case ANNOTATED -> {
+        if (createTag) {
+          createAnnotatedTag(testRepo, tagName, user.newIdent());
+        } else {
+          updateAnnotatedTag(testRepo, tagName, user.newIdent());
+        }
+      }
+      default -> throw new IllegalStateException("unexpected tag type: " + tagType);
+    }
+  }
+
+  private void pushTagAndVerifyResult(
+      String tagName,
+      boolean createTag,
+      boolean force,
+      Status expectedStatus,
+      String expectedMessage)
+      throws Exception {
+    String tagRef = tagRef(tagName);
+    PushResult r =
+        tagType == LIGHTWEIGHT
+            ? pushHead(testRepo, tagRef, false, force)
+            : GitUtil.pushTag(testRepo, tagName, !createTag);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
+    assertWithMessage(tagType.name()).that(refUpdate.getStatus()).isEqualTo(expectedStatus);
+    if (expectedMessage != null) {
+      assertWithMessage(tagType.name()).that(refUpdate.getMessage()).isEqualTo(expectedMessage);
+    }
   }
 
   private static String tagRef(String tagName) {

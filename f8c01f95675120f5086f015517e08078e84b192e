@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7eb41cc9_c17ab1dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-07T07:19:41Z",
+      "side": 1,
+      "message": "nit: `s/includes/include`",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7c5d1c5_29cbd10d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6311,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-07T07:19:41Z",
+      "side": 1,
+      "message": "nit `s/attribute/attributes`?",
+      "range": {
+        "startLine": 6311,
+        "startChar": 52,
+        "endLine": 6311,
+        "endChar": 61
+      },
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8a320b7_4e6bdcc4",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1

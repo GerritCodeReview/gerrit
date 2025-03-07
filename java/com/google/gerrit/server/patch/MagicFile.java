@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -28,6 +28,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Representation of a magic file which appears as a file with content to Gerrit users. */
 @AutoValue
 public abstract class MagicFile {
+  public static final DateTimeFormatter DATE_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZZ");
 
   public static MagicFile forCommitMessage(ObjectReader reader, AnyObjectId commitId)
       throws IOException {
@@ -121,10 +123,8 @@ public abstract class MagicFile {
       }
       b.append("\n");
 
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZ");
-      sdf.setTimeZone(person.getTimeZone());
       b.append(field).append("Date: ");
-      b.append(sdf.format(person.getWhen()));
+      b.append(person.getWhenAsInstant().atZone(person.getZoneId()).format(DATE_FORMATTER));
       b.append("\n");
     }
   }

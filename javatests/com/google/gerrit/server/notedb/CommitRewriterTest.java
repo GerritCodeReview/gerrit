@@ -379,7 +379,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(originalAuthorIdent.getEmailAddress()).isEqualTo(fixedAuthorIdent.getEmailAddress());
     assertThat(originalAuthorIdent.getWhenAsInstant())
         .isEqualTo(fixedAuthorIdent.getWhenAsInstant());
-    assertThat(originalAuthorIdent.getTimeZone()).isEqualTo(fixedAuthorIdent.getTimeZone());
+    assertThat(originalAuthorIdent.getZoneId()).isEqualTo(fixedAuthorIdent.getZoneId());
     assertThat(invalidUpdateCommit.getFullMessage()).isEqualTo(fixedUpdateCommit.getFullMessage());
     assertThat(invalidUpdateCommit.getCommitterIdent())
         .isEqualTo(fixedUpdateCommit.getCommitterIdent());

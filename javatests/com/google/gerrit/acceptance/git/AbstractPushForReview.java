@@ -489,7 +489,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .commit()
         .message("A change")
         .author(admin.newIdent())
-        .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()))
+        .committer(new PersonIdent(admin.newIdent(), testRepo.getInstant()))
         .create();
     PushResult result = pushHead(testRepo, "refs/for/master");
     assertThat(result.getMessages()).contains("warning: pushing without Change-Id is deprecated");

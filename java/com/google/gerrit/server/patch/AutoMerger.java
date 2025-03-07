@@ -297,8 +297,8 @@ public class AutoMerger {
     PersonIdent ident =
         new PersonIdent(
             gerritIdentProvider.get(),
-            merge.getCommitterIdent().getWhen(),
-            gerritIdentProvider.get().getTimeZone());
+            merge.getCommitterIdent().getWhenAsInstant(),
+            gerritIdentProvider.get().getZoneId());
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);

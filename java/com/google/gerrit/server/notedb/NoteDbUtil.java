@@ -110,7 +110,7 @@ public class NoteDbUtil {
   public static String formatTime(PersonIdent ident, Timestamp t) {
     GitDateFormatter dateFormatter = new GitDateFormatter(Format.DEFAULT);
     // TODO(dborowitz): Use a ThreadLocal or use Joda.
-    PersonIdent newIdent = new PersonIdent(ident, t);
+    PersonIdent newIdent = new PersonIdent(ident, t.toInstant());
     return dateFormatter.formatDate(newIdent);
   }
 

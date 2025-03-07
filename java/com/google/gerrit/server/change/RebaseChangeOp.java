@@ -616,7 +616,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     if (matchAuthorToCommitterDate) {
       cb.setAuthor(
           new PersonIdent(
-              cb.getAuthor(), cb.getCommitter().getWhen(), cb.getCommitter().getTimeZone()));
+              cb.getAuthor(), cb.getCommitter().getWhenAsInstant(), cb.getCommitter().getZoneId()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);

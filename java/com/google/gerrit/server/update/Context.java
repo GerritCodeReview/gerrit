@@ -143,7 +143,7 @@ public interface Context {
    * @return copied {@link PersonIdent} with {@link #getWhen()} as timestamp
    */
   default PersonIdent newPersonIdent(PersonIdent personIdent) {
-    return new PersonIdent(personIdent, getWhen().toEpochMilli(), personIdent.getTimeZoneOffset());
+    return new PersonIdent(personIdent, getWhen(), personIdent.getZoneId());
   }
 
   /**

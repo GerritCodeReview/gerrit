@@ -134,7 +134,7 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
       CommitBuilder cb = new CommitBuilder();
       cb.setParentId(notes.getRevision());
       cb.setAuthor(author);
-      cb.setCommitter(new PersonIdent(serverIdent, author.getWhen()));
+      cb.setCommitter(new PersonIdent(serverIdent, author.getWhenAsInstant()));
       cb.setTreeId(testRepo.tree());
       cb.setMessage(body);
       ObjectId id = ins.insert(cb);

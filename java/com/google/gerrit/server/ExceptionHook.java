@@ -138,8 +138,8 @@ public interface ExceptionHook {
    * <p>If multiple exception hooks return a value from this method, the value from exception hook
    * that is registered first is used.
    *
-   * <p>{@link #getUserMessages(Throwable, ImmutableSet<String>)} allows to define which additional
-   * messages should be included into the body of the HTTP response.
+   * <p>{@link #getUserMessages(Throwable, ImmutableSet)} allows to define which additional messages
+   * should be included into the body of the HTTP response.
    *
    * @param throwable throwable that was thrown while executing an operation
    * @return HTTP status that should be returned to the user, {@link Optional#empty()} if the

@@ -127,6 +127,17 @@ public class AccountCreator {
     return account;
   }
 
+  public synchronized void delete(String username) throws IOException, ConfigInvalidException {
+    accountsUpdateProvider.get().delete("Delete test account", accounts.get(username).id());
+  }
+
+  public synchronized TestAccount recreate(String username) throws Exception {
+    TestAccount account = accounts.get(username);
+    delete(account.username());
+    evict(account.id());
+    return create(account.username(), account.email(), account.fullName(), account.displayName());
+  }
+
   protected void addUserToGroups(Account.Id id, String... groupNames) throws Exception {
     if (groupNames != null) {
       for (String n : groupNames) {

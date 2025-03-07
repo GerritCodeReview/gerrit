@@ -527,11 +527,17 @@ If the account was already inactive the response is "`409 Conflict`".
 
 [[set-http-password]]
 === Set/Generate HTTP Password
+
+*Note*: The use of HTTP passwords is deprecated. It is recommended to use
+authentication tokens instead. See link:#create-token[Create Authentication
+token]. This endpoint serves as an alias for link:#create-token[Create
+Authentication token] to provide backwards compatibility.
+
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/password.http'
 --
 
-Sets/Generates the HTTP password of an account.
+Sets/Generates an authentication token with id `legacy` for an account.
 
 The options for setting/generating the HTTP password must be provided
 in the request body inside a link:#http-password-input[
@@ -549,7 +555,7 @@ The account must have a username.
   }
 ----
 
-As response the new HTTP password is returned.
+As response the new token is returned.
 
 .Response
 ----
@@ -561,15 +567,21 @@ As response the new HTTP password is returned.
   "ETxgpih8xrNs"
 ----
 
-If the HTTP password was deleted the response is "`204 No Content`".
+If the token was deleted the response is "`204 No Content`".
 
 [[delete-http-password]]
 === Delete HTTP Password
+
+*Note*: The use of HTTP passwords is deprecated. It is recommended to use
+authentication tokens instead. See link:#delete-token[Delete Authentication
+token]. This endpoint serves as an alias for link:#delete-token[Delete
+Authentication token] to provide backwards compatibility.
+
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/password.http'
 --
 
-Deletes the HTTP password of an account.
+Deletes the token with id `legacy` of an account.
 
 .Request
 ----

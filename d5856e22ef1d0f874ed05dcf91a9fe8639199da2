@@ -16,6 +16,24 @@
       "message": "Can you comment on the forward compatibility?  IIUC, as the new field I\u0027m adding is optional it should be fine, but I\u0027m not sure.",
       "revId": "d5856e22ef1d0f874ed05dcf91a9fe8639199da2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16d0a9d2_19dd171d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-07T10:22:45Z",
+      "side": 1,
+      "message": "I don\u0027t have concerns with adding a new optinal fields",
+      "parentUuid": "dd921ace_424d9940",
+      "revId": "d5856e22ef1d0f874ed05dcf91a9fe8639199da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f25ec9a_7f39e126",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2393,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-07T08:22:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d54aeb1_af81875a",
+      "range": {
+        "startLine": 2393,
+        "startChar": 19,
+        "endLine": 2393,
+        "endChar": 53
+      },
+      "revId": "73ca9acef8e404597216a3ec45722d861e3b7237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5544f915_f3118635",
@@ -55,6 +79,30 @@
       "writtenOn": "2025-03-06T16:31:31Z",
       "side": 1,
       "message": "Is this moved to be the first item in array? Maybe that needs to have test that we need special order.",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 3
+      },
+      "revId": "73ca9acef8e404597216a3ec45722d861e3b7237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52e70364_3163dc46",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-07T08:22:46Z",
+      "side": 1,
+      "message": "Reverted the change.",
+      "parentUuid": "5544f915_f3118635",
       "range": {
         "startLine": 104,
         "startChar": 2,

@@ -44,7 +44,7 @@ public class ApprovalInfo extends AccountInfo {
   public Integer value;
 
   /** The time and date describing when the approval was made. */
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   public Timestamp date;
 
@@ -91,7 +91,7 @@ public class ApprovalInfo extends AccountInfo {
     }
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public void setDate(Instant date) {

@@ -568,7 +568,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThrows(AuthException.class, () -> gApi.groups().create(name("newGroup")));
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   @Test

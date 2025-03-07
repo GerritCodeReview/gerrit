@@ -70,7 +70,7 @@ public class GitPersonSubject extends Subject {
     tz().isEqualTo(other.tz);
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public void matches(PersonIdent ident) {

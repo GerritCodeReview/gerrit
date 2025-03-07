@@ -27,7 +27,7 @@ public class ChangeMessageInfo {
   public AccountInfo author;
   public AccountInfo realAuthor;
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   public Timestamp date;
 
@@ -41,7 +41,7 @@ public class ChangeMessageInfo {
     this.message = message;
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public void setDate(Instant when) {

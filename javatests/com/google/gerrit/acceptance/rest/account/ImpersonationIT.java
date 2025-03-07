@@ -151,7 +151,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
           .isEqualTo(changeNoteUtil.getAccountIdAsEmailAddress(impersonatedUser.id()));
 
       // The ref log for the change meta ref records the impersonated user.
-      ReflogEntry changeMetaRefLogEntry = repo.getReflogReader(changeMetaRef).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry =
+          repo.getRefDatabase().getReflogReader(changeMetaRef).getLastEntry();
       assertThat(changeMetaRefLogEntry.getWho().getEmailAddress())
           .isEqualTo(impersonatedUser.email());
     }
@@ -556,7 +557,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     // The ref log for the target branch records the impersonated user.
     try (Repository repo = repoManager.openRepository(project)) {
       ReflogEntry targetBranchRefLogEntry =
-          repo.getReflogReader("refs/heads/master").getLastEntry();
+          repo.getRefDatabase().getReflogReader("refs/heads/master").getLastEntry();
       assertThat(targetBranchRefLogEntry.getWho().getEmailAddress())
           .isEqualTo(impersonatedUser.email());
     }
@@ -592,13 +593,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       // The ref log for the patch set ref records the impersonated user.
       ReflogEntry patchSetRefLogEntry =
-          repo.getReflogReader(cd.currentPatchSet().refName()).getLastEntry();
+          repo.getRefDatabase().getReflogReader(cd.currentPatchSet().refName()).getLastEntry();
       assertThat(patchSetRefLogEntry.getWho().getEmailAddress())
           .isEqualTo(impersonatedUser.email());
 
       // The ref log for the target branch records the impersonated user.
       ReflogEntry targetBranchRefLogEntry =
-          repo.getReflogReader("refs/heads/master").getLastEntry();
+          repo.getRefDatabase().getReflogReader("refs/heads/master").getLastEntry();
       assertThat(targetBranchRefLogEntry.getWho().getEmailAddress())
           .isEqualTo(impersonatedUser.email());
     }
@@ -644,7 +645,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
           .isEqualTo(changeNoteUtil.getAccountIdAsEmailAddress(impersonatedUser.id()));
 
       // The ref log for the change meta ref records the impersonated user.
-      ReflogEntry changeMetaRefLogEntry = repo.getReflogReader(changeMetaRef).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry =
+          repo.getRefDatabase().getReflogReader(changeMetaRef).getLastEntry();
       assertThat(changeMetaRefLogEntry.getWho().getEmailAddress())
           .isEqualTo(impersonatedUser.email());
 

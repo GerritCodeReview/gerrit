@@ -61,6 +61,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -1070,15 +1071,16 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
       gApi.changes().id(changeToBeRebased2.get()).rebaseChain(rebaseInput);
 
       // The ref log for the patch set ref records the impersonated user aka the uploader.
-      ReflogEntry patchSetRefLogEntry1 = repo.getReflogReader(patchSetRef1).getLastEntry();
+      RefDatabase refDb = repo.getRefDatabase();
+      ReflogEntry patchSetRefLogEntry1 = refDb.getReflogReader(patchSetRef1).getLastEntry();
       assertThat(patchSetRefLogEntry1.getWho().getEmailAddress()).isEqualTo(uploaderEmail);
-      ReflogEntry patchSetRefLogEntry2 = repo.getReflogReader(patchSetRef2).getLastEntry();
+      ReflogEntry patchSetRefLogEntry2 = refDb.getReflogReader(patchSetRef2).getLastEntry();
       assertThat(patchSetRefLogEntry2.getWho().getEmailAddress()).isEqualTo(uploaderEmail);
 
       // The ref log for the change meta ref records the impersonated user aka the uploader.
-      ReflogEntry changeMetaRefLogEntry1 = repo.getReflogReader(changeMetaRef1).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry1 = refDb.getReflogReader(changeMetaRef1).getLastEntry();
       assertThat(changeMetaRefLogEntry1.getWho().getEmailAddress()).isEqualTo(uploaderEmail);
-      ReflogEntry changeMetaRefLogEntry2 = repo.getReflogReader(changeMetaRef2).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry2 = refDb.getReflogReader(changeMetaRef2).getLastEntry();
       assertThat(changeMetaRefLogEntry2.getWho().getEmailAddress()).isEqualTo(uploaderEmail);
     }
   }
@@ -1132,15 +1134,16 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
       String combinedEmail = String.format("account-%s|account-%s@unknown", uploader1, uploader2);
 
       // The ref log for the patch set ref records the impersonated user aka the uploader.
-      ReflogEntry patchSetRefLogEntry1 = repo.getReflogReader(patchSetRef1).getLastEntry();
+      RefDatabase refDb = repo.getRefDatabase();
+      ReflogEntry patchSetRefLogEntry1 = refDb.getReflogReader(patchSetRef1).getLastEntry();
       assertThat(patchSetRefLogEntry1.getWho().getEmailAddress()).isEqualTo(combinedEmail);
-      ReflogEntry patchSetRefLogEntry2 = repo.getReflogReader(patchSetRef2).getLastEntry();
+      ReflogEntry patchSetRefLogEntry2 = refDb.getReflogReader(patchSetRef2).getLastEntry();
       assertThat(patchSetRefLogEntry2.getWho().getEmailAddress()).isEqualTo(combinedEmail);
 
       // The ref log for the change meta ref records the impersonated user aka the uploader.
-      ReflogEntry changeMetaRefLogEntry1 = repo.getReflogReader(changeMetaRef1).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry1 = refDb.getReflogReader(changeMetaRef1).getLastEntry();
       assertThat(changeMetaRefLogEntry1.getWho().getEmailAddress()).isEqualTo(combinedEmail);
-      ReflogEntry changeMetaRefLogEntry2 = repo.getReflogReader(changeMetaRef2).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry2 = refDb.getReflogReader(changeMetaRef2).getLastEntry();
       assertThat(changeMetaRefLogEntry2.getWho().getEmailAddress()).isEqualTo(combinedEmail);
     }
   }

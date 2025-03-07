@@ -59,7 +59,7 @@ public class ReflogIT extends AbstractDaemonTest {
       }
 
       gApi.changes().id(id.get()).topic("foo");
-      ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
+      ReflogEntry last = repo.getRefDatabase().getReflogReader(changeMetaRef(id)).getLastEntry();
       assertWithMessage("last RefLogEntry").that(last).isNotNull();
       assertThat(last.getComment()).isEqualTo("restapi.change.PutTopic");
     }
@@ -79,7 +79,7 @@ public class ReflogIT extends AbstractDaemonTest {
       }
 
       gApi.changes().id(id.get()).topic("foo");
-      ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
+      ReflogEntry last = repo.getRefDatabase().getReflogReader(changeMetaRef(id)).getLastEntry();
       assertThat(last.getWho().getEmailAddress())
           .isEqualTo(admin.username() + "|account-" + admin.id() + "@unknown");
     }
@@ -98,7 +98,7 @@ public class ReflogIT extends AbstractDaemonTest {
       }
 
       gApi.changes().id(id.get()).topic("foo");
-      ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
+      ReflogEntry last = repo.getRefDatabase().getReflogReader(changeMetaRef(id)).getLastEntry();
       assertThat(last.getWho().getEmailAddress()).isEqualTo(admin.email());
     }
   }

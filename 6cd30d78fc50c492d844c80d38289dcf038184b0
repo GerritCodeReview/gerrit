@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "082b349f_528d1e55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2025-03-07T18:50:58Z",
+      "side": 1,
+      "message": "That\u0027s a bold move.\n\nFirst, it appears that sommething isn\u0027t quite right yet with the rewritten TLS filter in 2.2.4. See for instance [1].\n\nSecond, Apache MINA sshd\u0027s sshd-mina bundle was written and tested against Apache MINA 2.0.23 only. I added tests against 2.2.4 only yesterday, and I was _very_ surprised to see them succeed because there is a source incompatibility. I had expected some exception at run-time... See [2], [3], and [4].\n\nIf you want to stay on 2.0.X, go to 2.0.27.\n\n[1] https://lists.apache.org/thread/hxc610y7w5rn6l74ctbrfmxv2kt197p7\n[2] https://github.com/apache/mina-sshd/commit/f826ec945a40329f92b36f64222982f03fef71b6\n[3] https://github.com/apache/mina-sshd/pull/573\n[4] https://github.com/apache/mina/pull/48",
+      "revId": "6cd30d78fc50c492d844c80d38289dcf038184b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

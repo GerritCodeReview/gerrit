@@ -52,22 +52,23 @@ public class ProjectQoSFilterTest {
   @SuppressWarnings("DoNotCall")
   public void shouldCallTaskEndOnListenerCompleteFromDifferentThread() {
     ProjectQoSFilter.TaskThunk taskThunk = getTaskThunk();
-    ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+    try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor =
+        new ScheduledThreadPoolExecutor(1)) {
 
-    Future<?> f = scheduledThreadPoolExecutor.submit(taskThunk);
-    taskThunk.begin(Thread.currentThread());
+      Future<?> f = scheduledThreadPoolExecutor.submit(taskThunk);
+      taskThunk.begin(Thread.currentThread());
 
-    new Thread() {
-      @Override
-      public void run() {
-        ProjectQoSFilter.Listener listener = new ProjectQoSFilter.Listener(f, taskThunk);
-        try {
-          listener.onComplete(asyncEvent);
-        } catch (Exception e) {
+      new Thread() {
+        @Override
+        public void run() {
+          ProjectQoSFilter.Listener listener = new ProjectQoSFilter.Listener(f, taskThunk);
+          try {
+            listener.onComplete(asyncEvent);
+          } catch (Exception e) {
+          }
         }
-      }
-    }.run();
-
+      }.run();
+    }
     assertThat(taskThunk.isDone()).isTrue();
   }
 
@@ -75,21 +76,23 @@ public class ProjectQoSFilterTest {
   @SuppressWarnings("DoNotCall")
   public void shouldCallTaskEndOnListenerTimeoutFromDifferentThread() {
     ProjectQoSFilter.TaskThunk taskThunk = getTaskThunk();
-    ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+    try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor =
+        new ScheduledThreadPoolExecutor(1)) {
 
-    Future<?> f = scheduledThreadPoolExecutor.submit(taskThunk);
-    taskThunk.begin(Thread.currentThread());
+      Future<?> f = scheduledThreadPoolExecutor.submit(taskThunk);
+      taskThunk.begin(Thread.currentThread());
 
-    new Thread() {
-      @Override
-      public void run() {
-        ProjectQoSFilter.Listener listener = new ProjectQoSFilter.Listener(f, taskThunk);
-        try {
-          listener.onTimeout(asyncEvent);
-        } catch (Exception e) {
+      new Thread() {
+        @Override
+        public void run() {
+          ProjectQoSFilter.Listener listener = new ProjectQoSFilter.Listener(f, taskThunk);
+          try {
+            listener.onTimeout(asyncEvent);
+          } catch (Exception e) {
+          }
         }
-      }
-    }.run();
+      }.run();
+    }
 
     assertThat(taskThunk.isDone()).isTrue();
   }
@@ -98,21 +101,23 @@ public class ProjectQoSFilterTest {
   @SuppressWarnings("DoNotCall")
   public void shouldCallTaskEndOnListenerErrorFromDifferentThread() {
     ProjectQoSFilter.TaskThunk taskThunk = getTaskThunk();
-    ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+    try (ScheduledThreadPoolExecutor scheduledThreadPoolExecutor =
+        new ScheduledThreadPoolExecutor(1)) {
 
-    Future<?> f = scheduledThreadPoolExecutor.submit(taskThunk);
-    taskThunk.begin(Thread.currentThread());
+      Future<?> f = scheduledThreadPoolExecutor.submit(taskThunk);
+      taskThunk.begin(Thread.currentThread());
 
-    new Thread() {
-      @Override
-      public void run() {
-        ProjectQoSFilter.Listener listener = new ProjectQoSFilter.Listener(f, taskThunk);
-        try {
-          listener.onError(asyncEvent);
-        } catch (Exception e) {
+      new Thread() {
+        @Override
+        public void run() {
+          ProjectQoSFilter.Listener listener = new ProjectQoSFilter.Listener(f, taskThunk);
+          try {
+            listener.onError(asyncEvent);
+          } catch (Exception e) {
+          }
         }
-      }
-    }.run();
+      }.run();
+    }
 
     assertThat(taskThunk.isDone()).isTrue();
   }

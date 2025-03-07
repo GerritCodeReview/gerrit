@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12785a4b_3403590f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-03-07T15:59:02Z",
+      "side": 1,
+      "message": "You are right, we can say it that way, it is not just \u0027git descrbie\u0027... this is more like not respecting namespaces, it doesn\u0027t matter if any other object exists under any other ref prefix or no prefix. A tag should only be blocked if it exists under tag namespace.\n\nOne usecase for \u0027git describe\u0027 for tagging: if project A is based on project B\u0027s branch Y and we want to record the top commit (not tagged) in branch Y that went into the release of A... since branch can move, this way we know exaclty upto which commit we are using in a release.",
+      "parentUuid": "8f29931e_859f2b37",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1852423f_fd52ed2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

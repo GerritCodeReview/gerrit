@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.common.TokenInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -74,6 +75,7 @@ import com.google.gerrit.server.restapi.account.GetGroups;
 import com.google.gerrit.server.restapi.account.GetPreferences;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.GetState;
+import com.google.gerrit.server.restapi.account.GetTokens;
 import com.google.gerrit.server.restapi.account.GetWatchedProjects;
 import com.google.gerrit.server.restapi.account.Index;
 import com.google.gerrit.server.restapi.account.PostWatchedProjects;
@@ -138,6 +140,7 @@ public class AccountApiImpl implements AccountApi {
   private final GetGroups getGroups;
   private final EmailApiImpl.Factory emailApi;
   private final PutName putName;
+  private final GetTokens getTokens;
   private final PutHttpPassword putHttpPassword;
   private final DeleteAccount deleteAccount;
 
@@ -181,6 +184,7 @@ public class AccountApiImpl implements AccountApi {
       GetGroups getGroups,
       EmailApiImpl.Factory emailApi,
       PutName putName,
+      GetTokens getTokens,
       PutHttpPassword putPassword,
       DeleteAccount deleteAccount,
       @Assisted AccountResource account) {
@@ -223,6 +227,7 @@ public class AccountApiImpl implements AccountApi {
     this.getGroups = getGroups;
     this.emailApi = emailApi;
     this.putName = putName;
+    this.getTokens = getTokens;
     this.putHttpPassword = putPassword;
     this.deleteAccount = deleteAccount;
   }
@@ -610,6 +615,11 @@ public class AccountApiImpl implements AccountApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot set account name", e);
     }
+  }
+
+  @Override
+  public List<TokenInfo> getTokens() throws RestApiException {
+    return getTokens.apply(account.getUser());
   }
 
   @Nullable

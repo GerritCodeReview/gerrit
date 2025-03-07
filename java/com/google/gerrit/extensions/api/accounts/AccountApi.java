@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.accounts;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.extensions.auth.AuthTokenInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -117,6 +118,8 @@ public interface AccountApi {
       throws RestApiException;
 
   void setName(String name) throws RestApiException;
+
+  List<AuthTokenInfo> getTokens() throws RestApiException;
 
   /**
    * Generate a new HTTP password.

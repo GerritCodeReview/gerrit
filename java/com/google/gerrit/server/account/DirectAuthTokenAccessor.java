@@ -91,8 +91,9 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
     commit(accountId, authTokens);
   }
 
+  @Override
   @CanIgnoreReturnValue
-  protected synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     AuthToken token = authTokens.addToken(id, hashedToken);

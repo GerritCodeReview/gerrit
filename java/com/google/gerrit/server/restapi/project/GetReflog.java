@@ -100,7 +100,7 @@ public class GetReflog implements RestReadView<BranchResource> {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ReflogReader r;
       try {
-        r = repo.getReflogReader(rsrc.getRef());
+        r = repo.getRefDatabase().getReflogReader(rsrc.getRef());
       } catch (UnsupportedOperationException e) {
         String msg = "reflog not supported on repo " + rsrc.getNameKey().get();
         logger.atSevere().log("%s", msg);

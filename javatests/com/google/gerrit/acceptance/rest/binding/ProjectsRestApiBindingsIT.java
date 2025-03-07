@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.RefNames.REFS_DASHBOARDS;
 import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
-import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
@@ -116,11 +115,6 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
           RestCall.get("/projects/%s/branches/%s/mergeable"),
-          // The tests use DfsRepository which does not support getting the reflog.
-          RestCall.builder(GET, "/projects/%s/branches/%s/reflog")
-              .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
-              .expectedMessage("reflog not supported on")
-              .build(),
           RestCall.get("/projects/%s/branches/%s/validation-options"),
           RestCall.get("/projects/%s/branches/%s/suggest_reviewers"),
 

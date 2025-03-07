@@ -34,6 +34,12 @@ public interface AuthTokenAccessor {
 
   public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException;
 
-  void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
+  public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, AuthTokenConflictException;
+
+  AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+      throws IOException,
+          ConfigInvalidException,
+          AuthTokenConflictException,
+          InvalidAuthTokenException;
 }

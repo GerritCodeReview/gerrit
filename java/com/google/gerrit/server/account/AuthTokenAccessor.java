@@ -69,7 +69,7 @@ public class AuthTokenAccessor {
   }
 
   @CanIgnoreReturnValue
-  private synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     AuthToken token = authTokens.addToken(id, hashedToken);

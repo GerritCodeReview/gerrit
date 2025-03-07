@@ -101,6 +101,8 @@ public class ProjectCacheImpl implements ProjectCache {
 
   public static final String CACHE_LIST = "project_list";
 
+  private final GitRepositoryManager repositoryManager;
+
   public static Module module() {
     return new CacheModule() {
       @Override
@@ -185,7 +187,8 @@ public class ProjectCacheImpl implements ProjectCache {
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       Provider<ProjectIndexer> indexer,
       MetricMaker metricMaker,
-      ProjectState.Factory projectStateFactory) {
+      ProjectState.Factory projectStateFactory,
+      GitRepositoryManager repositoryManager) {
     this.config = config;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
@@ -201,6 +204,7 @@ public class ProjectCacheImpl implements ProjectCache {
             new Description("Latency for guessing relevant groups")
                 .setCumulative()
                 .setUnit(Units.NANOSECONDS));
+    this.repositoryManager = repositoryManager;
   }
 
   @Override
@@ -263,6 +267,7 @@ public class ProjectCacheImpl implements ProjectCache {
     } finally {
       listLock.unlock();
     }
+    repositoryManager.repositoryDeleted(name);
     evictAndReindex(name);
   }
 

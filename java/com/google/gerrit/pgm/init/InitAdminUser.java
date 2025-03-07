@@ -95,7 +95,7 @@ public class InitAdminUser implements InitStep {
     if (!accounts.hasAnyAccount()) {
       welcome();
     }
-    AuthType authType = flags.cfg.getEnum(AuthType.values(), "auth", null, "type", null);
+    AuthType authType = flags.cfg.getEnum(AuthType.values(), "auth", null, "type");
     if (authType != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       return;
     }

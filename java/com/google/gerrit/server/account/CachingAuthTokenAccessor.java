@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
@@ -73,6 +74,15 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     directAuthTokenAccessor.addTokens(accountId, tokens);
     authTokenCache.evict(accountId);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
+    AuthToken token = directAuthTokenAccessor.addToken(accountId, id, hashedToken);
+    authTokenCache.evict(accountId);
+    return token;
   }
 
   @Override

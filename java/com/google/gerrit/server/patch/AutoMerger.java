@@ -295,10 +295,7 @@ public class AutoMerger {
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
     PersonIdent ident =
-        new PersonIdent(
-            gerritIdentProvider.get(),
-            merge.getCommitterIdent().getWhen(),
-            gerritIdentProvider.get().getTimeZone());
+        new PersonIdent(gerritIdentProvider.get(), merge.getCommitterIdent().getWhenAsInstant());
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);

@@ -1487,7 +1487,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected void assertPersonEquals(PersonIdent expected, PersonIdent actual) {
     assertThat(actual.getEmailAddress()).isEqualTo(expected.getEmailAddress());
     assertThat(actual.getName()).isEqualTo(expected.getName());
-    assertThat(actual.getTimeZone()).isEqualTo(expected.getTimeZone());
+    assertThat(actual.getZoneId()).isEqualTo(expected.getZoneId());
   }
 
   protected void assertAuthorAndCommitDateEquals(RevCommit commit) {

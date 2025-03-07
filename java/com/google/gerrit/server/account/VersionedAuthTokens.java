@@ -148,7 +148,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
    * @throws AuthTokenConflictException if a token with the given id already exists
    */
   @CanIgnoreReturnValue
-  private AuthToken addToken(AuthToken token) throws AuthTokenConflictException {
+  AuthToken addToken(AuthToken token) throws AuthTokenConflictException {
     checkLoaded();
 
     if (tokens.containsKey(token.id())) {

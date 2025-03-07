@@ -38,6 +38,7 @@ import java.util.concurrent.ExecutionException;
 
 @Singleton
 public class AuthTokenCacheImpl implements AuthTokenCache {
+  public static final String LEGACY_ID = "legacy";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "tokens";
@@ -133,7 +134,7 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
       String password = user.password();
       if (password != null) {
         try {
-          return Optional.of(AuthToken.create("legacy", password));
+          return Optional.of(AuthToken.create(LEGACY_ID, password));
         } catch (InvalidAuthTokenException e1) {
           // Can be ignored because the token ID is hardcoded.
         }

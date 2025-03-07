@@ -87,7 +87,7 @@ public class VersionedAuthorizationTokens extends VersionedMetaData {
     }
 
     @CanIgnoreReturnValue
-    private synchronized Token addToken(Account.Id accountId, String id, String hashedToken)
+    public synchronized Token addToken(Account.Id accountId, String id, String hashedToken)
         throws IOException, ConfigInvalidException, TokenConflictException {
       VersionedAuthorizationTokens authorizedTokens = read(accountId);
       Token token = authorizedTokens.addToken(id, hashedToken);

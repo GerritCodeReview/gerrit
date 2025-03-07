@@ -168,7 +168,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         .parent(r2.getCommit())
         .message("Move change Merge Commit")
         .author(admin.newIdent())
-        .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()));
+        .committer(new PersonIdent(admin.newIdent(), testRepo.getInstant()));
     RevCommit c = commitBuilder.create();
     pushHead(testRepo, "refs/for/master", false, false);
 

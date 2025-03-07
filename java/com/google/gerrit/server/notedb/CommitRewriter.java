@@ -596,7 +596,7 @@ public class CommitRewriter {
   }
 
   private boolean verifyPersonIdent(PersonIdent newIdent, PersonIdent originalIdent) {
-    return newIdent.getTimeZoneOffset() == originalIdent.getTimeZoneOffset()
+    return newIdent.getZoneId().equals(originalIdent.getZoneId())
         && newIdent.getWhenAsInstant().equals(originalIdent.getWhenAsInstant())
         && newIdent.getEmailAddress().equals(originalIdent.getEmailAddress());
   }
@@ -1108,8 +1108,8 @@ public class CommitRewriter {
     return new PersonIdent(
         ChangeNoteUtil.getAccountIdAsUsername(identAccount),
         originalIdent.getEmailAddress(),
-        originalIdent.getWhen(),
-        originalIdent.getTimeZone());
+        originalIdent.getWhenAsInstant(),
+        originalIdent.getZoneId());
   }
 
   /**

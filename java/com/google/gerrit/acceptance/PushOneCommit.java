@@ -300,7 +300,7 @@ public class PushOneCommit {
     } else {
       commitBuilder = testRepo.amendRef("HEAD");
     }
-    commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
+    commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getInstant()));
   }
 
   @UsedAt(Project.GOOGLE)

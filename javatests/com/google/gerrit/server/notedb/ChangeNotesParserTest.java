@@ -68,21 +68,24 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             new PersonIdent(
                 "Change Owner",
                 "owner@example.com",
-                serverIdent.getWhen(),
-                serverIdent.getTimeZone())));
+                serverIdent.getWhenAsInstant(),
+                serverIdent.getZoneId())));
     assertParseFails(
         writeCommit(
             "Update change\n\nPatch-set: 1\n",
             new PersonIdent(
-                "Change Owner", "x@gerrit", serverIdent.getWhen(), serverIdent.getTimeZone())));
+                "Change Owner",
+                "x@gerrit",
+                serverIdent.getWhenAsInstant(),
+                serverIdent.getZoneId())));
     assertParseFails(
         writeCommit(
             "Update change\n\nPatch-set: 1\n",
             new PersonIdent(
                 "Change\n\u1234<Owner>",
                 "\n\nx<@>\u0002gerrit",
-                serverIdent.getWhen(),
-                serverIdent.getTimeZone())));
+                serverIdent.getWhenAsInstant(),
+                serverIdent.getZoneId())));
   }
 
   @Test
@@ -878,7 +881,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
       CommitBuilder cb = new CommitBuilder();
       cb.setParentId(notes.getRevision());
       cb.setAuthor(author);
-      cb.setCommitter(new PersonIdent(serverIdent, author.getWhen()));
+      cb.setCommitter(new PersonIdent(serverIdent, author.getWhenAsInstant()));
       cb.setTreeId(testRepo.tree());
       cb.setMessage(body);
       ObjectId id = ins.insert(cb);

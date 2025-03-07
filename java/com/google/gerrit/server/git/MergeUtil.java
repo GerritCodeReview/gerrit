@@ -1179,10 +1179,7 @@ public class MergeUtil {
   private static void matchAuthorToCommitterDate(ProjectState project, CommitBuilder commit) {
     if (project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE)) {
       commit.setAuthor(
-          new PersonIdent(
-              commit.getAuthor(),
-              commit.getCommitter().getWhen(),
-              commit.getCommitter().getTimeZone()));
+          new PersonIdent(commit.getAuthor(), commit.getCommitter().getWhenAsInstant()));
     }
   }
 }

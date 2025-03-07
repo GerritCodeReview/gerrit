@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
@@ -68,6 +69,12 @@ public class VersionedAuthTokensOnInit extends VersionedMetaDataOnInit {
     AuthToken token = AuthToken.createWithPlainToken(id, t);
     tokens.put(id, token);
     return token;
+  }
+
+  @Nullable
+  public AuthToken getToken(String id) {
+    checkState(tokens != null, "Tokens not loaded yet");
+    return tokens.get(id);
   }
 
   @Override

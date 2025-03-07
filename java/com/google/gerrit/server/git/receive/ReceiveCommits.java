@@ -1642,7 +1642,7 @@ class ReceiveCommits {
   private void parseCreate(RevWalk globalRevWalk, ObjectInserter ins, ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     try (TraceTimer traceTimer = newTimer("parseCreate")) {
-      if (repo.resolve(cmd.getRefName()) != null) {
+      if (repo.findRef(cmd.getRefName()) != null) {
         reject(
             cmd,
             RejectionReason.create(

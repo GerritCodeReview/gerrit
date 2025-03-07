@@ -30,11 +30,11 @@ public abstract class GroupAuditEventInfo {
   public Type type;
   public AccountInfo user;
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   public Timestamp date;
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public static UserMemberAuditEventInfo createAddUserEvent(
@@ -47,7 +47,7 @@ public abstract class GroupAuditEventInfo {
     return new UserMemberAuditEventInfo(Type.ADD_USER, user, date, member);
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public static UserMemberAuditEventInfo createRemoveUserEvent(
@@ -61,7 +61,7 @@ public abstract class GroupAuditEventInfo {
     return new UserMemberAuditEventInfo(Type.REMOVE_USER, user, date, member);
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public static GroupMemberAuditEventInfo createAddGroupEvent(
@@ -74,7 +74,7 @@ public abstract class GroupAuditEventInfo {
     return new GroupMemberAuditEventInfo(Type.ADD_GROUP, user, date, member);
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public static GroupMemberAuditEventInfo createRemoveGroupEvent(
@@ -94,7 +94,7 @@ public abstract class GroupAuditEventInfo {
     this.date = date.orElse(null);
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   protected GroupAuditEventInfo(Type type, AccountInfo user, @Nullable Instant date) {

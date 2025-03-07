@@ -28,7 +28,7 @@ public class GroupInfo extends GroupBaseInfo {
   public String owner;
   public String ownerId;
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   public Timestamp createdOn;
 
@@ -38,14 +38,14 @@ public class GroupInfo extends GroupBaseInfo {
   public List<AccountInfo> members;
   public List<GroupInfo> includes;
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public Instant getCreatedOn() {
     return createdOn.toInstant();
   }
 
-  // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   public void setCreatedOn(Instant when) {

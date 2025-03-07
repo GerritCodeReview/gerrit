@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.ioutil;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Locale;
 
 public final class HostPlatform {
@@ -32,9 +30,7 @@ public final class HostPlatform {
   }
 
   private static boolean compute(String platform) {
-    final String osDotName =
-        AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("os.name"));
+    String osDotName = System.getProperty("os.name");
     return osDotName != null && osDotName.toLowerCase(Locale.US).contains(platform);
   }
 

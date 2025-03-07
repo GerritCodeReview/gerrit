@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8276fa24_235e11b4",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-07T12:02:24Z",
+      "side": 1,
+      "message": "Why don\u0027t we move creation of the `pool` to the code run by the `scheduler` thread. Then we could use try-with-resources block around the `for` loop and wouldn\u0027t need su suppress any warning?",
+      "revId": "fbc789c4d5f499fe823b56790469f0c7fa30345c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

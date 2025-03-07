@@ -115,7 +115,7 @@ public class AbstractGroupTest {
 
   protected static PersonIdent newPersonIdent(Account.Id id, PersonIdent ident) {
     return new PersonIdent(
-        getAccountName(id), getAccountEmail(id), ident.getWhen(), ident.getTimeZone());
+        getAccountName(id), getAccountEmail(id), ident.getWhenAsInstant(), ident.getZoneId());
   }
 
   protected AuditLogFormatter getAuditLogFormatter() {

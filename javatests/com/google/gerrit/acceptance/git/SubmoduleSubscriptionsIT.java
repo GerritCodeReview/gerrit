@@ -504,8 +504,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     PersonIdent authorIdent = getAuthor(superRepo, "master");
     assertThat(authorIdent.getName()).isEqualTo(admin.fullName());
     assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email());
-    assertThat(authorIdent.getWhen())
-        .isGreaterThan(pushResult.getCommit().getAuthorIdent().getWhen());
+    assertThat(authorIdent.getWhenAsInstant())
+        .isGreaterThan(pushResult.getCommit().getAuthorIdent().getWhenAsInstant());
   }
 
   @Test
@@ -542,10 +542,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     PersonIdent authorIdent = getAuthor(superRepo, "master");
     assertThat(authorIdent.getName()).isEqualTo(admin.fullName());
     assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email());
-    assertThat(authorIdent.getWhen())
-        .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhen());
-    assertThat(authorIdent.getWhen())
-        .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhen());
+    assertThat(authorIdent.getWhenAsInstant())
+        .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhenAsInstant());
+    assertThat(authorIdent.getWhenAsInstant())
+        .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhenAsInstant());
   }
 
   @Test
@@ -585,10 +585,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     PersonIdent authorIdent = getAuthor(superRepo, "master");
     assertThat(authorIdent.getName()).isEqualTo(serverIdent.get().getName());
     assertThat(authorIdent.getEmailAddress()).isEqualTo(serverIdent.get().getEmailAddress());
-    assertThat(authorIdent.getWhen())
-        .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhen());
-    assertThat(authorIdent.getWhen())
-        .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhen());
+    assertThat(authorIdent.getWhenAsInstant())
+        .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhenAsInstant());
+    assertThat(authorIdent.getWhenAsInstant())
+        .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhenAsInstant());
   }
 
   @Test

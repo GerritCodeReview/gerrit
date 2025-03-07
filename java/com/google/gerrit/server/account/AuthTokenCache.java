@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -33,7 +30,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Singleton
@@ -78,12 +74,10 @@ public class AuthTokenCache {
   }
 
   static class Loader extends CacheLoader<Account.Id, List<AuthToken>> {
-    private final AccountCache accountCache;
     private final VersionedAuthTokens.Factory authTokenFactory;
 
     @Inject
-    Loader(AccountCache accountCache, VersionedAuthTokens.Factory authTokenFactory) {
-      this.accountCache = accountCache;
+    Loader(VersionedAuthTokens.Factory authTokenFactory) {
       this.authTokenFactory = authTokenFactory;
     }
 
@@ -91,20 +85,9 @@ public class AuthTokenCache {
     public ImmutableList<AuthToken> load(Account.Id accountId) throws Exception {
       try (TraceTimer timer =
           TraceContext.newTimer(
-              "Loading authentication tokens for account with username",
+              "Loading authentication tokens for account",
               Metadata.builder().accountId(accountId.get()).build())) {
-        AccountState accountState = accountCache.getEvenIfMissing(accountId);
-        Optional<ExternalId> optUser =
-            accountState.externalIds().stream()
-                .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
-                .findFirst();
-        if (!optUser.isPresent()) {
-          return ImmutableList.of();
-        }
-
-        ImmutableList<AuthToken> tokens = authTokenFactory.create(accountId).load().getTokens();
-
-        return tokens;
+        return authTokenFactory.create(accountId).load().getTokens();
       }
     }
   }

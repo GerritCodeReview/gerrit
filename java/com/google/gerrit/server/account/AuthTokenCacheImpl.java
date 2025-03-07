@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -36,6 +37,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class AuthTokenCacheImpl implements AuthTokenCache {
+  public static final String LEGACY_ID = "legacy";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "tokens";
@@ -108,19 +110,19 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
           return NO_SUCH_USER;
         }
 
-        List<AuthToken> tokens = authTokenFactory.create(accountId).load().getTokens();
+        ImmutableList<AuthToken> tokens =
+            ImmutableList.copyOf(authTokenFactory.create(accountId).load().getTokens());
 
         // Fall back to legacy HTTP password if no tokens are present.
         if (tokens.isEmpty()) {
           Optional<AuthToken> legacyHttpPassword = getLegacyHttpPassword(accountId);
           if (legacyHttpPassword.isPresent()) {
-            tokens.add(legacyHttpPassword.get());
-          } else {
-            return NO_TOKENS;
+            return List.of(legacyHttpPassword.get());
           }
+          return NO_TOKENS;
         }
 
-        return Collections.unmodifiableList(tokens);
+        return tokens;
       }
     }
 
@@ -137,7 +139,7 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
       ExternalId user = optUser.get();
       String password = user.password();
       if (password != null) {
-        return Optional.of(AuthToken.create("legacy", password));
+        return Optional.of(AuthToken.create(LEGACY_ID, password));
       }
       return Optional.empty();
     }

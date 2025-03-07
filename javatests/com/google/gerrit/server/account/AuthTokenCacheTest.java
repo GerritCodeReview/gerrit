@@ -32,6 +32,16 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class AuthTokenCacheTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
   private static final String PWD = "secret";
+  private static final Account ACCOUNT =
+      Account.builder(ACCOUNT_ID, Instant.EPOCH)
+          .setFullName("foo bar")
+          .setDisplayName("foo")
+          .setActive(false)
+          .setMetaId("dead..beef")
+          .setUniqueTag("dead..beef..tag")
+          .setStatus("OOO")
+          .setPreferredEmail("foo@bar.tld")
+          .build();
 
   private AuthTokenCacheImpl.Loader cacheLoader;
 
@@ -41,19 +51,16 @@ public class AuthTokenCacheTest {
 
   @Before
   public void setUp() throws Exception {
-    Account account =
-        Account.builder(ACCOUNT_ID, Instant.EPOCH)
-            .setFullName("foo bar")
-            .setDisplayName("foo")
-            .setActive(false)
-            .setMetaId("dead..beef")
-            .setUniqueTag("dead..beef..tag")
-            .setStatus("OOO")
-            .setPreferredEmail("foo@bar.tld")
-            .build();
+    doReturn(versionedAuthTokens).when(versionedAuthTokens).load();
+    doReturn(versionedAuthTokens).when(authTokenFactory).create(ACCOUNT_ID);
+    cacheLoader = new AuthTokenCacheImpl.Loader(accountCache, authTokenFactory);
+  }
+
+  @Test
+  public void loadTokenFromExternalId() throws Exception {
     doReturn(
             AccountState.forAccount(
-                account,
+                ACCOUNT,
                 List.of(
                     ExternalId.create(
                         ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
@@ -63,16 +70,29 @@ public class AuthTokenCacheTest {
                         null))))
         .when(accountCache)
         .getEvenIfMissing(ACCOUNT_ID);
-    doReturn(versionedAuthTokens).when(versionedAuthTokens).load();
     doReturn(List.of()).when(versionedAuthTokens).getTokens();
-    doReturn(versionedAuthTokens).when(authTokenFactory).create(ACCOUNT_ID);
-    cacheLoader = new AuthTokenCacheImpl.Loader(accountCache, authTokenFactory);
+    List<AuthToken> tokens = cacheLoader.load(ACCOUNT_ID);
+    assertThat(HashedPassword.decode(tokens.get(0).hashedToken()).checkPassword(PWD)).isTrue();
   }
 
   @Test
-  public void loadTokenFromExternalId() throws Exception {
+  public void loadTokenFromAccount() throws Exception {
+    doReturn(
+            AccountState.forAccount(
+                ACCOUNT,
+                List.of(
+                    ExternalId.create(
+                        ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
+                        ACCOUNT_ID,
+                        null,
+                        null,
+                        null))))
+        .when(accountCache)
+        .getEvenIfMissing(ACCOUNT_ID);
+    doReturn(List.of(AuthToken.createWithPlainToken("token", PWD)))
+        .when(versionedAuthTokens)
+        .getTokens();
     List<AuthToken> tokens = cacheLoader.load(ACCOUNT_ID);
-    assertThat(HashedPassword.fromPassword(tokens.get(0).hashedToken()).checkPassword(PWD))
-        .isTrue();
+    assertThat(HashedPassword.decode(tokens.get(0).hashedToken()).checkPassword(PWD)).isTrue();
   }
 }

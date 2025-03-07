@@ -226,7 +226,10 @@ public class VersionedMetaDataTest {
     cb.setAuthor(author);
     cb.setCommitter(
         new PersonIdent(
-            "M. Committer", "committer@example.com", author.getWhen(), author.getTimeZone()));
+            "M. Committer",
+            "committer@example.com",
+            author.getWhenAsInstant(),
+            author.getZoneId()));
     return cb;
   }
 

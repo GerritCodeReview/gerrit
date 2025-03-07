@@ -142,7 +142,7 @@ class SubmoduleCommits {
       if (newCommit != null) {
         PersonIdent newCommitAuthor = newCommit.getAuthorIdent();
         if (author == null) {
-          author = new PersonIdent(newCommitAuthor, myIdent.getWhen());
+          author = new PersonIdent(newCommitAuthor, myIdent.getWhenAsInstant());
         } else if (!author.getName().equals(newCommitAuthor.getName())
             || !author.getEmailAddress().equals(newCommitAuthor.getEmailAddress())) {
           author = myIdent;

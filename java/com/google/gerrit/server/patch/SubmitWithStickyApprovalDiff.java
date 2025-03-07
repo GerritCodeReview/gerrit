@@ -185,11 +185,7 @@ public class SubmitWithStickyApprovalDiff {
   }
 
   /** Returns the list of modified files */
-  public ImmutableList<FileDiffOutput> apply(ChangeNotes notes, CurrentUser currentUser)
-      throws AuthException,
-          IOException,
-          PermissionBackendException,
-          InvalidChangeOperationException {
+  public ImmutableList<FileDiffOutput> apply(ChangeNotes notes, CurrentUser currentUser) {
     PatchSet currentPatchset = notes.getCurrentPatchSet();
 
     Optional<PatchSet.Id> latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);

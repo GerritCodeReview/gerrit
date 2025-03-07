@@ -62,6 +62,24 @@
       "message": "Should `trustPackedRefsStat \u003d after_open` be added too?",
       "revId": "f8c01f95675120f5086f015517e08078e84b192e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c49f1519_4c6a68c8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6319,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-07T08:14:21Z",
+      "side": 1,
+      "message": "We set the following jgit options on NFS:\n```\n[core]\n    supportsAtomicFileCreation \u003d false\n    trustFolderStat \u003d false\n    trustLooseRefStat \u003d after_open\n    trustPackedRefsStat \u003d after_open\n```\n\nas soon as Gerrit uses\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206686\nthis can be simplified to\n```\n[core]\n    supportsAtomicFileCreation \u003d false\n    trustStat \u003d after_open\n```\n\nthe detailed options can be used to tweak the default set by `core.trustStat` for individual file types:\n```\ncore.trustLooseRefStat \ncore.trustPackedRefsStat\ncore.trustLooseObjectStat\ncore.trustPackStat\n```\n\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206684 introduces an additional option `core.trustTablesListStat` used to configure how `FileReftableDatabase` shall handle file attributes of `tables.list` file containing the list of `RefTable` filenames. I will soon push another change letting this also inherit from `core.trustStat` like the other trust options.\n\nSee https://github.com/eclipse-jgit/jgit/blob/refs/heads/master/Documentation/config-options.md",
+      "parentUuid": "f8a320b7_4e6bdcc4",
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "let\u0027s create an unresolved comment for testing",
       "revId": "b98e96c7ef4f7af1568175438c322a0aa40f5668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb436461_c2009d90",
+        "filename": "plugins/package.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-07T08:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4944ad89_9ada2245",
+      "revId": "b98e96c7ef4f7af1568175438c322a0aa40f5668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

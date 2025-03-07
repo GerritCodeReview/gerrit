@@ -224,7 +224,7 @@ public class ChangeKindCreator {
     commitBuilder
         .message("New subject " + System.nanoTime())
         .author(user.newIdent())
-        .committer(new PersonIdent(user.newIdent(), testRepo.getDate()));
+        .committer(new PersonIdent(user.newIdent(), testRepo.getInstant()));
     commitBuilder.create();
     GitUtil.pushHead(testRepo, "refs/for/master", false);
     assertThat(getChangeKind(changeId)).isEqualTo(ChangeKind.NO_CODE_CHANGE);
@@ -241,7 +241,7 @@ public class ChangeKindCreator {
     commitBuilder
         .message(commitMessage)
         .author(user.newIdent())
-        .committer(new PersonIdent(user.newIdent(), testRepo.getDate()));
+        .committer(new PersonIdent(user.newIdent(), testRepo.getInstant()));
     commitBuilder.create();
     GitUtil.pushHead(testRepo, "refs/for/master", false);
     assertThat(getChangeKind(changeId)).isEqualTo(ChangeKind.NO_CHANGE);

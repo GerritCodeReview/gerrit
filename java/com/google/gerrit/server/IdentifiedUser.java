@@ -44,7 +44,7 @@ import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
-import java.net.URL;
+import java.net.URI;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -474,7 +474,7 @@ public class IdentifiedUser extends CurrentUser {
       String host;
       if (canonicalUrl.get() != null) {
         try {
-          host = new URL(canonicalUrl.get()).getHost();
+          host = URI.create(canonicalUrl.get()).toURL().getHost();
         } catch (MalformedURLException e) {
           host = SystemReader.getInstance().getHostname();
         }

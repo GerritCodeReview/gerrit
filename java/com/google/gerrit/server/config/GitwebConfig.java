@@ -38,6 +38,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import org.eclipse.jgit.lib.Config;
 
@@ -203,7 +204,7 @@ public class GitwebConfig {
       } else {
         String baseGerritUrl;
         if (gerritUrl != null) {
-          URL u = new URL(gerritUrl);
+          URL u = URI.create(gerritUrl).toURL();
           baseGerritUrl = u.getPath();
         } else {
           baseGerritUrl = "/";

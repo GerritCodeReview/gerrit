@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03fd8da_a91bcba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-07T11:12:56Z",
+      "side": 1,
+      "message": "```suggestion\nFix ref existance check in CREATE ReceiveCommands\n```",
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1852423f_fd52ed2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-07T11:12:56Z",
+      "side": 1,
+      "message": "```suggestion\nBug: Issue 401141848\nRelease-Notes: Fix ref existance check in CREATE ReceiveCommands\n```",
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "939b7e03_a4c08797",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-07T11:12:56Z",
+      "side": 1,
+      "message": "thanks for working on this\nplease add a test",
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -66,6 +66,15 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
   }
 
   @Override
+  public AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+      throws IOException,
+          ConfigInvalidException,
+          AuthTokenConflictException,
+          InvalidAuthTokenException {
+    return accessor.addToken(accountId, id, hashedToken);
+  }
+
+  @Override
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     accessor.addTokens(accountId, tokens);

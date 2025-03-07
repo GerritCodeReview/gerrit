@@ -118,6 +118,8 @@ public interface AccountApi {
 
   void setName(String name) throws RestApiException;
 
+  List<TokenInfo> getTokens() throws RestApiException;
+
   /**
    * Generate a new HTTP password.
    *

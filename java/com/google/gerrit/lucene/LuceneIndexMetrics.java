@@ -36,9 +36,8 @@ class LuceneIndexMetrics {
           () -> {
             if (def.getIndexCollection().getSearchIndex() == null) {
               return -1;
-            } else {
-              return def.getIndexCollection().getSearchIndex().numDocs();
             }
+            return def.getIndexCollection().getSearchIndex().numDocs();
           });
     }
   }

@@ -140,9 +140,9 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
    *
    * <p>The method creates CommitModification by applying {@code fixReplacements} to the {@code
    * basePatchSetForFix}. If the {@code targetPatchSetForFix} is different from the {@code
-   * basePatchSetForFix}, CommitModification is created from the {@link PatchApplier.Result}, after
-   * applying the patch generated from {@code basePatchSetForFix} to the {@code
-   * targetPatchSetForFix}.
+   * basePatchSetForFix}, CommitModification is created from the {@link
+   * org.eclipse.jgit.patch.PatchApplier.Result}, after applying the patch generated from {@code
+   * basePatchSetForFix} to the {@code targetPatchSetForFix}.
    *
    * <p>Note: if there is a fix for a commit message and commit messages are different in {@code
    * basePatchSetForFix} and {@code targetPatchSetForFix}, the method can't move the fix to the

@@ -72,25 +72,30 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
           IOException,
           ConfigInvalidException,
           PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-    }
-
-    return apply(rsrc.getUser(), rsrc.getId());
+    return apply(rsrc.getUser(), rsrc.getId(), true);
   }
 
-  private Response<String> apply(IdentifiedUser user, String id)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+  public Response<String> apply(IdentifiedUser user, String id, boolean notify)
+      throws RepositoryNotFoundException,
+          IOException,
+          ConfigInvalidException,
+          AuthException,
+          PermissionBackendException {
+    if (!self.get().hasSameAccountId(user)) {
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+    }
     Account.Id accountId = user.getAccountId();
     tokenAccessor.deleteToken(accountId, id);
-    try {
-      emailFactories
-          .createOutgoingEmail(
-              PASSWORD_UPDATED, emailFactories.createHttpPasswordUpdateEmail(user, "deleted"))
-          .send();
-    } catch (EmailException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot send token deletion message to %s", user.getAccount().preferredEmail());
+    if (notify) {
+      try {
+        emailFactories
+            .createOutgoingEmail(
+                PASSWORD_UPDATED, emailFactories.createHttpPasswordUpdateEmail(user, "deleted"))
+            .send();
+      } catch (EmailException e) {
+        logger.atSevere().withCause(e).log(
+            "Cannot send token deletion message to %s", user.getAccount().preferredEmail());
+      }
     }
 
     return Response.none();

@@ -100,51 +100,49 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
     try (Repository repo = repoManager.openRepository(rsrc.getProject());
         RevWalk rw = new RevWalk(repo)) {
-      BinaryResult bin = null;
-      try {
-        final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
-        RevCommit[] parents = commit.getParents();
-        if (parentNum == null && parents.length > 1) {
-          throw new ResourceConflictException("Revision has more than 1 parent.");
-        }
-        if (parents.length == 0) {
-          throw new ResourceConflictException("Revision has no parent.");
-        }
-        if (parentNum != null && (parentNum < 1 || parentNum > parents.length)) {
-          throw new BadRequestException(String.format("invalid parent number: %d", parentNum));
-        }
-        final RevCommit base = parents[parentNum == null ? 0 : parentNum - 1];
-        rw.parseBody(base);
+      final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
+      RevCommit[] parents = commit.getParents();
+      if (parentNum == null && parents.length > 1) {
+        throw new ResourceConflictException("Revision has more than 1 parent.");
+      }
+      if (parents.length == 0) {
+        throw new ResourceConflictException("Revision has no parent.");
+      }
+      if (parentNum != null && (parentNum < 1 || parentNum > parents.length)) {
+        throw new BadRequestException(String.format("invalid parent number: %d", parentNum));
+      }
+      final RevCommit base = parents[parentNum == null ? 0 : parentNum - 1];
+      rw.parseBody(base);
 
-        bin =
-            new BinaryResult() {
-              @Override
-              public void writeTo(OutputStream out) throws IOException {
-                try (Repository repo = repoManager.openRepository(rsrc.getProject());
-                    RevWalk rw = new RevWalk(repo)) {
-                  switch (outputType) {
-                    case ZIP -> {
-                      ZipOutputStream zos = new ZipOutputStream(out);
-                      ZipEntry e = new ZipEntry(fileName(rw, commit));
-                      e.setTime(commit.getCommitTime() * 1000L);
-                      zos.putNextEntry(e);
-                      format(zos);
-                      zos.closeEntry();
-                      zos.finish();
-                    }
-                    case RAW, BASE64 -> format(out);
+      try (BinaryResult bin =
+          new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream out) throws IOException {
+              try (Repository repo = repoManager.openRepository(rsrc.getProject());
+                  RevWalk rw = new RevWalk(repo)) {
+                switch (outputType) {
+                  case ZIP -> {
+                    ZipOutputStream zos = new ZipOutputStream(out);
+                    ZipEntry e = new ZipEntry(fileName(rw, commit));
+                    e.setTime(commit.getCommitTime() * 1000L);
+                    zos.putNextEntry(e);
+                    format(zos);
+                    zos.closeEntry();
+                    zos.finish();
                   }
+                  case RAW, BASE64 -> format(out);
                 }
               }
+            }
 
-              private void format(OutputStream out) throws IOException {
-                // Only add header if no path is specified
-                if (path == null) {
-                  out.write(formatEmailHeader(commit).getBytes(UTF_8));
-                }
-                DiffUtil.getFormattedDiff(repo, base, commit, path, out);
+            private void format(OutputStream out) throws IOException {
+              // Only add header if no path is specified
+              if (path == null) {
+                out.write(formatEmailHeader(commit).getBytes(UTF_8));
               }
-            };
+              DiffUtil.getFormattedDiff(repo, base, commit, path, out);
+            }
+          }) {
 
         if (path != null && bin.asString().isEmpty()) {
           throw new ResourceNotFoundException(String.format("File not found: %s.", path));
@@ -165,10 +163,6 @@ public class GetPatch implements RestReadView<RevisionResource> {
         }
 
         return Response.ok(bin);
-      } finally {
-        if (bin != null) {
-          bin.close();
-        }
       }
     }
   }

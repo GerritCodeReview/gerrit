@@ -34,6 +34,24 @@
       "parentUuid": "082b349f_528d1e55",
       "revId": "6cd30d78fc50c492d844c80d38289dcf038184b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16b1ff1_16aa6c13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-08T20:46:49Z",
+      "side": 1,
+      "message": "thanks for the heads up, now updating to mina 2.0.27 and bouncycastle to 1.80",
+      "parentUuid": "3152faaf_a9b925e4",
+      "revId": "6cd30d78fc50c492d844c80d38289dcf038184b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

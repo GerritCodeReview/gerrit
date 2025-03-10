@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "15e41ab3_a0aa290d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T16:05:42Z",
+      "side": 1,
+      "message": "\u003e Using the style attribute is a no-go in Lit. \n\nThanks! moved the styles to gr-diff-styles.ts\n\n\u003e Maybe you can then actually remove the visibility handling for \u003cgr-tooltip\u003e, because if the slot is invisible, then the tooltip will already be invisible.\n\nDone.",
+      "parentUuid": "fa153e21_1cb24d87",
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a120f888_714757b6",
         "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
         "patchSetId": 22
@@ -84,6 +102,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "755acd15_19bfe599",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T16:05:42Z",
+      "side": 1,
+      "message": "Done (moved all styles to gr-diff-styles.ts).",
+      "parentUuid": "21a5d2a8_0e54fff8",
+      "range": {
+        "startLine": 81,
+        "startChar": 10,
+        "endLine": 81,
+        "endChar": 15
+      },
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4ba2929d_f1c0f8ff",
         "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
         "patchSetId": 22
@@ -119,6 +161,30 @@
       "side": 1,
       "message": "I think you can do some fancy slot retargeting, if you wanted to. As the comment states, `createRenderRoot()` is otherwise only used in gr-diff, because selection is otherwise broken. The selection action box does not need to be in the selected text, so you don\u0027t HAVE to pick this router. Up to you. :-)",
       "parentUuid": "4ba2929d_f1c0f8ff",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 27
+      },
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c65ab264_fbe3fa36",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T16:05:42Z",
+      "side": 1,
+      "message": "Ack. I\u0027d just keep the code as is to avoid re-iterating. The current implementation also works pretty well.",
+      "parentUuid": "acb6b9ed_36ca80de",
       "range": {
         "startLine": 99,
         "startChar": 11,

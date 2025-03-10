@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e439d7_2d9a1dc2",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-10T10:05:00Z",
+      "side": 1,
+      "message": "The fact that instances of this class might be put into cache doesn\u0027t mean that the class name shall reflect that: in the \u0027no-cache\u0027 case a name like this doens\u0027t make sense.",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53f6037b_26a85f99",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-10T10:05:00Z",
+      "side": 1,
+      "message": "`TokenCacheEntry` also contains `accountId`, so here we have a map of `accountId -\u003e (accountId, token)`, where it should be just `accountId -\u003e token`.",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6a4a08e_e133f022",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-10T10:05:00Z",
+      "side": 1,
+      "message": "Wouldn\u0027t just `return List.of()` be enough here?",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5af8c04d_9000b973",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-10T10:05:00Z",
+      "side": 1,
+      "message": "We anyway build complete list here, why not also make the return type of the load method to be `List\u003cTokenCacheEntry\u003e` or `ImmutableList\u003cTokenCacheEntry\u003e`?",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8202465_d5a08cb6",
+        "filename": "java/com/google/gerrit/server/account/TokenVerifier.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-10T10:05:00Z",
+      "side": 1,
+      "message": "This shows that the expected behaviour of the `TokenCache.get(accountId)` is to return that account\u0027s set of tokens. However, the `NoTokenCache.get` returns an empty list always. IMHO, the `TokenCache` abstraction is probably wrong: instead the interface should rather be named something like `TokenAccess` and whether a cache is used or not shall be an implementation detail",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

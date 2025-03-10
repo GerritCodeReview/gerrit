@@ -25,6 +25,9 @@ export class GrSelectionActionBox extends LitElement {
   @query('#tooltip')
   tooltip?: GrTooltip;
 
+  @query('slot[name="selectionActionBox"]')
+  selectionActionBoxSlot?: HTMLSlotElement;
+
   @property({type: Boolean})
   positionBelow = false;
 
@@ -62,13 +65,28 @@ export class GrSelectionActionBox extends LitElement {
 
   override render() {
     return html`
-      <gr-tooltip
-        id="tooltip"
-        ?invisible=${this.invisible}
-        text=${this.hoverCardText}
-        ?position-below=${this.positionBelow}
-      ></gr-tooltip>
+      <slot name="selectionActionBox" style="visibility: ${
+        this.invisible ? 'hidden' : 'visible'}">
+        <gr-tooltip
+          id="tooltip"
+          ?invisible=${this.invisible}
+          text=${this.hoverCardText}
+          ?position-below=${this.positionBelow}
+          style="position: absolute; width: 22ch;"
+        ></gr-tooltip>
+      </slot>
     `;
+  }
+
+  /**
+   * The browser API for handling selection does not (yet) work for selection
+   * across multiple shadow DOM elements. So we are rendering gr-diff components
+   * into the light DOM instead of the shadow DOM by overriding this method,
+   * which was the recommended workaround by the lit team.
+   * See also https://github.com/WICG/webcomponents/issues/79.
+   */
+  override createRenderRoot() {
+    return this;
   }
 
   // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
@@ -86,6 +104,7 @@ export class GrSelectionActionBox extends LitElement {
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
+    this.style.position = 'absolute';
     this.invisible = false;
   }
 
@@ -102,6 +121,7 @@ export class GrSelectionActionBox extends LitElement {
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
+    this.style.position = 'absolute';
     this.invisible = false;
   }
 
@@ -133,6 +153,10 @@ export class GrSelectionActionBox extends LitElement {
 
   // visible for testing
   handleMouseDown(e: MouseEvent) {
+    if ((this.selectionActionBoxSlot?.assignedNodes().length ?? 0) > 0) {
+      // Do not react to mouse down events if the slot is not empty.
+      return;
+    }
     if (e.button !== 0) {
       return;
     } // 0 = main button

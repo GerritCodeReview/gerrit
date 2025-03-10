@@ -356,15 +356,15 @@ const appThemeCss = safeStyleSheet`
     --tag-brown: var(--brown-50);
 
     /* status colors */
-    --status-merged: var(--green-700);
+    --status-merged: var(--gray-700);
     --status-abandoned: var(--gray-700);
     --status-wip: #795548;
     --status-private: var(--purple-500);
     --status-conflict: var(--red-600);
     --status-revert: var(--gray-900);
     --status-revert-created: #e64a19;
-    --status-active: var(--blue-700);
-    --status-ready: var(--pink-800);
+    --status-active: var(--yellow-700);
+    --status-ready: var(--green-700);
     --status-custom: var(--purple-900);
 
     /* file status colors */

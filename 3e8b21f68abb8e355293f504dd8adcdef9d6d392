@@ -86,6 +86,24 @@
       "message": "Message to reviewers: the diff on this file is actually not as complex as it looks. Please set \u0027Ignore Whitespace\u0027 \u003d ALL to your preferences and then review this file!",
       "revId": "3e8b21f68abb8e355293f504dd8adcdef9d6d392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3465641d_8d075a75",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-10T11:40:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35e3391b_d9f9d57f",
+      "revId": "3e8b21f68abb8e355293f504dd8adcdef9d6d392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

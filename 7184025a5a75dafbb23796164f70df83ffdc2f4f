@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa153e21_1cb24d87",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-10T15:31:40Z",
+      "side": 1,
+      "message": "Using the `style` attribute is a no-go in Lit. This should only be used as a last resort. You can use the same trick here as for gr-tooltip. Set\n\n`?invisible\u003d${this.invisible}`\n\nhere. And then add to css above:\n```\n  slot[invisible] {\n    visibility: hidden;\n  }\n```\n\nMaybe you can then actually remove the visibility handling for `\u003cgr-tooltip\u003e`, because if the slot is invisible, then the tooltip will already be invisible.",
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a120f888_714757b6",
@@ -41,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "21a5d2a8_0e54fff8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-10T15:31:40Z",
+      "side": 1,
+      "message": "Yes, if you go for the `createRenderRoot()` pattern below, then you can remove the entire `styles()` method. It will not have any effect. Instead you have to add your styles to `embed/diff/gr-diff/gr-diff-styles.ts`.",
+      "parentUuid": "a120f888_714757b6",
+      "range": {
+        "startLine": 81,
+        "startChar": 10,
+        "endLine": 81,
+        "endChar": 15
+      },
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4ba2929d_f1c0f8ff",
@@ -54,6 +95,30 @@
       "writtenOn": "2025-03-10T15:12:50Z",
       "side": 1,
       "message": "I had to render this component in the light dom. Otherwise, the projection of the slot does not work here. This is also how it\u0027s implemented in other components supporting slots, e.g. the gr-diff-highlight [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts#178",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 27
+      },
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acb6b9ed_36ca80de",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-10T15:31:40Z",
+      "side": 1,
+      "message": "I think you can do some fancy slot retargeting, if you wanted to. As the comment states, `createRenderRoot()` is otherwise only used in gr-diff, because selection is otherwise broken. The selection action box does not need to be in the selected text, so you don\u0027t HAVE to pick this router. Up to you. :-)",
+      "parentUuid": "4ba2929d_f1c0f8ff",
       "range": {
         "startLine": 99,
         "startChar": 11,

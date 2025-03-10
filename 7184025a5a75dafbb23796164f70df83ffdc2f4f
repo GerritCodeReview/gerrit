@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d5ccbad_dd2ba970",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T15:12:50Z",
+      "side": 1,
+      "message": "I tested these changes locally and they work as expected.",
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a120f888_714757b6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T15:12:50Z",
+      "side": 1,
+      "message": "I had to inline the style here. Per my understanding, rendering the component in the light dom somehow skips the styles override @ L50.",
+      "range": {
+        "startLine": 81,
+        "startChar": 10,
+        "endLine": 81,
+        "endChar": 15
+      },
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba2929d_f1c0f8ff",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T15:12:50Z",
+      "side": 1,
+      "message": "I had to render this component in the light dom. Otherwise, the projection of the slot does not work here. This is also how it\u0027s implemented in other components supporting slots, e.g. the gr-diff-highlight [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts#178",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 27
+      },
+      "revId": "7184025a5a75dafbb23796164f70df83ffdc2f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

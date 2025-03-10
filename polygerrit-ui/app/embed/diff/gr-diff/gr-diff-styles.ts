@@ -82,6 +82,15 @@ export const grDiffElementStyles = css`
     /* Needs z-index to appear above wrapped content, since it's inserted
        into DOM before it. */
     z-index: 120;
+    position: absolute;
+  }
+  gr-diff-element gr-selection-action-box slot[invisible] {
+    visibility: hidden;
+  }
+  gr-diff-element gr-selection-action-box gr-tooltip {
+    position: absolute;
+    width: 22ch;
+    cursor: pointer;
   }
 `;
 

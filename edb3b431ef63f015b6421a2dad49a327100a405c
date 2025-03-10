@@ -16,6 +16,24 @@
       "message": "This is now executed from the calling thread which means that the startup of Gerrit has to wait until this loop finishes, which wasn\u0027t the case when this loop was performed from the extrace scheduler thread.",
       "revId": "edb3b431ef63f015b6421a2dad49a327100a405c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1597d39a_eda7b507",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-10T16:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df7a108_8de3322e",
+      "revId": "edb3b431ef63f015b6421a2dad49a327100a405c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

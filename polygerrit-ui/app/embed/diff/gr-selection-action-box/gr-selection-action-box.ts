@@ -25,6 +25,10 @@ export class GrSelectionActionBox extends LitElement {
   @query('#tooltip')
   tooltip?: GrTooltip;
 
+  @state() private isSlotAssigned = false;
+
+  @query('slot') slotElement!: HTMLSlotElement;
+
   @property({type: Boolean})
   positionBelow = false;
 
@@ -61,14 +65,38 @@ export class GrSelectionActionBox extends LitElement {
   }
 
   override render() {
+    // We create the gr-tooltip anyway even if the slot is assigned so that
+    // we reuse the logic for positioning the tooltip (in placeAbove/Below).
     return html`
-      <gr-tooltip
-        id="tooltip"
-        ?invisible=${this.invisible}
-        text=${this.hoverCardText}
-        ?position-below=${this.positionBelow}
-      ></gr-tooltip>
+      <slot
+        name="selectionActionBox"
+        style="visibility: ${this.invisible ? 'hidden' : 'visible'}"
+        @slotchange=${this.handleSlotChange}>
+        <gr-tooltip
+          id="tooltip"
+          ?invisible=${this.invisible}
+          text=${this.hoverCardText}
+          ?position-below=${this.positionBelow}
+          style="position: absolute; width: 22ch; cursor: pointer;"
+        ></gr-tooltip>
+      </slot>
     `;
+  }
+
+  private handleSlotChange() {
+    const assignedNodes = this.slotElement.assignedNodes({flatten: true});
+    this.isSlotAssigned = assignedNodes.length > 0;
+  }
+
+  /**
+   * The browser API for handling selection does not (yet) work for selection
+   * across multiple shadow DOM elements. So we are rendering gr-diff components
+   * into the light DOM instead of the shadow DOM by overriding this method,
+   * which was the recommended workaround by the lit team.
+   * See also https://github.com/WICG/webcomponents/issues/79.
+   */
+  override createRenderRoot() {
+    return this;
   }
 
   // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
@@ -86,6 +114,7 @@ export class GrSelectionActionBox extends LitElement {
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
+    this.style.position = 'absolute';
     this.invisible = false;
   }
 
@@ -102,6 +131,7 @@ export class GrSelectionActionBox extends LitElement {
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
+    this.style.position = 'absolute';
     this.invisible = false;
   }
 
@@ -133,6 +163,9 @@ export class GrSelectionActionBox extends LitElement {
 
   // visible for testing
   handleMouseDown(e: MouseEvent) {
+    if (this.isSlotAssigned) {
+      return;
+    }
     if (e.button !== 0) {
       return;
     } // 0 = main button

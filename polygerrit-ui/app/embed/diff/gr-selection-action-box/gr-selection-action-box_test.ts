@@ -32,16 +32,20 @@ suite('gr-selection-action-box', () => {
   });
 
   test('renders', () => {
-    assert.shadowDom.equal(
-      element,
+    assert.equal(
+      element.innerHTML,
       /* HTML */ `
-        <gr-tooltip
-          invisible
-          id="tooltip"
-          text="Press c to comment"
-        ></gr-tooltip>
-      `
-    );
+        <slot
+          name="selectionActionBox"
+          style="visibility: 'hidden'"
+        >
+          <gr-tooltip
+            invisible
+            id="tooltip"
+            text="Press c to comment"
+          ></gr-tooltip>
+        </slot>
+      `);
   });
 
   test('ignores regular keys', () => {
@@ -111,10 +115,15 @@ suite('gr-selection-action-box', () => {
     test('renders visible', async () => {
       await element.placeAbove(target);
       await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
+      assert.equal(
+        element.innerHTML,
         /* HTML */ `
+        <slot
+          name="selectionActionBox"
+          style="visibility: 'visible'"
+        >
           <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+        </slot>
         `
       );
     });

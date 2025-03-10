@@ -21,7 +21,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
@@ -247,7 +246,7 @@ public class ResourceServletTest {
   public void smallFileWithGzip() throws Exception {
     Cache<Path, Resource> cache = newCache(1);
     Servlet servlet = new Servlet(fs, cache, true);
-    String content = Strings.repeat("a", 100);
+    String content = "a".repeat(100);
     writeFile("/foo", content);
 
     FakeHttpServletRequest req = request("/foo").addHeader("Accept-Encoding", "gzip");
@@ -302,7 +301,7 @@ public class ResourceServletTest {
   public void largeFileWithGzip() throws Exception {
     Cache<Path, Resource> cache = newCache(1);
     Servlet servlet = new Servlet(fs, cache, true, 3);
-    String content = Strings.repeat("a", 100);
+    String content = "a".repeat(100);
     writeFile("/foo", content);
 
     FakeHttpServletRequest req = request("/foo").addHeader("Accept-Encoding", "gzip");

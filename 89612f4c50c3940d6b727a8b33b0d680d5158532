@@ -52,6 +52,24 @@
       "parentUuid": "fa8d7fef_32709a91",
       "revId": "89612f4c50c3940d6b727a8b33b0d680d5158532",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3000778_5f884876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-03-10T08:37:21Z",
+      "side": 1,
+      "message": "FYI, I\u0027ve also tried adding an alert for file size[1] but UI become really unresponsive, so gave up. Not sure if there\u0027s a better way of doing it.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/457783",
+      "parentUuid": "f16efd67_491dc0ad",
+      "revId": "89612f4c50c3940d6b727a8b33b0d680d5158532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

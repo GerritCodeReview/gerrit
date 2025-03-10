@@ -114,13 +114,13 @@ public class DelegateRefDatabase extends RefDatabase {
 
   @Override
   public ReflogReader getReflogReader(String refName) throws IOException {
-    return delegate.getReflogReader(refName);
+    return delegate.getRefDatabase().getReflogReader(refName);
   }
 
   @Override
   @NonNull
   public ReflogReader getReflogReader(@NonNull Ref ref) throws IOException {
-    return delegate.getReflogReader(ref);
+    return delegate.getRefDatabase().getReflogReader(ref);
   }
 
   @Override

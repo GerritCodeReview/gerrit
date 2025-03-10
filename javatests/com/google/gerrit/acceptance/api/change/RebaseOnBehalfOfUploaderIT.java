@@ -64,6 +64,7 @@ import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.Optional;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -1088,11 +1089,12 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
       gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
       // The ref log for the patch set ref records the impersonated user aka the uploader.
-      ReflogEntry patchSetRefLogEntry = repo.getReflogReader(patchSetRef).getLastEntry();
+      RefDatabase refDb = repo.getRefDatabase();
+      ReflogEntry patchSetRefLogEntry = refDb.getReflogReader(patchSetRef).getLastEntry();
       assertThat(patchSetRefLogEntry.getWho().getEmailAddress()).isEqualTo(uploaderEmail);
 
       // The ref log for the change meta ref records the impersonated user aka the uploader.
-      ReflogEntry changeMetaRefLogEntry = repo.getReflogReader(changeMetaRef).getLastEntry();
+      ReflogEntry changeMetaRefLogEntry = refDb.getReflogReader(changeMetaRef).getLastEntry();
       assertThat(changeMetaRefLogEntry.getWho().getEmailAddress()).isEqualTo(uploaderEmail);
     }
   }

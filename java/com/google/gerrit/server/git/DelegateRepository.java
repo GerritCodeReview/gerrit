@@ -112,7 +112,7 @@ public class DelegateRepository extends Repository {
 
   @Override
   public ReflogReader getReflogReader(String refName) throws IOException {
-    return delegate.getReflogReader(refName);
+    return delegate.getRefDatabase().getReflogReader(refName);
   }
 
   @SuppressWarnings("rawtypes")

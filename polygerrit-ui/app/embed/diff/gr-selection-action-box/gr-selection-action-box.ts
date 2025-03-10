@@ -6,9 +6,8 @@
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {fire} from '../../../utils/event-util';
-import {css, html, LitElement} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,6 +23,10 @@ declare global {
 export class GrSelectionActionBox extends LitElement {
   @query('#tooltip')
   tooltip?: GrTooltip;
+
+  @state() private isSlotAssigned = false;
+
+  @query('slot') slotElement!: HTMLSlotElement;
 
   @property({type: Boolean})
   positionBelow = false;
@@ -43,32 +46,38 @@ export class GrSelectionActionBox extends LitElement {
     this.addEventListener('mousedown', e => this.handleMouseDown(e));
   }
 
-  static override get styles() {
-    return [
-      sharedStyles,
-      css`
-        :host {
-          cursor: pointer;
-          font-family: var(--font-family);
-          position: absolute;
-          width: 20ch;
-        }
-        gr-tooltip[invisible] {
-          visibility: hidden;
-        }
-      `,
-    ];
+  override render() {
+    // We create the gr-tooltip anyway even if the slot is assigned so that
+    // we reuse the logic for positioning the tooltip (in placeAbove/Below).
+    return html`
+      <slot
+        name="selectionActionBox"
+        ?invisible=${this.invisible}
+        @slotchange=${this.handleSlotChange}
+      >
+        <gr-tooltip
+          id="tooltip"
+          text=${this.hoverCardText}
+          ?position-below=${this.positionBelow}
+        ></gr-tooltip>
+      </slot>
+    `;
   }
 
-  override render() {
-    return html`
-      <gr-tooltip
-        id="tooltip"
-        ?invisible=${this.invisible}
-        text=${this.hoverCardText}
-        ?position-below=${this.positionBelow}
-      ></gr-tooltip>
-    `;
+  private handleSlotChange() {
+    const assignedNodes = this.slotElement.assignedNodes({flatten: true});
+    this.isSlotAssigned = assignedNodes.length > 0;
+  }
+
+  /**
+   * The browser API for handling selection does not (yet) work for selection
+   * across multiple shadow DOM elements. So we are rendering gr-diff components
+   * into the light DOM instead of the shadow DOM by overriding this method,
+   * which was the recommended workaround by the lit team.
+   * See also https://github.com/WICG/webcomponents/issues/79.
+   */
+  override createRenderRoot() {
+    return this;
   }
 
   // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
@@ -133,6 +142,9 @@ export class GrSelectionActionBox extends LitElement {
 
   // visible for testing
   handleMouseDown(e: MouseEvent) {
+    if (this.isSlotAssigned) {
+      return;
+    }
     if (e.button !== 0) {
       return;
     } // 0 = main button

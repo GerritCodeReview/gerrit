@@ -32,14 +32,13 @@ suite('gr-selection-action-box', () => {
   });
 
   test('renders', () => {
-    assert.shadowDom.equal(
-      element,
+    assertEqualIgnoreWhitespaceAndNewlines(
+      element.innerHTML,
       /* HTML */ `
-        <gr-tooltip
-          invisible
-          id="tooltip"
-          text="Press c to comment"
-        ></gr-tooltip>
+        <!---->
+        <slot name="selectionActionBox" invisible="">
+          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+        </slot>
       `
     );
   });
@@ -111,10 +110,13 @@ suite('gr-selection-action-box', () => {
     test('renders visible', async () => {
       await element.placeAbove(target);
       await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
+      assertEqualIgnoreWhitespaceAndNewlines(
+        element.innerHTML,
         /* HTML */ `
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          <!---->
+          <slot name="selectionActionBox">
+            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          </slot>
         `
       );
     });
@@ -151,3 +153,21 @@ suite('gr-selection-action-box', () => {
     });
   });
 });
+
+function assertEqualIgnoreWhitespaceAndNewlines(
+  actual: string,
+  expected: string
+): void {
+  const normalize = (str: string): string =>
+    str
+      .replace(/\r/g, '')
+      .replace(/\n/g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/\s+>/g, '>')
+      .trim();
+  if (normalize(actual) !== normalize(expected)) {
+    throw new Error(`Assertion failed:
+    Actual: "${normalize(actual)}"
+    Expected: "${normalize(expected)}"`);
+  }
+}

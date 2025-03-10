@@ -32,15 +32,18 @@ suite('gr-selection-action-box', () => {
   });
 
   test('renders', () => {
-    assert.shadowDom.equal(
-      element,
+    assert.equal(
+      element.innerHTML.trim(),
       /* HTML */ `
-        <gr-tooltip
-          invisible
-          id="tooltip"
-          text="Press c to comment"
-        ></gr-tooltip>
-      `
+        <slot name="selectionActionBox" style="visibility: 'hidden'">
+          <gr-tooltip
+            id="tooltip"
+            style="position: absolute; width: 22ch; cursor: pointer;"
+            invisible=""
+            text="Press c to comment"
+          ></gr-tooltip>
+        </slot>
+      `.trim()
     );
   });
 
@@ -111,11 +114,17 @@ suite('gr-selection-action-box', () => {
     test('renders visible', async () => {
       await element.placeAbove(target);
       await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
+      assert.equal(
+        element.innerHTML.trim(),
         /* HTML */ `
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
-        `
+          <slot name="selectionActionBox" style="visibility: 'visible'">
+            <gr-tooltip
+              id="tooltip"
+              style="position: absolute; width: 22ch; cursor: pointer;"
+              text="Press c to comment"
+            ></gr-tooltip>
+          </slot>
+        `.trim()
       );
     });
 

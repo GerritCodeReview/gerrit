@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "634ed093_903b6739",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T13:12:29Z",
+      "side": 1,
+      "message": "I tested these changes locally and they work as expected.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "cc474dd8d0bd714a4b24663c1ffa0879e57c093f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da868524_87d5c721",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T13:12:29Z",
+      "side": 1,
+      "message": "I had to inline the style here. Per my understanding, rendering the component in the light dom somehow skips the styles override @ L50.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 67
+      },
+      "revId": "cc474dd8d0bd714a4b24663c1ffa0879e57c093f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "170d52f5_4faf954d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-03-10T13:12:29Z",
+      "side": 1,
+      "message": "I had to render this component in the light dom. Otherwise, the projection of the slot does not work here. This is also how it\u0027s implemented in other components supporting slots, e.g. the gr-diff-highlight [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts#178",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d95ba78c_10ee33b1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+              "range": {
+                "startLine": 99,
+                "startChar": 0,
+                "endLine": 100,
+                "endChar": 0
+              },
+              "replacement": "  override createRenderRoot(): this {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc474dd8d0bd714a4b24663c1ffa0879e57c093f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

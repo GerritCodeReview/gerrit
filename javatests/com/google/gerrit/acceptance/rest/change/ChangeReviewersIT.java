@@ -75,6 +75,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.truth.NullAwareCorrespondence;
+import com.google.gson.Strictness;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -1378,7 +1379,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       throws Exception {
     r.assertStatus(expectedStatus);
     try (JsonReader jsonReader = new JsonReader(r.getReader())) {
-      jsonReader.setLenient(true);
+      jsonReader.setStrictness(Strictness.LENIENT);
       return newGson().fromJson(jsonReader, clazz);
     }
   }

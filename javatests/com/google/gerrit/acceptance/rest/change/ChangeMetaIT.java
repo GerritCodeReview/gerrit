@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.AbstractModule;
@@ -82,7 +83,7 @@ public class ChangeMetaIT extends AbstractDaemonTest {
 
     ChangeInfo got;
     try (JsonReader jsonReader = new JsonReader(resp.getReader())) {
-      jsonReader.setLenient(true);
+      jsonReader.setStrictness(Strictness.LENIENT);
       got = newGson().fromJson(jsonReader, ChangeInfo.class);
     }
     assertThat(got.subject).isEqualTo(before.subject);

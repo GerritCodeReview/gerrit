@@ -83,6 +83,7 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
+import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -1751,7 +1752,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private <T> T readContentFromJson(RestResponse r, Class<T> clazz) throws Exception {
     r.assertOK();
     try (JsonReader jsonReader = new JsonReader(r.getReader())) {
-      jsonReader.setLenient(true);
+      jsonReader.setStrictness(Strictness.LENIENT);
       return newGson().fromJson(jsonReader, clazz);
     }
   }
@@ -1759,7 +1760,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private <T> T readContentFromJson(RestResponse r, TypeToken<T> typeToken) throws Exception {
     r.assertOK();
     try (JsonReader jsonReader = new JsonReader(r.getReader())) {
-      jsonReader.setLenient(true);
+      jsonReader.setStrictness(Strictness.LENIENT);
       return newGson().fromJson(jsonReader, typeToken.getType());
     }
   }

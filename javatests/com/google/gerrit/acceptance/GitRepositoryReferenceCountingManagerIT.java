@@ -34,11 +34,11 @@ public class GitRepositoryReferenceCountingManagerIT extends AbstractDaemonTest 
     }
   }
 
-  @Test(expected = AssertionError.class)
+  @Test()
   @SuppressWarnings("resource")
   public void shouldFailTestWhenRepositoryIsLeftOpen() throws Exception {
     Repository unused = repoManager.openRepository(project);
-    afterTest();
+    assertThrows(AssertionError.class, this::afterTest);
   }
 
   @Test

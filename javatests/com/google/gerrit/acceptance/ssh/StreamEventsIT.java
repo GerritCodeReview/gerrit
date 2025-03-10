@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.ssh;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -126,7 +127,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
     waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
   }
 
-  @Test(expected = InterruptedException.class)
+  @Test()
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "false")
@@ -135,7 +136,12 @@ public class StreamEventsIT extends AbstractDaemonTest {
 
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
 
-    waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
+    assertThrows(
+        InterruptedException.class,
+        () -> {
+          waitForEvent(
+              () -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
+        });
   }
 
   @Test
@@ -151,7 +157,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
         () -> pollEventsContaining("batch-ref-updated", "refs/draft-comments/").size() == 1);
   }
 
-  @Test(expected = InterruptedException.class)
+  @Test()
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "false")
@@ -160,7 +166,12 @@ public class StreamEventsIT extends AbstractDaemonTest {
 
     draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
 
-    waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
+    assertThrows(
+        InterruptedException.class,
+        () -> {
+          waitForEvent(
+              () -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
+        });
   }
 
   @Test

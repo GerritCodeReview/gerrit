@@ -25,7 +25,6 @@ import com.google.inject.Singleton;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -66,13 +65,6 @@ public class ProjectCacheWarmer implements LifecycleListener {
                                     + " when loading all projects, but can't load it now");
                           }
                         });
-                  }
-                  pool.shutdown();
-                  try {
-                    pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-                    logger.atInfo().log("Finished loading project cache");
-                  } catch (InterruptedException e) {
-                    logger.atWarning().log("Interrupted while waiting for project cache to load");
                   }
                 }
               });

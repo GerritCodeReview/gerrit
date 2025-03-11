@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "147d1c7d_8b2a8bbb",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-03-11T08:51:16Z",
+      "side": 1,
+      "message": "This code should also have been removed with this change. The `ExecutorService` is `AutoCloseable` and the `close` method, which is called on the exit of the try-with-resources block, will trigger an orderly shutdown.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 19
+      },
+      "revId": "fb75ca631a0f9b4c4f3c5d271adcea4028fb57d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

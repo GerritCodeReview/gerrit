@@ -22,6 +22,30 @@
       },
       "revId": "931ca1e4062e00e300faba5eb5c76c8161b6e653",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e8d184f_a78779d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-11T14:58:47Z",
+      "side": 1,
+      "message": "improved the commit message giving the warning raised by errorprone",
+      "parentUuid": "33331569_8412ec33",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "931ca1e4062e00e300faba5eb5c76c8161b6e653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

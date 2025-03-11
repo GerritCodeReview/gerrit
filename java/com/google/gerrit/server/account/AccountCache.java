@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
@@ -75,6 +76,18 @@ public interface AccountCache {
    *     exists or if loading the external ID fails {@link Optional#empty()} is returned
    */
   Optional<AccountState> getByUsername(String username);
+
+  /**
+   * Returns the list of {@code AccountState} for the given email.
+   *
+   * <p>This method first loads the external IDs for the email and then uses the account ID of the
+   * external ID to lookup the account from the cache.
+   *
+   * @param email email of the account that should be retrieved
+   * @return list of {@code AccountState} for the given email, if no account with this email exists
+   *     or if loading the external ID fails {@link Optional#empty()} is returned
+   */
+  ImmutableList<AccountState> getByEmail(String email);
 
   /**
    * Returns an {@code AccountState} instance for the given account ID at the given {@code metaId}

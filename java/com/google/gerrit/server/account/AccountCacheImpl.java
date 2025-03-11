@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.account.AccountCacheImpl.AccountCacheModule.ACCOUNT_CACHE_MODULE;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.inject.Scopes.SINGLETON;
@@ -185,6 +186,20 @@ public class AccountCacheImpl implements AccountCache {
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Cannot load AccountState for username %s", username);
       return Optional.empty();
+    }
+  }
+
+  @Override
+  public ImmutableList<AccountState> getByEmail(String email) {
+    try {
+      return externalIds.byEmail(email).stream()
+          .map(e -> get(e.accountId()))
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .collect(toImmutableList());
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Cannot load AccountState for email %s", email);
+      return ImmutableList.of();
     }
   }
 

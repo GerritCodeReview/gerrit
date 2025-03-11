@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.transport.FetchV2Request;
@@ -32,7 +33,19 @@ import org.eclipse.jgit.transport.ProtocolV2Hook;
  * always provide a trace ID.
  */
 public class TracingHook implements ProtocolV2Hook, AutoCloseable {
+  private final TraceIdConsumer traceIdConsumer;
+
+  private static final TraceIdConsumer NOOP_CONSUMER = (name, id) -> {};
+
   private TraceContext traceContext;
+
+  public TracingHook() {
+    this(NOOP_CONSUMER);
+  }
+
+  public TracingHook(TraceIdConsumer traceIdConsumer) {
+    this.traceIdConsumer = traceIdConsumer;
+  }
 
   @Override
   public void onLsRefs(LsRefsV2Request req) {
@@ -64,12 +77,7 @@ public class TracingHook implements ProtocolV2Hook, AutoCloseable {
 
     Optional<String> traceOption = parseTraceOption(serverOptionList);
     traceContext =
-        TraceContext.newTrace(
-            traceOption.isPresent(),
-            traceOption.orElse(null),
-            (tagName, traceId) -> {
-              // TODO(ekempin): Return trace ID to client
-            });
+        TraceContext.newTrace(traceOption.isPresent(), traceOption.orElse(null), traceIdConsumer);
   }
 
   private Optional<String> parseTraceOption(List<String> serverOptionList) {

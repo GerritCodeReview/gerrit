@@ -84,7 +84,7 @@ final class Receive extends AbstractGitCommand {
     }
 
     AsyncReceiveCommits arc =
-        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null, sshMetrics);
+        factory.create(projectState, currentUser.asIdentifiedUser(), repo, this, null, sshMetrics);
 
     try {
       Capable r = arc.canUpload();

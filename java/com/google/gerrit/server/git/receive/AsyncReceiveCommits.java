@@ -49,6 +49,7 @@ import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
 import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -103,6 +104,7 @@ public class AsyncReceiveCommits {
         ProjectState projectState,
         IdentifiedUser user,
         Repository repository,
+        @Nullable TraceIdConsumer traceIdConsumer,
         @Nullable MessageSender messageSender,
         @Nullable RequestCounter requestCounter);
   }
@@ -262,6 +264,7 @@ public class AsyncReceiveCommits {
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted Repository repo,
+      @Assisted @Nullable TraceIdConsumer traceIdConsumer,
       @Assisted @Nullable MessageSender messageSender,
       @Assisted @Nullable RequestCounter requestCounter)
       throws PermissionBackendException {
@@ -311,7 +314,14 @@ public class AsyncReceiveCommits {
             user.getAccountId()));
     receiveCommits =
         factory.create(
-            projectState, user, receivePack, repo, allRefsWatcher, messageSender, requestCounter);
+            projectState,
+            user,
+            receivePack,
+            repo,
+            allRefsWatcher,
+            traceIdConsumer,
+            messageSender,
+            requestCounter);
     receiveCommits.init();
     QuotaResponse.Aggregated availableTokens =
         quotaBackend.user(user).project(projectName).availableTokens(REPOSITORY_SIZE_GROUP);

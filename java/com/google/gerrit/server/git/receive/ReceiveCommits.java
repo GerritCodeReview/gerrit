@@ -165,6 +165,7 @@ import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -291,6 +292,7 @@ class ReceiveCommits {
         ReceivePack receivePack,
         Repository repository,
         AllRefsWatcher allRefsWatcher,
+        @Nullable TraceIdConsumer traceIdConsumer,
         @Nullable MessageSender messageSender,
         @Nullable RequestCounter requestCounter);
   }
@@ -478,6 +480,7 @@ class ReceiveCommits {
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<String> tracePushOption = Optional.empty();
 
+  private final TraceIdConsumer traceIdConsumer;
   private MessageSender messageSender;
   private ReceiveCommitsResult.Builder result;
   private ImmutableSetMultimap<String, String> loggingTags;
@@ -545,6 +548,7 @@ class ReceiveCommits {
       @Assisted ReceivePack rp,
       @Assisted Repository repository,
       @Assisted AllRefsWatcher allRefsWatcher,
+      @Assisted @Nullable TraceIdConsumer traceIdConsumer,
       @Assisted @Nullable MessageSender messageSender,
       @Assisted @Nullable RequestCounter requestCounter)
       throws IOException {
@@ -635,6 +639,7 @@ class ReceiveCommits {
         projectState.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
 
     // Handles for outputting back over the wire to the end user.
+    this.traceIdConsumer = traceIdConsumer;
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
     this.result = ReceiveCommitsResult.builder();
     this.loggingTags = ImmutableSetMultimap.of();
@@ -716,6 +721,9 @@ class ReceiveCommits {
                 (tagName, traceId) -> {
                   if (tracePushOption.isPresent()) {
                     addMessage(tagName + ": " + traceId);
+                  }
+                  if (traceIdConsumer != null) {
+                    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), traceId);
                   }
                 });
         PerformanceLogContext performanceLogContext =

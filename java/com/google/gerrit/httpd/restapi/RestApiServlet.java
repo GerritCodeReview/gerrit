@@ -135,6 +135,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.Strictness;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -1101,7 +1102,7 @@ public class RestApiServlet extends HttpServlet {
       try (BufferedReader br = req.getReader();
           JsonReader json = new JsonReader(br)) {
         try {
-          json.setLenient(true);
+          json.setStrictness(Strictness.LENIENT);
 
           JsonToken first;
           try {

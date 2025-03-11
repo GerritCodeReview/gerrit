@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.testing.BinaryResultSubject;
+import com.google.gson.Strictness;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.util.Arrays;
@@ -810,7 +811,7 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
       throws Exception {
     r.assertStatus(expectedStatus);
     try (JsonReader jsonReader = new JsonReader(r.getReader())) {
-      jsonReader.setLenient(true);
+      jsonReader.setStrictness(Strictness.LENIENT);
       return newGson().fromJson(jsonReader, clazz);
     }
   }

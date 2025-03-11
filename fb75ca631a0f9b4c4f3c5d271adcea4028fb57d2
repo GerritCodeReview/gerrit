@@ -22,6 +22,30 @@
       },
       "revId": "fb75ca631a0f9b4c4f3c5d271adcea4028fb57d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7870a28f_37a32772",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-11T09:14:53Z",
+      "side": 1,
+      "message": "you are right, fixed in https://gerrit-review.googlesource.com/c/gerrit/+/459421",
+      "parentUuid": "147d1c7d_8b2a8bbb",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 19
+      },
+      "revId": "fb75ca631a0f9b4c4f3c5d271adcea4028fb57d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

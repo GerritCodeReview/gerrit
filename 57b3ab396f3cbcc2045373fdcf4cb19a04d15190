@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ac4ab51_be52d364",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-12T19:15:07Z",
+      "side": 1,
+      "message": "While that is sort of true, it isn\u0027t really true because I don\u0027t believe that in the current code there ever can be an \"existing\" bloomfilter while it is being rebuilt (the rebuild only ever gets triggered when there is no bloomfilter in the first place). So I\u0027d rather not confuse the issue by mentioning that.",
+      "parentUuid": "d1f247a0_c6e65910",
+      "revId": "57b3ab396f3cbcc2045373fdcf4cb19a04d15190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83acdae5_5d758dac",

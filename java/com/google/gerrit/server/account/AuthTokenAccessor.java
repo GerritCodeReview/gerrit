@@ -80,11 +80,11 @@ public class AuthTokenAccessor {
 
   public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
-    VersionedAuthTokens authorizedTokens = read(accountId);
+    VersionedAuthTokens authTokens = read(accountId);
     for (AuthToken token : tokens) {
-      authorizedTokens.addToken(token);
+      authTokens.addToken(token);
     }
-    commit(authorizedTokens);
+    commit(authTokens);
   }
 
   public synchronized void deleteToken(Account.Id accountId, String id)

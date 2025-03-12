@@ -34,8 +34,8 @@ public class PluginLogFileIT extends AbstractPluginLogFileTest {
 
   @Test
   public void testMultiThreadedPluginLogFile() throws Exception {
-    try (AutoCloseable ignored = installPlugin("my-plugin", TestModule.class)) {
-      ExecutorService service = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    try (AutoCloseable ignored = installPlugin("my-plugin", TestModule.class);
+        ExecutorService service = Executors.newFixedThreadPool(NUMBER_OF_THREADS)) {
       CountDownLatch latch = new CountDownLatch(NUMBER_OF_THREADS);
       createChange();
       for (int i = 0; i < NUMBER_OF_THREADS; i++) {

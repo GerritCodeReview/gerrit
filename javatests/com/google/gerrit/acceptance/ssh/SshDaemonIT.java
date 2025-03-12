@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Module;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -50,29 +51,33 @@ public class SshDaemonIT extends AbstractDaemonTest {
 
   @Test
   public void nonGracefulCommandIsStoppedImmediately() throws Exception {
-    Future<Integer> future = startCommand(false);
-    closeTestRepositories();
-    ((GerritServerTestRule) server).restartKeepSessionOpen();
-    assertThat(future.get()).isEqualTo(-1);
+    try (ExecutorService executor = Executors.newFixedThreadPool(1)) {
+      Future<Integer> future = startCommand(executor, false);
+      closeTestRepositories();
+      ((GerritServerTestRule) server).restartKeepSessionOpen();
+      assertThat(future.get()).isEqualTo(-1);
+    }
   }
 
   @Test
   public void gracefulCommandIsStoppedGracefully() throws Exception {
     assume().that(isGracefulStopEnabled()).isTrue();
 
-    Future<Integer> future = startCommand(true);
-    closeTestRepositories();
-    ((GerritServerTestRule) server).restartKeepSessionOpen();
-    assertThat(future.get()).isEqualTo(0);
+    try (ExecutorService executor = Executors.newFixedThreadPool(1)) {
+      Future<Integer> future = startCommand(executor, true);
+      closeTestRepositories();
+      ((GerritServerTestRule) server).restartKeepSessionOpen();
+      assertThat(future.get()).isEqualTo(0);
+    }
   }
 
-  private Future<Integer> startCommand(boolean graceful) throws Exception {
+  private Future<Integer> startCommand(ExecutorService executor, boolean graceful)
+      throws Exception {
     Future<Integer> future =
-        Executors.newFixedThreadPool(1)
-            .submit(
-                () ->
-                    userSshSession.execAndReturnStatus(
-                        String.format("%sgraceful -d 5", graceful ? "" : "non-")));
+        executor.submit(
+            () ->
+                userSshSession.execAndReturnStatus(
+                    String.format("%sgraceful -d 5", graceful ? "" : "non-")));
     TestCommand.syncPoint.await();
     return future;
   }

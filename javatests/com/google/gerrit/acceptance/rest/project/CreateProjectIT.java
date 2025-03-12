@@ -66,7 +66,6 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.junit.TestRepository;
@@ -116,8 +115,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createSameProjectFromTwoConcurrentRequests() throws Exception {
-    ExecutorService executor = Executors.newFixedThreadPool(2);
-    try {
+    try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
       for (int i = 0; i < 10; i++) {
         String newProjectName = name("foo" + i);
         CyclicBarrier sync = new CyclicBarrier(2);
@@ -132,9 +130,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
         assertThat(ImmutableList.of(r1.get().getStatusCode(), r2.get().getStatusCode()))
             .containsAtLeast(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
       }
-    } finally {
-      executor.shutdown();
-      executor.awaitTermination(5, TimeUnit.SECONDS);
     }
   }
 

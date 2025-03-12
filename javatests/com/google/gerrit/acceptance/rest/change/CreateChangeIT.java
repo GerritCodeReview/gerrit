@@ -102,7 +102,6 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -1299,8 +1298,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDifferIfCreatedConcurrently() throws Exception {
-    ExecutorService executor = Executors.newFixedThreadPool(2);
-    try {
+    try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
       for (int i = 0; i < 10; i++) {
         ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
 
@@ -1317,9 +1315,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
         assertThat(changeInfo1.get().currentRevision)
             .isNotEqualTo(changeInfo2.get().currentRevision);
       }
-    } finally {
-      executor.shutdown();
-      executor.awaitTermination(5, TimeUnit.SECONDS);
     }
   }
 

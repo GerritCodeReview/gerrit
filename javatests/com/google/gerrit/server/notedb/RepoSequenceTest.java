@@ -36,6 +36,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -268,35 +269,36 @@ public class RepoSequenceTest {
     // with LOCK_FAILURE. RepoSequence uses a retryer to retry the NoteDb update on LOCK_FAILURE,
     // but our block strategy ensures that this retry only happens after isBlocking was set to
     // false.
-    Future<?> future =
-        Executors.newFixedThreadPool(1)
-            .submit(
-                () -> {
-                  // The background update sets the next available sequence number to 1234. Then the
-                  // test thread retrieves one sequence number, so that the next available sequence
-                  // number for this thread is 1235.
-                  expect.that(s.next()).isEqualTo(1235);
-                });
+    try (ExecutorService executor = Executors.newFixedThreadPool(1)) {
+      Future<?> future =
+          executor.submit(
+              () -> {
+                // The background update sets the next available sequence number to 1234. Then the
+                // test thread retrieves one sequence number, so that the next available sequence
+                // number for this thread is 1235.
+                expect.that(s.next()).isEqualTo(1235);
+              });
 
-    // Wait until the LOCK_FAILURE has happened and the block strategy was entered.
-    lockFailure.await();
+      // Wait until the LOCK_FAILURE has happened and the block strategy was entered.
+      lockFailure.await();
 
-    // Verify that the background update was done now.
-    assertThat(doneBgUpdate.get()).isTrue();
+      // Verify that the background update was done now.
+      assertThat(doneBgUpdate.get()).isTrue();
 
-    // Verify that we can retrieve a sequence number while the other thread is blocked. If the
-    // s.next() call hangs it means that the RepoSequence.counterLock was not released before the
-    // background thread started to block for retry. In this case the test would time out.
-    assertThat(s.next()).isEqualTo(1234);
+      // Verify that we can retrieve a sequence number while the other thread is blocked. If the
+      // s.next() call hangs it means that the RepoSequence.counterLock was not released before the
+      // background thread started to block for retry. In this case the test would time out.
+      assertThat(s.next()).isEqualTo(1234);
 
-    // Stop blocking the retry of the background thread (and verify that it was still blocked).
-    parallelSuccessfulSequenceGeneration.countDown();
+      // Stop blocking the retry of the background thread (and verify that it was still blocked).
+      parallelSuccessfulSequenceGeneration.countDown();
 
-    // Wait until the background thread is done.
-    future.get();
+      // Wait until the background thread is done.
+      future.get();
 
-    // Two successful acquire calls (because batch size == 1).
-    assertThat(s.acquireCount).isEqualTo(2);
+      // Two successful acquire calls (because batch size == 1).
+      assertThat(s.acquireCount).isEqualTo(2);
+    }
   }
 
   @Test

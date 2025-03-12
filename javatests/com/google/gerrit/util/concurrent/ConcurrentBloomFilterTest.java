@@ -86,87 +86,97 @@ public class ConcurrentBloomFilterTest {
   @Test
   public void initIsConcurrent() {
     AtomicInteger buildCnt = new AtomicInteger();
-    ConcurrentTest c = new ConcurrentTest(NUM_THREADS);
-    c.builder =
-        b -> {
-          b.build();
-          buildCnt.incrementAndGet();
-        };
-    c.setup(
-        b -> {
-          await(c.latch);
-          b.initIfNeeded();
-        });
-    assertThat(buildCnt.get()).isEqualTo(0);
-    c.latch.countDown();
-    c.assertSuccess();
-    assertThat(buildCnt.get()).isEqualTo(1);
+    try (ConcurrentTest c = new ConcurrentTest(NUM_THREADS)) {
+      c.builder =
+          b -> {
+            b.build();
+            buildCnt.incrementAndGet();
+          };
+      c.setup(
+          b -> {
+            await(c.latch);
+            b.initIfNeeded();
+          });
+      assertThat(buildCnt.get()).isEqualTo(0);
+      c.latch.countDown();
+      c.assertSuccess();
+      assertThat(buildCnt.get()).isEqualTo(1);
+    }
   }
 
   @Test
   public void mightContainsIsConcurrent() {
-    ConcurrentTest c = new ConcurrentTest(NUM_THREADS);
-    c.setup(b -> b.mightContain(1));
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(NUM_THREADS)) {
+      c.setup(b -> b.mightContain(1));
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void putIsConcurrent() {
-    ConcurrentTest c = new ConcurrentTest(NUM_THREADS);
-    c.setup(b -> b.put(1));
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(NUM_THREADS)) {
+      c.setup(b -> b.put(1));
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void clearIsConcurrent() {
-    ConcurrentTest c = new ConcurrentTest(NUM_THREADS);
-    c.setup(b -> b.clear());
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(NUM_THREADS)) {
+      c.setup(b -> b.clear());
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void initIsConcurrentWitMightContain() {
-    ConcurrentTest c = new ConcurrentTest(2);
-    c.run(b -> b.initIfNeeded(), b -> b.mightContain(1));
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(2)) {
+      c.run(b -> b.initIfNeeded(), b -> b.mightContain(1));
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void initIsConcurrentWithPut() {
-    ConcurrentTest c = new ConcurrentTest(2);
-    c.run(b -> b.initIfNeeded(), b -> b.put(1));
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(2)) {
+      c.run(b -> b.initIfNeeded(), b -> b.put(1));
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void initIsConcurrentWithClear() {
-    ConcurrentTest c = new ConcurrentTest(2);
-    c.run(b -> b.initIfNeeded(), b -> b.clear());
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(2)) {
+      c.run(b -> b.initIfNeeded(), b -> b.clear());
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void mightContansIsConcurrentWithPut() {
-    ConcurrentTest c = new ConcurrentTest(2);
-    c.run(b -> b.mightContain(1), b -> b.put(1));
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(2)) {
+      c.run(b -> b.mightContain(1), b -> b.put(1));
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void mightContansIsConcurrentWithClear() {
-    ConcurrentTest c = new ConcurrentTest(2);
-    c.run(b -> b.mightContain(1), b -> b.clear());
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(2)) {
+      c.run(b -> b.mightContain(1), b -> b.clear());
+      c.assertSuccess();
+    }
   }
 
   @Test
   public void putIsConcurrentWithClear() {
-    ConcurrentTest c = new ConcurrentTest(2);
-    c.run(b -> b.put(1), b -> b.clear());
-    c.assertSuccess();
+    try (ConcurrentTest c = new ConcurrentTest(2)) {
+      c.run(b -> b.put(1), b -> b.clear());
+      c.assertSuccess();
+    }
   }
 
-  private static class ConcurrentTest {
+  private static class ConcurrentTest implements AutoCloseable {
     AtomicInteger success = new AtomicInteger();
     List<Future<?>> futures = new ArrayList<>(ITERATIONS * 2);
     Consumer<ConcurrentBloomFilter<Integer>> builder = b -> b.build();
@@ -225,6 +235,13 @@ public class ConcurrentBloomFilterTest {
       executor.shutdown();
       assertThat(futures.stream().map(f -> get(f)).reduce(true, (r, v) -> r && v)).isTrue();
       assertThat(success.get()).isEqualTo(futures.size());
+    }
+
+    @Override
+    public void close() {
+      if (executor != null) {
+        executor.close();
+      }
     }
   }
 

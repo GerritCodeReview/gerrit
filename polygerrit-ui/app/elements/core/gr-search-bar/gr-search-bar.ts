@@ -322,54 +322,33 @@ export class GrSearchBar extends LitElement {
     const splitInput = input.split(':');
     const predicate = splitInput[0];
     const expression = splitInput[1] || '';
-    // Switch on the predicate to determine what to autocomplete.
-    switch (predicate) {
-      case 'ownerin':
-      case '-ownerin':
-      case 'reviewerin':
-      case '-reviewerin':
-        // Fetch groups.
-        return this.groupSuggestions(predicate, expression);
 
-      case 'parentproject':
-      case '-parentproject':
-      case 'project':
-      case '-project':
-      case 'repo':
-      case '-repo':
-        // Fetch projects.
-        return this.projectSuggestions(predicate, expression);
-
-      case 'attention':
-      case '-attention':
-      case 'author':
-      case '-author':
-      case 'cc':
-      case '-cc':
-      case 'commentby':
-      case '-commentby':
-      case 'committer':
-      case '-committer':
-      case 'from':
-      case '-from':
-      case 'owner':
-      case '-owner':
-      case 'reviewedby':
-      case '-reviewedby':
-      case 'reviewer':
-      case '-reviewer':
-        // Fetch accounts.
-        return this.accountSuggestions(predicate, expression);
-
-      default:
-        return Promise.resolve(
-          [...this.searchOperators()]
-            .filter(operator => operator.includes(input))
-            .map(operator => {
-              return {text: operator};
-            })
-        );
+    if (/^-?(ownerin|reviewerin)$/.test(predicate)) {
+      // Fetch groups.
+      return this.groupSuggestions(predicate, expression);
     }
+
+    if (/^-?(parentproject|project|repo)$/.test(predicate)) {
+      // Fetch projects.
+      return this.projectSuggestions(predicate, expression);
+    }
+
+    if (
+      /^-?(attention|author|cc|commentby|committer|from|owner|reviewedby|reviewer)$/.test(
+        predicate
+      )
+    ) {
+      // Fetch accounts.
+      return this.accountSuggestions(predicate, expression);
+    }
+
+    return Promise.resolve(
+      [...this.searchOperators()]
+        .filter(operator => operator.includes(input))
+        .map(operator => {
+          return {text: operator};
+        })
+    );
   }
 
   /**

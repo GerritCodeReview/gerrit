@@ -10,14 +10,12 @@ import {
   AutocompleteCommentResponse,
   SuggestionsProvider,
 } from '../../api/suggestions';
-import {PluginsModel} from '../../models/plugins/plugins-model';
 import {Interaction, Timing} from '../../constants/reporting';
 import {ChangeInfo, CommentSide, FixSuggestionInfo} from '../../api/rest-api';
 import {getFileExtension} from '../../utils/file-util';
 import {Comment} from '../../types/common';
 import {SpecialFilePath} from '../../constants/constants';
 import {hasUserSuggestion, isFileLevelComment} from '../../utils/comment-util';
-import {ChangeModel} from '../../models/change/change-model';
 import {id} from '../../utils/comment-util';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
 
@@ -26,29 +24,18 @@ export const suggestionsServiceToken = define<SuggestionsService>(
 );
 
 export class SuggestionsService implements Finalizable {
-  suggestionsProvider?: SuggestionsProvider;
-
-  constructor(
-    readonly reporting: ReportingService,
-    private readonly pluginsModel: PluginsModel,
-    private readonly changeModel: ChangeModel
-  ) {
-    this.pluginsModel.suggestionsPlugins$.subscribe(
-      suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
-    );
-  }
+  constructor(readonly reporting: ReportingService) {}
 
   finalize() {}
 
-  public getDocumentationLink() {
-    return this.suggestionsProvider?.getDocumentationLink?.();
-  }
-
-  public enableGeneratedSuggestedFix(comment?: Comment): boolean {
-    return !!(
-      this.suggestionsProvider &&
-      comment?.path &&
+  public isGeneratedSuggestedFixEnabled(
+    suggestionsProvider?: SuggestionsProvider,
+    change?: ChangeInfo,
+    comment?: Comment
+  ): boolean {
+    return (
+      !!suggestionsProvider &&
+      !!comment?.path &&
       comment.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
       comment.path !== SpecialFilePath.COMMIT_MESSAGE &&
       // Disable for comments on the left side of the diff, files can be deleted
@@ -56,38 +43,41 @@ export class SuggestionsService implements Finalizable {
       comment?.side !== CommentSide.PARENT &&
       !isFileLevelComment(comment) &&
       !hasUserSuggestion(comment) &&
-      (!this.suggestionsProvider.supportedFileExtensions ||
-        this.suggestionsProvider.supportedFileExtensions.includes(
+      (!suggestionsProvider.supportedFileExtensions ||
+        suggestionsProvider.supportedFileExtensions.includes(
           getFileExtension(comment.path)
         )) &&
-      this.changeModel.getChange()?.is_private !== true
+      !!change &&
+      change.is_private !== true
     );
   }
 
   public async generateSuggestedFix(
-    comment: Comment | undefined,
-    commentText: string,
-    generatedSuggestionId: string
+    suggestionsProvider?: SuggestionsProvider,
+    change?: ChangeInfo,
+    comment?: Comment,
+    commentText?: string,
+    generatedSuggestionId?: string
   ): Promise<FixSuggestionInfo | undefined> {
     if (
       !comment ||
       !comment.path ||
       !comment.patch_set ||
-      !this.suggestionsProvider?.suggestFix
+      !suggestionsProvider?.suggestFix ||
+      !change ||
+      !commentText
     ) {
       return;
     }
-    const changeInfo = this.changeModel.getChange();
-    if (!changeInfo) return;
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: generatedSuggestionId,
       type: 'suggest-fix',
       commentId: comment.id,
       fileExtension: getFileExtension(comment.path ?? ''),
     });
-    const suggestionResponse = await this.suggestionsProvider.suggestFix({
+    const suggestionResponse = await suggestionsProvider.suggestFix({
       prompt: commentText,
-      changeInfo: changeInfo as ChangeInfo,
+      changeInfo: change,
       patchsetNumber: comment.patch_set,
       filePath: comment.path,
       range: comment.range,
@@ -114,26 +104,28 @@ export class SuggestionsService implements Finalizable {
   }
 
   public async autocompleteComment(
-    comment: Comment | undefined,
-    commentText: string,
+    suggestionsProvider?: SuggestionsProvider,
+    change?: ChangeInfo,
+    comment?: Comment,
+    commentText?: string,
     comments?: Comment[]
   ) {
     if (
       !comment ||
       !comment.path ||
       !comment.patch_set ||
+      !commentText ||
       commentText.length === 0 ||
-      !this.suggestionsProvider?.autocompleteComment
+      !change ||
+      !suggestionsProvider?.autocompleteComment
     ) {
       return;
     }
-    const changeInfo = this.changeModel.getChange();
-    if (!changeInfo) return;
     this.reporting.time(Timing.COMMENT_COMPLETION);
-    const response = await this.suggestionsProvider.autocompleteComment({
+    const response = await suggestionsProvider.autocompleteComment({
       id: id(comment),
       commentText,
-      changeInfo: changeInfo as ChangeInfo,
+      changeInfo: change,
       patchsetNumber: comment?.patch_set,
       filePath: comment.path,
       range: comment.range,

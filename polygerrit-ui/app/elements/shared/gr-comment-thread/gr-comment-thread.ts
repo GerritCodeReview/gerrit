@@ -24,8 +24,13 @@ import {
   createNewReply,
   NEWLINE_PATTERN,
   id,
+  hasUserSuggestion,
 } from '../../../utils/comment-util';
-import {ChangeMessageId} from '../../../api/rest-api';
+import {
+  ChangeInfo,
+  ChangeMessageId,
+  FixSuggestionInfo,
+} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
   createDefaultDiffPrefs,
@@ -56,6 +61,7 @@ import {
   assert,
   assertIsDefined,
   copyToClipbard,
+  uuid,
 } from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
@@ -82,6 +88,12 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {noAwait, waitUntil} from '../../../utils/async-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
+import {when} from 'lit/directives/when.js';
+import {ParsedChangeInfo} from '../../../types/types';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+import {SuggestionsProvider} from '../../../api/suggestions';
 
 declare global {
   interface HTMLElementEventMap {
@@ -221,6 +233,9 @@ export class GrCommentThread extends LitElement {
   repoName?: RepoName;
 
   @state()
+  change?: ParsedChangeInfo;
+
+  @state()
   account?: AccountDetailInfo;
 
   @state()
@@ -250,6 +265,17 @@ export class GrCommentThread extends LitElement {
   @state()
   saving = false;
 
+  @state()
+  isOwner = false;
+
+  @state() suggestionsProvider?: SuggestionsProvider;
+
+  @state() suggestionLoading = false;
+
+  @state() generatedSuggestionId?: string;
+
+  @state() suggestion?: FixSuggestionInfo;
+
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -258,12 +284,18 @@ export class GrCommentThread extends LitElement {
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   private readonly shortcuts = new ShortcutController(this);
+
+  readonly getSuggestionsService = resolve(this, suggestionsServiceToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
     () => getAppContext().reportingService
   );
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -283,6 +315,11 @@ export class GrCommentThread extends LitElement {
       this,
       () => this.getChangeModel().repo$,
       x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
     );
     subscribe(
       this,
@@ -311,6 +348,18 @@ export class GrCommentThread extends LitElement {
           line_wrapping: true,
         };
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      isOwner => (this.isOwner = isOwner)
+    );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
+      // We currently support results from only 1 provider.
+      suggestionsPlugins =>
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
     );
   }
 
@@ -430,6 +479,15 @@ export class GrCommentThread extends LitElement {
         .fileName:hover gr-copy-clipboard {
           visibility: visible;
         }
+        .loadingSpin {
+          width: calc(var(--line-height-normal) - 2px);
+          height: calc(var(--line-height-normal) - 2px);
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          /* Making up for the 2px reduced height above. */
+          top: 1px;
+        }
       `,
     ];
   }
@@ -454,7 +512,8 @@ export class GrCommentThread extends LitElement {
       <div id="container">
         <h3 class="assistive-tech-only">${this.computeAriaHeading()}</h3>
         <div class="comment-box ${classMap(dynamicBoxClasses)}" tabindex="0">
-          ${this.renderComments()} ${this.renderActions()}
+          ${this.renderComments()} ${this.renderSuggestionPreview()}
+          ${this.renderActions()}
         </div>
         ${this.renderContextualDiff()}
       </div>
@@ -539,6 +598,16 @@ export class GrCommentThread extends LitElement {
     `;
   }
 
+  renderSuggestionPreview() {
+    if (!this.suggestion) return;
+    const comment = this.thread?.comments[0];
+    if (!comment) return;
+    return html`<gr-fix-suggestions
+      .comment=${comment}
+      .generated_fix_suggestions=${[this.suggestion]}
+    ></gr-fix-suggestions>`;
+  }
+
   renderActions() {
     if (!this.account || this.isDraft() || this.isRobotComment()) return;
     return html`
@@ -583,6 +652,22 @@ export class GrCommentThread extends LitElement {
                     @click=${this.handleCommentDone}
                     >Done</gr-button
                   >
+                  ${this.shouldShowAIFixButton()
+                    ? html`
+                        <gr-button
+                          id="aiFixBtn"
+                          link
+                          class="action ai-fix"
+                          ?disabled=${this.saving || this.suggestionLoading}
+                          @click=${this.handleAIFix}
+                          >Get AI Fix
+                          ${when(
+                            this.suggestionLoading,
+                            () => html`<span class="loadingSpin"></span>`
+                          )}</gr-button
+                        >
+                      `
+                    : nothing}
                 `
               : ''
           }
@@ -895,6 +980,52 @@ export class GrCommentThread extends LitElement {
     const unresolvedStatus = this.unresolved ? 'Unresolved ' : '';
     const draftStatus = this.isDraft() ? 'Draft ' : '';
     return `${unresolvedStatus}${draftStatus}Comment thread by ${user}`;
+  }
+
+  private async handleAIFix(): Promise<void> {
+    if (!this.thread || !this.account) return;
+    const comment = this.thread.comments[0];
+    if (!comment?.message) return;
+    this.suggestionLoading = true;
+    this.generatedSuggestionId = uuid();
+    let suggestion: FixSuggestionInfo | undefined;
+    try {
+      suggestion = await this.getSuggestionsService().generateSuggestedFix(
+        this.suggestionsProvider,
+        this.change as ChangeInfo,
+        comment,
+        comment.message,
+        this.generatedSuggestionId
+      );
+    } finally {
+      this.suggestionLoading = false;
+    }
+    if (!suggestion) return;
+    this.suggestion = suggestion;
+  }
+
+  private shouldShowAIFixButton(): boolean {
+    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
+      return false;
+    }
+    if (!this.thread || !this.account) return false;
+    if (this.thread.comments.length !== 1) return false;
+    const comment = this.thread.comments[0];
+    if (
+      !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
+        this.suggestionsProvider,
+        this.change as ChangeInfo,
+        comment
+      )
+    ) {
+      return false;
+    }
+    if (
+      comment.fix_suggestions !== undefined &&
+      comment.fix_suggestions.length === 0
+    )
+      return false;
+    return this.isOwner && !hasUserSuggestion(comment);
   }
 }
 

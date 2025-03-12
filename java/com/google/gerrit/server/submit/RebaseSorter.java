@@ -136,15 +136,12 @@ public class RebaseSorter {
     try (CodeReviewRevWalk mirw = CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
       mirw.reset();
       mirw.markStart(commit);
-      // check if the commit is merged in other branches
+      Set<RevCommit> parsed = new HashSet<>();
       for (RevCommit accepted : alreadyAccepted) {
-        if (mirw.isMergedInto(mirw.parseCommit(commit), mirw.parseCommit(accepted))) {
-          logger.atFine().log(
-              "Dependency %s merged into branch head %s.", commit.getName(), accepted.getName());
-          return true;
-        }
+        parsed.add(mirw.parseCommit(accepted));
       }
-      return false;
+      // check if the commit is merged in other branches
+      return mirw.isMergedIntoAnyCommit(mirw.parseCommit(commit), parsed);
     } catch (StorageException e) {
       throw new IOException(e);
     }

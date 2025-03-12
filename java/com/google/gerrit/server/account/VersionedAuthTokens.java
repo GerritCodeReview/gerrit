@@ -98,11 +98,11 @@ public class VersionedAuthTokens extends VersionedMetaData {
 
     public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
         throws IOException, ConfigInvalidException, AuthTokenConflictException {
-      VersionedAuthTokens authorizedTokens = read(accountId);
+      VersionedAuthTokens authTokens = read(accountId);
       for (AuthToken token : tokens) {
-        authorizedTokens.addToken(token);
+        authTokens.addToken(token);
       }
-      commit(authorizedTokens);
+      commit(authTokens);
     }
 
     public synchronized void deleteToken(Account.Id accountId, String id)
@@ -183,7 +183,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
     return tokens;
   }
 
-  /** Returns all authorization tokens. */
+  /** Returns all authentication tokens. */
   private List<AuthToken> getTokens() {
     checkLoaded();
     return tokens;

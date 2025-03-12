@@ -487,4 +487,89 @@ suite('gr-comment-thread tests', () => {
       'http://localhost:9876/c/test-repo-name/+/1/comment/the-root/'
     );
   });
+
+  test('renders with actions unresolved and AI fix button', async () => {
+    const flagsService = testResolver(flagsServiceToken);
+    sinon.stub(flagsService, 'isEnabled').withArgs(KnownExperimentId.GET_AI_FIX).returns(true);
+    element.isOwner = true;
+    element.thread = createThread(c1, {...c2, unresolved: true, fix_suggestions: [{description: 'test', fix_id: 'test'}]});
+    await element.updateComplete;
+    assert.dom.equal(
+      queryAndAssert(element, '#container'),
+      /* HTML */ `
+        <div id="container">
+          <h3 class="assistive-tech-only">
+            Unresolved Comment thread by Kermit
+          </h3>
+          <div class="comment-box unresolved" tabindex="0">
+            <gr-comment show-patchset=""></gr-comment>
+            <gr-comment show-patchset=""></gr-comment>
+            <div id="actionsContainer">
+              <span id="unresolvedLabel"> Unresolved </span>
+              <div id="actions">
+                <gr-button
+                  aria-disabled="false"
+                  class="action reply"
+                  id="replyBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Reply
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action quote"
+                  id="quoteBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Quote
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action ack"
+                  id="ackBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Ack
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action done"
+                  id="doneBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Done
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action ai-fix"
+                  id="aiFixBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Get AI Fix
+                </gr-button>
+                <gr-icon
+                  icon="link"
+                  class="copy link-icon"
+                  role="button"
+                  tabindex="0"
+                  title="Copy link to this comment"
+                ></gr-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    );
+  });
+
 });

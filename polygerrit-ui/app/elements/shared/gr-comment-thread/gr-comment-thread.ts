@@ -24,6 +24,7 @@ import {
   createNewReply,
   NEWLINE_PATTERN,
   id,
+  hasUserSuggestion,
 } from '../../../utils/comment-util';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
@@ -250,6 +251,9 @@ export class GrCommentThread extends LitElement {
   @state()
   saving = false;
 
+  @state()
+  isOwner = false;
+
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -264,6 +268,8 @@ export class GrCommentThread extends LitElement {
     resolve(this, highlightServiceToken),
     () => getAppContext().reportingService
   );
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -311,6 +317,11 @@ export class GrCommentThread extends LitElement {
           line_wrapping: true,
         };
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      isOwner => (this.isOwner = isOwner)
     );
   }
 
@@ -583,6 +594,18 @@ export class GrCommentThread extends LitElement {
                     @click=${this.handleCommentDone}
                     >Done</gr-button
                   >
+                  ${this.shouldShowAIFixButton()
+                    ? html`
+                        <gr-button
+                          id="aiFixBtn"
+                          link
+                          class="action ai-fix"
+                          ?disabled=${this.saving}
+                          @click=${this.handleAIFix}
+                          >Get AI Fix</gr-button
+                        >
+                      `
+                    : nothing}
                 `
               : ''
           }
@@ -880,6 +903,22 @@ export class GrCommentThread extends LitElement {
     const unresolvedStatus = this.unresolved ? 'Unresolved ' : '';
     const draftStatus = this.isDraft() ? 'Draft ' : '';
     return `${unresolvedStatus}${draftStatus}Comment thread by ${user}`;
+  }
+
+  private handleAIFix() {
+    return;
+  }
+
+  private shouldShowAIFixButton(): boolean {
+    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
+      return false;
+    }
+    if (!this.thread || !this.account) return false;
+    if (this.thread.comments.length !== 1) return false;
+    const comment = this.thread.comments[0];
+    if (!comment.fix_suggestions || comment.fix_suggestions.length === 0)
+      return false;
+    return this.isOwner && !hasUserSuggestion(comment);
   }
 }
 

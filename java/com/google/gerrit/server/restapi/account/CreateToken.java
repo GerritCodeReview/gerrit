@@ -44,6 +44,9 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -95,6 +98,7 @@ public class CreateToken
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Response<TokenInfo> apply(AccountResource rsrc, IdString id, TokenInput input)
       throws AuthException,
           ResourceNotFoundException,

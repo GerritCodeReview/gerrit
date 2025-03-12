@@ -35,6 +35,9 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -79,6 +82,7 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
     return apply(rsrc.getUser(), rsrc.getId(), true);
   }
 
+  @CanIgnoreReturnValue
   public Response<String> apply(IdentifiedUser user, String id, boolean notify)
       throws RepositoryNotFoundException,
           IOException,

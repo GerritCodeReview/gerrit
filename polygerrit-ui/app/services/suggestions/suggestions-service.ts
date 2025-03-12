@@ -45,7 +45,25 @@ export class SuggestionsService implements Finalizable {
     return this.suggestionsProvider?.getDocumentationLink?.();
   }
 
-  public enableGeneratedSuggestedFix(comment?: Comment): boolean {
+  public async enableGeneratedSuggestedFix(
+    comment?: Comment
+  ): Promise<boolean> {
+    // Wait for the suggestionsProvider to be available through the subscription
+    await new Promise<void>(resolve => {
+      if (this.suggestionsProvider) {
+        resolve();
+        return;
+      }
+      const subscription = this.pluginsModel.suggestionsPlugins$.subscribe(
+        suggestionsPlugins => {
+          if (suggestionsPlugins?.[0]?.provider) {
+            subscription.unsubscribe();
+            resolve();
+          }
+        }
+      );
+    });
+
     return !!(
       this.suggestionsProvider &&
       comment?.path &&

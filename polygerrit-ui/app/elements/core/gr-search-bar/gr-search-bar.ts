@@ -321,25 +321,39 @@ export class GrSearchBar extends LitElement {
     // Switch on the predicate to determine what to autocomplete.
     switch (predicate) {
       case 'ownerin':
+      case '-ownerin':
       case 'reviewerin':
+      case '-reviewerin':
         // Fetch groups.
         return this.groupSuggestions(predicate, expression);
 
       case 'parentproject':
+      case '-parentproject':
       case 'project':
+      case '-project':
       case 'repo':
+      case '-repo':
         // Fetch projects.
         return this.projectSuggestions(predicate, expression);
 
       case 'attention':
+      case '-attention':
       case 'author':
+      case '-author':
       case 'cc':
+      case '-cc':
       case 'commentby':
+      case '-commentby':
       case 'committer':
+      case '-committer':
       case 'from':
+      case '-from':
       case 'owner':
+      case '-owner':
       case 'reviewedby':
+      case '-reviewedby':
       case 'reviewer':
+      case '-reviewer':
         // Fetch accounts.
         return this.accountSuggestions(predicate, expression);
 

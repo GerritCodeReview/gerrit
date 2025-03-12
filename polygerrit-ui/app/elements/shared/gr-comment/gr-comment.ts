@@ -244,6 +244,8 @@ export class GrComment extends LitElement {
   @state()
   generateSuggestion = true;
 
+  @state() enableGeneratedSuggestedFix = false;
+
   @state()
   generatedFixSuggestion: FixSuggestionInfo | undefined =
     this.comment?.fix_suggestions?.[0];
@@ -470,6 +472,11 @@ export class GrComment extends LitElement {
         this.generateSuggestion = false;
       }
     }
+    void this.getSuggestionsService()
+      .enableGeneratedSuggestedFix(this.comment)
+      .then(enabled => {
+        this.enableGeneratedSuggestedFix = enabled;
+      });
   }
 
   override disconnectedCallback() {
@@ -1143,7 +1150,7 @@ export class GrComment extends LitElement {
   // private but used in test
   showGeneratedSuggestion() {
     return (
-      this.getSuggestionsService().enableGeneratedSuggestedFix(this.comment) &&
+      this.enableGeneratedSuggestedFix &&
       this.editing &&
       !this.permanentEditingMode &&
       this.comment &&

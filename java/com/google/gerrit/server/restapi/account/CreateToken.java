@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.mail.EmailFactories.PASSWORD_UPDATED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
@@ -91,6 +92,7 @@ public class CreateToken
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Response<TokenInfo> apply(AccountResource rsrc, IdString id, TokenInput input)
       throws AuthException,
           ResourceNotFoundException,

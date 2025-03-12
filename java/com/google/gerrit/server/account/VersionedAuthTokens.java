@@ -107,7 +107,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
     return tokens;
   }
 
-  /** Returns all authorization tokens. */
+  /** Returns all authentication tokens. */
   List<AuthToken> getTokens() {
     checkLoaded();
     return tokens;

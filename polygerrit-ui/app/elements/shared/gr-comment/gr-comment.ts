@@ -97,6 +97,7 @@ import {
 } from '../../../utils/autocomplete-cache';
 import {HintAppliedEventDetail, HintShownEventDetail} from '../../../api/embed';
 import {levenshteinDistance} from '../../../utils/string-util';
+import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -303,6 +304,11 @@ export class GrComment extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getStorage = resolve(this, storageServiceToken);
+
+  private readonly getSuggestionsService = resolve(
+    this,
+    suggestionsServiceToken
+  );
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -1154,7 +1160,7 @@ export class GrComment extends LitElement {
   // private but used in test
   showGeneratedSuggestion() {
     return (
-      this.suggestionsProvider &&
+      this.getSuggestionsService().enableGeneratedSuggestedFix(this.comment) &&
       this.editing &&
       !this.permanentEditingMode &&
       this.comment &&
@@ -1164,10 +1170,6 @@ export class GrComment extends LitElement {
       // Disable for comments on the left side of the diff, files can be deleted
       // or such suggestions cannot be applied.
       this.comment?.side !== CommentSide.PARENT &&
-      (!this.suggestionsProvider.supportedFileExtensions ||
-        this.suggestionsProvider.supportedFileExtensions.includes(
-          getFileExtension(this.comment.path)
-        )) &&
       this.comment === this.comments?.[0] && // Is first comment
       !isFileLevelComment(this.comment) &&
       !hasUserSuggestion(this.comment) &&
@@ -1271,58 +1273,29 @@ export class GrComment extends LitElement {
   }
 
   private async generateSuggestEdit() {
-    const suggestionsProvider = this.suggestionsProvider;
     const changeInfo = this.getChangeModel().getChange();
     if (
-      !suggestionsProvider?.suggestFix ||
       !this.showGeneratedSuggestion() ||
       !this.generateSuggestion ||
       !changeInfo ||
-      !this.comment ||
-      !this.comment.patch_set ||
-      !this.comment.path ||
       this.messageText.length === 0
     )
       return;
     this.generatedSuggestionId = uuid();
-    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
-      uuid: this.generatedSuggestionId,
-      type: 'suggest-fix',
-      commentId: this.comment.id,
-      fileExtension: getFileExtension(this.comment.path ?? ''),
-    });
     this.suggestionLoading = true;
-    let suggestionResponse;
+    let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestionResponse = await suggestionsProvider.suggestFix({
-        prompt: this.messageText,
-        changeInfo: changeInfo as ChangeInfo,
-        patchsetNumber: this.comment?.patch_set,
-        filePath: this.comment.path,
-        range: this.comment.range,
-        lineNumber: this.comment.line,
-      });
+      suggestion = await this.getSuggestionsService().generateSuggestedFix(
+        this.comment,
+        changeInfo as ChangeInfo,
+        this.messageText,
+        this.generatedSuggestionId
+      );
     } finally {
       this.suggestionLoading = false;
     }
 
-    if (!suggestionResponse) return;
-    // TODO(milutin): The suggestionResponse can contain multiple suggestion
-    // options. We pick the first one for now. In future we shouldn't ignore
-    // other suggestions.
-    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
-      uuid: this.generatedSuggestionId,
-      type: 'suggest-fix',
-      commentId: this.comment.id,
-      response: suggestionResponse.responseCode,
-      numSuggestions: suggestionResponse.fix_suggestions.length,
-      fileExtension: getFileExtension(this.comment.path ?? ''),
-      logProbability: suggestionResponse.fix_suggestions?.[0]?.log_probability,
-    });
-    const suggestion = suggestionResponse.fix_suggestions?.[0];
-    if (!suggestion?.replacements || suggestion.replacements.length === 0) {
-      return;
-    }
+    if (!suggestion) return;
     this.generatedFixSuggestion = suggestion;
 
     try {

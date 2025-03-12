@@ -73,6 +73,10 @@ import {
   relatedChangesModelToken,
 } from '../models/change/related-changes-model';
 import {Finalizable} from '../types/types';
+import {
+  SuggestionsService,
+  suggestionsServiceToken,
+} from './suggestions/suggestions-service';
 
 /**
  * The AppContext lazy initializator for all services
@@ -236,6 +240,15 @@ export function createAppDependencies(
           appContext.flagsService,
           appContext.reportingService,
           resolver(userModelToken)
+        ),
+    ],
+    [
+      suggestionsServiceToken,
+      () =>
+        new SuggestionsService(
+          appContext.reportingService,
+          resolver(pluginLoaderToken).pluginsModel,
+          resolver(changeModelToken)
         ),
     ],
   ]);

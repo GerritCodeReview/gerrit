@@ -12,6 +12,10 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {createSearchUrl} from '../../../models/views/search';
 
+export function statusToClassName(str?: ChangeStates) {
+  return str ? str.toLowerCase().replace(/\s/g, '-') : '';
+}
+
 export const WIP_TOOLTIP =
   "This change isn't ready to be reviewed or submitted. " +
   'It will not appear on dashboards unless you are in the attention set, ' +
@@ -166,10 +170,6 @@ export class GrChangeStatus extends LitElement {
     return this.status ?? '';
   }
 
-  private toClassName(str?: ChangeStates) {
-    return str ? str.toLowerCase().replace(/\s/g, '-') : '';
-  }
-
   // private but used in test
   hasStatusLink(): boolean {
     const isRevertCreatedOrSubmitted =
@@ -209,9 +209,9 @@ export class GrChangeStatus extends LitElement {
 
   private updateChipDetails(previousStatus?: ChangeStates) {
     if (previousStatus) {
-      this.classList.remove(this.toClassName(previousStatus));
+      this.classList.remove(statusToClassName(previousStatus));
     }
-    this.classList.add(this.toClassName(this.status));
+    this.classList.add(statusToClassName(this.status));
 
     switch (this.status) {
       case ChangeStates.WIP:

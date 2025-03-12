@@ -153,6 +153,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {assign} from '../../../utils/location-util';
+import {statusToClassName} from '../../shared/gr-change-status/gr-change-status';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -2399,7 +2400,7 @@ export class GrChangeView extends LitElement {
     const classes = ['header'];
     const status = this.computeChangeStatusChips()?.[0];
     if (status) {
-      classes.push(status.toLowerCase());
+      classes.push(statusToClassName(status));
     }
     if (this.editMode) {
       classes.push('editMode');

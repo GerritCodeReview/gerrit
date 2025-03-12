@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.mail.EmailFactories.PASSWORD_UPDATED;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.common.Input;
@@ -75,6 +76,7 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
     return apply(rsrc.getUser(), rsrc.getId(), true);
   }
 
+  @CanIgnoreReturnValue
   public Response<String> apply(IdentifiedUser user, String id, boolean notify)
       throws RepositoryNotFoundException,
           IOException,

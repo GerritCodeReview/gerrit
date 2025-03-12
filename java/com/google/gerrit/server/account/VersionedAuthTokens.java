@@ -112,7 +112,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
     return tokens;
   }
 
-  /** Returns all authorization tokens. */
+  /** Returns all authentication tokens. */
   ImmutableList<AuthToken> getTokens() {
     checkLoaded();
     return ImmutableList.copyOf(tokens.values());

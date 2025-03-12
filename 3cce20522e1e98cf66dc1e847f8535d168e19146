@@ -51,6 +51,24 @@
       "parentUuid": "6d15b263_851ba29d",
       "revId": "3cce20522e1e98cf66dc1e847f8535d168e19146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58dd16bd_5cedc67a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-12T06:27:54Z",
+      "side": 1,
+      "message": "I think that was done in 459004: Bump JGit to e328d203f (stable-6.10 tip) | https://gerrit-review.googlesource.com/c/gerrit/+/459004",
+      "parentUuid": "77c48da9_96ec4f6b",
+      "revId": "3cce20522e1e98cf66dc1e847f8535d168e19146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

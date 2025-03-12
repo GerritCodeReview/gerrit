@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.auth.AuthTokenInfo;
@@ -91,6 +92,7 @@ public class CreateToken
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Response<AuthTokenInfo> apply(AccountResource rsrc, IdString id, AuthTokenInput input)
       throws AuthException,
           ResourceNotFoundException,

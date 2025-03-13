@@ -16,6 +16,24 @@
       "message": "Apparently, Edwin fixed the same issue 5 years ago in [1]. This indicates that we had a regression recently. Maybe it would be better to find out which change introduced that regression?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/256853",
       "revId": "80a78288667ee2483983da15b901e2272638881c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab6ac8c_6187548e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-13T17:42:37Z",
+      "side": 1,
+      "message": "\u003e Apparently, Edwin fixed the same issue 5 years ago in [1].\n\nNot exactly: this is a different issue because the `try {} catch {}` introduced was managing a NoteDb entry that was missing; however, when I introduced the virtual-id, I made the mistake of putting the encoding *outside* the block and thus causing this additional bug.\n\n\u003e This indicates that we had a regression recently. Maybe it would be better to find out which change introduced that regression?\n\nIt was introduced by @ponch78@gmail.com last year with I64f55e8af61 on stable-3.10 and it is now fixed here.\n\n\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/256853",
+      "parentUuid": "690e7e3c_20b7bd3e",
+      "revId": "80a78288667ee2483983da15b901e2272638881c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

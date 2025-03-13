@@ -1547,6 +1547,7 @@ export class GrDiffView extends LitElement {
     await this.diffHost.reload(true);
     this.reporting.diffViewDisplayed();
     if (this.isBlameLoaded) this.loadBlame();
+    this.isShowingEntireFile = this.diffHost?.isShowFullContext() ?? false;
   }
 
   /**

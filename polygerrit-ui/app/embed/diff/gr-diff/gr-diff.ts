@@ -588,6 +588,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.diffModel.createCommentOnRange(range, side);
   }
 
+  isShowFullContext() {
+    return this.diffModel.getState().showFullContext === FullContext.YES;
+  }
+
   private lineOfInterestChanged() {
     if (this.loading) return;
     if (!this.lineOfInterest) return;

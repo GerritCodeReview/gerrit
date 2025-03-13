@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e3730e_7d4fdd2c",
+        "filename": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-13T08:35:13Z",
+      "side": 1,
+      "message": "I agree, I am back in subscribing to suggestion plugin",
+      "parentUuid": "380af530_5f848176",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "revId": "7dc18a1fa952ee5f4ed311ac6fdbcbf55228b4fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f18a462_10ce0a5c",
@@ -169,6 +193,30 @@
           ]
         }
       ],
+      "revId": "7dc18a1fa952ee5f4ed311ac6fdbcbf55228b4fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5deb033_88fbc488",
+        "filename": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-13T08:35:13Z",
+      "side": 1,
+      "message": "I agree, I am subscribing to change",
+      "parentUuid": "1f18a462_10ce0a5c",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 34
+      },
       "revId": "7dc18a1fa952ee5f4ed311ac6fdbcbf55228b4fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

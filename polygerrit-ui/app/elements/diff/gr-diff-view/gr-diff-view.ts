@@ -610,11 +610,10 @@ export class GrDiffView extends LitElement {
         .editMode .hideOnEdit {
           display: none;
         }
-        .blameLoader,
         .fileNum {
           display: none;
         }
-        .blameLoader.show,
+        .blameLoader,
         .fileNum.show,
         .download,
         .preferences,
@@ -1162,14 +1161,14 @@ export class GrDiffView extends LitElement {
 
   private renderBlameButton() {
     if (!this.allowBlame) return;
-    const blameLoaderClass =
-      !isMagicPath(this.path) && !isImageDiff(this.diff) ? 'show' : '';
+    const showBlameLoader = !isMagicPath(this.path) && !isImageDiff(this.diff);
+    if (!showBlameLoader) return;
     let blameToggleLabel = 'Loading blame ...';
     if (!this.isBlameLoading) {
       blameToggleLabel = this.isBlameLoaded ? 'Hide Blame' : 'Show Blame';
     }
     return html`<span class="separator"></span
-      ><span class="blameLoader ${blameLoaderClass}">
+      ><span class="blameLoader">
         <gr-button
           link=""
           id="toggleBlame"
@@ -1521,7 +1520,7 @@ export class GrDiffView extends LitElement {
     }
 
     idx += direction;
-    // Redirect to the change view if noUp isn’t truthy and idx falls
+    // Redirect to the change view if noUp isn't truthy and idx falls
     // outside the bounds of [0, fileList.length).
     if (idx < 0 || idx > fileList.length - 1) {
       return {up: true};

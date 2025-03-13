@@ -290,7 +290,7 @@ suite('gr-diff-view tests', () => {
                   Show Entire File
                 </gr-button>
                 <span class="separator"> </span>
-                <span class="blameLoader show">
+                <span class="blameLoader">
                   <gr-button
                     aria-disabled="false"
                     id="toggleBlame"

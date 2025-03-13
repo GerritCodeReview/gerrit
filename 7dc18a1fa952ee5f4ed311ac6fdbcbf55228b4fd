@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "380af530_5f848176",
+        "filename": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-13T08:04:57Z",
+      "side": 1,
+      "message": "That is too much of an ugly hack. You have to decide whether you want to make the suggestions service a model or not.\n\nIf yes, then it should emit the suggestions provider info and gr-comment can subscribe to it and store the info in a state to trigger rendering.\n\nIf no, then gr-comment should subscribe to `pluginsModel.suggestionsPlugins$` and/or `pluginsModel.pluginsLoaded$` and pass the values into this function.",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "755cc734_799dd582",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 51,
+                "startChar": 0,
+                "endLine": 67,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "7dc18a1fa952ee5f4ed311ac6fdbcbf55228b4fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f18a462_10ce0a5c",
+        "filename": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-13T08:04:57Z",
+      "side": 1,
+      "message": "It would be preferred to subscribe to the model instead of calling it for the current value.",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "59b9c6e6_9f2daf96",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 6,
+                "startChar": 0,
+                "endLine": 7,
+                "endChar": 0
+              },
+              "replacement": "import {BehaviorSubject, Finalizable} from \u0027../../types/types\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 21,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "import {id, isDraft} from \u0027../../utils/comment-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 30,
+                "startChar": 0,
+                "endLine": 30,
+                "endChar": 0
+              },
+              "replacement": "  private readonly changePrivate$ \u003d new BehaviorSubject\u003cboolean\u003e(false);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 40,
+                "startChar": 0,
+                "endLine": 40,
+                "endChar": 0
+              },
+              "replacement": "    this.changeModel.change$.subscribe(change \u003d\u003e {\n      this.changePrivate$.next(change?.is_private ?? false);\n    });\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 81,
+                "startChar": 0,
+                "endLine": 82,
+                "endChar": 0
+              },
+              "replacement": "      !this.changePrivate$.value\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 98,
+                "startChar": 0,
+                "endLine": 100,
+                "endChar": 0
+              },
+              "replacement": "    const changeInfo \u003d await this.changeModel.change$;\n    if (!changeInfo || !changeInfo.value) return;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 108,
+                "startChar": 0,
+                "endLine": 109,
+                "endChar": 0
+              },
+              "replacement": "      changeInfo: changeInfo.value as ChangeInfo,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 148,
+                "startChar": 0,
+                "endLine": 150,
+                "endChar": 0
+              },
+              "replacement": "    const changeInfo \u003d await this.changeModel.change$;\n    if (!changeInfo || !changeInfo.value) return;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 154,
+                "startChar": 0,
+                "endLine": 155,
+                "endChar": 0
+              },
+              "replacement": "      changeInfo: changeInfo.value as ChangeInfo,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/suggestions/suggestions-service.ts",
+              "range": {
+                "startLine": 166,
+                "startChar": 0,
+                "endLine": 167,
+                "endChar": 0
+              },
+              "replacement": "      comments,\n      isDraft: isDraft(comment),\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7dc18a1fa952ee5f4ed311ac6fdbcbf55228b4fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

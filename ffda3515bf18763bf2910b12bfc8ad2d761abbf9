@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "915b30f3_5b9576f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3653249
+      },
+      "writtenOn": "2025-03-13T00:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d196280_ea568c92",
+      "revId": "ffda3515bf18763bf2910b12bfc8ad2d761abbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39e87f4_91dd0207",
@@ -37,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "26ef20cf_77ece14a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3653249
+      },
+      "writtenOn": "2025-03-13T00:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e39e87f4_91dd0207",
+      "revId": "ffda3515bf18763bf2910b12bfc8ad2d761abbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "752b83c9_ab4e7789",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2025-03-12T13:56:54Z",
       "side": 1,
       "message": "I think your analysis is correct, we also removed eddsa from the jgit target platform in https://eclipse.gerrithub.io/c/eclipse-egit/egit/+/1209396\n\nThis doesn\u0027t show up in the Maven build since that includes transitive dependencies implicitly.\n\nRebase this change on origin/master then it will compile since the jgit version has been updated.\n\nYou need to update the license file, after running `bazelisk build release` copy the generated file:\n\n```\n$ cp bazel-bin/Documentation/licenses.gen.txt Documentation/licenses.txt\n```\n\nand add it to this commit.",
+      "revId": "ffda3515bf18763bf2910b12bfc8ad2d761abbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e2e872_9d05caeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3653249
+      },
+      "writtenOn": "2025-03-13T00:13:43Z",
+      "side": 1,
+      "message": "That took a lot longer than I\u0027d like to admit, but done. Thank you!",
+      "parentUuid": "752b83c9_ab4e7789",
       "revId": "ffda3515bf18763bf2910b12bfc8ad2d761abbf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

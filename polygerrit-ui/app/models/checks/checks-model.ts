@@ -508,6 +508,7 @@ export class ChecksModel extends Model<ChecksState> {
       completedCount: 0,
       errorWithFixCount: 0,
       errorWithoutFixCount: 0,
+      errorWithoutFixWithCodePointersCount: 0,
       warningWithFixCount: 0,
       warningWithoutFixCount: 0,
     };
@@ -530,6 +531,9 @@ export class ChecksModel extends Model<ChecksState> {
               stats.errorWithFixCount++;
             } else {
               stats.errorWithoutFixCount++;
+              if (result.codePointers?.length) {
+                stats.errorWithoutFixWithCodePointersCount++;
+              }
             }
           }
           if (result.category === Category.WARNING) {

@@ -52,6 +52,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,6 +105,11 @@ public class DefaultMemoryCacheFactoryTest {
     cacheGetStarted = new CyclicBarrier(2);
     cacheGetCompleted = new CyclicBarrier(2);
     evictionReceived = new CyclicBarrier(2);
+  }
+
+  @After
+  public void shutDown() {
+    executor.close();
   }
 
   @Test

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b70d58d_f1f1a13d",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-13T17:45:31Z",
+      "side": 1,
+      "message": "Could we possibly keep the `byLegacyChangeId` as first choice and, if that\u0027s not found, automatically use the `byChangeNumber` as fallback?\n\nThat would preserve the functionality without impacting the performance for Google because the 1st choice is always using the legacy mode.\n\n@brohlfs@google.com would that work?",
+      "range": {
+        "startLine": 226,
+        "startChar": 25,
+        "endLine": 226,
+        "endChar": 51
+      },
+      "revId": "5201dcd90401cfcd83b03f431a9e275117ea14ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -25,7 +25,7 @@ import {when} from 'lit/directives/when.js';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
-import {ChangeStatus} from '../../../api/rest-api';
+import {ChangeStatus, FixSuggestionInfo} from '../../../api/rest-api';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -41,6 +41,9 @@ export class GrFixSuggestions extends LitElement {
 
   @property({type: Object})
   comment?: Comment;
+
+  @property({type: Object})
+  generated_fix_suggestions?: FixSuggestionInfo[];
 
   @state() private docsBaseUrl = '';
 
@@ -174,8 +177,8 @@ export class GrFixSuggestions extends LitElement {
   }
 
   override render() {
-    if (!this.comment?.fix_suggestions) return;
-    const fix_suggestions = this.comment.fix_suggestions;
+    const fix_suggestions = this.getFixSuggestions();
+    if (!fix_suggestions) return;
     return html`<div class="header">
         <div class="title">
           <span
@@ -228,7 +231,7 @@ export class GrFixSuggestions extends LitElement {
         </div>
       </div>
       <gr-suggestion-diff-preview
-        .fixSuggestionInfo=${this.comment?.fix_suggestions?.[0]}
+        .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
         .patchSet=${this.comment?.patch_set}
         .commentId=${this.comment?.id}
         @preview-loaded=${() => (this.previewLoaded = true)}
@@ -270,17 +273,21 @@ export class GrFixSuggestions extends LitElement {
     `;
   }
 
+  getFixSuggestions() {
+    return this.comment?.fix_suggestions || this.generated_fix_suggestions;
+  }
+
   handleShowFix() {
-    if (!this.comment?.fix_suggestions || !this.comment?.patch_set) return;
+    const fixSuggestions = this.getFixSuggestions();
+    if (!fixSuggestions || !this.comment?.patch_set) return;
     const eventDetail: OpenFixPreviewEventDetail = {
-      fixSuggestions: this.comment.fix_suggestions.map(s => {
+      fixSuggestions: fixSuggestions.map(s => {
         return {
           ...s,
           fix_id: PROVIDED_FIX_ID,
           description:
-            this.suggestionsProvider?.getFixSuggestionTitle?.(
-              this.comment?.fix_suggestions
-            ) || 'Suggested edit',
+            this.suggestionsProvider?.getFixSuggestionTitle?.(fixSuggestions) ||
+            'Suggested edit',
         };
       }),
       patchNum: this.comment.patch_set,
@@ -294,7 +301,7 @@ export class GrFixSuggestions extends LitElement {
   }
 
   async handleApplyFix() {
-    if (!this.comment?.fix_suggestions) return;
+    if (!this.getFixSuggestions()) return;
     this.applyingFix = true;
     try {
       await this.suggestionDiffPreview?.applyFix();
@@ -320,7 +327,7 @@ export class GrFixSuggestions extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    if (changedProperties.has('comment') && this.comment?.fix_suggestions) {
+    if (changedProperties.has('comment') && this.getFixSuggestions()) {
       this.previewLoaded = false;
     }
   }

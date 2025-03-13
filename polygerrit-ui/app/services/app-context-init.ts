@@ -244,12 +244,7 @@ export function createAppDependencies(
     ],
     [
       suggestionsServiceToken,
-      () =>
-        new SuggestionsService(
-          appContext.reportingService,
-          resolver(pluginLoaderToken).pluginsModel,
-          resolver(changeModelToken)
-        ),
+      () => new SuggestionsService(appContext.reportingService),
     ],
   ]);
 }

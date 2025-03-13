@@ -990,13 +990,14 @@ export class GrCommentThread extends LitElement {
     this.generatedSuggestionId = uuid();
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion = await this.getSuggestionsService().generateSuggestedFix(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
-        comment,
-        comment.message,
-        this.generatedSuggestionId
-      );
+      suggestion =
+        await this.getSuggestionsService().generateSuggestedFixForComment(
+          this.suggestionsProvider,
+          this.change as ChangeInfo,
+          comment,
+          comment.message,
+          this.generatedSuggestionId
+        );
     } finally {
       this.suggestionLoading = false;
     }
@@ -1012,7 +1013,7 @@ export class GrCommentThread extends LitElement {
     if (this.thread.comments.length !== 1) return false;
     const comment = this.thread.comments[0];
     if (
-      !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
+      !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabledForComment(
         this.suggestionsProvider,
         this.change as ChangeInfo,
         comment

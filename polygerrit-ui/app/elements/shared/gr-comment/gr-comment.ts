@@ -1166,7 +1166,7 @@ export class GrComment extends LitElement {
   // private but used in test
   showGeneratedSuggestion() {
     return (
-      this.getSuggestionsService().isGeneratedSuggestedFixEnabled(
+      this.getSuggestionsService().isGeneratedSuggestedFixEnabledForComment(
         this.suggestionsProvider,
         this.change as ChangeInfo,
         this.comment
@@ -1284,13 +1284,14 @@ export class GrComment extends LitElement {
     this.suggestionLoading = true;
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion = await this.getSuggestionsService().generateSuggestedFix(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
-        this.comment,
-        this.messageText,
-        this.generatedSuggestionId
-      );
+      suggestion =
+        await this.getSuggestionsService().generateSuggestedFixForComment(
+          this.suggestionsProvider,
+          this.change as ChangeInfo,
+          this.comment,
+          this.messageText,
+          this.generatedSuggestionId
+        );
     } finally {
       this.suggestionLoading = false;
     }

@@ -26,6 +26,17 @@ import {subscribe} from '../lit/subscription-controller';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {Interaction} from '../../constants/reporting';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {
+  ChangeInfo,
+  FixSuggestionInfo,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
+import {SuggestionsProvider} from '../../api/suggestions';
+import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
+import {when} from 'lit/directives/when.js';
+import {ParsedChangeInfo} from '../../types/types';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -48,11 +59,32 @@ export class GrDiffCheckResult extends LitElement {
   @state()
   isOwner = false;
 
+  @state()
+  change?: ParsedChangeInfo;
+
+  @state()
+  suggestionsProvider?: SuggestionsProvider;
+
+  @state()
+  suggestionLoading = false;
+
+  @state()
+  suggestion?: FixSuggestionInfo;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getSuggestionsService = resolve(
+    this,
+    suggestionsServiceToken
+  );
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -146,6 +178,17 @@ export class GrDiffCheckResult extends LitElement {
       () => this.getChangeModel().isOwner$,
       x => (this.isOwner = x)
     );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
+      suggestionsPlugins =>
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => (this.change = change)
+    );
   }
 
   protected override firstUpdated(_changedProperties: PropertyValues): void {
@@ -219,13 +262,58 @@ export class GrDiffCheckResult extends LitElement {
         hidecodepointers
         .result=${this.result}
       ></gr-result-expanded>
+      ${this.renderSuggestionPreview()}
     `;
+  }
+
+  private renderSuggestionPreview() {
+    if (!this.suggestion) return nothing;
+    return html`<gr-checks-fix-preview
+      .fixSuggestionInfos=${[this.suggestion]}
+      .patchSet=${this.result?.patchset}
+    ></gr-checks-fix-preview>`;
   }
 
   private renderActions() {
     return html`<div class="actions">
+      ${this.renderAIFixButton()}
       ${this.renderShowFixButton()}${this.renderPleaseFixButton()}
     </div>`;
+  }
+
+  private renderAIFixButton() {
+    if (!this.shouldShowAIFixButton()) return nothing;
+    return html`<gr-button
+      id="aiFixBtn"
+      link
+      class="action ai-fix"
+      ?disabled=${this.suggestionLoading}
+      @click=${this.handleAIFix}
+      >Get AI Fix
+      ${when(
+        this.suggestionLoading,
+        () => html`<span class="loadingSpin"></span>`
+      )}</gr-button
+    >`;
+  }
+
+  private shouldShowAIFixButton() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
+      return false;
+    }
+    if (
+      !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
+        this.suggestionsProvider,
+        this.change as ChangeInfo,
+        this.result?.codePointers?.[0].path
+      )
+    ) {
+      return false;
+    }
+    if (this.result?.fixes?.length) {
+      return false;
+    }
+    return this.isOwner;
   }
 
   private renderPleaseFixButton() {
@@ -286,6 +374,38 @@ export class GrDiffCheckResult extends LitElement {
   private toggleExpanded() {
     if (!this.isExpandable) return;
     this.isExpanded = !this.isExpanded;
+  }
+
+  private async handleAIFix(): Promise<void> {
+    const codePointer = this.result?.codePointers?.[0];
+    if (
+      !this.result ||
+      !this.change ||
+      !this.result.message ||
+      !codePointer ||
+      !this.suggestionsProvider ||
+      !this.isOwner
+    )
+      return;
+
+    this.suggestionLoading = true;
+    let suggestion: FixSuggestionInfo | undefined;
+    try {
+      suggestion = await this.getSuggestionsService().generateSuggestedFix(
+        this.suggestionsProvider,
+        {
+          prompt: this.result.message,
+          changeInfo: this.change as ChangeInfo,
+          patchsetNumber: this.result.patchset as RevisionPatchSetNum,
+          filePath: codePointer.path,
+          range: codePointer.range,
+        }
+      );
+    } finally {
+      this.suggestionLoading = false;
+    }
+    if (!suggestion) return;
+    this.suggestion = suggestion;
   }
 }
 

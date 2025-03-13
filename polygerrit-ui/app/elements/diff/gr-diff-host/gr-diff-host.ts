@@ -833,6 +833,11 @@ export class GrDiffHost extends LitElement {
     this.diffElement.createRangeComment();
   }
 
+  isShowFullContext() {
+    assertIsDefined(this.diffElement);
+    return this.diffElement.isShowFullContext();
+  }
+
   toggleLeftDiff() {
     assertIsDefined(this.diffElement);
     this.renderPrefs = {

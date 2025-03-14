@@ -149,6 +149,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74d69dd9_da556a76",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-14T17:30:45Z",
+      "side": 1,
+      "message": "\u003e It\u0027s a bit weird that if this permssion is blocked or not a assigned for a user that there may still be change messages from that user, which may look unexpected (e.g. if the user has the Rebase permission, they can rebase the change which adds change messages). Are we fine with this? If yes, should we document this?\n\nI agree this could be confusing. I don\u0027t think it\u0027s bad enough to rule it out as an option though.\n\n\u003e \n\u003e Alternatively, should having the Review permission rather be a pre-condition for any write action, similarly to how the Read permission is a pre-condition for any action? This way when there is spammer we only need to block the Review permission, instead of needing to block all kind of other permissions that are assigned to Registered Users as well (Rebase, Revert, voting on Code-Review, etc.).\n\nI think I would prefer this since it likely better matches user expectations and is simpler for admins, but it might be a better fit for a \"role\" concept. The three challenges I see are 1) what to name it, 2) how to deal with the current UI that doesn\u0027t show users any kind of permissions hierarchy, and 3) correctly maintaining the behavior (i.e. adding tests with/without this perm for every new access category we create). The naming of READ is obvious enough that #2 isn\u0027t typically an issue yet, but I\u0027m not confident we can find a name that works as well here. Something generic like \"Write Change Updates\" would be accurate, but probably confusing to users. It\u0027s really tempting to try this even with the risk of confusion and the maint overhead in #3.\n\nI already [suggested](https://gerrit-review.googlesource.com/c/gerrit/+/450463/comment/acc92e95_1cf66119/) reusing this perm for adding reviewers, since that\u0027s also currently only restricted to READ. If instead we stuck with our current fine-grained permissions scheme, we would create a separate \"Add Reviewer\" permission and maybe name this one \"Add Review Comment\".\n\nWe could also do both. Start with adding the fine-grained perms, then add the broader category.",
+      "parentUuid": "8a19861d_8cfc6e08",
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60175338_6db0ba2f",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 8

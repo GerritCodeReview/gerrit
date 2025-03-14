@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5dc6ec3_9409604b",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-03-14T12:05:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "68e439d7_2d9a1dc2",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53f6037b_26a85f99",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-03-10T10:05:00Z",
       "side": 1,
       "message": "`TokenCacheEntry` also contains `accountId`, so here we have a map of `accountId -\u003e (accountId, token)`, where it should be just `accountId -\u003e token`.",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee728589_e7828cd5",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-03-14T12:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53f6037b_26a85f99",
       "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +130,24 @@
       "writtenOn": "2025-03-10T10:05:00Z",
       "side": 1,
       "message": "This shows that the expected behaviour of the `TokenCache.get(accountId)` is to return that account\u0027s set of tokens. However, the `NoTokenCache.get` returns an empty list always. IMHO, the `TokenCache` abstraction is probably wrong: instead the interface should rather be named something like `TokenAccess` and whether a cache is used or not shall be an implementation detail",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28671e3d_6f041594",
+        "filename": "java/com/google/gerrit/server/account/TokenVerifier.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-03-14T12:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8202465_d5a08cb6",
       "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2c61962_3d93617a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-14T06:27:35Z",
+      "side": 0,
+      "message": "there is a singleton class that reads the config upon creation and shares the unsynchronized value each time when its needed... perhaps I\u0027m mistaken but that doesn\u0027t look like reason for big latency increase... the alternative would be to create `ReceiveCommitsAdvertiseRefsHook` with `int` value instead of config reference...",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 88
+      },
+      "revId": "d65ea206096eb005c7bab18258af28743b74f008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

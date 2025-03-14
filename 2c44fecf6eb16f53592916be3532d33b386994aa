@@ -46,6 +46,30 @@
       },
       "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c646716a_2ba872ee",
+        "filename": "contrib/gcng.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-03-14T17:46:29Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "f3b0d724_65d001a5",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 66
+      },
+      "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

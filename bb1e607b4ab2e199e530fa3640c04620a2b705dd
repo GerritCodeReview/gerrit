@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5667c22b_3b892241",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-03-16T07:04:38Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to strip the leading `-` here instead? Something like:\n\n```ts\nswitch (predicate.replace(/^-(?\u003d[a-z])/, \u0027\u0027)\n```",
+      "revId": "bb1e607b4ab2e199e530fa3640c04620a2b705dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -181,6 +181,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b7e24d5_e1682736",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-03-17T10:17:46Z",
+      "side": 1,
+      "message": "I still don\u0027t understand the added benefit of having a tag, the output of `git describe` is unambigouos even if the branch(es) move.",
+      "parentUuid": "02336c76_325281b0",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1852423f_fd52ed2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

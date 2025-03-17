@@ -205,6 +205,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cefa1f34_3fe4499f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-17T11:00:49Z",
+      "side": 1,
+      "message": "This approach seems odd to me, it\u0027s not really necessary to create a tag with that name since git can resolve `v3.2.14-43-g13eabbd5f1` without an explicit tag with that name on commit `13eabbd5f1`.\n\nNevertheless I think this fix is correct, `ReceiveCommand#getRefName` returns the name of a git ref, not an arbitrary commit-ish, hence calling `#findRef` instead of `#resolve` is the right thing to do here and should be also faster. If Gerrit wants to prohibit pushing a tag with a name created by git describe it should do so explicitly and not as side effect of using `#resolve`.",
+      "parentUuid": "c65e05ce_a7268e1a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1852423f_fd52ed2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

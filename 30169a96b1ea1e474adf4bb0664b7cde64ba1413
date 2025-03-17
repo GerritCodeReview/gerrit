@@ -133,6 +133,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bf0fab1_9071d602",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-03-17T09:48:49Z",
+      "side": 1,
+      "message": "We also `release` our internal Gerrit version with the output of `git describe` as \"release version\" without creating that tag. The creation of the tag is an unnecessary step as the output of `git describe` is as unambiguous as a tag.\nWhat do you feel is the added value of creating a tag?",
+      "parentUuid": "c65e05ce_a7268e1a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "30169a96b1ea1e474adf4bb0664b7cde64ba1413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1852423f_fd52ed2a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

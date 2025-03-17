@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.WorkInProgressOp;
@@ -46,15 +47,18 @@ public class SetReadyForReview
   private final BatchUpdate.Factory updateFactory;
   private final WorkInProgressOp.Factory opFactory;
   private final CommitUtil commitUtil;
+  private final IdentifiedUser.GenericFactory genericUserFactory;
 
   @Inject
   SetReadyForReview(
       BatchUpdate.Factory updateFactory,
       WorkInProgressOp.Factory opFactory,
-      CommitUtil commitUtil) {
+      CommitUtil commitUtil,
+      IdentifiedUser.GenericFactory genericUserFactory) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
     this.commitUtil = commitUtil;
+    this.genericUserFactory = genericUserFactory;
   }
 
   @Override
@@ -75,13 +79,38 @@ public class SetReadyForReview
           updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
         bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.ALL)));
         bu.addOp(rsrc.getChange().getId(), opFactory.create(false, input));
-        if (change.getRevertOf() != null) {
+
+        // If a revert change was created as work-in-progress notifications about the revert got
+        // suppressed. We send these notifications now when the change is marked as ready.
+        // The notifications should be sent from the user that created the revert change. If this is
+        // the same user as the user that is marking the change as ready, we can send the
+        // notifications here in the same BatchUpdate, otherwise we need to do this in a separate
+        // BatchUpdate below.
+        if (change.getRevertOf() != null
+            && change.getOwner().equals(rsrc.getUser().asIdentifiedUser().getAccountId())) {
           commitUtil.addChangeRevertedNotificationOps(
               bu, change.getRevertOf(), change.getId(), change.getKey().get().substring(1));
         }
         bu.execute();
-        return Response.ok();
       }
+
+      // If a revert change that was created by another user is marked as ready, the revert
+      // notifications should be sent from that user.
+      // Since the user is different from the user that is marking the change as ready, we need to
+      // create a new BatchUpdate.
+      if (change.getRevertOf() != null
+          && !change.getOwner().equals(rsrc.getUser().asIdentifiedUser().getAccountId())) {
+        try (BatchUpdate bu =
+            updateFactory.create(
+                rsrc.getProject(), genericUserFactory.create(change.getOwner()), TimeUtil.now())) {
+          bu.setNotify(
+              NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.ALL)));
+          commitUtil.addChangeRevertedNotificationOps(
+              bu, change.getRevertOf(), change.getId(), change.getKey().get().substring(1));
+          bu.execute();
+        }
+      }
+      return Response.ok();
     }
   }
 

@@ -460,14 +460,14 @@ export class GrApplyFixDialog extends LitElement {
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     let res: Response | undefined = undefined;
     // Similar to gr-suggestion-diff-preview.ts:applyFix()
-    if (this.fixSuggestions?.[0].fix_id === PROVIDED_FIX_ID) {
+    if (this.fixSuggestions?.[this.selectedFixIdx].fix_id === PROVIDED_FIX_ID) {
       let errorText = '';
       let status = '';
       try {
         res = await this.restApiService.applyFixSuggestion(
           changeNum,
           patchNum,
-          this.fixSuggestions[0].replacements,
+          this.fixSuggestions[this.selectedFixIdx].replacements,
           this.latestPatchNum
         );
       } catch (error) {

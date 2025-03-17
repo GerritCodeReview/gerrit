@@ -16,6 +16,7 @@ import {PatchSetNum, PatchSetNumber} from '../../../types/common';
 import {
   createFixSuggestionInfo,
   createParsedChange,
+  createRange,
   createRevisions,
   getCurrentRevision,
 } from '../../../test/test-data-generators';
@@ -26,6 +27,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {testResolver} from '../../../test/common-test-setup';
+import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;
@@ -306,5 +308,59 @@ suite('gr-apply-fix-dialog tests', () => {
     element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);
     element.onCancel(new CustomEvent('cancel'));
     sinon.assert.calledOnceWithExactly(closeFixPreviewEventSpy, false);
+  });
+
+  test('applies second fix with PROVIDED_FIX_ID', async () => {
+    const applyFixSuggestionStub = stubRestApi('applyFixSuggestion').returns(
+      Promise.resolve(new Response(null, {status: 200}))
+    );
+
+    const fixes: OpenFixPreviewEventDetail = {
+      patchNum: 2 as PatchSetNum,
+      fixSuggestions: [
+        {
+          ...createFixSuggestionInfo('fix_1'),
+          fix_id: PROVIDED_FIX_ID,
+          replacements: [
+            {
+              path: 'file1.txt',
+              replacement: 'new content',
+              range: createRange(),
+            },
+          ],
+        },
+        {
+          ...createFixSuggestionInfo('fix_2'),
+          fix_id: PROVIDED_FIX_ID,
+          replacements: [
+            {
+              path: 'file2.txt',
+              replacement: 'other content',
+              range: createRange(),
+            },
+          ],
+        },
+      ],
+      onCloseFixPreviewCallbacks: [],
+    };
+
+    await open(fixes);
+    element.onNextFixClick(new CustomEvent('click'));
+    await element.updateComplete;
+
+    await element.handleApplyFix(new CustomEvent('confirm'));
+
+    sinon.assert.calledOnceWithExactly(
+      applyFixSuggestionStub,
+      element.change!._number,
+      2 as PatchSetNum,
+      [{path: 'file2.txt', replacement: 'other content', range: createRange()}],
+      element.latestPatchNum
+    );
+    assert.isTrue(setUrlStub.called);
+    assert.equal(
+      setUrlStub.lastCall.firstArg,
+      '/c/test-project/+/42/2..edit?forceReload=true'
+    );
   });
 });

@@ -118,6 +118,15 @@ export class GrChecksFixPreview extends LitElement {
         .header .title {
           flex: 1;
         }
+        .fix-picker {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+        }
+        .fix-picker gr-button {
+          display: flex;
+          align-items: center;
+        }
         .loading {
           border: 1px solid var(--border-color);
           padding: var(--spacing-xl);
@@ -140,9 +149,7 @@ export class GrChecksFixPreview extends LitElement {
           ${fixSuggestionCount > 1
             ? html`
                 <div class="fix-picker">
-                  <span
-                    >${this.selectedFixIdx + 1} of ${fixSuggestionCount}</span
-                  >
+                  ${this.selectedFixIdx + 1} of ${fixSuggestionCount}
                   <gr-button
                     id="prevFix"
                     link

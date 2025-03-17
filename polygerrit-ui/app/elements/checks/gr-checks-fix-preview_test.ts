@@ -131,7 +131,7 @@ suite('gr-checks-fix-preview test', () => {
           <div class="title">
             <span> Attached Fix </span>
             <div class="fix-picker">
-              <span> 1 of 2 </span>
+              1 of 2
               <gr-button
                 aria-disabled="true"
                 disabled=""

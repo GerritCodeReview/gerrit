@@ -1225,6 +1225,8 @@ public class ChangeData {
           }
         }
 
+        logger.atFine().log(
+            "Submit requirements evaluated for open change: %s", submitRequirements);
         return submitRequirements;
       }
       // Closed changes: Load submit requirement results from NoteDb.
@@ -1232,6 +1234,8 @@ public class ChangeData {
           notes().getSubmitRequirementsResult().stream()
               .filter(r -> !r.isLegacy())
               .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
+      logger.atFine().log(
+          "Submit requirements loaded from NoteDb for closed change: %s", submitRequirements);
     }
     return submitRequirements;
   }

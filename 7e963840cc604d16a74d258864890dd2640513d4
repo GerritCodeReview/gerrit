@@ -22,6 +22,41 @@
       },
       "revId": "7e963840cc604d16a74d258864890dd2640513d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6f30fc1_91ad5d16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-18T12:20:41Z",
+      "side": 1,
+      "message": "Comment removed by: Milutin Kristofic; Reason: testing",
+      "fixSuggestions": [
+        {
+          "fixId": "33ebfffc_0ba08cb4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+              "range": {
+                "startLine": 3,
+                "startChar": 0,
+                "endLine": 4,
+                "endChar": 0
+              },
+              "replacement": " * Copyright 2025 Google LLC\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7e963840cc604d16a74d258864890dd2640513d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,6 +37,7 @@ import {SuggestionsProvider} from '../../api/suggestions';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {when} from 'lit/directives/when.js';
 import {ParsedChangeInfo} from '../../types/types';
+import {fireAlert} from '../../utils/event-util';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -404,7 +405,10 @@ export class GrDiffCheckResult extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) return;
+    if (!suggestion) {
+      fireAlert(this, 'No suitable AI fix could be found');
+      return;
+    }
     this.suggestion = suggestion;
     this.isExpanded = true;
   }

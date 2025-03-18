@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8755ddd4_813aef06",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-18T15:47:51Z",
+      "side": 1,
+      "message": "I would very much prefer, if the suggestion service could get `suggestionsProvider` and `change` by subcribing instead of getting this passed in from the caller.",
+      "range": {
+        "startLine": 638,
+        "startChar": 7,
+        "endLine": 639,
+        "endChar": 34
+      },
+      "revId": "45e49c108594ab3b028b1db9cc0736f6c816cd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d719d5e_95468804",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-18T15:47:51Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 738,
+        "startChar": 7,
+        "endLine": 741,
+        "endChar": 48
+      },
+      "revId": "45e49c108594ab3b028b1db9cc0736f6c816cd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

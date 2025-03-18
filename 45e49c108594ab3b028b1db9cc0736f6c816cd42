@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98acc193_7b0cde36",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-18T17:29:53Z",
+      "side": 1,
+      "message": "Ok. I will do suggestionsServiceUpdated$ in follow up",
+      "parentUuid": "f62a15cb_7920a3cd",
+      "range": {
+        "startLine": 638,
+        "startChar": 7,
+        "endLine": 639,
+        "endChar": 34
+      },
+      "revId": "45e49c108594ab3b028b1db9cc0736f6c816cd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d719d5e_95468804",
@@ -85,6 +109,30 @@
       "writtenOn": "2025-03-18T15:47:51Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 738,
+        "startChar": 7,
+        "endLine": 741,
+        "endChar": 48
+      },
+      "revId": "45e49c108594ab3b028b1db9cc0736f6c816cd42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f9138e9_8b6235fd",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-18T17:29:53Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4d719d5e_95468804",
       "range": {
         "startLine": 738,
         "startChar": 7,

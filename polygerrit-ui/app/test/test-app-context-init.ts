@@ -9,6 +9,7 @@ import {create, Registry} from '../services/registry';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
+import {suggestionsServiceMock} from './mocks/suggestions-service_mock';
 import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
@@ -23,6 +24,7 @@ import {
   DiffModel,
 } from '../embed/diff/gr-diff-model/gr-diff-model';
 import {Finalizable} from '../types/types';
+import {suggestionsServiceToken} from '../services/suggestions/suggestions-service';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -55,5 +57,6 @@ export function createTestDependencies(
     () => new MockHighlightService(appContext.reportingService)
   );
   dependencies.set(diffModelToken, () => new DiffModel(document));
+  dependencies.set(suggestionsServiceToken, () => suggestionsServiceMock);
   return dependencies;
 }

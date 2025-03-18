@@ -1624,15 +1624,15 @@ suite('gr-rest-api-service-impl tests', () => {
     );
   });
 
-  test('generateAccountHttpPassword', async () => {
+  test('generateAccountAuthToken', async () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
-    await element.generateAccountHttpPassword();
+    await element.generateAccountAuthToken('token1');
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {generate: true}
+      {id: 'token1'}
     );
   });
 

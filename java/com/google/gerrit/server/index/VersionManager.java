@@ -39,8 +39,24 @@ import org.eclipse.jgit.lib.Config;
 
 /** Trigger for online reindexing in case the index version in use is not the latest. */
 public abstract class VersionManager implements LifecycleListener {
-  public static boolean getOnlineUpgrade(Config cfg) {
-    return cfg.getBoolean("index", null, "onlineUpgrade", true);
+  public enum OnlineUpgrade {
+    /** Enable online upgrade and reindex. */
+    TRUE,
+
+    /** Enable online upgrade only and skip doing the online reindex */
+    NO_REINDEX,
+
+    /** Skip online upgrade and reindex */
+    FALSE
+  }
+
+  public static OnlineUpgrade getOnlineUpgrade(Config cfg) {
+    return cfg.getEnum("index", null, "onlineUpgrade", OnlineUpgrade.TRUE);
+  }
+
+  public static boolean performOnlineUpgrade(Config cfg) {
+    OnlineUpgrade onlineUpgrade = getOnlineUpgrade(cfg);
+    return onlineUpgrade == OnlineUpgrade.TRUE || onlineUpgrade == OnlineUpgrade.NO_REINDEX;
   }
 
   public static class Version<V> {
@@ -199,7 +215,7 @@ public abstract class VersionManager implements LifecycleListener {
     }
   }
 
-  synchronized void startOnlineUpgrade() {
+  synchronized void startOnlineUpgrade(Config cfg) {
     checkState(onlineUpgrade, "online upgrade not enabled");
     for (IndexDefinition<?, ?, ?> def : defs.values()) {
       String name = def.getName();
@@ -216,7 +232,8 @@ public abstract class VersionManager implements LifecycleListener {
           name);
       int latestWriteVersion = write.get(0).getSchema().getVersion();
 
-      if (latestWriteVersion != searchVersion) {
+      if (latestWriteVersion != searchVersion
+          && VersionManager.getOnlineUpgrade(cfg) == OnlineUpgrade.TRUE) {
         OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
         checkState(
             reindexer != null,

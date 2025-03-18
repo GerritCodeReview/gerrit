@@ -44,7 +44,7 @@ public class FakeIndexVersionManager extends VersionManager {
         sitePaths,
         listeners,
         defs,
-        VersionManager.getOnlineUpgrade(cfg),
+        VersionManager.performOnlineUpgrade(cfg),
         cfg.getBoolean("index", "reuseExistingDocuments", false));
   }
 

@@ -3525,6 +3525,14 @@ running. This is recommended as it prevents additional downtime during
 Gerrit version upgrades (avoiding the need for an offline reindex step
 using Reindex), but can add additional server load during the upgrade.
 +
+If set to `true`, perform an online upgrade by enabling writes to both
+new and old index versions while an online reindex is being done. Once
+the new index versions are ready, they will be activated.
++
+If set to `no_reindex`, writes are done to both new and old index versions,
+but online reindex is skipped. With this option, users will have to populate
+the new index versions and activate them separately.
++
 If set to `false`, there is no way to upgrade the index schema to take
 advantage of new search features without restarting the server.
 +

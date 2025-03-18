@@ -301,6 +301,9 @@ export class GrCommentThread extends LitElement {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
     this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
+    this.addEventListener('apply-user-suggestion', () => {
+      this.handleAppliedFix();
+    });
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
@@ -622,7 +625,7 @@ export class GrCommentThread extends LitElement {
               link
               class="action reply"
               ?disabled=${this.saving}
-              @click=${() => this.handleCommentReply(false)}
+              @click=${() => this.handleCommentReply(/* quote= */ false)}
           >Reply</gr-button
           >
           <gr-button
@@ -630,7 +633,7 @@ export class GrCommentThread extends LitElement {
               link
               class="action quote"
               ?disabled=${this.saving}
-              @click=${() => this.handleCommentReply(true)}
+              @click=${() => this.handleCommentReply(/* quote= */ true)}
           >Quote</gr-button
           >
           ${
@@ -955,18 +958,35 @@ export class GrCommentThread extends LitElement {
       const msg = comment.message;
       if (!msg) throw new Error('Quoting empty comment.');
       content = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
-      this.createReplyComment('', true, comment.unresolved ?? true, content);
+      this.createReplyComment(
+        '',
+        /* userWantsToEdit= */ true,
+        comment.unresolved ?? true,
+        content
+      );
     } else {
-      this.createReplyComment(content, true, comment.unresolved ?? true);
+      this.createReplyComment(
+        content,
+        /* userWantsToEdit= */ true,
+        comment.unresolved ?? true
+      );
     }
   }
 
   private handleCommentAck() {
-    this.createReplyComment('Acknowledged', false, false);
+    this.createReplyComment(
+      'Acknowledged',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
   }
 
   private handleCommentDone() {
-    this.createReplyComment('Done', false, false);
+    this.createReplyComment(
+      'Done',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
   }
 
   private handleReplyToComment(e: ReplyToCommentEvent) {
@@ -1027,6 +1047,16 @@ export class GrCommentThread extends LitElement {
     )
       return false;
     return this.isOwner && !hasUserSuggestion(comment);
+  }
+
+  private handleAppliedFix() {
+    const message = this.getLastComment()?.message;
+    assert(!!message, 'empty message');
+    this.createReplyComment(
+      'Fix applied.',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
   }
 }
 

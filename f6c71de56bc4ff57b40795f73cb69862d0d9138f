@@ -1,0 +1,115 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e66be89f_74e80338",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-18T09:33:04Z",
+      "side": 1,
+      "message": "can you specify here and in the callers what exactly you are passing in the booleans?",
+      "range": {
+        "startLine": 1038,
+        "startChar": 4,
+        "endLine": 1038,
+        "endChar": 58
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2ddd2790_dddb3a6d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 628,
+                "startChar": 0,
+                "endLine": 629,
+                "endChar": 0
+              },
+              "replacement": "              @click\u003d${() \u003d\u003e this.handleCommentReply({quote: false})}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 636,
+                "startChar": 0,
+                "endLine": 637,
+                "endChar": 0
+              },
+              "replacement": "              @click\u003d${() \u003d\u003e this.handleCommentReply({quote: true})}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 953,
+                "startChar": 0,
+                "endLine": 954,
+                "endChar": 0
+              },
+              "replacement": "  private handleCommentReply({quote}: {quote: boolean}) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 961,
+                "startChar": 0,
+                "endLine": 962,
+                "endChar": 0
+              },
+              "replacement": "      this.createReplyComment(\n        \u0027\u0027,\n        /* userWantsToEdit\u003d */ true,\n        comment.unresolved ?? true,\n        content\n      );\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 963,
+                "startChar": 0,
+                "endLine": 964,
+                "endChar": 0
+              },
+              "replacement": "      this.createReplyComment(\n        content,\n        /* userWantsToEdit\u003d */ true,\n        comment.unresolved ?? true\n      );\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 968,
+                "startChar": 0,
+                "endLine": 969,
+                "endChar": 0
+              },
+              "replacement": "    this.createReplyComment(\n      \u0027Acknowledged\u0027,\n      /* userWantsToEdit\u003d */ false,\n      /* unresolved\u003d */ false\n    );\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 972,
+                "startChar": 0,
+                "endLine": 973,
+                "endChar": 0
+              },
+              "replacement": "    this.createReplyComment(\n      \u0027Done\u0027,\n      /* userWantsToEdit\u003d */ false,\n      /* unresolved\u003d */ false\n    );\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+              "range": {
+                "startLine": 1038,
+                "startChar": 0,
+                "endLine": 1039,
+                "endChar": 0
+              },
+              "replacement": "    this.createReplyComment(\n      \u0027Fix applied.\u0027,\n      /* userWantsToEdit\u003d */ false,\n      /* unresolved\u003d */ false\n    );\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f6c71de56bc4ff57b40795f73cb69862d0d9138f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

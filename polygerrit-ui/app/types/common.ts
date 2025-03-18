@@ -1302,7 +1302,15 @@ export function isReviewerGroupSuggestion(
 
 export type RequestPayload = string | object;
 
-export type Password = string;
+export interface TokenInput {
+  id?: string;
+  token?: string;
+}
+
+export interface TokenInfo {
+  id: string;
+  token?: string;
+}
 
 /**
  * The BranchInput entity contains information for the creation of a new branch

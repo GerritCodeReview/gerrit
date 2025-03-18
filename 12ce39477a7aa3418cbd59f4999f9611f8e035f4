@@ -40,6 +40,30 @@
       ],
       "revId": "12ce39477a7aa3418cbd59f4999f9611f8e035f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd231aa_edb7bed3",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-18T09:29:43Z",
+      "side": 1,
+      "message": "This is not only about sending emails, but mostly about adding a change message to the source change saying that this change was reverted. Change updates use the user from the BatchUpdate as the author. AFAIK it\u0027s not possible to add a change message authored by one user from a BatchUpdate that was created for another user.",
+      "parentUuid": "2c53717a_9832d01a",
+      "range": {
+        "startLine": 86,
+        "startChar": 81,
+        "endLine": 88,
+        "endChar": 29
+      },
+      "revId": "12ce39477a7aa3418cbd59f4999f9611f8e035f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

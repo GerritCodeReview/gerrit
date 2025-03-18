@@ -1043,7 +1043,7 @@ export class GrCommentThread extends LitElement {
     }
     if (
       comment.fix_suggestions !== undefined &&
-      comment.fix_suggestions.length === 0
+      comment.fix_suggestions.length > 0
     )
       return false;
     return this.isOwner && !hasUserSuggestion(comment);

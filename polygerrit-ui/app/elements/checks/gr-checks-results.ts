@@ -73,7 +73,7 @@ import {
 } from '../../utils/label-util';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {fire} from '../../utils/event-util';
+import {fire, fireAlert} from '../../utils/event-util';
 import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
@@ -747,7 +747,10 @@ export class GrResultRow extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) return;
+    if (!suggestion) {
+      fireAlert(this, 'No AI fix suggestion could be generated');
+      return;
+    }
     this.suggestion = suggestion;
     this.toggleExpanded(/* setExpanded= */ true);
   }

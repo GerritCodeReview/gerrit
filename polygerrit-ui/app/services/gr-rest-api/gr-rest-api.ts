@@ -59,7 +59,6 @@ import {
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
-  Password,
   PatchRange,
   PatchSetNum,
   PathToRobotCommentsInfoMap,
@@ -92,6 +91,7 @@ import {
   DraftInfo,
   ReviewResult,
   SubmitRequirementInfo,
+  TokenInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -528,7 +528,11 @@ export interface RestApiService extends Finalizable {
 
   saveAccountAgreement(name: ContributorAgreementInput): Promise<Response>;
 
-  generateAccountHttpPassword(): Promise<Password | undefined>;
+  getAccountAuthTokens(): Promise<TokenInfo[] | undefined>;
+
+  deleteAccountAuthToken(tokenId: string): Promise<Response>;
+
+  generateAccountAuthToken(tokenId: string): Promise<TokenInfo | undefined>;
 
   setAccountName(name: string): Promise<void>;
 

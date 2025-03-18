@@ -301,6 +301,9 @@ export class GrCommentThread extends LitElement {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
     this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
+    this.addEventListener('apply-user-suggestion', () => {
+      this.handleAppliedFix();
+    });
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
@@ -1027,6 +1030,12 @@ export class GrCommentThread extends LitElement {
     )
       return false;
     return this.isOwner && !hasUserSuggestion(comment);
+  }
+
+  private handleAppliedFix() {
+    const message = this.getLastComment()?.message;
+    assert(!!message, 'empty message');
+    this.createReplyComment('Fix applied.', false, false);
   }
 }
 

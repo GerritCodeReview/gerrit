@@ -27,12 +27,14 @@ import {
   waitUntilCalled,
   waitUntil,
   MockPromise,
+  query,
 } from '../../../test/test-utils';
 import {
   createAccountDetailWithId,
   createThread,
   createNewDraft,
   createComment,
+  createFixSuggestionInfo,
 } from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -608,131 +610,146 @@ suite('gr-comment-thread tests', () => {
     );
   });
 
-  test('renders with actions unresolved and AI fix button', async () => {
-    const flagsService = getAppContext().flagsService;
-    sinon
-      .stub(flagsService, 'isEnabled')
-      .callsFake(id => id === KnownExperimentId.GET_AI_FIX);
+  suite('Get AI fix button', () => {
+    setup(async () => {
+      const flagsService = getAppContext().flagsService;
+      sinon
+        .stub(flagsService, 'isEnabled')
+        .callsFake(id => id === KnownExperimentId.GET_AI_FIX);
 
-    const suggestionsService = testResolver(suggestionsServiceToken);
-    sinon
-      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
-      .returns(true);
+      const suggestionsService = testResolver(suggestionsServiceToken);
+      sinon
+        .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
+        .returns(true);
 
-    element.isOwner = true;
-    element.account = createAccountDetailWithId(13);
-    element.thread = createThread({...c1, unresolved: true});
-    await element.updateComplete;
-    assert.dom.equal(
-      queryAndAssert(element, '#container'),
-      /* HTML */ `
-        <div id="container">
-          <h3 class="assistive-tech-only">
-            Unresolved Comment thread by Kermit
-          </h3>
-          <div class="comment-box unresolved" tabindex="0">
-            <gr-comment show-patchset=""></gr-comment>
-            <div id="actionsContainer">
-              <span id="unresolvedLabel"> Unresolved </span>
-              <div id="actions">
-                <gr-button
-                  aria-disabled="false"
-                  class="action reply"
-                  id="replyBtn"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                >
-                  Reply
-                </gr-button>
-                <gr-button
-                  aria-disabled="false"
-                  class="action quote"
-                  id="quoteBtn"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                >
-                  Quote
-                </gr-button>
-                <gr-button
-                  aria-disabled="false"
-                  class="action ack"
-                  id="ackBtn"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                >
-                  Ack
-                </gr-button>
-                <gr-button
-                  aria-disabled="false"
-                  class="action done"
-                  id="doneBtn"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                >
-                  Done
-                </gr-button>
-                <gr-button
-                  aria-disabled="false"
-                  class="action ai-fix"
-                  id="aiFixBtn"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                >
-                  Get AI Fix
-                </gr-button>
-                <gr-icon
-                  icon="link"
-                  class="copy link-icon"
-                  role="button"
-                  tabindex="0"
-                  title="Copy link to this comment"
-                ></gr-icon>
+      element.isOwner = true;
+      element.account = createAccountDetailWithId(13);
+      element.thread = createThread({...c1, unresolved: true});
+      await element.updateComplete;
+    });
+    test('renders with actions unresolved and AI fix button', async () => {
+      assert.isOk(query(element, '#aiFixBtn'));
+      assert.dom.equal(
+        queryAndAssert(element, '#container'),
+        /* HTML */ `
+          <div id="container">
+            <h3 class="assistive-tech-only">
+              Unresolved Comment thread by Kermit
+            </h3>
+            <div class="comment-box unresolved" tabindex="0">
+              <gr-comment show-patchset=""></gr-comment>
+              <div id="actionsContainer">
+                <span id="unresolvedLabel"> Unresolved </span>
+                <div id="actions">
+                  <gr-button
+                    aria-disabled="false"
+                    class="action reply"
+                    id="replyBtn"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Reply
+                  </gr-button>
+                  <gr-button
+                    aria-disabled="false"
+                    class="action quote"
+                    id="quoteBtn"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Quote
+                  </gr-button>
+                  <gr-button
+                    aria-disabled="false"
+                    class="action ack"
+                    id="ackBtn"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Ack
+                  </gr-button>
+                  <gr-button
+                    aria-disabled="false"
+                    class="action done"
+                    id="doneBtn"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Done
+                  </gr-button>
+                  <gr-button
+                    aria-disabled="false"
+                    class="action ai-fix"
+                    id="aiFixBtn"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Get AI Fix
+                  </gr-button>
+                  <gr-icon
+                    icon="link"
+                    class="copy link-icon"
+                    role="button"
+                    tabindex="0"
+                    title="Copy link to this comment"
+                  ></gr-icon>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      `
-    );
-  });
+        `
+      );
+    });
 
-  test('handleAppliedFix creates a "Fix applied" reply', async () => {
-    const thread: CommentThread = {
-      ...createThread(c1),
-      comments: [
-        {
-          ...createComment(),
-          id: '123' as any,
-          message: 'Test comment',
-          author: {name: 'Test User'},
-          patch_set: 1 as RevisionPatchSetNum,
-          line: 10,
-          path: 'test.txt',
-        },
-      ],
-    };
-    element.thread = thread;
-    element.changeNum = 123 as NumericChangeId;
-    element.change = {
-      change_id: '123',
-      project: 'test-project',
-    } as ParsedChangeInfo;
-    const createReplyCommentSpy = sinon.spy(
-      element as any,
-      'createReplyComment'
-    );
+    test('not show get ai fix if comment has fix_suggestion', async () => {
+      element.thread = createThread({
+        ...c1,
+        fix_suggestions: [createFixSuggestionInfo()],
+        unresolved: true,
+      });
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+    });
 
-    element.dispatchEvent(new CustomEvent('apply-user-suggestion'));
+    test('handleAppliedFix creates a "Fix applied" reply', async () => {
+      const thread: CommentThread = {
+        ...createThread(c1),
+        comments: [
+          {
+            ...createComment(),
+            id: '123' as any,
+            message: 'Test comment',
+            author: {name: 'Test User'},
+            patch_set: 1 as RevisionPatchSetNum,
+            line: 10,
+            path: 'test.txt',
+          },
+        ],
+      };
+      element.thread = thread;
+      element.changeNum = 123 as NumericChangeId;
+      element.change = {
+        change_id: '123',
+        project: 'test-project',
+      } as ParsedChangeInfo;
+      const createReplyCommentSpy = sinon.spy(
+        element as any,
+        'createReplyComment'
+      );
 
-    assert.isTrue(createReplyCommentSpy.calledOnce);
-    assert.deepEqual(createReplyCommentSpy.firstCall.args, [
-      'Fix applied.',
-      false,
-      false,
-    ]);
+      element.dispatchEvent(new CustomEvent('apply-user-suggestion'));
+
+      assert.isTrue(createReplyCommentSpy.calledOnce);
+      assert.deepEqual(createReplyCommentSpy.firstCall.args, [
+        'Fix applied.',
+        false,
+        false,
+      ]);
+    });
   });
 });

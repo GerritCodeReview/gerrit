@@ -10,6 +10,7 @@ import {normalize} from './gr-range-normalizer';
 import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
+import {fire} from '../../../utils/event-util';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
 import {
   getLineElByChild,
@@ -20,6 +21,13 @@ import {
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {DiffModel} from '../gr-diff-model/gr-diff-model';
+
+declare global {
+  interface HTMLElementEventMap {
+    /** Fired when the action box is removed. */
+    'selection-action-box-removed': CustomEvent<{}>;
+  }
+}
 
 interface SidedRange {
   side: Side;
@@ -446,8 +454,13 @@ export class GrDiffHighlight {
   // visible for testing
   removeActionBox() {
     this.selectedRange = undefined;
-    const actionBox = this.diffTable?.querySelector('gr-selection-action-box');
-    if (actionBox) actionBox.remove();
+    const actionBox = this.diffTable?.querySelector(
+      'gr-selection-action-box'
+    ) as GrSelectionActionBox | null;
+    if (actionBox) {
+      fire(actionBox, 'selection-action-box-removed', {});
+      actionBox.remove();
+    }
   }
 
   private convertOffsetToColumn(el: Node, offset: number) {

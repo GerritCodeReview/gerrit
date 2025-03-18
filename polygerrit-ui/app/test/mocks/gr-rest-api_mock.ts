@@ -11,6 +11,7 @@ import {
   AccountInfo,
   AccountStateInfo,
   ActionNameToActionInfoMap,
+  AuthTokenInfo,
   Base64FileContent,
   BlameInfo,
   BranchInfo,
@@ -40,7 +41,6 @@ import {
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
-  Password,
   PluginInfo,
   PreferencesInfo,
   PreferencesInput,
@@ -166,8 +166,16 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(new Response());
   },
   finalize(): void {},
-  generateAccountHttpPassword(): Promise<Password | undefined> {
-    return Promise.resolve('asdf');
+  getAccountAuthTokens(): Promise<AuthTokenInfo[] | undefined> {
+    return Promise.resolve([{id: 'tokenId', token: 'asdf'}]);
+  },
+  deleteAccountAuthToken(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
+  generateAccountAuthToken(
+    tokenId: string
+  ): Promise<AuthTokenInfo | undefined> {
+    return Promise.resolve({id: tokenId, token: 'asdf'});
   },
   getAccount(): Promise<AccountDetailInfo | undefined> {
     return Promise.resolve(createAccountDetailWithId(1));

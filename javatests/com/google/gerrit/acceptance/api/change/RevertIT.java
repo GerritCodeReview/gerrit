@@ -230,12 +230,50 @@ public class RevertIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> sourceMessages =
         new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(sourceMessages).hasSize(3);
-    // Publishing creates a revert message
+
+    // Marking the revert change as ready creates a revert message on the source change.
     gApi.changes().id(revertChange.changeId).setReadyForReview();
     sourceMessages = new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(sourceMessages).hasSize(4);
     assertThat(sourceMessages.get(3).message)
         .isEqualTo("Created a revert of this change as " + revertChange.changeId);
+    assertThat(sourceMessages.get(3).author._accountId).isEqualTo(admin.id().get());
+  }
+
+  @Test
+  public void revertChangeWithWipMarkAsReadyByOtherUser() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    RevertInput in = createWipRevertInput();
+
+    ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(in).get();
+
+    assertThat(revertChange.workInProgress).isTrue();
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Change has been successfully merged by Administrator
+    // No "reverted" message is expected.
+    List<ChangeMessageInfo> sourceMessages =
+        new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(sourceMessages).hasSize(3);
+
+    // Marking the revert change as ready creates a revert message on the source change.
+    // The revert message is authored by the user that created the revert, not the user that marked
+    // the revert change as ready.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.TOGGLE_WORK_IN_PROGRESS_STATE).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(revertChange.changeId).setReadyForReview();
+    sourceMessages = new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(sourceMessages).hasSize(4);
+    assertThat(sourceMessages.get(3).message)
+        .isEqualTo("Created a revert of this change as " + revertChange.changeId);
+    assertThat(sourceMessages.get(3).author._accountId).isEqualTo(admin.id().get());
   }
 
   @Test

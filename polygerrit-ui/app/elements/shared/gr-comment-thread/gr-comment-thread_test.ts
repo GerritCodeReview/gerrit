@@ -53,6 +53,7 @@ import {GrComment} from '../gr-comment/gr-comment';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {ParsedChangeInfo} from '../../../types/types';
+import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
 const c1: CommentInfo = {
   author: {name: 'Kermit'},
@@ -613,8 +614,9 @@ suite('gr-comment-thread tests', () => {
       .stub(flagsService, 'isEnabled')
       .callsFake(id => id === KnownExperimentId.GET_AI_FIX);
 
+    const suggestionsService = testResolver(suggestionsServiceToken);
     sinon
-      .stub(element.getSuggestionsService()!, 'isGeneratedSuggestedFixEnabled')
+      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
       .returns(true);
 
     element.isOwner = true;

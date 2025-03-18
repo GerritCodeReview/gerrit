@@ -73,11 +73,8 @@ import {
   relatedChangesModelToken,
 } from '../models/change/related-changes-model';
 import {Finalizable} from '../types/types';
-import {
-  SuggestionsService,
-  suggestionsServiceToken,
-} from './suggestions/suggestions-service';
-
+import {GrSuggestionsService} from './suggestions/suggestions-service_impl';
+import {suggestionsServiceToken} from './suggestions/suggestions-service';
 /**
  * The AppContext lazy initializator for all services
  */
@@ -244,7 +241,7 @@ export function createAppDependencies(
     ],
     [
       suggestionsServiceToken,
-      () => new SuggestionsService(appContext.reportingService),
+      () => new GrSuggestionsService(appContext.reportingService),
     ],
   ]);
 }

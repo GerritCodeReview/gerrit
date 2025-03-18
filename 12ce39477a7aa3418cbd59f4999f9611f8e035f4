@@ -64,6 +64,30 @@
       },
       "revId": "12ce39477a7aa3418cbd59f4999f9611f8e035f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4493b86_ac779a56",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-18T09:44:01Z",
+      "side": 1,
+      "message": "\u003e it\u0027s not possible to add a change message authored by one user from a BatchUpdate that was created for another user.\n\n\\*Sigh\\* This seems like a bad pattern as it forces significant logic changes away from responsible interfaces (ie. bad incapsulation). But I am guessing it\u0027s too much of a refactor to fix. Resolving",
+      "parentUuid": "1bd231aa_edb7bed3",
+      "range": {
+        "startLine": 86,
+        "startChar": 81,
+        "endLine": 88,
+        "endChar": 29
+      },
+      "revId": "12ce39477a7aa3418cbd59f4999f9611f8e035f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

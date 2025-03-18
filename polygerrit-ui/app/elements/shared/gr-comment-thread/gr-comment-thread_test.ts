@@ -17,6 +17,8 @@ import {
   RepoName,
   DraftInfo,
   SavingState,
+  CommentThread,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {
   mockPromise,
@@ -30,6 +32,7 @@ import {
   createAccountDetailWithId,
   createThread,
   createNewDraft,
+  createComment,
 } from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -49,6 +52,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {GrComment} from '../gr-comment/gr-comment';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const c1: CommentInfo = {
   author: {name: 'Kermit'},
@@ -692,5 +696,41 @@ suite('gr-comment-thread tests', () => {
         </div>
       `
     );
+  });
+
+  test('handleAppliedFix creates a "Fix applied" reply', async () => {
+    const thread: CommentThread = {
+      ...createThread(c1),
+      comments: [
+        {
+          ...createComment(),
+          id: '123' as any,
+          message: 'Test comment',
+          author: {name: 'Test User'},
+          patch_set: 1 as RevisionPatchSetNum,
+          line: 10,
+          path: 'test.txt',
+        },
+      ],
+    };
+    element.thread = thread;
+    element.changeNum = 123 as NumericChangeId;
+    element.change = {
+      change_id: '123',
+      project: 'test-project',
+    } as ParsedChangeInfo;
+    const createReplyCommentSpy = sinon.spy(
+      element as any,
+      'createReplyComment'
+    );
+
+    element.dispatchEvent(new CustomEvent('apply-user-suggestion'));
+
+    assert.isTrue(createReplyCommentSpy.calledOnce);
+    assert.deepEqual(createReplyCommentSpy.firstCall.args, [
+      'Fix applied.',
+      false,
+      false,
+    ]);
   });
 });

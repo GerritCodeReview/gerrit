@@ -34,7 +34,18 @@ export class GrSuggestionsService implements SuggestionsService {
     change?: ChangeInfo,
     path?: string
   ): boolean {
-    return (
+    // print reason for failing
+    if (
+      !!path &&
+      !!suggestionsProvider &&
+      (!suggestionsProvider.supportedFileExtensions ||
+        suggestionsProvider.supportedFileExtensions.includes(
+          getFileExtension(path)
+        ))
+    )
+      console.log('Mito - supported');
+    else console.log('Mito - path not supported');
+    const enabled =
       !!suggestionsProvider &&
       !!change &&
       !!path &&
@@ -44,8 +55,10 @@ export class GrSuggestionsService implements SuggestionsService {
       (!suggestionsProvider.supportedFileExtensions ||
         suggestionsProvider.supportedFileExtensions.includes(
           getFileExtension(path)
-        ))
-    );
+        ));
+    if (enabled) console.log('Mito - enabled');
+    else console.log('Mito - disabled');
+    return enabled;
   }
 
   public isGeneratedSuggestedFixEnabledForComment(

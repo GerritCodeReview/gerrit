@@ -17,6 +17,8 @@ package com.google.gerrit.server.index;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -37,10 +39,45 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-/** Trigger for online reindexing in case the index version in use is not the latest. */
+/**
+ * Trigger for online reindexing in case the index version in use is not the latest and when
+ * index.onlineUpgrade is true or upgrade_and_reindex. Reindexing is skipped if index.onlineUpgrade
+ * is no_reindex.
+ */
 public abstract class VersionManager implements LifecycleListener {
-  public static boolean getOnlineUpgrade(Config cfg) {
-    return cfg.getBoolean("index", null, "onlineUpgrade", true);
+  public enum OnlineUpgrade {
+    /** Enable online upgrade and reindexing */
+    UPGRADE_AND_REINDEX,
+
+    /** Enable online upgrade only and skip doing the online reindexing */
+    NO_REINDEX,
+
+    /** Skip online upgrade and reindexing */
+    SKIP
+  }
+
+  public static OnlineUpgrade getOnlineUpgrade(Config cfg) {
+    String value =
+        MoreObjects.firstNonNull(
+            Strings.emptyToNull(cfg.getString("index", null, "onlineUpgrade")),
+            "upgrade_and_reindex");
+    switch (value) {
+      case "upgrade_and_reindex":
+      case "true":
+        return OnlineUpgrade.UPGRADE_AND_REINDEX;
+      case "no_reindex":
+        return OnlineUpgrade.NO_REINDEX;
+      case "skip":
+      case "false":
+        return OnlineUpgrade.SKIP;
+      default:
+        throw new IllegalArgumentException(
+            "Unsupported value " + value + " for index.onlineUpgrade");
+    }
+  }
+
+  public static boolean shouldPerformOnlineUpgrade(Config cfg) {
+    return getOnlineUpgrade(cfg) != OnlineUpgrade.SKIP;
   }
 
   public static class Version<V> {
@@ -199,7 +236,7 @@ public abstract class VersionManager implements LifecycleListener {
     }
   }
 
-  synchronized void startOnlineUpgrade() {
+  synchronized void startOnlineUpgrade(Config cfg) {
     checkState(onlineUpgrade, "online upgrade not enabled");
     for (IndexDefinition<?, ?, ?> def : defs.values()) {
       String name = def.getName();
@@ -216,7 +253,8 @@ public abstract class VersionManager implements LifecycleListener {
           name);
       int latestWriteVersion = write.get(0).getSchema().getVersion();
 
-      if (latestWriteVersion != searchVersion) {
+      if (latestWriteVersion != searchVersion
+          && VersionManager.getOnlineUpgrade(cfg) == OnlineUpgrade.UPGRADE_AND_REINDEX) {
         OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
         checkState(
             reindexer != null,

@@ -130,6 +130,12 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
    * when the new version is fully ready.
    */
   public void activateIndex() {
+    if (index == null) {
+      index =
+          requireNonNull(
+              indexes.getWriteIndex(newVersion),
+              () -> String.format("not an active write schema version: %s %s", name, newVersion));
+    }
     indexes.setSearchIndex(index);
     logger.atInfo().log("Using %s schema version %s", name, version(index));
     index.markReady(true);

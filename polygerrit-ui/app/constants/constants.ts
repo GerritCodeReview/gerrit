@@ -64,6 +64,8 @@ export enum Tab {
   COMMENT_THREADS = 'comments',
   FINDINGS = 'findings',
   CHECKS = 'checks',
+  // TODO: Think about a better name for this tab.
+  APPLY_MULTIPLE_FIXES = 'apply-multiple-fixes',
 }
 
 /**

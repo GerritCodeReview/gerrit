@@ -1425,6 +1425,19 @@ export class GrChangeView extends LitElement {
             </paper-tab>
           `
         )}
+        ${when(
+          this.flagService.isEnabled(
+            KnownExperimentId.UI_FOR_APPLY_MULTIPLE_FIXES
+          ),
+          () => html`
+            <paper-tab
+              data-name=${Tab.APPLY_MULTIPLE_FIXES}
+              @click=${this.onPaperTabClick}
+            >
+              <span>Apply Multiple Fixes</span>
+            </paper-tab>
+          `
+        )}
       </paper-tabs>
     `;
   }

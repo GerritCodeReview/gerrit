@@ -16,6 +16,23 @@
       "message": "Comment removed by: Milutin Kristofic; Reason: spam",
       "revId": "e21c95c35e0980fe2d072b8b7cd4252091291abe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e402364a_77e40bbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3936807
+      },
+      "writtenOn": "2025-03-18T12:39:34Z",
+      "side": 1,
+      "message": "Comment removed by: Milutin Kristofic; Reason: spam",
+      "revId": "e21c95c35e0980fe2d072b8b7cd4252091291abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

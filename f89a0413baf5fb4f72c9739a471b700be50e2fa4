@@ -70,6 +70,30 @@
       },
       "revId": "f89a0413baf5fb4f72c9739a471b700be50e2fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4d4dca_b59c5770",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-18T10:22:42Z",
+      "side": 1,
+      "message": "Ok, I revert it back to quote: boolean and used /* quote */",
+      "parentUuid": "53ef9304_ea4d74c0",
+      "range": {
+        "startLine": 953,
+        "startChar": 29,
+        "endLine": 953,
+        "endChar": 54
+      },
+      "revId": "f89a0413baf5fb4f72c9739a471b700be50e2fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import './gr-http-password';
-import {GrHttpPassword} from './gr-http-password';
+import './gr-auth-token';
+import {GrAuthToken} from './gr-auth-token';
 import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {
   createAccountDetailWithId,
@@ -15,9 +15,10 @@ import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert, waitUntil} from '@open-wc/testing';
+import {TokenInfo} from '../../../types/common';
 
-suite('gr-http-password tests', () => {
-  let element: GrHttpPassword;
+suite('gr-auth-token tests', () => {
+  let element: GrAuthToken;
   let account: AccountDetailInfo;
   let config: ServerInfo;
 
@@ -28,7 +29,7 @@ suite('gr-http-password tests', () => {
     stubRestApi('getAccount').returns(Promise.resolve(account));
     stubRestApi('getConfig').returns(Promise.resolve(config));
 
-    element = await fixture(html`<gr-http-password></gr-http-password>`);
+    element = await fixture(html`<gr-auth-token></gr-auth-token>`);
     await waitUntil(
       () => element.getUserModel().getState().account === account
     );
@@ -48,14 +49,37 @@ suite('gr-http-password tests', () => {
               <span class="title"> Username </span>
               <span class="value"> user name </span>
             </section>
-            <gr-button
-              aria-disabled="false"
-              id="generateButton"
-              role="button"
-              tabindex="0"
-            >
-              Generate New Password
-            </gr-button>
+            <fieldset id="existing">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="idColumn">ID</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th>
+                      <iron-input id="newToken">
+                        <input is="iron-input" placeholder="New Token ID" />
+                      </iron-input>
+                    </th>
+                    <th>
+                      <gr-button
+                        aria-disabled="true"
+                        id="generateButton"
+                        link=""
+                        disabled=""
+                        role="button"
+                        tabindex="-1"
+                        >Generate</gr-button
+                      >
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </fieldset>
           </div>
           <span hidden="">
             <a href="" target="_blank" rel="noopener noreferrer">
@@ -64,20 +88,20 @@ suite('gr-http-password tests', () => {
             (opens in a new tab)
           </span>
         </div>
-        <dialog tabindex="-1" id="generatedPasswordModal">
+        <dialog tabindex="-1" id="generatedAuthTokenModal">
           <div class="gr-form-styles">
-            <section id="generatedPasswordDisplay">
-              <span class="title"> New Password: </span>
+            <section id="generatedAuthTokenDisplay">
+              <span class="title"> New Token: </span>
               <span class="value"> </span>
               <gr-copy-clipboard
-                buttontitle="Copy password to clipboard"
+                buttontitle="Copy token to clipboard"
                 hastooltip=""
                 hideinput=""
               >
               </gr-copy-clipboard>
             </section>
-            <section id="passwordWarning">
-              This password will not be displayed again.
+            <section id="authTokenWarning">
+              This token will not be displayed again.
               <br />
               If you lose it, you will need to generate a new one.
             </section>
@@ -96,27 +120,32 @@ suite('gr-http-password tests', () => {
     );
   });
 
-  test('generate password', () => {
+  test('generate token', async () => {
     const button = queryAndAssert<GrButton>(element, '#generateButton');
-    const nextPassword = 'the new password';
-    let generateResolve: (value: string | PromiseLike<string>) => void;
-    const generateStub = stubRestApi('generateAccountHttpPassword').callsFake(
+    const nextToken = {id: 'next-token-id', token: 'next-token'};
+    let generateResolve: (value: TokenInfo | PromiseLike<TokenInfo>) => void;
+    const generateStub = stubRestApi('generateAccountAuthToken').callsFake(
       () =>
         new Promise(resolve => {
           generateResolve = resolve;
         })
     );
 
-    assert.isNotOk(element.generatedPassword);
+    assert.isNotOk(element.generatedAuthToken);
 
+    element.tokenInput.bindValue = nextToken.id;
+
+    await element.updateComplete;
+
+    assert.isFalse(button.disabled);
     button.click();
 
     assert.isTrue(generateStub.called);
     assert.equal(element.status, 'Generating...');
 
     generateStub.lastCall.returnValue.then(() => {
-      generateResolve(nextPassword);
-      assert.equal(element.generatedPassword, nextPassword);
+      generateResolve(nextToken);
+      assert.equal(element.generatedAuthToken, nextToken);
     });
   });
 

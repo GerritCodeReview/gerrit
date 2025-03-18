@@ -75,7 +75,6 @@ import {
   NumericChangeId,
   PARENT,
   ParsedJSON,
-  Password,
   PatchRange,
   PatchSetNum,
   PathToRobotCommentsInfoMap,
@@ -108,6 +107,7 @@ import {
   ReviewResult,
   SubmitRequirementInfo,
   SubmitRequirementInput,
+  TokenInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -3160,24 +3160,31 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as unknown as Promise<Hashtag[] | undefined>;
   }
 
-  deleteAccountHttpPassword(): Promise<Response> {
+  getAccountAuthTokens(): Promise<TokenInfo[] | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: '/accounts/self/tokens',
+      reportUrlAsIs: true,
+    }) as Promise<TokenInfo[] | undefined>;
+  }
+
+  deleteAccountAuthToken(tokenId: string): Promise<Response> {
     return this._restApiHelper.fetch({
       fetchOptions: {method: HttpMethod.DELETE},
-      url: '/accounts/self/password.http',
+      url: `/accounts/self/tokens/${tokenId}`,
       reportUrlAsIs: true,
       reportServerError: true,
     });
   }
 
-  generateAccountHttpPassword(): Promise<Password | undefined> {
+  generateAccountAuthToken(tokenId: string): Promise<TokenInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
-        body: {generate: true},
+        body: {id: tokenId},
       }),
-      url: '/accounts/self/password.http',
+      url: `/accounts/self/tokens/${tokenId}`,
       reportUrlAsIs: true,
-    }) as Promise<unknown> as Promise<Password>;
+    }) as Promise<unknown> as Promise<TokenInfo>;
   }
 
   getAccountSSHKeys() {

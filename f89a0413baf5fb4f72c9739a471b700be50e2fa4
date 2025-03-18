@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a792f03_8c7fcdad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-18T10:14:46Z",
+      "side": 1,
+      "message": "looks like this is the AI hallucinating\n\nI\u0027m not sure if this edit makes sense.\n\nMaybe revert?",
+      "range": {
+        "startLine": 953,
+        "startChar": 29,
+        "endLine": 953,
+        "endChar": 54
+      },
+      "revId": "f89a0413baf5fb4f72c9739a471b700be50e2fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

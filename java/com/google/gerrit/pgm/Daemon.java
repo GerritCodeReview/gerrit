@@ -506,7 +506,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new SignedTokenEmailTokenVerifierModule());
     modules.add(new PluginModule());
-    if (VersionManager.getOnlineUpgrade(config)) {
+    if (VersionManager.shouldPerformOnlineUpgrade(config)) {
       modules.add(new OnlineUpgraderModule());
     }
     modules.add(new OAuthRestModule());

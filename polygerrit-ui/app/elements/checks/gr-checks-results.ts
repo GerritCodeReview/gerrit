@@ -51,6 +51,7 @@ import {
   tooltipForLink,
   computeIsExpandable,
   rectifyFix,
+  createGetAiFixAction,
 } from '../../models/checks/checks-util';
 import {assertIsDefined, assert, unique} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
@@ -86,6 +87,16 @@ import './gr-checks-fix-preview';
 import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
 import {isDefined} from '../../types/types';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {
+  ChangeInfo,
+  FixSuggestionInfo,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
+import {SuggestionsProvider} from '../../api/suggestions';
+import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
+import {ParsedChangeInfo} from '../../types/types';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -98,6 +109,7 @@ export type ChecksResultsFilterEvent = CustomEvent<ChecksResultsFilterDetail>;
 declare global {
   interface HTMLElementEventMap {
     'checks-results-filter': ChecksResultsFilterEvent;
+    'get-ai-fix-for-check-result': CustomEvent;
   }
 }
 
@@ -127,14 +139,41 @@ export class GrResultRow extends LitElement {
   @state()
   selectedAttempt: AttemptChoice = LATEST_ATTEMPT;
 
+  @state()
+  isOwner = false;
+
+  @state()
+  change?: ParsedChangeInfo;
+
+  @state()
+  suggestionsProvider?: SuggestionsProvider;
+
+  @state()
+  suggestionLoading = false;
+
+  @state()
+  suggestion?: FixSuggestionInfo;
+
   private getChangeModel = resolve(this, changeModelToken);
 
   private getChecksModel = resolve(this, checksModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly getSuggestionsService = resolve(
+    this,
+    suggestionsServiceToken
+  );
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly flagsService = getAppContext().flagsService;
+
   constructor() {
     super();
+    this.addEventListener('get-ai-fix-for-check-result', () => {
+      this.handleAIFix();
+    });
     subscribe(
       this,
       () => this.getChangeModel().labels$,
@@ -149,6 +188,22 @@ export class GrResultRow extends LitElement {
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
       x => (this.selectedAttempt = x)
+    );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
+      suggestionsPlugins =>
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => (this.change = change)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
     );
   }
 
@@ -447,9 +502,8 @@ export class GrResultRow extends LitElement {
 
   private renderExpanded() {
     if (!this.isExpanded) return;
-    return html`<gr-result-expanded
-      .result=${this.result}
-    ></gr-result-expanded>`;
+    return html`<gr-result-expanded .result=${this.result}></gr-result-expanded>
+      ${this.renderSuggestionPreview()}`;
   }
 
   private toggleExpandedClick(e: MouseEvent) {
@@ -570,9 +624,30 @@ export class GrResultRow extends LitElement {
       action => action.name !== USEFUL && action.name !== NOT_USEFUL
     );
     let fixAction: Action | undefined = undefined;
+    let getAiFixAction: Action | undefined = undefined;
     if (!this.isExpanded) {
       fixAction = createFixAction(this, this.result);
-      if (fixAction) actions.unshift(fixAction);
+      if (fixAction) {
+        actions.unshift(fixAction);
+      }
+    }
+
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX) &&
+      this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
+        this.suggestionsProvider,
+        this.change as ChangeInfo,
+        this.result?.codePointers?.[0].path
+      ) &&
+      this.isOwner &&
+      // without fixes
+      !this.result?.fixes?.length &&
+      !fixAction
+    ) {
+      getAiFixAction = createGetAiFixAction(this);
+      if (getAiFixAction) {
+        actions.unshift(getAiFixAction);
+      }
     }
     if (actions.length === 0) return;
     const overflowItems = actions.slice(2).map(action => {
@@ -582,10 +657,10 @@ export class GrResultRow extends LitElement {
       .filter(action => action.disabled)
       .map(action => action.id);
     return html` ${when(
-        fixAction,
+        fixAction || getAiFixAction,
         () =>
           html`<div class="actions-shown-on-collapsed">
-            ${this.renderAction(fixAction)}
+            ${this.renderAction(fixAction || getAiFixAction)}
           </div> `
       )}
       <div class="actions">
@@ -635,6 +710,46 @@ export class GrResultRow extends LitElement {
         'A category tag for this check result. Click to filter.'}
       </paper-tooltip>
     </button>`;
+  }
+
+  private renderSuggestionPreview() {
+    if (!this.suggestion) return nothing;
+    return html`<gr-checks-fix-preview
+      .fixSuggestionInfos=${[this.suggestion]}
+      .patchSet=${this.result?.patchset}
+    ></gr-checks-fix-preview>`;
+  }
+
+  private async handleAIFix(): Promise<void> {
+    const codePointer = this.result?.codePointers?.[0];
+    if (
+      !this.result ||
+      !this.change ||
+      !this.result.message ||
+      !codePointer ||
+      !this.suggestionsProvider
+    )
+      return;
+
+    this.suggestionLoading = true;
+    let suggestion: FixSuggestionInfo | undefined;
+    try {
+      suggestion = await this.getSuggestionsService().generateSuggestedFix(
+        this.suggestionsProvider,
+        {
+          prompt: this.result.message,
+          changeInfo: this.change as ChangeInfo,
+          patchsetNumber: this.result.patchset as RevisionPatchSetNum,
+          filePath: codePointer.path,
+          range: codePointer.range,
+        }
+      );
+    } finally {
+      this.suggestionLoading = false;
+    }
+    if (!suggestion) return;
+    this.suggestion = suggestion;
+    this.toggleExpanded(/* setExpanded= */ true);
   }
 }
 

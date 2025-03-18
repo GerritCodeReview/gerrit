@@ -10,11 +10,55 @@ import '../../test/common-test-setup';
 import {queryAndAssert} from '../../utils/common-util';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
+import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {
+  BranchName,
+  ChangeId,
+  NumericChangeId,
+  RepoName,
+} from '../../api/rest-api';
+import {SuggestionsProvider} from '../../api/suggestions';
+import {GrButton} from '../shared/gr-button/gr-button';
+import {createParsedChange} from '../../test/test-data-generators';
+import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {testResolver} from '../../test/common-test-setup';
 
 suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
+  let flagsService: any;
+  let suggestionsService: any;
 
   setup(async () => {
+    flagsService = getAppContext().flagsService;
+    suggestionsService = testResolver(suggestionsServiceToken);
+
+    // Enable AI fix feature flag
+    sinon
+      .stub(flagsService, 'isEnabled')
+      .callsFake(
+        (id: KnownExperimentId) => id === KnownExperimentId.GET_AI_FIX
+      );
+
+    sinon
+      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
+      .returns(true);
+    sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
+      description: 'AI suggested fix',
+      replacements: [
+        {
+          path: 'test/path',
+          range: {
+            start_line: 1,
+            start_character: 1,
+            end_line: 1,
+            end_character: 10,
+          },
+          replacement: 'fixed code',
+        },
+      ],
+    });
+
     element = document.createElement('gr-diff-check-result');
     document.body.appendChild(element);
     await element.updateComplete;
@@ -90,5 +134,54 @@ suite('gr-diff-check-result tests', () => {
         </div>
       `
     );
+  });
+  suite('AI fix button', () => {
+    setup(async () => {
+      element.result = {
+        checkName: 'Test Check',
+        category: 'ERROR',
+        summary: 'Test Summary',
+        message: 'Test Message',
+        codePointers: [
+          {
+            path: 'test/path',
+            range: {
+              start_line: 1,
+              start_character: 1,
+              end_line: 1,
+              end_character: 10,
+            },
+          },
+        ],
+      } as RunResult;
+
+      element.change = {
+        ...createParsedChange(),
+        project: 'test-project' as RepoName,
+        branch: 'main' as BranchName,
+        change_id: 'test-change-id' as ChangeId,
+        _number: 123 as NumericChangeId,
+      };
+
+      element.suggestionsProvider = {
+        name: 'Test Provider',
+      } as SuggestionsProvider;
+
+      element.isOwner = true;
+      await element.updateComplete;
+    });
+
+    test('expands when suggestion is found', async () => {
+      // Initially not expanded
+      assert.isFalse(element.isExpanded);
+
+      // Click the AI fix button
+      const aiFixButton = queryAndAssert<GrButton>(element, '#aiFixBtn');
+      aiFixButton.click();
+      await element.updateComplete;
+
+      // Should be expanded after suggestion is found
+      assert.isTrue(element.isExpanded);
+    });
   });
 });

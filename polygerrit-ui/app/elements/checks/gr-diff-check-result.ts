@@ -406,6 +406,7 @@ export class GrDiffCheckResult extends LitElement {
     }
     if (!suggestion) return;
     this.suggestion = suggestion;
+    this.isExpanded = true;
   }
 }
 

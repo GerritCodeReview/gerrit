@@ -17,7 +17,7 @@ import '../gr-edit-preferences/gr-edit-preferences';
 import '../gr-email-editor/gr-email-editor';
 import '../gr-gpg-editor/gr-gpg-editor';
 import '../gr-group-list/gr-group-list';
-import '../gr-http-password/gr-http-password';
+import '../gr-auth-token/gr-auth-token';
 import '../gr-identities/gr-identities';
 import '../gr-menu-editor/gr-menu-editor';
 import '../gr-preferences/gr-preferences';
@@ -60,6 +60,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {rootUrl} from '../../../utils/url-util';
 import {GrEditPreferences} from '../gr-edit-preferences/gr-edit-preferences';
+import {GrAuthToken} from '../gr-auth-token/gr-auth-token';
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
 
@@ -96,6 +97,8 @@ export class GrSettingsView extends LitElement {
   @query('#editPrefs') editPrefs!: GrEditPreferences;
 
   @queryAsync('#sshEditor') sshEditorPromise!: Promise<GrSshEditor>;
+
+  @queryAsync('#authToken') tokenEditorPromise!: Promise<GrAuthToken>;
 
   @queryAsync('#gpgEditor') gpgEditorPromise!: Promise<GrGpgEditor>;
 
@@ -241,6 +244,12 @@ export class GrSettingsView extends LitElement {
         if (this.serverConfig?.receive?.enable_signed_push) {
           configPromises.push(
             this.gpgEditorPromise.then(gpgEditor => gpgEditor.loadData())
+          );
+        }
+
+        if (this.showHttpAuth()) {
+          configPromises.push(
+            this.tokenEditorPromise.then(tokenEditor => tokenEditor.loadData())
           );
         }
 
@@ -600,7 +609,7 @@ ${this.accountState}</textarea
             () => html` <div>
               <h2 id="HTTPCredentials">HTTP Credentials</h2>
               <fieldset>
-                <gr-http-password id="httpPass"></gr-http-password>
+                <gr-auth-token id="authToken"></gr-auth-token>
               </fieldset>
             </div>`
           )}

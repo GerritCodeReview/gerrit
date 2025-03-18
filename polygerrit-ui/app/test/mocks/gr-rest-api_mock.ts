@@ -36,7 +36,6 @@ import {
   PluginInfo,
   DocResult,
   ContributorAgreementInfo,
-  Password,
   ProjectWatchInfo,
   NameToProjectInfoMap,
   GroupAuditEventInfo,
@@ -60,6 +59,7 @@ import {
   PreferencesInput,
   DraftInfo,
   SubmitRequirementInfo,
+  TokenInfo,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
 import {
@@ -166,8 +166,14 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(new Response());
   },
   finalize(): void {},
-  generateAccountHttpPassword(): Promise<Password | undefined> {
-    return Promise.resolve('asdf');
+  getAccountAuthTokens(): Promise<TokenInfo[] | undefined> {
+    return Promise.resolve([{id: 'tokenId', token: 'asdf'}]);
+  },
+  deleteAccountAuthToken(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
+  generateAccountAuthToken(tokenId: string): Promise<TokenInfo | undefined> {
+    return Promise.resolve({id: tokenId, token: 'asdf'});
   },
   getAccount(): Promise<AccountDetailInfo | undefined> {
     return Promise.resolve(createAccountDetailWithId(1));

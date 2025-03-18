@@ -16,7 +16,9 @@ package com.google.gerrit.server.index;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 
 /** Listener to handle upgrading index schema versions at startup. */
 public class OnlineUpgrader implements LifecycleListener {
@@ -28,15 +30,17 @@ public class OnlineUpgrader implements LifecycleListener {
   }
 
   private final VersionManager versionManager;
+  private final Config cfg;
 
   @Inject
-  OnlineUpgrader(VersionManager versionManager) {
+  OnlineUpgrader(VersionManager versionManager, @GerritServerConfig Config cfg) {
     this.versionManager = versionManager;
+    this.cfg = cfg;
   }
 
   @Override
   public void start() {
-    versionManager.startOnlineUpgrade();
+    versionManager.startOnlineUpgrade(cfg);
   }
 
   @Override

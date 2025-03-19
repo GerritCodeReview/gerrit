@@ -21,4 +21,6 @@ public interface AuthTokenCache {
   void evict(Account.Id accountId);
 
   List<AuthToken> get(Account.Id accountId);
+
+  List<AuthToken> getValid(Account.Id accountId);
 }

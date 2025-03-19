@@ -43,6 +43,11 @@ public class DirectAuthTokenAccessor extends AbstractAuthTokenAccessor {
   }
 
   @Override
+  public List<AuthToken> getValidTokens(Account.Id accountId) {
+    return getTokens(accountId).stream().filter(t -> !t.isExpired()).toList();
+  }
+
+  @Override
   public List<AuthToken> getTokens(Account.Id accountId) {
     try {
       return readFromNoteDb(accountId).getTokens();

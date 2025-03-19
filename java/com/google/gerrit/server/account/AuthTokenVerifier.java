@@ -43,15 +43,15 @@ public class AuthTokenVerifier {
       return false;
     }
 
-    for (AuthToken t : tokenAccessor.getTokens(accountId)) {
-      try {
+    try {
+      for (AuthToken t : tokenAccessor.getValidTokens(accountId)) {
         if (HashedPassword.decode(t.hashedToken()).checkPassword(providedToken)) {
           return true;
         }
-      } catch (HashedPassword.DecoderException e) {
-        logger.atSevere().withCause(e).log(
-            "Could not decode token for account %s: %s ", accountId, e.getMessage());
       }
+    } catch (HashedPassword.DecoderException e) {
+      logger.atSevere().withCause(e).log(
+          "Could not decode token for account %s: %s ", accountId, e.getMessage());
     }
     return false;
   }

@@ -209,7 +209,9 @@ public class CreateAccount
     List<AuthToken> tokens = new ArrayList<>();
     if (input.tokens != null) {
       for (AuthTokenInput token : input.tokens) {
-        tokens.add(AuthToken.createWithPlainToken(token.id, token.token));
+        tokens.add(
+            AuthToken.createWithPlainToken(
+                token.id, token.token, CreateToken.getExpirationInstant(token)));
       }
     }
 

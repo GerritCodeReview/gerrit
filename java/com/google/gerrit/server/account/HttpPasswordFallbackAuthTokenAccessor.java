@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -55,29 +56,33 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
   }
 
   @Override
+  public List<AuthToken> getValidTokens(Account.Id accountId) {
+    return ImmutableList.copyOf(getTokens(accountId).stream().filter(t -> !t.isExpired()).toList());
+  }
+
+  @Override
   public Optional<AuthToken> getToken(Account.Id accountId, String id) {
     return getTokens(accountId).stream().filter(token -> token.id().equals(id)).findFirst();
   }
 
   @Override
-  public AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    return accessor.addPlainToken(accountId, id, token);
-  }
-
-  @Override
-  public AuthToken addToken(Account.Id accountId, String id, String hashedToken)
-      throws IOException,
-          ConfigInvalidException,
-          AuthTokenConflictException,
-          InvalidAuthTokenException {
-    return accessor.addToken(accountId, id, hashedToken);
+    return accessor.addToken(accountId, id, hashedToken, expiration);
   }
 
   @Override
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     accessor.addTokens(accountId, tokens);
+  }
+
+  @Override
+  public AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
+    return accessor.addPlainToken(accountId, id, token, expiration);
   }
 
   @Override

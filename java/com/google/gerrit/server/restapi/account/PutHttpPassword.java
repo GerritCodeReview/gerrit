@@ -25,6 +25,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -109,7 +110,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
           IOException,
           ConfigInvalidException,
           PermissionBackendException,
-          InvalidAuthTokenException {
+          InvalidAuthTokenException,
+          BadRequestException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

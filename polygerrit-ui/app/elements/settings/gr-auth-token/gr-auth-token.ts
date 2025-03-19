@@ -20,6 +20,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fireAlert} from '../../../utils/event-util';
+import {parseDate} from '../../../utils/date-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -55,6 +56,9 @@ export class GrAuthToken extends LitElement {
 
   @property({type: String})
   newTokenId = '';
+
+  @property({type: String})
+  newLifetime = '';
 
   @query('#generateButton') generateButton!: GrButton;
 
@@ -139,6 +143,9 @@ export class GrAuthToken extends LitElement {
           position: absolute;
           right: 2em;
         }
+        .expired {
+          color: var(--negative-red-text-color);
+        }
       `,
     ];
   }
@@ -156,6 +163,7 @@ export class GrAuthToken extends LitElement {
               <thead>
                 <tr>
                   <th class="idColumn">ID</th>
+                  <th class="expirationColumn">Expiration Date</th>
                   <th></th>
                 </tr>
               </thead>
@@ -198,6 +206,18 @@ export class GrAuthToken extends LitElement {
             >
             </gr-copy-clipboard>
           </section>
+          <section
+            id="authTokenWarning"
+            ?hidden=${!this.generatedAuthToken?.expiration}
+          >
+            This token will be valid until &nbsp;
+            <gr-date-formatter
+              showDateAndTime
+              withTooltip
+              .dateStr=${this.generatedAuthToken?.expiration}
+            ></gr-date-formatter>
+            .
+          </section>
           <section id="authTokenWarning">
             This token will not be displayed again.<br />
             If you lose it, you will need to generate a new one.
@@ -231,8 +251,16 @@ export class GrAuthToken extends LitElement {
   }
 
   private renderToken(tokenInfo: AuthTokenInfo) {
-    return html` <tr>
+    return html` <tr class=${this.isTokenExpired(tokenInfo) ? 'expired' : ''}>
       <td class="idColumn">${tokenInfo.id}</td>
+      <td class="expirationColumn">
+        <gr-date-formatter
+          withTooltip
+          showDateAndTime
+          dateFormat="STD"
+          .dateStr=${tokenInfo.expiration}
+        ></gr-date-formatter>
+      </td>
       <td>
         <gr-button
           id="deleteButton"
@@ -263,6 +291,21 @@ export class GrAuthToken extends LitElement {
           </iron-input>
         </th>
         <th>
+          <iron-input
+            id="lifetime"
+            .bindValue=${this.newLifetime}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.newLifetime = e.detail.value ?? '';
+            }}
+          >
+            <input
+              is="iron-input"
+              placeholder="Lifetime (e.g. 30d)"
+              @keydown=${this.handleInputKeydown}
+            />
+          </iron-input>
+        </th>
+        <th>
           <gr-button
             id="generateButton"
             link=""
@@ -283,12 +326,17 @@ export class GrAuthToken extends LitElement {
     });
   }
 
+  private isTokenExpired(tokenInfo: AuthTokenInfo) {
+    if (!tokenInfo.expiration) return false;
+    return parseDate(tokenInfo.expiration) < new Date();
+  }
+
   private handleGenerateTap() {
     this.loading = true;
     this.status = 'Generating...';
     this.generatedAuthTokenModal?.showModal();
     this.restApiService
-      .generateAccountAuthToken(this.newTokenId)
+      .generateAccountAuthToken(this.newTokenId, this.newLifetime)
       .then(newToken => {
         if (newToken) {
           this.generatedAuthToken = newToken;

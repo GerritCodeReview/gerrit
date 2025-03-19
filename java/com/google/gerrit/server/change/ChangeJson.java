@@ -414,10 +414,16 @@ public class ChangeJson {
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
       List<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
       cd.submitRequirementsIncludingLegacy().entrySet().stream()
-          .filter(entry -> !entry.getValue().isHidden())
           .forEach(
-              entry ->
-                  reqInfos.add(SubmitRequirementsJson.toInfo(entry.getKey(), entry.getValue())));
+              entry -> {
+                if (!entry.getValue().isHidden()) {
+                  reqInfos.add(SubmitRequirementsJson.toInfo(entry.getKey(), entry.getValue()));
+                } else {
+                  logger.atFine().log(
+                      "Removing submit requirement %s because it is hidden.",
+                      entry.getKey().name());
+                }
+              });
       return reqInfos;
     }
   }

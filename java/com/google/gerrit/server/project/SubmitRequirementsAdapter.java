@@ -101,7 +101,10 @@ public class SubmitRequirementsAdapter {
         }
       }
     }
-    return result.build();
+    ImmutableMap<SubmitRequirement, SubmitRequirementResult> legacySubmitRequirements =
+        result.build();
+    logger.atFine().log("Legacy submit requirements: %s", legacySubmitRequirements);
+    return legacySubmitRequirements;
   }
 
   @VisibleForTesting

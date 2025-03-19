@@ -54,6 +54,7 @@ suite('gr-auth-token tests', () => {
                 <thead>
                   <tr>
                     <th class="idColumn">ID</th>
+                    <th class="expirationColumn">Expiration Date</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -63,6 +64,14 @@ suite('gr-auth-token tests', () => {
                     <th>
                       <iron-input id="newToken">
                         <input is="iron-input" placeholder="New Token ID" />
+                      </iron-input>
+                    </th>
+                    <th>
+                      <iron-input id="lifetime">
+                        <input
+                          is="iron-input"
+                          placeholder="Lifetime (e.g. 30d)"
+                        />
                       </iron-input>
                     </th>
                     <th>
@@ -99,6 +108,12 @@ suite('gr-auth-token tests', () => {
                 hideinput=""
               >
               </gr-copy-clipboard>
+            </section>
+            <section hidden="" id="authTokenWarning">
+              This token will be valid until
+              <gr-date-formatter showdateandtime="" withtooltip="">
+              </gr-date-formatter>
+              .
             </section>
             <section id="authTokenWarning">
               This token will not be displayed again.

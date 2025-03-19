@@ -122,7 +122,7 @@ public class ProjectBasicAuthFilterTest {
         .createVal(any(), any(), eq(false), any(), any(), any());
     doReturn(List.of(AuthToken.createWithPlainToken("token", AUTH_PASSWORD)))
         .when(tokenAccessor)
-        .getTokens(AUTH_ACCOUNT_ID);
+        .getValidTokens(AUTH_ACCOUNT_ID);
   }
 
   @Test

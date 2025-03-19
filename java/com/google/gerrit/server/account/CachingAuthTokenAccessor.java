@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,11 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
     this.directAuthTokenAccessor =
         new DirectAuthTokenAccessor(
             accountCache, allUsersName, authTokenFactory, metaDataUpdateFactory, userFactory);
+  }
+
+  @Override
+  public List<AuthToken> getValidTokens(Account.Id accountId) {
+    return getTokens(accountId).stream().filter(t -> !t.isExpired()).toList();
   }
 
   @Override
@@ -78,17 +84,19 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   @CanIgnoreReturnValue
-  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken token = directAuthTokenAccessor.addToken(accountId, id, hashedToken);
+    AuthToken token = directAuthTokenAccessor.addToken(accountId, id, hashedToken, expiration);
     authTokenCache.evict(accountId);
     return token;
   }
 
   @Override
-  public AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken authToken = directAuthTokenAccessor.addPlainToken(accountId, id, token);
+    AuthToken authToken = directAuthTokenAccessor.addPlainToken(accountId, id, token, expiration);
     authTokenCache.evict(accountId);
     return authToken;
   }

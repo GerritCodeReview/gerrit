@@ -89,11 +89,7 @@ import {formStyles} from '../../styles/form-styles';
 import {isDefined} from '../../types/types';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
-import {
-  ChangeInfo,
-  FixSuggestionInfo,
-  RevisionPatchSetNum,
-} from '../../api/rest-api';
+import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {ParsedChangeInfo} from '../../types/types';
@@ -635,8 +631,6 @@ export class GrResultRow extends LitElement {
     if (
       this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX) &&
       this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
         this.result?.codePointers?.[0].path
       ) &&
       this.isOwner &&
@@ -734,16 +728,12 @@ export class GrResultRow extends LitElement {
     this.suggestionLoading = true;
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion = await this.getSuggestionsService().generateSuggestedFix(
-        this.suggestionsProvider,
-        {
-          prompt: this.result.message,
-          changeInfo: this.change as ChangeInfo,
-          patchsetNumber: this.result.patchset as RevisionPatchSetNum,
-          filePath: codePointer.path,
-          range: codePointer.range,
-        }
-      );
+      suggestion = await this.getSuggestionsService().generateSuggestedFix({
+        prompt: this.result.message,
+        patchsetNumber: this.result.patchset as RevisionPatchSetNum,
+        filePath: codePointer.path,
+        range: codePointer.range,
+      });
     } finally {
       this.suggestionLoading = false;
     }

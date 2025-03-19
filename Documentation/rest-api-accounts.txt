@@ -613,10 +613,28 @@ The token-id must be unique among other token-ids used by the account. It has to
 start with a letter and must only contain upper- or lowercase letters, digits,
 `-` or `_`.
 
+Optionally, a lifetime for the token can be configured. The minimum lifetime is
+1 minute. The lifetime has to be provided using the following unit format:
+
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
+If no lifetime is provided, the token's lifetime will be unlimited.
+
 .Request
 ----
   PUT /accounts/self/tokens/example HTTP/1.0
   Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "example",
+    "token": "secret_token_123",
+    "lifetime": "30d"
+  }
 ----
 
 As response a link:#auth-token-info[AuthTokenInfo] containing the new token
@@ -632,7 +650,8 @@ will be returned by Gerrit.
   )]}'
   {
     "id": "example",
-    "token": "someRandomToken"
+    "token": "someRandomToken",
+    "expiration": "2025-05-02 08:54:35.198000000"
   }
 ----
 
@@ -659,10 +678,12 @@ The plain text token will never be returned.
   )]}'
   [
     {
-        "id": "example"
+        "id": "example",
+        "expiration": "2025-05-02 08:54:35.198000000"
     },
     {
-        "id": "another"
+        "id": "another",
+        "expiration": "2025-05-04 08:54:35.198000000"
     }
   ]
 ----
@@ -2895,6 +2916,8 @@ an authentication token.
 Must be the same as the id used in the URL.
 |`token`        |optional|
 The new token. Only Gerrit administrators may set the token directly.
+|`lifetime`     |optional|
+Lifetime of the token. After the given duration the token will be invalid.
 |============================
 
 [[auth-token-info]]
@@ -2907,6 +2930,9 @@ The `AuthTokenInfo` entity contains information about an authentication token.
 |`id`           ||The id of the token.
 |`token`        |optional|
 The token in plain text. Will only be returned once when creating the token.
+|`expiration`   |optional|
+The timestamp at which the token will expire or has been expired. If `null`, token
+lifetime is unlimited.
 |============================
 
 [[oauth-token-info]]

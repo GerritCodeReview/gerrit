@@ -1276,11 +1276,13 @@ export type RequestPayload = string | object;
 export interface AuthTokenInput {
   id?: string;
   token?: string;
+  lifetime?: string;
 }
 
 export interface AuthTokenInfo {
   id: string;
   token?: string;
+  expiration?: Timestamp;
 }
 
 /**

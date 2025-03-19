@@ -154,10 +154,11 @@ message AccountInput {
 }
 
 // Serialized form of com.google.gerrit.extensions.auth.AuthTokenInput.
-// Next ID: 3
+// Next ID: 4
 message AuthTokenInput {
  optional string id = 1;
- required string token = 2;
+ optional string token = 2;
+ optional string lifetime = 3;
 }
 
 // Serialized form of com.google.gerrit.extensions.client.ListChangesOption.

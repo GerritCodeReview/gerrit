@@ -11,6 +11,8 @@ import {
   listForSentence,
   diffFilePaths,
   escapeAndWrapSearchOperatorValue,
+  wrapLine,
+  formatCommitMessage,
 } from './string-util';
 
 suite('string-util tests', () => {
@@ -91,5 +93,54 @@ suite('string-util tests', () => {
       escapeAndWrapSearchOperatorValue('"value of \\: \\"something"'),
       '"\\"value of \\\\: \\\\\\"something\\""'
     );
+  });
+
+  test('formatCommitMessage', () => {
+    assert.deepEqual(formatCommitMessage(''), '');
+    assert.deepEqual(formatCommitMessage(' '), '');
+    assert.deepEqual(formatCommitMessage('a'), 'A\n');
+    assert.deepEqual(formatCommitMessage('a '), 'A\n');
+    assert.deepEqual(formatCommitMessage(' \n'), '');
+    assert.deepEqual(formatCommitMessage('A\n\nb'), 'A\n\nb\n');
+    assert.deepEqual(formatCommitMessage('A\n\nb\n\nc'), 'A\n\nb\n\nc\n');
+    assert.deepEqual(formatCommitMessage('A\n\n\n\n\nb'), 'A\n\nb\n');
+    assert.deepEqual(formatCommitMessage('Remove dot.'), 'Remove dot\n');
+    assert.deepEqual(formatCommitMessage('Remove dot .'), 'Remove dot\n');
+    assert.deepEqual(
+      formatCommitMessage(
+        'This is a subject longer than 72 chars. But not that much longer. Just a bit.'
+      ),
+      'This is a subject longer than 72 chars. But not that much longer. Just a\n\nbit.\n'
+    );
+    assert.deepEqual(
+      formatCommitMessage(
+        'This is a subject\n\nasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf\n\nasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf'
+      ),
+      'This is a subject\n\nasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf\nasdf asdf\n\nasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf\nasdf asdf\n'
+    );
+    assert.deepEqual(
+      formatCommitMessage(
+        'This is a subject\n\nasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf\n\nasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf'
+      ),
+      'This is a subject\n\nasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf\nasdf asdf\n\nasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf\n'
+    );
+  });
+
+  test('wrapLine', () => {
+    assert.deepEqual(wrapLine('', 10), []);
+    assert.deepEqual(wrapLine(' ', 10), []);
+    assert.deepEqual(wrapLine('  ', 10), []);
+    assert.deepEqual(wrapLine('a', 10), ['a']);
+    assert.deepEqual(wrapLine('asdf', 10), ['asdf']);
+    assert.deepEqual(wrapLine('asdfasdfasdf', 10), ['asdfasdfasdf']);
+    assert.deepEqual(wrapLine('asdf asdf asdf', 10), ['asdf asdf', 'asdf']);
+    assert.deepEqual(wrapLine('a   b', 10), ['a   b']);
+    assert.deepEqual(wrapLine('a   b          c', 10), ['a   b', 'c']);
+    assert.deepEqual(wrapLine('asdf asdf asdf asdf asdf asdf asdf', 10), [
+      'asdf asdf',
+      'asdf asdf',
+      'asdf asdf',
+      'asdf',
+    ]);
   });
 });

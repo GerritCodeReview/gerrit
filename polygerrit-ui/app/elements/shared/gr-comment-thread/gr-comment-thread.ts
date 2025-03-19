@@ -26,11 +26,7 @@ import {
   id,
   hasUserSuggestion,
 } from '../../../utils/comment-util';
-import {
-  ChangeInfo,
-  ChangeMessageId,
-  FixSuggestionInfo,
-} from '../../../api/rest-api';
+import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
   createDefaultDiffPrefs,
@@ -1012,8 +1008,6 @@ export class GrCommentThread extends LitElement {
     try {
       suggestion =
         await this.getSuggestionsService().generateSuggestedFixForComment(
-          this.suggestionsProvider,
-          this.change as ChangeInfo,
           comment,
           comment.message,
           this.generatedSuggestionId
@@ -1034,8 +1028,6 @@ export class GrCommentThread extends LitElement {
     const comment = this.thread.comments[0];
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabledForComment(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
         comment
       )
     ) {

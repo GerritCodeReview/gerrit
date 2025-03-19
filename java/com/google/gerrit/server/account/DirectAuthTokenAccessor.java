@@ -29,6 +29,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -57,6 +58,11 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
     this.authTokenFactory = authTokenFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.userFactory = userFactory;
+  }
+
+  @Override
+  public ImmutableList<AuthToken> getValidTokens(Account.Id accountId) {
+    return ImmutableList.copyOf(getTokens(accountId).stream().filter(t -> !t.isExpired()).toList());
   }
 
   @Override
@@ -89,10 +95,11 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   @CanIgnoreReturnValue
-  public synchronized AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public synchronized AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     String hashedToken = HashedPassword.fromPassword(token).encode();
-    return addToken(accountId, id, hashedToken);
+    return addToken(accountId, id, hashedToken, expiration);
   }
 
   @Override
@@ -107,10 +114,11 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   @CanIgnoreReturnValue
-  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
-    AuthToken token = authTokens.addToken(id, hashedToken);
+    AuthToken token = authTokens.addToken(id, hashedToken, expiration);
     commit(accountId, authTokens);
     return token;
   }

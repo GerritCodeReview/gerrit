@@ -26,6 +26,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.auth.AuthTokenInfo;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.InvalidAuthTokenException;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -47,6 +49,11 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -100,7 +107,8 @@ public class CreateToken
           IOException,
           ConfigInvalidException,
           PermissionBackendException,
-          InvalidAuthTokenException {
+          InvalidAuthTokenException,
+          BadRequestException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
@@ -125,13 +133,14 @@ public class CreateToken
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       newToken = input.token;
     }
-    return apply(rsrc.getUser(), id.get(), newToken);
+    return apply(rsrc.getUser(), id.get(), newToken, getExpirationInstant(input));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
-  public Response<AuthTokenInfo> apply(IdentifiedUser user, String id, String newToken)
+  public Response<AuthTokenInfo> apply(
+      IdentifiedUser user, String id, String newToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken);
+    AuthToken token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
     try {
       emailFactories
           .createOutgoingEmail(
@@ -147,7 +156,27 @@ public class CreateToken
     AuthTokenInfo info = new AuthTokenInfo();
     info.id = token.id();
     info.token = newToken;
+    if (token.expirationDate().isPresent()) {
+      info.expiration = Timestamp.from(token.expirationDate().get());
+    }
     return Response.created(info);
+  }
+
+  public static Optional<Instant> getExpirationInstant(AuthTokenInput input)
+      throws BadRequestException {
+    long lifetime;
+    if (Strings.isNullOrEmpty(input.lifetime)) {
+      return Optional.empty();
+    }
+    try {
+      lifetime = ConfigUtil.getTimeUnit(input.lifetime, 0, TimeUnit.MINUTES);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("Invalid lifetime: " + input.lifetime, e);
+    }
+    if (lifetime <= 0) {
+      throw new BadRequestException("Lifetime must be larger than 0");
+    }
+    return Optional.of(Instant.now().plus(lifetime, ChronoUnit.MINUTES));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Finalizable} from '../../types/types';
-import {SuggestionsProvider} from '../../api/suggestions';
 import {
   ChangeInfo,
   CommentRange,
@@ -14,62 +13,36 @@ import {
 import {Comment} from '../../types/common';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
 import {define} from '../../models/dependency';
+import {Observable} from 'rxjs';
 
 export const suggestionsServiceToken = define<SuggestionsService>(
   'suggestions-service'
 );
 export interface SuggestionsService extends Finalizable {
-  isGeneratedSuggestedFixEnabled(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
-    path?: string
-  ): boolean;
+  suggestionsServiceUpdated$: Observable<boolean>;
 
-  isGeneratedSuggestedFixEnabledForComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
-    comment?: Comment
-  ): boolean;
+  isGeneratedSuggestedFixEnabled(path?: string): boolean;
 
-  generateSuggestedFix(
-    suggestionsProvider: SuggestionsProvider,
-    data: {
-      prompt: string;
-      changeInfo: ChangeInfo;
-      patchsetNumber: RevisionPatchSetNum;
-      filePath: string;
-      range?: CommentRange;
-      lineNumber?: number;
-      generatedSuggestionId?: string;
-      commentId?: string;
-    }
-  ): Promise<FixSuggestionInfo | undefined>;
+  isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean;
 
-  generateSuggestedFix(
-    suggestionsProvider: SuggestionsProvider,
-    data: {
-      prompt: string;
-      changeInfo: ChangeInfo;
-      patchsetNumber: RevisionPatchSetNum;
-      filePath: string;
-      range?: CommentRange;
-      lineNumber?: number;
-      generatedSuggestionId?: string;
-      commentId?: string;
-    }
-  ): Promise<FixSuggestionInfo | undefined>;
+  generateSuggestedFix(data: {
+    prompt: string;
+    changeInfo: ChangeInfo;
+    patchsetNumber: RevisionPatchSetNum;
+    filePath: string;
+    range?: CommentRange;
+    lineNumber?: number;
+    generatedSuggestionId?: string;
+    commentId?: string;
+  }): Promise<FixSuggestionInfo | undefined>;
 
   generateSuggestedFixForComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
     comment?: Comment,
     commentText?: string,
     generatedSuggestionId?: string
   ): Promise<FixSuggestionInfo | undefined>;
 
   autocompleteComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
     comment?: Comment,
     commentText?: string,
     comments?: Comment[]

@@ -304,8 +304,6 @@ export class GrDiffCheckResult extends LitElement {
     }
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
         this.result?.codePointers?.[0].path
       )
     ) {
@@ -392,16 +390,13 @@ export class GrDiffCheckResult extends LitElement {
     this.suggestionLoading = true;
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion = await this.getSuggestionsService().generateSuggestedFix(
-        this.suggestionsProvider,
-        {
-          prompt: this.result.message,
-          changeInfo: this.change as ChangeInfo,
-          patchsetNumber: this.result.patchset as RevisionPatchSetNum,
-          filePath: codePointer.path,
-          range: codePointer.range,
-        }
-      );
+      suggestion = await this.getSuggestionsService().generateSuggestedFix({
+        prompt: this.result.message,
+        changeInfo: this.change as ChangeInfo,
+        patchsetNumber: this.result.patchset as RevisionPatchSetNum,
+        filePath: codePointer.path,
+        range: codePointer.range,
+      });
     } finally {
       this.suggestionLoading = false;
     }

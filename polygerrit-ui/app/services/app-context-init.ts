@@ -241,7 +241,12 @@ export function createAppDependencies(
     ],
     [
       suggestionsServiceToken,
-      () => new GrSuggestionsService(appContext.reportingService),
+      () =>
+        new GrSuggestionsService(
+          appContext.reportingService,
+          resolver(pluginLoaderToken).pluginsModel,
+          resolver(changeModelToken)
+        ),
     ],
   ]);
 }

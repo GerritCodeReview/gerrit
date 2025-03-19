@@ -733,10 +733,6 @@ suite('gr-comment-thread tests', () => {
       };
       element.thread = thread;
       element.changeNum = 123 as NumericChangeId;
-      element.change = {
-        change_id: '123',
-        project: 'test-project',
-      } as ParsedChangeInfo;
       const createReplyCommentSpy = sinon.spy(
         element as any,
         'createReplyComment'

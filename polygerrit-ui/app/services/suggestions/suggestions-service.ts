@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Finalizable} from '../../types/types';
-import {SuggestionsProvider} from '../../api/suggestions';
 import {
-  ChangeInfo,
   CommentRange,
   FixSuggestionInfo,
   RevisionPatchSetNum,
@@ -14,62 +12,74 @@ import {
 import {Comment} from '../../types/common';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
 import {define} from '../../models/dependency';
+import {Observable} from 'rxjs';
 
 export const suggestionsServiceToken = define<SuggestionsService>(
   'suggestions-service'
 );
 export interface SuggestionsService extends Finalizable {
-  isGeneratedSuggestedFixEnabled(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
-    path?: string
-  ): boolean;
+  /**
+   * Emits a boolean value whenever the enablement state of any suggestion
+   * feature changes. Consumers should subscribe to this observable and call
+   * `this.requestUpdate()` (or equivalent UI update mechanism) when it emits
+   * to ensure the UI reflects the correct enablement state of generate methods.
+   */
+  suggestionsServiceUpdated$: Observable<boolean>;
 
-  isGeneratedSuggestedFixEnabledForComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
-    comment?: Comment
-  ): boolean;
+  /**
+   * Checks if the feature to generate suggested fixes is enabled.
+   * The enablement can change, so components should subscribe to
+   * `suggestionsServiceUpdated$` and call `this.requestUpdate()` to
+   * re-evaluate.
+   */
+  isGeneratedSuggestedFixEnabled(path?: string): boolean;
 
-  generateSuggestedFix(
-    suggestionsProvider: SuggestionsProvider,
-    data: {
-      prompt: string;
-      changeInfo: ChangeInfo;
-      patchsetNumber: RevisionPatchSetNum;
-      filePath: string;
-      range?: CommentRange;
-      lineNumber?: number;
-      generatedSuggestionId?: string;
-      commentId?: string;
-    }
-  ): Promise<FixSuggestionInfo | undefined>;
+  /**
+   * Checks if the feature to generate suggested fixes for a specific comment
+   * is enabled. The enablement can change, so components should subscribe to
+   * `suggestionsServiceUpdated$` and call `this.requestUpdate()` to
+   * re-evaluate.
+   */
+  isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean;
 
-  generateSuggestedFix(
-    suggestionsProvider: SuggestionsProvider,
-    data: {
-      prompt: string;
-      changeInfo: ChangeInfo;
-      patchsetNumber: RevisionPatchSetNum;
-      filePath: string;
-      range?: CommentRange;
-      lineNumber?: number;
-      generatedSuggestionId?: string;
-      commentId?: string;
-    }
-  ): Promise<FixSuggestionInfo | undefined>;
+  /**
+   * Generates a suggested fix.
+   *
+   * **Important:** This method should only be called if
+   * `isGeneratedSuggestedFixEnabled(data.filePath)` returns `true`.
+   * The enablement can change, so components should subscribe to
+   * `suggestionsServiceUpdated$` and call `this.requestUpdate()` when it
+   * emits to ensure they only call this method when enabled.
+   */
+  generateSuggestedFix(data: {
+    prompt: string;
+    patchsetNumber: RevisionPatchSetNum;
+    filePath: string;
+    range?: CommentRange;
+    lineNumber?: number;
+    generatedSuggestionId?: string;
+    commentId?: string;
+  }): Promise<FixSuggestionInfo | undefined>;
 
+  /**
+   * Generates a suggested fix specifically for a comment.
+   *
+   * **Important:** This method should only be called if
+   * `isGeneratedSuggestedFixEnabledForComment(comment)` returns `true`.
+   * The enablement can change, so components should subscribe to
+   * `suggestionsServiceUpdated$` and call `this.requestUpdate()` when it
+   * emits to ensure they only call this method when enabled.
+   */
   generateSuggestedFixForComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
     comment?: Comment,
     commentText?: string,
     generatedSuggestionId?: string
   ): Promise<FixSuggestionInfo | undefined>;
 
+  /**
+   * Provides autocompletion suggestions for comments.
+   */
   autocompleteComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
     comment?: Comment,
     commentText?: string,
     comments?: Comment[]

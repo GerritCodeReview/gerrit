@@ -28,15 +28,8 @@ import {getAppContext} from '../../services/app-context';
 import {Interaction} from '../../constants/reporting';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
-import {
-  ChangeInfo,
-  FixSuggestionInfo,
-  RevisionPatchSetNum,
-} from '../../api/rest-api';
-import {SuggestionsProvider} from '../../api/suggestions';
-import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
+import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
 import {when} from 'lit/directives/when.js';
-import {ParsedChangeInfo} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
 
 @customElement('gr-diff-check-result')
@@ -61,12 +54,6 @@ export class GrDiffCheckResult extends LitElement {
   isOwner = false;
 
   @state()
-  change?: ParsedChangeInfo;
-
-  @state()
-  suggestionsProvider?: SuggestionsProvider;
-
-  @state()
   suggestionLoading = false;
 
   @state()
@@ -82,8 +69,6 @@ export class GrDiffCheckResult extends LitElement {
     this,
     suggestionsServiceToken
   );
-
-  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -181,14 +166,12 @@ export class GrDiffCheckResult extends LitElement {
     );
     subscribe(
       this,
-      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
-      suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().change$,
-      change => (this.change = change)
+      () => this.getSuggestionsService().suggestionsServiceUpdated$,
+      updated => {
+        if (updated) {
+          this.requestUpdate();
+        }
+      }
     );
   }
 
@@ -304,8 +287,6 @@ export class GrDiffCheckResult extends LitElement {
     }
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
         this.result?.codePointers?.[0].path
       )
     ) {
@@ -379,29 +360,18 @@ export class GrDiffCheckResult extends LitElement {
 
   private async handleAIFix(): Promise<void> {
     const codePointer = this.result?.codePointers?.[0];
-    if (
-      !this.result ||
-      !this.change ||
-      !this.result.message ||
-      !codePointer ||
-      !this.suggestionsProvider ||
-      !this.isOwner
-    )
+    if (!this.result || !this.result.message || !codePointer || !this.isOwner)
       return;
 
     this.suggestionLoading = true;
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion = await this.getSuggestionsService().generateSuggestedFix(
-        this.suggestionsProvider,
-        {
-          prompt: this.result.message,
-          changeInfo: this.change as ChangeInfo,
-          patchsetNumber: this.result.patchset as RevisionPatchSetNum,
-          filePath: codePointer.path,
-          range: codePointer.range,
-        }
-      );
+      suggestion = await this.getSuggestionsService().generateSuggestedFix({
+        prompt: this.result.message,
+        patchsetNumber: this.result.patchset as RevisionPatchSetNum,
+        filePath: codePointer.path,
+        range: codePointer.range,
+      });
     } finally {
       this.suggestionLoading = false;
     }

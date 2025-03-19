@@ -54,7 +54,6 @@ import {GerritView} from '../../../services/router/router-model';
 import {GrComment} from '../gr-comment/gr-comment';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {ParsedChangeInfo} from '../../../types/types';
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
 const c1: CommentInfo = {
@@ -733,10 +732,6 @@ suite('gr-comment-thread tests', () => {
       };
       element.thread = thread;
       element.changeNum = 123 as NumericChangeId;
-      element.change = {
-        change_id: '123',
-        project: 'test-project',
-      } as ParsedChangeInfo;
       const createReplyCommentSpy = sinon.spy(
         element as any,
         'createReplyComment'

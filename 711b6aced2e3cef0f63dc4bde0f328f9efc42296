@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bd99d28_3f71e31f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-19T09:16:07Z",
+      "side": 1,
+      "message": "Good idea, thanks",
+      "parentUuid": "b5daa3f8_dc28d876",
+      "range": {
+        "startLine": 751,
+        "startChar": 23,
+        "endLine": 751,
+        "endChar": 62
+      },
+      "revId": "711b6aced2e3cef0f63dc4bde0f328f9efc42296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a818b960_7e6033d6",
@@ -119,6 +143,30 @@
           ]
         }
       ],
+      "revId": "711b6aced2e3cef0f63dc4bde0f328f9efc42296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa6dd33_3686914a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-19T09:16:07Z",
+      "side": 1,
+      "message": "I am trying to make it more DRY. Here I refactor it to decrease number of subcribes\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/461621/6\n\nI will think how to move more into service or if I can create a new component Get AI fix button.",
+      "parentUuid": "a818b960_7e6033d6",
+      "range": {
+        "startLine": 392,
+        "startChar": 4,
+        "endLine": 411,
+        "endChar": 5
+      },
       "revId": "711b6aced2e3cef0f63dc4bde0f328f9efc42296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

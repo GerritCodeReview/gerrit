@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.AuthTokenConflictException;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -47,6 +48,10 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -126,13 +131,14 @@ public class CreateToken
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       newToken = input.token;
     }
-    return apply(rsrc.getUser(), id.get(), newToken);
+    return apply(rsrc.getUser(), id.get(), newToken, getExpirationInstant(input));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
-  public Response<TokenInfo> apply(IdentifiedUser user, String id, String newToken)
+  public Response<TokenInfo> apply(
+      IdentifiedUser user, String id, String newToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
-    AuthToken token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken);
+    AuthToken token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
     try {
       emailFactories
           .createOutgoingEmail(
@@ -148,7 +154,18 @@ public class CreateToken
     TokenInfo info = new TokenInfo();
     info.id = token.id();
     info.token = newToken;
+    if (token.expirationDate().isPresent()) {
+      info.expiration = Timestamp.from(token.expirationDate().get());
+    }
     return Response.created(info);
+  }
+
+  public static Optional<Instant> getExpirationInstant(TokenInput input) {
+    return input.lifetime == null || input.lifetime.isBlank()
+        ? Optional.empty()
+        : Optional.of(
+            Instant.now()
+                .plusMillis(ConfigUtil.getTimeUnit(input.lifetime, 0, TimeUnit.MILLISECONDS)));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)

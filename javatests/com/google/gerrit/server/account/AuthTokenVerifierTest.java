@@ -38,7 +38,7 @@ public class AuthTokenVerifierTest {
   @Before
   public void setUp() throws Exception {
     tokenVerifier = new AuthTokenVerifier(tokenAccessor);
-    doReturn(TOKENS).when(tokenAccessor).getTokens(ACCOUNT_ID);
+    doReturn(TOKENS).when(tokenAccessor).getValidTokens(ACCOUNT_ID);
   }
 
   @Test

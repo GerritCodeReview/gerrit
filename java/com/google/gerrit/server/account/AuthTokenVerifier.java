@@ -41,7 +41,7 @@ public class AuthTokenVerifier {
     }
 
     try {
-      for (AuthToken t : tokenAccessor.getTokens(accountId)) {
+      for (AuthToken t : tokenAccessor.getValidTokens(accountId)) {
         if (!Strings.isNullOrEmpty(providedToken)) {
           if (HashedPassword.decode(t.hashedToken()).checkPassword(providedToken)) {
             return true;

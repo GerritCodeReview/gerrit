@@ -24,6 +24,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -136,10 +137,10 @@ public class TokenIT extends AbstractDaemonTest {
   }
 
   private void addUserTokens() throws Exception {
-    tokenAccessor.addPlainToken(user.id(), "userToken1", "http-pass");
+    tokenAccessor.addPlainToken(user.id(), "userToken1", "http-pass", Optional.empty());
   }
 
   private void addAdminTokens() throws Exception {
-    tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass");
+    tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass", Optional.empty());
   }
 }

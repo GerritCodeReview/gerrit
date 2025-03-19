@@ -28,8 +28,10 @@ import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -92,6 +94,10 @@ public class VersionedAuthTokens extends VersionedMetaData {
     Config tokenConfig = new Config();
     for (AuthToken token : tokens.values()) {
       tokenConfig.setString("token", token.id(), "hash", token.hashedToken());
+      if (token.expirationDate().isPresent()) {
+        tokenConfig.setLong(
+            "token", token.id(), "expiration", token.expirationDate().get().toEpochMilli());
+      }
     }
 
     saveUTF8(FILE_NAME, tokenConfig.toText());
@@ -103,7 +109,11 @@ public class VersionedAuthTokens extends VersionedMetaData {
     tokenConfig.fromText(s);
     Map<String, AuthToken> tokens = new HashMap<>(tokenConfig.getSubsections("token").size());
     for (String id : tokenConfig.getSubsections("token")) {
-      tokens.put(id, AuthToken.create(id, tokenConfig.getString("token", id, "hash")));
+      Long expiration = tokenConfig.getLong("token", id, "expiration");
+      Optional<Instant> expirationInstant =
+          expiration != null ? Optional.of(Instant.ofEpochMilli(expiration)) : Optional.empty();
+      tokens.put(
+          id, AuthToken.create(id, tokenConfig.getString("token", id, "hash"), expirationInstant));
     }
     return tokens;
   }
@@ -131,13 +141,15 @@ public class VersionedAuthTokens extends VersionedMetaData {
    *
    * @param id the id of the token
    * @param hashedToken the hashed token to be added
+   * @param expiration the expiration instant of the token
    * @return the new Token
    * @throws AuthTokenConflictException if a token with the given id already exists
    */
-  AuthToken addToken(String id, String hashedToken) throws AuthTokenConflictException {
+  AuthToken addToken(String id, String hashedToken, Optional<Instant> expiration)
+      throws AuthTokenConflictException {
     checkLoaded();
 
-    AuthToken token = AuthToken.create(id, hashedToken);
+    AuthToken token = AuthToken.create(id, hashedToken, expiration);
     return addToken(token);
   }
 

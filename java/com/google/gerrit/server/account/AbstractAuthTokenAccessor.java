@@ -21,7 +21,9 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
@@ -53,17 +55,20 @@ public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   @CanIgnoreReturnValue
-  public synchronized AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public synchronized AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     String hashedToken = HashedPassword.fromPassword(token).encode();
-    return addToken(accountId, id, hashedToken);
+    return addToken(accountId, id, hashedToken, expiration);
   }
 
+  @Override
   @CanIgnoreReturnValue
-  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
-    AuthToken token = authTokens.addToken(id, hashedToken);
+    AuthToken token = authTokens.addToken(id, hashedToken, expiration);
     commit(accountId, authTokens);
     return token;
   }

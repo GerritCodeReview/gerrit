@@ -41,6 +41,11 @@ public class CachingAuthTokenAccessor extends AbstractAuthTokenAccessor {
   }
 
   @Override
+  public List<AuthToken> getValidTokens(Account.Id accountId) {
+    return authTokenCache.getValid(accountId);
+  }
+
+  @Override
   public List<AuthToken> getTokens(Account.Id accountId) {
     return authTokenCache.get(accountId);
   }

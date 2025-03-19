@@ -35,6 +35,7 @@ import com.google.inject.name.Named;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Singleton
 public class AuthTokenCacheImpl implements AuthTokenCache {
@@ -70,6 +71,11 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
           "Cannot load authentication tokens for %d", accountId.get());
       throw new StorageException(e);
     }
+  }
+
+  @Override
+  public List<AuthToken> getValid(Account.Id accountId) {
+    return get(accountId).stream().filter(t -> !t.isExpired()).collect(Collectors.toList());
   }
 
   @Override

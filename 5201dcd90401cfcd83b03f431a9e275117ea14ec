@@ -46,6 +46,30 @@
       },
       "revId": "5201dcd90401cfcd83b03f431a9e275117ea14ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f48ad7_7502606c",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-19T11:04:26Z",
+      "side": 1,
+      "message": "Let\u0027s first land this clean revert, then we can still think about how to reland your change in a safe way.\n\n\u003e Could we possibly keep the byLegacyChangeId as first choice and,\n\u003e if that\u0027s not found, automatically use the byChangeNumber as fallback?\n\nThis sounds like it should be OK. When you make a new change for this can you explain in the commit message which changes will be found by byChangeNumber which are not found by byLegacyChangeId?",
+      "parentUuid": "a75c7929_003f2b88",
+      "range": {
+        "startLine": 226,
+        "startChar": 25,
+        "endLine": 226,
+        "endChar": 51
+      },
+      "revId": "5201dcd90401cfcd83b03f431a9e275117ea14ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

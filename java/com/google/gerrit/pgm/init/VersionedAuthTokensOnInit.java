@@ -73,7 +73,7 @@ public class VersionedAuthTokensOnInit extends VersionedMetaDataOnInit {
   @Nullable
   public AuthToken getToken(String id) {
     checkState(tokens != null, "Tokens not loaded yet");
-    return tokens.stream().filter(t -> t.id().equals(id)).findAny().orElse(null);
+    return tokens.get(id);
   }
 
   @Override

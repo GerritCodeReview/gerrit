@@ -64,7 +64,7 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ChangeInfo, FixSuggestionInfo} from '../../../api/rest-api';
+import {FixSuggestionInfo} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -93,9 +93,7 @@ import {
 import {HintAppliedEventDetail, HintShownEventDetail} from '../../../api/embed';
 import {levenshteinDistance} from '../../../utils/string-util';
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
-import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
-import {ParsedChangeInfo} from '../../../types/types';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -274,9 +272,6 @@ export class GrComment extends LitElement {
   showPortedComment = false;
 
   @state()
-  change?: ParsedChangeInfo;
-
-  @state()
   account?: AccountDetailInfo;
 
   @state()
@@ -299,8 +294,6 @@ export class GrComment extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
-
-  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -424,11 +417,6 @@ export class GrComment extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().change$,
-      x => (this.change = x)
-    );
-    subscribe(
-      this,
       () =>
         this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
       () => {
@@ -439,13 +427,6 @@ export class GrComment extends LitElement {
       this,
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
-    );
-    subscribe(
-      this,
-      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
-      // We currently support results from only 1 provider.
-      suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
     );
     subscribe(
       this,
@@ -477,6 +458,15 @@ export class GrComment extends LitElement {
           !!prefs.allow_suggest_code_while_commenting
         ) {
           this.generateSuggestion = !!prefs.allow_suggest_code_while_commenting;
+        }
+      }
+    );
+    subscribe(
+      this,
+      () => this.getSuggestionsService().suggestionsServiceUpdated$,
+      updated => {
+        if (updated) {
+          this.requestUpdate();
         }
       }
     );
@@ -1167,8 +1157,6 @@ export class GrComment extends LitElement {
   showGeneratedSuggestion() {
     return (
       this.getSuggestionsService().isGeneratedSuggestedFixEnabledForComment(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
         this.comment
       ) &&
       this.editing &&
@@ -1286,8 +1274,6 @@ export class GrComment extends LitElement {
     try {
       suggestion =
         await this.getSuggestionsService().generateSuggestedFixForComment(
-          this.suggestionsProvider,
-          this.change as ChangeInfo,
           this.comment,
           this.messageText,
           this.generatedSuggestionId
@@ -1317,8 +1303,6 @@ export class GrComment extends LitElement {
     }
     const commentText = this.messageText;
     const context = await this.getSuggestionsService().autocompleteComment(
-      this.suggestionsProvider,
-      this.change as ChangeInfo,
       this.comment,
       this.messageText,
       this.comments

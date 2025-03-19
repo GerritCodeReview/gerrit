@@ -22,10 +22,11 @@ import java.util.Objects;
 public class AuthTokenInput {
   @Nullable public String id;
   @Nullable public String token;
+  @Nullable public String lifetime;
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, token);
+    return Objects.hash(id, token, lifetime);
   }
 
   @Override
@@ -34,6 +35,8 @@ public class AuthTokenInput {
       return false;
     }
     AuthTokenInput other = (AuthTokenInput) obj;
-    return Objects.equals(id, other.id) && Objects.equals(token, other.token);
+    return Objects.equals(id, other.id)
+        && Objects.equals(token, other.token)
+        && Objects.equals(lifetime, other.lifetime);
   }
 }

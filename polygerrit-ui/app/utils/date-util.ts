@@ -61,7 +61,7 @@ export function durationString(from: Date, to: Date, noAgo = false) {
  * Return true if date is within 24 hours and on the same day.
  */
 export function isWithinDay(now: Date, date: Date) {
-  const diff = now.valueOf() - date.valueOf();
+  const diff = Math.abs(now.valueOf() - date.valueOf());
   return diff < Duration.DAY && date.getDay() === now.getDay();
 }
 
@@ -79,7 +79,7 @@ export function wasYesterday(now: Date, date: Date) {
  * Returns true if date is from one to six months.
  */
 export function isWithinHalfYear(now: Date, date: Date) {
-  const diff = now.valueOf() - date.valueOf();
+  const diff = Math.abs(now.valueOf() - date.valueOf());
   return diff < 180 * Duration.DAY;
 }
 

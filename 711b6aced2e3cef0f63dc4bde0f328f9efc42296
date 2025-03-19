@@ -1,0 +1,126 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5daa3f8_dc28d876",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-19T09:10:43Z",
+      "side": 1,
+      "message": "nit: The wording to kind of implies a failure state (ie. request failed). I would try to reword it somehow to make it more clear. That service couldn\u0027t come up with a suitable suggestion.\n\nSomething like \"No suitable AI fix was found\"",
+      "range": {
+        "startLine": 751,
+        "startChar": 23,
+        "endLine": 751,
+        "endChar": 62
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1ae72fac_600e0c53",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+              "range": {
+                "startLine": 751,
+                "startChar": 0,
+                "endLine": 752,
+                "endChar": 0
+              },
+              "replacement": "      fireAlert(this, \u0027No AI fix suggestion could be found\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "711b6aced2e3cef0f63dc4bde0f328f9efc42296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a818b960_7e6033d6",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-19T09:10:43Z",
+      "side": 1,
+      "message": "These parts are duplicating across all three files. Along with \"loading\" state tracking and popup firing. Can we somehow share this code?",
+      "range": {
+        "startLine": 392,
+        "startChar": 4,
+        "endLine": 411,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "dfbf8b16_827dd2fd",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 41,
+                "startChar": 0,
+                "endLine": 41,
+                "endChar": 0
+              },
+              "replacement": "import {\n  generateFixSuggestion,\n  FixSuggestionLoadingState,\n} from \u0027../../models/checks/checks-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 70,
+                "startChar": 0,
+                "endLine": 71,
+                "endChar": 0
+              },
+              "replacement": "  suggestionLoadingState: FixSuggestionLoadingState \u003d\n    FixSuggestionLoadingState.NOT_LOADING;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 291,
+                "startChar": 0,
+                "endLine": 292,
+                "endChar": 0
+              },
+              "replacement": "      ?disabled\u003d${this.suggestionLoadingState \u003d\u003d\u003d FixSuggestionLoadingState.LOADING}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 295,
+                "startChar": 0,
+                "endLine": 296,
+                "endChar": 0
+              },
+              "replacement": "        this.suggestionLoadingState \u003d\u003d\u003d FixSuggestionLoadingState.LOADING,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 392,
+                "startChar": 0,
+                "endLine": 408,
+                "endChar": 0
+              },
+              "replacement": "    this.suggestionLoadingState \u003d FixSuggestionLoadingState.LOADING;\n    const suggestion \u003d await generateFixSuggestion(\n      this.getSuggestionsService(),\n      this.suggestionsProvider,\n      this.result.message,\n      this.change as ChangeInfo,\n      this.result.patchset as RevisionPatchSetNum,\n      codePointer.path,\n      codePointer.range\n    );\n    this.suggestionLoadingState \u003d FixSuggestionLoadingState.NOT_LOADING;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "711b6aced2e3cef0f63dc4bde0f328f9efc42296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

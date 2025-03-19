@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -26,20 +27,21 @@ public interface AuthTokenAccessor {
 
   public Optional<AuthToken> getToken(Account.Id accountId, String id);
 
-  public AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
+
+  public AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public void deleteToken(Account.Id accountId, String id)
       throws IOException, ConfigInvalidException;
 
+  public List<AuthToken> getValidTokens(Account.Id accountId);
+
   public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException;
 
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, AuthTokenConflictException;
-
-  AuthToken addToken(Account.Id accountId, String id, String hashedToken)
-      throws IOException,
-          ConfigInvalidException,
-          AuthTokenConflictException,
-          InvalidAuthTokenException;
 }

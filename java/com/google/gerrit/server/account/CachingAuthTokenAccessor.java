@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Account;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,11 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
   }
 
   @Override
+  public List<AuthToken> getValidTokens(Account.Id accountId) {
+    return getTokens(accountId).stream().filter(t -> !t.isExpired()).toList();
+  }
+
+  @Override
   public List<AuthToken> getTokens(Account.Id accountId) {
     return authTokenCache.get(accountId);
   }
@@ -60,17 +66,19 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   @CanIgnoreReturnValue
-  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken token = accessor.addToken(accountId, id, hashedToken);
+    AuthToken token = accessor.addToken(accountId, id, hashedToken, expiration);
     authTokenCache.evict(accountId);
     return token;
   }
 
   @Override
-  public AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken authToken = accessor.addPlainToken(accountId, id, token);
+    AuthToken authToken = accessor.addPlainToken(accountId, id, token, expiration);
     authTokenCache.evict(accountId);
     return authToken;
   }

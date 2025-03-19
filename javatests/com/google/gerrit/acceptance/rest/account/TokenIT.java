@@ -20,10 +20,16 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -143,13 +149,52 @@ public class TokenIT extends AbstractDaemonTest {
         .assertForbidden();
   }
 
+  @Test
+  public void assertCreateTokensWithLifetimeSucceeds() throws Exception {
+    for (String lifetime : List.of("5min", "1h", "1d", "1mon", "3y")) {
+      authTokenInput.lifetime = lifetime;
+      authTokenInput.id = String.format("testToken_%s", lifetime);
+      RestResponse resp =
+          userRestSession.put(
+              String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+      resp.assertCreated();
+
+      JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
+      assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
+      assertThat(createdToken.get("token").getAsString()).isNotNull();
+      assertThat(
+              TimeUnit.NANOSECONDS.toMinutes(
+                  Math.abs(
+                      Timestamp.valueOf(createdToken.get("expiration").getAsString())
+                          .toInstant()
+                          .compareTo(
+                              Instant.now()
+                                  .plusSeconds(
+                                      ConfigUtil.getTimeUnit(lifetime, 0, TimeUnit.SECONDS))))))
+          .isLessThan(1L);
+
+      assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+    }
+  }
+
+  @Test
+  public void assertInvalidLifetimeFormatReturnsBadRequest() throws Exception {
+    authTokenInput.lifetime = "1invalid";
+    RestResponse resp =
+        userRestSession.put(
+            String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+    resp.assertBadRequest();
+  }
+
   private void addUserTokens() throws Exception {
     @SuppressWarnings("unused")
-    var unused = tokenAccessor.addPlainToken(user.id(), "userToken1", "http-pass");
+    var unused =
+        tokenAccessor.addPlainToken(user.id(), "userToken1", "http-pass", Optional.empty());
   }
 
   private void addAdminTokens() throws Exception {
     @SuppressWarnings("unused")
-    var unused = tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass");
+    var unused =
+        tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass", Optional.empty());
   }
 }

@@ -270,6 +270,16 @@ suite('gr-date-formatter tests', () => {
         'Monday, 15/06/2015, 03:25:14'
       );
     });
+
+    test('More than six months', async () => {
+      await testDates(
+        '2015-07-29 20:34:14.985000000',
+        '2016-08-15 03:25:14.985000000',
+        '15/08/2016',
+        '15/08/2016 03:25',
+        'Monday, 15/08/2016, 03:25:14'
+      );
+    });
   });
 
   suite('STD + 12 hours time format preference', () => {

@@ -79,7 +79,7 @@ export function wasYesterday(now: Date, date: Date) {
  * Returns true if date is from one to six months.
  */
 export function isWithinHalfYear(now: Date, date: Date) {
-  const diff = now.valueOf() - date.valueOf();
+  const diff = Math.abs(now.valueOf() - date.valueOf());
   return diff < 180 * Duration.DAY;
 }
 

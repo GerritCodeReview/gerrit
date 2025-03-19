@@ -1288,11 +1288,13 @@ export type RequestPayload = string | object;
 export interface TokenInput {
   id?: string;
   token?: string;
+  lifetime?: string;
 }
 
 export interface TokenInfo {
   id: string;
   token?: string;
+  expiration?: Timestamp;
 }
 
 /**

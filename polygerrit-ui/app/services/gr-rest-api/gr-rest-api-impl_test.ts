@@ -1628,11 +1628,11 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
-    await element.generateAccountAuthToken('token1');
+    await element.generateAccountAuthToken('token1', '3d');
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {id: 'token1'}
+      {id: 'token1', lifetime: '3d'}
     );
   });
 

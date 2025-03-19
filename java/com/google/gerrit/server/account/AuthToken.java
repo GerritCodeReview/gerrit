@@ -17,6 +17,8 @@ package com.google.gerrit.server.account;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import java.time.Instant;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @AutoValue
@@ -24,21 +26,37 @@ public abstract class AuthToken {
   private static final Pattern TOKEN_ID_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9-_]*$");
 
   public static AuthToken createWithPlainToken(@Nullable String id, String plainToken) {
-    return create(id, HashedPassword.fromPassword(plainToken).encode());
+    return createWithPlainToken(id, plainToken, Optional.empty());
+  }
+
+  public static AuthToken createWithPlainToken(
+      @Nullable String id, String plainToken, Optional<Instant> expirationDate) {
+    return create(id, HashedPassword.fromPassword(plainToken).encode(), expirationDate);
   }
 
   public static AuthToken create(@Nullable String id, String hashedToken) {
+    return create(id, hashedToken, Optional.empty());
+  }
+
+  public static AuthToken create(
+      @Nullable String id, String hashedToken, Optional<Instant> expirationDate) {
     if (Strings.isNullOrEmpty(id)) {
       id = "token_" + System.currentTimeMillis();
     } else {
       validateId(id);
     }
-    return new AutoValue_AuthToken(id, hashedToken);
+    return new AutoValue_AuthToken(id, hashedToken, expirationDate);
   }
 
   public abstract String id();
 
   public abstract String hashedToken();
+
+  public abstract Optional<Instant> expirationDate();
+
+  public boolean isExpired() {
+    return expirationDate().isPresent() && Instant.now().isAfter(expirationDate().get());
+  }
 
   private static void validateId(String id) {
     if (!TOKEN_ID_PATTERN.matcher(id).matches()) {

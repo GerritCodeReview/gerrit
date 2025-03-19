@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -80,6 +81,9 @@ public class GetTokens implements RestReadView<AccountResource> {
   public static AuthTokenInfo newTokenInfo(AuthToken token) {
     AuthTokenInfo info = new AuthTokenInfo();
     info.id = token.id();
+    if (token.expirationDate().isPresent()) {
+      info.expiration = Timestamp.from(token.expirationDate().get());
+    }
     return info;
   }
 }

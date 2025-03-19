@@ -41,7 +41,6 @@ import {
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
-  Password,
   PluginInfo,
   PreferencesInfo,
   PreferencesInput,

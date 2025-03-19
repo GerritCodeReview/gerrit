@@ -3151,11 +3151,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  generateAccountAuthToken(tokenId: string): Promise<AuthTokenInfo | undefined> {
+  generateAccountAuthToken(
+    tokenId: string,
+    lifetime: string
+  ): Promise<AuthTokenInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
-        body: {id: tokenId},
+        body: {id: tokenId, lifetime},
       }),
       url: `/accounts/self/tokens/${tokenId}`,
       reportUrlAsIs: true,

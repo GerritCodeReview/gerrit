@@ -532,7 +532,10 @@ export interface RestApiService extends Finalizable {
 
   deleteAccountAuthToken(tokenId: string): Promise<Response>;
 
-  generateAccountAuthToken(tokenId: string): Promise<TokenInfo | undefined>;
+  generateAccountAuthToken(
+    tokenId: string,
+    lifetime: string
+  ): Promise<TokenInfo | undefined>;
 
   setAccountName(name: string): Promise<void>;
 

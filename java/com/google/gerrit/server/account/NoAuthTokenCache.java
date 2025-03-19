@@ -46,4 +46,9 @@ public class NoAuthTokenCache implements AuthTokenCache {
   public List<AuthToken> get(Account.Id accountId) {
     return authTokensFactory.create(accountId).getTokens();
   }
+
+  @Override
+  public List<AuthToken> getValid(Account.Id accountId) {
+    return get(accountId);
+  }
 }

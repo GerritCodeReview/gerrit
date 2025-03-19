@@ -15,9 +15,11 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.common.Nullable;
+import java.sql.Timestamp;
 
 public class TokenInfo {
   public String id;
   /* Should only be set when the token is being created. */
   @Nullable public String token;
+  @Nullable public Timestamp expiration;
 }

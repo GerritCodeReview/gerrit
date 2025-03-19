@@ -99,6 +99,16 @@ suite('gr-date-formatter tests', () => {
       );
     });
 
+    test('Within one week', async () => {
+      await testDates(
+        '2015-07-22 03:34:14.985000000',
+        '2015-07-29 02:25:14.985000000',
+        'Jul 29',
+        'Jul 29 02:25',
+        'Wednesday, Jul 29, 2015, 02:25:14'
+      );
+    });
+
     test('More than 24 hours but less than six months', async () => {
       await testDates(
         '2015-07-29 20:34:14.985000000',
@@ -147,6 +157,16 @@ suite('gr-date-formatter tests', () => {
       );
     });
 
+    test('Within one week', async () => {
+      await testDates(
+        '2015-07-22 03:34:14.985000000',
+        '2015-07-29 02:25:14.985000000',
+        '07/29',
+        '07/29 02:25',
+        'Wednesday, 07/29/15, 02:25:14'
+      );
+    });
+
     test('More than 24 hours but less than six months', async () => {
       await testDates(
         '2015-07-29 20:34:14.985000000',
@@ -182,6 +202,16 @@ suite('gr-date-formatter tests', () => {
         '07-28',
         '07-28 20:25',
         'Tuesday, 2015-07-28, 20:25:14'
+      );
+    });
+
+    test('Within one week', async () => {
+      await testDates(
+        '2015-07-22 03:34:14.985000000',
+        '2015-07-29 02:25:14.985000000',
+        '07-29',
+        '07-29 02:25',
+        'Wednesday, 2015-07-29, 02:25:14'
       );
     });
 
@@ -223,6 +253,16 @@ suite('gr-date-formatter tests', () => {
       );
     });
 
+    test('Within one week', async () => {
+      await testDates(
+        '2015-07-22 03:34:14.985000000',
+        '2015-07-29 02:25:14.985000000',
+        '29. Jul',
+        '29. Jul 02:25',
+        'Wednesday, 29.07.2015, 02:25:14'
+      );
+    });
+
     test('More than 24 hours but less than six months', async () => {
       await testDates(
         '2015-07-29 20:34:14.985000000',
@@ -261,6 +301,16 @@ suite('gr-date-formatter tests', () => {
       );
     });
 
+    test('Within one week', async () => {
+      await testDates(
+        '2015-07-22 03:34:14.985000000',
+        '2015-07-29 02:25:14.985000000',
+        '29/07',
+        '29/07 02:25',
+        'Wednesday, 29/07/2015, 02:25:14'
+      );
+    });
+
     test('More than 24 hours but less than six months', async () => {
       await testDates(
         '2015-07-29 20:34:14.985000000',
@@ -268,6 +318,16 @@ suite('gr-date-formatter tests', () => {
         '15/06',
         '15/06 03:25',
         'Monday, 15/06/2015, 03:25:14'
+      );
+    });
+
+    test('More than six months', async () => {
+      await testDates(
+        '2015-07-29 20:34:14.985000000',
+        '2016-08-15 03:25:14.985000000',
+        '15/08/2016',
+        '15/08/2016 03:25',
+        'Monday, 15/08/2016, 03:25:14'
       );
     });
   });

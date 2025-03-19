@@ -22,43 +22,54 @@ import {SpecialFilePath} from '../../constants/constants';
 import {hasUserSuggestion, isFileLevelComment} from '../../utils/comment-util';
 import {id} from '../../utils/comment-util';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
-import {SuggestionsService} from './suggestions-service';
+import {ReportSource, SuggestionsService} from './suggestions-service';
+import {BehaviorSubject} from 'rxjs';
+import {PluginsModel} from '../../models/plugins/plugins-model';
+import {ChangeModel} from '../../models/change/change-model';
 
 export class GrSuggestionsService implements SuggestionsService {
-  constructor(readonly reporting: ReportingService) {}
+  private suggestionsProvider?: SuggestionsProvider;
+
+  private change?: ChangeInfo;
+
+  constructor(
+    readonly reporting: ReportingService,
+    private readonly pluginsModel: PluginsModel,
+    private readonly changeModel: ChangeModel
+  ) {
+    this.pluginsModel.suggestionsPlugins$.subscribe(suggestionsPlugins => {
+      this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
+      this.suggestionsServiceUpdated$.next(true);
+    });
+
+    this.changeModel.change$.subscribe(change => {
+      this.change = change as ChangeInfo;
+      this.suggestionsServiceUpdated$.next(true);
+    });
+  }
 
   finalize() {}
 
-  public isGeneratedSuggestedFixEnabled(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
-    path?: string
-  ): boolean {
+  public suggestionsServiceUpdated$ = new BehaviorSubject<boolean>(false);
+
+  public isGeneratedSuggestedFixEnabled(path?: string): boolean {
     return (
-      !!suggestionsProvider &&
-      !!change &&
+      !!this.suggestionsProvider &&
+      !!this.change &&
       !!path &&
       path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
       path !== SpecialFilePath.COMMIT_MESSAGE &&
-      change.is_private !== true &&
-      (!suggestionsProvider.supportedFileExtensions ||
-        suggestionsProvider.supportedFileExtensions.includes(
+      this.change.is_private !== true &&
+      (!this.suggestionsProvider.supportedFileExtensions ||
+        this.suggestionsProvider.supportedFileExtensions.includes(
           getFileExtension(path)
         ))
     );
   }
 
-  public isGeneratedSuggestedFixEnabledForComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
-    comment?: Comment
-  ): boolean {
+  public isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean {
     return (
-      this.isGeneratedSuggestedFixEnabled(
-        suggestionsProvider,
-        change,
-        comment?.path
-      ) &&
+      this.isGeneratedSuggestedFixEnabled(comment?.path) &&
       // Disable for comments on the left side of the diff, files can be deleted
       // or such suggestions cannot be applied.
       comment?.side !== CommentSide.PARENT &&
@@ -68,29 +79,27 @@ export class GrSuggestionsService implements SuggestionsService {
     );
   }
 
-  public async generateSuggestedFix(
-    suggestionsProvider: SuggestionsProvider,
-    data: {
-      prompt: string;
-      changeInfo: ChangeInfo;
-      patchsetNumber: RevisionPatchSetNum;
-      filePath: string;
-      range?: CommentRange;
-      lineNumber?: number;
-      generatedSuggestionId?: string;
-      commentId?: string;
-    }
-  ): Promise<FixSuggestionInfo | undefined> {
-    if (!suggestionsProvider.suggestFix) return;
+  public async generateSuggestedFix(data: {
+    prompt: string;
+    patchsetNumber: RevisionPatchSetNum;
+    filePath: string;
+    range?: CommentRange;
+    lineNumber?: number;
+    generatedSuggestionId?: string;
+    commentId?: string;
+    reportSource?: ReportSource;
+  }): Promise<FixSuggestionInfo | undefined> {
+    if (!this.suggestionsProvider?.suggestFix || !this.change) return;
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
       commentId: data.commentId,
+      source: data.reportSource,
       fileExtension: getFileExtension(data.filePath ?? ''),
     });
-    const suggestionResponse = await suggestionsProvider.suggestFix({
+    const suggestionResponse = await this.suggestionsProvider.suggestFix({
       prompt: data.prompt,
-      changeInfo: data.changeInfo,
+      changeInfo: this.change,
       patchsetNumber: data.patchsetNumber,
       filePath: data.filePath,
       range: data.range,
@@ -101,6 +110,7 @@ export class GrSuggestionsService implements SuggestionsService {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
       commentId: data.commentId,
+      source: data.reportSource,
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.fix_suggestions.length,
       fileExtension: getFileExtension(data.filePath ?? ''),
@@ -115,38 +125,35 @@ export class GrSuggestionsService implements SuggestionsService {
   }
 
   public async generateSuggestedFixForComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
     comment?: Comment,
     commentText?: string,
-    generatedSuggestionId?: string
+    generatedSuggestionId?: string,
+    reportSource?: ReportSource
   ): Promise<FixSuggestionInfo | undefined> {
     if (
       !comment ||
       !comment.path ||
       !comment.patch_set ||
-      !suggestionsProvider?.suggestFix ||
-      !change ||
+      !this.suggestionsProvider?.suggestFix ||
+      !this.change ||
       !commentText
     ) {
       return;
     }
 
-    return this.generateSuggestedFix(suggestionsProvider, {
+    return this.generateSuggestedFix({
       prompt: commentText,
-      changeInfo: change,
       patchsetNumber: comment.patch_set,
       filePath: comment.path,
       range: comment.range,
       lineNumber: comment.line,
       generatedSuggestionId,
       commentId: comment.id,
+      reportSource,
     });
   }
 
   public async autocompleteComment(
-    suggestionsProvider?: SuggestionsProvider,
-    change?: ChangeInfo,
     comment?: Comment,
     commentText?: string,
     comments?: Comment[]
@@ -157,16 +164,16 @@ export class GrSuggestionsService implements SuggestionsService {
       !comment.patch_set ||
       !commentText ||
       commentText.length === 0 ||
-      !change ||
-      !suggestionsProvider?.autocompleteComment
+      !this.change ||
+      !this.suggestionsProvider?.autocompleteComment
     ) {
       return;
     }
     this.reporting.time(Timing.COMMENT_COMPLETION);
-    const response = await suggestionsProvider.autocompleteComment({
+    const response = await this.suggestionsProvider.autocompleteComment({
       id: id(comment),
       commentText,
-      changeInfo: change,
+      changeInfo: this.change,
       patchsetNumber: comment?.patch_set,
       filePath: comment.path,
       range: comment.range,

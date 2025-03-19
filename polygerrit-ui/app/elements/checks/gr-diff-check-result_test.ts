@@ -12,15 +12,7 @@ import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
 import {getAppContext} from '../../services/app-context';
 import {KnownExperimentId} from '../../services/flags/flags';
-import {
-  BranchName,
-  ChangeId,
-  NumericChangeId,
-  RepoName,
-} from '../../api/rest-api';
-import {SuggestionsProvider} from '../../api/suggestions';
 import {GrButton} from '../shared/gr-button/gr-button';
-import {createParsedChange} from '../../test/test-data-generators';
 import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
 
@@ -154,18 +146,6 @@ suite('gr-diff-check-result tests', () => {
           },
         ],
       } as RunResult;
-
-      element.change = {
-        ...createParsedChange(),
-        project: 'test-project' as RepoName,
-        branch: 'main' as BranchName,
-        change_id: 'test-change-id' as ChangeId,
-        _number: 123 as NumericChangeId,
-      };
-
-      element.suggestionsProvider = {
-        name: 'Test Provider',
-      } as SuggestionsProvider;
 
       element.isOwner = true;
       await element.updateComplete;

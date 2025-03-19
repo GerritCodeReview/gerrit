@@ -171,6 +171,16 @@ export function createFixAction(
   };
 }
 
+export function createGetAiFixAction(target: EventTarget): Action | undefined {
+  return {
+    name: 'Get AI Fix',
+    callback: () => {
+      fire(target, 'get-ai-fix-for-check-result', {});
+      return undefined;
+    },
+  };
+}
+
 export function rectifyFix(
   fix: Fix | undefined,
   checkName: string | undefined

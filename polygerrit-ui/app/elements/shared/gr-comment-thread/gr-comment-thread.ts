@@ -26,11 +26,7 @@ import {
   id,
   hasUserSuggestion,
 } from '../../../utils/comment-util';
-import {
-  ChangeInfo,
-  ChangeMessageId,
-  FixSuggestionInfo,
-} from '../../../api/rest-api';
+import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
   createDefaultDiffPrefs,
@@ -63,7 +59,7 @@ import {
   copyToClipbard,
   uuid,
 } from '../../../utils/common-util';
-import {fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {getUserName} from '../../../utils/display-name-util';
@@ -89,11 +85,11 @@ import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {noAwait, waitUntil} from '../../../utils/async-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
+import {
+  ReportSource,
+  suggestionsServiceToken,
+} from '../../../services/suggestions/suggestions-service';
 import {when} from 'lit/directives/when.js';
-import {ParsedChangeInfo} from '../../../types/types';
-import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
-import {SuggestionsProvider} from '../../../api/suggestions';
 
 declare global {
   interface HTMLElementEventMap {
@@ -233,9 +229,6 @@ export class GrCommentThread extends LitElement {
   repoName?: RepoName;
 
   @state()
-  change?: ParsedChangeInfo;
-
-  @state()
   account?: AccountDetailInfo;
 
   @state()
@@ -268,8 +261,6 @@ export class GrCommentThread extends LitElement {
   @state()
   isOwner = false;
 
-  @state() suggestionsProvider?: SuggestionsProvider;
-
   @state() suggestionLoading = false;
 
   @state() generatedSuggestionId?: string;
@@ -283,8 +274,6 @@ export class GrCommentThread extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
-
-  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -321,11 +310,6 @@ export class GrCommentThread extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().change$,
-      x => (this.change = x)
-    );
-    subscribe(
-      this,
       () => this.getUserModel().diffPreferences$,
       x => this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
     );
@@ -359,10 +343,12 @@ export class GrCommentThread extends LitElement {
     );
     subscribe(
       this,
-      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
-      // We currently support results from only 1 provider.
-      suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+      () => this.getSuggestionsService().suggestionsServiceUpdated$,
+      updated => {
+        if (updated) {
+          this.requestUpdate();
+        }
+      }
     );
   }
 
@@ -1012,16 +998,18 @@ export class GrCommentThread extends LitElement {
     try {
       suggestion =
         await this.getSuggestionsService().generateSuggestedFixForComment(
-          this.suggestionsProvider,
-          this.change as ChangeInfo,
           comment,
           comment.message,
-          this.generatedSuggestionId
+          this.generatedSuggestionId,
+          ReportSource.GET_AI_FIX_FOR_COMMENT
         );
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) return;
+    if (!suggestion) {
+      fireAlert(this, 'No suitable AI fix could be found');
+      return;
+    }
     this.suggestion = suggestion;
   }
 
@@ -1034,8 +1022,6 @@ export class GrCommentThread extends LitElement {
     const comment = this.thread.comments[0];
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabledForComment(
-        this.suggestionsProvider,
-        this.change as ChangeInfo,
         comment
       )
     ) {

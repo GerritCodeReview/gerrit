@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +56,10 @@ public class AuthTokenAccessor {
     return authTokenCache.get(accountId);
   }
 
+  public List<AuthToken> getValidTokens(Account.Id accountId) {
+    return authTokenCache.getValid(accountId);
+  }
+
   public Optional<AuthToken> getToken(Account.Id accountId, String id) {
     return authTokenCache.get(accountId).stream()
         .filter(token -> token.id().equals(id))
@@ -62,17 +67,19 @@ public class AuthTokenAccessor {
   }
 
   @CanIgnoreReturnValue
-  public synchronized AuthToken addPlainToken(Account.Id accountId, String id, String token)
+  public synchronized AuthToken addPlainToken(
+      Account.Id accountId, String id, String token, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     String hashedToken = HashedPassword.fromPassword(token).encode();
-    return addToken(accountId, id, hashedToken);
+    return addToken(accountId, id, hashedToken, expiration);
   }
 
   @CanIgnoreReturnValue
-  public synchronized AuthToken addToken(Account.Id accountId, String id, String hashedToken)
+  public synchronized AuthToken addToken(
+      Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, AuthTokenConflictException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
-    AuthToken token = authTokens.addToken(id, hashedToken);
+    AuthToken token = authTokens.addToken(id, hashedToken, expiration);
     commit(accountId, authTokens);
     authTokenCache.evict(accountId);
     return token;

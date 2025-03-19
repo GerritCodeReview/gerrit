@@ -21,10 +21,11 @@ import java.util.Objects;
 public class TokenInput {
   public String id;
   public String token;
+  public String lifetime;
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, token);
+    return Objects.hash(id, token, lifetime);
   }
 
   @Override
@@ -33,6 +34,8 @@ public class TokenInput {
     if (obj == null) return false;
     if (!(obj instanceof TokenInput)) return false;
     TokenInput other = (TokenInput) obj;
-    return Objects.equals(id, other.id) && Objects.equals(token, other.token);
+    return Objects.equals(id, other.id)
+        && Objects.equals(token, other.token)
+        && Objects.equals(lifetime, other.lifetime);
   }
 }

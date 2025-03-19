@@ -17,6 +17,13 @@ import {Observable} from 'rxjs';
 export const suggestionsServiceToken = define<SuggestionsService>(
   'suggestions-service'
 );
+
+export enum ReportSource {
+  GET_AI_FIX_FOR_CHECK = 'GET_AI_FIX_FOR_CHECK',
+  GET_AI_FIX_FOR_COMMENT = 'GET_AI_FIX_FOR_COMMENT',
+  FIX_FOR_REVIEWER_COMMENT = 'FIX_FOR_REVIEWER_COMMENT',
+}
+
 export interface SuggestionsService extends Finalizable {
   /**
    * Emits a boolean value whenever the enablement state of any suggestion
@@ -59,6 +66,7 @@ export interface SuggestionsService extends Finalizable {
     lineNumber?: number;
     generatedSuggestionId?: string;
     commentId?: string;
+    reportSource?: ReportSource;
   }): Promise<FixSuggestionInfo | undefined>;
 
   /**
@@ -73,7 +81,8 @@ export interface SuggestionsService extends Finalizable {
   generateSuggestedFixForComment(
     comment?: Comment,
     commentText?: string,
-    generatedSuggestionId?: string
+    generatedSuggestionId?: string,
+    reportSource?: ReportSource
   ): Promise<FixSuggestionInfo | undefined>;
 
   /**

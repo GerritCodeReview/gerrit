@@ -88,7 +88,10 @@ import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
 import {isDefined} from '../../types/types';
 import {KnownExperimentId} from '../../services/flags/flags';
-import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {
+  ReportSource,
+  suggestionsServiceToken,
+} from '../../services/suggestions/suggestions-service';
 import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
 
 /**
@@ -713,6 +716,7 @@ export class GrResultRow extends LitElement {
         patchsetNumber: this.result.patchset as RevisionPatchSetNum,
         filePath: codePointer.path,
         range: codePointer.range,
+        reportSource: ReportSource.GET_AI_FIX_FOR_CHECK,
       });
     } finally {
       this.suggestionLoading = false;

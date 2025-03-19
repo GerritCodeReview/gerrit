@@ -85,7 +85,10 @@ import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {noAwait, waitUntil} from '../../../utils/async-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
+import {
+  ReportSource,
+  suggestionsServiceToken,
+} from '../../../services/suggestions/suggestions-service';
 import {when} from 'lit/directives/when.js';
 
 declare global {
@@ -997,7 +1000,8 @@ export class GrCommentThread extends LitElement {
         await this.getSuggestionsService().generateSuggestedFixForComment(
           comment,
           comment.message,
-          this.generatedSuggestionId
+          this.generatedSuggestionId,
+          ReportSource.GET_AI_FIX_FOR_COMMENT
         );
     } finally {
       this.suggestionLoading = false;

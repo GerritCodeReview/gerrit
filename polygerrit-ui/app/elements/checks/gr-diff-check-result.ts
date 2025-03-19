@@ -27,7 +27,10 @@ import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {Interaction} from '../../constants/reporting';
 import {KnownExperimentId} from '../../services/flags/flags';
-import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {
+  ReportSource,
+  suggestionsServiceToken,
+} from '../../services/suggestions/suggestions-service';
 import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
 import {when} from 'lit/directives/when.js';
 import {fireAlert} from '../../utils/event-util';
@@ -371,6 +374,7 @@ export class GrDiffCheckResult extends LitElement {
         patchsetNumber: this.result.patchset as RevisionPatchSetNum,
         filePath: codePointer.path,
         range: codePointer.range,
+        reportSource: ReportSource.GET_AI_FIX_FOR_CHECK,
       });
     } finally {
       this.suggestionLoading = false;

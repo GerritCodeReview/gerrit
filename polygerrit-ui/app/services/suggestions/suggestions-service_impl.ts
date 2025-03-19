@@ -22,7 +22,7 @@ import {SpecialFilePath} from '../../constants/constants';
 import {hasUserSuggestion, isFileLevelComment} from '../../utils/comment-util';
 import {id} from '../../utils/comment-util';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
-import {SuggestionsService} from './suggestions-service';
+import {ReportSource, SuggestionsService} from './suggestions-service';
 import {BehaviorSubject} from 'rxjs';
 import {PluginsModel} from '../../models/plugins/plugins-model';
 import {ChangeModel} from '../../models/change/change-model';
@@ -87,12 +87,14 @@ export class GrSuggestionsService implements SuggestionsService {
     lineNumber?: number;
     generatedSuggestionId?: string;
     commentId?: string;
+    reportSource?: ReportSource;
   }): Promise<FixSuggestionInfo | undefined> {
     if (!this.suggestionsProvider?.suggestFix || !this.change) return;
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
       commentId: data.commentId,
+      source: data.reportSource,
       fileExtension: getFileExtension(data.filePath ?? ''),
     });
     const suggestionResponse = await this.suggestionsProvider.suggestFix({
@@ -108,6 +110,7 @@ export class GrSuggestionsService implements SuggestionsService {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
       commentId: data.commentId,
+      source: data.reportSource,
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.fix_suggestions.length,
       fileExtension: getFileExtension(data.filePath ?? ''),
@@ -124,7 +127,8 @@ export class GrSuggestionsService implements SuggestionsService {
   public async generateSuggestedFixForComment(
     comment?: Comment,
     commentText?: string,
-    generatedSuggestionId?: string
+    generatedSuggestionId?: string,
+    reportSource?: ReportSource
   ): Promise<FixSuggestionInfo | undefined> {
     if (
       !comment ||
@@ -145,6 +149,7 @@ export class GrSuggestionsService implements SuggestionsService {
       lineNumber: comment.line,
       generatedSuggestionId,
       commentId: comment.id,
+      reportSource,
     });
   }
 

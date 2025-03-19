@@ -92,7 +92,10 @@ import {
 } from '../../../utils/autocomplete-cache';
 import {HintAppliedEventDetail, HintShownEventDetail} from '../../../api/embed';
 import {levenshteinDistance} from '../../../utils/string-util';
-import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
+import {
+  ReportSource,
+  suggestionsServiceToken,
+} from '../../../services/suggestions/suggestions-service';
 import {SuggestionsProvider} from '../../../api/suggestions';
 
 // visible for testing
@@ -1276,7 +1279,8 @@ export class GrComment extends LitElement {
         await this.getSuggestionsService().generateSuggestedFixForComment(
           this.comment,
           this.messageText,
-          this.generatedSuggestionId
+          this.generatedSuggestionId,
+          ReportSource.FIX_FOR_REVIEWER_COMMENT
         );
     } finally {
       this.suggestionLoading = false;

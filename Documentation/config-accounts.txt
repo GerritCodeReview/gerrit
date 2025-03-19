@@ -269,6 +269,7 @@ The file uses the git config format:
 ----
 [token "some-token-id"]
   hash = bcrypt0:4:....
+  expiration = 1744352731537
 ----
 
 Each subsection represents a token. The subsection name represents an ID that
@@ -277,12 +278,17 @@ is unique for the user.
 The token is never stored in plain text. Only the serialized token hash that will
 be used to verify the provided token during authentication will be stored.
 
+A token may have an expiration timestamp. This timestamp is given as the Unix
+epoch in seconds. A token is considered valid if the expiration timestamp is in
+the future. If no expiration timestamp is provided the token is considered to be
+valid forever or until it is deleted.
+
 When a token is deleted, the respected subsection is being removed from the
 file.
 
-During authentication Gerrit will verify the provided token against all tokens
-present in the account. If any token matches the provided token, authentication
-will succeed.
+During authentication Gerrit will verify the provided token against all valid
+tokens present in the account. If any token matches the provided token,
+authentication will succeed.
 
 [[ssh-keys]]
 === SSH Keys

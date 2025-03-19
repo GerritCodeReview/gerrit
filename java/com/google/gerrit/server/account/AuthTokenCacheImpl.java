@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class AuthTokenCacheImpl implements AuthTokenCache {
   public static final String LEGACY_ID = "legacy";
@@ -75,6 +76,11 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
           "Cannot load authentication tokens for %d", accountId.get());
       return Collections.emptyList();
     }
+  }
+
+  @Override
+  public List<AuthToken> getValid(Account.Id accountId) {
+    return get(accountId).stream().filter(t -> !t.isExpired()).collect(Collectors.toList());
   }
 
   @Override

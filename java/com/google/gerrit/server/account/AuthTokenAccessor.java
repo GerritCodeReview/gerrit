@@ -36,12 +36,13 @@ public interface AuthTokenAccessor {
       throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public void deleteToken(Account.Id accountId, String id)
-      throws IOException, ConfigInvalidException;
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public List<AuthToken> getValidTokens(Account.Id accountId);
 
-  public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException;
+  public void deleteAllTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException;
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 }

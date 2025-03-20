@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae3ba16_05efc074",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-20T10:28:30Z",
+      "side": 1,
+      "message": "Any chance we can add a test for this to CommentsIT? It already has a createDraftWithFixSuggestions() test, maybe we could add a clearFixSuggestionOnDraft() test next to it?",
+      "revId": "7fbdfff457e53bc5c5abf9817a52f125e1598c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

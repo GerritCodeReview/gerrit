@@ -183,6 +183,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     }
     if (in.fixSuggestions != null) {
       e.fixSuggestions = CommentsUtil.createFixSuggestionsFromInput(in.fixSuggestions);
+    } else {
+      e.fixSuggestions = null;
     }
     return e;
   }

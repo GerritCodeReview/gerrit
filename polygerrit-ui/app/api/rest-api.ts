@@ -324,6 +324,7 @@ export declare interface AuthInfo {
   edit_full_name_url?: string;
   http_password_url?: string;
   git_basic_auth_policy?: string;
+  max_token_lifetime?: string;
 }
 
 /**

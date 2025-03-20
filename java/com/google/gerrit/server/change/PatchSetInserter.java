@@ -490,7 +490,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       validationOptionsListeners.runEach(
           validationOptionsListener ->
               validationOptionsListener.onPatchSetCreation(
-                  change.getDest(), psId, validationOptions));
+                  origNotes.getChange().getDest(), psId, validationOptions));
       try {
         commitValidatorsFactory
             .forGerritCommits(

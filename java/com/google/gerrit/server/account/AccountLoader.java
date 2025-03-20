@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -36,6 +35,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * AccountLoader is the class that populates properties of the AccountInfo provided to it.
+ *
+ * <p>The class is designed to be used in the following way:
+ *
+ * <ol>
+ *   <li>Call {@code get} to get AccountInfo for a given id that will be filled on next fill.
+ *   <li>Call {@code put} to provide AccountInfo that will be filled on the next fill.
+ *   <li>Call {@code fill} to populate properties of the AccountInfo.
+ *   <li>Call {@code get} if needed again to get filled AccountInfo.
+ * </ol>
+ */
 public class AccountLoader {
   public static final Set<FillOptions> DETAILED_OPTIONS =
       Collections.unmodifiableSet(
@@ -58,7 +69,10 @@ public class AccountLoader {
 
   private final InternalAccountDirectory directory;
   private final Set<FillOptions> options;
-  private final Map<Account.Id, AccountInfo> created;
+  // Single AccountInfo per AccountId that is actually evaluated. All others (if any) in "provided"
+  // are copies of these.
+  private final Map<Account.Id, AccountInfo> primeAccountInfo;
+  // Extra AccountInfo provided by callers that should be populated after fill().
   private final List<AccountInfo> provided;
 
   @AssistedInject
@@ -70,34 +84,61 @@ public class AccountLoader {
   AccountLoader(InternalAccountDirectory directory, @Assisted Set<FillOptions> options) {
     this.directory = directory;
     this.options = options;
-    created = new HashMap<>();
+    primeAccountInfo = new HashMap<>();
     provided = new ArrayList<>();
   }
 
+  /**
+   * Return AccountInfo for given id.
+   *
+   * <p>If called before {@code fill} the AccountInfo is unfilled and will be filled on next call to
+   * fill.
+   *
+   * <p>If called after {@code fill} will return filled AccountInfo only if account with this id was
+   * specified in one of {@code get} or {@code put} call before the call to {@code fill}. Otherwise,
+   * returns unfilled AccountInfo.
+   */
   @Nullable
   public synchronized AccountInfo get(@Nullable Account.Id id) {
     if (id == null) {
       return null;
     }
-    AccountInfo info = created.get(id);
+    AccountInfo info = primeAccountInfo.get(id);
     if (info == null) {
       info = new AccountInfo(id.get());
-      created.put(id, info);
+      primeAccountInfo.put(id, info);
     }
     return info;
   }
 
+  /** Provide AccountInfo that will be filled on the next fill. */
   public synchronized void put(AccountInfo info) {
     checkArgument(info._accountId != null, "_accountId field required");
     provided.add(info);
   }
 
+  /**
+   * Populates properties of the {@link AccountInfo} previously returned from {@code get} or
+   * provided by {@code put}
+   */
+  @SuppressWarnings("ReferenceEquality") // Intentional reference equality check
   public void fill() throws PermissionBackendException {
     try (TraceTimer timer = TraceContext.newTimer("Fill accounts", Metadata.empty())) {
-      directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
+      for (AccountInfo info : provided) {
+        primeAccountInfo.putIfAbsent(Account.id(info._accountId), info);
+      }
+      directory.fillAccountInfo(primeAccountInfo.values(), options);
+      for (AccountInfo info : provided) {
+        AccountInfo filledInfo = primeAccountInfo.get(Account.id(info._accountId));
+        // Check if it's the same instance.
+        if (filledInfo != info) {
+          filledInfo.copyTo(info);
+        }
+      }
     }
   }
 
+  /** Same as {@link #fill()}, but also populate {@link AccountInfo} in {@code infos} */
   public void fill(Collection<? extends AccountInfo> infos) throws PermissionBackendException {
     for (AccountInfo info : infos) {
       put(info);
@@ -105,6 +146,7 @@ public class AccountLoader {
     fill();
   }
 
+  /** Same as {@link #fill()}, but also create and populate {@link AccountInfo} for provided id. */
   @Nullable
   public AccountInfo fillOne(@Nullable Account.Id id) throws PermissionBackendException {
     AccountInfo info = get(id);

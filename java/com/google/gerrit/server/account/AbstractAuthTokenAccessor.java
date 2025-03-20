@@ -45,7 +45,7 @@ public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     for (AuthToken token : tokens) {
       authTokens.addToken(token);
@@ -57,7 +57,7 @@ public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
   @CanIgnoreReturnValue
   public synchronized AuthToken addPlainToken(
       Account.Id accountId, String id, String token, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     String hashedToken = HashedPassword.fromPassword(token).encode();
     return addToken(accountId, id, hashedToken, expiration);
   }
@@ -66,7 +66,7 @@ public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
   @CanIgnoreReturnValue
   public synchronized AuthToken addToken(
       Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     AuthToken token = authTokens.addToken(id, hashedToken, expiration);
     commit(accountId, authTokens);
@@ -83,7 +83,8 @@ public abstract class AbstractAuthTokenAccessor implements AuthTokenAccessor {
   }
 
   @Override
-  public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException {
+  public void deleteAllTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     for (AuthToken token : getTokens(accountId)) {
       deleteToken(accountId, token.id());
     }

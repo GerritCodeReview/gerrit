@@ -89,7 +89,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     for (AuthToken token : tokens) {
       authTokens.addToken(token);

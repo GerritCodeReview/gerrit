@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b964f8fe_46a165d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-03-20T07:30:38Z",
+      "side": 1,
+      "message": "```suggestion\n * Copyright 2023 Google LLC\n```",
+      "revId": "324c9e303e35313a4581c08a11501ccd7a034b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

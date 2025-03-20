@@ -24,12 +24,10 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.TokenInput;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UserInitiated;
@@ -37,7 +35,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.AuthTokenCache;
-import com.google.gerrit.server.account.AuthTokenConflictException;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -108,14 +106,11 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
 
   @Override
   public Response<String> apply(AccountResource rsrc, HttpPasswordInput input)
-      throws AuthException,
-          ResourceNotFoundException,
-          ResourceConflictException,
-          IOException,
+      throws IOException,
           ConfigInvalidException,
           PermissionBackendException,
-          AuthTokenConflictException,
-          BadRequestException {
+          RestApiException,
+          InvalidAuthTokenException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

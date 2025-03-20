@@ -175,8 +175,8 @@ public class AuditLogFormatter {
     return new PersonIdent(
         accountname,
         getEmailForAuditLog(accountId),
-        personIdent.getWhen(),
-        personIdent.getTimeZone());
+        personIdent.getWhenAsInstant(),
+        personIdent.getZoneId());
   }
 
   private String getEmailForAuditLog(Account.Id accountId) {

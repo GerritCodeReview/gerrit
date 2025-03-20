@@ -27,6 +27,8 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider.DefaultUserAddressGenFactory;
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +45,7 @@ public class FromAddressGeneratorProviderTest {
   @Before
   public void setUp() throws Exception {
     config = new Config();
-    ident = new PersonIdent("NAME", "e@email", 0, 0);
+    ident = new PersonIdent("NAME", "e@email", Instant.EPOCH, ZoneOffset.ofHoursMinutes(0, 0));
     accountCache = mock(AccountCache.class);
   }
 

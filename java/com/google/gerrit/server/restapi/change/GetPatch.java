@@ -29,8 +29,7 @@ import com.google.gerrit.server.patch.DiffUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -41,6 +40,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetPatch implements RestReadView<RevisionResource> {
+  private static final DateTimeFormatter DATE_FORMATTER =
+      DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
   private final GitRepositoryManager repoManager;
 
   /**
@@ -205,9 +206,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
   }
 
   private static String formatDate(PersonIdent author) {
-    SimpleDateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
-    df.setCalendar(Calendar.getInstance(author.getTimeZone(), Locale.US));
-    return df.format(author.getWhen());
+    return author.getWhenAsInstant().atZone(author.getZoneId()).format(DATE_FORMATTER);
   }
 
   private static String fileName(RevWalk rw, RevCommit commit) throws IOException {

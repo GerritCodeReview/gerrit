@@ -1181,8 +1181,8 @@ public class MergeUtil {
       commit.setAuthor(
           new PersonIdent(
               commit.getAuthor(),
-              commit.getCommitter().getWhen(),
-              commit.getCommitter().getTimeZone()));
+              commit.getCommitter().getWhenAsInstant(),
+              commit.getCommitter().getZoneId()));
     }
   }
 }

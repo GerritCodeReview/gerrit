@@ -298,7 +298,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
             .message("A change")
             .insertChangeId()
             .author(admin.newIdent())
-            .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()))
+            .committer(new PersonIdent(admin.newIdent(), testRepo.getInstant()))
             .create();
     pushHead(testRepo, "refs/for/master");
 

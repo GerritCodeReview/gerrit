@@ -25,12 +25,11 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.auth.AuthTokenInfo;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -101,14 +100,12 @@ public class CreateToken
   @Override
   @CanIgnoreReturnValue
   public Response<AuthTokenInfo> apply(AccountResource rsrc, IdString id, AuthTokenInput input)
-      throws AuthException,
-          ResourceNotFoundException,
-          ResourceConflictException,
-          IOException,
+      throws IOException,
           ConfigInvalidException,
           PermissionBackendException,
+          BadRequestException,
           InvalidAuthTokenException,
-          BadRequestException {
+          RestApiException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
@@ -139,8 +136,14 @@ public class CreateToken
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public Response<AuthTokenInfo> apply(
       IdentifiedUser user, String id, String newToken, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
+      throws IOException, ConfigInvalidException, RestApiException {
+    AuthToken token;
+    try {
+      token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
+    } catch (InvalidAuthTokenException e) {
+      throw RestApiException.wrap(
+          String.format("Invalid token configuration: %s", e.getMessage()), e);
+    }
     try {
       emailFactories
           .createOutgoingEmail(
@@ -164,6 +167,9 @@ public class CreateToken
 
   public static Optional<Instant> getExpirationInstant(AuthTokenInput input)
       throws BadRequestException {
+    if (input.lifetime == null || input.lifetime.isBlank()) {
+      return Optional.empty();
+    }
     long lifetime;
     if (Strings.isNullOrEmpty(input.lifetime)) {
       return Optional.empty();

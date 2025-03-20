@@ -66,7 +66,7 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
 
   @Override
   public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     directAuthTokenAccessor.addTokens(accountId, tokens);
     authTokenCache.evict(accountId);
   }

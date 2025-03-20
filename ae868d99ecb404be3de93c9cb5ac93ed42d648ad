@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a465ccfe_f1db052e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-20T10:33:16Z",
+      "side": 1,
+      "message": "nit: whitespace issue?",
+      "revId": "ae868d99ecb404be3de93c9cb5ac93ed42d648ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

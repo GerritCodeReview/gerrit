@@ -353,16 +353,8 @@ export class GrPermission extends LitElement {
     if (!this.permission) {
       return;
     }
-    // Update entire permission object to trigger a re-render since permission
-    // is marked as @property
-    this.permission = {
-      ...this.permission,
-      value: {
-        ...this.permission.value,
-        modified: true,
-        exclusive: (e.target as HTMLInputElement).checked,
-      },
-    };
+    this.permission.value.modified = true;
+    this.permission.value.exclusive = (e.target as HTMLInputElement).checked;
     // Allows overall access page to know a change has been made.
     fire(this, 'access-modified', {});
   }

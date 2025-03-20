@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "650b2302_e98f5950",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-20T15:44:36Z",
+      "side": 1,
+      "message": "This took me longer, but I would like to admit. But done",
+      "parentUuid": "86c2b7b9_6798ea4a",
+      "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce6b656f_e49a70b1",
@@ -69,6 +87,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80d546b_c144ec26",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-20T15:44:36Z",
+      "side": 1,
+      "message": "Rename created to \"primeAccountInfo\" (couldn\u0027t come up with a better name). Added comments",
+      "parentUuid": "ce6b656f_e49a70b1",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4530f16_16601816",
@@ -100,6 +142,24 @@
           ]
         }
       ],
+      "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c503dff_d48b0193",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-20T15:44:36Z",
+      "side": 1,
+      "message": "There is only 1 valid flow. Just calling get() is not valid. Because resulting account is not filled.\n\nAdded to docstring",
+      "parentUuid": "f4530f16_16601816",
       "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

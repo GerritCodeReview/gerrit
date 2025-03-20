@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4411e57_9b0b3bc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-20T23:36:03Z",
+      "side": 1,
+      "message": "Can you add a release note for this?",
+      "revId": "558d216c966c898450a0b94383afd74075931022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03d0ad8f_ae23cd87",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3529,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-20T23:36:03Z",
+      "side": 1,
+      "message": "```suggestion\nnew and old index versions and start an online reindex. Once\n```",
+      "revId": "558d216c966c898450a0b94383afd74075931022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce8590b_9eb40114",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3533,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-20T23:36:03Z",
+      "side": 1,
+      "message": "```suggestion\nbut no online reindex is started. When this is set, users will have to fully populate\n```",
+      "revId": "558d216c966c898450a0b94383afd74075931022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5989875_12703423",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-20T23:36:03Z",
+      "side": 1,
+      "message": "Update this too?",
+      "revId": "558d216c966c898450a0b94383afd74075931022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2c9bd37_f43c4783",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-20T23:36:03Z",
+      "side": 1,
+      "message": "Can we rename this but keep `\"true\"` as an alias?\n\n```suggestion\n    UPGRADE_AND_REINDEX,\n```",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 8
+      },
+      "revId": "558d216c966c898450a0b94383afd74075931022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c97ff633_b4de714f",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-20T23:36:03Z",
+      "side": 1,
+      "message": "Let\u0027s rename this like a boolean getter\n```suggestion\n  public static boolean shouldPerformOnlineUpgrade(Config cfg) {\n```",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 44
+      },
+      "revId": "558d216c966c898450a0b94383afd74075931022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

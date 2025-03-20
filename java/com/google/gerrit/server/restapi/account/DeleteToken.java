@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -72,7 +73,8 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
           RepositoryNotFoundException,
           IOException,
           ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException,
+          InvalidAuthTokenException {
     return apply(rsrc.getUser(), rsrc.getId(), true);
   }
 
@@ -82,7 +84,8 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
           IOException,
           ConfigInvalidException,
           AuthException,
-          PermissionBackendException {
+          PermissionBackendException,
+          InvalidAuthTokenException {
     if (!self.get().hasSameAccountId(user)) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }

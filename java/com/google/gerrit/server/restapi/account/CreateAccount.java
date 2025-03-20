@@ -46,7 +46,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.AuthTokenCache;
-import com.google.gerrit.server.account.AuthTokenConflictException;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -134,7 +134,7 @@ public class CreateAccount
           IOException,
           ConfigInvalidException,
           PermissionBackendException,
-          AuthTokenConflictException {
+          InvalidAuthTokenException {
     return apply(id, input != null ? input : new AccountInput());
   }
 
@@ -145,7 +145,7 @@ public class CreateAccount
           IOException,
           ConfigInvalidException,
           PermissionBackendException,
-          AuthTokenConflictException {
+          InvalidAuthTokenException {
     String username = applyCaseOfUsername(id.get());
     if (input.username != null && !username.equals(applyCaseOfUsername(input.username))) {
       throw new BadRequestException("username must match URL");

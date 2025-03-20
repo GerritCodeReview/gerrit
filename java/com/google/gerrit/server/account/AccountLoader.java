@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/** AccountLoader is the class that populates properties of the AccountInfo provided to it. */
 public class AccountLoader {
   public static final Set<FillOptions> DETAILED_OPTIONS =
       Collections.unmodifiableSet(
@@ -74,6 +74,16 @@ public class AccountLoader {
     provided = new ArrayList<>();
   }
 
+  /**
+   * Return AccountInfo for given id.
+   *
+   * <p>If called before {@code fill} the AccountInfo is unfilled and will be filled on next call to
+   * fill.
+   *
+   * <p>If called after {@code fill} will return filled AccountInfo only if account with this id was
+   * specified in one of {@code get} or {@code put} call before the call to {@code fill}. Otherwise,
+   * returns unfilled AccountInfo.
+   */
   @Nullable
   public synchronized AccountInfo get(@Nullable Account.Id id) {
     if (id == null) {
@@ -87,17 +97,34 @@ public class AccountLoader {
     return info;
   }
 
+  /** Provide AccountInfo that will be filled on the next fill. */
   public synchronized void put(AccountInfo info) {
     checkArgument(info._accountId != null, "_accountId field required");
     provided.add(info);
   }
 
+  /**
+   * Populates properties of the {@link AccountInfo} previously returned from {@code get} or
+   * provided by {@code put}
+   */
+  @SuppressWarnings("ReferenceEquality") // Intentional reference equality check
   public void fill() throws PermissionBackendException {
     try (TraceTimer timer = TraceContext.newTimer("Fill accounts", Metadata.empty())) {
-      directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
+      for (AccountInfo info : provided) {
+        created.putIfAbsent(Account.id(info._accountId), info);
+      }
+      directory.fillAccountInfo(created.values(), options);
+      for (AccountInfo info : provided) {
+        AccountInfo filledInfo = created.get(Account.id(info._accountId));
+        // Check if it's the same instance.
+        if (filledInfo != info) {
+          filledInfo.copyTo(info);
+        }
+      }
     }
   }
 
+  /** Same as {@link #fill()}, but also populate {@link AccountInfo} in {@code infos} */
   public void fill(Collection<? extends AccountInfo> infos) throws PermissionBackendException {
     for (AccountInfo info : infos) {
       put(info);
@@ -105,6 +132,7 @@ public class AccountLoader {
     fill();
   }
 
+  /** Same as {@link #fill()}, but also create and populate {@link AccountInfo} for provided id. */
   @Nullable
   public AccountInfo fillOne(@Nullable Account.Id id) throws PermissionBackendException {
     AccountInfo info = get(id);

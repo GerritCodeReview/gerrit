@@ -74,7 +74,7 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
 
   @Override
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.addTokens(accountId, tokens);
   }
 
@@ -87,12 +87,13 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
 
   @Override
   public void deleteToken(Account.Id accountId, String id)
-      throws IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.deleteToken(accountId, id);
   }
 
   @Override
-  public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException {
+  public void deleteAllTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.deleteAllTokens(accountId);
   }
 

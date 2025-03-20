@@ -14,20 +14,14 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.entities.Account;
-
-public class AuthTokenConflictException extends InvalidAuthTokenException {
+public class InvalidAuthTokenException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public AuthTokenConflictException(String id, Account.Id accountId) {
-    super(message(id, accountId));
+  public InvalidAuthTokenException(String message) {
+    super(message);
   }
 
-  public AuthTokenConflictException(String id, Account.Id accountId, Throwable cause) {
-    super(message(id, accountId), cause);
-  }
-
-  private static String message(String id, Account.Id accountId) {
-    return String.format("A token with id %s already exists for account %d.", id, accountId.get());
+  public InvalidAuthTokenException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

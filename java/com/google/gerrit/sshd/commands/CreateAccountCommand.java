@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AuthTokenConflictException;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -103,7 +104,7 @@ final class CreateAccountCommand extends SshCommand {
       @SuppressWarnings("unused")
       var unused =
           createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
-    } catch (RestApiException e) {
+    } catch (RestApiException | InvalidAuthTokenException e) {
       throw die(e.getMessage());
     }
   }

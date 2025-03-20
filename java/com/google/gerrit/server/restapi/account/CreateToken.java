@@ -25,12 +25,11 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.auth.AuthTokenInfo;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.InvalidAuthTokenException;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -85,30 +86,32 @@ public class CreateToken
   private final PermissionBackend permissionBackend;
   private final EmailFactories emailFactories;
   private final AuthTokenAccessor tokensAccessor;
+  private final Optional<Duration> maxAuthTokenLifetime;
 
   @Inject
   CreateToken(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       EmailFactories emailFactories,
-      AuthTokenAccessor tokensAccessor) {
+      AuthTokenAccessor tokensAccessor,
+      AuthConfig authConfig) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.emailFactories = emailFactories;
     this.tokensAccessor = tokensAccessor;
+
+    this.maxAuthTokenLifetime = authConfig.getMaxAuthTokenLifetime();
   }
 
   @Override
   @CanIgnoreReturnValue
   public Response<AuthTokenInfo> apply(AccountResource rsrc, IdString id, AuthTokenInput input)
-      throws AuthException,
-          ResourceNotFoundException,
-          ResourceConflictException,
-          IOException,
+      throws IOException,
           ConfigInvalidException,
           PermissionBackendException,
+          BadRequestException,
           InvalidAuthTokenException,
-          BadRequestException {
+          RestApiException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
@@ -133,14 +136,27 @@ public class CreateToken
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       newToken = input.token;
     }
-    return apply(rsrc.getUser(), id.get(), newToken, getExpirationInstant(input));
+
+    Optional<Instant> defaultExpiration = Optional.empty();
+    if (maxAuthTokenLifetime.isPresent()) {
+      defaultExpiration = Optional.of(Instant.now().plus(maxAuthTokenLifetime.get()));
+    }
+
+    return apply(
+        rsrc.getUser(), id.get(), newToken, getExpirationInstant(input, defaultExpiration));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public Response<AuthTokenInfo> apply(
       IdentifiedUser user, String id, String newToken, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
+      throws IOException, ConfigInvalidException, RestApiException {
+    AuthToken token;
+    try {
+      token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
+    } catch (InvalidAuthTokenException e) {
+      throw RestApiException.wrap(
+          String.format("Invalid token configuration: %s", e.getMessage()), e);
+    }
     try {
       emailFactories
           .createOutgoingEmail(
@@ -162,12 +178,12 @@ public class CreateToken
     return Response.created(info);
   }
 
-  public static Optional<Instant> getExpirationInstant(AuthTokenInput input)
-      throws BadRequestException {
-    long lifetime;
+  public static Optional<Instant> getExpirationInstant(
+      AuthTokenInput input, Optional<Instant> defaultExpiration) throws BadRequestException {
     if (Strings.isNullOrEmpty(input.lifetime)) {
-      return Optional.empty();
+      return defaultExpiration;
     }
+    long lifetime;
     try {
       lifetime = ConfigUtil.getTimeUnit(input.lifetime, 0, TimeUnit.MINUTES);
     } catch (IllegalArgumentException e) {

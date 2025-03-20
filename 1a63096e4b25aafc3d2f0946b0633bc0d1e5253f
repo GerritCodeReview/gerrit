@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c2b7b9_6798ea4a",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-20T14:22:26Z",
+      "side": 1,
+      "message": "Please add a unit-test that the new instanse is equal, to reduce the chance that this method will not get updated when adding a new field.",
+      "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6b656f_e49a70b1",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-20T14:22:26Z",
+      "side": 1,
+      "message": "Can you please document these 2 fields?",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c9eff516_339a7863",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountLoader.java",
+              "range": {
+                "startLine": 61,
+                "startChar": 0,
+                "endLine": 61,
+                "endChar": 0
+              },
+              "replacement": "  // Map of Account.Id to AccountInfo that were created by get() method.\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/account/AccountLoader.java",
+              "range": {
+                "startLine": 62,
+                "startChar": 0,
+                "endLine": 62,
+                "endChar": 0
+              },
+              "replacement": "  // List of AccountInfo that were provided by put() method.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4530f16_16601816",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-03-20T14:22:26Z",
+      "side": 1,
+      "message": "IIUC, this mean that there are 2 valid flows:\n1. get\n2. get/put -\u003e fill -\u003e get?\n\nCan you please document the valid usages in the class level documentation?",
+      "fixSuggestions": [
+        {
+          "fixId": "1249244e_759f02e2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountLoader.java",
+              "range": {
+                "startLine": 38,
+                "startChar": 0,
+                "endLine": 39,
+                "endChar": 0
+              },
+              "replacement": "/**\n * AccountLoader is the class that populates properties of the AccountInfo provided to it.\n *\n * \u003cp\u003eThe class is designed to be used in the following way:\n *\n * \u003col\u003e\n *   \u003cli\u003eCall {@code get} to get AccountInfo for a given id.\n *   \u003cli\u003eCall {@code put} to provide AccountInfo that will be filled on the next fill.\n *   \u003cli\u003eCall {@code fill} to populate properties of the AccountInfo.\n *   \u003cli\u003eCall {@code get} again to get filled AccountInfo.\n * \u003c/ol\u003e\n *\n * \u003cp\u003eThe class is not thread-safe.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1a63096e4b25aafc3d2f0946b0633bc0d1e5253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

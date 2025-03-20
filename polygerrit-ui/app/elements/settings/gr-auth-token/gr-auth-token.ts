@@ -51,6 +51,9 @@ export class GrAuthToken extends LitElement {
   @state()
   passwordUrl: string | null = null;
 
+  @state()
+  maxLifetime = 'unlimited';
+
   @property({type: Array})
   tokens: AuthTokenInfo[] = [];
 
@@ -63,6 +66,8 @@ export class GrAuthToken extends LitElement {
   @query('#generateButton') generateButton!: GrButton;
 
   @query('#newToken') tokenInput!: IronInputElement;
+
+  @query('#lifetime') tokenLifetime!: IronInputElement;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -80,8 +85,10 @@ export class GrAuthToken extends LitElement {
       info => {
         if (info) {
           this.passwordUrl = info.auth.http_password_url || null;
+          this.maxLifetime = info.auth.max_token_lifetime || 'unlimited';
         } else {
           this.passwordUrl = null;
+          this.maxLifetime = 'unlimited';
         }
       }
     );
@@ -135,7 +142,7 @@ export class GrAuthToken extends LitElement {
           margin-bottom: var(--spacing-l);
         }
         #existing .idColumn {
-          min-width: 27em;
+          min-width: 15em;
           width: auto;
         }
         .closeButton {
@@ -145,6 +152,9 @@ export class GrAuthToken extends LitElement {
         }
         .expired {
           color: var(--negative-red-text-color);
+        }
+        .lifeTimeInput {
+          min-width: 23em;
         }
       `,
     ];
@@ -275,7 +285,7 @@ export class GrAuthToken extends LitElement {
   private renderFooterRow() {
     return html`
       <tr>
-        <th>
+        <th style="vertical-align: top;">
           <iron-input
             id="newToken"
             .bindValue=${this.newTokenId}
@@ -290,20 +300,21 @@ export class GrAuthToken extends LitElement {
             />
           </iron-input>
         </th>
-        <th>
+        <th style="vertical-align: top;">
           <iron-input
-            id="lifetime"
             .bindValue=${this.newLifetime}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
               this.newLifetime = e.detail.value ?? '';
             }}
           >
             <input
+              class="lifeTimeInput"
               is="iron-input"
               placeholder="Lifetime (e.g. 30d)"
               @keydown=${this.handleInputKeydown}
             />
-          </iron-input>
+          </iron-input></br>
+          (Max. allowed lifetime: ${this.formatDuration(this.maxLifetime)})
         </th>
         <th>
           <gr-button
@@ -317,6 +328,24 @@ export class GrAuthToken extends LitElement {
         </th>
       </tr>
     `;
+  }
+
+  private formatDuration(durationMinutes: string) {
+    if (!durationMinutes) return '';
+    if (durationMinutes === 'unlimited') return 'unlimited';
+    let minutes = parseInt(durationMinutes, 10);
+    let hours = Math.floor(minutes / 60);
+    minutes = minutes % 60;
+    let days = Math.floor(hours / 24);
+    hours = hours % 24;
+    const years = Math.floor(days / 365);
+    days = days % 365;
+    let formatted = '';
+    if (years) formatted += `${years}y `;
+    if (days) formatted += `${days}d `;
+    if (hours) formatted += `${hours}h `;
+    if (minutes) formatted += `${minutes}m`;
+    return formatted;
   }
 
   loadData() {
@@ -343,6 +372,7 @@ export class GrAuthToken extends LitElement {
           this.status = undefined;
           this.loadData();
           this.tokenInput.bindValue = '';
+          this.tokenLifetime.bindValue = '';
         } else {
           this.status = 'Failed to generate';
         }

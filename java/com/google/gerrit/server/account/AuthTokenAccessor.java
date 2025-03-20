@@ -69,7 +69,7 @@ public class AuthTokenAccessor {
   @CanIgnoreReturnValue
   public synchronized AuthToken addPlainToken(
       Account.Id accountId, String id, String token, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     String hashedToken = HashedPassword.fromPassword(token).encode();
     return addToken(accountId, id, hashedToken, expiration);
   }
@@ -77,7 +77,7 @@ public class AuthTokenAccessor {
   @CanIgnoreReturnValue
   public synchronized AuthToken addToken(
       Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     AuthToken token = authTokens.addToken(id, hashedToken, expiration);
     commit(accountId, authTokens);
@@ -86,7 +86,7 @@ public class AuthTokenAccessor {
   }
 
   public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException {
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
     for (AuthToken token : tokens) {
       authTokens.addToken(token);

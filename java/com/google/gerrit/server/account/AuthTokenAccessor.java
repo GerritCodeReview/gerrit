@@ -29,19 +29,20 @@ public interface AuthTokenAccessor {
 
   public AuthToken addPlainToken(
       Account.Id accountId, String id, String token, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException;
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public AuthToken addToken(
       Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException;
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public void deleteToken(Account.Id accountId, String id)
-      throws IOException, ConfigInvalidException;
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public List<AuthToken> getValidTokens(Account.Id accountId);
 
-  public void deleteAllTokens(Account.Id accountId) throws IOException, ConfigInvalidException;
+  public void deleteAllTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
-      throws IOException, ConfigInvalidException, AuthTokenConflictException;
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 }

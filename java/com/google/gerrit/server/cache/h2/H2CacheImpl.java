@@ -411,11 +411,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
         try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
           ps.setInt(1, version);
+          BloomFilter<K> b = newBloomFilter();
           try (ResultSet r = ps.executeQuery()) {
             while (r.next()) {
               bloomFilter.buildPut(keyType.get(r, 1));
             }
           }
+          bloomFilter = b;
         } catch (Exception e) {
           if (Throwables.getCausalChain(e).stream()
               .anyMatch(InvalidClassException.class::isInstance)) {
@@ -433,11 +435,17 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             throw e;
           }
         }
+<<<<<<< HEAD
         bloomFilter.build();
       } catch (IOException | SQLException e) {
         logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
         c = close(c);
         bloomFilter.build();
+=======
+      } catch (IOException | SQLException e) {
+        logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
+        c = close(c);
+>>>>>>> stable-3.11
       } finally {
         release(c);
       }

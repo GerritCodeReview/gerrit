@@ -16,6 +16,24 @@
       "message": "nit: missing `Release-Notes` footer",
       "revId": "cf3468043b26689036415cf4800ecae4d184eb2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c844baf_333d8cbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-20T19:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "473ebf17_ca56fdea",
+      "revId": "cf3468043b26689036415cf4800ecae4d184eb2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

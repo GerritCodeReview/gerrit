@@ -119,4 +119,11 @@ public class AuthInfo {
    * <p>Only set if authentication type is {@code LDAP}, {@code LDAP_BIND} or {@code OAUTH}.
    */
   public GitBasicAuthPolicy gitBasicAuthPolicy;
+
+  /**
+   * The maximum lifetime allowed for authentication tokens in minutes.
+   *
+   * <p>The value of the {@code auth.maxAuthTokenLifetime} parameter in {@code gerrit.config}.
+   */
+  public long maxTokenLifetime;
 }

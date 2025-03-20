@@ -62,10 +62,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -92,6 +95,7 @@ public class CreateAccount
   private final OutgoingEmailValidator validator;
   private final AuthConfig authConfig;
   private final ExternalIdFactory externalIdFactory;
+  private final Optional<Duration> maxAuthTokenLifetime;
 
   @Inject
   CreateAccount(
@@ -119,6 +123,7 @@ public class CreateAccount
     this.validator = validator;
     this.authConfig = authConfig;
     this.externalIdFactory = externalIdFactory;
+    this.maxAuthTokenLifetime = authConfig.getMaxAuthTokenLifetime();
   }
 
   @Override
@@ -206,12 +211,17 @@ public class CreateAccount
       }
     }
 
+    Optional<Instant> defaultExpiration = Optional.empty();
+    if (maxAuthTokenLifetime.isPresent()) {
+      defaultExpiration = Optional.of(Instant.now().plus(maxAuthTokenLifetime.get()));
+    }
+
     List<AuthToken> tokens = new ArrayList<>();
     if (input.tokens != null) {
       for (AuthTokenInput token : input.tokens) {
         tokens.add(
             AuthToken.createWithPlainToken(
-                token.id, token.token, CreateToken.getExpirationInstant(token)));
+                token.id, token.token, CreateToken.getExpirationInstant(token, defaultExpiration)));
       }
     }
 

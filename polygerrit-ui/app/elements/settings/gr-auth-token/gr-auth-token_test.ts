@@ -61,18 +61,21 @@ suite('gr-auth-token tests', () => {
                 <tbody></tbody>
                 <tfoot>
                   <tr>
-                    <th>
+                    <th style="vertical-align: top;">
                       <iron-input id="newToken">
                         <input is="iron-input" placeholder="New Token ID" />
                       </iron-input>
                     </th>
-                    <th>
-                      <iron-input id="lifetime">
+                    <th style="vertical-align: top;">
+                      <iron-input>
                         <input
+                          class="lifeTimeInput"
                           is="iron-input"
                           placeholder="Lifetime (e.g. 30d)"
                         />
                       </iron-input>
+                      </br>
+                      (Max. allowed lifetime: unlimited)
                     </th>
                     <th>
                       <gr-button

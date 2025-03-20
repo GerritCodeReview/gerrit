@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e452c30_84cce832",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-20T21:23:36Z",
+      "side": 1,
+      "message": "This should be removed",
+      "range": {
+        "startLine": 414,
+        "startChar": 10,
+        "endLine": 414,
+        "endChar": 46
+      },
+      "revId": "a3ad1ce8dd42407183772b04a09d03409c994b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b431e419_2f8a493b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-20T21:23:36Z",
+      "side": 1,
+      "message": "bloomFilter is final, cannot be reassigned",
+      "range": {
+        "startLine": 420,
+        "startChar": 10,
+        "endLine": 420,
+        "endChar": 21
+      },
+      "revId": "a3ad1ce8dd42407183772b04a09d03409c994b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,11 +26,13 @@ import com.google.gerrit.server.mail.SignedToken;
 import com.google.gerrit.server.mail.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -68,6 +70,7 @@ public class AuthConfig {
   private final boolean userNameCaseInsensitiveMigrationMode;
   private final int externalIdsRefExpirySecs;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
+  private final Duration maxAuthTokenLifetime;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -130,6 +133,10 @@ public class AuthConfig {
     } else {
       emailReg = null;
     }
+
+    maxAuthTokenLifetime =
+        Duration.ofMinutes(
+            ConfigUtil.getTimeUnit(cfg, "auth", null, "maxAuthTokenLifetime", 0, TimeUnit.MINUTES));
   }
 
   private static List<OpenIdProviderPattern> toPatterns(Config cfg, String name) {
@@ -357,5 +364,12 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public Optional<Duration> getMaxAuthTokenLifetime() {
+    if (maxAuthTokenLifetime.isZero() || maxAuthTokenLifetime.isNegative()) {
+      return Optional.empty();
+    }
+    return Optional.of(maxAuthTokenLifetime);
   }
 }

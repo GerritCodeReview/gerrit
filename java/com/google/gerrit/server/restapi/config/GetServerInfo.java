@@ -183,6 +183,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = authConfig.getSwitchAccountUrl();
     info.gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
+    if (authConfig.getMaxAuthTokenLifetime().isPresent()) {
+      info.maxTokenLifetime = authConfig.getMaxAuthTokenLifetime().get().toMinutes();
+    }
 
     if (info.useContributorAgreements != null) {
       ImmutableCollection<ContributorAgreement> agreements =

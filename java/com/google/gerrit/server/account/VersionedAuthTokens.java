@@ -23,11 +23,13 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +55,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final Optional<Duration> maxAuthTokenLifetime;
 
   private final Account.Id accountId;
   private final String ref;
@@ -60,9 +63,13 @@ public class VersionedAuthTokens extends VersionedMetaData {
 
   @Inject
   public VersionedAuthTokens(
-      GitRepositoryManager repoManager, AllUsersName allUsersName, @Assisted Account.Id accountId) {
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      AuthConfig authConfig,
+      @Assisted Account.Id accountId) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.maxAuthTokenLifetime = authConfig.getMaxAuthTokenLifetime();
 
     this.accountId = accountId;
     this.ref = RefNames.refsUsers(accountId);
@@ -163,14 +170,32 @@ public class VersionedAuthTokens extends VersionedMetaData {
    *
    * @param token the token to be added
    * @return the new Token
-   * @throws AuthTokenConflictException if a token with the given id already exists
+   * @throws InvalidAuthTokenException if the token is invalid, e.g. if the ID already exists or the
+   *     lifetime does not comply with the server's configuration.
    */
   @CanIgnoreReturnValue
-  AuthToken addToken(AuthToken token) throws AuthTokenConflictException {
+  AuthToken addToken(AuthToken token) throws InvalidAuthTokenException {
     checkLoaded();
 
     if (tokens.containsKey(token.id())) {
       throw new AuthTokenConflictException(token.id(), accountId);
+    }
+
+    if (maxAuthTokenLifetime.isPresent()) {
+      if (token.expirationDate().isEmpty()) {
+        throw new InvalidAuthTokenException("Tokens with unlimited lifetime are not permitted.");
+      } else if (token
+          .expirationDate()
+          .get()
+          .isAfter(Instant.now().plus(maxAuthTokenLifetime.get()))) {
+        throw new InvalidAuthTokenException(
+            String.format(
+                "Lifetime of token exceeds maximum allowed lifetime of %s days %s hours %s"
+                    + " minutes.",
+                maxAuthTokenLifetime.get().toDays(),
+                maxAuthTokenLifetime.get().toHoursPart(),
+                maxAuthTokenLifetime.get().toMinutesPart()));
+      }
     }
 
     tokens.put(token.id(), token);

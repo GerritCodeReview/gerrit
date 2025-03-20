@@ -10,6 +10,7 @@ junit_tests(
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
+        "//lib/commons:text",
         "//lib/guice",
         "//lib/truth",
     ],

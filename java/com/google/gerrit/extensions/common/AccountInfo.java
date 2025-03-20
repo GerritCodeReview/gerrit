@@ -89,6 +89,21 @@ public class AccountInfo {
     this.email = email;
   }
 
+  /** Copies properties of this AccountInfo to another instance. */
+  public void copyTo(AccountInfo other) {
+    other._accountId = _accountId;
+    other.name = name;
+    other.displayName = displayName;
+    other.email = email;
+    other.secondaryEmails = secondaryEmails;
+    other.username = username;
+    other.avatars = avatars;
+    other._moreAccounts = _moreAccounts;
+    other.status = status;
+    other.inactive = inactive;
+    other.tags = tags;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof AccountInfo) {

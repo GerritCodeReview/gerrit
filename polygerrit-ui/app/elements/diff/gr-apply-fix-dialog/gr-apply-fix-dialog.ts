@@ -1,9 +1,9 @@
 /**
  * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
+ * Copyright 2025 Google LLC
+ * SPDX-License-Identifier: Apache-3.0
  */
-import '../../../styles/shared-styles';
+import '../../../styles/shared-styles';s
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';

@@ -18,7 +18,6 @@ import static com.google.gerrit.server.account.DirectAuthTokenAccessor.LEGACY_ID
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.mail.EmailFactories.PASSWORD_UPDATED;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
@@ -36,6 +35,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.InvalidAuthTokenException;
+import com.google.gerrit.server.account.PasswordMigrator;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -64,7 +64,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Deprecated
 public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  @VisibleForTesting public static final String DEFAULT_ID = "default";
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
@@ -149,7 +148,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
         }
       }
     } else {
-      resp = deleteToken.apply(rsrc.getUser(), DEFAULT_ID, isDeleteOp);
+      resp = deleteToken.apply(rsrc.getUser(), PasswordMigrator.DEFAULT_ID, isDeleteOp);
     }
 
     if (isDeleteOp) {
@@ -159,6 +158,9 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     AuthTokenInput authTokenInput = new AuthTokenInput();
     authTokenInput.token = input.httpPassword;
     return Response.created(
-        putToken.apply(rsrc, IdString.fromDecoded(DEFAULT_ID), authTokenInput).value().token);
+        putToken
+            .apply(rsrc, IdString.fromDecoded(PasswordMigrator.DEFAULT_ID), authTokenInput)
+            .value()
+            .token);
   }
 }

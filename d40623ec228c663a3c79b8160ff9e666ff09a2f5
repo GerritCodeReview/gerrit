@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "134aac62_73b3fb24",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-21T18:35:31Z",
+      "side": 1,
+      "message": "You mention it in the `TokenInfo` object below, but can you also add here that this is the only time the plain text token is returned?",
+      "revId": "d40623ec228c663a3c79b8160ff9e666ff09a2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9819237_84e24a76",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-03-21T18:35:31Z",
+      "side": 1,
+      "message": "You can make it clear we\u0027re only returning the ids. I\u0027m not sure what `hash` is referring to, so I suggested different text for that too.\n\n```suggestion\nLists the token ids of an account as a list of link:#token-info[TokenInfos].\nThe plain text token will never be returned.\n```",
+      "range": {
+        "startLine": 627,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 45
+      },
+      "revId": "d40623ec228c663a3c79b8160ff9e666ff09a2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

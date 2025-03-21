@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67750994_1b8a6d76",
+        "filename": "BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-21T17:43:07Z",
+      "side": 1,
+      "message": "let\u0027s try to comment on a file that is not in the change at all",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "378fb594cdf432a72ba3074d7fa6d86c8377bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

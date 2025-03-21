@@ -1,0 +1,47 @@
+= ReduceMaxTokenLifetime
+
+== NAME
+ReduceMaxTokenLifetime - Adapt lifetime of existing auth tokens to lower
+maximum lifetime.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _ReduceMaxTokenLifetime_
+  -d <SITE_PATH>
+  --lifetime <LIFETIME>
+--
+
+== DESCRIPTION
+If the maximum lifetime of auth tokens is being reduced, existing tokens might
+still have a longer lifetime. If the lifetime of these tokens should be reduced
+to match the new maximum lifetime, this can be done with this tool.
+
+== OPTIONS
+
+-d::
+--site-path::
+	Path of the Gerrit site
+
+--lifetime::
+	New maximum lifetime
+
+== CONTEXT
+This command can only be run offline with direct access to the server's
+site.
+
+== EXAMPLES
+To convert the HTTP passwords to tokens:
+
+----
+    $ java -jar gerrit.war ReduceMaxTokenLifetime -d site_path --lifetime "2d"
+----
+
+== SEE ALSO
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

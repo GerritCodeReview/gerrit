@@ -154,8 +154,7 @@ public class CreateToken
     try {
       token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
     } catch (InvalidAuthTokenException e) {
-      throw RestApiException.wrap(
-          String.format("Invalid token configuration: %s", e.getMessage()), e);
+      throw new BadRequestException(e.getMessage(), e);
     }
     try {
       emailFactories
@@ -180,19 +179,24 @@ public class CreateToken
 
   public static Optional<Instant> getExpirationInstant(
       AuthTokenInput input, Optional<Instant> defaultExpiration) throws BadRequestException {
-    if (Strings.isNullOrEmpty(input.lifetime)) {
+    return getExpirationInstant(input.lifetime, defaultExpiration);
+  }
+
+  public static Optional<Instant> getExpirationInstant(
+      String lifetime, Optional<Instant> defaultExpiration) throws BadRequestException {
+    if (Strings.isNullOrEmpty(lifetime)) {
       return defaultExpiration;
     }
-    long lifetime;
+    long lifetimeMinutes;
     try {
-      lifetime = ConfigUtil.getTimeUnit(input.lifetime, 0, TimeUnit.MINUTES);
+      lifetimeMinutes = ConfigUtil.getTimeUnit(lifetime, 0, TimeUnit.MINUTES);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Invalid lifetime: " + input.lifetime, e);
+      throw new BadRequestException("Invalid lifetime: " + lifetime, e);
     }
-    if (lifetime <= 0) {
+    if (lifetimeMinutes <= 0) {
       throw new BadRequestException("Lifetime must be larger than 0");
     }
-    return Optional.of(Instant.now().plus(lifetime, ChronoUnit.MINUTES));
+    return Optional.of(Instant.now().plus(lifetimeMinutes, ChronoUnit.MINUTES));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)

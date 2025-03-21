@@ -20,6 +20,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5533470a_ceee2a4b",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T11:21:31Z",
+      "side": 1,
+      "message": "Why is this `skipInvalidChanges` needed? How is this related to the removal of an account?",
+      "range": {
+        "startLine": 300,
+        "startChar": 75,
+        "endLine": 300,
+        "endChar": 93
+      },
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861f4d09_b59b1bed",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 3232,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T11:21:31Z",
+      "side": 1,
+      "message": "I see a few tests missing:\n\n1. You should create a group with the account to be deleted inside it\n2. After the account deletion, the group would still be consistent\n3. It is possible to remove the deleted account from the group\n4. The account deleted should still return _something_ (a tombstone maybe?) when the changes he created are fetched \n5. The account deleted should still return _something_ (a tombstone maybe?) when the messages posted on changes are fetched",
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1f6e80_c1a51bef",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 3244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T11:21:31Z",
+      "side": 1,
+      "message": "I believe Gerrit will continue to reference the account-id: why not returning a tumbstone instead? Returning an exception will then break the Gerrit UX.",
+      "range": {
+        "startLine": 3243,
+        "startChar": 1,
+        "endLine": 3244,
+        "endChar": 93
+      },
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ec67b41_735ad9f7",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 18

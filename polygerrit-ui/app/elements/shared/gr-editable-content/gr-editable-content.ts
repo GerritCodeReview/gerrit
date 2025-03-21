@@ -68,6 +68,8 @@ declare global {
   }
 }
 
+const DEBOUNCE_DELAY_MS = 500;
+
 @customElement('gr-editable-content')
 export class GrEditableContent extends LitElement {
   /**
@@ -470,7 +472,7 @@ export class GrEditableContent extends LitElement {
           formatCommitMessageString(this.newContent) === this.newContent;
         this.formattedErrors = detectFormattingErrorsInString(this.newContent);
       },
-      3000
+      DEBOUNCE_DELAY_MS
     );
   }
 

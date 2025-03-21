@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.inject.AbstractModule;
+import com.google.gerrit.extensions.config.FactoryModule;
 
-public class AccountModule extends AbstractModule {
+public class AccountModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(AuthRequest.Factory.class);
     bind(AuthTokenVerifier.class);
+    factory(PasswordMigrator.Factory.class);
   }
 }

@@ -53,6 +53,7 @@ import {
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
+const DEBOUNCE_DELAY_MS = 500;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -452,14 +453,15 @@ export class GrEditableContent extends LitElement {
     ).textarea.focus();
   }
 
-  private updateFormatState() {
+  private updateFormatState(skipDebounce = false) {
     if (!this.newContent) return;
 
     // Run immediately first time
-    if (!this.formatCheckTask) {
+    if (!this.formatCheckTask || skipDebounce) {
       this.formatDisabled =
         formatCommitMessageString(this.newContent) === this.newContent;
       this.formattedErrors = detectFormattingErrorsInString(this.newContent);
+      return;
     }
 
     // Then debounce subsequent calls
@@ -470,7 +472,7 @@ export class GrEditableContent extends LitElement {
           formatCommitMessageString(this.newContent) === this.newContent;
         this.formattedErrors = detectFormattingErrorsInString(this.newContent);
       },
-      3000
+      DEBOUNCE_DELAY_MS
     );
   }
 
@@ -662,6 +664,8 @@ export class GrEditableContent extends LitElement {
     const newSelectionStart = Math.min(selectionStart, newValue.length);
     const newSelectionEnd = Math.min(selectionEnd, newValue.length);
     textarea.setSelectionRange(newSelectionStart, newSelectionEnd);
+
+    this.updateFormatState(/* skipDebounce= */ true);
   }
 
   private setCommitterEmail(e: CustomEvent<{value: string}>) {

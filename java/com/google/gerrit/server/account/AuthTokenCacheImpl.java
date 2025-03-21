@@ -107,12 +107,9 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
           TraceContext.newTimer(
               "Loading authentication tokens for account with username",
               Metadata.builder().accountId(accountId.get()).build())) {
-        AccountState accountState = accountCache.getEvenIfMissing(accountId);
-        Optional<ExternalId> optUser =
-            accountState.externalIds().stream()
-                .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
-                .findFirst();
-        if (!optUser.isPresent()) {
+        Optional<AccountState> accountState = accountCache.get(accountId);
+
+        if (accountState.isEmpty()) {
           return NO_SUCH_USER;
         }
 
@@ -120,7 +117,7 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
 
         // Fall back to legacy HTTP password if no tokens are present.
         if (tokens.isEmpty()) {
-          Optional<AuthToken> legacyHttpPassword = getLegacyHttpPassword(accountId);
+          Optional<AuthToken> legacyHttpPassword = getLegacyHttpPassword(accountState.get());
           if (legacyHttpPassword.isPresent()) {
             return ImmutableList.of(legacyHttpPassword.get());
           }
@@ -132,8 +129,7 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
     }
 
     @Deprecated
-    private Optional<AuthToken> getLegacyHttpPassword(Account.Id accountId) {
-      AccountState accountState = accountCache.getEvenIfMissing(accountId);
+    private Optional<AuthToken> getLegacyHttpPassword(AccountState accountState) {
       Optional<ExternalId> optUser =
           accountState.externalIds().stream()
               .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))

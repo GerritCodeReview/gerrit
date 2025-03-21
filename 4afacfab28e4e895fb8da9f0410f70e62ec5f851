@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c19c1ea2_a96b8a97",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T11:34:47Z",
+      "side": 1,
+      "message": "We should explain here was _deletes_ actually means, also that it is not a *complete* deletion, because the account identity will remain forever in the changes and respositories that the user has contributed to.\n\nDeleting that account information permanently won\u0027t be possible, unless you perform a complete history rewrite.",
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5533470a_ceee2a4b",
         "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 18
@@ -36,6 +53,29 @@
         "startChar": 75,
         "endLine": 300,
         "endChar": 93
+      },
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2906a36_3a755286",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T11:34:47Z",
+      "side": 1,
+      "message": "Instead of completely removing the refs, why not just updating it and pointing to a a _tumbstone_ BLOB? So that it can still be resolved but point to nothing and we have a memory that the account existed but was removed.",
+      "range": {
+        "startLine": 562,
+        "startChar": 8,
+        "endLine": 562,
+        "endChar": 89
       },
       "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

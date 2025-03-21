@@ -168,22 +168,23 @@ public class CreateToken
 
   public static Optional<Instant> getExpirationInstant(TokenInput input)
       throws BadRequestException {
-    if (input.lifetime == null || input.lifetime.isBlank()) {
+    return getExpirationInstant(input.lifetime);
+  }
+
+  public static Optional<Instant> getExpirationInstant(String lifetime) throws BadRequestException {
+    if (lifetime == null || lifetime.isBlank()) {
       return Optional.empty();
     }
-    long lifetime;
-    if (Strings.isNullOrEmpty(input.lifetime)) {
-      return Optional.empty();
-    }
+    long lifetimeMinutes;
     try {
-      lifetime = ConfigUtil.getTimeUnit(input.lifetime, 0, TimeUnit.MINUTES);
+      lifetimeMinutes = ConfigUtil.getTimeUnit(lifetime, 0, TimeUnit.MINUTES);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Invalid lifetime: " + input.lifetime, e);
+      throw new BadRequestException("Invalid lifetime: " + lifetime, e);
     }
-    if (lifetime <= 0) {
+    if (lifetimeMinutes <= 0) {
       throw new BadRequestException("Lifetime must be larger than 0");
     }
-    return Optional.of(Instant.now().plus(lifetime, ChronoUnit.MINUTES));
+    return Optional.of(Instant.now().plus(lifetimeMinutes, ChronoUnit.MINUTES));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)

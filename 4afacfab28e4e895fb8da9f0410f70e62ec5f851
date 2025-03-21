@@ -39,6 +39,30 @@
       },
       "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68cafaf4_bb795ec3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 3248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T09:57:39Z",
+      "side": 1,
+      "message": "Indeed, this has created the Issue 405035566.\n\nI believe the id should stay, but as anonymous and disabled, similar of what my `accounts` plugin was doing at https://gerrit.googlesource.com/plugins/account/+/refs/heads/master/src/main/java/com/gerritforge/gerrit/plugins/account/GerritAccountRemover.java#90.\n\n```suggestion\n    assertThat(gApi.accounts().query(deleted.id().toString()).get()).isNotEmpty();\n```\n\n@nitzan@google.com WDYT?",
+      "parentUuid": "1ec67b41_735ad9f7",
+      "range": {
+        "startLine": 3248,
+        "startChar": 4,
+        "endLine": 3248,
+        "endChar": 79
+      },
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

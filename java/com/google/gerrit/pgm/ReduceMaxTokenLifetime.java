@@ -14,13 +14,7 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.server.restapi.account.PutHttpPassword.DEFAULT_ID;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -30,15 +24,11 @@ import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.account.VersionedAuthTokens;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.storage.notedb.DisabledExternalIdCache;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbReadStorageModule;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
+import com.google.gerrit.server.account.storage.notedb.AccountsNoteDbImpl;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -47,24 +37,21 @@ import com.google.gerrit.server.restapi.account.CreateToken;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Option;
 
-/** Converts HTTP passwords for all accounts to tokens */
-public class MigratePasswordsToTokens extends SiteProgram {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
+/** Reduces token lifetime if they exceed a given max lifetime */
+public class ReduceMaxTokenLifetime extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
@@ -72,14 +59,11 @@ public class MigratePasswordsToTokens extends SiteProgram {
 
   @Inject private GitRepositoryManager repoManager;
   @Inject private AllUsersName allUsersName;
-  @Inject private Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
-  @Inject private ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
-  @Inject private ExternalIdFactory externalIdFactory;
-  @Inject private ExternalIds externalIds;
+  @Inject private AccountsNoteDbImpl accounts;
   @Inject private VersionedAuthTokensOnInit.Factory tokenFactory;
 
-  @Option(name = "--lifetime", usage = "The lifetime of migrated tokens.")
-  public void setDefaultLifetime(String value) throws BadRequestException {
+  @Option(name = "--lifetime", usage = "The lifetime of migrated tokens.", required = true)
+  public void setMaxLifetime(String value) throws BadRequestException {
     lifetime = CreateToken.getExpirationInstant(value);
   }
 
@@ -110,58 +94,44 @@ public class MigratePasswordsToTokens extends SiteProgram {
                 factory(VersionedAuthTokensOnInit.Factory.class);
                 factory(Section.Factory.class);
 
-                install(new ExternalIdNoteDbReadStorageModule());
-                install(new ExternalIdNoteDbWriteStorageModule());
                 install(DisabledExternalIdCache.module());
               }
             })
         .injectMembers(this);
 
     monitor.beginTask("Collecting accounts", ProgressMonitor.UNKNOWN);
-    ImmutableSet<ExternalId> todo =
-        ImmutableSet.copyOf(
-            externalIds.all().stream()
-                .filter(e -> e.key().scheme().equals(SCHEME_USERNAME) && e.password() != null)
-                .collect(Collectors.toSet()));
+    Set<Account.Id> todo = accounts.allIds();
     monitor.endTask();
 
-    monitor.beginTask("Migrating HTTP passwords", todo.size());
+    monitor.beginTask("Adapting token lifetime", todo.size());
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
-      for (ExternalId extId : todo) {
-        migratePasswordToToken(extId, extIdNotes);
+      for (Account.Id accountId : todo) {
+        adaptTokenLifetime(accountId, lifetime.orElse(Instant.MAX));
         monitor.update(1);
       }
-      try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsersName)) {
-        metaDataUpdate.setMessage("Migrate HTTP passwords to tokens");
-        extIdNotes.commit(metaDataUpdate);
-      }
     }
-
     monitor.endTask();
 
     manager.stop();
     return 0;
   }
 
-  private void migratePasswordToToken(ExternalId extId, ExternalIdNotes extIdNotes)
-      throws DuplicateKeyException, IOException, ConfigInvalidException, InvalidAuthTokenException {
-    String hashedPassword = extId.password();
-    if (hashedPassword == null) {
-      return;
-    }
-    Account.Id accountId = extId.accountId();
+  private void adaptTokenLifetime(Account.Id accountId, Instant maxAllowedExpirationInstant)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokensOnInit authTokens = tokenFactory.create(accountId).load();
-    if (authTokens.getToken(DEFAULT_ID) != null) {
-      logger.atWarning().log(
-          "Account %d has already a legacy token, not adding another one", accountId.get());
-      return;
+    boolean updated = false;
+    for (AuthToken authToken : authTokens.getTokens()) {
+      if (authToken.expirationDate().isEmpty()
+          || authToken.expirationDate().get().isAfter(maxAllowedExpirationInstant)) {
+        AuthToken updatedToken =
+            AuthToken.create(
+                authToken.id(), authToken.hashedToken(), Optional.of(maxAllowedExpirationInstant));
+        authTokens.updateToken(updatedToken);
+        updated = true;
+      }
     }
-    authTokens.addToken(DEFAULT_ID, hashedPassword, lifetime);
-    authTokens.save("Migration of HTTP password to token");
-
-    ExternalId updatedExtId =
-        externalIdFactory.createWithEmail(extId.key(), extId.accountId(), extId.email());
-    extIdNotes.replace(extId, updatedExtId);
+    if (updated) {
+      authTokens.save("Updated token lifetime");
+    }
   }
 }

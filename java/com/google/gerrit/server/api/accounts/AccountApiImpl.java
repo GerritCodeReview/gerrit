@@ -46,16 +46,20 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.common.TokenInfo;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AuthTokenConflictException;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.CreateEmail;
+import com.google.gerrit.server.restapi.account.CreateToken;
 import com.google.gerrit.server.restapi.account.DeleteAccount;
 import com.google.gerrit.server.restapi.account.DeleteActive;
 import com.google.gerrit.server.restapi.account.DeleteDraftComments;
@@ -93,8 +97,10 @@ import com.google.gerrit.server.restapi.account.StarredChanges;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -141,6 +147,7 @@ public class AccountApiImpl implements AccountApi {
   private final EmailApiImpl.Factory emailApi;
   private final PutName putName;
   private final GetTokens getTokens;
+  private final CreateToken createToken;
   private final PutHttpPassword putHttpPassword;
   private final DeleteAccount deleteAccount;
 
@@ -184,6 +191,7 @@ public class AccountApiImpl implements AccountApi {
       GetGroups getGroups,
       EmailApiImpl.Factory emailApi,
       PutName putName,
+      CreateToken createToken,
       GetTokens getTokens,
       PutHttpPassword putPassword,
       DeleteAccount deleteAccount,
@@ -227,6 +235,7 @@ public class AccountApiImpl implements AccountApi {
     this.getGroups = getGroups;
     this.emailApi = emailApi;
     this.putName = putName;
+    this.createToken = createToken;
     this.getTokens = getTokens;
     this.putHttpPassword = putPassword;
     this.deleteAccount = deleteAccount;
@@ -614,6 +623,19 @@ public class AccountApiImpl implements AccountApi {
       var unused = putName.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set account name", e);
+    }
+  }
+
+  @Override
+  public void createToken(TokenInput input) throws RestApiException {
+    try {
+      createToken.apply(account, IdString.fromDecoded(input.id), input);
+    } catch (AuthTokenConflictException
+        | IOException
+        | ConfigInvalidException
+        | PermissionBackendException
+        | RestApiException e) {
+      throw asRestApiException("Cannot create token", e);
     }
   }
 

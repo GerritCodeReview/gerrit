@@ -90,7 +90,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   public enum TaskKind {
     INDEXING,
-    RECEIVE_COMMITS;
+    RECEIVE_COMMITS,
+    MIGRATION;
   }
 
   /** Handle for a sub-task. */

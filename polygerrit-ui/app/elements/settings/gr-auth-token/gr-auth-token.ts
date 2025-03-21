@@ -299,6 +299,7 @@ export class GrAuthToken extends LitElement {
 
   private formatDuration(durationMinutes: string) {
     if (!durationMinutes) return '';
+    if (durationMinutes === 'unlimited') return 'unlimited';
     let minutes = parseInt(durationMinutes, 10);
     let hours = Math.floor(minutes / 60);
     minutes = minutes % 60;

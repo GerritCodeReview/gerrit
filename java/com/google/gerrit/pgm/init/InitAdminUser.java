@@ -138,7 +138,7 @@ public class InitAdminUser implements InitStep {
         groupsOnInit.addGroupMember(adminGroup.getUUID(), persistedAccount);
 
         VersionedAuthTokensOnInit authTokens = tokenFactory.create(id).load();
-        authTokens.addToken("initialToken", token);
+        authTokens.addToken("initialToken", token, Optional.empty());
         authTokens.save("Add token for initial admin user\n");
 
         if (sshKey != null) {

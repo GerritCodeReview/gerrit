@@ -31,7 +31,9 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -64,9 +66,10 @@ public class VersionedAuthTokensOnInit extends VersionedMetaDataOnInit {
   }
 
   @CanIgnoreReturnValue
-  public AuthToken addToken(String id, String t) throws InvalidAuthTokenException {
+  public AuthToken addToken(String id, String t, Optional<Instant> expirationDate)
+      throws InvalidAuthTokenException {
     checkState(tokens != null, "Tokens not loaded yet");
-    AuthToken token = AuthToken.createWithPlainToken(id, t);
+    AuthToken token = AuthToken.createWithPlainToken(id, t, expirationDate);
     tokens.put(id, token);
     return token;
   }
@@ -86,6 +89,10 @@ public class VersionedAuthTokensOnInit extends VersionedMetaDataOnInit {
     Config tokenConfig = new Config();
     for (AuthToken token : tokens.values()) {
       tokenConfig.setString("token", token.id(), "hash", token.hashedToken());
+      if (token.expirationDate().isPresent()) {
+        tokenConfig.setString(
+            "token", token.id(), "expiration", token.expirationDate().get().toString());
+      }
     }
 
     saveUTF8(VersionedAuthTokens.FILE_NAME, tokenConfig.toText());

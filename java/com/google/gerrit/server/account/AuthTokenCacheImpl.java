@@ -107,12 +107,9 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
           TraceContext.newTimer(
               "Loading authentication tokens for account with username",
               Metadata.builder().accountId(accountId.get()).build())) {
-        AccountState accountState = accountCache.getEvenIfMissing(accountId);
-        Optional<ExternalId> optUser =
-            accountState.externalIds().stream()
-                .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
-                .findFirst();
-        if (!optUser.isPresent()) {
+        Optional<AccountState> accountState = accountCache.get(accountId);
+
+        if (accountState.isEmpty()) {
           return NO_SUCH_USER;
         }
 

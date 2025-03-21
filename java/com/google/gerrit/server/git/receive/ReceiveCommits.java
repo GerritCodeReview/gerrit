@@ -1100,7 +1100,7 @@ class ReceiveCommits {
         bu.setNotify(magicBranch.getNotifyForNewChange());
       }
 
-      logger.atFine().log("Adding %d replace requests", newChanges.size());
+      logger.atFine().log("Adding %d replace requests", replaceByChange.size());
       for (ReplaceRequest replace : replaceByChange.values()) {
         replace.addOps(bu, replaceProgress);
         if (magicBranch != null) {

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.server.restapi.account.PutHttpPassword.DEFAULT_ID;
 
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
@@ -24,6 +23,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.auth.AuthTokenInfo;
+import com.google.gerrit.server.account.PasswordMigrator;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
@@ -63,7 +63,7 @@ public class MigratePasswordsToTokensIT extends StandaloneSiteTest {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       List<AuthTokenInfo> actual = gApi.accounts().id(accountId).getTokens();
       assertThat(actual.size()).isEqualTo(1);
-      assertThat(actual.get(0).id).isEqualTo(DEFAULT_ID);
+      assertThat(actual.get(0).id).isEqualTo(PasswordMigrator.DEFAULT_ID);
       assertThat(actual.get(0).token).isNull();
 
       Project.NameKey allUsers = ctx.getInjector().getInstance(AllUsersName.class);

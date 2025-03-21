@@ -22,6 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.init.VersionedAuthTokensOnInit;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -42,19 +43,23 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.restapi.account.CreateToken;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.kohsuke.args4j.Option;
 
 /** Converts HTTP passwords for all accounts to tokens */
 public class MigratePasswordsToTokens extends SiteProgram {
@@ -63,6 +68,8 @@ public class MigratePasswordsToTokens extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
+  private Optional<Instant> lifetime = Optional.empty();
+
   @Inject private GitRepositoryManager repoManager;
   @Inject private AllUsersName allUsersName;
   @Inject private Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
@@ -70,6 +77,11 @@ public class MigratePasswordsToTokens extends SiteProgram {
   @Inject private ExternalIdFactory externalIdFactory;
   @Inject private ExternalIds externalIds;
   @Inject private VersionedAuthTokensOnInit.Factory tokenFactory;
+
+  @Option(name = "--lifetime", usage = "The lifetime of migrated tokens.")
+  public void setDefaultLifetime(String value) throws BadRequestException {
+    lifetime = CreateToken.getExpirationInstant(value, Optional.empty());
+  }
 
   @Override
   public int run() throws Exception {
@@ -147,7 +159,7 @@ public class MigratePasswordsToTokens extends SiteProgram {
           "Account %d has already a legacy token, not adding another one", accountId.get());
       return;
     }
-    authTokens.addToken(DEFAULT_ID, hashedPassword);
+    authTokens.addToken(DEFAULT_ID, hashedPassword, lifetime);
     authTokens.save("Migration of HTTP password to token");
 
     ExternalId updatedExtId =

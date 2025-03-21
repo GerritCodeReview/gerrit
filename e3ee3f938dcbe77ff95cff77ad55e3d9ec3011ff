@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3dc73f92_1fe5b8ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T17:15:15Z",
+      "side": 1,
+      "message": "\u003e Agreed, it should be. What\u0027s the best way to solve this after the fact? If we have draft notes started for 3.12 we could update there now.\n\nThat\u0027s a good idea indeed, can you start the draft notes of v3.12 and add it there?",
+      "parentUuid": "44398c02_8d412401",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "e3ee3f938dcbe77ff95cff77ad55e3d9ec3011ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff64b9d2_afbc6d41",
         "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
         "patchSetId": 13

@@ -29,10 +29,10 @@ import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -119,8 +119,8 @@ public class VersionedAuthTokens extends VersionedMetaData {
       Long expiration = tokenConfig.getLong("token", id, "expiration");
       Optional<Instant> expirationInstant =
           expiration != null ? Optional.of(Instant.ofEpochMilli(expiration)) : Optional.empty();
-      tokens.put(id,
-          AuthToken.create(id, tokenConfig.getString("token", id, "hash"), expirationInstant));
+      tokens.put(
+          id, AuthToken.create(id, tokenConfig.getString("token", id, "hash"), expirationInstant));
     }
     return tokens;
   }

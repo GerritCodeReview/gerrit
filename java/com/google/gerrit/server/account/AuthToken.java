@@ -38,7 +38,8 @@ public abstract class AuthToken {
     return create(id, hashedToken, Optional.empty());
   }
 
-  public static AuthToken create(@Nullable String id, String hashedToken, Optional<Instant> expirationDate) {
+  public static AuthToken create(
+      @Nullable String id, String hashedToken, Optional<Instant> expirationDate) {
     if (Strings.isNullOrEmpty(id)) {
       id = "token_" + System.currentTimeMillis();
     } else {

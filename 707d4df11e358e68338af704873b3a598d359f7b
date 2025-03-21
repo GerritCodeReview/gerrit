@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f77a82_ffd5d987",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-21T09:43:55Z",
+      "side": 1,
+      "message": "This CL seems like a good opportunity to use the fancy `WANT_LGTM\u003dall` feature that Edwin implemented.",
+      "revId": "707d4df11e358e68338af704873b3a598d359f7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

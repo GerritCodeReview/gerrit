@@ -1827,6 +1827,34 @@ This cleanup task will run asynchronously.
   Content-Disposition: attachment
 ----
 
+[[passwords.to.tokens]]
+=== Migration of HTTP passwords to authentication tokens
+
+This endpoint allows Gerrit administrators to migrate remaining HTTP passwords
+to authentication tokens. For the user the migration is invisible, i.e. the
+same credential is still valid.
+
+An optional lifetime for the credential can be set in the
+link:#migrate-passwords-to-tokens-input[MigratePasswordsToTokens.Input].
+
+This migration task will run asynchronously.
+
+.Request
+----
+  POST /config/server/passwords.to.tokens HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "lifetime": "3 months",
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
 [[experiment-endpoints]]
 == Experiment Endpoints
 
@@ -2736,6 +2764,16 @@ that are mergeable
 cleanup
 |=============================
 
+[[migrate-passwords-to-tokens-input]]
+=== MigratePasswordsToTokens.Input
+The `MigratePasswordsToTokens.Input` entity is being used to configure the
+migration of HTTP passwords to auth tokens.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name||Description
+|`lifetime`||Lifetime of the migrated token.
+|=============================
 
 GERRIT
 ------

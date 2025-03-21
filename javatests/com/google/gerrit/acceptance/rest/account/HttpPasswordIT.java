@@ -24,7 +24,7 @@ import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.server.account.AuthTokenAccessor;
-import com.google.gerrit.server.restapi.account.PutHttpPassword;
+import com.google.gerrit.server.account.PasswordMigrator;
 import com.google.inject.Inject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -53,7 +53,7 @@ public class HttpPasswordIT extends AbstractDaemonTest {
         Iterables.get(Splitter.onPattern(System.lineSeparator()).split(resp.getEntityContent()), 1);
     assertThat(returnedToken.substring(1, returnedToken.length() - 1)).isNotEmpty();
 
-    assertThat(tokenAccessor.getToken(testUser.id(), PutHttpPassword.DEFAULT_ID)).isPresent();
+    assertThat(tokenAccessor.getToken(testUser.id(), PasswordMigrator.DEFAULT_ID)).isPresent();
   }
 
   @Test
@@ -98,7 +98,7 @@ public class HttpPasswordIT extends AbstractDaemonTest {
     assertThat(returnedToken.substring(1, returnedToken.length() - 1))
         .isEqualTo(passwordInput.httpPassword);
 
-    assertThat(tokenAccessor.getToken(testUser.id(), PutHttpPassword.DEFAULT_ID)).isPresent();
+    assertThat(tokenAccessor.getToken(testUser.id(), PasswordMigrator.DEFAULT_ID)).isPresent();
   }
 
   @Test
@@ -106,7 +106,7 @@ public class HttpPasswordIT extends AbstractDaemonTest {
     restSession
         .delete(String.format("/accounts/%d/password.http", testUser.id().get()))
         .assertNoContent();
-    assertThat(tokenAccessor.getToken(testUser.id(), PutHttpPassword.DEFAULT_ID)).isEmpty();
+    assertThat(tokenAccessor.getToken(testUser.id(), PasswordMigrator.DEFAULT_ID)).isEmpty();
   }
 
   @Test
@@ -114,7 +114,7 @@ public class HttpPasswordIT extends AbstractDaemonTest {
     adminRestSession
         .delete(String.format("/accounts/%d/password.http", testUser.id().get()))
         .assertNoContent();
-    assertThat(tokenAccessor.getToken(testUser.id(), PutHttpPassword.DEFAULT_ID)).isEmpty();
+    assertThat(tokenAccessor.getToken(testUser.id(), PasswordMigrator.DEFAULT_ID)).isEmpty();
   }
 
   @Test

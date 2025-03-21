@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,17 +61,18 @@ public class AuthTokenCacheTest {
   @Test
   public void loadTokenFromExternalId() throws Exception {
     doReturn(
-            AccountState.forAccount(
-                ACCOUNT,
-                List.of(
-                    ExternalId.create(
-                        ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
-                        ACCOUNT_ID,
-                        null,
-                        HashedPassword.fromPassword(PWD).encode(),
-                        null))))
+            Optional.of(
+                AccountState.forAccount(
+                    ACCOUNT,
+                    List.of(
+                        ExternalId.create(
+                            ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
+                            ACCOUNT_ID,
+                            null,
+                            HashedPassword.fromPassword(PWD).encode(),
+                            null)))))
         .when(accountCache)
-        .getEvenIfMissing(ACCOUNT_ID);
+        .get(ACCOUNT_ID);
     doReturn(ImmutableList.of()).when(versionedAuthTokens).getTokens();
     ImmutableList<AuthToken> tokens = cacheLoader.load(ACCOUNT_ID);
     assertThat(HashedPassword.decode(tokens.get(0).hashedToken()).checkPassword(PWD)).isTrue();
@@ -79,17 +81,18 @@ public class AuthTokenCacheTest {
   @Test
   public void loadTokenFromAccount() throws Exception {
     doReturn(
-            AccountState.forAccount(
-                ACCOUNT,
-                List.of(
-                    ExternalId.create(
-                        ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
-                        ACCOUNT_ID,
-                        null,
-                        null,
-                        null))))
+            Optional.of(
+                AccountState.forAccount(
+                    ACCOUNT,
+                    List.of(
+                        ExternalId.create(
+                            ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
+                            ACCOUNT_ID,
+                            null,
+                            null,
+                            null)))))
         .when(accountCache)
-        .getEvenIfMissing(ACCOUNT_ID);
+        .get(ACCOUNT_ID);
     doReturn(ImmutableList.of(AuthToken.createWithPlainToken("token", PWD)))
         .when(versionedAuthTokens)
         .getTokens();

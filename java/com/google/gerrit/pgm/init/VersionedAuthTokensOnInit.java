@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -74,10 +75,21 @@ public class VersionedAuthTokensOnInit extends VersionedMetaDataOnInit {
     return token;
   }
 
+  public void updateToken(AuthToken token) {
+    checkState(tokens != null, "Tokens not loaded yet");
+    tokens.remove(token.id());
+    tokens.put(token.id(), token);
+  }
+
   @Nullable
   public AuthToken getToken(String id) {
     checkState(tokens != null, "Tokens not loaded yet");
     return tokens.get(id);
+  }
+
+  public List<AuthToken> getTokens() {
+    checkState(tokens != null, "Tokens not loaded yet");
+    return List.copyOf(tokens.values());
   }
 
   @Override

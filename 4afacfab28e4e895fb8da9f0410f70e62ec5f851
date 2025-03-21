@@ -83,6 +83,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c18f2783_5ee8d57d",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2025-03-21T11:43:17Z",
+      "side": 1,
+      "message": "I think this point is actually important to highlight. I tried reverting an account deletion by reverting the commit to the meta/external-ids, and that wasn\u0027t sufficient as I don\u0027t think there\u0027s a way to recover the `refs/users` for that user.\n\nFrom an auditability point of view, this is a bit scary, we\u0027ve just lost all info about that user.",
+      "parentUuid": "d2906a36_3a755286",
+      "range": {
+        "startLine": 562,
+        "startChar": 8,
+        "endLine": 562,
+        "endChar": 89
+      },
+      "revId": "4afacfab28e4e895fb8da9f0410f70e62ec5f851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "861f4d09_b59b1bed",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 18

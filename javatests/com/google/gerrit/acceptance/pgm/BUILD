@@ -10,7 +10,7 @@ acceptance_tests(
         "pgm",
         "no_windows",
     ],
-    vm_args = ["-Xmx512m"],
+    vm_args = ["-Xmx1g"],
     deps = [
         ":util",
         "//java/com/google/gerrit/index",

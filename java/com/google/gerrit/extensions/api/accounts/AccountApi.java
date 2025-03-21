@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.common.TokenInfo;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,8 @@ public interface AccountApi {
       throws RestApiException;
 
   void setName(String name) throws RestApiException;
+
+  void createToken(TokenInput input) throws RestApiException;
 
   List<TokenInfo> getTokens() throws RestApiException;
 

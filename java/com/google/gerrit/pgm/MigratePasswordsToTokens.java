@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.server.restapi.account.PutHttpPassword.DEFAULT_ID;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -30,6 +29,7 @@ import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.account.PasswordMigrator;
 import com.google.gerrit.server.account.VersionedAuthTokens;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -151,12 +151,12 @@ public class MigratePasswordsToTokens extends SiteProgram {
     }
     Account.Id accountId = extId.accountId();
     VersionedAuthTokensOnInit authTokens = tokenFactory.create(accountId).load();
-    if (authTokens.getToken(DEFAULT_ID) != null) {
+    if (authTokens.getToken(PasswordMigrator.DEFAULT_ID) != null) {
       logger.atWarning().log(
           "Account %d has already a legacy token, not adding another one", accountId.get());
       return;
     }
-    authTokens.addToken(DEFAULT_ID, hashedPassword, lifetime);
+    authTokens.addToken(PasswordMigrator.DEFAULT_ID, hashedPassword, lifetime);
     authTokens.save("Migration of HTTP password to token");
 
     ExternalId updatedExtId =

@@ -29,6 +29,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.queryparser.simple.SimpleQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -88,9 +89,10 @@ public class QueryDocumentationExecutor {
       TotalHits totalHits = results.totalHits;
 
       List<DocResult> out = new ArrayList<>();
-      for (int i = 0; i < totalHits.value; i++) {
+      StoredFields storedFields = searcher.getIndexReader().storedFields();
+      for (int i = 0; i < totalHits.value(); i++) {
         DocResult result = new DocResult();
-        Document doc = searcher.doc(hits[i].doc);
+        Document doc = storedFields.document(hits[i].doc);
         result.url = doc.get(Constants.URL_FIELD);
         result.title = doc.get(Constants.TITLE_FIELD);
         out.add(result);

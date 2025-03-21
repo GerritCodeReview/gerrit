@@ -75,7 +75,10 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   @Deprecated static final Schema<InternalGroup> V10 = schema(V9);
 
   // Upgrade Lucene to 9.x requires reindexing.
-  static final Schema<InternalGroup> V11 = schema(V10);
+  @Deprecated static final Schema<InternalGroup> V11 = schema(V10);
+
+  // Upgrade Lucene to 10.x requires reindexing.
+  static final Schema<InternalGroup> V12 = schema(V11);
 
   /** Singleton instance of the schema definitions. This is one per JVM. */
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();

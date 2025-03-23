@@ -50,6 +50,23 @@
       "message": "git fetch https://gerrit.googlesource.com/gerrit refs/changes/00/431900/1 \u0026\u0026 git checkout -b change-431900 FETCH_HEAD",
       "revId": "e410f925fab8a1261fc9396cf98db938d7512ecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b47cdea_0aa045cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3948420
+      },
+      "writtenOn": "2025-03-23T19:15:04Z",
+      "side": 1,
+      "message": "KamalKnudzi",
+      "revId": "e410f925fab8a1261fc9396cf98db938d7512ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

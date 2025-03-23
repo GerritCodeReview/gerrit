@@ -350,6 +350,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         CacheSerializer<V> valueSerializer,
         int version,
         long maxSize,
+        int maxInvalidated,
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
@@ -368,7 +369,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.handles = new ArrayBlockingQueue<>(keep);
       bloomFilter =
           new ConcurrentBloomFilter<>(
-              this.keyType.funnel(), buildBloomFilter ? this::buildBloomFilter : () -> {});
+              this.keyType.funnel(),
+              buildBloomFilter ? this::buildBloomFilter : () -> {},
+              maxInvalidated);
     }
 
     @SuppressWarnings("unchecked")
@@ -573,13 +576,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         invalidate(c, key);
-        // Although there is no way to remove an entry from a bloomfilter, the impact
-        // to this key will be likely only be one lookup that fails since the entry will
-        // likely then get repopulated on disk and then the bloomfilter will be up-to-date
-        // again for that key. However, the impact to the bloomFilter will grow over time
-        // as no-longer-looked-up entries get invalidated and removed from the cache, these
-        // entries will still leave set bits in the bloomfilter which will result in more
-        // mightContains() false positives for other newer unpopulated keys over time.
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = close(c);
@@ -599,6 +595,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       } finally {
         c.invalidate.clearParameters();
       }
+      bloomFilter.invalidate(key);
     }
 
     void invalidateAll() {
@@ -617,7 +614,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    void prune(Cache<K, ?> mem) {
+    synchronized void prune(Cache<K, ?> mem) {
       SqlHandle c = null;
       try {
         c = acquire();
@@ -674,6 +671,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c = close(c);
       } finally {
         release(c);
+        bloomFilter.startBuildIfNeeded();
       }
     }
 
@@ -697,7 +695,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       } finally {
         release(c);
       }
-      return new DiskStats(size, space, hitCount.get(), missCount.get());
+      return new DiskStats(
+          size, space, hitCount.get(), missCount.get(), bloomFilter.getInvalidatedCount());
     }
 
     private SqlHandle acquire() throws SQLException {

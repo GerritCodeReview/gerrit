@@ -241,6 +241,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         def.valueSerializer(),
         def.version(),
         maxSize,
+        config.getInt("cache", "h2MaxInvalidated", 25),
         expireAfterWrite,
         refreshAfterWrite,
         options.contains(CacheOptions.BUILD_BLOOM_FILTER),

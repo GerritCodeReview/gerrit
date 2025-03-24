@@ -28,7 +28,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
-import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
@@ -99,7 +99,7 @@ public class AccountCacheImpl implements AccountCache {
     return new AccountCacheBindingModule();
   }
 
-  private final ExternalIds externalIds;
+  private final ExternalIdsNoteDbImpl externalIds;
   private final LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -108,7 +108,7 @@ public class AccountCacheImpl implements AccountCache {
 
   @Inject
   AccountCacheImpl(
-      ExternalIds externalIds,
+      ExternalIdsNoteDbImpl externalIds,
       @Named(BYID_AND_REV_NAME)
           LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache,
       GitRepositoryManager repoManager,

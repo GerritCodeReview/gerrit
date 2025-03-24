@@ -30,7 +30,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -70,7 +70,7 @@ public class StalenessChecker {
   private final AccountIndexCollection indexes;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final ExternalIds externalIds;
+  private final ExternalIdsNoteDbImpl externalIdsNoteDbReader;
   private final IndexConfig indexConfig;
 
   @Inject
@@ -78,12 +78,12 @@ public class StalenessChecker {
       AccountIndexCollection indexes,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      ExternalIds externalIds,
+      ExternalIdsNoteDbImpl externalIdsNoteDbReader,
       IndexConfig indexConfig) {
     this.indexes = indexes;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.externalIds = externalIds;
+    this.externalIdsNoteDbReader = externalIdsNoteDbReader;
     this.indexConfig = indexConfig;
   }
 
@@ -136,7 +136,7 @@ public class StalenessChecker {
       }
     }
 
-    ImmutableSet<ExternalId> extIds = externalIds.byAccount(id);
+    ImmutableSet<ExternalId> extIds = externalIdsNoteDbReader.byAccount(id);
 
     ListMultimap<ObjectId, ObjectId> extIdStates =
         parseExternalIdStates(

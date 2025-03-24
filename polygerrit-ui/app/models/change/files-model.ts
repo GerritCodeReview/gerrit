@@ -24,6 +24,8 @@ import {ChangeModel} from './change-model';
 import {CommentsModel} from '../comments/comments-model';
 import {Timing} from '../../constants/reporting';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
+import {RunResult} from '../checks/checks-model';
+import {ChecksModel} from '../checks/checks-model';
 
 export type FileNameToNormalizedFileInfoMap = {
   [name: string]: NormalizedFileInfo;
@@ -61,9 +63,11 @@ function mapToList(map?: FileNameToFileInfoMap): NormalizedFileInfo[] {
 
 export function addUnmodified(
   files: NormalizedFileInfo[],
-  commentedPaths: string[]
+  commentedPaths: string[],
+  checkResults?: RunResult[]
 ) {
   const combined = [...files];
+  // Add paths from comments
   for (const commentedPath of commentedPaths) {
     if (commentedPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) continue;
     if (files.some(f => f.__path === commentedPath)) continue;
@@ -78,6 +82,28 @@ export function addUnmodified(
       normalize({status: FileInfoStatus.UNMODIFIED}, commentedPath)
     );
   }
+
+  // Add paths from check results
+  if (checkResults) {
+    for (const result of checkResults) {
+      if (!result.codePointers?.length) continue;
+      for (const pointer of result.codePointers) {
+        const path = pointer.path;
+        if (!path) continue;
+        if (files.some(f => f.__path === path)) continue;
+        if (
+          files.some(
+            f => f.status === FileInfoStatus.RENAMED && f.old_path === path
+          )
+        ) {
+          continue;
+        }
+        if (combined.some(f => f.__path === path)) continue;
+        combined.push(normalize({status: FileInfoStatus.UNMODIFIED}, path));
+      }
+    }
+  }
+
   combined.sort((f1, f2) => specialFilePathCompare(f1.__path, f2.__path));
   return combined;
 }
@@ -128,7 +154,7 @@ export class FilesModel extends Model<FilesState> {
   /**
    * `files$` only includes the files that were modified. Here we also include
    * all unmodified files that have comments with
-   * `status: FileInfoStatus.UNMODIFIED`.
+   * `status: FileInfoStatus.UNMODIFIED` and files referenced in check results.
    */
   public readonly filesIncludingUnmodified$;
 
@@ -139,14 +165,20 @@ export class FilesModel extends Model<FilesState> {
   constructor(
     readonly changeModel: ChangeModel,
     readonly commentsModel: CommentsModel,
+    readonly checksModel: ChecksModel,
     readonly restApiService: RestApiService,
     private readonly reporting: ReportingService
   ) {
     super(initialState);
 
     this.filesIncludingUnmodified$ = select(
-      combineLatest([this.files$, this.commentsModel.commentedPaths$]),
-      ([files, commentedPaths]) => addUnmodified(files, commentedPaths)
+      combineLatest([
+        this.files$,
+        this.commentsModel.commentedPaths$,
+        this.checksModel.allResults$,
+      ]),
+      ([files, commentedPaths, checkResults]) =>
+        addUnmodified(files, commentedPaths, checkResults)
     );
     this.filesLeftBase$ = select(this.state$, state => state.filesLeftBase);
     this.filesRightBase$ = select(this.state$, state => state.filesRightBase);

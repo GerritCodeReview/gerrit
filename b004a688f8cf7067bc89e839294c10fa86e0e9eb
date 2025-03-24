@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f30f2b8_e95e5d12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-24T14:44:07Z",
+      "side": 1,
+      "message": "this problem was found since a user was confused by the generic error message, see https://discord.com/channels/775374026587373568/1353664353525825607",
+      "revId": "b004a688f8cf7067bc89e839294c10fa86e0e9eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

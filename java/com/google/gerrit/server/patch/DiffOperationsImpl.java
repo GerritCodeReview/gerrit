@@ -338,6 +338,9 @@ public class DiffOperationsImpl implements DiffOperations {
                 // Myers as fallback. See https://issues.gerritcodereview.com/issues/40000618
                 /* useTimeout= */ false,
                 key.whitespace());
+        logger.atFine().log(
+            "fallback to computing git file diff for %s with %s as diff algorithm and no timeout",
+            key.newFilePath(), DiffAlgorithm.HISTOGRAM_NO_FALLBACK);
         fallbackKeys.add(fallbackKey);
       } else {
         result.add(diff);

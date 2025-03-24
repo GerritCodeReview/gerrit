@@ -1723,10 +1723,19 @@ export class GrFileList extends LitElement {
     }
 
     const iconsByName: Record<string, ChecksIcon[]> = {};
+
+    // Check both current and old file paths
+    const pathsToCheck = [file.__path];
+    if (file.old_path) {
+      pathsToCheck.push(file.old_path);
+    }
+
     for (const result of this.checkResults ?? []) {
       if (
         result.codePointers === undefined ||
-        !result.codePointers.some(pointer => pointer.path === file.__path)
+        !result.codePointers.some(pointer =>
+          pathsToCheck.includes(pointer.path)
+        )
       ) {
         continue;
       }

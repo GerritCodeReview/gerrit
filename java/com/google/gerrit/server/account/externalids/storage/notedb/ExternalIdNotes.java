@@ -39,7 +39,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIdsSameAccountChecker;
 import com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl;
@@ -102,7 +101,6 @@ public class ExternalIdNotes extends VersionedMetaData {
   private static final int MAX_NOTE_SZ = 1 << 19;
 
   public abstract static class ExternalIdNotesLoader {
-    protected final ExternalIdCache externalIdCache;
     protected final MetricMaker metricMaker;
     protected final AllUsersName allUsersName;
     protected final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
@@ -110,13 +108,11 @@ public class ExternalIdNotes extends VersionedMetaData {
     protected final AuthConfig authConfig;
 
     protected ExternalIdNotesLoader(
-        ExternalIdCache externalIdCache,
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
         ExternalIdFactoryNoteDbImpl externalIdFactory,
         AuthConfig authConfig) {
-      this.externalIdCache = externalIdCache;
       this.metricMaker = metricMaker;
       this.allUsersName = allUsersName;
       this.upsertPreprocessors = upsertPreprocessors;
@@ -197,20 +193,13 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     @Inject
     Factory(
-        ExternalIdCache externalIdCache,
         Provider<AccountIndexer> accountIndexer,
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
         ExternalIdFactoryNoteDbImpl externalIdFactory,
         AuthConfig authConfig) {
-      super(
-          externalIdCache,
-          metricMaker,
-          allUsersName,
-          upsertPreprocessors,
-          externalIdFactory,
-          authConfig);
+      super(metricMaker, allUsersName, upsertPreprocessors, externalIdFactory, authConfig);
       this.accountIndexer = accountIndexer;
     }
 
@@ -251,19 +240,12 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     @Inject
     FactoryNoReindex(
-        ExternalIdCache externalIdCache,
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
         ExternalIdFactoryNoteDbImpl externalIdFactory,
         AuthConfig authConfig) {
-      super(
-          externalIdCache,
-          metricMaker,
-          allUsersName,
-          upsertPreprocessors,
-          externalIdFactory,
-          authConfig);
+      super(metricMaker, allUsersName, upsertPreprocessors, externalIdFactory, authConfig);
     }
 
     @Override

@@ -49,6 +49,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -178,17 +180,14 @@ public class CreateBranch
             if (repo.getRefDatabase().exactRef(ref) != null) {
               throw new ResourceConflictException("branch \"" + ref + "\" already exists");
             }
-            String refPrefix = RefUtil.getRefPrefix(ref);
-            while (!Constants.R_HEADS.equals(refPrefix)) {
-              if (repo.getRefDatabase().exactRef(refPrefix) != null) {
-                throw new ResourceConflictException(
-                    "Cannot create branch \""
-                        + ref
-                        + "\" since it conflicts with branch \""
-                        + refPrefix
-                        + "\".");
-              }
-              refPrefix = RefUtil.getRefPrefix(refPrefix);
+            Collection<String> conflicting = repo.getRefDatabase().getConflictingNames(ref);
+            if (conflicting.size() > 0) {
+              throw new ResourceConflictException(
+                  "Cannot create branch \""
+                      + ref
+                      + "\" since it conflicts with branch \""
+                      + conflicting.stream().collect(Collectors.joining(", "))
+                      + "\".");
             }
             throw new LockFailureException(String.format("Failed to create %s", ref), u);
           case FORCED:

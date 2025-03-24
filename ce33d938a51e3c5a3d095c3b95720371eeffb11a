@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d57eeb_389d9845",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-24T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "044d2d9c_6d4e5d84",
+      "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cf1a7c8_24f62303",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-24T19:40:44Z",
       "side": 1,
       "message": "```suggestion\n    /** Enable online upgrade and reindexing. */\n```",
+      "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b2f9b3_d376cbb6",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-24T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cf1a7c8_24f62303",
       "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "406aa0de_20f17625",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-24T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9ae638f_8af0faff",
+      "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76dedbf6_e7e2ff67",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-03-24T19:40:44Z",
       "side": 1,
       "message": "```suggestion\n    /** Skip online upgrade and reindexing */\n```",
+      "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a1de2b_8e208f75",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-24T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76dedbf6_e7e2ff67",
       "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d40930c_9167ccff",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-24T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aad908af_d8eb5f20",
+      "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e5f87d2_b7405d48",
@@ -99,6 +189,30 @@
       "writtenOn": "2025-03-24T19:40:44Z",
       "side": 1,
       "message": "```suggestion\n    return onlineUpgrade !\u003d OnlineUpgrade.FALSE;\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 11,
+        "endLine": 81,
+        "endChar": 53
+      },
+      "revId": "ce33d938a51e3c5a3d095c3b95720371eeffb11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e6ea6e_8b1732f7",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-03-24T22:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e5f87d2_b7405d48",
       "range": {
         "startLine": 80,
         "startChar": 11,

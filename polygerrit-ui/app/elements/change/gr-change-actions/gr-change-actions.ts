@@ -2,7 +2,17 @@
  * @license
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
+<<<<<<< PATCH SET (c2a883 test change, please ignore review requests)
+ *
+ * DO NOT SUBMIT: Just a test. asdf asdf
+*/
+||||||| BASE
+ *
+ * DO NOT SUBMIT: Just a test.
+*/
+=======
  */
+>>>>>>> BASE      (cd098d Merge "GitFileDiffCacheImpl: cancel tasks failing due to tim)
 import '../../admin/gr-create-change-dialog/gr-create-change-dialog';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';

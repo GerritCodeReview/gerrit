@@ -55,15 +55,17 @@ function formatBody(body: string[]): string[] {
   let paragraphLines: string[] = [];
   const formattedBody: string[] = [];
   let previousWasBulletPoint = false;
+  let previousWasEmpty = true; // Track if previous line was empty
 
   for (const line of body) {
     if (line.trim().startsWith('```')) {
       inCodeBlock = !inCodeBlock;
       formattedBody.push(line.trimEnd());
+      previousWasEmpty = false;
       continue;
     }
 
-    if (inCodeBlock || isUntouchedLine(line)) {
+    if (inCodeBlock || isUntouchedLine(line, previousWasEmpty)) {
       if (!inCodeBlock) {
         previousWasBulletPoint = BULLET_POINT_REGEX.test(line);
       }
@@ -72,11 +74,13 @@ function formatBody(body: string[]): string[] {
       }
       paragraphLines = []; // Reset paragraph
       formattedBody.push(line.trimEnd());
+      previousWasEmpty = false;
       continue;
     }
 
     if (previousWasBulletPoint && line.startsWith('  ')) {
       formattedBody.push(line.trimEnd());
+      previousWasEmpty = false;
       continue;
     }
 
@@ -87,8 +91,10 @@ function formatBody(body: string[]): string[] {
       }
       formattedBody.push('');
       previousWasBulletPoint = false;
+      previousWasEmpty = true;
     } else {
       paragraphLines.push(line.trim());
+      previousWasEmpty = false;
     }
   }
 
@@ -107,12 +113,17 @@ function formatFooter(footer: string[]): string[] {
  * Returns true if the line will not be modified by the formatter.
  * For example, quotes, bullet points, and indented lines are untouched.
  */
-function isUntouchedLine(line: string): boolean {
+function isUntouchedLine(line: string, previousWasEmpty: boolean): boolean {
   return (
     line.trimStart().startsWith('> ') ||
     (line.length >= INDENTATION_THRESHOLD &&
       line.substring(0, INDENTATION_THRESHOLD).trim() === '') ||
-    BULLET_POINT_REGEX.test(line)
+    BULLET_POINT_REGEX.test(line) ||
+    // Check if line is part of a list by looking for any indentation,
+    // but only if not first line in paragraph
+    (!previousWasEmpty &&
+      line.trimStart().length > 0 &&
+      line !== line.trimStart())
   );
 }
 
@@ -249,7 +260,7 @@ function detectFormattingErrors(
 
     if (
       !inCodeBlock &&
-      !isUntouchedLine(line) &&
+      !isUntouchedLine(line, false) &&
       line.length > MAX_LINE_LENGTH &&
       !line.includes('://') // Don't flag long URLs
     ) {
@@ -278,7 +289,7 @@ function detectFormattingErrors(
 
     if (
       !inCodeBlock &&
-      !isUntouchedLine(line) &&
+      !isUntouchedLine(line, false) &&
       line.length > MAX_LINE_LENGTH &&
       !line.includes('://') // Don't flag long URLs
     ) {

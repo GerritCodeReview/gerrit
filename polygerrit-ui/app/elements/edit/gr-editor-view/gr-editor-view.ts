@@ -7,6 +7,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-editable-label/gr-editable-label';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-default-editor/gr-default-editor';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
@@ -16,7 +17,7 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -25,7 +26,7 @@ import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -39,6 +40,8 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {isDarkTheme} from '../../../utils/theme-util';
+import {GrEditPreferencesDialog} from '../gr-edit-preferences-dialog/gr-edit-preferences-dialog';
+import '../gr-edit-preferences-dialog/gr-edit-preferences-dialog';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -56,6 +59,9 @@ export class GrEditorView extends LitElement {
    *
    * @event show-alert
    */
+
+  @query('#editPreferencesDialog')
+  editPreferencesDialog?: GrEditPreferencesDialog;
 
   @state() viewState?: ChangeViewState;
 
@@ -239,6 +245,18 @@ export class GrEditorView extends LitElement {
             ></gr-editable-label>
           </span>
           <span class="controlGroup rightControls">
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="Edit preferences"
+            >
+              <gr-button
+                link=""
+                class="prefsButton"
+                @click=${this.handleEditPrefsTap}
+                ><gr-icon icon="settings" filled></gr-icon
+              ></gr-button>
+            </gr-tooltip-content>
             <gr-button id="close" link="" @click=${this.handleCloseTap}
               >Cancel</gr-button
             >
@@ -263,6 +281,11 @@ export class GrEditorView extends LitElement {
           </span>
         </header>
       </div>
+      <gr-edit-preferences-dialog
+        id="editPreferencesDialog"
+        @has-edit-pref-change-saved=${this.handleEditPrefChangeSaved}
+      >
+      </gr-edit-preferences-dialog>
     `;
   }
 
@@ -520,6 +543,18 @@ export class GrEditorView extends LitElement {
   // private but used in test
   handleSaveShortcut() {
     if (!this.computeSaveDisabled()) this.saveEdit();
+  }
+
+  // Private but used in tests.
+  handleEditPrefsTap(e: Event) {
+    e.preventDefault();
+    assertIsDefined(this.editPreferencesDialog, 'editPreferencesDialog');
+    this.editPreferencesDialog.open();
+  }
+
+  private handleEditPrefChangeSaved() {
+    // We have to fire a reload so the change takes effect within a plugin.
+    fireReload(this);
   }
 }
 

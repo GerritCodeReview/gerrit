@@ -60,6 +60,7 @@ import {
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {rootUrl} from '../../../utils/url-util';
+import {GrEditPreferences} from '../gr-edit-preferences/gr-edit-preferences';
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
 
@@ -93,6 +94,8 @@ export class GrSettingsView extends LitElement {
 
   @query('#diffPrefs') diffPrefs!: GrDiffPreferences;
 
+  @query('#editPrefs') editPrefs!: GrEditPreferences;
+
   @queryAsync('#sshEditor') sshEditorPromise!: Promise<GrSshEditor>;
 
   @queryAsync('#gpgEditor') gpgEditorPromise!: Promise<GrGpgEditor>;
@@ -111,6 +114,8 @@ export class GrSettingsView extends LitElement {
   @state() private changeTableChanged = false;
 
   @state() private diffPrefsChanged = false;
+
+  @state() private editPrefsChanged = false;
 
   @state() private watchedProjectsChanged = false;
 
@@ -454,7 +459,30 @@ ${this.accountState}</textarea
               >Save Changes</gr-button
             >
           </fieldset>
-          <gr-edit-preferences id="EditPreferences"></gr-edit-preferences>
+          <h2
+            id="EditPreferences"
+            class=${this.computeHeaderClass(this.editPrefsChanged)}
+          >
+            Edit Preferences
+          </h2>
+          <fieldset id="editPreferences">
+            <gr-edit-preferences
+              id="editPrefs"
+              @has-unsaved-changes-changed=${(
+                e: ValueChangedEvent<boolean>
+              ) => {
+                this.editPrefsChanged = e.detail.value;
+              }}
+            ></gr-edit-preferences>
+            <gr-button
+              id="saveEditPrefs"
+              @click=${() => {
+                this.editPrefs.save();
+              }}
+              ?disabled=${!this.editPrefsChanged}
+              >Save Changes</gr-button
+            >
+          </fieldset>
           <gr-menu-editor id="Menu"></gr-menu-editor>
           <h2
             id="ChangeTableColumns"

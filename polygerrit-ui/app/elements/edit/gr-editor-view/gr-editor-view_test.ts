@@ -74,6 +74,21 @@ suite('gr-editor-view tests', () => {
               </gr-editable-label>
             </span>
             <span class="controlGroup rightControls">
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Edit preferences"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="prefsButton"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon filled="" icon="settings"> </gr-icon>
+                </gr-button>
+              </gr-tooltip-content>
               <gr-button
                 aria-disabled="false"
                 id="close"
@@ -110,6 +125,8 @@ suite('gr-editor-view tests', () => {
             </span>
           </header>
         </div>
+        <gr-edit-preferences-dialog id="editPreferencesDialog">
+        </gr-edit-preferences-dialog>
         <div class="textareaWrapper">
           <gr-endpoint-decorator id="editorEndpoint" name="editor">
             <gr-endpoint-param name="fileContent"> </gr-endpoint-param>

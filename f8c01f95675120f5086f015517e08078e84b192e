@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e61c32f8_db551f4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-25T08:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eb41cc9_c17ab1dd",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7c5d1c5_29cbd10d",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-03-07T07:19:41Z",
       "side": 1,
       "message": "nit `s/attribute/attributes`?",
+      "range": {
+        "startLine": 6311,
+        "startChar": 52,
+        "endLine": 6311,
+        "endChar": 61
+      },
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b634246_e2a125bd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6311,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-25T08:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c5d1c5_29cbd10d",
       "range": {
         "startLine": 6311,
         "startChar": 52,
@@ -96,6 +144,24 @@
       "side": 1,
       "message": "I checked and found that `core.trustTablesListStat` already inherits from `core.trustStat` :-). This means setting `core.trustStat` also sets the default for `core.trustTablesListStat`.",
       "parentUuid": "c49f1519_4c6a68c8",
+      "revId": "f8c01f95675120f5086f015517e08078e84b192e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47bb50e9_91ac5595",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6319,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-25T08:53:56Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "11e0180b_de3b37c8",
       "revId": "f8c01f95675120f5086f015517e08078e84b192e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

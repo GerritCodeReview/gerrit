@@ -145,6 +145,11 @@ suite('commit-message-formatter-util tests', () => {
       );
     });
 
+    test('paragraph with list creating with leading space is untouched', () => {
+      const message = 'Fix the thing\n\nList:\n  item1\n  item2\n\nBug: 123\n';
+      assert.equal(formatCommitMessageString(message), message);
+    });
+
     test('bullet points are not split', () => {
       const message =
         'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue.\n' +

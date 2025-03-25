@@ -569,24 +569,18 @@ public class ChangeEmailImpl implements ChangeEmail {
     return this.authors = authors;
   }
 
-  @Override
-  public void populateEmailContent() throws EmailException {
-    BranchEmailUtils.addBranchData(email, args, branch);
-    setThreadHeaders();
-
-    email.addSoyParam("changeId", change.getKey().get());
-    email.addSoyParam("coverLetter", getCoverLetter());
-    email.addSoyParam("fromName", email.getNameFor(email.getFrom()));
-    email.addSoyParam("fromEmail", email.getNameEmailFor(email.getFrom()));
-    email.addSoyParam("diffLines", ChangeEmail.getDiffTemplateData(getUnifiedDiff()));
-
+  protected void addChangeRelatedSoyParams() {
+    // diffLines is the structured diff format for HTML emails.
+    // unifiedDiff is textual diff for plaintext emails.
+    email.addSoyParam("diffLines", ChangeEmail.getDiffTemplateData(getUnifiedDiff().trim()));
     email.addSoyEmailDataParam("unifiedDiff", getUnifiedDiff());
-    email.addSoyEmailDataParam("changeDetail", getChangeDetail());
-    email.addSoyEmailDataParam("changeUrl", getChangeUrl());
     email.addSoyEmailDataParam("includeDiff", getIncludeDiff());
 
-    Map<String, String> changeData = new HashMap<>();
+    // changeDetail - is a plaintext summary of the change (message, files, delta)
+    email.addSoyEmailDataParam("changeDetail", getChangeDetail());
+    email.addSoyEmailDataParam("changeUrl", getChangeUrl());
 
+    Map<String, String> changeData = new HashMap<>();
     String subject = change.getSubject();
     String originalSubject = change.getOriginalSubject();
     changeData.put("subject", subject);
@@ -611,7 +605,13 @@ public class ChangeEmailImpl implements ChangeEmail {
     patchSetInfoData.put("authorName", patchSetInfo.getAuthor().getName());
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
     email.addSoyParam("patchSetInfo", patchSetInfoData);
+    // We need names rather than account ids / emails to make it user readable.
+    email.addSoyParam(
+        "attentionSet",
+        currentAttentionSet.stream().map(email::getNameFor).sorted().collect(toImmutableList()));
+  }
 
+  protected void addEmailFooters() {
     email.addFooter(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
     email.addFooter(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
     email.addFooter(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
@@ -625,13 +625,24 @@ public class ChangeEmailImpl implements ChangeEmail {
     for (Account.Id attentionUser : currentAttentionSet) {
       email.addFooter(MailHeader.ATTENTION.withDelimiter() + email.getNameEmailFor(attentionUser));
     }
-    // We need names rather than account ids / emails to make it user readable.
-    email.addSoyParam(
-        "attentionSet",
-        currentAttentionSet.stream().map(email::getNameFor).sorted().collect(toImmutableList()));
+  }
 
+  @Override
+  public void populateEmailContent() throws EmailException {
+    BranchEmailUtils.addBranchData(email, args, branch);
+    setThreadHeaders();
+
+    email.addSoyParam("coverLetter", getCoverLetter());
+    email.addSoyParam("fromName", email.getNameFor(email.getFrom()));
+    email.addSoyParam("fromEmail", email.getNameEmailFor(email.getFrom()));
+
+    addChangeRelatedSoyParams();
+    addEmailFooters();
+
+    // Set email subject.
     setChangeSubjectHeader();
 
+    // Set email content
     if (email.useHtml()) {
       email.appendHtml(email.soyHtmlTemplate("ChangeHeaderHtml"));
     }

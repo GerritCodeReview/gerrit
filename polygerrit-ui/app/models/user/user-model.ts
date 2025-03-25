@@ -233,13 +233,13 @@ export class UserModel extends Model<UserState> {
   updateEditPreference(editPrefs: EditPreferencesInfo) {
     return this.restApiService
       .saveEditPreferences(editPrefs)
-      .then((response: Response) => {
+      .then((response: Response) =>
         readJSONResponsePayload(response).then(obj => {
           const newPrefs = obj.parsed as unknown as EditPreferencesInfo;
           if (!newPrefs) return;
           this.setEditPreferences(newPrefs);
-        });
-      });
+        })
+      );
   }
 
   getDiffPreferences() {

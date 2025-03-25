@@ -48,102 +48,90 @@ suite('gr-edit-preferences tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <h2 id="EditPreferences">Edit Preferences</h2>
-        <fieldset id="editPreferences">
-          <div class="gr-form-styles" id="editPreferences">
-            <section>
-              <label class="title" for="editTabWidth"> Tab width </label>
-              <span class="value">
-                <iron-input>
-                  <input id="editTabWidth" type="number" />
-                </iron-input>
-              </span>
-            </section>
-            <section>
-              <label class="title" for="editColumns"> Columns </label>
-              <span class="value">
-                <iron-input>
-                  <input id="editColumns" type="number" />
-                </iron-input>
-              </span>
-            </section>
-            <section>
-              <label class="title" for="editIndentUnit"> Indent unit </label>
-              <span class="value">
-                <iron-input>
-                  <input id="editIndentUnit" type="number" />
-                </iron-input>
-              </span>
-            </section>
-            <section>
-              <label class="title" for="editSyntaxHighlighting">
-                Syntax highlighting
-              </label>
-              <span class="value">
-                <input checked="" id="editSyntaxHighlighting" type="checkbox" />
-              </span>
-            </section>
-            <section>
-              <label class="title" for="editShowTabs"> Show tabs </label>
-              <span class="value">
-                <input checked="" id="editShowTabs" type="checkbox" />
-              </span>
-            </section>
-            <section>
-              <label class="title" for="showTrailingWhitespaceInput">
-                Show trailing whitespace
-              </label>
-              <span class="value">
-                <input
-                  checked=""
-                  id="editShowTrailingWhitespaceInput"
-                  type="checkbox"
-                />
-              </span>
-            </section>
-            <section>
-              <label class="title" for="showMatchBrackets">
-                Match brackets
-              </label>
-              <span class="value">
-                <input checked="" id="showMatchBrackets" type="checkbox" />
-              </span>
-            </section>
-            <section>
-              <label class="title" for="editShowLineWrapping">
-                Line wrapping
-              </label>
-              <span class="value">
-                <input id="editShowLineWrapping" type="checkbox" />
-              </span>
-            </section>
-            <section>
-              <label class="title" for="showIndentWithTabs">
-                Indent with tabs
-              </label>
-              <span class="value">
-                <input id="showIndentWithTabs" type="checkbox" />
-              </span>
-            </section>
-            <section>
-              <label class="title" for="showAutoCloseBrackets">
-                Auto close brackets
-              </label>
-              <span class="value">
-                <input id="showAutoCloseBrackets" type="checkbox" />
-              </span>
-            </section>
-          </div>
-          <gr-button
-            aria-disabled="true"
-            disabled=""
-            id="saveEditPrefs"
-            role="button"
-            tabindex="-1"
-          >
-            Save Changes
-          </gr-button>
-        </fieldset>
+        <div class="gr-form-styles" id="editPreferences">
+          <section>
+            <label class="title" for="editTabWidth"> Tab width </label>
+            <span class="value">
+              <iron-input>
+                <input id="editTabWidth" type="number" />
+              </iron-input>
+            </span>
+          </section>
+          <section>
+            <label class="title" for="editColumns"> Columns </label>
+            <span class="value">
+              <iron-input>
+                <input id="editColumns" type="number" />
+              </iron-input>
+            </span>
+          </section>
+          <section>
+            <label class="title" for="editIndentUnit"> Indent unit </label>
+            <span class="value">
+              <iron-input>
+                <input id="editIndentUnit" type="number" />
+              </iron-input>
+            </span>
+          </section>
+          <section>
+            <label class="title" for="editSyntaxHighlighting">
+              Syntax highlighting
+            </label>
+            <span class="value">
+              <input checked="" id="editSyntaxHighlighting" type="checkbox" />
+            </span>
+          </section>
+          <section>
+            <label class="title" for="editShowTabs"> Show tabs </label>
+            <span class="value">
+              <input checked="" id="editShowTabs" type="checkbox" />
+            </span>
+          </section>
+          <section>
+            <label class="title" for="showTrailingWhitespaceInput">
+              Show trailing whitespace
+            </label>
+            <span class="value">
+              <input
+                checked=""
+                id="editShowTrailingWhitespaceInput"
+                type="checkbox"
+              />
+            </span>
+          </section>
+          <section>
+            <label class="title" for="showMatchBrackets">
+              Match brackets
+            </label>
+            <span class="value">
+              <input checked="" id="showMatchBrackets" type="checkbox" />
+            </span>
+          </section>
+          <section>
+            <label class="title" for="editShowLineWrapping">
+              Line wrapping
+            </label>
+            <span class="value">
+              <input id="editShowLineWrapping" type="checkbox" />
+            </span>
+          </section>
+          <section>
+            <label class="title" for="showIndentWithTabs">
+              Indent with tabs
+            </label>
+            <span class="value">
+              <input id="showIndentWithTabs" type="checkbox" />
+            </span>
+          </section>
+          <section>
+            <label class="title" for="showAutoCloseBrackets">
+              Auto close brackets
+            </label>
+            <span class="value">
+              <input id="showAutoCloseBrackets" type="checkbox" />
+            </span>
+          </section>
+        </div>
       `
     );
   });

@@ -203,7 +203,19 @@ suite('gr-settings-view tests', () => {
               Save Changes
             </gr-button>
           </fieldset>
-          <gr-edit-preferences id="EditPreferences"> </gr-edit-preferences>
+          <h2 id="EditPreferences">Edit Preferences</h2>
+          <fieldset id="editPreferences">
+            <gr-edit-preferences id="editPrefs"> </gr-edit-preferences>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="saveEditPrefs"
+              role="button"
+              tabindex="-1"
+            >
+              Save Changes
+            </gr-button>
+          </fieldset>
           <gr-menu-editor id="Menu"> </gr-menu-editor>
           <h2 id="ChangeTableColumns">Change Table Columns</h2>
           <fieldset id="changeTableColumns">

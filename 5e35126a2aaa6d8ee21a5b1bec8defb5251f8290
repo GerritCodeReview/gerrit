@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b587b838_02883603",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-25T08:23:51Z",
+      "side": 1,
+      "message": "```suggestion\n      case \"skip\":\n      case \"false\":\n```",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 19
+      },
+      "revId": "5e35126a2aaa6d8ee21a5b1bec8defb5251f8290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

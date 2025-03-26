@@ -539,7 +539,6 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(obj.hide_top_menu, false);
     assert.equal(obj.indent_unit, 2);
     assert.equal(obj.indent_with_tabs, false);
-    assert.equal(obj.key_map_type, 'DEFAULT');
     assert.equal(obj.line_length, 100);
     assert.equal(obj.line_wrapping, false);
     assert.equal(obj.match_brackets, true);
@@ -548,7 +547,6 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(obj.show_whitespace_errors, true);
     assert.equal(obj.syntax_highlighting, true);
     assert.equal(obj.tab_size, 8);
-    assert.equal(obj.theme, 'DEFAULT');
   });
 
   test('saveEditPreferences set show_tabs to false', () => {

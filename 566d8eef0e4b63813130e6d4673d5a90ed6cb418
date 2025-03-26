@@ -16,6 +16,23 @@
       "message": "I think the error is unrelated to this change.",
       "revId": "566d8eef0e4b63813130e6d4673d5a90ed6cb418",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cccd5bd_35d82c68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-03-26T07:09:21Z",
+      "side": 1,
+      "message": "I would prefer to not review stable branches. I find it hard to decide what is important enough as a fix to be patched to stable branches.",
+      "revId": "566d8eef0e4b63813130e6d4673d5a90ed6cb418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

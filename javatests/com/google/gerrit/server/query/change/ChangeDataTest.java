@@ -63,7 +63,18 @@ public class ChangeDataTest {
             Change.id(1),
             1,
             ObjectId.zeroId(),
-            (s, c) -> encodedChangeNum,
+            new ChangeNumberVirtualIdAlgorithm() {
+
+              @Override
+              public boolean isVirtualChangeId(Change.Id arg0) {
+                return true;
+              }
+
+              @Override
+              public Change.Id apply(String s, Change.Id l) {
+                return encodedChangeNum;
+              }
+            },
             changeNotesMock);
 
     assertThat(cd.virtualId().get()).isEqualTo(encodedChangeNum.get());

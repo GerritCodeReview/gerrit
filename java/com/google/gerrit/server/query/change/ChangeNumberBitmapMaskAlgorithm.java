@@ -91,4 +91,9 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
       return Change.id(virtualId);
     }
   }
+
+  @Override
+  public boolean isVirtualChangeId(Change.Id id) {
+    return !serverIdCodes.isEmpty() && ((id.get() & LEGACY_ID_BIT_MASK) != id.get());
+  }
 }

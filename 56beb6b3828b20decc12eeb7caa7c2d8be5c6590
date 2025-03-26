@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "397a6725_9876198c",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-26T08:27:01Z",
+      "side": 0,
+      "message": "Is this not needed?",
+      "revId": "56beb6b3828b20decc12eeb7caa7c2d8be5c6590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

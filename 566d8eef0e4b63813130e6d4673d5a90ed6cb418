@@ -50,6 +50,24 @@
       "message": "Shouldn\u0027t we first create a stable-3.11 branch in the plugins/codemirror-editor repo that contains this commit?",
       "revId": "566d8eef0e4b63813130e6d4673d5a90ed6cb418",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ee60789_390e6e52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-03-26T12:38:36Z",
+      "side": 1,
+      "message": "i guess we could. I\u0027ve just been creating a stable branch where necessary (e.g. it can\u0027t use the very latest from the master branch).\n\nI\u0027ve created one now, thanks!\n\nhttps://gerrit.googlesource.com/plugins/codemirror-editor/+/refs/heads/stable-3.11",
+      "parentUuid": "ab25597b_7cf5bdc4",
+      "revId": "566d8eef0e4b63813130e6d4673d5a90ed6cb418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

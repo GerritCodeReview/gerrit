@@ -376,6 +376,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         // if the algorithm used in diffs is HISTOGRAM_WITH_FALLBACK_MYERS.
         return fileDiffFuture.get(timeoutMillis, TimeUnit.MILLISECONDS);
       } catch (InterruptedException | TimeoutException e) {
+        fileDiffFuture.cancel(true);
         // If timeout happens, create a negative result
         logger.atFine().log(
             "computing git file diff for %s with %s as diff algorithm failed with a timeout,"

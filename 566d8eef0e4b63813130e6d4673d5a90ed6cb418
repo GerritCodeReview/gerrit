@@ -33,6 +33,23 @@
       "message": "I would prefer to not review stable branches. I find it hard to decide what is important enough as a fix to be patched to stable branches.",
       "revId": "566d8eef0e4b63813130e6d4673d5a90ed6cb418",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab25597b_7cf5bdc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-26T11:53:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we first create a stable-3.11 branch in the plugins/codemirror-editor repo that contains this commit?",
+      "revId": "566d8eef0e4b63813130e6d4673d5a90ed6cb418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

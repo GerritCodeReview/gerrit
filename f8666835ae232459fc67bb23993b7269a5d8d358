@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ed7c1ea_9a8ba67b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-27T14:34:25Z",
+      "side": 1,
+      "message": "What exactly is the UX supposed to be of this feature?\n\nThe overall flow is not clear to me.\n\nCan you maybe explain in the commit message how it should be/what the current state is/what is yet to come?",
+      "revId": "f8666835ae232459fc67bb23993b7269a5d8d358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

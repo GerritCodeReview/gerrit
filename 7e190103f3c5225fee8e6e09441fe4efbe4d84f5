@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7416427c_e40a4e2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-27T14:34:25Z",
+      "side": 0,
+      "message": "let\u0027s keep these improvements still",
+      "range": {
+        "startLine": 949,
+        "startChar": 8,
+        "endLine": 949,
+        "endChar": 30
+      },
+      "revId": "7e190103f3c5225fee8e6e09441fe4efbe4d84f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

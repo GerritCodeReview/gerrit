@@ -99,6 +99,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5f508e1_7b1b106a",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T14:12:36Z",
+      "side": 1,
+      "message": "True, thanks for the hint.",
+      "parentUuid": "b2c0709e_52d8ed8c",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 5
+      },
+      "revId": "34354772df9611604262206602aeec333f3fd669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68d2528e_36975282",
@@ -112,6 +136,24 @@
       "writtenOn": "2025-03-06T09:40:29Z",
       "side": 1,
       "message": "The `while` loop exits when this set is empty, or with `return` at 229 or with an exception at 234. Therefore, if we are here this set must be empty. Returning an empty set from here would make this fact more explicit.",
+      "revId": "34354772df9611604262206602aeec333f3fd669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64127e0a_308299d1",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T14:12:36Z",
+      "side": 1,
+      "message": "With the Retryer all this code is gone.",
+      "parentUuid": "68d2528e_36975282",
       "revId": "34354772df9611604262206602aeec333f3fd669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

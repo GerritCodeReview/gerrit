@@ -162,6 +162,24 @@
       "message": "instead of heuristically waiting a bit shouldn\u0027t we better wait until the `GerritServer.daemonService` which is used in these tests has terminated ?",
       "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a06d864_d5d375ca",
+        "filename": "java/com/google/gerrit/testing/GitRepositoryReferenceCountingManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T12:28:37Z",
+      "side": 1,
+      "message": "\u003e instead of heuristically waiting a bit shouldn\u0027t we better wait until the `GerritServer.daemonService` which is used in these tests has terminated ?\n\nI wish I could, but some of the tests are reusing the same daemon, therefore it won\u0027t be applicable at test-level and the failures would always be global, which isn\u0027t helpful for the developer to understand where\u0027s the problem.",
+      "parentUuid": "8b972c07_3d54e224",
+      "revId": "a5a074dfb153397fbbccd5e98ccfa97a4d1bc872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

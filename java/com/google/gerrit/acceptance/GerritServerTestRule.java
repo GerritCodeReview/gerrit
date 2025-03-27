@@ -140,7 +140,7 @@ public class GerritServerTestRule implements ServerTestRule {
         server.testInjector.getInstance(GitRepositoryManager.class);
     if (repositoryManager
         instanceof GitRepositoryReferenceCountingManager repositoryCountingManager) {
-      repositoryCountingManager.init();
+      repositoryCountingManager.init(config.description());
     }
     getTestInjector().injectMembers(this);
   }

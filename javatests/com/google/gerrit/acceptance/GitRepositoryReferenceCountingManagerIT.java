@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.testing.NoGitRepositoryCheckIfClosed;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -65,6 +66,16 @@ public class GitRepositoryReferenceCountingManagerIT extends AbstractDaemonTest 
     AssertionError error = assertThrows(AssertionError.class, this::afterTest);
     assertThat(error.getLocalizedMessage()).contains(caller.getClass().getName());
     assertThat(error.getLocalizedMessage()).contains("openRepository");
+  }
+
+  @Test
+  @SuppressWarnings("resource")
+  @NoGitRepositoryCheckIfClosed
+  public void shouldNotFailWhenSkippingGitRepositoryCountingCheckEvenWhenLeavingTheRepositoryOpen()
+      throws Exception {
+    CallerLeavingRepositoryOpen caller = new CallerLeavingRepositoryOpen();
+    Repository unused = caller.openRepository();
+    afterTest();
   }
 
   @Test

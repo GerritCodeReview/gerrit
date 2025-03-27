@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7960614c_ceb2148d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-27T12:25:08Z",
+      "side": 1,
+      "message": "nit: change that was submitted in the master branch",
+      "range": {
+        "startLine": 1686,
+        "startChar": 32,
+        "endLine": 1686,
+        "endChar": 45
+      },
+      "revId": "81b2e8ebcb051136039708b11b2f7722248c34ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f5b1d1c_63b6b06e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-03-27T12:25:08Z",
+      "side": 1,
+      "message": "maybe mention the internals of the method to explain why it cannot be used",
+      "range": {
+        "startLine": 1686,
+        "startChar": 47,
+        "endLine": 1686,
+        "endChar": 90
+      },
+      "revId": "81b2e8ebcb051136039708b11b2f7722248c34ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

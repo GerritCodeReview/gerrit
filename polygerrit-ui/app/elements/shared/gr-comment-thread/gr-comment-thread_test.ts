@@ -17,8 +17,6 @@ import {
   RepoName,
   DraftInfo,
   SavingState,
-  CommentThread,
-  RevisionPatchSetNum,
 } from '../../../types/common';
 import {
   mockPromise,
@@ -33,8 +31,13 @@ import {
   createAccountDetailWithId,
   createThread,
   createNewDraft,
+<<<<<<< PATCH SET (dc4f49 Revert "Resolve comments when applied Get AI Fix")
+||||||| BASE
+  createComment,
+=======
   createComment,
   createFixSuggestionInfo,
+>>>>>>> BASE      (7e1901 Merge "Test submitting merge commit when parent commit has b)
 } from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -54,7 +57,12 @@ import {GerritView} from '../../../services/router/router-model';
 import {GrComment} from '../gr-comment/gr-comment';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {KnownExperimentId} from '../../../services/flags/flags';
+<<<<<<< PATCH SET (dc4f49 Revert "Resolve comments when applied Get AI Fix")
+||||||| BASE
+import {ParsedChangeInfo} from '../../../types/types';
+=======
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
+>>>>>>> BASE      (7e1901 Merge "Test submitting merge commit when parent commit has b)
 
 const c1: CommentInfo = {
   author: {name: 'Kermit'},
@@ -701,6 +709,51 @@ suite('gr-comment-thread tests', () => {
               </div>
             </div>
           </div>
+<<<<<<< PATCH SET (dc4f49 Revert "Resolve comments when applied Get AI Fix")
+        </div>
+      `
+    );
+||||||| BASE
+        </div>
+      `
+    );
+  });
+
+  test('handleAppliedFix creates a "Fix applied" reply', async () => {
+    const thread: CommentThread = {
+      ...createThread(c1),
+      comments: [
+        {
+          ...createComment(),
+          id: '123' as any,
+          message: 'Test comment',
+          author: {name: 'Test User'},
+          patch_set: 1 as RevisionPatchSetNum,
+          line: 10,
+          path: 'test.txt',
+        },
+      ],
+    };
+    element.thread = thread;
+    element.changeNum = 123 as NumericChangeId;
+    element.change = {
+      change_id: '123',
+      project: 'test-project',
+    } as ParsedChangeInfo;
+    const createReplyCommentSpy = sinon.spy(
+      element as any,
+      'createReplyComment'
+    );
+
+    element.dispatchEvent(new CustomEvent('apply-user-suggestion'));
+
+    assert.isTrue(createReplyCommentSpy.calledOnce);
+    assert.deepEqual(createReplyCommentSpy.firstCall.args, [
+      'Fix applied.',
+      false,
+      false,
+    ]);
+=======
         `
       );
     });
@@ -746,5 +799,6 @@ suite('gr-comment-thread tests', () => {
         false,
       ]);
     });
+>>>>>>> BASE      (7e1901 Merge "Test submitting merge commit when parent commit has b)
   });
 });

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede7c293_80a70a84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T08:32:32Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.\nMissing `Bug: Issue 396060185` mention.",
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c613040_8cd9cdb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T08:32:32Z",
+      "side": 1,
+      "message": "@brohlfs@google.com @ekempin@google.com would this work for Google?",
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87797006_f5a03417",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T08:32:32Z",
+      "side": 1,
+      "message": "```suggestion\n  private final ImmutableMap\u003cString, Integer\u003e serverIdCodes;\n  private final boolean hasServerIdCodes;\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 60
+      },
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ce7dc70_1377c684",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T08:32:32Z",
+      "side": 1,
+      "message": "```suggestion\n    serverIdCodes \u003d serverIdCodesBuilder.build();\n    hasServerIdCodes \u003d !serverIdCodes.isEmpty();\n```",
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23afc1a4_4570de56",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-27T08:32:32Z",
+      "side": 1,
+      "message": "```suggestion\n    return hasServerIdCodes \u0026\u0026 ((id.get() \u0026 ~LEGACY_ID_BIT_MASK) !\u003d 0);\n```",
+      "range": {
+        "startLine": 97,
+        "startChar": 41,
+        "endLine": 97,
+        "endChar": 49
+      },
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

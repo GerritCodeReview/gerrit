@@ -72,6 +72,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelId;
@@ -1655,6 +1656,64 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push.to("refs/for/otherBranch");
     r2.assertOkStatus();
     assertTwoChangesWithSameRevision(r);
+  }
+
+  @Test
+  public void
+      createNewChangeForAllNotInTarget_PushSameCommitToTwoBranchesAbandonTheChangeInOneBranchAndThenMergeTheCommitIntoIt()
+          throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+
+    // Create a stable branch.
+    BranchInput in = new BranchInput();
+    in.revision = projectOperations.project(project).getHead("master").name();
+    gApi.projects().name(project.get()).branch("stable").create(in);
+
+    // Push a change to the stable branch
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/stable");
+    r.assertOkStatus();
+    Change.Id changeIdStable = r.getChange().change().getId();
+
+    // Push the same commits to the master branch
+    PushOneCommit.Result r2 = push.to("refs/for/master");
+    r2.assertOkStatus();
+    assertTwoChangesWithSameRevision(r);
+
+    // Get the change ID of the master change (cannot use "r2.getChange().change().getId()"  because
+    // the Change-Id is ambiguous)
+    Change.Id changeIdMaster =
+        Iterables.getOnlyElement(
+                queryProvider
+                    .get()
+                    .byBranchKey(
+                        BranchNameKey.create(project, "master"), Change.key(r2.getChangeId())))
+            .getId();
+
+    // Submit the change for the stable branch
+    gApi.changes().id(project.get(), changeIdStable.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(project.get(), changeIdStable.get()).current().submit();
+
+    // Abandon the change for the master branch
+    gApi.changes().id(project.get(), changeIdMaster.get()).abandon();
+
+    testRepo.reset(initialHead);
+
+    // Merge stable back into master and push for review.
+    r =
+        pushFactory
+            .create(admin.newIdent(), testRepo)
+            .setParents(ImmutableList.of(initialHead, r.getCommit()))
+            .to("refs/for/master");
+    r.assertOkStatus();
+    Change.Id changeIdMerge = r.getChange().change().getId();
+
+    // Submit the merge change
+    gApi.changes().id(project.get(), changeIdMerge.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(project.get(), changeIdMerge.get()).current().submit();
   }
 
   @Test

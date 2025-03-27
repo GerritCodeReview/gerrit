@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccca86cc_30cff764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-27T14:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b114468_33fbbfe9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ede7c293_80a70a84",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-03-27T08:32:32Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.\nMissing `Bug: Issue 396060185` mention.",
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df968f38_dda1f438",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-27T14:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ede7c293_80a70a84",
       "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +140,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "840a1de6_38b5b025",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-27T14:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87797006_f5a03417",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 60
+      },
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ce7dc70_1377c684",
@@ -111,6 +177,24 @@
       "writtenOn": "2025-03-27T08:32:32Z",
       "side": 1,
       "message": "```suggestion\n    serverIdCodes \u003d serverIdCodesBuilder.build();\n    hasServerIdCodes \u003d !serverIdCodes.isEmpty();\n```",
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e841467_8eb86713",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-27T14:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ce7dc70_1377c684",
       "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -138,6 +222,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca7e372_d7f442a5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-27T14:21:23Z",
+      "side": 1,
+      "message": "❤️ Done",
+      "parentUuid": "23afc1a4_4570de56",
+      "range": {
+        "startLine": 97,
+        "startChar": 41,
+        "endLine": 97,
+        "endChar": 49
+      },
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d232edc8_001847d2",
@@ -151,6 +259,30 @@
       "writtenOn": "2025-03-27T09:54:26Z",
       "side": 1,
       "message": "```suggestion\n   * Check if a given change id is a virtual one\n```",
+      "range": {
+        "startLine": 38,
+        "startChar": 11,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "57d925e31bae81262d95c934fdbacd6d10c19332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5a91fce_c7bd703a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-03-27T14:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d232edc8_001847d2",
       "range": {
         "startLine": 38,
         "startChar": 11,

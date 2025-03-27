@@ -45,6 +45,54 @@
       },
       "revId": "81b2e8ebcb051136039708b11b2f7722248c34ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1978cbc2_cfc53af3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-27T12:58:52Z",
+      "side": 1,
+      "message": "Done, but saying \"pushed to the master branch\", since the change is not submitted (otherwise we couldn\u0027t abandon it later).",
+      "parentUuid": "7960614c_ceb2148d",
+      "range": {
+        "startLine": 1686,
+        "startChar": 32,
+        "endLine": 1686,
+        "endChar": 45
+      },
+      "revId": "81b2e8ebcb051136039708b11b2f7722248c34ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "942fb015_cf78ec9d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-27T12:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f5b1d1c_63b6b06e",
+      "range": {
+        "startLine": 1686,
+        "startChar": 47,
+        "endLine": 1686,
+        "endChar": 90
+      },
+      "revId": "81b2e8ebcb051136039708b11b2f7722248c34ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

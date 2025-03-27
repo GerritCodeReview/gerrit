@@ -35,6 +35,7 @@ import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.reflect.TypeLiteral;
 import org.eclipse.jgit.lib.Config;
@@ -243,7 +244,7 @@ public class DeleteZombieDraftIT extends AbstractDaemonTest {
                       .getAsJsonObject()
                       .getAsJsonArray("comments")
                       .toString(),
-                  new TypeLiteral<ImmutableList<HumanComment>>() {}.getType());
+                  new TypeLiteral<ArrayList<HumanComment>>() {}.getType());
       return drafts;
     }
   }

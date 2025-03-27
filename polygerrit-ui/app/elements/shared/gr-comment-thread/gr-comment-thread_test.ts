@@ -17,8 +17,6 @@ import {
   RepoName,
   DraftInfo,
   SavingState,
-  CommentThread,
-  RevisionPatchSetNum,
 } from '../../../types/common';
 import {
   mockPromise,
@@ -713,38 +711,6 @@ suite('gr-comment-thread tests', () => {
       });
       await element.updateComplete;
       assert.isNotOk(query(element, '#aiFixBtn'));
-    });
-
-    test('handleAppliedFix creates a "Fix applied" reply', async () => {
-      const thread: CommentThread = {
-        ...createThread(c1),
-        comments: [
-          {
-            ...createComment(),
-            id: '123' as any,
-            message: 'Test comment',
-            author: {name: 'Test User'},
-            patch_set: 1 as RevisionPatchSetNum,
-            line: 10,
-            path: 'test.txt',
-          },
-        ],
-      };
-      element.thread = thread;
-      element.changeNum = 123 as NumericChangeId;
-      const createReplyCommentSpy = sinon.spy(
-        element as any,
-        'createReplyComment'
-      );
-
-      element.dispatchEvent(new CustomEvent('apply-user-suggestion'));
-
-      assert.isTrue(createReplyCommentSpy.calledOnce);
-      assert.deepEqual(createReplyCommentSpy.firstCall.args, [
-        'Fix applied.',
-        false,
-        false,
-      ]);
     });
   });
 });

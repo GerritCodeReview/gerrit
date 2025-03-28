@@ -621,7 +621,7 @@ export class GrResultRow extends LitElement {
     if (
       this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX) &&
       this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.result?.codePointers?.[0].path
+        this.result?.codePointers?.[0]?.path
       ) &&
       this.isOwner &&
       // without fixes

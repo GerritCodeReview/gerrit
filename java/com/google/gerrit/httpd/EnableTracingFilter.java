@@ -47,12 +47,9 @@ public class EnableTracingFilter implements Filter {
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {}
 
-  private int count;
-
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-    System.out.printf("%d EnableTracingFilter.doFilter\n", ++count);
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse res = (HttpServletResponse) response;
     try (TraceContext traceContext = enableTracing(req, res)) {

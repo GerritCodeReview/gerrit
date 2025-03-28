@@ -40,6 +40,30 @@
       ],
       "revId": "b4f639548de5a52364c7a4087b1f9239798716eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c311e805_d84904e9",
+        "filename": "plugins/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-03-28T08:59:11Z",
+      "side": 1,
+      "message": "This would break this file. You can\u0027t use comments like javascript/php etc in json.\n\nhttps://github.com/npm/npm/issues/4482 is an old issue on this.",
+      "parentUuid": "367ce9d9_ae5f7994",
+      "range": {
+        "startLine": 32,
+        "startChar": 12,
+        "endLine": 32,
+        "endChar": 21
+      },
+      "revId": "b4f639548de5a52364c7a4087b1f9239798716eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

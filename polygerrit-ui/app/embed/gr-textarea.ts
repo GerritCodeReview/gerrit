@@ -1,4 +1,4 @@
-/**
+/** on master
  * @license
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
@@ -504,7 +504,163 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
         event.preventDefault();
       }
     }
+    // Only handle Home or End keys
+    if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      this.homeOrEndKeyPress(event);
+    }
     await this.toggleHintVisibilityIfAny();
+  }
+
+  private homeOrEndKeyPress(event: KeyboardEvent): void {
+    const selection = this.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+      return;
+    }
+
+    // Work with the active Range
+    const editableDiv: HTMLDivElement|undefined = this.editableDivElement;
+    if (!editableDiv) {
+      return;
+    }
+
+    const fullText =
+        editableDiv.innerText;  // or textContent, depending on your structure
+    let caretOffset = this.getCursorPosition();
+    if (caretOffset < 0) {
+      caretOffset = this.getCursorPosition(false);
+    }
+
+    let targetPosition = -1;
+    if (event.key === 'Home') {
+    // Find the nearest newline before the caret position
+    let lineStart = fullText.lastIndexOf('\n', caretOffset - 1);
+    lineStart = lineStart === -1 ? 0 : lineStart + 1;
+      targetPosition = lineStart;
+    } else if (event.key === 'End') {
+    // Find the nearest newline after the caret position
+    let lineEnd = fullText.indexOf('\n', caretOffset);
+    lineEnd = lineEnd === -1 ? fullText.length : lineEnd;
+      targetPosition = lineEnd;
+    } else {
+      return;
+    }
+
+    if (!event.shiftKey) {
+      // Just move caret to targetPosition
+      this.setCursorPosition(targetPosition);
+    } else {
+      // Extend selection to targetPosition
+      this.extendSelection(selection, editableDiv, caretOffset, targetPosition);
+    }
+  }
+
+  private extendSelection(
+      selection: Selection,
+      editableDiv: HTMLElement,
+      anchorOffset: number,
+      focusOffset: number,
+      ): void {
+    const {node: anchorNode, localOffset: anchorLocal} =
+        this.findTextNodeAtOffset(
+            editableDiv,
+            anchorOffset,
+        );
+    const {node: focusNode, localOffset: focusLocal} =
+        this.findTextNodeAtOffset(
+            editableDiv,
+            focusOffset,
+        );
+
+    if (!focusNode) {
+      return;
+    }
+
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      if (!range.collapsed) {
+        const pendingAnchorNode = selection.anchorNode;
+        const pendingAnchorOffset = selection.anchorOffset;
+        if (pendingAnchorNode) {
+          selection.removeAllRanges();
+          selection.setBaseAndExtent(
+              pendingAnchorNode, pendingAnchorOffset, focusNode, focusLocal);
+          return;
+        }
+      }
+    }
+
+    if (!anchorNode) {
+      return;
+    }
+
+    selection.removeAllRanges();
+    selection.setBaseAndExtent(anchorNode, anchorLocal, focusNode, focusLocal);
+  }
+
+  /**
+   * Finds which text node (and local offset) corresponding to the given
+   * character position within `editableDiv`.
+   */
+  private findTextNodeAtOffset(
+      editableDivElement: HTMLElement,
+      position: number,
+      ): {node: Text|null; localOffset: number} {
+    let remainingOffset = position;
+    let isOnFreshLine = true;
+    let nodeToFocusOn: Node|null = null;
+    const selection = this.getSelection();
+
+    if (!editableDivElement || !selection) {
+      return {node: null, localOffset: 0};
+    }
+
+    editableDivElement.focus();
+    const findNodeToFocusOn = (childNodes: Node[]) => {
+      for (let i = 0; i < childNodes.length; i++) {
+        const childNode = childNodes[i];
+        let currentNodeLength = 0;
+        const isTextNode =
+            childNode.nodeType === Node.TEXT_NODE && childNode.textContent;
+
+        if (childNode.nodeType === Node.COMMENT_NODE) {
+          continue;
+        }
+
+        if (childNode.nodeName === 'BR') {
+          currentNodeLength++;
+          isOnFreshLine = true;
+        }
+
+        if (childNode.nodeName === 'DIV' && !isOnFreshLine && i !== 0) {
+          currentNodeLength++;
+        }
+
+        isOnFreshLine = false;
+
+        if (isTextNode) {
+          currentNodeLength += childNode.textContent?.length ?? 0;
+        }
+
+        if (remainingOffset === currentNodeLength && isTextNode) {
+          nodeToFocusOn = childNode;
+          break;
+        } else if (remainingOffset < currentNodeLength) {
+          nodeToFocusOn = childNode;
+          break;
+        } else {
+          remainingOffset -= currentNodeLength;
+        }
+
+        if (childNode.childNodes?.length > 0) {
+          findNodeToFocusOn(Array.from(childNode.childNodes));
+        }
+      }
+    };
+
+    findNodeToFocusOn(Array.from(editableDivElement.childNodes));
+
+    return {node: nodeToFocusOn, localOffset: remainingOffset};
   }
 
   private handleKeyUp() {
@@ -689,8 +845,8 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return [textValue, isLastBr];
   }
 
-  public getCursorPosition() {
-    return this.getCursorPositionForDiv(this.editableDivElement);
+  public getCursorPosition(collapsed: boolean = true) {
+    return this.getCursorPositionForDiv(this.editableDivElement, collapsed);
   }
 
   public async getCursorPositionAsync() {
@@ -698,7 +854,8 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.getCursorPositionForDiv(editableDivElement);
   }
 
-  private getCursorPositionForDiv(editableDivElement?: HTMLDivElement) {
+  private getCursorPositionForDiv(
+      editableDivElement?: HTMLDivElement, collapsed: boolean = true) {
     const selection = this.getSelection();
 
     // Cursor position is -1 (not available) if
@@ -706,14 +863,8 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     // If textarea is not rendered.
     // If textarea is not focused
     // There is no accessible selection object.
-    // This is not a collapsed selection.
-    if (
-      !editableDivElement ||
-      !this.focused ||
-      !selection ||
-      selection.focusNode === null ||
-      !selection.isCollapsed
-    ) {
+    if (!editableDivElement || !this.focused || !selection ||
+        selection.focusNode === null || selection.isCollapsed !== collapsed) {
       return -1;
     }
 
@@ -767,9 +918,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   /** Gets the current selection, preferring the shadow DOM selection. */
   private getSelection(): Selection | undefined | null {
     // TODO: Use something similar to gr-diff's getShadowOrDocumentSelection()
-    return this.shadowRoot?.getSelection
-      ? this.shadowRoot.getSelection()
-      : document.getSelection();
+    return this.shadowRoot?.getSelection?.();
   }
 
   private scrollToCursorPosition(range: Range) {

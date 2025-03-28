@@ -33,4 +33,12 @@ public interface ChangeNumberVirtualIdAlgorithm {
    * @return virtual id which combines serverId and legacyChangeNum together
    */
   Change.Id apply(String serverId, Change.Id legacyChangeNum);
+
+  /**
+   * Check if a given change id is a virtual one
+   *
+   * @param id to be checked
+   * @return `true` when it is
+   */
+  boolean isVirtualChangeId(Change.Id id);
 }

@@ -3636,10 +3636,18 @@ running. This is recommended as it prevents additional downtime during
 Gerrit version upgrades (avoiding the need for an offline reindex step
 using Reindex), but can add additional server load during the upgrade.
 +
-If set to `false`, there is no way to upgrade the index schema to take
-advantage of new search features without restarting the server.
+If set to `upgrade_and_reindex` or `true`, perform an online upgrade by
+enabling writes to both new and old index versions and start an online
+reindex. Once the new index versions are ready, they will be activated.
 +
-Defaults to `true`.
+If set to `no_reindex`, writes are done to both new and old index versions,
+but no online reindex is started. When this is set, users will have to
+fully populate the new index versions and activate them separately.
++
+If set to `skip` or `false`, there is no way to upgrade the index schema
+to take advantage of new search features without restarting the server.
++
+Defaults to `upgrade_and_reindex`.
 
 [[index.excludeProjectFromChangeReindex]]index.excludeProjectFromChangeReindex::
 +
@@ -6739,10 +6747,19 @@ Gerrit uses the `$site_path/etc/jgit.config` file instead of the
 system-wide and user-global Git configuration for its runtime JGit
 configuration.
 
+[NOTE]
+When using a shared filesystem, such as NFS, the JGit settings need
+to be adjusted for being tolerant to the filesystem attributes caching.
+The example below shows a typical setting with an NFS v4 mount
+with default caching settings.
+
 Sample `etc/jgit.config` file:
 ----
 [core]
-  trustFolderStat = false
+    supportsAtomicFileCreation = false
+    trustFolderStat = false
+    trustLooseRefStat = after_open
+    trustPackedRefsStat = after_open
 ----
 
 [[jgit-gc]]

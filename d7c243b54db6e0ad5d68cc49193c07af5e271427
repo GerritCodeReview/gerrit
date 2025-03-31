@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a1c749_dfccda66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-03-31T14:36:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this works, but it should be possible to have multiple bug footers.",
+      "revId": "d7c243b54db6e0ad5d68cc49193c07af5e271427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

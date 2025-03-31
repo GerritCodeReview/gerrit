@@ -64,6 +64,7 @@ import {
   LineNumber,
   LineSelectedEventDetail,
   LOST,
+  RangeSelectedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
@@ -114,6 +115,7 @@ declare global {
     // prettier-ignore
     'render': CustomEvent<{}>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
+    'range-selected-mouse-up': CustomEvent<RangeSelectedEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
     'edit-weblinks-changed': ValueChangedEvent<WebLinkInfo[] | undefined>;

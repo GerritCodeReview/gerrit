@@ -393,6 +393,17 @@ export class GrDiffHighlight {
       return;
     }
 
+    const range = {
+      start_line: start.line,
+      start_character: start.column,
+      end_line: end.line,
+      end_character: end.column,
+    };
+    const side = start.side;
+    this.selectedRange = {range, side};
+    if (isMouseUp) {
+      this.diffBuilder?.diffModel.fireRangeSelectedMouseUpEvent(side, range);
+    }
     let actionBox = this.diffTable.querySelector('gr-selection-action-box');
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');
@@ -403,15 +414,6 @@ export class GrDiffHighlight {
     if (hoverCardText) {
       actionBox.setAttribute('hoverCardText', hoverCardText);
     }
-    this.selectedRange = {
-      range: {
-        start_line: start.line,
-        start_character: start.column,
-        end_line: end.line,
-        end_character: end.column,
-      },
-      side: start.side,
-    };
     if (start.line === end.line) {
       this.positionActionBox(actionBox, start.line, domRange);
     } else if (start.node instanceof Text) {

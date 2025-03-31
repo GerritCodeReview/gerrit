@@ -22,6 +22,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.logging.Metadata;
@@ -49,7 +50,7 @@ public class AccountIndexerImpl implements AccountIndexer {
     AccountIndexerImpl create(@Nullable AccountIndex index);
   }
 
-  private final AccountCache byIdCache;
+  private final AccountCacheImpl byIdNoteDbCache;
   private final PluginSetContext<AccountIndexedListener> indexedListener;
   private final StalenessChecker stalenessChecker;
   @Nullable private final AccountIndexCollection indexes;
@@ -57,11 +58,11 @@ public class AccountIndexerImpl implements AccountIndexer {
 
   @AssistedInject
   AccountIndexerImpl(
-      AccountCache byIdCache,
+      AccountCacheImpl byIdNoteDbCache,
       PluginSetContext<AccountIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
       @Assisted AccountIndexCollection indexes) {
-    this.byIdCache = byIdCache;
+    this.byIdNoteDbCache = byIdNoteDbCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;
     this.indexes = indexes;
@@ -70,11 +71,11 @@ public class AccountIndexerImpl implements AccountIndexer {
 
   @AssistedInject
   AccountIndexerImpl(
-      AccountCache byIdCache,
+      AccountCacheImpl byIdNoteDbCache,
       PluginSetContext<AccountIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
       @Assisted @Nullable AccountIndex index) {
-    this.byIdCache = byIdCache;
+    this.byIdNoteDbCache = byIdNoteDbCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;
     this.indexes = null;
@@ -83,7 +84,7 @@ public class AccountIndexerImpl implements AccountIndexer {
 
   @Override
   public void index(Account.Id id) {
-    Optional<AccountState> accountState = byIdCache.get(id);
+    Optional<AccountState> accountState = byIdNoteDbCache.get(id);
 
     if (accountState.isPresent()) {
       logger.atFine().log("Replace account %d in index", id.get());

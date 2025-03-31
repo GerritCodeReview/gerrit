@@ -339,7 +339,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(createIndexModule());
 
     modules.add(new PluginModule());
-    if (VersionManager.getOnlineUpgrade(config)) {
+    if (VersionManager.shouldPerformOnlineUpgrade(config)) {
       modules.add(new OnlineUpgraderModule());
     }
     modules.add(new OAuthRestModule());

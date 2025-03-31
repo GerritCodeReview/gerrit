@@ -203,18 +203,28 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
     long startTime = System.currentTimeMillis();
 
     for (List<Ref> refsBatch : Iterables.partition(refs, CHUNK_SIZE)) {
-      deleteZombieDraftsBatch(refsBatch);
-      long elapsed = (System.currentTimeMillis() - startTime) / 1000;
-      deletedRefsCnt += refsBatch.size();
-      logProgress(deletedRefsCnt, zombieRefsCnt, elapsed);
+      try {
+        deleteZombieDraftsBatch(refsBatch);
+        long elapsed = (System.currentTimeMillis() - startTime) / 1000;
+        deletedRefsCnt += refsBatch.size();
+        logProgress(deletedRefsCnt, zombieRefsCnt, elapsed);
+      } catch (RuntimeException error) {
+        logger.atWarning().withCause(error).log("Failed to delete drafts as a batch");
+      }
     }
   }
 
   @Override
   protected void deleteZombieDrafts(ListMultimap<Ref, HumanComment> drafts) throws IOException {
     for (Map.Entry<Ref, Collection<HumanComment>> e : drafts.asMap().entrySet()) {
-      deleteZombieDraftsForChange(
-          getAccountId(e.getKey()), getChangeNotes(getChangeId(e.getKey())), e.getValue());
+      try {
+        deleteZombieDraftsForChange(
+            getAccountId(e.getKey()), getChangeNotes(getChangeId(e.getKey())), e.getValue());
+      } catch (RuntimeException error) {
+        logger.atWarning().withCause(error).log(
+            "Failed to delete draft for change %s account %s",
+            getChangeId(e.getKey()), getAccountId(e.getKey()));
+      }
     }
   }
 

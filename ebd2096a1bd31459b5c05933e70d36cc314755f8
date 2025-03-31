@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7648d5a_71cf4a47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-03-31T13:20:03Z",
+      "side": 1,
+      "message": "This change has already been submitted as cl/739945414 accidentally, instead of doing this upstream. It then got silently rolled back by importing.",
+      "revId": "ebd2096a1bd31459b5c05933e70d36cc314755f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

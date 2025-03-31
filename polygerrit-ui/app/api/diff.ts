@@ -346,6 +346,13 @@ export declare interface CreateCommentEventDetail {
   range: CommentRange | undefined;
 }
 
+/** The detail of the 'range-selected-mouse-up' event dispatched by gr-diff. */
+export declare interface RangeSelectedEventDetail {
+  side: Side;
+  lineNum: LineNumber;
+  range: CommentRange | undefined;
+}
+
 export declare interface ContentLoadNeededEventDetail {
   lineRange: {
     left: LineRange;

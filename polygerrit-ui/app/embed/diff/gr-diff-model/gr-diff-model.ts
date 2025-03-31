@@ -16,6 +16,7 @@ import {
   DisplayLine,
   LineNumber,
   LineSelectedEventDetail,
+  RangeSelectedEventDetail,
   RenderPreferences,
   Side,
   SyntaxBlock,
@@ -314,5 +315,14 @@ export class DiffModel extends Model<DiffState> {
       range,
     };
     fire(this.eventTarget, 'create-comment', detail);
+  }
+
+  fireRangeSelectedMouseUpEvent(side: Side, range: CommentRange) {
+    const detail: RangeSelectedEventDetail = {
+      side,
+      lineNum: range.end_line,
+      range,
+    };
+    fire(this.eventTarget, 'range-selected-mouse-up', detail);
   }
 }

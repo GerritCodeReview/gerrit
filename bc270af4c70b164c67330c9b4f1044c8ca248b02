@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a146f59_d6e68bf3",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-01T10:47:04Z",
+      "side": 0,
+      "message": "Why not introducing a separate `sshd.readTimeout` instead?",
+      "range": {
+        "startLine": 190,
+        "startChar": 51,
+        "endLine": 190,
+        "endChar": 69
+      },
+      "revId": "bc270af4c70b164c67330c9b4f1044c8ca248b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

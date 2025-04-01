@@ -46,6 +46,30 @@
       },
       "revId": "bc270af4c70b164c67330c9b4f1044c8ca248b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbf6d38a_31443944",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-01T19:58:48Z",
+      "side": 0,
+      "message": "\u003e Hmm I\u0027m thinking about that and maybe sshd.readTimeout will be better as this won\u0027t break current behavior silently yet still allow others to fix this on their side.\n\u003e BTW \u0027idleTimeout\u0027 includes this case also so readTimeout is somewhat redundant unless Gerrit should differentiate those two cases separately\n\n\nThis is Gerrit master, so we are allowed to change how things work. I believe read timeout and idle timeout are two different things and they must be managed with different settings.",
+      "parentUuid": "160ca0c3_b9953d5a",
+      "range": {
+        "startLine": 190,
+        "startChar": 51,
+        "endLine": 190,
+        "endChar": 69
+      },
+      "revId": "bc270af4c70b164c67330c9b4f1044c8ca248b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

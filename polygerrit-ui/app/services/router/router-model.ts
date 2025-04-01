@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {Model} from '../../models/base/model';
 import {select} from '../../utils/observable-util';
 import {define} from '../../models/dependency';
+import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -39,7 +40,12 @@ export class RouterModel extends Model<RouterState> {
     state => state.view
   );
 
-  constructor() {
+  constructor(private readonly pluginLoader: PluginLoader) {
     super({});
+    this.subscriptions = [
+      this.routerView$.subscribe(view => {
+        this.pluginLoader.jsApiService.handleViewChange(view);
+      }),
+    ];
   }
 }

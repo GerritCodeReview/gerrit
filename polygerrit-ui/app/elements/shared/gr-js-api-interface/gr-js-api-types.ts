@@ -49,6 +49,7 @@ export interface JsApiService extends Finalizable {
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
+  handleViewChange(view?: string): void;
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,

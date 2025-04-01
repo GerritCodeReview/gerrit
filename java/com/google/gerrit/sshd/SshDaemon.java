@@ -20,7 +20,6 @@ import static org.apache.sshd.core.CoreModuleProperties.AUTH_TIMEOUT;
 import static org.apache.sshd.core.CoreModuleProperties.IDLE_TIMEOUT;
 import static org.apache.sshd.core.CoreModuleProperties.MAX_AUTH_REQUESTS;
 import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
-import static org.apache.sshd.core.CoreModuleProperties.NIO2_READ_TIMEOUT;
 import static org.apache.sshd.core.CoreModuleProperties.REKEY_BYTES_LIMIT;
 import static org.apache.sshd.core.CoreModuleProperties.REKEY_TIME_LIMIT;
 import static org.apache.sshd.core.CoreModuleProperties.SERVER_IDENTIFICATION;
@@ -187,7 +186,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "idleTimeout", 0, SECONDS);
     IDLE_TIMEOUT.set(this, Duration.ofSeconds(idleTimeoutSeconds));
-    NIO2_READ_TIMEOUT.set(this, Duration.ofSeconds(idleTimeoutSeconds));
 
     long rekeyTimeLimit =
         ConfigUtil.getTimeUnit(cfg, "sshd", null, "rekeyTimeLimit", 3600, SECONDS);

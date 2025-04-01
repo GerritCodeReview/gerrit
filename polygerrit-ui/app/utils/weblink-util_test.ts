@@ -10,6 +10,7 @@ import {
   getCodeBrowserWeblink,
   getBrowseCommitWeblink,
   getChangeWeblinks,
+  getRepoWeblink,
 } from './weblink-util';
 
 suite('weblink util tests', () => {
@@ -65,5 +66,18 @@ suite('weblink util tests', () => {
       name: 'test',
       url: 'https://test/url',
     });
+  });
+
+  test('getRepoWeblink', () => {
+    const browserLink = {name: 'browser', url: 'browser/url'};
+    const link = {name: 'gitiles', url: 'test/url'};
+    const weblinks = [browserLink, link];
+    const config = {
+      ...createServerInfo(),
+      gerrit: {...createGerritInfo(), primary_weblink_name: browserLink.name},
+    };
+
+    assert.deepEqual(getRepoWeblink(weblinks, config), browserLink);
+    assert.deepEqual(getRepoWeblink(weblinks), link);
   });
 });

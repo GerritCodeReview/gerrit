@@ -109,7 +109,7 @@ export function createAppDependencies(
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   return new Map<DependencyToken<unknown>, Creator<unknown>>([
     [authServiceToken, () => appContext.authService],
-    [routerModelToken, () => new RouterModel()],
+    [routerModelToken, () => new RouterModel(resolver(pluginLoaderToken))],
     [userModelToken, () => new UserModel(appContext.restApiService)],
     [browserModelToken, () => new BrowserModel(resolver(userModelToken))],
     [accountsModelToken, () => new AccountsModel(appContext.restApiService)],

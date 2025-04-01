@@ -28,6 +28,7 @@ export enum EventType {
   LABEL_CHANGE = 'labelchange',
   SHOW_CHANGE = 'showchange',
   SUBMIT_CHANGE = 'submitchange',
+  VIEW_CHANGE = 'viewchange',
   SHOW_REVISION_ACTIONS = 'show-revision-actions',
   COMMIT_MSG_EDIT = 'commitmsgedit',
   REVERT = 'revert',

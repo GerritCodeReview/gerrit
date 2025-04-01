@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, combineLatest} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
@@ -588,9 +588,13 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().robotCommentCount$,
-      count => {
-        this.showFindingsTab = count > 0;
+      () =>
+        combineLatest([
+          this.getConfigModel().enableRobotComments$,
+          this.getCommentsModel().robotCommentCount$,
+        ]),
+      ([enableRobotComments, count]) => {
+        this.showFindingsTab = enableRobotComments && count > 0;
       }
     );
     subscribe(

@@ -57,6 +57,11 @@ export class ConfigModel extends Model<ConfigState> {
     serverConfig => serverConfig?.change?.mergeability_computation_behavior
   );
 
+  public enableRobotComments$ = select(
+    this.serverConfig$,
+    serverConfig => !!serverConfig?.change?.enable_robot_comments
+  );
+
   public docsBaseUrl$ = select(
     this.serverConfig$.pipe(
       switchMap(serverConfig => from(this.getDocsBaseUrl(serverConfig)))

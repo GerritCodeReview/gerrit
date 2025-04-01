@@ -28,6 +28,8 @@ export enum EventType {
   LABEL_CHANGE = 'labelchange',
   SHOW_CHANGE = 'showchange',
   SUBMIT_CHANGE = 'submitchange',
+  // Fires GerritView values such as 'change', 'dashboard', 'admin', ...
+  VIEW_CHANGE = 'view-change',
   SHOW_REVISION_ACTIONS = 'show-revision-actions',
   COMMIT_MSG_EDIT = 'commitmsgedit',
   REVERT = 'revert',

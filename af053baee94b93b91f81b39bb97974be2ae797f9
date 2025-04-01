@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "432dd499_ecc42050",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T12:28:59Z",
+      "side": 1,
+      "message": "what does this mean?\n\nThe changes are saved as soon as the edit is made?",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "af053baee94b93b91f81b39bb97974be2ae797f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a115cae1_590b950a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T12:28:59Z",
+      "side": 1,
+      "message": "since you quoted the one above, maybe quote this as well? `editHeader`?\n\nOr remove in both\n\nWhichever you prefer(ideally look at other usages)",
+      "range": {
+        "startLine": 70,
+        "startChar": 14,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "af053baee94b93b91f81b39bb97974be2ae797f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

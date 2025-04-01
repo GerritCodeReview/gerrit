@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f8388e_d2477b0a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T12:28:59Z",
+      "side": 1,
+      "message": "IIUC at this point the `has-unsaved-changes-changed` should be fired?\n\nCan you also test that the event is fired?",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 33
+      },
+      "revId": "01629226d89764ad6bf0a1b295c785da37846d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

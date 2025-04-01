@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e390efe_ff634542",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f235f511_b8b6f95d",
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "216e95cf_198082fc",
@@ -48,6 +66,30 @@
       "writtenOn": "2025-04-01T08:16:05Z",
       "side": 1,
       "message": "maybe use `classMap` here?\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts;l\u003d247?q\u003d%22patchInfo-header%27:%20true,%22",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4ac66b3_148956bd",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "216e95cf_198082fc",
       "range": {
         "startLine": 67,
         "startChar": 12,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "614d5e7a_9e3c65df",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0509f9ea_d425109f",
+      "range": {
+        "startLine": 90,
+        "startChar": 21,
+        "endLine": 92,
+        "endChar": 15
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbf792ed_12fc4c86",
@@ -94,6 +160,30 @@
       "writtenOn": "2025-04-01T08:16:05Z",
       "side": 1,
       "message": "For most event handlers in the code we just use the normal syntax without the arrow methods.\n\nYou can define it as \n\n```\nprivate handleCancelEdit(e: MouseEvent) {\n\n}\n```",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 58
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deeea7d6_66f807ae",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dbf792ed_12fc4c86",
       "range": {
         "startLine": 103,
         "startChar": 2,
@@ -127,6 +217,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f3a40c4_cc8d5a16",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f047d92a_21decf33",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ca08727_59942cec",
@@ -150,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5adf73f7_d8e006b6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6ca08727_59942cec",
+      "range": {
+        "startLine": 256,
+        "startChar": 25,
+        "endLine": 256,
+        "endChar": 65
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe103d0e_056dc704",
@@ -163,6 +301,30 @@
       "writtenOn": "2025-04-01T08:16:05Z",
       "side": 1,
       "message": "why do we need this event?\n\nHow did it work before with `requestUpdate` and how is this working now with this event?\n\nPlease explain in the commit message.",
+      "range": {
+        "startLine": 233,
+        "startChar": 16,
+        "endLine": 233,
+        "endChar": 43
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4749af63_a46f02a6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-01T12:18:51Z",
+      "side": 1,
+      "message": "This copys gr-diff-preferences. But the explenation is the event triggers upwards to gr-edit-preferences-dialog, as it needs it to disable the buttons, or to show that it\u0027s been edited. gr-settings-view uses this as well.",
+      "parentUuid": "fe103d0e_056dc704",
       "range": {
         "startLine": 233,
         "startChar": 16,

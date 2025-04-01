@@ -20,8 +20,8 @@ export function getCodeBrowserWeblink(weblinks: WebLinkInfo[]) {
 }
 
 export function getBrowseCommitWeblink(
-  weblinks?: WebLinkInfo[],
-  config?: ServerInfo
+  config?: ServerInfo,
+  weblinks?: WebLinkInfo[]
 ): WebLinkInfo | undefined {
   if (!weblinks) return undefined;
 
@@ -44,4 +44,20 @@ export function getChangeWeblinks(
   return weblinks.filter(
     weblink => !commitWeblink?.name || weblink.name !== commitWeblink.name
   );
+}
+
+export function getRepoWeblink(
+  weblinks?: WebLinkInfo[],
+  config?: ServerInfo
+): WebLinkInfo | undefined {
+  if (!weblinks) return undefined;
+
+  // Use primary weblink if configured and exists.
+  const primaryWeblinkName = config?.gerrit?.primary_weblink_name;
+  if (primaryWeblinkName) {
+    const weblink = weblinks.find(link => link.name === primaryWeblinkName);
+    if (weblink) return weblink;
+  }
+
+  return getCodeBrowserWeblink(weblinks);
 }

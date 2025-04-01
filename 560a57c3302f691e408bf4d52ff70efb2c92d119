@@ -33,6 +33,144 @@
       "message": "Can you update the commit message with some description of what is happening/why this is being done and some screenshots?\n\nThis is a lot of code being added and it\u0027s unclear to me why this is being done and what this looks like.",
       "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "216e95cf_198082fc",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T08:16:05Z",
+      "side": 1,
+      "message": "maybe use `classMap` here?\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts;l\u003d247?q\u003d%22patchInfo-header%27:%20true,%22",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0509f9ea_d425109f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T08:16:05Z",
+      "side": 1,
+      "message": "you can simplify by doing `@click\u003d${this.handleSaveEditPreferences}` similar to `@click\u003d${this.handleCancelEdit}` on line #82",
+      "range": {
+        "startLine": 90,
+        "startChar": 21,
+        "endLine": 92,
+        "endChar": 15
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbf792ed_12fc4c86",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T08:16:05Z",
+      "side": 1,
+      "message": "For most event handlers in the code we just use the normal syntax without the arrow methods.\n\nYou can define it as \n\n```\nprivate handleCancelEdit(e: MouseEvent) {\n\n}\n```",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 58
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f047d92a_21decf33",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-preferences-dialog/gr-edit-preferences-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T08:16:05Z",
+      "side": 1,
+      "message": "maybe save this into a variable so you don\u0027t need to repeat this?",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca08727_59942cec",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T08:16:05Z",
+      "side": 1,
+      "message": "simplify to `@click\u003d${this.handleEditPrefsTap}`",
+      "range": {
+        "startLine": 256,
+        "startChar": 25,
+        "endLine": 256,
+        "endChar": 65
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe103d0e_056dc704",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-01T08:16:05Z",
+      "side": 1,
+      "message": "why do we need this event?\n\nHow did it work before with `requestUpdate` and how is this working now with this event?\n\nPlease explain in the commit message.",
+      "range": {
+        "startLine": 233,
+        "startChar": 16,
+        "endLine": 233,
+        "endChar": 43
+      },
+      "revId": "560a57c3302f691e408bf4d52ff70efb2c92d119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -67,6 +67,59 @@
       "message": "buyer will",
       "revId": "94cd15143e219e4de5909e098774583fcd29458b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1636ad74_a9512876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3966522
+      },
+      "writtenOn": "2025-04-01T12:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c7ad8db_da1033f9",
+      "revId": "94cd15143e219e4de5909e098774583fcd29458b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bf0376b_506351b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3966522
+      },
+      "writtenOn": "2025-04-01T12:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c7ad8db_da1033f9",
+      "revId": "94cd15143e219e4de5909e098774583fcd29458b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "404b916e_33e93f17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3966522
+      },
+      "writtenOn": "2025-04-01T12:14:41Z",
+      "side": 1,
+      "message": "G",
+      "revId": "94cd15143e219e4de5909e098774583fcd29458b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

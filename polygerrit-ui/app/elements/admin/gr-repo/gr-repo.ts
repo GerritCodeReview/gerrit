@@ -21,6 +21,7 @@ import {
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
   DownloadSchemeInfo,
+  ServerInfo,
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,
@@ -46,8 +47,10 @@ import {subscribe} from '../../lit/subscription-controller';
 import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {getRepoWeblink} from '../../../utils/weblink-util';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -119,6 +122,8 @@ export class GrRepo extends LitElement {
   // private but used in test
   @state() schemesObj?: SchemesInfoMap;
 
+  @state() serverConfig?: ServerInfo;
+
   @state() private weblinks: WebLinkInfo[] = [];
 
   @state() private pluginConfigChanged = false;
@@ -131,6 +136,8 @@ export class GrRepo extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
     subscribe(
@@ -142,6 +149,11 @@ export class GrRepo extends LitElement {
           this.selectedScheme = prefs.download_scheme.toLowerCase();
         }
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => (this.serverConfig = config)
     );
   }
 
@@ -183,8 +195,8 @@ export class GrRepo extends LitElement {
           <h1 id="Title" class="heading-1">${this.repo}</h1>
           <hr />
           <div>
-            <a href=${this.weblinks?.[0]?.url}
-              ><gr-button link ?disabled=${!this.weblinks?.[0]?.url}
+            <a href=${this.getWebLink()?.url}
+              ><gr-button link ?disabled=${!this.getWebLink()?.url}
                 >Browse</gr-button
               ></a
             ><a href=${this.computeChangesUrl(this.repo)}
@@ -880,6 +892,10 @@ export class GrRepo extends LitElement {
         value: 'FALSE',
       },
     ];
+  }
+
+  private getWebLink() {
+    return getRepoWeblink(this.weblinks, this.serverConfig);
   }
 
   private formatSubmitTypeSelect(repoConfig?: ConfigInfo) {

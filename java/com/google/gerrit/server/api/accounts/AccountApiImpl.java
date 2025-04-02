@@ -627,9 +627,9 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void createToken(TokenInput input) throws RestApiException {
+  public TokenInfo createToken(TokenInput input) throws RestApiException {
     try {
-      createToken.apply(account, IdString.fromDecoded(input.id), input);
+      return createToken.apply(account, IdString.fromDecoded(input.id), input).value();
     } catch (AuthTokenConflictException
         | IOException
         | ConfigInvalidException

@@ -2790,7 +2790,8 @@ public class AccountIT extends AbstractDaemonTest {
     String newPassword = gApi.accounts().self().generateHttpPassword();
     assertThat(newPassword).isNotNull();
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
+    assertThat(sender.getMessages().get(0).body())
+        .contains("The authentication token with id \"default\" was added");
   }
 
   @Test
@@ -2800,7 +2801,8 @@ public class AccountIT extends AbstractDaemonTest {
     String newPassword = gApi.accounts().id(user.id().get()).generateHttpPassword();
     assertThat(newPassword).isNotNull();
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
+    assertThat(sender.getMessages().get(0).body())
+        .contains("The authentication token with id \"default\" was added");
   }
 
   @Test
@@ -2849,7 +2851,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id(user.id().get()).setHttpPassword(httpPassword))
         .isEqualTo(httpPassword);
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
+    assertThat(sender.getMessages().get(0).body())
+        .contains("The authentication token with id \"default\" was added");
   }
 
   @Test

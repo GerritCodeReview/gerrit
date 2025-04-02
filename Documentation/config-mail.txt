@@ -95,6 +95,11 @@ a user removing a reviewer (with a vote) from a change.  It is a
 The Footer templates will determine the contents of the footer text appended to
 the end of all outgoing emails after the ChangeFooter and CommentFooter.
 
+=== AuthTokenUpdate.soy and AuthTokenUpdateHtml.soy
+
+AuthTokenUpdate templates will determine the contents of the email related to adding,
+changing or deleting an authentication token on a user account.
+
 === HttpPasswordUpdate.soy and HttpPasswordUpdateHtml.soy
 
 HttpPasswordUpdate templates will determine the contents of the email related to adding,

@@ -197,7 +197,7 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
    * Git and not get deleted. These refs point to an empty tree. We delete such refs.
    */
   @Override
-  protected void deleteEmptyDraftsByKey(Collection<Ref> refs) throws IOException {
+  protected void deleteEmptyDraftsByKey(Collection<Ref> refs) {
     long zombieRefsCnt = refs.size();
     long deletedRefsCnt = 0;
     long startTime = System.currentTimeMillis();
@@ -208,19 +208,19 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
         long elapsed = (System.currentTimeMillis() - startTime) / 1000;
         deletedRefsCnt += refsBatch.size();
         logProgress(deletedRefsCnt, zombieRefsCnt, elapsed);
-      } catch (RuntimeException error) {
+      } catch (Exception error) {
         logger.atWarning().withCause(error).log("Failed to delete drafts as a batch");
       }
     }
   }
 
   @Override
-  protected void deleteZombieDrafts(ListMultimap<Ref, HumanComment> drafts) throws IOException {
+  protected void deleteZombieDrafts(ListMultimap<Ref, HumanComment> drafts) {
     for (Map.Entry<Ref, Collection<HumanComment>> e : drafts.asMap().entrySet()) {
       try {
         deleteZombieDraftsForChange(
             getAccountId(e.getKey()), getChangeNotes(getChangeId(e.getKey())), e.getValue());
-      } catch (RuntimeException error) {
+      } catch (Exception error) {
         logger.atWarning().withCause(error).log(
             "Failed to delete draft for change %s account %s",
             getChangeId(e.getKey()), getAccountId(e.getKey()));

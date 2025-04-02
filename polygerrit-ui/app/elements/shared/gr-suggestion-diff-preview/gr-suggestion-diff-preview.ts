@@ -314,7 +314,7 @@ export class GrSuggestionDiffPreview extends LitElement {
         })
       );
       fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});
-      fire(this, 'apply-user-suggestion', {});
+      fire(this, 'apply-user-suggestion', {fixSuggestion});
     }
   }
 

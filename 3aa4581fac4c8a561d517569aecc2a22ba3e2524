@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a68974e4_c9b563ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T09:40:05Z",
+      "side": 1,
+      "message": "I don\u0027t think we should omit errors on the current line. It\u0027s ok not to show the icon, but we should still fix them, if the user presses \"format\" or if they hover over icon (when it\u0027s shown because of other lines).",
+      "range": {
+        "startLine": 476,
+        "startChar": 8,
+        "endLine": 478,
+        "endChar": 10
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253c7691_537c70ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T09:40:05Z",
+      "side": 1,
+      "message": "I think a more straightforward implementation is to just check if filterActiveLineErrors returns an empty array. Especially since you end up calculating it regardless of whether or not isOnlyCurrentLineFormatting returned true or false.",
+      "range": {
+        "startLine": 704,
+        "startChar": 2,
+        "endLine": 704,
+        "endChar": 38
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b759c65f_a0b0d825",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T09:40:05Z",
+      "side": 1,
+      "message": "Does formatting never introduces new lines? Or are we giving up, because in it\u0027s case it\u0027s complicated?\n\nThis line needs to be explained with a comment.",
+      "range": {
+        "startLine": 716,
+        "startChar": 4,
+        "endLine": 716,
+        "endChar": 69
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "945d89c6_a131894d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T09:40:05Z",
+      "side": 1,
+      "message": "I think we can replace this with @query property in the class",
+      "range": {
+        "startLine": 728,
+        "startChar": 4,
+        "endLine": 732,
+        "endChar": 29
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "024bb95e_fdb4b633",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T09:40:05Z",
+      "side": 1,
+      "message": "I think you can reuse \"matched\" here",
+      "range": {
+        "startLine": 740,
+        "startChar": 12,
+        "endLine": 740,
+        "endChar": 41
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

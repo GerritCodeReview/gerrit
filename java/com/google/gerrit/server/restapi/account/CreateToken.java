@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.server.mail.EmailFactories.PASSWORD_UPDATED;
+import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_UPDATED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -147,9 +147,7 @@ public class CreateToken
     try {
       emailFactories
           .createOutgoingEmail(
-              PASSWORD_UPDATED,
-              emailFactories.createHttpPasswordUpdateEmail(
-                  user, newToken == null ? "deleted" : "added or updated"))
+              AUTH_TOKEN_UPDATED, emailFactories.createAuthTokenUpdateEmail(user, "added", id))
           .send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(

@@ -43,6 +43,7 @@ public class DefaultEmailFactories implements EmailFactories {
   private final ChangeEmailImplFactory changeEmailFactory;
   private final AddKeyEmailDecoratorFactory addKeyEmailFactory;
   private final DeleteKeyEmailDecoratorFactory deleteKeyEmailFactory;
+  private final AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory;
   private final HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory;
   private final RegisterNewEmailDecoratorImplFactory registerNewEmailFactory;
   private final OutgoingEmailFactory outgoingEmailFactory;
@@ -55,6 +56,7 @@ public class DefaultEmailFactories implements EmailFactories {
       ChangeEmailImplFactory changeEmailFactory,
       AddKeyEmailDecoratorFactory addKeyEmailFactory,
       DeleteKeyEmailDecoratorFactory deleteKeyEmailFactory,
+      AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory,
       HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory,
       RegisterNewEmailDecoratorImplFactory registerNewEmailFactory,
       OutgoingEmailFactory outgoingEmailFactory) {
@@ -64,6 +66,7 @@ public class DefaultEmailFactories implements EmailFactories {
     this.changeEmailFactory = changeEmailFactory;
     this.addKeyEmailFactory = addKeyEmailFactory;
     this.deleteKeyEmailFactory = deleteKeyEmailFactory;
+    this.authTokenUpdateEmailFactory = authTokenUpdateEmailFactory;
     this.httpPasswordUpdateEmailFactory = httpPasswordUpdateEmailFactory;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.outgoingEmailFactory = outgoingEmailFactory;
@@ -155,6 +158,12 @@ public class DefaultEmailFactories implements EmailFactories {
   @Override
   public EmailDecorator createDeleteKeyEmail(IdentifiedUser user, List<String> gpgKeys) {
     return deleteKeyEmailFactory.create(user, gpgKeys);
+  }
+
+  @Override
+  public EmailDecorator createAuthTokenUpdateEmail(
+      IdentifiedUser user, String operation, String tokenId) {
+    return authTokenUpdateEmailFactory.create(user, operation, tokenId);
   }
 
   @Override

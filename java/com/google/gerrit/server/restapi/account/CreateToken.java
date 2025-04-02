@@ -148,9 +148,7 @@ public class CreateToken
     try {
       emailFactories
           .createOutgoingEmail(
-              PASSWORD_UPDATED,
-              emailFactories.createHttpPasswordUpdateEmail(
-                  user, newToken == null ? "deleted" : "added or updated"))
+              PASSWORD_UPDATED, emailFactories.createAuthTokenUpdateEmail(user, "added", id))
           .send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(

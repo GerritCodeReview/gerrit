@@ -111,7 +111,7 @@ declare global {
     'comment-unresolved-changed': ValueChangedEvent<boolean>;
     'comment-text-changed': ValueChangedEvent<string>;
     'comment-anchor-tap': CustomEvent<CommentAnchorTapEventDetail>;
-    'apply-user-suggestion': CustomEvent;
+    'apply-user-suggestion': CustomEvent<ApplyUserSuggestionEventDetail>;
   }
 }
 
@@ -123,6 +123,10 @@ export interface CommentAnchorTapEventDetail {
 export interface CommentEditingChangedDetail {
   editing: boolean;
   path: string;
+}
+
+export interface ApplyUserSuggestionEventDetail {
+  fixSuggestion?: FixSuggestionInfo;
 }
 
 @customElement('gr-comment')

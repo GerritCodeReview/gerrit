@@ -1,0 +1,132 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6ae51df_d86d7710",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T11:29:58Z",
+      "side": 1,
+      "message": "nit: it looks like the event being fired is related to @query param. Maybe add an extra empty line.\n\nAlso this comment is confusing. Why is there an alert, when content is restored from storage? What does it mean from storage? (Server query, browser memory).\nAnd I don\u0027t even see the alert being fired in the code anywhere.\n\nIf possible could you improve this comment.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 5
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b783d54f_09339b28",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T11:29:58Z",
+      "side": 1,
+      "message": "nit: distracting",
+      "range": {
+        "startLine": 477,
+        "startChar": 7,
+        "endLine": 477,
+        "endChar": 18
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c04b61fc_9912bc26",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+              "range": {
+                "startLine": 477,
+                "startChar": 0,
+                "endLine": 478,
+                "endChar": 0
+              },
+              "replacement": "     * distracting we use debounce, we filter current line errors.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb425c12_0e6fa685",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T11:29:58Z",
+      "side": 1,
+      "message": "\"and we filter out errors for the currently being edited line.\"\n\nSlightly better wording",
+      "range": {
+        "startLine": 477,
+        "startChar": 34,
+        "endLine": 477,
+        "endChar": 66
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0e827f9a_6d45165c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+              "range": {
+                "startLine": 477,
+                "startChar": 0,
+                "endLine": 478,
+                "endChar": 0
+              },
+              "replacement": "     * distructing we use debounce and we filter out errors for the currently\n     * being edited line.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8c1ebac_dbd644ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-02T11:29:58Z",
+      "side": 1,
+      "message": "Under which condition is this condition leads to different result, than `filteredFormattedErrors.length \u003e 0;`. ie. When does it happen that formatting changes the contents, but yet no errors were reported?",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 494,
+        "endChar": 38
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

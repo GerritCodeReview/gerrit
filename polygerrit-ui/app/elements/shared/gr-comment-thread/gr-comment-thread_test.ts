@@ -744,6 +744,8 @@ suite('gr-comment-thread tests', () => {
         'Fix applied.',
         false,
         false,
+        '',
+        undefined,
       ]);
     });
   });

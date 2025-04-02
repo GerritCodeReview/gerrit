@@ -290,8 +290,8 @@ export class GrCommentThread extends LitElement {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
     this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
-    this.addEventListener('apply-user-suggestion', () => {
-      this.handleAppliedFix();
+    this.addEventListener('apply-user-suggestion', e => {
+      this.handleAppliedFix(e.detail?.fixSuggestion);
     });
     subscribe(
       this,
@@ -913,13 +913,17 @@ export class GrCommentThread extends LitElement {
     content: string,
     userWantsToEdit: boolean,
     unresolved: boolean,
-    quote?: string
+    quote?: string,
+    fixSuggestion?: FixSuggestionInfo
   ) {
     const replyingTo = this.getLastComment();
     assertIsDefined(this.thread, 'thread');
     assertIsDefined(replyingTo, 'the comment that the user wants to reply to');
     assert(!isDraft(replyingTo), 'cannot reply to draft');
     const newReply = createNewReply(replyingTo, content, unresolved);
+    if (fixSuggestion) {
+      newReply.fix_suggestions = [fixSuggestion];
+    }
     if (userWantsToEdit) {
       this.getCommentsModel().addNewDraft(newReply);
       noAwait(this.editDraft());
@@ -1035,13 +1039,15 @@ export class GrCommentThread extends LitElement {
     return this.isOwner && !hasUserSuggestion(comment);
   }
 
-  private handleAppliedFix() {
+  private handleAppliedFix(fixSuggestion?: FixSuggestionInfo) {
     const message = this.getLastComment()?.message;
     assert(!!message, 'empty message');
     this.createReplyComment(
       'Fix applied.',
       /* userWantsToEdit= */ false,
-      /* unresolved= */ false
+      /* unresolved= */ false,
+      /* quote= */ '',
+      fixSuggestion
     );
   }
 }

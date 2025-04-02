@@ -92,7 +92,7 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
       try {
         emailFactories
             .createOutgoingEmail(
-                PASSWORD_UPDATED, emailFactories.createHttpPasswordUpdateEmail(user, "deleted"))
+                PASSWORD_UPDATED, emailFactories.createAuthTokenUpdateEmail(user, "deleted", id))
             .send();
       } catch (EmailException e) {
         logger.atSevere().withCause(e).log(

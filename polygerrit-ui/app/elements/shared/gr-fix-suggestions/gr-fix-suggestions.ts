@@ -293,7 +293,10 @@ export class GrFixSuggestions extends LitElement {
       patchNum: this.comment.patch_set,
       onCloseFixPreviewCallbacks: [
         fixApplied => {
-          if (fixApplied) fire(this, 'apply-user-suggestion', {});
+          if (fixApplied)
+            fire(this, 'apply-user-suggestion', {
+              fixSuggestion: fixSuggestions?.[0],
+            });
         },
       ],
     };

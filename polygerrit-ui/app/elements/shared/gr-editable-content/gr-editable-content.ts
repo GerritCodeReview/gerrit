@@ -47,13 +47,14 @@ import {changeViewModelToken} from '../../../models/views/change';
 import {SpecialFilePath} from '../../../constants/constants';
 import {
   detectFormattingErrorsInString,
+  ErrorType,
   formatCommitMessageString,
   FormattingError,
 } from '../../../utils/commit-message-formatter-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
-const DEBOUNCE_DELAY_MS = 500;
+const DEBOUNCE_DELAY_MS = 700;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -453,24 +454,28 @@ export class GrEditableContent extends LitElement {
     ).textarea.focus();
   }
 
-  private updateFormatState(skipDebounce = false) {
+  updateFormatState(skipDebounce = false) {
     if (!this.newContent) return;
 
-    // Run immediately first time
-    if (!this.formatCheckTask || skipDebounce) {
+    if (skipDebounce) {
       this.formatDisabled =
         formatCommitMessageString(this.newContent) === this.newContent;
       this.formattedErrors = detectFormattingErrorsInString(this.newContent);
       return;
     }
 
-    // Then debounce subsequent calls
     this.formatCheckTask = debounce(
       this.formatCheckTask,
       () => {
         this.formatDisabled =
-          formatCommitMessageString(this.newContent) === this.newContent;
-        this.formattedErrors = detectFormattingErrorsInString(this.newContent);
+          formatCommitMessageString(this.newContent) === this.newContent ||
+          this.isOnlyCurrentLineFormatting(
+            this.newContent,
+            formatCommitMessageString(this.newContent)
+          );
+        this.formattedErrors = this.filterActiveLineErrors(
+          detectFormattingErrorsInString(this.newContent)
+        );
       },
       DEBOUNCE_DELAY_MS
     );
@@ -694,5 +699,59 @@ export class GrEditableContent extends LitElement {
       );
     }
     return 'No format changes needed.';
+  }
+
+  private isOnlyCurrentLineFormatting(
+    original: string,
+    formatted: string
+  ): boolean {
+    if (original === formatted) return true;
+
+    const currentLine = this.getCurrentCursorLine();
+    if (currentLine === -1) return false;
+
+    const originalLines = original.split('\n');
+    const formattedLines = formatted.split('\n');
+
+    if (originalLines.length !== formattedLines.length) return false;
+
+    // Check if only the current line is different
+    for (let i = 0; i < originalLines.length; i++) {
+      if (i === currentLine) continue; // Skip checking the current line
+      if (originalLines[i] !== formattedLines[i]) return false;
+    }
+
+    return true;
+  }
+
+  private getCurrentCursorLine(): number {
+    const textarea = queryAndAssert<IronAutogrowTextareaElement>(
+      this,
+      'iron-autogrow-textarea'
+    ).textarea;
+    if (!textarea) return -1;
+
+    // Calculate which line the cursor is on
+    const text = textarea.value;
+    const cursorPos = textarea.selectionStart;
+    const textBeforeCursor = text.substring(0, cursorPos);
+    const matched = textBeforeCursor.match(/\n/g);
+    if (!matched) return -1;
+    return (textBeforeCursor.match(/\n/g) || []).length;
+  }
+
+  private filterActiveLineErrors(errors: FormattingError[]): FormattingError[] {
+    const currentLine = this.getCurrentCursorLine();
+    return errors.filter(error => {
+      // Skip trailing space errors on the current line
+      if (
+        currentLine !== -1 &&
+        error.line === currentLine + 1 &&
+        error.type === ErrorType.TRAILING_SPACES
+      ) {
+        return false;
+      }
+      return true;
+    });
   }
 }

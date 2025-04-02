@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b8b4142_f07da7d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:11:04Z",
+      "side": 1,
+      "message": "Good idea. I introduduce showFormattedErrors.",
+      "parentUuid": "a68974e4_c9b563ff",
+      "range": {
+        "startLine": 476,
+        "startChar": 8,
+        "endLine": 478,
+        "endChar": 10
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "253c7691_537c70ec",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-02T09:40:05Z",
       "side": 1,
       "message": "I think a more straightforward implementation is to just check if filterActiveLineErrors returns an empty array. Especially since you end up calculating it regardless of whether or not isOnlyCurrentLineFormatting returned true or false.",
+      "range": {
+        "startLine": 704,
+        "startChar": 2,
+        "endLine": 704,
+        "endChar": 38
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6cdd4a5_aec1960d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:11:04Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "253c7691_537c70ec",
       "range": {
         "startLine": 704,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b02a4b_16c4fa70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b759c65f_a0b0d825",
+      "range": {
+        "startLine": 716,
+        "startChar": 4,
+        "endLine": 716,
+        "endChar": 69
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "945d89c6_a131894d",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3dc264a_692eabc6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:11:04Z",
+      "side": 1,
+      "message": "good idea",
+      "parentUuid": "945d89c6_a131894d",
+      "range": {
+        "startLine": 728,
+        "startChar": 4,
+        "endLine": 732,
+        "endChar": 29
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "024bb95e_fdb4b633",
@@ -106,6 +202,30 @@
       "writtenOn": "2025-04-02T09:40:05Z",
       "side": 1,
       "message": "I think you can reuse \"matched\" here",
+      "range": {
+        "startLine": 740,
+        "startChar": 12,
+        "endLine": 740,
+        "endChar": 41
+      },
+      "revId": "3aa4581fac4c8a561d517569aecc2a22ba3e2524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "490e6457_dde5c211",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "024bb95e_fdb4b633",
       "range": {
         "startLine": 740,
         "startChar": 12,

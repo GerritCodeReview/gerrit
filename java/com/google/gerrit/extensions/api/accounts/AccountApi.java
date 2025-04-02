@@ -120,7 +120,7 @@ public interface AccountApi {
 
   void setName(String name) throws RestApiException;
 
-  void createToken(TokenInput input) throws RestApiException;
+  TokenInfo createToken(TokenInput input) throws RestApiException;
 
   List<TokenInfo> getTokens() throws RestApiException;
 

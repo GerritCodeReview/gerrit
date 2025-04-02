@@ -16,11 +16,11 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {assertIsDefined} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Interaction} from '../../../constants/reporting';
 import {LitElement, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {PropertyValues} from 'lit';
@@ -47,13 +47,14 @@ import {changeViewModelToken} from '../../../models/views/change';
 import {SpecialFilePath} from '../../../constants/constants';
 import {
   detectFormattingErrorsInString,
+  ErrorType,
   formatCommitMessageString,
   FormattingError,
 } from '../../../utils/commit-message-formatter-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
-const DEBOUNCE_DELAY_MS = 500;
+const DEBOUNCE_DELAY_MS = 700;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -69,13 +70,13 @@ declare global {
   }
 }
 
+/**
+ * Fire alert when 'Content restored from a previous edit (from gr-storage)
+ */
 @customElement('gr-editable-content')
 export class GrEditableContent extends LitElement {
-  /**
-   * Fired when content is restored from storage.
-   *
-   * @event show-alert
-   */
+  @query('iron-autogrow-textarea')
+  private textarea?: IronAutogrowTextareaElement;
 
   @property({type: String})
   content?: string;
@@ -144,6 +145,8 @@ export class GrEditableContent extends LitElement {
   @state() private formatDisabled = true;
 
   @state() private formattedErrors: FormattingError[] = [];
+
+  @state() private showFormattedErrors = false;
 
   // Used to undo formatting
   @state() private lastFormattedContent?: string;
@@ -394,7 +397,7 @@ export class GrEditableContent extends LitElement {
             )}
             <div class="editButtons">
               ${when(
-                this.formattedErrors.length > 0,
+                this.showFormattedErrors,
                 () => html`<gr-tooltip-content
                   .title=${this.formattedErrors
                     .map(e => `${e.line ? `Line ${e.line}: ` : ''}${e.message}`)
@@ -447,30 +450,47 @@ export class GrEditableContent extends LitElement {
   }
 
   focusTextarea() {
-    queryAndAssert<IronAutogrowTextareaElement>(
-      this,
-      'iron-autogrow-textarea'
-    ).textarea.focus();
+    this.textarea?.textarea.focus();
   }
 
-  private updateFormatState(skipDebounce = false) {
+  /**
+   * We update enable/disable format button, showing formatted errors and
+   * list of formatting errors.
+   * @param skipDebounce - this skip debounce and other filtering methods for
+   * removing distraction. It's used after pressing format button for example.
+   */
+  updateFormatState(skipDebounce = false) {
     if (!this.newContent) return;
 
-    // Run immediately first time
-    if (!this.formatCheckTask || skipDebounce) {
+    if (skipDebounce) {
       this.formatDisabled =
         formatCommitMessageString(this.newContent) === this.newContent;
       this.formattedErrors = detectFormattingErrorsInString(this.newContent);
+      this.showFormattedErrors = this.formattedErrors.length > 0;
       return;
     }
 
-    // Then debounce subsequent calls
+    /**
+     * To make enable/disable button and icon for show formatted errors less
+     * distracting we use debounce and we filter out errors for the currently
+     * being edited line.
+     */
     this.formatCheckTask = debounce(
       this.formatCheckTask,
       () => {
-        this.formatDisabled =
-          formatCommitMessageString(this.newContent) === this.newContent;
         this.formattedErrors = detectFormattingErrorsInString(this.newContent);
+        const filteredFormattedErrors = this.filterActiveLineErrors(
+          this.formattedErrors
+        );
+        this.showFormattedErrors = filteredFormattedErrors.length > 0;
+
+        const isOnlyCurrentLineFormatting =
+          filteredFormattedErrors.length === 0 &&
+          this.formattedErrors.length > 0;
+
+        this.formatDisabled =
+          formatCommitMessageString(this.newContent) === this.newContent ||
+          isOnlyCurrentLineFormatting;
       },
       DEBOUNCE_DELAY_MS
     );
@@ -631,10 +651,8 @@ export class GrEditableContent extends LitElement {
   handleFormat(e: Event) {
     e.preventDefault();
 
-    const textarea = queryAndAssert<IronAutogrowTextareaElement>(
-      this,
-      'iron-autogrow-textarea'
-    ).textarea;
+    const textarea = this.textarea?.textarea;
+    if (!textarea) return;
 
     // If we have lastFormattedContent, we're undoing
     if (this.lastFormattedContent) {
@@ -694,5 +712,33 @@ export class GrEditableContent extends LitElement {
       );
     }
     return 'No format changes needed.';
+  }
+
+  private getCurrentCursorLine(): number {
+    const textarea = this.textarea?.textarea;
+    if (!textarea) return -1;
+
+    // Calculate which line the cursor is on
+    const text = textarea.value;
+    const cursorPos = textarea.selectionStart;
+    const textBeforeCursor = text.substring(0, cursorPos);
+    const matched = textBeforeCursor.match(/\n/g);
+    if (!matched) return -1;
+    return matched.length;
+  }
+
+  private filterActiveLineErrors(errors: FormattingError[]): FormattingError[] {
+    const currentLine = this.getCurrentCursorLine();
+    return errors.filter(error => {
+      // Skip trailing space errors on the current line
+      if (
+        currentLine !== -1 &&
+        error.line === currentLine + 1 &&
+        error.type === ErrorType.TRAILING_SPACES
+      ) {
+        return false;
+      }
+      return true;
+    });
   }
 }

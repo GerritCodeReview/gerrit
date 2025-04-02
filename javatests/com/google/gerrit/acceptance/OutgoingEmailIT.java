@@ -24,6 +24,8 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.auth.AuthTokenInfo;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.testing.FakeEmailSender;
 import java.net.URI;
@@ -95,12 +97,15 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void messageIdHeaderFromPasswordUpdate() throws Exception {
+  public void messageIdHeaderFromAuthTokenUpdate() throws Exception {
     sender.clear();
-    String newPassword = gApi.accounts().self().generateHttpPassword();
-    assertThat(newPassword).isNotNull();
+    AuthTokenInput token = new AuthTokenInput();
+    token.id = "testToken";
+    AuthTokenInfo tokenInfo = gApi.accounts().self().createToken(token);
+    assertThat(tokenInfo).isNotNull();
+    assertThat(tokenInfo.token).isNotNull();
     assertThat(getMessageId(sender))
-        .containsMatch("<HTTP_password_change-" + admin.id().toString() + ".*@.*>");
+        .containsMatch("<Auth_token_change-" + admin.id().toString() + ".*@.*>");
   }
 
   @Test

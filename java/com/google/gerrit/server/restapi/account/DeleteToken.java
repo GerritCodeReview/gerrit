@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.server.mail.EmailFactories.PASSWORD_UPDATED;
+import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_UPDATED;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -95,7 +95,7 @@ public class DeleteToken implements RestModifyView<AccountResource.Token, Input>
       try {
         emailFactories
             .createOutgoingEmail(
-                PASSWORD_UPDATED, emailFactories.createHttpPasswordUpdateEmail(user, "deleted"))
+                AUTH_TOKEN_UPDATED, emailFactories.createAuthTokenUpdateEmail(user, "deleted", id))
             .send();
       } catch (EmailException e) {
         logger.atSevere().withCause(e).log(

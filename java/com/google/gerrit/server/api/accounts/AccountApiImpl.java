@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.accounts;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
@@ -627,9 +628,10 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void createToken(AuthTokenInput input) throws RestApiException {
+  @CanIgnoreReturnValue
+  public AuthTokenInfo createToken(AuthTokenInput input) throws RestApiException {
     try {
-      createToken.apply(account, IdString.fromDecoded(input.id), input);
+      return createToken.apply(account, IdString.fromDecoded(input.id), input).value();
     } catch (InvalidAuthTokenException
         | IOException
         | ConfigInvalidException

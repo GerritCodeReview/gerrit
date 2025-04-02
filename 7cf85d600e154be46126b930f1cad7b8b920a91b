@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fa8f6dd_bd01bf18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6ae51df_d86d7710",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 5
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b783d54f_09339b28",
@@ -106,6 +130,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caee7c6a_1e8450f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:46:51Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "fb425c12_0e6fa685",
+      "range": {
+        "startLine": 477,
+        "startChar": 34,
+        "endLine": 477,
+        "endChar": 66
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "664a39ef_9bd2de75",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b783d54f_09339b28",
+      "range": {
+        "startLine": 477,
+        "startChar": 7,
+        "endLine": 477,
+        "endChar": 18
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8588946_5c63befa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:46:51Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "fb425c12_0e6fa685",
+      "range": {
+        "startLine": 477,
+        "startChar": 34,
+        "endLine": 477,
+        "endChar": 66
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8c1ebac_dbd644ba",
@@ -119,6 +215,30 @@
       "writtenOn": "2025-04-02T11:29:58Z",
       "side": 1,
       "message": "Under which condition is this condition leads to different result, than `filteredFormattedErrors.length \u003e 0;`. ie. When does it happen that formatting changes the contents, but yet no errors were reported?",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 494,
+        "endChar": 38
+      },
+      "revId": "7cf85d600e154be46126b930f1cad7b8b920a91b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "252709f0_874183c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-02T11:46:51Z",
+      "side": 1,
+      "message": "I decouple format and formattedErrors. It can happen that format button is enabled when formattedErrors \u003d 0 or even when filteredFormattedErrors \u003e 0.",
+      "parentUuid": "b8c1ebac_dbd644ba",
       "range": {
         "startLine": 492,
         "startChar": 8,

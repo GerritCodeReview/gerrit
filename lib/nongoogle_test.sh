@@ -19,7 +19,6 @@ auto-value-annotations
 cglib-3_2
 commons-io
 dropwizard-core
-eddsa
 error-prone-annotations
 flogger
 flogger-google-extensions

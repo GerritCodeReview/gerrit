@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c3b0a3b_377f29ea",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:01:34Z",
+      "side": 1,
+      "message": "I see that this works, but I feel that adding an isChangeOwner parameter to this method is not the right way to go, as this class is for checking permissions on a ref and for none of the ref permissions, except for voting on labels, this parameter makes sense.\n\nIf we add this, this raises the question why we have separate classes for change and ref permissions at all.\n\nTo keep this API clean, I would prefer to add a method like this above (next to l. 392 and l. 395):\n\n```\npublic abstract ForChange changeToBeCreated();\n```\n\nThis could return a ForChangeToBeCreatedImpl that internally uses isChangeOwner\u003dtrue for all permission checks.\n\nThis means that ListLabels can use ForChange.test(ChangePermissionOrLabel) and that we could probably revert the modification in RefControl that have been done by https://gerrit-review.googlesource.com/c/gerrit/+/447344 (already when reviewing that change I felt like this logic doesn\u0027t belong into RefControl).\n\nI think this approach has the advantage that it still works if we ever need to check any other change permission on a not yet created change.\n\nWDYT?",
+      "revId": "0b554065150595c2907f280d6e693113b9673815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34119871_64a24a56",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:01:34Z",
+      "side": 1,
+      "message": "Passing in isChangeOwner\u003dtrue here makes no sense to me. This check is checking whether the user can read the branch. What would it mean to assign READ permissions for a branch to the \u0027Change Owners\u0027 group? That change owners can see the branch, but if a user cannot see the branch, they can\u0027t create a change for it?",
+      "revId": "0b554065150595c2907f280d6e693113b9673815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a56569_083268cf",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:01:34Z",
+      "side": 1,
+      "message": "Is this permission relevant for this test?",
+      "revId": "0b554065150595c2907f280d6e693113b9673815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

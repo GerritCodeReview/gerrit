@@ -219,6 +219,20 @@ target branch gets created automatically.
 
 Additional options may be specified when pushing changes.
 
+[[custom_keyed_values]]
+==== Custom Keyed Values
+
+Uploaders can specify custom keyed values for the change using this push option.
+The value can be set more than once to apply multiple custom keyed values.
+Each key,value pair must be separate by a colon (':') otherwise the push fails.
+
+----
+  git push ssh://bot@git.example.com:29418/kernel/common HEAD:refs/for/master -o custom-keyed-value=foo:bar custom-keyed-value=hello:world
+----
+
+Note: Setting the `custom-keyed-value` option in the refname
+(`%custom-keyed-values=foo:bar`) is **not** supported.
+
 [[notify]]
 ==== Email Notifications
 

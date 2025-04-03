@@ -56,6 +56,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final Optional<Duration> maxAuthTokenLifetime;
+  private final int maxTokens;
 
   private final Account.Id accountId;
   private final String ref;
@@ -70,6 +71,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.maxAuthTokenLifetime = authConfig.getMaxAuthTokenLifetime();
+    this.maxTokens = authConfig.getMaxAuthTokensPerAccount();
 
     this.accountId = accountId;
     this.ref = RefNames.refsUsers(accountId);
@@ -176,6 +178,11 @@ public class VersionedAuthTokens extends VersionedMetaData {
   @CanIgnoreReturnValue
   AuthToken addToken(AuthToken token) throws InvalidAuthTokenException {
     checkLoaded();
+
+    if (tokens.size() >= maxTokens) {
+      throw new InvalidAuthTokenException(
+          String.format("Maximum number of tokens (%d) already reached.", maxTokens));
+    }
 
     if (tokens.containsKey(token.id())) {
       throw new AuthTokenConflictException(token.id(), accountId);

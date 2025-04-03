@@ -479,6 +479,7 @@ class ReceiveCommits {
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<String> tracePushOption = Optional.empty();
+  private Map<String, String> custom_keyed_values;
 
   private final TraceIdConsumer traceIdConsumer;
   private MessageSender messageSender;
@@ -1881,6 +1882,14 @@ class ReceiveCommits {
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
 
+    // Callers are expected to specify each <key,value> pair as a string.
+    // Key and value should be separate by 3 colons "${key}:::${value}"
+    @Option(
+        name = "--custom_keyed_values",
+        metaVar = "CUSTOM_KEYED_VALUES",
+        usage = "specify custom keyed values upon push")
+    List<String> custom_keyed_values;
+
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
@@ -2187,6 +2196,26 @@ class ReceiveCommits {
           return;
         }
         ref = null; // never happens
+      }
+
+      if (magicBranch.custom_keyed_values) {
+        ImmutableList<String[]> keyValues =
+            magicBranch.custom_keyed_values.stream()
+                .map(v -> v.split(":::"))
+                .collect(toImmutableList());
+
+        for (String[] keyValue : keyValues) {
+          if (keyValue.length != 2) {
+            reject(
+                cmd,
+                RejectionReason.create(
+                    MetricBucket.INVALID_OPTION,
+                    String.format(
+                        "Malformed custom keyed value specified. Each key value pair should be"
+                            + " separated by 3 colons (:::) Example:"
+                            + " custom_keyed_values=foo:::bar")));
+          }
+        }
       }
 
       if (magicBranch.skipValidation) {

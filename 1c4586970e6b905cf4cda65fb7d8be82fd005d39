@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b44a990_db601072",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:49:52Z",
+      "side": 1,
+      "message": "Right, it\u0027s because the push options are passed into the args4j command line parser.",
+      "parentUuid": "21429a99_7630adc2",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34fdb25b_f12425d2",

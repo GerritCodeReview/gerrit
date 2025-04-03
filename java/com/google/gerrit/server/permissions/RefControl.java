@@ -525,17 +525,24 @@ public class RefControl {
 
     @Override
     public void check(RefPermissionOrLabel perm) throws AuthException, PermissionBackendException {
+      check(perm, false);
+    }
+
+    @Override
+    public void check(RefPermissionOrLabel perm, boolean isChangeOwner)
+        throws AuthException, PermissionBackendException {
       if (perm instanceof RefPermission) {
-        check((RefPermission) perm);
+        check((RefPermission) perm, isChangeOwner);
       } else {
-        if (!can(perm)) {
+        if (!can(perm, isChangeOwner)) {
           throw new AuthException(perm.describeForException() + " not permitted");
         }
       }
     }
 
-    private void check(RefPermission perm) throws AuthException, PermissionBackendException {
-      if (!can(perm)) {
+    private void check(RefPermission perm, boolean isChangeOwner)
+        throws AuthException, PermissionBackendException {
+      if (!can(perm, isChangeOwner)) {
         PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
         switch (perm) {
           case UPDATE -> {
@@ -601,11 +608,11 @@ public class RefControl {
     }
 
     @Override
-    public <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException {
+    public <T extends RefPermissionOrLabel> Set<T> test(
+        Collection<T> permSet, boolean isChangeOwner) throws PermissionBackendException {
       Set<T> ok = newSet(permSet);
       for (T perm : permSet) {
-        if (can(perm)) {
+        if (can(perm, isChangeOwner)) {
           ok.add(perm);
         }
       }
@@ -617,36 +624,37 @@ public class RefControl {
       return new PermissionBackendCondition.ForRef(this, perm, getUser());
     }
 
-    private boolean can(RefPermissionOrLabel perm) throws PermissionBackendException {
+    private boolean can(RefPermissionOrLabel perm, boolean isChangeOwner)
+        throws PermissionBackendException {
       if (perm instanceof RefPermission) {
         return RefControl.this.can((RefPermission) perm);
       } else if (perm instanceof AbstractLabelPermission) {
-        return can((AbstractLabelPermission) perm);
+        return can((AbstractLabelPermission) perm, isChangeOwner);
       } else if (perm instanceof AbstractLabelPermission.WithValue) {
-        return can((AbstractLabelPermission.WithValue) perm);
+        return can((AbstractLabelPermission.WithValue) perm, isChangeOwner);
       }
       throw new PermissionBackendException(perm + " unsupported");
     }
 
-    private boolean can(AbstractLabelPermission perm) {
-      return !label(labelPermissionName(perm)).isEmpty();
+    private boolean can(AbstractLabelPermission perm, boolean isChangeOwner) {
+      return !label(labelPermissionName(perm), isChangeOwner).isEmpty();
     }
 
-    private boolean can(AbstractLabelPermission.WithValue perm) {
-      PermissionRange r = label(labelPermissionName(perm));
+    private boolean can(AbstractLabelPermission.WithValue perm, boolean isChangeOwner) {
+      PermissionRange r = label(labelPermissionName(perm), isChangeOwner);
       if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
         return false;
       }
       return r.contains(perm.value());
     }
 
-    private PermissionRange label(String permission) {
+    private PermissionRange label(String permission, boolean isChangeOwner) {
       if (labels == null) {
         labels = Maps.newHashMapWithExpectedSize(4);
       }
       PermissionRange r = labels.get(permission);
       if (r == null) {
-        r = getRange(permission);
+        r = getRange(permission, isChangeOwner);
         labels.put(permission, r);
       }
       return r;

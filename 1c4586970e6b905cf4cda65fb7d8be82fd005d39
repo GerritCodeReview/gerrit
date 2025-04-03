@@ -122,6 +122,24 @@
       "parentUuid": "34fdb25b_f12425d2",
       "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b4dedbb_7fdee41c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:53:21Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "77415522_2a883202",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -285,6 +285,8 @@ class ReceiveCommits {
 
   public static final String DIRECT_PUSH_JUSTIFICATION_OPTION = "push-justification";
 
+  private static final String CUSTOM_KEYED_VALUE_OPTION = "custom-keyed-value";
+
   interface Factory {
     ReceiveCommits create(
         ProjectState projectState,
@@ -479,6 +481,7 @@ class ReceiveCommits {
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<String> tracePushOption = Optional.empty();
+  private Map<String, String> customKeyedValues = new HashMap<>();
 
   private final TraceIdConsumer traceIdConsumer;
   private MessageSender messageSender;
@@ -1881,6 +1884,16 @@ class ReceiveCommits {
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
 
+    // Custom keyed values need to be specified as a push option ('-o
+    // custom-keyed-value=<key>:<value'). Setting the 'custom-keyed-value' option in the refname is
+    // not allowed. This option here is only defined, so that the 'custom-keyed-value' option gets
+    // mentioned in the help output.
+    @Option(
+        name = "--custom-keyed-value",
+        metaVar = "CUSTOM_KEYED_VALUES",
+        usage = "custom keyed value in the format '<key>:<value>'")
+    List<String> customKeyedValues;
+
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
@@ -2099,7 +2112,7 @@ class ReceiveCommits {
     String parse(ListMultimap<String, String> pushOptions) throws CmdLineException {
       String ref = RefNames.fullName(MagicBranch.getDestBranchName(cmd.getRefName()));
 
-      ListMultimap<String, String> options = LinkedListMultimap.create(pushOptions);
+      ListMultimap<String, String> options = LinkedListMultimap.create();
 
       // Process and lop off the "%OPTION" suffix.
       int optionStart = ref.indexOf('%');
@@ -2114,6 +2127,23 @@ class ReceiveCommits {
         }
         ref = ref.substring(0, optionStart);
       }
+
+      // We cannot accept the 'custom-key-value' option in the refname (deprecated format), since
+      // key and value are separated by ':' which is a character that is not allowed in the refname.
+      // If a user tries to specify '%custom-key-value=<key>:<value>' in the refname the push fails
+      // due to ':' not being allowed in refnames. In this case the push fails much earlier and we
+      // do not reach here. However if someone tries to specify the '%custom-key-value' option with
+      // allowed characters in the value, we return a message here telling the user that they should
+      // use the push option instead.
+      if (options.containsKey(CUSTOM_KEYED_VALUE_OPTION)) {
+        throw cmdLineParser.reject(
+            String.format(
+                "option '%s' cannot be specified as an option in the ref name, use a push option"
+                    + " instead ('-o %s=<key>:<value>')",
+                CUSTOM_KEYED_VALUE_OPTION, CUSTOM_KEYED_VALUE_OPTION));
+      }
+
+      options.putAll(pushOptions);
 
       if (!options.isEmpty()) {
         cmdLineParser.parseOptionMap(options);
@@ -2172,6 +2202,22 @@ class ReceiveCommits {
 
       String ref;
       magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);
+
+      // Parse custom keyed values.
+      for (String keyValue : pushOptions.get(CUSTOM_KEYED_VALUE_OPTION)) {
+        List<String> keyValueList = Splitter.on(":").trimResults().splitToList(keyValue);
+        if (keyValueList.size() != 2) {
+          reject(
+              cmd,
+              RejectionReason.create(
+                  MetricBucket.INVALID_OPTION,
+                  String.format(
+                      "the value for option '%s' must be given as '<key>:<format>'",
+                      CUSTOM_KEYED_VALUE_OPTION)));
+          return;
+        }
+        customKeyedValues.put(keyValueList.get(0), keyValueList.get(1));
+      }
 
       // Filter out plugin push options, as the parser would reject them as unknown.
       ImmutableListMultimap<String, String> pushOptionsToParse =
@@ -3030,6 +3076,7 @@ class ReceiveCommits {
                 .create(changeId, commit, refName)
                 .setTopic(magicBranch.topic)
                 .setPrivate(setChangeAsPrivate)
+                .setCustomKeyedValues(ImmutableMap.copyOf(customKeyedValues))
                 .setWorkInProgress(magicBranch.shouldSetWorkInProgressOnNewChanges())
                 // The commit has already been validated in
                 // selectNewAndReplacedChangesFromMagicBranch.

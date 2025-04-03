@@ -1,14 +1,38 @@
 /**
  * @license
+<<<<<<< PATCH SET (4402b1 Test 2)
+ * Copyright 2025 Google LLC
+ * SPDX-License-Identifier: Apache-3.0
+ */s
+import '../../../styles/shared-styles';s
+||||||| BASE
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import '../../../styles/shared-styles';
+=======
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';
+>>>>>>> BASE      (1b9d22 Fix TS error)
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
+<<<<<<< PATCH SET (4402b1 Test 2)
+  NumericChangeId,
+  EDIT,
+  FixSuggestionInfo
+  PatchSetNum,
+||||||| BASE
+  NumericChangeId,
+  EDIT,
+  FixSuggestionInfo,
+  PatchSetNum,
+=======
+>>>>>>> BASE      (1b9d22 Fix TS error)
   BasePatchSetNum,
   EDIT,
   FilePathToDiffInfoMap,

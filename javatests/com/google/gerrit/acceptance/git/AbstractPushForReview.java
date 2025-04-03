@@ -3190,6 +3190,36 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithMalformedCustomKeyedValuesRejects() throws Exception {
+    String customKeyValueOption = "custom-keyed-value=foo:bar";
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add(customKeyValueOption);
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    r.assertErrorStatus(
+        "Malformed custom keyed value specified. Each key value pair should be separated by 3"
+            + " dashes (:::)."
+            + " Example:HEAD:refs/for/experimental -o custom-keyed-value=foo:::bar");
+  }
+
+  @Test
+  public void pushWithCustomKeyedValuesPasses() throws Exception {
+    String customKeyValueOption = "custom-keyed-value=foo:::bar";
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add(customKeyValueOption);
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    r.assertOkStatus();
+    assertThat(r.getChange().customKeyedValues()).isEqualTo(ImmutableMap.of("foo", "bar"));
+  }
+
+  @Test
   public void pushForMasterWithUnknownOption() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("unknown=foo"));

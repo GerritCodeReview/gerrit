@@ -151,6 +151,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentSizeValidator;
@@ -479,6 +480,7 @@ class ReceiveCommits {
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
   private Optional<String> tracePushOption = Optional.empty();
+  private Map<String, String> customKeyedValues = new HashMap<String, String>();
 
   private final TraceIdConsumer traceIdConsumer;
   private MessageSender messageSender;
@@ -1881,6 +1883,14 @@ class ReceiveCommits {
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
 
+    // Callers are expected to specify each <key,value> pair as a string.
+    // Key and value should be separate by 3 dashes "${key}:::${value}"
+    @Option(
+        name = "--custom-keyed-value",
+        metaVar = "CUSTOM_KEYED_VALUES",
+        usage = "specify custom keyed value")
+    List<String> customKeyedValues;
+
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
@@ -2187,6 +2197,27 @@ class ReceiveCommits {
           return;
         }
         ref = null; // never happens
+      }
+
+      if (magicBranch.customKeyedValues != null && magicBranch.customKeyedValues.size() > 0) {
+        ImmutableList<List<String>> keyValues =
+            magicBranch.customKeyedValues.stream()
+                .map(v -> Splitter.on(":::").trimResults().omitEmptyStrings().splitToList(v))
+                .collect(toImmutableList());
+
+        for (List<String> keyValue : keyValues) {
+          if (keyValue.size() != 2) {
+            reject(
+                cmd,
+                RejectionReason.create(
+                    MetricBucket.INVALID_OPTION,
+                    "Malformed custom keyed value specified. Each key value pair should be "
+                        + "separated by 3 dashes (:::). "
+                        + "Example:HEAD:refs/for/experimental -o custom-keyed-value=foo:::bar"));
+            return;
+          }
+          customKeyedValues.put(keyValue.get(0), keyValue.get(1));
+        }
       }
 
       if (magicBranch.skipValidation) {
@@ -3030,6 +3061,7 @@ class ReceiveCommits {
                 .create(changeId, commit, refName)
                 .setTopic(magicBranch.topic)
                 .setPrivate(setChangeAsPrivate)
+                .setCustomKeyedValues(ImmutableMap.copyOf(customKeyedValues))
                 .setWorkInProgress(magicBranch.shouldSetWorkInProgressOnNewChanges())
                 // The commit has already been validated in
                 // selectNewAndReplacedChangesFromMagicBranch.

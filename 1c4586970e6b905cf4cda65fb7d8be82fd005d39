@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c4aee9_93f8e13d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:14:34Z",
+      "side": 1,
+      "message": "Please document the new option at https://gerrit-review.googlesource.com/Documentation/user-upload.html#push_options",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4eb23b_05007465",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:14:34Z",
+      "side": 1,
+      "message": "I think you want to do the parsing in parsePushOptions() so that this works if the user sets this as a push option (as it is now it looks like it only works when you use the deprecated syntax that embeds the option into the refname).",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34fdb25b_f12425d2",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-03T14:14:34Z",
+      "side": 1,
+      "message": "This is not doing a push with a push option, but it embeds the option into the ref name. This is the deprecated approach of setting options on push that we invented before Git supported push options.\n\nIt\u0027s okay if this deprecated syntax works, but our main interest is that specifying custom keyed values as a push option works. pushForMasterWithTopicOption() is an example for a test that sets push options.",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

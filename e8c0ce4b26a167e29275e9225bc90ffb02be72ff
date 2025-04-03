@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dfbde5f_1ce8f1c0",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "191b0600_4e8aa67d",
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61e6a3a9_0e594e6e",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d706ad24_5854e01b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Same point as the previous reply.\n\nI also need to perform the validation so I cannot implement a simple parse method.\n\nIf I do parsing from `setChange` then I don\u0027t know how to reject the push so the parsing needs to be done where the other parsing is happening I think.",
+      "parentUuid": "61e6a3a9_0e594e6e",
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35dfb191_3163dca3",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 11
@@ -48,6 +84,30 @@
       "writtenOn": "2025-04-03T14:49:52Z",
       "side": 1,
       "message": "Should this rather be singular (`custom_keyed_value`) because `--custom_keyed_values` allows you to specify only a single custom keyed value? To provide multiple custom keyed values callers need to set `--custom_keyed_values` multiple times.",
+      "range": {
+        "startLine": 1889,
+        "startChar": 18,
+        "endLine": 1889,
+        "endChar": 37
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec347b7a_259e254c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1889,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35dfb191_3163dca3",
       "range": {
         "startLine": 1889,
         "startChar": 18,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf57320_22528af7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1891,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8cdacd6_58329eaf",
+      "range": {
+        "startLine": 1891,
+        "startChar": 45,
+        "endLine": 1891,
+        "endChar": 54
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53bbebc7_f434d140",
@@ -94,6 +178,30 @@
       "writtenOn": "2025-04-03T14:49:52Z",
       "side": 1,
       "message": "nit: in Java we use camelCase",
+      "range": {
+        "startLine": 1892,
+        "startChar": 17,
+        "endLine": 1892,
+        "endChar": 36
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e08de43f_f8abb013",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Done.\n\nThe `metaVar` is in caps so I kept the `_`.",
+      "parentUuid": "53bbebc7_f434d140",
       "range": {
         "startLine": 1892,
         "startChar": 17,
@@ -150,6 +258,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6e724d_f7ebc94e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2205,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfd74998_8631094b",
+      "range": {
+        "startLine": 2205,
+        "startChar": 26,
+        "endLine": 2205,
+        "endChar": 40
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f12fb85b_463e6dcf",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2205,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56727959_7324173b",
+      "range": {
+        "startLine": 2205,
+        "startChar": 35,
+        "endLine": 2205,
+        "endChar": 38
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4e6cf3e_f5f8aa58",
@@ -163,6 +319,30 @@
       "writtenOn": "2025-04-03T14:49:52Z",
       "side": 1,
       "message": "Isn\u0027t it easier to do this in one step (iterate over magicBranch.custom_keyed_values and then inside the loop split the string and put it into the map)?",
+      "range": {
+        "startLine": 2203,
+        "startChar": 7,
+        "endLine": 2221,
+        "endChar": 9
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae78457_ee5ee158",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T16:31:34Z",
+      "side": 1,
+      "message": "I also have to do the rejection if there is some invalid value which is not clear to me how I can do that in between.\n\nI am not sure how to do this in 1 step.",
+      "parentUuid": "f4e6cf3e_f5f8aa58",
       "range": {
         "startLine": 2203,
         "startChar": 7,

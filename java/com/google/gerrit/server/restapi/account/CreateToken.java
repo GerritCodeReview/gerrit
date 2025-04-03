@@ -143,7 +143,7 @@ public class CreateToken
       token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
     } catch (InvalidAuthTokenException e) {
       throw RestApiException.wrap(
-          String.format("Invalid token configuration: %s", e.getMessage()), e);
+          String.format("Invalid token creation request: %s", e.getMessage()), e);
     }
     try {
       emailFactories

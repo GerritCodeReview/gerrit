@@ -178,8 +178,14 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
+    public void check(RefPermissionOrLabel perm, boolean isChangeOwner)
         throws PermissionBackendException {
+      throw new PermissionBackendException(message, cause);
+    }
+
+    @Override
+    public <T extends RefPermissionOrLabel> Set<T> test(
+        Collection<T> permSet, boolean isChangeOwner) throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 

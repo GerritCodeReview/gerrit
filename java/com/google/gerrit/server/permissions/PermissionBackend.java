@@ -404,12 +404,20 @@ public abstract class PermissionBackend {
     public abstract void check(RefPermissionOrLabel perm)
         throws AuthException, PermissionBackendException;
 
+    public abstract void check(RefPermissionOrLabel perm, boolean isChangeOwner)
+        throws AuthException, PermissionBackendException;
+
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
-        throws PermissionBackendException;
+    public abstract <T extends RefPermissionOrLabel> Set<T> test(
+        Collection<T> permSet, boolean isChangeOwner) throws PermissionBackendException;
 
     public boolean test(RefPermissionOrLabel perm) throws PermissionBackendException {
-      return test(Collections.singleton(perm)).contains(perm);
+      return test(perm, false);
+    }
+
+    public boolean test(RefPermissionOrLabel perm, boolean isChangeOwner)
+        throws PermissionBackendException {
+      return test(Collections.singleton(perm), isChangeOwner).contains(perm);
     }
 
     /**
@@ -419,8 +427,9 @@ public abstract class PermissionBackend {
      * @return set containing values the user may be able to use; may be empty if none.
      * @throws PermissionBackendException if failure consulting backend configuration.
      */
-    public Set<LabelPermission.WithValue> test(LabelType label) throws PermissionBackendException {
-      return test(valuesOf(requireNonNull(label, "LabelType")));
+    public Set<LabelPermission.WithValue> test(LabelType label, boolean isChangeOwner)
+        throws PermissionBackendException {
+      return test(valuesOf(requireNonNull(label, "LabelType")), isChangeOwner);
     }
 
     /**
@@ -434,8 +443,12 @@ public abstract class PermissionBackend {
      *     missing the necessary grants or state, or if the backend threw an exception.
      */
     public boolean testOrFalse(RefPermissionOrLabel perm) {
+      return testOrFalse(perm, false);
+    }
+
+    public boolean testOrFalse(RefPermissionOrLabel perm, boolean isChangeOwner) {
       try {
-        return test(perm);
+        return test(perm, isChangeOwner);
       } catch (PermissionBackendException e) {
         logger.atWarning().withCause(e).log("Cannot test %s; assuming false", perm);
         return false;

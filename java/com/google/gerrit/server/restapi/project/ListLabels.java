@@ -144,7 +144,7 @@ public class ListLabels implements RestReadView<ProjectResource> {
             .currentUser()
             .project(rsrc.getNameKey())
             .ref(branchNameKey.branch())
-            .testOrFalse(RefPermission.READ)) {
+            .testOrFalse(RefPermission.READ, /* isChangeOwner= */ true)) {
       throw new ResourceConflictException(
           String.format("ref \"%s\" not found or not visible.", branchNameKey.branch()));
     }
@@ -161,12 +161,14 @@ public class ListLabels implements RestReadView<ProjectResource> {
         continue;
       }
 
+      // We assume that user is interested on label that can be voted on if
+      // user is also change owner.
       Set<LabelPermission.WithValue> can =
           permissionBackend
               .currentUser()
               .project(rsrc.getNameKey())
               .ref(branchNameKey.branch())
-              .test(labelType);
+              .test(labelType, /* isChangeOwner= */ true);
 
       for (LabelValue v : labelType.getValues()) {
         boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));

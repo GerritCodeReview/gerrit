@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import autovalue.shaded.com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.account.AuthTokenAccessor;
@@ -176,6 +177,27 @@ public class TokenIT extends AbstractDaemonTest {
     RestResponse resp =
         userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput.id), tokenInput);
     resp.assertBadRequest();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxAuthTokensPerAccount", value = "2")
+  public void assertCreatingMoreTokensThanAllowedFails() throws Exception {
+    RestResponse resp =
+        userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput.id), tokenInput);
+    resp.assertCreated();
+
+    TokenInput tokenInput2 = new TokenInput();
+    tokenInput2.id = "testToken2";
+    resp =
+        userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput2.id), tokenInput2);
+    resp.assertBadRequest();
+
+    resp = userRestSession.delete(String.format("/accounts/self/tokens/%s", tokenInput.id));
+    resp.assertNoContent();
+
+    resp =
+        userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput2.id), tokenInput2);
+    resp.assertCreated();
   }
 
   @CanIgnoreReturnValue

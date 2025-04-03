@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "138cfd5f_52ce9d81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T14:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c4aee9_93f8e13d",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b4eb23b_05007465",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21429a99_7630adc2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 2202,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T14:26:50Z",
+      "side": 1,
+      "message": "I added a test using the `pushOptions` syntax and it passes so maybe it\u0027s not required?",
+      "parentUuid": "3b4eb23b_05007465",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34fdb25b_f12425d2",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 10
@@ -48,6 +84,24 @@
       "writtenOn": "2025-04-03T14:14:34Z",
       "side": 1,
       "message": "This is not doing a push with a push option, but it embeds the option into the ref name. This is the deprecated approach of setting options on push that we invented before Git supported push options.\n\nIt\u0027s okay if this deprecated syntax works, but our main interest is that specifying custom keyed values as a push option works. pushForMasterWithTopicOption() is an example for a test that sets push options.",
+      "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77415522_2a883202",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3204,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-03T14:26:50Z",
+      "side": 1,
+      "message": "I added a test similar to `pushForMasterWithTopicOption` and it passes so I guess no extra code is required in `ReceiveCommits`?",
+      "parentUuid": "34fdb25b_f12425d2",
       "revId": "1c4586970e6b905cf4cda65fb7d8be82fd005d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

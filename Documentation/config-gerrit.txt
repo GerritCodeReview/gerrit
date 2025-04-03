@@ -676,6 +676,14 @@ If not set or if a value <= 0 is used, tokens can have an unlimited lifetime.
 +
 Existing tokens will not be affected by changing this value.
 
+[[auth.maxAuthTokensPerAccount]]auth.maxAuthTokensPerAccount::
++
+The maximum number of authentication tokens a user is allowed to have in their
+account. If that number is reached, creating a new token will fail until an
+existing token is being deleted. Expired tokens count to the limit.
++
+Defaults to 10.
+
 [[auth.gitOAuthProvider]]auth.gitOAuthProvider::
 +
 Selects the OAuth 2 provider to authenticate git over HTTP traffic with.

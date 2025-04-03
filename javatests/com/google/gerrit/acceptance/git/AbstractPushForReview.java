@@ -3190,6 +3190,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithMalformedCustomKeyedValuesRejects() throws Exception {
+    String pushSpec = "refs/for/master%custom_keyed_values=foo--bar";
+    PushOneCommit.Result r = pushTo(pushSpec);
+    r.assertErrorStatus(
+        "Malformed custom keyed value specified. Each key value pair should be separated by 3"
+            + " dashes (---)."
+            + " Example:HEAD:refs/for/experimental%custom_keyed_values=foo---bar,custom_keyed_values=hello---world");
+  }
+
+  @Test
+  public void pushWithCustomKeyedValuesPasses() throws Exception {
+    String pushSpec = "refs/for/master%custom_keyed_values=foo---bar";
+    PushOneCommit.Result r = pushTo(pushSpec);
+    r.assertOkStatus();
+  }
+
+  @Test
   public void pushForMasterWithUnknownOption() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("unknown=foo"));

@@ -71,6 +71,7 @@ public class AuthConfig {
   private final int externalIdsRefExpirySecs;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
   private final Duration maxAuthTokenLifetime;
+  private final int maxAuthTokensPerAccount;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -137,6 +138,7 @@ public class AuthConfig {
     maxAuthTokenLifetime =
         Duration.ofMinutes(
             ConfigUtil.getTimeUnit(cfg, "auth", null, "maxAuthTokenLifetime", 0, TimeUnit.MINUTES));
+    maxAuthTokensPerAccount = cfg.getInt("auth", "maxAuthTokensPerAccount", 10);
   }
 
   private static List<OpenIdProviderPattern> toPatterns(Config cfg, String name) {
@@ -371,5 +373,9 @@ public class AuthConfig {
       return Optional.empty();
     }
     return Optional.of(maxAuthTokenLifetime);
+  }
+
+  public int getMaxAuthTokensPerAccount() {
+    return maxAuthTokensPerAccount;
   }
 }

@@ -328,7 +328,7 @@ public abstract class ScheduleConfig {
      * @return the schedule
      * @throws IllegalArgumentException if any of the parameters is invalid
      */
-    public static Schedule createOrFail(long interval, String startTime) {
+    static Schedule createOrFail(long interval, String startTime) {
       return create(interval, startTime).orElseThrow(IllegalArgumentException::new);
     }
 
@@ -351,7 +351,7 @@ public abstract class ScheduleConfig {
       return Optional.of(create(interval, initialDelay));
     }
 
-    static Schedule create(long interval, long initialDelay) {
+    public static Schedule create(long interval, long initialDelay) {
       return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);
     }
   }

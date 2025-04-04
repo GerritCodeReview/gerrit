@@ -20,6 +20,7 @@ public class AuthTokenModule extends AbstractModule {
   @Override
   public void configure() {
     install(AuthTokenCacheImpl.module());
+    install(AuthTokenExpiryNotifier.module());
     bind(AuthTokenAccessor.class).to(CachingAuthTokenAccessor.class);
   }
 }

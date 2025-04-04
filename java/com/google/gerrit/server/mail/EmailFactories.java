@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -23,6 +24,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
@@ -64,6 +66,8 @@ public interface EmailFactories {
   String KEY_ADDED = "addkey";
   String KEY_DELETED = "deletekey";
   String AUTH_TOKEN_UPDATED = "AuthTokenUpdate";
+  String AUTH_TOKEN_WILL_EXPIRE = "AuthTokenWillExpire";
+  String AUTH_TOKEN_EXPIRED = "AuthTokenExpired";
   String PASSWORD_UPDATED = "HttpPasswordUpdate";
   String INBOUND_EMAIL_REJECTED = "error";
   String NEW_EMAIL_REGISTERED = "registernewemail";
@@ -84,6 +88,8 @@ public interface EmailFactories {
       case KEY_ADDED -> "Key Added";
       case KEY_DELETED -> "Key Deleted";
       case AUTH_TOKEN_UPDATED -> "Authentication Token Updated";
+      case AUTH_TOKEN_WILL_EXPIRE -> "Authentication Token Will Expire";
+      case AUTH_TOKEN_EXPIRED -> "Authentication Token Expired";
       case PASSWORD_UPDATED -> "Password Updated";
       case INBOUND_EMAIL_REJECTED -> "Error";
       case NEW_EMAIL_REGISTERED -> "Email Registered";
@@ -151,6 +157,12 @@ public interface EmailFactories {
 
   /** Email decorator for auth token modification operations. */
   EmailDecorator createAuthTokenUpdateEmail(IdentifiedUser user, String operation, String tokenId);
+
+  /** Email decorator for auth token with close expiration date. */
+  EmailDecorator createAuthTokenWillExpireEmail(Account account, AuthToken authToken);
+
+  /** Email decorator for expired auth tokens. */
+  EmailDecorator createAuthTokenExpiredEmail(Account account, AuthToken authToken);
 
   /** Email decorator for password modification operations. */
   EmailDecorator createHttpPasswordUpdateEmail(IdentifiedUser user, String operation);

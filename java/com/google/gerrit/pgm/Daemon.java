@@ -64,6 +64,7 @@ import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
 import com.google.gerrit.server.account.AuthTokenCacheImpl;
+import com.google.gerrit.server.account.AuthTokenExpiryNotifier;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
 import com.google.gerrit.server.account.NoAuthTokenCache;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
@@ -558,6 +559,7 @@ public class Daemon extends SiteProgram {
     if (authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
         || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP) {
       modules.add(AuthTokenCacheImpl.module());
+      modules.add(AuthTokenExpiryNotifier.module());
     } else {
       modules.add(NoAuthTokenCache.module());
     }

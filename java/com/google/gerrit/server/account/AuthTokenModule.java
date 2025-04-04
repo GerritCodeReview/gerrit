@@ -27,6 +27,7 @@ public class AuthTokenModule extends AbstractModule {
   public void configure() {
     if (useCache) {
       install(AuthTokenCacheImpl.module());
+      install(AuthTokenExpiryNotifier.module());
       bind(AuthTokenAccessor.class).to(CachingAuthTokenAccessor.class);
     } else {
       install(NoAuthTokenCache.module());

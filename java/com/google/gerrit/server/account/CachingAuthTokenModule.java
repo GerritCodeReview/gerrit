@@ -23,6 +23,7 @@ public class CachingAuthTokenModule extends FactoryModule {
   @Override
   protected void configure() {
     install(AuthTokenCache.module());
+    install(AuthTokenExpiryNotifier.module());
     factory(CachingAuthTokenAccessor.Factory.class);
     factory(HttpPasswordFallbackAuthTokenAccessor.Factory.class);
   }

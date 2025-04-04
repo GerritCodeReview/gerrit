@@ -351,7 +351,7 @@ public abstract class ScheduleConfig {
       return Optional.of(create(interval, initialDelay));
     }
 
-    static Schedule create(long interval, long initialDelay) {
+    public static Schedule create(long interval, long initialDelay) {
       return new AutoValue_ScheduleConfig_Schedule(interval, initialDelay);
     }
   }

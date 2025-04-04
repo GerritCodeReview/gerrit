@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "debd81fb_8e41cf11",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T10:30:11Z",
+      "side": 1,
+      "message": "The REST API documentation needs to be updated also in this change",
+      "revId": "a61eda475a6801ee6ec6365bce74c53233a7877a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

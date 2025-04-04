@@ -1,0 +1,328 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfac9326_7e029120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "Looks like the whole commit message is not utilizing the full line with of 80 characters max. Please reformat.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5213073_a3d8fc56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "This change implements",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13b3198b_ac700d74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "An example of the `tokens` file could be added to the commit message and must be added to the `Documentation/config-accounts.txt` [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-accounts.html#account-data-in-user-branch",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "341407cf_8ef50ac2",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "Do we have account\u0027s without a username? Not sure if this must be mentioned here. The validation will anyway check and reject with a proper error message.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf89e54_88c92033",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "Unique in the scope of this account\u0027s tokens (not globally).\n\nI don\u0027t think this deserves to be mentioned here, it will be a part of the REST request validation.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ec9f6c_545c1b6d",
+        "filename": "java/com/google/gerrit/extensions/common/TokenInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "This should also be `@Nullable` because most of the time the new token is generated",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc085cf_dd502c59",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "This is imprecise: for example it allows a token ID to start with `-` or with a digit which is likely not wanted: `-`, `-3`, `1-9`, etc...\nWe can make it a bit nicer by requiring the first character to be a letter, followed by zero or more characters from this character set.",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 22,
+        "endChar": 83
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eb31658_8ee6797b",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "If `id` is allowed to be `null`, annotate the parameter with `@Nullable`. Same for the previous createWith... method",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105cd078_613889a1",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "We use `Strings.isNullOrEmpty` for this case",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec32ac4a_6d2b453c",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "Validation should not be performed when the `id` was generated in the line 30.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f12fa03f_39419133",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "I think `tokenHash` is a more precise name: what we return here is a hash and not a token.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52ca5e3_9d93b5cc",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "java doc uses `@return` for documenting return value",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ead55a_dfaa9663",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "Rather check `isNullOrEmpty`",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d337f2c_e670af43",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "The `providedToken` is never `null` at this line because of the check at 41-43.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a76a943_39f8ed85",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "If validation of one token throws an exception shouldn\u0027t we continue with the validation of the other tokens? Move this catch block inside the `for` loop?\n\nAlso add a test for this scenario.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5448f072_434b5d24",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "A small optimization here would be to first perform `tokenConfig.getSubsections(\"token\")` and then instantiate this `ArrayList` with the same size as the number of subsections.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9b2657_539ba57d",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "If `tokens` would be a `Map` of `id -\u003e token` then this line would be just:\n```\nreturn tokens.get(id);\n```",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc02bd9b_510d2976",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-04T12:18:29Z",
+      "side": 1,
+      "message": "This would also becomes simpler if `this.tokens` would be a `Map`",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

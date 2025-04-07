@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1377ebab_50174ef0",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteToken.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-07T11:24:35Z",
+      "side": 1,
+      "message": "This feature seems unrelated to this change?",
+      "revId": "9e6ac6c1a994719d3ffbc508b29746e9e4bde829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3ddbe8_dbd22662",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-07T11:24:35Z",
+      "side": 1,
+      "message": "Don\u0027t we have a dedicated REST endpoint for deletion? IMO, this code needs at least some comment to explain what is going on here.",
+      "revId": "9e6ac6c1a994719d3ffbc508b29746e9e4bde829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4cbd670_c45088da",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/HttpPasswordIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-07T11:24:35Z",
+      "side": 1,
+      "message": "The `assert` prefix could be removed from all test method names in this class.",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "9e6ac6c1a994719d3ffbc508b29746e9e4bde829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

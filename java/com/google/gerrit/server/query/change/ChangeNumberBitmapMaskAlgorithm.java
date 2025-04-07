@@ -40,7 +40,6 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
       Integer.BYTES * 8 - CHANGE_NUM_BIT_LEN; // Allows up to 64 ServerIds
 
   private final ImmutableMap<String, Integer> serverIdCodes;
-  private final boolean hasServerIdCodes;
   private final String localServerId;
 
   @Inject
@@ -59,7 +58,6 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
     }
 
     serverIdCodes = serverIdCodesBuilder.build();
-    this.hasServerIdCodes = !serverIdCodes.isEmpty();
     this.localServerId = localServerId;
   }
 
@@ -85,10 +83,5 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
     int virtualId = (changeNum & LEGACY_ID_BIT_MASK) | (encodedServerId << CHANGE_NUM_BIT_LEN);
 
     return Change.id(virtualId);
-  }
-
-  @Override
-  public boolean isVirtualChangeId(Change.Id id) {
-    return hasServerIdCodes && ((id.get() & ~LEGACY_ID_BIT_MASK) != 0);
   }
 }

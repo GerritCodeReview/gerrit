@@ -625,22 +625,6 @@ export class GrCommentThread extends LitElement {
           ${
             this.unresolved
               ? html`
-                  <gr-button
-                    id="ackBtn"
-                    link
-                    class="action ack"
-                    ?disabled=${this.saving}
-                    @click=${this.handleCommentAck}
-                    >Ack</gr-button
-                  >
-                  <gr-button
-                    id="doneBtn"
-                    link
-                    class="action done"
-                    ?disabled=${this.saving}
-                    @click=${this.handleCommentDone}
-                    >Done</gr-button
-                  >
                   ${this.shouldShowAIFixButton()
                     ? html`
                         <gr-button
@@ -657,6 +641,22 @@ export class GrCommentThread extends LitElement {
                         >
                       `
                     : nothing}
+                  <gr-button
+                    id="ackBtn"
+                    link
+                    class="action ack"
+                    ?disabled=${this.saving}
+                    @click=${this.handleCommentAck}
+                    >Ack</gr-button
+                  >
+                  <gr-button
+                    id="doneBtn"
+                    link
+                    class="action done"
+                    ?disabled=${this.saving}
+                    @click=${this.handleCommentDone}
+                    >Done</gr-button
+                  >
                 `
               : ''
           }

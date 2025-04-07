@@ -662,6 +662,16 @@ suite('gr-comment-thread tests', () => {
                   </gr-button>
                   <gr-button
                     aria-disabled="false"
+                    class="action ai-fix"
+                    id="aiFixBtn"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Get AI Fix
+                  </gr-button>
+                  <gr-button
+                    aria-disabled="false"
                     class="action ack"
                     id="ackBtn"
                     link=""
@@ -679,16 +689,6 @@ suite('gr-comment-thread tests', () => {
                     tabindex="0"
                   >
                     Done
-                  </gr-button>
-                  <gr-button
-                    aria-disabled="false"
-                    class="action ai-fix"
-                    id="aiFixBtn"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    Get AI Fix
                   </gr-button>
                   <gr-icon
                     icon="link"

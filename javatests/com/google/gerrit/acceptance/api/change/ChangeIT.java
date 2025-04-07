@@ -82,6 +82,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListenerModule.TestAttentionSetListener;
@@ -122,6 +123,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -150,6 +152,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -176,6 +179,8 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.notedb.ChangeNotesCache;
+import com.google.gerrit.server.notedb.ChangeNotesState;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.IntraLineDiff;
@@ -216,9 +221,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -250,6 +259,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject
   @Named("diff_summary")
   private Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
+
+  @Inject
+  @Named("change_notes")
+  Cache<ChangeNotesCache.Key, ChangeNotesState> changeNotesStateCache;
 
   @Test
   @GerritConfig(
@@ -4774,6 +4787,93 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
     assertThat(result.changeInfo).isNotNull();
     assertThat(result.changeInfo.currentRevision).isNotNull();
+  }
+
+  @Test
+  @UseLocalDisk
+  @GerritConfig(name = "gerrit.importedServerId", value = "imported-server-id")
+  @GerritConfig(name = "index.cacheQueryResultsByChangeNum", value = "false")
+  public void searchForImportedChanges() throws Exception {
+    PushOneCommit.Result change = createImportedChange("foo.txt");
+
+    String id = change.getChange().getId().toString();
+    assertThat(gApi.changes().id(id)).isNotNull();
+    assertThat(query("change:" + id)).isNotNull();
+    assertThat(gApi.changes().id(id).revision(change.getPatchSet().number()).files()).isNotNull();
+    assertThat(gApi.changes().id(id).revision(change.getPatchSet().number()).related()).isNotNull();
+  }
+
+  @Test
+  @UseLocalDisk
+  @GerritConfig(name = "gerrit.importedServerId", value = "imported-server-id")
+  @GerritConfig(name = "index.cacheQueryResultsByChangeNum", value = "false")
+  public void changesCollectionAPIsForImportedChanges() throws Exception {
+    String fileName = "foo.txt";
+    PushOneCommit.Result change = createImportedChange(fileName);
+
+    String id = change.getChange().getId().toString();
+
+    Map<String, FileInfo> files =
+        gApi.changes().id(id).revision(change.getPatchSet().number()).files();
+    assertThat(files.keySet()).containsExactly(fileName, "/COMMIT_MSG");
+
+    RelatedChangesInfo related =
+        gApi.changes().id(id).revision(change.getPatchSet().number()).related();
+    assertThat(related).isNotNull();
+    assertThat(related.changes.size()).isEqualTo(0);
+  }
+
+  private PushOneCommit.Result createImportedChange(String fileName) throws Exception {
+    PushOneCommit.Result change = createChange("subject", fileName, "test content");
+    Change.Id changeId = change.getChange().getId();
+    String metaRef = changeMetaRef(changeId);
+
+    indexer.delete(changeId);
+
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter inserter = repo.newObjectInserter();
+        ObjectReader reader = repo.newObjectReader();
+        RevWalk revWalk = new RevWalk(reader)) {
+
+      Ref ref = repo.getRefDatabase().exactRef(metaRef);
+      RevCommit tip = revWalk.parseCommit(ref.getObjectId());
+
+      CommitBuilder commit = new CommitBuilder();
+      commit.setTreeId(tip.getTree());
+      commit.setAuthor(new PersonIdent("Gerrit User 1000000", "1000000@imported-server-id"));
+      commit.setCommitter(new PersonIdent("Gerrit Code Review", "admin@localhost"));
+      commit.setMessage(buildChangeMessage(change));
+
+      ObjectId commitId = inserter.insert(commit);
+      inserter.flush();
+
+      RefUpdate refUpdate = repo.updateRef(metaRef);
+      refUpdate.setNewObjectId(commitId);
+      refUpdate.forceUpdate();
+
+      indexer.index(project, changeId);
+    }
+
+    return change;
+  }
+
+  private String buildChangeMessage(PushOneCommit.Result change) {
+    return String.join(
+        "\n",
+        "Create change",
+        "",
+        "Uploaded patch set 1.",
+        "",
+        "Patch-set: 1",
+        "Change-id: " + change.getChangeId(),
+        "Subject: Test subject",
+        "Branch: refs/heads/master",
+        "Status: new",
+        "Topic:",
+        "Commit: " + change.getCommit().name(),
+        "Tag: autogenerated:gerrit:newWipPatchSet",
+        "Private: false",
+        "Work-in-progress: true");
   }
 
   private void testEmailSubjectContainsChangeSizeBucket(

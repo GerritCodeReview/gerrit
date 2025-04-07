@@ -31,6 +31,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -73,6 +74,7 @@ public class ChangeFinder {
   }
 
   private final IndexConfig indexConfig;
+  private final boolean hasImportedChanges;
   private final Cache<Change.Id, String> changeIdProjectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -81,11 +83,13 @@ public class ChangeFinder {
   @Inject
   ChangeFinder(
       IndexConfig indexConfig,
+      @GerritImportedServerIds ImmutableList<String> importedServerIds,
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory changeNotesFactory,
       MetricMaker metricMaker) {
     this.indexConfig = indexConfig;
+    this.hasImportedChanges = !importedServerIds.isEmpty();
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
     this.changeNotesFactory = changeNotesFactory;
@@ -223,7 +227,8 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
-    List<ChangeData> r = query.byLegacyChangeId(id);
+    List<ChangeData> r = hasImportedChanges ? query.byChangeNumber(id) : query.byLegacyChangeId(id);
+
     if (r.size() == 1) {
       changeIdProjectCache.put(id, Url.encode(r.get(0).project().get()));
     }

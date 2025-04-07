@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e859a8c_4bdb9094",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T10:36:52Z",
+      "side": 1,
+      "message": "Please update the documentation at [1] accordingly.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change.enableRobotComments",
+      "revId": "4115c87a7d65eb3fda23bcb8e6ca2c6e492c0859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

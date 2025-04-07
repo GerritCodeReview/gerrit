@@ -1657,9 +1657,9 @@ By default `true`.
 [[change.enableRobotComments]]change.enableRobotComments::
 +
 Are robot comments enabled in the Gerrit UI? This setting allows phasing out
-robot comments.
+robot comments. Soon robot comments will be entirely removed.
 +
-By default `true`.
+By default `false`.
 
 [[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::
 +

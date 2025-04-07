@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b2f6230_74d06e12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b424b658_6cd30c30",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70fb4ba2_ef54ac8e",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9fe493_aaa7dffd",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70fb4ba2_ef54ac8e",
+      "range": {
+        "startLine": 230,
+        "startChar": 104,
+        "endLine": 230,
+        "endChar": 107
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae83da8_5e42aa9a",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefcea66_d962e7cf",
+      "range": {
+        "startLine": 230,
+        "startChar": 78,
+        "endLine": 230,
+        "endChar": 100
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fd87477_2f0c8ce9",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fedf4594_b25b459c",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fd87477_2f0c8ce9",
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f929d927_bbec7217",
@@ -100,6 +190,30 @@
       "writtenOn": "2025-04-07T08:47:49Z",
       "side": 1,
       "message": "nit: redundant type specification",
+      "range": {
+        "startLine": 483,
+        "startChar": 61,
+        "endLine": 483,
+        "endChar": 77
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3932fd21_b31fc097",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f929d927_bbec7217",
       "range": {
         "startLine": 483,
         "startChar": 61,
@@ -156,6 +270,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "adf343c6_4e89af1e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a43014e_a10ff5e4",
+      "range": {
+        "startLine": 2205,
+        "startChar": 59,
+        "endLine": 2205,
+        "endChar": 77
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed5c431a_dd2cb480",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce77fe34_8aaebc6c",
+      "range": {
+        "startLine": 2205,
+        "startChar": 39,
+        "endLine": 2205,
+        "endChar": 42
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0bbeef_db2c9fea",
@@ -169,6 +331,30 @@
       "writtenOn": "2025-04-07T08:47:49Z",
       "side": 1,
       "message": "outdated?",
+      "range": {
+        "startLine": 2215,
+        "startChar": 40,
+        "endLine": 2215,
+        "endChar": 48
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "807b7ad3_ebcd2be1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2215,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c0bbeef_db2c9fea",
       "range": {
         "startLine": 2215,
         "startChar": 40,
@@ -202,6 +388,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43a9b358_170f7063",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d43ebd_e947666a",
+      "range": {
+        "startLine": 2216,
+        "startChar": 35,
+        "endLine": 2216,
+        "endChar": 93
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d061c9bd_454650be",
@@ -215,6 +425,30 @@
       "writtenOn": "2025-04-07T08:47:49Z",
       "side": 1,
       "message": "Should be a single \u0027:\u0027 now.",
+      "range": {
+        "startLine": 3210,
+        "startChar": 57,
+        "endLine": 3210,
+        "endChar": 60
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7641ebda_a79ace05",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 3210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:49:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d061c9bd_454650be",
       "range": {
         "startLine": 3210,
         "startChar": 57,

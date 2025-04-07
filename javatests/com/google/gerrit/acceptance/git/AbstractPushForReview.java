@@ -3190,6 +3190,38 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithMalformedCustomKeyedValuesRejects() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("custom-keyed-value=foo-bar");
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus(
+        "the value for option 'custom-keyed-value' must be given as '<key>:<format>'");
+  }
+
+  @Test
+  public void pushWithCustomKeyedValuesPasses() throws Exception {
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("custom-keyed-value=foo:bar");
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().customKeyedValues()).isEqualTo(ImmutableMap.of("foo", "bar"));
+  }
+
+  @Test
+  public void cannotPushWithCustomKeyedValuesInRefName() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master%custom-keyed-value=foo-bar");
+    r.assertErrorStatus(
+        "option 'custom-keyed-value' cannot be specified as an option in the ref name, use a push"
+            + " option instead ('-o custom-keyed-value=<key>:<value>')");
+  }
+
+  @Test
   public void pushForMasterWithUnknownOption() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(ImmutableList.of("unknown=foo"));

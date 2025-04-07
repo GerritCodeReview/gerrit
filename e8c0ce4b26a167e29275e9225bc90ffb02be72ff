@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66dad4b_862120ed",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "I see.",
+      "parentUuid": "d706ad24_5854e01b",
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35dfb191_3163dca3",
@@ -343,6 +361,30 @@
       "side": 1,
       "message": "I also have to do the rejection if there is some invalid value which is not clear to me how I can do that in between.\n\nI am not sure how to do this in 1 step.",
       "parentUuid": "f4e6cf3e_f5f8aa58",
+      "range": {
+        "startLine": 2203,
+        "startChar": 7,
+        "endLine": 2221,
+        "endChar": 9
+      },
+      "revId": "e8c0ce4b26a167e29275e9225bc90ffb02be72ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e424571_784d1c13",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "I don\u0027t see why this should not work.\n\nI\u0027ve played with this and have a new patch sets that addressed this (and the other comments).",
+      "parentUuid": "3ae78457_ee5ee158",
       "range": {
         "startLine": 2203,
         "startChar": 7,

@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b424b658_6cd30c30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "nit: should be \u0027:\u0027 now",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70fb4ba2_ef54ac8e",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "old syntax?",
+      "range": {
+        "startLine": 230,
+        "startChar": 104,
+        "endLine": 230,
+        "endChar": 107
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fefcea66_d962e7cf",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "Isn\u0027t it \u0027custom-keyed-value\u0027?",
+      "range": {
+        "startLine": 230,
+        "startChar": 78,
+        "endLine": 230,
+        "endChar": 100
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fd87477_2f0c8ce9",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "Maybe we should add a note saying that setting the option in the refname is not supported?",
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f929d927_bbec7217",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "nit: redundant type specification",
+      "range": {
+        "startLine": 483,
+        "startChar": 61,
+        "endLine": 483,
+        "endChar": 77
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce77fe34_8aaebc6c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "Just a single \u0027:\u0027 here should work.",
+      "range": {
+        "startLine": 2205,
+        "startChar": 39,
+        "endLine": 2205,
+        "endChar": 42
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a43014e_a10ff5e4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to omit empty strings in this case.",
+      "range": {
+        "startLine": 2205,
+        "startChar": 59,
+        "endLine": 2205,
+        "endChar": 77
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c0bbeef_db2c9fea",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2215,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "outdated?",
+      "range": {
+        "startLine": 2215,
+        "startChar": 40,
+        "endLine": 2215,
+        "endChar": 48
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83d43ebd_e947666a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "This example looks malformed.",
+      "range": {
+        "startLine": 2216,
+        "startChar": 35,
+        "endLine": 2216,
+        "endChar": 93
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d061c9bd_454650be",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 3210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-07T08:47:49Z",
+      "side": 1,
+      "message": "Should be a single \u0027:\u0027 now.",
+      "range": {
+        "startLine": 3210,
+        "startChar": 57,
+        "endLine": 3210,
+        "endChar": 60
+      },
+      "revId": "06e63a72e94a2890b2bc92fda38bb9ea8432e047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

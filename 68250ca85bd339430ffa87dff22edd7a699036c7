@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de468f02_16d1a343",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-08T21:28:25Z",
+      "side": 1,
+      "message": "This has side-effects: the `virtualId()` method performs a lazy load of the change notes from NoteDb for fetching the server-id.\n\nCan we just get the value without any lazy loading involved?",
+      "range": {
+        "startLine": 260,
+        "startChar": 13,
+        "endLine": 260,
+        "endChar": 30
+      },
+      "revId": "68250ca85bd339430ffa87dff22edd7a699036c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

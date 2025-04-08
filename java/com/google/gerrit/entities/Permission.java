@@ -31,7 +31,9 @@ import java.util.function.Consumer;
 public abstract class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
   public static final String ADD_PATCH_SET = "addPatchSet";
+  // https://gerrit-review.googlesource.com/Documentation/access-control.html#category_create
   public static final String CREATE = "create";
+  // https://gerrit-review.googlesource.com/Documentation/access-control.html#category_create_signed
   public static final String CREATE_SIGNED_TAG = "createSignedTag";
   public static final String CREATE_TAG = "createTag";
   public static final String DELETE = "delete";
@@ -47,8 +49,10 @@ public abstract class Permission implements Comparable<Permission> {
   public static final String LABEL_AS = "labelAs-";
   public static final String REMOVE_LABEL = "removeLabel-";
   public static final String OWNER = "owner";
+  // https://gerrit-review.googlesource.com/Documentation/access-control.html#category_push
   public static final String PUSH = "push";
   public static final String PUSH_MERGE = "pushMerge";
+  // https://gerrit-review.googlesource.com/Documentation/access-control.html#category_read
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";

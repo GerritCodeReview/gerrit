@@ -1014,6 +1014,9 @@ export class GrCommentThread extends LitElement {
       fireAlert(this, 'No suitable AI fix could be found');
       return;
     }
+    // Description is used to identify the suggestion source in logs.
+    suggestion.description =
+      ReportSource.GET_AI_FIX_FOR_COMMENT + ' ' + suggestion.description;
     this.suggestion = suggestion;
   }
 

@@ -725,6 +725,8 @@ export class GrResultRow extends LitElement {
       fireAlert(this, 'No suitable AI fix could be found');
       return;
     }
+    suggestion.description =
+      ReportSource.GET_AI_FIX_FOR_CHECK + ' ' + suggestion.description;
     this.suggestion = suggestion;
     this.toggleExpanded(/* setExpanded= */ true);
   }

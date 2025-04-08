@@ -24,6 +24,72 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a197fe3_2525a4a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-08T20:42:53Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "73bb0366_98b82ca4",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "429d9011a126420c0e1251569dbe7cc6689f40b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6eb0da_0d6cb724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-08T20:42:53Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "73bb0366_98b82ca4",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cc8753ab_6fce5e17",
+          "description": "User suggestion",
+          "replacements": [
+            {
+              "path": "/COMMIT_MSG",
+              "range": {
+                "startLine": 14,
+                "startChar": 0,
+                "endLine": 14,
+                "endChar": 18
+              },
+              "replacement": "Release-Notes: skip"
+            }
+          ]
+        }
+      ],
+      "revId": "429d9011a126420c0e1251569dbe7cc6689f40b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afa22dfc_e32468f4",
@@ -43,6 +109,72 @@
         "endLine": 292,
         "endChar": 78
       },
+      "revId": "429d9011a126420c0e1251569dbe7cc6689f40b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c051922_dee94205",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-08T20:42:53Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "afa22dfc_e32468f4",
+      "range": {
+        "startLine": 292,
+        "startChar": 42,
+        "endLine": 292,
+        "endChar": 78
+      },
+      "revId": "429d9011a126420c0e1251569dbe7cc6689f40b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0467bc34_adad9287",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-08T20:42:53Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "afa22dfc_e32468f4",
+      "range": {
+        "startLine": 292,
+        "startChar": 42,
+        "endLine": 292,
+        "endChar": 78
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3fd5b6dc_5d406d17",
+          "description": "User suggestion",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+              "range": {
+                "startLine": 292,
+                "startChar": 0,
+                "endLine": 292,
+                "endChar": 82
+              },
+              "replacement": "              Change.id(\n                  doc.get(CHANGENUM_SPEC.getName()) !\u003d null\n                      ? (Integer) doc.get(CHANGENUM_SPEC.getName())\n                      : Integer.valueOf(\n                          (String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));"
+            }
+          ]
+        }
+      ],
       "revId": "429d9011a126420c0e1251569dbe7cc6689f40b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73bb0366_98b82ca4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-08T20:30:22Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: skip\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "429d9011a126420c0e1251569dbe7cc6689f40b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "afa22dfc_e32468f4",
         "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
         "patchSetId": 3

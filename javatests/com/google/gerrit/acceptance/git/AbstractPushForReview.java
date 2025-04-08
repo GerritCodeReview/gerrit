@@ -53,6 +53,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -109,10 +110,12 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
+import com.google.gerrit.server.git.receive.PushOptionsValidator;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -3363,6 +3366,82 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       assertThat(testCommitValidationInfoListener.patchSetId).isEqualTo(r.getPatchSetId());
       assertThat(testCommitValidationInfoListener.hasChangeModificationRefContext).isTrue();
       assertThat(testCommitValidationInfoListener.hasDirectPushRefContext).isFalse();
+    }
+  }
+
+  @Test
+  public void rejectPushOptionFromValidator() throws Exception {
+    PushOptionsValidator pushOptionsValidator =
+        (String refName, ListMultimap<String, String> pushOptions) ->
+            pushOptions.containsKey("topic")
+                ? ImmutableList.of(
+                    new ValidationMessage("setting a topic is not allowed", /* isError= */ true))
+                : ImmutableList.of();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(pushOptionsValidator)) {
+      // Push with a push option that is being rejected.
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      List<String> pushOptions = new ArrayList<>();
+      pushOptions.add("topic=myTopic");
+      push.setPushOptions(pushOptions);
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertErrorStatus("setting a topic is not allowed");
+
+      // Push with an option in the refname that is being rejected.
+      r = pushTo("refs/for/master%topic=myTopic");
+      r.assertErrorStatus("setting a topic is not allowed");
+
+      // Pushing with another push options is fine.
+      pushOptions = new ArrayList<>();
+      pushOptions.add("notify=NONE");
+      push.setPushOptions(pushOptions);
+      r = push.to("refs/for/master");
+      r.assertOkStatus();
+
+      // Pushing with another option in the refname is fine.
+      r = pushTo("refs/for/master%notify=NONE");
+      r.assertOkStatus();
+    }
+  }
+
+  @Test
+  public void printMessageForPushOptionFromValidator() throws Exception {
+    PushOptionsValidator pushOptionsValidator =
+        (String refName, ListMultimap<String, String> pushOptions) ->
+            pushOptions.containsKey("topic")
+                ? ImmutableList.of(
+                    new ValidationMessage(
+                        "setting a topic is deprecated", ValidationMessage.Type.WARNING))
+                : ImmutableList.of();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(pushOptionsValidator)) {
+      // Push with a push option that is being rejected.
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      List<String> pushOptions = new ArrayList<>();
+      pushOptions.add("topic=myTopic");
+      push.setPushOptions(pushOptions);
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+      r.assertMessage("warning: setting a topic is deprecated");
+
+      // Push with an option in the refname that is being rejected.
+      r = pushTo("refs/for/master%topic=myTopic");
+      r.assertOkStatus();
+      r.assertMessage("warning: setting a topic is deprecated");
+
+      // Pushing with another push options doesn't print the message.
+      push = pushFactory.create(admin.newIdent(), testRepo);
+      pushOptions = new ArrayList<>();
+      pushOptions.add("notify=NONE");
+      push.setPushOptions(pushOptions);
+      r = push.to("refs/for/master");
+      r.assertOkStatus();
+      r.assertNotMessage("warning: setting a topic is deprecated");
+
+      // Pushing with another option in the refname doesn't print the message.
+      r = pushTo("refs/for/master%notify=NONE");
+      r.assertOkStatus();
+      r.assertNotMessage("warning: setting a topic is deprecated");
     }
   }
 

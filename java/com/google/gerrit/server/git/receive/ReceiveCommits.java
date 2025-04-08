@@ -416,6 +416,7 @@ class ReceiveCommits {
   private final DeadlineChecker.Factory deadlineCheckerFactory;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final DynamicSet<PushOptionsValidator> pushOptionsValidators;
   private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final PluginSetContext<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -517,6 +518,7 @@ class ReceiveCommits {
       DeadlineChecker.Factory deadlineCheckerFactory,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      DynamicSet<PushOptionsValidator> pushOptionsValidators,
       DynamicSet<PluginPushOption> pluginPushOptions,
       PluginSetContext<ReceivePackInitializer> initializers,
       PluginSetContext<CommentValidator> commentValidators,
@@ -589,6 +591,7 @@ class ReceiveCommits {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.permissionBackend = permissionBackend;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.pushOptionsValidators = pushOptionsValidators;
     this.pluginPushOptions = pluginPushOptions;
     this.projectCache = projectCache;
     this.psUtil = psUtil;
@@ -1869,6 +1872,7 @@ class ReceiveCommits {
     Map<String, Short> labels = new HashMap<>();
     String message;
     List<RevCommit> baseCommit;
+    ListMultimap<String, String> optionMap;
     CmdLineParser cmdLineParser;
     Set<String> hashtags = new HashSet<>();
 
@@ -2112,7 +2116,7 @@ class ReceiveCommits {
     String parse(ListMultimap<String, String> pushOptions) throws CmdLineException {
       String ref = RefNames.fullName(MagicBranch.getDestBranchName(cmd.getRefName()));
 
-      ListMultimap<String, String> options = LinkedListMultimap.create();
+      optionMap = LinkedListMultimap.create();
 
       // Process and lop off the "%OPTION" suffix.
       int optionStart = ref.indexOf('%');
@@ -2120,9 +2124,9 @@ class ReceiveCommits {
         for (String s : COMMAS.split(ref.substring(optionStart + 1))) {
           int e = s.indexOf('=');
           if (0 < e) {
-            options.put(s.substring(0, e), s.substring(e + 1));
+            optionMap.put(s.substring(0, e), s.substring(e + 1));
           } else {
-            options.put(s, "");
+            optionMap.put(s, "");
           }
         }
         ref = ref.substring(0, optionStart);
@@ -2135,7 +2139,7 @@ class ReceiveCommits {
       // do not reach here. However if someone tries to specify the '%custom-key-value' option with
       // allowed characters in the value, we return a message here telling the user that they should
       // use the push option instead.
-      if (options.containsKey(CUSTOM_KEYED_VALUE_OPTION)) {
+      if (optionMap.containsKey(CUSTOM_KEYED_VALUE_OPTION)) {
         throw cmdLineParser.reject(
             String.format(
                 "option '%s' cannot be specified as an option in the ref name, use a push option"
@@ -2143,10 +2147,10 @@ class ReceiveCommits {
                 CUSTOM_KEYED_VALUE_OPTION, CUSTOM_KEYED_VALUE_OPTION));
       }
 
-      options.putAll(pushOptions);
+      optionMap.putAll(pushOptions);
 
-      if (!options.isEmpty()) {
-        cmdLineParser.parseOptionMap(options);
+      if (!optionMap.isEmpty()) {
+        cmdLineParser.parseOptionMap(optionMap);
       }
       return ref;
     }
@@ -2450,6 +2454,8 @@ class ReceiveCommits {
             }
           }
         }
+
+        validatePushOptions(cmd, ref, magicBranch.optionMap);
       } catch (IOException e) {
         throw new StorageException(
             String.format("Error walking to %s in project %s", destBranch, project.getName()), e);
@@ -2458,6 +2464,25 @@ class ReceiveCommits {
       if (validateConnected(globalRevWalk, magicBranch.cmd, magicBranch.dest, tip)) {
         this.magicBranch = magicBranch;
         this.result.magicPush(true);
+      }
+    }
+  }
+
+  private void validatePushOptions(
+      ReceiveCommand cmd, String refName, ListMultimap<String, String> pushOptions) {
+    ImmutableList<ValidationMessage> validationMessages =
+        StreamSupport.stream(pushOptionsValidators.entries().spliterator(), /* parallel= */ false)
+            .flatMap(
+                pluginPushValidators ->
+                    pluginPushValidators.get().validate(refName, pushOptions).stream())
+            .collect(toImmutableList());
+    for (ValidationMessage validationMessage : validationMessages) {
+      if (validationMessage.isError()) {
+        reject(
+            cmd,
+            RejectionReason.create(MetricBucket.INVALID_OPTION, validationMessage.getMessage()));
+      } else {
+        messages.add(validationMessage);
       }
     }
   }

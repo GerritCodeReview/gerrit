@@ -53,6 +53,7 @@ import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.git.receive.PushOptionsValidator;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
@@ -118,6 +119,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ValidationOptionsListener> validationOptionsListeners;
   private final DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners;
   private final DynamicSet<RetryListener> retryListeners;
+  private final DynamicSet<PushOptionsValidator> pushOptionsValidators;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -172,6 +174,7 @@ public class ExtensionRegistry {
       DynamicSet<ValidationOptionsListener> validationOptionsListeners,
       DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners,
       DynamicSet<RetryListener> retryListeners,
+      DynamicSet<PushOptionsValidator> pushOptionsValidator,
       DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
@@ -219,6 +222,7 @@ public class ExtensionRegistry {
     this.validationOptionsListeners = validationOptionsListeners;
     this.commitValidationInfoListeners = commitValidationInfoListeners;
     this.retryListeners = retryListeners;
+    this.pushOptionsValidators = pushOptionsValidator;
     this.reviewerSuggestions = reviewerSuggestions;
   }
 
@@ -429,6 +433,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(RetryListener retryListener) {
       return add(retryListeners, retryListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(PushOptionsValidator pushOptionsValidator) {
+      return add(pushOptionsValidators, pushOptionsValidator);
     }
 
     @CanIgnoreReturnValue

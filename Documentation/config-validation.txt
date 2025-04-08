@@ -6,7 +6,6 @@ perform validation on certain operations.
 [[new-commit-validation]]
 == New commit validation
 
-
 Plugins implementing the `CommitValidationListener` interface can
 perform additional validation checks against new commits.
 
@@ -20,6 +19,13 @@ and cherry-pick buttons.
 
 Out of the box, Gerrit includes a plugin that checks the length of the
 subject and body lines of commit messages on uploaded commits.
+
+[[push-options-validation]]
+== Push options validation
+
+Plugins implementing the `PushOptionsValidator` interface can validate push
+options. For example, they can reject options (or a combination of options) or
+emit a warning when a deprecated option is being used.
 
 [plugin-push-options]]
 === Plugin push options

@@ -1175,11 +1175,11 @@ class ReceiveCommits {
       ObjectInserter ins,
       ImmutableList<CreateRequest> newChanges,
       Task replaceProgress) {
+    ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (TraceTimer traceTimer =
           newTimer(
               "insertChangesAndPatchSets", Metadata.builder().resourceCount(newChanges.size()))) {
-        ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
         if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
           logger.atWarning().log(
               "Skipping change updates on %s because ref update failed: %s %s",
@@ -1223,8 +1223,20 @@ class ReceiveCommits {
         } catch (RestApiException | IOException | UpdateException e) {
           throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
         }
+      }
+    }
 
-        if (magicBranch != null && magicBranch.submit) {
+    if (magicBranch != null && magicBranch.submit) {
+      // Using the submit option submits the created change(s) immediately without checking labels
+      // nor submit rules. Since code review is bypassed, same as on direct push, use a direct push
+      // RefUpdateContext to do the direct submit.
+      Optional<String> justification =
+          pushOptions.get(DIRECT_PUSH_JUSTIFICATION_OPTION).stream().findFirst();
+      try (RefUpdateContext ctx = RefUpdateContext.openDirectPush(justification)) {
+        try (TraceTimer traceTimer =
+            newTimer(
+                "insertChangesAndPatchSets#submit",
+                Metadata.builder().resourceCount(newChanges.size()))) {
           try {
             submit(newChanges, replaceByChange.values());
           } catch (ResourceConflictException e) {
@@ -1880,6 +1892,12 @@ class ReceiveCommits {
     String trace;
 
     @Option(
+        name = "--push-justification",
+        metaVar = "NAME",
+        usage = "justification for the push if the 'submit' option is used to submit on push")
+    String pushJustification;
+
+    @Option(
         name = "--deadline",
         metaVar = "NAME",
         usage = "deadline after which the push should be aborted")
@@ -2237,6 +2255,16 @@ class ReceiveCommits {
           return;
         }
         ref = null; // never happens
+      }
+
+      if (magicBranch.pushJustification != null && !magicBranch.submit) {
+        reject(
+            cmd,
+            RejectionReason.create(
+                MetricBucket.INVALID_OPTION,
+                "when pushing for a review a push justification can only be set when the"
+                    + " 'submit' option is used"));
+        return;
       }
 
       if (magicBranch.skipValidation) {

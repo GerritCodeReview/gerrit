@@ -3445,6 +3445,28 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void cannotSetPushJustificationWhenSubmitOptionIsNotUsed() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add("push-justification=test justification");
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus(
+        "when pushing for a review a push justification can only be set when the"
+            + " 'submit' option is used");
+
+    // pushing with the submit option works
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
+
+    r = push.to("refs/for/master%submit");
+    r.assertOkStatus();
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

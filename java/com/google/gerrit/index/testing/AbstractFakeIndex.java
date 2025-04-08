@@ -290,7 +290,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
           changeDataFactory.create(
               Project.nameKey((String) doc.get(ChangeField.PROJECT_SPEC.getName())),
               Change.id(
-                  Integer.valueOf((String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));
+                  doc.get(CHANGENUM_SPEC.getName()) != null
+                      ? (Integer) doc.get(CHANGENUM_SPEC.getName())
+                      : Integer.valueOf(
+                          (String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));
       for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
         boolean isProtoField = SchemaFieldDefs.isProtoField(field);
 

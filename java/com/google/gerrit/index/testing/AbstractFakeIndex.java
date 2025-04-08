@@ -15,6 +15,7 @@
 package com.google.gerrit.index.testing;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGENUM_SPEC;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -60,6 +61,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Config;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGENUM_SPEC;
 
 /**
  * Fake secondary index implementation for usage in tests. All values are kept in-memory.
@@ -290,7 +292,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
           changeDataFactory.create(
               Project.nameKey((String) doc.get(ChangeField.PROJECT_SPEC.getName())),
               Change.id(
-                  Integer.valueOf((String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));
+                  doc.get(CHANGENUM_SPEC.getName()) != null
+                      ? (Integer) doc.get(CHANGENUM_SPEC.getName())
+                      : Integer.valueOf(
+                          (String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));
       for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
         boolean isProtoField = SchemaFieldDefs.isProtoField(field);
 

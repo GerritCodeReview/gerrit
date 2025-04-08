@@ -686,6 +686,10 @@ public class ChangeData {
     return virtualId;
   }
 
+  public void setVirtualId(int virtualId) {
+    this.virtualId = Change.id(virtualId);
+  }
+
   public Project.NameKey project() {
     return project;
   }

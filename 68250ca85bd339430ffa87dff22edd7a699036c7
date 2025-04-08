@@ -22,6 +22,30 @@
       },
       "revId": "68250ca85bd339430ffa87dff22edd7a699036c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52eed3f4_4f20e84c",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-08T22:09:00Z",
+      "side": 1,
+      "message": "See a possible solution to avoid side-effects in https://gerrit-review.googlesource.com/c/gerrit/+/465943/comment/4e5a72c2_198e7f9a/",
+      "parentUuid": "de468f02_16d1a343",
+      "range": {
+        "startLine": 260,
+        "startChar": 13,
+        "endLine": 260,
+        "endChar": 30
+      },
+      "revId": "68250ca85bd339430ffa87dff22edd7a699036c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

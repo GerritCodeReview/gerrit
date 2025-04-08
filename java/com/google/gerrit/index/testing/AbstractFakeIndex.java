@@ -257,7 +257,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     protected Change.Id keyFor(ChangeData value) {
-      return value.getId();
+      return value.virtualId();
     }
 
     @Override

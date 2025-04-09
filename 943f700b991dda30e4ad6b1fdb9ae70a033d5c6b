@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c569179c_96246bf5",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-09T07:54:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f891a657_7745592f",
+      "range": {
+        "startLine": 290,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 21
+      },
+      "revId": "943f700b991dda30e4ad6b1fdb9ae70a033d5c6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e5a72c2_198e7f9a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38851422_7f7543d5",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-09T07:54:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e5a72c2_198e7f9a",
+      "range": {
+        "startLine": 296,
+        "startChar": 24,
+        "endLine": 297,
+        "endChar": 85
+      },
+      "revId": "943f700b991dda30e4ad6b1fdb9ae70a033d5c6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8dedc82_fd6b6fa6",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-04-08T22:08:13Z",
       "side": 1,
       "message": "Also allow to set and then fetch the `virtualId` without causing the side-effect of reloading the meta-data from the underlying repository.\n\n\n\n```suggestion\n  public Change.Id virtualId() {\n    if (virtualId \u003d\u003d null) {\n      return virtualIdFunc \u003d\u003d null ? legacyId : virtualIdFunc.apply(changeServerId(), legacyId);\n    }\n    return virtualId;\n  }\n\n  public void setVirtualId(int virtualId) {\n    this.virtualId \u003d Change.id(virtualId);\n  }\n```",
+      "range": {
+        "startLine": 682,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 3
+      },
+      "revId": "943f700b991dda30e4ad6b1fdb9ae70a033d5c6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9400beb8_9e465202",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-09T07:54:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8dedc82_fd6b6fa6",
       "range": {
         "startLine": 682,
         "startChar": 0,

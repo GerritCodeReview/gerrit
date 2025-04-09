@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0416c11_915d3fd4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4792,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T21:33:20Z",
+      "side": 1,
+      "message": "This assertion is always true, regardless of whether the query succeeds or fails.\nIn fact, the query() method returns a `List\u003cChangeInfo\u003e` and in case the query doesn\u0027t return anything, the returned value won\u0027t be `null` but an empty list.\n\n```suggestion\n    List\u003cString\u003e changes \u003d query(idAsString).stream().map(ci -\u003e ci.changeId).toList();\n    assertThat(changes).containsExactly(change.getChangeId());\n```\n\nWith the correct assertion, the test *fails* which is expected, because the corresponding code is still to be fixed.",
+      "range": {
+        "startLine": 4792,
+        "startChar": 4,
+        "endLine": 4792,
+        "endChar": 46
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5659c1d_ac9fe2a0",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 15
@@ -88,6 +111,29 @@
         "startChar": 0,
         "endLine": 4797,
         "endChar": 77
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c25e5c05_0b37ab85",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4802,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T21:33:20Z",
+      "side": 1,
+      "message": "This assertion is always true, regardless of whether the query succeeds or fails.\nIn fact, the query() method returns a `List\u003cChangeInfo\u003e` and in case the query doesn\u0027t return anything, the returned value won\u0027t be `null` but an empty list.\n\n```suggestion\n    List\u003cString\u003e changes \u003d query(\"change:\" + idAsString).stream().map(ci -\u003e ci.changeId).toList();\n    assertThat(changes).containsExactly(change.getChangeId());\n```",
+      "range": {
+        "startLine": 4802,
+        "startChar": 0,
+        "endLine": 4802,
+        "endChar": 43
       },
       "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

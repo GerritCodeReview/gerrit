@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98fdcb99_268905a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfac9326_7e029120",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5213073_a3d8fc56",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "This change implements",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef0d22ad_b05c318f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Nope, the change does not introduce any limited lifetime. This only implements the schema change to support tokens.",
+      "parentUuid": "e5213073_a3d8fc56",
       "range": {
         "startLine": 10,
         "startChar": 12,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f99ff478_24840338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13b3198b_ac700d74",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "341407cf_8ef50ac2",
@@ -77,6 +143,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "Do we have account\u0027s without a username? Not sure if this must be mentioned here. The validation will anyway check and reject with a proper error message.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb42527_6d120426",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Yes, accounts don\u0027t have to have usernames. I only know of the case, when oauth is being used, but there might be other cases.",
+      "parentUuid": "341407cf_8ef50ac2",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64f25e5c_8661872b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done.\nI think it does deserve a mention, since it might prevent an invalid request, slightly improving the user experience.",
+      "parentUuid": "8cf89e54_88c92033",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59ec9f6c_545c1b6d",
@@ -111,6 +213,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "This should also be `@Nullable` because most of the time the new token is generated",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e626ee5d_0a13c3dc",
+        "filename": "java/com/google/gerrit/extensions/common/TokenInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59ec9f6c_545c1b6d",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -138,6 +258,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f406b3_e8b0d1d5",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bc085cf_dd502c59",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 22,
+        "endChar": 83
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0eb31658_8ee6797b",
@@ -151,6 +295,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "If `id` is allowed to be `null`, annotate the parameter with `@Nullable`. Same for the previous createWith... method",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "779a5faa_73f923ba",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb31658_8ee6797b",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -172,6 +334,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2819e002_8b8fc193",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105cd078_613889a1",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec32ac4a_6d2b453c",
@@ -185,6 +365,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "Validation should not be performed when the `id` was generated in the line 30.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e93a0f8_54990b68",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec32ac4a_6d2b453c",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -208,6 +406,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7662231a_ca547818",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "But the current version fits the existing naming better, like the `HashedPassword` class.",
+      "parentUuid": "f12fa03f_39419133",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b52ca5e3_9d93b5cc",
         "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
         "patchSetId": 13
@@ -219,6 +435,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "java doc uses `@return` for documenting return value",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03579f0b_7ca087f1",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52ca5e3_9d93b5cc",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -240,6 +474,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc1222c6_b585efd5",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9ead55a_dfaa9663",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d337f2c_e670af43",
@@ -253,6 +505,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "The `providedToken` is never `null` at this line because of the check at 41-43.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a992d41_72b660bb",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d337f2c_e670af43",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -274,6 +544,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21733d9d_228fdb4b",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a76a943_39f8ed85",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5448f072_434b5d24",
@@ -287,6 +575,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "A small optimization here would be to first perform `tokenConfig.getSubsections(\"token\")` and then instantiate this `ArrayList` with the same size as the number of subsections.",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "870f60d9_e40077a3",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5448f072_434b5d24",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -308,6 +614,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ea171b_dcdeee78",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec9b2657_539ba57d",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc02bd9b_510d2976",
@@ -321,6 +645,24 @@
       "writtenOn": "2025-04-04T12:18:29Z",
       "side": 1,
       "message": "This would also becomes simpler if `this.tokens` would be a `Map`",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c619f421_ac56b5f8",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:04:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc02bd9b_510d2976",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -70,6 +70,24 @@
       "parentUuid": "35f74c31_65ebb160",
       "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4b44c85_ffb4285a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-04-09T19:02:08Z",
+      "side": 1,
+      "message": "Previously large caches would slow down startup (bloomFilters) and pruning, where are you seeing the slowdowns now?",
+      "parentUuid": "bfafd0bf_12f78d2c",
+      "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

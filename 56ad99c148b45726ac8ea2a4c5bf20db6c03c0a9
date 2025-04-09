@@ -16,6 +16,24 @@
       "message": "Why not for INFO? I would start with just skipping SUCCESS.",
       "revId": "56ad99c148b45726ac8ea2a4c5bf20db6c03c0a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ae9f61_6f867bad",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-09T14:30:40Z",
+      "side": 1,
+      "message": "It was requested in https://b.corp.google.com/issues/409526050 \n\nMaybe we can introduce it for INFO later.",
+      "parentUuid": "51641d42_e710553b",
+      "revId": "56ad99c148b45726ac8ea2a4c5bf20db6c03c0a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

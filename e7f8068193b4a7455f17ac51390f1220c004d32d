@@ -34,6 +34,24 @@
       "parentUuid": "afb478bf_5ab9d8d6",
       "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b2ffb0b_bd13fb96",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenAccessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-09T15:15:53Z",
+      "side": 1,
+      "message": "Evicting should never be a problem. One can inject the (named) cache at that place.",
+      "parentUuid": "6cc0672f_3eb2de47",
+      "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

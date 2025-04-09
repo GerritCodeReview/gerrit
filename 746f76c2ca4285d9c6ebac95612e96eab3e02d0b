@@ -52,6 +52,24 @@
       "parentUuid": "2a36c5dd_bd5650c9",
       "revId": "746f76c2ca4285d9c6ebac95612e96eab3e02d0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e067cb1_bacb887b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T14:43:19Z",
+      "side": 1,
+      "message": "I do use them.\n\nIt is not an experiment, it is a flag.\n\nI think debugging code in production can be ok, on a case by case basis.\n\nKeeping this in a local change would have disadvantages:\n* It would only work for me, not for anyone else. Note that I can also send URLs enabling the fake checks to others, e.g. PM and UX.\n* The change would have to be constantly synced and updated.\n* I cannot easily combine it with other ongoing checks development. I would have to constantly rebase.\n\nThis is not a personal change, it is a change for making checks development easier.\n\nI do see your point though. I think this can be decided either way. We both have good arguments.\n\nNote that originally I had thought that I would indeed remove this code at some point, but I have used it often enough that I think the value of having it is overall outweighing the costs.",
+      "parentUuid": "51f143a8_90e61dda",
+      "revId": "746f76c2ca4285d9c6ebac95612e96eab3e02d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -191,6 +191,7 @@ suite('gr-router tests', () => {
       'handleRepoGeneralRoute',
       'handleRepoListRoute',
       'handleRepoRoute',
+      'handleRepoSubmitRequirementsRoute',
       'handleQueryLegacySuffixRoute',
       'handleQueryRoute',
       'handleRegisterRoute',

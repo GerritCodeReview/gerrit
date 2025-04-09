@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7195220f_cb3a0f50",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T15:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c3b0a3b_377f29ea",
+      "revId": "0b554065150595c2907f280d6e693113b9673815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34119871_64a24a56",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f43db9_5e43884a",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListLabels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T15:44:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34119871_64a24a56",
+      "revId": "0b554065150595c2907f280d6e693113b9673815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08a56569_083268cf",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-04-03T14:01:34Z",
       "side": 1,
       "message": "Is this permission relevant for this test?",
+      "revId": "0b554065150595c2907f280d6e693113b9673815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc6bae36_5a80029a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListLabelsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T15:44:24Z",
+      "side": 1,
+      "message": "Actually this permission is needed to be able to read the label definitions.",
+      "parentUuid": "08a56569_083268cf",
       "revId": "0b554065150595c2907f280d6e693113b9673815",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -18,7 +18,7 @@ import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
 import './gr-hovercard-run';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {Action} from '../../api/checks';
+import {Action, Category} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
 import {commentsModelToken} from '../../models/comments/comments-model';
@@ -296,6 +296,19 @@ export class GrDiffCheckResult extends LitElement {
       return false;
     }
     if (this.result?.fixes?.length) {
+      return false;
+    }
+    if (
+      this.result?.category === Category.SUCCESS ||
+      this.result?.category === Category.INFO
+    ) {
+      return false;
+    }
+    // disable on codepointer with range pointing to 0 line
+    if (
+      this.result?.codePointers?.[0]?.range.start_line === 0 ||
+      this.result?.codePointers?.[0]?.range.end_line === 0
+    ) {
       return false;
     }
     return this.isOwner;

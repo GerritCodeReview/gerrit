@@ -626,6 +626,11 @@ export class GrResultRow extends LitElement {
       this.isOwner &&
       // without fixes
       !this.result?.fixes?.length &&
+      // disable on codepointer with range pointing to 0 line
+      this.result?.codePointers?.[0]?.range.start_line !== 0 &&
+      this.result?.codePointers?.[0]?.range.end_line !== 0 &&
+      this.result?.category !== Category.SUCCESS &&
+      this.result?.category !== Category.INFO &&
       !fixAction
     ) {
       getAiFixAction = createGetAiFixAction(this);

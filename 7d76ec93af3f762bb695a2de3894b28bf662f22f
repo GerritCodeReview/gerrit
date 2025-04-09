@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f99edaa1_5b2d3030",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 4834,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-09T14:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29588e4f_bcee8f44",
+      "range": {
+        "startLine": 4834,
+        "startChar": 52,
+        "endLine": 4834,
+        "endChar": 59
+      },
+      "revId": "7d76ec93af3f762bb695a2de3894b28bf662f22f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9bcab00_e45fbcfa",
@@ -156,6 +180,30 @@
       "writtenOn": "2025-04-09T12:49:23Z",
       "side": 1,
       "message": "```suggestion\n      commit.setCommitter(new PersonIdent(\"Gerrit Code Review\", admin.email()));\n```",
+      "range": {
+        "startLine": 4835,
+        "startChar": 65,
+        "endLine": 4835,
+        "endChar": 70
+      },
+      "revId": "7d76ec93af3f762bb695a2de3894b28bf662f22f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d17f1a67_170dc727",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 4835,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-09T14:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9bcab00_e45fbcfa",
       "range": {
         "startLine": 4835,
         "startChar": 65,

@@ -191,6 +191,7 @@ suite('gr-router tests', () => {
       'handleRepoGeneralRoute',
       'handleRepoListRoute',
       'handleRepoRoute',
+      'handleRepoSubmitRequirementsRoute',
       'handleQueryLegacySuffixRoute',
       'handleQueryRoute',
       'handleRegisterRoute',
@@ -723,6 +724,15 @@ suite('gr-router tests', () => {
         await checkUrlToState('/admin/repos/4321,access', {
           ...createRepoViewState(),
           detail: RepoDetailView.ACCESS,
+          repo: '4321' as RepoName,
+        });
+      });
+
+      test('REPO_SUBMIT_REQUIREMENTS', async () => {
+        // REPO_SUBMIT_REQUIREMENTS: /^\/admin\/repos\/(.+),submit-requirements$/,
+        await checkUrlToState('/admin/repos/4321,submit-requirements', {
+          ...createRepoViewState(),
+          detail: RepoDetailView.SUBMIT_REQUIREMENTS,
           repo: '4321' as RepoName,
         });
       });

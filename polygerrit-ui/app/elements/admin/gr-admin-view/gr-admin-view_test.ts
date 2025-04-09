@@ -170,7 +170,7 @@ suite('gr-admin-view tests', () => {
     );
     assert.equal(
       queryAndAssert<GrDropdownList>(element, '#pageSelect').items!.length,
-      7
+      8
     );
   });
 
@@ -370,6 +370,12 @@ suite('gr-admin-view tests', () => {
               detailType: RepoDetailView.DASHBOARDS,
               url: '/admin/repos/my-repo,dashboards',
             },
+            {
+              name: 'Submit Requirements',
+              view: GerritView.REPO,
+              detailType: RepoDetailView.SUBMIT_REQUIREMENTS,
+              url: '/admin/repos/my-repo,submit-requirements',
+            },
           ],
         },
       },
@@ -448,6 +454,14 @@ suite('gr-admin-view tests', () => {
         view: GerritView.REPO,
         url: '/admin/repos/my-repo,dashboards',
         detailType: RepoDetailView.DASHBOARDS,
+        parent: 'my-repo' as RepoName,
+      },
+      {
+        text: 'Submit Requirements',
+        value: 'reposubmit-requirements',
+        view: GerritView.REPO,
+        url: '/admin/repos/my-repo,submit-requirements',
+        detailType: RepoDetailView.SUBMIT_REQUIREMENTS,
         parent: 'my-repo' as RepoName,
       },
     ];

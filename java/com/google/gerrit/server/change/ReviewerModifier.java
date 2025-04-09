@@ -314,7 +314,7 @@ public class ReviewerModifier {
     return fail(
         input,
         FailureType.OTHER,
-        MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, input.reviewer));
+        MessageFormat.format(ChangeMessages.reviewerCantSeeChange, input.reviewer));
   }
 
   @Nullable
@@ -340,7 +340,7 @@ public class ReviewerModifier {
         return fail(
             input,
             FailureType.NOT_FOUND,
-            MessageFormat.format(ChangeMessages.get().reviewerNotFoundUserOrGroup, input.reviewer));
+            MessageFormat.format(ChangeMessages.reviewerNotFoundUserOrGroup, input.reviewer));
       }
       return null;
     }
@@ -349,14 +349,14 @@ public class ReviewerModifier {
       return fail(
           input,
           FailureType.OTHER,
-          MessageFormat.format(ChangeMessages.get().groupIsNotAllowed, group.getName()));
+          MessageFormat.format(ChangeMessages.groupIsNotAllowed, group.getName()));
     }
 
     if (input.state().equals(REMOVED)) {
       return fail(
           input,
           FailureType.OTHER,
-          MessageFormat.format(ChangeMessages.get().groupRemovalIsNotAllowed, group.getName()));
+          MessageFormat.format(ChangeMessages.groupRemovalIsNotAllowed, group.getName()));
     }
 
     Set<Account> reviewers = new HashSet<>();
@@ -376,7 +376,7 @@ public class ReviewerModifier {
       return fail(
           input,
           FailureType.OTHER,
-          MessageFormat.format(ChangeMessages.get().groupHasTooManyMembers, group.getName()));
+          MessageFormat.format(ChangeMessages.groupHasTooManyMembers, group.getName()));
     }
 
     // if maxWithoutCheck is set to 0, we never ask for confirmation
@@ -391,7 +391,7 @@ public class ReviewerModifier {
           FailureType.OTHER,
           true,
           MessageFormat.format(
-              ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
+              ChangeMessages.groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
     for (Account member : members) {
@@ -413,7 +413,7 @@ public class ReviewerModifier {
       return fail(
           input,
           FailureType.OTHER,
-          MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, input.reviewer));
+          MessageFormat.format(ChangeMessages.reviewerCantSeeChange, input.reviewer));
     }
 
     Address adr = Address.tryParse(input.reviewer);
@@ -421,7 +421,7 @@ public class ReviewerModifier {
       return fail(
           input,
           FailureType.NOT_FOUND,
-          MessageFormat.format(ChangeMessages.get().reviewerInvalid, input.reviewer));
+          MessageFormat.format(ChangeMessages.reviewerInvalid, input.reviewer));
     }
     return new ReviewerModification(input, notes, user, null, ImmutableList.of(adr), true, false);
   }

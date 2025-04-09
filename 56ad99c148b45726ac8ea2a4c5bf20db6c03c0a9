@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51641d42_e710553b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T14:29:47Z",
+      "side": 1,
+      "message": "Why not for INFO? I would start with just skipping SUCCESS.",
+      "revId": "56ad99c148b45726ac8ea2a4c5bf20db6c03c0a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

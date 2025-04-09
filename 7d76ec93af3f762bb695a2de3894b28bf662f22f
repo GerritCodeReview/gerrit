@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff729f81_46a8edd4",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T13:09:43Z",
+      "side": 1,
+      "message": "Ah OK, in this case, yes, we do not use imported changes, hence this LGTM.",
+      "parentUuid": "9e8ba780_00e8f6d2",
+      "range": {
+        "startLine": 230,
+        "startChar": 25,
+        "endLine": 230,
+        "endChar": 99
+      },
+      "revId": "7d76ec93af3f762bb695a2de3894b28bf662f22f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29588e4f_bcee8f44",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 14

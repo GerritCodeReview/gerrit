@@ -123,6 +123,11 @@ public class ProjectControl {
     return changeControlFactory.create(this, controlForRef(cd.branchOrThrow()), cd);
   }
 
+  ChangeControlForChangeToBeCreated controlForChangeToBeCreated(
+      RefControl refControl, boolean isOwner) {
+    return new ChangeControlForChangeToBeCreated(this, refControl, isOwner);
+  }
+
   RefControl controlForRef(BranchNameKey ref) {
     return controlForRef(ref.branch());
   }
@@ -453,7 +458,7 @@ public class ProjectControl {
       throw new PermissionBackendException(perm.describeForException() + " unsupported");
     }
 
-    private boolean can(ProjectPermission perm) throws PermissionBackendException {
+    private boolean can(ProjectPermission perm) {
       return switch (perm) {
         case ACCESS -> user.isInternalUser() || isOwner() || canPerformOnAnyRef(Permission.READ);
         case READ -> allRefsAreVisible(Collections.emptySet());

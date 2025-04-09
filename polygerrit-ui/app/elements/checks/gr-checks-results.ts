@@ -626,6 +626,8 @@ export class GrResultRow extends LitElement {
       this.isOwner &&
       // without fixes
       !this.result?.fixes?.length &&
+      this.result?.category !== Category.SUCCESS &&
+      this.result?.category !== Category.INFO &&
       !fixAction
     ) {
       getAiFixAction = createGetAiFixAction(this);

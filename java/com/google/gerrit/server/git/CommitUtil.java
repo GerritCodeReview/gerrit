@@ -288,7 +288,7 @@ public class CommitUtil {
     if (message == null) {
       message =
           MessageFormat.format(
-              ChangeMessages.get().revertChangeDefaultMessage, subject, patch.commitId().name());
+              ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
     if (generatedChangeId != null) {
       message = ChangeIdUtil.insertId(message, generatedChangeId, true);

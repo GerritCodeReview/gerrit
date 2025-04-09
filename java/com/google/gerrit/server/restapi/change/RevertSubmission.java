@@ -392,21 +392,21 @@ public class RevertSubmission
     if (initialMessage == null) {
       initialMessage =
           MessageFormat.format(
-              ChangeMessages.get().revertSubmissionDefaultMessage,
+              ChangeMessages.revertSubmissionDefaultMessage,
               changeNotes.getCurrentPatchSet().commitId().name());
     }
 
     // For performance purposes: Almost all cases will end here.
     if (!subject.startsWith("Revert")) {
       return MessageFormat.format(
-          ChangeMessages.get().revertSubmissionUserMessage, subject, initialMessage);
+          ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
     }
 
     Matcher matcher = patternRevertSubjectWithNum.matcher(subject);
 
     if (matcher.matches()) {
       return MessageFormat.format(
-          ChangeMessages.get().revertSubmissionOfRevertSubmissionUserMessage,
+          ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage,
           Integer.valueOf(matcher.group(1)) + 1,
           matcher.group(2),
           changeNotes.getCurrentPatchSet().commitId().name());
@@ -415,14 +415,14 @@ public class RevertSubmission
     matcher = patternRevertSubject.matcher(subject);
     if (matcher.matches()) {
       return MessageFormat.format(
-          ChangeMessages.get().revertSubmissionOfRevertSubmissionUserMessage,
+          ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage,
           2,
           matcher.group(1),
           changeNotes.getCurrentPatchSet().commitId().name());
     }
 
     return MessageFormat.format(
-        ChangeMessages.get().revertSubmissionUserMessage, subject, initialMessage);
+        ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
   }
 
   /**

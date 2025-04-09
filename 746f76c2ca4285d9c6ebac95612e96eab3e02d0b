@@ -70,6 +70,24 @@
       "parentUuid": "51f143a8_90e61dda",
       "revId": "746f76c2ca4285d9c6ebac95612e96eab3e02d0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783dab9f_78833359",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-09T14:52:16Z",
+      "side": 1,
+      "message": "\u003e The change would have to be constantly synced and updated.\n\nThis would only need to be synced and updated if the code needs to be used?\n\n\u003e I cannot easily combine it with other ongoing checks development. I would have to constantly rebase.\n\nI think it can be fairly easily combined. As mentioned keeping a CL locally and running dev helper is not too difficult.\n\nIt\u0027s putting debugging code in production to make life marginally easier. Such practices can severely degrade the quality of the codebase over time.\n\nWith dev helper, running such code in production is fairly easy. I don\u0027t think PM/UX need to see the Gerrit change. They can easily view screenshots.\n\n\u003e  I think this can be decided either way. We both have good arguments.\n\nI think the argument is code quality vs minor convenience and that for debugging purposes.\n\nTemporarily I could understand keeping the code but I think this code cannot stay in the codebase long term :)",
+      "parentUuid": "4e067cb1_bacb887b",
+      "revId": "746f76c2ca4285d9c6ebac95612e96eab3e02d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

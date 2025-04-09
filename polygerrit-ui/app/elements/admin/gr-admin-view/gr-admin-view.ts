@@ -16,6 +16,7 @@ import '../gr-repo-access/gr-repo-access';
 import '../gr-repo-commands/gr-repo-commands';
 import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
+import '../gr-repo-submit-requirements/gr-repo-submit-requirements';
 import '../gr-repo-list/gr-repo-list';
 import '../gr-server-info/gr-server-info';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -214,7 +215,7 @@ export class GrAdminView extends LitElement {
       ${this.renderGroupMembers()} ${this.renderGroupAuditLog()}
       ${this.renderRepoDetailList()} ${this.renderRepoCommands()}
       ${this.renderRepoAccess()} ${this.renderRepoDashboards()}
-      ${this.renderServerInfo()}
+      ${this.renderRepoSubmitRequirements()} ${this.renderServerInfo()}
     `;
   }
 
@@ -445,6 +446,20 @@ export class GrAdminView extends LitElement {
         <gr-repo-dashboards
           .repo=${this.repoViewState.repo}
         ></gr-repo-dashboards>
+      </div>
+    `;
+  }
+
+  private renderRepoSubmitRequirements() {
+    if (this.view !== GerritView.REPO) return nothing;
+    if (this.repoViewState?.detail !== RepoDetailView.SUBMIT_REQUIREMENTS)
+      return nothing;
+
+    return html`
+      <div class="main table breadcrumbs">
+        <gr-repo-submit-requirements
+          .repo=${this.repoViewState.repo}
+        ></gr-repo-submit-requirements>
       </div>
     `;
   }

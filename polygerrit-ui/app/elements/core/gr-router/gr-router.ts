@@ -167,6 +167,8 @@ const RoutePattern = {
   // Matches /admin/repos/<repos>,access.
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
+  REPO_SUBMIT_REQUIREMENTS: /^\/admin\/repos\/(.+),submit-requirements$/,
+
   // Matches /admin/plugins with optional filter and offset.
   PLUGIN_LIST: /^\/admin\/plugins\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
   // Matches /admin/groups with optional filter and offset.
@@ -786,6 +788,12 @@ export class GrRouter implements Finalizable, NavigationService {
       ctx => this.handleRepoDashboardsRoute(ctx)
     );
 
+    this.mapRoute(
+      RoutePattern.REPO_SUBMIT_REQUIREMENTS,
+      'handleRepoSubmitRequirementsRoute',
+      ctx => this.handleRepoSubmitRequirementsRoute(ctx)
+    );
+
     this.mapRoute(RoutePattern.BRANCH_LIST, 'handleBranchListRoute', ctx =>
       this.handleBranchListRoute(ctx)
     );
@@ -1207,6 +1215,19 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.DASHBOARDS,
+      repo,
+    };
+    // Note that router model view must be updated before view models.
+    this.setState(state);
+    this.repoViewModel.setState(state);
+    this.reporting.setRepoName(repo);
+  }
+
+  handleRepoSubmitRequirementsRoute(ctx: PageContext) {
+    const repo = ctx.params[0] as RepoName;
+    const state: RepoViewState = {
+      view: GerritView.REPO,
+      detail: RepoDetailView.SUBMIT_REQUIREMENTS,
       repo,
     };
     // Note that router model view must be updated before view models.

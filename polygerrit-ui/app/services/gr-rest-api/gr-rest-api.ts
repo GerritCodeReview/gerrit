@@ -91,6 +91,7 @@ import {
   UserId,
   DraftInfo,
   ReviewResult,
+  SubmitRequirementInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -284,6 +285,11 @@ export interface RestApiService extends Finalizable {
     query: string,
     errFn?: ErrorCallback
   ): Promise<string[] | undefined>;
+
+  getRepoSubmitRequirements(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo[] | undefined>;
 
   getRepoAccessRights(
     repoName: RepoName,

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d749897_1cb24011",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4787,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T18:48:49Z",
+      "side": 1,
+      "message": "`index.cacheQueryResultsByChangeNum \u003d false` isn\u0027t relevant here: there is only one change.\n\n\n\n```suggestion\n  @GerritConfig(name \u003d \"gerrit.importedServerId\", value \u003d \"imported-server-id\")\n```",
+      "range": {
+        "startLine": 4786,
+        "startChar": 0,
+        "endLine": 4787,
+        "endChar": 77
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5659c1d_ac9fe2a0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4797,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T18:48:49Z",
+      "side": 1,
+      "message": "`index.cacheQueryResultsByChangeNum \u003d false` isn\u0027t relevant here: there is only one change.\n\n\n\n```suggestion\n  @GerritConfig(name \u003d \"gerrit.importedServerId\", value \u003d \"imported-server-id\")\n```",
+      "range": {
+        "startLine": 4796,
+        "startChar": 0,
+        "endLine": 4797,
+        "endChar": 77
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f4358d3_45594147",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4807,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T18:48:49Z",
+      "side": 1,
+      "message": "`index.cacheQueryResultsByChangeNum \u003d false` isn\u0027t relevant here: there is only one change.\n\n\n\n```suggestion\n  @GerritConfig(name \u003d \"gerrit.importedServerId\", value \u003d \"imported-server-id\")\n```",
+      "range": {
+        "startLine": 4806,
+        "startChar": 0,
+        "endLine": 4807,
+        "endChar": 77
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7122978b_82fc7cf9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4817,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T18:48:49Z",
+      "side": 1,
+      "message": "`index.cacheQueryResultsByChangeNum \u003d false` isn\u0027t relevant here: there is only one change.\n\n```suggestion\n  @GerritConfig(name \u003d \"gerrit.importedServerId\", value \u003d \"imported-server-id\")\n```",
+      "range": {
+        "startLine": 4816,
+        "startChar": 0,
+        "endLine": 4817,
+        "endChar": 77
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a6c5af_ca68fbab",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4831,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T18:48:49Z",
+      "side": 1,
+      "message": "`index.cacheQueryResultsByChangeNum \u003d false` isn\u0027t relevant here: there is only one change.\n\n```suggestion\n  @GerritConfig(name \u003d \"gerrit.importedServerId\", value \u003d \"imported-server-id\")\n```",
+      "range": {
+        "startLine": 4830,
+        "startChar": 0,
+        "endLine": 4831,
+        "endChar": 77
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

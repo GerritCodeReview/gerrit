@@ -1,6 +1,86 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d539c6b1_92924251",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T22:00:35Z",
+      "side": 1,
+      "message": "By fixing the tests *and* then also the code, it works 🎉",
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c6b1fa_ca13b022",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T22:00:35Z",
+      "side": 1,
+      "message": "Need to also remember the imported server ids.\n\n\n\n```suggestion\n  private static final FluentLogger logger \u003d FluentLogger.forEnclosingClass();\n  \n  private final boolean hasImportedChanges;\n  private final ImmutableList\u003cString\u003e importedServerIds;\n```",
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a05bd5f8_e0527245",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T22:00:35Z",
+      "side": 1,
+      "message": "This should also inject `@GerritImportedServerIds`; you can keep the protected constructor for non-injected constructions.\n\n```suggestion\n  protected ChangeQueryBuilder(Arguments args, @GerritImportedServerIds ImmutableList\u003cString\u003e importedServerIds) {\n    this(mydef, args, importedServerIds);\n  }\n\n  protected ChangeQueryBuilder(Arguments args) {\n    this(mydef, args, ImmutableList.of());\n```",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 524,
+        "endChar": 22
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ff37ba_76cc615d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T22:00:35Z",
+      "side": 1,
+      "message": "It needs to also receive and store the imported server IDs.\n\n\n\n```suggestion\n  protected ChangeQueryBuilder(Definition\u003cChangeData, ChangeQueryBuilder\u003e def, Arguments args, @GerritImportedServerIds ImmutableList\u003cString\u003e importedServerIds) {\n    super(def, args.opFactories);\n    this.args \u003d args;\n    this.importedServerIds \u003d importedServerIds;\n    this.hasImportedChanges \u003d !importedServerIds.isEmpty();\n    setupAliases();\n  }\n```",
+      "range": {
+        "startLine": 528,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 3
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d15f4999_e7a9ab56",

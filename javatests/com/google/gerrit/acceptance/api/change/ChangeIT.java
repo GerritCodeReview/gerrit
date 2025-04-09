@@ -1822,7 +1822,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.state = REMOVED;
     ReviewerResult reviewerResult = gApi.changes().id(r.getChangeId()).addReviewer(in);
     assertThat(reviewerResult.error)
-        .isEqualTo(MessageFormat.format(ChangeMessages.get().groupRemovalIsNotAllowed, groupName));
+        .isEqualTo(MessageFormat.format(ChangeMessages.groupRemovalIsNotAllowed, groupName));
   }
 
   @Test

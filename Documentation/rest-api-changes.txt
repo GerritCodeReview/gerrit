@@ -8757,8 +8757,7 @@ The `RevertInput` entity contains information for reverting a change.
 |=================================
 |Field Name          ||Description
 |`message`           |optional|
-Message to be added as review comment to the change when reverting the
-change.
+Commit message of the revert commit. If not specified, a default commit message is set.
 |`notify`            |optional|
 Notify handling that defines to whom email notifications should be sent
 for reverting the change. +

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f047ee07_aaf64ae8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T12:04:58Z",
+      "side": 1,
+      "message": "nit: of",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 2
+      },
+      "revId": "9d2c3301332d7fe29866c2b23b217b7dce6bc72c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e5130ae_e8af87d0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8760,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T12:04:58Z",
+      "side": 1,
+      "message": "nit: missing \u0027.\u0027 at the ed of the sentence",
+      "range": {
+        "startLine": 8760,
+        "startChar": 35,
+        "endLine": 8760,
+        "endChar": 36
+      },
+      "revId": "9d2c3301332d7fe29866c2b23b217b7dce6bc72c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

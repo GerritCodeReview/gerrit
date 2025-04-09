@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
@@ -307,6 +308,27 @@ public class ListLabelsIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
         .add(allowLabel("foo").ref("refs/heads/master").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(project.get()).labels().withVoteableOnRef("refs/heads/master").get();
+
+    assertThat(labelNames(labels)).containsExactly("foo");
+  }
+
+  @Test
+  public void voteableOnRefForChangeOwners() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    configLabel("bar", LabelFunction.NO_OP);
+
+    // Grant permissions to read config and vote on 'foo' label with full range (-2 to +2)
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .add(allowLabel("foo").ref("refs/heads/master").group(CHANGE_OWNER).range(-2, 2))
         .update();
 
     requestScopeOperations.setApiUser(user.id());

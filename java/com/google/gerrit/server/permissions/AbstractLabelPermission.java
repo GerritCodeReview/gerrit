@@ -21,8 +21,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Abstract permission representing a label. */
-public abstract class AbstractLabelPermission
-    implements ChangePermissionOrLabel, RefPermissionOrLabel {
+public abstract class AbstractLabelPermission implements ChangePermissionOrLabel {
   public enum ForUser {
     SELF,
     ON_BEHALF_OF
@@ -91,7 +90,7 @@ public abstract class AbstractLabelPermission
   }
 
   /** A {@link AbstractLabelPermission} at a specific value. */
-  public abstract static class WithValue implements ChangePermissionOrLabel, RefPermissionOrLabel {
+  public abstract static class WithValue implements ChangePermissionOrLabel {
     private final ForUser forUser;
     private final LabelVote label;
 

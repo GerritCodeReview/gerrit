@@ -394,33 +394,24 @@ public abstract class PermissionBackend {
     /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeNotes notes);
 
+    /** Returns an instance scoped to change that has not been created yet. */
+    public abstract ForChange changeToBeCreated(boolean isOwner);
+
     /**
      * Verify scoped user can {@code perm}, throwing if denied.
      *
      * <p>Should be used in REST API handlers where the thrown {@link AuthException} can be
      * propagated. In business logic, where the exception would have to be caught, prefer using
-     * {@link #test(RefPermissionOrLabel)}.
+     * {@link #test(RefPermission)}.
      */
-    public abstract void check(RefPermissionOrLabel perm)
-        throws AuthException, PermissionBackendException;
+    public abstract void check(RefPermission perm) throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
+    public abstract Set<RefPermission> test(Collection<RefPermission> permSet)
         throws PermissionBackendException;
 
-    public boolean test(RefPermissionOrLabel perm) throws PermissionBackendException {
-      return test(Collections.singleton(perm)).contains(perm);
-    }
-
-    /**
-     * Test which values of a label the user may be able to set.
-     *
-     * @param label definition of the label to test values of.
-     * @return set containing values the user may be able to use; may be empty if none.
-     * @throws PermissionBackendException if failure consulting backend configuration.
-     */
-    public Set<LabelPermission.WithValue> test(LabelType label) throws PermissionBackendException {
-      return test(valuesOf(requireNonNull(label, "LabelType")));
+    public boolean test(RefPermission perm) throws PermissionBackendException {
+      return test(EnumSet.of(perm)).contains(perm);
     }
 
     /**
@@ -433,7 +424,7 @@ public abstract class PermissionBackend {
      * @return true if the user might be able to perform the permission; false if the user may be
      *     missing the necessary grants or state, or if the backend threw an exception.
      */
-    public boolean testOrFalse(RefPermissionOrLabel perm) {
+    public boolean testOrFalse(RefPermission perm) {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
@@ -442,13 +433,7 @@ public abstract class PermissionBackend {
       }
     }
 
-    public abstract BooleanCondition testCond(RefPermissionOrLabel perm);
-
-    private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
-      return label.getValues().stream()
-          .map(v -> new LabelPermission.WithValue(label, v))
-          .collect(toSet());
-    }
+    public abstract BooleanCondition testCond(RefPermission perm);
   }
 
   /** PermissionBackend scoped to a user, project, reference and change. */

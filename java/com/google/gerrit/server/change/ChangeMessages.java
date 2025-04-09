@@ -14,25 +14,22 @@
 
 package com.google.gerrit.server.change;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
 
-public class ChangeMessages extends TranslationBundle {
-  public static ChangeMessages get() {
-    return NLS.getBundleFor(ChangeMessages.class);
-  }
+public class ChangeMessages {
+  public String revertChangeDefaultMessage = "Revert \"{0}\"\n\nThis reverts commit {1}.";
+  public String revertSubmissionDefaultMessage = "This reverts commit {0}.";
+  public String revertSubmissionUserMessage = "Revert \"{0}\"\n\n{1}";
+  public String revertSubmissionOfRevertSubmissionUserMessage = "Revert^{0} \"{1}\"\n\n{2}";
 
-  public String revertChangeDefaultMessage;
-  public String revertSubmissionDefaultMessage;
-  public String revertSubmissionUserMessage;
-  public String revertSubmissionOfRevertSubmissionUserMessage;
+  public String reviewerCantSeeChange = "{0} does not have permission to see this change";
+  public String reviewerInvalid = "{0} is not a valid user identifier";
+  public String reviewerNotFoundUserOrGroup = "{0} does not identify a registered user or group";
 
-  public String reviewerCantSeeChange;
-  public String reviewerInvalid;
-  public String reviewerNotFoundUserOrGroup;
-
-  public String groupRemovalIsNotAllowed;
-  public String groupIsNotAllowed;
-  public String groupHasTooManyMembers;
-  public String groupManyMembersConfirmation;
+  public String groupRemovalIsNotAllowed =
+      "Groups can't be removed from reviewers, so can't remove {0}.";
+  public String groupIsNotAllowed = "The group {0} cannot be added as reviewer.";
+  public String groupHasTooManyMembers =
+      "The group {0} has too many members to add them all as reviewers.";
+  public String groupManyMembersConfirmation =
+      "The group {0} has {1} members. Do you want to add them all as reviewers?";
 }

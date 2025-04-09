@@ -16,6 +16,24 @@
       "message": "This class contains some unintended reverts.",
       "revId": "298975d9d485145c22d89c21bf8095565df3b3a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beed1403_6225cdcd",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-04-09T15:54:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc7598d2_ec854e91",
+      "revId": "298975d9d485145c22d89c21bf8095565df3b3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

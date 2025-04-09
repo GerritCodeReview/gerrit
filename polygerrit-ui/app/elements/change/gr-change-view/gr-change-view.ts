@@ -563,7 +563,13 @@ export class GrChangeView extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().tab$,
-      t => (this.activeTab = t)
+      t => {
+        const isChangeViewRendered = !!this.mainContent;
+        if (isChangeViewRendered && this.isTabsNotInView()) {
+          this.tabs!.scrollIntoView({block: 'center'});
+        }
+        this.activeTab = t;
+      }
     );
     subscribe(
       this,
@@ -2515,6 +2521,23 @@ export class GrChangeView extends LitElement {
     e: CustomEvent<{value: ActionNameToActionInfoMap}>
   ) {
     this.currentRevisionActions = e.detail.value;
+  }
+
+  private isTabsNotInView(): boolean {
+    if (!this.tabs) {
+      return false;
+    }
+    const rect = this.tabs.getBoundingClientRect();
+    const windowHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth =
+      window.innerWidth || document.documentElement.clientWidth;
+
+    // Check if the element is completely above, below, left, or right of the viewport
+    const isVerticallyOutOfView = rect.bottom < 0 || rect.top > windowHeight;
+    const isHorizontallyOutOfView = rect.right < 0 || rect.left > windowWidth;
+
+    return isVerticallyOutOfView || isHorizontallyOutOfView;
   }
 }
 

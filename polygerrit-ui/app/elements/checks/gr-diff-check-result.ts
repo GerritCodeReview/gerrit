@@ -304,6 +304,13 @@ export class GrDiffCheckResult extends LitElement {
     ) {
       return false;
     }
+    // disable on codepointer with range pointing to 0 line
+    if (
+      this.result?.codePointers?.[0]?.range.start_line === 0 ||
+      this.result?.codePointers?.[0]?.range.end_line === 0
+    ) {
+      return false;
+    }
     return this.isOwner;
   }
 

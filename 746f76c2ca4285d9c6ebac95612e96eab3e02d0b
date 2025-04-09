@@ -34,6 +34,24 @@
       "parentUuid": "97970ede_f7c54e68",
       "revId": "746f76c2ca4285d9c6ebac95612e96eab3e02d0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f143a8_90e61dda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-09T14:33:48Z",
+      "side": 1,
+      "message": "It is quite simple to keep this in some local CL and then run dev helper locally?\n\nIs there some reason it cannot be a personal CL and needs to be present in production code?",
+      "parentUuid": "2a36c5dd_bd5650c9",
+      "revId": "746f76c2ca4285d9c6ebac95612e96eab3e02d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -60,6 +60,7 @@ import {
   NumericChangeId,
   PreferencesInput,
   DraftInfo,
+  SubmitRequirementInfo,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
 import {
@@ -392,6 +393,9 @@ export const grRestApiMock: RestApiService = {
   },
   getRepoAccess(): Promise<RepoAccessInfoMap | undefined> {
     return Promise.resolve({});
+  },
+  getRepoSubmitRequirements(): Promise<SubmitRequirementInfo[] | undefined> {
+    return Promise.resolve([]);
   },
   getRepoAccessRights(): Promise<ProjectAccessInfo | undefined> {
     return Promise.resolve(undefined);

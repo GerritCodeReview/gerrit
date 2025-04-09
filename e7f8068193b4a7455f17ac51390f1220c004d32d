@@ -16,6 +16,24 @@
       "message": "When the cache is disabled, the `NoAuthTokenCache.get(accountId)` will return an empty list here. This means no access to tokens at all when the cache is disabled?\n\nI think that the setup regarding the cache/no-cache scenarios should rather be at the `AuthTokenAccessor` level:\n* this class shall become an interface\n* `DirectAuthTokenAccessor implements AuthTokenAccessor` shall implement direct (no-cache) access\n* `CachingAuthTokenAccessor implements AuthTokenAccessor` shall wrap a `DirectAuthTokenAccessor` and access it through a guava loading cache.",
       "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cc0672f_3eb2de47",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenAccessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:05:04Z",
+      "side": 1,
+      "message": "I agree with that. However, due to the backwards compatibility, i.e. supporting HTTP-Passwords, some places need to evict entries from the token cache, when External IDs are modified. Thus, until the HTTP password support is fully removed, we need to have multiple implementations.\nAnother issue is, that Google uses a different account storage. Thus, we have to provide them with an overall Noop solution.",
+      "parentUuid": "afb478bf_5ab9d8d6",
+      "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

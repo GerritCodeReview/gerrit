@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf35f24b_846d2561",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6a4a08e_e133f022",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5af8c04d_9000b973",
@@ -113,6 +131,24 @@
       "writtenOn": "2025-03-10T10:05:00Z",
       "side": 1,
       "message": "We anyway build complete list here, why not also make the return type of the load method to be `List\u003cTokenCacheEntry\u003e` or `ImmutableList\u003cTokenCacheEntry\u003e`?",
+      "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b569e1c1_3860e342",
+        "filename": "java/com/google/gerrit/server/account/TokenCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-09T15:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5af8c04d_9000b973",
       "revId": "7f34268b7a158c917eaabaa1dcf4e392b9d91662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

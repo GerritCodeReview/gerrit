@@ -118,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e19d80dc_be110a05",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T14:36:01Z",
+      "side": 1,
+      "message": "Well, if it works, then it works. :-)\n\nI assume the `tabs` element is just the tab header line, so that is rendered during the initial pass and then unchanged. So no need to move to updated().",
+      "parentUuid": "1b8a63bf_d625e60a",
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "836cd8c5_4a3e127c",

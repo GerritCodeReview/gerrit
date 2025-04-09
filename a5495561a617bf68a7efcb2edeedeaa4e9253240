@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b45b8c3_78457f81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T13:07:10Z",
+      "side": 1,
+      "message": "Did you see https://b.corp.google.com/issues/317052706#comment9 and cr/592791825?",
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f15f4d08_f8a99e91",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T13:07:10Z",
+      "side": 1,
+      "message": "Maybe add a comment why you are checking `isChangeViewRendered`. I assume that is because you don\u0027t to jump during the inital page load?",
+      "range": {
+        "startLine": 567,
+        "startChar": 14,
+        "endLine": 567,
+        "endChar": 34
+      },
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5a59f0_3487a7a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T13:07:10Z",
+      "side": 1,
+      "message": "You are doing this before Lit has responded to the tab change and had a chance to render the new tab. So I am not sure whether this will work at all. Can you clarify? Maybe we have to do this in the `updated()` lifecycle method?",
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "836cd8c5_4a3e127c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-09T13:07:10Z",
+      "side": 1,
+      "message": "Maybe use `nearest`? Maybe then you don\u0027t need `isTabsNotInView()`?",
+      "range": {
+        "startLine": 569,
+        "startChar": 45,
+        "endLine": 569,
+        "endChar": 51
+      },
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

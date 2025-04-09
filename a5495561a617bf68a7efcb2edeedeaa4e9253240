@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c2a7f7_87d2601c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-09T14:18:50Z",
+      "side": 1,
+      "message": "Thanks, I haven\u0027t look there before",
+      "parentUuid": "8b45b8c3_78457f81",
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f15f4d08_f8a99e91",
@@ -58,6 +76,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9636fe0a_a571c687",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-09T14:18:50Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "f15f4d08_f8a99e91",
+      "range": {
+        "startLine": 567,
+        "startChar": 14,
+        "endLine": 567,
+        "endChar": 34
+      },
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8a63bf_d625e60a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-09T14:18:50Z",
+      "side": 1,
+      "message": "It works quite nice here. tabs But I can try do it in updated. Let me know.",
+      "parentUuid": "cb5a59f0_3487a7a6",
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "836cd8c5_4a3e127c",
@@ -71,6 +131,30 @@
       "writtenOn": "2025-04-09T13:07:10Z",
       "side": 1,
       "message": "Maybe use `nearest`? Maybe then you don\u0027t need `isTabsNotInView()`?",
+      "range": {
+        "startLine": 569,
+        "startChar": 45,
+        "endLine": 569,
+        "endChar": 51
+      },
+      "revId": "a5495561a617bf68a7efcb2edeedeaa4e9253240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eee5c88_ff6e03f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-09T14:18:50Z",
+      "side": 1,
+      "message": "Thanks. When using `nearest` I don\u0027t need `isTabsNotInView`",
+      "parentUuid": "836cd8c5_4a3e127c",
       "range": {
         "startLine": 569,
         "startChar": 45,

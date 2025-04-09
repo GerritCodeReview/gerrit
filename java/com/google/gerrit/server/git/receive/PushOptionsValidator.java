@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.receive;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 
@@ -35,6 +36,7 @@ public interface PushOptionsValidator {
   /**
    * Validate the push options that have been specified for a push to the given ref.
    *
+   * @param projectName The name of the project to which the user is pushing.
    * @param refName The target ref of the push.
    * @param pushOptions The options that have been specified on push. This map includes the Git push
    *     options (specified by {@code -o <key>=<value>}) and options which have been specified as
@@ -46,5 +48,5 @@ public interface PushOptionsValidator {
    *     push proceed.
    */
   ImmutableList<ValidationMessage> validate(
-      String refName, ListMultimap<String, String> pushOptions);
+      Project.NameKey projectName, String refName, ListMultimap<String, String> pushOptions);
 }

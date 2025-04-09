@@ -3372,7 +3372,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void rejectPushOptionFromValidator() throws Exception {
     PushOptionsValidator pushOptionsValidator =
-        (String refName, ListMultimap<String, String> pushOptions) ->
+        (Project.NameKey projectName, String refName, ListMultimap<String, String> pushOptions) ->
             pushOptions.containsKey("topic")
                 ? ImmutableList.of(
                     new ValidationMessage("setting a topic is not allowed", /* isError= */ true))
@@ -3407,7 +3407,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void printMessageForPushOptionFromValidator() throws Exception {
     PushOptionsValidator pushOptionsValidator =
-        (String refName, ListMultimap<String, String> pushOptions) ->
+        (Project.NameKey projectName, String refName, ListMultimap<String, String> pushOptions) ->
             pushOptions.containsKey("topic")
                 ? ImmutableList.of(
                     new ValidationMessage(

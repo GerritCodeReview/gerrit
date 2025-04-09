@@ -2455,7 +2455,7 @@ class ReceiveCommits {
           }
         }
 
-        validatePushOptions(cmd, ref, magicBranch.optionMap);
+        validatePushOptions(cmd, projectState.getNameKey(), ref, magicBranch.optionMap);
       } catch (IOException e) {
         throw new StorageException(
             String.format("Error walking to %s in project %s", destBranch, project.getName()), e);
@@ -2469,12 +2469,15 @@ class ReceiveCommits {
   }
 
   private void validatePushOptions(
-      ReceiveCommand cmd, String refName, ListMultimap<String, String> pushOptions) {
+      ReceiveCommand cmd,
+      Project.NameKey projectName,
+      String refName,
+      ListMultimap<String, String> pushOptions) {
     ImmutableList<ValidationMessage> validationMessages =
         StreamSupport.stream(pushOptionsValidators.entries().spliterator(), /* parallel= */ false)
             .flatMap(
                 pluginPushValidators ->
-                    pluginPushValidators.get().validate(refName, pushOptions).stream())
+                    pluginPushValidators.get().validate(projectName, refName, pushOptions).stream())
             .collect(toImmutableList());
     for (ValidationMessage validationMessage : validationMessages) {
       if (validationMessage.isError()) {

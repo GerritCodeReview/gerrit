@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a32b9689_3729542c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T22:06:25Z",
+      "side": 1,
+      "message": "The build is green because the tests are wrong: the assertions are always true because the return value of the query isn\u0027t nullable.\n\nThe change isn\u0027t working E2E; I\u0027ve suggested the changes to fix the assertion and then also make the code work.\n\nI\u0027ve tested with the suggested amendments, and it would work E2E.",
+      "revId": "4587cc8a4368b95734b4f4130a552cacf941a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

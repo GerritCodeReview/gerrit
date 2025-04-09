@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a070d7f8_c9456403",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-09T12:34:37Z",
+      "side": 1,
+      "message": "@ekempin@google.com Google doesn\u0027t use imported changes; therefore, `hasImportedChanges` would always be `false`, and this line of code is executed exactly as before this change without any performance penalty.",
+      "range": {
+        "startLine": 230,
+        "startChar": 25,
+        "endLine": 230,
+        "endChar": 99
+      },
+      "revId": "7d76ec93af3f762bb695a2de3894b28bf662f22f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

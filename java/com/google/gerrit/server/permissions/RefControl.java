@@ -15,12 +15,8 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUser.ON_BEHALF_OF;
-import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -47,7 +43,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Constants;
@@ -487,7 +482,6 @@ public class RefControl {
   }
 
   private class ForRefImpl extends ForRef {
-    private Map<String, PermissionRange> labels;
     private String resourcePath;
 
     @Override
@@ -524,17 +518,14 @@ public class RefControl {
     }
 
     @Override
-    public void check(RefPermissionOrLabel perm) throws AuthException, PermissionBackendException {
-      if (perm instanceof RefPermission) {
-        check((RefPermission) perm);
-      } else {
-        if (!can(perm)) {
-          throw new AuthException(perm.describeForException() + " not permitted");
-        }
-      }
+    public ForChange changeToBeCreated(boolean isOwner) {
+      return getProjectControl()
+          .controlForChangeToBeCreated(RefControl.this, isOwner)
+          .asForChange();
     }
 
-    private void check(RefPermission perm) throws AuthException, PermissionBackendException {
+    @Override
+    public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
         switch (perm) {
@@ -601,10 +592,10 @@ public class RefControl {
     }
 
     @Override
-    public <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
+    public Set<RefPermission> test(Collection<RefPermission> permSet)
         throws PermissionBackendException {
-      Set<T> ok = newSet(permSet);
-      for (T perm : permSet) {
+      EnumSet<RefPermission> ok = EnumSet.noneOf(RefPermission.class);
+      for (RefPermission perm : permSet) {
         if (can(perm)) {
           ok.add(perm);
         }
@@ -613,43 +604,8 @@ public class RefControl {
     }
 
     @Override
-    public BooleanCondition testCond(RefPermissionOrLabel perm) {
+    public BooleanCondition testCond(RefPermission perm) {
       return new PermissionBackendCondition.ForRef(this, perm, getUser());
-    }
-
-    private boolean can(RefPermissionOrLabel perm) throws PermissionBackendException {
-      if (perm instanceof RefPermission) {
-        return RefControl.this.can((RefPermission) perm);
-      } else if (perm instanceof AbstractLabelPermission) {
-        return can((AbstractLabelPermission) perm);
-      } else if (perm instanceof AbstractLabelPermission.WithValue) {
-        return can((AbstractLabelPermission.WithValue) perm);
-      }
-      throw new PermissionBackendException(perm + " unsupported");
-    }
-
-    private boolean can(AbstractLabelPermission perm) {
-      return !label(labelPermissionName(perm)).isEmpty();
-    }
-
-    private boolean can(AbstractLabelPermission.WithValue perm) {
-      PermissionRange r = label(labelPermissionName(perm));
-      if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
-        return false;
-      }
-      return r.contains(perm.value());
-    }
-
-    private PermissionRange label(String permission) {
-      if (labels == null) {
-        labels = Maps.newHashMapWithExpectedSize(4);
-      }
-      PermissionRange r = labels.get(permission);
-      if (r == null) {
-        r = getRange(permission);
-        labels.put(permission, r);
-      }
-      return r;
     }
   }
 
@@ -772,16 +728,5 @@ public class RefControl {
     // RefPermission that isn't associated with a permission name.
     return DefaultPermissionMappings.refPermissionName(refPermission)
         .orElseThrow(() -> new IllegalStateException("no name for " + refPermission));
-  }
-
-  // Same as in ChangeControl
-  private static <T extends RefPermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
-    if (permSet instanceof EnumSet) {
-      @SuppressWarnings({"unchecked", "rawtypes"})
-      Set<T> s = ((EnumSet) permSet).clone();
-      s.clear();
-      return s;
-    }
-    return Sets.newHashSetWithExpectedSize(permSet.size());
   }
 }

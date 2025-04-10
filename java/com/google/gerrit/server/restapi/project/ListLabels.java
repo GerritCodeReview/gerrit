@@ -125,8 +125,7 @@ public class ListLabels implements RestReadView<ProjectResource> {
 
   public List<LabelDefinitionInfo> filterLabelsThatUserCanVoteOnRef(
       ProjectResource rsrc, List<LabelDefinitionInfo> allLabels)
-      throws AuthException,
-          PermissionBackendException,
+      throws PermissionBackendException,
           ResourceConflictException,
           RepositoryNotFoundException,
           IOException {
@@ -161,11 +160,14 @@ public class ListLabels implements RestReadView<ProjectResource> {
         continue;
       }
 
+      // We assume that user is interested in labels that can be voted on if
+      // the user is the change owner.
       Set<LabelPermission.WithValue> can =
           permissionBackend
               .currentUser()
               .project(rsrc.getNameKey())
               .ref(branchNameKey.branch())
+              .changeToBeCreated(/* isOwner= */ true)
               .test(labelType);
 
       for (LabelValue v : labelType.getValues()) {

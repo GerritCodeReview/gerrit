@@ -14,7 +14,18 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.gerrit.extensions.api.access.GerritPermission;
+import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 
-/** A {@link RefPermission} or a {@link AbstractLabelPermission}. */
-public interface RefPermissionOrLabel extends GerritPermission {}
+/** Access control management for a user accessing a change that has not been created yet. */
+public class ChangeControlForChangeToBeCreated extends AbstractChangeControl {
+
+  public ChangeControlForChangeToBeCreated(
+      ProjectControl projectControl, RefControl refControl, boolean isOwner) {
+    super(projectControl, refControl, /* isNew= */ true, isOwner);
+  }
+
+  @Override
+  public ForChange asForChange() {
+    return new ForChangeImpl(/* changeId= */ null);
+  }
+}

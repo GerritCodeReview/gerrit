@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb655b4b_4fa37414",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T05:54:39Z",
+      "side": 1,
+      "message": "Thank you Edwin for cleaning up whole solution. I think this is great setup for future where we need to check more types of permissions before change is created.",
+      "revId": "beae96b8001df5b741e8b0e5eb01ab3a28df8814",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

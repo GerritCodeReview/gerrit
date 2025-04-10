@@ -34,6 +34,24 @@
       "parentUuid": "524f54f7_0451420d",
       "revId": "00fb80645d515dc4861aeec9398ad0dc84b04ee8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22ebbf63_4aed8948",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-10T13:53:08Z",
+      "side": 1,
+      "message": "Ahh nvm you meant `empty`, so added a new line explicitly.",
+      "parentUuid": "b83164b1_03ba3dd0",
+      "revId": "00fb80645d515dc4861aeec9398ad0dc84b04ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

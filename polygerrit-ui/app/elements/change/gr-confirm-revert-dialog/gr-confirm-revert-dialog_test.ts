@@ -85,6 +85,64 @@ suite('gr-confirm-revert-dialog tests', () => {
     assert.equal(element.message, expected);
   });
 
+  test('populateRevertSingleChangeMessage parses Issues footer from commit message', () => {
+    assert.isNotOk(element.message);
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nIssue: 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    const expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Issue: 1234567';
+    assert.equal(element.message, expected);
+  });
+
+  test('populateRevertSingleChangeMessage does not parse Issue: from commit message body', () => {
+    assert.isNotOk(element.message);
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\n\nIssue: 1234567very\n\ncommit\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    const expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <INSERT REASONING HERE>\n';
+    assert.equal(element.message, expected);
+  });
+
+  test('populateRevertSingleChangeMessage parses Bug footer from commit message', () => {
+    assert.isNotOk(element.message);
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nBug: 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    const expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Bug: 1234567';
+    assert.equal(element.message, expected);
+  });
+
+  test('populateRevertSingleChangeMessage does not parse Bug: from commit message body', () => {
+    assert.isNotOk(element.message);
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\n\nBug: 1234567very\n\ncommit\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    const expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <INSERT REASONING HERE>\n';
+    assert.equal(element.message, expected);
+  });
+
   test('issue above change id', () => {
     assert.isNotOk(element.message);
     element.populateRevertSingleChangeMessage(
@@ -95,7 +153,8 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Bug: Issue 42';
     assert.equal(element.message, expected);
   });
 

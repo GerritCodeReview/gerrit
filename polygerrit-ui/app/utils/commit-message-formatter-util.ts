@@ -319,7 +319,7 @@ function detectFormattingErrors(
   return errors;
 }
 
-function parseCommitMessageString(messageString: string): CommitMessage {
+export function parseCommitMessageString(messageString: string): CommitMessage {
   const lines = messageString.split('\n');
   // Remove leading blank lines
   while (lines.length > 0 && lines[0].trim() === '') {

@@ -10,11 +10,12 @@ import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {
   DashboardType,
   createDashboardUrl,
 } from '../../../models/views/dashboard';
+import {when} from 'lit/directives/when.js';
 
 interface DashboardRef {
   section: string;
@@ -26,11 +27,11 @@ export class GrRepoDashboards extends LitElement {
   @property({type: String})
   repo?: RepoName;
 
-  @property({type: Boolean})
-  _loading = true;
+  @state()
+  loading = true;
 
-  @property({type: Array})
-  _dashboards?: DashboardRef[];
+  @state()
+  dashboards?: DashboardRef[];
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -43,23 +44,13 @@ export class GrRepoDashboards extends LitElement {
           display: block;
           margin-bottom: var(--spacing-xxl);
         }
-        .loading #dashboards,
-        #loadingContainer {
-          display: none;
-        }
-        .loading #loadingContainer {
-          display: block;
-        }
       `,
     ];
   }
 
   override render() {
-    return html` <table
-      id="list"
-      class="genericList ${this._computeLoadingClass(this._loading)}"
-    >
-      <tbody>
+    return html` <table id="list" class="genericList">
+      <tbody id="dashboards">
         <tr class="headerRow">
           <th class="topHeader">Dashboard name</th>
           <th class="topHeader">Dashboard title</th>
@@ -67,36 +58,39 @@ export class GrRepoDashboards extends LitElement {
           <th class="topHeader">Inherited from</th>
           <th class="topHeader">Default</th>
         </tr>
-        <tr id="loadingContainer">
-          <td>Loading...</td>
-        </tr>
-      </tbody>
-      <tbody id="dashboards">
-        ${(this._dashboards ?? []).map(
-          item => html`
-            <tr class="groupHeader">
-              <td colspan="5">${item.section}</td>
-            </tr>
-            ${(item.dashboards ?? []).map(
-              info => html`
-                <tr class="table">
-                  <td class="name">
-                    <a href=${this._getUrl(info.project, info.id)}
-                      >${info.path}</a
-                    >
-                  </td>
-                  <td class="title">${info.title}</td>
-                  <td class="desc">${info.description}</td>
-                  <td class="inherited">
-                    ${this._computeInheritedFrom(
-                      info.project,
-                      info.defining_project
-                    )}
-                  </td>
-                  <td class="default">
-                    ${this._computeIsDefault(info.is_default)}
-                  </td>
+        ${when(
+          this.loading,
+          () => html`<tr id="loadingContainer">
+            <td>Loading...</td>
+          </tr>`,
+          () => html`
+            ${(this.dashboards ?? []).map(
+              item => html`
+                <tr class="groupHeader">
+                  <td colspan="5">${item.section}</td>
                 </tr>
+                ${(item.dashboards ?? []).map(
+                  info => html`
+                    <tr class="table">
+                      <td class="name">
+                        <a href=${this.getUrl(info.project, info.id)}
+                          >${info.path}</a
+                        >
+                      </td>
+                      <td class="title">${info.title}</td>
+                      <td class="desc">${info.description}</td>
+                      <td class="inherited">
+                        ${this.computeInheritedFrom(
+                          info.project,
+                          info.defining_project
+                        )}
+                      </td>
+                      <td class="default">
+                        ${this.computeIsDefault(info.is_default)}
+                      </td>
+                    </tr>
+                  `
+                )}
               `
             )}
           `
@@ -113,7 +107,7 @@ export class GrRepoDashboards extends LitElement {
 
   private repoChanged() {
     const repo = this.repo;
-    this._loading = true;
+    this.loading = true;
     if (!repo) {
       return Promise.resolve();
     }
@@ -151,26 +145,22 @@ export class GrRepoDashboards extends LitElement {
             });
           });
 
-        this._dashboards = dashboardBuilder;
-        this._loading = false;
+        this.dashboards = dashboardBuilder;
+        this.loading = false;
       });
   }
 
-  _getUrl(project?: RepoName, dashboard?: DashboardId) {
+  private getUrl(project?: RepoName, dashboard?: DashboardId) {
     if (!project || !dashboard) return '';
 
     return createDashboardUrl({project, type: DashboardType.REPO, dashboard});
   }
 
-  _computeLoadingClass(loading: boolean) {
-    return loading ? 'loading' : '';
-  }
-
-  _computeInheritedFrom(project: RepoName, definingProject: RepoName) {
+  private computeInheritedFrom(project: RepoName, definingProject: RepoName) {
     return project === definingProject ? '' : definingProject;
   }
 
-  _computeIsDefault(isDefault?: boolean) {
+  private computeIsDefault(isDefault?: boolean) {
     return isDefault ? '✓' : '';
   }
 }

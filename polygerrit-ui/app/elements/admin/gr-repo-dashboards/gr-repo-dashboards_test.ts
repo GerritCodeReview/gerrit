@@ -9,7 +9,7 @@ import {GrRepoDashboards} from './gr-repo-dashboards';
 import {
   addListenerForTest,
   mockPromise,
-  queryAndAssert,
+  query,
   stubRestApi,
   waitEventLoop,
 } from '../../../test/test-utils';
@@ -83,8 +83,8 @@ suite('gr-repo-dashboards tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <table class="genericList loading" id="list">
-            <tbody>
+          <table class="genericList" id="list">
+            <tbody id="dashboards">
               <tr class="headerRow">
                 <th class="topHeader">Dashboard name</th>
                 <th class="topHeader">Dashboard title</th>
@@ -96,34 +96,20 @@ suite('gr-repo-dashboards tests', () => {
                 <td>Loading...</td>
               </tr>
             </tbody>
-            <tbody id="dashboards"></tbody>
           </table>
         `
       );
     });
 
     test('loading, sections, and ordering', async () => {
-      assert.isTrue(element._loading);
-      assert.notEqual(
-        getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
-        'none'
-      );
-      assert.equal(
-        getComputedStyle(queryAndAssert(element, '#dashboards')).display,
-        'none'
-      );
+      assert.isTrue(element.loading);
+      assert.isOk(query(element, '#loadingContainer'));
+
       element.repo = 'test' as RepoName;
       await waitEventLoop();
-      assert.equal(
-        getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
-        'none'
-      );
-      assert.notEqual(
-        getComputedStyle(queryAndAssert(element, '#dashboards')).display,
-        'none'
-      );
+      assert.isNotOk(query(element, '#loadingContainer'));
 
-      const dashboard = element._dashboards!;
+      const dashboard = element.dashboards!;
       assert.equal(dashboard.length, 2);
       assert.equal(dashboard[0].section, 'custom');
       assert.equal(dashboard[1].section, 'default');

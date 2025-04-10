@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "471e3da8_f115a082",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49c6b1fa_ca13b022",
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a05bd5f8_e0527245",
@@ -48,6 +66,30 @@
       "writtenOn": "2025-04-09T22:00:35Z",
       "side": 1,
       "message": "This should also inject `@GerritImportedServerIds`; you can keep the protected constructor for non-injected constructions.\n\n```suggestion\n  protected ChangeQueryBuilder(Arguments args, @GerritImportedServerIds ImmutableList\u003cString\u003e importedServerIds) {\n    this(mydef, args, importedServerIds);\n  }\n\n  protected ChangeQueryBuilder(Arguments args) {\n    this(mydef, args, ImmutableList.of());\n```",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 524,
+        "endChar": 22
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f44bc8c_50a042a2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a05bd5f8_e0527245",
       "range": {
         "startLine": 523,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64fc55b_9785e8e7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ff37ba_76cc615d",
+      "range": {
+        "startLine": 528,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 3
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d15f4999_e7a9ab56",
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e642c0a1_36e902a3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d15f4999_e7a9ab56",
+      "range": {
+        "startLine": 595,
+        "startChar": 0,
+        "endLine": 596,
+        "endChar": 96
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a4f1baa_ca45063f",
@@ -117,6 +207,30 @@
       "writtenOn": "2025-04-09T20:26:04Z",
       "side": 1,
       "message": "The function used should be `ChangePredicates::idStr` or `ChangePredicates::changeNumber, depending if you have imported server ids or not.\n\n\n\n```suggestion\n  private Predicate\u003cChangeData\u003e defaultSearch(String query) throws QueryParseException {\n    return getPredicateChangeData(query, hasImportedChanges ? ChangePredicates::changeNumber : ChangePredicates::idStr);\n  }\n```",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 3
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f7cf3b_f4abcb9b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4f1baa_ca45063f",
       "range": {
         "startLine": 597,
         "startChar": 0,
@@ -197,6 +311,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3749b1c9_9b561451",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4792,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0416c11_915d3fd4",
+      "range": {
+        "startLine": 4792,
+        "startChar": 4,
+        "endLine": 4792,
+        "endChar": 46
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5659c1d_ac9fe2a0",
@@ -257,6 +395,30 @@
       "writtenOn": "2025-04-09T21:33:20Z",
       "side": 1,
       "message": "This assertion is always true, regardless of whether the query succeeds or fails.\nIn fact, the query() method returns a `List\u003cChangeInfo\u003e` and in case the query doesn\u0027t return anything, the returned value won\u0027t be `null` but an empty list.\n\n```suggestion\n    List\u003cString\u003e changes \u003d query(\"change:\" + idAsString).stream().map(ci -\u003e ci.changeId).toList();\n    assertThat(changes).containsExactly(change.getChangeId());\n```",
+      "range": {
+        "startLine": 4802,
+        "startChar": 0,
+        "endLine": 4802,
+        "endChar": 43
+      },
+      "revId": "1090d27856d2be3dbe124adc0dce36ef29e32375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe8b67f_6d498009",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 4802,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-04-10T06:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c25e5c05_0b37ab85",
       "range": {
         "startLine": 4802,
         "startChar": 0,

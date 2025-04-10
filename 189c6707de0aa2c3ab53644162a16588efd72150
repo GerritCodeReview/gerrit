@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "002a871e_bf56b14b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7982e67_c813d3d2",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5964e711_5dd182cc",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-04-09T17:43:05Z",
       "side": 1,
       "message": "why the `_`?\nI think this can be removed?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42501ecd_17f0722c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5964e711_5dd182cc",
       "range": {
         "startLine": 21,
         "startChar": 2,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8def72_809b5214",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19671ead_e83dc77d",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30a01809_0cb3199c",
@@ -100,6 +172,30 @@
       "writtenOn": "2025-04-09T17:43:05Z",
       "side": 1,
       "message": "table has a loading class which sets `display: none`\n\nWould this ever be rendered?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 0
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3559d3a3_6ac08478",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a01809_0cb3199c",
       "range": {
         "startLine": 67,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83c7f787_4fc94fff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0640cef_79270b4c",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 22
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fdc969d_f5f93b37",
@@ -146,6 +266,30 @@
       "writtenOn": "2025-04-09T17:43:05Z",
       "side": 1,
       "message": "mark private?\n\nAlso it\u0027s rendering a `checkMark` so perhaps rename to `renderCheckmark`?",
+      "range": {
+        "startLine": 123,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 15
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b008666_f68eae9e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fdc969d_f5f93b37",
       "range": {
         "startLine": 123,
         "startChar": 2,
@@ -179,6 +323,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d8f8320_fbe29676",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92e9c918_e4bb2e4c",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 26
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03029bd6_aa4c0e89",
@@ -192,6 +360,30 @@
       "writtenOn": "2025-04-09T17:43:05Z",
       "side": 1,
       "message": "are there unit tests for the regex pattern testing already that can be updated for the newly added route?",
+      "range": {
+        "startLine": 194,
+        "startChar": 7,
+        "endLine": 194,
+        "endChar": 40
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "590c0212_b117c846",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03029bd6_aa4c0e89",
       "range": {
         "startLine": 194,
         "startChar": 7,

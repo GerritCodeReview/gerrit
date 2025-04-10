@@ -159,6 +159,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f82ce15_c68eac8f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-10T06:50:07Z",
+      "side": 1,
+      "message": "I was staring at this for a while a bit confused how this is working 😄\n\nThanks for removing.\n\nUsing `when` makes the code a lot nicer!",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "189c6707de0aa2c3ab53644162a16588efd72150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30a01809_0cb3199c",

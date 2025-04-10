@@ -233,13 +233,36 @@ export class GrConfirmRevertDialog
     // Figure out what the revert title should be.
     const originalTitle = (commitMessage || '').split('\n')[0];
     let revertTitle = `Revert "${originalTitle}"`;
-    const match = originalTitle.match(/^Revert(?:\^([0-9]+))? "(.*)"$/);
-    if (match) {
-      let revertNum = 2;
-      if (match[1]) {
-        revertNum = Number(match[1]) + 1;
+    const revertTitleRegex = originalTitle.match(
+      /^Revert(?:\^([0-9]+))? "(.*)"$/
+    );
+
+    const commitMessageLines = commitMessage.split('\n');
+
+    // Trim out extra newlines from the end
+    while (commitMessageLines.length > 0) {
+      if (!commitMessageLines[commitMessageLines.length - 1]) {
+        commitMessageLines.pop();
       }
-      revertTitle = `Revert^${revertNum} "${match[2]}"`;
+      break;
+    }
+    const footers = [];
+    for (const line of commitMessageLines.reverse()) {
+      // This was a new line hence the footer section is now finished
+      if (!line) {
+        break;
+      }
+      if (line.startsWith('Issue: ') || line.startsWith('Bug: ')) {
+        footers.push(line);
+      }
+    }
+
+    if (revertTitleRegex) {
+      let revertNum = 2;
+      if (revertTitleRegex[1]) {
+        revertNum = Number(revertTitleRegex[1]) + 1;
+      }
+      revertTitle = `Revert^${revertNum} "${revertTitleRegex[2]}"`;
     }
 
     if (!commitHash) {
@@ -248,9 +271,13 @@ export class GrConfirmRevertDialog
     }
     const revertCommitText = `This reverts commit ${commitHash}.`;
 
-    const message =
+    let message =
       `${revertTitle}\n\n${revertCommitText}\n\n` +
       `Reason for revert: ${INSERT_REASON_STRING}\n`;
+
+    for (const footer of footers) {
+      message += `${footer}\n`;
+    }
     // This is to give plugins a chance to update message
     this.message = this.modifyRevertMsg(change, commitMessage, message);
     this.revertType = RevertType.REVERT_SINGLE_CHANGE;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1ed2e71_05c5690a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-10T11:06:45Z",
+      "side": 1,
+      "message": "bypassing?",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 72
+      },
+      "revId": "57bbc544bb9a8be57214e06ec834e8fd3fb4a5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e52a7a1_362cd33a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-10T11:06:45Z",
+      "side": 1,
+      "message": "where is this being used?\n\nI see that we open it and assign something to it but I don\u0027t see where it\u0027s being read.",
+      "range": {
+        "startLine": 1240,
+        "startChar": 28,
+        "endLine": 1240,
+        "endChar": 31
+      },
+      "revId": "57bbc544bb9a8be57214e06ec834e8fd3fb4a5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

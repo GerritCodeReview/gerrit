@@ -88,6 +88,24 @@
       "parentUuid": "bfafd0bf_12f78d2c",
       "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d327855_3ae8e8fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-10T14:00:25Z",
+      "side": 1,
+      "message": "We are performing offline reindexing on one of our sites that contains our largest repo (~50gb, ~700k changes). The site we are performing the reindexing on has caches pre-filled from normal usage. Reindexing starts normally and gets stuck at around 38 %. Until then the overall size of all disk caches has grown to above 1 TB (each of the file-diff caches has about 400 gb). We had such issues in the past and solved it by excluding the largest repositories from reindexing in the first run and then reindex them separately, but we would like to find a better, less interactive solution. Since we are not using the caches created during reindexing, we would like to avoid creating them at all.",
+      "parentUuid": "c4b44c85_ffb4285a",
+      "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

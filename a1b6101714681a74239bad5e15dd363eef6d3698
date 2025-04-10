@@ -106,6 +106,24 @@
       "parentUuid": "c4b44c85_ffb4285a",
       "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe50aa03_98b86d9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-04-10T20:57:52Z",
+      "side": 1,
+      "message": "I think that even without a perf issue, it likely a reasonable thing to want to disable these caches during a reindex, but I still think we want a solution that does this for online re-indexes also, and I don\u0027t think this change currently does. \n \nIt would be good to know why it is getting stuck at 38%, i.e. is there some inherent size limit with H2? Aside from getting stuck (which sounds like some sort of bug) are you still experiencing other size related performance problems?",
+      "parentUuid": "1d327855_3ae8e8fb",
+      "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

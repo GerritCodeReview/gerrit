@@ -68,8 +68,8 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   private Map<String, CapabilityInfo> collectCoreCapabilities()
       throws IllegalAccessException, NoSuchFieldException {
     Map<String, CapabilityInfo> output = new HashMap<>();
-    Class<? extends CapabilityConstants> bundleClass = CapabilityConstants.get().getClass();
-    CapabilityConstants c = CapabilityConstants.get();
+    Class<? extends CapabilityConstants> bundleClass = new CapabilityConstants().getClass();
+    CapabilityConstants c = new CapabilityConstants();
     for (String id : GlobalCapability.getAllNames()) {
       String name = (String) bundleClass.getField(id).get(c);
       output.put(id, new CapabilityInfo(id, name));

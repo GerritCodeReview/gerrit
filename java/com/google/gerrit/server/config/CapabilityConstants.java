@@ -14,37 +14,30 @@
 
 package com.google.gerrit.server.config;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
-
-public class CapabilityConstants extends TranslationBundle {
-  public static CapabilityConstants get() {
-    return NLS.getBundleFor(CapabilityConstants.class);
-  }
-
-  public String accessDatabase;
-  public String administrateServer;
-  public String batchChangesLimit;
-  public String createAccount;
-  public String createGroup;
-  public String deleteGroup;
-  public String createProject;
-  public String emailReviewers;
-  public String flushCaches;
-  public String killTask;
-  public String maintainServer;
-  public String modifyAccount;
-  public String priority;
-  public String readAs;
-  public String queryLimit;
-  public String runAs;
-  public String runGC;
-  public String streamEvents;
-  public String viewAccess;
-  public String viewAllAccounts;
-  public String viewCaches;
-  public String viewConnections;
-  public String viewPlugins;
-  public String viewQueue;
-  public String viewSecondaryEmails;
+public class CapabilityConstants {
+  public static String accessDatabase = "Access Database";
+  public static String administrateServer = "Administrate Server";
+  public static String batchChangesLimit = "Batch Changes Limit";
+  public static String createAccount = "Create Account";
+  public static String createGroup = "Create Group";
+  public static String deleteGroup = "Delete Group";
+  public static String createProject = "Create Project";
+  public static String emailReviewers = "Email Reviewers";
+  public static String flushCaches = "Flush Caches";
+  public static String killTask = "Kill Task";
+  public static String maintainServer = "Maintain Server";
+  public static String modifyAccount = "Modify Account";
+  public static String priority = "Priority";
+  public static String readAs = "Read As";
+  public static String queryLimit = "Query Limit";
+  public static String runAs = "Run As";
+  public static String runGC = "Run Garbage Collection";
+  public static String streamEvents = "Stream Events";
+  public static String viewAccess = "View Access";
+  public static String viewAllAccounts = "View All Accounts";
+  public static String viewCaches = "View Caches";
+  public static String viewConnections = "View Connections";
+  public static String viewPlugins = "View Plugins";
+  public static String viewQueue = "View Queue";
+  public static String viewSecondaryEmails = "View Secondary Emails";
 }

@@ -20,6 +20,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -175,6 +177,11 @@ public abstract class AccountDelta {
     return !this.getCreatedExternalIds().isEmpty()
         || !this.getDeletedExternalIds().isEmpty()
         || !this.getUpdatedExternalIds().isEmpty();
+  }
+
+  @UsedAt(Project.GOOGLE)
+  public boolean isEmpty() {
+    return this.equals(AccountDelta.builder().build());
   }
 
   /**

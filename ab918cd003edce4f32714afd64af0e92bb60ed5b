@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae9cefff_ffd7117b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T16:38:47Z",
+      "side": 1,
+      "message": "That\u0027s good idea!",
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8675c3f_d0dc3957",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T16:38:47Z",
+      "side": 1,
+      "message": "You can get footer by calling parseCommitMessageString from polygerrit-ui/app/utils/commit-message-formatter-util.ts - I based it partly on jgit.",
+      "range": {
+        "startLine": 243,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 23
+      },
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b693aca_d67b2483",
@@ -37,6 +77,47 @@
         "endLine": 283,
         "endChar": 5
       },
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a212516_675ec24c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T16:38:47Z",
+      "side": 1,
+      "message": "footers.join(\u0027\\n\u0027)",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c3481f41_0c43d14b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+              "range": {
+                "startLine": 280,
+                "startChar": 0,
+                "endLine": 283,
+                "endChar": 0
+              },
+              "replacement": "      message +\u003d footers.join(\u0027\\n\u0027) + \u0027\\n\u0027;\n"
+            }
+          ]
+        }
+      ],
       "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

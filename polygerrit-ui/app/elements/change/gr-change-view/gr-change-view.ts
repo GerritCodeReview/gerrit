@@ -563,7 +563,15 @@ export class GrChangeView extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().tab$,
-      t => (this.activeTab = t)
+      t => {
+        // We don't want to jump during the initial page load. This scrolling
+        // works only when change is already loaded and user clicks on link
+        // to same page when tabs are not in view, but tabs needs to be rendered.
+        if (this.tabs) {
+          this.tabs.scrollIntoView({block: 'nearest'});
+        }
+        this.activeTab = t;
+      }
     );
     subscribe(
       this,

@@ -103,7 +103,7 @@ suite('gr-repo-dashboards tests', () => {
     });
 
     test('loading, sections, and ordering', async () => {
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
       assert.notEqual(
         getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
         'none'
@@ -123,7 +123,7 @@ suite('gr-repo-dashboards tests', () => {
         'none'
       );
 
-      const dashboard = element._dashboards!;
+      const dashboard = element.dashboards!;
       assert.equal(dashboard.length, 2);
       assert.equal(dashboard[0].section, 'custom');
       assert.equal(dashboard[1].section, 'default');

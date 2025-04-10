@@ -275,6 +275,12 @@ function getRepoSubsections(repo: RepoName) {
         detailType: RepoDetailView.DASHBOARDS,
         url: createRepoUrl({repo, detail: RepoDetailView.DASHBOARDS}),
       },
+      {
+        name: 'Submit Requirements',
+        view: GerritView.REPO,
+        detailType: RepoDetailView.SUBMIT_REQUIREMENTS,
+        url: createRepoUrl({repo, detail: RepoDetailView.SUBMIT_REQUIREMENTS}),
+      },
     ],
   };
 }

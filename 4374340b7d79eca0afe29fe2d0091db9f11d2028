@@ -22,6 +22,48 @@
       },
       "revId": "4374340b7d79eca0afe29fe2d0091db9f11d2028",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a5ebaa7_c9ade98b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-10T06:20:28Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8128bb75_3e197ae8",
+      "range": {
+        "startLine": 567,
+        "startChar": 44,
+        "endLine": 567,
+        "endChar": 50
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b2ac6145_16ad902e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 567,
+                "startChar": 0,
+                "endLine": 568,
+                "endChar": 0
+              },
+              "replacement": "        // We don\u0027t want to jump during the initial page load. This scrolling\n"
+            }
+          ]
+        }
+      ],
+      "revId": "4374340b7d79eca0afe29fe2d0091db9f11d2028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

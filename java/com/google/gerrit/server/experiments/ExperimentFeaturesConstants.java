@@ -60,4 +60,12 @@ public class ExperimentFeaturesConstants {
   /** Whether we allow fix suggestions in HumanComments. */
   public static final String ALLOW_FIX_SUGGESTIONS_IN_COMMENTS =
       "GerritBackendFeature__allow_fix_suggestions_in_comments";
+
+  /**
+   * Whether the submit operation that is executed to auto-merge a change on push (see
+   * https://gerrit-review.googlesource.com/Documentation/user-upload.html#auto_merge) should use a
+   * {@code RefUpdateContext} with type {@code DIRECT_PUSH}.
+   */
+  public static String GERRIT_BACKEND_FEATURE_USE_DIRECT_PUSH_CONTEXT_FOR_SUBMIT_ON_PUSH =
+      "GerritBackendFeature__use_direct_push_context_for_submit_on_push";
 }

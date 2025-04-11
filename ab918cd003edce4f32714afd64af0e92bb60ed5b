@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "900bab9d_2c2ecbca",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-11T06:55:42Z",
+      "side": 1,
+      "message": "Ohh wow.\n\nGreat suggestion. 🎉",
+      "parentUuid": "d8675c3f_d0dc3957",
+      "range": {
+        "startLine": 243,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 23
+      },
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b693aca_d67b2483",
@@ -54,6 +78,24 @@
       "writtenOn": "2025-04-10T16:35:17Z",
       "side": 1,
       "message": "Move this if-block to the top of the method.",
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b244d67d_1503c457",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-11T06:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b693aca_d67b2483",
       "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -118,6 +160,54 @@
           ]
         }
       ],
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7a80c65_84ffe74a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-11T06:55:42Z",
+      "side": 1,
+      "message": "Comment correct but AI fix is wrong again 😄",
+      "parentUuid": "0a212516_675ec24c",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 5
+      },
+      "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb90f78e_7afa870f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-11T06:55:42Z",
+      "side": 1,
+      "message": "Code is removed after Milutin\u0027s suggestion. There was a util method that does this already.",
+      "parentUuid": "6550806a_4a53bbcf",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 5
+      },
       "revId": "ab918cd003edce4f32714afd64af0e92bb60ed5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

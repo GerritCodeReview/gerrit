@@ -22,6 +22,30 @@
       },
       "revId": "5cc2d9a9829fafa63d1a9282621beea22c47dd95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ca2ef2_d611ffed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-11T07:47:51Z",
+      "side": 1,
+      "message": "I see, however, that the build is passing, so I would agree to merge this revert and wait for an *actual end-to-end* test to break to bring this code back in.",
+      "parentUuid": "ca315521_0eef22ad",
+      "range": {
+        "startLine": 11,
+        "startChar": 80,
+        "endLine": 11,
+        "endChar": 124
+      },
+      "revId": "5cc2d9a9829fafa63d1a9282621beea22c47dd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

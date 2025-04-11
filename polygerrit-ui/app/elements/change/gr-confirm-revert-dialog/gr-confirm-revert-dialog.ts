@@ -27,7 +27,7 @@ import {GrValidationOptions} from '../gr-validation-options/gr-validation-option
 import {parseCommitMessageString} from '../../../utils/commit-message-formatter-util';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
-const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
+const INSERT_REASON_STRING = '<MUST SPECIFY REASON HERE>';
 
 // TODO(dhruvsri): clean up repeated definitions after moving to js modules
 export enum RevertType {

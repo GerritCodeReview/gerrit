@@ -67,7 +67,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "one line commit"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
     assert.equal(element.message, expected);
   });
 
@@ -81,7 +81,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "many lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
     assert.equal(element.message, expected);
   });
 
@@ -95,7 +95,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Issue: 1234567';
     assert.equal(element.message, expected);
   });
@@ -110,7 +110,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
     assert.equal(element.message, expected);
   });
 
@@ -124,7 +124,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Bug: 1234567';
     assert.equal(element.message, expected);
   });
@@ -139,7 +139,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
     assert.equal(element.message, expected);
   });
 
@@ -153,7 +153,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Bug: Issue 42';
     assert.equal(element.message, expected);
   });
@@ -168,7 +168,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert^2 "one line commit"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
     assert.equal(element.message, expected);
   });
 
@@ -182,7 +182,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const expected =
       'Revert^3 "one line commit"\n\n' +
       'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n';
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
     assert.equal(element.message, expected);
   });
 
@@ -199,7 +199,7 @@ suite('gr-confirm-revert-dialog tests', () => {
 
     const expected =
       'Revert submission 5545\n\n' +
-      'Reason for revert: <INSERT REASONING HERE>\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Reverted changes: /q/submissionid:5545\n';
     assert.equal(element.message, expected);
   });

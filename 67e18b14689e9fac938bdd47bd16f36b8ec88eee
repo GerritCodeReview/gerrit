@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28246e6_feae712f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-11T08:47:57Z",
+      "side": 1,
+      "message": "Why is D here?",
+      "range": {
+        "startLine": 92,
+        "startChar": 71,
+        "endLine": 92,
+        "endChar": 72
+      },
+      "revId": "67e18b14689e9fac938bdd47bd16f36b8ec88eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

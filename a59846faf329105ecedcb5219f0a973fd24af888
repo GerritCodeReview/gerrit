@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e73243ad_a46e0347",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-11T08:09:40Z",
+      "side": 1,
+      "message": "@brohlfs@google.com do you have the possibility to check this change in staging if it creates any slowdown for Google? I don\u0027t believe it should impact you guys at all, as discussed with @ekempin@google.com, but it is best to double-check. Unfortunately, we do not have a similar test environment for your fork so we are unable to verify it.",
+      "revId": "a59846faf329105ecedcb5219f0a973fd24af888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

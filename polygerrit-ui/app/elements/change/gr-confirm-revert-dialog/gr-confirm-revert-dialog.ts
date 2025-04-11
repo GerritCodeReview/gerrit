@@ -27,7 +27,7 @@ import {GrValidationOptions} from '../gr-validation-options/gr-validation-option
 import {parseCommitMessageString} from '../../../utils/commit-message-formatter-util';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
-const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
+const SPECIFY_REASON_STRING = '<MUST SPECIFY REASON HERE>';
 
 // TODO(dhruvsri): clean up repeated definitions after moving to js modules
 export enum RevertType {
@@ -259,7 +259,7 @@ export class GrConfirmRevertDialog
 
     let message =
       `${revertTitle}\n\n${revertCommitText}\n\n` +
-      `Reason for revert: ${INSERT_REASON_STRING}\n`;
+      `Reason for revert: ${SPECIFY_REASON_STRING}\n`;
 
     if (footers.length > 0) {
       message += '\n' + footers.join('\n'); // Empty line before the footers begin
@@ -298,8 +298,7 @@ export class GrConfirmRevertDialog
     const message =
       `Revert submission ${change.submission_id}` +
       '\n\n' +
-      'Reason for revert: <INSERT ' +
-      'REASONING HERE>\n\n' +
+      `Reason for revert: ${SPECIFY_REASON_STRING}\n\n` +
       'Reverted changes: ' +
       createSearchUrl({query: `submissionid:${change.submission_id}`}) +
       '\n';
@@ -339,7 +338,7 @@ export class GrConfirmRevertDialog
     e.stopPropagation();
     if (
       this.message === this.originalRevertMessages[this.revertType] ||
-      this.message.includes(INSERT_REASON_STRING)
+      this.message.includes(SPECIFY_REASON_STRING)
     ) {
       this.showErrorMessage = true;
       return;

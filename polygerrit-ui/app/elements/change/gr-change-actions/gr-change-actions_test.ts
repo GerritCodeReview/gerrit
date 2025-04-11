@@ -1670,7 +1670,7 @@ suite('gr-change-actions tests', () => {
           let expectedMsg =
             'Revert submission 199 0' +
             '\n\n' +
-            'Reason for revert: <INSERT REASONING HERE>' +
+            'Reason for revert: <MUST SPECIFY REASON HERE>' +
             '\n\n' +
             'Reverted changes: /q/submissionid:199+0\n';
           assert.equal(confirmRevertDialog.message, expectedMsg);
@@ -1683,7 +1683,7 @@ suite('gr-change-actions tests', () => {
           expectedMsg =
             'Revert "random commit message"\n\nThis reverts ' +
             'commit 2000.\n\nReason' +
-            ' for revert: <INSERT REASONING HERE>\n';
+            ' for revert: <MUST SPECIFY REASON HERE>\n';
           assert.equal(confirmRevertDialog.message, expectedMsg);
         });
 
@@ -1733,13 +1733,13 @@ suite('gr-change-actions tests', () => {
           const revertSubmissionMsg =
             'Revert submission 199 0' +
             '\n\n' +
-            'Reason for revert: <INSERT REASONING HERE>' +
+            'Reason for revert: <MUST SPECIFY REASON HERE>' +
             '\n\n' +
             'Reverted changes: /q/submissionid:199+0\n';
           const singleChangeMsg =
             'Revert "random commit message"\n\nThis reverts ' +
             'commit 2000.\n\nReason' +
-            ' for revert: <INSERT REASONING HERE>\n';
+            ' for revert: <MUST SPECIFY REASON HERE>\n';
           assert.equal(confirmRevertDialog.message, revertSubmissionMsg);
           const newRevertMsg = revertSubmissionMsg + 'random';
           const newSingleChangeMsg = singleChangeMsg + 'random';
@@ -1833,7 +1833,7 @@ suite('gr-change-actions tests', () => {
           const msg =
             'Revert "random commit message"\n\n' +
             'This reverts commit 2000.\n\nReason ' +
-            'for revert: <INSERT REASONING HERE>\n';
+            'for revert: <MUST SPECIFY REASON HERE>\n';
           assert.equal(confirmRevertDialog.message, msg);
           let editedMsg = msg + 'hello';
           confirmRevertDialog.message += 'hello';
@@ -1852,10 +1852,10 @@ suite('gr-change-actions tests', () => {
           // Contains generic template reason so doesn't submit
           assert.isFalse(fireActionStub.called);
           confirmRevertDialog.message = confirmRevertDialog.message.replace(
-            '<INSERT REASONING HERE>',
+            '<MUST SPECIFY REASON HERE>',
             ''
           );
-          editedMsg = editedMsg.replace('<INSERT REASONING HERE>', '');
+          editedMsg = editedMsg.replace('<MUST SPECIFY REASON HERE>', '');
           confirmButton.click();
           await element.updateComplete;
           assert.equal(fireActionStub.getCall(0).args[0], '/revert');

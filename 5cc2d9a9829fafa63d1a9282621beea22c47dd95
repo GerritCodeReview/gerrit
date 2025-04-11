@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca315521_0eef22ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-11T07:46:08Z",
+      "side": 1,
+      "message": "It isn\u0027t actually connected to Change 466942 and it was mistakenly coupled with it.\nDo you see performance regression due to this one-liner? If yes, can you share some data or help us reproduce it and fix?",
+      "range": {
+        "startLine": 11,
+        "startChar": 80,
+        "endLine": 11,
+        "endChar": 124
+      },
+      "revId": "5cc2d9a9829fafa63d1a9282621beea22c47dd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

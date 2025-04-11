@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc524a72_3559bbc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-11T07:43:19Z",
+      "side": 1,
+      "message": "Post merge comment: this change was reverted because it wasn\u0027t working end-to-end. The tests were covering a simulated situation that doesn\u0027t happen in real-life.\n\n@brohlfs@google.com apologies for missing this comment during review.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "b3ad6b12bbcb37d52c8129e4fce46aea35465630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

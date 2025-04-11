@@ -15,6 +15,7 @@
 package com.google.gerrit.index.testing;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGENUM_SPEC;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -270,7 +271,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     protected Change.Id keyFor(ChangeData value) {
-      return value.getId();
+      return value.virtualId();
     }
 
     @Override
@@ -300,11 +301,16 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
     @Override
     protected ChangeData valueFor(Map<String, Object> doc) {
+      int legacyId = Integer.parseInt((String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()));
       ChangeData cd =
           changeDataFactory.create(
               Project.nameKey((String) doc.get(ChangeField.PROJECT_SPEC.getName())),
               Change.id(
-                  Integer.valueOf((String) doc.get(ChangeField.NUMERIC_ID_STR_SPEC.getName()))));
+                  doc.get(CHANGENUM_SPEC.getName()) != null
+                      ? (Integer) doc.get(CHANGENUM_SPEC.getName())
+                      : legacyId));
+      cd.setVirtualId(legacyId);
+
       for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
         boolean isProtoField = SchemaFieldDefs.isProtoField(field);
 

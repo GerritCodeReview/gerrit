@@ -41,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -210,6 +211,18 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
         Status.REJECTED_OTHER_REASON,
         /* expectedMessage= */ String.format(
             "Cannot create ref '%s' because it already exists.", tagRef(tagName)));
+  }
+
+  @Test
+  public void pushGitDescribeTagIsAllowed() throws Exception {
+    Assume.assumeTrue(ANNOTATED == tagType);
+
+    allowTagCreation();
+    allowPushOnRefsTags();
+    pushTagForExistingCommit(RemoteRefUpdate.Status.OK);
+    commit(user.newIdent(), "commit");
+    String tagName = testRepo.git().describe().call();
+    pushTag(tagName, false, false, Status.OK, null);
   }
 
   private String pushTagForExistingCommit(Status expectedStatus) throws Exception {

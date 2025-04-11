@@ -22,6 +22,30 @@
       },
       "revId": "67e18b14689e9fac938bdd47bd16f36b8ec88eee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5892314a_4ec366f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-11T08:52:12Z",
+      "side": 1,
+      "message": "Typo.\nRemoved.",
+      "parentUuid": "e28246e6_feae712f",
+      "range": {
+        "startLine": 92,
+        "startChar": 71,
+        "endLine": 92,
+        "endChar": 72
+      },
+      "revId": "67e18b14689e9fac938bdd47bd16f36b8ec88eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

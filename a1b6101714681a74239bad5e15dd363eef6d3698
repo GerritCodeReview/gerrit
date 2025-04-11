@@ -124,6 +124,24 @@
       "parentUuid": "1d327855_3ae8e8fb",
       "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fc5ed32_d0e5ef9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-04-11T08:48:27Z",
+      "side": 1,
+      "message": "The offline indexer runs in a [dedicated indexer pod](https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/container-images/gerrit-indexer/)\n\nLooking at the java gc logs (we use parallelGC in the indexer pod for maximum throughput) the process stalls due to [increasing time spent in full gc runs](https://imgur.com/a/SvBZ5ce) until the pod gets killed since it runs out of memory:\n\nMemory cgroup out of memory: Killed process 107660 (java) total-vm:108097572kB, anon-rss:104169016kB, file-rss:21380kB, shmem-rss:0kB, UID:1000 pgtables:204540kB oom_score_adj:365\n\nWe limit the indexer pod to 30 cores and 100Gi memory\n\n    limits:\n      cpu: 30\n      memory: 100Gi\n\nmax heap size is 80Gi and we use 10 indexer threads (started with 40, reducing that to 20 and then 10 didn\u0027t improve the situation).",
+      "parentUuid": "fe50aa03_98b86d9c",
+      "revId": "a1b6101714681a74239bad5e15dd363eef6d3698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

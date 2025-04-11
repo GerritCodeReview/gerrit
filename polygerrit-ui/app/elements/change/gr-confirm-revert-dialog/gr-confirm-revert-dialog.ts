@@ -24,6 +24,7 @@ import {createSearchUrl} from '../../../models/views/search';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
+import {parseCommitMessageString} from '../../../utils/commit-message-formatter-util';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
@@ -230,27 +231,39 @@ export class GrConfirmRevertDialog
     commitMessage: string,
     commitHash?: CommitId
   ) {
-    // Figure out what the revert title should be.
-    const originalTitle = (commitMessage || '').split('\n')[0];
-    let revertTitle = `Revert "${originalTitle}"`;
-    const match = originalTitle.match(/^Revert(?:\^([0-9]+))? "(.*)"$/);
-    if (match) {
-      let revertNum = 2;
-      if (match[1]) {
-        revertNum = Number(match[1]) + 1;
-      }
-      revertTitle = `Revert^${revertNum} "${match[2]}"`;
-    }
-
     if (!commitHash) {
       fireAlert(this, ERR_COMMIT_NOT_FOUND);
       return;
     }
+
+    // Figure out what the revert title should be.
+    const originalTitle = (commitMessage || '').split('\n')[0];
+    let revertTitle = `Revert "${originalTitle}"`;
+    const revertTitleRegex = originalTitle.match(
+      /^Revert(?:\^([0-9]+))? "(.*)"$/
+    );
+
+    const footers = parseCommitMessageString(commitMessage).footer.filter(
+      f => f.startsWith('Issue: ') || f.startsWith('Bug: ')
+    );
+
+    if (revertTitleRegex) {
+      let revertNum = 2;
+      if (revertTitleRegex[1]) {
+        revertNum = Number(revertTitleRegex[1]) + 1;
+      }
+      revertTitle = `Revert^${revertNum} "${revertTitleRegex[2]}"`;
+    }
+
     const revertCommitText = `This reverts commit ${commitHash}.`;
 
-    const message =
+    let message =
       `${revertTitle}\n\n${revertCommitText}\n\n` +
       `Reason for revert: ${INSERT_REASON_STRING}\n`;
+
+    if (footers.length > 0) {
+      message += '\n' + footers.join('\n'); // Empty line before the footers begin
+    }
     // This is to give plugins a chance to update message
     this.message = this.modifyRevertMsg(change, commitMessage, message);
     this.revertType = RevertType.REVERT_SINGLE_CHANGE;

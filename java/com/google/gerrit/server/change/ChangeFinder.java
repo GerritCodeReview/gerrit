@@ -31,11 +31,11 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -74,21 +74,22 @@ public class ChangeFinder {
   }
 
   private final IndexConfig indexConfig;
+  private final boolean hasImportedChanges;
   private final Cache<Change.Id, String> changeIdProjectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Counter1<ChangeIdType> changeIdCounter;
-  private final ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm;
 
   @Inject
   ChangeFinder(
       IndexConfig indexConfig,
+      @GerritImportedServerIds ImmutableList<String> importedServerIds,
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory changeNotesFactory,
-      MetricMaker metricMaker,
-      ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm) {
+      MetricMaker metricMaker) {
     this.indexConfig = indexConfig;
+    this.hasImportedChanges = !importedServerIds.isEmpty();
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
     this.changeNotesFactory = changeNotesFactory;
@@ -101,7 +102,6 @@ public class ChangeFinder {
             Field.ofEnum(ChangeIdType.class, "change_id_type", Metadata.Builder::changeIdType)
                 .description("The type of the change identifier.")
                 .build());
-    this.virtualIdAlgorithm = virtualIdAlgorithm;
   }
 
   public Optional<ChangeNotes> findOne(String id) {
@@ -227,10 +227,8 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
-    List<ChangeData> r =
-        virtualIdAlgorithm.isVirtualChangeId(id)
-            ? query.byChangeNumber(id)
-            : query.byLegacyChangeId(id);
+    List<ChangeData> r = hasImportedChanges ? query.byChangeNumber(id) : query.byLegacyChangeId(id);
+
     if (r.size() == 1) {
       changeIdProjectCache.put(id, Url.encode(r.get(0).project().get()));
     }

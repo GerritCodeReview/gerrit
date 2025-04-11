@@ -681,9 +681,14 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
-      return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId(), legacyId);
+      return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
     }
     return virtualId;
+  }
+
+  @VisibleForTesting
+  public void setVirtualId(int virtualId) {
+    this.virtualId = Change.id(virtualId);
   }
 
   public Project.NameKey project() {

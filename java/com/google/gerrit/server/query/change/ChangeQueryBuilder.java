@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -74,6 +75,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.HasOperandAliasConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
@@ -123,6 +125,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Parses a query string meant to be applied to change objects. */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuilder> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private boolean hasImportedChanges;
 
   public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
@@ -521,14 +525,27 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   protected static final Splitter LABEL_SPLITTER = Splitter.on(",");
 
   @Inject
+  protected ChangeQueryBuilder(
+      Arguments args, @GerritImportedServerIds ImmutableList<String> importedServerIds) {
+    this(mydef, args, importedServerIds);
+  }
+
   protected ChangeQueryBuilder(Arguments args) {
-    this(mydef, args);
+    this(args, ImmutableList.of());
+  }
+
+  protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
+    this(def, args, ImmutableList.of());
   }
 
   @VisibleForTesting
-  protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
+  protected ChangeQueryBuilder(
+      Definition<ChangeData, ChangeQueryBuilder> def,
+      Arguments args,
+      @GerritImportedServerIds ImmutableList<String> importedServerIds) {
     super(def, args.opFactories);
     this.args = args;
+    this.hasImportedChanges = !importedServerIds.isEmpty();
     setupAliases();
   }
 
@@ -593,10 +610,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return getPredicateChangeData(query, changeId -> ChangePredicates.changeNumber(changeId, args));
   }
 
-  // Keep using the index legacy document-id (legacy_id_str) for URLs queries like: "/q/123456",
-  // "/q/Iasdw2312321", "/q/project~123456"  that are expecting to always find a single element.
   private Predicate<ChangeData> defaultSearch(String query) throws QueryParseException {
-    return getPredicateChangeData(query, ChangePredicates::idStr);
+
+    return getPredicateChangeData(
+        query,
+        changeId ->
+            hasImportedChanges
+                ? ChangePredicates.changeNumber(changeId, args)
+                : ChangePredicates.idStr(changeId));
   }
 
   private Predicate<ChangeData> getPredicateChangeData(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d8fc50_52c0bdc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-11T07:39:30Z",
+      "side": 1,
+      "message": "I am surprised this change was causing latency increase, however, this change was not properly working end to end; the tests were using a fake virtual id function and not a real use-case.",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 78
+      },
+      "revId": "f3c9a13a5e06b538dec84124842e7a92ad5c5b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

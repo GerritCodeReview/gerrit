@@ -462,7 +462,7 @@ public class ChangeData {
   private ImmutableSetMultimap<Project.NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
   private String changeServerId;
-  private ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdFunc;
   private Boolean failedParsingFromIndex = false;
   private Change.Id virtualId;
 

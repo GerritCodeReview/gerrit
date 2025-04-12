@@ -151,6 +151,16 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
   }
 
   private Change.Id getVirtualId(ChangeNotes notes) {
+<<<<<<< PATCH SET (f75e51 Remove @Nullable on ChangeNumberVirtualIdAlgorithm)
+    return virtualIdAlgorithm.isNoop()
+        ? notes.getChangeId()
+        : virtualIdAlgorithm.apply(notes.getServerId(), notes.getChangeId());
+||||||| BASE
+    return (virtualIdAlgorithm == null || virtualIdAlgorithm.isNoop())
+        ? notes.getChangeId()
+        : virtualIdAlgorithm.apply(notes.getServerId(), notes.getChangeId());
+=======
     return virtualIdAlgorithm.applyIfVirtual(notes::getServerId, notes.getChangeId());
+>>>>>>> BASE      (732425 Prevent change numbers virtualization)
   }
 }

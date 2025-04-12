@@ -681,7 +681,9 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
-      return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
+      return (virtualIdFunc == null || virtualIdFunc.isNoop())
+          ? legacyId
+          : virtualIdFunc.apply(changeServerId, legacyId);
     }
     return virtualId;
   }

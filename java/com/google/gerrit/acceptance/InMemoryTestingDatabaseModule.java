@@ -80,7 +80,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(SitePaths.class);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
 
-    install(new SchemaModule());
+    install(new SchemaModule(cfg));
 
     install(new SshdModule());
   }

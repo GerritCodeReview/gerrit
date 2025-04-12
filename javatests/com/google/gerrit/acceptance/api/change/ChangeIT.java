@@ -184,6 +184,7 @@ import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -256,6 +257,8 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject
   @Named("diff_summary")
   private Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
+
+  @Inject private ChangeNumberVirtualIdAlgorithm changeNumberVirtualIdAlgorithm;
 
   @Test
   @GerritConfig(
@@ -4838,6 +4841,22 @@ public class ChangeIT extends AbstractDaemonTest {
         gApi.changes().id(idAsString).revision(change.getPatchSet().number()).related();
     assertThat(related).isNotNull();
     assertThat(related.changes.size()).isEqualTo(0);
+  }
+
+  @Test
+  public void changeNumberVirtualIdAlgorithmShouldBeNoopNotSupportVirtualizationByDefault() {
+    Change.Id changeNum = Change.id(1);
+    assertThat(changeNumberVirtualIdAlgorithm.apply(() -> "server-id", changeNum))
+        .isEqualTo(changeNum);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.importedServerId", value = "imported-server-id")
+  public void changeNumberShouldBeVirtualizedWithImportedServerId() throws Exception {
+    Change.Id changeNum = Change.id(1);
+    Change.Id virtualId =
+        changeNumberVirtualIdAlgorithm.apply(() -> "imported-server-id", changeNum);
+    assertThat(virtualId).isNotEqualTo(changeNum);
   }
 
   private PushOneCommit.Result createImportedChange(String fileName) throws Exception {

@@ -524,7 +524,6 @@ public class ChangeData {
     this.change = change;
     this.notes = notes;
 
-    this.changeServerId = notes == null ? null : notes.getServerId();
     this.virtualIdFunc = virtualIdFunc;
     this.virtualId = virtualId;
   }
@@ -681,7 +680,13 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
+<<<<<<< PATCH SET (6865e1 Invoke ChangeNotes.getServerId() only with virtualized chang)
+      virtualId = virtualIdFunc.applyIfVirtual(this::changeServerId, legacyId);
+||||||| BASE
+      return virtualIdFunc.applyIfVirtual(() -> changeServerId, legacyId);
+=======
       return virtualIdFunc.apply(() -> changeServerId, legacyId);
+>>>>>>> BASE      (c81367 Remove @Nullable on ChangeNumberVirtualIdAlgorithm)
     }
     return virtualId;
   }

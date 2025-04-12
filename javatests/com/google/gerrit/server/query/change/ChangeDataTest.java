@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
@@ -51,22 +52,41 @@ public class ChangeDataTest {
   }
 
   @Test
-  public void getChangeVirtualIdUsingAlgorithm() throws Exception {
+  public void getChangeVirtualIdUsingAlgorithmAndServerId() throws Exception {
     Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
     final Change.Id encodedChangeNum = Change.id(12345678);
+    String serverId = UUID.randomUUID().toString();
 
-    when(changeNotesMock.getServerId()).thenReturn(UUID.randomUUID().toString());
+    when(changeNotesMock.getServerId()).thenReturn(serverId);
 
     ChangeData cd =
         ChangeData.createForTest(
             project,
-            Change.id(1),
+            changeNum,
             1,
             ObjectId.zeroId(),
-            (s, c) -> encodedChangeNum,
+            (sid, legacyChangeNum) -> {
+              assertThat(sid.get()).isEqualTo(serverId);
+              assertThat(legacyChangeNum).isEqualTo(changeNum);
+              return encodedChangeNum;
+            },
             changeNotesMock);
 
     assertThat(cd.virtualId().get()).isEqualTo(encodedChangeNum.get());
+    verify(changeNotesMock).getServerId();
+  }
+
+  @Test
+  public void getChangeVirtualIdUsingNoopDefaultAlgorithm() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+
+    ChangeData cd =
+        ChangeData.createForTest(
+            project, changeNum, 1, ObjectId.zeroId(), new ChangeNumberNoopAlgorithm(), null);
+
+    assertThat(cd.virtualId()).isEqualTo(changeNum);
   }
 
   private static PatchSet newPatchSet(Change.Id changeId, int num) {

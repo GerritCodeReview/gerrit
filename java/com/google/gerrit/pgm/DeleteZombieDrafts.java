@@ -74,7 +74,7 @@ public class DeleteZombieDrafts extends SiteProgram {
           }
         });
     modules.add(new GerritServerConfigModule());
-    modules.add(new SchemaModule());
-    return Guice.createInjector(modules);
+    Injector injector = Guice.createInjector(modules);
+    return injector.createChildInjector(injector.getInstance(SchemaModule.class));
   }
 }

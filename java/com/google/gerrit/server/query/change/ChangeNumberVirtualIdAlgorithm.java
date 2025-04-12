@@ -22,7 +22,7 @@ import com.google.inject.ImplementedBy;
  *
  * <p>TODO: To be reverted on master and stable-3.8
  */
-@ImplementedBy(ChangeNumberBitmapMaskAlgorithm.class)
+@ImplementedBy(ChangeNumberNoopAlgorithm.class)
 public interface ChangeNumberVirtualIdAlgorithm {
 
   /**
@@ -33,4 +33,13 @@ public interface ChangeNumberVirtualIdAlgorithm {
    * @return virtual id which combines serverId and legacyChangeNum together
    */
   Change.Id apply(String serverId, Change.Id legacyChangeNum);
+
+  /**
+   * Determine if the virtual-id algorithm is implemented or just an noop.
+   *
+   * @return true if the implementation is noop, therefore ids are not virtualized.
+   */
+  default boolean isNoop() {
+    return true;
+  }
 }

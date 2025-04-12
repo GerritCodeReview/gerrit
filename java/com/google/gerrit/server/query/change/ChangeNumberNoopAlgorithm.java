@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2025 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,23 +15,15 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Change;
-import com.google.inject.ImplementedBy;
+import com.google.inject.Singleton;
 import java.util.function.Supplier;
 
-/**
- * Algorithm for encoding a serverId/legacyChangeNum into a virtual numeric id
- *
- * <p>TODO: To be reverted on master and stable-3.8
- */
-@ImplementedBy(ChangeNumberNoopAlgorithm.class)
-public interface ChangeNumberVirtualIdAlgorithm {
+/** Default algorithm for sites without any imported server ids. */
+@Singleton
+public class ChangeNumberNoopAlgorithm implements ChangeNumberVirtualIdAlgorithm {
 
-  /**
-   * Convert a serverId/legacyChangeNum tuple into a virtual numeric id
-   *
-   * @param serverId Gerrit serverId
-   * @param legacyChangeNum legacy change number
-   * @return virtual id which combines serverId and legacyChangeNum together
-   */
-  Change.Id apply(Supplier<String> serverId, Change.Id legacyChangeNum);
+  @Override
+  public Change.Id apply(Supplier<String> serverId, Change.Id legacyChangeNum) {
+    return legacyChangeNum;
+  }
 }

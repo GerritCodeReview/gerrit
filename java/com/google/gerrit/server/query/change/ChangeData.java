@@ -327,7 +327,7 @@ public class ChangeData {
       Change.Id id,
       int currentPatchSetId,
       ObjectId commitId,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(

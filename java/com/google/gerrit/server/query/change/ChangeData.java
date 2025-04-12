@@ -327,7 +327,7 @@ public class ChangeData {
       Change.Id id,
       int currentPatchSetId,
       ObjectId commitId,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(
@@ -681,9 +681,7 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
-      return (virtualIdFunc == null || virtualIdFunc.isNoop())
-          ? legacyId
-          : virtualIdFunc.apply(changeServerId, legacyId);
+      return virtualIdFunc.isNoop() ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
     }
     return virtualId;
   }

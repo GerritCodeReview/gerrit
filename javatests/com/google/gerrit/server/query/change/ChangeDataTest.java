@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -72,6 +73,7 @@ public class ChangeDataTest {
               return encodedChangeNum;
             },
             changeNotesMock);
+    verify(changeNotesMock, never()).getServerId();
 
     assertThat(cd.virtualId().get()).isEqualTo(encodedChangeNum.get());
     verify(changeNotesMock).getServerId();
@@ -87,6 +89,7 @@ public class ChangeDataTest {
             project, changeNum, 1, ObjectId.zeroId(), new ChangeNumberNoopAlgorithm(), null);
 
     assertThat(cd.virtualId()).isEqualTo(changeNum);
+    verify(changeNotesMock, never()).getServerId();
   }
 
   private static PatchSet newPatchSet(Change.Id changeId, int num) {

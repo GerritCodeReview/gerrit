@@ -524,7 +524,6 @@ public class ChangeData {
     this.change = change;
     this.notes = notes;
 
-    this.changeServerId = notes == null ? null : notes.getServerId();
     this.virtualIdFunc = virtualIdFunc;
     this.virtualId = virtualId;
   }
@@ -681,7 +680,7 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
-      return virtualIdFunc.apply(() -> changeServerId, legacyId);
+      virtualId = virtualIdFunc.apply(this::changeServerId, legacyId);
     }
     return virtualId;
   }

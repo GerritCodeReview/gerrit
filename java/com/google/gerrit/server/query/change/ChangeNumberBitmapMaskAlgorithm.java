@@ -84,4 +84,9 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
 
     return Change.id(virtualId);
   }
+
+  @Override
+  public boolean isNoop() {
+    return false;
+  }
 }

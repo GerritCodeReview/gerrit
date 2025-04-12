@@ -458,7 +458,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
 
   private Change.Id getVirtualId() {
     Change change = getChange();
-    return virtualIdFunc == null
+    return (virtualIdFunc == null || virtualIdFunc.isNoop())
         ? change.getId()
         : virtualIdFunc.apply(change.getServerId(), change.getId());
   }

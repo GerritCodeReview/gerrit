@@ -327,7 +327,7 @@ public class ChangeData {
       Change.Id id,
       int currentPatchSetId,
       ObjectId commitId,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(
@@ -462,7 +462,7 @@ public class ChangeData {
   private ImmutableSetMultimap<Project.NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
   private String changeServerId;
-  private ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdFunc;
   private Boolean failedParsingFromIndex = false;
   private Change.Id virtualId;
 

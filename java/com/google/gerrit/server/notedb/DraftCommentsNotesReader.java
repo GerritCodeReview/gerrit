@@ -151,7 +151,7 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
   }
 
   private Change.Id getVirtualId(ChangeNotes notes) {
-    return virtualIdAlgorithm == null
+    return (virtualIdAlgorithm == null || virtualIdAlgorithm.isNoop())
         ? notes.getChangeId()
         : virtualIdAlgorithm.apply(notes.getServerId(), notes.getChangeId());
   }

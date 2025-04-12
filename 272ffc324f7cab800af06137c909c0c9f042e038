@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f87590_c5ef084b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberNoopAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-04-12T15:15:07Z",
+      "side": 1,
+      "message": "```suggestion\n// Copyright (C) 2025 The Android Open Source Project\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7a5bd7c_643703ad",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberNoopAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-04-12T15:15:07Z",
+      "side": 1,
+      "message": "nit: throwing an exception isn\u0027t truly a `noop` (and it is inconsistent with other classes in Gerrit where `Noop` is used for methods to do actually nothing).\n\nA better term might be `ChangeNumberUnsupportedAlgorithm` or `ChangeNumberUnconfiguredAlgorithm` or something along these lines?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd67dfa4_f3ae8ada",
+        "filename": "java/com/google/gerrit/server/schema/SchemaModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-04-12T15:15:07Z",
+      "side": 1,
+      "message": "nit: have you considered injecting `GerritImportedServerIdsProvider` and then just  using `GerritImportedServerIdsProvider.get` for this?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

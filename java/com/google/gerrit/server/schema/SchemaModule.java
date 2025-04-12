@@ -30,15 +30,27 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritImportedServerIdsProvider;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.RepoSequence.DisabledGitRefUpdatedRepoGroupsSequenceProvider;
+import com.google.gerrit.server.query.change.ChangeNumberBitmapMaskAlgorithm;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
+import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Bindings for low-level Gerrit schema data. */
 public class SchemaModule extends FactoryModule {
+  private final Config gerritConfig;
+
+  @Inject
+  public SchemaModule(@GerritServerConfig Config gerritConfig) {
+    this.gerritConfig = gerritConfig;
+  }
+
   @Override
   protected void configure() {
     bind(PersonIdent.class)
@@ -62,6 +74,15 @@ public class SchemaModule extends FactoryModule {
         .annotatedWith(GerritImportedServerIds.class)
         .toProvider(GerritImportedServerIdsProvider.class)
         .in(SINGLETON);
+
+    if (gerritConfig.getStringList(
+                GerritImportedServerIdsProvider.SECTION, null, GerritImportedServerIdsProvider.KEY)
+            .length
+        > 0) {
+      bind(ChangeNumberVirtualIdAlgorithm.class)
+          .to(ChangeNumberBitmapMaskAlgorithm.class)
+          .in(SINGLETON);
+    }
 
     // It feels wrong to have this binding in a seemingly unrelated module, but it's a dependency of
     // SchemaCreatorImpl, so it's needed.

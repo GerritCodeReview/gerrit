@@ -327,7 +327,7 @@ public class ChangeData {
       Change.Id id,
       int currentPatchSetId,
       ObjectId commitId,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(
@@ -681,7 +681,15 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
+<<<<<<< PATCH SET (f75e51 Remove @Nullable on ChangeNumberVirtualIdAlgorithm)
+      return virtualIdFunc.isNoop() ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
+||||||| BASE
+      return (virtualIdFunc == null || virtualIdFunc.isNoop())
+          ? legacyId
+          : virtualIdFunc.apply(changeServerId, legacyId);
+=======
       return virtualIdFunc.applyIfVirtual(() -> changeServerId, legacyId);
+>>>>>>> BASE      (732425 Prevent change numbers virtualization)
     }
     return virtualId;
   }

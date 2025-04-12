@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0edb383d_c208d742",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-04-12T10:12:46Z",
+      "side": 1,
+      "message": "perhaps IT could be added to detect the issue, WDYT? it could be done in the follow-up though",
+      "range": {
+        "startLine": 557,
+        "startChar": 1,
+        "endLine": 558,
+        "endChar": 26
+      },
+      "revId": "bc18685624e0a09ab24ab5791b1504a3930bd5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "287ae67c_5cc39786",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-04-12T10:12:46Z",
+      "side": 1,
+      "message": "nit: it probably makes sense to place it in one line and call GJF again so that it gets properly formatted",
+      "range": {
+        "startLine": 554,
+        "startChar": 10,
+        "endLine": 559,
+        "endChar": 78
+      },
+      "revId": "bc18685624e0a09ab24ab5791b1504a3930bd5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

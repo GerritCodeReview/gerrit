@@ -29,7 +29,6 @@ import com.google.inject.Singleton;
  *
  * <p>TODO: To be reverted on master and stable-3.8
  */
-@Singleton
 public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlgorithm {
   /*
    * Bit-wise masks for representing the Change's VirtualId as combination of ServerId + ChangeNum:
@@ -83,5 +82,10 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
     int virtualId = (changeNum & LEGACY_ID_BIT_MASK) | (encodedServerId << CHANGE_NUM_BIT_LEN);
 
     return Change.id(virtualId);
+  }
+
+  @Override
+  public boolean isNoop() {
+    return false;
   }
 }

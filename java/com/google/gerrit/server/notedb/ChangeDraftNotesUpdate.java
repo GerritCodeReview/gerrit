@@ -237,7 +237,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       ExperimentFeatures experimentFeatures,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
+      ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -255,7 +255,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       ExperimentFeatures experimentFeatures,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
+      ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -458,6 +458,16 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
 
   private Change.Id getVirtualId() {
     Change change = getChange();
+<<<<<<< PATCH SET (f75e51 Remove @Nullable on ChangeNumberVirtualIdAlgorithm)
+    return virtualIdFunc.isNoop()
+        ? change.getId()
+        : virtualIdFunc.apply(change.getServerId(), change.getId());
+||||||| BASE
+    return (virtualIdFunc == null || virtualIdFunc.isNoop())
+        ? change.getId()
+        : virtualIdFunc.apply(change.getServerId(), change.getId());
+=======
     return virtualIdFunc.applyIfVirtual(change::getServerId, change.getId());
+>>>>>>> BASE      (732425 Prevent change numbers virtualization)
   }
 }

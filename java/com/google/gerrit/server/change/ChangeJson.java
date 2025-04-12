@@ -551,6 +551,13 @@ public class ChangeJson {
           continue;
         }
         try {
+          // This is needed to trigger the load of the change's ServerId, otherwise the calculation
+          // of virtualId()
+          // could be inaccurate and not take into consideration the imported changes.
+          // The hiding of this implementation detail was in virtualId() but then reverted with
+          // Ib67bfa71cfed
+          // creating a regression with labelling of starred imported changes.
+          String unused = cd.changeServerId();
           Change.Id cdUniqueId = cd.virtualId();
           ChangeInfo info = cache.get(cdUniqueId);
           if (info != null && isCacheable) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ad57c1_27428973",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-13T17:54:55Z",
+      "side": 1,
+      "message": "Can you check if this is good enough to bring back the computation of serverId of a change *only if* the virtualisation is active? That would allow to restore the functionalities broken by the revert Ib67bfa71cfe.",
+      "revId": "6865e16cb489a637dfbebcf7d93afa2fc8c2bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

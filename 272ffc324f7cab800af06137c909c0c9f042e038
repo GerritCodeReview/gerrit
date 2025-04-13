@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "487a0e55_7379465a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-04-13T17:21:14Z",
+      "side": 1,
+      "message": "right I have mis-copied the final solution it would be eventually passed as the function reference IOW called by the implementation that needs it:\n```\n    if (virtualId \u003d\u003d null) {\n      virtualId \u003d virtualIdFunc.apply(this::changeServerId, legacyId);\n    }\n    return virtualId;\n```",
+      "parentUuid": "4035b2be_af3a016a",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd67dfa4_f3ae8ada",
         "filename": "java/com/google/gerrit/server/schema/SchemaModule.java",
         "patchSetId": 13

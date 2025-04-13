@@ -72,6 +72,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec5163ff_446e52e3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-04-13T12:34:49Z",
+      "side": 1,
+      "message": "Answering myself as I can see it used in I44c6d9e1e4 - it can still be done by having:\n_interface definition_\n```\npublic interface ChangeNumberVirtualIdAlgorithm {\n\n  /**\n   * Convert a serverId/legacyChangeNum tuple into a virtual numeric id\n   *\n   * @param serverId Gerrit serverId\n   * @param legacyChangeNum legacy change number\n   * @return virtual id which combines serverId and legacyChangeNum together\n   */\n  Change.Id apply(String serverId, Change.Id legacyChangeNum);\n  \n  default Change.Id apply(Provider\u003cString\u003e toServerID, Change.Id legacyChangeNum) {\n    return apply(toServerID.get(), legacyChangeNum);\n  }\n}\n```\n\n_`ChangeNumberBitmapMaskAlgorithm` remains unchanged_\n\n_`ChangeNumberNoopAlgorithm` becomes_\n```\n@Singleton\npublic class ChangeNumberNoopAlgorithm implements ChangeNumberVirtualIdAlgorithm {\n  @Override\n  public Change.Id apply(String unused, Change.Id legacyChangeNum) {\n    return legacyChangeNum;\n  }\n\n  @Override\n  public Change.Id apply(Provider\u003cString\u003e unused, Change.Id legacyChangeNum) {\n    return legacyChangeNum;\n  }\n}\n```\n\n_finally `ChangeData` usage from the change in question becomes_\n```\n    if (virtualId \u003d\u003d null) {\n      virtualId \u003d virtualIdFunc.apply(changeServerId(), legacyId);\n    }\n    return virtualId;\n```\n\nclean, without any conditions as they determined on startup (though server configuration existence)...\n\nWDYT?",
+      "parentUuid": "bd8436cf_db5ba0be",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd67dfa4_f3ae8ada",
         "filename": "java/com/google/gerrit/server/schema/SchemaModule.java",
         "patchSetId": 13

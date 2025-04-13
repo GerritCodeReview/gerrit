@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11bb36f2_ba46c23b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberNoopAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-13T14:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f87590_c5ef084b",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7a5bd7c_643703ad",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-12T15:15:07Z",
       "side": 1,
       "message": "nit: throwing an exception isn\u0027t truly a `noop` (and it is inconsistent with other classes in Gerrit where `Noop` is used for methods to do actually nothing).\n\nA better term might be `ChangeNumberUnsupportedAlgorithm` or `ChangeNumberUnconfiguredAlgorithm` or something along these lines?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0511fc13_f42fcd5b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberNoopAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-13T14:28:14Z",
+      "side": 1,
+      "message": "I\u0027ve actually made it a real noop, so the name is now appropriate.",
+      "parentUuid": "e7a5bd7c_643703ad",
       "range": {
         "startLine": 22,
         "startChar": 13,
@@ -84,6 +132,30 @@
       "side": 1,
       "message": "Answering myself as I can see it used in I44c6d9e1e4 - it can still be done by having:\n_interface definition_\n```\npublic interface ChangeNumberVirtualIdAlgorithm {\n\n  /**\n   * Convert a serverId/legacyChangeNum tuple into a virtual numeric id\n   *\n   * @param serverId Gerrit serverId\n   * @param legacyChangeNum legacy change number\n   * @return virtual id which combines serverId and legacyChangeNum together\n   */\n  Change.Id apply(String serverId, Change.Id legacyChangeNum);\n  \n  default Change.Id apply(Provider\u003cString\u003e toServerID, Change.Id legacyChangeNum) {\n    return apply(toServerID.get(), legacyChangeNum);\n  }\n}\n```\n\n_`ChangeNumberBitmapMaskAlgorithm` remains unchanged_\n\n_`ChangeNumberNoopAlgorithm` becomes_\n```\n@Singleton\npublic class ChangeNumberNoopAlgorithm implements ChangeNumberVirtualIdAlgorithm {\n  @Override\n  public Change.Id apply(String unused, Change.Id legacyChangeNum) {\n    return legacyChangeNum;\n  }\n\n  @Override\n  public Change.Id apply(Provider\u003cString\u003e unused, Change.Id legacyChangeNum) {\n    return legacyChangeNum;\n  }\n}\n```\n\n_finally `ChangeData` usage from the change in question becomes_\n```\n    if (virtualId \u003d\u003d null) {\n      virtualId \u003d virtualIdFunc.apply(changeServerId(), legacyId);\n    }\n    return virtualId;\n```\n\nclean, without any conditions as they determined on startup (though server configuration existence)...\n\nWDYT?",
       "parentUuid": "bd8436cf_db5ba0be",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "272ffc324f7cab800af06137c909c0c9f042e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4035b2be_af3a016a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-13T14:28:14Z",
+      "side": 1,
+      "message": "The issue is avoiding evaluating any data needed to make a decision: if getting the serverId isn\u0027t required, then it should not be passed as an argument.",
+      "parentUuid": "ec5163ff_446e52e3",
       "range": {
         "startLine": 37,
         "startChar": 2,

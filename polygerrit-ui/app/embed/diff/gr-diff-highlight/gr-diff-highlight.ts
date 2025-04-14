@@ -401,9 +401,7 @@ export class GrDiffHighlight {
     };
     const side = start.side;
     this.selectedRange = {range, side};
-    if (isMouseUp) {
-      this.diffBuilder?.diffModel.fireRangeSelectedMouseUpEvent(side, range);
-    }
+    this.diffBuilder?.diffModel.fireRangeSelectedEvent(side, range, isMouseUp);
     let actionBox = this.diffTable.querySelector('gr-selection-action-box');
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');

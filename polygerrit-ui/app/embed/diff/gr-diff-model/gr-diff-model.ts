@@ -317,12 +317,13 @@ export class DiffModel extends Model<DiffState> {
     fire(this.eventTarget, 'create-comment', detail);
   }
 
-  fireRangeSelectedMouseUpEvent(side: Side, range: CommentRange) {
+  fireRangeSelectedEvent(side: Side, range: CommentRange, isMouseUp: boolean) {
     const detail: RangeSelectedEventDetail = {
       side,
       lineNum: range.end_line,
       range,
+      isMouseUp,
     };
-    fire(this.eventTarget, 'range-selected-mouse-up', detail);
+    fire(this.eventTarget, 'range-selected', detail);
   }
 }

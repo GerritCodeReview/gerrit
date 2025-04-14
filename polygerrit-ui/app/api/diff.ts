@@ -351,6 +351,7 @@ export declare interface RangeSelectedEventDetail {
   side: Side;
   lineNum: LineNumber;
   range: CommentRange | undefined;
+  isMouseUp: boolean;
 }
 
 export declare interface ContentLoadNeededEventDetail {

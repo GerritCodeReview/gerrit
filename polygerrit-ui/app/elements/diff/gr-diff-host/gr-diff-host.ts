@@ -115,7 +115,7 @@ declare global {
     // prettier-ignore
     'render': CustomEvent<{}>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
-    'range-selected-mouse-up': CustomEvent<RangeSelectedEventDetail>;
+    'range-selected': CustomEvent<RangeSelectedEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
     'edit-weblinks-changed': ValueChangedEvent<WebLinkInfo[] | undefined>;

@@ -243,8 +243,11 @@ export class GrConfirmRevertDialog
       /^Revert(?:\^([0-9]+))? "(.*)"$/
     );
 
+    // Footer can be Issue:, Issue=, Bug: ISSUE=
     const footers = parseCommitMessageString(commitMessage).footer.filter(
-      f => f.startsWith('Issue: ') || f.startsWith('Bug: ')
+      f =>
+        f.toLocaleLowerCase().startsWith('issue') ||
+        f.toLocaleLowerCase().startsWith('bug')
     );
 
     if (revertTitleRegex) {

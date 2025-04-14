@@ -92,11 +92,47 @@ suite('gr-confirm-revert-dialog tests', () => {
       'much lines\nvery\n\ncommit\nIssue: 1234567\nChange-Id: abcdefg\n',
       'abcd123' as CommitId
     );
-    const expected =
+    let expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
       'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Issue: 1234567';
+    assert.equal(element.message, expected);
+
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nIssue= 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
+      'Issue= 1234567';
+    assert.equal(element.message, expected);
+
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nISSUE= 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
+      'ISSUE= 1234567';
+    assert.equal(element.message, expected);
+
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nISSUE: 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
+      'ISSUE: 1234567';
     assert.equal(element.message, expected);
   });
 
@@ -121,11 +157,47 @@ suite('gr-confirm-revert-dialog tests', () => {
       'much lines\nvery\n\ncommit\nBug: 1234567\nChange-Id: abcdefg\n',
       'abcd123' as CommitId
     );
-    const expected =
+    let expected =
       'Revert "much lines"\n\n' +
       'This reverts commit abcd123.\n\n' +
       'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Bug: 1234567';
+    assert.equal(element.message, expected);
+
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nBug= 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
+      'Bug= 1234567';
+    assert.equal(element.message, expected);
+
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nBUG= 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
+      'BUG= 1234567';
+    assert.equal(element.message, expected);
+
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'much lines\nvery\n\ncommit\nBUG: 1234567\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    expected =
+      'Revert "much lines"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
+      'BUG: 1234567';
     assert.equal(element.message, expected);
   });
 

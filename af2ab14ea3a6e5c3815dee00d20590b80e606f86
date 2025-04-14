@@ -16,6 +16,24 @@
       "message": "question: AFAIU it can still be a `@Singleton`, can\u0027t it?",
       "revId": "af2ab14ea3a6e5c3815dee00d20590b80e606f86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b917cf2_aa7ef16c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-14T08:39:15Z",
+      "side": 0,
+      "message": "For preventing the auto-binding, which would result in double-instantiations, I\u0027ve moved at module level as it isn\u0027t anymore the default implementation of the interface.",
+      "parentUuid": "79fcaae1_280ede01",
+      "revId": "af2ab14ea3a6e5c3815dee00d20590b80e606f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

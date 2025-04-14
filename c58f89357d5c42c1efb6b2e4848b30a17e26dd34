@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0326cf2b_1139c873",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-14T08:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d391663_e70e8721",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 0
+      },
+      "revId": "c58f89357d5c42c1efb6b2e4848b30a17e26dd34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c2ccd81_884b11fd",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-14T06:24:17Z",
       "side": 1,
       "message": "if `ChangeNumberNoopAlgorithm` overwrites `Change.Id applyIfVirtual(Supplier\u003cString\u003e serverIdSupplier, Change.Id legacyChangeNum)` to just return the `legacyChangeNum` without calling the provider this function will not be even needed... perhaps my suggestion of giving `default` implementation was not optimal 😊",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "c58f89357d5c42c1efb6b2e4848b30a17e26dd34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a898a6b_3f9ee874",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-14T08:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c2ccd81_884b11fd",
       "range": {
         "startLine": 49,
         "startChar": 2,

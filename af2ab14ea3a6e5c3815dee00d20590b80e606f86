@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79fcaae1_280ede01",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-04-14T06:24:17Z",
+      "side": 0,
+      "message": "question: AFAIU it can still be a `@Singleton`, can\u0027t it?",
+      "revId": "af2ab14ea3a6e5c3815dee00d20590b80e606f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

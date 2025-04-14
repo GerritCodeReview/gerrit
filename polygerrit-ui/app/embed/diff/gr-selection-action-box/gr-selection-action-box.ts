@@ -16,6 +16,9 @@ declare global {
   interface HTMLElementEventMap {
     /** Fired when the comment creation action was taken (click). */
     'create-comment-requested': CustomEvent<{}>;
+
+    /** Fired when the selection action box is visible. */
+    'selection-action-box-visible': CustomEvent<{}>;
   }
 }
 
@@ -96,6 +99,7 @@ export class GrSelectionActionBox extends LitElement {
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
     this.invisible = false;
+    fire(this, 'selection-action-box-visible', {});
   }
 
   async placeBelow(el: Text | Element | Range) {
@@ -112,6 +116,7 @@ export class GrSelectionActionBox extends LitElement {
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
     this.invisible = false;
+    fire(this, 'selection-action-box-visible', {});
   }
 
   private getParentBoundingClientRect() {

@@ -7,7 +7,11 @@ import {assert} from '@open-wc/testing';
 import {DiffInfo, Side} from '../api/diff';
 import '../test/common-test-setup';
 import {createDiff} from '../test/test-data-generators';
-import {getContentFromDiff, isFileUnchanged} from './diff-util';
+import {
+  getContentFromDiff,
+  isFileUnchanged,
+  isLineUnchanged,
+} from './diff-util';
 
 suite('diff-util tests', () => {
   test('isFileUnchanged', () => {
@@ -40,6 +44,83 @@ suite('diff-util tests', () => {
       ],
     };
     assert.equal(isFileUnchanged(diff), true);
+  });
+
+  suite('isLineUnchanged()', () => {
+    test('all lines changed', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [{a: ['abcd']}, {b: ['wxyz']}],
+      };
+
+      assert.isFalse(isLineUnchanged(diff, Side.LEFT, 0));
+      assert.isFalse(isLineUnchanged(diff, Side.LEFT, 1));
+      assert.isFalse(isLineUnchanged(diff, Side.LEFT, 2));
+      assert.isFalse(isLineUnchanged(diff, Side.LEFT, 3));
+
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 0));
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 1));
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 2));
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 3));
+    });
+
+    test('line 2 unchanged', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {a: ['abcd']},
+          {b: ['wxyz']},
+          {ab: ['qwer']},
+          {a: ['abcd']},
+          {b: ['wxyz']},
+        ],
+      };
+
+      assert.isFalse(isLineUnchanged(diff, Side.LEFT, 1));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 2));
+      assert.isFalse(isLineUnchanged(diff, Side.LEFT, 3));
+
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 1));
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 2));
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 3));
+    });
+
+    test('common chunk', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {ab: ['qwer']},
+          {a: ['  qwer'], b: ['qwer  '], common: true},
+          {ab: ['qwer']},
+        ],
+      };
+
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 1));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 2));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 3));
+
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 1));
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 2));
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 3));
+    });
+
+    test('4 lines unchanged, then 1 line on the RIGHT changed', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+      };
+
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 1));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 2));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 3));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 4));
+      assert.isTrue(isLineUnchanged(diff, Side.LEFT, 5));
+
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 1));
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 2));
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 3));
+      assert.isTrue(isLineUnchanged(diff, Side.RIGHT, 4));
+      assert.isFalse(isLineUnchanged(diff, Side.RIGHT, 5));
+    });
   });
 
   suite('getContentFromDiff', () => {

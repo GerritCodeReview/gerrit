@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.receive;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.change.ReviewerModifier.newReviewerInputFromCommitIdentity;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -370,7 +369,7 @@ public class ReplaceOp implements BatchUpdateOp {
             psDescription);
 
     update.setPsDescription(psDescription);
-    MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
+
     approvalsUtil.addApprovalsForNewPatchSet(
         update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
@@ -378,7 +377,7 @@ public class ReplaceOp implements BatchUpdateOp {
         reviewerModifier.prepare(
             ctx.getNotes(),
             ctx.getUser(),
-            getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
+            getReviewerInputs(magicBranch, ctx.getChange(), info),
             true);
     Optional<ReviewerModification> reviewerError =
         reviewerAdditions.getFailures().stream().findFirst();
@@ -411,10 +410,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   private ImmutableList<ReviewerInput> getReviewerInputs(
-      @Nullable MagicBranchInput magicBranch,
-      MailRecipients fromFooters,
-      Change change,
-      PatchSetInfo psInfo) {
+      @Nullable MagicBranchInput magicBranch, Change change, PatchSetInfo psInfo) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     Stream<ReviewerInput> inputs =
@@ -433,15 +429,6 @@ public class ReplaceOp implements BatchUpdateOp {
                 NotifyHandling.NONE,
                 newPatchSet.uploader())
                 .stream());
-    if (magicBranch != null) {
-      inputs =
-          Streams.concat(
-              inputs,
-              magicBranch.getCombinedReviewers(fromFooters).stream()
-                  .map(r -> newReviewerInput(r, ReviewerState.REVIEWER)),
-              magicBranch.getCombinedCcs(fromFooters).stream()
-                  .map(r -> newReviewerInput(r, ReviewerState.CC)));
-    }
     return inputs.collect(toImmutableList());
   }
 

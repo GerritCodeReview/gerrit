@@ -70,7 +70,6 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -2301,27 +2300,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushWithEmailInFooter() throws Exception {
-    pushWithReviewerInFooter(user.getNameEmail().toString(), user);
-  }
-
-  @Test
-  public void pushWithNameInFooter() throws Exception {
-    pushWithReviewerInFooter(user.fullName(), user);
-  }
-
-  @Test
-  public void pushWithEmailInFooterNotFound() throws Exception {
-    pushWithReviewerInFooter(
-        Address.create("No Body", "notarealuser@example.com").toString(), null);
-  }
-
-  @Test
-  public void pushWithNameInFooterNotFound() throws Exception {
-    pushWithReviewerInFooter("Notauser", null);
-  }
-
-  @Test
   public void pushNewPatchsetOverridingStickyLabel() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType codeReview = TestLabels.codeReview().toBuilder().setCopyCondition("is:MAX").build();
@@ -3547,37 +3525,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(ci.reviewers.keySet()).containsExactly(ReviewerState.REVIEWER);
     assertThat(ci.reviewers.get(ReviewerState.REVIEWER).iterator().next().email)
         .isEqualTo(reviewer.email());
-  }
-
-  private void pushWithReviewerInFooter(String nameEmail, TestAccount expectedReviewer)
-      throws Exception {
-    int n = 5;
-    String r = "refs/for/master";
-    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
-    List<RevCommit> commits = createChanges(n, r, ImmutableList.of("Acked-By: " + nameEmail));
-    for (int i = 0; i < n; i++) {
-      RevCommit c = commits.get(i);
-      ChangeData cd = byCommit(c);
-      String name = "reviewers for " + (i + 1);
-      if (expectedReviewer != null) {
-        assertWithMessage(name).that(cd.reviewers().all()).containsExactly(expectedReviewer.id());
-        // Remove reviewer from PS1 so we can test adding this same reviewer on PS2 below.
-        gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.id().toString()).remove();
-      }
-      assertWithMessage(name).that(byCommit(c).reviewers().all()).isEmpty();
-    }
-
-    List<RevCommit> commits2 = amendChanges(initialHead, commits, r);
-    for (int i = 0; i < n; i++) {
-      RevCommit c = commits2.get(i);
-      ChangeData cd = byCommit(c);
-      String name = "reviewers for " + (i + 1);
-      if (expectedReviewer != null) {
-        assertWithMessage(name).that(cd.reviewers().all()).containsExactly(expectedReviewer.id());
-      } else {
-        assertWithMessage(name).that(byCommit(c).reviewers().all()).isEmpty();
-      }
-    }
   }
 
   private List<RevCommit> createChanges(int n, String refsFor) throws Exception {

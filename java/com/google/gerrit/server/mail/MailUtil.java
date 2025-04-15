@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AccountResolver;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -35,32 +34,6 @@ import org.eclipse.jgit.revwalk.FooterLine;
 
 public class MailUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static MailRecipients getRecipientsFromFooters(
-      AccountResolver accountResolver, List<FooterLine> footerLines)
-      throws IOException, ConfigInvalidException {
-    MailRecipients recipients = new MailRecipients();
-    for (FooterLine footerLine : footerLines) {
-      try {
-        if (isReviewer(footerLine)) {
-          Account.Id accountId = toAccountId(accountResolver, footerLine.getValue().trim());
-          recipients.reviewers.add(accountId);
-          logger.atFine().log(
-              "Added account %d from footer line \"%s\" as reviewer", accountId.get(), footerLine);
-        } else if (footerLine.matches(FooterKey.CC)) {
-          Account.Id accountId = toAccountId(accountResolver, footerLine.getValue().trim());
-          recipients.cc.add(accountId);
-          logger.atFine().log(
-              "Added account %d from footer line \"%s\" as cc", accountId.get(), footerLine);
-        }
-      } catch (UnprocessableEntityException e) {
-        logger.atFine().log(
-            "Skip adding reviewer/cc from footer line \"%s\": %s", footerLine, e.getMessage());
-        continue;
-      }
-    }
-    return recipients;
-  }
 
   public static MailRecipients getRecipientsFromReviewers(ReviewerSet reviewers) {
     MailRecipients recipients = new MailRecipients();

@@ -1,0 +1,109 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8444d65_1bea0a19",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-15T16:35:28Z",
+      "side": 1,
+      "message": "Edit this sentence to not be a question",
+      "range": {
+        "startLine": 467,
+        "startChar": 5,
+        "endLine": 468,
+        "endChar": 43
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d6386e95_6debe79c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/api/checks.ts",
+              "range": {
+                "startLine": 467,
+                "startChar": 0,
+                "endLine": 469,
+                "endChar": 0
+              },
+              "replacement": "   * Whether the result should still be shown if it has a code pointer that\n   * points to an unchanged piece of code.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3091df7_175791fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-15T16:35:28Z",
+      "side": 1,
+      "message": "combine these if conditions?",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 744,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2663f3d1_d8a45847",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+              "range": {
+                "startLine": 739,
+                "startChar": 0,
+                "endLine": 743,
+                "endChar": 0
+              },
+              "replacement": "    if (\n      check.show_on_unchanged_lines \u003d\u003d\u003d false \u0026\u0026\n      isLineUnchanged(this.diff, Side.RIGHT, lineNumberToNumber(line))\n    ) {\n      return;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71b4f8ae_3b7776f8",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-15T16:35:28Z",
+      "side": 1,
+      "message": "why not find the chunk that intersects with the line and then see if it\u0027s of type `skip`?\n\n`diff.content.find(chunk -\u003e chunk.start \u003c\u003d line \u0026\u0026 chunk.end \u003e\u003d line).skip`\n\nCould this work?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

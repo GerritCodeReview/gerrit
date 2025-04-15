@@ -10,7 +10,7 @@ import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrReviewerList} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
-  createChange,
+  createParsedChange,
 } from '../../../test/test-data-generators';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
@@ -104,7 +104,7 @@ suite('gr-reviewer-list tests', () => {
     element.ccsOnly = false;
     element.reviewersOnly = false;
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner,
       reviewers,
     };
@@ -113,7 +113,7 @@ suite('gr-reviewer-list tests', () => {
 
     element.reviewersOnly = true;
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner,
       reviewers,
     };
@@ -124,7 +124,7 @@ suite('gr-reviewer-list tests', () => {
     element.ccsOnly = true;
     element.reviewersOnly = false;
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner,
       reviewers,
     };
@@ -176,7 +176,7 @@ suite('gr-reviewer-list tests', () => {
     element.ccsOnly = true;
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {
         ...createAccountDetailWithId(111),
       },
@@ -186,8 +186,9 @@ suite('gr-reviewer-list tests', () => {
     };
     await element.updateComplete;
 
-    assert.equal(element.hiddenReviewerCount, 0);
-    assert.equal(element.displayedReviewers.length, 4);
+    const displayedReviewers = element.computeDisplayedReviewers() ?? [];
+    assert.equal(element.computeHiddenReviewerCount(displayedReviewers), 0);
+    assert.equal(displayedReviewers.length, 4);
     assert.equal(element.reviewers.length, 4);
     assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
   });
@@ -206,7 +207,7 @@ suite('gr-reviewer-list tests', () => {
       ...createAccountDetailWithId(1),
     };
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {
         ...createAccountDetailWithId(11),
       },
@@ -216,7 +217,8 @@ suite('gr-reviewer-list tests', () => {
     };
     await element.updateComplete;
 
-    assert.equal(element.displayedReviewers[0]._account_id, 1 as AccountId);
+    const displayedReviewers = element.computeDisplayedReviewers() ?? [];
+    assert.equal(displayedReviewers[0]._account_id, 1 as AccountId);
   });
 
   test('show all reviewers button with 9 reviewers', async () => {
@@ -231,7 +233,7 @@ suite('gr-reviewer-list tests', () => {
     element.ccsOnly = true;
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {
         ...createAccountDetailWithId(111),
       },
@@ -241,8 +243,9 @@ suite('gr-reviewer-list tests', () => {
     };
     await element.updateComplete;
 
-    assert.equal(element.hiddenReviewerCount, 3);
-    assert.equal(element.displayedReviewers.length, 6);
+    const displayedReviewers = element.computeDisplayedReviewers() ?? [];
+    assert.equal(element.computeHiddenReviewerCount(displayedReviewers), 3);
+    assert.equal(displayedReviewers.length, 6);
     assert.equal(element.reviewers.length, 9);
     assert.isFalse(
       queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
@@ -261,7 +264,7 @@ suite('gr-reviewer-list tests', () => {
     element.ccsOnly = true;
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {
         ...createAccountDetailWithId(111),
       },
@@ -272,8 +275,9 @@ suite('gr-reviewer-list tests', () => {
 
     await element.updateComplete;
 
-    assert.equal(element.hiddenReviewerCount, 94);
-    assert.equal(element.displayedReviewers.length, 6);
+    let displayedReviewers = element.computeDisplayedReviewers() ?? [];
+    assert.equal(element.computeHiddenReviewerCount(displayedReviewers), 94);
+    assert.equal(displayedReviewers.length, 6);
     assert.equal(element.reviewers.length, 100);
     assert.isFalse(
       queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
@@ -283,8 +287,9 @@ suite('gr-reviewer-list tests', () => {
 
     await element.updateComplete;
 
-    assert.equal(element.hiddenReviewerCount, 0);
-    assert.equal(element.displayedReviewers.length, 100);
+    displayedReviewers = element.computeDisplayedReviewers() ?? [];
+    assert.equal(element.computeHiddenReviewerCount(displayedReviewers), 0);
+    assert.equal(displayedReviewers.length, 100);
     assert.equal(element.reviewers.length, 100);
     assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
   });

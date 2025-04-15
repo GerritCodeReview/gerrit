@@ -96,12 +96,18 @@ const config: ServerInfo = {
 
 suite('attention-set-util', () => {
   test('hasAttention', () => {
-    assert.isTrue(hasAttention(KERMIT, change));
+    assert.isTrue(hasAttention(KERMIT, change.attention_set));
   });
 
   test('getReason', () => {
-    assert.equal(getReason(config, KERMIT, change), 'a good reason');
-    assert.equal(getReason(config, OTHER_ACCOUNT, change), 'Added by kermit');
+    assert.equal(
+      getReason(config, KERMIT, change.attention_set),
+      'a good reason'
+    );
+    assert.equal(
+      getReason(config, OTHER_ACCOUNT, change.attention_set),
+      'Added by kermit'
+    );
   });
 
   test('sortReviewers', () => {
@@ -130,7 +136,9 @@ suite('attention-set-util', () => {
       },
     };
     assert.sameOrderedMembers(
-      reviewers.sort((r1, r2) => sortReviewers(r1, r2, change, a7)),
+      reviewers.sort((r1, r2) =>
+        sortReviewers(r1, r2, change.attention_set, change.labels, a7)
+      ),
       [
         a7, // self
         a6, // is in the attention set

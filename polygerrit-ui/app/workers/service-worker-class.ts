@@ -122,7 +122,7 @@ export class ServiceWorker {
     change: ParsedChangeInfo,
     account: AccountDetailInfo
   ) {
-    const body = getReason(undefined, account, change);
+    const body = getReason(undefined, account, change.attention_set);
     const changeUrl = createChangeUrl({
       change,
       usp: 'service-worker-notification',

@@ -5,12 +5,11 @@
  */
 import {
   AccountInfo,
-  ChangeInfo,
   CommentThread,
   DetailedLabelInfo,
   ServerInfo,
 } from '../types/common';
-import {ParsedChangeInfo} from '../types/types';
+import {IdToAttentionSetMap, LabelNameToInfoMap} from '../api/rest-api';
 import {
   getAccountTemplate,
   isSelf,
@@ -27,25 +26,25 @@ export function canHaveAttention(account?: AccountInfo): boolean {
 
 export function hasAttention(
   account?: AccountInfo,
-  change?: ChangeInfo | ParsedChangeInfo
+  attention_set?: IdToAttentionSetMap
 ): boolean {
   return (
     canHaveAttention(account) &&
-    !!change?.attention_set &&
-    hasOwnProperty(change?.attention_set, account!._account_id!)
+    !!attention_set &&
+    hasOwnProperty(attention_set, account!._account_id!)
   );
 }
 
 export function getReason(
   config?: ServerInfo,
   account?: AccountInfo,
-  change?: ChangeInfo | ParsedChangeInfo
+  attention_set?: IdToAttentionSetMap
 ) {
-  if (!hasAttention(account, change)) return '';
-  if (change?.attention_set === undefined) return '';
+  if (!hasAttention(account, attention_set)) return '';
+  if (attention_set === undefined) return '';
   if (account?._account_id === undefined) return '';
 
-  const attentionSetInfo = change.attention_set[account._account_id];
+  const attentionSetInfo = attention_set[account._account_id];
 
   if (attentionSetInfo?.reason === undefined) return '';
 
@@ -99,9 +98,12 @@ export function getRemovedByIconClickReason(
   )} by clicking the attention icon`;
 }
 
-export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {
-  if (!hasAttention(account, change)) return '';
-  const entry = change!.attention_set![account!._account_id!];
+export function getLastUpdate(
+  account?: AccountInfo,
+  attention_set?: IdToAttentionSetMap
+) {
+  if (!hasAttention(account, attention_set)) return '';
+  const entry = attention_set![account!._account_id!];
   return entry?.last_update ? entry.last_update : '';
 }
 
@@ -116,22 +118,23 @@ export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {
 export function sortReviewers(
   r1: AccountInfo,
   r2: AccountInfo,
-  change?: ChangeInfo | ParsedChangeInfo,
+  attention_set?: IdToAttentionSetMap,
+  labels?: LabelNameToInfoMap,
   selfAccount?: AccountInfo
 ) {
   if (selfAccount) {
     if (isSelf(r1, selfAccount)) return -1;
     if (isSelf(r2, selfAccount)) return 1;
   }
-  const a1 = hasAttention(r1, change) ? 1 : 0;
-  const a2 = hasAttention(r2, change) ? 1 : 0;
+  const a1 = hasAttention(r1, attention_set) ? 1 : 0;
+  const a2 = hasAttention(r2, attention_set) ? 1 : 0;
   if (a2 - a1 !== 0) return a2 - a1;
 
   const s1 = isServiceUser(r1) ? -1 : 0;
   const s2 = isServiceUser(r2) ? -1 : 0;
   if (s2 - s1 !== 0) return s2 - s1;
 
-  const crLabel = getCodeReviewLabel(change?.labels ?? {}) as DetailedLabelInfo;
+  const crLabel = getCodeReviewLabel(labels ?? {}) as DetailedLabelInfo;
   let v1 =
     crLabel?.all?.find(vote => vote._account_id === r1._account_id)?.value ?? 0;
   let v2 =

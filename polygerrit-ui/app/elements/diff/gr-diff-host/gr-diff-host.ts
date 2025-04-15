@@ -714,6 +714,7 @@ export class GrDiffHost extends LitElement {
           results.filter(result => {
             if (result.patchset !== patchNum) return false;
             if (result.category === Category.SUCCESS) return false;
+            if (!result.isLatestAttempt) return false;
             // Only one code pointer is supported. See API docs.
             const pointer = result.codePointers?.[0];
             return pointer?.path === this.path && !!pointer?.range;

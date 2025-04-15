@@ -33,6 +33,24 @@
       "message": "If removed from ReplaceOp.java, deprecate this?",
       "revId": "d9db2c39d7f722442869792fc9105a2b99182b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "518a977b_557766be",
+        "filename": "java/com/google/gerrit/server/mail/MailUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-15T14:09:21Z",
+      "side": 1,
+      "message": "I actually don\u0027t know how/when this file ReplaceOp.java is used.\n\nAny chance you know what this does @sven.selberg@axis.com? Happy to remove it as well.",
+      "parentUuid": "2aed5b89_e22e4fa5",
+      "revId": "d9db2c39d7f722442869792fc9105a2b99182b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

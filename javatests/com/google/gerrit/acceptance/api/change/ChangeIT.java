@@ -94,7 +94,6 @@ import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -1381,81 +1380,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // check that the author/committer was NOT added as reviewer (he can't see
     // the change)
-    assertThat(change.reviewers.get(REVIEWER)).isNull();
-    assertThat(change.reviewers.get(CC)).isNull();
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void pushCommitWithFooterOfOtherUser() throws Exception {
-    // admin pushes commit that references 'user' in a footer
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT
-                + "\n\n"
-                + FooterConstants.REVIEWED_BY.getName()
-                + ": "
-                + user.newIdent().toExternalString(),
-            PushOneCommit.FILE_NAME,
-            PushOneCommit.FILE_CONTENT);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
-
-    // check that 'user' was added as reviewer
-    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    Collection<AccountInfo> reviewers = change.reviewers.get(REVIEWER);
-    assertThat(reviewers).isNotNull();
-    assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
-    assertThat(change.reviewers.get(CC)).isNull();
-
-    ImmutableList<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
-    assertThat(m.body()).contains("Hello " + user.fullName() + ",\n");
-    assertThat(m.body()).contains("I'd like you to do a code review.");
-    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailReplyTo(m, admin.email());
-  }
-
-  @Test
-  public void pushCommitWithFooterOfOtherUserThatCannotSeeChange() throws Exception {
-    // create hidden project that is only visible to administrators
-    Project.NameKey p = projectOperations.newProject().create();
-    projectOperations
-        .project(p)
-        .forUpdate()
-        .add(allow(Permission.READ).ref("refs/*").group(adminGroupUuid()))
-        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
-        .update();
-
-    // admin pushes commit that references 'user' in a footer
-    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            repo,
-            PushOneCommit.SUBJECT
-                + "\n\n"
-                + FooterConstants.REVIEWED_BY.getName()
-                + ": "
-                + user.newIdent().toExternalString(),
-            PushOneCommit.FILE_NAME,
-            PushOneCommit.FILE_CONTENT);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
-
-    // check that 'user' cannot see the change
-    requestScopeOperations.setApiUser(user.id());
-    assertThrows(
-        ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()).get());
-
-    // check that 'user' was NOT added as cc ('user' can't see the change)
-    requestScopeOperations.setApiUser(admin.id());
-    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
     assertThat(change.reviewers.get(REVIEWER)).isNull();
     assertThat(change.reviewers.get(CC)).isNull();
     assertThat(sender.getMessages()).isEmpty();

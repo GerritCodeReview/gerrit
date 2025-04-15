@@ -30,7 +30,6 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_USERS_W
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -124,7 +123,6 @@ import com.google.gerrit.server.RequestCounter;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -395,7 +393,6 @@ class ReceiveCommits {
   // depend on previous ones.
 
   // Injected fields.
-  private final AccountResolver accountResolver;
   private final AclInfoController aclInfoController;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -498,7 +495,6 @@ class ReceiveCommits {
 
   @Inject
   ReceiveCommits(
-      AccountResolver accountResolver,
       AclInfoController aclInfoController,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
@@ -562,7 +558,6 @@ class ReceiveCommits {
       @Assisted @Nullable RequestCounter requestCounter)
       throws IOException {
     // Injected fields.
-    this.accountResolver = accountResolver;
     this.aclInfoController = aclInfoController;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -3166,16 +3161,7 @@ class ReceiveCommits {
         try {
           globalRevWalk.parseBody(commit);
           final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
-          Account.Id me = user.getAccountId();
-          List<FooterLine> footerLines = commit.getFooterLines();
           requireNonNull(magicBranch);
-
-          // TODO(dborowitz): Support reviewers by email from footers? Maybe not: kernel developers
-          // with AOSP accounts already complain about these notifications, and that would make it
-          // worse. Might be better to get rid of the feature entirely:
-          // https://groups.google.com/d/topic/repo-discuss/tIFxY7L4DXk/discussion
-          MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, footerLines);
-          fromFooters.remove(me);
 
           Map<String, Short> approvals = magicBranch.labels;
           StringBuilder msg =
@@ -3189,10 +3175,7 @@ class ReceiveCommits {
 
           bu.setNotify(magicBranch.getNotifyForNewChange());
           bu.insertChange(
-              ins.setReviewersAndCcsAsStrings(
-                      magicBranch.getCombinedReviewers(fromFooters),
-                      magicBranch.getCombinedCcs(fromFooters))
-                  .setApprovals(approvals)
+              ins.setApprovals(approvals)
                   .setMessage(msg.toString())
                   .setRequestScopePropagator(requestScopePropagator)
                   .setSendMail(true)

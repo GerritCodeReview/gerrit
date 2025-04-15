@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fefb98e6_951eb859",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-04-15T13:04:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be removed as well?",
+      "revId": "d9db2c39d7f722442869792fc9105a2b99182b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

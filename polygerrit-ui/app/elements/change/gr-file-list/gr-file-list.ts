@@ -1730,7 +1730,10 @@ export class GrFileList extends LitElement {
       pathsToCheck.push(file.old_path);
     }
 
-    for (const result of this.checkResults ?? []) {
+    const latestResults =
+      this.checkResults?.filter(result => result.isLatestAttempt) ?? [];
+
+    for (const result of latestResults) {
       if (
         result.codePointers === undefined ||
         !result.codePointers.some(pointer =>

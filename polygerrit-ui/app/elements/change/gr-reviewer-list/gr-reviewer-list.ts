@@ -27,6 +27,9 @@ import {fire} from '../../../utils/event-util';
 import {ShowReplyDialogEvent} from '../../../types/events';
 import {repeat} from 'lit/directives/repeat.js';
 import {accountKey} from '../../../utils/account-util';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
@@ -49,6 +52,8 @@ export class GrReviewerList extends LitElement {
   @state() hiddenReviewerCount?: number;
 
   @state() showAllReviewers = false;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   static override get styles() {
     return [
@@ -100,10 +105,25 @@ export class GrReviewerList extends LitElement {
     ];
   }
 
-  override render() {
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().labels$,
+      () => {
+        this.recalculateDisplayedReviewers();
+      }
+    );
+  }
+
+  private recalculateDisplayedReviewers() {
     this.displayedReviewers = this.computeDisplayedReviewers() ?? [];
     this.hiddenReviewerCount =
       this.reviewers.length - this.displayedReviewers.length;
+  }
+
+  override render() {
+    this.recalculateDisplayedReviewers();
     return html`
       <div class="container">
         <div class="reviewersAndControls">

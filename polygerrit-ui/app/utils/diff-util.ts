@@ -18,6 +18,31 @@ export function countLines(diff?: DiffInfo, side?: Side) {
   }, 0);
 }
 
+export function isLineUnchanged(
+  diff?: DiffInfo,
+  side?: Side,
+  line?: number
+): boolean {
+  if (!diff?.content || !side || !line) return false;
+  let currentLine = 0;
+  for (const chunk of diff.content) {
+    if (chunk.skip) {
+      currentLine += chunk.skip;
+      if (currentLine >= line) return false;
+    } else if (chunk.ab) {
+      currentLine += chunk.ab.length;
+      if (currentLine >= line) return true;
+    } else if (side === Side.LEFT && chunk.a) {
+      currentLine += chunk.a.length;
+      if (currentLine >= line) return false;
+    } else if (side === Side.RIGHT && chunk.b) {
+      currentLine += chunk.b.length;
+      if (currentLine >= line) return false;
+    }
+  }
+  return false;
+}
+
 /**
  * Get the lines of the diff for a given side.
  */

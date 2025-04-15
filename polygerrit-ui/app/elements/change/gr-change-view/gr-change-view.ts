@@ -1032,6 +1032,10 @@ export class GrChangeView extends LitElement {
         gr-thread-list {
           min-height: 250px;
         }
+        .rulesTab {
+          height: 300px;
+          padding: var(--spacing-xl);
+        }
         #includedInModal {
           width: 65em;
         }
@@ -1417,6 +1421,9 @@ export class GrChangeView extends LitElement {
             >
           `
         )}
+        <paper-tab data-name=${Tab.RULES} @click=${this.onPaperTabClick}
+          ><span>Rules</span></paper-tab
+        >
         ${this.pluginTabsHeaderEndpoints.map(
           tabHeader => html`
             <paper-tab data-name=${tabHeader} @click=${this.onPaperTabClick}>
@@ -1446,7 +1453,7 @@ export class GrChangeView extends LitElement {
       <section class="tabContent">
         ${this.renderFilesTab()} ${this.renderCommentsTab()}
         ${this.renderChecksTab()} ${this.renderFindingsTab()}
-        ${this.renderPluginTab()}
+        ${this.renderRulesTab()} ${this.renderPluginTab()}
       </section>
     `;
   }
@@ -1544,6 +1551,13 @@ export class GrChangeView extends LitElement {
           </gr-button>
         `
       )}
+    `;
+  }
+
+  private renderRulesTab() {
+    if (this.activeTab !== Tab.RULES) return nothing;
+    return html`
+      <div class="rulesTab">This the content of the Rules tab.</div>
     `;
   }
 

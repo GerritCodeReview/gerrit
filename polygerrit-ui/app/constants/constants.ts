@@ -64,6 +64,7 @@ export enum Tab {
   COMMENT_THREADS = 'comments',
   FINDINGS = 'findings',
   CHECKS = 'checks',
+  RULES = 'rules',
 }
 
 /**

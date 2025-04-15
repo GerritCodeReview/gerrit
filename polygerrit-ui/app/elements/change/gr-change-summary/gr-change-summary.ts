@@ -548,7 +548,7 @@ export class GrChangeSummary extends LitElement {
               ></gr-comments-summary>
             </td>
           </tr>
-          ${this.renderChecksSummary()}
+          ${this.renderChecksSummary()} ${this.renderRulesSummary()}
         </table>
       </div>
     `;
@@ -584,6 +584,26 @@ export class GrChangeSummary extends LitElement {
         </div>
       </td>
     </tr>`;
+  }
+
+  private renderRulesSummary() {
+    return html` <tr>
+      <td class="key">Rules</td>
+      <td class="value">
+        <div class="rulesSummary">
+          ${this.renderRuleChip('AutoSubmit')}
+          ${this.renderRuleChip('AddReviewer')}
+          ${this.renderRuleChip('2 Unblock')}
+        </div>
+      </td>
+    </tr>`;
+  }
+
+  private renderRuleChip(name: string) {
+    return html`<gr-checks-chip
+      .statusOrCategory=${RunStatus.COMPLETED}
+      .text=${name}
+    ></gr-checks-chip>`;
   }
 }
 

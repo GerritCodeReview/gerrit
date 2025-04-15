@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static com.google.gerrit.entities.RefNames.isRefsUsersSelf;
@@ -30,7 +29,6 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_USERS_W
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -63,7 +61,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -124,7 +121,6 @@ import com.google.gerrit.server.RequestCounter;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -153,6 +149,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentSizeValidator;
@@ -169,7 +166,6 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
-import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
@@ -257,7 +253,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -395,7 +390,6 @@ class ReceiveCommits {
   // depend on previous ones.
 
   // Injected fields.
-  private final AccountResolver accountResolver;
   private final AclInfoController aclInfoController;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -498,7 +492,6 @@ class ReceiveCommits {
 
   @Inject
   ReceiveCommits(
-      AccountResolver accountResolver,
       AclInfoController aclInfoController,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
@@ -562,7 +555,6 @@ class ReceiveCommits {
       @Assisted @Nullable RequestCounter requestCounter)
       throws IOException {
     // Injected fields.
-    this.accountResolver = accountResolver;
     this.aclInfoController = aclInfoController;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -2088,37 +2080,25 @@ class ReceiveCommits {
     }
 
     /**
-     * Get reviewer strings from magic branch options, combined with additional recipients computed
-     * from some other place.
+     * Get reviewer strings from magic branch options
      *
-     * <p>The set of reviewers on a change includes strings passed explicitly via options as well as
-     * account IDs computed from the commit message itself.
+     * <p>The set of reviewers on a change includes strings passed explicitly via options.
      *
-     * @param additionalRecipients recipients parsed from the commit.
      * @return set of reviewer strings to pass to {@code ReviewerModifier}.
      */
-    ImmutableSet<String> getCombinedReviewers(MailRecipients additionalRecipients) {
-      return getCombinedReviewers(reviewer, additionalRecipients.getReviewers());
+    ImmutableSet<String> getReviewers() {
+      return ImmutableSet.copyOf(reviewer);
     }
 
     /**
-     * Get CC strings from magic branch options, combined with additional recipients computed from
-     * some other place.
+     * Get CC strings from magic branch options
      *
-     * <p>The set of CCs on a change includes strings passed explicitly via options as well as
-     * account IDs computed from the commit message itself.
+     * <p>The set of CCs on a change includes strings passed explicitly via options
      *
-     * @param additionalRecipients recipients parsed from the commit.
      * @return set of CC strings to pass to {@code ReviewerModifier}.
      */
-    ImmutableSet<String> getCombinedCcs(MailRecipients additionalRecipients) {
-      return getCombinedReviewers(cc, additionalRecipients.getCcOnly());
-    }
-
-    private static ImmutableSet<String> getCombinedReviewers(
-        Set<String> strings, Set<Account.Id> ids) {
-      return Streams.concat(strings.stream(), ids.stream().map(Account.Id::toString))
-          .collect(toImmutableSet());
+    ImmutableSet<String> getCcs() {
+      return ImmutableSet.copyOf(cc);
     }
 
     void setWithholdComments(boolean withholdComments) {
@@ -3166,21 +3146,7 @@ class ReceiveCommits {
         try {
           globalRevWalk.parseBody(commit);
           final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
-          Account.Id me = user.getAccountId();
-          List<FooterLine> footerLines = commit.getFooterLines();
           requireNonNull(magicBranch);
-
-          // TODO(dborowitz): Support reviewers by email from footers? Maybe not: kernel developers
-          // with AOSP accounts already complain about these notifications, and that would make it
-          // worse. Might be better to get rid of the feature entirely:
-          // https://groups.google.com/d/topic/repo-discuss/tIFxY7L4DXk/discussion
-          MailRecipients fromFooters = new MailRecipients();
-          if (!experimentFeatures.isFeatureEnabled(
-              ExperimentFeaturesConstants
-                  .GERRIT_BACKEND_FEATURE_DISABLE_ADDING_USERS_IN_FOOTERS_AS_REVIEWER)) {
-            fromFooters = getRecipientsFromFooters(accountResolver, footerLines);
-            fromFooters.remove(me);
-          }
 
           Map<String, Short> approvals = magicBranch.labels;
           StringBuilder msg =
@@ -3194,9 +3160,7 @@ class ReceiveCommits {
 
           bu.setNotify(magicBranch.getNotifyForNewChange());
           bu.insertChange(
-              ins.setReviewersAndCcsAsStrings(
-                      magicBranch.getCombinedReviewers(fromFooters),
-                      magicBranch.getCombinedCcs(fromFooters))
+              ins.setReviewersAndCcsAsStrings(magicBranch.getReviewers(), magicBranch.getCcs())
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
                   .setRequestScopePropagator(requestScopePropagator)

@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.receive;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.change.ReviewerModifier.newReviewerInputFromCommitIdentity;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -49,7 +48,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -130,7 +128,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
   private final AccountCache accountCache;
-  private final AccountResolver accountResolver;
   private final String anonymousCowardName;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
@@ -180,7 +177,6 @@ public class ReplaceOp implements BatchUpdateOp {
   @Inject
   ReplaceOp(
       AccountCache accountCache,
-      AccountResolver accountResolver,
       @AnonymousCowardName String anonymousCowardName,
       ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
@@ -213,7 +209,6 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted @Nullable PushCertificate pushCertificate,
       @Assisted RequestScopePropagator requestScopePropagator) {
     this.accountCache = accountCache;
-    this.accountResolver = accountResolver;
     this.anonymousCowardName = anonymousCowardName;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
@@ -370,7 +365,7 @@ public class ReplaceOp implements BatchUpdateOp {
             psDescription);
 
     update.setPsDescription(psDescription);
-    MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
+
     approvalsUtil.addApprovalsForNewPatchSet(
         update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
@@ -378,7 +373,7 @@ public class ReplaceOp implements BatchUpdateOp {
         reviewerModifier.prepare(
             ctx.getNotes(),
             ctx.getUser(),
-            getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
+            getReviewerInputs(magicBranch, ctx.getChange(), info),
             true);
     Optional<ReviewerModification> reviewerError =
         reviewerAdditions.getFailures().stream().findFirst();
@@ -411,10 +406,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   private ImmutableList<ReviewerInput> getReviewerInputs(
-      @Nullable MagicBranchInput magicBranch,
-      MailRecipients fromFooters,
-      Change change,
-      PatchSetInfo psInfo) {
+      @Nullable MagicBranchInput magicBranch, Change change, PatchSetInfo psInfo) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     Stream<ReviewerInput> inputs =
@@ -437,11 +429,11 @@ public class ReplaceOp implements BatchUpdateOp {
       inputs =
           Streams.concat(
               inputs,
-              magicBranch.getCombinedReviewers(fromFooters).stream()
+              magicBranch.getReviewers().stream()
                   .map(r -> newReviewerInput(r, ReviewerState.REVIEWER)),
-              magicBranch.getCombinedCcs(fromFooters).stream()
-                  .map(r -> newReviewerInput(r, ReviewerState.CC)));
+              magicBranch.getCcs().stream().map(r -> newReviewerInput(r, ReviewerState.CC)));
     }
+
     return inputs.collect(toImmutableList());
   }
 

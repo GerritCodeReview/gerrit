@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.receive;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.change.ReviewerModifier.newReviewerInputFromCommitIdentity;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -41,7 +40,6 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -49,7 +47,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -57,7 +54,6 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
-import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.change.ReviewerOp;
@@ -130,7 +126,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
   private final AccountCache accountCache;
-  private final AccountResolver accountResolver;
   private final String anonymousCowardName;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
@@ -180,7 +175,6 @@ public class ReplaceOp implements BatchUpdateOp {
   @Inject
   ReplaceOp(
       AccountCache accountCache,
-      AccountResolver accountResolver,
       @AnonymousCowardName String anonymousCowardName,
       ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
@@ -213,7 +207,6 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted @Nullable PushCertificate pushCertificate,
       @Assisted RequestScopePropagator requestScopePropagator) {
     this.accountCache = accountCache;
-    this.accountResolver = accountResolver;
     this.anonymousCowardName = anonymousCowardName;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
@@ -370,16 +363,13 @@ public class ReplaceOp implements BatchUpdateOp {
             psDescription);
 
     update.setPsDescription(psDescription);
-    MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, commit.getFooterLines());
+
     approvalsUtil.addApprovalsForNewPatchSet(
         update, projectState.getLabelTypes(), newPatchSet, ctx.getUser(), approvals);
 
     reviewerAdditions =
         reviewerModifier.prepare(
-            ctx.getNotes(),
-            ctx.getUser(),
-            getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
-            true);
+            ctx.getNotes(), ctx.getUser(), getReviewerInputs(ctx.getChange(), info), true);
     Optional<ReviewerModification> reviewerError =
         reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
@@ -410,11 +400,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return true;
   }
 
-  private ImmutableList<ReviewerInput> getReviewerInputs(
-      @Nullable MagicBranchInput magicBranch,
-      MailRecipients fromFooters,
-      Change change,
-      PatchSetInfo psInfo) {
+  private ImmutableList<ReviewerInput> getReviewerInputs(Change change, PatchSetInfo psInfo) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     Stream<ReviewerInput> inputs =
@@ -433,29 +419,7 @@ public class ReplaceOp implements BatchUpdateOp {
                 NotifyHandling.NONE,
                 newPatchSet.uploader())
                 .stream());
-    if (magicBranch != null) {
-      inputs =
-          Streams.concat(
-              inputs,
-              magicBranch.getCombinedReviewers(fromFooters).stream()
-                  .map(r -> newReviewerInput(r, ReviewerState.REVIEWER)),
-              magicBranch.getCombinedCcs(fromFooters).stream()
-                  .map(r -> newReviewerInput(r, ReviewerState.CC)));
-    }
     return inputs.collect(toImmutableList());
-  }
-
-  private static InternalReviewerInput newReviewerInput(String reviewer, ReviewerState state) {
-    // Disable individual emails when adding reviewers, as all reviewers will receive the single
-    // bulk new patch set email.
-    InternalReviewerInput input =
-        ReviewerModifier.newReviewerInput(reviewer, state, NotifyHandling.NONE);
-
-    // Ignore failures for reasons like the reviewer being inactive or being unable to see the
-    // change. See discussion in ChangeInserter.
-    input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
-
-    return input;
   }
 
   private String insertChangeMessage(ChangeUpdate update, ChangeContext ctx, String reviewMessage) {

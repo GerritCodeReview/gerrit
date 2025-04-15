@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93a3c9e8_5d2181a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-15T16:36:15Z",
+      "side": 1,
+      "message": "Can you write in commit message that you are adding show_on_unchanged_lines to checks api.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8444d65_1bea0a19",
         "filename": "polygerrit-ui/app/api/checks.ts",
         "patchSetId": 1
@@ -101,6 +124,29 @@
         "startChar": 2,
         "endLine": 28,
         "endChar": 37
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60e5996c_49c6b2dc",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-15T16:36:15Z",
+      "side": 1,
+      "message": "Maybe you can add chunk.common?\n\n```\nif (chunk.common) {\n      const chunkLength \u003d side \u003d\u003d\u003d Side.LEFT ? chunk.a!.length : chunk.b!.length;\n      currentLine +\u003d chunkLength;\n      if (currentLine \u003e\u003d line) return true;\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 35,
+        "endChar": 5
       },
       "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

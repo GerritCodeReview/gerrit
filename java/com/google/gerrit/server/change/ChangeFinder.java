@@ -31,7 +31,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.GerritImportedServerIds;
+import com.google.gerrit.server.config.GerritImportedServerIdsProvider;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -83,13 +83,13 @@ public class ChangeFinder {
   @Inject
   ChangeFinder(
       IndexConfig indexConfig,
-      @GerritImportedServerIds ImmutableList<String> importedServerIds,
+      GerritImportedServerIdsProvider gerritImportedServerIdsProvider,
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory changeNotesFactory,
       MetricMaker metricMaker) {
     this.indexConfig = indexConfig;
-    this.hasImportedChanges = !importedServerIds.isEmpty();
+    this.hasImportedChanges = gerritImportedServerIdsProvider.hasImportedServerIds();
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
     this.changeNotesFactory = changeNotesFactory;

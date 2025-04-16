@@ -237,7 +237,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       ExperimentFeatures experimentFeatures,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
+      ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -255,7 +255,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       ExperimentFeatures experimentFeatures,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
+      ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -458,8 +458,6 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
 
   private Change.Id getVirtualId() {
     Change change = getChange();
-    return virtualIdFunc == null
-        ? change.getId()
-        : virtualIdFunc.apply(change.getServerId(), change.getId());
+    return virtualIdFunc.apply(change::getServerId, change.getId());
   }
 }

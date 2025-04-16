@@ -1,0 +1,168 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b33668cd_dc68768e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T07:17:43Z",
+      "side": 1,
+      "message": "Maybe derive both from subscriptions.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "886b5771_f9c2efe7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 16,
+                "startChar": 0,
+                "endLine": 16,
+                "endChar": 0
+              },
+              "replacement": "  AccountDetailInfo,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 17,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 31,
+                "startChar": 0,
+                "endLine": 32,
+                "endChar": 0
+              },
+              "replacement": "import {\n  changeModelToken,\n  ChangeModel,\n  accountModelToken,\n  AccountModel,\n} from \u0027../../../models/change/change-model\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 36,
+                "startChar": 0,
+                "endLine": 40,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 56,
+                "startChar": 0,
+                "endLine": 56,
+                "endChar": 0
+              },
+              "replacement": "  @state() change?: ChangeInfo;\n\n  @state() account?: AccountDetailInfo;\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 58,
+                "startChar": 0,
+                "endLine": 58,
+                "endChar": 0
+              },
+              "replacement": "  private readonly getAccountModel \u003d resolve(this, accountModelToken);\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+              "range": {
+                "startLine": 116,
+                "startChar": 0,
+                "endLine": 116,
+                "endChar": 0
+              },
+              "replacement": "    );\n    subscribe(\n      this,\n      () \u003d\u003e this.getChangeModel().change$,\n      change \u003d\u003e {\n        this.change \u003d change;\n      }\n    );\n    subscribe(\n      this,\n      () \u003d\u003e this.getAccountModel().account$,\n      account \u003d\u003e {\n        this.account \u003d account;\n      }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48539dd8_74e793bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T07:17:43Z",
+      "side": 1,
+      "message": "Just subscribe to `change`, then updates should happen automatically. OTOH that would contratadict what you are claiming in the commit message. Hmmm. Why does this component not update when the `change` property changes? Or why does `change` not change when the labels change??",
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af22839_4ba12c4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T07:17:43Z",
+      "side": 1,
+      "message": "These two can be both local variables of `render()`.",
+      "range": {
+        "startLine": 120,
+        "startChar": 3,
+        "endLine": 121,
+        "endChar": 30
+      },
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9fefb65_90553ee7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T07:17:43Z",
+      "side": 1,
+      "message": "Ideally this method would only get `labels` and `attentionSet` and not the full change.",
+      "range": {
+        "startLine": 216,
+        "startChar": 24,
+        "endLine": 216,
+        "endChar": 37
+      },
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ee65da4_8bd1453c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T08:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93a3c9e8_5d2181a6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8444d65_1bea0a19",
@@ -61,6 +85,30 @@
           ]
         }
       ],
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1fe9448_53a7b566",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T08:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8444d65_1bea0a19",
+      "range": {
+        "startLine": 467,
+        "startChar": 5,
+        "endLine": 468,
+        "endChar": 43
+      },
       "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -106,6 +154,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be037763_5df7417b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T08:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3091df7_175791fc",
+      "range": {
+        "startLine": 739,
+        "startChar": 0,
+        "endLine": 744,
+        "endChar": 0
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71b4f8ae_3b7776f8",
@@ -129,6 +201,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c98dac_957214e2",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T08:45:28Z",
+      "side": 1,
+      "message": "There are two problems with that approach:\n1. Diff chunks do not have `start` and `end` properties. Also, if the diff chunks had such properties, then we would require them separately for `LEFT` and `RIGHT`.\n2. We are not looking for the `skip` chunk, but for the `ab` chunk that matches.",
+      "parentUuid": "71b4f8ae_3b7776f8",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60e5996c_49c6b2dc",
@@ -142,6 +238,30 @@
       "writtenOn": "2025-04-15T16:36:15Z",
       "side": 1,
       "message": "Maybe you can add chunk.common?\n\n```\nif (chunk.common) {\n      const chunkLength \u003d side \u003d\u003d\u003d Side.LEFT ? chunk.a!.length : chunk.b!.length;\n      currentLine +\u003d chunkLength;\n      if (currentLine \u003e\u003d line) return true;\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 35,
+        "endChar": 5
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35e14cdf_de08de4d",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T08:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e5996c_49c6b2dc",
       "range": {
         "startLine": 32,
         "startChar": 5,

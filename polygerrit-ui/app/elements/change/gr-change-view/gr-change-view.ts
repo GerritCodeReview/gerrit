@@ -2065,7 +2065,7 @@ export class GrChangeView extends LitElement {
     if (!this.loggedIn || !isInvolved(this.change, this.account)) return;
     const newChange = {...this.change};
     if (!newChange.attention_set) newChange.attention_set = {};
-    if (hasAttention(this.account, this.change)) {
+    if (hasAttention(this.account, this.change.attention_set)) {
       const reason = getRemovedByReason(this.account, this.serverConfig);
       if (newChange.attention_set)
         delete newChange.attention_set[this.account._account_id];

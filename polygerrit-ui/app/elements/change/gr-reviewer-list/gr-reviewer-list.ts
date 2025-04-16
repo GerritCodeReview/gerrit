@@ -11,7 +11,6 @@ import {LitElement, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
 import {
-  ChangeInfo,
   AccountInfo,
   ApprovalInfo,
   AccountDetailInfo,
@@ -27,13 +26,14 @@ import {fire} from '../../../utils/event-util';
 import {ShowReplyDialogEvent} from '../../../types/events';
 import {repeat} from 'lit/directives/repeat.js';
 import {accountKey} from '../../../utils/account-util';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {ParsedChangeInfo} from '../../../types/types';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
-  @property({type: Object}) change?: ChangeInfo;
-
-  @property({type: Object}) account?: AccountDetailInfo;
-
   @property({type: Boolean, reflect: true}) disabled = false;
 
   @property({type: Boolean}) mutable = false;
@@ -42,13 +42,17 @@ export class GrReviewerList extends LitElement {
 
   @property({type: Boolean, attribute: 'ccs-only'}) ccsOnly = false;
 
-  @state() displayedReviewers: AccountInfo[] = [];
-
   @state() reviewers: AccountInfo[] = [];
 
-  @state() hiddenReviewerCount?: number;
-
   @state() showAllReviewers = false;
+
+  @state() change?: ParsedChangeInfo;
+
+  @state() account?: AccountDetailInfo;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   static override get styles() {
     return [
@@ -100,15 +104,35 @@ export class GrReviewerList extends LitElement {
     ];
   }
 
+  constructor() {
+    super();
+    // TODO(milutin): Clean up - change can be removed when all gr-account-chip
+    // components stop using full change object
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => {
+        this.change = change;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      account => {
+        this.account = account;
+      }
+    );
+  }
+
   override render() {
-    this.displayedReviewers = this.computeDisplayedReviewers() ?? [];
-    this.hiddenReviewerCount =
-      this.reviewers.length - this.displayedReviewers.length;
+    const displayedReviewers = this.computeDisplayedReviewers() ?? [];
+    const hiddenReviewerCount =
+      this.computeHiddenReviewerCount(displayedReviewers);
     return html`
       <div class="container">
         <div class="reviewersAndControls">
           ${repeat(
-            this.displayedReviewers,
+            displayedReviewers,
             reviewer => accountKey(reviewer),
             reviewer => this.renderAccountChip(reviewer)
           )}
@@ -129,11 +153,11 @@ export class GrReviewerList extends LitElement {
         <gr-button
           class="hiddenReviewers"
           link=""
-          ?hidden=${!this.hiddenReviewerCount}
+          ?hidden=${!hiddenReviewerCount}
           @click=${() => {
             this.showAllReviewers = true;
           }}
-          >and ${this.hiddenReviewerCount} more</gr-button
+          >and ${hiddenReviewerCount} more</gr-button
         >
       </div>
     `;
@@ -172,7 +196,8 @@ export class GrReviewerList extends LitElement {
     return getCodeReviewLabel(this.change.labels);
   }
 
-  private computeDisplayedReviewers() {
+  // private but used in tests
+  computeDisplayedReviewers() {
     if (this.change?.owner === undefined) {
       return;
     }
@@ -193,13 +218,25 @@ export class GrReviewerList extends LitElement {
       .filter(
         reviewer => reviewer._account_id !== this.change?.owner._account_id
       )
-      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
-
+      .sort((r1, r2) =>
+        sortReviewers(
+          r1,
+          r2,
+          this.change?.attention_set,
+          this.change?.labels,
+          this.account
+        )
+      );
     if (this.reviewers.length > 8 && !this.showAllReviewers) {
       return this.reviewers.slice(0, 6);
     } else {
       return this.reviewers;
     }
+  }
+
+  // private but used in tests
+  computeHiddenReviewerCount(displayedReviewers: AccountInfo[]) {
+    return this.reviewers.length - displayedReviewers.length;
   }
 
   // private but used in tests

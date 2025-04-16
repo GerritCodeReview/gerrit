@@ -24,7 +24,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
+import java.util.function.Supplier;
 
 /**
  * Dictionary-based encoding algorithm for combining a serverId/legacyChangeNum into a virtual
@@ -32,7 +32,6 @@ import com.google.inject.Singleton;
  *
  * <p>TODO: To be reverted on master and stable-3.8
  */
-@Singleton
 public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlgorithm {
   /*
    * Bit-wise masks for representing the Change's VirtualId as combination of ServerId + ChangeNum:
@@ -65,7 +64,8 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
   }
 
   @Override
-  public Change.Id apply(String changeServerId, Change.Id changeNumId) {
+  public Change.Id apply(Supplier<String> changeServerIdSupplier, Change.Id changeNumId) {
+    String changeServerId = changeServerIdSupplier.get();
     if (changeServerId == null || localServerId.equals(changeServerId)) {
       return changeNumId;
     }

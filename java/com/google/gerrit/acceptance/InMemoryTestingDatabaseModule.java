@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.MetricsReservoirConfig;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.FileBasedGlobalPluginConfigProvider;
+import com.google.gerrit.server.config.GerritImportedServerIdsProvider;
 import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GlobalPluginConfigProvider;
@@ -81,7 +82,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(SitePaths.class);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
 
-    install(new SchemaModule());
+    install(new SchemaModule(new GerritImportedServerIdsProvider(cfg)));
 
     install(new SshdModule());
 

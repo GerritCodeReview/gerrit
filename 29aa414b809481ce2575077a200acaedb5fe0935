@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb45a5fe_980f4062",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-16T07:21:42Z",
+      "side": 1,
+      "message": "Do you need a `?? []` here?",
+      "fixSuggestions": [
+        {
+          "fixId": "7056c486_9786e087",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1735,
+                "startChar": 0,
+                "endLine": 1736,
+                "endChar": 0
+              },
+              "replacement": "    ) ?? [];\n"
+            }
+          ]
+        }
+      ],
+      "revId": "29aa414b809481ce2575077a200acaedb5fe0935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

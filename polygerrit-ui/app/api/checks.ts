@@ -462,6 +462,14 @@ export declare interface CheckResult {
    * not have to be part of the change yet.
    */
   fixes?: Fix[];
+
+  /**
+   * If the result has a code pointer that points to an *unchanged* piece of
+   * code, then we hide the result, if this value is `false`.
+   *
+   * Default: true
+   */
+  show_on_unchanged_lines?: boolean;
 }
 
 export declare interface Fix {

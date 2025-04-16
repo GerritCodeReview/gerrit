@@ -6,7 +6,11 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
-import {getDiffLength, isImageDiff} from '../../../utils/diff-util';
+import {
+  getDiffLength,
+  isImageDiff,
+  isLineUnchanged,
+} from '../../../utils/diff-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -97,6 +101,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {Shortcut} from '../../lit/shortcut-controller';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {toComment} from '../../../models/checks/checks-util';
+import {lineNumberToNumber} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -731,6 +736,12 @@ export class GrDiffHost extends LitElement {
     let rangeAttr: string | undefined = undefined;
     if (draft.range) {
       rangeAttr = `${JSON.stringify(draft.range)}`;
+    }
+    if (
+      check.show_on_unchanged_lines === false &&
+      isLineUnchanged(this.diff, Side.RIGHT, lineNumberToNumber(line))
+    ) {
+      return;
     }
 
     return html`

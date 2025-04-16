@@ -52,6 +52,24 @@
       "parentUuid": "8af4ddfb_d6ecaabb",
       "revId": "9684c6f8c386a7e85c82b5d1ffc87719d2980367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f03a1ff_2a7db998",
+        "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-16T13:26:10Z",
+      "side": 1,
+      "message": "`commit()` is a private method only being used by the `DirectAuthTokenAccessor`. The only way Icould imagine this to work, is to reimplement all public methods of the diretc accessor in the cached accessor, in which I call the wrapped direct accessor and then do the eviction. But IMO that is also quite ugly.",
+      "parentUuid": "9d44ea66_8eebc726",
+      "revId": "9684c6f8c386a7e85c82b5d1ffc87719d2980367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

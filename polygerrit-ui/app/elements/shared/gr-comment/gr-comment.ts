@@ -97,6 +97,7 @@ import {
   suggestionsServiceToken,
 } from '../../../services/suggestions/suggestions-service';
 import {SuggestionsProvider} from '../../../api/suggestions';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -302,6 +303,8 @@ export class GrComment extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getStorage = resolve(this, storageServiceToken);
@@ -434,6 +437,13 @@ export class GrComment extends LitElement {
       this,
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
+      // We currently support results from only 1 provider.
+      suggestionsPlugins =>
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
     );
     subscribe(
       this,
@@ -1243,7 +1253,7 @@ export class GrComment extends LitElement {
           href=${this.suggestionsProvider?.getDocumentationLink?.() ||
           getDocUrl(
             this.docsBaseUrl,
-            'user-suggest-edits.html$_generate_suggestion'
+            'user-suggest-edits.html#generate_suggestion'
           )}
           target="_blank"
           rel="noopener noreferrer"

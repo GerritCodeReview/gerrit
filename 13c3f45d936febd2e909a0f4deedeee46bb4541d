@@ -102,6 +102,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c001b2_66cf5b07",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-16T08:49:09Z",
+      "side": 1,
+      "message": "Done - I subscribe to account and change",
+      "parentUuid": "b33668cd_dc68768e",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 0
+      },
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48539dd8_74e793bc",
@@ -115,6 +139,24 @@
       "writtenOn": "2025-04-16T07:17:43Z",
       "side": 1,
       "message": "Just subscribe to `change`, then updates should happen automatically. OTOH that would contratadict what you are claiming in the commit message. Hmmm. Why does this component not update when the `change` property changes? Or why does `change` not change when the labels change??",
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d0368ec_29a0bdd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-16T08:49:09Z",
+      "side": 1,
+      "message": "I haven\u0027t found root cause, but I tested it that if change is a copy and you change labels it doesn\u0027t trigger rerending. You need to put new deepcopy of change to retrigger sorting.\n\nI cleanup code and I think it might help because it is much clearer when render is triggered.",
+      "parentUuid": "48539dd8_74e793bc",
       "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -142,6 +184,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c80830c_11cf6ff5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-16T08:49:09Z",
+      "side": 1,
+      "message": "That\u0027s true. They were used for test. I cleaned it up",
+      "parentUuid": "4af22839_4ba12c4f",
+      "range": {
+        "startLine": 120,
+        "startChar": 3,
+        "endLine": 121,
+        "endChar": 30
+      },
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9fefb65_90553ee7",
@@ -155,6 +221,30 @@
       "writtenOn": "2025-04-16T07:17:43Z",
       "side": 1,
       "message": "Ideally this method would only get `labels` and `attentionSet` and not the full change.",
+      "range": {
+        "startLine": 216,
+        "startChar": 24,
+        "endLine": 216,
+        "endChar": 37
+      },
+      "revId": "13c3f45d936febd2e909a0f4deedeee46bb4541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d94b070_ba4e1137",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-16T08:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fefb65_90553ee7",
       "range": {
         "startLine": 216,
         "startChar": 24,

@@ -16,6 +16,24 @@
       "message": "Why does `CachingAuthTokenAccessor`, which should be a wrapper around the `DirectAuthTokentAccessor`, inherit any logic from the `AbstractAuthTokenAccessor`.\nWhat if this class simply delegates all calls to the wrapped instance of the `DirectAuthTokentAccessor` and in addition takes care to always read via the cache and to evict from the cache whenever something is modified. Wouldn\u0027t that work?",
       "revId": "9684c6f8c386a7e85c82b5d1ffc87719d2980367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8af4ddfb_d6ecaabb",
+        "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-16T08:50:09Z",
+      "side": 1,
+      "message": "I did take a look at this option, but the issue here is the `commit()` method that is different between both implementations (if a cache is being used, we need to evict the entry after commit). Wrapping instead of inheritance is thus not straight forward.",
+      "parentUuid": "1ce10d94_c7f005d4",
+      "revId": "9684c6f8c386a7e85c82b5d1ffc87719d2980367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

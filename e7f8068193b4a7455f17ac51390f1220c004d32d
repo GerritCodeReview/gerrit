@@ -70,6 +70,24 @@
       "parentUuid": "3b2ffb0b_bd13fb96",
       "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd1840c_a8b0ffde",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenAccessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-16T08:50:09Z",
+      "side": 1,
+      "message": "I am of course not 100 % sure, but I believe in the AccountState. @nitzan@google.com could say more bout that.",
+      "parentUuid": "351b7678_0b5d6597",
+      "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

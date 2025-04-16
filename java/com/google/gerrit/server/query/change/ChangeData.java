@@ -327,7 +327,7 @@ public class ChangeData {
       Change.Id id,
       int currentPatchSetId,
       ObjectId commitId,
-      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(
@@ -462,7 +462,7 @@ public class ChangeData {
   private ImmutableSetMultimap<Project.NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
   private String changeServerId;
-  private ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdFunc;
   private Boolean failedParsingFromIndex = false;
   private Change.Id virtualId;
 
@@ -524,7 +524,6 @@ public class ChangeData {
     this.change = change;
     this.notes = notes;
 
-    this.changeServerId = notes == null ? null : notes.getServerId();
     this.virtualIdFunc = virtualIdFunc;
     this.virtualId = virtualId;
   }
@@ -681,7 +680,7 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
-      return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
+      virtualId = virtualIdFunc.apply(this::changeServerId, legacyId);
     }
     return virtualId;
   }

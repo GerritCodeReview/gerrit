@@ -225,6 +225,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac3ef8fd_f95d2ce7",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-16T08:50:53Z",
+      "side": 1,
+      "message": "\u003e Diff chunks do not have start and end properties\n\nWhy did I assume this 😄\n\nYeah I looked at the interface again. Quite tricky. Thanks for clarifying.",
+      "parentUuid": "f9c98dac_957214e2",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "e32690fd68eb3091cd4adda08d68174508b4655d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60e5996c_49c6b2dc",

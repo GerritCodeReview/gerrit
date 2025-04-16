@@ -34,6 +34,60 @@
       ],
       "revId": "29aa414b809481ce2575077a200acaedb5fe0935",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94bf4aa7_26663915",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-16T08:11:37Z",
+      "side": 1,
+      "message": "Fix applied. You are right, I need to make sure it\u0027s always array.",
+      "parentUuid": "bb45a5fe_980f4062",
+      "revId": "29aa414b809481ce2575077a200acaedb5fe0935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce474312_7188fbcb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-16T08:11:37Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "bb45a5fe_980f4062",
+      "fixSuggestions": [
+        {
+          "fixId": "7a6d698d_c948d0fe",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1735,
+                "startChar": 0,
+                "endLine": 1736,
+                "endChar": 0
+              },
+              "replacement": "    ) ?? [];\n"
+            }
+          ]
+        }
+      ],
+      "revId": "29aa414b809481ce2575077a200acaedb5fe0935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

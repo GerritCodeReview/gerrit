@@ -211,17 +211,33 @@ const getReviewerPermittedScore = (
   return NaN;
 };
 
+const getSelfPermittedScore = (change: ChangeInfo, label: string): number => {
+  const permittedLabels = change.permitted_labels?.[label];
+  if (permittedLabels) {
+    return Number(permittedLabels[permittedLabels.length - 1]);
+  }
+  return 0;
+};
+
 /**
  * Explains which labels the user can vote on and which score they can
  * give.
  */
-export function computeVoteableText(change: ChangeInfo, reviewer: AccountInfo) {
+export function computeVoteableText(
+  change: ChangeInfo,
+  reviewer: AccountInfo,
+  self?: AccountInfo
+) {
   if (!change || !change.labels) {
     return '';
   }
   const maxScores = [];
   for (const label of Object.keys(change.labels)) {
-    const maxScore = getReviewerPermittedScore(change, reviewer, label);
+    let maxScore = getReviewerPermittedScore(change, reviewer, label);
+    if (self && isSelf(reviewer, self)) {
+      maxScore = getSelfPermittedScore(change, label);
+    }
+
     if (isNaN(maxScore) || maxScore < 0) {
       continue;
     }

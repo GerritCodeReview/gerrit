@@ -16,6 +16,23 @@
       "message": "Please review and give your view on this merge-up, which restores the starring of imported changes.\n\nWe\u0027ll wait for your feedback before merging.",
       "revId": "3a581e29637287c1d0bf6209deb3688c2d36fa33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7300b66_1e977344",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-17T11:57:34Z",
+      "side": 1,
+      "message": "What about this TODO? Also elsewhere.",
+      "revId": "3a581e29637287c1d0bf6209deb3688c2d36fa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

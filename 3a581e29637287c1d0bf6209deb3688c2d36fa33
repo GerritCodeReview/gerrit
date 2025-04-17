@@ -33,6 +33,24 @@
       "message": "What about this TODO? Also elsewhere.",
       "revId": "3a581e29637287c1d0bf6209deb3688c2d36fa33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28374e1e_1eeb397a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-17T12:00:08Z",
+      "side": 1,
+      "message": "It is obsolete, I need to remove it from stable-3.9 onwards, as we don\u0027t have another solution yet on master.",
+      "parentUuid": "d7300b66_1e977344",
+      "revId": "3a581e29637287c1d0bf6209deb3688c2d36fa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

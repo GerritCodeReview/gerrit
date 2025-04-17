@@ -181,7 +181,7 @@ export function replaceTemplates(
 }
 
 /**
- * Returns max permitted score for reviewer.
+ * Returns max permitted score for reviewer (other than self, current user)
  */
 const getReviewerPermittedScore = (
   change: ChangeInfo,
@@ -212,16 +212,37 @@ const getReviewerPermittedScore = (
 };
 
 /**
+ * Returns max permitted score for self (current user)
+ */
+const getSelfPermittedScore = (change: ChangeInfo, label: string): number => {
+  const permittedLabels = change.permitted_labels?.[label];
+  if (permittedLabels) {
+    return Number(permittedLabels[permittedLabels.length - 1]);
+  }
+  return 0;
+};
+
+/**
  * Explains which labels the user can vote on and which score they can
  * give.
  */
-export function computeVoteableText(change: ChangeInfo, reviewer: AccountInfo) {
+export function computeVoteableText(
+  change: ChangeInfo,
+  reviewer: AccountInfo,
+  self?: AccountInfo
+) {
   if (!change || !change.labels) {
     return '';
   }
   const maxScores = [];
   for (const label of Object.keys(change.labels)) {
-    const maxScore = getReviewerPermittedScore(change, reviewer, label);
+    let maxScore = getReviewerPermittedScore(change, reviewer, label);
+    // if the reviewer is the current user, check if they can vote on the label
+    // we have different logic for self and other reviewers
+    if (isNaN(maxScore) && self && isSelf(reviewer, self)) {
+      maxScore = getSelfPermittedScore(change, label);
+    }
+
     if (isNaN(maxScore) || maxScore < 0) {
       continue;
     }

@@ -260,6 +260,23 @@ suite('account-util tests', () => {
     );
   });
 
+  test('computeVoteableText for self account', () => {
+    const change = {
+      ...createChange(),
+      labels: {
+        Foo: {
+          ...createDetailedLabelInfo(),
+          all: [{_account_id: 1 as AccountId, value: 2}],
+        },
+      },
+      permitted_labels: {
+        Foo: ['-1', ' 0', '+1', '+2'],
+      },
+    };
+    const self = {...createAccountDetailWithId(1)};
+    assert.strictEqual(computeVoteableText(change, self, self), 'Foo: +2');
+  });
+
   test('isDetailedAccount', () => {
     assert.isFalse(isDetailedAccount({_account_id: 12345 as AccountId}));
     assert.isFalse(isDetailedAccount({email: 'abcd' as EmailAddress}));

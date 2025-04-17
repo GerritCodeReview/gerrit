@@ -88,6 +88,24 @@
       "parentUuid": "2f03a1ff_2a7db998",
       "revId": "9684c6f8c386a7e85c82b5d1ffc87719d2980367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ecb8045_7c877e20",
+        "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-17T10:42:22Z",
+      "side": 1,
+      "message": "Thinking further about it, the rest of the code shall only use the `AuthTokenAccessor` interface, right? This means that the caching accessor has to wrap and object of the `AuthTokenAccessor` interface and not necessarily the `DirectTokenAccessor` (which is just one possible implementation).",
+      "parentUuid": "fee0f9a8_8ba02727",
+      "revId": "9684c6f8c386a7e85c82b5d1ffc87719d2980367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

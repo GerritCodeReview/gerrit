@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "948f2e7e_fd03b85a",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-17T10:36:11Z",
+      "side": 1,
+      "message": "This logic shall rather go into the `AuthTokenModule` which shall have a parameter in the constructor to be \"configured\" with what it shall bind. For examle:\n```\nclass AuthTokenModule {\n  AuthTokenModule(boolean useCache) {\n  }\n\n  public void configure() {\n    if (useCache) {\n      ... bind caching accessor\n    } else {\n      ... bind direct accessor\n    }\n```\n\nWe already have many parameterized Guice modules in Gerrit.",
+      "range": {
+        "startLine": 560,
+        "startChar": 0,
+        "endLine": 571,
+        "endChar": 13
+      },
+      "revId": "8fd791d43772a31aebe6e960e6d57a2abda44713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

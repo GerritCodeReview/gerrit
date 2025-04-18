@@ -93,8 +93,6 @@ public abstract class IntBlob {
           val, refName, projectName, oldId == null ? "null" : oldId.name());
       newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
       ins.flush();
-      logger.atFine().log(
-          "successfully stored %d on %s as %s in %s", val, refName, newId.name(), projectName);
     }
     RefUpdate ru = repo.updateRef(refName);
     if (oldId != null) {
@@ -105,6 +103,8 @@ public abstract class IntBlob {
     ru.setForceUpdate(true); // Required for non-commitish updates.
     RefUpdate.Result result = ru.update(rw);
     if (refUpdated(result)) {
+      logger.atFine().log(
+          "successfully stored %d on %s as %s in %s", val, refName, newId.name(), projectName);
       gitRefUpdated.fire(projectName, ru, null);
     }
     return ru;

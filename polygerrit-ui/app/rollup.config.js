@@ -28,9 +28,9 @@ function requirePlugin(id) {
   return require(pluginPath);
 }
 
-const resolve = requirePlugin('rollup-plugin-node-resolve');
-const {terser} = requirePlugin('rollup-plugin-terser');
-const define = requirePlugin('rollup-plugin-define');
+const resolve = requirePlugin('@rollup/plugin-node-resolve');
+const terser = requirePlugin('@rollup/plugin-terser');
+const replace = requirePlugin('@rollup/plugin-replace');
 
 // @polymer/font-roboto-local uses import.meta.url value
 // as a base path to fonts. We should substitute a correct javascript
@@ -47,7 +47,8 @@ const importLocalFontMetaUrlResolver = function() {
   };
 };
 
-export default {
+// export default {
+module.exports = {
   treeshake: false,
   onwarn: warning => {
     // No warnings from rollupjs are allowed.
@@ -70,16 +71,15 @@ export default {
   // Context must be set to window to correctly processing global variables
   context: 'window',
   plugins: [resolve({
-    customResolveOptions: {
-      // By default, it tries to use page.mjs file instead of page.js
-      // when importing 'page/page'.
-      // TODO: page.was removed. Is something obsolete here?
-      extensions: ['.js'],
-      moduleDirectory: 'external/ui_npm/node_modules',
-    },
+    // By default, it tries to use page.mjs file instead of page.js
+    // when importing 'page/page'.
+    // TODO: page.was removed. Is something obsolete here?
+    extensions: ['.js'],
+    modulePaths: ['external/ui_npm/node_modules'],
   }),
-  define({
-    replacements: {
+  replace({
+    preventAssignment: true,
+    values: {
       'process.env.NODE_ENV': JSON.stringify('production'),
     },
   }),

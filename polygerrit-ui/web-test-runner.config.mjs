@@ -40,6 +40,7 @@ const config = {
       ts: true,
       target: "es2020",
       tsconfig: "app/tsconfig.json",
+      experimentalDecorators: true,
     }),
     visualRegressionPlugin({
       diffOptions: {

@@ -38,7 +38,7 @@ function requirePlugin(id) {
   return require(pluginPath);
 }
 
-const resolve = requirePlugin('rollup-plugin-node-resolve');
+const resolve = requirePlugin('@rollup/plugin-node-resolve');
 
 export default {
   treeshake: false,
@@ -53,7 +53,7 @@ export default {
   context: 'window',
   plugins: [resolve({
     customResolveOptions: {
-      moduleDirectory: 'external/plugins_npm/node_modules',
+      moduleDirectories: ['external/plugins_npm/node_modules'],
     },
   })],
 };

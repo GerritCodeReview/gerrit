@@ -52,6 +52,23 @@ const testFiles = getArgValue('--test-files') ?? `${pathPrefix}app/**/*_test.{ts
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
 const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
+// Work around an issue with test failures not showing in the
+// summery. It appears it is because of this https://github.com/modernweb-dev/web/commit/b2c857362d894a9eceb36516af84a800209f187b
+// It changed from using TestRunnerLogger to a BufferLogger. https://github.com/modernweb-dev/web/blob/29f73c59f1d3cb7e7fb52363ddf0c37598ecee3e/packages/test-runner-core/src/cli/TestRunnerCli.ts#L282
+// is not being called for some reason. So we have to manually do it.
+// Remove this was https://github.com/modernweb-dev/web/issues/2936 is fixed.
+let cachedLogger;
+export function customSummaryReporter() {
+  return {
+    reportTestFileResults({ logger }) {
+      cachedLogger = logger;
+    },
+    onTestRunFinished() {
+      cachedLogger.logBufferedMessages();
+    },
+  };
+};
+
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
   // TODO: https://g-issues.gerritcodereview.com/issues/365565157 - undo the
@@ -69,7 +86,7 @@ const config = {
   port: 9876,
 
   nodeResolve: {
-    moduleDirectories: getModulesDir(),
+    modulePaths: getModulesDir(),
   },
 
   testFramework: {
@@ -95,7 +112,7 @@ const config = {
   // /lib/fonts/, see middleware.
   rootDir,
 
-  reporters: [defaultReporter(), summaryReporter()],
+  reporters: [defaultReporter(), summaryReporter(), customSummaryReporter()],
 
   middleware: [
     // Fonts are in /lib/fonts/, but css tries to load from

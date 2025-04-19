@@ -6,7 +6,9 @@
 import '../../../test/common-test-setup';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import {fixture, html} from '@open-wc/testing';
-import {visualDiff} from '@web/test-runner-visual-regression';
+// Until https://github.com/modernweb-dev/web/issues/2804 is fixed, we have to load
+// visualDiff from browser/commands. Remove browser/commands once it is fixed.
+import {visualDiff} from '@web/test-runner-visual-regression/browser/commands';
 import {FileInfo, PARENT, RevisionPatchSetNum} from '../../../api/rest-api';
 import {normalize} from '../../../models/change/files-model';
 import {PatchRange} from '../../../types/common';

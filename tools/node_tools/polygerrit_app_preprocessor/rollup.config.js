@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-
 export default {
   external: ['fs', 'path', 'parse5', 'dom5', 'parse5-html-rewriting-stream'],
   onwarn: warn => {

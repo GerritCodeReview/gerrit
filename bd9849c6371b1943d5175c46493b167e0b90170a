@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fed9305_c711abb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-19T18:36:55Z",
+      "side": 1,
+      "message": "Dunno why it fails @ version 0.16 for @web/test-runner. 0.15 works.",
+      "revId": "bd9849c6371b1943d5175c46493b167e0b90170a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

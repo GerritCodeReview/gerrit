@@ -38,7 +38,7 @@
     "@web/test-runner": "^0.20.1",
     "lit": "^3.2.1",
     "rxjs": "^6.6.7",
-    "sinon": "^13.0.2"
+    "sinon": "^20.0.0"
   },
   "dependencies // comments": {
     "@polymer/polymer": [

@@ -59,7 +59,7 @@ suite('gr-popup-interface tests', () => {
       manual.innerHTML = 'manual content';
       const popup = instance._getElement();
       assert.isOk(popup);
-      popup!.appendChild(manual);
+      popup.appendChild(manual);
       await waitEventLoop();
       assert.equal(
         queryAndAssert(container, '#foobar').textContent,

@@ -33,7 +33,7 @@
     "@gerritcodereview/typescript-api": "3.11.0",
     "@open-wc/testing": "^3.2.2",
     "@polymer/decorators": "^3.0.0",
-    "@polymer/polymer": "3.5.1",
+    "@polymer/polymer": "3.5.2",
     "@web/dev-server-esbuild": "^0.3.6",
     "@web/test-runner": "^0.15.3",
     "lit": "^3.2.1",

@@ -395,6 +395,7 @@ suite('gr-comment-thread tests', () => {
       queryAndAssert<GrButton>(element, '#quoteBtn').click();
       assert.isTrue(stubAdd.called);
       assert.equal(stubAdd.lastCall.firstArg.message, '');
+      // @ts-ignore
       assert.isTrue(addQuoteStub.calledWith('> keep it going\n\n'));
     });
 

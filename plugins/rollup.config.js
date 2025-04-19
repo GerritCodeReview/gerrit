@@ -38,9 +38,9 @@ function requirePlugin(id) {
   return require(pluginPath);
 }
 
-const resolve = requirePlugin('rollup-plugin-node-resolve');
+const resolve = requirePlugin('@rollup/plugin-node-resolve');
 
-export default {
+module.exports = {
   treeshake: false,
   onwarn: warning => {
     // No warnings from rollupjs are allowed.
@@ -52,8 +52,6 @@ export default {
   // Context must be set to window to correctly process global variables
   context: 'window',
   plugins: [resolve({
-    customResolveOptions: {
-      moduleDirectory: 'external/plugins_npm/node_modules',
-    },
+    modulePaths: ['external/plugins_npm/node_modules'],
   })],
 };

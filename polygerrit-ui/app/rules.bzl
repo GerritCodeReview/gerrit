@@ -29,8 +29,8 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         silent = True,
         sourcemap = "hidden",
         deps = [
-            "@tools_npm//rollup-plugin-define",
-            "@tools_npm//rollup-plugin-node-resolve",
+            "@tools_npm//@rollup/plugin-replace",
+            "@tools_npm//@rollup/plugin-node-resolve",
         ],
     )
 
@@ -43,8 +43,8 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         silent = True,
         sourcemap = "hidden",
         deps = [
-            "@tools_npm//rollup-plugin-define",
-            "@tools_npm//rollup-plugin-node-resolve",
+            "@tools_npm//@rollup/plugin-replace",
+            "@tools_npm//@rollup/plugin-node-resolve",
         ],
     )
 
@@ -57,8 +57,8 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         silent = True,
         sourcemap = "hidden",
         deps = [
-            "@tools_npm//rollup-plugin-define",
-            "@tools_npm//rollup-plugin-node-resolve",
+            "@tools_npm//@rollup/plugin-replace",
+            "@tools_npm//@rollup/plugin-node-resolve",
         ],
     )
 

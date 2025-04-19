@@ -19,6 +19,9 @@ ts_library(
 #rollup_bundle - workaround for https://github.com/bazelbuild/rules_nodejs/issues/1522
 rollup_bundle(
     name = "preprocessor-bundle",
+    args = [
+        "--bundleConfigAsCjs=true",
+    ],
     config_file = "rollup.config.js",
     entry_point = "preprocessor.ts",
     format = "cjs",
@@ -26,12 +29,15 @@ rollup_bundle(
     silent = True,
     deps = [
         ":preprocessor",
-        "@tools_npm//rollup-plugin-node-resolve",
+        "@tools_npm//@rollup/plugin-node-resolve",
     ],
 )
 
 rollup_bundle(
     name = "links-updater-bundle",
+    args = [
+        "--bundleConfigAsCjs=true",
+    ],
     config_file = "rollup.config.js",
     entry_point = "links-updater.ts",
     format = "cjs",
@@ -39,7 +45,7 @@ rollup_bundle(
     silent = True,
     deps = [
         ":preprocessor",
-        "@tools_npm//rollup-plugin-node-resolve",
+        "@tools_npm//@rollup/plugin-node-resolve",
     ],
 )
 

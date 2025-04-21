@@ -33,6 +33,24 @@
       "message": "Although i\u0027ll note `yarn run test` works. It\u0027s only `bash ./polygerrit-ui/app/run_test.sh` that doesn\u0027t.",
       "revId": "bd9849c6371b1943d5175c46493b167e0b90170a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbbae7d0_0d05a4b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-21T17:20:09Z",
+      "side": 1,
+      "message": "Looks like a timeout?\n\n```\n00:16:44.720 //polygerrit-ui:web-test-runner                                         TIMEOUT in 900.0s\n```\n\nShould we just increase the patience? 900s seems quite a lot though.",
+      "parentUuid": "9bbc3918_57d4dbb0",
+      "revId": "bd9849c6371b1943d5175c46493b167e0b90170a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

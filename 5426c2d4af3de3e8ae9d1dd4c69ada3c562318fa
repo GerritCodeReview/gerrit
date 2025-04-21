@@ -16,6 +16,23 @@
       "message": "We will have to migrate to https://github.com/aspect-build/rules_ts/ eventually as @bazel/typescript is no longer maintained as that is the replacement.",
       "revId": "5426c2d4af3de3e8ae9d1dd4c69ada3c562318fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d46dde16_b2541d66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-21T00:05:00Z",
+      "side": 1,
+      "message": "Error will be fixed when https://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/469201 is merged.",
+      "revId": "5426c2d4af3de3e8ae9d1dd4c69ada3c562318fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

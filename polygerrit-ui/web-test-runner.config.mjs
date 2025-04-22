@@ -26,11 +26,14 @@ const config = {
   // change once the underlying issue is fixed.
   concurrency: 1,
   files: [
-    "app/**/*_test.{ts,js}",
-    "!**/node_modules/**/*",
+    // Used by plugins
+    process.argv.includes("--test-files") ?
+      process.argv.testFiles :
+      "polygerrit-ui/app/**/*_test.{ts,js}",
+    "!polygerrit-ui/**/node_modules/**/*",
     ...(process.argv.includes("--run-screenshots")
       ? []
-      : ["!app/**/*_screenshot_test.{ts,js}"]),
+      : ["!polygerrit-ui/app/**/*_screenshot_test.{ts,js}"]),
   ],
   port: 9876,
   nodeResolve: true,
@@ -39,7 +42,7 @@ const config = {
     esbuildPlugin({
       ts: true,
       target: "es2020",
-      tsconfig: "app/tsconfig.json",
+      tsconfig: "polygerrit-ui/app/tsconfig.json",
     }),
     visualRegressionPlugin({
       diffOptions: {

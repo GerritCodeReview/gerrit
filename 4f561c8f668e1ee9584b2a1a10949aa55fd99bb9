@@ -20,6 +20,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "336638cd_c09e7323",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-22T21:19:06Z",
+      "side": 1,
+      "message": "Seems plugins use karma... and will need migrating then.",
+      "revId": "4f561c8f668e1ee9584b2a1a10949aa55fd99bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2b570c28_b76b1503",
         "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api_test.ts",
         "patchSetId": 3

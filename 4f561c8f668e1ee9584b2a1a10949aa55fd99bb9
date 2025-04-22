@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d214c2b_b2570e3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-22T19:10:18Z",
+      "side": 1,
+      "message": "I had to delete yarn.lock and re-install so that things were properly removed.",
+      "revId": "4f561c8f668e1ee9584b2a1a10949aa55fd99bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b570c28_b76b1503",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-checks-api/gr-checks-api_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-22T19:10:18Z",
+      "side": 1,
+      "message": "I don\u0027t know why this was needed. But it unbroke things.",
+      "revId": "4f561c8f668e1ee9584b2a1a10949aa55fd99bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "059b1307_afbf41ef",
+        "filename": "polygerrit-ui/app/models/dependency_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-22T19:10:18Z",
+      "side": 1,
+      "message": "I don\u0027t know why this was needed. But it unbroke things.",
+      "revId": "4f561c8f668e1ee9584b2a1a10949aa55fd99bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -353,8 +353,8 @@ suite('gr-repo-access tests', () => {
     } as CustomEvent);
     await element.updateComplete;
     assert.isOk(element.inheritsFrom);
-    assert.equal(element.inheritsFrom!.id, 'abc+123');
-    assert.equal(element.inheritsFrom!.name, 'foo bar baz' as RepoName);
+    assert.equal(element.inheritsFrom.id, 'abc+123');
+    assert.equal(element.inheritsFrom.name, 'foo bar baz' as RepoName);
   });
 
   test('fires page-error', async () => {

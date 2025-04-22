@@ -1438,14 +1438,14 @@ suite('gr-diff-view tests', () => {
       element.leftSide = false;
       let result = element.getLineOfInterest();
       assert.isOk(result);
-      assert.equal(result!.lineNum, 12);
-      assert.equal(result!.side, Side.RIGHT);
+      assert.equal(result.lineNum, 12);
+      assert.equal(result.side, Side.RIGHT);
 
       element.leftSide = true;
       result = element.getLineOfInterest();
       assert.isOk(result);
-      assert.equal(result!.lineNum, 12);
-      assert.equal(result!.side, Side.LEFT);
+      assert.equal(result.lineNum, 12);
+      assert.equal(result.side, Side.LEFT);
     });
 
     test('onLineSelected', () => {

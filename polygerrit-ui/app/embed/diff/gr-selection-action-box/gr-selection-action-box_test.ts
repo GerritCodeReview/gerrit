@@ -103,7 +103,7 @@ suite('gr-selection-action-box', () => {
         } as DOMRect);
       assert.isOk(element.tooltip);
       sinon
-        .stub(element.tooltip!, 'getBoundingClientRect')
+        .stub(element.tooltip, 'getBoundingClientRect')
         .returns({width: 10, height: 10} as DOMRect);
     });
 

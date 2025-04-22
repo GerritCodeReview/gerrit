@@ -15,4 +15,4 @@ ${bazel_bin} test \
       "$@" \
       --test_verbose_timeout_warnings \
       --test_output=all \
-      //polygerrit-ui:web-test-runner
+      //polygerrit-ui:web_test_runner

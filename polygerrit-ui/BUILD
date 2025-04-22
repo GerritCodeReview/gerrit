@@ -1,5 +1,6 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
+load("//tools/bzl:js.bzl", "web_test_runner")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -20,31 +21,6 @@ genrule2(
     output_to_bindir = 1,
 )
 
-filegroup(
-    name = "web-test-runner_config-sources",
-    srcs = glob([
-        "package.json",
-        "web-test-runner.config.mjs",
-    ]),
-)
-
-nodejs_test(
-    name = "web-test-runner",
-    size = "large",
-    chdir = package_name(),
-    data = [
-        ":web-test-runner_config-sources",
-        "//polygerrit-ui/app:web-test-runner_app-sources",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
-    ],
-    entry_point = "@ui_dev_npm//:node_modules/@web/test-runner/dist/bin.js",
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
 # This is a dependency for karma_test rule in js.bzl that is only used by
 # plugins.
 sh_binary(
@@ -60,5 +36,31 @@ sh_binary(
     ],
 )
 
+# This is a dependency for web_test_runner rule in js.bzl that is only used by
+# plugins.
+sh_binary(
+    name = "web_test_runner_bin",
+    srcs = ["@ui_dev_npm//:node_modules/@web/test-runner/dist/bin.js"],
+    data = [
+        "@ui_dev_npm//@web/dev-server-esbuild",
+        "@ui_dev_npm//@web/test-runner",
+        "@ui_dev_npm//@web/test-runner-playwright",
+        "@ui_dev_npm//@web/test-runner-visual-regression",
+    ],
+)
+
+web_test_runner(
+    name = "web_test_runner",
+    srcs = ["web_test_runner.sh"],
+    data = [
+        "//polygerrit-ui/app:web-test-runner_app-sources",
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
+)
+
 # This is used by plugins.
-exports_files(["karma.conf.js"])
+exports_files([
+    "karma.conf.js",
+    "web-test-runner.config.mjs",
+])

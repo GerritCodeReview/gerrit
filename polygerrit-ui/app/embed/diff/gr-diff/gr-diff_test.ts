@@ -859,13 +859,13 @@ suite('former gr-diff-builder tests', () => {
           '.showContext'
         )[0];
       assert.isOk(topExpandCommonButton);
-      assert.include(topExpandCommonButton!.textContent, '+9 common lines');
+      assert.include(topExpandCommonButton.textContent, '+9 common lines');
       let diffRows = queryAll(element, '.diff-row');
       // 5 lines:
       // FILE, LOST, the changed line plus one line of context in each direction
       assert.equal(diffRows.length, 5);
 
-      topExpandCommonButton!.click();
+      topExpandCommonButton.click();
 
       await waitUntil(() => {
         diffRows = queryAll(element, '.diff-row');

@@ -147,39 +147,6 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         ]),
     )
 
-def karma_test(name, srcs, data):
-    """Creates a Karma test target.
-
-    It can be used both for the main Gerrit js bundle, but also for plugins. So
-    it should be extremely easy to add Karma test capabilities for new plugins.
-
-    We are sharing one karma.conf.js file. If you want to customize that, then
-    consider using command line arguments that the config file can process, see
-    the `root` argument for an example.
-
-    Args:
-      name: The name of the test rule.
-      srcs: The shell script to invoke, where you can set command line
-        arguments for Karma and its config.
-      data: The bundle of JavaScript files with the tests included.
-    """
-
-    native.sh_test(
-        name = name,
-        size = "enormous",
-        srcs = srcs,
-        args = [
-            "$(location //polygerrit-ui:karma_bin)",
-            "$(location //polygerrit-ui:karma.conf.js)",
-        ],
-        data = data + [
-            "//polygerrit-ui:karma_bin",
-            "//polygerrit-ui:karma.conf.js",
-        ],
-        # Should not run sandboxed.
-        tags = ["karma", "local", "manual"],
-    )
-
 def web_test_runner(name, srcs, data):
     """Creates a Web Test Runner test target.
 

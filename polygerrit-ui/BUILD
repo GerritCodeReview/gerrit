@@ -21,21 +21,6 @@ genrule2(
     output_to_bindir = 1,
 )
 
-# This is a dependency for karma_test rule in js.bzl that is only used by
-# plugins.
-sh_binary(
-    name = "karma_bin",
-    srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
-    data = [
-        "@ui_dev_npm//@open-wc/karma-esm",
-        "@ui_dev_npm//karma-chrome-launcher",
-        "@ui_dev_npm//karma-mocha",
-        "@ui_dev_npm//karma-mocha-reporter",
-        "@ui_dev_npm//karma/bin:karma",
-        "@ui_dev_npm//mocha",
-    ],
-)
-
 # This is a dependency for web_test_runner rule in js.bzl that is only used by
 # plugins.
 sh_binary(
@@ -60,7 +45,4 @@ web_test_runner(
 )
 
 # This is used by plugins.
-exports_files([
-    "karma.conf.js",
-    "web-test-runner.config.mjs",
-])
+exports_files(["web-test-runner.config.mjs"])

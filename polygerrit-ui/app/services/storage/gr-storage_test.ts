@@ -56,14 +56,14 @@ suite('gr-storage tests', () => {
     // Setting the draft stores it under the expected key.
     const item = grStorage.storage.getItem(computedKey);
     assert.isOk(item);
-    assert.equal(JSON.parse(item!).message, 'my content');
-    assert.isOk(JSON.parse(item!).updated);
+    assert.equal(JSON.parse(item).message, 'my content');
+    assert.isOk(JSON.parse(item).updated);
 
     // getEditableContentItem performs as expected.
     const obj = grStorage.getEditableContentItem(key);
     assert.isOk(obj);
-    assert.equal(obj!.message, 'my content');
-    assert.isOk(obj!.updated);
+    assert.equal(obj.message, 'my content');
+    assert.isOk(obj.updated);
     assert.isTrue(cleanupStub.called);
 
     // eraseEditableContentItem performs as expected.
@@ -83,8 +83,8 @@ suite('gr-storage tests', () => {
       'editablecontent:c50_psedit_index.php'
     );
     assert.isOk(item);
-    assert.equal(JSON.parse(item!).message, 'my content test 1');
-    assert.isOk(JSON.parse(item!).updated);
+    assert.equal(JSON.parse(item).message, 'my content test 1');
+    assert.isOk(JSON.parse(item).updated);
 
     // We have to add getItem, removeItem and setItem to the array.
     // Typically these functions don't get outputed in .storage,

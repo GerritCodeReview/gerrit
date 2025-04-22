@@ -109,7 +109,7 @@ suite('Dependency', () => {
 
     element.showBarProvider = true;
     await element.updateComplete;
-    assert.isDefined(element.bar?.litChild?.barRef());
+    assert.isDefined((element.bar as BarProviderElement).litChild?.barRef());
   });
 });
 

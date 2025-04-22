@@ -24,7 +24,7 @@ suite('gr-settings-api tests', () => {
     );
     testResolver(pluginLoaderToken).loadPlugins([]);
     assert.isOk(pluginApi);
-    checksApi = pluginApi!.checks();
+    checksApi = (pluginApi as PluginApi).checks();
   });
 
   teardown(() => {

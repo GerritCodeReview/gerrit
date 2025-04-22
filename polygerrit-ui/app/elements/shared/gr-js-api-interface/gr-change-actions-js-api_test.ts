@@ -131,7 +131,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       await element.updateComplete;
       let button = query<GrButton>(element, `[data-action-key="${key}"]`);
       assert.isOk(button);
-      assert.isFalse(button!.hasAttribute('hidden'));
+      assert.isFalse(button.hasAttribute('hidden'));
       changeActions.setActionHidden(ActionType.REVISION, key, true);
       await element.updateComplete;
       button = query<GrButton>(element, `[data-action-key="${key}"]`);

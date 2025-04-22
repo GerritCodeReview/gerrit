@@ -107,18 +107,18 @@ suite('gr-router tests', () => {
     test('parses correctly', () => {
       let actual = router.parseLineAddress('1234');
       assert.isOk(actual);
-      assert.equal(actual!.lineNum, 1234);
-      assert.isFalse(actual!.leftSide);
+      assert.equal(actual.lineNum, 1234);
+      assert.isFalse(actual.leftSide);
 
       actual = router.parseLineAddress('a4');
       assert.isOk(actual);
-      assert.equal(actual!.lineNum, 4);
-      assert.isTrue(actual!.leftSide);
+      assert.equal(actual.lineNum, 4);
+      assert.isTrue(actual.leftSide);
 
       actual = router.parseLineAddress('b77');
       assert.isOk(actual);
-      assert.equal(actual!.lineNum, 77);
-      assert.isTrue(actual!.leftSide);
+      assert.equal(actual.lineNum, 77);
+      assert.isTrue(actual.leftSide);
     });
   });
 

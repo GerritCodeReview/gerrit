@@ -1188,11 +1188,11 @@ suite('gr-file-list tests', () => {
       const markReviewLabel =
         fileRows[0].querySelector<HTMLSpanElement>('.markReviewed');
       assert.isOk(markReviewLabel);
-      assert.isTrue(commitReviewLabel!.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel!.textContent, 'MARK UNREVIEWED');
+      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
       const clickSpy = sinon.spy(element, 'reviewedClick');
-      markReviewLabel!.click();
+      markReviewLabel.click();
       await element.updateComplete;
 
       assert.isTrue(clickSpy.calledOnce);
@@ -1203,10 +1203,10 @@ suite('gr-file-list tests', () => {
       element.reviewed = ['myfile.txt'];
       await element.updateComplete;
 
-      assert.isFalse(commitReviewLabel!.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel!.textContent, 'MARK REVIEWED');
+      assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
 
-      markReviewLabel!.click();
+      markReviewLabel.click();
       await element.updateComplete;
 
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
@@ -1217,8 +1217,8 @@ suite('gr-file-list tests', () => {
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       await element.updateComplete;
 
-      assert.isTrue(commitReviewLabel!.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel!.textContent, 'MARK UNREVIEWED');
+      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
     });
 
     test('handleFileListClick', async () => {

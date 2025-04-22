@@ -75,9 +75,9 @@ suite('gr-label-row-score tests', () => {
     const items = element.labelSelector!.items;
     assert.ok(items);
     const selectedItem = element.selectedItem;
-    for (let i = 0; i < items!.length; i++) {
-      const item = items![i];
-      if (items![i] === selectedItem) {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (items[i] === selectedItem) {
         assert.isTrue(item.hasAttribute('aria-checked'), `item ${i}`);
         assert.equal(item.getAttribute('aria-checked'), 'true', `item ${i}`);
       } else {

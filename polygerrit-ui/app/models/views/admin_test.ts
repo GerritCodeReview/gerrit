@@ -63,7 +63,7 @@ suite('admin links', () => {
 
     if (expected.projectPageShown) {
       assert.isOk(res.links[0].subsection);
-      assert.equal(res.links[0].subsection!.children!.length, 7);
+      assert.equal(res.links[0].subsection.children!.length, 7);
     } else {
       assert.isNotOk(res.links[0].subsection);
     }
@@ -71,7 +71,7 @@ suite('admin links', () => {
     if (expected.groupPageShown) {
       assert.isOk(res.links[1].subsection);
       assert.equal(
-        res.links[1].subsection!.children!.length,
+        res.links[1].subsection.children!.length,
         expected.groupSubpageLength
       );
     } else if (expected.totalLength > 1) {
@@ -87,9 +87,9 @@ suite('admin links', () => {
 
         // External links should open in new tab.
         if (link.url[0] !== '/') {
-          assert.equal(linkMatch!.target, '_blank');
+          assert.equal(linkMatch.target, '_blank');
         } else {
-          assert.isNotOk(linkMatch!.target);
+          assert.isNotOk(linkMatch.target);
         }
       }
     }
@@ -97,7 +97,7 @@ suite('admin links', () => {
     // Current section
     if (expected.projectPageShown || expected.groupPageShown) {
       assert.isOk(res.expandedSection);
-      assert.isOk(res.expandedSection!.children);
+      assert.isOk(res.expandedSection.children);
     } else {
       assert.isNotOk(res.expandedSection);
     }

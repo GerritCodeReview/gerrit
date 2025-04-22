@@ -215,7 +215,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
     await open(TWO_FIXES);
     assert.ok(element.nextFix);
-    assert.notOk(element.nextFix!.disabled);
+    assert.notOk(element.nextFix.disabled);
   });
 
   test('preview endpoint throws error should reset dialog', async () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc04df2_9b4da128",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-04-22T13:54:02Z",
+      "side": 1,
+      "message": "Please verify first that `RequestScopePropagator` is injectable for all callers of `ChangeInserter#Factory#create`.",
+      "revId": "3af0dc163329fc1233ba70cdc72151bd62dfeb38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

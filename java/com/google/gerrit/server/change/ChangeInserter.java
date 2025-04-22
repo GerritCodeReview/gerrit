@@ -130,6 +130,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final MessageIdGenerator messageIdGenerator;
   private final AutoMerger autoMerger;
   private final ChangeUtil changeUtil;
+  private final RequestScopePropagator requestScopePropagator;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
   private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
@@ -154,7 +155,6 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean validate = true;
   private ImmutableMap<String, CommitValidationInfo> validationInfos;
   private Map<String, Short> approvals;
-  private RequestScopePropagator requestScopePropagator;
   private boolean fireRevisionCreated;
   private boolean sendMail;
   private boolean updateRef;
@@ -192,6 +192,7 @@ public class ChangeInserter implements InsertChangeOp {
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
       PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
+      RequestScopePropagator requestScopePropagator,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -214,6 +215,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.validationOptionsListeners = validationOptionsListeners;
     this.commitValidationInfoListeners = commitValidationInfoListeners;
+    this.requestScopePropagator = requestScopePropagator;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -422,12 +424,6 @@ public class ChangeInserter implements InsertChangeOp {
   @CanIgnoreReturnValue
   public ChangeInserter setSendMail(boolean sendMail) {
     this.sendMail = sendMail;
-    return this;
-  }
-
-  @CanIgnoreReturnValue
-  public ChangeInserter setRequestScopePropagator(RequestScopePropagator r) {
-    this.requestScopePropagator = r;
     return this;
   }
 

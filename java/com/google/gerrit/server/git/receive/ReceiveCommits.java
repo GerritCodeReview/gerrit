@@ -3194,7 +3194,6 @@ class ReceiveCommits {
                       magicBranch.getCombinedCcs(fromFooters))
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
-                  .setRequestScopePropagator(requestScopePropagator)
                   .setSendMail(true)
                   .setPatchSetDescription(magicBranch.message));
           if (!magicBranch.hashtags.isEmpty()) {

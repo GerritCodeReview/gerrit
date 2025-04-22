@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes`",
       "revId": "bd4cf52c3979b4bf25dc257e7343af67510a49a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56adbb99_60876914",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-22T18:37:07Z",
+      "side": 1,
+      "message": "Ack, i was going to work on doing the change first before that. Incase i\u0027m wrong that it is indeed used. But i couldn\u0027t find what uses it.",
+      "parentUuid": "d077dcc0_8778c3d9",
+      "revId": "bd4cf52c3979b4bf25dc257e7343af67510a49a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

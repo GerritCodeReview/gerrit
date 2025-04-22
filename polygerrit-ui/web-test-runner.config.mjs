@@ -1,6 +1,7 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { defaultReporter, summaryReporter } from "@web/test-runner";
 import { visualRegressionPlugin } from "@web/test-runner-visual-regression/plugin";
+import path from 'path';
 
 function testRunnerHtmlFactory() {
   return (testFramework) => `
@@ -26,20 +27,28 @@ const config = {
   // change once the underlying issue is fixed.
   concurrency: 1,
   files: [
-    "app/**/*_test.{ts,js}",
-    "!**/node_modules/**/*",
+    // Used by plugins
+    process.argv.includes("--test-files") ?
+      process.argv.testFiles :
+      "polygerrit-ui/app/**/*_test.{ts,js}",
+    "!polygerrit-ui/**/node_modules/**/*",
     ...(process.argv.includes("--run-screenshots")
       ? []
-      : ["!app/**/*_screenshot_test.{ts,js}"]),
+      : ["!polygerrit-ui/app/**/*_screenshot_test.{ts,js}"]),
   ],
   port: 9876,
-  nodeResolve: true,
+  nodeResolve: {
+    moduleDirectories: [
+      path.join(process.cwd(), 'external/ui_npm/node_modules'),
+      path.join(process.cwd(), 'external/ui_dev_npm/node_modules')
+    ]
+  },
   testFramework: { config: { ui: "tdd", timeout: 5000 } },
   plugins: [
     esbuildPlugin({
       ts: true,
       target: "es2020",
-      tsconfig: "app/tsconfig.json",
+      tsconfig: "polygerrit-ui/app/tsconfig.json",
     }),
     visualRegressionPlugin({
       diffOptions: {

@@ -1653,8 +1653,8 @@ suite('gr-rest-api-service-impl tests', () => {
         '/changes/test-project~123/revisions/5/files'
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
-      assert.equal(fetchStub.lastCall.args[0].params!.base, 4);
-      assert.isNotOk(fetchStub.lastCall.args[0].params!.parent);
+      assert.equal(fetchStub.lastCall.args[0].params.base, 4);
+      assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
     });
 
     test('parent index', async () => {
@@ -1673,8 +1673,8 @@ suite('gr-rest-api-service-impl tests', () => {
         '/changes/test-project~123/revisions/5/files'
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
-      assert.isNotOk(fetchStub.lastCall.args[0].params!.base);
-      assert.equal(fetchStub.lastCall.args[0].params!.parent, 3);
+      assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+      assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
     });
   });
 
@@ -1696,8 +1696,8 @@ suite('gr-rest-api-service-impl tests', () => {
         '/changes/test-project~123/revisions/2/files/foo%2Fbar.baz/diff'
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
-      assert.isNotOk(fetchStub.lastCall.args[0].params!.parent);
-      assert.isNotOk(fetchStub.lastCall.args[0].params!.base);
+      assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+      assert.isNotOk(fetchStub.lastCall.args[0].params.base);
     });
 
     test('simple range', async () => {
@@ -1717,8 +1717,8 @@ suite('gr-rest-api-service-impl tests', () => {
         '/changes/test-project~123/revisions/5/files/foo%2Fbar.baz/diff'
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
-      assert.isNotOk(fetchStub.lastCall.args[0].params!.parent);
-      assert.equal(fetchStub.lastCall.args[0].params!.base, 4);
+      assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+      assert.equal(fetchStub.lastCall.args[0].params.base, 4);
     });
 
     test('parent index', async () => {
@@ -1738,8 +1738,8 @@ suite('gr-rest-api-service-impl tests', () => {
         '/changes/test-project~123/revisions/5/files/foo%2Fbar.baz/diff'
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
-      assert.isNotOk(fetchStub.lastCall.args[0].params!.base);
-      assert.equal(fetchStub.lastCall.args[0].params!.parent, 3);
+      assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+      assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
     });
   });
 

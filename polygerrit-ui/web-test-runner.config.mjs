@@ -26,7 +26,10 @@ const config = {
   // change once the underlying issue is fixed.
   concurrency: 1,
   files: [
-    "app/**/*_test.{ts,js}",
+    // Used by plugins
+    process.argv.includes("--test-files") ?
+      process.argv.testFiles :
+      "app/**/*_test.{ts,js}",
     "!**/node_modules/**/*",
     ...(process.argv.includes("--run-screenshots")
       ? []

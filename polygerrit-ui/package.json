@@ -6,7 +6,6 @@
     "@types/sinon": "^10.0.16"
   },
   "devDependencies": {
-    "@open-wc/karma-esm": "^3.0.9",
     "@open-wc/semantic-dom-diff": "^0.19.9",
     "@open-wc/testing": "^3.2.0",
     "@web/dev-server-esbuild": "^0.3.6",
@@ -14,10 +13,6 @@
     "@web/test-runner-playwright": "^0.9.0",
     "@web/test-runner-visual-regression": "^0.7.1",
     "accessibility-developer-tools": "^2.12.0",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
     "mocha": "9.2.2",
     "sinon": "^13.0.2",
     "source-map-support": "^0.5.21"

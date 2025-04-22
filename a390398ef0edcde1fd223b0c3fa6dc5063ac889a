@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2815ba02_e8e8f68f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-22T11:35:43Z",
+      "side": 1,
+      "message": "what does this mean `self account`?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "a390398ef0edcde1fd223b0c3fa6dc5063ac889a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a674c087_2572e834",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-22T11:35:43Z",
+      "side": 1,
+      "message": "show where for which accounts?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "a390398ef0edcde1fd223b0c3fa6dc5063ac889a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc69839_cfd1266a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-22T11:35:43Z",
+      "side": 1,
+      "message": "what does it mean `user account in reviewers`?\n\nCommit message is fairly confusing.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "a390398ef0edcde1fd223b0c3fa6dc5063ac889a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5186140_b2990d99",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-22T11:35:43Z",
+      "side": 1,
+      "message": "why can\u0027t this method handle the case for `self` as well and we don\u0027t need the logic in the lines below.",
+      "range": {
+        "startLine": 236,
+        "startChar": 19,
+        "endLine": 236,
+        "endChar": 44
+      },
+      "revId": "a390398ef0edcde1fd223b0c3fa6dc5063ac889a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

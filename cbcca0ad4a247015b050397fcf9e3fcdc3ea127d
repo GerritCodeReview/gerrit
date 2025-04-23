@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e851f2a7_7f88d005",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-04-23T20:33:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e69686e_2ca5f5b4",
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0672796d_3b908b2b",

@@ -239,13 +239,6 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly labels$ = select(this.change$, change => change?.labels);
 
-  public readonly attentionSet$ = select(
-    this.change$,
-    change => change?.attention_set
-  );
-
-  public readonly owner$ = select(this.change$, change => change?.owner);
-
   public readonly revisions$ = select(this.change$, change =>
     sortRevisions(Object.values(change?.revisions || {}))
   );

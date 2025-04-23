@@ -239,15 +239,7 @@ export class GrLabelInfo extends LitElement {
           return hasVoted(labelInfo, account);
         }
       })
-      .sort((r1, r2) =>
-        sortReviewers(
-          r1,
-          r2,
-          this.change?.attention_set,
-          this.change?.labels,
-          this.account
-        )
-      );
+      .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
   }
 
   /**

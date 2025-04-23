@@ -310,7 +310,7 @@ export class GrHovercardAccountContents extends LitElement {
 
   private renderNeedsAttention() {
     if (!(this.isAttentionEnabled && this.hasUserAttention)) return nothing;
-    const lastUpdate = getLastUpdate(this.account, this.change?.attention_set);
+    const lastUpdate = getLastUpdate(this.account, this.change);
     return html`
       <div class="attention">
         <div>
@@ -332,11 +332,7 @@ export class GrHovercardAccountContents extends LitElement {
         <div class="reason">
           <span class="title">Reason:</span>
           <span class="value">
-            ${getReason(
-              this.serverConfig,
-              this.account,
-              this.change?.attention_set
-            )}
+            ${getReason(this.serverConfig, this.account, this.change)}
           </span>
           ${lastUpdate
             ? html` (
@@ -422,7 +418,7 @@ export class GrHovercardAccountContents extends LitElement {
   }
 
   get hasUserAttention() {
-    return hasAttention(this.account, this.change?.attention_set);
+    return hasAttention(this.account, this.change);
   }
 
   private getReviewerState(change: ChangeInfo) {

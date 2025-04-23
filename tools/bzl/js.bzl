@@ -107,6 +107,9 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         srcs = srcs + [
             "@plugins_npm//:node_modules",
         ],
+        args = [
+            "--bundleConfigAsCjs=true",
+        ],
         entry_point = entry_point,
         format = "iife",
         rollup_bin = "//tools/node_tools:rollup-bin",
@@ -114,7 +117,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         sourcemap = "hidden",
         config_file = "//plugins:rollup.config.js",
         deps = [
-            "@tools_npm//rollup-plugin-node-resolve",
+            "@tools_npm//@rollup/plugin-node-resolve",
         ],
     )
 

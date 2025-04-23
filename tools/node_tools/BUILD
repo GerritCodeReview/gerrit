@@ -12,8 +12,8 @@ nodejs_binary(
     # Otherwise remote build execution fails with the too many
     # files error when it builds :release target.
     data = [
+        "@tools_npm//@rollup/plugin-terser",
         "@tools_npm//rollup",
-        "@tools_npm//rollup-plugin-terser",
     ],
     # The entry point must be "@tools_npm:node_modules/rollup/dist/bin/rollup",
     # But bazel doesn't run it correctly with the following command line:

@@ -16,6 +16,9 @@ rollup_bundle(
         "@ui_npm//highlightjs-structured-text",
         "@ui_npm//highlightjs-vue",
     ],
+    args = [
+        "--bundleConfigAsCjs=true",
+    ],
     config_file = "rollup.config.js",
     entry_point = "index.js",
     format = "iife",
@@ -23,8 +26,9 @@ rollup_bundle(
     silent = True,
     sourcemap = "hidden",
     deps = [
+        "@tools_npm//@rollup/plugin-commonjs",
+        "@tools_npm//@rollup/plugin-node-resolve",
+        "@tools_npm//@rollup/plugin-terser",
         "@tools_npm//rollup",
-        "@tools_npm//rollup-plugin-commonjs",
-        "@tools_npm//rollup-plugin-node-resolve",
     ],
 )

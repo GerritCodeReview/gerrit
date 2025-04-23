@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "458bb613_458e911e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-23T17:59:55Z",
+      "side": 1,
+      "message": "Missing `Release-Notes`",
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8682b864_cc62cb2d",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-23T17:59:55Z",
+      "side": 1,
+      "message": "Missing copyright",
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e69686e_2ca5f5b4",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-23T17:59:55Z",
+      "side": 1,
+      "message": "We should give also an overview of what this tool does.",
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0672796d_3b908b2b",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-23T17:59:55Z",
+      "side": 1,
+      "message": "I would suggest using the name rather than email.\n\n```suggestion\nauthors_before\u003d$(git log --format\u003d\u0027%an\u0027 \"$START_SHA\" | sort | uniq)\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "573a61d0_1626e5ad",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-23T17:59:55Z",
+      "side": 1,
+      "message": "Missing `--no-merges` as we cannot really say that a merge is a contribution.\n\n\n\n```suggestion\nauthors_between\u003d$(git log --no-merges --format\u003d\u0027%an\u0027 \"$START_SHA..$END_SHA\" | sort | uniq)\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -200,14 +200,7 @@ public abstract class ResourceServlet extends HttpServlet {
       return;
     }
 
-    String e = req.getParameter("e");
-    if (e != null && !r.etag.equals(e)) {
-      CacheHeaders.setNotCacheable(rsp);
-      rsp.setStatus(SC_NOT_FOUND);
-      return;
-    } else if (!requiresPostProcess
-        && cacheOnClient
-        && r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
+    if (!requiresPostProcess && cacheOnClient && r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
       rsp.setStatus(SC_NOT_MODIFIED);
       return;
     }
@@ -230,11 +223,7 @@ public abstract class ResourceServlet extends HttpServlet {
       CacheHeaders.setNotCacheable(rsp);
     }
     if (!CacheHeaders.hasCacheHeader(rsp)) {
-      if (e != null && r.etag.equals(e)) {
-        CacheHeaders.setCacheable(req, rsp, 360, DAYS, false);
-      } else {
-        CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
-      }
+      CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
     }
     rsp.setContentType(r.contentType);
     rsp.setContentLength(tosend.length);

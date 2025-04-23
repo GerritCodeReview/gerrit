@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5987b825_1c0bed7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-04-23T20:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "458bb613_458e911e",
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8682b864_cc62cb2d",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-04-23T17:59:55Z",
       "side": 1,
       "message": "Missing copyright",
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a10e1f4f_3e7733d2",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-04-23T20:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8682b864_cc62cb2d",
       "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f8c204_9d09701c",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-04-23T20:25:07Z",
+      "side": 1,
+      "message": "I started with the name, and there where some weird ones, ahah.\nBut yeah, agree that maybe names are better...",
+      "parentUuid": "0672796d_3b908b2b",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "573a61d0_1626e5ad",
@@ -88,6 +148,30 @@
       "writtenOn": "2025-04-23T17:59:55Z",
       "side": 1,
       "message": "Missing `--no-merges` as we cannot really say that a merge is a contribution.\n\n\n\n```suggestion\nauthors_between\u003d$(git log --no-merges --format\u003d\u0027%an\u0027 \"$START_SHA..$END_SHA\" | sort | uniq)\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62b80da2_3f9bb6c8",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-04-23T20:25:07Z",
+      "side": 1,
+      "message": "mmmh, can we not? I don\u0027t see why we would limit what\u0027s a contribution and what isn\u0027t. Any reason to exclude people?",
+      "parentUuid": "573a61d0_1626e5ad",
       "range": {
         "startLine": 16,
         "startChar": 25,

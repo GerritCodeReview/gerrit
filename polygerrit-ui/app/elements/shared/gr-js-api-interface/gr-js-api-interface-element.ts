@@ -68,6 +68,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleBeforeAction(type: ActionType, key: string): Promise<boolean> {
+    await this.waitForPluginsToLoad();
     for (const cb of this._getEventCallbacks(EventType.BEFORE_ACTION)) {
       try {
         if (!(await cb(type, key))) return false;

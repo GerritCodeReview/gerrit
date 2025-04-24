@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d72b32d0_c80dde0b",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-24T14:42:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cd68c6b6_f2da63db",
+      "revId": "bff26885f3b2a520f3f23d0a3b19e1c64a474759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c2942e7_c748ea57",
@@ -48,6 +66,24 @@
       "writtenOn": "2025-04-24T14:40:26Z",
       "side": 1,
       "message": "remove `#` or add a comment why it has to be here",
+      "revId": "bff26885f3b2a520f3f23d0a3b19e1c64a474759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05511e9e_b273fab2",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-24T14:42:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9c2942e7_c748ea57",
       "revId": "bff26885f3b2a520f3f23d0a3b19e1c64a474759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

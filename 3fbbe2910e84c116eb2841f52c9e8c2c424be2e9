@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27febd9f_1b2e6a22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-24T15:59:57Z",
+      "side": 1,
+      "message": "Dunno why the other changes were needed but eslint was failing. I guess packages were updated when i deleted the yarn.lock file, to remove the packages i removed from package.json.",
+      "revId": "3fbbe2910e84c116eb2841f52c9e8c2c424be2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

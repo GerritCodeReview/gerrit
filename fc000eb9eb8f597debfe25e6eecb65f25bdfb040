@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee13ee13_79a55103",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-24T00:24:03Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/plugins/code-owners/+/470481 is an example plugin i migrated.\n\ndelete-project is the only core plugin that uses karma_test. Although it has no tests in reality.",
+      "revId": "fc000eb9eb8f597debfe25e6eecb65f25bdfb040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1474,6 +1474,9 @@ export class GrChangeActions
 
   // private but used in test
   async handleChangeAction(key: string) {
+    const result =
+      this.getPluginLoader().jsApiService.handleBeforeChangeAction(key);
+    if (!(await result)) return;
     switch (key) {
       case ChangeActions.REVERT:
         this.showRevertDialog();

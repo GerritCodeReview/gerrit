@@ -19,6 +19,7 @@ import {
   ShowDiffDetail,
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
+import {ActionType} from '../../../api/change-actions';
 import {EventType, TargetElement} from '../../../api/plugin';
 import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
@@ -64,6 +65,17 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     });
 
     return !cancelSubmit;
+  }
+
+  async handleBeforeAction(type: ActionType, key: string): Promise<boolean> {
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_ACTION)) {
+      try {
+        if (!(await cb(type, key))) return false;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_ACTION);
+      }
+    }
+    return true;
   }
 
   async handleBeforePublishEdit(

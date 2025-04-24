@@ -11,6 +11,7 @@ import {
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
+import {ActionType} from '../../../api/change-actions';
 import {EventType, TargetElement} from '../../../api/plugin';
 import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
@@ -46,6 +47,7 @@ export interface JsApiService extends Finalizable {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
+  handleBeforeAction(type: ActionType, key: string): Promise<boolean>;
   handleBeforePublishEdit(
     change: ChangeInfo,
     revision?: RevisionInfo | null

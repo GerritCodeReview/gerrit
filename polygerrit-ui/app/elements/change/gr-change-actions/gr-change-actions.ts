@@ -1456,6 +1456,11 @@ export class GrChangeActions
   // private but used in test
   async handleAction(type: ActionType, key: string) {
     this.reporting.reportInteraction(`${type}-${key}`);
+    const result = this.getPluginLoader().jsApiService.handleBeforeAction(
+      type,
+      key
+    );
+    if (!(await result)) return;
     switch (type) {
       case ActionType.REVISION:
         this.handleRevisionAction(key);

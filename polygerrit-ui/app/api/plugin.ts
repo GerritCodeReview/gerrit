@@ -25,6 +25,7 @@ export enum TargetElement {
 
 // Note: for new events, naming convention should be: `a-b`
 export enum EventType {
+  BEFORE_ACTION = 'before-action',
   LABEL_CHANGE = 'labelchange',
   SHOW_CHANGE = 'showchange',
   SUBMIT_CHANGE = 'submitchange',
@@ -37,7 +38,9 @@ export enum EventType {
   POST_REVERT = 'postrevert',
   ADMIN_MENU_LINKS = 'admin-menu-links',
   SHOW_DIFF = 'showdiff',
+  BEFORE_REPLY_SENT = 'before-reply-sent',
   REPLY_SENT = 'replysent',
+  BEFORE_PUBLISH_EDIT = 'before-publish-edit',
   PUBLISH_EDIT = 'publish-edit',
 }
 

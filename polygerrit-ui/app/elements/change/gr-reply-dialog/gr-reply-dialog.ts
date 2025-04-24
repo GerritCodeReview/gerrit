@@ -1458,6 +1458,8 @@ export class GrReplyDialog extends LitElement {
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
     this.getNavigation().blockNavigation('sending review');
+    // XXX can we just raise errors here?
+    this.getPluginLoader().jsApiService.handleBeforeReplySent();
     return this.saveReview(reviewInput, errFn)
       .then(result => {
         // change-info is not set only if request resulted in error.

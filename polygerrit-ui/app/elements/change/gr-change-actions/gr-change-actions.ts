@@ -1348,6 +1348,15 @@ export class GrChangeActions
     );
   }
 
+  async sendBeforePublishEditEvent(): boolean {
+    if (!this.change) return false;
+    const change = this.change as ChangeInfo;
+    const revision = this.getRevision(change, this.latestPatchNum);
+    return this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+      change,
+      revision);
+  }
+
   sendPublishEditEvent() {
     if (!this.change) return;
     const change = this.change as ChangeInfo;
@@ -1762,7 +1771,7 @@ export class GrChangeActions
     );
   }
 
-  private handlePublishEditConfirm() {
+  private async handlePublishEditConfirm() {
     this.hideAllDialogs();
 
     if (!this.actions.publishEdit) return;
@@ -1771,6 +1780,7 @@ export class GrChangeActions
     // edit are deleted.
     this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
 
+    if (!await this.sendBeforePublishEditEvent()) return;
     this.fireAction(
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),

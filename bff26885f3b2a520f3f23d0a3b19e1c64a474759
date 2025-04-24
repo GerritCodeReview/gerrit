@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f42314d_b0a47d48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-24T14:40:26Z",
+      "side": 1,
+      "message": "Nice! ❤️\n\nPlease follow-up with migrating the plugins and removing Karma. Thanks! 🙏",
+      "revId": "bff26885f3b2a520f3f23d0a3b19e1c64a474759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd68c6b6_f2da63db",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-24T14:40:26Z",
+      "side": 1,
+      "message": "remove `#` or add a comment why it has to be here",
+      "revId": "bff26885f3b2a520f3f23d0a3b19e1c64a474759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2942e7_c748ea57",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-24T14:40:26Z",
+      "side": 1,
+      "message": "remove `#` or add a comment why it has to be here",
+      "revId": "bff26885f3b2a520f3f23d0a3b19e1c64a474759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

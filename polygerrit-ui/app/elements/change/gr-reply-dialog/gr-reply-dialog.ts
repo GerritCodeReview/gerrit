@@ -1458,6 +1458,10 @@ export class GrReplyDialog extends LitElement {
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
     this.getNavigation().blockNavigation('sending review');
+    let promise = this.getPluginLoader().jsApiService.handleBeforeReplySent(reviewInput);
+    if (!await promise) {
+      return;
+    }
     return this.saveReview(reviewInput, errFn)
       .then(result => {
         // change-info is not set only if request resulted in error.

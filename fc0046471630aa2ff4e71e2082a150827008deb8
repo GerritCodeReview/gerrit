@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b727b561_d8178d7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-24T15:21:09Z",
+      "side": 1,
+      "message": "delete-project will be fixed with https://gerrit-review.googlesource.com/c/plugins/delete-project/+/470563",
+      "revId": "fc0046471630aa2ff4e71e2082a150827008deb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

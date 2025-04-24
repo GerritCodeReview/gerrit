@@ -50,7 +50,7 @@ function getArgValue(flag) {
 const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
 const testFiles = getArgValue('--test-files') ?? `${pathPrefix}app/**/*_test.{ts,js}`;
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
-const tsConfig = getArgValue('--ts-config');
+const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {

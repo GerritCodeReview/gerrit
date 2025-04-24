@@ -19,6 +19,7 @@ import {
   ShowDiffDetail,
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
+import {ActionType} from '../../../api/change-actions';
 import {EventType, TargetElement} from '../../../api/plugin';
 import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
@@ -64,6 +65,28 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     });
 
     return !cancelSubmit;
+  }
+
+  async handleBeforeAction(type: ActionType, key: string): Promise<boolean> {
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_ACTION)) {
+      try {
+        if (!(await cb(type, key))) return false;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_ACTION);
+      }
+    }
+    return true;
+  }
+
+  async handleBeforePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null): Promise<boolean> {
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_PUBLISH_EDIT)) {
+      try {
+        if (!(await cb(change, revision))) return false;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_PUBLISH_EDIT);
+      }
+    }
+    return true;
   }
 
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null) {
@@ -137,6 +160,18 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         this.reportError(err, EventType.SHOW_CHANGE);
       }
     }
+  }
+
+  async handleBeforeReplySent(reviewInput: ReviewInput): Promise<boolean> {
+    await this.waitForPluginsToLoad();
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_REPLY_SENT)) {
+      try {
+        if (!(await cb(reviewInput))) return false;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_REPLY_SENT);
+      }
+    }
+    return true;
   }
 
   async handleReplySent() {

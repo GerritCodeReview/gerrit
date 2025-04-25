@@ -113,6 +113,9 @@ import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultLockManager.DefaultLockManagerModule;
+import com.google.gerrit.server.query.change.ChangeNumberBitmapMaskAlgorithm;
+import com.google.gerrit.server.query.change.ChangeNumberNoopAlgorithm;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -348,6 +351,16 @@ public class InMemoryModule extends FactoryModule {
       }
 
       return "gerrit";
+    }
+
+    @Provides
+    @Singleton
+    public ChangeNumberVirtualIdAlgorithm getChangeNumberVirtualIdAlgorithm() {
+      String localServerId = createServerId();
+      ImmutableList<String> importedServerIds = createImportedServerIds();
+      return createImportedServerIds().isEmpty()
+          ? new ChangeNumberNoopAlgorithm()
+          : new ChangeNumberBitmapMaskAlgorithm(localServerId, importedServerIds);
     }
   }
 

@@ -20,7 +20,6 @@ import com.google.inject.ImplementedBy;
 /**
  * Algorithm for encoding a serverId/legacyChangeNum into a virtual numeric id
  *
- * <p>TODO: To be reverted on master and stable-3.8
  */
 @ImplementedBy(ChangeNumberBitmapMaskAlgorithm.class)
 public interface ChangeNumberVirtualIdAlgorithm {

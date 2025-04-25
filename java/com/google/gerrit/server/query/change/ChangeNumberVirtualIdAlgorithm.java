@@ -18,11 +18,7 @@ import com.google.gerrit.entities.Change;
 import com.google.inject.ImplementedBy;
 import java.util.function.Supplier;
 
-/**
- * Algorithm for encoding a serverId/legacyChangeNum into a virtual numeric id
- *
- * <p>TODO: To be reverted on master and stable-3.8
- */
+/** Algorithm for encoding a serverId/legacyChangeNum into a virtual numeric id */
 @ImplementedBy(ChangeNumberNoopAlgorithm.class)
 public interface ChangeNumberVirtualIdAlgorithm {
 

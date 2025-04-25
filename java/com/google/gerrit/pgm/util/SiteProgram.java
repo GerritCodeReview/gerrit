@@ -137,7 +137,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(gerritOptionsModule);
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule, gerritOptionsModule);
 
-    modules.add(new SchemaModule());
+    modules.add(cfgInjector.getInstance(SchemaModule.class));
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     // The only implementation of experiments is available in all programs that can use
     // gerrit.config

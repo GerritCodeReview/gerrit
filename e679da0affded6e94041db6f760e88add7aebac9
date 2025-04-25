@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b846ef6c_71b20995",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-25T12:14:13Z",
+      "side": 1,
+      "message": "This is wrong, it should be `7a46fa6f8a5028a65c4b420d04ca6a10fd346c13`",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "e679da0affded6e94041db6f760e88add7aebac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

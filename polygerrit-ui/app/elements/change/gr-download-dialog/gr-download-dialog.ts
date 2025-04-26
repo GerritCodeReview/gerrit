@@ -71,7 +71,7 @@ export class GrDownloadDialog extends LitElement {
       () => this.getConfigModel().download$,
       x => (this.config = x)
     );
-    for (const key of ['1', '2', '3', '4', '5']) {
+    for (const key of ['1', '2', '3', '4', '5', '6', '7', '8', '9']) {
       this.shortcuts.addLocal({key}, e => this.handleNumberKey(e));
     }
   }

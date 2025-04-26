@@ -206,7 +206,7 @@ export class GrDownloadCommands extends LitElement {
   };
 
   private computeTooltip(index: number) {
-    return index <= 4 && this.showKeyboardShortcutTooltips
+    return index <= 8 && this.showKeyboardShortcutTooltips
       ? `Keyboard shortcut: ${index + 1}`
       : '';
   }

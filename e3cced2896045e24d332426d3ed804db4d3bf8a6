@@ -16,6 +16,24 @@
       "message": "@brohlfs@google.com I\u0027m getting this\n\n```\n ❌ gr-app callback tests \u003e requestUpdate in reactive-element is called after dispatching \u0027location-change\u0027 event in gr-router\n      AssertionError: expected false to be true\n      + expected - actual\n      \n      -false\n      +true\n      \n      at n4.\u003canonymous\u003e (polygerrit-ui/app/elements/gr-app_test.ts:40:11)\n```\n\nlocally. Do you also get it / do you know how to resolve? because i don\u0027t. Strange that it passes on ci here tho.",
       "revId": "e3cced2896045e24d332426d3ed804db4d3bf8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad1c2eb_2063a9f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-26T18:40:46Z",
+      "side": 1,
+      "message": "oh it passes now.",
+      "parentUuid": "dce8e137_9c248fd8",
+      "revId": "e3cced2896045e24d332426d3ed804db4d3bf8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

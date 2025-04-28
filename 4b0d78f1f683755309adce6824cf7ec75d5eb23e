@@ -34,6 +34,24 @@
       "parentUuid": "12886a98_48b7a139",
       "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b6abdbf_6a10ba35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-28T19:53:22Z",
+      "side": 1,
+      "message": "I compared gerrithubs to my local one. 2.2MB for theirs and 2.7MB for mine. It seems it is over 4MB for gerrit-review.",
+      "parentUuid": "2caefd68_ba484eba",
+      "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

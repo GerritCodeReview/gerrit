@@ -18,7 +18,7 @@ import {
 } from './account-util';
 import {isMentionedThread, isUnresolved} from './comment-util';
 import {hasOwnProperty} from './common-util';
-import {getCodeReviewLabel} from './label-util';
+import {getApprovalInfo, getCodeReviewLabel} from './label-util';
 
 export function canHaveAttention(account?: AccountInfo): boolean {
   return !!account?._account_id && !isServiceUser(account);
@@ -134,11 +134,8 @@ export function sortReviewers(
   const s2 = isServiceUser(r2) ? -1 : 0;
   if (s2 - s1 !== 0) return s2 - s1;
 
-  const crLabel = getCodeReviewLabel(labels ?? {}) as DetailedLabelInfo;
-  let v1 =
-    crLabel?.all?.find(vote => vote._account_id === r1._account_id)?.value ?? 0;
-  let v2 =
-    crLabel?.all?.find(vote => vote._account_id === r2._account_id)?.value ?? 0;
+  let v1 = getCodeReviewVote(r1, labels);
+  let v2 = getCodeReviewVote(r2, labels);
   // We want negative votes getting a higher score than positive votes, so
   // we choose 10 as a random number that is higher than all positive votes that
   // are in use, and then add the absolute value of the vote to that.
@@ -146,4 +143,17 @@ export function sortReviewers(
   if (v1 < 0) v1 = 10 - v1;
   if (v2 < 0) v2 = 10 - v2;
   return v2 - v1;
+}
+
+/**
+ * Returns the vote value for the given account on the Code-Review label.
+ */
+export function getCodeReviewVote(
+  account?: AccountInfo,
+  labels?: LabelNameToInfoMap
+) {
+  if (!account || !labels) return 0;
+  const crLabel = getCodeReviewLabel(labels) as DetailedLabelInfo | undefined;
+  if (!crLabel?.all) return 0;
+  return getApprovalInfo(crLabel, account)?.value ?? 0;
 }

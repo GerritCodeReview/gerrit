@@ -18,7 +18,11 @@ import {
   LabelInfo,
 } from '../../../types/common';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
-import {sortReviewers} from '../../../utils/attention-set-util';
+import {
+  getCodeReviewVote,
+  hasAttention,
+  sortReviewers,
+} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {nothing} from 'lit';
@@ -228,7 +232,16 @@ export class GrReviewerList extends LitElement {
         )
       );
     if (this.reviewers.length > 8 && !this.showAllReviewers) {
-      return this.reviewers.slice(0, 6);
+      // Show all reviewers with attention set or with vote on the label
+      const reviewersWithAttentionOrVote = this.reviewers.filter(
+        reviewer =>
+          hasAttention(reviewer, this.change?.attention_set) ||
+          getCodeReviewVote(reviewer, this.change?.labels) !== 0
+      );
+      return this.reviewers.slice(
+        0,
+        Math.max(6, reviewersWithAttentionOrVote.length)
+      );
     } else {
       return this.reviewers;
     }

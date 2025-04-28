@@ -278,7 +278,7 @@ suite('gr-search-bar tests', () => {
     suite(`mergeability as ${mergeability}`, () => {
       setup(async () => {
         element = await fixture(html`<gr-search-bar></gr-search-bar>`);
-        element.serverConfig = {
+        const serverConfig = {
           ...createServerInfo(),
           change: {
             ...createChangeConfig(),
@@ -286,6 +286,7 @@ suite('gr-search-bar tests', () => {
               mergeability as MergeabilityComputationBehavior,
           },
         };
+        configModel.updateServerConfig(serverConfig);
         await element.updateComplete;
       });
 

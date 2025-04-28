@@ -138,6 +138,11 @@ public class LabelsJson {
         }
         Set<LabelPermission.WithValue> can =
             permissionBackend.absentUser(filterApprovalsBy).change(cd).test(labelType);
+        for (LabelPermission.WithValue val : can) {
+          logger.atFine().log(
+              "User %s For label %s can vote %s ", filterApprovalsBy, val.label(), val.value());
+        }
+
         for (LabelValue v : labelType.getValues()) {
           boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
           if (isMerged) {

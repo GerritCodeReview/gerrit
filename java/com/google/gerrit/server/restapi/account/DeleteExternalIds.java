@@ -91,7 +91,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             .collect(toMap(ExternalId::key, Function.identity()));
 
     List<ExternalId> toDelete = new ArrayList<>();
-    Optional<ExternalId.Key> last = resource.getUser().getLastLoginExternalIdKey();
+    Optional<ExternalId.Key> loginExternalIdKey = resource.getUser().getLastLoginExternalIdKey();
     for (String externalIdStr : extIds) {
       ExternalId id = externalIdMap.get(externalIdKeyFactory.parse(externalIdStr));
 
@@ -100,22 +100,25 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             String.format("External id %s does not exist", externalIdStr));
       }
 
-      if (!last.isPresent() || !last.get().equals(id.key())) {
-        if (id.isScheme(SCHEME_USERNAME)) {
-          if (self.get().hasSameAccountId(resource.getUser())) {
-            throw new AuthException("User cannot delete its own externalId in 'username:' scheme");
-          }
-          permissionBackend
-              .currentUser()
-              .checkAny(
-                  ImmutableSet.of(
-                      GlobalPermission.ADMINISTRATE_SERVER, GlobalPermission.MAINTAIN_SERVER));
-        }
-        toDelete.add(id);
-      } else {
+      if (loginExternalIdKey.isPresent() && loginExternalIdKey.get().equals(id.key())) {
         throw new ResourceConflictException(
             String.format("External id %s cannot be deleted", externalIdStr));
       }
+
+      if (id.isScheme(SCHEME_USERNAME)) {
+        if (self.get().hasSameAccountId(resource.getUser())) {
+          throw new AuthException("User cannot delete its own externalId in 'username:' scheme");
+        }
+        // TODO: Define a consistent threat model around deleting external ids and remove
+        // this special case
+        permissionBackend
+            .currentUser()
+            .checkAny(
+                ImmutableSet.of(
+                    GlobalPermission.ADMINISTRATE_SERVER, GlobalPermission.MAINTAIN_SERVER));
+      }
+
+      toDelete.add(id);
     }
 
     try {

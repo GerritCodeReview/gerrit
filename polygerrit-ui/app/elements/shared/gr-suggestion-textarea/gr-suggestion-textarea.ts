@@ -31,20 +31,15 @@ import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import {GrTextarea} from '../../../embed/gr-textarea';
-import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
-import {EMOJIS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/emojis_config';
-import {UnicodeEmoji} from '../../../types/types';
+import * as unicodeEmoji from 'unicode-emoji';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const MAX_ITEMS_DROPDOWN = 25;
 
 export interface EmojiSuggestion extends Item {
-  category?: string;
   description: string;
   emoji: string;
-  group?: string;
   keywords: string[];
-  subgroup?: string;
-  version?: string;
 }
 
 function isEmojiSuggestion(x: EmojiSuggestion | Item): x is EmojiSuggestion {
@@ -105,10 +100,6 @@ export class GrSuggestionTextarea extends LitElement {
 
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
-  @state() emojis?: UnicodeEmoji;
-
-  @state() emojisLoaded = false;
-
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -132,7 +123,7 @@ export class GrSuggestionTextarea extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  private static readonly libLoader = new GrLibLoader();
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -296,15 +287,6 @@ export class GrSuggestionTextarea extends LitElement {
       .verticalOffset=${20}
       role="listbox"
     ></gr-autocomplete-dropdown>`;
-  }
-
-  override firstUpdated() {
-    GrSuggestionTextarea.libLoader
-      .getLibrary(EMOJIS_LIBRARY_CONFIG)
-      .then(emojis => {
-        this.emojisLoaded = true;
-        this.emojis = emojis as UnicodeEmoji;
-      });
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -613,16 +595,24 @@ export class GrSuggestionTextarea extends LitElement {
 
   // private but used in test
   computeEmojiSuggestions(suggestionsText?: string): EmojiSuggestion[] {
-    if (suggestionsText === undefined || !this.emojisLoaded) {
+    if (suggestionsText === undefined) {
       return [];
     }
+
+    let emojis = unicodeEmoji.getEmojis().map((emoji: EmojiSuggestion) => {
+      return {
+        emoji: emoji.emoji,
+        description: emoji.description,
+        keywords: emoji.keywords,
+      };
+    });
+    emojis = this.getPluginLoader().jsApiService.modifyEmojis(emojis);
+
     if (!suggestionsText.length) {
-      return this.formatSuggestions(
-        this.emojis!.getEmojis().slice(0, MAX_ITEMS_DROPDOWN)
-      );
+      return this.formatSuggestions(emojis.slice(0, MAX_ITEMS_DROPDOWN));
     }
 
-    const searchResults = this.emojis!.getEmojis()
+    const searchResults = emojis
       .filter((emoji: EmojiSuggestion) =>
         emoji.keywords.some((keyword: string) =>
           keyword.toLowerCase().includes(suggestionsText.toLowerCase())

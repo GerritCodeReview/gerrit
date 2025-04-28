@@ -20,7 +20,6 @@ import {
 import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
-import * as unicodeEmoji from 'unicode-emoji';
 
 suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
   let element: GrSuggestionTextarea;
@@ -39,8 +38,6 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
       html`<gr-suggestion-textarea></gr-suggestion-textarea>`
     );
     sinon.stub(element.reporting, 'reportInteraction');
-    element.emojis = unicodeEmoji;
-    element.emojisLoaded = true;
     await element.updateComplete;
   });
 
@@ -498,11 +495,9 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     assert.isTrue(
       formatSpy.lastCall.calledWithExactly([
         {
-          category: 'face-emotion',
           dataValue: '🤣',
           description: 'rolling on the floor laughing',
           emoji: '🤣',
-          group: 'smileys-emotion',
           keywords: [
             'crying',
             'face',
@@ -521,16 +516,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'rolling',
             'tear',
           ],
-          subgroup: 'face-smiling',
           text: '🤣 rolling on the floor laughing',
-          version: '3.0',
         },
         {
-          category: 'face-emotion',
           dataValue: '😂',
           description: 'face with tears of joy',
           emoji: '😂',
-          group: 'smileys-emotion',
           keywords: [
             'crying',
             'face',
@@ -548,16 +539,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'roflmao',
             'tear',
           ],
-          subgroup: 'face-smiling',
           text: '😂 face with tears of joy',
-          version: '0.6',
         },
         {
-          category: 'face-emotion',
           dataValue: '🥲',
           description: 'smiling face with tear',
           emoji: '🥲',
-          group: 'smileys-emotion',
           keywords: [
             'face',
             'glad',
@@ -573,16 +560,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'tear',
             'touched',
           ],
-          subgroup: 'face-affection',
           text: '🥲 smiling face with tear',
-          version: '13.0',
         },
         {
-          category: 'face-emotion',
           dataValue: '🥹',
           description: 'face holding back tears',
           emoji: '🥹',
-          group: 'smileys-emotion',
           keywords: [
             'admiration',
             'aww',
@@ -601,16 +584,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'sad',
             'tears',
           ],
-          subgroup: 'face-concerned',
           text: '🥹 face holding back tears',
-          version: '14.0',
         },
         {
-          category: 'face-emotion',
           dataValue: '😢',
           description: 'crying face',
           emoji: '😢',
-          group: 'smileys-emotion',
           keywords: [
             'awful',
             'cry',
@@ -623,16 +602,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'triste',
             'unhappy',
           ],
-          subgroup: 'face-concerned',
           text: '😢 crying face',
-          version: '0.6',
         },
         {
-          category: 'face-emotion',
           dataValue: '😭',
           description: 'loudly crying face',
           emoji: '😭',
-          group: 'smileys-emotion',
           keywords: [
             'bawling',
             'cry',
@@ -645,16 +620,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'tears',
             'unhappy',
           ],
-          subgroup: 'face-concerned',
           text: '😭 loudly crying face',
-          version: '0.6',
         },
         {
-          category: 'face-emotion',
           dataValue: '😹',
           description: 'cat with tears of joy',
           emoji: '😹',
-          group: 'smileys-emotion',
           keywords: [
             'animal',
             'cat',
@@ -666,27 +637,19 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'tear',
             'tears',
           ],
-          subgroup: 'cat-face',
           text: '😹 cat with tears of joy',
-          version: '0.6',
         },
         {
-          category: 'face-emotion',
           dataValue: '😿',
           description: 'crying cat',
           emoji: '😿',
-          group: 'smileys-emotion',
           keywords: ['animal', 'cat', 'cry', 'crying', 'face', 'sad', 'tear'],
-          subgroup: 'cat-face',
           text: '😿 crying cat',
-          version: '0.6',
         },
         {
-          category: 'animals-nature',
           dataValue: '💧',
           description: 'droplet',
           emoji: '💧',
-          group: 'travel-places',
           keywords: [
             'cold',
             'comic',
@@ -699,20 +662,14 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'water',
             'weather',
           ],
-          subgroup: 'sky-weather',
           text: '💧 droplet',
-          version: '0.6',
         },
         {
-          category: 'objects',
           dataValue: '📆',
           description: 'tear-off calendar',
           emoji: '📆',
-          group: 'objects',
           keywords: ['calendar', 'tear-off'],
-          subgroup: 'office',
           text: '📆 tear-off calendar',
-          version: '0.6',
         },
       ])
     );
@@ -721,11 +678,9 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
   test('formatSuggestions', () => {
     const matchedSuggestions = [
       {
-        category: 'face-emotion',
         dataValue: '😢',
         description: 'crying face',
         emoji: '😢',
-        group: 'smileys-emotion',
         keywords: [
           'awful',
           'cry',
@@ -738,16 +693,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
           'triste',
           'unhappy',
         ],
-        subgroup: 'face-concerned',
         text: '😢 crying face',
-        version: '0.6',
       },
       {
-        category: 'face-emotion',
         dataValue: '😂',
         description: 'face with tears of joy',
         emoji: '😂',
-        group: 'smileys-emotion',
         keywords: [
           'crying',
           'face',
@@ -765,20 +716,16 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
           'roflmao',
           'tear',
         ],
-        subgroup: 'face-smiling',
         text: '😂 face with tears of joy',
-        version: '0.6',
       },
     ];
     const suggestions = element.formatSuggestions(matchedSuggestions);
     assert.deepEqual(
       [
         {
-          category: 'face-emotion',
           dataValue: '😢',
           description: 'crying face',
           emoji: '😢',
-          group: 'smileys-emotion',
           keywords: [
             'awful',
             'cry',
@@ -791,16 +738,12 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'triste',
             'unhappy',
           ],
-          subgroup: 'face-concerned',
           text: '😢 crying face',
-          version: '0.6',
         },
         {
-          category: 'face-emotion',
           dataValue: '😂',
           description: 'face with tears of joy',
           emoji: '😂',
-          group: 'smileys-emotion',
           keywords: [
             'crying',
             'face',
@@ -818,9 +761,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             'roflmao',
             'tear',
           ],
-          subgroup: 'face-smiling',
           text: '😂 face with tears of joy',
-          version: '0.6',
         },
       ],
       suggestions

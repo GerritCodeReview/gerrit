@@ -23,6 +23,7 @@ declare global {
     // it's defined because of limitations from typescript, which don't import .mjs
     page?: unknown;
     hljs?: HighlightJS;
+    emojis?: unknown;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;

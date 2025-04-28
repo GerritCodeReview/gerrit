@@ -32,6 +32,7 @@ export enum EventType {
   VIEW_CHANGE = 'view-change',
   SHOW_REVISION_ACTIONS = 'show-revision-actions',
   COMMIT_MSG_EDIT = 'commitmsgedit',
+  CUSTOM_EMOJIS = 'custom-emojis',
   REVERT = 'revert',
   REVERT_SUBMISSION = 'revert_submission',
   POST_REVERT = 'postrevert',

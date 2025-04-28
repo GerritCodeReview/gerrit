@@ -171,6 +171,7 @@ public class CherryPickChange {
           NoSuchProjectException {
     return cherryPick(
         change,
+        patch.id(),
         change.getProject(),
         patch.commitId(),
         input,
@@ -204,6 +205,7 @@ public class CherryPickChange {
    */
   public Result cherryPick(
       @Nullable Change sourceChange,
+      @Nullable PatchSet.Id sourcePsId,
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
@@ -216,6 +218,7 @@ public class CherryPickChange {
           NoSuchProjectException {
     return cherryPick(
         sourceChange,
+        sourcePsId,
         project,
         sourceCommit,
         input,
@@ -235,6 +238,8 @@ public class CherryPickChange {
    *
    * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
    *     pick a commit.
+   * @param sourcePsId PatchSet.Id of the source change to cherry pick. Expected to be null if the
+   *     sourceChange is null and expected to match the sourceCommit.
    * @param project Project name
    * @param sourceCommit Id of the commit to be cherry picked.
    * @param input Input object for different configurations of cherry pick.
@@ -263,6 +268,7 @@ public class CherryPickChange {
    */
   public Result cherryPick(
       @Nullable Change sourceChange,
+      @Nullable PatchSet.Id sourcePsId,
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
@@ -414,6 +420,7 @@ public class CherryPickChange {
                     destChange.notes(),
                     cherryPickCommit,
                     sourceChange,
+                    sourcePsId,
                     sourceCommit,
                     newTopic,
                     input,
@@ -429,6 +436,7 @@ public class CherryPickChange {
                     newTopic,
                     project,
                     sourceChange,
+                    sourcePsId,
                     sourceCommit,
                     input,
                     revertedChange,
@@ -448,6 +456,7 @@ public class CherryPickChange {
       ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
       @Nullable Change sourceChange,
+      @Nullable PatchSet.Id sourcePsId,
       @Nullable ObjectId sourceCommit,
       String topic,
       CherryPickInput input,
@@ -474,13 +483,12 @@ public class CherryPickChange {
     inserter.setValidationOptions(
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
     bu.addOp(destChange.getId(), inserter);
-    PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     // If sourceChange is not provided, reset cherryPickOf to avoid stale value.
-    if (sourcePatchSetId == null) {
+    if (sourcePsId == null) {
       bu.addOp(destChange.getId(), new ResetCherryPickOp());
     } else if (destChange.getCherryPickOf() == null
-        || !destChange.getCherryPickOf().equals(sourcePatchSetId)) {
-      SetCherryPickOp cherryPickOfUpdater = setCherryPickOfFactory.create(sourcePatchSetId);
+        || !destChange.getCherryPickOf().equals(sourcePsId)) {
+      SetCherryPickOp cherryPickOfUpdater = setCherryPickOfFactory.create(sourcePsId);
       bu.addOp(destChange.getId(), cherryPickOfUpdater);
     }
     return destChange.getId();
@@ -493,6 +501,7 @@ public class CherryPickChange {
       String topic,
       Project.NameKey project,
       @Nullable Change sourceChange,
+      @Nullable PatchSet.Id sourcePsId,
       @Nullable ObjectId sourceCommit,
       CherryPickInput input,
       @Nullable Change.Id revertOf,
@@ -512,7 +521,6 @@ public class CherryPickChange {
     ins.setValidationOptions(
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
-    PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     ins.setMessage(
             revertOf == null
                 ? messageForDestinationChange(
@@ -521,7 +529,7 @@ public class CherryPickChange {
         // cherry-pick information.
         .setTopic(topic);
     if (revertOf == null) {
-      ins.setCherryPickOf(sourcePatchSetId);
+      ins.setCherryPickOf(sourcePsId);
     }
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =

@@ -875,6 +875,31 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickNonCurrentPatchSetHasCorrectCherryPickOf() throws Exception {
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+    String t1 = project.get() + "~master~" + r.getChangeId();
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+
+    BranchInput bin = new BranchInput();
+    bin.revision = r.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(bin);
+
+    // Create a second patchset before cherry-picking
+    String newMessage = "modified commit" + "\n\nChange-Id: " + r.getChangeId() + "\n";
+    gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = r.getCommit().getFullMessage();
+    ChangeApi cherry = gApi.changes().id(t1).revision(r.getCommit().name()).cherryPick(in);
+    assertThat(cherry.get().cherryPickOfChange).isEqualTo(orig.get()._number);
+    assertThat(cherry.get().cherryPickOfPatchSet).isEqualTo(1);
+  }
+
+  @Test
   public void cherryPickToAbandonedChange() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory

@@ -592,6 +592,7 @@ public class RevertSubmission
       Result cherryPickResult =
           cherryPickChange.cherryPick(
               change,
+              change.currentPatchSetId(),
               change.getProject(),
               revCommitId,
               cherryPickInput,

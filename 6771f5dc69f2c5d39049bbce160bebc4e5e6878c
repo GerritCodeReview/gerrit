@@ -68,6 +68,53 @@
       },
       "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f21261_95e59493",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-28T09:45:11Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/change/ChangeJson.java;l\u003d742?q\u003d%22labelsJson.permittedLabels(user.getAccountId(),%20cd)%22\u0026sq\u003d\n\nOk so the documentation is confusing\n\n`permitted_labels` returns the same data that is returned in `labels` for all reviewers/CC but returns it for the `current user`.",
+      "parentUuid": "c8d22dc6_46fd20b0",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 59
+      },
+      "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3bcd1b3_c9008ff5",
+        "filename": "polygerrit-ui/app/utils/account-util_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-28T09:45:11Z",
+      "side": 1,
+      "message": "maybe also add a unit test where `self \u003d reviewer`?",
+      "range": {
+        "startLine": 263,
+        "startChar": 2,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

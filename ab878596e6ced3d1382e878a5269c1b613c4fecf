@@ -16,6 +16,24 @@
       "message": "Works nicely via REST API :-)\n\nI noticed that the Gerrit UI still needs to learn how to cherry-pick an older patchset, it always selects the last patchset with the highest PS number. I selected PS 1 of an open change and tried to cherry-pick it to another branch but the UI cherry-picked the last patchset PS 3.",
       "revId": "ab878596e6ced3d1382e878a5269c1b613c4fecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5229f56a_50f57624",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-04-28T15:30:46Z",
+      "side": 1,
+      "message": "Yeah, it would be nice to teach the UI how to do that, but I don\u0027t know how often it would be used or if it would be confusing to users.",
+      "parentUuid": "96743bd6_2c3dd576",
+      "revId": "ab878596e6ced3d1382e878a5269c1b613c4fecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

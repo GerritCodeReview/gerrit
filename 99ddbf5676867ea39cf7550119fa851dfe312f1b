@@ -16,6 +16,24 @@
       "message": "To add a custom emoji, do the following:\n\n```\n  plugin.on(\u0027custom-emojis\u0027, (emojis) \u003d\u003e {\n    const test \u003d {\n      \"category\": \"face-emotion\",\n      \"description\": \"face with tears of joy\",\n      \"emoji\": \"😂\",\n      \"group\": \"smileys-emotion\",\n      \"keywords\": [\n        \"noooooooo\"\n      ],\n      \"subgroup\": \"face-smiling\",\n      \"version\": \"0.6\"\n    };\n    console.log([...emojis, test]);\n    return [...emojis, test];\n  });\n  ```\n  \n  Although i wonder if we should make like version, subgroup, category  and group \n optional?",
       "revId": "99ddbf5676867ea39cf7550119fa851dfe312f1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f4ac158_0942e065",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-28T19:27:53Z",
+      "side": 1,
+      "message": "Done, should mean:\n\n```\n  plugin.on(\u0027custom-emojis\u0027, (emojis) \u003d\u003e {\n    const test \u003d {\n      description: \u0027face with tears of joy\u0027,\n      emoji: \u0027😂\u0027,\n      keywords: [\n        \u0027noooooooo\u0027\n      ]\n    };\n    return [...emojis, test];\n  });\n```\n\nwill work.",
+      "parentUuid": "d12c48ee_bef3a3ac",
+      "revId": "99ddbf5676867ea39cf7550119fa851dfe312f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

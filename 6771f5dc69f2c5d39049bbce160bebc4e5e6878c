@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e84feb_15c511b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-28T09:55:15Z",
+      "side": 1,
+      "message": "\u003e IIUC Labels does not define the voting permission at all?\n\nThis is wrong.\n\n`Labels` property has a `permitted_voting_range` sub-property where this info is present.\n\nResolving.",
+      "parentUuid": "9e111176_441d78bd",
+      "range": {
+        "startLine": 15,
+        "startChar": 44,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8d22dc6_46fd20b0",

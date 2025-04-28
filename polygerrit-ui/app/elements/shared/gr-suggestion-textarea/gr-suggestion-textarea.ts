@@ -31,39 +31,26 @@ import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import {GrTextarea} from '../../../embed/gr-textarea';
+import * as unicodeEmoji from 'unicode-emoji';
 
-const MAX_ITEMS_DROPDOWN = 10;
-
-const ALL_SUGGESTIONS: EmojiSuggestion[] = [
-  {value: '😊', match: 'smile :)'},
-  {value: '👍', match: 'thumbs up'},
-  {value: '😄', match: 'laugh :D'},
-  {value: '❤️', match: 'heart <3'},
-  {value: '😂', match: "tears :')"},
-  {value: '🎉', match: 'party'},
-  {value: '😎', match: 'cool |;)'},
-  {value: '😞', match: 'sad :('},
-  {value: '😐', match: 'neutral :|'},
-  {value: '😮', match: 'shock :O'},
-  {value: '🙏', match: 'pray'},
-  {value: '😕', match: 'confused'},
-  {value: '👌', match: 'ok'},
-  {value: '🔥', match: 'fire'},
-  {value: '💯', match: '100'},
-  {value: '✔', match: 'check'},
-  {value: '😋', match: 'tongue'},
-  {value: '😭', match: "crying :'("},
-  {value: '🤓', match: 'glasses'},
-  {value: '😢', match: 'tear'},
-  {value: '😜', match: 'winking tongue ;)'},
-];
+const MAX_ITEMS_DROPDOWN = 20;
 
 export interface EmojiSuggestion extends Item {
-  match: string;
+  category: string;
+  description: string;
+  emoji: string;
+  group: string;
+  keywords: string[];
+  subgroup: string;
+  version: string;
 }
 
 function isEmojiSuggestion(x: EmojiSuggestion | Item): x is EmojiSuggestion {
-  return !!x && !!(x as EmojiSuggestion).match;
+  return (
+    !!x &&
+    Array.isArray((x as EmojiSuggestion).keywords) &&
+    (x as EmojiSuggestion).keywords.length > 0
+  );
 }
 
 declare global {
@@ -600,8 +587,8 @@ export class GrSuggestionTextarea extends LitElement {
     const suggestions = [];
     for (const suggestion of matchedSuggestions) {
       assert(isEmojiSuggestion(suggestion), 'malformed suggestion');
-      suggestion.dataValue = suggestion.value;
-      suggestion.text = `${suggestion.value} ${suggestion.match}`;
+      suggestion.dataValue = suggestion.emoji;
+      suggestion.text = `${suggestion.emoji} ${suggestion.description}`;
       suggestions.push(suggestion);
     }
     return suggestions;
@@ -613,12 +600,19 @@ export class GrSuggestionTextarea extends LitElement {
       return [];
     }
     if (!suggestionsText.length) {
-      return this.formatSuggestions(ALL_SUGGESTIONS);
+      return this.formatSuggestions(
+        unicodeEmoji.getEmojis().slice(0, MAX_ITEMS_DROPDOWN)
+      );
     } else {
-      const matches = ALL_SUGGESTIONS.filter(suggestion =>
-        suggestion.match.includes(suggestionsText)
-      ).slice(0, MAX_ITEMS_DROPDOWN);
-      return this.formatSuggestions(matches);
+      const searchResults = unicodeEmoji
+        .getEmojis()
+        .filter(emoji =>
+          emoji.keywords.some(keyword =>
+            keyword.toLowerCase().includes(suggestionsText.toLowerCase())
+          )
+        )
+        .slice(0, MAX_ITEMS_DROPDOWN);
+      return this.formatSuggestions(searchResults);
     }
   }
 

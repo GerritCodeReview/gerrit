@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03da07c0_13aa0cb6",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-04-28T12:52:15Z",
+      "side": 1,
+      "message": "three %s params, but two arguments given",
+      "range": {
+        "startLine": 410,
+        "startChar": 49,
+        "endLine": 410,
+        "endChar": 67
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "72420328_b9115b20",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/permissions/RefControl.java",
+              "range": {
+                "startLine": 410,
+                "startChar": 0,
+                "endLine": 411,
+                "endChar": 0
+              },
+              "replacement": "                \"Block rule found for permission %s and user %s\",\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/permissions/RefControl.java",
+              "range": {
+                "startLine": 424,
+                "startChar": 0,
+                "endLine": 425,
+                "endChar": 0
+              },
+              "replacement": "                  permissionName, getUser().getLoggableName());\n"
+            }
+          ]
+        }
+      ],
+      "revId": "4481fad8938a553ba7c97aa56dc5b1c863113c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

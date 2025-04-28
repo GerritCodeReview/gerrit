@@ -7332,7 +7332,7 @@ Only set if link:#labels[labels] or link:#detailed-labels[detailed
 labels] are requested.
 |`permitted_labels`   |optional|
 A map of the permitted labels that maps a label name to the list of
-values that are allowed for that label. +
+values that the current user can vote on. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`removable_labels`   |optional|
 A map of the removable labels that maps a label name to the map of

@@ -15,6 +15,7 @@ import {EventType, TargetElement} from '../../../api/plugin';
 import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {FileRange, PatchRange} from '../../../api/diff';
+import {EmojiSuggestion} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 export interface ShowChangeDetail {
   change?: ParsedChangeInfo;
@@ -50,6 +51,7 @@ export interface JsApiService extends Finalizable {
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
   handleViewChange(view?: string): void;
+  modifyEmojis(emojis: EmojiSuggestion[]): EmojiSuggestion[];
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,

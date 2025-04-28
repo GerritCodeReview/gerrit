@@ -32,6 +32,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import {GrTextarea} from '../../../embed/gr-textarea';
 import * as unicodeEmoji from 'unicode-emoji';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const MAX_ITEMS_DROPDOWN = 25;
 
@@ -125,6 +126,8 @@ export class GrSuggestionTextarea extends LitElement {
   currentSearchString?: string;
 
   private readonly shortcuts = new ShortcutController(this);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -599,13 +602,15 @@ export class GrSuggestionTextarea extends LitElement {
     if (suggestionsText === undefined) {
       return [];
     }
+    const emojis = this.getPluginLoader().jsApiService.modifyEmojis(
+      unicodeEmoji.getEmojis()
+    );
     if (!suggestionsText.length) {
       return this.formatSuggestions(
-        unicodeEmoji.getEmojis().slice(0, MAX_ITEMS_DROPDOWN)
+        emojis.slice(0, MAX_ITEMS_DROPDOWN)
       );
     } else {
-      const searchResults = unicodeEmoji
-        .getEmojis()
+      const searchResults = emojis
         .filter(emoji =>
           emoji.keywords.some(keyword =>
             keyword.toLowerCase().includes(suggestionsText.toLowerCase())

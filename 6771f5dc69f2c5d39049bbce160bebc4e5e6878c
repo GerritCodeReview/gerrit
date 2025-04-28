@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "881aa2cf_ed3bcbb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-28T09:30:02Z",
+      "side": 1,
+      "message": "even for current user looking at their own hovercard",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 57
+      },
+      "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e111176_441d78bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-28T09:30:02Z",
+      "side": 1,
+      "message": "```\nLABELS: Includes the labels field which contains all information about labels and approvers that have granted (or rejected) that label\n```\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#labels\n\nIIUC `Labels` does not define the `voting permission` at all?\n\nReading the docs it simply returns info about what the people voted upon?\n\nDoes the property `label` have anything to do with the `voting permission`?\nThat info is present only in `permitted_labels` property right?",
+      "range": {
+        "startLine": 15,
+        "startChar": 44,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d22dc6_46fd20b0",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-04-28T09:30:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#labels\n\nThis mentions \n\n```\nA map of the permitted labels that maps a label name to the list of values that are allowed for that label.\nOnly set if detailed labels are requested.\n```\n\nSo does this return the `max value` *configured* for the label without actually checking if the user can vote on it?\n\nI am not sure where it\u0027s specified that the permission is checked for the *current user*\n\nI am worried this code checks the max possible value that can be specified without checking if the actual user looking at it can vote on it.\n\nYou may have to read some BE code to figure out for whom the value is calculated.",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 59
+      },
+      "revId": "6771f5dc69f2c5d39049bbce160bebc4e5e6878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ParsedJSON} from './common';
-import {HighlightJS} from './types';
+import {HighlightJS, UnicodeEmoji} from './types';
 
 export {};
 
@@ -23,6 +23,7 @@ declare global {
     // it's defined because of limitations from typescript, which don't import .mjs
     page?: unknown;
     hljs?: HighlightJS;
+    unicodeEmoji?: UnicodeEmoji;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;

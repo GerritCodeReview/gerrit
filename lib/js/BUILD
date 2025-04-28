@@ -16,3 +16,15 @@ filegroup(
     srcs = ["//lib/highlightjs:highlight.min"],
     data = ["//lib:LICENSE-highlightjs"],
 )
+
+js_component(
+    name = "emojis",
+    srcs = ["//lib/emojis:emojis.min"],
+    license = "//lib:LICENSE-emojis",
+)
+
+filegroup(
+    name = "emojis__files",
+    srcs = ["//lib/emojis:emojis.min"],
+    data = ["//lib:LICENSE-emojis"],
+)

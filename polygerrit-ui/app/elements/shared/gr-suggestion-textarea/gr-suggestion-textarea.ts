@@ -31,39 +31,24 @@ import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import {GrTextarea} from '../../../embed/gr-textarea';
+import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
+import {EMOJIS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/emojis_config';
+import {UnicodeEmoji} from '../../../types/types';
 
-const MAX_ITEMS_DROPDOWN = 10;
-
-const ALL_SUGGESTIONS: EmojiSuggestion[] = [
-  {value: '😊', match: 'smile :)'},
-  {value: '👍', match: 'thumbs up'},
-  {value: '😄', match: 'laugh :D'},
-  {value: '❤️', match: 'heart <3'},
-  {value: '😂', match: "tears :')"},
-  {value: '🎉', match: 'party'},
-  {value: '😎', match: 'cool |;)'},
-  {value: '😞', match: 'sad :('},
-  {value: '😐', match: 'neutral :|'},
-  {value: '😮', match: 'shock :O'},
-  {value: '🙏', match: 'pray'},
-  {value: '😕', match: 'confused'},
-  {value: '👌', match: 'ok'},
-  {value: '🔥', match: 'fire'},
-  {value: '💯', match: '100'},
-  {value: '✔', match: 'check'},
-  {value: '😋', match: 'tongue'},
-  {value: '😭', match: "crying :'("},
-  {value: '🤓', match: 'glasses'},
-  {value: '😢', match: 'tear'},
-  {value: '😜', match: 'winking tongue ;)'},
-];
+const MAX_ITEMS_DROPDOWN = 25;
 
 export interface EmojiSuggestion extends Item {
-  match: string;
+  description: string;
+  emoji: string;
+  keywords: string[];
 }
 
 function isEmojiSuggestion(x: EmojiSuggestion | Item): x is EmojiSuggestion {
-  return !!x && !!(x as EmojiSuggestion).match;
+  return (
+    !!x &&
+    Array.isArray((x as EmojiSuggestion).keywords) &&
+    (x as EmojiSuggestion).keywords.length > 0
+  );
 }
 
 declare global {
@@ -116,6 +101,10 @@ export class GrSuggestionTextarea extends LitElement {
 
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
+  @state() emojis?: EmojiSuggestion[];
+
+  @state() emojisLoaded = false;
+
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -138,6 +127,8 @@ export class GrSuggestionTextarea extends LitElement {
   currentSearchString?: string;
 
   private readonly shortcuts = new ShortcutController(this);
+
+  private static readonly libLoader = new GrLibLoader();
 
   constructor() {
     super();
@@ -301,6 +292,23 @@ export class GrSuggestionTextarea extends LitElement {
       .verticalOffset=${20}
       role="listbox"
     ></gr-autocomplete-dropdown>`;
+  }
+
+  override firstUpdated() {
+    GrSuggestionTextarea.libLoader
+      .getLibrary(EMOJIS_LIBRARY_CONFIG)
+      .then(emojis => {
+        this.emojisLoaded = true;
+        this.emojis = (emojis as UnicodeEmoji)
+          .getEmojis()
+          .map((emoji: EmojiSuggestion) => {
+            return {
+              emoji: emoji.emoji,
+              description: emoji.description,
+              keywords: emoji.keywords,
+            };
+          });
+      });
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -600,8 +608,8 @@ export class GrSuggestionTextarea extends LitElement {
     const suggestions = [];
     for (const suggestion of matchedSuggestions) {
       assert(isEmojiSuggestion(suggestion), 'malformed suggestion');
-      suggestion.dataValue = suggestion.value;
-      suggestion.text = `${suggestion.value} ${suggestion.match}`;
+      suggestion.dataValue = suggestion.emoji;
+      suggestion.text = `${suggestion.emoji} ${suggestion.description}`;
       suggestions.push(suggestion);
     }
     return suggestions;
@@ -609,17 +617,19 @@ export class GrSuggestionTextarea extends LitElement {
 
   // private but used in test
   computeEmojiSuggestions(suggestionsText?: string): EmojiSuggestion[] {
-    if (suggestionsText === undefined) {
+    if (suggestionsText === undefined || !this.emojisLoaded) {
       return [];
     }
     if (!suggestionsText.length) {
-      return this.formatSuggestions(ALL_SUGGESTIONS);
-    } else {
-      const matches = ALL_SUGGESTIONS.filter(suggestion =>
-        suggestion.match.includes(suggestionsText)
-      ).slice(0, MAX_ITEMS_DROPDOWN);
-      return this.formatSuggestions(matches);
+      return this.formatSuggestions(this.emojis!.slice(0, MAX_ITEMS_DROPDOWN));
     }
+
+    const searchResults = this.emojis!.filter((emoji: EmojiSuggestion) =>
+      emoji.keywords.some((keyword: string) =>
+        keyword.toLowerCase().includes(suggestionsText.toLowerCase())
+      )
+    ).slice(0, MAX_ITEMS_DROPDOWN);
+    return this.formatSuggestions(searchResults);
   }
 
   // TODO(dhruvsri): merge with getAccountSuggestions in account-util

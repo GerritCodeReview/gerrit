@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48dfe150_a9cab583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-28T09:17:52Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "29c006c3_d2c1f5d7",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "7dd04e2fe4795690bc61e0bd08c3c0704526161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31858f5_af105d3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-28T09:17:52Z",
+      "side": 1,
+      "message": "Yes, if you have access to change, you can see votable for reviewers/owners",
+      "parentUuid": "9151877b_21e37e7a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "7dd04e2fe4795690bc61e0bd08c3c0704526161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "def7b96b_56d5e979",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-04-28T09:02:07Z",
       "side": 1,
       "message": "What does this sentence mean\n\nThe previous sentence says `we show for reviewers` and then this sentence contradicts the previous sentence?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "7dd04e2fe4795690bc61e0bd08c3c0704526161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd159056_45dca422",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-28T09:17:52Z",
+      "side": 1,
+      "message": "I rewrote it",
+      "parentUuid": "def7b96b_56d5e979",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fccc724b_49e7d258",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-28T09:17:52Z",
+      "side": 1,
+      "message": "Sorry, I meant defined",
+      "parentUuid": "530cde40_89edf1b8",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "7dd04e2fe4795690bc61e0bd08c3c0704526161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4c88dd2_0e317ae4",
@@ -106,6 +202,30 @@
       "writtenOn": "2025-04-28T09:02:07Z",
       "side": 1,
       "message": "First line says `current user voting permission as shown`\n\nNext line says `doesn\u0027t show voting pemission for current user`\n\nSo does it show or not?\n\nI don\u0027t follow this paragraph as well.",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "7dd04e2fe4795690bc61e0bd08c3c0704526161f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c7e67f_c8a06c69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-04-28T09:17:52Z",
+      "side": 1,
+      "message": "permitted_Labels does define current user voting permission\nLabels doesn\u0027t define current user voting permission (only for other accounts).\n\nAdded ``, rewrite slightly.",
+      "parentUuid": "e4c88dd2_0e317ae4",
       "range": {
         "startLine": 15,
         "startChar": 41,

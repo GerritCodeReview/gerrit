@@ -31,32 +31,10 @@ import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import {GrTextarea} from '../../../embed/gr-textarea';
+import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
+import {EMOJIS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/emojis_config';
 
-const MAX_ITEMS_DROPDOWN = 10;
-
-const ALL_SUGGESTIONS: EmojiSuggestion[] = [
-  {value: '😊', match: 'smile :)'},
-  {value: '👍', match: 'thumbs up'},
-  {value: '😄', match: 'laugh :D'},
-  {value: '❤️', match: 'heart <3'},
-  {value: '😂', match: "tears :')"},
-  {value: '🎉', match: 'party'},
-  {value: '😎', match: 'cool |;)'},
-  {value: '😞', match: 'sad :('},
-  {value: '😐', match: 'neutral :|'},
-  {value: '😮', match: 'shock :O'},
-  {value: '🙏', match: 'pray'},
-  {value: '😕', match: 'confused'},
-  {value: '👌', match: 'ok'},
-  {value: '🔥', match: 'fire'},
-  {value: '💯', match: '100'},
-  {value: '✔', match: 'check'},
-  {value: '😋', match: 'tongue'},
-  {value: '😭', match: "crying :'("},
-  {value: '🤓', match: 'glasses'},
-  {value: '😢', match: 'tear'},
-  {value: '😜', match: 'winking tongue ;)'},
-];
+const MAX_ITEMS_DROPDOWN = 25;
 
 export interface EmojiSuggestion extends Item {
   match: string;
@@ -116,6 +94,20 @@ export class GrSuggestionTextarea extends LitElement {
 
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
+<<<<<<< HEAD   (13ad1d Merge "Merge branch 'stable-3.11' into stable-3.12" into sta)
+||||||| BASE
+  @state() private isDragging = false;
+
+  @state() private allowMarkdownBase64ImagesInComments = false;
+
+=======
+  @state() private isDragging = false;
+
+  @state() private allowMarkdownBase64ImagesInComments = false;
+
+  @state() emojis?: EmojiSuggestion[];
+
+>>>>>>> CHANGE (0b0e85 Use googlefonts/emoji-metadata for emojis)
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -138,6 +130,8 @@ export class GrSuggestionTextarea extends LitElement {
   currentSearchString?: string;
 
   private readonly shortcuts = new ShortcutController(this);
+
+  private static readonly libLoader = new GrLibLoader();
 
   constructor() {
     super();
@@ -301,6 +295,16 @@ export class GrSuggestionTextarea extends LitElement {
       .verticalOffset=${20}
       role="listbox"
     ></gr-autocomplete-dropdown>`;
+  }
+
+  override firstUpdated() {
+    if (!this.emojis) {
+      GrSuggestionTextarea.libLoader
+        .getLibrary(EMOJIS_LIBRARY_CONFIG)
+        .then(emojis => {
+          if (emojis) this.emojis = emojis as EmojiSuggestion[];
+        });
+    }
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -609,17 +613,18 @@ export class GrSuggestionTextarea extends LitElement {
 
   // private but used in test
   computeEmojiSuggestions(suggestionsText?: string): EmojiSuggestion[] {
-    if (suggestionsText === undefined) {
+    if (suggestionsText === undefined || !this.emojis) {
       return [];
     }
+
     if (!suggestionsText.length) {
-      return this.formatSuggestions(ALL_SUGGESTIONS);
-    } else {
-      const matches = ALL_SUGGESTIONS.filter(suggestion =>
-        suggestion.match.includes(suggestionsText)
-      ).slice(0, MAX_ITEMS_DROPDOWN);
-      return this.formatSuggestions(matches);
+      return this.formatSuggestions(this.emojis.slice(0, MAX_ITEMS_DROPDOWN));
     }
+
+    const matches = this.emojis
+      .filter(suggestion => suggestion.match.includes(suggestionsText))
+      .slice(0, MAX_ITEMS_DROPDOWN);
+    return this.formatSuggestions(matches);
   }
 
   // TODO(dhruvsri): merge with getAccountSuggestions in account-util

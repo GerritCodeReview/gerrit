@@ -392,6 +392,7 @@ public class RefControl {
         }
         if (overrideFound) {
           // Found an exclusive override, nothing further to do in this project.
+          logger.atFine().log("Exclusive override found for permission %s", pr);
           continue projectLoop;
         }
 
@@ -403,6 +404,7 @@ public class RefControl {
           }
 
           if (isBlock(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
+            logger.atFine().log("Block rule found for permission %s", pr);
             blocked = true;
             break;
           }
@@ -412,6 +414,10 @@ public class RefControl {
           // ALLOW in the same AccessSection (ie. in the same Permission) overrides the BLOCK.
           for (PermissionRule pr : p.getRules()) {
             if (isAllow(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
+              logger.atFine().log(
+                  "Allow rule found in the same access section which overrides the BLOCK for"
+                      + " permission %s",
+                  pr);
               blocked = false;
               break;
             }
@@ -419,6 +425,7 @@ public class RefControl {
         }
 
         if (blocked) {
+          logger.atFine().log("Permission %s is blocked", pr);
           return true;
         }
       }

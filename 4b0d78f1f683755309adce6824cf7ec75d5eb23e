@@ -16,6 +16,24 @@
       "message": "I have two concerns:\n* We also need to make this dependency available internally. So we potentially have to look at other options. Maybe https://github.com/googlefonts/emoji-metadata/blob/main/README.md would work, as well? Not sure. Just took a very quick look\n* Just depending on ALL emojis may substantially increase the size of the gr-app.js file. Can you measure how large it is before and after this change?",
       "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2caefd68_ba484eba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-28T19:48:56Z",
+      "side": 1,
+      "message": "I think this adds ~500kb. Based on https://github.com/Julien-Marcou/Unicode-Emoji/blob/main/unicode-emoji.js.\n\nI don\u0027t mind what library we use. I had trouble with loading a json file with `import`. I tried to find a library that would work for us. Just needed something that provided the emojis and we could then use search to match an input.",
+      "parentUuid": "12886a98_48b7a139",
+      "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

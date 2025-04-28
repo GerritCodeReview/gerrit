@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65fc6f5d_3d3646ce",
+        "filename": "java/com/google/gerrit/server/config/LogConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-28T11:31:26Z",
+      "side": 1,
+      "message": "My feeling is that `shouldCompress` would be a better name.",
+      "range": {
+        "startLine": 52,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "c2c0dc9fa5b7769878ce46672815f3273bdd7818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a36b82_9fbd1066",
+        "filename": "java/com/google/gerrit/server/config/LogConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-04-28T11:31:26Z",
+      "side": 1,
+      "message": "`shouldRotate`",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "c2c0dc9fa5b7769878ce46672815f3273bdd7818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,6 +41,7 @@
     "highlightjs-vue": "https://github.com/paladox/highlightjs-vue#44eed074ea0110d1ad03d2cbd77d27027cf7bb04",
     "immer": "^9.0.21",
     "lit": "^3.2.1",
+    "node-emoji": "^2.2.0",
     "polymer-bridges": "file:../../polymer-bridges",
     "polymer-resin": "^2.0.1",
     "resemblejs": "^5.0.0",

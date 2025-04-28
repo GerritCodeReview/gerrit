@@ -6,7 +6,7 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-suggestion-textarea';
-import {GrSuggestionTextarea} from './gr-suggestion-textarea';
+import {EmojiSuggestion, GrSuggestionTextarea} from './gr-suggestion-textarea';
 import {
   Item,
   ItemSelectedEventDetail,
@@ -38,6 +38,32 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
       html`<gr-suggestion-textarea></gr-suggestion-textarea>`
     );
     sinon.stub(element.reporting, 'reportInteraction');
+    // We can't fetch emojis.js here, due to it being out of the rootDir.
+    // Instead we hardcode some.
+    const ALL_SUGGESTIONS: EmojiSuggestion[] = [
+      {value: '😊', match: 'smile :)'},
+      {value: '👍', match: 'thumbs up'},
+      {value: '😄', match: 'laugh :D'},
+      {value: '❤️', match: 'heart <3'},
+      {value: '😂', match: "tears :')"},
+      {value: '🎉', match: 'party'},
+      {value: '😎', match: 'cool |;)'},
+      {value: '😞', match: 'sad :('},
+      {value: '😐', match: 'neutral :|'},
+      {value: '😮', match: 'shock :O'},
+      {value: '🙏', match: 'pray'},
+      {value: '😕', match: 'confused'},
+      {value: '👌', match: 'ok'},
+      {value: '🔥', match: 'fire'},
+      {value: '💯', match: '100'},
+      {value: '✔', match: 'check'},
+      {value: '😋', match: 'tongue'},
+      {value: '😭', match: "crying :'("},
+      {value: '🤓', match: 'glasses'},
+      {value: '😢', match: 'tear'},
+      {value: '😜', match: 'winking tongue ;)'},
+    ];
+    element.emojis = ALL_SUGGESTIONS;
     await element.updateComplete;
   });
 

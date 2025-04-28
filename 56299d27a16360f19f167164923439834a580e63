@@ -52,6 +52,24 @@
       "parentUuid": "d59afc16_eea8c9da",
       "revId": "56299d27a16360f19f167164923439834a580e63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb7751b1_f872d5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-28T19:20:58Z",
+      "side": 1,
+      "message": "And added a plugin api with https://gerrit-review.googlesource.com/c/gerrit/+/471481 to add your own custom emojis.",
+      "parentUuid": "dae699f6_d67c93a8",
+      "revId": "56299d27a16360f19f167164923439834a580e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

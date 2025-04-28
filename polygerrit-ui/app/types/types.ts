@@ -5,6 +5,7 @@
  */
 import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {MessageTag, Side} from '../constants/constants';
+import {EmojiSuggestion} from '../elements/shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {
   AccountInfo,
   BasePatchSetNum,
@@ -72,6 +73,12 @@ export interface HighlightJS {
     ignore_illegals: boolean,
     continuation?: unknown
   ): HighlightJSResult;
+}
+
+export interface UnicodeEmoji {
+  getComponents(): unknown;
+  getEmojis(omitWhere?: unknown): EmojiSuggestion[];
+  getEmojisGroupedBy(groupBy?: string, omitWhere?: unknown): unknown;
 }
 
 export type DiffLayerListener = (

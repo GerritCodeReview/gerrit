@@ -34,6 +34,24 @@
       "parentUuid": "89f60e53_2ba18b94",
       "revId": "56299d27a16360f19f167164923439834a580e63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dae699f6_d67c93a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-28T18:22:25Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/471142 increases the available emojis, and expand how many are shown at once from 10 to 25 as well.",
+      "parentUuid": "d59afc16_eea8c9da",
+      "revId": "56299d27a16360f19f167164923439834a580e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

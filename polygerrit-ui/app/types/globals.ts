@@ -23,6 +23,23 @@ declare global {
     // it's defined because of limitations from typescript, which don't import .mjs
     page?: unknown;
     hljs?: HighlightJS;
+<<<<<<< HEAD   (11c05a Change Range by Suggestion)
+||||||| BASE
+
+    DEFAULT_DETAIL_HEXES?: {
+      diffPage?: string;
+      changePage?: string;
+      dashboardPage?: string;
+    };
+=======
+    emojis?: unknown;
+
+    DEFAULT_DETAIL_HEXES?: {
+      diffPage?: string;
+      changePage?: string;
+      dashboardPage?: string;
+    };
+>>>>>>> CHANGE (f198a5 Use googlefonts/emoji-metadata for emojis)
     STATIC_RESOURCE_PATH?: string;
 
     PRELOADED_QUERIES?: {

@@ -33,6 +33,7 @@ import {formStyles} from '../../../styles/form-styles';
 import {GrTextarea} from '../../../embed/gr-textarea';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {EMOJIS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/emojis_config';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const MAX_ITEMS_DROPDOWN = 25;
 
@@ -120,6 +121,8 @@ export class GrSuggestionTextarea extends LitElement {
   private readonly shortcuts = new ShortcutController(this);
 
   private static readonly libLoader = new GrLibLoader();
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -605,11 +608,15 @@ export class GrSuggestionTextarea extends LitElement {
       return [];
     }
 
+    const emojis = this.getPluginLoader().jsApiService.modifyEmojis(
+      this.emojis
+    );
+
     if (!suggestionsText.length) {
-      return this.formatSuggestions(this.emojis.slice(0, MAX_ITEMS_DROPDOWN));
+      return this.formatSuggestions(emojis.slice(0, MAX_ITEMS_DROPDOWN));
     }
 
-    const matches = this.emojis
+    const matches = emojis
       .filter(suggestion => suggestion.match.includes(suggestionsText))
       .slice(0, MAX_ITEMS_DROPDOWN);
     return this.formatSuggestions(matches);

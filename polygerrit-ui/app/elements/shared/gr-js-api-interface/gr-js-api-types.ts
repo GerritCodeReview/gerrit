@@ -15,6 +15,7 @@ import {EventType, TargetElement} from '../../../api/plugin';
 import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {FileRange, PatchRange} from '../../../api/diff';
+import {EmojiSuggestion} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 export interface ShowChangeDetail {
   change?: ParsedChangeInfo;
@@ -49,6 +50,13 @@ export interface JsApiService extends Finalizable {
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
+<<<<<<< HEAD   (5d295d Use googlefonts/emoji-metadata for emojis)
+||||||| BASE
+  handleViewChange(view?: string): void;
+=======
+  handleViewChange(view?: string): void;
+  modifyEmojis(emojis: EmojiSuggestion[]): EmojiSuggestion[];
+>>>>>>> CHANGE (7c1c4a Add plugin api to add custom emojis)
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,

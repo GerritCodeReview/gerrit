@@ -202,7 +202,11 @@ export class GrHovercardAccountContents extends LitElement {
     if (this.change === undefined) {
       return nothing;
     }
-    const voteableText = computeVoteableText(this.change, this.account);
+    const voteableText = computeVoteableText(
+      this.change,
+      this.account,
+      this.selfAccount
+    );
     return html`
       ${voteableText
         ? html`

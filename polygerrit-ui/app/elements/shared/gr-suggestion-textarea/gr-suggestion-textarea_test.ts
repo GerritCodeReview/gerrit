@@ -6,7 +6,7 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-suggestion-textarea';
-import {GrSuggestionTextarea} from './gr-suggestion-textarea';
+import {EmojiSuggestion, GrSuggestionTextarea} from './gr-suggestion-textarea';
 import {
   Item,
   ItemSelectedEventDetail,
@@ -20,6 +20,8 @@ import {
 import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
+import * as unicodeEmoji from 'unicode-emoji';
+import {UnicodeEmoji} from '../../../types/types';
 
 suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
   let element: GrSuggestionTextarea;
@@ -38,6 +40,16 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
       html`<gr-suggestion-textarea></gr-suggestion-textarea>`
     );
     sinon.stub(element.reporting, 'reportInteraction');
+    element.emojis = (unicodeEmoji as UnicodeEmoji)
+      .getEmojis()
+      .map((emoji: EmojiSuggestion) => {
+        return {
+          emoji: emoji.emoji,
+          description: emoji.description,
+          keywords: emoji.keywords,
+        };
+      });
+    element.emojisLoaded = true;
     await element.updateComplete;
   });
 
@@ -495,26 +507,274 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     assert.isTrue(
       formatSpy.lastCall.calledWithExactly([
         {
-          dataValue: '😂',
-          value: '😂',
-          match: "tears :')",
-          text: "😂 tears :')",
+          dataValue: '🤣',
+          description: 'rolling on the floor laughing',
+          emoji: '🤣',
+          keywords: [
+            'crying',
+            'face',
+            'floor',
+            'funny',
+            'haha',
+            'happy',
+            'hehe',
+            'hilarious',
+            'joy',
+            'laugh',
+            'lmao',
+            'lol',
+            'rofl',
+            'roflmao',
+            'rolling',
+            'tear',
+          ],
+          text: '🤣 rolling on the floor laughing',
         },
-        {dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
+        {
+          dataValue: '😂',
+          description: 'face with tears of joy',
+          emoji: '😂',
+          keywords: [
+            'crying',
+            'face',
+            'feels',
+            'funny',
+            'haha',
+            'happy',
+            'hehe',
+            'hilarious',
+            'joy',
+            'laugh',
+            'lmao',
+            'lol',
+            'rofl',
+            'roflmao',
+            'tear',
+          ],
+          text: '😂 face with tears of joy',
+        },
+        {
+          dataValue: '🥲',
+          description: 'smiling face with tear',
+          emoji: '🥲',
+          keywords: [
+            'face',
+            'glad',
+            'grateful',
+            'happy',
+            'joy',
+            'pain',
+            'proud',
+            'relieved',
+            'smile',
+            'smiley',
+            'smiling',
+            'tear',
+            'touched',
+          ],
+          text: '🥲 smiling face with tear',
+        },
+        {
+          dataValue: '🥹',
+          description: 'face holding back tears',
+          emoji: '🥹',
+          keywords: [
+            'admiration',
+            'aww',
+            'back',
+            'cry',
+            'embarrassed',
+            'face',
+            'feelings',
+            'grateful',
+            'gratitude',
+            'holding',
+            'joy',
+            'please',
+            'proud',
+            'resist',
+            'sad',
+            'tears',
+          ],
+          text: '🥹 face holding back tears',
+        },
+        {
+          dataValue: '😢',
+          description: 'crying face',
+          emoji: '😢',
+          keywords: [
+            'awful',
+            'cry',
+            'crying',
+            'face',
+            'feels',
+            'miss',
+            'sad',
+            'tear',
+            'triste',
+            'unhappy',
+          ],
+          text: '😢 crying face',
+        },
+        {
+          dataValue: '😭',
+          description: 'loudly crying face',
+          emoji: '😭',
+          keywords: [
+            'bawling',
+            'cry',
+            'crying',
+            'face',
+            'loudly',
+            'sad',
+            'sob',
+            'tear',
+            'tears',
+            'unhappy',
+          ],
+          text: '😭 loudly crying face',
+        },
+        {
+          dataValue: '😹',
+          description: 'cat with tears of joy',
+          emoji: '😹',
+          keywords: [
+            'animal',
+            'cat',
+            'face',
+            'joy',
+            'laugh',
+            'laughing',
+            'lol',
+            'tear',
+            'tears',
+          ],
+          text: '😹 cat with tears of joy',
+        },
+        {
+          dataValue: '😿',
+          description: 'crying cat',
+          emoji: '😿',
+          keywords: ['animal', 'cat', 'cry', 'crying', 'face', 'sad', 'tear'],
+          text: '😿 crying cat',
+        },
+        {
+          dataValue: '💧',
+          description: 'droplet',
+          emoji: '💧',
+          keywords: [
+            'cold',
+            'comic',
+            'drop',
+            'droplet',
+            'nature',
+            'sad',
+            'sweat',
+            'tear',
+            'water',
+            'weather',
+          ],
+          text: '💧 droplet',
+        },
+        {
+          dataValue: '📆',
+          description: 'tear-off calendar',
+          emoji: '📆',
+          keywords: ['calendar', 'tear-off'],
+          text: '📆 tear-off calendar',
+        },
       ])
     );
   });
 
   test('formatSuggestions', () => {
     const matchedSuggestions = [
-      {value: '😢', match: 'tear'},
-      {value: '😂', match: 'tears'},
+      {
+        dataValue: '😢',
+        description: 'crying face',
+        emoji: '😢',
+        keywords: [
+          'awful',
+          'cry',
+          'crying',
+          'face',
+          'feels',
+          'miss',
+          'sad',
+          'tear',
+          'triste',
+          'unhappy',
+        ],
+        text: '😢 crying face',
+      },
+      {
+        dataValue: '😂',
+        description: 'face with tears of joy',
+        emoji: '😂',
+        keywords: [
+          'crying',
+          'face',
+          'feels',
+          'funny',
+          'haha',
+          'happy',
+          'hehe',
+          'hilarious',
+          'joy',
+          'laugh',
+          'lmao',
+          'lol',
+          'rofl',
+          'roflmao',
+          'tear',
+        ],
+        text: '😂 face with tears of joy',
+      },
     ];
     const suggestions = element.formatSuggestions(matchedSuggestions);
     assert.deepEqual(
       [
-        {value: '😢', dataValue: '😢', match: 'tear', text: '😢 tear'},
-        {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'},
+        {
+          dataValue: '😢',
+          description: 'crying face',
+          emoji: '😢',
+          keywords: [
+            'awful',
+            'cry',
+            'crying',
+            'face',
+            'feels',
+            'miss',
+            'sad',
+            'tear',
+            'triste',
+            'unhappy',
+          ],
+          text: '😢 crying face',
+        },
+        {
+          dataValue: '😂',
+          description: 'face with tears of joy',
+          emoji: '😂',
+          keywords: [
+            'crying',
+            'face',
+            'feels',
+            'funny',
+            'haha',
+            'happy',
+            'hehe',
+            'hilarious',
+            'joy',
+            'laugh',
+            'lmao',
+            'lol',
+            'rofl',
+            'roflmao',
+            'tear',
+          ],
+          text: '😂 face with tears of joy',
+        },
       ],
       suggestions
     );
@@ -628,7 +888,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
       const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
       pressKey(element.textarea! as HTMLElement, Key.ENTER);
       assert.isFalse(enterSpy.called);
-      await setText(':1');
+      await setText(':10');
       pressKey(element.textarea! as HTMLElement, Key.ENTER);
       assert.isTrue(enterSpy.called);
       await element.updateComplete;

@@ -25,7 +25,7 @@ change, project or account).
 If the quota enforcer wants to throttle HTTP requests, they should use
 link:quota.html#http-requests[HTTP Requests] instead.
 
-The quota groups used for checking follow the exact definition of the endoint in the REST
+The quota groups used for checking follow the exact definition of the endpoint in the REST
 API, but remove all IDs. The schema is:
 
 /restapi/<ENDPOINT>:<HTTP-METHOD>

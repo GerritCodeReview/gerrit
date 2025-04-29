@@ -385,7 +385,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       int projectCount = projects.size();
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
       for (Project.NameKey name : projects) {
-        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name, notifyListeners)));
+        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
       }
 
       try {
@@ -416,11 +416,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private class ProjectSliceCreator implements Callable<Void> {
       private final Project.NameKey name;
-      private final boolean doNotifyListeners;
 
-      public ProjectSliceCreator(Project.NameKey name, boolean notifyListeners) {
+      public ProjectSliceCreator(Project.NameKey name) {
         this.name = name;
-        this.doNotifyListeners = notifyListeners;
       }
 
       @Override
@@ -446,9 +444,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               if (reuseExistingDocuments) {
                 indexer =
                     indexerFactory.create(
-                        executor, index, stalenessCheckerFactory.create(index), doNotifyListeners);
+                        executor, index, stalenessCheckerFactory.create(index), notifyListeners);
               } else {
-                indexer = indexerFactory.create(executor, index, doNotifyListeners);
+                indexer = indexerFactory.create(executor, index, notifyListeners);
               }
               ListenableFuture<?> future =
                   executor.submit(reindexProjectSlice(indexer, projectSlice, doneTask, failedTask));

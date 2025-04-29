@@ -247,7 +247,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
-      return reindexProjectSlice(
+      return new ProjectSliceIndexer(
           indexer,
           ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
           done,
@@ -256,11 +256,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       logger.atSevere().log("%s", e.getMessage());
       return null;
     }
-  }
-
-  public Callable<Void> reindexProjectSlice(
-      ChangeIndexer indexer, ProjectSlice projectSlice, Task done, Task failed) {
-    return new ProjectSliceIndexer(indexer, projectSlice, done, failed);
   }
 
   private class ProjectSliceIndexer implements Callable<Void> {
@@ -451,7 +446,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                 indexer = indexerFactory.create(executor, index, doNotifyListeners);
               }
               ListenableFuture<?> future =
-                  executor.submit(reindexProjectSlice(indexer, projectSlice, doneTask, failedTask));
+                  executor.submit(
+                      new ProjectSliceIndexer(indexer, projectSlice, doneTask, failedTask));
               String description = "project " + name + " (" + slice + "/" + slices + ")";
               addErrorListener(future, description, projTask, ok);
               sliceIndexerFutures.add(future);

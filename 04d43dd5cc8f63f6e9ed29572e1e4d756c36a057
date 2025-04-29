@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63144b03_1032ae32",
+        "filename": "Documentation/quota.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-04-29T13:16:22Z",
+      "side": 0,
+      "message": "Maybe removing the whole thing is not the right thing to do, but I couldn\u0027t find `http-requests` anywhere else in the docs and not sure what the original committer was trying to say, as we\u0027re talking about http requests right here, so unsure why it was pointing to a separate part in the docs?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "04d43dd5cc8f63f6e9ed29572e1e4d756c36a057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

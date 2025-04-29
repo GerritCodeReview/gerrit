@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6059b701_ed5b2985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-29T06:32:35Z",
+      "side": 1,
+      "message": "Ok, but that would still be possible with my change. This boolean could still be added to the writer or dependent on that boolean, the writer in the SQLStore could intermittently switched to the Noopwriter. Would it be OK for you to add this for now? The support for online reindexing could be added on top of this. Unfortunately, I don\u0027t have the time to do that for now, but we would urgently need this change.",
+      "parentUuid": "62f901d2_06aef438",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7

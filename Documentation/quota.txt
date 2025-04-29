@@ -22,9 +22,6 @@ endpoint's logic is executed. This enables quota enforcer implementations to thr
 to specific endpoints while knowing the general context (user and top-level entity such as
 change, project or account).
 
-If the quota enforcer wants to throttle HTTP requests, they should use
-link:quota.html#http-requests[HTTP Requests] instead.
-
 The quota groups used for checking follow the exact definition of the endpoint in the REST
 API, but remove all IDs. The schema is:
 

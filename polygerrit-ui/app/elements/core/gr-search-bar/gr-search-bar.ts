@@ -5,7 +5,6 @@
  */
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-icon/gr-icon';
-import {ServerInfo} from '../../../types/common';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
@@ -162,9 +161,6 @@ export class GrSearchBar extends LitElement {
 
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
-
-  @state()
-  serverConfig?: ServerInfo;
 
   @state()
   mergeabilityComputationBehavior?: MergeabilityComputationBehavior;

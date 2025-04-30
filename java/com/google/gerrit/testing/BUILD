@@ -48,6 +48,7 @@ java_library(
         "//java/com/google/gerrit/testing:test-ref-update-context",
         "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:guava",
+        "//lib:guava-retrying",
         "//lib:h2",
         "//lib:jgit",
         "//lib:jgit-junit",
@@ -60,7 +61,6 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/log:impl-log4j",
         "//lib/truth",
-        "@guava-retrying//jar",
     ],
 )
 

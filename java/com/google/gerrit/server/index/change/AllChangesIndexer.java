@@ -22,14 +22,18 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -43,10 +47,13 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -98,6 +105,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private final ProjectCache projectCache;
   private final Set<Project.NameKey> projectsToSkip;
   private final boolean reuseExistingDocuments;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @AssistedInject
   AllChangesIndexer(
@@ -109,7 +117,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       StalenessChecker.Factory stalenessCheckerFactory,
       ChangeNotes.Factory notesFactory,
       ProjectCache projectCache,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      Provider<InternalChangeQuery> queryProvider) {
     this(
         multiProgressMonitorFactory,
         changeDataFactory,
@@ -120,6 +129,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         notesFactory,
         projectCache,
         config,
+        queryProvider,
         config.getBoolean("index", null, "reuseExistingDocuments", false));
   }
 
@@ -134,6 +144,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       ChangeNotes.Factory notesFactory,
       ProjectCache projectCache,
       @GerritServerConfig Config config,
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted boolean reuseExistingDocuments) {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.changeDataFactory = changeDataFactory;
@@ -143,6 +154,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     this.stalenessCheckerFactory = stalenessCheckerFactory;
     this.notesFactory = notesFactory;
     this.projectCache = projectCache;
+    this.queryProvider = queryProvider;
     this.projectsToSkip =
         Sets.newHashSet(config.getStringList("index", null, "excludeProjectFromChangeReindex"))
             .stream()
@@ -252,7 +264,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   @Nullable
-  public Callable<Void> reindexProject(
+  public Callable<List<Change.Id>> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
       return new ProjectSliceIndexer(
@@ -266,7 +278,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     }
   }
 
-  private class ProjectSliceIndexer implements Callable<Void> {
+  private class ProjectSliceIndexer implements Callable<List<Change.Id>> {
     private final ProjectSlice projectSlice;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
@@ -291,7 +303,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     }
 
     @Override
-    public Void call() throws Exception {
+    public List<Change.Id> call() throws Exception {
       String oldThreadName = Thread.currentThread().getName();
       try {
         Thread.currentThread()
@@ -308,17 +320,22 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
         // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
         // we don't have concrete proof that improving packfile locality would help.
+        ArrayList<Change.Id> indexedChanges = new ArrayList<>();
         notesFactory
             .scan(
                 projectSlice.metaIdByChange(),
                 projectSlice.name(),
                 id -> (id.get() % projectSlice.slices()) == projectSlice.slice())
-            .forEach(r -> index(r));
+            .forEach(
+                r -> {
+                  index(r);
+                  indexedChanges.add(r.id());
+                });
         OnlineReindexMode.end();
+        return indexedChanges;
       } finally {
         Thread.currentThread().setName(oldThreadName);
       }
-      return null;
     }
 
     private void index(ChangeNotesResult r) {
@@ -386,7 +403,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
       List<ListenableFuture<?>> sliceCreationFutures = new ArrayList<>(projects.size());
       for (Project.NameKey name : projects) {
-        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
+        Callable<?> slicingTask =
+            reuseExistingDocuments
+                ? new ProjectSliceCreatorWithCleanup(name)
+                : new ProjectSliceCreator(name);
+        sliceCreationFutures.add(executor.submit(slicingTask));
       }
 
       try {
@@ -415,7 +436,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       return sliceIndexerFutures;
     }
 
-    private class ProjectSliceCreator implements Callable<Void> {
+    private class ProjectSliceCreator implements Callable<ListenableFuture<Iterable<Change.Id>>> {
       private final Project.NameKey name;
 
       public ProjectSliceCreator(Project.NameKey name) {
@@ -423,7 +444,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       }
 
       @Override
-      public Void call() throws IOException {
+      public ListenableFuture<Iterable<Change.Id>> call() throws IOException {
         try (Repository repo = repoManager.openRepository(name)) {
           ImmutableMap<Change.Id, ObjectId> metaIdByChange =
               ChangeNotes.Factory.scanChangeIds(repo);
@@ -439,22 +460,76 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
             doneTask.updateTotal(size);
             projTask.updateTotal(slices);
 
+            List<ListenableFuture<List<Change.Id>>> projectSliceIndexerFutures =
+                new ArrayList<>(slices);
             for (int slice = 0; slice < slices; slice++) {
               ProjectSlice projectSlice = ProjectSlice.create(name, slice, slices, metaIdByChange);
-              ListenableFuture<?> future =
+              ListenableFuture<List<Change.Id>> future =
                   executor.submit(
                       new ProjectSliceIndexer(indexer, projectSlice, doneTask, failedTask));
               String description = "project " + name + " (" + slice + "/" + slices + ")";
               addErrorListener(future, description, projTask, ok);
-              sliceIndexerFutures.add(future);
+              projectSliceIndexerFutures.add(future);
             }
+            sliceIndexerFutures.addAll(projectSliceIndexerFutures);
+            return Futures.transform(
+                Futures.successfulAsList(projectSliceIndexerFutures),
+                result -> Iterables.concat(result),
+                executor);
           }
+          return Futures.immediateCancelledFuture();
         } catch (IOException e) {
           logger.atSevere().withCause(e).log("Error collecting project %s", name);
           projectsFailed.incrementAndGet();
+          return Futures.immediateFailedFuture(e);
+        } finally {
+          slicingProjects.update(1);
         }
-        slicingProjects.update(1);
+      }
+    }
+
+    private class ProjectSliceCreatorWithCleanup implements Callable<Void> {
+      private final NameKey name;
+
+      ProjectSliceCreatorWithCleanup(Project.NameKey name) {
+        this.name = name;
+      }
+
+      @Override
+      public Void call() throws Exception {
+        Set<Change.Id> changesInIndex = queryChangesInIndex(name);
+        ListenableFuture<Iterable<Change.Id>> projectIndexingFuture =
+            new ProjectSliceCreator(name).call();
+        Futures.addCallback(
+            projectIndexingFuture,
+            new FutureCallback<>() {
+
+              @Override
+              public void onSuccess(Iterable<Change.Id> result) {
+                logger.atInfo().log("Index cleanup for project %s", name);
+                for (Change.Id id : result) {
+                  changesInIndex.remove(id);
+                }
+                logger.atInfo().log("Removing %d changes from index", changesInIndex.size());
+                for (Change.Id id : changesInIndex) {
+                  logger.atFine().log("Deleting change %s from index", id);
+                  indexer.delete(id);
+                }
+              }
+
+              @Override
+              public void onFailure(Throwable t) {
+                logger.atSevere().withCause(t).log("Skipping index cleanup for project %s", name);
+              }
+            },
+            executor);
         return null;
+      }
+
+      private Set<Change.Id> queryChangesInIndex(Project.NameKey project) {
+        InternalChangeQuery query = queryProvider.get();
+        query.setRequestedFields(ChangeField.CHANGE_ID_SPEC);
+        return new HashSet<>(query.byProject(project).stream().map(ChangeData::getId).toList());
       }
     }
   }

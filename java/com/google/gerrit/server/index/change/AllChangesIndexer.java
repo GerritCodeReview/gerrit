@@ -365,7 +365,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     final AtomicInteger changeCount = new AtomicInteger(0);
     final AtomicInteger projectsFailed = new AtomicInteger(0);
     final List<ListenableFuture<?>> sliceIndexerFutures = new ArrayList<>();
-    final List<ListenableFuture<?>> sliceCreationFutures = new ArrayList<>();
     VolatileTask projTask = mpm.beginVolatileSubTask("project-slices");
     Task slicingProjects;
 
@@ -379,6 +378,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       Set<Project.NameKey> projects = Sets.difference(projectCache.all(), projectsToSkip);
       int projectCount = projects.size();
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
+      List<ListenableFuture<?>> sliceCreationFutures = new ArrayList<>(projects.size());
       for (Project.NameKey name : projects) {
         sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
       }

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea400dc_7db3f228",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-04-30T12:21:58Z",
+      "side": 1,
+      "message": "I am fixing the BUILD in https://gerrit-review.git.corp.google.com/c/gerrit/+/471741.",
+      "revId": "6899e6cc8ceb0cffb34c934621f83b76e95616f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

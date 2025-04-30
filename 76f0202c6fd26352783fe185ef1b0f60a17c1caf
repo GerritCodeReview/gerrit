@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8e7751d_d2b381ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-04-30T12:26:31Z",
+      "side": 1,
+      "message": "Needs `Release-Notes: skip`",
+      "revId": "76f0202c6fd26352783fe185ef1b0f60a17c1caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

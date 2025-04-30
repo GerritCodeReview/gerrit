@@ -204,9 +204,17 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
             progressOut, TaskKind.INDEXING, "Reindexing changes", true);
     doneTask = mpm.beginVolatileSubTask("changes");
     failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+    ChangeIndexer indexer;
+    if (reuseExistingDocuments) {
+      indexer =
+          indexerFactory.create(
+              executor, index, stalenessCheckerFactory.create(index), notifyListeners);
+    } else {
+      indexer = indexerFactory.create(executor, index, notifyListeners);
+    }
     List<ListenableFuture<?>> futures;
     try {
-      futures = new SliceScheduler(index, ok, notifyListeners).schedule();
+      futures = new SliceScheduler(indexer, ok).schedule();
     } catch (ProjectsCollectionFailure e) {
       logger.atSevere().log("%s", e.getMessage());
       return Result.create(sw, false, 0, 0);
@@ -359,19 +367,17 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   private class SliceScheduler {
-    final ChangeIndex index;
+    final ChangeIndexer indexer;
     final AtomicBoolean ok;
-    final boolean notifyListeners;
     final AtomicInteger changeCount = new AtomicInteger(0);
     final AtomicInteger projectsFailed = new AtomicInteger(0);
     final List<ListenableFuture<?>> sliceIndexerFutures = new ArrayList<>();
     VolatileTask projTask = mpm.beginVolatileSubTask("project-slices");
     Task slicingProjects;
 
-    public SliceScheduler(ChangeIndex index, AtomicBoolean ok, boolean notifyListeners) {
-      this.index = index;
+    public SliceScheduler(ChangeIndexer indexer, AtomicBoolean ok) {
+      this.indexer = indexer;
       this.ok = ok;
-      this.notifyListeners = notifyListeners;
     }
 
     private List<ListenableFuture<?>> schedule() throws ProjectsCollectionFailure {
@@ -435,14 +441,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
             for (int slice = 0; slice < slices; slice++) {
               ProjectSlice projectSlice = ProjectSlice.create(name, slice, slices, metaIdByChange);
-              ChangeIndexer indexer;
-              if (reuseExistingDocuments) {
-                indexer =
-                    indexerFactory.create(
-                        executor, index, stalenessCheckerFactory.create(index), notifyListeners);
-              } else {
-                indexer = indexerFactory.create(executor, index, notifyListeners);
-              }
               ListenableFuture<?> future =
                   executor.submit(
                       new ProjectSliceIndexer(indexer, projectSlice, doneTask, failedTask));

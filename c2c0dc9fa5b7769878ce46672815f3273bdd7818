@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "945ddd0c_56c0f579",
+        "filename": "java/com/google/gerrit/server/config/LogConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-30T10:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65fc6f5d_3d3646ce",
+      "range": {
+        "startLine": 52,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "c2c0dc9fa5b7769878ce46672815f3273bdd7818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3a36b82_9fbd1066",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-28T11:31:26Z",
       "side": 1,
       "message": "`shouldRotate`",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "c2c0dc9fa5b7769878ce46672815f3273bdd7818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5136e59a_9bcd40d0",
+        "filename": "java/com/google/gerrit/server/config/LogConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-04-30T10:47:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3a36b82_9fbd1066",
       "range": {
         "startLine": 56,
         "startChar": 17,

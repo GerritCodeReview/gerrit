@@ -137,7 +137,40 @@ suite('gr-repo-access tests', () => {
               <a href="" id="inheritFromName" rel="noopener"> </a>
               <gr-autocomplete id="editInheritFromInput"> </gr-autocomplete>
             </h3>
-            <div class="weblinks">History:</div>
+            <div class="topLevelButtons">
+              <div class="weblinks">History:</div>
+              <div>
+                <gr-button
+                  aria-disabled="false"
+                  id="editBtn"
+                  role="button"
+                  tabindex="0"
+                >
+                  Edit
+                </gr-button>
+                <gr-button
+                  aria-disabled="true"
+                  disabled=""
+                  class="invisible"
+                  id="saveBtn"
+                  primary=""
+                  role="button"
+                  tabindex="-1"
+                >
+                  Save
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="invisible"
+                  id="saveReviewBtn"
+                  primary=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Save For Review
+                </gr-button>
+              </div>
+            </div>
             <div class="referenceContainer">
               <gr-button
                 aria-disabled="false"
@@ -146,37 +179,6 @@ suite('gr-repo-access tests', () => {
                 tabindex="0"
               >
                 Add Reference
-              </gr-button>
-            </div>
-            <div>
-              <gr-button
-                aria-disabled="false"
-                id="editBtn"
-                role="button"
-                tabindex="0"
-              >
-                Edit
-              </gr-button>
-              <gr-button
-                aria-disabled="true"
-                disabled=""
-                class="invisible"
-                id="saveBtn"
-                primary=""
-                role="button"
-                tabindex="-1"
-              >
-                Save
-              </gr-button>
-              <gr-button
-                aria-disabled="false"
-                class="invisible"
-                id="saveReviewBtn"
-                primary=""
-                role="button"
-                tabindex="0"
-              >
-                Save For Review
               </gr-button>
             </div>
           </div>

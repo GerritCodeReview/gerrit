@@ -170,6 +170,10 @@ export class GrRepoAccess extends LitElement {
         .editing #editInheritFromInput {
           display: inline-block;
         }
+
+        .topLevelButtons {
+          display: ruby;
+        }
       `,
     ];
   }
@@ -210,11 +214,40 @@ export class GrRepoAccess extends LitElement {
               }}
             ></gr-autocomplete>
           </h3>
-          <div class="weblinks ${this.weblinks?.length ? 'show' : ''}">
-            History:
-            ${this.weblinks?.map(
-              info => html`<gr-weblink .info=${info}></gr-weblink>`
-            )}
+          <div class="topLevelButtons">
+            <div class="weblinks ${this.weblinks?.length ? 'show' : ''}">
+              History:
+              ${this.weblinks?.map(
+                info => html`<gr-weblink .info=${info}></gr-weblink>`
+              )}
+            </div>
+            <div>
+              <gr-button
+                id="editBtn"
+                @click=${() => {
+                  this.handleEdit();
+                }}
+                >${this.editing ? 'Cancel' : 'Edit'}</gr-button
+              >
+              <gr-button
+                id="saveBtn"
+                class=${this.ownerOf && this.ownerOf.length === 0
+                  ? 'invisible'
+                  : ''}
+                primary
+                ?disabled=${!this.modified || this.disableSaveWithoutReview}
+                @click=${this.handleSave}
+                >Save</gr-button
+              >
+              <gr-button
+                id="saveReviewBtn"
+                class=${!this.canUpload ? 'invisible' : ''}
+                primary
+                ?disabled=${!this.modified}
+                @click=${this.handleSaveForReview}
+                >Save For Review</gr-button
+              >
+            </div>
           </div>
           ${this.sections?.map((section, index) =>
             this.renderPermissionSections(section, index)
@@ -224,33 +257,6 @@ export class GrRepoAccess extends LitElement {
               id="addReferenceBtn"
               @click=${() => this.handleCreateSection()}
               >Add Reference</gr-button
-            >
-          </div>
-          <div>
-            <gr-button
-              id="editBtn"
-              @click=${() => {
-                this.handleEdit();
-              }}
-              >${this.editing ? 'Cancel' : 'Edit'}</gr-button
-            >
-            <gr-button
-              id="saveBtn"
-              class=${this.ownerOf && this.ownerOf.length === 0
-                ? 'invisible'
-                : ''}
-              primary
-              ?disabled=${!this.modified || this.disableSaveWithoutReview}
-              @click=${this.handleSave}
-              >Save</gr-button
-            >
-            <gr-button
-              id="saveReviewBtn"
-              class=${!this.canUpload ? 'invisible' : ''}
-              primary
-              ?disabled=${!this.modified}
-              @click=${this.handleSaveForReview}
-              >Save For Review</gr-button
             >
           </div>
         </div>

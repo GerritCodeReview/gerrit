@@ -254,6 +254,13 @@ suite('gr-formatted-text tests', () => {
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'
       );
+
+      await checkLinking('www.google.com');
+      await checkLinking('www.google.com/path');
+      await checkLinking('google.com');
+      await checkLinking('sub.google.co.uk');
+      await checkLinking('google.io');
+      await checkLinking('google.com?q=1#frag');
     });
   });
 
@@ -759,6 +766,13 @@ suite('gr-formatted-text tests', () => {
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'
       );
+
+      await checkLinking('www.google.com');
+      await checkLinking('www.google.com/path');
+      await checkLinking('google.com');
+      await checkLinking('sub.google.co.uk');
+      await checkLinking('google.io');
+      await checkLinking('google.com?q=1#frag');
     });
 
     suite('user suggest fix', () => {

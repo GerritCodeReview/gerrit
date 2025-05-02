@@ -68,4 +68,11 @@ public class ExperimentFeaturesConstants {
    */
   public static String GERRIT_BACKEND_FEATURE_USE_DIRECT_PUSH_CONTEXT_FOR_SUBMIT_ON_PUSH =
       "GerritBackendFeature__use_direct_push_context_for_submit_on_push";
+
+  /**
+   * Whether users present in footers should be automatically added as reviewers to the revert
+   * created.
+   */
+  public static final String GERRIT_BACKEND_FEATURE_DISABLE_ADDING_USERS_IN_FOOTERS_AS_REVIEWER =
+      "GerritBackendFeature__disable_adding_users_in_footers_as_reviewers";
 }

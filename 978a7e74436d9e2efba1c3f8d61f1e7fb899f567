@@ -52,6 +52,24 @@
       "parentUuid": "e0f0db5c_825fa16e",
       "revId": "978a7e74436d9e2efba1c3f8d61f1e7fb899f567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "611d4dfa_5c41ccd6",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-02T12:17:13Z",
+      "side": 1,
+      "message": "\u003e TODO: Define a consistent threat model around deleting external ids and remove this special case\n\nWorks for me. Updated.",
+      "parentUuid": "b6caa095_0ffe59e3",
+      "revId": "978a7e74436d9e2efba1c3f8d61f1e7fb899f567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

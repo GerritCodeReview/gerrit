@@ -125,9 +125,28 @@ export class GrFormattedText extends LitElement {
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
-        // Always linkify URLs starting with https?://
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
-          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~-])',
+          // Linkify URLs with proper domain structures and boundaries.
+          // (?<=\s|^|[('":[])   // Ensure the match is preceded by whitespace,
+          //                     // start of line, or one of ( ' " : [
+          //                     // to prevent matching within words.
+          // (                   // Start capture group 1
+          //   (?:https?://)?    // Optional non-capturing scheme group
+          //   (?:               // Start non-capturing domain group
+          //     (?:www\.)?      //   Optional www.
+          //     [\w-]+\.        //   Sequence of words/hyphens with dot, e.g. "a-b."
+          //   )+                // End domain group. Require at least one match
+          //   [\w-]+            // End with words/hyphens for TLD e.g. "com"
+          //   (?:               // Start optional non-capturing path/query/fragment group:
+          //     [/?#]           //   Start with one of / ? #
+          //     [^\s'"]*        //   Followed by some chars that are not whitespace,
+          //                     //   ' or " (to not grab trailing quotes)
+          //   )?                // End optional path/query/fragment group
+          // )                   // End capture group 1
+          // (?=\s|$|[)'"!?.,])  // Ensure the match is followed by whitespace,
+          //                     // end of line, or one of ) ' " ! ? . ,
+          //                     // to allow URLs next to common endings.
+          match: '(?<=\\s|^|[(\'\":[])((?:https?://)?(?:(?:www\\.)?[\\w-]+\\.)+[\\w-]+(?:[/?#][^\\s\'\"]*)?)(?=\\s|$|[)\'\"!?.,])',
           link: '$1',
           enabled: true,
         };

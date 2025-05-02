@@ -36,6 +36,60 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0fcfe2_09f762c1",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-02T09:10:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8782341a_95b2dec6",
+      "revId": "94004d7175dd8900662ccd70798778e7461dc784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3aa399_2c3110f1",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-02T09:10:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8782341a_95b2dec6",
+      "fixSuggestions": [
+        {
+          "fixId": "4b9a7440_5d61a3bb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+              "range": {
+                "startLine": 76,
+                "startChar": 0,
+                "endLine": 77,
+                "endChar": 0
+              },
+              "replacement": "  public static final String GERRIT_BACKEND_FEATURE_DISABLE_ADDING_USERS_IN_FOOTERS_AS_REVIEWER \u003d\n"
+            }
+          ]
+        }
+      ],
+      "revId": "94004d7175dd8900662ccd70798778e7461dc784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17575d19_585c1f29",
@@ -77,6 +131,24 @@
           ]
         }
       ],
+      "revId": "94004d7175dd8900662ccd70798778e7461dc784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49fc70cd_fef58d17",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3181,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-02T09:10:05Z",
+      "side": 1,
+      "message": "We create an empty object so we don\u0027t need to worry about removing `me` from empty.",
+      "parentUuid": "17575d19_585c1f29",
       "revId": "94004d7175dd8900662ccd70798778e7461dc784",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

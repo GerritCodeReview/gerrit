@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8782341a_95b2dec6",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-02T09:06:55Z",
+      "side": 1,
+      "message": "Nit: All other names have a `GERRIT_BACKEND_FEATURE_` prefix.",
+      "fixSuggestions": [
+        {
+          "fixId": "ce177d94_e517b5d7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+              "range": {
+                "startLine": 76,
+                "startChar": 0,
+                "endLine": 77,
+                "endChar": 0
+              },
+              "replacement": "  public static final String GERRIT_BACKEND_FEATURE_DISABLE_ADDING_USERS_IN_FOOTERS_AS_REVIEWER \u003d\n"
+            }
+          ]
+        }
+      ],
+      "revId": "94004d7175dd8900662ccd70798778e7461dc784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17575d19_585c1f29",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-02T09:06:55Z",
+      "side": 1,
+      "message": "Should this be outside the `if`?",
+      "fixSuggestions": [
+        {
+          "fixId": "8e03266d_2c42463c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+              "range": {
+                "startLine": 3181,
+                "startChar": 0,
+                "endLine": 3182,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+              "range": {
+                "startLine": 3183,
+                "startChar": 0,
+                "endLine": 3183,
+                "endChar": 0
+              },
+              "replacement": "          fromFooters.remove(me);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "94004d7175dd8900662ccd70798778e7461dc784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

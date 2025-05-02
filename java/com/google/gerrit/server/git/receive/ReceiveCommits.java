@@ -3174,8 +3174,13 @@ class ReceiveCommits {
           // with AOSP accounts already complain about these notifications, and that would make it
           // worse. Might be better to get rid of the feature entirely:
           // https://groups.google.com/d/topic/repo-discuss/tIFxY7L4DXk/discussion
-          MailRecipients fromFooters = getRecipientsFromFooters(accountResolver, footerLines);
-          fromFooters.remove(me);
+          MailRecipients fromFooters = new MailRecipients();
+          if (!experimentFeatures.isFeatureEnabled(
+              ExperimentFeaturesConstants
+                  .GERRIT_BACKEND_FEATURE_DISABLE_ADDING_USERS_IN_FOOTERS_AS_REVIEWER)) {
+            fromFooters = getRecipientsFromFooters(accountResolver, footerLines);
+            fromFooters.remove(me);
+          }
 
           Map<String, Short> approvals = magicBranch.labels;
           StringBuilder msg =

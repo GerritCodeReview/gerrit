@@ -16,6 +16,24 @@
       "message": "So!\n\nI think the idea here is that the `username` is a kind of primary key for the account. If (in a standard Gerrit installation, not Google\u0027s) the user deletes that key then they can\u0027t log in any more, and this isn\u0027t a meaningful operation for users to be able to perform.\n\nAnother reason to limit deletion of external ids would be to prevent users from doing that to escape Deny or Block permissions, but that is a less compelling explanation to me, since it would apply to all external ids instead of just `username`.",
       "revId": "978a7e74436d9e2efba1c3f8d61f1e7fb899f567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0f0db5c_825fa16e",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-02T12:10:07Z",
+      "side": 1,
+      "message": "\u003e in a standard Gerrit installation, not Google\u0027s\n\nYeah I thought of that but then in Google we don\u0027t have any check when users want to delete our version of the `critical` externalId.\n\n\u003e since it would apply to all external ids instead of just username.\n\nExactly! Applying to all would make more sense than the current state.\n\n(Resolving this since I want the CL reviewed)",
+      "parentUuid": "232cbe30_d779ed8a",
+      "revId": "978a7e74436d9e2efba1c3f8d61f1e7fb899f567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

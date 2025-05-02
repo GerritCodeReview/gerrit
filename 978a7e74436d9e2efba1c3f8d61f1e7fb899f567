@@ -34,6 +34,24 @@
       "parentUuid": "232cbe30_d779ed8a",
       "revId": "978a7e74436d9e2efba1c3f8d61f1e7fb899f567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6caa095_0ffe59e3",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2025-05-02T12:11:55Z",
+      "side": 1,
+      "message": "I think it can make sense to file a bug, but at this point it\u0027s not unclear any more. :)\n\nThat is, I think we\u0027ve provided the explanation and just not convinced ourselves that it\u0027s a good behavior.\n\nOr perhaps this change could say something like \"TODO: Define a consistent threat model around deleting external ids and remove this special case.\"",
+      "parentUuid": "e0f0db5c_825fa16e",
+      "revId": "978a7e74436d9e2efba1c3f8d61f1e7fb899f567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

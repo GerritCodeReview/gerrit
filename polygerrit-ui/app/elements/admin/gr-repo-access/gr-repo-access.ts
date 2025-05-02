@@ -216,16 +216,6 @@ export class GrRepoAccess extends LitElement {
               info => html`<gr-weblink .info=${info}></gr-weblink>`
             )}
           </div>
-          ${this.sections?.map((section, index) =>
-            this.renderPermissionSections(section, index)
-          )}
-          <div class="referenceContainer">
-            <gr-button
-              id="addReferenceBtn"
-              @click=${() => this.handleCreateSection()}
-              >Add Reference</gr-button
-            >
-          </div>
           <div>
             <gr-button
               id="editBtn"
@@ -251,6 +241,16 @@ export class GrRepoAccess extends LitElement {
               ?disabled=${!this.modified}
               @click=${this.handleSaveForReview}
               >Save For Review</gr-button
+            >
+          </div>
+          ${this.sections?.map((section, index) =>
+            this.renderPermissionSections(section, index)
+          )}
+          <div class="referenceContainer">
+            <gr-button
+              id="addReferenceBtn"
+              @click=${() => this.handleCreateSection()}
+              >Add Reference</gr-button
             >
           </div>
         </div>

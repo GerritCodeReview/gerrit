@@ -125,9 +125,24 @@ export class GrFormattedText extends LitElement {
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
-        // Always linkify URLs starting with https?://
+        // Linkify URLs:
+        // * starting with http:// or https://
+        // * starting with www.
+        // * matching domain.tld format
+        // * with or without paths/query/fragment
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
-          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~-])',
+          // (                                  // Start capture group 1
+          //   (?:https?://)?                   // Optional "http://" or "https://"
+          //   (?:www\. | (?:[\w-]+\.)+[\w-]+)  // Require "www." or "domain.tld" format
+          //   (?:                              // Optional path/query/fragment group:
+          //     (?:                            //   Chars within the path:
+          //       (?!&(?:gt|lt|quot|apos);)    //     Must not be start of >, <, ', or ,
+          //       [\S]                         //     Any non-whitespace chars
+          //     )+                             //   One or more path chars
+          //     [\w/~#-]                       //   Must end with alphanum, /, ~, #, or -
+          //   )?                               // End optional path/query/fragment group
+          // )                                  // End capture group 1
+          match: '((?:https?://)?(?:www\.|(?:[\w-]+\.)+[\w-]+)(?:(?:(?!&(?:gt|lt|quot|apos);)[\S])+[\w/~#-])?)',
           link: '$1',
           enabled: true,
         };

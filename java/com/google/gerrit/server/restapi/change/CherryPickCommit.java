@@ -91,6 +91,7 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
       CherryPickChange.Result cherryPickResult =
           cherryPickChange.cherryPick(
               null,
+              null,
               projectName,
               rsrc.getCommit(),
               input,

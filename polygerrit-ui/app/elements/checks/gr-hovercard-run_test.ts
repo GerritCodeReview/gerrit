@@ -171,7 +171,7 @@ suite('gr-hovercard-run tests', () => {
             <div class="sectionContent">
               <div class="row">
                 <div class="title">Description</div>
-                <div>Shows you the possible eliminations.</div>
+                <gr-formatted-text class="message"></gr-formatted-text>
               </div>
               <div class="row">
                 <div class="title">Documentation</div>

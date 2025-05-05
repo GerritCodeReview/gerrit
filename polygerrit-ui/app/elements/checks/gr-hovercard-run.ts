@@ -312,7 +312,11 @@ export class GrHovercardRun extends base {
           ${this.run.checkDescription
             ? html` <div class="row">
                 <div class="title">Description</div>
-                <div>${this.run.checkDescription}</div>
+                <gr-formatted-text
+                  class="message"
+                  .markdown=${true}
+                  .content=${this.run.checkDescription}
+                ></gr-formatted-text>
               </div>`
             : ''}
           ${this.run.checkLink

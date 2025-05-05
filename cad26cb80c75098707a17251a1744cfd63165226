@@ -40,6 +40,72 @@
       ],
       "revId": "cad26cb80c75098707a17251a1744cfd63165226",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cac4394_3579bd45",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-05T12:10:23Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8a6fb115_a4003f65",
+      "range": {
+        "startLine": 742,
+        "startChar": 58,
+        "endLine": 742,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6df20dea_914f8d01",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/checks/checks-model.ts",
+              "range": {
+                "startLine": 742,
+                "startChar": 0,
+                "endLine": 743,
+                "endChar": 0
+              },
+              "replacement": "    // the attempt reset only actually happens when a new valid patchset is\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cad26cb80c75098707a17251a1744cfd63165226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70f586d0_675201d3",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-05T12:10:23Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8a6fb115_a4003f65",
+      "range": {
+        "startLine": 742,
+        "startChar": 58,
+        "endLine": 742,
+        "endChar": 64
+      },
+      "revId": "cad26cb80c75098707a17251a1744cfd63165226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

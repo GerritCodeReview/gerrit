@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.util;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import java.nio.file.Path;
 import java.time.Instant;
@@ -45,7 +46,8 @@ public class LogFileManagerTest {
             "sshd_log",
             "httpd_log");
 
-    LogFileManager manager = new LogFileManager(new SitePaths(Path.of("/gerrit")), new Config());
+    LogFileManager manager =
+        new LogFileManager(new SitePaths(Path.of("/gerrit")), new LogConfig(new Config()));
     Instant expected = Instant.parse("2024-01-01T00:00:00.00Z");
     for (String filename : filenamesWithDate) {
       assertThat(manager.getDateFromFilename(Path.of(filename)).get()).isEqualTo(expected);

@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.PluginLogFile;
 import com.google.gerrit.server.util.SystemLog;
@@ -85,7 +86,7 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
 
     @Inject
     public MySystemLog(SitePaths site, Config config, InvocationCounter invocationCounter) {
-      super(site, config);
+      super(site, config, new LogConfig(config));
       this.invocationCounter = invocationCounter;
     }
 

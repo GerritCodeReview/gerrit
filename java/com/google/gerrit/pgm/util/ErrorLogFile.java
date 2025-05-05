@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.util.logging.LogTimestampFormatter;
@@ -26,7 +27,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.jgit.lib.Config;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
@@ -49,7 +49,7 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(Path sitePath, Config config, boolean consoleLog)
+  public static LifecycleListener start(Path sitePath, LogConfig config, boolean consoleLog)
       throws IOException {
     Path logdir =
         FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir, "Cannot create log directory");
@@ -68,7 +68,7 @@ public class ErrorLogFile {
     };
   }
 
-  private static void initLogSystem(Path logdir, Config config, boolean consoleLog) {
+  private static void initLogSystem(Path logdir, LogConfig config, boolean consoleLog) {
     Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
 
@@ -86,15 +86,13 @@ public class ErrorLogFile {
       root.addAppender(dst);
     }
 
-    boolean json = config.getBoolean("log", "jsonLogging", false);
-    boolean text = config.getBoolean("log", "textLogging", true) || !(json || consoleLog);
-    boolean rotate = config.getBoolean("log", "rotate", true);
+    boolean rotate = config.shouldRotate();
 
-    if (text) {
+    if (config.isTextLogging() || !consoleLog) {
       root.addAppender(SystemLog.createAppender(logdir, LOG_NAME, errorLogLayout, rotate));
     }
 
-    if (json) {
+    if (config.isJsonLogging()) {
       root.addAppender(
           SystemLog.createAppender(
               logdir, LOG_NAME + JSON_SUFFIX, new ErrorLogJsonLayout(), rotate));

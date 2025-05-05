@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d722982_47f8ec24",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-05T23:53:01Z",
+      "side": 1,
+      "message": "Could the current Gerrit url protocols be used instead (I mean fetch the local protocol)? Preferring https being used.",
+      "revId": "9ba43944ad7078189cc0205d295e91a525f0a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

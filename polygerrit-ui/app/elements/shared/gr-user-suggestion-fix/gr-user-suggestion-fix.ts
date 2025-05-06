@@ -71,37 +71,37 @@ export class GrUserSuggestionsFix extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getCommentModel().comment$,
-      comment => (this.comment = comment)
+      comment => (this.comment = comment),
     );
     subscribe(
       this,
       () => this.getCommentModel().commentedText$,
-      commentedText => (this.commentedText = commentedText)
+      commentedText => (this.commentedText = commentedText),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      loggedIn => (this.loggedIn = loggedIn)
+      loggedIn => (this.loggedIn = loggedIn),
     );
   }
 
@@ -134,7 +134,7 @@ export class GrUserSuggestionsFix extends LitElement {
     const fixSuggestions = createUserFixSuggestion(
       this.comment,
       this.commentedText,
-      code
+      code,
     );
     return html`<div class="header">
         <div class="title">

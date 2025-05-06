@@ -47,12 +47,12 @@ export class GrErrorDialog extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().loginUrl$,
-      url => (this.loginUrl = url)
+      url => (this.loginUrl = url),
     );
     subscribe(
       this,
       () => this.getConfigModel().loginText$,
-      text => (this.loginText = text)
+      text => (this.loginText = text),
     );
   }
 

@@ -102,11 +102,11 @@ suite('attention-set-util', () => {
   test('getReason', () => {
     assert.equal(
       getReason(config, KERMIT, change.attention_set),
-      'a good reason'
+      'a good reason',
     );
     assert.equal(
       getReason(config, OTHER_ACCOUNT, change.attention_set),
-      'Added by kermit'
+      'Added by kermit',
     );
   });
 
@@ -137,7 +137,7 @@ suite('attention-set-util', () => {
     };
     assert.sameOrderedMembers(
       reviewers.sort((r1, r2) =>
-        sortReviewers(r1, r2, change.attention_set, change.labels, a7)
+        sortReviewers(r1, r2, change.attention_set, change.labels, a7),
       ),
       [
         a7, // self
@@ -147,7 +147,7 @@ suite('attention-set-util', () => {
         a3, // human user, has not voted
         a2, // service user, has voted
         a1, // service user, has not voted
-      ]
+      ],
     );
   });
 
@@ -166,9 +166,9 @@ suite('attention-set-util', () => {
         [createCommentThread([comment])],
         KERMIT,
         KERMIT,
-        config
+        config,
       ),
-      '<GERRIT_ACCOUNT_31415926535> replied on the change'
+      '<GERRIT_ACCOUNT_31415926535> replied on the change',
     );
 
     assert.equal(
@@ -176,9 +176,9 @@ suite('attention-set-util', () => {
         [createCommentThread([comment])],
         KERMIT,
         MENTION_ACCOUNT,
-        config
+        config,
       ),
-      '<GERRIT_ACCOUNT_31415926535> mentioned you in a comment'
+      '<GERRIT_ACCOUNT_31415926535> mentioned you in a comment',
     );
 
     // resolved mention hence does not change reason
@@ -195,9 +195,9 @@ suite('attention-set-util', () => {
         [createCommentThread([comment])],
         KERMIT,
         MENTION_ACCOUNT,
-        config
+        config,
       ),
-      '<GERRIT_ACCOUNT_31415926535> replied on the change'
+      '<GERRIT_ACCOUNT_31415926535> replied on the change',
     );
   });
 });

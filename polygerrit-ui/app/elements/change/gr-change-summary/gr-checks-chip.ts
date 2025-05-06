@@ -209,7 +209,7 @@ export class GrChecksChip extends LitElement {
           aria-label="Link to check details"
           ><gr-icon icon="open_in_new" class="launch"></gr-icon
         ></a>
-      `
+      `,
     );
   }
 

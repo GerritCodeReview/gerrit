@@ -97,10 +97,10 @@ suite('gr-message tests', () => {
           await element.updateComplete;
           assert.deepEqual(e.detail.message, element.message);
           assert.isFalse(
-            queryAndAssert<GrButton>(element, '.deleteBtn').disabled
+            queryAndAssert<GrButton>(element, '.deleteBtn').disabled,
           );
           promise.resolve();
-        }
+        },
       );
       queryAndAssert<GrButton>(element, '.deleteBtn').click();
       await element.updateComplete;
@@ -142,7 +142,7 @@ suite('gr-message tests', () => {
               ></gr-icon>
             </span>
           </div>
-        </div>`
+        </div>`,
       );
 
       element.hideAutomated = true;
@@ -186,7 +186,7 @@ suite('gr-message tests', () => {
               ></gr-icon>
             </span>
           </div>
-        </div>`
+        </div>`,
       );
 
       element.hideAutomated = true;
@@ -232,7 +232,7 @@ suite('gr-message tests', () => {
               ></gr-icon>
             </span>
           </div>
-        </div>`
+        </div>`,
       );
 
       element.hideAutomated = true;
@@ -422,7 +422,7 @@ suite('gr-message tests', () => {
         assert.isTrue(setUrlStub.calledTwice);
         assert.equal(
           setUrlStub.lastCall.firstArg,
-          '/c/test-project/+/42/199..200'
+          '/c/test-project/+/42/199..200',
         );
       });
 
@@ -461,9 +461,9 @@ suite('gr-message tests', () => {
             '',
             undefined,
             '' as ReviewInputTag,
-            labels
+            labels,
           ),
-          ''
+          '',
         );
         assert.equal(
           element.computeMessageContent(
@@ -471,9 +471,9 @@ suite('gr-message tests', () => {
             '',
             undefined,
             '' as ReviewInputTag,
-            labels
+            labels,
           ),
-          ''
+          '',
         );
       });
 
@@ -483,7 +483,7 @@ suite('gr-message tests', () => {
         let actual = element.computeMessageContent(true, original, [], tag);
         assert.equal(
           actual,
-          element.computeMessageContent(true, original, [], tag, labels)
+          element.computeMessageContent(true, original, [], tag, labels),
         );
         assert.equal(actual, original);
         actual = element.computeMessageContent(
@@ -491,7 +491,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, original);
       });
@@ -505,19 +505,19 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         assert.equal(
           actual,
-          element.computeMessageContent(true, original, [], tag)
+          element.computeMessageContent(true, original, [], tag),
         );
         actual = element.computeMessageContent(
           false,
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -531,19 +531,19 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         assert.equal(
           actual,
-          element.computeMessageContent(true, original, [], tag)
+          element.computeMessageContent(true, original, [], tag),
         );
         actual = element.computeMessageContent(
           false,
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -556,7 +556,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         actual = element.computeMessageContent(
@@ -564,7 +564,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -577,7 +577,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         actual = element.computeMessageContent(
@@ -585,7 +585,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -599,7 +599,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         actual = element.computeMessageContent(
@@ -607,7 +607,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -621,7 +621,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         actual = element.computeMessageContent(
@@ -629,7 +629,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -649,7 +649,7 @@ suite('gr-message tests', () => {
           original,
           accountsInMessage,
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         actual = element.computeMessageContent(
@@ -657,7 +657,7 @@ suite('gr-message tests', () => {
           original,
           accountsInMessage,
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -673,7 +673,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
         actual = element.computeMessageContent(
@@ -681,7 +681,7 @@ suite('gr-message tests', () => {
           original,
           [],
           tag,
-          labels
+          labels,
         );
         assert.equal(actual, expected);
       });
@@ -751,7 +751,7 @@ suite('gr-message tests', () => {
       assert.equal(element.patchsetCommentSummary(), 'testing the load');
       assert.equal(
         element.computeMessageContent(false, '', undefined, undefined),
-        ''
+        '',
       );
     });
 
@@ -789,7 +789,7 @@ suite('gr-message tests', () => {
       assert.equal(element.patchsetCommentSummary(), 'n');
       assert.equal(
         element.computeMessageContent(false, '', undefined, undefined),
-        ''
+        '',
       );
     });
   });

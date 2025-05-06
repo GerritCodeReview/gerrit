@@ -27,7 +27,7 @@ suite('shortcuts-service tests', () => {
   setup(() => {
     service = new ShortcutsService(
       testResolver(userModelToken),
-      getAppContext().reportingService
+      getAppContext().reportingService,
     );
   });
 
@@ -106,21 +106,21 @@ suite('shortcuts-service tests', () => {
       assert.deepEqual(describeBinding({key: 'a'}), ['a']);
       assert.deepEqual(
         describeBinding({key: 'a', modifiers: [Modifier.CTRL_KEY]}),
-        ['Ctrl', 'a']
+        ['Ctrl', 'a'],
       );
       assert.deepEqual(
         describeBinding({
           key: Key.UP,
           modifiers: [Modifier.CTRL_KEY, Modifier.SHIFT_KEY],
         }),
-        ['Shift', 'Ctrl', '↑']
+        ['Shift', 'Ctrl', '↑'],
       );
     });
 
     test('combo set description', () => {
       assert.deepEqual(
         service.describeBindings(Shortcut.GO_TO_OPENED_CHANGES),
-        [['g', 'o']]
+        [['g', 'o']],
       );
       assert.deepEqual(service.describeBindings(Shortcut.SAVE_COMMENT), [
         ['Ctrl', 'Enter'],
@@ -138,7 +138,7 @@ suite('shortcuts-service tests', () => {
       assert.strictEqual(service.comboSetDisplayWidth([['x'], ['y']]), 4);
       assert.strictEqual(
         service.comboSetDisplayWidth([['x'], ['y'], ['Shift', 'z']]),
-        12
+        12,
       );
     });
 
@@ -149,14 +149,14 @@ suite('shortcuts-service tests', () => {
       ]);
       assert.deepEqual(
         service.distributeBindingDesc([['ctrl', 'shift', 'meta', 'enter']]),
-        [[['ctrl', 'shift', 'meta', 'enter']]]
+        [[['ctrl', 'shift', 'meta', 'enter']]],
       );
       assert.deepEqual(
         service.distributeBindingDesc([
           ['ctrl', 'shift', 'meta', 'enter'],
           ['o'],
         ]),
-        [[['ctrl', 'shift', 'meta', 'enter']], [['o']]]
+        [[['ctrl', 'shift', 'meta', 'enter']], [['o']]],
       );
       assert.deepEqual(
         service.distributeBindingDesc([
@@ -174,7 +174,7 @@ suite('shortcuts-service tests', () => {
             ['ctrl', 's'],
             ['meta', 's'],
           ],
-        ]
+        ],
       );
     });
 

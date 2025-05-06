@@ -152,7 +152,7 @@ export class GrResultRow extends LitElement {
 
   private readonly getSuggestionsService = resolve(
     this,
-    suggestionsServiceToken
+    suggestionsServiceToken,
   );
 
   private readonly flagsService = getAppContext().flagsService;
@@ -165,22 +165,22 @@ export class GrResultRow extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().labels$,
-      x => (this.labels = x)
+      x => (this.labels = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
-      x => (this.selectedAttempt = x)
+      x => (this.selectedAttempt = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().isOwner$,
-      x => (this.isOwner = x)
+      x => (this.isOwner = x),
     );
     subscribe(
       this,
@@ -189,7 +189,7 @@ export class GrResultRow extends LitElement {
         if (updated) {
           this.requestUpdate();
         }
-      }
+      },
     );
   }
 
@@ -408,7 +408,7 @@ export class GrResultRow extends LitElement {
       () => {
         this.shouldRender = true;
       },
-      200
+      200,
     );
   }
 
@@ -574,7 +574,7 @@ export class GrResultRow extends LitElement {
       // Showing the same icons twice without text is super confusing.
       .filter(
         (link: Link, index: number, array: Link[]) =>
-          array.findIndex(other => link.icon === other.icon) === index
+          array.findIndex(other => link.icon === other.icon) === index,
       )
       // 4 is enough for the summary row. All are shown in expanded state.
       .slice(0, 4);
@@ -607,7 +607,7 @@ export class GrResultRow extends LitElement {
 
   private renderActions() {
     const actions = [...(this.result?.actions ?? [])].filter(
-      action => action.name !== USEFUL && action.name !== NOT_USEFUL
+      action => action.name !== USEFUL && action.name !== NOT_USEFUL,
     );
     let fixAction: Action | undefined = undefined;
     let getAiFixAction: Action | undefined = undefined;
@@ -621,7 +621,7 @@ export class GrResultRow extends LitElement {
     if (
       this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX) &&
       this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.result?.codePointers?.[0]?.path
+        this.result?.codePointers?.[0]?.path,
       ) &&
       this.isOwner &&
       // without fixes
@@ -650,7 +650,7 @@ export class GrResultRow extends LitElement {
         () =>
           html`<div class="actions-shown-on-collapsed">
             ${this.renderAction(fixAction || getAiFixAction)}
-          </div> `
+          </div> `,
       )}
       <div class="actions">
         ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
@@ -676,7 +676,7 @@ export class GrResultRow extends LitElement {
     this.getChecksModel().triggerAction(
       e.detail,
       this.result,
-      'result-row-dropdown'
+      'result-row-dropdown',
     );
   }
 
@@ -863,7 +863,7 @@ export class GrResultExpanded extends LitElement {
       };
     });
     return links.map(
-      link => html`<div class="links">${this.renderLink(link, false)}</div>`
+      link => html`<div class="links">${this.renderLink(link, false)}</div>`,
     );
   }
 
@@ -921,15 +921,15 @@ const CATEGORY_TOOLTIPS: Map<Category, string> = new Map();
 CATEGORY_TOOLTIPS.set(Category.ERROR, 'Must be fixed and is blocking submit');
 CATEGORY_TOOLTIPS.set(
   Category.WARNING,
-  'Should be checked but is not blocking submit'
+  'Should be checked but is not blocking submit',
 );
 CATEGORY_TOOLTIPS.set(
   Category.INFO,
-  'Does not have to be checked, for your information only'
+  'Does not have to be checked, for your information only',
 );
 CATEGORY_TOOLTIPS.set(
   Category.SUCCESS,
-  'Successful runs without results and individual successful results'
+  'Successful runs without results and individual successful results',
 );
 
 @customElement('gr-checks-results')
@@ -1007,42 +1007,42 @@ export class GrChecksResults extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().topLevelActionsSelected$,
-      x => (this.actions = x)
+      x => (this.actions = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().topLevelLinksSelected$,
-      x => (this.links = x)
+      x => (this.links = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().checksSelectedPatchsetNumber$,
-      x => (this.checksPatchsetNumber = x)
+      x => (this.checksPatchsetNumber = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
-      x => (this.selectedAttempt = x)
+      x => (this.selectedAttempt = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchsetNumber = x)
+      x => (this.latestPatchsetNumber = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().someProvidersAreLoadingSelected$,
-      x => (this.someProvidersAreLoading = x)
+      x => (this.someProvidersAreLoading = x),
     );
     subscribe(
       this,
       () => this.getViewModel().checksRunsSelected$,
-      x => (this.selectedRuns = x)
+      x => (this.selectedRuns = x),
     );
     subscribe(
       this,
       () => this.getViewModel().checksResultsFilter$,
-      x => (this.filterRegExp = x)
+      x => (this.filterRegExp = x),
     );
   }
 
@@ -1315,7 +1315,7 @@ export class GrChecksResults extends LitElement {
                 value=${this.selectedAttempt ?? 0}
                 .items=${attemptItems}
                 @value-change=${this.onAttemptSelected}
-              ></gr-dropdown-list>`
+              ></gr-dropdown-list>`,
             )}
             <gr-dropdown-list
               value=${(this.checksPatchsetNumber ||
@@ -1347,7 +1347,7 @@ export class GrChecksResults extends LitElement {
       // Showing the same icons twice without text is super confusing.
       .filter(
         (link: Link, index: number, array: Link[]) =>
-          array.findIndex(other => link.icon === other.icon) === index
+          array.findIndex(other => link.icon === other.icon) === index,
       )
       .slice(0, 4);
     const overflowLinks = links.filter(a => !primaryLinks.includes(a));
@@ -1379,7 +1379,7 @@ export class GrChecksResults extends LitElement {
       ${primaryActions.map(this.renderAction)}
       ${this.renderOverflow(
         [...overflowLinkItems, ...overflowActionItems],
-        disabledActions
+        disabledActions,
       )}
     `;
   }
@@ -1421,7 +1421,7 @@ export class GrChecksResults extends LitElement {
     this.getChecksModel().triggerAction(
       e.detail,
       undefined,
-      'results-dropdown'
+      'results-dropdown',
     );
   }
 
@@ -1494,7 +1494,7 @@ export class GrChecksResults extends LitElement {
   renderFilter() {
     const runs = this.runs.filter(
       run =>
-        this.isRunSelected(run) && isAttemptSelected(this.selectedAttempt, run)
+        this.isRunSelected(run) && isAttemptSelected(this.selectedAttempt, run),
     );
     if (
       this.selectedRuns.size === 0 &&
@@ -1520,7 +1520,7 @@ export class GrChecksResults extends LitElement {
     this.reporting.reportInteraction(
       Interaction.CHECKS_RESULT_FILTER_CHANGED,
       {},
-      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE},
     );
     this.getViewModel().updateState({
       checksResultsFilter: this.filterInput.value,
@@ -1532,14 +1532,14 @@ export class GrChecksResults extends LitElement {
     const isWarningOrError =
       category === Category.WARNING || category === Category.ERROR;
     const allRuns = this.runs.filter(run =>
-      isAttemptSelected(this.selectedAttempt, run)
+      isAttemptSelected(this.selectedAttempt, run),
     );
     const all = allRuns.reduce(
       (results: RunResult[], run) => [
         ...results,
         ...this.computeRunResults(category, run),
       ],
-      []
+      [],
     );
     const isSelectionActive = this.selectedRuns.size > 0;
     const selected = all.filter(result => this.isRunSelected(result));
@@ -1577,7 +1577,7 @@ export class GrChecksResults extends LitElement {
       category,
       isShowAll,
       resultLimit,
-      resultCount
+      resultCount,
     );
     const icon = iconFor(category);
     return html`
@@ -1621,8 +1621,8 @@ export class GrChecksResults extends LitElement {
             selected,
             filtered,
             resultLimit,
-            showAllButton
-          )
+            showAllButton,
+          ),
         )}
       </div>
     `;
@@ -1632,7 +1632,7 @@ export class GrChecksResults extends LitElement {
     category: Category,
     isShowAll: boolean,
     showAllThreshold: number,
-    resultCount: number
+    resultCount: number,
   ) {
     if (resultCount <= showAllThreshold) return;
     const message = isShowAll ? 'Show Less' : `Show All (${resultCount})`;
@@ -1659,7 +1659,7 @@ export class GrChecksResults extends LitElement {
     // this.allResultsExpanded stays the same object, but changes its content
     this.requestUpdate();
     const rows = this.shadowRoot!.querySelectorAll<GrResultRow>(
-      `.${catString} gr-result-row`
+      `.${catString} gr-result-row`,
     );
     for (const row of rows) {
       row.toggleExpanded(desired);
@@ -1674,7 +1674,7 @@ export class GrChecksResults extends LitElement {
       {
         category,
         showAll: !current,
-      }
+      },
     );
     this.requestUpdate();
   }
@@ -1684,7 +1684,7 @@ export class GrChecksResults extends LitElement {
     selected: RunResult[],
     filtered: RunResult[],
     limit: number,
-    showAll: TemplateResult | undefined
+    showAll: TemplateResult | undefined,
   ) {
     if (all.length === 0) {
       return html`<div class="noResultsMessage">No results</div>`;
@@ -1723,7 +1723,7 @@ export class GrChecksResults extends LitElement {
                 class=${charsOnly(result!.checkName)}
                 .result=${result}
               ></gr-result-row>
-            `
+            `,
           )}
           ${showAll}
         </tbody>

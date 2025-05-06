@@ -43,7 +43,7 @@ export type AppElementParams =
   | AppElementJustRegisteredParams;
 
 export function isAppElementJustRegisteredParams(
-  p: AppElementParams
+  p: AppElementParams,
 ): p is AppElementJustRegisteredParams {
   return (p as AppElementJustRegisteredParams).justRegistered !== undefined;
 }

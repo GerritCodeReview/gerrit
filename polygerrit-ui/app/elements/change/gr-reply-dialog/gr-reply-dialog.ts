@@ -249,8 +249,8 @@ export class GrReplyDialog extends LitElement {
     this._ccs = ccs.filter(
       cc =>
         !this.mentionedUsers.some(
-          mentionedCC => getUserId(mentionedCC) === getUserId(cc)
-        )
+          mentionedCC => getUserId(mentionedCC) === getUserId(cc),
+        ),
     );
     this.requestUpdate('ccs', ccs);
   }
@@ -597,51 +597,51 @@ export class GrReplyDialog extends LitElement {
     this.shortcuts.addLocal({key: Key.ESC}, () => this.cancel());
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
-      () => this.submit()
+      () => this.submit(),
     );
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
-      () => this.submit()
+      () => this.submit(),
     );
 
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+      isLoggedIn => (this.isLoggedIn = isLoggedIn),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
       account => {
         this.account = account;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().isOwner$,
-      x => (this.isOwner = x)
+      x => (this.isOwner = x),
     );
     subscribe(
       this,
@@ -650,29 +650,29 @@ export class GrReplyDialog extends LitElement {
         this.mentionedUsers = x;
         this.reviewersMutated =
           this.reviewersMutated || this.mentionedUsers.length > 0;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getCommentsModel().mentionedUsersInUnresolvedDrafts$,
       x => {
         this.mentionedUsersInUnresolvedDrafts = x.filter(
-          v => !this.isAlreadyReviewerOrCC(v)
+          v => !this.isAlreadyReviewerOrCC(v),
         );
-      }
+      },
     );
     subscribe(
       this,
       () => this.getCommentsModel().patchsetLevelDrafts$,
-      x => (this.patchsetLevelComment = x[0])
+      x => (this.patchsetLevelComment = x[0]),
     );
     subscribe(
       this,
       () => this.getCommentsModel().draftThreadsSaved$,
       threads =>
         (this.draftCommentThreads = threads.filter(
-          t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
-        ))
+          t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t)),
+        )),
     );
   }
 
@@ -682,7 +682,7 @@ export class GrReplyDialog extends LitElement {
 
     this.getPluginLoader().jsApiService.addElement(
       TargetElement.REPLY_DIALOG,
-      this
+      this,
     );
 
     this.addEventListener(
@@ -697,9 +697,9 @@ export class GrReplyDialog extends LitElement {
         // thread in editing, we need to check if there are still other threads
         // in editing.
         this.commentEditing = Array.from(commentList.threadElements ?? []).some(
-          thread => thread.editing
+          thread => thread.editing,
         );
-      }
+      },
     );
 
     // Plugins on reply-reviewers endpoint can take advantage of these
@@ -791,7 +791,7 @@ export class GrReplyDialog extends LitElement {
             ${when(
               this.attentionExpanded,
               () => this.renderAttentionDetailsSection(),
-              () => this.renderAttentionSummarySection()
+              () => this.renderAttentionSummarySection(),
             )}
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
             ${this.renderActionsSection()}
@@ -820,7 +820,7 @@ export class GrReplyDialog extends LitElement {
           .placeholder=${'Add reviewer...'}
           @account-text-changed=${this.handleAccountTextEntry}
           .suggestionsProvider=${this.getReviewerSuggestionsProvider(
-            this.change
+            this.change,
           )}
         >
         </gr-account-list>
@@ -946,7 +946,7 @@ export class GrReplyDialog extends LitElement {
         class=${classMap({
           patchsetLevelContainer: true,
           [this.getUnresolvedPatchsetLevelClass(
-            this.patchsetLevelDraftIsResolved
+            this.patchsetLevelDraftIsResolved,
           )]: true,
         })}
       >
@@ -980,7 +980,7 @@ export class GrReplyDialog extends LitElement {
           () => html`
             <gr-thread-list id="commentList" .threads=${threads} hide-dropdown>
             </gr-thread-list>
-          `
+          `,
         )}
         <span
           id="savingLabel"
@@ -999,7 +999,7 @@ export class GrReplyDialog extends LitElement {
           <div>
             ${when(
               this.computeShowNoAttentionUpdate(),
-              () => html` <span>${this.computeDoNotUpdateMessage()}</span> `
+              () => html` <span>${this.computeDoNotUpdateMessage()}</span> `,
             )}
             ${when(
               !this.computeShowNoAttentionUpdate(),
@@ -1015,9 +1015,9 @@ export class GrReplyDialog extends LitElement {
                       .selectionChipStyle=${true}
                       @click=${this.handleAttentionClick}
                     ></gr-account-label>
-                  `
+                  `,
                 )}
-              `
+              `,
             )}
           </div>
           <div>
@@ -1115,7 +1115,7 @@ export class GrReplyDialog extends LitElement {
                 </gr-account-label>
               </div>
             </div>
-          `
+          `,
         )}
         <div class="peopleList">
           <div class="peopleListLabel">Reviewers</div>
@@ -1131,7 +1131,7 @@ export class GrReplyDialog extends LitElement {
                   @click=${this.handleAttentionClick}
                 >
                 </gr-account-label>
-              `
+              `,
             )}
           </div>
         </div>
@@ -1153,11 +1153,11 @@ export class GrReplyDialog extends LitElement {
                       @click=${this.handleAttentionClick}
                     >
                     </gr-account-label>
-                  `
+                  `,
                 )}
               </div>
             </div>
-          `
+          `,
         )}
         ${when(
           this.computeShowAttentionTip(3),
@@ -1166,7 +1166,7 @@ export class GrReplyDialog extends LitElement {
               <gr-icon icon="lightbulb"></gr-icon>
               Please be mindful of requiring attention from too many users.
             </div>
-          `
+          `,
         )}
       </section>
     `;
@@ -1182,7 +1182,7 @@ export class GrReplyDialog extends LitElement {
               <span id="checkingStatusLabel">
                 Checking whether patch ${this.latestPatchNum} is latest...
               </span>
-            `
+            `,
           )}
           ${when(
             this.knownLatestState === LatestPatchState.NOT_LATEST,
@@ -1191,7 +1191,7 @@ export class GrReplyDialog extends LitElement {
                 ${this.computePatchSetWarning()}
                 <gr-button link @click=${this._reload}>Reload</gr-button>
               </span>
-            `
+            `,
           )}
         </div>
         <div class="right">
@@ -1218,13 +1218,13 @@ export class GrReplyDialog extends LitElement {
                   >Send As WIP</gr-button
                 >
               </gr-tooltip-content>
-            `
+            `,
           )}
           <gr-tooltip-content
             has-tooltip
             title=${this.computeSendButtonTooltip(
               this.canBeStarted,
-              this.commentEditing
+              this.commentEditing,
             )}
           >
             <gr-button
@@ -1289,7 +1289,7 @@ export class GrReplyDialog extends LitElement {
   setLabelValue(label: string, value: string): void {
     const selectorEl =
       this.getLabelScores().shadowRoot?.querySelector<GrLabelScoreRow>(
-        `gr-label-score-row[name="${label}"]`
+        `gr-label-score-row[name="${label}"]`,
       );
     selectorEl?.setSelectedValue(value);
   }
@@ -1297,7 +1297,7 @@ export class GrReplyDialog extends LitElement {
   getLabelValue(label: string) {
     const selectorEl =
       this.getLabelScores().shadowRoot?.querySelector<GrLabelScoreRow>(
-        `gr-label-score-row[name="${label}"]`
+        `gr-label-score-row[name="${label}"]`,
       );
     return selectorEl?.selectedValue;
   }
@@ -1332,7 +1332,7 @@ export class GrReplyDialog extends LitElement {
     const reviewers: ReviewerInput[] = [];
     const reviewerAdditions = this.reviewersList?.additions() ?? [];
     reviewers.push(
-      ...reviewerAdditions.map(v => toReviewInput(v, ReviewerState.REVIEWER))
+      ...reviewerAdditions.map(v => toReviewInput(v, ReviewerState.REVIEWER)),
     );
 
     const ccAdditions = this.ccsList?.additions() ?? [];
@@ -1342,7 +1342,7 @@ export class GrReplyDialog extends LitElement {
     let removals = difference(
       this.reviewersList?.removals() ?? [],
       ccAdditions,
-      (a, b) => getUserId(a) === getUserId(b)
+      (a, b) => getUserId(a) === getUserId(b),
     ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
@@ -1350,7 +1350,7 @@ export class GrReplyDialog extends LitElement {
     removals = difference(
       this.ccsList?.removals() ?? [],
       reviewerAdditions,
-      (a, b) => getUserId(a) === getUserId(b)
+      (a, b) => getUserId(a) === getUserId(b),
     ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
@@ -1362,7 +1362,7 @@ export class GrReplyDialog extends LitElement {
         !(
           this.change?.owner._account_id === reviewerInput.reviewer &&
           reviewerInput.state === ReviewerState.REMOVED
-        )
+        ),
     );
   }
 
@@ -1404,7 +1404,7 @@ export class GrReplyDialog extends LitElement {
     const allAccounts = this.allAccounts();
 
     const newAttentionSetAdditions: AccountInfo[] = Array.from(
-      this.newAttentionSet
+      this.newAttentionSet,
     )
       .filter(user => !this.currentAttentionSet.has(user))
       .map(user => allAccounts.find(a => getUserId(a) === user))
@@ -1413,8 +1413,8 @@ export class GrReplyDialog extends LitElement {
     const newAttentionSetUsers = (
       await Promise.all(
         newAttentionSetAdditions.map(a =>
-          this.getAccountsModel().fillDetails(a)
-        )
+          this.getAccountsModel().fillDetails(a),
+        ),
       )
     ).filter(isDefined);
 
@@ -1424,7 +1424,7 @@ export class GrReplyDialog extends LitElement {
           this.draftCommentThreads,
           this.account,
           user,
-          this.serverConfig
+          this.serverConfig,
         ) ?? '';
       reviewInput.add_to_attention_set.push({user: getUserId(user), reason});
     }
@@ -1437,7 +1437,7 @@ export class GrReplyDialog extends LitElement {
     this.reportAttentionSetChanges(
       this.attentionExpanded,
       reviewInput.add_to_attention_set,
-      reviewInput.remove_from_attention_set
+      reviewInput.remove_from_attention_set,
     );
 
     if (this.patchsetLevelGrComment) {
@@ -1479,7 +1479,7 @@ export class GrReplyDialog extends LitElement {
           current_revision_number: this.change?.current_revision_number,
         };
         this.getChangeModel().updateStateChange(
-          GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo)
+          GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo),
         );
         if (reloadRequired) {
           fireReload(this);
@@ -1608,7 +1608,7 @@ export class GrReplyDialog extends LitElement {
     if (!this.change?.owner || !this.change?.reviewers) return;
     const getAccounts = (state: ReviewerState) =>
       Object.values(this.change?.reviewers[state] ?? []).filter(
-        account => account._account_id !== this.change!.owner._account_id
+        account => account._account_id !== this.change!.owner._account_id,
       );
 
     this.ccs = getAccounts(ReviewerState.CC);
@@ -1676,8 +1676,8 @@ export class GrReplyDialog extends LitElement {
     this.attentionCcsCount = removeServiceUsers(this.ccs).length;
     this.currentAttentionSet = new Set(
       Object.keys(this.change.attention_set || {}).map(
-        id => Number(id) as AccountId
-      )
+        id => Number(id) as AccountId,
+      ),
     );
     const newAttention = new Set(this.currentAttentionSet);
 
@@ -1689,7 +1689,7 @@ export class GrReplyDialog extends LitElement {
       // Add everyone that the user is replying to in a comment thread.
       this.computeCommentAccountsForAttention(
         draftCommentThreads,
-        isUploader
+        isUploader,
       ).forEach(id => newAttention.add(id));
       // Remove the current user.
       newAttention.delete(this.account._account_id);
@@ -1705,7 +1705,7 @@ export class GrReplyDialog extends LitElement {
         .filter(
           r =>
             isAccountNewlyAdded(r, ReviewerState.REVIEWER, this.change) ||
-            (this.canBeStarted && this.isOwner)
+            (this.canBeStarted && this.isOwner),
         )
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add((r as AccountInfo)._account_id!));
@@ -1739,7 +1739,7 @@ export class GrReplyDialog extends LitElement {
       ...[...newAttention].filter(
         id =>
           allAccountIds.includes(id) &&
-          !this.manuallyDeletedAttentionSet.has(id)
+          !this.manuallyDeletedAttentionSet.has(id),
       ),
     ]);
     // Possibly expand if need be, never collapse as this is jarring to the user.
@@ -1752,7 +1752,7 @@ export class GrReplyDialog extends LitElement {
   computeShowAttentionTip(minimum: number) {
     if (!this.currentAttentionSet || !this.newAttentionSet) return false;
     const addedIds = [...this.newAttentionSet].filter(
-      id => !this.currentAttentionSet.has(id)
+      id => !this.currentAttentionSet.has(id),
     );
     return this.isOwner && addedIds.length >= minimum;
   }
@@ -1769,7 +1769,7 @@ export class GrReplyDialog extends LitElement {
    */
   computeCommentAccountsForAttention(
     threads: CommentThread[],
-    isUploader: boolean
+    isUploader: boolean,
   ) {
     const crLabel = this.change?.labels?.[StandardLabels.CODE_REVIEW];
     const maxCrVoteAccountIds = getMaxAccounts(crLabel).map(a => a._account_id);
@@ -1826,8 +1826,8 @@ export class GrReplyDialog extends LitElement {
       'computeDoNotUpdateMessage',
       new Error(
         'computeDoNotUpdateMessage()' +
-          'should not be called when users were added to the attention set.'
-      )
+          'should not be called when users were added to the attention set.',
+      ),
     );
     return '';
   }
@@ -1884,7 +1884,7 @@ export class GrReplyDialog extends LitElement {
    * When falsy, the function filters entries that exist in this.reviewers.
    */
   filterReviewerSuggestionGenerator(
-    isCCs: boolean
+    isCCs: boolean,
   ): (input: Suggestion) => boolean {
     return suggestion => {
       let entry: AccountInfo | GroupInfo;
@@ -1898,7 +1898,7 @@ export class GrReplyDialog extends LitElement {
       } else {
         this.reporting.error(
           'Reviewer Suggestion',
-          new Error(`Suggestion is neither account nor group: ${suggestion}`)
+          new Error(`Suggestion is neither account nor group: ${suggestion}`),
         );
         return false;
       }
@@ -1962,7 +1962,7 @@ export class GrReplyDialog extends LitElement {
       this.latestPatchNum,
       review,
       errFn,
-      /* fetchDetail=*/ true
+      /* fetchDetail=*/ true,
     );
   }
 
@@ -1990,7 +1990,7 @@ export class GrReplyDialog extends LitElement {
     }
     this.reporting.error(
       'confirmPendingReviewer',
-      new Error('confirmPendingReviewer called without pending confirm')
+      new Error('confirmPendingReviewer called without pending confirm'),
     );
   }
 
@@ -2046,13 +2046,13 @@ export class GrReplyDialog extends LitElement {
   }
 
   handleReviewersConfirmationChanged(
-    e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+    e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>,
   ) {
     this.reviewerPendingConfirmation = e.detail.value;
   }
 
   handleCcsConfirmationChanged(
-    e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+    e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>,
   ) {
     this.ccPendingConfirmation = e.detail.value;
   }
@@ -2096,7 +2096,7 @@ export class GrReplyDialog extends LitElement {
     }
     const existingVote = Object.values(this.change.labels).some(
       label =>
-        isDetailedLabelInfo(label) && getApprovalInfo(label, this.account!)
+        isDetailedLabelInfo(label) && getApprovalInfo(label, this.account!),
     );
     const revotingOrNewVote = this.labelsChanged || existingVote;
     const hasDrafts =
@@ -2129,7 +2129,7 @@ export class GrReplyDialog extends LitElement {
       ReviewerState.REVIEWER,
       this.serverConfig,
       this.isLoggedIn,
-      change
+      change,
     );
     return provider;
   }
@@ -2141,7 +2141,7 @@ export class GrReplyDialog extends LitElement {
       ReviewerState.CC,
       this.serverConfig,
       this.isLoggedIn,
-      change
+      change,
     );
     return provider;
   }
@@ -2149,7 +2149,7 @@ export class GrReplyDialog extends LitElement {
   reportAttentionSetChanges(
     modified: boolean,
     addedSet?: AttentionSetInput[],
-    removedSet?: AttentionSetInput[]
+    removedSet?: AttentionSetInput[],
   ) {
     const actions = modified ? ['MODIFIED'] : ['NOT_MODIFIED'];
     const ownerId =

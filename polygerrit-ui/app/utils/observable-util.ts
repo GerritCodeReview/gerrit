@@ -11,6 +11,6 @@ export function select<A, B>(obs$: Observable<A>, mapper: (_: A) => B) {
   return obs$.pipe(
     map(mapper),
     distinctUntilChanged(deepEqual),
-    shareReplay(1)
+    shareReplay(1),
   );
 }

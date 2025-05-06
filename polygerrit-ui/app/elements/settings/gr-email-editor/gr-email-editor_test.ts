@@ -23,11 +23,11 @@ suite('gr-email-editor tests', () => {
     ];
 
     accountEmailStub = stubRestApi('getAccountEmails').returns(
-      Promise.resolve(emails)
+      Promise.resolve(emails),
     );
 
     element = await fixture<GrEmailEditor>(
-      html`<gr-email-editor></gr-email-editor>`
+      html`<gr-email-editor></gr-email-editor>`,
     );
 
     await element.updateComplete;
@@ -112,7 +112,7 @@ suite('gr-email-editor tests', () => {
             </tr>
           </tbody>
         </table>
-      </div>`
+      </div>`,
     );
   });
 
@@ -120,7 +120,7 @@ suite('gr-email-editor tests', () => {
     const hasUnsavedChangesSpy = sinon.spy();
     element.addEventListener(
       'has-unsaved-changes-changed',
-      hasUnsavedChangesSpy
+      hasUnsavedChangesSpy,
     );
 
     const rows = element
@@ -130,17 +130,17 @@ suite('gr-email-editor tests', () => {
     assert.equal(rows.length, 3);
 
     assert.isFalse(
-      (rows[0].querySelector('input[type=radio]') as HTMLInputElement).checked
+      (rows[0].querySelector('input[type=radio]') as HTMLInputElement).checked,
     );
     assert.isNotOk(rows[0].querySelector('gr-button')!.disabled);
 
     assert.isTrue(
-      (rows[1].querySelector('input[type=radio]') as HTMLInputElement).checked
+      (rows[1].querySelector('input[type=radio]') as HTMLInputElement).checked,
     );
     assert.isOk(rows[1].querySelector('gr-button')!.disabled);
 
     assert.isFalse(
-      (rows[2].querySelector('input[type=radio]') as HTMLInputElement).checked
+      (rows[2].querySelector('input[type=radio]') as HTMLInputElement).checked,
     );
     assert.isNotOk(rows[2].querySelector('gr-button')!.disabled);
 
@@ -151,7 +151,7 @@ suite('gr-email-editor tests', () => {
     const hasUnsavedChangesSpy = sinon.spy();
     element.addEventListener(
       'has-unsaved-changes-changed',
-      hasUnsavedChangesSpy
+      hasUnsavedChangesSpy,
     );
 
     const radios = element
@@ -181,7 +181,7 @@ suite('gr-email-editor tests', () => {
     const hasUnsavedChangesSpy = sinon.spy();
     element.addEventListener(
       'has-unsaved-changes-changed',
-      hasUnsavedChangesSpy
+      hasUnsavedChangesSpy,
     );
 
     const buttons = element
@@ -207,7 +207,7 @@ suite('gr-email-editor tests', () => {
     const hasUnsavedChangesSpy = sinon.spy();
     element.addEventListener(
       'has-unsaved-changes-changed',
-      hasUnsavedChangesSpy
+      hasUnsavedChangesSpy,
     );
 
     const deleteEmailSpy = spyRestApi('deleteAccountEmail');
@@ -236,7 +236,7 @@ suite('gr-email-editor tests', () => {
     accountEmailStub.restore();
 
     accountEmailStub = stubRestApi('getAccountEmails').returns(
-      Promise.resolve(element.emails)
+      Promise.resolve(element.emails),
     );
 
     await element.save();

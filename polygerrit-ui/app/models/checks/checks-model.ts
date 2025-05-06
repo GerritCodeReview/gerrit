@@ -211,7 +211,7 @@ const FETCH_RESULT_TIMEOUT_MS = 16000;
  */
 export function collectRunResults(
   allResults: RunResult[],
-  providerState: ChecksProviderState
+  providerState: ChecksProviderState,
 ): RunResult[] {
   return [
     ...allResults,
@@ -297,7 +297,7 @@ export class ChecksModel extends Model<ChecksState> {
     private readonly changeViewModel: ChangeViewModel,
     private readonly changeModel: ChangeModel,
     private readonly reporting: ReportingService,
-    private readonly pluginsModel: PluginsModel
+    private readonly pluginsModel: PluginsModel,
   ) {
     super({
       pluginStateLatest: {},
@@ -307,15 +307,15 @@ export class ChecksModel extends Model<ChecksState> {
 
     this.checksSelectedPatchsetNumber$ = select(
       this.changeViewModel.checksPatchset$,
-      ps => ps
+      ps => ps,
     );
     this.checksSelectedAttemptNumber$ = select(
       this.changeViewModel.attempt$,
-      attempt => attempt ?? LATEST_ATTEMPT
+      attempt => attempt ?? LATEST_ATTEMPT,
     );
     this.runFilterRegexp$ = select(
       this.changeViewModel.filter$,
-      filter => filter ?? ''
+      filter => filter ?? '',
     );
     this.checksLatest$ = select(this.state$, state => state.pluginStateLatest);
     this.checksSelected$ = select(
@@ -323,11 +323,11 @@ export class ChecksModel extends Model<ChecksState> {
       ([state, ps]) => {
         const checksPs = ps ? ChecksPatchset.SELECTED : ChecksPatchset.LATEST;
         return this.getPluginState(state, checksPs);
-      }
+      },
     );
     this.aPluginHasRegistered$ = select(
       this.checksLatest$,
-      state => Object.keys(state).length > 0
+      state => Object.keys(state).length > 0,
     );
     this.firstLoadCompleted$ = select(this.checksLatest$, state => {
       const providers = Object.values(state);
@@ -337,23 +337,24 @@ export class ChecksModel extends Model<ChecksState> {
     });
     this.someProvidersAreLoadingFirstTime$ = select(this.checksLatest$, state =>
       Object.values(state).some(
-        provider => provider.loading && provider.firstTimeLoad
-      )
+        provider => provider.loading && provider.firstTimeLoad,
+      ),
     );
     this.someProvidersAreLoadingLatest$ = select(this.checksLatest$, state =>
-      Object.values(state).some(providerState => providerState.loading)
+      Object.values(state).some(providerState => providerState.loading),
     );
     this.someProvidersAreLoadingSelected$ = select(
       this.checksSelected$,
-      state => Object.values(state).some(providerState => providerState.loading)
+      state =>
+        Object.values(state).some(providerState => providerState.loading),
     );
     this.errorMessageLatest$ = select(
       this.checksLatest$,
 
       state =>
         Object.values(state).find(
-          providerState => providerState.errorMessage !== undefined
-        )?.errorMessage
+          providerState => providerState.errorMessage !== undefined,
+        )?.errorMessage,
     );
     this.errorMessagesLatest$ = select(this.checksLatest$, state => {
       const errorMessages: ErrorMessages = {};
@@ -367,8 +368,8 @@ export class ChecksModel extends Model<ChecksState> {
       this.checksLatest$,
       state =>
         Object.values(state).find(
-          providerState => providerState.loginCallback !== undefined
-        )?.loginCallback
+          providerState => providerState.loginCallback !== undefined,
+        )?.loginCallback,
     );
     this.topLevelActionsLatest$ = select(this.checksLatest$, state =>
       Object.values(state).reduce(
@@ -376,12 +377,12 @@ export class ChecksModel extends Model<ChecksState> {
           ...allActions,
           ...providerState.actions,
         ],
-        []
-      )
+        [],
+      ),
     );
     this.topLevelMessagesLatest$ = select(this.checksLatest$, state => {
       const messages = Object.values(state).map(
-        providerState => providerState.summaryMessage
+        providerState => providerState.summaryMessage,
       );
       return messages.filter(m => !!m) as string[];
     });
@@ -391,8 +392,8 @@ export class ChecksModel extends Model<ChecksState> {
           ...allActions,
           ...providerState.actions,
         ],
-        []
-      )
+        [],
+      ),
     );
     this.topLevelLinksSelected$ = select(this.checksSelected$, state =>
       Object.values(state).reduce(
@@ -400,8 +401,8 @@ export class ChecksModel extends Model<ChecksState> {
           ...allLinks,
           ...providerState.links,
         ],
-        []
-      )
+        [],
+      ),
     );
     this.allRunsLatestPatchset$ = select(this.checksLatest$, state =>
       Object.values(state).reduce(
@@ -409,8 +410,8 @@ export class ChecksModel extends Model<ChecksState> {
           ...allRuns,
           ...providerState.runs,
         ],
-        []
-      )
+        [],
+      ),
     );
     this.allRunsSelectedPatchset$ = select(this.checksSelected$, state =>
       Object.values(state).reduce(
@@ -418,12 +419,12 @@ export class ChecksModel extends Model<ChecksState> {
           ...allRuns,
           ...providerState.runs,
         ],
-        []
-      )
+        [],
+      ),
     );
     this.allRunsLatestPatchsetLatestAttempt$ = select(
       this.allRunsLatestPatchset$,
-      runs => runs.filter(run => run.isLatestAttempt)
+      runs => runs.filter(run => run.isLatestAttempt),
     );
     this.checkToPluginMap$ = select(this.checksLatest$, state => {
       const map = new Map<string, string>();
@@ -437,12 +438,12 @@ export class ChecksModel extends Model<ChecksState> {
     this.allResultsSelected$ = select(this.checksSelected$, state =>
       Object.values(state)
         .reduce(collectRunResults, [])
-        .filter(r => r !== undefined)
+        .filter(r => r !== undefined),
     );
     this.allResultsLatest$ = select(this.checksLatest$, state =>
       Object.values(state)
         .reduce(collectRunResults, [])
-        .filter(r => r !== undefined)
+        .filter(r => r !== undefined),
     );
     this.allResults$ = select(
       combineLatest([
@@ -454,13 +455,13 @@ export class ChecksModel extends Model<ChecksState> {
       ([selectedPs, latestPs, selected, latest]) =>
         selectedPs && selectedPs !== latestPs
           ? [...selected, ...latest]
-          : latest
+          : latest,
     );
 
     this.subscriptions = [
       this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
       this.changeModel.latestPatchNum$.subscribe(
-        x => (this.latestPatchNum = x)
+        x => (this.latestPatchNum = x),
       ),
       this.pluginsModel.checksPlugins$.subscribe(plugins => {
         for (const plugin of plugins) {
@@ -468,7 +469,7 @@ export class ChecksModel extends Model<ChecksState> {
         }
       }),
       this.pluginsModel.checksAnnounce$.subscribe(a =>
-        this.reload(a.pluginName)
+        this.reload(a.pluginName),
       ),
       this.pluginsModel.checksUpdate$.subscribe(u => this.updateResult(u)),
       this.checkToPluginMap$.subscribe(map => {
@@ -478,7 +479,7 @@ export class ChecksModel extends Model<ChecksState> {
         .pipe(
           filter(completed => !!completed),
           take(1),
-          withLatestFrom(this.checksLatest$)
+          withLatestFrom(this.checksLatest$),
         )
         .subscribe(([_, state]) => this.reportStats(state)),
     ];
@@ -487,7 +488,7 @@ export class ChecksModel extends Model<ChecksState> {
     };
     document.addEventListener(
       'visibilitychange',
-      this.visibilityChangeListener
+      this.visibilityChangeListener,
     );
   }
 
@@ -556,7 +557,7 @@ export class ChecksModel extends Model<ChecksState> {
   override finalize() {
     document.removeEventListener(
       'visibilitychange',
-      this.visibilityChangeListener
+      this.visibilityChangeListener,
     );
     super.finalize();
   }
@@ -579,7 +580,7 @@ export class ChecksModel extends Model<ChecksState> {
 
   getPluginState(
     state: ChecksState,
-    patchset: ChecksPatchset = ChecksPatchset.LATEST
+    patchset: ChecksPatchset = ChecksPatchset.LATEST,
   ) {
     if (patchset === ChecksPatchset.LATEST) {
       state.pluginStateLatest = {...state.pluginStateLatest};
@@ -603,7 +604,7 @@ export class ChecksModel extends Model<ChecksState> {
   updateStateSetError(
     pluginName: string,
     errorMessage: string,
-    patchset: ChecksPatchset
+    patchset: ChecksPatchset,
   ) {
     const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
@@ -622,7 +623,7 @@ export class ChecksModel extends Model<ChecksState> {
   updateStateSetNotLoggedIn(
     pluginName: string,
     loginCallback: () => void,
-    patchset: ChecksPatchset
+    patchset: ChecksPatchset,
   ) {
     const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
@@ -644,7 +645,7 @@ export class ChecksModel extends Model<ChecksState> {
     actions: Action[] = [],
     links: Link[] = [],
     summaryMessage: string | undefined,
-    patchset: ChecksPatchset
+    patchset: ChecksPatchset,
   ) {
     // Protect against plugins not respecting required fields.
     runs = runs.filter(run => !!run.checkName && !!run.status);
@@ -693,7 +694,7 @@ export class ChecksModel extends Model<ChecksState> {
     pluginName: string,
     updatedRun: CheckRunApi,
     updatedResult: CheckResultApi,
-    patchset: ChecksPatchset
+    patchset: ChecksPatchset,
   ) {
     const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
@@ -778,20 +779,20 @@ export class ChecksModel extends Model<ChecksState> {
       pluginName,
       run,
       result,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     this.updateStateUpdateResult(
       pluginName,
       run,
       result,
-      ChecksPatchset.SELECTED
+      ChecksPatchset.SELECTED,
     );
   }
 
   triggerAction(
     action: Action,
     run: CheckRun | RunResult | undefined,
-    context: string
+    context: string,
   ) {
     if (!action?.callback) return;
     if (!this.changeNum) return;
@@ -808,7 +809,7 @@ export class ChecksModel extends Model<ChecksState> {
       run?.attempt,
       run?.externalId,
       run?.checkName,
-      action.name
+      action.name,
     );
     // If plugins return undefined or not a promise, then show no toast.
     if (!promise?.then) return;
@@ -834,7 +835,7 @@ export class ChecksModel extends Model<ChecksState> {
     const {pluginName, provider, config} = checksPlugin;
     if (this.providers[pluginName]) {
       console.warn(
-        `Plugin '${pluginName}' was trying to register twice as a Checks UI provider. Ignored.`
+        `Plugin '${pluginName}' was trying to register twice as a Checks UI provider. Ignored.`,
       );
       return;
     }
@@ -849,7 +850,7 @@ export class ChecksModel extends Model<ChecksState> {
   initFetchingOfData(
     pluginName: string,
     config: ChecksApiConfig,
-    patchset: ChecksPatchset
+    patchset: ChecksPatchset,
   ) {
     const pollIntervalMs = (config?.fetchPollingIntervalSeconds ?? 60) * 1000;
     // Various events should trigger fetching checks from the provider:
@@ -895,7 +896,7 @@ export class ChecksModel extends Model<ChecksState> {
             // further attempts to fetch results for this plugin will be made.
             this.reporting.error(`checks-model crash for ${pluginName}`, e);
             return of(this.createErrorResponse(pluginName, e));
-          })
+          }),
         )
         .subscribe(response => {
           switch (response.responseCode) {
@@ -914,12 +915,12 @@ export class ChecksModel extends Model<ChecksState> {
                 Execution.CHECKS_API_NOT_LOGGED_IN,
                 {
                   plugin: pluginName,
-                }
+                },
               );
               this.updateStateSetNotLoggedIn(
                 pluginName,
                 response.loginCallback,
-                patchset
+                patchset,
               );
               break;
             }
@@ -930,12 +931,12 @@ export class ChecksModel extends Model<ChecksState> {
                 response.actions ?? [],
                 response.links ?? [],
                 response.summaryMessage,
-                patchset
+                patchset,
               );
               break;
             }
           }
-        })
+        }),
     );
   }
 
@@ -958,7 +959,7 @@ export class ChecksModel extends Model<ChecksState> {
   private fetchResults(
     pluginName: string,
     data: ChangeData,
-    patchset: ChecksPatchset
+    patchset: ChecksPatchset,
   ): Observable<FetchResponse> {
     this.updateStateSetLoading(pluginName, patchset);
     const timer = this.reporting.getTimer('ChecksPluginFetch');

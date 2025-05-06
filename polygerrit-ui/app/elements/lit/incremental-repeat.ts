@@ -73,7 +73,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
         targetFrameRate: options.targetFrameRate ?? 30,
       };
       this.nextScheduledFrameWork = requestAnimationFrame(
-        this.animationFrameHandler
+        this.animationFrameHandler,
       );
     } else {
       this.updateParts();
@@ -85,7 +85,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
           cancelAnimationFrame(this.nextScheduledFrameWork);
         }
         this.nextScheduledFrameWork = requestAnimationFrame(
-          this.animationFrameHandler
+          this.animationFrameHandler,
         );
       }
     }
@@ -125,7 +125,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
       // https://en.wikipedia.org/wiki/Additive_increase/multiplicative_decrease
       this.state.incrementAmount = Math.max(
         1,
-        Math.round(this.state.incrementAmount / 2)
+        Math.round(this.state.incrementAmount / 2),
       );
     } else {
       this.state.incrementAmount++;
@@ -142,7 +142,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
     this.state.startAt += this.state.incrementAmount;
     if (this.state.startAt < this.state.endAt) {
       this.nextScheduledFrameWork = requestAnimationFrame(
-        this.animationFrameHandler
+        this.animationFrameHandler,
       );
     } else {
       this.nextScheduledFrameWork = undefined;

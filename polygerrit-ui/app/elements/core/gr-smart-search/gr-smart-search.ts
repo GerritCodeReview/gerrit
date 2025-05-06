@@ -58,12 +58,12 @@ export class GrSmartSearch extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      config => (this.serverConfig = config)
+      config => (this.serverConfig = config),
     );
     subscribe(
       this,
       () => this.getSearchViewModel().query$,
-      query => (this.searchQuery = query ?? '')
+      query => (this.searchQuery = query ?? ''),
     );
   }
 
@@ -100,13 +100,13 @@ export class GrSmartSearch extends LitElement {
    */
   fetchProjects(
     predicate: string,
-    expression: string
+    expression: string,
   ): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
       .getSuggestedRepos(
         expression,
         MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(projects => {
         if (!projects) {
@@ -131,7 +131,7 @@ export class GrSmartSearch extends LitElement {
    */
   fetchGroups(
     predicate: string,
-    expression: string
+    expression: string,
   ): Promise<AutocompleteSuggestion[]> {
     if (expression.length === 0) {
       return Promise.resolve([]);
@@ -141,7 +141,7 @@ export class GrSmartSearch extends LitElement {
         expression,
         undefined,
         MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(groups => {
         if (!groups) {
@@ -166,7 +166,7 @@ export class GrSmartSearch extends LitElement {
    */
   fetchAccounts(
     predicate: string,
-    expression: string
+    expression: string,
   ): Promise<AutocompleteSuggestion[]> {
     if (expression.length === 0) {
       return Promise.resolve([]);
@@ -177,7 +177,7 @@ export class GrSmartSearch extends LitElement {
         MAX_AUTOCOMPLETE_RESULTS,
         /* canSee=*/ undefined,
         /* filterActive=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(accounts => {
         if (!accounts) {
@@ -200,7 +200,7 @@ export class GrSmartSearch extends LitElement {
 
   private mapAccountsHelper(
     accounts: AccountInfo[],
-    predicate: string
+    predicate: string,
   ): AutocompleteSuggestion[] {
     return accounts.map(account => {
       const userName = getUserName(this.serverConfig, account);

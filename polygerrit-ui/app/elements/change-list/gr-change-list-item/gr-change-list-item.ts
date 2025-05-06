@@ -142,19 +142,19 @@ export class GrChangeListItem extends LitElement {
       () => this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => {
         this.updateCheckedState(selectedChangeNums);
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+      isLoggedIn => (this.isLoggedIn = isLoggedIn),
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.config = config;
-      }
+      },
     );
   }
 
@@ -165,7 +165,7 @@ export class GrChangeListItem extends LitElement {
       .then(() => {
         this.dynamicCellEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-list-item-cell'
+            'change-list-item-cell',
           );
       });
     this.addEventListener('click', this.onItemClick);
@@ -184,7 +184,7 @@ export class GrChangeListItem extends LitElement {
 
     if (changedProperties.has('change')) {
       this.updateCheckedState(
-        this.getBulkActionsModel().getState().selectedChangeNums
+        this.getBulkActionsModel().getState().selectedChangeNums,
       );
     }
   }
@@ -339,7 +339,7 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellRequirements()}
       ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
       ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
-        this.renderChangePluginEndpoint(pluginEndpointName)
+        this.renderChangePluginEndpoint(pluginEndpointName),
       )}
     `;
   }
@@ -435,7 +435,7 @@ export class GrChangeListItem extends LitElement {
       <td class="cell reviewers">
         <div>
           ${this.computePrimaryReviewers().map((reviewer, index) =>
-            this.renderChangeReviewers(reviewer, index)
+            this.renderChangeReviewers(reviewer, index),
           )}
           ${this.computeAdditionalReviewersCount()
             ? html`<span title=${this.computeAdditionalReviewersTitle()}
@@ -672,7 +672,7 @@ export class GrChangeListItem extends LitElement {
       r =>
         (!this.change?.owner ||
           this.change?.owner._account_id !== r._account_id) &&
-        !isServiceUser(r)
+        !isServiceUser(r),
     );
     reviewers.sort((r1, r2) => {
       if (this.loggedInUser) {

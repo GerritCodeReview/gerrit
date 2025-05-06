@@ -132,7 +132,7 @@ suite('gr-edit-preferences tests', () => {
             </span>
           </section>
         </div>
-      `
+      `,
     );
   });
 
@@ -188,13 +188,13 @@ suite('gr-edit-preferences tests', () => {
     assert.isTrue(element.hasUnsavedChanges());
 
     const savePrefStub = stubRestApi('saveEditPreferences').resolves(
-      new Response(makePrefixedJSON(element.editPrefs))
+      new Response(makePrefixedJSON(element.editPrefs)),
     );
 
     await element.save();
     // Wait for model state update, since this is not awaited by element.save()
     await waitUntil(
-      () => !element.getUserModel().getState().editPreferences?.show_tabs
+      () => !element.getUserModel().getState().editPreferences?.show_tabs,
     );
 
     assert.isTrue(savePrefStub.called);

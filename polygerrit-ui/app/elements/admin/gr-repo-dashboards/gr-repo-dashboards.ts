@@ -82,18 +82,18 @@ export class GrRepoDashboards extends LitElement {
                       <td class="inherited">
                         ${this.computeInheritedFrom(
                           info.project,
-                          info.defining_project
+                          info.defining_project,
                         )}
                       </td>
                       <td class="default">
                         ${this.computeIsDefault(info.is_default)}
                       </td>
                     </tr>
-                  `
+                  `,
                 )}
-              `
+              `,
             )}
-          `
+          `,
         )}
       </tbody>
     </table>`;

@@ -213,7 +213,7 @@ export class GrPermission extends LitElement {
         id="permission"
         class="gr-form-styles ${this.computeSectionClass(
           this.editing,
-          this.deleted
+          this.deleted,
         )}"
       >
         <div id="mainContainer">
@@ -223,7 +223,7 @@ export class GrPermission extends LitElement {
               ${when(
                 !this.permissionIsOwnerOrGlobal(
                   this.permission.id ?? '',
-                  this.section
+                  this.section,
                 ),
                 () => html`
                   <paper-toggle-button
@@ -234,7 +234,7 @@ export class GrPermission extends LitElement {
                     @click=${this.onTapExclusiveToggle}
                   ></paper-toggle-button
                   >${this.computeExclusiveLabel(this.permission?.value)}
-                `
+                `,
               )}
               <gr-button
                 link=""
@@ -262,7 +262,7 @@ export class GrPermission extends LitElement {
                   @added-rule-removed=${(_: Event) =>
                     this.handleAddedRuleRemoved(index)}
                 ></gr-rule-editor>
-              `
+              `,
             )}
             <div id="addRule">
               <gr-autocomplete
@@ -444,7 +444,7 @@ export class GrPermission extends LitElement {
   }
 
   computeGroupsWithRules(
-    rules: PermissionArray<EditablePermissionRuleInfo | undefined>
+    rules: PermissionArray<EditablePermissionRuleInfo | undefined>,
   ): GroupsWithRulesMap {
     const groups: GroupsWithRulesMap = {};
     for (const rule of rules) {
@@ -455,7 +455,7 @@ export class GrPermission extends LitElement {
 
   computeGroupName(
     groups: EditableRepoAccessGroups | undefined,
-    groupId: GitRef
+    groupId: GitRef,
   ) {
     return groups && groups[groupId] && groups[groupId].name
       ? groups[groupId].name
@@ -468,7 +468,7 @@ export class GrPermission extends LitElement {
         this.groupFilter || '',
         this.repo,
         MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         const groups: GroupSuggestion[] = [];
@@ -479,7 +479,7 @@ export class GrPermission extends LitElement {
         return groups
           .filter(
             group =>
-              this.groupsWithRules && !this.groupsWithRules[group.value.id]
+              this.groupsWithRules && !this.groupsWithRules[group.value.id],
           )
           .map((group: GroupSuggestion) => {
             const autocompleteSuggestion: AutocompleteSuggestion = {

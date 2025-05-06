@@ -24,14 +24,14 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
 
   constructor(
     readonly plugin: PluginApi,
-    readonly sharedApiElement: JsApiService
+    readonly sharedApiElement: JsApiService,
   ) {
     this.reporting.trackApi(this.plugin, 'reply', 'constructor');
   }
 
   get _el(): GrReplyDialog {
     return this.sharedApiElement.getElement(
-      TargetElement.REPLY_DIALOG
+      TargetElement.REPLY_DIALOG,
     ) as unknown as GrReplyDialog;
   }
 
@@ -68,7 +68,7 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
   private addCallbackAsHookListener(
     hookApi: HookApi<PluginElement>,
     eventName: string,
-    handler: (el: PluginElement, e: Event) => void
+    handler: (el: PluginElement, e: Event) => void,
   ) {
     let registeredHandler: ((e: Event) => void) | undefined;
     hookApi.onAttached(el => {

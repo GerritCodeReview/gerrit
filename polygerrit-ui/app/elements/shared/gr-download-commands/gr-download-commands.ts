@@ -62,7 +62,7 @@ export class GrDownloadCommands extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      x => (this.loggedIn = x)
+      x => (this.loggedIn = x),
     );
     subscribe(
       this,
@@ -73,7 +73,7 @@ export class GrDownloadCommands extends LitElement {
           this.selectedScheme = prefs.download_scheme.toLowerCase();
           fire(this, 'selected-scheme-changed', {value: this.selectedScheme});
         }
-      }
+      },
     );
   }
 
@@ -167,7 +167,7 @@ export class GrDownloadCommands extends LitElement {
     return html`
       <div class="commands" ?hidden=${!this.schemes.length}></div>
         ${this.commands?.map((command, index) =>
-          this.renderShellCommand(command, index)
+          this.renderShellCommand(command, index),
         )}
       </div>
     `;
@@ -188,7 +188,7 @@ export class GrDownloadCommands extends LitElement {
     await this.updateComplete;
     await queryAndAssert<GrShellCommand>(
       this,
-      'gr-shell-command'
+      'gr-shell-command',
     ).focusOnCopy();
   }
 

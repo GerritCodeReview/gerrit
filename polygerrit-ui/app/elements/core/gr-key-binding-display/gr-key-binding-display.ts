@@ -38,7 +38,7 @@ export class GrKeyBindingDisplay extends LitElement {
     const items = this.binding.map((binding, index) => [
       index > 0 ? html` or ` : html``,
       this._computeModifiers(binding).map(
-        modifier => html`<span class="key modifier">${modifier}</span> `
+        modifier => html`<span class="key modifier">${modifier}</span> `,
       ),
       html`<span class="key">${this._computeKey(binding)}</span>`,
     ]);

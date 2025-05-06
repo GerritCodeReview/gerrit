@@ -133,7 +133,7 @@ export class GrAdminView extends LitElement {
       state => {
         this.adminViewState = state;
         if (this.needsReload()) this.reload();
-      }
+      },
     );
     subscribe(
       this,
@@ -141,7 +141,7 @@ export class GrAdminView extends LitElement {
       state => {
         this.groupViewState = state;
         if (this.needsReload()) this.reload();
-      }
+      },
     );
     subscribe(
       this,
@@ -149,7 +149,7 @@ export class GrAdminView extends LitElement {
       state => {
         this.repoViewState = state;
         if (this.needsReload()) this.reload();
-      }
+      },
     );
     subscribe(
       this,
@@ -157,7 +157,7 @@ export class GrAdminView extends LitElement {
       view => {
         this.view = view;
         if (this.needsReload()) this.reload();
-      }
+      },
     );
   }
 
@@ -249,7 +249,7 @@ export class GrAdminView extends LitElement {
       </li>
       <!--Loop through the links in the sub-section.-->
       ${item.subsection?.children?.map(child =>
-        this.renderAdminNavSubsectionChild(child)
+        this.renderAdminNavSubsectionChild(child),
       )}
     `;
   }
@@ -269,7 +269,7 @@ export class GrAdminView extends LitElement {
       <li
         class="subsectionItem ${this.computeSelectedClass(
           child.view,
-          child.detailType
+          child.detailType,
         )}"
       >
         <a href=${this.computeLinkURL(child)}>${child.name}</a>
@@ -503,7 +503,7 @@ export class GrAdminView extends LitElement {
       } else if (this.groupId) {
         const isAdmin = await this.restApiService.getIsAdmin();
         const isOwner = await this.restApiService.getIsGroupOwner(
-          this.groupName
+          this.groupName,
         );
         options = {
           groupId: this.groupId,
@@ -524,7 +524,7 @@ export class GrAdminView extends LitElement {
             return capabilities;
           }),
         () => this.getPluginLoader().jsApiService.getAdminMenuLinks(),
-        options
+        options,
       );
       this.filteredLinks = res.links;
       this.breadcrumbParentName = res.expandedSection
@@ -579,7 +579,7 @@ export class GrAdminView extends LitElement {
     // The GrDropdownList items are subsectionLinks, so find(...) always return
     // an item subsectionLinks and never returns undefined
     const selected = this.subsectionLinks.find(
-      section => section.value === e.detail.value
+      section => section.value === e.detail.value,
     )!;
 
     // This is when it gets set initially.
@@ -633,7 +633,7 @@ export class GrAdminView extends LitElement {
 
   private computeSelectedClass(
     itemView?: GerritView | AdminChildView,
-    detailType?: GroupDetailView | RepoDetailView
+    detailType?: GroupDetailView | RepoDetailView,
   ) {
     if (!this.view) return '';
     // Group view state is structured differently than admin view state. Compute

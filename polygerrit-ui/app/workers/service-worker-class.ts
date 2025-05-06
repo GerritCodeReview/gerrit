@@ -22,7 +22,7 @@ import {noAwait} from '../utils/async-util';
 
 export class ServiceWorker {
   constructor(
-    /* private but used in test */ public ctx: ServiceWorkerGlobalScope
+    /* private but used in test */ public ctx: ServiceWorkerGlobalScope,
   ) {}
 
   // private but used in test
@@ -39,7 +39,7 @@ export class ServiceWorker {
     await this.loadState();
     this.ctx.addEventListener('message', e => this.onMessage(e));
     this.ctx.addEventListener('notificationclick', e =>
-      this.onNotificationClick(e)
+      this.onNotificationClick(e),
     );
   }
 
@@ -65,16 +65,16 @@ export class ServiceWorker {
     if (e.data?.type === ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
       e.waitUntil(
         this.showLatestAttentionChangeNotification(
-          e.data?.account as AccountDetailInfo | undefined
-        )
+          e.data?.account as AccountDetailInfo | undefined,
+        ),
       );
     } else if (
       e.data?.type === ServiceWorkerMessageType.USER_PREFERENCE_CHANGE
     ) {
       e.waitUntil(
         this.allowBrowserNotificationsPreferenceChanged(
-          e.data?.allowBrowserNotificationsPreference as boolean
-        )
+          e.data?.allowBrowserNotificationsPreference as boolean,
+        ),
       );
     }
   }
@@ -120,7 +120,7 @@ export class ServiceWorker {
 
   private showNotificationForChange(
     change: ParsedChangeInfo,
-    account: AccountDetailInfo
+    account: AccountDetailInfo,
   ) {
     const body = getReason(undefined, account, change.attention_set);
     const changeUrl = createChangeUrl({
@@ -166,7 +166,7 @@ export class ServiceWorker {
     const latestAttentionChanges = filterAttentionChangesAfter(
       changes,
       account,
-      prevLatestUpdateTimestampMs
+      prevLatestUpdateTimestampMs,
     );
     return latestAttentionChanges;
   }
@@ -175,7 +175,7 @@ export class ServiceWorker {
   async getLatestAttentionSetChanges(): Promise<ParsedChangeInfo[]> {
     // TODO(milutin): Implement more generic query builder
     const response = await fetch(
-      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
+      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself',
     );
 
     try {
@@ -185,7 +185,7 @@ export class ServiceWorker {
     } catch (err) {
       if (err instanceof Error) {
         console.warn(
-          `Request for latest attention set changes failed. Error: ${err.message}`
+          `Request for latest attention set changes failed. Error: ${err.message}`,
         );
       }
       return [];

@@ -45,7 +45,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
     });
     element = await fixture(
-      html`<gr-confirm-rebase-dialog></gr-confirm-rebase-dialog>`
+      html`<gr-confirm-rebase-dialog></gr-confirm-rebase-dialog>`,
     );
   });
 
@@ -112,7 +112,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <gr-validation-options> </gr-validation-options>
           </div>
         </div>
-      </gr-dialog> `
+      </gr-dialog> `,
     );
   });
 
@@ -137,15 +137,15 @@ suite('gr-confirm-rebase-dialog tests', () => {
         /* HTML */ `<div class="rebaseOnBehalfMsg">
           Rebase will be done on behalf of the uploader:
           <gr-account-chip> </gr-account-chip> <span> </span>
-        </div>`
+        </div>`,
       );
       const accountChip: GrAccountChip = queryAndAssert(
         rebaseOnBehalfMsg,
-        'gr-account-chip'
+        'gr-account-chip',
       );
       assert.equal(
         accountChip.account!,
-        change?.revisions[change.current_revision]?.uploader
+        change?.revisions[change.current_revision]?.uploader,
       );
     });
     test('allowConflicts', async () => {
@@ -157,11 +157,11 @@ suite('gr-confirm-rebase-dialog tests', () => {
         /* HTML */ `<div class="rebaseOnBehalfMsg">
           Rebase will be done on behalf of
           <gr-account-chip> </gr-account-chip> <span> </span>
-        </div>`
+        </div>`,
       );
       const accountChip: GrAccountChip = queryAndAssert(
         rebaseOnBehalfMsg,
-        'gr-account-chip'
+        'gr-account-chip',
       );
       assert.equal(accountChip.account, element.account);
     });
@@ -200,7 +200,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       await element.updateComplete;
       const committerEmail = queryAndAssert(
         element,
-        '.rebaseWithCommitterEmail'
+        '.rebaseWithCommitterEmail',
       );
       assert.dom.equal(
         committerEmail,
@@ -208,11 +208,11 @@ suite('gr-confirm-rebase-dialog tests', () => {
               >Rebase with committer email
               <gr-dropdown-list>
               </gr-dropdown-list>
-              <span></div>`
+              <span></div>`,
       );
       const dropdownList: GrDropdownList = queryAndAssert(
         committerEmail,
-        'gr-dropdown-list'
+        'gr-dropdown-list',
       );
       assert.strictEqual(dropdownList.items!.length, 2);
     });
@@ -244,15 +244,15 @@ suite('gr-confirm-rebase-dialog tests', () => {
       await element.updateComplete;
       const committerEmail = queryAndAssert(
         element,
-        '.rebaseWithCommitterEmail'
+        '.rebaseWithCommitterEmail',
       );
       const dropdownList: GrDropdownList = queryAndAssert(
         committerEmail,
-        'gr-dropdown-list'
+        'gr-dropdown-list',
       );
       assert.deepStrictEqual(
         dropdownList.items!.map(e => e.value),
-        element.committerEmailDropdownItems.map(e => e.email)
+        element.committerEmailDropdownItems.map(e => e.email),
       );
     });
 
@@ -279,15 +279,15 @@ suite('gr-confirm-rebase-dialog tests', () => {
       await element.updateComplete;
       const committerEmail = queryAndAssert(
         element,
-        '.rebaseWithCommitterEmail'
+        '.rebaseWithCommitterEmail',
       );
       const dropdownList: GrDropdownList = queryAndAssert(
         committerEmail,
-        'gr-dropdown-list'
+        'gr-dropdown-list',
       );
       assert.deepStrictEqual(
         dropdownList.items!.map(e => e.value),
-        element.committerEmailDropdownItems.map(e => e.email)
+        element.committerEmailDropdownItems.map(e => e.email),
       );
     });
   });
@@ -311,19 +311,19 @@ suite('gr-confirm-rebase-dialog tests', () => {
     await element.updateComplete;
 
     assert.isTrue(
-      queryAndAssert<HTMLInputElement>(element, '#rebaseOnParentInput').checked
+      queryAndAssert<HTMLInputElement>(element, '#rebaseOnParentInput').checked,
     );
     assert.isFalse(
-      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden'),
     );
     assert.isFalse(
-      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden'),
     );
   });
 
@@ -333,19 +333,19 @@ suite('gr-confirm-rebase-dialog tests', () => {
     await element.updateComplete;
 
     assert.isTrue(
-      queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked
+      queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked,
     );
     assert.isTrue(
-      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden'),
     );
     assert.isFalse(
-      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden'),
     );
     assert.isFalse(
-      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden'),
     );
   });
 
@@ -355,19 +355,19 @@ suite('gr-confirm-rebase-dialog tests', () => {
     await element.updateComplete;
 
     assert.isTrue(
-      queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked
+      queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked,
     );
     assert.isTrue(
-      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden'),
     );
     assert.isFalse(
-      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden'),
     );
   });
 
@@ -378,16 +378,16 @@ suite('gr-confirm-rebase-dialog tests', () => {
 
     assert.isTrue(element.rebaseOnOtherInput?.checked);
     assert.isTrue(
-      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden'),
     );
     assert.isTrue(
-      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden'),
     );
     assert.isFalse(
-      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden'),
     );
   });
 
@@ -400,7 +400,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       new CustomEvent('confirm', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       allowConflicts: false,
@@ -423,7 +423,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       new CustomEvent('confirm', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       allowConflicts: false,
@@ -441,7 +441,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       new CustomEvent('confirm', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.equal(element.text, '');
 
@@ -452,7 +452,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       new CustomEvent('cancel', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.equal(element.text, '');
   });
@@ -514,7 +514,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             _number: 245 as NumericChangeId,
             subject: 'my third awesome change',
           },
-        ])
+        ]),
       );
     });
 
@@ -552,7 +552,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
       pressKey(
         queryAndAssert(queryAndAssert(element, '#parentInput'), '#input'),
-        Key.ENTER
+        Key.ENTER,
       );
       await element.updateComplete;
       element.text = '1';

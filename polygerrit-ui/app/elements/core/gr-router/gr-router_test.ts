@@ -208,7 +208,7 @@ suite('gr-router tests', () => {
     ];
 
     const shouldNotRequireAuth = unauthenticatedHandlers.concat(
-      selfAuthenticatingHandlers
+      selfAuthenticatingHandlers,
     );
     shouldNotRequireAuth.sort();
     assert.deepEqual(actualDoesNotRequireAuth, shouldNotRequireAuth);
@@ -291,7 +291,7 @@ suite('gr-router tests', () => {
       const firstAlert = (await firstAlertPromise) as CustomEvent;
       assert.equal(
         firstAlert.detail.message,
-        'Waiting 1 second for navigation blockers to resolve ...'
+        'Waiting 1 second for navigation blockers to resolve ...',
       );
 
       const secondAlertPromise = mockPromise<Event>();
@@ -302,7 +302,7 @@ suite('gr-router tests', () => {
       const secondAlert = (await secondAlertPromise) as CustomEvent;
       assert.equal(
         secondAlert.detail.message,
-        'Navigation is blocked by: a good reason'
+        'Navigation is blocked by: a good reason',
       );
 
       assert.isFalse(redirectStub.called);
@@ -318,7 +318,7 @@ suite('gr-router tests', () => {
       const firstAlert = (await firstAlertPromise) as CustomEvent;
       assert.equal(
         firstAlert.detail.message,
-        'Waiting 1 second for navigation blockers to resolve ...'
+        'Waiting 1 second for navigation blockers to resolve ...',
       );
 
       const secondAlertPromise = mockPromise<Event>();
@@ -341,7 +341,7 @@ suite('gr-router tests', () => {
 
     async function checkUrlToState<T extends ViewState>(
       url: string,
-      state: T | AppElementJustRegisteredParams
+      state: T | AppElementJustRegisteredParams,
     ) {
       setStateStub.reset();
       router.page.show(url);
@@ -382,7 +382,7 @@ suite('gr-router tests', () => {
       // LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,
       await checkRedirect(
         '/projects/gerrit/project,dashboards/dashboard:main',
-        '/p/gerrit/project/+/dashboard/dashboard:main'
+        '/p/gerrit/project/+/dashboard/dashboard:main',
       );
     });
 
@@ -428,7 +428,7 @@ suite('gr-router tests', () => {
       let onExit: Function | null = null;
       const onRegisteringExit = (
         _match: string | RegExp,
-        _onExit: Function
+        _onExit: Function,
       ) => {
         onExit = _onExit;
       };
@@ -692,7 +692,7 @@ suite('gr-router tests', () => {
         await checkRedirect('/admin/projects/test', '/admin/repos/test');
         await checkRedirect(
           '/admin/projects/test,branches',
-          '/admin/repos/test,branches'
+          '/admin/repos/test,branches',
         );
       });
 
@@ -764,7 +764,7 @@ suite('gr-router tests', () => {
             ...createRepoBranchesViewState(),
             repo: 'asdf// %/qwer' as RepoName,
             filter: 'foo// %/',
-          }
+          },
         );
       });
 
@@ -795,7 +795,7 @@ suite('gr-router tests', () => {
             ...createRepoTagsViewState(),
             repo: 'asdf// %/qwer' as RepoName,
             filter: 'foo// %/',
-          }
+          },
         );
       });
 
@@ -872,7 +872,7 @@ suite('gr-router tests', () => {
         await checkRedirect('/c/1234', '/c/project/+/1234/');
         await checkRedirect(
           '/c/1234/comment/6789',
-          '/c/project/+/1234/comment/6789'
+          '/c/project/+/1234/comment/6789',
         );
       });
 
@@ -885,11 +885,11 @@ suite('gr-router tests', () => {
       test('DIFF_LEGACY_LINENUM', async () => {
         await checkRedirect(
           '/c/1234/3..8/foo/bar@321',
-          '/c/1234/3..8/foo/bar#321'
+          '/c/1234/3..8/foo/bar#321',
         );
         await checkRedirect(
           '/c/1234/3..8/foo/bar@b321',
-          '/c/1234/3..8/foo/bar#b321'
+          '/c/1234/3..8/foo/bar#b321',
         );
       });
 
@@ -921,7 +921,7 @@ suite('gr-router tests', () => {
             tab: 'checks',
             checksRunsSelected: new Set(['asdf', 'qwer']),
             checksResultsFilter: 'asdf.*qwer',
-          }
+          },
         );
       });
 
@@ -936,7 +936,7 @@ suite('gr-router tests', () => {
             commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
             view: GerritView.CHANGE,
             childView: ChangeChildView.OVERVIEW,
-          }
+          },
         );
       });
 
@@ -969,7 +969,7 @@ suite('gr-router tests', () => {
 
           await checkRedirect(
             `/c/${repo}/+/${changeNum}/comment/${id}/`,
-            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`,
           );
         });
 
@@ -998,7 +998,7 @@ suite('gr-router tests', () => {
           diffStub.onFirstCall().resolves(createDiff());
           await checkRedirect(
             `/c/${repo}/+/${changeNum}/comment/${id}/`,
-            `/c/${repo}/+/${changeNum}/${ps}..2/filepath#b${line}`
+            `/c/${repo}/+/${changeNum}/${ps}..2/filepath#b${line}`,
           );
 
           // If getDiff() returns an unchanged diff, then we will compare
@@ -1009,7 +1009,7 @@ suite('gr-router tests', () => {
           });
           await checkRedirect(
             `/c/${repo}/+/${changeNum}/comment/${id}/`,
-            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`,
           );
         });
       });
@@ -1064,11 +1064,11 @@ suite('gr-router tests', () => {
       // DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
       await checkRedirect(
         '/Documentation/q/asdf',
-        '/Documentation/q/filter:asdf'
+        '/Documentation/q/filter:asdf',
       );
       await checkRedirect(
         '/Documentation/q/as%3Fdf',
-        '/Documentation/q/filter:as%3Fdf'
+        '/Documentation/q/filter:as%3Fdf',
       );
 
       await checkUrlToState('/Documentation/q/filter:', {

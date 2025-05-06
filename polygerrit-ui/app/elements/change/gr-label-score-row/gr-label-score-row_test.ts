@@ -91,7 +91,7 @@ suite('gr-label-row-score tests', () => {
     element.addEventListener('labels-changed', labelsChangedHandler);
     assert.ok(element.labelSelector);
     const button = element.shadowRoot!.querySelector(
-      'gr-button[data-value="-1"]'
+      'gr-button[data-value="-1"]',
     ) as GrButton;
     button.click();
     await element.updateComplete;
@@ -99,7 +99,7 @@ suite('gr-label-row-score tests', () => {
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem!.textContent!.trim(), '-1');
     const selectedValueLabel = element.shadowRoot!.querySelector(
-      '#selectedValueLabel'
+      '#selectedValueLabel',
     );
     assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'bad');
     const detail = labelsChangedHandler.args[0][0].detail;
@@ -126,43 +126,43 @@ suite('gr-label-row-score tests', () => {
     // positive and first position
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'positive'
+      'positive',
     );
     // negative and first position
     value = -1;
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'min'
+      'min',
     );
     // negative but not first position
     index = 1;
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'negative'
+      'negative',
     );
     // neutral
     value = 0;
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'neutral'
+      'neutral',
     );
     // positive but not last position
     value = 1;
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'positive'
+      'positive',
     );
     // positive and last position
     index = 4;
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'max'
+      'max',
     );
     // negative and last position
     value = -1;
     assert.equal(
       element._computeVoteAttribute(value, index, totalItems),
-      'negative'
+      'negative',
     );
   });
 
@@ -171,7 +171,7 @@ suite('gr-label-row-score tests', () => {
     assert.strictEqual(element.labelSelector!.selected, '+1');
     assert.strictEqual(element.selectedItem!.textContent!.trim(), '+1');
     const selectedValueLabel = element.shadowRoot!.querySelector(
-      '#selectedValueLabel'
+      '#selectedValueLabel',
     );
     assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'good');
     checkAriaCheckedValid();
@@ -232,7 +232,7 @@ suite('gr-label-row-score tests', () => {
     const selector = element.labelSelector;
     assert.strictEqual(selector!.selected, ' 0');
     const selectedValueLabel = element.shadowRoot!.querySelector(
-      '#selectedValueLabel'
+      '#selectedValueLabel',
     );
     assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'Reset Vote');
     checkAriaCheckedValid();
@@ -247,7 +247,7 @@ suite('gr-label-row-score tests', () => {
     assert.strictEqual(element.labelSelector!.items!.length, 2);
     assert.strictEqual(
       element.shadowRoot!.querySelectorAll('.placeholder').length,
-      3
+      3,
     );
 
     element.permittedLabels = {
@@ -258,7 +258,7 @@ suite('gr-label-row-score tests', () => {
     assert.strictEqual(element.labelSelector!.items!.length, 5);
     assert.strictEqual(
       element.shadowRoot!.querySelectorAll('.placeholder').length,
-      0
+      0,
     );
   });
 
@@ -386,7 +386,7 @@ suite('gr-label-row-score tests', () => {
         <div class="selectedValueCell ">
           <span id="selectedValueLabel">good</span>
         </div>
-      `
+      `,
     );
   });
 });

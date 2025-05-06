@@ -26,7 +26,7 @@ export function canHaveAttention(account?: AccountInfo): boolean {
 
 export function hasAttention(
   account?: AccountInfo,
-  attention_set?: IdToAttentionSetMap
+  attention_set?: IdToAttentionSetMap,
 ): boolean {
   return (
     canHaveAttention(account) &&
@@ -38,7 +38,7 @@ export function hasAttention(
 export function getReason(
   config?: ServerInfo,
   account?: AccountInfo,
-  attention_set?: IdToAttentionSetMap
+  attention_set?: IdToAttentionSetMap,
 ) {
   if (!hasAttention(account, attention_set)) return '';
   if (attention_set === undefined) return '';
@@ -51,7 +51,7 @@ export function getReason(
   return replaceTemplates(
     attentionSetInfo.reason,
     attentionSetInfo?.reason_account ? [attentionSetInfo.reason_account] : [],
-    config
+    config,
   );
 }
 
@@ -59,7 +59,7 @@ export function getMentionedReason(
   threads: CommentThread[],
   account?: AccountInfo,
   mentionedAccount?: AccountInfo,
-  config?: ServerInfo
+  config?: ServerInfo,
 ) {
   const mentionedThreads = threads
     .filter(isUnresolved)
@@ -73,14 +73,14 @@ export function getMentionedReason(
 export function getAddedByReason(account?: AccountInfo, config?: ServerInfo) {
   return `Added by ${getAccountTemplate(
     account,
-    config
+    config,
   )} using the hovercard menu`;
 }
 
 export function getRemovedByReason(account?: AccountInfo, config?: ServerInfo) {
   return `Removed by ${getAccountTemplate(
     account,
-    config
+    config,
   )} using the hovercard menu`;
 }
 
@@ -90,17 +90,17 @@ export function getReplyByReason(account?: AccountInfo, config?: ServerInfo) {
 
 export function getRemovedByIconClickReason(
   account?: AccountInfo,
-  config?: ServerInfo
+  config?: ServerInfo,
 ) {
   return `Removed by ${getAccountTemplate(
     account,
-    config
+    config,
   )} by clicking the attention icon`;
 }
 
 export function getLastUpdate(
   account?: AccountInfo,
-  attention_set?: IdToAttentionSetMap
+  attention_set?: IdToAttentionSetMap,
 ) {
   if (!hasAttention(account, attention_set)) return '';
   const entry = attention_set![account!._account_id!];
@@ -120,7 +120,7 @@ export function sortReviewers(
   r2: AccountInfo,
   attention_set?: IdToAttentionSetMap,
   labels?: LabelNameToInfoMap,
-  selfAccount?: AccountInfo
+  selfAccount?: AccountInfo,
 ) {
   if (selfAccount) {
     if (isSelf(r1, selfAccount)) return -1;
@@ -150,7 +150,7 @@ export function sortReviewers(
  */
 export function getCodeReviewVote(
   account?: AccountInfo,
-  labels?: LabelNameToInfoMap
+  labels?: LabelNameToInfoMap,
 ) {
   if (!account || !labels) return 0;
   const crLabel = getCodeReviewLabel(labels) as DetailedLabelInfo | undefined;

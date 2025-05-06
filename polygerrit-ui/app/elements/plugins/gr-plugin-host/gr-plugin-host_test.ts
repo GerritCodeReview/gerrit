@@ -28,7 +28,7 @@ suite('gr-plugin-host tests', () => {
   setup(async () => {
     loadPluginsStub = sinon.stub(
       testResolver(pluginLoaderToken),
-      'loadPlugins'
+      'loadPlugins',
     );
     element = await fixture<GrPluginHost>(html`
       <gr-plugin-host></gr-plugin-host>
@@ -54,7 +54,7 @@ suite('gr-plugin-host tests', () => {
         'plugins/42',
         'plugins/foo/bar',
         'plugins/baz',
-      ])
+      ]),
     );
   });
 
@@ -75,7 +75,7 @@ suite('gr-plugin-host tests', () => {
         'plugins/42',
         'plugins/foo/bar',
         'plugins/baz',
-      ])
+      ]),
     );
   });
 

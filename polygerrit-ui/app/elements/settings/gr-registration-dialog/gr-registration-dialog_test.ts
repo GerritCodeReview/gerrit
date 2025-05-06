@@ -34,7 +34,7 @@ suite('gr-registration-dialog tests', () => {
     stubRestApi('getAccount').returns(
       Promise.resolve({
         ...account,
-      })
+      }),
     );
     stubRestApi('setAccountName').callsFake(name => {
       account.name = name;
@@ -58,11 +58,11 @@ suite('gr-registration-dialog tests', () => {
             EditableAccountField.FULL_NAME,
           ],
         },
-      })
+      }),
     );
 
     element = await fixture<GrRegistrationDialog>(
-      html`<gr-registration-dialog></gr-registration-dialog>`
+      html`<gr-registration-dialog></gr-registration-dialog>`,
     );
 
     await element.loadData();
@@ -166,7 +166,7 @@ suite('gr-registration-dialog tests', () => {
           Save
         </gr-button>
       </footer>
-    </div>`
+    </div>`,
     );
   });
 

@@ -18,7 +18,7 @@ export declare interface Gerrit {
   install(
     callback: (plugin: PluginApi) => void,
     version?: string,
-    src?: string
+    src?: string,
   ): void;
   styles: Styles;
 }

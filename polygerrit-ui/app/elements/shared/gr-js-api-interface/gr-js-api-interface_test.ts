@@ -67,7 +67,7 @@ suite('GrJsApiInterface tests', () => {
         plugin = p as Plugin;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     testResolver(pluginLoaderToken).loadPlugins([]);
   });
@@ -81,7 +81,7 @@ suite('GrJsApiInterface tests', () => {
     assert.equal(plugin.url(), 'http://test.com/plugins/testplugin/');
     assert.equal(
       plugin.url('/static/test.js'),
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
   });
 
@@ -168,7 +168,7 @@ suite('GrJsApiInterface tests', () => {
     function appendToRevertMsg(
       _c: unknown,
       revertMsg: string,
-      originalMsg: string
+      originalMsg: string,
     ) {
       return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
     }
@@ -181,14 +181,14 @@ suite('GrJsApiInterface tests', () => {
     plugin.on(EventType.REVERT, appendToRevertMsg);
     assert.equal(
       element.modifyRevertMsg(change, 'test', 'origTest'),
-      'test\n> origTest\ninfo'
+      'test\n> origTest\ninfo',
     );
     assert.isTrue(errorStub.calledOnce);
 
     plugin.on(EventType.REVERT, appendToRevertMsg);
     assert.equal(
       element.modifyRevertMsg(change, 'test', 'origTest'),
-      'test\n> origTest\ninfo\n> origTest\ninfo'
+      'test\n> origTest\ninfo\n> origTest\ninfo',
     );
     assert.isTrue(errorStub.calledTwice);
   });
@@ -310,22 +310,22 @@ suite('GrJsApiInterface tests', () => {
           baseUrlPlugin = p as Plugin;
         },
         '0.1',
-        'http://test.com/r/plugins/baseurlplugin/static/test.js'
+        'http://test.com/r/plugins/baseurlplugin/static/test.js',
       );
     });
 
     test('url', () => {
       assert.notEqual(
         baseUrlPlugin.url(),
-        'http://test.com/plugins/baseurlplugin/'
+        'http://test.com/plugins/baseurlplugin/',
       );
       assert.equal(
         baseUrlPlugin.url(),
-        'http://test.com/r/plugins/baseurlplugin/'
+        'http://test.com/r/plugins/baseurlplugin/',
       );
       assert.equal(
         baseUrlPlugin.url('/static/test.js'),
-        'http://test.com/r/plugins/baseurlplugin/static/test.js'
+        'http://test.com/r/plugins/baseurlplugin/static/test.js',
       );
     });
   });
@@ -339,7 +339,7 @@ suite('GrJsApiInterface tests', () => {
           assert.equal(this.plugin, plugin);
           assert.equal(this.moduleName, 'some-name');
           return this;
-        }
+        },
       );
       plugin.popup('some-name');
       assert.isTrue(openStub.calledOnce);
@@ -352,21 +352,21 @@ suite('GrJsApiInterface tests', () => {
       assert.equal(plugin.screenUrl(), `${location.origin}/base/x/testplugin`);
       assert.equal(
         plugin.screenUrl('foo'),
-        `${location.origin}/base/x/testplugin/foo`
+        `${location.origin}/base/x/testplugin/foo`,
       );
     });
 
     test('works', () => {
       const registerCustomComponentStub = stub(
         plugin,
-        'registerCustomComponent'
+        'registerCustomComponent',
       );
       plugin.screen('foo', 'some-module');
       assert.isTrue(
         registerCustomComponentStub.calledWith(
           'testplugin-screen-foo',
-          'some-module'
-        )
+          'some-module',
+        ),
       );
     });
   });

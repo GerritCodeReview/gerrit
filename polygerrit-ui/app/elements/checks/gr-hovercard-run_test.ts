@@ -197,7 +197,7 @@ suite('gr-hovercard-run tests', () => {
             <gr-checks-action context="hovercard"> </gr-checks-action>
           </div>
         </div>
-      `
+      `,
     );
   });
 });

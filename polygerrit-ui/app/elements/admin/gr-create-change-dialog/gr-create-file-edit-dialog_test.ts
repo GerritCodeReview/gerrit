@@ -29,7 +29,7 @@ suite('gr-create-file-edit-dialog', () => {
     setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
 
     element = await fixture(
-      html`<gr-create-file-edit-dialog></gr-create-file-edit-dialog>`
+      html`<gr-create-file-edit-dialog></gr-create-file-edit-dialog>`,
     );
     element.repo = 'test-repo' as RepoName;
     element.branch = 'test-branch' as BranchName;
@@ -67,7 +67,7 @@ suite('gr-create-file-edit-dialog', () => {
             </div>
           </gr-dialog>
         </dialog>
-      `
+      `,
     );
   });
 
@@ -88,7 +88,7 @@ suite('gr-create-file-edit-dialog', () => {
             </div>
           </gr-dialog>
         </dialog>
-      `
+      `,
     );
   });
 

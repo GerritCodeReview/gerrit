@@ -7,7 +7,7 @@ import {ProgressStatus} from '../constants/constants';
 import {NumericChangeId} from '../api/rest-api';
 
 export function getOverallStatus(
-  progressByChangeNum: Map<NumericChangeId, ProgressStatus>
+  progressByChangeNum: Map<NumericChangeId, ProgressStatus>,
 ) {
   const statuses = Array.from(progressByChangeNum.values());
   if (statuses.every(s => s === ProgressStatus.NOT_STARTED)) {

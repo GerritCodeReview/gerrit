@@ -12,7 +12,7 @@ suite('gr-reporting_mock tests', () => {
   test('mocks all public methods', () => {
     const methods = Object.getOwnPropertyNames(GrReporting.prototype)
       .filter(
-        name => typeof (GrReporting as any).prototype[name] === 'function'
+        name => typeof (GrReporting as any).prototype[name] === 'function',
       )
       .filter(name => !name.startsWith('_') && name !== 'constructor')
       .sort();

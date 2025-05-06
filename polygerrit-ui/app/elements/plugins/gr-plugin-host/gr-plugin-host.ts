@@ -34,9 +34,9 @@ export class GrPluginHost extends LitElement {
         const instanceId = config?.gerrit?.instance_id;
         this.getPluginLoader().loadPlugins(
           [...themes, ...jsPlugins],
-          instanceId
+          instanceId,
         );
-      }
+      },
     );
   }
 }

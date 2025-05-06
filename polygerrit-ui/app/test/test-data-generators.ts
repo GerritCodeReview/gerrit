@@ -141,7 +141,7 @@ export function dateToTimestamp(date: Date): Timestamp {
 
 export function createCommentLink(
   match = 'test',
-  link = 'http://test.com'
+  link = 'http://test.com',
 ): CommentLinkInfo {
   return {
     match,
@@ -163,7 +163,10 @@ export function createMaxObjectSizeLimit(): MaxObjectSizeLimitInfo {
 }
 
 export function createSubmitType(
-  value: Exclude<SubmitType, SubmitType.INHERIT> = SubmitType.MERGE_IF_NECESSARY
+  value: Exclude<
+    SubmitType,
+    SubmitType.INHERIT
+  > = SubmitType.MERGE_IF_NECESSARY,
 ): SubmitTypeInfo {
   return {
     value,
@@ -231,7 +234,7 @@ export function createAccountWithIdNameAndEmail(id = 5): AccountInfo {
 }
 
 export function createAccountDetailWithIdNameAndEmail(
-  id = 5
+  id = 5,
 ): AccountDetailInfo {
   return {
     _account_id: id as AccountId,
@@ -288,7 +291,7 @@ export function createCommit(): CommitInfo {
 }
 
 export function createCommitInfoWithRequiredCommit(
-  commit = 'commit'
+  commit = 'commit',
 ): CommitInfoWithRequiredCommit {
   return {
     ...createCommit(),
@@ -298,7 +301,7 @@ export function createCommitInfoWithRequiredCommit(
 
 export function createPatchRange(
   basePatchNum?: number,
-  patchNum?: number
+  patchNum?: number,
 ): PatchRange {
   return {
     basePatchNum: (basePatchNum ?? PARENT) as BasePatchSetNum,
@@ -308,7 +311,7 @@ export function createPatchRange(
 
 export function createRevision(
   patchSetNum: number | RevisionPatchSetNum = 1,
-  description = ''
+  description = '',
 ): RevisionInfo {
   return {
     _number: patchSetNum as RevisionPatchSetNum,
@@ -403,7 +406,7 @@ export function createChangeMessages(count: number): ChangeMessageInfo[] {
 }
 
 export function createFileInfo(
-  path = 'test-path/test-file.txt'
+  path = 'test-path/test-file.txt',
 ): NormalizedFileInfo {
   return {
     size: 314,
@@ -875,7 +878,7 @@ export function createRange(): CommentRange {
 }
 
 export function createComment(
-  extra: Partial<CommentInfo | DraftInfo> = {}
+  extra: Partial<CommentInfo | DraftInfo> = {},
 ): CommentInfo {
   return {
     patch_set: 1 as RevisionPatchSetNum,
@@ -907,7 +910,7 @@ export function createNewDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
 }
 
 export function createRobotComment(
-  extra: Partial<CommentInfo> = {}
+  extra: Partial<CommentInfo> = {},
 ): RobotCommentInfo {
   return {
     ...createComment(),
@@ -920,7 +923,7 @@ export function createRobotComment(
         description: 'Robot suggestion',
         replacements: [
           {
-            path: 'abc.txt'!,
+            path: 'abc.txt',
             range: {
               start_line: 0,
               start_character: 0,
@@ -1056,7 +1059,7 @@ export function createThread(
 }
 
 export function createCommentThread(
-  comments: Array<Partial<CommentInfo | DraftInfo>>
+  comments: Array<Partial<CommentInfo | DraftInfo>>,
 ) {
   if (!comments.length) {
     throw new Error('comment is required to create a thread');
@@ -1103,7 +1106,7 @@ export function createGroupInfo(id = 'id'): GroupInfo {
 }
 
 export function createGroupAuditEventInfo(
-  type: GroupAuditEventType
+  type: GroupAuditEventType,
 ): GroupAuditEventInfo {
   if (
     type === GroupAuditEventType.ADD_USER ||
@@ -1126,7 +1129,7 @@ export function createGroupAuditEventInfo(
 }
 
 export function createSubmitRequirementExpressionInfo(
-  expression = TEST_DEFAULT_EXPRESSION
+  expression = TEST_DEFAULT_EXPRESSION,
 ): SubmitRequirementExpressionInfo {
   return {
     expression,
@@ -1137,7 +1140,7 @@ export function createSubmitRequirementExpressionInfo(
 }
 
 export function createSubmitRequirementResultInfo(
-  expression = TEST_DEFAULT_EXPRESSION
+  expression = TEST_DEFAULT_EXPRESSION,
 ): SubmitRequirementResultInfo {
   return {
     name: 'Verified',
@@ -1186,7 +1189,7 @@ export function createRunResult(): RunResult {
 }
 
 export function createCheckResult(
-  partial: Partial<CheckResult> = {}
+  partial: Partial<CheckResult> = {},
 ): CheckResult {
   return {
     category: Category.ERROR,

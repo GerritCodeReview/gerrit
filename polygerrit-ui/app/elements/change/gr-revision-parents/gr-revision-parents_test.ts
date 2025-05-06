@@ -62,7 +62,7 @@ suite('gr-revision-parents tests', () => {
 
   const setParents = async (
     parentLeft: ParentInfo,
-    parentRight: ParentInfo
+    parentRight: ParentInfo,
   ) => {
     element.baseRevision = {
       ...createRevision(1),
@@ -98,7 +98,7 @@ suite('gr-revision-parents tests', () => {
             <gr-commit-info> </gr-commit-info>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -123,7 +123,7 @@ suite('gr-revision-parents tests', () => {
             </span>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -147,7 +147,7 @@ suite('gr-revision-parents tests', () => {
             <a href="/c/123/1"> 1 </a>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -167,7 +167,7 @@ suite('gr-revision-parents tests', () => {
        The diff below may not be meaningful and may<br/>
        even be hiding relevant changes.
        <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
-       </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`
+       </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`,
     );
   });
 
@@ -183,7 +183,7 @@ suite('gr-revision-parents tests', () => {
             The diff below may not be meaningful and may<br/>
             even be hiding relevant changes.
             <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
-            </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`
+            </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`,
     );
   });
 
@@ -196,7 +196,7 @@ suite('gr-revision-parents tests', () => {
        <div class="text"><p>
        The change was rebased from <gr-commit-info></gr-commit-info>
        onto <gr-commit-info></gr-commit-info>.
-       </p></div></div>`
+       </p></div></div>`,
     );
   });
 
@@ -213,7 +213,7 @@ suite('gr-revision-parents tests', () => {
        <a href="/c/123/2">2</a> of
             change
        <a href="/c/123">123</a>.
-       </p></div></div>`
+       </p></div></div>`,
     );
   });
 
@@ -235,7 +235,7 @@ suite('gr-revision-parents tests', () => {
        The diff below may not be meaningful and may<br/>
        even be hiding relevant changes.
        <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
-       </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`
+       </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`,
     );
   });
 });

@@ -149,7 +149,7 @@ suite('gr-diff-preferences tests', () => {
             </span>
           </div>
         </section>
-      </div>`
+      </div>`,
     );
   });
 
@@ -181,35 +181,35 @@ suite('gr-diff-preferences tests', () => {
 
     const showWhitespaceErrorsInput = valueOf(
       'Show trailing whitespace',
-      'diffPreferences'
+      'diffPreferences',
     ).firstElementChild as HTMLInputElement;
     assert.equal(
       showWhitespaceErrorsInput.checked,
-      diffPreferences.show_whitespace_errors
+      diffPreferences.show_whitespace_errors,
     );
 
     const syntaxHighlightingInput = valueOf(
       'Syntax highlighting',
-      'diffPreferences'
+      'diffPreferences',
     ).firstElementChild as HTMLInputElement;
     assert.equal(
       syntaxHighlightingInput.checked,
-      diffPreferences.syntax_highlighting
+      diffPreferences.syntax_highlighting,
     );
 
     const manualReviewInput = valueOf(
       'Automatically mark viewed files reviewed',
-      'diffPreferences'
+      'diffPreferences',
     ).firstElementChild as HTMLInputElement;
     assert.equal(manualReviewInput.checked, !diffPreferences.manual_review);
 
     const ignoreWhitespaceInput = valueOf(
       'Ignore Whitespace',
-      'diffPreferences'
+      'diffPreferences',
     ).firstElementChild as GrSelect;
     assert.equal(
       ignoreWhitespaceInput.bindValue,
-      diffPreferences.ignore_whitespace
+      diffPreferences.ignore_whitespace,
     );
 
     assert.isFalse(element.hasUnsavedChanges());
@@ -220,7 +220,7 @@ suite('gr-diff-preferences tests', () => {
 
     const showTrailingWhitespaceCheckbox = valueOf(
       'Show trailing whitespace',
-      'diffPreferences'
+      'diffPreferences',
     ).firstElementChild as HTMLInputElement;
     showTrailingWhitespaceCheckbox.checked = false;
     element.handleShowTrailingWhitespaceTap();
@@ -228,7 +228,7 @@ suite('gr-diff-preferences tests', () => {
     assert.isTrue(element.hasUnsavedChanges());
 
     const savePrefStub = stubRestApi('saveDiffPreferences').resolves(
-      new Response(makePrefixedJSON(element.diffPrefs))
+      new Response(makePrefixedJSON(element.diffPrefs)),
     );
 
     await element.save();
@@ -236,7 +236,7 @@ suite('gr-diff-preferences tests', () => {
     await waitUntil(
       () =>
         !element.getUserModel().getState().diffPreferences
-          ?.show_whitespace_errors
+          ?.show_whitespace_errors,
     );
 
     assert.isTrue(savePrefStub.called);

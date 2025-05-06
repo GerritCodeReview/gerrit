@@ -30,7 +30,7 @@ suite('gr-result-row test', () => {
   setup(async () => {
     const result = {...fakeRun0, ...fakeRun0.results![0]};
     element = await fixture<GrResultRow>(
-      html`<gr-result-row .result=${result}></gr-result-row>`
+      html`<gr-result-row .result=${result}></gr-result-row>`,
     );
     element.shouldRender = true;
   });
@@ -57,7 +57,7 @@ suite('gr-result-row test', () => {
             The check result has (probably) influenced this label vote.
           </paper-tooltip>
         </div>
-      `
+      `,
     );
   });
 
@@ -128,7 +128,7 @@ suite('gr-result-row test', () => {
           <gr-icon icon="expand_more"></gr-icon>
         </div>
       </div>
-    `
+    `,
     );
   });
 
@@ -154,7 +154,7 @@ suite('gr-result-expanded test', () => {
 
   setup(async () => {
     element = await fixture<GrResultExpanded>(
-      html`<gr-result-expanded></gr-result-expanded>`
+      html`<gr-result-expanded></gr-result-expanded>`,
     );
     await element.updateComplete;
   });
@@ -252,7 +252,7 @@ suite('gr-result-expanded test', () => {
           <gr-checks-action icon="thumb_up"> </gr-checks-action>
           <gr-checks-action icon="thumb_down"> </gr-checks-action>
         </div>
-      `
+      `,
     );
   });
 
@@ -275,7 +275,7 @@ suite('gr-result-expanded test', () => {
           <gr-checks-action icon="thumb_up"> </gr-checks-action>
           <gr-checks-action icon="thumb_down"> </gr-checks-action>
         </div>
-      `
+      `,
     );
   });
 });
@@ -285,11 +285,11 @@ suite('gr-checks-results test', () => {
 
   setup(async () => {
     element = await fixture<GrChecksResults>(
-      html`<gr-checks-results></gr-checks-results>`
+      html`<gr-checks-results></gr-checks-results>`,
     );
     const getChecksModel = resolve(element, checksModelToken);
     getChecksModel().allRunsSelectedPatchset$.subscribe(
-      runs => (element.runs = runs)
+      runs => (element.runs = runs),
     );
     setAllFakeRuns(getChecksModel());
     await element.updateComplete;
@@ -298,7 +298,7 @@ suite('gr-checks-results test', () => {
   test('attempt dropdown items', async () => {
     const attemptDropdown = queryAndAssert<GrDropdownList>(
       element,
-      'gr-dropdown-list'
+      'gr-dropdown-list',
     );
     assertIsDefined(attemptDropdown.items);
     assert.equal(attemptDropdown.items.length, 42);
@@ -523,7 +523,7 @@ suite('gr-checks-results test', () => {
       {
         ignoreChildren: ['paper-tooltip'],
         ignoreAttributes: ['tabindex', 'aria-disabled', 'role'],
-      }
+      },
     );
   });
 });

@@ -35,7 +35,7 @@ suite('gr-documentation-search tests', () => {
   setup(async () => {
     sinon.stub(testResolver(navigationToken), 'setUrl');
     element = await fixture(
-      html`<gr-documentation-search></gr-documentation-search>`
+      html`<gr-documentation-search></gr-documentation-search>`,
     );
   });
 
@@ -43,7 +43,7 @@ suite('gr-documentation-search tests', () => {
     setup(async () => {
       documentationSearches = createDocumentationList(26);
       stubRestApi('getDocumentationSearches').returns(
-        Promise.resolve(documentationSearches)
+        Promise.resolve(documentationSearches),
       );
       await element.getDocumentationSearches();
       await element.updateComplete;
@@ -52,11 +52,11 @@ suite('gr-documentation-search tests', () => {
     test('test for test repo in the list', async () => {
       assert.equal(
         element.documentationSearches![1].title,
-        'Gerrit Code Review - REST API Developers Notes1'
+        'Gerrit Code Review - REST API Developers Notes1',
       );
       assert.equal(
         element.documentationSearches![1].url,
-        'Documentation/dev-rest-api.html'
+        'Documentation/dev-rest-api.html',
       );
     });
 
@@ -314,7 +314,7 @@ suite('gr-documentation-search tests', () => {
               </tbody>
             </table>
           </gr-list-view>
-        `
+        `,
       );
     });
   });
@@ -326,7 +326,7 @@ suite('gr-documentation-search tests', () => {
 
     test('paramsChanged', async () => {
       const stub = stubRestApi('getDocumentationSearches').returns(
-        Promise.resolve(documentationSearches)
+        Promise.resolve(documentationSearches),
       );
       element.filter = 'test';
       await element.getDocumentationSearches();
@@ -339,7 +339,7 @@ suite('gr-documentation-search tests', () => {
       assert.isTrue(element.loading);
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#loading')).display,
-        'block'
+        'block',
       );
 
       element.loading = false;
@@ -347,7 +347,7 @@ suite('gr-documentation-search tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#loading')).display,
-        'none'
+        'none',
       );
     });
   });

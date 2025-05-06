@@ -92,19 +92,19 @@ export class GrHovercardAccountContents extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.selfAccount = x)
+      x => (this.selfAccount = x),
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
   }
 
@@ -205,7 +205,7 @@ export class GrHovercardAccountContents extends LitElement {
     const voteableText = computeVoteableText(
       this.change,
       this.account,
-      this.selfAccount
+      this.selfAccount,
     );
     return html`
       ${voteableText
@@ -339,7 +339,7 @@ export class GrHovercardAccountContents extends LitElement {
             ${getReason(
               this.serverConfig,
               this.account,
-              this.change?.attention_set
+              this.change?.attention_set,
             )}
           </span>
           ${lastUpdate
@@ -433,7 +433,7 @@ export class GrHovercardAccountContents extends LitElement {
     if (
       change.reviewers[ReviewerState.REVIEWER]?.some(
         (reviewer: AccountInfo) =>
-          reviewer._account_id === this.account._account_id
+          reviewer._account_id === this.account._account_id,
       )
     ) {
       return ReviewerState.REVIEWER;
@@ -480,7 +480,7 @@ export class GrHovercardAccountContents extends LitElement {
         if (!response) {
           throw new Error(
             'something went wrong when toggling' +
-              this.getReviewerState(this.change!)
+              this.getReviewerState(this.change!),
           );
         }
         fireReload(this);
@@ -496,7 +496,7 @@ export class GrHovercardAccountContents extends LitElement {
     this.restApiService
       .removeChangeReviewer(
         this.change._number,
-        (this.account?._account_id || this.account?.email)!
+        (this.account?._account_id || this.account?.email)!,
       )
       .then((response: Response | undefined) => {
         if (!response || !response.ok) {
@@ -542,7 +542,7 @@ export class GrHovercardAccountContents extends LitElement {
 
     this.reporting.reportInteraction(
       'attention-hovercard-add',
-      this.reportingDetails()
+      this.reportingDetails(),
     );
     this.restApiService
       .addToAttentionSet(this.change._number, this.account._account_id, reason)
@@ -569,13 +569,13 @@ export class GrHovercardAccountContents extends LitElement {
 
     this.reporting.reportInteraction(
       'attention-hovercard-remove',
-      this.reportingDetails()
+      this.reportingDetails(),
     );
     this.restApiService
       .removeFromAttentionSet(
         this.change._number,
         this.account._account_id,
-        reason
+        reason,
       )
       .then(() => {
         fire(this, 'hide-alert', {});

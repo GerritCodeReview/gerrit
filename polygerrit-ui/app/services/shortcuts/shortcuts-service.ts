@@ -38,7 +38,7 @@ export interface ShortcutListener {
 
 export function listen(
   shortcut: Shortcut,
-  listener: (e: KeyboardEvent) => void
+  listener: (e: KeyboardEvent) => void,
 ): ShortcutListener {
   return {shortcut, listener};
 }
@@ -47,7 +47,7 @@ export function listen(
  * The interface for listener for shortcut events.
  */
 export type ShortcutViewListener = (
-  viewMap?: Map<ShortcutSection, SectionView>
+  viewMap?: Map<ShortcutSection, SectionView>,
 ) => void;
 
 function isComboKey(key: string): key is ComboKey {
@@ -95,7 +95,7 @@ export class ShortcutsService implements Finalizable {
 
   constructor(
     readonly userModel: UserModel,
-    readonly reporting?: ReportingService
+    readonly reporting?: ReportingService,
   ) {
     this.config = createShortcutConfig();
     for (const section of this.config.keys()) {
@@ -108,9 +108,9 @@ export class ShortcutsService implements Finalizable {
       this.userModel.preferences$
         .pipe(
           map(preferences => preferences?.disable_keyboard_shortcuts ?? false),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         )
-        .subscribe(x => (this.shortcutsDisabled = x))
+        .subscribe(x => (this.shortcutsDisabled = x)),
     );
     this.keydownListener = (e: KeyboardEvent) => {
       if (!isComboKey(e.key)) return;
@@ -133,7 +133,7 @@ export class ShortcutsService implements Finalizable {
 
   isInComboKeyMode() {
     return Object.values(ComboKey).some(key =>
-      this.isInSpecificComboKeyMode(key)
+      this.isInSpecificComboKeyMode(key),
     );
   }
 
@@ -155,7 +155,7 @@ export class ShortcutsService implements Finalizable {
     element: HTMLElement,
     shortcut: Binding,
     listener: (e: KeyboardEvent) => void,
-    options?: ShortcutOptions
+    options?: ShortcutOptions,
   ) {
     const optShouldSuppress = options?.shouldSuppress ?? true;
     const optPreventDefault = options?.preventDefault ?? true;
@@ -222,7 +222,7 @@ export class ShortcutsService implements Finalizable {
   addShortcutListener(
     shortcut: Shortcut,
     listener: (e: KeyboardEvent) => void,
-    options?: ShortcutOptions
+    options?: ShortcutOptions,
   ) {
     const cleanups: (() => void)[] = [];
     this.activeShortcuts.add(shortcut);
@@ -234,7 +234,7 @@ export class ShortcutsService implements Finalizable {
     for (const binding of bindings ?? []) {
       if (binding.docOnly) continue;
       cleanups.push(
-        this.addShortcut(document.body, binding, listener, options)
+        this.addShortcut(document.body, binding, listener, options),
       );
     }
     this.notifyViewListeners();

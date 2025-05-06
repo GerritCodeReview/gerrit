@@ -29,7 +29,7 @@ suite('gr-tooltip tests', () => {
           <div class="text">tooltipText<br /></div>
           <i class="arrow arrowPositionAbove" style="margin-left:0;"> </i>
         </div>
-      `
+      `,
     );
   });
 
@@ -44,22 +44,22 @@ suite('gr-tooltip tests', () => {
 
   test('the correct arrow is displayed', async () => {
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')!).display,
-      'none'
+      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')).display,
+      'none',
     );
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')!).display,
-      'none'
+      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')).display,
+      'none',
     );
     element.positionBelow = true;
     await element.updateComplete;
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')!).display,
-      'none'
+      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')).display,
+      'none',
     );
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')!).display,
-      'none'
+      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')).display,
+      'none',
     );
   });
 });

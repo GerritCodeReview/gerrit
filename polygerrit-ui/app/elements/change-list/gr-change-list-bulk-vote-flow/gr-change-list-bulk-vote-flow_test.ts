@@ -61,7 +61,7 @@ const change1: ChangeInfo = {
   },
   submit_requirements: [
     createSubmitRequirementResultInfo(
-      `label:${StandardLabels.CODE_REVIEW}=MAX`
+      `label:${StandardLabels.CODE_REVIEW}=MAX`,
     ),
     createSubmitRequirementResultInfo('label:A=MAX'),
     createSubmitRequirementResultInfo('label:B=MAX'),
@@ -86,7 +86,7 @@ const change2: ChangeInfo = {
   },
   submit_requirements: [
     createSubmitRequirementResultInfo(
-      `label:${StandardLabels.CODE_REVIEW}=MAX`
+      `label:${StandardLabels.CODE_REVIEW}=MAX`,
     ),
     createSubmitRequirementResultInfo('label:A=MAX'),
     createSubmitRequirementResultInfo('label:B=MAX'),
@@ -106,7 +106,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChangeNums$, selectedChangeNums =>
-      selectedChangeNums.includes(change._number)
+      selectedChangeNums.includes(change._number),
     );
     await element.updateComplete;
   }
@@ -120,8 +120,8 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
         wrapInProvider(
           html`<gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>`,
           bulkActionsModelToken,
-          model
-        )
+          model,
+        ),
       )
     ).querySelector('gr-change-list-bulk-vote-flow')!;
     await element.updateComplete;
@@ -134,7 +134,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -196,7 +196,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             </div>
           </div>
         </gr-dialog>
-      </dialog> `
+      </dialog> `,
     );
   });
 
@@ -206,14 +206,14 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) =>
         Promise.resolve(undefined).then(res => {
           errFn && errFn();
           return res;
-        })
+        }),
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -223,7 +223,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await waitUntil(
       () =>
         element.progressByChange.get(1 as NumericChangeId) ===
-        ProgressStatus.FAILED
+        ProgressStatus.FAILED,
     );
 
     assert.shadowDom.equal(
@@ -288,7 +288,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             </div>
           </div>
         </gr-dialog>
-      </dialog> `
+      </dialog> `,
     );
   });
 
@@ -298,14 +298,14 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(change1);
     await element.updateComplete;
     await waitEventLoop();
 
     assert.isNotOk(
-      queryAndAssert<GrButton>(element, '#voteFlowButton').disabled
+      queryAndAssert<GrButton>(element, '#voteFlowButton').disabled,
     );
 
     // No common label with change1 so button is disabled
@@ -326,13 +326,13 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(change2);
     await element.updateComplete;
 
     assert.isNotOk(
-      queryAndAssert<GrButton>(element, '#voteFlowButton').disabled
+      queryAndAssert<GrButton>(element, '#voteFlowButton').disabled,
     );
   });
 
@@ -357,7 +357,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(change);
     await element.updateComplete;
@@ -369,10 +369,11 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await element.updateComplete;
 
     assert.isNotOk(
-      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm')
+        .disabled,
     );
     assert.isNotOk(
-      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled,
     );
 
     const scores = queryAll(element, 'gr-label-score-row');
@@ -384,23 +385,24 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     assert.deepEqual(
       element.getLabelValues(
-        element.computeCommonPermittedLabels(element.computePermittedLabels())
+        element.computeCommonPermittedLabels(element.computePermittedLabels()),
       ),
       {
         A: 1,
         B: -1,
         C: 0,
-      }
+      },
     );
 
     queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
     await element.updateComplete;
 
     assert.isTrue(
-      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm')
+        .disabled,
     );
     assert.isTrue(
-      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled,
     );
 
     assert.deepEqual(reportingStub.lastCall.args[1], {
@@ -410,33 +412,34 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     assert.equal(
       element.progressByChange.get(1 as NumericChangeId),
-      ProgressStatus.RUNNING
+      ProgressStatus.RUNNING,
     );
 
     saveChangeReview.resolve({});
     await waitUntil(
       () =>
         element.progressByChange.get(1 as NumericChangeId) ===
-        ProgressStatus.SUCCESSFUL
+        ProgressStatus.SUCCESSFUL,
     );
 
     assert.isTrue(
-      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm')
+        .disabled,
     );
     assert.isNotOk(
-      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled,
     );
 
     assert.equal(
       element.progressByChange.get(1 as NumericChangeId),
-      ProgressStatus.SUCCESSFUL
+      ProgressStatus.SUCCESSFUL,
     );
 
     // reload event is fired automatically when all requests succeed
     assert.equal(dispatchEventStub.lastCall.args[0].type, 'reload');
     assert.equal(
       dispatchEventStub.firstCall.args[0].detail.message,
-      'Votes added'
+      'Votes added',
     );
   });
 
@@ -450,13 +453,13 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           Promise.resolve({}).then(res => {
             errFn && errFn();
             return res;
-          })
+          }),
       );
 
       model.sync(changes);
       await waitUntilObserved(
         model.loadingState$,
-        state => state === LoadingState.LOADED
+        state => state === LoadingState.LOADED,
       );
       await selectChange(change1);
       await selectChange(change2);
@@ -467,7 +470,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       await waitUntil(
         () =>
           element.progressByChange.get(2 as NumericChangeId) ===
-          ProgressStatus.FAILED
+          ProgressStatus.FAILED,
       );
 
       // Dialog does not autoclose and fire reload event if some request fails
@@ -508,13 +511,13 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           Promise.resolve(undefined).then(res => {
             errFn && errFn();
             return res;
-          })
+          }),
       );
 
       model.sync(changes);
       await waitUntilObserved(
         model.loadingState$,
-        state => state === LoadingState.LOADED
+        state => state === LoadingState.LOADED,
       );
       await selectChange(change1);
       await selectChange(c2);
@@ -522,7 +525,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
       assert.isTrue(
         queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm')
-          .disabled
+          .disabled,
       );
     });
 
@@ -533,7 +536,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       model.sync(changes);
       await waitUntilObserved(
         model.loadingState$,
-        state => state === LoadingState.LOADED
+        state => state === LoadingState.LOADED,
       );
       await selectChange(change1);
       await selectChange(change2);
@@ -554,7 +557,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -572,7 +575,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(change2);
     await element.updateComplete;
@@ -588,7 +591,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const createChangeWithLabels = (
       num: NumericChangeId,
       labelNames: string[],
-      triggerLabels?: string[]
+      triggerLabels?: string[],
     ) => {
       const change = createChange();
       change._number = num;
@@ -599,7 +602,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
         change.labels[label] = {value: null} as LabelInfo;
         if (!triggerLabels?.includes(label)) {
           change.submit_requirements.push(
-            createSubmitRequirementResultInfo(`label:${label}=MAX`)
+            createSubmitRequirementResultInfo(`label:${label}=MAX`),
           );
         }
         change.permitted_labels[label] = ['0'];
@@ -611,12 +614,12 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       createChangeWithLabels(
         1 as NumericChangeId,
         ['a', 'triggerLabelB', 'c'],
-        ['triggerLabelB']
+        ['triggerLabelB'],
       ),
       createChangeWithLabels(
         2 as NumericChangeId,
         ['triggerLabelB', 'c', 'd'],
-        ['triggerLabelB']
+        ['triggerLabelB'],
       ),
       createChangeWithLabels(3 as NumericChangeId, ['c', 'd', 'e']),
       createChangeWithLabels(4 as NumericChangeId, ['x', 'y', 'z']),
@@ -627,10 +630,10 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingState.LOADED,
     );
     await selectChange(
-      createChangeWithLabels(1 as NumericChangeId, ['a', 'triggerLabelB', 'c'])
+      createChangeWithLabels(1 as NumericChangeId, ['a', 'triggerLabelB', 'c']),
     );
     await element.updateComplete;
 
@@ -641,15 +644,15 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
         {name: 'a', value: null},
         {name: 'c', value: null},
         {name: 'triggerLabelB', value: null},
-      ]
+      ],
     );
 
     await selectChange(
-      createChangeWithLabels(2 as NumericChangeId, ['triggerLabelB', 'c', 'd'])
+      createChangeWithLabels(2 as NumericChangeId, ['triggerLabelB', 'c', 'd']),
     );
     assert.deepEqual(
       element.computeCommonTriggerLabels(element.computePermittedLabels()),
-      [{name: 'triggerLabelB', value: null}]
+      [{name: 'triggerLabelB', value: null}],
     );
 
     await element.updateComplete;
@@ -662,15 +665,15 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       [
         {name: 'c', value: null},
         {name: 'triggerLabelB', value: null},
-      ]
+      ],
     );
     assert.deepEqual(
       element.computeCommonTriggerLabels(element.computePermittedLabels()),
-      [{name: 'triggerLabelB', value: null}]
+      [{name: 'triggerLabelB', value: null}],
     );
 
     await selectChange(
-      createChangeWithLabels(3 as NumericChangeId, ['c', 'd', 'e'])
+      createChangeWithLabels(3 as NumericChangeId, ['c', 'd', 'e']),
     );
 
     await element.updateComplete;
@@ -678,19 +681,19 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     // Intersection of [a,triggerLabelB,c] [triggerLabelB,c,d] [c,d,e] is [c]
     assert.deepEqual(
       element.computeCommonPermittedLabels(element.computePermittedLabels()),
-      [{name: 'c', value: null}]
+      [{name: 'c', value: null}],
     );
     assert.deepEqual(
       element.computeCommonTriggerLabels(element.computePermittedLabels()),
-      []
+      [],
     );
 
     await selectChange(
-      createChangeWithLabels(4 as NumericChangeId, ['x', 'y', 'z'])
+      createChangeWithLabels(4 as NumericChangeId, ['x', 'y', 'z']),
     );
     assert.deepEqual(
       element.computeCommonTriggerLabels(element.computePermittedLabels()),
-      []
+      [],
     );
 
     await element.updateComplete;
@@ -699,7 +702,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     // is []
     assert.deepEqual(
       element.computeCommonPermittedLabels(element.computePermittedLabels()),
-      []
+      [],
     );
   });
 });

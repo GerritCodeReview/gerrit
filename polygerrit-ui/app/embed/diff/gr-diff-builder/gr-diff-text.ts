@@ -85,7 +85,7 @@ export class GrDiffText extends LitElement {
     while (segmentOffset < segment.length) {
       const newOffset = Math.min(
         segment.length,
-        segmentOffset + this.lineLimit - this.columnPos
+        segmentOffset + this.lineLimit - this.columnPos,
       );
       this.renderString(segment.substring(segmentOffset, newOffset));
       segmentOffset = newOffset;

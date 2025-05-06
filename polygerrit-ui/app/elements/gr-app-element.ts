@@ -170,36 +170,36 @@ export class GrAppElement extends LitElement {
     document.addEventListener('location-change', () => this.requestUpdate());
     document.addEventListener('gr-rpc-log', e => this.handleRpcLog(e));
     this.shortcuts.addAbstract(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, () =>
-      this.showKeyboardShortcuts()
+      this.showKeyboardShortcuts(),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_USER_DASHBOARD, () =>
       this.getNavigation().setUrl(
-        createDashboardUrl({type: DashboardType.USER, user: 'self'})
-      )
+        createDashboardUrl({type: DashboardType.USER, user: 'self'}),
+      ),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_OPENED_CHANGES, () =>
-      this.getNavigation().setUrl(createSearchUrl({statuses: ['open']}))
+      this.getNavigation().setUrl(createSearchUrl({statuses: ['open']})),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_MERGED_CHANGES, () =>
-      this.getNavigation().setUrl(createSearchUrl({statuses: ['merged']}))
+      this.getNavigation().setUrl(createSearchUrl({statuses: ['merged']})),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_ABANDONED_CHANGES, () =>
-      this.getNavigation().setUrl(createSearchUrl({statuses: ['abandoned']}))
+      this.getNavigation().setUrl(createSearchUrl({statuses: ['abandoned']})),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_WATCHED_CHANGES, () =>
       this.getNavigation().setUrl(
-        createSearchUrl({query: 'is:watched is:open'})
-      )
+        createSearchUrl({query: 'is:watched is:open'}),
+      ),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_REPOS, () =>
       this.getNavigation().setUrl(
-        createAdminUrl({adminView: AdminChildView.REPOS})
-      )
+        createAdminUrl({adminView: AdminChildView.REPOS}),
+      ),
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_GROUPS, () =>
       this.getNavigation().setUrl(
-        createAdminUrl({adminView: AdminChildView.GROUPS})
-      )
+        createAdminUrl({adminView: AdminChildView.GROUPS}),
+      ),
     );
 
     subscribe(
@@ -208,7 +208,7 @@ export class GrAppElement extends LitElement {
       theme => {
         this.theme = theme;
         this.applyTheme();
-      }
+      },
     );
     subscribe(
       this,
@@ -216,24 +216,24 @@ export class GrAppElement extends LitElement {
       view => {
         this.view = view;
         if (view) this.errorView?.classList.remove('show');
-      }
+      },
     );
     subscribe(
       this,
       () => this.getPluginViewModel().screenName$,
-      screenName => (this.pluginScreenName = screenName)
+      screenName => (this.pluginScreenName = screenName),
     );
     subscribe(
       this,
       () => this.getChangeViewModel().childView$,
-      childView => (this.childView = childView)
+      childView => (this.childView = childView),
     );
     subscribe(
       this,
       () => this.getChangeViewModel().changeNum$,
       changeNum => {
         this.changeNum = changeNum;
-      }
+      },
     );
 
     prefersDarkColorScheme().addEventListener('change', () => {
@@ -369,7 +369,7 @@ export class GrAppElement extends LitElement {
             html`
               ${this.renderChangeView()} ${this.renderEditorView()}
               ${this.renderDiffView()}
-            `
+            `,
           )
         }
         ${this.renderSettingsView()} ${this.renderAdminView()}
@@ -441,7 +441,7 @@ export class GrAppElement extends LitElement {
     return cache(
       this.view === GerritView.SEARCH
         ? html` <gr-change-list-view></gr-change-list-view> `
-        : nothing
+        : nothing,
     );
   }
 
@@ -449,7 +449,7 @@ export class GrAppElement extends LitElement {
     return cache(
       this.view === GerritView.DASHBOARD
         ? html`<gr-dashboard-view></gr-dashboard-view>`
-        : nothing
+        : nothing,
     );
   }
 
@@ -461,7 +461,7 @@ export class GrAppElement extends LitElement {
         ? html`<gr-change-view
             .backPage=${this.lastSearchPage}
           ></gr-change-view>`
-        : nothing
+        : nothing,
     );
   }
 
@@ -491,7 +491,7 @@ export class GrAppElement extends LitElement {
     // The `cache()` is required for re-using the diff view when switching
     // back and forth between change, diff and editor views.
     return cache(
-      this.isDiffView() ? html`<gr-diff-view></gr-diff-view>` : nothing
+      this.isDiffView() ? html`<gr-diff-view></gr-diff-view>` : nothing,
     );
   }
 

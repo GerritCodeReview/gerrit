@@ -146,7 +146,7 @@ suite('gr-diff-highlight', () => {
       hlRange = queryAndAssert(diff, 'hl.range.generated_id314');
 
       threadEl = document.createElement(
-        'div'
+        'div',
       ) as unknown as GrDiffThreadElement;
       threadEl.className = 'comment-thread';
       threadEl.rootId = 'id314';
@@ -167,7 +167,7 @@ suite('gr-diff-highlight', () => {
           detail: getDataFromCommentThreadEl(threadEl),
           bubbles: true,
           composed: true,
-        })
+        }),
       );
       await waitUntil(() => hlRange.classList.contains('rangeHoverHighlight'));
       assert.isTrue(hlRange.classList.contains('rangeHoverHighlight'));
@@ -180,7 +180,7 @@ suite('gr-diff-highlight', () => {
           detail: getDataFromCommentThreadEl(threadEl),
           bubbles: true,
           composed: true,
-        })
+        }),
       );
       await waitUntil(() => !hlRange.classList.contains('rangeHoverHighlight'));
       assert.isFalse(hlRange.classList.contains('rangeHoverHighlight'));
@@ -198,7 +198,7 @@ suite('gr-diff-highlight', () => {
       element.selectedRange = {side: Side.LEFT, range};
       const createCommentStub = sinon.stub(
         builder.diffModel,
-        'createCommentOnRange'
+        'createCommentOnRange',
       );
 
       diff.dispatchEvent(new CustomEvent('create-comment-requested'));
@@ -241,7 +241,7 @@ suite('gr-diff-highlight', () => {
 
     const stubContent = (line: number, side: Side) => {
       const contentTd = diff.querySelector(
-        `.${side}.lineNum[data-value="${line}"] ~ .content`
+        `.${side}.lineNum[data-value="${line}"] ~ .content`,
       );
       if (!contentTd) assert.fail('content td not found');
       const contentText = contentTd.querySelector('.contentText');
@@ -261,7 +261,7 @@ suite('gr-diff-highlight', () => {
       startNode: Node,
       startOffset: number,
       endNode: Node,
-      endOffset: number
+      endOffset: number,
     ) => {
       const selection = document.getSelection();
       if (!selection) assert.fail('no selection');
@@ -306,7 +306,7 @@ suite('gr-diff-highlight', () => {
       emulateSelection(content.firstChild, 5, content.firstChild, 12);
       const actionBox = await waitQueryAndAssert<GrSelectionActionBox>(
         diff,
-        'gr-selection-action-box'
+        'gr-selection-action-box',
       );
       if (!element.selectedRange) assert.fail('no range selected');
       const {range, side} = element.selectedRange;
@@ -503,7 +503,7 @@ suite('gr-diff-highlight', () => {
         content.nextElementSibling.firstChild,
         2,
         content.firstChild,
-        2
+        2,
       );
       assert.isFalse(!!element.selectedRange);
     });
@@ -647,7 +647,7 @@ suite('gr-diff-highlight', () => {
         content.querySelectorAll('hl')[3],
         0,
         content.querySelectorAll('span')[1].nextSibling!,
-        1
+        1,
       );
       if (!element.selectedRange) assert.fail('no range selected');
       const {range, side} = element.selectedRange;
@@ -667,7 +667,7 @@ suite('gr-diff-highlight', () => {
         content.querySelectorAll('hl')[3],
         0,
         content.querySelectorAll('span')[1],
-        0
+        0,
       );
       if (!element.selectedRange) assert.fail('no range selected');
       const {range, side} = element.selectedRange;

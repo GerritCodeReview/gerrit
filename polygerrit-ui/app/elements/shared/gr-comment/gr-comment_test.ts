@@ -79,7 +79,7 @@ suite('gr-comment tests', () => {
         .account=${account}
         .showPatchset=${true}
         .comment=${comment}
-      ></gr-comment>`
+      ></gr-comment>`,
     );
     commentsModel = testResolver(commentsModelToken);
   });
@@ -92,7 +92,7 @@ suite('gr-comment tests', () => {
           .showPatchset=${true}
           .comment=${comment}
           .initiallyCollapsed=${true}
-        ></gr-comment>`
+        ></gr-comment>`,
       );
       assert.shadowDom.equal(
         initiallyCollapsedElement,
@@ -129,7 +129,7 @@ suite('gr-comment tests', () => {
             <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -172,7 +172,7 @@ suite('gr-comment tests', () => {
             <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -248,7 +248,7 @@ suite('gr-comment tests', () => {
             <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -270,7 +270,7 @@ suite('gr-comment tests', () => {
           >
             <gr-icon id="icon" icon="delete" filled></gr-icon>
           </gr-button>
-        `
+        `,
       );
     });
 
@@ -354,7 +354,7 @@ suite('gr-comment tests', () => {
             <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -459,7 +459,7 @@ suite('gr-comment tests', () => {
             <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
-        `
+        `,
       );
     });
   });
@@ -541,13 +541,13 @@ suite('gr-comment tests', () => {
     assertIsDefined(element.confirmDeleteModal, 'confirmDeleteModal');
     const dialog = queryAndAssert<GrConfirmDeleteCommentDialog>(
       element.confirmDeleteModal,
-      '#confirmDeleteCommentDialog'
+      '#confirmDeleteCommentDialog',
     );
     dialog.message = 'removal reason';
     await element.updateComplete;
 
     const stub = stubRestApi('deleteComment').returns(
-      Promise.resolve(createComment())
+      Promise.resolve(createComment()),
     );
     element.handleConfirmDeleteComment();
     assert.isTrue(
@@ -555,8 +555,8 @@ suite('gr-comment tests', () => {
         42 as NumericChangeId,
         1 as PatchSetNum,
         'baf0414d_60047215' as UrlEncodedCommentId,
-        'removal reason'
-      )
+        'removal reason',
+      ),
     );
   });
 
@@ -688,7 +688,7 @@ suite('gr-comment tests', () => {
           message: 'something, not important',
           unresolved: true,
           savingState: SavingState.ERROR,
-        })
+        }),
       );
 
       element.comment = createNewDraft({
@@ -742,7 +742,7 @@ suite('gr-comment tests', () => {
 
       let checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '#resolvedCheckbox'
+        '#resolvedCheckbox',
       );
       assert.isTrue(checkbox.checked);
 
@@ -788,7 +788,7 @@ suite('gr-comment tests', () => {
     test('handlePleaseFix fires reply-to-comment event', async () => {
       const listener = listenOnce<ReplyToCommentEvent>(
         element,
-        'reply-to-comment'
+        'reply-to-comment',
       );
       element.comment = createRobotComment();
       element.comments = [element.comment];
@@ -852,7 +852,7 @@ suite('gr-comment tests', () => {
       assert.isTrue(saveStub.called);
       assert.equal(
         saveStub.firstCall.firstArg.message,
-        'some new text  '.trimEnd()
+        'some new text  '.trimEnd(),
       );
     });
 
@@ -956,7 +956,7 @@ suite('gr-comment tests', () => {
           .showPatchset=${true}
           .comment=${comment}
           .initiallyCollapsed=${false}
-        ></gr-comment>`
+        ></gr-comment>`,
       );
       element.editing = true;
     });
@@ -971,7 +971,7 @@ suite('gr-comment tests', () => {
           title="This button copies the text to make a suggestion"
         >
           <gr-icon icon="edit" id="icon" filled></gr-icon> Suggest Edit
-        </gr-button> `
+        </gr-button> `,
       );
     });
   });
@@ -1025,13 +1025,13 @@ suite('gr-comment tests', () => {
           .showPatchset=${true}
           .comment=${comment}
           .initiallyCollapsed=${false}
-        ></gr-comment>`
+        ></gr-comment>`,
       );
       element.editing = false;
       await element.updateComplete;
       assert.dom.equal(
         queryAndAssert(element, 'gr-fix-suggestions'),
-        /* HTML */ '<gr-fix-suggestions> </gr-fix-suggestions>'
+        /* HTML */ '<gr-fix-suggestions> </gr-fix-suggestions>',
       );
     });
 
@@ -1054,13 +1054,13 @@ suite('gr-comment tests', () => {
           .showPatchset=${true}
           .comment=${comment}
           .initiallyCollapsed=${false}
-        ></gr-comment>`
+        ></gr-comment>`,
       );
       element.editing = false;
       await element.updateComplete;
       assert.dom.equal(
         queryAndAssert(element, 'gr-fix-suggestions'),
-        /* HTML */ '<gr-fix-suggestions> </gr-fix-suggestions>'
+        /* HTML */ '<gr-fix-suggestions> </gr-fix-suggestions>',
       );
     });
 
@@ -1082,7 +1082,7 @@ suite('gr-comment tests', () => {
           .showPatchset=${true}
           .comment=${comment}
           .initiallyCollapsed=${false}
-        ></gr-comment>`
+        ></gr-comment>`,
       );
       element.editing = true;
       await element.updateComplete;
@@ -1107,7 +1107,7 @@ suite('gr-comment tests', () => {
           .showPatchset=${true}
           .comment=${comment}
           .initiallyCollapsed=${false}
-        ></gr-comment>`
+        ></gr-comment>`,
       );
       element.editing = true;
       sinon.stub(element, 'showGeneratedSuggestion').returns(true);
@@ -1116,7 +1116,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.dom.equal(
         queryAndAssert(element, 'gr-suggestion-diff-preview'),
-        /* HTML */ '<gr-suggestion-diff-preview id="suggestionDiffPreview"> </gr-suggestion-diff-preview>'
+        /* HTML */ '<gr-suggestion-diff-preview id="suggestionDiffPreview"> </gr-suggestion-diff-preview>',
       );
     });
 
@@ -1132,7 +1132,7 @@ suite('gr-comment tests', () => {
             .showPatchset=${true}
             .comment=${comment}
             .initiallyCollapsed=${false}
-          ></gr-comment>`
+          ></gr-comment>`,
         );
         saveDraftStub = sinon
           .stub(commentsModel, 'saveDraft')
@@ -1150,7 +1150,7 @@ suite('gr-comment tests', () => {
       test('save fix suggestion when previewed', async () => {
         const suggestionDiffPreview = queryAndAssert<GrSuggestionDiffPreview>(
           element,
-          '#suggestionDiffPreview'
+          '#suggestionDiffPreview',
         );
         suggestionDiffPreview.previewed = true;
         suggestionDiffPreview.previewLoadedFor = generatedFixSuggestion;
@@ -1160,7 +1160,7 @@ suite('gr-comment tests', () => {
           new CustomEvent('preview-loaded', {
             bubbles: true,
             detail: {previewLoadedFor: generatedFixSuggestion},
-          })
+          }),
         );
         // await element.waitPreviewForGeneratedSuggestion();
         await element.updateComplete;
@@ -1169,7 +1169,7 @@ suite('gr-comment tests', () => {
         waitUntilCalled(saveDraftStub, 'saveDraft()');
         assert.equal(
           saveDraftStub.lastCall.firstArg.fix_suggestions[0]?.fix_id,
-          generatedFixSuggestion.fix_id
+          generatedFixSuggestion.fix_id,
         );
         assert.isFalse(element.editing);
 
@@ -1179,7 +1179,7 @@ suite('gr-comment tests', () => {
       test("don't save fix suggestion when not previewed", async () => {
         const suggestionDiffPreview = queryAndAssert<GrSuggestionDiffPreview>(
           element,
-          '#suggestionDiffPreview'
+          '#suggestionDiffPreview',
         );
         suggestionDiffPreview.previewed = false;
         await element.updateComplete;
@@ -1189,7 +1189,7 @@ suite('gr-comment tests', () => {
         assert.equal(saveDraftStub.lastCall.firstArg.message, textToSave);
         assert.equal(
           saveDraftStub.lastCall.firstArg.fix_suggestions,
-          undefined
+          undefined,
         );
         assert.isFalse(element.editing);
 

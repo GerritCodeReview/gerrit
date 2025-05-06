@@ -89,7 +89,7 @@ export class GrCreateChangeDialog extends LitElement {
       config => {
         this.privateChangesEnabled =
           config?.change?.disable_private_changes ?? false;
-      }
+      },
     );
   }
 
@@ -233,7 +233,7 @@ export class GrCreateChangeDialog extends LitElement {
         isPrivate,
         isWip,
         this.baseChange,
-        this.baseCommit || undefined
+        this.baseCommit || undefined,
       )
       .then(change => {
         if (!change) return;
@@ -252,7 +252,7 @@ export class GrCreateChangeDialog extends LitElement {
         this.repoName,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         if (!response) return [];

@@ -19,7 +19,7 @@ suite('gr-confirm-submit-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-confirm-submit-dialog></gr-confirm-submit-dialog>`
+      html`<gr-confirm-submit-dialog></gr-confirm-submit-dialog>`,
     );
     element.initialised = true;
   });
@@ -55,7 +55,7 @@ suite('gr-confirm-submit-dialog tests', () => {
             </gr-endpoint-decorator>
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -64,13 +64,13 @@ suite('gr-confirm-submit-dialog tests', () => {
     element.unresolvedThreads = [createThread()];
     assert.equal(
       element.computeUnresolvedCommentsWarning(),
-      'Heads Up! 1 unresolved comment.'
+      'Heads Up! 1 unresolved comment.',
     );
 
     element.unresolvedThreads = [...element.unresolvedThreads, createThread()];
     assert.equal(
       element.computeUnresolvedCommentsWarning(),
-      'Heads Up! 2 unresolved comments.'
+      'Heads Up! 2 unresolved comments.',
     );
   });
 

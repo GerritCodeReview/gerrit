@@ -91,7 +91,7 @@ export class PluginsModel extends Model<PluginsState> {
 
   public suggestionsPlugins$ = select(
     this.state$,
-    state => state.suggestionsPlugins
+    state => state.suggestionsPlugins,
   );
 
   public pluginsLoaded$ = select(this.state$, state => state.pluginsLoaded);
@@ -110,11 +110,11 @@ export class PluginsModel extends Model<PluginsState> {
     const nextState = {...this.getState()};
     nextState.coveragePlugins = [...nextState.coveragePlugins];
     const alreadyRegistered = nextState.coveragePlugins.some(
-      p => p.pluginName === plugin.pluginName
+      p => p.pluginName === plugin.pluginName,
     );
     if (alreadyRegistered) {
       console.warn(
-        `${plugin.pluginName} tried to register twice as a coverage provider. Ignored.`
+        `${plugin.pluginName} tried to register twice as a coverage provider. Ignored.`,
       );
       return;
     }
@@ -126,11 +126,11 @@ export class PluginsModel extends Model<PluginsState> {
     const nextState = {...this.getState()};
     nextState.checksPlugins = [...nextState.checksPlugins];
     const alreadyRegistered = nextState.checksPlugins.some(
-      p => p.pluginName === plugin.pluginName
+      p => p.pluginName === plugin.pluginName,
     );
     if (alreadyRegistered) {
       console.warn(
-        `${plugin.pluginName} tried to register twice as a checks provider. Ignored.`
+        `${plugin.pluginName} tried to register twice as a checks provider. Ignored.`,
       );
       return;
     }
@@ -142,11 +142,11 @@ export class PluginsModel extends Model<PluginsState> {
     const nextState = {...this.getState()};
     nextState.suggestionsPlugins = [...nextState.suggestionsPlugins];
     const alreadyRegistered = nextState.suggestionsPlugins.some(
-      p => p.pluginName === plugin.pluginName
+      p => p.pluginName === plugin.pluginName,
     );
     if (alreadyRegistered) {
       console.warn(
-        `${plugin.pluginName} tried to register twice as a suggestion provider. Ignored.`
+        `${plugin.pluginName} tried to register twice as a suggestion provider. Ignored.`,
       );
       return;
     }
@@ -158,11 +158,11 @@ export class PluginsModel extends Model<PluginsState> {
     const nextState = {...this.getState()};
     nextState.tokenHighlightPlugins = [...nextState.tokenHighlightPlugins];
     const alreadyRegistered = nextState.tokenHighlightPlugins.some(
-      p => p.pluginName === plugin.pluginName
+      p => p.pluginName === plugin.pluginName,
     );
     if (alreadyRegistered) {
       console.warn(
-        `${plugin.pluginName} tried to register twice as a hover callback. Ignored.`
+        `${plugin.pluginName} tried to register twice as a hover callback. Ignored.`,
       );
       return;
     }
@@ -175,7 +175,7 @@ export class PluginsModel extends Model<PluginsState> {
     const plugin = plugins.find(p => p.pluginName === update.pluginName);
     if (!plugin) {
       console.warn(
-        `Plugin '${update.pluginName}' not found. checksUpdate() ignored.`
+        `Plugin '${update.pluginName}' not found. checksUpdate() ignored.`,
       );
       return;
     }
@@ -187,7 +187,7 @@ export class PluginsModel extends Model<PluginsState> {
     const plugin = plugins.find(p => p.pluginName === pluginName);
     if (!plugin) {
       console.warn(
-        `Plugin '${pluginName}' not found. checksAnnounce() ignored.`
+        `Plugin '${pluginName}' not found. checksAnnounce() ignored.`,
       );
       return;
     }

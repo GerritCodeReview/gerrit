@@ -237,7 +237,7 @@ export declare interface TokenHighlightEventDetails {
  * highlighting.
  */
 export type TokenHighlightListener = (
-  tokenHighlightEvent?: TokenHighlightEventDetails
+  tokenHighlightEvent?: TokenHighlightEventDetails,
 ) => void;
 
 export declare interface ImageDiffPreferences {
@@ -473,7 +473,7 @@ export declare interface DiffLayer {
     textElement: HTMLElement,
     lineNumberElement: HTMLElement,
     line: GrDiffLine,
-    side: Side
+    side: Side,
   ): void;
 }
 
@@ -507,7 +507,7 @@ export declare interface GrAnnotation {
     el: HTMLElement,
     start: number,
     length: number,
-    elementSpec: ElementSpec
+    elementSpec: ElementSpec,
   ): void;
 
   /**
@@ -519,7 +519,7 @@ export declare interface GrAnnotation {
     el: HTMLElement,
     start: number,
     length: number,
-    className: string
+    className: string,
   ): void;
 }
 
@@ -587,7 +587,7 @@ export declare interface GrDiffCursor {
     lineNum: number,
     side: Side,
     path?: string,
-    intentionalMove?: boolean
+    intentionalMove?: boolean,
   ): void;
 }
 

@@ -21,14 +21,14 @@ suite('gr-diff-text test', () => {
 
   setup(async () => {
     element = await fixture<GrDiffText>(
-      html`<gr-diff-text tabsize="4" linelimit="10"></gr-diff-text>`
+      html`<gr-diff-text tabsize="4" linelimit="10"></gr-diff-text>`,
     );
   });
 
   const check = async (
     text: string,
     html: string,
-    ignoreAttributes: string[] = []
+    ignoreAttributes: string[] = [],
   ) => {
     element.text = text;
     await element.updateComplete;
@@ -56,7 +56,7 @@ suite('gr-diff-text test', () => {
           LINE_BREAK +
           'p"&gt;👍&lt;/span' +
           LINE_BREAK +
-          '&gt;'
+          '&gt;',
       );
     });
 
@@ -64,7 +64,7 @@ suite('gr-diff-text test', () => {
       await check(
         '01234\t56789',
         '01234' + TAB + '56' + LINE_BREAK + '789',
-        TAB_IGNORE
+        TAB_IGNORE,
       );
     });
 
@@ -77,7 +77,7 @@ suite('gr-diff-text test', () => {
           LINE_BREAK +
           '👍'.repeat(20) +
           LINE_BREAK +
-          '👍'.repeat(18)
+          '👍'.repeat(18),
       );
     });
 
@@ -86,21 +86,21 @@ suite('gr-diff-text test', () => {
       element.tabSize = 4;
       await check(
         '\t',
-        /* HTML */ '<span class="tab" style="tab-size:4;"></span>'
+        /* HTML */ '<span class="tab" style="tab-size:4;"></span>',
       );
       await check(
         'abc\t',
-        /* HTML */ 'abc<span class="tab" style="tab-size:1;"></span>'
+        /* HTML */ 'abc<span class="tab" style="tab-size:1;"></span>',
       );
 
       element.tabSize = 8;
       await check(
         '\t',
-        /* HTML */ '<span class="tab" style="tab-size:8;"></span>'
+        /* HTML */ '<span class="tab" style="tab-size:8;"></span>',
       );
       await check(
         'abc\t',
-        /* HTML */ 'abc<span class="tab" style="tab-size:5;"></span>'
+        /* HTML */ 'abc<span class="tab" style="tab-size:5;"></span>',
       );
     });
 
@@ -113,7 +113,7 @@ suite('gr-diff-text test', () => {
       await element.updateComplete;
       await check(
         '<script>alert("XSS");<' + '/script>',
-        '&lt;script&gt;alert("XSS");&lt;/script&gt;'
+        '&lt;script&gt;alert("XSS");&lt;/script&gt;',
       );
       await check('& < > " \' / `', '&amp; &lt; &gt; " \' / `');
     });
@@ -122,7 +122,7 @@ suite('gr-diff-text test', () => {
       async function expectTextLength(
         text: string,
         tabSize: number,
-        expected: number
+        expected: number,
       ) {
         element.text = text;
         element.tabSize = tabSize;

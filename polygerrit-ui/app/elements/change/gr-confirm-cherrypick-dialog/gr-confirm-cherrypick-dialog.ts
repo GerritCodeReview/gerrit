@@ -161,7 +161,7 @@ export class GrConfirmCherrypickDialog
     subscribe(
       this,
       () => this.getChangeModel().latestCommitter$,
-      x => (this.latestCommitter = x)
+      x => (this.latestCommitter = x),
     );
   }
 
@@ -265,7 +265,7 @@ export class GrConfirmCherrypickDialog
           this.cherryPickType,
           this.duplicateProjectChanges,
           this.statuses,
-          this.branch
+          this.branch,
         )}
         @confirm=${this.handleConfirmTap}
         @cancel=${this.handleCancelTap}
@@ -279,7 +279,7 @@ export class GrConfirmCherrypickDialog
             </gr-endpoint-param>
             <gr-endpoint-slot name="top"></gr-endpoint-slot>
             ${when(this.showCherryPickTopic, () =>
-              this.renderCherrypickTopicLayout()
+              this.renderCherrypickTopicLayout(),
             )}
             <label for="branchInput"> Cherry Pick to branch </label>
             <gr-autocomplete
@@ -297,7 +297,7 @@ export class GrConfirmCherrypickDialog
                 <span class="error"
                   >Branch name cannot contain space or commas.</span
                 >
-              `
+              `,
             )}
             ${choose(this.cherryPickType, [
               [
@@ -376,7 +376,7 @@ export class GrConfirmCherrypickDialog
                 @value-change=${this.setCommitterEmail}
             >
             </gr-dropdown-list>
-            <span></div>`
+            <span></div>`,
       )}
     `;
   }
@@ -431,7 +431,7 @@ export class GrConfirmCherrypickDialog
                   </span>
                 </td>
               </tr>
-            `
+            `,
           )}
         </tbody>
       </table>
@@ -478,7 +478,7 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.delete(changeId);
     else this.selectedChangeIds.add(changeId);
     const changes = this.changes.filter(change =>
-      this.selectedChangeIds.has(change.id)
+      this.selectedChangeIds.has(change.id),
     );
     this.duplicateProjectChanges = this.containsDuplicateProject(changes);
   }
@@ -496,7 +496,7 @@ export class GrConfirmCherrypickDialog
 
   private computeStatus(
     change: ChangeInfo | ParsedChangeInfo,
-    statuses: Statuses
+    statuses: Statuses,
   ) {
     if (!change || !statuses || !statuses[change.id])
       return ProgressStatus.NOT_STARTED;
@@ -505,7 +505,7 @@ export class GrConfirmCherrypickDialog
 
   computeStatusClass(
     change: ChangeInfo | ParsedChangeInfo,
-    statuses: Statuses
+    statuses: Statuses,
   ) {
     if (!change || !statuses || !statuses[change.id]) return '';
     return statuses[change.id].status === ProgressStatus.FAILED ? 'error' : '';
@@ -513,7 +513,7 @@ export class GrConfirmCherrypickDialog
 
   private computeError(
     change: ChangeInfo | ParsedChangeInfo,
-    statuses: Statuses
+    statuses: Statuses,
   ) {
     if (!change || !statuses || !statuses[change.id]) return '';
     if (statuses[change.id].status === ProgressStatus.FAILED) {
@@ -528,7 +528,7 @@ export class GrConfirmCherrypickDialog
 
   private computeCancelLabel() {
     const isRunningChange = Object.values(this.statuses).some(
-      v => v.status === ProgressStatus.RUNNING
+      v => v.status === ProgressStatus.RUNNING,
     );
     return isRunningChange ? 'Close' : 'Cancel';
   }
@@ -537,7 +537,7 @@ export class GrConfirmCherrypickDialog
     cherryPickType: CherryPickType,
     duplicateProjectChanges: boolean,
     statuses: Statuses,
-    branch: BranchName
+    branch: BranchName,
   ) {
     if (!branch) return true;
     const duplicateProject =
@@ -545,7 +545,7 @@ export class GrConfirmCherrypickDialog
     if (duplicateProject) return true;
     if (!statuses) return false;
     const isRunningChange = Object.values(statuses).some(
-      v => v.status === ProgressStatus.RUNNING
+      v => v.status === ProgressStatus.RUNNING,
     );
     return isRunningChange;
   }
@@ -587,7 +587,7 @@ export class GrConfirmCherrypickDialog
 
   private handleCherryPickFailed(
     change: ParsedChangeInfo | ChangeInfo,
-    response?: Response | null
+    response?: Response | null,
   ) {
     if (!response) return;
     response.text().then((errText: string) => {
@@ -597,7 +597,7 @@ export class GrConfirmCherrypickDialog
 
   private handleCherryPickTopic() {
     const changes = this.changes.filter(change =>
-      this.selectedChangeIds.has(change.id)
+      this.selectedChangeIds.has(change.id),
     );
     if (!changes.length) {
       const errorSpan = this.shadowRoot?.querySelector('.error-message');
@@ -626,7 +626,7 @@ export class GrConfirmCherrypickDialog
           '/cherrypick',
           patchNum,
           payload,
-          handleError
+          handleError,
         )
         .then(response => {
           if (!response.ok) {
@@ -634,13 +634,13 @@ export class GrConfirmCherrypickDialog
           }
           this.updateStatus(change, {status: ProgressStatus.SUCCESSFUL});
           const failedOrPending = Object.values(this.statuses).find(
-            v => v.status !== ProgressStatus.SUCCESSFUL
+            v => v.status !== ProgressStatus.SUCCESSFUL,
           );
           if (!failedOrPending) {
             // This needs some more work, as the new topic may not always be
             // created, instead we may end up creating a new patchset */
             this.getNavigation().setUrl(
-              createSearchUrl({topic: topic as TopicName})
+              createSearchUrl({topic: topic as TopicName}),
             );
           }
         });
@@ -670,7 +670,7 @@ export class GrConfirmCherrypickDialog
   }
 
   async getProjectBranchesSuggestions(
-    input: string
+    input: string,
   ): Promise<AutocompleteSuggestion[]> {
     if (!this.project) return Promise.reject(new Error('Missing project'));
     return this.restApiService
@@ -679,7 +679,7 @@ export class GrConfirmCherrypickDialog
         this.project,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         if (!response) return [];

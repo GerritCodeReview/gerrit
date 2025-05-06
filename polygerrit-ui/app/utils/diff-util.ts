@@ -21,7 +21,7 @@ export function countLines(diff?: DiffInfo, side?: Side) {
 export function isLineUnchanged(
   diff?: DiffInfo,
   side?: Side,
-  line?: number
+  line?: number,
 ): boolean {
   if (!diff?.content || !side || !line) return false;
   let currentLine = 0;
@@ -69,7 +69,7 @@ export function getContentFromDiff(
   startOffset: number,
   endLineNum: number | undefined,
   endOffset: number,
-  side: Side
+  side: Side,
 ) {
   const lines = getDiffLines(diff, side).slice(startLineNum - 1, endLineNum);
   if (lines.length) {
@@ -81,7 +81,7 @@ export function getContentFromDiff(
 
 export function isFileUnchanged(diff: DiffInfo) {
   return !diff.content.some(
-    content => (content.a && !content.common) || (content.b && !content.common)
+    content => (content.a && !content.common) || (content.b && !content.common),
   );
 }
 

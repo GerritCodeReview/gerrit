@@ -141,14 +141,14 @@ export class GrWatchedProjectsEditor extends LitElement {
         ${project.project}
         ${when(
           project.filter,
-          () => html`<div class="projectFilter">${project.filter}</div>`
+          () => html`<div class="projectFilter">${project.filter}</div>`,
         )}
         ${when(
           project.problem,
           () =>
             html`<div class="projectProblem" title="Consider removing watch">
               ${project.problem}
-            </div>`
+            </div>`,
         )}
       </td>
       ${types.map(type => this.renderNotifyControl(project, type.key))}
@@ -184,7 +184,7 @@ export class GrWatchedProjectsEditor extends LitElement {
     let deletePromise: Promise<Response | undefined>;
     if (this.projectsToRemove.length) {
       deletePromise = this.restApiService.deleteWatchedProjects(
-        this.projectsToRemove
+        this.projectsToRemove,
       );
     } else {
       deletePromise = Promise.resolve(undefined);
@@ -236,7 +236,7 @@ export class GrWatchedProjectsEditor extends LitElement {
   canAddProject(
     project: string | null,
     text: string | null,
-    filter: string | null
+    filter: string | null,
   ) {
     if (project === null && text === null) {
       return false;
@@ -311,7 +311,7 @@ export class GrWatchedProjectsEditor extends LitElement {
   private handleCheckboxChange(
     project: ProjectWatchInfo,
     key: NotificationKey,
-    e: Event
+    e: Event,
   ) {
     const el = e.target as HTMLInputElement;
     const checked = el.checked;
@@ -341,7 +341,7 @@ export class GrWatchedProjectsEditor extends LitElement {
 
   areFiltersEqual(
     filter1: string | null | undefined,
-    filter2: string | null | undefined
+    filter2: string | null | undefined,
   ) {
     // null and undefined are equal
     if (!this.isFilterDefined(filter1) && !this.isFilterDefined(filter2)) {

@@ -111,57 +111,57 @@ export class GrChangeSummary extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
-      x => (this.runs = x)
+      x => (this.runs = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().aPluginHasRegistered$,
-      x => (this.showChecksSummary = x)
+      x => (this.showChecksSummary = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().someProvidersAreLoadingFirstTime$,
-      x => (this.someProvidersAreLoading = x)
+      x => (this.someProvidersAreLoading = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().errorMessagesLatest$,
-      x => (this.errorMessages = x)
+      x => (this.errorMessages = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().loginCallbackLatest$,
-      x => (this.loginCallback = x)
+      x => (this.loginCallback = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().topLevelActionsLatest$,
-      x => (this.actions = x)
+      x => (this.actions = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().topLevelMessagesLatest$,
-      x => (this.messages = x)
+      x => (this.messages = x),
     );
     subscribe(
       this,
       () => this.getCommentsModel().draftsCount$,
-      x => (this.draftCount = x)
+      x => (this.draftCount = x),
     );
     subscribe(
       this,
       () => this.getCommentsModel().threadsSaved$,
-      x => (this.commentThreads = x)
+      x => (this.commentThreads = x),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.selfAccount = x)
+      x => (this.selfAccount = x),
     );
     subscribe(
       this,
       () => this.getCommentsModel().commentsLoading$,
-      x => (this.commentsLoading = x)
+      x => (this.commentsLoading = x),
     );
     subscribe(
       this,
@@ -174,10 +174,10 @@ export class GrChangeSummary extends LitElement {
         if (!selfAccount || !selfAccount.email) return;
         const unresolvedThreadsMentioningSelf = getMentionedThreads(
           threads,
-          selfAccount
+          selfAccount,
         ).filter(isUnresolved);
         this.mentionCount = unresolvedThreadsMentioningSelf.length;
-      }
+      },
     );
   }
 
@@ -318,7 +318,7 @@ export class GrChangeSummary extends LitElement {
     this.getChecksModel().triggerAction(
       e.detail,
       undefined,
-      'summary-dropdown'
+      'summary-dropdown',
     );
   }
 
@@ -355,7 +355,7 @@ export class GrChangeSummary extends LitElement {
             ></gr-formatted-text>
           </div>
         </div>
-      `
+      `,
     );
   }
 
@@ -373,7 +373,7 @@ export class GrChangeSummary extends LitElement {
               </div>
             </div>
           </div>
-        `
+        `,
     );
   }
 
@@ -407,7 +407,7 @@ export class GrChangeSummary extends LitElement {
     });
     const hasRunning = this.runs.some(isRunningOrScheduled);
     const hasWarning = this.runs.some(run =>
-      hasResultsOf(run, Category.WARNING)
+      hasResultsOf(run, Category.WARNING),
     );
     const hasError = this.runs.some(run => hasResultsOf(run, Category.ERROR));
     const count = (run: CheckRun) => getResultsOf(run, category);
@@ -440,7 +440,7 @@ export class GrChangeSummary extends LitElement {
 
   renderChecksChipsExpanded(
     runs: CheckRun[],
-    statusOrCategory: RunStatus | Category
+    statusOrCategory: RunStatus | Category,
   ) {
     if (runs.length === 0) return;
     const showAll = this.showAllChips.get(statusOrCategory) ?? false;
@@ -450,18 +450,18 @@ export class GrChangeSummary extends LitElement {
     return html`${runs
       .slice(0, count)
       .map(run =>
-        this.renderChecksChipDetailed(run, statusOrCategory)
+        this.renderChecksChipDetailed(run, statusOrCategory),
       )}${this.renderChecksChipPlusMore(statusOrCategory, more)}`;
   }
 
   private renderChecksChipsCollapsed(
     runs: CheckRun[],
     statusOrCategory: RunStatus | Category,
-    resultFilter: (run: CheckRun) => CheckResult[]
+    resultFilter: (run: CheckRun) => CheckResult[],
   ) {
     const count = runs.reduce(
       (sum, run) => sum + (resultFilter(run).length || 1),
-      0
+      0,
     );
     if (count === 0) return;
     const handler = () => this.onChipClick({statusOrCategory});
@@ -475,7 +475,7 @@ export class GrChangeSummary extends LitElement {
 
   private renderChecksChipPlusMore(
     statusOrCategory: RunStatus | Category,
-    count: number
+    count: number,
   ) {
     if (count <= 0) return;
     if (this.showAllChips.get(statusOrCategory) === true) return;
@@ -493,7 +493,7 @@ export class GrChangeSummary extends LitElement {
 
   private renderChecksChipDetailed(
     run: CheckRun,
-    statusOrCategory: RunStatus | Category
+    statusOrCategory: RunStatus | Category,
   ) {
     const links = [];
     if (run.statusLink) links.push(run.statusLink);
@@ -556,7 +556,7 @@ export class GrChangeSummary extends LitElement {
 
   private renderChecksSummary() {
     const hasNonRunningChip = this.runs.some(
-      run => hasCompletedWithoutResults(run) || hasResults(run)
+      run => hasCompletedWithoutResults(run) || hasResults(run),
     );
     const hasRunningChip = this.runs.some(isRunningOrScheduled);
     if (!this.showChecksSummary) return nothing;
@@ -565,19 +565,19 @@ export class GrChangeSummary extends LitElement {
       <td class="value">
         <div class="checksSummary">
           ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
-            Category.ERROR
+            Category.ERROR,
           )}${this.renderChecksChipForCategory(
-            Category.WARNING
+            Category.WARNING,
           )}${this.renderChecksChipForCategory(
-            Category.INFO
+            Category.INFO,
           )}${this.renderChecksChipForCategory(
-            Category.SUCCESS
+            Category.SUCCESS,
           )}${hasNonRunningChip && hasRunningChip
             ? html`<br />`
             : ''}${this.renderChecksChipRunning()}
           ${when(
             this.someProvidersAreLoading,
-            () => html`<span class="loadingSpin"></span>`
+            () => html`<span class="loadingSpin"></span>`,
           )}
           ${this.renderErrorMessages()} ${this.renderChecksLogin()}
           ${this.renderSummaryMessage()} ${this.renderActions()}

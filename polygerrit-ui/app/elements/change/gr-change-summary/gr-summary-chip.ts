@@ -35,7 +35,7 @@ export class GrSummaryChip extends LitElement {
   category?: CommentTabState;
 
   @property({type: Boolean})
-  clickable?: Boolean;
+  clickable?: boolean;
 
   private readonly reporting = getAppContext().reportingService;
 

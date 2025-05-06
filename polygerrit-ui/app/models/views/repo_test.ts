@@ -13,14 +13,14 @@ suite('repo view state tests', () => {
     assert.equal(createRepoUrl({}), '/admin/repos/undefined');
     assert.equal(
       createRepoUrl({repo: 'asdf' as RepoName}),
-      '/admin/repos/asdf'
+      '/admin/repos/asdf',
     );
     assert.equal(
       createRepoUrl({
         repo: 'asdf' as RepoName,
         detail: RepoDetailView.ACCESS,
       }),
-      '/admin/repos/asdf,access'
+      '/admin/repos/asdf,access',
     );
   });
 });

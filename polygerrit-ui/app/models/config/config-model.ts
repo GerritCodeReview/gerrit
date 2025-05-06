@@ -25,53 +25,53 @@ export const configModelToken = define<ConfigModel>('config-model');
 export class ConfigModel extends Model<ConfigState> {
   public repoConfig$ = select(
     this.state$,
-    configState => configState.repoConfig
+    configState => configState.repoConfig,
   );
 
   public repoCommentLinks$ = select(
     this.repoConfig$,
-    repoConfig => repoConfig?.commentlinks ?? {}
+    repoConfig => repoConfig?.commentlinks ?? {},
   );
 
   public serverConfig$ = select(
     this.state$,
-    configState => configState.serverConfig
+    configState => configState.serverConfig,
   );
 
   public download$ = select(
     this.serverConfig$,
-    serverConfig => serverConfig?.download
+    serverConfig => serverConfig?.download,
   );
 
   public loginUrl$ = select(this.serverConfig$, serverConfig =>
-    loginUrl(serverConfig?.auth)
+    loginUrl(serverConfig?.auth),
   );
 
   public loginText$ = select(
     this.serverConfig$,
-    serverConfig => serverConfig?.auth.login_text ?? 'Sign in'
+    serverConfig => serverConfig?.auth.login_text ?? 'Sign in',
   );
 
   public mergeabilityComputationBehavior$ = select(
     this.serverConfig$,
-    serverConfig => serverConfig?.change?.mergeability_computation_behavior
+    serverConfig => serverConfig?.change?.mergeability_computation_behavior,
   );
 
   public enableRobotComments$ = select(
     this.serverConfig$,
-    serverConfig => !!serverConfig?.change?.enable_robot_comments
+    serverConfig => !!serverConfig?.change?.enable_robot_comments,
   );
 
   public docsBaseUrl$ = select(
     this.serverConfig$.pipe(
-      switchMap(serverConfig => from(this.getDocsBaseUrl(serverConfig)))
+      switchMap(serverConfig => from(this.getDocsBaseUrl(serverConfig))),
     ),
-    url => url
+    url => url,
   );
 
   constructor(
     readonly changeModel: ChangeModel,
-    readonly restApiService: RestApiService
+    readonly restApiService: RestApiService,
   ) {
     super({});
     this.subscriptions = [
@@ -83,7 +83,7 @@ export class ConfigModel extends Model<ConfigState> {
           switchMap((repo: RepoName | undefined) => {
             if (repo === undefined) return of(undefined);
             return from(this.restApiService.getProjectConfig(repo));
-          })
+          }),
         )
         .subscribe((repoConfig?: ConfigInfo) => {
           this.updateRepoConfig(repoConfig);

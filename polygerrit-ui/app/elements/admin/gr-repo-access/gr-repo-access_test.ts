@@ -181,7 +181,7 @@ suite('gr-repo-access tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -212,24 +212,24 @@ suite('gr-repo-access tests', () => {
     assert.deepEqual(element.local, accessRes.local);
     assert.deepEqual(
       element.sections,
-      toSortedPermissionsArray(accessRes.local)
+      toSortedPermissionsArray(accessRes.local),
     );
     assert.deepEqual(element.labels, repoRes.labels);
     assert.equal(
       getComputedStyle(queryAndAssert<HTMLDivElement>(element, '.weblinks'))
         .display,
-      'block'
+      'block',
     );
 
     await element._repoChanged('Another New Repo' as RepoName);
     assert.deepEqual(
       element.sections,
-      toSortedPermissionsArray(accessRes2.local)
+      toSortedPermissionsArray(accessRes2.local),
     );
     assert.equal(
       getComputedStyle(queryAndAssert<HTMLDivElement>(element, '.weblinks'))
         .display,
-      'none'
+      'none',
     );
   });
 
@@ -241,10 +241,10 @@ suite('gr-repo-access tests', () => {
       },
     };
     const accessStub = stubRestApi('getRepoAccessRights').returns(
-      Promise.resolve(JSON.parse(JSON.stringify(accessRes2)))
+      Promise.resolve(JSON.parse(JSON.stringify(accessRes2))),
     );
     const capabilitiesStub = stubRestApi('getCapabilities').returns(
-      Promise.resolve(capabilitiesRes)
+      Promise.resolve(capabilitiesRes),
     );
 
     await element._repoChanged();
@@ -281,18 +281,18 @@ suite('gr-repo-access tests', () => {
     // Nothing should appear when no inherit from and not in edit mode.
     assert.equal(
       getComputedStyle(
-        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom'),
       ).display,
-      'none'
+      'none',
     );
     // When in edit mode, the autocomplete should appear.
     element.editing = true;
     // When editing, the autocomplete should still not be shown.
     assert.equal(
       getComputedStyle(
-        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom'),
       ).display,
-      'none'
+      'none',
     );
 
     element.editing = false;
@@ -305,21 +305,21 @@ suite('gr-repo-access tests', () => {
     // When there is a parent repo, the link should be displayed.
     assert.notEqual(
       getComputedStyle(
-        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom'),
       ).display,
-      'none'
+      'none',
     );
     assert.notEqual(
       getComputedStyle(
-        queryAndAssert<HTMLAnchorElement>(element, '#inheritFromName')
+        queryAndAssert<HTMLAnchorElement>(element, '#inheritFromName'),
       ).display,
-      'none'
+      'none',
     );
     assert.equal(
       getComputedStyle(
-        queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
+        queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput'),
       ).display,
-      'none'
+      'none',
     );
     assert.isTrue(computeParentHrefStub.called);
     element.editing = true;
@@ -327,21 +327,21 @@ suite('gr-repo-access tests', () => {
     // When editing, the autocomplete should be shown.
     assert.notEqual(
       getComputedStyle(
-        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')
+        queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom'),
       ).display,
-      'none'
+      'none',
     );
     assert.equal(
       getComputedStyle(
-        queryAndAssert<HTMLAnchorElement>(element, '#inheritFromName')
+        queryAndAssert<HTMLAnchorElement>(element, '#inheritFromName'),
       ).display,
-      'none'
+      'none',
     );
     assert.notEqual(
       getComputedStyle(
-        queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
+        queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput'),
       ).display,
-      'none'
+      'none',
     );
   });
 
@@ -380,31 +380,31 @@ suite('gr-repo-access tests', () => {
   suite('with defined sections', () => {
     const testEditSaveCancelBtns = async (
       shouldShowSave: boolean,
-      shouldShowSaveReview: boolean
+      shouldShowSaveReview: boolean,
     ) => {
       // Edit button is visible and Save button is hidden.
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#saveReviewBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#saveBtn')).display,
-        'none'
+        'none',
       );
       assert.notEqual(
         getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn')).display,
-        'none'
+        'none',
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'EDIT'
+        'EDIT',
       );
       assert.equal(
         getComputedStyle(
-          queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
+          queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput'),
         ).display,
-        'none'
+        'none',
       );
       element.inheritsFrom = {
         id: 'test-project' as UrlEncodedRepoName,
@@ -412,9 +412,9 @@ suite('gr-repo-access tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyle(
-          queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
+          queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput'),
         ).display,
-        'none'
+        'none',
       );
 
       queryAndAssert<GrButton>(element, '#editBtn').click();
@@ -424,31 +424,31 @@ suite('gr-repo-access tests', () => {
       // disabled.
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'CANCEL'
+        'CANCEL',
       );
       if (shouldShowSaveReview) {
         assert.notEqual(
           getComputedStyle(queryAndAssert<GrButton>(element, '#saveReviewBtn'))
             .display,
-          'none'
+          'none',
         );
         assert.isTrue(
-          queryAndAssert<GrButton>(element, '#saveReviewBtn').disabled
+          queryAndAssert<GrButton>(element, '#saveReviewBtn').disabled,
         );
       }
       if (shouldShowSave) {
         assert.notEqual(
           getComputedStyle(queryAndAssert<GrButton>(element, '#saveBtn'))
             .display,
-          'none'
+          'none',
         );
         assert.isTrue(queryAndAssert<GrButton>(element, '#saveBtn').disabled);
       }
       assert.notEqual(
         getComputedStyle(
-          queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput')
+          queryAndAssert<GrAutocomplete>(element, '#editInheritFromInput'),
         ).display,
-        'none'
+        'none',
       );
 
       // Save button should be enabled after access is modified
@@ -456,11 +456,11 @@ suite('gr-repo-access tests', () => {
         new CustomEvent('access-modified', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       if (shouldShowSaveReview) {
         assert.isFalse(
-          queryAndAssert<GrButton>(element, '#saveReviewBtn').disabled
+          queryAndAssert<GrButton>(element, '#saveReviewBtn').disabled,
         );
       }
       if (shouldShowSave) {
@@ -486,12 +486,12 @@ suite('gr-repo-access tests', () => {
       assert.equal(element.sections!.length, 1);
       queryAndAssert<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       ).dispatchEvent(
         new CustomEvent('added-section-removed', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await element.updateComplete;
       assert.equal(element.sections!.length, 0);
@@ -501,11 +501,11 @@ suite('gr-repo-access tests', () => {
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#saveReviewBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn')).display,
-        'none'
+        'none',
       );
     });
 
@@ -531,13 +531,13 @@ suite('gr-repo-access tests', () => {
     test('_handleAccessModified called with event fired', async () => {
       const handleAccessModifiedSpy = sinon.spy(
         element,
-        '_handleAccessModified'
+        '_handleAccessModified',
       );
       element.dispatchEvent(
         new CustomEvent('access-modified', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await element.updateComplete;
       assert.isTrue(handleAccessModifiedSpy.called);
@@ -550,24 +550,24 @@ suite('gr-repo-access tests', () => {
       await element.updateComplete;
       queryAndAssert<GrAutocomplete>(
         element,
-        '#editInheritFromInput'
+        '#editInheritFromInput',
       ).dispatchEvent(
         new CustomEvent('commit', {
           detail: {},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       const handleAccessModifiedSpy = sinon.spy(
         element,
-        '_handleAccessModified'
+        '_handleAccessModified',
       );
       element.dispatchEvent(
         new CustomEvent('access-modified', {
           detail: {},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await element.updateComplete;
       assert.isTrue(handleAccessModifiedSpy.called);
@@ -792,11 +792,11 @@ suite('gr-repo-access tests', () => {
       };
       const grAccessSection = queryAndAssert<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       );
       await queryAndAssert<GrPermission>(
         grAccessSection,
-        'gr-permission'
+        'gr-permission',
       ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
@@ -872,7 +872,7 @@ suite('gr-repo-access tests', () => {
       };
       queryAndAssert<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       ).handleAddPermission();
       await element.updateComplete;
       assert.deepEqual(element.computeAddAndRemove(), expectedInput);
@@ -901,11 +901,11 @@ suite('gr-repo-access tests', () => {
       };
       const grAccessSection = queryAndAssert<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       );
       await queryAll<GrPermission>(
         grAccessSection,
-        'gr-permission'
+        'gr-permission',
       )[2].handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
@@ -1020,7 +1020,7 @@ suite('gr-repo-access tests', () => {
       };
       const newSection = queryAll<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       )[1];
       newSection.handleAddPermission();
       await element.updateComplete;
@@ -1052,7 +1052,7 @@ suite('gr-repo-access tests', () => {
 
       await queryAndAssert<GrPermission>(
         newSection,
-        'gr-permission'
+        'gr-permission',
       ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
@@ -1172,11 +1172,11 @@ suite('gr-repo-access tests', () => {
       // Add a rule to the existing permission;
       const grAccessSection = queryAndAssert<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       );
       await queryAll<GrPermission>(
         grAccessSection,
-        'gr-permission'
+        'gr-permission',
       )[1].handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
@@ -1254,13 +1254,13 @@ suite('gr-repo-access tests', () => {
       await element.updateComplete;
       let newSection = queryAll<GrAccessSection>(
         element,
-        'gr-access-section'
+        'gr-access-section',
       )[1];
       newSection.handleAddPermission();
       await element.updateComplete;
       await queryAndAssert<GrPermission>(
         newSection,
-        'gr-permission'
+        'gr-permission',
       ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
@@ -1340,7 +1340,7 @@ suite('gr-repo-access tests', () => {
       await element.updateComplete;
       await queryAndAssert<GrPermission>(
         newSection,
-        'gr-permission'
+        'gr-permission',
       ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
@@ -1438,12 +1438,12 @@ suite('gr-repo-access tests', () => {
         },
       };
       stubRestApi('getRepoAccessRights').returns(
-        Promise.resolve(JSON.parse(JSON.stringify(accessRes)))
+        Promise.resolve(JSON.parse(JSON.stringify(accessRes))),
       );
       const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       let resolver: (value: Response | PromiseLike<Response>) => void;
       const saveStub = stubRestApi('setRepoAccessRights').returns(
-        new Promise(r => (resolver = r))
+        new Promise(r => (resolver = r)),
       );
 
       element.repo = 'test-repo' as RepoName;
@@ -1451,19 +1451,19 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, 'computeAddAndRemove').returns(repoAccessInput);
       assert.equal(
         queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
-        true
+        true,
       );
       element.modified = true;
       await element.updateComplete;
       assert.equal(
         queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
-        false
+        false,
       );
       queryAndAssert<GrButton>(element, '#saveBtn').click();
       await element.updateComplete;
       assert.equal(
         queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('loading'),
-        true
+        true,
       );
       resolver!({status: 200} as Response);
       await element.updateComplete;
@@ -1502,9 +1502,9 @@ suite('gr-repo-access tests', () => {
             JSON.stringify({
               ...accessRes,
               require_change_for_config_update: true,
-            })
-          )
-        )
+            }),
+          ),
+        ),
       );
 
       element.repo = 'test-repo' as RepoName;
@@ -1512,14 +1512,14 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, 'computeAddAndRemove').returns(repoAccessInput);
       assert.equal(
         queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
-        true
+        true,
       );
       element.modified = true;
       await element.updateComplete;
       assert.equal(element.disableSaveWithoutReview, true);
       assert.equal(
         queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
-        true
+        true,
       );
     });
 
@@ -1549,12 +1549,12 @@ suite('gr-repo-access tests', () => {
         },
       };
       stubRestApi('getRepoAccessRights').returns(
-        Promise.resolve(JSON.parse(JSON.stringify(accessRes)))
+        Promise.resolve(JSON.parse(JSON.stringify(accessRes))),
       );
       const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       let resolver: (value: ChangeInfo | PromiseLike<ChangeInfo>) => void;
       const saveForReviewStub = stubRestApi(
-        'setRepoAccessRightsForReview'
+        'setRepoAccessRightsForReview',
       ).returns(new Promise(r => (resolver = r)));
 
       element.repo = 'test-repo' as RepoName;
@@ -1565,16 +1565,16 @@ suite('gr-repo-access tests', () => {
       await element.updateComplete;
       assert.equal(
         queryAndAssert<GrButton>(element, '#saveReviewBtn').hasAttribute(
-          'loading'
+          'loading',
         ),
-        true
+        true,
       );
       resolver!(createChange());
       await element.updateComplete;
       assert.isTrue(saveForReviewStub.called);
       assert.isTrue(setUrlStub.called);
       assert.isTrue(
-        setUrlStub.lastCall.args?.[0]?.includes(`${createChange()._number}`)
+        setUrlStub.lastCall.args?.[0]?.includes(`${createChange()._number}`),
       );
     });
   });

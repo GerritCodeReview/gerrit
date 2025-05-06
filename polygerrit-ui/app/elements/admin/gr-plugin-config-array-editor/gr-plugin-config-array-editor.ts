@@ -119,7 +119,7 @@ export class GrPluginConfigArrayEditor extends LitElement {
     return html`
       <div class="existingItems">
         ${this.pluginOption.info.values.map(item =>
-          this.renderPluginOptionValue(item)
+          this.renderPluginOptionValue(item),
         )}
       </div>
     `;
@@ -161,7 +161,7 @@ export class GrPluginConfigArrayEditor extends LitElement {
 
   private handleDelete(value: string) {
     this.dispatchChanged(
-      this.pluginOption.info.values.filter(str => str !== value)
+      this.pluginOption.info.values.filter(str => str !== value),
     );
   }
 

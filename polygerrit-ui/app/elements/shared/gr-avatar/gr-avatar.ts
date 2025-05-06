@@ -103,7 +103,7 @@ export class GrAvatar extends LitElement {
       return '';
     }
     return `${getBaseUrl()}/accounts/${encodeURIComponent(
-      accountIdentifier
+      accountIdentifier,
     )}/avatar?s=${this.imageSize}`;
   }
 }

@@ -88,7 +88,7 @@ export class GrCreateFileEditDialog extends LitElement {
             ${when(
               this.errorMessage,
               () => this.renderError(),
-              () => this.renderCreating()
+              () => this.renderCreating(),
             )}
           </div>
         </gr-dialog>

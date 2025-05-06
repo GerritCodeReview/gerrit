@@ -707,30 +707,30 @@ export class GrFileList extends LitElement {
     this.fileCursor.cursorTargetClass = 'selected';
     this.fileCursor.focusOnMove = true;
     this.shortcutsController.addAbstract(Shortcut.LEFT_PANE, _ =>
-      this.handleLeftPane()
+      this.handleLeftPane(),
     );
     this.shortcutsController.addAbstract(Shortcut.RIGHT_PANE, _ =>
-      this.handleRightPane()
+      this.handleRightPane(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_INLINE_DIFF, _ =>
-      this.handleToggleInlineDiff()
+      this.handleToggleInlineDiff(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_ALL_INLINE_DIFFS, _ =>
-      this.toggleInlineDiffs()
+      this.toggleInlineDiffs(),
     );
     this.shortcutsController.addAbstract(
       Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
-      _ => this.classList.toggle('hideComments')
+      _ => this.classList.toggle('hideComments'),
     );
     this.shortcutsController.addAbstract(
       Shortcut.CURSOR_NEXT_FILE,
       e => this.handleCursorNext(e),
-      {preventDefault: false}
+      {preventDefault: false},
     );
     this.shortcutsController.addAbstract(
       Shortcut.CURSOR_PREV_FILE,
       e => this.handleCursorPrev(e),
-      {preventDefault: false}
+      {preventDefault: false},
     );
     // This is already been taken care of by CURSOR_NEXT_FILE above. The two
     // shortcuts share the same bindings. It depends on whether all files
@@ -745,133 +745,133 @@ export class GrFileList extends LitElement {
       preventDefault: false,
     }); // docOnly
     this.shortcutsController.addAbstract(Shortcut.NEW_COMMENT, _ =>
-      this.handleNewComment()
+      this.handleNewComment(),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_LAST_FILE, _ =>
-      this.openSelectedFile(this.files.length - 1)
+      this.openSelectedFile(this.files.length - 1),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_FIRST_FILE, _ =>
-      this.openSelectedFile(0)
+      this.openSelectedFile(0),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_FILE, _ =>
-      this.handleOpenFile()
+      this.handleOpenFile(),
     );
     this.shortcutsController.addAbstract(Shortcut.NEXT_CHUNK, _ =>
-      this.handleNextChunk()
+      this.handleNextChunk(),
     );
     this.shortcutsController.addAbstract(Shortcut.PREV_CHUNK, _ =>
-      this.handlePrevChunk()
+      this.handlePrevChunk(),
     );
     this.shortcutsController.addAbstract(Shortcut.NEXT_COMMENT_THREAD, _ =>
-      this.handleNextComment()
+      this.handleNextComment(),
     );
     this.shortcutsController.addAbstract(Shortcut.PREV_COMMENT_THREAD, _ =>
-      this.handlePrevComment()
+      this.handlePrevComment(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_FILE_REVIEWED, _ =>
-      this.handleToggleFileReviewed()
+      this.handleToggleFileReviewed(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_LEFT_PANE, _ =>
-      this.handleToggleLeftPane()
+      this.handleToggleLeftPane(),
     );
     this.shortcutsController.addAbstract(
       Shortcut.EXPAND_ALL_COMMENT_THREADS,
-      _ => {}
+      _ => {},
     ); // docOnly
     this.shortcutsController.addAbstract(
       Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
-      _ => {}
+      _ => {},
     ); // docOnly
     this.shortcutsController.addLocal(
       {key: Key.ENTER},
       _ => this.handleOpenFile(),
       {
         shouldSuppress: true,
-      }
+      },
     );
     subscribe(
       this,
       () => this.getCommentsModel().changeComments$,
       changeComments => {
         this.changeComments = changeComments;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChecksModel().allResultsSelected$,
       results => {
         this.checkResults = results;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getFilesModel().filesIncludingUnmodified$,
       files => {
         this.files = [...files];
-      }
+      },
     );
     subscribe(
       this,
       () => this.getFilesModel().filesLeftBase$,
       files => {
         this.filesLeftBase = [...files];
-      }
+      },
     );
     subscribe(
       this,
       () => this.getFilesModel().filesRightBase$,
       files => {
         this.filesRightBase = [...files];
-      }
+      },
     );
     subscribe(
       this,
       () => this.getBrowserModel().diffViewMode$,
       diffView => {
         this.diffViewMode = diffView;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         this.diffPrefs = diffPreferences;
-      }
+      },
     );
     subscribe(
       this,
       () =>
         select(
           this.getUserModel().preferences$,
-          prefs => !!prefs?.size_bar_in_change_table
+          prefs => !!prefs?.size_bar_in_change_table,
         ),
       sizeBarInChangeTable => {
         this.showSizeBars = sizeBarInChangeTable;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().reviewedFiles$,
       reviewedFiles => {
         this.reviewed = reviewedFiles ?? [];
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      x => (this.patchNum = x)
+      x => (this.patchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().basePatchNum$,
-      x => (this.basePatchNum = x)
+      x => (this.basePatchNum = x),
     );
   }
 
@@ -910,23 +910,23 @@ export class GrFileList extends LitElement {
       .then(() => {
         this.dynamicHeaderEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-file-list-header'
+            'change-view-file-list-header',
           );
         this.dynamicContentEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-file-list-content'
+            'change-view-file-list-content',
           );
         this.dynamicPrependedHeaderEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-file-list-header-prepend'
+            'change-view-file-list-header-prepend',
           );
         this.dynamicPrependedContentEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-file-list-content-prepend'
+            'change-view-file-list-content-prepend',
           );
         this.dynamicSummaryEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-file-list-summary'
+            'change-view-file-list-summary',
           );
 
         if (
@@ -935,7 +935,7 @@ export class GrFileList extends LitElement {
         ) {
           this.reporting.error(
             'Plugin change-view-file-list',
-            new Error('dynamic header/content mismatch')
+            new Error('dynamic header/content mismatch'),
           );
         }
         if (
@@ -944,7 +944,7 @@ export class GrFileList extends LitElement {
         ) {
           this.reporting.error(
             'Plugin change-view-file-list',
-            new Error('dynamic prepend header/content mismatch')
+            new Error('dynamic prepend header/content mismatch'),
           );
         }
         if (
@@ -953,7 +953,7 @@ export class GrFileList extends LitElement {
         ) {
           this.reporting.error(
             'Plugin change-view-file-list',
-            new Error('dynamic header/summary mismatch')
+            new Error('dynamic header/summary mismatch'),
           );
         }
       });
@@ -996,7 +996,7 @@ export class GrFileList extends LitElement {
       >
         ${this.renderHeaderRow()} ${this.renderShownFiles()}
         ${when(this.computeShowNumCleanlyMerged(), () =>
-          this.renderCleanlyMerged()
+          this.renderCleanlyMerged(),
         )}
       </div>
     `;
@@ -1009,7 +1009,7 @@ export class GrFileList extends LitElement {
     return html` <div class="header-row row" role="row">
       <!-- endpoint: change-view-file-list-header-prepend -->
       ${when(showPrependedDynamicColumns, () =>
-        this.renderPrependedHeaderEndpoints()
+        this.renderPrependedHeaderEndpoints(),
       )}
       ${this.renderFileStatus()}
       <div class="path" role="columnheader">File</div>
@@ -1017,7 +1017,8 @@ export class GrFileList extends LitElement {
       <div class="comments mobile" role="columnheader" title="Comments">C</div>
       ${when(
         this.showSizeBars,
-        () => html`<div class="sizeBars desktop" role="columnheader">Size</div>`
+        () =>
+          html`<div class="sizeBars desktop" role="columnheader">Size</div>`,
       )}
       <div class="header-stats" role="columnheader">Delta</div>
       <!-- endpoint: change-view-file-list-header -->
@@ -1048,7 +1049,7 @@ export class GrFileList extends LitElement {
           <gr-endpoint-param name="files" .value=${this.files}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
-      `
+      `,
     );
   }
 
@@ -1063,7 +1064,7 @@ export class GrFileList extends LitElement {
           <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
-      `
+      `,
     );
   }
 
@@ -1081,7 +1082,7 @@ export class GrFileList extends LitElement {
           i,
           sizeBarLayout,
           showDynamicColumns,
-          showPrependedDynamicColumns
+          showPrependedDynamicColumns,
         ),
       initialCount: this.fileListIncrement,
       targetFrameRate: 1,
@@ -1095,7 +1096,7 @@ export class GrFileList extends LitElement {
     index: number,
     sizeBarLayout: SizeBarLayout,
     showDynamicColumns: boolean,
-    showPrependedDynamicColumns: boolean
+    showPrependedDynamicColumns: boolean,
   ) {
     const previousFileName = this.files[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
@@ -1109,14 +1110,14 @@ export class GrFileList extends LitElement {
       >
         <!-- endpoint: change-view-file-list-content-prepend -->
         ${when(showPrependedDynamicColumns, () =>
-          this.renderPrependedContentEndpointsForFile(file)
+          this.renderPrependedContentEndpointsForFile(file),
         )}
         ${this.renderFileStatus(file)}
         ${this.renderFilePath(file, previousFileName)}
         ${this.renderFileComments(file)}
         ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
         ${when(showDynamicColumns, () =>
-          this.renderDynamicContentEndpointsForFile(file)
+          this.renderDynamicContentEndpointsForFile(file),
         )}
         <!-- endpoint: change-view-file-list-content -->
         ${this.renderReviewed(file)} ${this.renderFileControls(file)}
@@ -1136,7 +1137,7 @@ export class GrFileList extends LitElement {
             .projectName=${this.change?.project}
             ?noRenderOnPrefsChange=${true}
           ></gr-diff-host>
-        `
+        `,
       )}
     </div>`;
   }
@@ -1160,7 +1161,7 @@ export class GrFileList extends LitElement {
           <gr-endpoint-param name="oldPath" .value=${this.getOldPath(file)}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
-      `
+      `,
     );
   }
 
@@ -1179,7 +1180,7 @@ export class GrFileList extends LitElement {
   private renderDivWithTooltip(
     content: TemplateResult | string,
     tooltip: string,
-    cssClass = 'content'
+    cssClass = 'content',
   ) {
     return html`
       <gr-tooltip-content title=${tooltip} has-tooltip>
@@ -1200,7 +1201,7 @@ export class GrFileList extends LitElement {
     if (isMagicPath(file.__path)) return nothing;
 
     const fileWasAlreadyChanged = this.filesLeftBase.some(
-      info => info.__path === file?.__path
+      info => info.__path === file?.__path,
     );
     const fileIsReverted =
       fileWasAlreadyChanged &&
@@ -1284,7 +1285,7 @@ export class GrFileList extends LitElement {
                 .text=${file.old_path}
               ></gr-copy-clipboard>
             </div>
-          `
+          `,
         )}
       </span>
     `;
@@ -1314,14 +1315,14 @@ export class GrFileList extends LitElement {
     return this.renderDivWithTooltip(
       html`${icon}(${newModeStr})`,
       `file mode ${action} ${fileModeToString(new_mode)}`,
-      'file-mode-content'
+      'file-mode-content',
     );
   }
 
   private renderStyledPath(filePath: string, previousFilePath?: string) {
     const {matchingFolders, newFolders, fileName} = diffFilePaths(
       filePath,
-      previousFilePath
+      previousFilePath,
     );
     return [
       matchingFolders.length > 0
@@ -1364,7 +1365,7 @@ export class GrFileList extends LitElement {
 
   private renderSizeBar(
     file: NormalizedFileInfo,
-    sizeBarLayout: SizeBarLayout
+    sizeBarLayout: SizeBarLayout,
   ) {
     return html` <div class="desktop" role="gridcell">
       <!-- The content must be in a separate div. It guarantees, that
@@ -1444,7 +1445,7 @@ export class GrFileList extends LitElement {
           <gr-endpoint-param name="path" .value=${file.__path}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
-      </div>`
+      </div>`,
     );
   }
 
@@ -1496,11 +1497,11 @@ export class GrFileList extends LitElement {
             class=${this.computeClass(
               '',
               file.__path,
-              /* showForCommitMessage */ true
+              /* showForCommitMessage */ true,
             )}
             .filePath=${file.__path}
           ></gr-edit-file-controls>
-        `
+        `,
       )}
     </div>`;
   }
@@ -1544,7 +1545,7 @@ export class GrFileList extends LitElement {
     return html` <div class="row">
       <!-- endpoint: change-view-file-list-content-prepend -->
       ${when(showPrependedDynamicColumns, () =>
-        this.renderPrependedContentEndpoints()
+        this.renderPrependedContentEndpoints(),
       )}
       <div role="gridcell">
         <div>
@@ -1588,7 +1589,7 @@ export class GrFileList extends LitElement {
           >
           </gr-endpoint-param>
         </gr-endpoint-decorator>
-      `
+      `,
     );
   }
 
@@ -1624,8 +1625,8 @@ export class GrFileList extends LitElement {
                 <gr-endpoint-param name="patchRange" .value=${this.patchRange}>
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
-            `
-          )
+            `,
+          ),
         )}
 
         <!-- Empty div here exists to keep spacing in sync with file rows. -->
@@ -1650,7 +1651,7 @@ export class GrFileList extends LitElement {
             ${deltaDeleted}
             ${this.formatPercentage(
               patchChange.total_size,
-              patchChange.size_delta_deleted
+              patchChange.size_delta_deleted,
             )}
           </span>
           <span
@@ -1660,7 +1661,7 @@ export class GrFileList extends LitElement {
             ${deltaInserted}
             ${this.formatPercentage(
               patchChange.total_size,
-              patchChange.size_delta_inserted
+              patchChange.size_delta_inserted,
             )}
           </span>
         </div>
@@ -1704,11 +1705,11 @@ export class GrFileList extends LitElement {
     const commentThreads = this.changeComments?.computeCommentsThreads(
       this.patchRange,
       file.__path,
-      file
+      file,
     );
     const draftCount = this.changeComments?.computeDraftCountForFile(
       this.patchRange,
-      file
+      file,
     );
     return html`<gr-comments-summary
       .commentThreads=${commentThreads}
@@ -1737,7 +1738,7 @@ export class GrFileList extends LitElement {
       if (
         result.codePointers === undefined ||
         !result.codePointers.some(pointer =>
-          pathsToCheck.includes(pointer.path)
+          pathsToCheck.includes(pointer.path),
         )
       ) {
         continue;
@@ -1754,7 +1755,7 @@ export class GrFileList extends LitElement {
             <gr-icon icon=${icons[0].name} ?filled=${icons[0].filled}></gr-icon>
             <div>${icons.length}</div>
           </div>
-        `
+        `,
     );
   }
 
@@ -1784,12 +1785,12 @@ export class GrFileList extends LitElement {
         {
           basePatchNum: -1 as BasePatchSetNum, // -1 is first (target) parent
           patchNum: this.patchNum,
-        }
+        },
       );
       if (!allFilesByPath) return;
       const conflictingPaths = this.files.map(f => f.__path);
       this.cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
-        path => !conflictingPaths.includes(path)
+        path => !conflictingPaths.includes(path),
       );
       this.cleanlyMergedOldPaths = this.cleanlyMergedPaths
         .map(path => allFilesByPath[path].old_path)
@@ -1813,7 +1814,7 @@ export class GrFileList extends LitElement {
     // from earlier with a different patch set choice and associated with a
     // different entry in the files array. So filter on visible items only.
     return Array.from(diffs).filter(
-      el => !!el && !!el.style && el.style.display !== 'none'
+      el => !!el && !!el.style && el.style.display !== 'none',
     );
   }
 
@@ -1830,7 +1831,7 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   calculatePatchChange(): PatchChange {
     const magicFilesExcluded = this.files.filter(
-      file => !isMagicPath(file.__path)
+      file => !isMagicPath(file.__path),
     );
 
     return magicFilesExcluded.reduce((acc, obj) => {
@@ -1857,7 +1858,7 @@ export class GrFileList extends LitElement {
     // Is the path in the list of expanded diffs? If so, remove it, otherwise
     // add it to the list.
     const indexInExpanded = this.expandedFiles.findIndex(
-      f => f.path === file.path
+      f => f.path === file.path,
     );
     if (indexInExpanded === -1) {
       this.reporting.reportInteraction(Interaction.FILE_LIST_DIFF_EXPANDED);
@@ -1865,7 +1866,7 @@ export class GrFileList extends LitElement {
     } else {
       this.reporting.reportInteraction(Interaction.FILE_LIST_DIFF_COLLAPSED);
       this.expandedFiles = this.expandedFiles.filter(
-        (_val, idx) => idx !== indexInExpanded
+        (_val, idx) => idx !== indexInExpanded,
       );
     }
     const indexInAll = this.files.findIndex(f => f.__path === file.path);
@@ -1923,7 +1924,7 @@ export class GrFileList extends LitElement {
     if (this.changeComments === undefined) return '';
     const draftCount = this.changeComments.computeDraftCountForFile(
       this.patchRange,
-      file
+      file,
     );
     return draftCount === 0 ? '' : `${draftCount}d`;
   }
@@ -1966,7 +1967,7 @@ export class GrFileList extends LitElement {
       this.changeNum,
       this.patchRange.patchNum,
       path,
-      reviewed
+      reviewed,
     );
   }
 
@@ -1987,7 +1988,7 @@ export class GrFileList extends LitElement {
 
   private fileActionClick(
     e: MouseEvent | KeyboardEvent,
-    fileAction: (file: PatchSetFile) => void
+    fileAction: (file: PatchSetFile) => void,
   ) {
     if (this.isClickEvent(e)) {
       const fileRow = this.getFileRowFromEvent(e);
@@ -2193,7 +2194,7 @@ export class GrFileList extends LitElement {
       this.getViewModel().diffUrl({
         diffView: {path: diff.path},
         patchNum: this.patchNum,
-      })
+      }),
     );
   }
 
@@ -2212,7 +2213,7 @@ export class GrFileList extends LitElement {
       this.getViewModel().diffUrl({
         diffView: {path: this.files[this.fileCursor.index].__path},
         patchNum: this.patchNum,
-      })
+      }),
     );
   }
 
@@ -2302,7 +2303,7 @@ export class GrFileList extends LitElement {
         change: this.change,
         patchNum: this.patchRange.patchNum,
         basePatchNum: -1 as BasePatchSetNum, // Parent 1
-      })
+      }),
     );
   }
 
@@ -2318,7 +2319,7 @@ export class GrFileList extends LitElement {
     if (!this.files || this.files.length === 0) return;
     await this.updateComplete;
     this.fileCursor.stops = Array.from(
-      this.shadowRoot?.querySelectorAll(`.${FILE_ROW_CLASS}`) ?? []
+      this.shadowRoot?.querySelectorAll(`.${FILE_ROW_CLASS}`) ?? [],
     );
     this.fileCursor.setCursorAtIndex(this.selectedIndex, true);
   }
@@ -2337,7 +2338,7 @@ export class GrFileList extends LitElement {
   private computeIncrementText() {
     const text = Math.min(
       this.fileListIncrement,
-      this.files.length - this.numFilesShown
+      this.files.length - this.numFilesShown,
     );
     return `Show ${text} More`;
   }
@@ -2346,7 +2347,7 @@ export class GrFileList extends LitElement {
   computeShowAllText() {
     // Exclude commit message from total count since it's not a real file
     const fileCount = this.files.filter(
-      f => f.__path !== SpecialFilePath.COMMIT_MESSAGE
+      f => f.__path !== SpecialFilePath.COMMIT_MESSAGE,
     ).length;
     return `Show All ${fileCount} Files`;
   }
@@ -2409,7 +2410,7 @@ export class GrFileList extends LitElement {
     this.filesExpanded = this.computeExpandedFiles();
 
     const newFiles = this.expandedFiles.filter(
-      file => (oldFiles ?? []).findIndex(f => f.path === file.path) === -1
+      file => (oldFiles ?? []).findIndex(f => f.path === file.path) === -1,
     );
 
     // Required so that the newly created diff view is included in this.diffs.
@@ -2440,7 +2441,7 @@ export class GrFileList extends LitElement {
       if (!diffElem) {
         this.reporting.error(
           'GrFileList',
-          new Error(`Did not find <gr-diff-host> element for ${path}`)
+          new Error(`Did not find <gr-diff-host> element for ${path}`),
         );
         return;
       }
@@ -2455,7 +2456,7 @@ export class GrFileList extends LitElement {
       if (!diffElem) {
         this.reporting.error(
           'GrFileList',
-          new Error(`Did not find <gr-diff-host> element for ${path}`)
+          new Error(`Did not find <gr-diff-host> element for ${path}`),
         );
         return;
       }

@@ -31,12 +31,12 @@ export const commentModelToken = define<CommentModel>('diff-model');
 export class CommentModel extends Model<CommentState | undefined> {
   readonly comment$: Observable<Comment | undefined> = select(
     this.state$.pipe(filter(isDefined)),
-    commentState => commentState.comment
+    commentState => commentState.comment,
   );
 
   readonly commentedText$: Observable<string | undefined> = select(
     this.state$.pipe(filter(isDefined)),
-    commentState => commentState.commentedText
+    commentState => commentState.commentedText,
   );
 
   constructor(private readonly restApiService: RestApiService) {
@@ -45,7 +45,7 @@ export class CommentModel extends Model<CommentState | undefined> {
 
   async getCommentedCode(
     comment?: Comment,
-    changeNum?: NumericChangeId
+    changeNum?: NumericChangeId,
   ): Promise<string | undefined> {
     assertIsDefined(comment, 'comment');
     assertIsDefined(changeNum, 'changeNum');
@@ -53,11 +53,11 @@ export class CommentModel extends Model<CommentState | undefined> {
     const file = await this.restApiService.getFileContent(
       changeNum,
       comment.path!,
-      comment.patch_set!
+      comment.patch_set!,
     );
     assert(
       !!file && isBase64FileContent(file) && !!file.content,
-      'file content for comment not found'
+      'file content for comment not found',
     );
     const commentedText = getContentInCommentRange(file.content, comment);
     assert(!!commentedText, 'file content for comment not found');

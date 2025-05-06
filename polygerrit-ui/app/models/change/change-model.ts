@@ -18,6 +18,7 @@ import {
   RevisionInfo,
   ListChangesOption,
   ChangeViewChangeInfo,
+  FileInfo,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
@@ -35,7 +36,12 @@ import {
   findEdit,
   sortRevisions,
 } from '../../utils/patch-set-util';
-import {isDefined, LoadingStatus, ParsedChangeInfo} from '../../types/types';
+import {
+  EditRevisionInfo,
+  isDefined,
+  LoadingStatus,
+  ParsedChangeInfo,
+} from '../../types/types';
 import {fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
@@ -79,6 +85,101 @@ export interface ChangeState {
    * go back to `undefined` after being set for a change.
    */
   mergeable?: boolean;
+}
+
+export enum RevisionFileUpdateStatus {
+  // Indicates request error.
+  UNKNOWN = 'UNKNOWN',
+  // File is identical to previous patchset
+  SAME = 'SAME',
+  // File has been changed in comparison to previous patchset.
+  MODIFIED = 'MODIFIED',
+}
+
+export type RevisionUpdatedFiles = {
+  [revisionId: string]: {[filename: string]: RevisionFileUpdateStatus};
+};
+
+/**
+ * Calculates whether the file is modified in relation to the previous patchset.
+ *
+ * The comparison is done based on SHA-1 of file contents.
+ */
+function computeRevisionFileUpdateStatus(
+  filename: string,
+  info: FileInfo | undefined,
+  prevRevId: string | undefined,
+  fileInfos: {[revId: string]: {[filename: string]: FileInfo}}
+) {
+  // The file info is missing means it's not changed vs. patchset base.
+  if (!info) {
+    if (!prevRevId) {
+      return RevisionFileUpdateStatus.SAME;
+    } else {
+      // Check if modified in previous patchset, but not in current.
+      return filename in fileInfos[prevRevId]
+        ? RevisionFileUpdateStatus.MODIFIED
+        : RevisionFileUpdateStatus.SAME;
+    }
+  }
+
+  if (!prevRevId || !(filename in fileInfos[prevRevId])) {
+    return RevisionFileUpdateStatus.MODIFIED;
+  }
+
+  const prevSha = fileInfos[prevRevId][filename].new_sha;
+  if (!!info.new_sha && !!prevSha) {
+    return info.new_sha === prevSha
+      ? RevisionFileUpdateStatus.SAME
+      : RevisionFileUpdateStatus.MODIFIED;
+  }
+  return RevisionFileUpdateStatus.UNKNOWN;
+}
+
+/**
+ * For every revision and every file calculates if that file is modified when
+ * compared to the previous revision.
+ *
+ * The comparison is done based on SHA-1 of file contents.
+ *
+ * @param fileInfos for every revision contains the list FileInfo of files which
+ *   are modified compared to the revision's parent.
+ */
+export function computeRevisionUpdatedFiles(
+  change: ParsedChangeInfo | undefined,
+  fileInfos: {[revId: string]: {[filename: string]: FileInfo}} | undefined
+): RevisionUpdatedFiles | undefined {
+  if (!change || !fileInfos) {
+    // We set change to undefined when user navigates away from change
+    // page. So we should reset state to undefined in this case.
+    return undefined;
+  }
+  const patchsetToRevision: {[ps: number]: string} = {};
+  const revisionToPatchset: {[revId: string]: number} = {};
+  const allFiles = new Set<string>();
+  for (const [revId, rev] of Object.entries<RevisionInfo | EditRevisionInfo>(
+    change.revisions
+  )) {
+    revisionToPatchset[revId] = rev._number as number;
+    patchsetToRevision[rev._number as number] = revId;
+    Object.keys(fileInfos[revId] ?? {}).forEach(x => allFiles.add(x));
+  }
+  const revisionUpdatedFiles: RevisionUpdatedFiles = {};
+  for (const [revId, files] of Object.entries(fileInfos)) {
+    revisionUpdatedFiles[revId] = {};
+    const ps = revisionToPatchset[revId];
+    const prevRevId = ps === 1 ? undefined : patchsetToRevision[ps - 1];
+    for (const filename of allFiles) {
+      const info = files[filename];
+      revisionUpdatedFiles[revId][filename] = computeRevisionFileUpdateStatus(
+        filename,
+        info,
+        prevRevId,
+        fileInfos
+      );
+    }
+  }
+  return revisionUpdatedFiles;
 }
 
 /**
@@ -270,6 +371,28 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly latestCommitter$ = select(
     this.change$,
     change => change?.revisions[change.current_revision]?.commit?.committer
+  );
+
+  /**
+   * For every filename F and every revision R (corresponding to patchset P),
+   * stores whether the file is modified in relation to patchset P - 1 (or base
+   * if P = 1).
+   */
+  public readonly revisionUpdatedFiles$: Observable<
+    RevisionUpdatedFiles | undefined
+  > = select(
+    this.change$.pipe(
+      switchMap(change => {
+        if (!change) {
+          return of([change, undefined]);
+        }
+        return forkJoin([
+          Promise.resolve(change),
+          this.restApiService.getAllRevisionFiles(change._number),
+        ]);
+      })
+    ),
+    ([change, fileInfos]) => computeRevisionUpdatedFiles(change, fileInfos)
   );
 
   /**

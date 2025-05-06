@@ -47,7 +47,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {ValueChangedEvent} from '../../../types/events';
-import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeModelToken,
+  RevisionFileUpdateStatus,
+  RevisionUpdatedFiles,
+} from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
@@ -119,6 +123,9 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeComments?: ChangeComments;
 
+  @state()
+  revisionUpdatedFiles?: RevisionUpdatedFiles;
+
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
@@ -166,6 +173,11 @@ export class GrPatchRangeSelect extends LitElement {
       this,
       () => this.getCommentsModel().changeComments$,
       x => (this.changeComments = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revisionUpdatedFiles$,
+      x => (this.revisionUpdatedFiles = x)
     );
   }
 
@@ -268,7 +280,7 @@ export class GrPatchRangeSelect extends LitElement {
       const entry: DropdownItem = this.createDropdownEntry(
         basePatchNum,
         'Patchset ',
-        shorten(basePatch.sha)!
+        basePatch.sha
       );
       dropdownContent.push({
         ...entry,
@@ -325,7 +337,7 @@ export class GrPatchRangeSelect extends LitElement {
       const entry = this.createDropdownEntry(
         patchNum,
         patchNum === EDIT ? '' : 'Patchset ',
-        shorten(patch.sha)!
+        patch.sha
       );
       dropdownContent.push({
         ...entry,
@@ -343,7 +355,7 @@ export class GrPatchRangeSelect extends LitElement {
   createDropdownEntry(patchNum: PatchSetNum, prefix: string, sha: string) {
     const entry: DropdownItem = {
       triggerText: `${prefix}${patchNum}`,
-      text: this.computeText(patchNum, prefix, sha),
+      text: this.computeText(patchNum, prefix, shorten(sha)!),
       mobileText: this.computeMobileText(patchNum),
       bottomText: `${this.computePatchSetDescription(patchNum)}`,
       value: patchNum,
@@ -355,12 +367,24 @@ export class GrPatchRangeSelect extends LitElement {
         // don't ignore patchset level comments if the path is not set
         !!this.path /* ignorePatchsetLevelComments*/
       ),
+      deemphasizeReason: this.computeDeemphasizeReason(sha),
     };
     const date = this.computePatchSetDate(patchNum);
     if (date) {
       entry.date = date;
     }
     return entry;
+  }
+
+  private computeDeemphasizeReason(sha: string) {
+    if (!this.path || !this.revisionUpdatedFiles) {
+      return undefined;
+    }
+
+    return this.revisionUpdatedFiles[sha]?.[this.path] ===
+      RevisionFileUpdateStatus.SAME
+      ? 'unmodified'
+      : undefined;
   }
 
   /**
@@ -467,6 +491,7 @@ export class GrPatchRangeSelect extends LitElement {
     addFrontSpace?: boolean
   ) {
     const rev = getRevisionByPatchNum(this.sortedRevisions, patchNum);
+
     return rev?.description
       ? (addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH)

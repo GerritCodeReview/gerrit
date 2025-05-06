@@ -24,6 +24,7 @@ import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {when} from 'lit/directives/when.js';
 import {isMagicPath} from '../../../utils/path-list-util';
 import {fireNoBubble} from '../../../utils/event-util';
+import {classMap} from 'lit/directives/class-map.js';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -44,6 +45,7 @@ export interface DropdownItem {
   disabled?: boolean;
   file?: NormalizedFileInfo;
   commentThreads?: CommentThread[];
+  deemphasizeReason?: string;
 }
 
 declare global {
@@ -168,6 +170,9 @@ export class GrDropdownList extends LitElement {
             --selection-background-color
           );
         }
+        .topContent.deemphasized {
+          color: var(--deemphasized-text-color);
+        }
         gr-comments-summary {
           padding-left: var(--spacing-s);
         }
@@ -258,9 +263,18 @@ export class GrDropdownList extends LitElement {
   private renderPaperItem(item: DropdownItem) {
     return html`
       <paper-item ?disabled=${item.disabled} data-value=${item.value}>
-        <div class="topContent">
+        <div
+          class=${classMap({
+            topContent: true,
+            deemphasized: !!item.deemphasizeReason,
+          })}
+        >
           <div>
             <span>${item.text}</span>
+            ${when(
+              !!item.deemphasizeReason,
+              () => html`<span>| ${item.deemphasizeReason}</span>`
+            )}
             ${when(
               item.commentThreads,
               () => html`<gr-comments-summary

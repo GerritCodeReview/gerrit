@@ -706,6 +706,8 @@ export declare interface FileInfo {
   size?: number; // in bytes
   old_mode?: number;
   new_mode?: number;
+  old_sha?: string;
+  new_sha?: string;
 }
 
 /**

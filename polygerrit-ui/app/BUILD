@@ -141,10 +141,8 @@ filegroup(
 eslint(
     name = "lint",
     srcs = [":eslint_src_code"],
-    config = ".eslintrc-bazel.js",
+    config = "eslint.config.mjs",
     data = [
-        # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
-        ".eslintrc.js",
         ".prettierrc.js",
         ".eslint-ts-resolver.js",
         "tsconfig_eslint.json",

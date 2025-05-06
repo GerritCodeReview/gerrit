@@ -280,7 +280,7 @@ module.exports = {
           'error',
           {argsIgnorePattern: '^_'},
         ],
-        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         'node/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports
         // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)

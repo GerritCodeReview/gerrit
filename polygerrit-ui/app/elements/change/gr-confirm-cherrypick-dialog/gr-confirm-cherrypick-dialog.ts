@@ -34,6 +34,7 @@ import {
 } from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {fire, fireNoBubble} from '../../../utils/event-util';
+import {trimWithEllipsis} from '../../../utils/string-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {choose} from 'lit/directives/choose.js';
@@ -414,7 +415,9 @@ export class GrConfirmCherrypickDialog
                 <td><span> ${this.getChangeId(item)} </span></td>
                 <td><span> ${item.status} </span></td>
                 <td>
-                  <span> ${this.getTrimmedChangeSubject(item.subject)} </span>
+                  <span>
+                    ${trimWithEllipsis(item.subject, CHANGE_SUBJECT_LIMIT)}
+                  </span>
                 </td>
                 <td><span> ${item.project} </span></td>
                 <td>
@@ -521,12 +524,6 @@ export class GrConfirmCherrypickDialog
 
   private getChangeId(change: ChangeInfo | ParsedChangeInfo) {
     return change.change_id.substring(0, 10);
-  }
-
-  private getTrimmedChangeSubject(subject: string) {
-    if (!subject) return '';
-    if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
-    return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
   }
 
   private computeCancelLabel() {

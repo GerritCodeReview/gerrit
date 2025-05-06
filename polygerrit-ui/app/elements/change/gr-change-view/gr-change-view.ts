@@ -34,7 +34,7 @@ import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
-import {pluralize} from '../../../utils/string-util';
+import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
 import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ChangeStatus, Tab, DiffViewMode} from '../../../constants/constants';
@@ -1245,7 +1245,9 @@ export class GrChangeView extends LitElement {
           >${this.change?._number}</a
         >
       </gr-button>
-      <span class="headerSubject">${this.change?.subject}</span>
+      <div class="headerSubject">
+        ${trimWithEllipsis(this.change?.subject, 80)}
+      </div>
       <gr-copy-clipboard
         class="changeCopyClipboard"
         hideInput=""

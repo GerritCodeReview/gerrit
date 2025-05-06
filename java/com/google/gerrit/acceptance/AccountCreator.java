@@ -29,6 +29,7 @@ import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -56,6 +57,7 @@ public class AccountCreator {
   private final GroupCache groupCache;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final ExternalIdFactory externalIdFactory;
+  private final AuthTokenAccessor authTokenAccessor;
 
   @Inject
   @UsedAt(GOOGLE)
@@ -64,13 +66,15 @@ public class AccountCreator {
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       GroupCache groupCache,
       @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactory externalIdFactory,
+      AuthTokenAccessor authTokenAccessor) {
     accounts = new HashMap<>();
     this.sequences = sequences;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.groupCache = groupCache;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.externalIdFactory = externalIdFactory;
+    this.authTokenAccessor = authTokenAccessor;
   }
 
   public synchronized TestAccount create(
@@ -88,10 +92,8 @@ public class AccountCreator {
     Account.Id id = Account.id(sequences.nextAccountId());
 
     List<ExternalId> extIds = new ArrayList<>(2);
-    String httpPass = null;
     if (username != null) {
-      httpPass = externalIdFactory.arePasswordsAllowed() ? "http-pass" : null;
-      extIds.add(externalIdFactory.createUsername(username, id, httpPass));
+      extIds.add(externalIdFactory.createUsername(username, id));
     }
 
     if (email != null) {
@@ -109,6 +111,10 @@ public class AccountCreator {
                     .setPreferredEmail(email)
                     .addExternalIds(extIds));
 
+    String token = "secret";
+    @SuppressWarnings("unused")
+    var unused = authTokenAccessor.addPlainToken(id, "token", token, Optional.empty());
+
     ImmutableList.Builder<String> tags = ImmutableList.builder();
     addUserToGroups(id, groupNames);
     if (groupNames != null) {
@@ -119,8 +125,7 @@ public class AccountCreator {
       }
     }
 
-    account =
-        TestAccount.create(id, username, email, fullName, displayName, httpPass, tags.build());
+    account = TestAccount.create(id, username, email, fullName, displayName, token, tags.build());
     if (username != null) {
       accounts.put(username, account);
     }

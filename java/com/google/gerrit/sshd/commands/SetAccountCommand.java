@@ -17,14 +17,12 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.EmailInfo;
-import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -54,7 +52,6 @@ import com.google.gerrit.server.restapi.account.DeleteToken;
 import com.google.gerrit.server.restapi.account.GetEmails;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.PutActive;
-import com.google.gerrit.server.restapi.account.PutHttpPassword;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutPreferred;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -118,18 +115,6 @@ final class SetAccountCommand extends SshCommand {
       usage = "public keys to delete from the account")
   private List<String> deleteSshKeys = new ArrayList<>();
 
-  @Option(
-      name = "--http-password",
-      metaVar = "PASSWORD",
-      usage = "password for HTTP authentication for the account")
-  private String httpPassword;
-
-  @Option(name = "--clear-http-password", usage = "clear HTTP password for the account")
-  private boolean clearHttpPassword;
-
-  @Option(name = "--generate-http-password", usage = "generate a new HTTP password for the account")
-  private boolean generateHttpPassword;
-
   @Option(name = "--token", metaVar = "TOKEN", usage = "token for HTTP authentication")
   private List<String> tokens = new ArrayList<>();
 
@@ -164,8 +149,6 @@ final class SetAccountCommand extends SshCommand {
   @Inject private PutPreferred putPreferred;
 
   @Inject private PutName putName;
-
-  @Inject private PutHttpPassword putHttpPassword;
 
   @Inject private CreateToken createToken;
 
@@ -220,21 +203,6 @@ final class SetAccountCommand extends SshCommand {
         throw die("--active and --inactive options are mutually exclusive.");
       }
     }
-
-    if (generateHttpPassword && clearHttpPassword) {
-      throw die("--generate-http-password and --clear-http-password are mutually exclusive.");
-    }
-    if (!Strings.isNullOrEmpty(httpPassword)) { // gave --http-password
-      if (!isAdmin) {
-        throw die("--http-password requires 'administrate server' capabilities.");
-      }
-      if (generateHttpPassword) {
-        throw die("--http-password and --generate-http-password options are mutually exclusive.");
-      }
-      if (clearHttpPassword) {
-        throw die("--http-password and --clear-http-password options are mutually exclusive.");
-      }
-    }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
       throw die("Only one option may use the stdin");
     }
@@ -275,18 +243,6 @@ final class SetAccountCommand extends SshCommand {
         in.name = fullName;
         @SuppressWarnings("unused")
         var unused = putName.apply(rsrc, in);
-      }
-
-      if (httpPassword != null || clearHttpPassword || generateHttpPassword) {
-        HttpPasswordInput in = new HttpPasswordInput();
-        in.httpPassword = httpPassword;
-        if (generateHttpPassword) {
-          in.generate = true;
-        }
-        Response<String> resp = putHttpPassword.apply(rsrc, in);
-        if (generateHttpPassword) {
-          stdout.print("New password: " + resp.value() + "\n");
-        }
       }
 
       for (String token : tokens) {

@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -34,7 +35,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class NoAccessSameAsNotFoundIT extends StandaloneSiteTest {
-  private static final String PASSWORD = "secret";
+  private static final String TOKEN = "secret";
   private static final String REPO = "foo";
 
   @Inject private @GerritServerConfig Config config;
@@ -65,12 +66,14 @@ public class NoAccessSameAsNotFoundIT extends StandaloneSiteTest {
     ctx.getInjector().injectMembers(this);
 
     TestAccount user = accountCreator.user1();
-    gApi.accounts().id(user.id().get()).setHttpPassword(PASSWORD);
+    TokenInput token = new TokenInput();
+    token.id = "testtoken";
+    token.token = TOKEN;
+    gApi.accounts().id(user.id().get()).createToken(token);
 
     String canonical = config.getString("gerrit", null, "canonicalweburl");
     repoUrl =
-        String.format(
-            "http://%s:%s@%s/a/%s", user.username(), PASSWORD, canonical.substring(7), REPO);
+        String.format("http://%s:%s@%s/a/%s", user.username(), TOKEN, canonical.substring(7), REPO);
   }
 
   private String cloneRepo() {

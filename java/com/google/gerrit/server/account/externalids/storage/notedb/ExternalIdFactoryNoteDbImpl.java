@@ -20,10 +20,8 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -58,41 +56,8 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
     return create(externalIdKeyFactory.create(scheme, id), accountId, null, null);
   }
 
-  @Override
-  @Deprecated
-  public ExternalId create(
-      String scheme,
-      String id,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String hashedPassword) {
-    return create(externalIdKeyFactory.create(scheme, id), accountId, email, hashedPassword, null);
-  }
-
   ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
-    return create(extId.key(), extId.accountId(), extId.email(), extId.password(), blobId);
-  }
-
-  /**
-   * Creates an external ID.
-   *
-   * @param key the external Id key
-   * @param accountId the ID of the account to which the external ID belongs
-   * @param email the email of the external ID, may be {@code null}
-   * @param hashedPassword the hashed password of the external ID, may be {@code null}
-   * @param blobId the ID of the note blob in the external IDs branch that stores this external ID.
-   *     {@code null} if the external ID was created in code and is not yet stored in Git.
-   * @return the created external ID
-   */
-  @Deprecated
-  public ExternalId create(
-      ExternalId.Key key,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String hashedPassword,
-      @Nullable ObjectId blobId) {
-    return ExternalId.create(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), blobId);
+    return create(extId.key(), extId.accountId(), extId.email(), blobId);
   }
 
   /**
@@ -108,30 +73,6 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
   public ExternalId create(
       ExternalId.Key key, Account.Id accountId, @Nullable String email, @Nullable ObjectId blobId) {
     return ExternalId.create(key, accountId, Strings.emptyToNull(email), blobId);
-  }
-
-  @Override
-  @Deprecated
-  public ExternalId createWithPassword(
-      ExternalId.Key key,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String plainPassword) {
-    plainPassword = Strings.emptyToNull(plainPassword);
-    String hashedPassword =
-        plainPassword != null ? HashedPassword.fromPassword(plainPassword).encode() : null;
-    return create(key, accountId, email, hashedPassword, null);
-  }
-
-  @Override
-  @Deprecated
-  public ExternalId createUsername(
-      String id, Account.Id accountId, @Nullable String plainPassword) {
-    return createWithPassword(
-        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, id),
-        accountId,
-        null,
-        plainPassword);
   }
 
   @Override
@@ -225,24 +166,9 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
     String email =
         externalIdConfig.getString(
             ExternalId.EXTERNAL_ID_SECTION, externalIdKeyStr, ExternalId.EMAIL_KEY);
-    String password =
-        externalIdConfig.getString(
-            ExternalId.EXTERNAL_ID_SECTION, externalIdKeyStr, ExternalId.PASSWORD_KEY);
     int accountId = readAccountId(noteId, externalIdConfig, externalIdKeyStr);
 
-    return create(
-        externalIdKey,
-        Account.id(accountId),
-        Strings.emptyToNull(email),
-        Strings.emptyToNull(password),
-        blobId);
-  }
-
-  @Override
-  @Deprecated
-  @InlineMe(replacement = "true")
-  public final boolean arePasswordsAllowed() {
-    return true;
+    return create(externalIdKey, Account.id(accountId), Strings.emptyToNull(email), blobId);
   }
 
   private static int readAccountId(String noteId, Config externalIdConfig, String externalIdKeyStr)

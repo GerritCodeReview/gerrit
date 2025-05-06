@@ -528,74 +528,6 @@ Sets the account state to inactive.
 
 If the account was already inactive the response is "`409 Conflict`".
 
-[[set-http-password]]
-=== Set/Generate HTTP Password
-
-*Note*: The use of HTTP passwords is deprecated. It is recommended to use
-authentication tokens instead. See link:#create-token[Create Authentication
-token]. This endpoint serves as an alias for link:#create-token[Create
-Authentication token] to provide backwards compatibility.
-
---
-'PUT /accounts/link:#account-id[\{account-id\}]/password.http'
---
-
-Sets/Generates an authentication token with id `legacy` for an account.
-
-The options for setting/generating the HTTP password must be provided
-in the request body inside a link:#http-password-input[
-HttpPasswordInput] entity.
-
-The account must have a username.
-
-.Request
-----
-  PUT /accounts/self/password.http HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "generate": true
-  }
-----
-
-As response the new token is returned.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  "ETxgpih8xrNs"
-----
-
-If the token was deleted the response is "`204 No Content`".
-
-[[delete-http-password]]
-=== Delete HTTP Password
-
-*Note*: The use of HTTP passwords is deprecated. It is recommended to use
-authentication tokens instead. See link:#delete-token[Delete Authentication
-token]. This endpoint serves as an alias for link:#delete-token[Delete
-Authentication token] to provide backwards compatibility.
-
---
-'DELETE /accounts/link:#account-id[\{account-id\}]/password.http'
---
-
-Deletes the token with id `legacy` of an account.
-
-.Request
-----
-  DELETE /accounts/self/password.http HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
-----
-
 [[create-token]]
 === Create Authentication token
 --
@@ -2454,7 +2386,6 @@ The user name. If provided, must match the user name from the URL.
 |`display_name` |optional|The display name of the user.
 |`email`        |optional|The email address of the user.
 |`ssh_key`      |optional|The public SSH key of the user.
-|`http_password`|optional|The HTTP password of the user. (deprecated)
 |`tokens`       |optional|
 A list of tokens in the form of link:#token-input[TokenInputs] to assign to the user.
 |`groups`       |optional|
@@ -2885,23 +2816,6 @@ The `GpgKeysInput` entity contains information for adding/deleting GPG keys.
 |`add`     |List of ASCII armored public key strings to add.
 |`delete`  |List of link:#gpg-key-id[`\{gpg-key-id\}`]s to delete.
 |========================
-
-[[http-password-input]]
-=== HttpPasswordInput
-The `HttpPasswordInput` entity contains information for setting/generating
-an HTTP password.
-
-[options="header",cols="1,^1,5"]
-|============================
-|Field Name     ||Description
-|`generate`     |`false` if not set|
-Whether a new HTTP password should be generated
-|`http_password`|optional|
-The new HTTP password. Only Gerrit administrators may set the HTTP
-password directly. +
-If empty or not set and `generate` is false or not set, the HTTP
-password is deleted.
-|============================
 
 [[token-input]]
 === TokenInput

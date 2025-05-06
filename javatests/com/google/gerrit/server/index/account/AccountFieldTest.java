@@ -65,14 +65,12 @@ public class AccountFieldTest {
             ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo", false),
             id,
             null,
-            "secret",
             ObjectId.fromString("5b3a73dc9a668a5b89b5f049225261e3e3291d1a"));
     ExternalId extId3 =
         ExternalId.create(
             ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "Bar", true),
             id,
             null,
-            "secret",
             ObjectId.fromString("483ea804e84282e15ddcdd1d15a797eb4796a760"));
     List<String> values =
         toStrings(

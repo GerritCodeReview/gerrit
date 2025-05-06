@@ -100,11 +100,6 @@ the end of all outgoing emails after the ChangeFooter and CommentFooter.
 AuthTokenUpdate templates will determine the contents of the email related to adding,
 changing or deleting an authentication token on a user account.
 
-=== HttpPasswordUpdate.soy and HttpPasswordUpdateHtml.soy
-
-HttpPasswordUpdate templates will determine the contents of the email related to adding,
-changing or deleting the HTTP password on a user account.
-
 === Merged.soy and MergedHtml.soy
 
 The Merged templates will determine the contents of the email related to a

@@ -364,7 +364,6 @@ The note content is a Git config file:
 [externalId "username:jdoe"]
   accountId = 1003407
   email = jdoe@example.com
-  password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
 ----
 
 Once SHA-1 of an external ID is known the following command can be used to
@@ -378,17 +377,13 @@ $ git show refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef
 [externalId "username:jdoe"]
   accountId = 1003407
   email = jdoe@example.com
-  password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
 ----
 
 The config file has one `externalId` section. The external ID key, which
 consists of scheme and ID in the format '<scheme>:<id>', is used as
 subsection name.
 
-The `accountId` field is mandatory. The `email` and `password` fields
-are optional. The `password` field is deprecated, because passwords
-are being replaced by tokens, which are stored in the account's user
-reference.
+The `accountId` field is mandatory. The `email` field is optional.
 
 Note that git will automatically nest these notes at varying levels. If
 refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef is not
@@ -409,8 +404,6 @@ branch. However Gerrit rejects pushes if:
 * invalid emails are contained
 * any email is not unique (the same email is assigned to multiple
   accounts)
-* hashed passwords of external IDs with scheme `username` cannot be
-  decoded
 
 Users can edit some external IDs via the user settings page or the
 REST API. Note that email addresses cannot be deleted if they are

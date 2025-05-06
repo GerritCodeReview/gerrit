@@ -58,7 +58,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     jettyServer = server.getHttpdInjector().get().getInstance(JettyServer.class);
 
     CredentialsProvider.setDefault(
-        new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
+        new UsernamePasswordCredentialsProvider(admin.username(), admin.token()));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);
     // Don't clear audit events here, since we can't guarantee all test setup has run yet.
   }

@@ -147,7 +147,7 @@ def clean(json_string):
 
 
 def basic_auth(user):
-    return requests.auth.HTTPBasicAuth(user["username"], user["http_password"])
+    return requests.auth.HTTPBasicAuth(user["username"], user["tokens"][0]["token"])
 
 
 def fetch_admin_group():
@@ -188,7 +188,10 @@ def get_random_users(num_users):
                       "name": u[0] + " " + u[1],
                       "username": u[0] + u[1],
                       "email": u[0] + "." + u[1] + "@gerritcodereview.com",
-                      "http_password": "secret",
+                      "tokens": {
+                        "id": "token",
+                        "token": "secret"
+                      },
                       "groups": []})
     return names
 

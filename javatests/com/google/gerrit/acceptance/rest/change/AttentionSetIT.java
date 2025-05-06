@@ -66,6 +66,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.TokenInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
@@ -2319,8 +2320,10 @@ public class AttentionSetIT extends AbstractDaemonTest {
     setEmailStrategyForUser(EmailStrategy.ATTENTION_SET_ONLY);
 
     // Ensure emails that don't relate to changes are still sent.
+    TokenInput token = new TokenInput();
+    token.id = "testtoken";
     @SuppressWarnings("unused")
-    var unused = gApi.accounts().id(user.id().get()).generateHttpPassword();
+    var unused = gApi.accounts().id(user.id().get()).createToken(token);
     assertThat(sender.getMessages()).isNotEmpty();
   }
 

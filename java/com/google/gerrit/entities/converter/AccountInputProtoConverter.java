@@ -53,9 +53,6 @@ public enum AccountInputProtoConverter
     if (accountInput.sshKey != null) {
       builder.setSshKey(accountInput.sshKey);
     }
-    if (accountInput.httpPassword != null) {
-      builder.setHttpPassword(accountInput.httpPassword);
-    }
     if (accountInput.groups != null) {
       builder.addAllGroups(accountInput.groups);
     }
@@ -86,9 +83,6 @@ public enum AccountInputProtoConverter
     }
     if (proto.hasSshKey()) {
       accountInput.sshKey = proto.getSshKey();
-    }
-    if (proto.hasHttpPassword()) {
-      accountInput.httpPassword = proto.getHttpPassword();
     }
     if (proto.getGroupsCount() > 0) {
       accountInput.groups = proto.getGroupsList();

@@ -107,6 +107,7 @@ import {isImageDiff} from '../../../utils/diff-util';
 import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
+import {trimWithEllipsis} from '../../../utils/string-util';
 
 const LOADING_BLAME = 'Loading blame information. This may take a while ...';
 const LOADED_BLAME = 'Blame loaded';
@@ -886,7 +887,9 @@ export class GrDiffView extends LitElement {
         <a href=${ifDefined(this.getChangeModel().changeUrl())}
           >${this.changeNum}</a
         ><span class="changeNumberColon">:</span>
-        <span class="headerSubject">${this.change?.subject}</span>
+        <span class="headerSubject"
+          >${trimWithEllipsis(this.change?.subject, 80)}</span
+        >
         <input
           id="reviewed"
           class="reviewed hideOnEdit"

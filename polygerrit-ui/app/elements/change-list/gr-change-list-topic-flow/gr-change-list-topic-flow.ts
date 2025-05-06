@@ -140,7 +140,7 @@ export class GrChangeListTopicFlow extends LitElement {
       () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => {
         this.selectedChanges = selectedChanges;
-      }
+      },
     );
   }
 
@@ -169,10 +169,10 @@ export class GrChangeListTopicFlow extends LitElement {
               ${when(
                 this.selectedChanges.some(change => change.topic),
                 () => this.renderExistingTopicsMode(),
-                () => this.renderNoExistingTopicsMode()
+                () => this.renderNoExistingTopicsMode(),
               )}
             </div>
-          `
+          `,
         )}
       </iron-dropdown>
     `;
@@ -231,7 +231,7 @@ export class GrChangeListTopicFlow extends LitElement {
                   @click=${this.closeDropdown}
                   >Cancel</gr-button
                 >
-              `
+              `,
           )}
         </div>
       </div>
@@ -311,7 +311,7 @@ export class GrChangeListTopicFlow extends LitElement {
               <gr-button id="cancel-button" flatten @click=${this.closeDropdown}
                 >Cancel</gr-button
               >
-            `
+            `,
           )}
         </div>
       </div>
@@ -341,11 +341,11 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private async getTopicSuggestions(
-    query: string
+    query: string,
   ): Promise<AutocompleteSuggestion[]> {
     const suggestions = await this.restApiService.getChangesWithSimilarTopic(
       query,
-      throwingErrorCallback
+      throwingErrorCallback,
     );
     this.existingTopicSuggestions = (suggestions ?? [])
       .map(change => change.topic)
@@ -368,18 +368,18 @@ export class GrChangeListTopicFlow extends LitElement {
       this.selectedChanges
         .filter(
           change =>
-            change.topic && this.selectedExistingTopics.has(change.topic)
+            change.topic && this.selectedExistingTopics.has(change.topic),
         )
         .map(
           change =>
             // With throwing callback guaranteed to be non-null.
             this.restApiService.removeChangeTopic(
               change._number,
-              throwingErrorCallback
-            ) as Promise<string>
+              throwingErrorCallback,
+            ) as Promise<string>,
         ),
       `${this.selectedChanges[0].topic} removed from changes`,
-      'Failed to remove topic'
+      'Failed to remove topic',
     );
   }
 
@@ -397,11 +397,11 @@ export class GrChangeListTopicFlow extends LitElement {
           this.restApiService.setChangeTopic(
             change._number,
             topic,
-            throwingErrorCallback
-          ) as Promise<string>
+            throwingErrorCallback,
+          ) as Promise<string>,
       ),
       `${topic} applied to all changes`,
-      'Failed to apply topic'
+      'Failed to apply topic',
     );
   }
 
@@ -412,7 +412,7 @@ export class GrChangeListTopicFlow extends LitElement {
     });
     const alert = `${pluralize(
       this.selectedChanges.length,
-      'Change'
+      'Change',
     )} added to ${this.topicToAdd}`;
     this.loadingText = loadingText;
     this.trackPromises(
@@ -422,18 +422,18 @@ export class GrChangeListTopicFlow extends LitElement {
           this.restApiService.setChangeTopic(
             change._number,
             this.topicToAdd,
-            throwingErrorCallback
-          ) as Promise<string>
+            throwingErrorCallback,
+          ) as Promise<string>,
       ),
       alert,
-      'Failed to set topic'
+      'Failed to set topic',
     );
   }
 
   private async trackPromises(
     promises: Promise<string>[],
     alert: string,
-    errorMessage: string
+    errorMessage: string,
   ) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);

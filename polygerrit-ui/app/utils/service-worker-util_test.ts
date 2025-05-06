@@ -40,7 +40,7 @@ suite('service worker util tests', () => {
     const filteredChanges = filterAttentionChangesAfter(
       changes,
       account,
-      parseDate('2016-01-12 20:24:50.000000000' as Timestamp).valueOf()
+      parseDate('2016-01-12 20:24:50.000000000' as Timestamp).valueOf(),
     );
 
     assert.equal(filteredChanges.length, 1);

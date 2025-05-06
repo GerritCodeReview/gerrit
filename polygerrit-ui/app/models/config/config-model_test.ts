@@ -23,7 +23,7 @@ suite('getDocsBaseUrl tests', () => {
   setup(async () => {
     model = new ConfigModel(
       testResolver(changeModelToken),
-      getAppContext().restApiService
+      getAppContext().restApiService,
     );
   });
 
@@ -34,7 +34,7 @@ suite('getDocsBaseUrl tests', () => {
     const docsBaseUrl = await model.getDocsBaseUrl(undefined);
     assert.equal(
       probePathMock.lastCall.args[0],
-      `${getBaseUrl()}/Documentation/index.html`
+      `${getBaseUrl()}/Documentation/index.html`,
     );
     assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
   });
@@ -50,7 +50,7 @@ suite('getDocsBaseUrl tests', () => {
     const docsBaseUrl = await model.getDocsBaseUrl(config);
     assert.equal(
       probePathMock.lastCall.args[0],
-      `${getBaseUrl()}/Documentation/index.html`
+      `${getBaseUrl()}/Documentation/index.html`,
     );
     assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
   });
@@ -75,11 +75,11 @@ suite('getDocsBaseUrl tests', () => {
     const docsBaseUrl = await model.getDocsBaseUrl(undefined);
     assert.equal(
       probePathMock.lastCall.args[0],
-      `${getBaseUrl()}/Documentation/index.html`
+      `${getBaseUrl()}/Documentation/index.html`,
     );
     assert.equal(
       docsBaseUrl,
-      'https://gerrit-review.googlesource.com/Documentation'
+      'https://gerrit-review.googlesource.com/Documentation',
     );
   });
 });

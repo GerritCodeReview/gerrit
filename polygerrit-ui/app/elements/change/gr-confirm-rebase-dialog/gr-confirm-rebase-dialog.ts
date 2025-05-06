@@ -151,7 +151,7 @@ export class GrConfirmRebaseDialog
 
   private readonly getRelatedChangesModel = resolve(
     this,
-    relatedChangesModelToken
+    relatedChangesModelToken,
   );
 
   constructor() {
@@ -160,27 +160,27 @@ export class GrConfirmRebaseDialog
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.account = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestUploader$,
-      x => (this.uploader = x)
+      x => (this.uploader = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().hasParent$,
-      x => (this.hasParent = x)
+      x => (this.hasParent = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestCommitter$,
-      x => (this.latestCommitter = x)
+      x => (this.latestCommitter = x),
     );
   }
 
@@ -344,7 +344,7 @@ export class GrConfirmRebaseDialog
               html`<span class="message"
                 >Rebase cannot be done on behalf of the uploader when allowing
                 conflicts.</span
-              >`
+              >`,
           )}
           ${when(
             this.hasParent,
@@ -361,7 +361,7 @@ export class GrConfirmRebaseDialog
                   }}
                 />
                 <label for="rebaseChain">Rebase all ancestors</label>
-              </div>`
+              </div>`,
           )}
           ${when(
             !this.isCurrentUserEqualToLatestUploader(),
@@ -370,7 +370,7 @@ export class GrConfirmRebaseDialog
             } <gr-account-chip
                 .account=${this.allowConflicts ? this.account : this.uploader}
               ></gr-account-chip
-              ><span></div>`
+              ><span></div>`,
           )}
           ${when(
             this.canShowCommitterEmailDropdown(),
@@ -382,7 +382,7 @@ export class GrConfirmRebaseDialog
                     @value-change=${this.handleCommitterEmailDropdownItems}
                 >
                 </gr-dropdown-list>
-                <span></div>`
+                <span></div>`,
           )}
         </div>
       </gr-dialog>
@@ -410,7 +410,7 @@ export class GrConfirmRebaseDialog
       return;
     }
     this.validationOptions = await this.restApiService.getValidationOptions(
-      this.changeNum
+      this.changeNum,
     );
   }
 
@@ -421,7 +421,7 @@ export class GrConfirmRebaseDialog
         'is:open -age:90d',
         /* offset=*/ undefined,
         /* options=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         if (!response) return [];
@@ -451,7 +451,7 @@ export class GrConfirmRebaseDialog
 
   private getChangeSuggestions(input: string) {
     return this.getRecentChanges().then(changes =>
-      this.filterChanges(input, changes)
+      this.filterChanges(input, changes),
     );
   }
 
@@ -482,7 +482,7 @@ export class GrConfirmRebaseDialog
 
   private isLatestCommitterEmailInDropdownItems(): boolean {
     return this.committerEmailDropdownItems?.some(
-      e => e.email === this.latestCommitter?.email.toString()
+      e => e.email === this.latestCommitter?.email.toString(),
     );
   }
 
@@ -491,7 +491,7 @@ export class GrConfirmRebaseDialog
       this.selectedEmailForRebase = this.latestCommitter?.email;
     } else {
       this.setPreferredAsSelectedEmailForRebase(
-        this.committerEmailDropdownItems
+        this.committerEmailDropdownItems,
       );
     }
   }
@@ -504,7 +504,7 @@ export class GrConfirmRebaseDialog
       const currentUploaderEmails =
         await this.restApiService.getAccountEmailsFor(
           this.uploader.email.toString(),
-          () => {}
+          () => {},
         );
       this.committerEmailDropdownItems = currentUploaderEmails || [];
     } else {
@@ -521,18 +521,19 @@ export class GrConfirmRebaseDialog
 
   filterChanges(
     input: string,
-    changes: RebaseChange[]
+    changes: RebaseChange[],
   ): AutocompleteSuggestion[] {
     return changes
       .filter(
-        change => change.name.includes(input) && change.value !== this.changeNum
+        change =>
+          change.name.includes(input) && change.value !== this.changeNum,
       )
       .map(
         change =>
           ({
             name: change.name,
             value: `${change.value}`,
-          } as AutocompleteSuggestion)
+          } as AutocompleteSuggestion),
       );
   }
 

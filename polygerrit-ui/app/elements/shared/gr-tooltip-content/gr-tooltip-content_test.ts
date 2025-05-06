@@ -47,7 +47,7 @@ suite('gr-tooltip-content tests', () => {
       /* HTML */ `
         <slot> </slot>
         <gr-icon icon="info" filled></gr-icon>
-      `
+      `,
     );
   });
 
@@ -78,11 +78,11 @@ suite('gr-tooltip-content tests', () => {
           right: 300,
           height: 50,
           bottom: 150,
-        } as DOMRect)
+        } as DOMRect),
     );
     const tooltip = makeTooltip(
       {height: 30, width: 50} as DOMRect,
-      {top: 0, left: 0, width: 1000} as DOMRect
+      {top: 0, left: 0, width: 1000} as DOMRect,
     ) as GrTooltip;
 
     element._positionTooltip(tooltip);
@@ -102,11 +102,11 @@ suite('gr-tooltip-content tests', () => {
           right: 60,
           height: 50,
           bottom: 150,
-        } as DOMRect)
+        } as DOMRect),
     );
     const tooltip = makeTooltip(
       {height: 30, width: 120} as DOMRect,
-      {top: 0, left: 0, width: 1000} as DOMRect
+      {top: 0, left: 0, width: 1000} as DOMRect,
     ) as GrTooltip;
 
     element._positionTooltip(tooltip);
@@ -129,11 +129,11 @@ suite('gr-tooltip-content tests', () => {
           right: 1000,
           height: 50,
           bottom: 150,
-        } as DOMRect)
+        } as DOMRect),
     );
     const tooltip = makeTooltip(
       {height: 30, width: 120} as DOMRect,
-      {top: 0, left: 0, width: 1000} as DOMRect
+      {top: 0, left: 0, width: 1000} as DOMRect,
     ) as GrTooltip;
 
     element._positionTooltip(tooltip);
@@ -155,11 +155,11 @@ suite('gr-tooltip-content tests', () => {
           height: 50,
           right: 1000,
           bottom: 150,
-        } as DOMRect)
+        } as DOMRect),
     );
     const tooltip = makeTooltip(
       {height: 30, width: 120} as DOMRect,
-      {top: 0, left: 0, width: 1000} as DOMRect
+      {top: 0, left: 0, width: 1000} as DOMRect,
     ) as GrTooltip;
 
     element.positionBelow = true;
@@ -183,11 +183,11 @@ suite('gr-tooltip-content tests', () => {
           height: 50,
           right: 1000,
           bottom: 80,
-        } as DOMRect)
+        } as DOMRect),
     );
     const tooltip = makeTooltip(
       {height: 30, width: 120} as DOMRect,
-      {top: 0, left: 0, width: 1000} as DOMRect
+      {top: 0, left: 0, width: 1000} as DOMRect,
     ) as GrTooltip;
 
     element.positionBelow = true;
@@ -277,7 +277,7 @@ suite('gr-tooltip-content tests', () => {
       assert.strictEqual(
         tooltipParent,
         document.body,
-        'Tooltip expected to be attached to body'
+        'Tooltip expected to be attached to body',
       );
     });
 
@@ -288,7 +288,7 @@ suite('gr-tooltip-content tests', () => {
       assert.strictEqual(
         tooltipParent,
         dialog,
-        'Tooltip expected to be attached to dialog'
+        'Tooltip expected to be attached to dialog',
       );
     });
 
@@ -299,7 +299,7 @@ suite('gr-tooltip-content tests', () => {
       assert.strictEqual(
         tooltipParent,
         dialog,
-        'Tooltip expected to be attached to dialog'
+        'Tooltip expected to be attached to dialog',
       );
     });
 

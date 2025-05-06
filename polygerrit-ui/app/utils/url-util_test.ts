@@ -53,7 +53,9 @@ suite('url-util tests', () => {
 
     test('default url if auth.loginUrl is not defined', () => {
       const current = encodeURIComponent(
-        window.location.pathname + window.location.search + window.location.hash
+        window.location.pathname +
+          window.location.search +
+          window.location.hash,
       );
       assert.deepEqual(loginUrl(undefined), '/login/' + current);
       assert.deepEqual(loginUrl(authConfig), '/login/' + current);
@@ -65,7 +67,7 @@ suite('url-util tests', () => {
         encodeURIComponent(
           window.location.pathname +
             window.location.search +
-            window.location.hash
+            window.location.hash,
         );
       const customLoginUrl = '/custom';
       authConfig.login_url = customLoginUrl;
@@ -153,7 +155,7 @@ suite('url-util tests', () => {
     assert.equal(toPath('asdf', params), 'asdf?qwer=zxcv');
     assert.equal(
       toPath(toPathname('asdf?qwer=zxcv'), toSearchParams('asdf?qwer=zxcv')),
-      'asdf?qwer=zxcv'
+      'asdf?qwer=zxcv',
     );
   });
 

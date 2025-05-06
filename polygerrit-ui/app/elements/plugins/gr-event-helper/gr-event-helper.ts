@@ -14,7 +14,7 @@ export class GrEventHelper implements EventHelperPluginApi {
   constructor(
     private readonly reporting: ReportingService,
     readonly plugin: PluginApi,
-    readonly element: HTMLElement
+    readonly element: HTMLElement,
   ) {
     this.reporting.trackApi(this.plugin, 'event', 'constructor');
   }
@@ -38,7 +38,7 @@ export class GrEventHelper implements EventHelperPluginApi {
 
   private listen(
     container: HTMLElement,
-    callback: (event: Event) => boolean
+    callback: (event: Event) => boolean,
   ): UnsubscribeCallback {
     const handler = (e: Event) => {
       const path = e.composedPath();
@@ -51,7 +51,7 @@ export class GrEventHelper implements EventHelperPluginApi {
           this.reporting.error(
             'GrEventHelper',
             new Error('event listener callback error'),
-            exception
+            exception,
           );
         }
         if (mayContinue === false) {

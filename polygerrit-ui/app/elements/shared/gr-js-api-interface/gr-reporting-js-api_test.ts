@@ -30,7 +30,7 @@ suite('gr-reporting-js-api tests', () => {
           plugin = p;
         },
         '0.1',
-        'http://test.com/plugins/testplugin/static/test.js'
+        'http://test.com/plugins/testplugin/static/test.js',
       );
       reporting = plugin.reporting();
     });

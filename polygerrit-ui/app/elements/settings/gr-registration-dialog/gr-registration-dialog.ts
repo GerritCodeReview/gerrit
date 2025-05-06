@@ -144,7 +144,7 @@ export class GrRegistrationDialog extends LitElement {
                 <input id="name" ?disabled=${this.saving} />
               </iron-input>
             </span>`,
-            () => html`<span class="value">${this.account.name}</span>`
+            () => html`<span class="value">${this.account.name}</span>`,
           )}
         </section>
         <section>
@@ -184,9 +184,9 @@ export class GrRegistrationDialog extends LitElement {
                   <input id="username" ?disabled=${this.saving} />
                 </iron-input>
               </span>`,
-              () => html`<span class="value">${this.username}</span>`
+              () => html`<span class="value">${this.username}</span>`,
             )}
-          </section>`
+          </section>`,
         )}
         <hr />
         <p>
@@ -256,13 +256,13 @@ export class GrRegistrationDialog extends LitElement {
   // private but used in test
   computeUsernameEditable() {
     return !!this.serverConfig?.auth.editable_account_fields.includes(
-      EditableAccountField.USER_NAME
+      EditableAccountField.USER_NAME,
     );
   }
 
   private computeNameMutable() {
     return !!this.serverConfig?.auth.editable_account_fields.includes(
-      EditableAccountField.FULL_NAME
+      EditableAccountField.FULL_NAME,
     );
   }
 
@@ -283,7 +283,7 @@ export class GrRegistrationDialog extends LitElement {
 
     if (this.hasDisplayNameChange && this.account?.display_name) {
       promises.push(
-        this.restApiService.setAccountDisplayName(this.account.display_name)
+        this.restApiService.setAccountDisplayName(this.account.display_name),
       );
     }
 

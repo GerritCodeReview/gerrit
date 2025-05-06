@@ -39,7 +39,7 @@ suite('gr-attribute-helper tests', () => {
         plugin = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     element = await fixture(html`<foo-bar></foo-bar>`);
     instance = plugin!.attributeHelper(element);

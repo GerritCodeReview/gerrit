@@ -52,7 +52,7 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     element = await fixture(
       html`<gr-hovercard-account-contents .account=${ACCOUNT} .change=${change}>
-      </gr-hovercard-account-contents>`
+      </gr-hovercard-account-contents>`,
     );
     testResolver(userModelToken).setAccount({...ACCOUNT});
     await element.updateComplete;
@@ -91,7 +91,7 @@ suite('gr-hovercard-account-contents tests', () => {
             <gr-endpoint-param name="account"></gr-endpoint-param>
           </gr-endpoint-decorator>
         </div>
-      `
+      `,
     );
   });
 
@@ -99,7 +99,7 @@ suite('gr-hovercard-account-contents tests', () => {
     const elementWithoutChange = await fixture(
       html`<gr-hovercard-account-contents
         .account=${ACCOUNT}
-      ></gr-hovercard-account-contents>`
+      ></gr-hovercard-account-contents>`,
     );
     assert.shadowDom.equal(
       elementWithoutChange,
@@ -133,7 +133,7 @@ suite('gr-hovercard-account-contents tests', () => {
             <gr-endpoint-param name="account"></gr-endpoint-param>
           </gr-endpoint-decorator>
         </div>
-      `
+      `,
     );
   });
 
@@ -208,7 +208,7 @@ suite('gr-hovercard-account-contents tests', () => {
     await element.updateComplete;
     const voteableEl = queryAndAssert<HTMLSpanElement>(
       element,
-      '.voteable .value'
+      '.voteable .value',
     );
     assert.equal(voteableEl.innerText, 'Bar: +1');
   });
@@ -223,7 +223,7 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     await element.updateComplete;
     stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
+      Promise.resolve({...new Response(), ok: true}),
     );
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
@@ -245,10 +245,10 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     await element.updateComplete;
     const saveReviewStub = stubRestApi('saveChangeReview').returns(
-      Promise.resolve({})
+      Promise.resolve({}),
     );
     stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
+      Promise.resolve({...new Response(), ok: true}),
     );
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
@@ -273,10 +273,10 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     await element.updateComplete;
     const saveReviewStub = stubRestApi('saveChangeReview').returns(
-      Promise.resolve({})
+      Promise.resolve({}),
     );
     stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
+      Promise.resolve({...new Response(), ok: true}),
     );
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
@@ -301,7 +301,7 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     await element.updateComplete;
     stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
+      Promise.resolve({...new Response(), ok: true}),
     );
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
@@ -333,16 +333,16 @@ suite('gr-hovercard-account-contents tests', () => {
 
     assert.equal(Object.keys(element.change?.attention_set ?? {}).length, 1);
     const attention_set_info = Object.values(
-      element.change?.attention_set ?? {}
+      element.change?.attention_set ?? {},
     )[0];
     assert.equal(
       attention_set_info.reason,
       `Added by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>` +
-        ' using the hovercard menu'
+        ' using the hovercard menu',
     );
     assert.equal(
       attention_set_info.reason_account?._account_id,
-      ACCOUNT._account_id
+      ACCOUNT._account_id,
     );
     assert.isTrue(showAlertListener.called, 'showAlertListener was called');
     assert.isTrue(updatedListener.called, 'updatedListener was called');
@@ -353,7 +353,7 @@ suite('gr-hovercard-account-contents tests', () => {
     assert.equal(
       apiSpy.lastCall.args[2],
       `Added by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>` +
-        ' using the hovercard menu'
+        ' using the hovercard menu',
     );
     assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
   });
@@ -394,7 +394,7 @@ suite('gr-hovercard-account-contents tests', () => {
     assert.equal(
       apiSpy.lastCall.args[2],
       `Removed by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>` +
-        ' using the hovercard menu'
+        ' using the hovercard menu',
     );
     assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
   });

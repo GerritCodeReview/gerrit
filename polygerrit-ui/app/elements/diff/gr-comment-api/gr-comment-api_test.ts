@@ -127,7 +127,7 @@ suite('ChangeComments tests', () => {
           {} /* robot comments */,
           {} /* drafts */,
           portedComments,
-          {} /* ported drafts */
+          {} /* ported drafts */,
         );
       });
 
@@ -136,7 +136,7 @@ suite('ChangeComments tests', () => {
 
         const portedThreads = changeComments._getPortedCommentThreads(
           {path: 'karma.conf.js'},
-          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT}
+          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT},
         );
 
         assert.equal(portedThreads.length, 1);
@@ -156,9 +156,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 4 as RevisionPatchSetNum,
               basePatchNum: 1 as BasePatchSetNum,
-            }
+            },
           ).length,
-          1
+          1,
         );
 
         // verify ported thread is not returned if original thread will be
@@ -167,9 +167,9 @@ suite('ChangeComments tests', () => {
         assert.equal(
           changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'},
-            {patchNum: 2 as RevisionPatchSetNum, basePatchNum: PARENT}
+            {patchNum: 2 as RevisionPatchSetNum, basePatchNum: PARENT},
           ).length,
-          0
+          0,
         );
         assert.equal(
           changeComments._getPortedCommentThreads(
@@ -177,9 +177,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 2 as RevisionPatchSetNum,
               basePatchNum: 1 as BasePatchSetNum,
-            }
+            },
           ).length,
-          0
+          0,
         );
 
         // original thread attached to left side
@@ -189,9 +189,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 3 as RevisionPatchSetNum,
               basePatchNum: 2 as BasePatchSetNum,
-            }
+            },
           ).length,
-          0
+          0,
         );
       });
 
@@ -209,21 +209,21 @@ suite('ChangeComments tests', () => {
           // comment1 that is ported over but does not have any thread
           // that has a comment that matches it
           portedComments,
-          {} /* ported drafts */
+          {} /* ported drafts */,
         );
 
         assert.equal(
           createCommentThreads(
-            changeComments.getAllCommentsForPath('karma.conf.js')
+            changeComments.getAllCommentsForPath('karma.conf.js'),
           ).length,
-          1
+          1,
         );
         assert.equal(
           changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'},
-            {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT}
+            {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT},
           ).length,
-          0
+          0,
         );
       });
 
@@ -248,12 +248,12 @@ suite('ChangeComments tests', () => {
               },
             ],
           },
-          {} /* ported drafts */
+          {} /* ported drafts */,
         );
 
         const portedThreads = changeComments._getPortedCommentThreads(
           {path: 'karma.conf.js'},
-          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT}
+          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT},
         );
         assert.equal(portedThreads.length, 1);
         assert.equal(portedThreads[0].line, 31);
@@ -264,9 +264,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 4 as RevisionPatchSetNum,
               basePatchNum: -2 as BasePatchSetNum,
-            }
+            },
           ).length,
-          0
+          0,
         );
 
         assert.equal(
@@ -275,9 +275,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 4 as RevisionPatchSetNum,
               basePatchNum: 2 as BasePatchSetNum,
-            }
+            },
           ).length,
-          0
+          0,
         );
       });
 
@@ -302,12 +302,12 @@ suite('ChangeComments tests', () => {
               },
             ],
           },
-          {} /* ported drafts */
+          {} /* ported drafts */,
         );
 
         const portedThreads = changeComments._getPortedCommentThreads(
           {path: 'karma.conf.js'},
-          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT}
+          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT},
         );
         assert.equal(portedThreads.length, 0);
 
@@ -317,9 +317,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 4 as RevisionPatchSetNum,
               basePatchNum: -2 as BasePatchSetNum,
-            }
+            },
           ).length,
-          0
+          0,
         );
 
         assert.equal(
@@ -328,9 +328,9 @@ suite('ChangeComments tests', () => {
             {
               patchNum: 4 as RevisionPatchSetNum,
               basePatchNum: 2 as BasePatchSetNum,
-            }
+            },
           ).length,
-          0
+          0,
         );
       });
 
@@ -340,9 +340,9 @@ suite('ChangeComments tests', () => {
           changeComments.computeCommentsString(
             {basePatchNum: PARENT, patchNum: 2 as RevisionPatchSetNum},
             'karma.conf.js',
-            fileInfo
+            fileInfo,
           ),
-          '2 comments (1 unresolved)'
+          '2 comments (1 unresolved)',
         );
 
         // comment1 is ported over to patchset 4
@@ -350,9 +350,9 @@ suite('ChangeComments tests', () => {
           changeComments.computeCommentsString(
             {basePatchNum: PARENT, patchNum: 4 as RevisionPatchSetNum},
             'karma.conf.js',
-            fileInfo
+            fileInfo,
           ),
-          '1 comment (1 unresolved)'
+          '1 comment (1 unresolved)',
         );
       });
 
@@ -381,12 +381,12 @@ suite('ChangeComments tests', () => {
                 patch_set: 4 as RevisionPatchSetNum,
               },
             ],
-          }
+          },
         );
 
         const portedThreads = changeComments._getPortedCommentThreads(
           {path: 'karma.conf.js'},
-          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT}
+          {patchNum: 4 as RevisionPatchSetNum, basePatchNum: PARENT},
         );
 
         // resolved draft is ported over
@@ -402,9 +402,9 @@ suite('ChangeComments tests', () => {
 
         assert.equal(
           createCommentThreads(
-            changeComments.getAllCommentsForPath('karma.conf.js')
+            changeComments.getAllCommentsForPath('karma.conf.js'),
           ).length,
-          0
+          0,
         );
       });
     });
@@ -609,7 +609,7 @@ suite('ChangeComments tests', () => {
           robotComments,
           drafts,
           {} /* portedComments */,
-          {} /* portedDrafts */
+          {} /* portedDrafts */,
         );
       });
 
@@ -652,33 +652,33 @@ suite('ChangeComments tests', () => {
         let comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
-          0
+          0,
         );
         assert.equal(
           comments.filter(c => isInRevisionOfPatchRange(c, patchRange)).length,
-          0
+          0,
         );
 
         path = 'file/2';
         comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
-          0
+          0,
         );
         assert.equal(
           comments.filter(c => isInRevisionOfPatchRange(c, patchRange)).length,
-          2
+          2,
         );
 
         patchRange.basePatchNum = 2 as BasePatchSetNum;
         comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
-          1
+          1,
         );
         assert.equal(
           comments.filter(c => isInRevisionOfPatchRange(c, patchRange)).length,
-          2
+          2,
         );
 
         patchRange.basePatchNum = PARENT;
@@ -686,11 +686,11 @@ suite('ChangeComments tests', () => {
         comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
-          0
+          0,
         );
         assert.equal(
           comments.filter(c => isInRevisionOfPatchRange(c, patchRange)).length,
-          1
+          1,
         );
       });
 
@@ -703,7 +703,7 @@ suite('ChangeComments tests', () => {
         assert.equal(comments.length, 1);
         const aCopyOfComments = changeComments.getAllCommentsForPath(
           path,
-          2 as PatchSetNum
+          2 as PatchSetNum,
         );
         assert.deepEqual(comments, aCopyOfComments);
         assert.notEqual(comments[0], aCopyOfComments[0]);
@@ -721,21 +721,21 @@ suite('ChangeComments tests', () => {
             patchNum: 2 as PatchSetNum,
             path: 'file/1',
           }),
-          0
+          0,
         );
         assert.equal(
           changeComments.computeUnresolvedNum({
             patchNum: 1 as PatchSetNum,
             path: 'file/1',
           }),
-          0
+          0,
         );
         assert.equal(
           changeComments.computeUnresolvedNum({
             patchNum: 2 as PatchSetNum,
             path: 'file/3',
           }),
-          1
+          1,
         );
       });
 
@@ -775,9 +775,9 @@ suite('ChangeComments tests', () => {
         assert.equal(
           changeComments.computeUnresolvedNum(
             {patchNum: 1 as PatchSetNum},
-            true
+            true,
           ),
-          0
+          0,
         );
       });
 
@@ -801,112 +801,112 @@ suite('ChangeComments tests', () => {
           changeComments.computeCommentsString(
             parentTo1,
             '/COMMIT_MSG',
-            fileInfo
+            fileInfo,
           ),
-          '2 comments (1 unresolved)'
+          '2 comments (1 unresolved)',
         );
         assert.equal(
           changeComments.computeCommentsString(
             parentTo1,
             '/COMMIT_MSG',
             {...fileInfo, status: FileInfoStatus.UNMODIFIED},
-            true
+            true,
           ),
-          '2 comments (1 unresolved)(no changes)'
+          '2 comments (1 unresolved)(no changes)',
         );
         assert.equal(
           changeComments.computeCommentsString(_1To2, '/COMMIT_MSG', fileInfo),
-          '3 comments (1 unresolved)'
+          '3 comments (1 unresolved)',
         );
 
         assert.equal(
           changeComments.computeCommentsString(
             parentTo1,
             'myfile.txt',
-            fileInfo
+            fileInfo,
           ),
-          '1 comment'
+          '1 comment',
         );
         assert.equal(
           changeComments.computeCommentsString(_1To2, 'myfile.txt', fileInfo),
-          '3 comments'
+          '3 comments',
         );
 
         assert.equal(
           changeComments.computeCommentsString(
             parentTo1,
             'file_added_in_rev2.txt',
-            fileInfo
+            fileInfo,
           ),
-          ''
+          '',
         );
         assert.equal(
           changeComments.computeCommentsString(
             _1To2,
             'file_added_in_rev2.txt',
-            fileInfo
+            fileInfo,
           ),
-          ''
+          '',
         );
 
         assert.equal(
           changeComments.computeCommentsString(
             parentTo2,
             '/COMMIT_MSG',
-            fileInfo
+            fileInfo,
           ),
 
-          '1 comment'
+          '1 comment',
         );
         assert.equal(
           changeComments.computeCommentsString(_1To2, '/COMMIT_MSG', fileInfo),
-          '3 comments (1 unresolved)'
+          '3 comments (1 unresolved)',
         );
 
         assert.equal(
           changeComments.computeCommentsString(
             parentTo2,
             'myfile.txt',
-            fileInfo
+            fileInfo,
           ),
-          '2 comments'
+          '2 comments',
         );
         assert.equal(
           changeComments.computeCommentsString(_1To2, 'myfile.txt', fileInfo),
-          '3 comments'
+          '3 comments',
         );
 
         assert.equal(
           changeComments.computeCommentsString(
             parentTo2,
             'file_added_in_rev2.txt',
-            fileInfo
+            fileInfo,
           ),
-          ''
+          '',
         );
         assert.equal(
           changeComments.computeCommentsString(
             _1To2,
             'file_added_in_rev2.txt',
-            fileInfo
+            fileInfo,
           ),
-          ''
+          '',
         );
         assert.equal(
           changeComments.computeCommentsString(
             parentTo2,
             'unresolved.file',
-            fileInfo
+            fileInfo,
           ),
-          '2 comments (1 unresolved)'
+          '2 comments (1 unresolved)',
         );
         assert.equal(
           changeComments.computeCommentsString(
             _1To2,
             'unresolved.file',
-            fileInfo
+            fileInfo,
           ),
-          '2 comments (1 unresolved)'
+          '2 comments (1 unresolved)',
         );
       });
 
@@ -916,21 +916,21 @@ suite('ChangeComments tests', () => {
             patchNum: 2 as PatchSetNum,
             path: 'file/1',
           }).length,
-          3
+          3,
         );
         assert.deepEqual(
           changeComments.computeCommentThreads({
             patchNum: 1 as PatchSetNum,
             path: 'file/1',
           }),
-          []
+          [],
         );
         assert.equal(
           changeComments.computeCommentThreads({
             patchNum: 2 as PatchSetNum,
             path: 'file/3',
           }).length,
-          1
+          1,
         );
       });
 
@@ -947,7 +947,7 @@ suite('ChangeComments tests', () => {
           changeComments.computeCommentThreads({
             path: 'file/4',
           }),
-          expectedThreads
+          expectedThreads,
         );
       });
 
@@ -957,21 +957,21 @@ suite('ChangeComments tests', () => {
             patchNum: 2 as PatchSetNum,
             path: 'file/1',
           }),
-          2
+          2,
         );
         assert.equal(
           changeComments.computeDraftCount({
             patchNum: 1 as PatchSetNum,
             path: 'file/1',
           }),
-          0
+          0,
         );
         assert.equal(
           changeComments.computeDraftCount({
             patchNum: 2 as PatchSetNum,
             path: 'file/3',
           }),
-          0
+          0,
         );
         assert.equal(changeComments.computeDraftCount(), 3);
       });
@@ -982,7 +982,7 @@ suite('ChangeComments tests', () => {
         assert.equal(Object.keys(publishedComments['file/1']).length, 4);
         assert.equal(Object.keys(publishedComments['file/2']).length, 2);
         publishedComments = changeComments.getAllPublishedComments(
-          2 as PatchSetNum
+          2 as PatchSetNum,
         );
         assert.equal(Object.keys(publishedComments['file/1']).length, 4);
         assert.equal(Object.keys(publishedComments['file/2']).length, 1);
@@ -1054,7 +1054,7 @@ suite('ChangeComments tests', () => {
         const threads = changeComments.getAllThreadsForChange();
         assert.deepEqual(
           threads.map(t => t.rootId),
-          expectedThreads.map(t => t.rootId)
+          expectedThreads.map(t => t.rootId),
         );
         assert.deepEqual(threads, expectedThreads);
       });

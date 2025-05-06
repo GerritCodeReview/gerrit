@@ -34,7 +34,7 @@ suite('gr-linked-chip tests', () => {
         >
           <gr-icon icon="close"></gr-icon>
         </gr-button>
-      </div>`
+      </div>`,
     );
   });
 

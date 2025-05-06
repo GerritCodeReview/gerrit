@@ -40,7 +40,7 @@ export class GrServerInfo extends LitElement {
       () => this.getConfigModel().serverConfig$,
       serverInfo => {
         this.serverInfo = serverInfo;
-      }
+      },
     );
   }
 
@@ -89,7 +89,7 @@ export class GrServerInfo extends LitElement {
     return html`
       <tbody>
         ${map(this.getServerInfoAsMetadataInfos(), metadata =>
-          this.renderServerInfo(metadata)
+          this.renderServerInfo(metadata),
         )}
       </tbody>
     `;

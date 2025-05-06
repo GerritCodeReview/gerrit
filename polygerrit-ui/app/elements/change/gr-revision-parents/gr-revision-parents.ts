@@ -51,22 +51,22 @@ export class GrRevisionParents extends LitElement {
       x => {
         if (x?._number === EDIT) x = undefined;
         this.revision = x as RevisionInfo | undefined;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().repo$,
-      x => (this.repo = x)
+      x => (this.repo = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().baseRevision$,
-      x => (this.baseRevision = x)
+      x => (this.baseRevision = x),
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      x => (this.docsBaseUrl = x)
+      x => (this.docsBaseUrl = x),
     );
   }
 
@@ -169,7 +169,7 @@ export class GrRevisionParents extends LitElement {
           'warning',
           html`
             Patchset ${psLeft} and ${psRight} are targeting different branches.
-          `
+          `,
         )}
       `;
     }
@@ -194,7 +194,7 @@ export class GrRevisionParents extends LitElement {
           html`
             Patchset ${weirdPs} based on a commit that neither exists in its
             target branch, nor is it a commit of another active change.
-          `
+          `,
         )}
       `;
     }
@@ -215,7 +215,7 @@ export class GrRevisionParents extends LitElement {
             patchset ${this.renderPatchsetLink(changeNumLeft, changePsRight)} of
             change ${this.renderChangeLink(changeNumLeft)}
             ${when(isMergedRight, () => html` (MERGED)`)}.
-          `
+          `,
         )}
       `;
     }
@@ -229,7 +229,7 @@ export class GrRevisionParents extends LitElement {
             The change was rebased from
             ${this.renderCommitLink(parentCommitLeft, false)} onto
             ${this.renderCommitLink(parentCommitRight, false)}.
-          `
+          `,
         )}
       `;
     }
@@ -239,8 +239,8 @@ export class GrRevisionParents extends LitElement {
     return this.renderWarning(
       'warning',
       html`${this.renderInfo(this.baseRevision)}<br />${this.renderInfo(
-          this.revision
-        )}`
+          this.revision,
+        )}`,
     );
   }
 
@@ -284,11 +284,11 @@ export class GrRevisionParents extends LitElement {
                 <a
                   href=${getDocUrl(
                     this.docsBaseUrl,
-                    'user-review-ui.html#hazardous-rebases'
+                    'user-review-ui.html#hazardous-rebases',
                   )}
                   >Learn more</a
                 >
-              `
+              `,
             )}
           </p>
           ${when(
@@ -301,7 +301,7 @@ export class GrRevisionParents extends LitElement {
                   >${this.showDetails ? 'Hide' : 'Show'} details</gr-button
                 >
               </p>
-            `
+            `,
           )}
         </div>
       </div>
@@ -321,12 +321,12 @@ export class GrRevisionParents extends LitElement {
           ${this.renderSection(
             this.baseRevision,
             parentLeft,
-            parentLeft.change_number === parentRight.change_number
+            parentLeft.change_number === parentRight.change_number,
           )}
           ${this.renderSection(
             this.revision,
             parentRight,
-            parentLeft.change_number === parentRight.change_number
+            parentLeft.change_number === parentRight.change_number,
           )}
         </div>
       </div>
@@ -349,7 +349,7 @@ export class GrRevisionParents extends LitElement {
 
   private renderPatchsetLink(
     changeNum: NumericChangeId,
-    patchNum?: PatchSetNumber
+    patchNum?: PatchSetNumber,
   ) {
     if (!patchNum) return;
     return html`
@@ -367,7 +367,7 @@ export class GrRevisionParents extends LitElement {
   private renderSection(
     revision: RevisionInfo,
     parent: ParentInfo,
-    sameChange: boolean
+    sameChange: boolean,
   ) {
     const ps = revision._number;
     const commit = parent.commit_id;
@@ -393,7 +393,7 @@ export class GrRevisionParents extends LitElement {
                 target branch.</span
               >
             </div>
-          `
+          `,
         )}
         ${when(
           changeNum && (sameChange || !isMerged),
@@ -403,7 +403,7 @@ export class GrRevisionParents extends LitElement {
               ${this.renderPatchsetLink(changeNum, changePs)}
               ${when(isMerged, () => html`(MERGED)`)}
             </div>
-          `
+          `,
         )}
       </div>
     `;

@@ -209,7 +209,7 @@ export class GrAccountChip extends LitElement {
     return this.restApiService
       .getConfig()
       .then(cfg =>
-        Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars))
+        Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars)),
       );
   }
 

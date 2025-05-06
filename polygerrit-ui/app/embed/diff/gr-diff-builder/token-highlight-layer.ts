@@ -108,7 +108,7 @@ export class TokenHighlightLayer implements DiffLayer {
   constructor(
     container: HTMLElement,
     tokenHighlightListener?: TokenHighlightListener,
-    getTokenQueryContainer?: () => HTMLElement
+    getTokenQueryContainer?: () => HTMLElement,
   ) {
     this.tokenHighlightListener = tokenHighlightListener;
     container.addEventListener('click', e => {
@@ -150,7 +150,7 @@ export class TokenHighlightLayer implements DiffLayer {
         el,
         index,
         length,
-        `${textClass} ${indexClass} ${CSS_TOKEN} ${highlightTypeClass}`
+        `${textClass} ${indexClass} ${CSS_TOKEN} ${highlightTypeClass}`,
       );
       // We could try to detect whether we are re-rendering instead of initially
       // rendering the line. Then we would not have to call storeLineForToken()
@@ -173,7 +173,7 @@ export class TokenHighlightLayer implements DiffLayer {
   private storeElementsForToken(
     token: string,
     lineEl: HTMLElement,
-    cssClass: string
+    cssClass: string,
   ) {
     for (const el of lineEl.querySelectorAll(`.${cssClass}`)) {
       let tokenEls = this.tokenToElements.get(token);
@@ -222,7 +222,7 @@ export class TokenHighlightLayer implements DiffLayer {
       () => {
         this.updateTokenHighlight(newHighlight, line, element);
       },
-      HOVER_DELAY_MS
+      HOVER_DELAY_MS,
     );
   }
 
@@ -255,7 +255,7 @@ export class TokenHighlightLayer implements DiffLayer {
       return {line: 0, token: undefined, element: undefined};
     if (el.classList.contains(CSS_TOKEN)) {
       const tkTextClass = [...el.classList].find(c =>
-        c.startsWith(TOKEN_TEXT_PREFIX)
+        c.startsWith(TOKEN_TEXT_PREFIX),
       );
       const line = lineNumberToNumber(getLineNumberByChild(el));
       if (!line || !tkTextClass)
@@ -274,7 +274,7 @@ export class TokenHighlightLayer implements DiffLayer {
   private updateTokenHighlight(
     newHighlight: string | undefined,
     newLineNumber: number,
-    newHoveredElement: Element | undefined
+    newHoveredElement: Element | undefined,
   ) {
     if (
       this.currentHighlight === newHighlight &&
@@ -288,7 +288,7 @@ export class TokenHighlightLayer implements DiffLayer {
     this.triggerTokenHighlightEvent(
       newHighlight,
       newLineNumber,
-      newHoveredElement
+      newHoveredElement,
     );
     this.toggleTokenHighlight(oldHighlight, CSS_HIGHLIGHT);
     this.toggleTokenHighlight(newHighlight, CSS_HIGHLIGHT);
@@ -302,7 +302,7 @@ export class TokenHighlightLayer implements DiffLayer {
     let tokenElsLength;
     if (this.getTokenQueryContainer) {
       tokenEls = this.getTokenQueryContainer().querySelectorAll(
-        `.${TOKEN_TEXT_PREFIX}${token}`
+        `.${TOKEN_TEXT_PREFIX}${token}`,
       );
       tokenElsLength = tokenEls.length;
     } else {
@@ -321,7 +321,7 @@ export class TokenHighlightLayer implements DiffLayer {
   triggerTokenHighlightEvent(
     token: string | undefined,
     line: number,
-    element: Element | undefined
+    element: Element | undefined,
   ) {
     if (!this.tokenHighlightListener) {
       return;

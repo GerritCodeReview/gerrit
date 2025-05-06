@@ -54,7 +54,7 @@ suite('gr-list-view tests', () => {
             <gr-icon icon="chevron_right"></gr-icon>
           </a>
         </nav>
-      `
+      `,
     );
   });
 
@@ -68,12 +68,12 @@ suite('gr-list-view tests', () => {
 
     assert.equal(
       element.computeNavLink(1),
-      '/base/admin/projects/q/filter:test,50'
+      '/base/admin/projects/q/filter:test,50',
     );
 
     assert.equal(
       element.computeNavLink(-1),
-      '/base/admin/projects/q/filter:test'
+      '/base/admin/projects/q/filter:test',
     );
 
     element.filter = undefined;
@@ -84,7 +84,7 @@ suite('gr-list-view tests', () => {
     element.filter = 'plugins/';
     assert.equal(
       element.computeNavLink(1),
-      '/base/admin/projects/q/filter:plugins/,50'
+      '/base/admin/projects/q/filter:plugins/,50',
     );
   });
 
@@ -133,8 +133,8 @@ suite('gr-list-view tests', () => {
     await element.updateComplete;
     assert.isTrue(
       queryAndAssert<HTMLAnchorElement>(element, '#prevArrow').hasAttribute(
-        'hidden'
-      )
+        'hidden',
+      ),
     );
 
     element.loading = false;
@@ -142,8 +142,8 @@ suite('gr-list-view tests', () => {
     await element.updateComplete;
     assert.isTrue(
       queryAndAssert<HTMLAnchorElement>(element, '#prevArrow').hasAttribute(
-        'hidden'
-      )
+        'hidden',
+      ),
     );
 
     element.loading = false;
@@ -151,8 +151,8 @@ suite('gr-list-view tests', () => {
     await element.updateComplete;
     assert.isFalse(
       queryAndAssert<HTMLAnchorElement>(element, '#prevArrow').hasAttribute(
-        'hidden'
-      )
+        'hidden',
+      ),
     );
   });
 
@@ -160,16 +160,16 @@ suite('gr-list-view tests', () => {
     assert.isFalse(
       queryAndAssert<HTMLDivElement>(
         element,
-        '#createNewContainer'
-      ).classList.contains('show')
+        '#createNewContainer',
+      ).classList.contains('show'),
     );
     element.createNew = true;
     await element.updateComplete;
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(
         element,
-        '#createNewContainer'
-      ).classList.contains('show')
+        '#createNewContainer',
+      ).classList.contains('show'),
     );
   });
 
@@ -197,7 +197,7 @@ suite('gr-list-view tests', () => {
         <a hidden="" href="${BRANCHES_PATH}" id="prevArrow">
           <gr-icon icon="chevron_left"> </gr-icon>
         </a>
-      `
+      `,
     );
 
     element.path = TAGS_PATH;
@@ -209,7 +209,7 @@ suite('gr-list-view tests', () => {
         <a hidden="" href="${TAGS_PATH}" id="prevArrow">
           <gr-icon icon="chevron_left"> </gr-icon>
         </a>
-      `
+      `,
     );
   });
 

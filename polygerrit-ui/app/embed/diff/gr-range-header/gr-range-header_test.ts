@@ -13,7 +13,7 @@ suite('gr-range-header test', () => {
 
   setup(async () => {
     element = await fixture<GrRangeHeader>(
-      html`<gr-range-header></gr-range-header>`
+      html`<gr-range-header></gr-range-header>`,
     );
     await element.updateComplete;
   });
@@ -34,7 +34,7 @@ suite('gr-range-header test', () => {
           ></gr-icon>
           <slot></slot>
         </div>
-      `
+      `,
     );
   });
 });

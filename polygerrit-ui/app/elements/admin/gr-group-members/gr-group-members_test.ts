@@ -349,7 +349,7 @@ suite('gr-group-members tests', () => {
           <gr-confirm-delete-item-dialog class="confirmDialog">
           </gr-confirm-delete-item-dialog>
         </dialog>
-      `
+      `,
     );
   });
 
@@ -357,15 +357,15 @@ suite('gr-group-members tests', () => {
     assert.equal(element.includedGroups!.length, 3);
     assert.equal(
       queryAll<HTMLAnchorElement>(element, '.nameColumn a')[0].href,
-      includedGroups[0].url
+      includedGroups[0].url,
     );
     assert.equal(
       queryAll<HTMLAnchorElement>(element, '.nameColumn a')[1].href,
-      'https://test/site/group/url'
+      'https://test/site/group/url',
     );
     assert.equal(
       queryAll<HTMLAnchorElement>(element, '.nameColumn a')[2].href,
-      'https://test/site/group/url'
+      'https://test/site/group/url',
     );
   });
 
@@ -375,7 +375,7 @@ suite('gr-group-members tests', () => {
     const memberName = 'test-admin';
 
     const saveStub = stubRestApi('saveGroupMember').callsFake(() =>
-      Promise.resolve({})
+      Promise.resolve({}),
     );
 
     const button = queryAndAssert<GrButton>(element, '#saveGroupMember');
@@ -384,7 +384,7 @@ suite('gr-group-members tests', () => {
 
     const groupMemberSearchInput = queryAndAssert<GrAutocomplete>(
       element,
-      '#groupMemberSearchInput'
+      '#groupMemberSearchInput',
     );
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
@@ -396,8 +396,8 @@ suite('gr-group-members tests', () => {
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
           element,
-          '#Title'
-        ).classList.contains('edited')
+          '#Title',
+        ).classList.contains('edited'),
       );
       assert.equal(saveStub.lastCall.args[0], 'Administrators');
       assert.equal(saveStub.lastCall.args[1], 1234);
@@ -410,7 +410,7 @@ suite('gr-group-members tests', () => {
     const includedGroupName = 'testName';
 
     const saveIncludedGroupStub = stubRestApi('saveIncludedGroup').callsFake(
-      () => Promise.resolve({id: '0' as GroupId})
+      () => Promise.resolve({id: '0' as GroupId}),
     );
 
     const button = queryAndAssert<GrButton>(element, '#saveIncludedGroups');
@@ -419,7 +419,7 @@ suite('gr-group-members tests', () => {
 
     const includedGroupSearchInput = queryAndAssert<GrAutocomplete>(
       element,
-      '#includedGroupSearchInput'
+      '#includedGroupSearchInput',
     );
     includedGroupSearchInput.text = includedGroupName;
     includedGroupSearchInput.value = 'testId';
@@ -431,8 +431,8 @@ suite('gr-group-members tests', () => {
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
           element,
-          '#Title'
-        ).classList.contains('edited')
+          '#Title',
+        ).classList.contains('edited'),
       );
       assert.equal(saveIncludedGroupStub.lastCall.args[0], 'Administrators');
       assert.equal(saveIncludedGroupStub.lastCall.args[1], 'testId');
@@ -458,7 +458,7 @@ suite('gr-group-members tests', () => {
 
     const groupMemberSearchInput = queryAndAssert<GrAutocomplete>(
       element,
-      '#groupMemberSearchInput'
+      '#groupMemberSearchInput',
     );
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
@@ -476,7 +476,7 @@ suite('gr-group-members tests', () => {
 
     const groupMemberSearchInput = queryAndAssert<GrAutocomplete>(
       element,
-      '#groupMemberSearchInput'
+      '#groupMemberSearchInput',
     );
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
@@ -493,7 +493,7 @@ suite('gr-group-members tests', () => {
   test('getAccountSuggestions empty', async () => {
     const accounts = await element.getAccountSuggestions(
       'nonexistent',
-      createServerInfo()
+      createServerInfo(),
     );
     assert.equal(accounts.length, 0);
   });
@@ -501,12 +501,12 @@ suite('gr-group-members tests', () => {
   test('getAccountSuggestions non-empty', async () => {
     const accounts = await element.getAccountSuggestions(
       'test-',
-      createServerInfo()
+      createServerInfo(),
     );
     assert.equal(accounts.length, 3);
     assert.equal(
       accounts[0].name,
-      'display-test-account <test.account@example.com>'
+      'display-test-account <test.account@example.com>',
     );
     assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
     assert.equal(accounts[2].name, 'test-git');
@@ -551,7 +551,7 @@ suite('gr-group-members tests', () => {
   test('delete included groups', () => {
     const deleteBtns = queryAll<GrButton>(
       element,
-      '.deleteIncludedGroupButton'
+      '.deleteIncludedGroupButton',
     );
     deleteBtns[0].click();
     assert.equal(element.itemId, 'testId' as GroupId);
@@ -575,7 +575,7 @@ suite('gr-group-members tests', () => {
     assert.equal(
       element.computeGroupUrl(url),
       'https://test/site/admin/groups/' +
-        'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498'
+        'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498',
     );
 
     url =
@@ -610,7 +610,7 @@ suite('gr-group-members tests', () => {
     assert.equal(element.computeItemTypeName(ItemType.MEMBER), 'Member');
     assert.equal(
       element.computeItemTypeName(ItemType.INCLUDED_GROUP),
-      'Included Group'
+      'Included Group',
     );
   });
 });

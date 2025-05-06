@@ -92,7 +92,7 @@ suite('gr-repo-detail-list', () => {
 
     setup(async () => {
       element = await fixture(
-        html`<gr-repo-detail-list></gr-repo-detail-list>`
+        html`<gr-repo-detail-list></gr-repo-detail-list>`,
       );
       element.detailType = RepoDetailView.BRANCHES;
       sinon.stub(testResolver(navigationToken), 'setUrl');
@@ -1875,7 +1875,7 @@ suite('gr-repo-detail-list', () => {
                 </div>
               </gr-dialog>
             </dialog>
-          `
+          `,
         );
       });
 
@@ -1886,14 +1886,14 @@ suite('gr-repo-detail-list', () => {
       test('test for web links in the branches list', () => {
         assert.equal(
           element.items![3].web_links![0].url,
-          'https://git.example.org/branch/test;refs/heads/test2'
+          'https://git.example.org/branch/test;refs/heads/test2',
         );
       });
 
       test('test for refs/heads/ being striped from ref', () => {
         assert.equal(
           element.stripRefs(element.items![3].ref, element.detailType),
-          'test2'
+          'test2',
         );
       });
 
@@ -1924,21 +1924,21 @@ suite('gr-repo-detail-list', () => {
               } as RepoAccessGroups,
               config_web_links: [{name: 'gitiles', url: 'test'}],
             },
-          } as RepoAccessInfoMap)
+          } as RepoAccessInfoMap),
         );
         await element.determineIfOwner('test' as RepoName);
         assert.equal(element.isOwner, false);
         assert.equal(
           getComputedStyle(
-            queryAndAssert<HTMLSpanElement>(element, '.revisionNoEditing')
+            queryAndAssert<HTMLSpanElement>(element, '.revisionNoEditing'),
           ).display,
-          'inline'
+          'inline',
         );
         assert.equal(
           getComputedStyle(
-            queryAndAssert<HTMLSpanElement>(element, '.revisionEdit')
+            queryAndAssert<HTMLSpanElement>(element, '.revisionEdit'),
           ).display,
-          'none'
+          'none',
         );
       });
 
@@ -1948,11 +1948,11 @@ suite('gr-repo-detail-list', () => {
         const editBtn = queryAndAssert<GrButton>(element, '.editBtn');
         const revisionNoEditing = queryAndAssert<HTMLSpanElement>(
           element,
-          '.revisionNoEditing'
+          '.revisionNoEditing',
         );
         const revisionWithEditing = queryAndAssert<HTMLSpanElement>(
           element,
-          '.revisionWithEditing'
+          '.revisionWithEditing',
         );
 
         sinon.stub(element, 'getLoggedIn').returns(Promise.resolve(true));
@@ -1978,11 +1978,11 @@ suite('gr-repo-detail-list', () => {
               } as RepoAccessGroups,
               config_web_links: [{name: 'gitiles', url: 'test'}],
             },
-          } as RepoAccessInfoMap)
+          } as RepoAccessInfoMap),
         );
         const handleSaveRevisionStub = sinon.stub(
           element,
-          'handleSaveRevision'
+          'handleSaveRevision',
         );
         await element.determineIfOwner('test' as RepoName);
         assert.equal(element.isOwner, true);
@@ -1992,9 +1992,9 @@ suite('gr-repo-detail-list', () => {
         // The revision container for editing enabled row is visible.
         assert.notEqual(
           getComputedStyle(
-            queryAndAssert<HTMLSpanElement>(element, '.revisionEdit')
+            queryAndAssert<HTMLSpanElement>(element, '.revisionEdit'),
           ).display,
-          'none'
+          'none',
         );
 
         // The revision and Edit button are visible.
@@ -2004,7 +2004,7 @@ suite('gr-repo-detail-list', () => {
         // The input, cancel, and save buttons are not visible.
         const hiddenElements = queryAll<HTMLTableElement>(
           element,
-          '.canEdit .editItem'
+          '.canEdit .editItem',
         );
 
         for (const item of hiddenElements) {
@@ -2062,7 +2062,7 @@ suite('gr-repo-detail-list', () => {
         stubRestApi('setRepoHead').returns(
           Promise.resolve({
             status: 400,
-          } as Response)
+          } as Response),
         );
 
         await element.setRepoHead('test' as RepoName, 'newRef' as GitRef, 1);
@@ -2074,7 +2074,7 @@ suite('gr-repo-detail-list', () => {
         stubRestApi('setRepoHead').returns(
           Promise.resolve({
             status: 200,
-          } as Response)
+          } as Response),
         );
 
         await element.setRepoHead('test' as RepoName, 'newRef' as GitRef, 1);
@@ -2084,7 +2084,7 @@ suite('gr-repo-detail-list', () => {
       test('test computeItemName', () => {
         assert.deepEqual(
           element.computeItemName(RepoDetailView.BRANCHES),
-          'Branch'
+          'Branch',
         );
         assert.deepEqual(element.computeItemName(RepoDetailView.TAGS), 'Tag');
       });
@@ -2113,7 +2113,7 @@ suite('gr-repo-detail-list', () => {
     suite('filter', () => {
       test('paramsChanged', async () => {
         const stub = stubRestApi('getRepoBranches').returns(
-          Promise.resolve(branches)
+          Promise.resolve(branches),
         );
         element.params = {
           view: GerritView.REPO,
@@ -2139,7 +2139,7 @@ suite('gr-repo-detail-list', () => {
               errFn(response);
             }
             return Promise.resolve([]);
-          }
+          },
         );
 
         const promise = mockPromise();
@@ -2167,7 +2167,7 @@ suite('gr-repo-detail-list', () => {
 
     setup(async () => {
       element = await fixture(
-        html`<gr-repo-detail-list></gr-repo-detail-list>`
+        html`<gr-repo-detail-list></gr-repo-detail-list>`,
       );
       element.detailType = RepoDetailView.TAGS;
       sinon.stub(testResolver(navigationToken), 'setUrl');
@@ -2193,7 +2193,7 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('test for tag message in the list', async () => {
-        assert.equal((element.items as TagInfo[])![2].message, 'Annotated tag');
+        assert.equal((element.items as TagInfo[])[2].message, 'Annotated tag');
       });
 
       test('test for tagger in the tag list', async () => {
@@ -2203,20 +2203,20 @@ suite('gr-repo-detail-list', () => {
           date: '2017-09-19 14:54:00.000000000' as Timestamp,
         };
 
-        assert.deepEqual((element.items as TagInfo[])![2].tagger, tagger);
+        assert.deepEqual((element.items as TagInfo[])[2].tagger, tagger);
       });
 
       test('test for web links in the tags list', async () => {
         assert.equal(
           element.items![2].web_links![0].url,
-          'https://git.example.org/tag/test;refs/tags/test2'
+          'https://git.example.org/tag/test;refs/tags/test2',
         );
       });
 
       test('test for refs/tags/ being striped from ref', async () => {
         assert.equal(
           element.stripRefs(element.items![2].ref, element.detailType),
-          'test2'
+          'test2',
         );
       });
 
@@ -2283,13 +2283,13 @@ suite('gr-repo-detail-list', () => {
       test('handleCreateClicked called when create-click fired', () => {
         const handleCreateClickedStub = sinon.stub(
           element,
-          'handleCreateClicked'
+          'handleCreateClicked',
         );
         queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
           new CustomEvent('create-clicked', {
             composed: true,
             bubbles: true,
-          })
+          }),
         );
         assert.isTrue(handleCreateClickedStub.called);
       });
@@ -2298,7 +2298,7 @@ suite('gr-repo-detail-list', () => {
         queryAndAssert<HTMLDialogElement>(element, '#createModal');
         const openStub = sinon.stub(
           queryAndAssert<HTMLDialogElement>(element, '#createModal'),
-          'showModal'
+          'showModal',
         );
         element.handleCreateClicked();
         assert.isTrue(openStub.called);
@@ -2310,7 +2310,7 @@ suite('gr-repo-detail-list', () => {
           new CustomEvent('confirm', {
             composed: true,
             bubbles: true,
-          })
+          }),
         );
         assert.isTrue(handleCreateItemStub.called);
       });
@@ -2321,7 +2321,7 @@ suite('gr-repo-detail-list', () => {
           new CustomEvent('cancel', {
             composed: true,
             bubbles: true,
-          })
+          }),
         );
         assert.isTrue(handleCloseCreateStub.called);
       });
@@ -2336,7 +2336,7 @@ suite('gr-repo-detail-list', () => {
               errFn(response);
             }
             return Promise.resolve([]);
-          }
+          },
         );
 
         const promise = mockPromise();

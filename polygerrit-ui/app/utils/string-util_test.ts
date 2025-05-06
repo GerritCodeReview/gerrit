@@ -79,7 +79,7 @@ suite('string-util tests', () => {
         matchingFolders: '',
         newFolders: 'some/new/path/to/',
         fileName: 'foo.js',
-      }
+      },
     );
     // some folders match
     assert.deepStrictEqual(diffFilePaths(path, 'some/other/path/to/bar.js'), {
@@ -98,7 +98,7 @@ suite('string-util tests', () => {
   test('escapeAndWrapSearchOperatorValue', () => {
     assert.equal(
       escapeAndWrapSearchOperatorValue('"value of \\: \\"something"'),
-      '"\\"value of \\\\: \\\\\\"something\\""'
+      '"\\"value of \\\\: \\\\\\"something\\""',
     );
   });
 });

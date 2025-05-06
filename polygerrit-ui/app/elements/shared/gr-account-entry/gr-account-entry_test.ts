@@ -33,7 +33,7 @@ suite('gr-account-entry tests', () => {
           warn-uncommitted=""
         >
         </gr-autocomplete>
-      `
+      `,
     );
   });
 
@@ -65,7 +65,7 @@ suite('gr-account-entry tests', () => {
     // Stub on query, as that is called when _updateSuggestions proceeds.
     const suggestStub = sinon.stub(
       queryAndAssert<GrAutocomplete>(element, '#input'),
-      'query'
+      'query',
     );
     element.setText('test text');
     await element.updateComplete;
@@ -73,7 +73,7 @@ suite('gr-account-entry tests', () => {
     const input = queryAndAssert<GrAutocomplete>(element, '#input');
     assert.equal(
       queryAndAssert<PaperInputElement>(input, '#input').value,
-      'test text'
+      'test text',
     );
     assert.isFalse(suggestStub.called);
   });

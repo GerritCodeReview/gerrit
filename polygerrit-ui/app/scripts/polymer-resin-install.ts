@@ -8,7 +8,7 @@ import 'polymer-resin/standalone/polymer-resin';
 export type SafeTypeBridge = (
   value: unknown,
   type: string,
-  fallback: unknown
+  fallback: unknown,
 ) => unknown;
 
 export type ReportHandler = (
@@ -50,7 +50,7 @@ export const _testOnly_defaultResinReportHandler =
 
 export function installPolymerResin(
   safeTypesBridge: SafeTypeBridge,
-  reportHandler = security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER
+  reportHandler = security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
 ) {
   window.security.polymer_resin.install({
     allowedIdentifierPrefixes: [''],

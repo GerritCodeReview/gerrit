@@ -255,7 +255,7 @@ export class GrAccountLabel extends LitElement {
                 account,
                 change,
                 false,
-                this.selfAccount
+                this.selfAccount,
               )}
               title=${this.computeAttentionIconTitle(
                 highlightAttention,
@@ -263,7 +263,7 @@ export class GrAccountLabel extends LitElement {
                 change,
                 forceAttention,
                 this.selected,
-                this.selfAccount
+                this.selfAccount,
               )}
             >
               <gr-button
@@ -276,7 +276,7 @@ export class GrAccountLabel extends LitElement {
                   account,
                   change,
                   this.selected,
-                  this.selfAccount
+                  this.selfAccount,
                 )}
               >
                 <div>
@@ -322,12 +322,12 @@ export class GrAccountLabel extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      x => (this.config = x)
+      x => (this.config = x),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.selfAccount = x)
+      x => (this.selfAccount = x),
     );
     this.addEventListener('attention-set-updated', () => {
       // For re-evaluation of everything that depends on 'change'.
@@ -369,7 +369,7 @@ export class GrAccountLabel extends LitElement {
   private isAttentionSetEnabled(
     highlight: boolean,
     account: AccountInfo,
-    change?: ChangeInfo
+    change?: ChangeInfo,
   ) {
     return highlight && !!change && !!account && !isServiceUser(account);
   }
@@ -377,7 +377,7 @@ export class GrAccountLabel extends LitElement {
   private hasUnforcedAttention(
     highlight: boolean,
     account: AccountInfo,
-    change?: ChangeInfo
+    change?: ChangeInfo,
   ): boolean {
     return !!(
       this.isAttentionSetEnabled(highlight, account, change) &&
@@ -415,13 +415,13 @@ export class GrAccountLabel extends LitElement {
 
     this.reporting.reportInteraction(
       'attention-icon-remove',
-      this.reportingDetails()
+      this.reportingDetails(),
     );
     this.restApiService
       .removeFromAttentionSet(
         this.change._number,
         this.account._account_id,
-        reason
+        reason,
       )
       .then(() => {
         fire(this, 'hide-alert', {});
@@ -455,7 +455,7 @@ export class GrAccountLabel extends LitElement {
     account: AccountInfo,
     change: ChangeInfo | undefined,
     selected: boolean,
-    selfAccount?: AccountInfo
+    selfAccount?: AccountInfo,
   ) {
     if (selected) return true;
     return (
@@ -470,14 +470,14 @@ export class GrAccountLabel extends LitElement {
     change: ChangeInfo | undefined,
     force: boolean,
     selected: boolean,
-    selfAccount?: AccountInfo
+    selfAccount?: AccountInfo,
   ) {
     const enabled = this.computeAttentionButtonEnabled(
       highlight,
       account,
       change,
       selected,
-      selfAccount
+      selfAccount,
     );
     const removeFromASTooltip = `Click to remove ${
       account._account_id === selfAccount?._account_id ? 'yourself' : 'the user'

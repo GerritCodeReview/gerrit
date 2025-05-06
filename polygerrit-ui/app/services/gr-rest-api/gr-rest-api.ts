@@ -115,7 +115,7 @@ export interface GetDiffRobotCommentsOutput {
 export interface RestApiService extends Finalizable {
   getConfig(
     noCache?: boolean,
-    requestOrigin?: string
+    requestOrigin?: string,
   ): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;
@@ -129,7 +129,7 @@ export interface RestApiService extends Finalizable {
   getVersion(requestOrigin?: string): Promise<string | undefined>;
   getAccount(requestOrigin?: string): Promise<AccountDetailInfo | undefined>;
   getAccountCapabilities(
-    params?: string[]
+    params?: string[],
   ): Promise<AccountCapabilityInfo | undefined>;
   getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
   deleteAccountIdentity(id: string[]): Promise<Response>;
@@ -139,7 +139,7 @@ export interface RestApiService extends Finalizable {
     reposPerPage: number,
     offset?: number,
     errFn?: ErrorCallback,
-    requestOrigin?: string
+    requestOrigin?: string,
   ): Promise<ProjectInfoWithName[] | undefined>;
 
   send(
@@ -148,18 +148,18 @@ export interface RestApiService extends Finalizable {
     body?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string,
-    requestOrigin?: string
+    requestOrigin?: string,
   ): Promise<Response | void>;
 
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
     input: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
     input: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   /**
    * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
@@ -170,14 +170,14 @@ export interface RestApiService extends Finalizable {
     n?: number,
     canSee?: NumericChangeId,
     filterActive?: boolean,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<AccountInfo[] | undefined>;
   getAccountSuggestions(input: string): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
     project?: RepoName,
     n?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupNameToGroupInfoMap | undefined>;
   /**
    * Execute a change action or revision action on a change.
@@ -188,19 +188,19 @@ export interface RestApiService extends Finalizable {
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Response>;
   getRepoBranches(
     filter: string,
     repo: RepoName,
     reposBranchesPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<BranchInfo[] | undefined>;
 
   getChangeDetail(
     changeNum?: number | string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ParsedChangeInfo | undefined>;
 
   /**
@@ -214,11 +214,11 @@ export interface RestApiService extends Finalizable {
   getChange(
     changeNum: ChangeId | NumericChangeId,
     errFn?: ErrorCallback,
-    optionsHex?: string
+    optionsHex?: string,
   ): Promise<ChangeInfo | undefined>;
 
   savePreferences(
-    prefs: PreferencesInput
+    prefs: PreferencesInput,
   ): Promise<PreferencesInfo | undefined>;
 
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
@@ -232,7 +232,7 @@ export interface RestApiService extends Finalizable {
   getAccountEmails(): Promise<EmailInfo[] | undefined>;
   getAccountEmailsFor(
     email: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;
   setPreferredAccountEmail(email: string): Promise<void>;
@@ -244,13 +244,13 @@ export interface RestApiService extends Finalizable {
   createRepoBranch(
     name: RepoName,
     branch: BranchName,
-    revision: BranchInput
+    revision: BranchInput,
   ): Promise<Response>;
 
   createRepoTag(
     name: RepoName,
     tag: string,
-    revision: TagInput
+    revision: TagInput,
   ): Promise<Response>;
   addAccountGPGKey(key: GpgKeysInput): Promise<Record<string, GpgKeyInfo>>;
   deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
@@ -260,84 +260,84 @@ export interface RestApiService extends Finalizable {
   saveFileUploadChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    content: string
+    content: string,
   ): Promise<Response | undefined>;
 
   deleteFileInChangeEdit(
     changeNum: NumericChangeId,
-    path: string
+    path: string,
   ): Promise<Response | undefined>;
 
   restoreFileInChangeEdit(
     changeNum: NumericChangeId,
-    restore_path: string
+    restore_path: string,
   ): Promise<Response | undefined>;
 
   renameFileInChangeEdit(
     changeNum: NumericChangeId,
     old_path: string,
-    new_path: string
+    new_path: string,
   ): Promise<Response | undefined>;
 
   queryChangeFiles(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     query: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string[] | undefined>;
 
   getRepoSubmitRequirements(
     repoName: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<SubmitRequirementInfo[] | undefined>;
 
   getRepoAccessRights(
     repoName: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ProjectAccessInfo | undefined>;
 
   createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
 
   getRepo(
     repo: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ProjectInfo | undefined>;
 
   getRepoDashboards(
     repo: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<DashboardInfo[] | undefined>;
 
   getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined>;
 
   getProjectConfig(
     repo: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ConfigInfo | undefined>;
 
   getCapabilities(
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<CapabilityInfoMap | undefined>;
 
   setRepoAccessRights(
     repoName: RepoName,
-    repoInfo: ProjectAccessInput
+    repoInfo: ProjectAccessInput,
   ): Promise<Response>;
 
   setRepoAccessRightsForReview(
     projectName: RepoName,
-    projectInfo: ProjectAccessInput
+    projectInfo: ProjectAccessInput,
   ): Promise<ChangeInfo | undefined>;
 
   getGroups(
     filter: string,
     groupsPerPage: number,
-    offset?: number
+    offset?: number,
   ): Promise<GroupNameToGroupInfoMap | undefined>;
 
   getGroupConfig(
     group: GroupId | GroupName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupInfo | undefined>;
 
   getIsAdmin(): Promise<boolean | undefined>;
@@ -346,22 +346,22 @@ export interface RestApiService extends Finalizable {
 
   saveGroupName(
     groupId: GroupId | GroupName,
-    name: GroupName
+    name: GroupName,
   ): Promise<Response>;
 
   saveGroupOwner(
     groupId: GroupId | GroupName,
-    ownerId: string
+    ownerId: string,
   ): Promise<Response>;
 
   saveGroupDescription(
     groupId: GroupId,
-    description: string
+    description: string,
   ): Promise<Response>;
 
   saveGroupOptions(
     groupId: GroupId,
-    options: GroupOptionsInput
+    options: GroupOptionsInput,
   ): Promise<Response>;
 
   saveChangeReview(
@@ -369,7 +369,7 @@ export interface RestApiService extends Finalizable {
     patchNum: RevisionId,
     review: ReviewInput,
     errFn?: ErrorCallback,
-    fetch_detail?: boolean
+    fetch_detail?: boolean,
   ): Promise<ReviewResult | undefined>;
 
   getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined>;
@@ -377,7 +377,7 @@ export interface RestApiService extends Finalizable {
   getChangeActionURL(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum | undefined,
-    endpoint: string
+    endpoint: string,
   ): Promise<string>;
 
   createChange(
@@ -388,11 +388,11 @@ export interface RestApiService extends Finalizable {
     isPrivate?: boolean,
     workInProgress?: boolean,
     baseChange?: ChangeId,
-    baseCommit?: string
+    baseCommit?: string,
   ): Promise<ChangeInfo | undefined>;
 
   getChangeIncludedIn(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<IncludedInInfo | undefined>;
 
   /**
@@ -418,51 +418,51 @@ export interface RestApiService extends Finalizable {
   saveDiffDraft(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: CommentInput
+    draft: CommentInput,
   ): Promise<Response>;
 
   getPortedComments(
     changeNum: NumericChangeId,
-    revision: RevisionId
+    revision: RevisionId,
   ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   getPortedDrafts(
     changeNum: NumericChangeId,
-    revision: RevisionId
+    revision: RevisionId,
   ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   getDiffComments(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<{[path: string]: CommentInfo[]} | undefined>;
   getDiffComments(
     changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
-    path: string
+    path: string,
   ): Promise<GetDiffCommentsOutput>;
   getDiffComments(
     changeNum: NumericChangeId,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ):
     | Promise<{[path: string]: CommentInfo[]} | undefined>
     | Promise<GetDiffCommentsOutput>;
 
   getDiffRobotComments(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
   getDiffRobotComments(
     changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
-    path: string
+    path: string,
   ): Promise<GetDiffRobotCommentsOutput>;
   getDiffRobotComments(
     changeNum: NumericChangeId,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ):
     | Promise<GetDiffRobotCommentsOutput>
     | Promise<PathToRobotCommentsInfoMap | undefined>;
@@ -473,7 +473,7 @@ export interface RestApiService extends Finalizable {
    * empty object.
    */
   getDiffDrafts(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   createGroup(config: GroupInput & {name: string}): Promise<Response>;
@@ -482,12 +482,12 @@ export interface RestApiService extends Finalizable {
     filter: string,
     pluginsPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<{[pluginName: string]: PluginInfo} | undefined>;
 
   getDetailedChangesWithActions(
     changeNums: NumericChangeId[],
-    needsSubmitRequirements?: boolean
+    needsSubmitRequirements?: boolean,
   ): Promise<ChangeInfo[] | undefined>;
 
   getChanges(
@@ -495,19 +495,19 @@ export interface RestApiService extends Finalizable {
     query?: string,
     offset?: 'n,z' | number,
     options?: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo[] | undefined>;
   getChangesForDashboard(
     changesPerPage?: number,
     query?: string[],
     offset?: 'n,z' | number,
-    options?: string
+    options?: string,
   ): Promise<ChangeInfo[][] | undefined>;
   getChangesForMultipleQueries(
     changesPerPage?: number,
     query?: string[],
     offset?: 'n,z' | number,
-    options?: string
+    options?: string,
   ): Promise<ChangeInfo[][] | undefined>;
 
   getDocumentationSearches(filter: string): Promise<DocResult[] | undefined>;
@@ -521,7 +521,7 @@ export interface RestApiService extends Finalizable {
 
   getAccountDetails(
     userId: UserId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<AccountDetailInfo | undefined>;
 
   getAccountStatus(userId: AccountId): Promise<string | undefined>;
@@ -537,7 +537,7 @@ export interface RestApiService extends Finalizable {
   getWatchedProjects(): Promise<ProjectWatchInfo[] | undefined>;
 
   saveWatchedProjects(
-    projects: ProjectWatchInfo[]
+    projects: ProjectWatchInfo[],
   ): Promise<ProjectWatchInfo[] | undefined>;
 
   deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
@@ -545,7 +545,7 @@ export interface RestApiService extends Finalizable {
   getSuggestedRepos(
     inputVal: string,
     n?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<NameToProjectInfoMap | undefined>;
 
   invalidateGroupsCache(): void;
@@ -556,12 +556,12 @@ export interface RestApiService extends Finalizable {
   removeFromAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId,
-    reason: string
+    reason: string,
   ): Promise<Response>;
   addToAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId | undefined | null,
-    reason: string
+    reason: string,
   ): Promise<Response>;
   setAccountDisplayName(displayName: string): Promise<void>;
   setAccountStatus(status: string): Promise<void>;
@@ -569,86 +569,86 @@ export interface RestApiService extends Finalizable {
   setDescription(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    desc: string
+    desc: string,
   ): Promise<Response>;
   deleteVote(
     changeNum: NumericChangeId,
     account: AccountId,
-    label: string
+    label: string,
   ): Promise<Response>;
 
   deleteComment(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     commentID: UrlEncodedCommentId,
-    reason: string
+    reason: string,
   ): Promise<CommentInfo | undefined>;
   deleteDiffDraft(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: {id: UrlEncodedCommentId}
+    draft: {id: UrlEncodedCommentId},
   ): Promise<Response>;
 
   deleteChangeCommitMessage(
     changeNum: NumericChangeId,
-    messageId: ChangeMessageId
+    messageId: ChangeMessageId,
   ): Promise<Response>;
 
   removeChangeReviewer(
     changeNum: NumericChangeId,
-    reviewerID: AccountId | EmailAddress | GroupId
+    reviewerID: AccountId | EmailAddress | GroupId,
   ): Promise<Response | undefined>;
 
   getGroupAuditLog(
     group: EncodedGroupId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupAuditEventInfo[] | undefined>;
 
   getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]>;
 
   getIncludedGroup(
-    groupName: GroupId | GroupName
+    groupName: GroupId | GroupName,
   ): Promise<GroupInfo[] | undefined>;
 
   saveGroupMember(
     groupName: GroupId | GroupName,
-    groupMember: AccountId
+    groupMember: AccountId,
   ): Promise<AccountInfo | undefined>;
 
   saveIncludedGroup(
     groupName: GroupId | GroupName,
     includedGroup: GroupId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupInfo | undefined>;
 
   deleteGroupMember(
     groupName: GroupId | GroupName,
-    groupMember: AccountId
+    groupMember: AccountId,
   ): Promise<Response>;
 
   deleteIncludedGroup(
     groupName: GroupId | GroupName,
-    includedGroup: GroupId
+    includedGroup: GroupId,
   ): Promise<Response>;
 
   runRepoGC(repo: RepoName): Promise<Response>;
   getFileContent(
     changeNum: NumericChangeId,
     path: string,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<Response | Base64FileContent | undefined>;
 
   saveChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    contents: string
+    contents: string,
   ): Promise<Response>;
   getRepoTags(
     filter: string,
     repo: RepoName,
     reposTagsPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<TagInfo[]>;
 
   setRepoHead(repo: RepoName, ref: GitRef): Promise<Response>;
@@ -657,27 +657,27 @@ export interface RestApiService extends Finalizable {
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
   saveRepoConfigForReview(
     repo: RepoName,
-    config: ConfigInput
+    config: ConfigInput,
   ): Promise<ChangeInfo | undefined>;
 
   getRelatedChanges(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<RelatedChangesInfo | undefined>;
 
   getChangesSubmittedTogether(
     changeNum: NumericChangeId,
-    options?: string[]
+    options?: string[],
   ): Promise<SubmittedTogetherInfo | undefined>;
 
   getChangeConflicts(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<ChangeInfo[] | undefined>;
 
   getChangeCherryPicks(
     repo: RepoName,
     changeID: ChangeId,
-    branch: BranchName
+    branch: BranchName,
   ): Promise<ChangeInfo[] | undefined>;
 
   getChangesWithSameTopic(
@@ -685,15 +685,15 @@ export interface RestApiService extends Finalizable {
     options?: {
       openChangesOnly?: boolean;
       changeToExclude?: NumericChangeId;
-    }
+    },
   ): Promise<ChangeInfo[] | undefined>;
   getChangesWithSimilarTopic(
     topic: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo[] | undefined>;
   getChangesWithSimilarHashtag(
     hashtag: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo[] | undefined>;
 
   /**
@@ -714,7 +714,7 @@ export interface RestApiService extends Finalizable {
   getRobotCommentFixPreview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixId: FixId
+    fixId: FixId,
   ): Promise<FilePathToDiffInfoMap | undefined>;
 
   /**
@@ -725,7 +725,7 @@ export interface RestApiService extends Finalizable {
   getFixPreview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixReplacementInfos: FixReplacementInfo[]
+    fixReplacementInfos: FixReplacementInfo[],
   ): Promise<FilePathToDiffInfoMap | undefined>;
 
   /**
@@ -737,7 +737,7 @@ export interface RestApiService extends Finalizable {
     fixPatchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[],
     targetPatchNum?: PatchSetNum,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Response>;
 
   /**
@@ -747,7 +747,7 @@ export interface RestApiService extends Finalizable {
   applyRobotFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixId: string
+    fixId: string,
   ): Promise<Response>;
 
   /**
@@ -762,7 +762,7 @@ export interface RestApiService extends Finalizable {
     patchNum: PatchSetNum,
     path: string,
     whitespace?: IgnoreWhitespaceType,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<DiffInfo | undefined>;
 
   /**
@@ -775,18 +775,18 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
-    base?: boolean
+    base?: boolean,
   ): Promise<BlameInfo[] | undefined>;
 
   getImagesForDiff(
     changeNum: NumericChangeId,
     diff: DiffInfo,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<ImagesForDiff>;
 
   getChangeRevisionActions(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<ActionNameToActionInfoMap | undefined>;
 
   confirmEmail(token: string): Promise<string | null>;
@@ -797,7 +797,7 @@ export interface RestApiService extends Finalizable {
 
   saveChangeStarred(
     changeNum: NumericChangeId,
-    starred: boolean
+    starred: boolean,
   ): Promise<Response>;
 
   /**
@@ -807,7 +807,7 @@ export interface RestApiService extends Finalizable {
   getDashboard(
     repo: RepoName,
     dashboard: DashboardId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<DashboardInfo | undefined>;
 
   deleteDraftComments(query: string): Promise<Response>;
@@ -815,7 +815,7 @@ export interface RestApiService extends Finalizable {
   setChangeHashtag(
     changeNum: NumericChangeId,
     hashtag: HashtagsInput,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Hashtag[] | undefined>;
 
   /**
@@ -826,7 +826,7 @@ export interface RestApiService extends Finalizable {
   setChangeTopic(
     changeNum: NumericChangeId,
     topic?: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string | undefined>;
 
   /**
@@ -836,29 +836,29 @@ export interface RestApiService extends Finalizable {
    */
   removeChangeTopic(
     changeNum: NumericChangeId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string | undefined>;
 
   getChangeFiles(
     changeNum: NumericChangeId,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<FileNameToFileInfoMap | undefined>;
 
   getChangeOrEditFiles(
     changeNum: NumericChangeId,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<FileNameToFileInfoMap | undefined>;
 
   getReviewedFiles(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<string[] | undefined>;
 
   saveFileReviewed(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
-    reviewed: boolean
+    reviewed: boolean,
   ): Promise<Response>;
 
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined>;
@@ -868,22 +868,22 @@ export interface RestApiService extends Finalizable {
   putChangeCommitMessage(
     changeNum: NumericChangeId,
     message: string,
-    committerEmail: string | null
+    committerEmail: string | null,
   ): Promise<Response>;
 
   updateIdentityInChangeEdit(
     changeNum: NumericChangeId,
     name: string,
     email: string,
-    type: string
+    type: string,
   ): Promise<Response | undefined>;
 
   getChangeCommitInfo(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<CommitInfo | undefined>;
 
   getValidationOptions(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<ValidationOptionsInfo | undefined>;
 }

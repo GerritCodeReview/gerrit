@@ -197,7 +197,7 @@ export class GrRuleEditor extends LitElement {
           >
             <select ?disabled=${!this.editing}>
               ${this.computeOptions().map(
-                item => html` <option value=${item}>${item}</option> `
+                item => html` <option value=${item}>${item}</option> `,
               )}
             </select>
           </gr-select>
@@ -220,7 +220,7 @@ export class GrRuleEditor extends LitElement {
               ${this.computeForceOptions(this.rule?.value?.action).map(
                 item => html`
                   <option value=${item.value}>${item.name}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -264,7 +264,7 @@ export class GrRuleEditor extends LitElement {
       >
         <select ?disabled=${!this.editing}>
           ${this.label.values.map(
-            item => html` <option value=${item.value}>${item.value}</option> `
+            item => html` <option value=${item.value}>${item.value}</option> `,
           )}
         </select>
       </gr-select>
@@ -277,7 +277,7 @@ export class GrRuleEditor extends LitElement {
       >
         <select ?disabled=${!this.editing}>
           ${this.label.values.map(
-            item => html` <option value=${item.value}>${item.value}</option> `
+            item => html` <option value=${item.value}>${item.value}</option> `,
           )}
         </select>
       </gr-select>

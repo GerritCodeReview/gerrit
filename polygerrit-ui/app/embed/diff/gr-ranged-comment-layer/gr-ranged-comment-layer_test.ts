@@ -102,19 +102,19 @@ suite('gr-ranged-comment-layer', () => {
 
     function assertHasRange(
       commentRange: CommentRangeLayer,
-      hasRange: boolean
+      hasRange: boolean,
     ) {
       assertHasRangeOn(
         commentRange.side,
         commentRange.range.start_line,
-        hasRange
+        hasRange,
       );
     }
 
     function assertHasRangeOn(
       side: Side,
       lineNumber: number,
-      hasRange: boolean
+      hasRange: boolean,
     ) {
       line = new GrDiffLine(GrDiffLineType.BOTH);
       if (side === Side.LEFT) line.beforeNumber = lineNumber;
@@ -215,7 +215,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.isTrue(annotateElementStub.called);
       assert.equal(
         annotateElementStub.lastCall.args[3],
-        'range generated_right-60-1-71-1'
+        'range generated_right-60-1-71-1',
       );
     });
 

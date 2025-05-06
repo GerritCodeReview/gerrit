@@ -22,7 +22,7 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-keyboard-shortcuts-dialog></gr-keyboard-shortcuts-dialog>`
+      html`<gr-keyboard-shortcuts-dialog></gr-keyboard-shortcuts-dialog>`,
     );
     await waitEventLoop();
   });
@@ -108,7 +108,7 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
           </div>
         </main>
         <footer></footer>
-      `
+      `,
     );
   });
 
@@ -205,7 +205,7 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
           [ShortcutSection.DIFFS, diffsSectionView],
           [ShortcutSection.EVERYWHERE, everywhereSectionView],
           [ShortcutSection.NAVIGATION, navigationSectionView],
-        ])
+        ]),
       );
       assert.deepEqual(element.left, [
         {

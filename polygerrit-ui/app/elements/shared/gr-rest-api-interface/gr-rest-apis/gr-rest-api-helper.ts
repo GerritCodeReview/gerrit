@@ -30,7 +30,7 @@ export interface ResponsePayload {
 }
 
 export async function readJSONResponsePayload(
-  response: Response
+  response: Response,
 ): Promise<ResponsePayload> {
   const text = await response.text();
   let result: ParsedJSON;
@@ -74,7 +74,7 @@ export class SiteBasedCache {
       // TODO(kamilm): This implies very strict format of what is stored in
       //   INITIAL_DATA which is not clear from the name, consider renaming.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(addBaseUrl(e[0]), e[1] as unknown as ParsedJSON)
+        this._cache().set(addBaseUrl(e[0]), e[1] as unknown as ParsedJSON),
       );
     }
   }
@@ -178,7 +178,7 @@ export type FetchParams = {
  */
 export function throwingErrorCallback(
   response?: Response | null,
-  err?: Error
+  err?: Error,
 ): void | Promise<void> {
   if (err) throw err;
   if (!response) return;
@@ -234,7 +234,7 @@ export function getFetchOptions(init: FetchOptionsInit): AuthRequestInit {
   if (init.body) {
     options.headers!.set(
       'Content-Type',
-      init.contentType || 'application/json'
+      init.contentType || 'application/json',
     );
     options.body =
       typeof init.body === 'string' ? init.body : JSON.stringify(init.body);
@@ -258,7 +258,7 @@ export class GrRestApiHelper {
     private readonly _auth: AuthService,
     private readonly _fetchPromisesCache: FetchPromisesCache,
     private readonly readScheduler: Scheduler<Response>,
-    private readonly writeScheduler: Scheduler<Response>
+    private readonly writeScheduler: Scheduler<Response>,
   ) {}
 
   private schedule(method: string, task: Task<Response>): Promise<Response> {
@@ -327,7 +327,7 @@ export class GrRestApiHelper {
         `${elapsed}ms`,
         req.anonymizedUrl || req.url,
         `(${startAt.toISOString()}, ${endAt.toISOString()})`,
-      ].join(' ')
+      ].join(' '),
     );
     if (req.anonymizedUrl) {
       const detail: RpcLogEventDetail = {
@@ -374,7 +374,7 @@ export class GrRestApiHelper {
     } catch (err) {
       // Wrap the error to get more information about the stack.
       const newErr = new Error(
-        `Network error when trying to fetch. Cause: ${(err as Error).message}`
+        `Network error when trying to fetch. Cause: ${(err as Error).message}`,
       );
       newErr.stack = (newErr.stack ?? '') + '\n' + ((err as Error).stack ?? '');
       if (req.errFn) {
@@ -411,7 +411,7 @@ export class GrRestApiHelper {
    */
   async fetchJSON(
     req: FetchRequest,
-    noAcceptHeader?: boolean
+    noAcceptHeader?: boolean,
   ): Promise<ParsedJSON | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
@@ -447,12 +447,12 @@ export class GrRestApiHelper {
       if (Array.isArray(paramValue)) {
         for (const value of paramValue) {
           params.push(
-            `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(value)}`
+            `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(value)}`,
           );
         }
       } else {
         params.push(
-          `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(paramValue)}`
+          `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(paramValue)}`,
         );
       }
     }
@@ -464,7 +464,7 @@ export class GrRestApiHelper {
   encodeRFC5987(uri: string | number | boolean) {
     return encodeURIComponent(uri).replace(
       /['()*]/g,
-      c => '%' + c.charCodeAt(0).toString(16)
+      c => '%' + c.charCodeAt(0).toString(16),
     );
   }
 
@@ -508,7 +508,7 @@ export class GrRestApiHelper {
         .catch(err => {
           this._fetchPromisesCache.set(urlWithParams, undefined);
           throw err;
-        })
+        }),
     );
     return this._fetchPromisesCache.get(urlWithParams)!;
   }

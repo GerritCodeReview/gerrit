@@ -46,7 +46,7 @@ export class ChangeComments {
     robotComments?: {[path: string]: RobotCommentInfo[]},
     drafts?: {[path: string]: DraftInfo[]},
     portedComments?: {[path: string]: CommentInfo[]},
-    portedDrafts?: {[path: string]: DraftInfo[]}
+    portedDrafts?: {[path: string]: DraftInfo[]},
   ) {
     this._comments = addPath(comments);
     this._robotComments = addPath(robotComments);
@@ -107,7 +107,7 @@ export class ChangeComments {
       publishedComments[path] = this.getAllCommentsForPath(
         path,
         patchNum,
-        includeDrafts
+        includeDrafts,
       );
     }
     return publishedComments;
@@ -135,7 +135,7 @@ export class ChangeComments {
   getAllCommentsForPath(
     path: string,
     patchNum?: PatchSetNum,
-    includeDrafts?: boolean
+    includeDrafts?: boolean,
   ): Comment[] {
     const comments: Comment[] = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
@@ -161,12 +161,12 @@ export class ChangeComments {
     let allComments = this.getAllCommentsForPath(
       file.path,
       file.patchNum,
-      includeDrafts
+      includeDrafts,
     );
 
     if (file.basePath) {
       allComments = allComments.concat(
-        this.getAllCommentsForPath(file.basePath, file.patchNum, includeDrafts)
+        this.getAllCommentsForPath(file.basePath, file.patchNum, includeDrafts),
       );
     }
 
@@ -196,7 +196,7 @@ export class ChangeComments {
     let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
     if (file.basePath) {
       allDrafts = allDrafts.concat(
-        this.getAllDraftsForPath(file.basePath, file.patchNum)
+        this.getAllDraftsForPath(file.basePath, file.patchNum),
       );
     }
     return allDrafts;
@@ -267,7 +267,7 @@ export class ChangeComments {
    */
   _getPortedCommentThreads(
     file: PatchSetFile,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): CommentThread[] {
     const portedComments: Comment[] = this._portedComments[file.path] || [];
     portedComments.push(...(this._portedDrafts[file.path] || []));
@@ -289,12 +289,12 @@ export class ChangeComments {
       // have the root comment of the thread not be ported, hence loop over
       // entire thread
       const portedComment = portedComments.find(portedComment =>
-        thread.comments.some(c => id(portedComment) === id(c))
+        thread.comments.some(c => id(portedComment) === id(c)),
       );
       if (!portedComment) return false;
 
       const originalComment = thread.comments.find(
-        comment => id(comment) === id(portedComment)
+        comment => id(comment) === id(portedComment),
       )!;
 
       // Original comment shown anyway? No need to port.
@@ -328,10 +328,10 @@ export class ChangeComments {
 
   getThreadsBySideForFile(
     file: PatchSetFile,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): CommentThread[] {
     const threads = createCommentThreads(
-      this.getCommentsForFile(file, patchRange)
+      this.getCommentsForFile(file, patchRange),
     );
     threads.push(...this._getPortedCommentThreads(file, patchRange));
     return threads;
@@ -367,14 +367,14 @@ export class ChangeComments {
    */
   computeCommentThreads(
     file: PatchSetFile | PatchNumOnly,
-    ignorePatchsetLevelComments = false
+    ignorePatchsetLevelComments = false,
   ) {
     let comments: Comment[] = [];
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
     } else {
       comments = this._commentObjToArray<Comment>(
-        this.getAllPublishedComments(file.patchNum)
+        this.getAllPublishedComments(file.patchNum),
       );
     }
     let threads = createCommentThreads(comments);
@@ -422,7 +422,7 @@ export class ChangeComments {
             patchNum: patchRange.patchNum,
             basePatchNum: patchRange.basePatchNum,
           },
-          path
+          path,
         )
       );
     };
@@ -432,15 +432,15 @@ export class ChangeComments {
   computeCommentsThreads(
     patchRange: PatchRange,
     path: string,
-    changeFileInfo?: FileInfo
+    changeFileInfo?: FileInfo,
   ) {
     const threads = this.getThreadsBySideForFile({path}, patchRange);
     if (changeFileInfo?.old_path) {
       threads.push(
         ...this.getThreadsBySideForFile(
           {path: changeFileInfo.old_path},
-          patchRange
-        )
+          patchRange,
+        ),
       );
     }
     return threads;
@@ -455,7 +455,7 @@ export class ChangeComments {
     patchRange?: PatchRange,
     path?: string,
     changeFileInfo?: FileInfo,
-    includeUnmodified?: boolean
+    includeUnmodified?: boolean,
   ) {
     if (!path) return '';
     if (!patchRange) return '';
@@ -463,10 +463,10 @@ export class ChangeComments {
     const threads = this.computeCommentsThreads(
       patchRange,
       path,
-      changeFileInfo
+      changeFileInfo,
     );
     const commentThreadCount = threads.filter(
-      thread => !isDraftThread(thread)
+      thread => !isDraftThread(thread),
     ).length;
     const unresolvedCount = threads.reduce((cnt, thread) => {
       if (isUnresolved(thread)) cnt += 1;
@@ -495,7 +495,7 @@ export class ChangeComments {
    */
   computeUnresolvedNum(
     file: PatchSetFile | PatchNumOnly,
-    ignorePatchsetLevelComments?: boolean
+    ignorePatchsetLevelComments?: boolean,
   ) {
     let comments: Comment[] = [];
     let drafts: Comment[] = [];
@@ -505,7 +505,7 @@ export class ChangeComments {
       drafts = this.getAllDraftsForFile(file);
     } else {
       comments = this._commentObjToArray(
-        this.getAllPublishedComments(file.patchNum)
+        this.getAllPublishedComments(file.patchNum),
       );
     }
 
@@ -514,7 +514,7 @@ export class ChangeComments {
     let unresolvedThreads = threads.filter(isUnresolved);
     if (ignorePatchsetLevelComments)
       unresolvedThreads = unresolvedThreads.filter(
-        thread => !isPatchsetLevel(thread)
+        thread => !isPatchsetLevel(thread),
       );
     return unresolvedThreads.length;
   }

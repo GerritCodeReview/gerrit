@@ -18,7 +18,7 @@ suite('gr-checks-runs test', () => {
 
   setup(async () => {
     element = await fixture<GrChecksRuns>(
-      html`<gr-checks-runs></gr-checks-runs>`
+      html`<gr-checks-runs></gr-checks-runs>`,
     );
     const getChecksModel = resolve(element, checksModelToken);
     setAllFakeRuns(getChecksModel());
@@ -105,7 +105,7 @@ suite('gr-checks-runs test', () => {
           </div>
         </div>
       `,
-      {ignoreAttributes: ['tabindex', 'aria-disabled']}
+      {ignoreAttributes: ['tabindex', 'aria-disabled']},
     );
   });
 
@@ -175,7 +175,7 @@ suite('gr-checks-runs test', () => {
           </div>
         </div>
       `,
-      {ignoreAttributes: ['tabindex', 'aria-disabled']}
+      {ignoreAttributes: ['tabindex', 'aria-disabled']},
     );
   });
 });
@@ -193,7 +193,7 @@ suite('gr-checks-run test', () => {
   test('renders loading', async () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <div class="chip">Loading ...</div> '
+      /* HTML */ ' <div class="chip">Loading ...</div> ',
     );
   });
 
@@ -238,7 +238,7 @@ suite('gr-checks-run test', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 });

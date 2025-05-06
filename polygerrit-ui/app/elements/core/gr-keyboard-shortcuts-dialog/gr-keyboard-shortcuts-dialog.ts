@@ -144,7 +144,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
               <gr-key-binding-display .binding=${shortcut.binding}>
               </gr-key-binding-display>
             </td>
-          </tr>`
+          </tr>`,
         )}
       </tbody>
     </table>`;

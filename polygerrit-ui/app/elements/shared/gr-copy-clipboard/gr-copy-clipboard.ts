@@ -119,7 +119,7 @@ export class GrCopyClipboard extends LitElement {
       <div class="text">
         ${when(
           this.label,
-          () => html`<label for="input">${this.label}</label>`
+          () => html`<label for="input">${this.label}</label>`,
         )}
         <iron-input
           class="copyText"
@@ -148,12 +148,12 @@ export class GrCopyClipboard extends LitElement {
               readonly=""
               .value=${this.text ?? ''}
               part="text-container-style"
-            />`
+            />`,
           )}
         </iron-input>
         ${when(
           this.shortcut,
-          () => html`<span class="shortcut">${this.shortcut}</span>`
+          () => html`<span class="shortcut">${this.shortcut}</span>`,
         )}
         <gr-tooltip-content
           ?has-tooltip=${this.hasTooltip}

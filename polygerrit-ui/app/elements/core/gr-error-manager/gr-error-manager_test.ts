@@ -43,13 +43,13 @@ suite('gr-error-manager tests', () => {
         .returns(Promise.resolve({...new Response(), ok: true, status: 204}));
       appContext = getAppContext();
       getLoggedInStub = stubRestApi('getLoggedIn').callsFake(() =>
-        appContext.authService.authCheck()
+        appContext.authService.authCheck(),
       );
       stubRestApi('getPreferences').returns(
-        Promise.resolve(createPreferences())
+        Promise.resolve(createPreferences()),
       );
       element = await fixture<GrErrorManager>(
-        html`<gr-error-manager></gr-error-manager>`
+        html`<gr-error-manager></gr-error-manager>`,
       );
       appContext.authService.clearCache();
       toastSpy = sinon.spy(element, 'createToastAlert');
@@ -79,7 +79,7 @@ suite('gr-error-manager tests', () => {
               <div class="header" slot="header">Refresh Credentials</div>
             </gr-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -98,7 +98,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       assert.isFalse(showAuthErrorStub.calledOnce);
@@ -120,7 +120,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       assert.isTrue(showAuthErrorStub.calledOnce);
@@ -143,7 +143,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       assert.isTrue(getLoggedInStub.calledOnce);
@@ -155,13 +155,13 @@ suite('gr-error-manager tests', () => {
         new CustomEvent('show-auth-required', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(
         spy.calledWithExactly(
           'Log in is required to perform that action.',
-          'Log in.'
-        )
+          'Log in.',
+        ),
       );
     });
 
@@ -173,7 +173,7 @@ suite('gr-error-manager tests', () => {
           detail: {response: {status: 500, text: textSpy}},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
 
       assert.isTrue(textSpy.called);
@@ -191,11 +191,11 @@ suite('gr-error-manager tests', () => {
       assert.equal(constructServerErrorMsg({status}), 'Error 409');
       assert.equal(
         constructServerErrorMsg({status, url}),
-        'Error 409: \nEndpoint: /my/test/url'
+        'Error 409: \nEndpoint: /my/test/url',
       );
       assert.equal(
         constructServerErrorMsg({status, statusText, url}),
-        'Error 409 (Conflict): \nEndpoint: /my/test/url'
+        'Error 409 (Conflict): \nEndpoint: /my/test/url',
       );
       assert.equal(
         constructServerErrorMsg({
@@ -204,7 +204,7 @@ suite('gr-error-manager tests', () => {
           errorText,
           url,
         }),
-        'Error 409 (Conflict): change conflicts' + '\nEndpoint: /my/test/url'
+        'Error 409 (Conflict): change conflicts' + '\nEndpoint: /my/test/url',
       );
       assert.equal(
         constructServerErrorMsg({
@@ -215,7 +215,7 @@ suite('gr-error-manager tests', () => {
           trace: 'xxxxx',
         }),
         'Error 409 (Conflict): change conflicts' +
-          '\nEndpoint: /my/test/url\nTrace Id: xxxxx'
+          '\nEndpoint: /my/test/url\nTrace Id: xxxxx',
       );
     });
 
@@ -234,7 +234,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       assert.equal(element.errorDialog.text, 'Error 500: 500\nTrace Id: xxxx');
@@ -243,14 +243,14 @@ suite('gr-error-manager tests', () => {
     test('suppress TOO_MANY_FILES error', async () => {
       const showAlertStub = sinon.stub(element, '_showAlert');
       const textSpy = sinon.spy(() =>
-        Promise.resolve('too many files to find conflicts')
+        Promise.resolve('too many files to find conflicts'),
       );
       element.dispatchEvent(
         new CustomEvent('server-error', {
           detail: {response: {status: 500, text: textSpy}},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
 
       assert.isTrue(textSpy.called);
@@ -265,41 +265,41 @@ suite('gr-error-manager tests', () => {
           detail: {error: new Error('ZOMG')},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       assert.isTrue(showAlertStub.calledOnce);
       assert.isTrue(
-        showAlertStub.lastCall.calledWithExactly('Server unavailable')
+        showAlertStub.lastCall.calledWithExactly('Server unavailable'),
       );
     });
 
     test('canOverride alerts', () => {
       assert.isFalse(element.canOverride(undefined, __testOnly_ErrorType.AUTH));
       assert.isFalse(
-        element.canOverride(undefined, __testOnly_ErrorType.NETWORK)
+        element.canOverride(undefined, __testOnly_ErrorType.NETWORK),
       );
       assert.isTrue(
-        element.canOverride(undefined, __testOnly_ErrorType.GENERIC)
+        element.canOverride(undefined, __testOnly_ErrorType.GENERIC),
       );
       assert.isTrue(element.canOverride(undefined, undefined));
 
       assert.isTrue(
-        element.canOverride(__testOnly_ErrorType.NETWORK, undefined)
+        element.canOverride(__testOnly_ErrorType.NETWORK, undefined),
       );
       assert.isTrue(element.canOverride(__testOnly_ErrorType.AUTH, undefined));
       assert.isFalse(
         element.canOverride(
           __testOnly_ErrorType.NETWORK,
-          __testOnly_ErrorType.AUTH
-        )
+          __testOnly_ErrorType.AUTH,
+        ),
       );
 
       assert.isTrue(
         element.canOverride(
           __testOnly_ErrorType.AUTH,
-          __testOnly_ErrorType.NETWORK
-        )
+          __testOnly_ErrorType.NETWORK,
+        ),
       );
     });
 
@@ -309,7 +309,7 @@ suite('gr-error-manager tests', () => {
       // Set status to AUTHED.
       appContext.authService.authCheck();
       const refreshStub = stubRestApi('getAccount').callsFake(() =>
-        Promise.resolve(createAccountDetailWithId())
+        Promise.resolve(createAccountDetailWithId()),
       );
       const windowOpen = sinon.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
@@ -327,7 +327,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.equal(fetchStub.callCount, 1);
       await waitEventLoop();
@@ -395,7 +395,7 @@ suite('gr-error-manager tests', () => {
           detail: {message: 'test reload', action: 'reload'},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       let toast = toastSpy.lastCall.returnValue;
@@ -416,7 +416,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       await waitEventLoop();
@@ -443,7 +443,7 @@ suite('gr-error-manager tests', () => {
           detail: {message: 'test reload', action: 'reload'},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       let toast = toastSpy.lastCall.returnValue;
@@ -456,7 +456,7 @@ suite('gr-error-manager tests', () => {
           detail: {message: 'second-test', action: 'reload'},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       toast = toastSpy.lastCall.returnValue;
@@ -482,7 +482,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.equal(fetchStub.callCount, 1);
       await waitEventLoop();
@@ -505,7 +505,7 @@ suite('gr-error-manager tests', () => {
           },
           composed: true,
           bubbles: true,
-        })
+        }),
       );
 
       await waitEventLoop();
@@ -523,7 +523,7 @@ suite('gr-error-manager tests', () => {
           detail: alertObj,
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(showAlertStub.calledOnce);
       assert.equal(showAlertStub.lastCall.args[0], 'foo');
@@ -559,7 +559,7 @@ suite('gr-error-manager tests', () => {
       const requestCheckStub = sinon.stub(element, 'requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
-        'handleCredentialRefreshed'
+        'handleCredentialRefreshed',
       );
       const reloadStub = sinon.stub(element, 'reloadPage');
 
@@ -591,7 +591,7 @@ suite('gr-error-manager tests', () => {
           detail: {message},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
 
@@ -603,7 +603,7 @@ suite('gr-error-manager tests', () => {
         new CustomEvent('dismiss', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
 
@@ -618,7 +618,7 @@ suite('gr-error-manager tests', () => {
       const requestCheckStub = sinon.stub(element, 'requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
-        'handleCredentialRefreshed'
+        'handleCredentialRefreshed',
       );
       const reloadStub = sinon.stub(element, 'reloadPage');
 
@@ -639,7 +639,7 @@ suite('gr-error-manager tests', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       element = await fixture<GrErrorManager>(
-        html`<gr-error-manager></gr-error-manager>`
+        html`<gr-error-manager></gr-error-manager>`,
       );
       toastSpy = sinon.spy(element, 'createToastAlert');
       await element.updateComplete;
@@ -655,7 +655,7 @@ suite('gr-error-manager tests', () => {
       const requestCheckStub = sinon.stub(element, 'requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
-        'handleCredentialRefreshed'
+        'handleCredentialRefreshed',
       );
       const reloadStub = sinon.stub(element, 'reloadPage');
 

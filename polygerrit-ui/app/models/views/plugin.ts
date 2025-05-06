@@ -35,7 +35,7 @@ export const pluginViewModelToken =
 
 export class PluginViewModel extends Model<PluginViewState> {
   public readonly screenName$ = select(this.state$, state =>
-    screenName(state.plugin, state.screen)
+    screenName(state.plugin, state.screen),
   );
 
   constructor() {

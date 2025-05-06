@@ -28,7 +28,7 @@ suite('gr-plugin-action-context tests', () => {
         plugin = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     instance = new GrPluginActionContext(
       plugin,
@@ -40,7 +40,7 @@ suite('gr-plugin-action-context tests', () => {
         __type: ActionType.REVISION,
       },
       createChange(),
-      createRevision()
+      createRevision(),
     );
   });
 
@@ -135,8 +135,8 @@ suite('gr-plugin-action-context tests', () => {
       fakeRestApi.send.calledWith(
         HttpMethod.POST,
         '/changes/1/revisions/2/foo~bar',
-        payload
-      )
+        payload,
+      ),
     );
   });
 
@@ -154,7 +154,7 @@ suite('gr-plugin-action-context tests', () => {
     assert.isTrue(errorStub.calledOnce);
     assert.equal(
       errorStub.args[0][0].detail.message,
-      'Plugin network error: Error: boom'
+      'Plugin network error: Error: boom',
     );
   });
 });

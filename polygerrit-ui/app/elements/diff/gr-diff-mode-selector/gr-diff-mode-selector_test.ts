@@ -33,8 +33,8 @@ suite('gr-diff-mode-selector tests', () => {
         wrapInProvider(
           html`<gr-diff-mode-selector></gr-diff-mode-selector>`,
           browserModelToken,
-          browserModel
-        )
+          browserModel,
+        ),
       )
     ).querySelector('gr-diff-mode-selector')!;
   });
@@ -46,7 +46,7 @@ suite('gr-diff-mode-selector tests', () => {
     });
     await waitUntilObserved(
       browserModel.diffViewMode$,
-      mode => mode === DiffViewMode.SIDE_BY_SIDE
+      mode => mode === DiffViewMode.SIDE_BY_SIDE,
     );
 
     assert.shadowDom.equal(
@@ -83,7 +83,7 @@ suite('gr-diff-mode-selector tests', () => {
             ></gr-icon>
           </gr-button>
         </gr-tooltip-content>
-      `
+      `,
     );
   });
 
@@ -94,7 +94,7 @@ suite('gr-diff-mode-selector tests', () => {
     });
     await waitUntilObserved(
       browserModel.diffViewMode$,
-      mode => mode === DiffViewMode.UNIFIED
+      mode => mode === DiffViewMode.UNIFIED,
     );
 
     assert.shadowDom.equal(
@@ -132,7 +132,7 @@ suite('gr-diff-mode-selector tests', () => {
             ></gr-icon>
           </gr-button>
         </gr-tooltip-content>
-      `
+      `,
     );
   });
 

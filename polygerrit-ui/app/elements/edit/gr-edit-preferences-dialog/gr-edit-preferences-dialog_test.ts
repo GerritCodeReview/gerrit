@@ -28,7 +28,7 @@ suite('gr-edit-preferences-dialog', () => {
     };
 
     stubRestApi('getEditPreferences').returns(
-      Promise.resolve(originalEditPrefs)
+      Promise.resolve(originalEditPrefs),
     );
 
     element = await fixture<GrEditPreferencesDialog>(html`
@@ -70,7 +70,7 @@ suite('gr-edit-preferences-dialog', () => {
             </div>
           </div>
         </dialog>
-      `
+      `,
     );
   });
 
@@ -80,7 +80,7 @@ suite('gr-edit-preferences-dialog', () => {
     assert.isUndefined(element.editPrefsChanged);
     const editShowLineWrapping = queryAndAssert<HTMLInputElement>(
       queryAndAssert(element, '#editPreferences'),
-      '#editShowLineWrapping'
+      '#editShowLineWrapping',
     );
     assert.isTrue(editShowLineWrapping.checked);
 
@@ -95,8 +95,8 @@ suite('gr-edit-preferences-dialog', () => {
         makePrefixedJSON({
           ...originalEditPrefs,
           line_wrapping: false,
-        })
-      )
+        }),
+      ),
     );
 
     queryAndAssert<GrButton>(element, '#saveButton').click();

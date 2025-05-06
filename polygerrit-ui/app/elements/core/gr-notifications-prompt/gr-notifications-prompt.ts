@@ -28,7 +28,7 @@ export class GrNotificationsPrompt extends LitElement {
 
   private readonly serviceWorkerInstaller = resolve(
     this,
-    serviceWorkerInstallerToken
+    serviceWorkerInstallerToken,
   );
 
   private readonly getNavigation = resolve(this, navigationToken);
@@ -40,7 +40,7 @@ export class GrNotificationsPrompt extends LitElement {
       () => this.serviceWorkerInstaller().shouldShowPrompt$,
       shouldShowPrompt => {
         this.shouldShowPrompt = !!shouldShowPrompt;
-      }
+      },
     );
   }
 

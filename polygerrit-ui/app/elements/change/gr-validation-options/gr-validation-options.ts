@@ -36,7 +36,7 @@ export class GrValidationOptions extends LitElement {
 
   getSelectedOptions(): ValidationOptionInfo[] {
     return (this.validationOptions?.validation_options ?? []).filter(
-      validationOption => this.isOptionSelected.get(validationOption.name)
+      validationOption => this.isOptionSelected.get(validationOption.name),
     );
   }
 
@@ -45,7 +45,7 @@ export class GrValidationOptions extends LitElement {
     return html`${repeat(
       this.validationOptions.validation_options,
       option => option.name,
-      option => this.renderValidationOption(option)
+      option => this.renderValidationOption(option),
     )}`;
   }
 
@@ -65,7 +65,7 @@ export class GrValidationOptions extends LitElement {
   private toggleCheckbox(option: ValidationOptionInfo) {
     this.isOptionSelected.set(
       option.name,
-      !this.isOptionSelected.get(option.name)
+      !this.isOptionSelected.get(option.name),
     );
   }
 }

@@ -17,7 +17,7 @@ suite('gr-trigger-vote-hovercard tests', () => {
       html`<gr-trigger-vote-hovercard
         .labelInfo=${createLabelInfo()}
         .labelName=${'Foo'}
-      ></gr-trigger-vote-hovercard>`
+      ></gr-trigger-vote-hovercard>`,
     );
   });
 
@@ -47,7 +47,7 @@ suite('gr-trigger-vote-hovercard tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 });

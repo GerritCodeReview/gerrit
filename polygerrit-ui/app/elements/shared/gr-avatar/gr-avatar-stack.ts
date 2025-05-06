@@ -93,7 +93,7 @@ export class GrAvatarStack extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      config => (this.config = config)
+      config => (this.config = config),
     );
   }
 
@@ -106,14 +106,14 @@ export class GrAvatarStack extends LitElement {
       ) {
         Promise.all(
           this.accounts.map(account =>
-            this.getAccountsModel().fillDetails(account)
-          )
+            this.getAccountsModel().fillDetails(account),
+          ),
         ).then(accounts => {
           // Only keep the detailed accounts as only those will be shown.
           // It is possible for the server to return an empty account with just an account-id.
           // This could be due to the fact that the user does not have permission to see this account.
           this.detailedAccounts = accounts.filter(
-            a => isDefined(a) && isDetailedAccount(a)
+            a => isDefined(a) && isDetailedAccount(a),
           );
         });
       } else {
@@ -148,9 +148,9 @@ export class GrAvatarStack extends LitElement {
             () =>
               html`<gr-hovercard-account
                 .account=${account}
-              ></gr-hovercard-account>`
+              ></gr-hovercard-account>`,
           )}
-        </gr-avatar>`
+        </gr-avatar>`,
     );
   }
 }

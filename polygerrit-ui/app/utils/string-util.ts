@@ -58,7 +58,7 @@ export function capitalizeFirstLetter(str: string) {
 
 export function trimWithEllipsis(
   s: string | undefined,
-  maxLength: number
+  maxLength: number,
 ): string {
   if (!s) return '';
   if (s.length <= maxLength) return s;
@@ -107,7 +107,7 @@ export function diffFilePaths(filePath: string, otherFilePath?: string) {
   // Construct separate strings for matching folders, new folders, and file
   // name.
   const firstDifferencePartIndex = displayPathParts.findIndex(
-    (part, index) => previousFileDisplayPathParts[index] !== part
+    (part, index) => previousFileDisplayPathParts[index] !== part,
   );
   const matchingSection = displayPathParts
     .slice(0, firstDifferencePartIndex)
@@ -134,7 +134,7 @@ export function levenshteinDistance(str1: string, str2: string): number {
 
   // Create a matrix to store edit distances
   const dp: number[][] = Array.from({length: m + 1}, () =>
-    Array(n + 1).fill(0)
+    Array(n + 1).fill(0),
   );
 
   // Initialize first row and column with base cases
@@ -154,7 +154,7 @@ export function levenshteinDistance(str1: string, str2: string): number {
         dp[i][j] = Math.min(
           dp[i - 1][j] + 1, // Deletion
           dp[i][j - 1] + 1, // Insertion
-          dp[i - 1][j - 1] + 1 // Substitution
+          dp[i - 1][j - 1] + 1, // Substitution
         );
       }
     }

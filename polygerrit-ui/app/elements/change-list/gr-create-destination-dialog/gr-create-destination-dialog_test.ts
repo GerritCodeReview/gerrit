@@ -13,7 +13,7 @@ suite('gr-create-destination-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-create-destination-dialog></gr-create-destination-dialog>`
+      html`<gr-create-destination-dialog></gr-create-destination-dialog>`,
     );
   });
 
@@ -32,7 +32,7 @@ suite('gr-create-destination-dialog tests', () => {
             </div>
           </gr-dialog>
         </dialog>
-      `
+      `,
     );
   });
 });

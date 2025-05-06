@@ -77,12 +77,12 @@ export class GrRepoSubmitRequirements extends LitElement {
                   <td class="override">${item.override_expression}</td>
                   <td class="allowOverride">
                     ${this.renderCheckmark(
-                      item.allow_override_in_child_projects
+                      item.allow_override_in_child_projects,
                     )}
                   </td>
                 </tr>
-              `
-            )}`
+              `,
+            )}`,
         )}
       </tbody>
     </table>`;

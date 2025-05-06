@@ -305,7 +305,7 @@ export class GrRepoCommands extends LitElement {
         EDIT_CONFIG_SUBJECT,
         undefined,
         false,
-        true
+        true,
       )
       .then(change => {
         const message = change
@@ -322,7 +322,7 @@ export class GrRepoCommands extends LitElement {
             repo: change.project,
             patchNum: INITIAL_PATCHSET,
             editView: {path: CONFIG_PATH},
-          })
+          }),
         );
       })
       .finally(() => {

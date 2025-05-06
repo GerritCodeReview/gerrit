@@ -47,7 +47,7 @@ export function annotateWithElement(
   parent: Node,
   offset: number,
   length: number,
-  elSpec: ElementSpec
+  elSpec: ElementSpec,
 ) {
   const tagName = elSpec.tagName;
   const attributes = elSpec.attributes || {};
@@ -108,7 +108,7 @@ export function annotateElement(
   parent: HTMLElement,
   offset: number,
   length: number,
-  cssClass: string
+  cssClass: string,
 ) {
   const nodes: Array<HTMLElement | Text> = [].slice.apply(parent.childNodes);
   let nodeLength;
@@ -168,7 +168,7 @@ function splitAndWrapInHighlight(
   node: Text,
   offset: number,
   cssClass: string,
-  firstPart?: boolean
+  firstPart?: boolean,
 ) {
   if (
     (getLength(node) === offset && firstPart) ||
@@ -244,7 +244,7 @@ function _annotateText(
   node: Text,
   offset: number,
   length: number,
-  cssClass: string
+  cssClass: string,
 ) {
   const nodeLength = getLength(node);
 
@@ -269,7 +269,7 @@ function _annotateText(
       splitTextNode(node, offset),
       length,
       cssClass,
-      true
+      true,
     );
   }
 }

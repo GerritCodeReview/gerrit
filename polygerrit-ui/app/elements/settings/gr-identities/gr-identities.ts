@@ -84,7 +84,7 @@ export class GrIdentities extends LitElement {
             </thead>
             <tbody>
               ${this.getIdentities().map((account, index) =>
-                this.renderIdentity(account, index)
+                this.renderIdentity(account, index),
               )}
             </tbody>
           </table>
@@ -97,7 +97,7 @@ export class GrIdentities extends LitElement {
                 >Link Another Identity</gr-button
               >
             </a>
-          </fieldset>`
+          </fieldset>`,
         )}
       </div>
       <dialog id="modal" tabindex="-1">
@@ -142,7 +142,7 @@ export class GrIdentities extends LitElement {
   // private but used in test
   getIdentities() {
     return this.identities.filter(
-      account => !account.identity.startsWith('username:')
+      account => !account.identity.startsWith('username:'),
     );
   }
 

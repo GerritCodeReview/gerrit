@@ -62,27 +62,27 @@ export class GrChecksTab extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().allRunsSelectedPatchset$,
-      x => (this.runs = x)
+      x => (this.runs = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().allResultsSelected$,
-      x => (this.results = x)
+      x => (this.results = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().checksSelectedPatchsetNumber$,
-      x => (this.checksPatchsetNumber = x)
+      x => (this.checksPatchsetNumber = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchsetNumber = x)
+      x => (this.latestPatchsetNumber = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     const observer = new ResizeObserver(() => {
       if (!this.checksRuns) return;
@@ -120,7 +120,7 @@ export class GrChecksTab extends LitElement {
         checkName: this.tabState?.checksTab?.checkName,
         statusOrCategory: this.tabState?.checksTab?.statusOrCategory,
       },
-      {deduping: Deduping.DETAILS_ONCE_PER_CHANGE}
+      {deduping: Deduping.DETAILS_ONCE_PER_CHANGE},
     );
     return html`
       <div class="container">

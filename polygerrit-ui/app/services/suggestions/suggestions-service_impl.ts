@@ -35,7 +35,7 @@ export class GrSuggestionsService implements SuggestionsService {
   constructor(
     readonly reporting: ReportingService,
     private readonly pluginsModel: PluginsModel,
-    private readonly changeModel: ChangeModel
+    private readonly changeModel: ChangeModel,
   ) {
     this.pluginsModel.suggestionsPlugins$.subscribe(suggestionsPlugins => {
       this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
@@ -62,7 +62,7 @@ export class GrSuggestionsService implements SuggestionsService {
       this.change.is_private !== true &&
       (!this.suggestionsProvider.supportedFileExtensions ||
         this.suggestionsProvider.supportedFileExtensions.includes(
-          getFileExtension(path)
+          getFileExtension(path),
         ))
     );
   }
@@ -128,7 +128,7 @@ export class GrSuggestionsService implements SuggestionsService {
     comment?: Comment,
     commentText?: string,
     generatedSuggestionId?: string,
-    reportSource?: ReportSource
+    reportSource?: ReportSource,
   ): Promise<FixSuggestionInfo | undefined> {
     if (
       !comment ||
@@ -156,7 +156,7 @@ export class GrSuggestionsService implements SuggestionsService {
   public async autocompleteComment(
     comment?: Comment,
     commentText?: string,
-    comments?: Comment[]
+    comments?: Comment[],
   ): Promise<AutocompletionContext | undefined> {
     if (
       !comment ||
@@ -185,7 +185,7 @@ export class GrSuggestionsService implements SuggestionsService {
       response,
       elapsed,
       comment,
-      comments
+      comments,
     );
     if (!response?.completion) return;
     return context;
@@ -196,7 +196,7 @@ export class GrSuggestionsService implements SuggestionsService {
     response: AutocompleteCommentResponse,
     requestDurationMs: number,
     comment: Comment,
-    comments?: Comment[]
+    comments?: Comment[],
   ): AutocompletionContext {
     const commentCompletion = response.completion ?? '';
     return {
@@ -217,7 +217,7 @@ export class GrSuggestionsService implements SuggestionsService {
 
   private createAutocompletionBaseContext(
     comment: Comment,
-    comments?: Comment[]
+    comments?: Comment[],
   ): Partial<AutocompletionContext> {
     return {
       commentId: id(comment),

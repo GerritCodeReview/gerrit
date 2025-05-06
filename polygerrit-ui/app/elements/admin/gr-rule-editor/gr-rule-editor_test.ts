@@ -66,7 +66,7 @@ suite('gr-rule-editor tests', () => {
               Undo
             </gr-button>
           </div>
-        `
+        `,
       );
     });
 
@@ -106,7 +106,7 @@ suite('gr-rule-editor tests', () => {
               </select>
             </gr-select>
           </div>
-        `
+        `,
       );
     });
   });
@@ -139,14 +139,14 @@ suite('gr-rule-editor tests', () => {
       assert.isTrue(element.computeForce(action));
       assert.deepEqual(
         element.computeForceOptions(action),
-        ForcePushOptions.ALLOW
+        ForcePushOptions.ALLOW,
       );
 
       action = PermissionAction.BLOCK;
       assert.isTrue(element.computeForce(action));
       assert.deepEqual(
         element.computeForceOptions(action),
-        ForcePushOptions.BLOCK
+        ForcePushOptions.BLOCK,
       );
 
       action = PermissionAction.DENY;
@@ -290,12 +290,12 @@ suite('gr-rule-editor tests', () => {
     test('values are set correctly', () => {
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        element.rule!.value!.action
+        element.rule!.value!.action,
       );
       assert.isNotOk(query<GrSelect>(element, '#labelMin'));
       assert.isNotOk(query<GrSelect>(element, '#labelMax'));
       assert.isFalse(
-        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force'),
       );
     });
 
@@ -307,7 +307,7 @@ suite('gr-rule-editor tests', () => {
       assert.notEqual(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.isNotOk(element.rule.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
@@ -319,14 +319,14 @@ suite('gr-rule-editor tests', () => {
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.deepEqual(element.originalRuleValues, element.rule.value);
       assert.isNotOk(element.rule.value!.modified);
       assert.equal(element.rule?.value?.action, PermissionAction.ALLOW);
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        PermissionAction.ALLOW
+        PermissionAction.ALLOW,
       );
     });
 
@@ -360,16 +360,16 @@ suite('gr-rule-editor tests', () => {
       assert.isFalse(
         queryAndAssert<HTMLDivElement>(
           element,
-          '#deletedContainer'
-        ).classList.contains('deleted')
+          '#deletedContainer',
+        ).classList.contains('deleted'),
       );
       queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.isTrue(
         queryAndAssert<HTMLDivElement>(
           element,
-          '#deletedContainer'
-        ).classList.contains('deleted')
+          '#deletedContainer',
+        ).classList.contains('deleted'),
       );
       assert.isTrue(element.deleted);
       assert.isTrue(element.rule.value!.deleted);
@@ -386,13 +386,13 @@ suite('gr-rule-editor tests', () => {
       assert.notEqual(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.equal(
         getComputedStyle(
-          queryAndAssert<HTMLDivElement>(element, '#deletedContainer')
+          queryAndAssert<HTMLDivElement>(element, '#deletedContainer'),
         ).display,
-        'none'
+        'none',
       );
 
       element.rule = {value: {action: PermissionAction.ALLOW}};
@@ -402,13 +402,13 @@ suite('gr-rule-editor tests', () => {
       assert.notEqual(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.notEqual(
         getComputedStyle(
-          queryAndAssert<HTMLDivElement>(element, '#deletedContainer')
+          queryAndAssert<HTMLDivElement>(element, '#deletedContainer'),
         ).display,
-        'none'
+        'none',
       );
       assert.isTrue(element.deleted);
       assert.isTrue(element.rule.value!.deleted);
@@ -423,13 +423,13 @@ suite('gr-rule-editor tests', () => {
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
           .display,
-        'none'
+        'none',
       );
       assert.equal(
         getComputedStyle(
-          queryAndAssert<HTMLDivElement>(element, '#deletedContainer')
+          queryAndAssert<HTMLDivElement>(element, '#deletedContainer'),
         ).display,
-        'none'
+        'none',
       );
     });
 
@@ -466,11 +466,11 @@ suite('gr-rule-editor tests', () => {
       // values are set correctly
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        expectedRuleValue.action
+        expectedRuleValue.action,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#force').bindValue,
-        expectedRuleValue.force
+        expectedRuleValue.force,
       );
     });
 
@@ -529,18 +529,18 @@ suite('gr-rule-editor tests', () => {
     test('values are set correctly', () => {
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        element.rule!.value!.action
+        element.rule!.value!.action,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#labelMin').bindValue,
-        element.rule!.value!.min
+        element.rule!.value!.min,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#labelMax').bindValue,
-        element.rule!.value!.max
+        element.rule!.value!.max,
       );
       assert.isFalse(
-        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force'),
       );
     });
 
@@ -601,15 +601,15 @@ suite('gr-rule-editor tests', () => {
       // values are set correctly
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        expectedRuleValue.action
+        expectedRuleValue.action,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#labelMin').bindValue,
-        expectedRuleValue.min
+        expectedRuleValue.min,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#labelMax').bindValue,
-        expectedRuleValue.max
+        expectedRuleValue.max,
       );
     });
 
@@ -647,15 +647,15 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.isTrue(
-        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force'),
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        element.rule!.value!.action
+        element.rule!.value!.action,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#force').bindValue,
-        element.rule!.value!.force
+        element.rule!.value!.force,
       );
       assert.isNotOk(query<GrSelect>(element, '#labelMin'));
       assert.isNotOk(query<GrSelect>(element, '#labelMax'));
@@ -699,11 +699,11 @@ suite('gr-rule-editor tests', () => {
       // values are set correctly
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        expectedRuleValue.action
+        expectedRuleValue.action,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#force').bindValue,
-        expectedRuleValue.force
+        expectedRuleValue.force,
       );
     });
 
@@ -741,15 +741,15 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.isTrue(
-        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force'),
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#action').bindValue,
-        element.rule!.value!.action
+        element.rule!.value!.action,
       );
       assert.equal(
         queryAndAssert<GrSelect>(element, '#force').bindValue,
-        element.rule!.value!.force
+        element.rule!.value!.force,
       );
       assert.isNotOk(query<GrSelect>(element, '#labelMin'));
       assert.isNotOk(query<GrSelect>(element, '#labelMax'));

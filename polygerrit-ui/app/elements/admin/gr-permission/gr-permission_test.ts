@@ -31,7 +31,7 @@ suite('gr-permission tests', () => {
         'Anonymous Users': {
           id: 'global%3AAnonymous-Users' as GroupId,
         },
-      })
+      }),
     );
   });
 
@@ -122,7 +122,7 @@ suite('gr-permission tests', () => {
 
       assert.deepEqual(
         element.computeLabelValues(labels['Code-Review'].values),
-        expectedLabelValues
+        expectedLabelValues,
       );
 
       assert.deepEqual(element.computeLabel(), expectedLabel);
@@ -168,7 +168,7 @@ suite('gr-permission tests', () => {
       deleted = true;
       assert.equal(
         element.computeSectionClass(editing, deleted),
-        'editing deleted'
+        'editing deleted',
       );
     });
 
@@ -179,11 +179,11 @@ suite('gr-permission tests', () => {
       };
       assert.equal(
         element.computeGroupName(groups, 'abc123' as GitRef),
-        'test group' as GroupName
+        'test group' as GroupName,
       );
       assert.equal(
         element.computeGroupName(groups, 'bcd234' as GitRef),
-        'bcd234' as GroupName
+        'bcd234' as GroupName,
       );
     });
 
@@ -378,7 +378,7 @@ suite('gr-permission tests', () => {
           ignoreAttributes: [
             {tags: ['paper-toggle-button'], attributes: ['style']},
           ],
-        }
+        },
       );
     });
 
@@ -414,7 +414,7 @@ suite('gr-permission tests', () => {
       });
       assert.equal(
         queryAndAssert<GrAutocomplete>(element, '#groupAutocomplete').text,
-        ''
+        '',
       );
       // New rule should be removed if cancel from editing.
       element.editing = false;
@@ -435,7 +435,7 @@ suite('gr-permission tests', () => {
         new CustomEvent('added-rule-removed', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       await waitEventLoop();
       assert.equal(element.rules!.length, 1);
@@ -464,20 +464,20 @@ suite('gr-permission tests', () => {
       element.addEventListener('added-permission-removed', removeStub);
 
       assert.isFalse(
-        queryAndAssert(element, '#permission').classList.contains('deleted')
+        queryAndAssert(element, '#permission').classList.contains('deleted'),
       );
       assert.isFalse(element.deleted);
       queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.isTrue(
-        queryAndAssert(element, '#permission').classList.contains('deleted')
+        queryAndAssert(element, '#permission').classList.contains('deleted'),
       );
       assert.isTrue(element.deleted);
       queryAndAssert<GrButton>(element, '#undoRemoveBtn').click();
 
       await element.updateComplete;
       assert.isFalse(
-        queryAndAssert(element, '#permission').classList.contains('deleted')
+        queryAndAssert(element, '#permission').classList.contains('deleted'),
       );
       assert.isFalse(element.deleted);
       assert.isFalse(removeStub.called);
@@ -493,7 +493,7 @@ suite('gr-permission tests', () => {
       assert.isNotOk(element.permission!.value.modified);
       queryAndAssert<PaperToggleButtonElement>(
         element,
-        '#exclusiveToggle'
+        '#exclusiveToggle',
       ).click();
       await element.updateComplete;
       assert.isTrue(element.permission!.value.exclusive);
@@ -515,7 +515,7 @@ suite('gr-permission tests', () => {
       assert.isNotOk(element.permission.value.modified);
       queryAndAssert<PaperToggleButtonElement>(
         element,
-        '#exclusiveToggle'
+        '#exclusiveToggle',
       ).click();
       await element.updateComplete;
       assert.isTrue(element.permission.value.modified);

@@ -15,7 +15,7 @@ export interface AgreementViewState extends ViewState {
 const DEFAULT_STATE: AgreementViewState = {view: GerritView.AGREEMENTS};
 
 export const agreementViewModelToken = define<AgreementViewModel>(
-  'agreement-view-model'
+  'agreement-view-model',
 );
 
 export class AgreementViewModel extends Model<AgreementViewState> {

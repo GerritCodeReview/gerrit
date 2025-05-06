@@ -243,7 +243,7 @@ export class GrRepoDetailList extends LitElement {
           class="${this.detailType} revision ${this.computeCanEditClass(
             item.ref,
             this.detailType,
-            this.isOwner
+            this.isOwner,
           )}"
         >
           <span class="revisionNoEditing"> ${item.revision} </span>
@@ -391,7 +391,7 @@ export class GrRepoDetailList extends LitElement {
       this.repo,
       this.itemsPerPage,
       this.offset,
-      this.detailType
+      this.detailType,
     );
   }
 
@@ -401,7 +401,7 @@ export class GrRepoDetailList extends LitElement {
     repo: RepoName | undefined,
     itemsPerPage: number,
     offset: number | undefined,
-    detailType?: string
+    detailType?: string,
   ) {
     if (filter === undefined || !repo || offset === undefined) {
       return Promise.reject(new Error('filter or repo or offset undefined'));
@@ -471,7 +471,7 @@ export class GrRepoDetailList extends LitElement {
   private computeCanEditClass(
     ref?: GitRef,
     detailType?: RepoDetailView,
-    isOwner?: boolean
+    isOwner?: boolean,
   ) {
     if (ref === undefined || detailType === undefined) return '';
     return isOwner && this.stripRefs(ref, detailType) === 'HEAD'
@@ -510,7 +510,7 @@ export class GrRepoDetailList extends LitElement {
           this.repo,
           this.itemsPerPage,
           this.offset,
-          this.detailType
+          this.detailType,
         );
       }
     });
@@ -543,7 +543,7 @@ export class GrRepoDetailList extends LitElement {
               this.repo,
               this.itemsPerPage,
               this.offset,
-              this.detailType
+              this.detailType,
             );
           }
         });
@@ -557,7 +557,7 @@ export class GrRepoDetailList extends LitElement {
               this.repo,
               this.itemsPerPage,
               this.offset,
-              this.detailType
+              this.detailType,
             );
           }
         });
@@ -575,7 +575,7 @@ export class GrRepoDetailList extends LitElement {
     assertIsDefined(this.modal, 'modal');
     const name = this.stripRefs(
       this.items[index].ref,
-      this.detailType
+      this.detailType,
     ) as GitRef;
     if (!name) return;
     this.refName = name;

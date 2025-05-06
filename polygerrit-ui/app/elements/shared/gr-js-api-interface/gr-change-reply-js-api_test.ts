@@ -23,7 +23,7 @@ suite('gr-change-reply-js-api tests', () => {
           plugin = p;
         },
         '0.1',
-        'http://test.com/plugins/testplugin/static/test.js'
+        'http://test.com/plugins/testplugin/static/test.js',
       );
       changeReply = plugin.changeReply();
       await fixture<GrReplyDialog>(html`<gr-reply-dialog></gr-reply-dialog>>`);
@@ -41,7 +41,7 @@ suite('gr-change-reply-js-api tests', () => {
 
       const setPluginMessageStub = stubElement(
         'gr-reply-dialog',
-        'setPluginMessage'
+        'setPluginMessage',
       );
       changeReply.showMessage('foobar');
       assert.isTrue(setPluginMessageStub.calledWithExactly('foobar'));

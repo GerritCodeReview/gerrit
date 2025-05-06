@@ -11,7 +11,7 @@ interface ElementWithShadowRoot extends Element {
  * Type guard for element with a shadowRoot.
  */
 function isElementWithShadowRoot(
-  el: Element | ShadowRoot
+  el: Element | ShadowRoot,
 ): el is ElementWithShadowRoot {
   return 'shadowRoot' in el;
 }
@@ -25,7 +25,7 @@ export function isHtmlElement(node: Node): node is HTMLElement {
 }
 
 export function isElementTarget(
-  target: EventTarget | null | undefined
+  target: EventTarget | null | undefined,
 ): target is Element {
   if (!target) return false;
   return 'nodeType' in target && isElement(target as Node);
@@ -79,7 +79,7 @@ export function getComputedStyleValue(name: string, el: Element) {
  */
 export function querySelector(
   el: Element | ShadowRoot,
-  selector: string
+  selector: string,
 ): Element | null {
   let nodes = [el];
   let result = null;
@@ -122,7 +122,7 @@ export function querySelector(
  */
 export function querySelectorAll(
   el: Element | ShadowRoot,
-  selector: string
+  selector: string,
 ): Element[] {
   let nodes = [el];
   const results = new Set<Element>();
@@ -195,7 +195,7 @@ export function getEventPath<T extends MouseEvent>(e?: T) {
 export function descendedFromClass(
   element: Element | undefined,
   className: string,
-  stopElement?: Element
+  stopElement?: Element,
 ) {
   return parentWithClass(element, className, stopElement) !== undefined;
 }
@@ -210,7 +210,7 @@ export function descendedFromClass(
 export function parentWithClass(
   element: Element | undefined,
   className: string,
-  stopElement?: Element
+  stopElement?: Element,
 ) {
   while (element && (!stopElement || element !== stopElement)) {
     if (element.classList.contains(className)) return element;
@@ -234,7 +234,7 @@ export function strToClassName(str = '', prefix = 'generated_') {
 // without looking inside of shadow roots. This will find best activeElement.
 export function findActiveElement(
   root: Document | ShadowRoot | null,
-  ignoreDialogs?: boolean
+  ignoreDialogs?: boolean,
 ): HTMLElement | null {
   if (root === null) {
     return null;
@@ -270,7 +270,7 @@ export function isSafari() {
 export function whenVisible(
   element: Element,
   callback: () => void,
-  marginPx = 0
+  marginPx = 0,
 ) {
   const observer = new IntersectionObserver(
     (entries: IntersectionObserverEntry[]) => {
@@ -282,7 +282,7 @@ export function whenVisible(
         }
       }
     },
-    {rootMargin: `${marginPx}px`}
+    {rootMargin: `${marginPx}px`},
   );
   observer.observe(element);
 }
@@ -353,7 +353,7 @@ function altMustMatch(key: string | Key) {
 
 export function eventMatchesShortcut(
   e: KeyboardEvent,
-  shortcut: Binding
+  shortcut: Binding,
 ): boolean {
   if (e.key !== shortcut.key) return false;
   const modifiers = shortcut.modifiers ?? [];
@@ -395,7 +395,7 @@ export function addShortcut(
   element: HTMLElement,
   shortcut: Binding,
   listener: (e: KeyboardEvent) => void,
-  options?: ShortcutOptions
+  options?: ShortcutOptions,
 ) {
   const optShouldSuppress = options?.shouldSuppress ?? false;
   const optPreventDefault = options?.preventDefault ?? true;
@@ -473,7 +473,7 @@ export function untilRendered(el: HTMLElement) {
 /** Executes the given callback when the element's height is > 0. */
 export function whenRendered(
   el: HTMLElement,
-  callback: (value?: unknown) => void
+  callback: (value?: unknown) => void,
 ) {
   if (el.clientHeight > 0) {
     callback();
@@ -496,7 +496,7 @@ export function whenRendered(
  * */
 export function getShadowOrDocumentSelection(
   shadowRoot: Document | ShadowRoot | null,
-  contentEditableRange: Range | null
+  contentEditableRange: Range | null,
 ) {
   // When using native shadow DOM, the selection returned by
   // document.getSelection() cannot reference the actual DOM elements making
@@ -513,13 +513,13 @@ export function getShadowOrDocumentSelection(
     if ((selection as any).getComposedRanges) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const composedRanges = (selection as any).getComposedRanges(
-        shadowRoot
+        shadowRoot,
       )[0];
       const ranges = new Range();
       if (composedRanges) {
         ranges.setStart(
           composedRanges.startContainer,
-          composedRanges.startOffset
+          composedRanges.startOffset,
         );
         ranges.setEnd(composedRanges.endContainer, composedRanges.endOffset);
       }

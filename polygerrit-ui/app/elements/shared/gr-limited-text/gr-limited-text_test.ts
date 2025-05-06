@@ -15,7 +15,7 @@ suite('gr-limited-text tests', () => {
 
   setup(async () => {
     element = await fixture<GrLimitedText>(
-      html`<gr-limited-text></gr-limited-text>`
+      html`<gr-limited-text></gr-limited-text>`,
     );
   });
 
@@ -31,7 +31,7 @@ suite('gr-limited-text tests', () => {
         <gr-tooltip-content has-tooltip="" title="abc 123 (tip)">
           abc …
         </gr-tooltip-content>
-      `
+      `,
     );
   });
 
@@ -49,7 +49,7 @@ suite('gr-limited-text tests', () => {
     assert.isOk(query(element, 'gr-tooltip-content'));
     assert.equal(
       queryAndAssert<GrTooltipContent>(element, 'gr-tooltip-content').title,
-      'abc 123'
+      'abc 123',
     );
 
     element.limit = 100;
@@ -66,7 +66,7 @@ suite('gr-limited-text tests', () => {
     await element.updateComplete;
     let tooltipContent = queryAndAssert<GrTooltipContent>(
       element,
-      'gr-tooltip-content'
+      'gr-tooltip-content',
     );
     assert.isOk(tooltipContent);
     assert.equal(tooltipContent.title, 'abc 123');
@@ -75,7 +75,7 @@ suite('gr-limited-text tests', () => {
     await element.updateComplete;
     tooltipContent = queryAndAssert<GrTooltipContent>(
       element,
-      'gr-tooltip-content'
+      'gr-tooltip-content',
     );
     assert.isOk(tooltipContent);
     assert.equal(tooltipContent.title, 'abc 123');

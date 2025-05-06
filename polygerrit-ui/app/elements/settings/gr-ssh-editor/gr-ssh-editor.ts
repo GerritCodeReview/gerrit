@@ -219,7 +219,7 @@ export class GrSshEditor extends LitElement {
   // private but used in tests
   save() {
     const promises = this.keysToRemove.map(key =>
-      this.restApiService.deleteAccountSSHKey(`${key.seq}`)
+      this.restApiService.deleteAccountSSHKey(`${key.seq}`),
     );
     return Promise.all(promises).then(() => {
       this.keysToRemove = [];

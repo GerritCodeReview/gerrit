@@ -184,7 +184,7 @@ function removeConsecutiveBlankLines(lines: string[]): string[] {
 
 function detectFormattingErrors(
   message: CommitMessage,
-  messageString: string
+  messageString: string,
 ): FormattingError[] {
   const errors: FormattingError[] = [];
 
@@ -346,7 +346,7 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
 
   const footerStartIndex = findStartOfParagraph(
     lines,
-    hasTrailingBlankLine ? lines.length - 2 : lines.length - 1
+    hasTrailingBlankLine ? lines.length - 2 : lines.length - 1,
   );
 
   footer = lines.slice(footerStartIndex, lines.length);
@@ -357,14 +357,14 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
   // Extract body lines, removing all leading/trailing blank lines
   body = lines.slice(
     firstNonEmptyLineIndex(lines, 2, /* direction */ 1),
-    firstNonEmptyLineIndex(lines, footerStartIndex - 1, /* direction */ -1) + 1
+    firstNonEmptyLineIndex(lines, footerStartIndex - 1, /* direction */ -1) + 1,
   );
 
   // Check if footer contains any lines in the format "key: value"
   // If not, move footer lines to body and make footer empty
   // This is typically the case when creating a new commit message and the footer is not yet formatted
   const hasFormattedFooterLine = footer.some(line =>
-    /^[^:]+:.+/.test(line.trim())
+    /^[^:]+:.+/.test(line.trim()),
   );
   if (!hasFormattedFooterLine && footer.length > 0) {
     // If body is not empty, add a blank line before appending footer
@@ -380,7 +380,7 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
 
 function findStartOfParagraph(
   lines: string[],
-  lastLineInParagraph: number
+  lastLineInParagraph: number,
 ): number {
   for (let i = lastLineInParagraph; i >= 0; i--) {
     if (lines[i].trim() === '') {
@@ -402,7 +402,7 @@ function findStartOfParagraph(
 function firstNonEmptyLineIndex(
   lines: string[],
   index: number,
-  direction: number
+  direction: number,
 ): number {
   while (index >= 0 && index < lines.length && lines[index].trim() === '') {
     index += direction;
@@ -431,7 +431,7 @@ export function formatCommitMessageString(messageString: string): string {
 }
 
 export function detectFormattingErrorsInString(
-  messageString: string
+  messageString: string,
 ): FormattingError[] {
   const commitMessage = parseCommitMessageString(messageString);
   return detectFormattingErrors(commitMessage, messageString);

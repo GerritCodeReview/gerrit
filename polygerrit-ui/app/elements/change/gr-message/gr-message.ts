@@ -136,17 +136,17 @@ export class GrMessage extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      x => (this.config = x)
+      x => (this.config = x),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      x => (this.loggedIn = x)
+      x => (this.loggedIn = x),
     );
     subscribe(
       this,
       () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
+      x => (this.isAdmin = x),
     );
   }
 
@@ -334,7 +334,7 @@ export class GrMessage extends LitElement {
             <span class="name">${this.message?.real_author?.name}</span>
             on behalf of
           </span>
-        `
+        `,
       )}
       <gr-account-label
         .account=${this.author}
@@ -363,7 +363,7 @@ export class GrMessage extends LitElement {
       class="numberOfComments"
       title=${pluralize(
         commentThreadsCount,
-        (unresolved ? 'unresolved' : 'resolved') + ' comment'
+        (unresolved ? 'unresolved' : 'resolved') + ' comment',
       )}
     >
       <gr-icon
@@ -406,7 +406,7 @@ export class GrMessage extends LitElement {
         this.message.message.substring(0, 1000),
         this.message.accounts_in_message,
         this.message.tag,
-        this.change?.labels
+        this.change?.labels,
       ) || this.patchsetCommentSummary();
     return html` <div class="content messageContent">
       <div class="message hideOnOpen">${messageContentCollapsed}</div>
@@ -421,7 +421,7 @@ export class GrMessage extends LitElement {
       this.message.message,
       this.message.accounts_in_message,
       this.message.tag,
-      this.change?.labels
+      this.change?.labels,
     );
     return html`
       <gr-formatted-text
@@ -475,7 +475,7 @@ export class GrMessage extends LitElement {
         reviewer => html`
           <gr-account-chip .account=${reviewer} .change=${this.change}>
           </gr-account-chip>
-        `
+        `,
       )}
     </div>`;
   }
@@ -487,7 +487,7 @@ export class GrMessage extends LitElement {
         this.message?._revision_number,
         () => html`
           <span class="patchset">${this.message?._revision_number} |</span>
-        `
+        `,
       )}
       ${when(
         this.message?.id,
@@ -508,7 +508,7 @@ export class GrMessage extends LitElement {
               .dateStr=${this.message?.date}
             ></gr-date-formatter>
           </span>
-        `
+        `,
       )}
       <gr-icon
         id="expandToggle"
@@ -543,7 +543,7 @@ export class GrMessage extends LitElement {
     const id = this.message?.id;
     if (!id) return '';
     const patchsetThreads = (this.commentThreads ?? []).filter(
-      thread => thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+      thread => thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
     );
     for (const thread of patchsetThreads) {
       // Find if there was a patchset level comment created through the reply
@@ -609,7 +609,7 @@ export class GrMessage extends LitElement {
       basePatchNum = computePredecessor(patchNum)!;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum, basePatchNum})
+      createChangeUrl({change: this.change, patchNum, basePatchNum}),
     );
     // stop propagation to stop message expansion
     e.stopPropagation();
@@ -621,7 +621,7 @@ export class GrMessage extends LitElement {
     content?: string,
     accountsInMessage?: AccountInfo[],
     tag?: ReviewInputTag,
-    labels?: LabelNameToInfoMap
+    labels?: LabelNameToInfoMap,
   ) {
     if (!content) return '';
     const isNewPatchSet = this.isNewPatchsetTag(tag);
@@ -653,7 +653,7 @@ export class GrMessage extends LitElement {
             message
               .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
               .filter(
-                ms => ms && ms.length === 4 && hasOwnProperty(labels, ms[2])
+                ms => ms && ms.length === 4 && hasOwnProperty(labels, ms[2]),
               ).length === message.length
           ) {
             return false;

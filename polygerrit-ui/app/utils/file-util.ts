@@ -60,7 +60,7 @@ export function formatBytes(bytes?: number, enablePrepend = true) {
   const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
   const prepend = enablePrepend && bytes > 0 ? '+' : '';
   const value = parseFloat(
-    (bytes / Math.pow(bits, exponent)).toFixed(decimals)
+    (bytes / Math.pow(bits, exponent)).toFixed(decimals),
   );
   return `${prepend}${value} ${sizes[exponent]}`;
 }

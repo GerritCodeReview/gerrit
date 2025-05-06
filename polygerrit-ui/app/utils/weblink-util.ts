@@ -12,7 +12,7 @@ export function getCodeBrowserWeblink(weblinks: WebLinkInfo[]) {
   const codeBrowserLinks = ['gitiles', 'browse', 'gitweb', 'code search'];
   for (let i = 0; i < codeBrowserLinks.length; i++) {
     const weblink = weblinks.find(
-      weblink => weblink.name?.toLowerCase() === codeBrowserLinks[i]
+      weblink => weblink.name?.toLowerCase() === codeBrowserLinks[i],
     );
     if (weblink) return weblink;
   }
@@ -21,7 +21,7 @@ export function getCodeBrowserWeblink(weblinks: WebLinkInfo[]) {
 
 export function getBrowseCommitWeblink(
   weblinks?: WebLinkInfo[],
-  config?: ServerInfo
+  config?: ServerInfo,
 ): WebLinkInfo | undefined {
   if (!weblinks) return undefined;
 
@@ -37,11 +37,11 @@ export function getBrowseCommitWeblink(
 
 export function getChangeWeblinks(
   weblinks?: WebLinkInfo[],
-  config?: ServerInfo
+  config?: ServerInfo,
 ): WebLinkInfo[] {
   if (!weblinks?.length) return [];
   const commitWeblink = getBrowseCommitWeblink(weblinks, config);
   return weblinks.filter(
-    weblink => !commitWeblink?.name || weblink.name !== commitWeblink.name
+    weblink => !commitWeblink?.name || weblink.name !== commitWeblink.name,
   );
 }

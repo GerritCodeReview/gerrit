@@ -63,7 +63,7 @@ export interface ChangeListSection {
 export function computeRelativeIndex(
   selectedIndex?: number,
   sectionIndex?: number,
-  sections?: ChangeListSection[]
+  sections?: ChangeListSection[],
 ) {
   if (
     selectedIndex === undefined ||
@@ -152,35 +152,35 @@ export class GrChangeList extends LitElement {
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
     this.shortcuts.addAbstract(Shortcut.CURSOR_NEXT_CHANGE, () =>
-      this.nextChange()
+      this.nextChange(),
     );
     this.shortcuts.addAbstract(Shortcut.CURSOR_PREV_CHANGE, () =>
-      this.prevChange()
+      this.prevChange(),
     );
     this.shortcuts.addAbstract(Shortcut.NEXT_PAGE, () => this.nextPage());
     this.shortcuts.addAbstract(Shortcut.PREV_PAGE, () => this.prevPage());
     this.shortcuts.addAbstract(Shortcut.OPEN_CHANGE, () => this.openChange());
     this.shortcuts.addAbstract(Shortcut.TOGGLE_CHANGE_STAR, () =>
-      this.toggleChangeStar()
+      this.toggleChangeStar(),
     );
     this.shortcuts.addAbstract(Shortcut.REFRESH_CHANGE_LIST, () =>
-      this.refreshChangeList()
+      this.refreshChangeList(),
     );
     this.shortcuts.addAbstract(Shortcut.TOGGLE_CHECKBOX, () =>
-      this.toggleCheckbox()
+      this.toggleCheckbox(),
     );
     this.shortcuts.addGlobal({key: Key.ENTER}, () => this.openChange());
     subscribe(
       this,
       () => this.getUserModel().preferences$,
-      x => (this.preferences = x)
+      x => (this.preferences = x),
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.config = config;
-      }
+      },
     );
   }
 
@@ -191,7 +191,7 @@ export class GrChangeList extends LitElement {
       .then(() => {
         this.dynamicHeaderEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-list-header'
+            'change-list-header',
           );
       });
   }
@@ -247,8 +247,8 @@ export class GrChangeList extends LitElement {
             changeSection,
             sectionIndex,
             labelNames,
-            startIndices[sectionIndex]
-          )
+            startIndices[sectionIndex],
+          ),
         )}
       </table>
     `;
@@ -266,7 +266,7 @@ export class GrChangeList extends LitElement {
     changeSection: ChangeListSection,
     sectionIndex: number,
     labelNames: string[],
-    startIndex: number
+    startIndex: number,
   ) {
     return html`
       <gr-change-list-section
@@ -279,7 +279,7 @@ export class GrChangeList extends LitElement {
         .selectedIndex=${computeRelativeIndex(
           this.selectedIndex,
           sectionIndex,
-          this.sections
+          this.sections,
         )}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
@@ -332,7 +332,7 @@ export class GrChangeList extends LitElement {
     assertIsDefined(this.sections, 'sections');
     const changeSections = queryAll<GrChangeListSection>(
       this,
-      'gr-change-list-section'
+      'gr-change-list-section',
     );
     for (let i = 0; i < this.sections.length; i++) {
       if (selectedIndex >= this.sections[i].results.length) {
@@ -356,7 +356,7 @@ export class GrChangeList extends LitElement {
       const prefColumns = changeTablePrefs(this.preferences);
       // This is for sorting `prefColumns` as in `ColumnNames`:
       this.visibleChangeTableColumns = Object.values(ColumnNames).filter(col =>
-        prefColumns.includes(col)
+        prefColumns.includes(col),
       );
     }
   }
@@ -439,7 +439,7 @@ export class GrChangeList extends LitElement {
     const items: GrChangeListItem[] = [];
     const sections = queryAll<GrChangeListSection>(
       this,
-      'gr-change-list-section'
+      'gr-change-list-section',
     );
     await Promise.all(Array.from(sections).map(s => s.updateComplete));
     for (const section of sections) {

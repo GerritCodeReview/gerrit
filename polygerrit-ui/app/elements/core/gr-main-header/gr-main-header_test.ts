@@ -28,7 +28,7 @@ suite('gr-main-header tests', () => {
   setup(async () => {
     stubRestApi('probePath').returns(Promise.resolve(false));
     stubElement('gr-main-header', 'loadAccount').callsFake(() =>
-      Promise.resolve()
+      Promise.resolve(),
     );
     element = await fixture(html`<gr-main-header></gr-main-header>`);
     element.loginUrl = '/login';
@@ -264,7 +264,7 @@ suite('gr-main-header tests', () => {
           </div>
         </nav>
         <div class="modelBackground"></div>
-      `
+      `,
     );
   });
 
@@ -303,7 +303,7 @@ suite('gr-main-header tests', () => {
       [
         {url: 'https://awesometown.com/#hashyhash', name: ''},
         {url: 'url', name: ''},
-      ]
+      ],
     );
   });
 
@@ -341,10 +341,10 @@ suite('gr-main-header tests', () => {
           /* userLinks= */ [],
           adminLinks,
           /* topMenus= */ [],
-          defaultLinks
+          defaultLinks,
         )
         .find(i => i.title === 'Faves'),
-      defaultLinks[0]
+      defaultLinks[0],
     );
     assert.deepEqual(
       element
@@ -353,7 +353,7 @@ suite('gr-main-header tests', () => {
       {
         title: 'Your',
         links: userLinks,
-      }
+      },
     );
   });
 
@@ -410,7 +410,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* defaultLinks= */ []
+        /* defaultLinks= */ [],
       )[2],
       {
         title: 'Plugins',
@@ -420,7 +420,7 @@ suite('gr-main-header tests', () => {
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
-      }
+      },
     );
   });
 
@@ -454,7 +454,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* defaultLinks= */ []
+        /* defaultLinks= */ [],
       )[2],
       {
         title: 'Projects',
@@ -464,7 +464,7 @@ suite('gr-main-header tests', () => {
             url: '/plugins/myplugin/index.html',
           },
         ],
-      }
+      },
     );
   });
 
@@ -503,7 +503,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* defaultLinks= */ []
+        /* defaultLinks= */ [],
       )[2],
       {
         title: 'Plugins',
@@ -517,7 +517,7 @@ suite('gr-main-header tests', () => {
             url: 'https://gerrit/plugins/plugin-manager/static/create.html',
           },
         ],
-      }
+      },
     );
   });
 
@@ -550,7 +550,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
-        defaultLinks
+        defaultLinks,
       )[0],
       {
         title: 'Faves',
@@ -560,7 +560,7 @@ suite('gr-main-header tests', () => {
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ]),
-      }
+      },
     );
   });
 
@@ -589,7 +589,7 @@ suite('gr-main-header tests', () => {
         userLinks,
         /* adminLinks= */ [],
         topMenus,
-        /* defaultLinks= */ []
+        /* defaultLinks= */ [],
       )[0],
       {
         title: 'Your',
@@ -604,7 +604,7 @@ suite('gr-main-header tests', () => {
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
-      }
+      },
     );
   });
 
@@ -633,7 +633,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* defaultLinks= */ []
+        /* defaultLinks= */ [],
       )[1],
       {
         title: 'Browse',
@@ -644,7 +644,7 @@ suite('gr-main-header tests', () => {
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
-      }
+      },
     );
   });
 

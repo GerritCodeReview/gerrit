@@ -118,7 +118,7 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
+    () => getAppContext().reportingService,
   );
 
   constructor() {
@@ -126,20 +126,20 @@ export class GrSuggestionDiffPreview extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      changeNum => (this.changeNum = changeNum)
+      changeNum => (this.changeNum = changeNum),
     );
     subscribe(
       this,
       () => this.getChangeModel().revisions$,
       revisions =>
         (this.hasEdit = Object.values(revisions).some(
-          info => info._number === EDIT
-        ))
+          info => info._number === EDIT,
+        )),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
@@ -148,12 +148,12 @@ export class GrSuggestionDiffPreview extends LitElement {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;
         this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().repo$,
-      x => (this.repo = x)
+      x => (this.repo = x),
     );
   }
 
@@ -207,7 +207,7 @@ export class GrSuggestionDiffPreview extends LitElement {
       ${when(
         this.previewLoadedFor,
         () => this.renderDiff(),
-        () => html`<code>${this.codeText}</code>`
+        () => html`<code>${this.codeText}</code>`,
       )}
     `;
   }
@@ -235,7 +235,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
       this.patchSet,
-      this.fixSuggestionInfo.replacements
+      this.fixSuggestionInfo.replacements,
     );
     if (!res) return;
     const currentPreviews = Object.keys(res).map(key => {
@@ -282,7 +282,7 @@ export class GrSuggestionDiffPreview extends LitElement {
         basePatchNum,
         fixSuggestion.replacements,
         this.latestPatchNum,
-        throwingErrorCallback
+        throwingErrorCallback,
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -295,7 +295,7 @@ export class GrSuggestionDiffPreview extends LitElement {
         method: '1-click',
         description: fixSuggestion.description,
         fileExtension: getFileExtension(
-          fixSuggestion?.replacements?.[0].path ?? ''
+          fixSuggestion?.replacements?.[0].path ?? '',
         ),
         commentId: this.commentId ?? '',
         success: res?.ok ?? false,
@@ -311,7 +311,7 @@ export class GrSuggestionDiffPreview extends LitElement {
           patchNum: EDIT,
           basePatchNum,
           forceReload: !this.hasEdit,
-        })
+        }),
       );
       fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});
       fire(this, 'apply-user-suggestion', {fixSuggestion});

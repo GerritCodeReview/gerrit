@@ -29,7 +29,7 @@ suite('gr-repo-commands tests', () => {
     // getProjectConfig() is called as soon as the element is attached, so
     // stubbing it here has not effect anymore.
     repoStub = stubRestApi('getProjectConfig').returns(
-      Promise.resolve(undefined)
+      Promise.resolve(undefined),
     );
   });
 
@@ -98,7 +98,7 @@ suite('gr-repo-commands tests', () => {
         <gr-create-file-edit-dialog id="createFileEditDialog">
         </gr-create-file-edit-dialog>
       `,
-      {ignoreTags: ['p']}
+      {ignoreTags: ['p']},
     );
   });
 
@@ -106,7 +106,7 @@ suite('gr-repo-commands tests', () => {
     test('createNewChange opens modal', () => {
       const openStub = sinon.stub(
         queryAndAssert<HTMLDialogElement>(element, '#createChangeModal'),
-        'showModal'
+        'showModal',
       );
       element.createNewChange();
       assert.isTrue(openStub.called);
@@ -118,7 +118,7 @@ suite('gr-repo-commands tests', () => {
         new CustomEvent('confirm', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCreateChangeStub.called);
     });
@@ -126,13 +126,13 @@ suite('gr-repo-commands tests', () => {
     test('handleCloseCreateChange called when cancel fired', () => {
       const handleCloseCreateChangeStub = sinon.stub(
         element,
-        'handleCloseCreateChange'
+        'handleCloseCreateChange',
       );
       queryAndAssert<GrDialog>(element, '#createChangeDialog').dispatchEvent(
         new CustomEvent('cancel', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCloseCreateChangeStub.called);
     });
@@ -157,7 +157,7 @@ suite('gr-repo-commands tests', () => {
       queryAndAssert<GrButton>(element, '#editRepoConfig').click();
       await element.updateComplete;
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#editRepoConfig').loading
+        queryAndAssert<GrButton>(element, '#editRepoConfig').loading,
       );
 
       await handleSpy.lastCall.returnValue;
@@ -166,10 +166,10 @@ suite('gr-repo-commands tests', () => {
       assert.isTrue(alertStub.called);
       assert.equal(
         alertStub.lastCall.args[0].detail.message,
-        'Navigating to change'
+        'Navigating to change',
       );
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#editRepoConfig').loading
+        queryAndAssert<GrButton>(element, '#editRepoConfig').loading,
       );
     });
 
@@ -178,7 +178,7 @@ suite('gr-repo-commands tests', () => {
       queryAndAssert<GrButton>(element, '#editRepoConfig').click();
       await element.updateComplete;
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#editRepoConfig').loading
+        queryAndAssert<GrButton>(element, '#editRepoConfig').loading,
       );
 
       await handleSpy.lastCall.returnValue;
@@ -187,10 +187,10 @@ suite('gr-repo-commands tests', () => {
       assert.isTrue(alertStub.called);
       assert.equal(
         alertStub.lastCall.args[0].detail.message,
-        'Failed to create change.'
+        'Failed to create change.',
       );
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#editRepoConfig').loading
+        queryAndAssert<GrButton>(element, '#editRepoConfig').loading,
       );
     });
   });

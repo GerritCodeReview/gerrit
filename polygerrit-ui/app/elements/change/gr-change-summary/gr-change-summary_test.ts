@@ -72,7 +72,7 @@ suite('gr-change-summary test', () => {
             </tr>
           </tbody>
         </table>
-      </div> `
+      </div> `,
     );
   });
 
@@ -96,7 +96,7 @@ suite('gr-change-summary test', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -108,7 +108,7 @@ suite('gr-change-summary test', () => {
       const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip') ?? [];
       assert.deepEqual(
         [...chips].map(c => `${c.statusOrCategory} ${c.text}`),
-        texts
+        texts,
       );
     };
 
@@ -119,7 +119,7 @@ suite('gr-change-summary test', () => {
     test('single running', async () => {
       checkSummary(
         [createRun({status: RunStatus.RUNNING})],
-        ['RUNNING test-name']
+        ['RUNNING test-name'],
       );
     });
 
@@ -131,7 +131,7 @@ suite('gr-change-summary test', () => {
             results: [createCheckResult({category: Category.INFO})],
           }),
         ],
-        ['INFO test-name']
+        ['INFO test-name'],
       );
     });
 
@@ -162,7 +162,7 @@ suite('gr-change-summary test', () => {
           'INFO 1',
           'SUCCESS 1',
           'RUNNING test-name',
-        ]
+        ],
       );
     });
   });
@@ -215,7 +215,7 @@ suite('gr-change-summary test', () => {
         >
           2 mentions
         </gr-summary-chip>
-      `
+      `,
     );
   });
 });

@@ -342,7 +342,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    */
   private setCursorPositionForDiv(
     position: number,
-    editableDivElement?: HTMLDivElement
+    editableDivElement?: HTMLDivElement,
   ) {
     // This will keep track of remaining offset to place the cursor.
     let remainingOffset = position;
@@ -397,7 +397,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       selection,
       editableDivElement,
       nodeToFocusOn,
-      remainingOffset
+      remainingOffset,
     );
   }
 
@@ -424,7 +424,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     selection: Selection,
     editableDivElement: Node,
     nodeToFocusOn: Node | null,
-    remainingOffset: number
+    remainingOffset: number,
   ) {
     const range = document.createRange();
     // If node is null or undefined then fallback to focus event which will put
@@ -529,7 +529,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
   private fire<T>(type: string, detail?: T) {
     this.dispatchEvent(
-      new CustomEvent(type, {detail, bubbles: true, composed: true})
+      new CustomEvent(type, {detail, bubbles: true, composed: true}),
     );
   }
 
@@ -610,7 +610,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     hintSpan.setAttribute('role', 'alert');
     hintSpan.setAttribute(
       'aria-label',
-      'Suggestion: ' + hint + ' Press TAB to accept it.'
+      'Suggestion: ' + hint + ' Press TAB to accept it.',
     );
     hintSpan.dataset['hint'] = hint;
     editableDivElement.appendChild(hintSpan);
@@ -667,7 +667,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   private parseText(
     node: Node,
     isLastBr: boolean,
-    isFirst: boolean
+    isFirst: boolean,
   ): [string, boolean] {
     let textValue = '';
     let output = '';
@@ -689,7 +689,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       [output, isLastBr] = this.parseText(
         node.childNodes[i],
         isLastBr,
-        i === 0
+        i === 0,
       );
       textValue += output;
     }
@@ -761,7 +761,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       // child nodes before the cursor position.
       const partOfNodes = Array.from(editableDivElement.childNodes).slice(
         0,
-        selection.focusOffset
+        selection.focusOffset,
       );
       findCursorPosition(partOfNodes);
     } else {

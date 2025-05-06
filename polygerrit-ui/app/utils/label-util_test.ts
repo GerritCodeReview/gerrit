@@ -308,16 +308,16 @@ suite('label-util', () => {
           A: createDetailedLabelInfo(),
           B: createDetailedLabelInfo(),
         },
-        undefined
+        undefined,
       ),
-      {}
+      {},
     );
     assert.deepEqual(
       mergeLabelInfoMaps(undefined, {
         A: createDetailedLabelInfo(),
         B: createDetailedLabelInfo(),
       }),
-      {}
+      {},
     );
 
     assert.deepEqual(
@@ -329,12 +329,12 @@ suite('label-util', () => {
         {
           A: createDetailedLabelInfo(),
           B: createDetailedLabelInfo(),
-        }
+        },
       ),
       {
         A: createDetailedLabelInfo(),
         B: createDetailedLabelInfo(),
-      }
+      },
     );
 
     assert.deepEqual(
@@ -346,11 +346,11 @@ suite('label-util', () => {
         {
           B: createDetailedLabelInfo(),
           C: createDetailedLabelInfo(),
-        }
+        },
       ),
       {
         B: createDetailedLabelInfo(),
-      }
+      },
     );
 
     assert.deepEqual(
@@ -362,9 +362,9 @@ suite('label-util', () => {
         {
           X: createDetailedLabelInfo(),
           Y: createDetailedLabelInfo(),
-        }
+        },
       ),
-      {}
+      {},
     );
   });
 
@@ -377,9 +377,9 @@ suite('label-util', () => {
           C: ['-1', '0'],
           D: ['0'],
         },
-        undefined
+        undefined,
       ),
-      {}
+      {},
     );
 
     assert.deepEqual(
@@ -389,7 +389,7 @@ suite('label-util', () => {
         C: ['-1', '0'],
         D: ['0'],
       }),
-      {}
+      {},
     );
 
     assert.deepEqual(
@@ -405,14 +405,14 @@ suite('label-util', () => {
           B: ['-1', '0'],
           C: ['-1', '0'],
           D: ['0'],
-        }
+        },
       ),
       {
         A: ['-1', '0', '+1', '+2'],
         B: ['-1', '0'],
         C: ['-1', '0'],
         D: ['0'],
-      }
+      },
     );
 
     assert.deepEqual(
@@ -426,12 +426,12 @@ suite('label-util', () => {
           A: ['-1', '0', '+1', '+2'],
           B: ['-1', '0'],
           D: ['0'],
-        }
+        },
       ),
       {
         A: ['-1', '0', '+1', '+2'],
         B: ['-1', '0'],
-      }
+      },
     );
 
     assert.deepEqual(
@@ -447,14 +447,14 @@ suite('label-util', () => {
           B: ['-1', '0'],
           C: ['0', '+1'],
           D: ['0'],
-        }
+        },
       ),
       {
         A: [],
         B: ['-1', '0'],
         C: ['0'],
         D: ['0'],
-      }
+      },
     );
 
     assert.deepEqual(
@@ -468,9 +468,9 @@ suite('label-util', () => {
           X: ['-1', '0', '+1', '+2'],
           Y: ['-1', '0'],
           Z: ['0'],
-        }
+        },
       ),
-      {}
+      {},
     );
   });
 
@@ -482,14 +482,14 @@ suite('label-util', () => {
     });
     test('label with number', () => {
       const submitRequirement = createSubmitRequirementResultInfo(
-        'label2:verified=MAX'
+        'label2:verified=MAX',
       );
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['verified']);
     });
     test('2 labels', () => {
       const submitRequirement = createSubmitRequirementResultInfo(
-        'label:Verified=MAX -label:Code-Review=MIN'
+        'label:Verified=MAX -label:Code-Review=MIN',
       );
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Code-Review']);
@@ -498,7 +498,7 @@ suite('label-util', () => {
       const submitRequirement = {
         ...createSubmitRequirementResultInfo(),
         override_expression_result: createSubmitRequirementExpressionInfo(
-          'label:Build-cop-override'
+          'label:Build-cop-override',
         ),
       };
       const labels = extractAssociatedLabels(submitRequirement);
@@ -511,7 +511,7 @@ suite('label-util', () => {
       assert.deepEqual(extractLabelsWithCountFrom('foo'), []);
       assert.deepEqual(
         extractLabelsWithCountFrom('label:Verified=MAX -label:Code-Review=MIN'),
-        []
+        [],
       );
     });
 
@@ -526,14 +526,14 @@ suite('label-util', () => {
 
       assert.deepEqual(
         extractLabelsWithCountFrom('label:Code-Review=MAX,count>=2'),
-        [{label: 'Code-Review', count: 2}]
+        [{label: 'Code-Review', count: 2}],
       );
     });
   });
 
   suite('getRequirements()', () => {
     function createChangeInfoWith(
-      submit_requirements: SubmitRequirementResultInfo[]
+      submit_requirements: SubmitRequirementResultInfo[],
     ) {
       return {
         ...createChange(),

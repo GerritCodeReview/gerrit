@@ -98,7 +98,7 @@ suite('service worker class tests', () => {
     sinon.stub(serviceWorker, 'saveState').returns(Promise.resolve());
     const showNotificationMock = sinon.stub(
       serviceWorker.ctx.registration,
-      'showNotification'
+      'showNotification',
     );
 
     await serviceWorker.showLatestAttentionChangeNotification(account);
@@ -106,8 +106,8 @@ suite('service worker class tests', () => {
     assert.isTrue(showNotificationMock.calledOnce);
     assert.isTrue(
       showNotificationMock.calledWithMatch(
-        'You are in the attention set for 2 new changes.'
-      )
+        'You are in the attention set for 2 new changes.',
+      ),
     );
   });
 
@@ -131,7 +131,7 @@ suite('service worker class tests', () => {
     };
     const showNotificationMock = sinon.stub(
       serviceWorker.ctx.registration,
-      'showNotification'
+      'showNotification',
     );
     sinon
       .stub(serviceWorker, 'getLatestAttentionSetChanges')
@@ -147,13 +147,13 @@ suite('service worker class tests', () => {
         data: {
           url: 'http://localhost:9876/c/test-project/+/42?usp=service-worker-notification',
         },
-      })
+      }),
     );
     assert.equal(showNotificationMock.firstCall.args?.[1]?.['body'], reason);
     assert.isTrue(
       showNotificationMock.firstCall.args?.[1]?.['data']?.['url'].endsWith(
-        'c/test-project/+/42?usp=service-worker-notification'
-      )
+        'c/test-project/+/42?usp=service-worker-notification',
+      ),
     );
   });
 });

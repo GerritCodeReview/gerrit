@@ -38,7 +38,7 @@ function clamp(value: number, min: number, max: number) {
  */
 export function fitToFrame(
   content: Dimensions,
-  frame: Dimensions
+  frame: Dimensions,
 ): FittedContent {
   const contentAspectRatio = content.width / content.height;
   const frameAspectRatio = frame.width / frame.height;

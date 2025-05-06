@@ -63,7 +63,7 @@ export class GrChangeStar extends LitElement {
         role="checkbox"
         title=${this.getShortcutsService().createTitle(
           Shortcut.TOGGLE_CHANGE_STAR,
-          ShortcutSection.ACTIONS
+          ShortcutSection.ACTIONS,
         )}
         aria-label=${this.change?.starred
           ? 'Unstar this change'

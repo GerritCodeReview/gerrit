@@ -31,7 +31,7 @@ suite('gr-file-status tests', () => {
           <gr-tooltip-content has-tooltip="" title="" aria-label="">
             <div class="status" aria-hidden="true"><span></span></div>
           </gr-tooltip-content>
-        `
+        `,
       );
     });
 
@@ -45,7 +45,7 @@ suite('gr-file-status tests', () => {
               <span>A</span>
             </div>
           </gr-tooltip-content>
-        `
+        `,
       );
     });
 
@@ -70,7 +70,7 @@ suite('gr-file-status tests', () => {
               <span>A</span>
             </div>
           </gr-tooltip-content>
-        `
+        `,
       );
     });
   });

@@ -159,7 +159,7 @@ export class GrRepoPluginConfig extends LitElement {
             ?disabled=${this.disabled || !option.info.editable}
           >
             ${(option.info.permitted_values || []).map(
-              value => html`<option value=${value}>${value}</option>`
+              value => html`<option value=${value}>${value}</option>`,
             )}
           </select>
         </gr-select>
@@ -222,14 +222,14 @@ export class GrRepoPluginConfig extends LitElement {
     const _key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this._buildConfigChangeInfo(
       JSON.stringify(el.checked),
-      _key
+      _key,
     );
     this._handleChange(configChangeInfo);
   }
 
   _buildConfigChangeInfo(
     value: string | null | undefined,
-    _key: string
+    _key: string,
   ): ConfigChangeInfo {
     // If pluginData is not set, editors are not created and this method
     // can't be called

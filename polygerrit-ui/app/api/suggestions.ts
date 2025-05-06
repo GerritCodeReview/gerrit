@@ -39,7 +39,7 @@ export declare interface AutocompleteCommentRequest {
 
 export declare interface SuggestionsProvider {
   autocompleteComment?(
-    req: AutocompleteCommentRequest
+    req: AutocompleteCommentRequest,
   ): Promise<AutocompleteCommentResponse>;
 
   /**

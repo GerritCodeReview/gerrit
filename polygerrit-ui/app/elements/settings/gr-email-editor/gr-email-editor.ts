@@ -43,7 +43,7 @@ export class GrEmailEditor extends LitElement {
         if (!x) return;
         this.originalEmails = deepClone<EmailInfo[]>(x);
         this.emails = deepClone<EmailInfo[]>(x);
-      }
+      },
     );
   }
 
@@ -131,7 +131,7 @@ export class GrEmailEditor extends LitElement {
 
     if (this.newPreferred) {
       promises.push(
-        this.restApiService.setPreferredAccountEmail(this.newPreferred)
+        this.restApiService.setPreferredAccountEmail(this.newPreferred),
       );
     }
 
@@ -150,7 +150,7 @@ export class GrEmailEditor extends LitElement {
     // We have to use JSON.stringify as we cloned the array
     // so the reference is not the same.
     const emails = this.emails.some(
-      x => JSON.stringify(email) === JSON.stringify(x)
+      x => JSON.stringify(email) === JSON.stringify(x),
     );
     if (emails) this.emailsToRemove.push(email);
     this.emails.splice(index, 1);

@@ -32,7 +32,7 @@ suite('dashboard view state tests', () => {
         PROJECT_DASHBOARD_ROUTE,
         '/p/asdf/+/dashboard/qwer',
         state,
-        createDashboardUrl
+        createDashboardUrl,
       );
     });
   });
@@ -41,7 +41,7 @@ suite('dashboard view state tests', () => {
     test('self dashboard', () => {
       assert.equal(
         createDashboardUrl({type: DashboardType.USER}),
-        '/dashboard/self'
+        '/dashboard/self',
       );
     });
 
@@ -49,7 +49,7 @@ suite('dashboard view state tests', () => {
       window.CANONICAL_PATH = '/base';
       assert.equal(
         createDashboardUrl({type: DashboardType.USER}).substring(0, 5),
-        '/base'
+        '/base',
       );
       window.CANONICAL_PATH = undefined;
     });
@@ -57,7 +57,7 @@ suite('dashboard view state tests', () => {
     test('user dashboard', () => {
       assert.equal(
         createDashboardUrl({type: DashboardType.USER, user: 'user'}),
-        '/dashboard/user'
+        '/dashboard/user',
       );
     });
 
@@ -71,7 +71,7 @@ suite('dashboard view state tests', () => {
       };
       assert.equal(
         createDashboardUrl(state),
-        '/dashboard/?section+1=query+1&section+2=query+2'
+        '/dashboard/?section+1=query+1&section+2=query+2',
       );
     });
 
@@ -87,7 +87,7 @@ suite('dashboard view state tests', () => {
       assert.equal(
         createDashboardUrl(state),
         '/dashboard/?section+1=query+1+repo-name&' +
-          'section+2=query+2+repo-name'
+          'section+2=query+2+repo-name',
       );
     });
 
@@ -100,7 +100,7 @@ suite('dashboard view state tests', () => {
       };
       assert.equal(
         createDashboardUrl(state),
-        '/dashboard/user?name=query&title=custom+dashboard'
+        '/dashboard/user?name=query&title=custom+dashboard',
       );
     });
 
@@ -112,7 +112,7 @@ suite('dashboard view state tests', () => {
       };
       assert.equal(
         createDashboardUrl(state),
-        '/p/gerrit/repo/+/dashboard/default:main'
+        '/p/gerrit/repo/+/dashboard/default:main',
       );
     });
 
@@ -124,7 +124,7 @@ suite('dashboard view state tests', () => {
       };
       assert.equal(
         createDashboardUrl(state),
-        '/p/gerrit/project/+/dashboard/default:main'
+        '/p/gerrit/project/+/dashboard/default:main',
       );
     });
   });

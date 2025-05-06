@@ -31,7 +31,7 @@ const RIGHT_SIDE_CLASS = 'target-side-right';
  * In Lit based diff there is a <gr-diff-row> element in between the two.
  */
 export function fromRowToChunk(
-  rowEl: HTMLElement
+  rowEl: HTMLElement,
 ): HTMLTableSectionElement | undefined {
   const parent = rowEl.parentElement;
   if (!parent) return undefined;
@@ -84,7 +84,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     if (this.diffRowTRInternal) {
       this.diffRowTRInternal.classList.remove(
         LEFT_SIDE_CLASS,
-        RIGHT_SIDE_CLASS
+        RIGHT_SIDE_CLASS,
       );
       this.fireCursorMoved('line-cursor-moved-out');
     }
@@ -186,7 +186,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   moveToVisibleArea() {
     if (this.getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
       this.cursorManager.moveToVisibleArea((row: Element) =>
-        this.rowHasSide(row)
+        this.rowHasSide(row),
       );
     } else {
       this.cursorManager.moveToVisibleArea();
@@ -234,7 +234,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     number: LineNumber,
     side: Side,
     path?: string,
-    intentionalMove?: boolean
+    intentionalMove?: boolean,
   ) {
     const row = this.findRowByNumberAndFile(number, side, path);
     if (row) {
@@ -350,7 +350,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   };
 
   private boundHandleDiffLineSelected = (
-    e: CustomEvent<LineSelectedEventDetail>
+    e: CustomEvent<LineSelectedEventDetail>,
   ) => {
     this.moveToLineNumber(e.detail.number, e.detail.side, e.detail.path);
   };
@@ -436,7 +436,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   private fireCursorMoved(
-    event: 'line-cursor-moved-out' | 'line-cursor-moved-in'
+    event: 'line-cursor-moved-out' | 'line-cursor-moved-in',
   ) {
     const lineNum = this.getTargetLineNumber();
     if (!lineNum) return;
@@ -455,7 +455,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   updateStops() {
     this.cursorManager.stops = this.diffs.reduce(
       (stops: Stop[], diff) => stops.concat(diff.getCursorStops()),
-      []
+      [],
     );
   }
 
@@ -483,12 +483,12 @@ export class GrDiffCursor implements GrDiffCursorApi {
   private removeEventListeners(diff: GrDiffCursorable) {
     diff.removeEventListener(
       'loading-changed',
-      this.boundHandleDiffLoadingChanged
+      this.boundHandleDiffLoadingChanged,
     );
     diff.removeEventListener('render-start', this.boundHandleDiffRenderStart);
     diff.removeEventListener(
       'render-content',
-      this.boundHandleDiffRenderContent
+      this.boundHandleDiffRenderContent,
     );
     diff.removeEventListener('line-selected', this.boundHandleDiffLineSelected);
   }
@@ -496,7 +496,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   private addEventListeners(diff: GrDiffCursorable) {
     diff.addEventListener(
       'loading-changed',
-      this.boundHandleDiffLoadingChanged
+      this.boundHandleDiffLoadingChanged,
     );
     diff.addEventListener('render-start', this.boundHandleDiffRenderStart);
     diff.addEventListener('render-content', this.boundHandleDiffRenderContent);
@@ -507,7 +507,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   findRowByNumberAndFile(
     targetNumber: LineNumber,
     side: Side,
-    path?: string
+    path?: string,
   ): HTMLElement | undefined {
     let stops: Array<HTMLElement | AbortStop>;
     if (path) {

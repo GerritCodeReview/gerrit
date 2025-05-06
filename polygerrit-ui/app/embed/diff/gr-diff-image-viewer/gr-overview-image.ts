@@ -72,7 +72,7 @@ export class GrOverviewImage extends LitElement {
         }
         this.updateScale();
       }
-    }
+    },
   );
 
   static override get styles() {
@@ -164,7 +164,7 @@ export class GrOverviewImage extends LitElement {
       this.overlay.style.display = 'none';
 
       this.overlay.addEventListener('mousemove', (event: MouseEvent) =>
-        this.maybeDragFrame(event)
+        this.maybeDragFrame(event),
       );
       this.overlay.addEventListener('mouseleave', (event: MouseEvent) => {
         // Ignore mouseleave events that are due to closeOverlay() calls.
@@ -173,7 +173,7 @@ export class GrOverviewImage extends LitElement {
         }
       });
       this.overlay.addEventListener('mouseup', (event: MouseEvent) =>
-        this.releaseFrame(event)
+        this.releaseFrame(event),
       );
 
       document.body.appendChild(this.overlay);

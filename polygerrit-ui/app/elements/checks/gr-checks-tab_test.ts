@@ -31,7 +31,7 @@ suite('gr-checks-tab test', () => {
           <gr-checks-runs class="runs" collapsed=""> </gr-checks-runs>
           <gr-checks-results class="results"> </gr-checks-results>
         </div>
-      `
+      `,
     );
   });
 });

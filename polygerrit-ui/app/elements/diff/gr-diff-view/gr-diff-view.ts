@@ -272,6 +272,9 @@ export class GrDiffView extends LitElement {
 
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
+  // Show the popup for navigating to next file keyboard shortcut only once
+  private hasShownNavigateToFileToast = new Map<string, boolean>();
+
   @state()
   cursor?: GrDiffCursor;
 
@@ -1348,10 +1351,15 @@ export class GrDiffView extends LitElement {
       this.navigateToUnreviewedFile(direction);
     } else {
       this.lastDisplayedNavigateToFileToast.set(direction, Date.now());
+      if (this.hasShownNavigateToFileToast.get(direction)) {
+        // Popup for "direction" has already been shown once
+        return;
+      }
       fireAlert(
         this,
         `Press ${shortcut} again to navigate to ${direction} unreviewed file`
       );
+      this.hasShownNavigateToFileToast.set(direction, true);
     }
   }
 

@@ -32,14 +32,14 @@ suite('gr-shell-command tests', () => {
         <div class="commandContainer">
           <gr-copy-clipboard buttontitle="" hastooltip=""> </gr-copy-clipboard>
         </div>
-      `
+      `,
     );
   });
 
   test('focusOnCopy', async () => {
     const focusStub = sinon.stub(
-      queryAndAssert<GrCopyClipboard>(element, 'gr-copy-clipboard')!,
-      'focusOnCopy'
+      queryAndAssert<GrCopyClipboard>(element, 'gr-copy-clipboard'),
+      'focusOnCopy',
     );
     await element.focusOnCopy();
     assert.isTrue(focusStub.called);

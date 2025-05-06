@@ -89,46 +89,46 @@ export const diffModelToken = define<DiffModel>('diff-model');
 export class DiffModel extends Model<DiffState> {
   readonly diff$: Observable<DiffInfo> = select(
     this.state$.pipe(filter(state => state.diff !== undefined)),
-    diffState => diffState.diff!
+    diffState => diffState.diff!,
   );
 
   readonly syntaxTreeRight$: Observable<SyntaxBlock[] | undefined> = select(
     this.diff$,
-    diff => diff.meta_b?.syntax_tree
+    diff => diff.meta_b?.syntax_tree,
   );
 
   readonly lineCountLeft$: Observable<number> = select(this.diff$, diff =>
-    countLines(diff, Side.LEFT)
+    countLines(diff, Side.LEFT),
   );
 
   readonly baseImage$: Observable<ImageInfo | undefined> = select(
     this.state$,
-    diffState => diffState.baseImage
+    diffState => diffState.baseImage,
   );
 
   readonly revisionImage$: Observable<ImageInfo | undefined> = select(
     this.state$,
-    diffState => diffState.revisionImage
+    diffState => diffState.revisionImage,
   );
 
   readonly path$: Observable<string | undefined> = select(
     this.state$,
-    diffState => diffState.path
+    diffState => diffState.path,
   );
 
   readonly blameInfo$: Observable<BlameInfo[]> = select(
     this.state$,
-    diffState => diffState.blameInfo
+    diffState => diffState.blameInfo,
   );
 
   readonly renderPrefs$: Observable<RenderPreferences> = select(
     this.state$,
-    diffState => diffState.renderPrefs
+    diffState => diffState.renderPrefs,
   );
 
   readonly viewMode$: Observable<DiffViewMode> = select(
     this.renderPrefs$,
-    renderPrefs => renderPrefs.view_mode ?? DiffViewMode.SIDE_BY_SIDE
+    renderPrefs => renderPrefs.view_mode ?? DiffViewMode.SIDE_BY_SIDE,
   );
 
   readonly columnsToShow$: Observable<ColumnsToShow> = select(
@@ -148,76 +148,76 @@ export class DiffModel extends Model<DiffState> {
         rightSign: showSign && !unified,
         rightContent: true,
       };
-    }
+    },
   );
 
   readonly columnCount$: Observable<number> = select(
     this.columnsToShow$,
-    columnsToShow => Object.values(columnsToShow).filter(s => s).length
+    columnsToShow => Object.values(columnsToShow).filter(s => s).length,
   );
 
   readonly diffPrefs$: Observable<DiffPreferencesInfo> = select(
     this.state$,
-    diffState => diffState.diffPrefs
+    diffState => diffState.diffPrefs,
   );
 
   readonly layers$: Observable<DiffLayer[]> = select(
     this.state$,
-    diffState => diffState.layers
+    diffState => diffState.layers,
   );
 
   readonly showFullContext$: Observable<FullContext> = select(
     this.state$,
-    diffState => diffState.showFullContext
+    diffState => diffState.showFullContext,
   );
 
   readonly actionHoverCardText$: Observable<string | undefined> = select(
     this.state$,
-    diffState => diffState.actionHoverCardText
+    diffState => diffState.actionHoverCardText,
   );
 
   readonly context$: Observable<number> = select(this.state$, state =>
     computeContext(
       state.diffPrefs.context,
       state.showFullContext,
-      createDefaultDiffPrefs().context
-    )
+      createDefaultDiffPrefs().context,
+    ),
   );
 
   readonly responsiveMode$: Observable<DiffResponsiveMode> = select(
     this.state$,
-    diffState => getResponsiveMode(diffState.diffPrefs, diffState.renderPrefs)
+    diffState => getResponsiveMode(diffState.diffPrefs, diffState.renderPrefs),
   );
 
   readonly errorMessage$: Observable<string | undefined> = select(
     this.state$,
-    diffState => diffState.errorMessage
+    diffState => diffState.errorMessage,
   );
 
   readonly comments$: Observable<GrDiffCommentThread[]> = select(
     this.state$,
-    diffState => diffState.comments ?? []
+    diffState => diffState.comments ?? [],
   );
 
   readonly groups$: Observable<GrDiffGroup[]> = select(
     this.state$,
-    diffState => diffState.groups ?? []
+    diffState => diffState.groups ?? [],
   );
 
   readonly loading$: Observable<boolean> = select(
     this.state$,
     diffState =>
-      (diffState.groups ?? []).length === 0 || diffState.diff === undefined
+      (diffState.groups ?? []).length === 0 || diffState.diff === undefined,
   );
 
   readonly lineLength$: Observable<number> = select(this.state$, state =>
-    computeLineLength(state.diffPrefs, state.path)
+    computeLineLength(state.diffPrefs, state.path),
   );
 
   readonly keyLocations$: Observable<KeyLocations> = select(
     this.state$,
     diffState =>
-      computeKeyLocations(diffState.lineOfInterest, diffState.comments ?? [])
+      computeKeyLocations(diffState.lineOfInterest, diffState.comments ?? []),
   );
 
   readonly diffRangesToFocus$: Observable<DiffRangesToFocus | undefined> =
@@ -229,7 +229,7 @@ export class DiffModel extends Model<DiffState> {
      * that are meant for <gr-diff> or the host of <gr-diff>. For tests this
      * can also be just `document`.
      */
-    private readonly eventTarget: EventTarget
+    private readonly eventTarget: EventTarget,
   ) {
     super({
       diffPrefs: createDefaultDiffPrefs(),
@@ -267,8 +267,8 @@ export class DiffModel extends Model<DiffState> {
 
             const processor = new GrDiffProcessor(options);
             return processor.process(diff.content);
-          }
-        )
+          },
+        ),
       )
       .subscribe(groups => {
         this.updateState({groups});
@@ -282,7 +282,7 @@ export class DiffModel extends Model<DiffState> {
   replaceGroup(group: GrDiffGroup, newGroups: readonly GrDiffGroup[]) {
     assert(
       group.type === GrDiffGroupType.CONTEXT_CONTROL,
-      'gr-diff can only replace context control groups'
+      'gr-diff can only replace context control groups',
     );
     const groups = [...this.getState().groups];
     const i = groups.indexOf(group);

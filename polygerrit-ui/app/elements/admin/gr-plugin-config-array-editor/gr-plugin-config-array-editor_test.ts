@@ -53,7 +53,7 @@ suite('gr-plugin-config-array-editor tests', () => {
             </gr-button>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -69,8 +69,8 @@ suite('gr-plugin-config-array-editor tests', () => {
       await element.updateComplete;
       assert.isFalse(
         queryAndAssert<HTMLInputElement>(element, '#input').hasAttribute(
-          'disabled'
-        )
+          'disabled',
+        ),
       );
       await element.updateComplete;
 
@@ -82,8 +82,8 @@ suite('gr-plugin-config-array-editor tests', () => {
       await element.updateComplete;
       assert.isFalse(
         queryAndAssert<HTMLInputElement>(element, '#input').hasAttribute(
-          'disabled'
-        )
+          'disabled',
+        ),
       );
       await element.updateComplete;
 

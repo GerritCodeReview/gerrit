@@ -175,22 +175,22 @@ export class GrMainHeader extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().myMenuItems$,
-      items => (this.userLinks = items.map(this.createHeaderLink))
+      items => (this.userLinks = items.map(this.createHeaderLink)),
     );
     subscribe(
       this,
       () => this.getConfigModel().loginUrl$,
-      loginUrl => (this.loginUrl = loginUrl)
+      loginUrl => (this.loginUrl = loginUrl),
     );
     subscribe(
       this,
       () => this.getConfigModel().loginText$,
-      loginText => (this.loginText = loginText)
+      loginText => (this.loginText = loginText),
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
     subscribe(
       this,
@@ -199,7 +199,7 @@ export class GrMainHeader extends LitElement {
         if (!config) return;
         this.retrieveFeedbackURL(config);
         this.retrieveRegisterURL(config);
-      }
+      },
     );
   }
 
@@ -624,7 +624,7 @@ export class GrMainHeader extends LitElement {
           ${this.computeLinks(
             this.userLinks,
             this.adminLinks,
-            this.topMenus
+            this.topMenus,
           ).map(linkGroup => this.renderLinkGroup(linkGroup))}
         </ul>
         <div class="rightItems">
@@ -677,7 +677,7 @@ export class GrMainHeader extends LitElement {
             ${this.computeLinks(
               this.userLinks,
               this.adminLinks,
-              this.topMenus
+              this.topMenus,
             ).map(linkGroup => this.renderLinkGroupMobile(linkGroup))}
           </ul>
         </div>
@@ -881,7 +881,7 @@ export class GrMainHeader extends LitElement {
     adminLinks?: NavLink[],
     topMenus?: TopMenuEntryInfo[],
     // defaultLinks parameter is used in tests only
-    defaultLinks = DEFAULT_LINKS
+    defaultLinks = DEFAULT_LINKS,
   ) {
     if (
       userLinks === undefined ||
@@ -922,7 +922,7 @@ export class GrMainHeader extends LitElement {
       const items = m.items.map(this.createHeaderLink).filter(
         link =>
           // Ignore GWT project links
-          !link.url.includes('${projectName}')
+          !link.url.includes('${projectName}'),
       );
       if (m.name in topMenuLinks) {
         items.forEach(link => {
@@ -962,7 +962,7 @@ export class GrMainHeader extends LitElement {
             }
             return capabilities;
           }),
-        () => this.getPluginLoader().jsApiService.getAdminMenuLinks()
+        () => this.getPluginLoader().jsApiService.getAdminMenuLinks(),
       ).then(res => {
         this.adminLinks = res.links;
       });

@@ -32,7 +32,7 @@ suite('gr-avatar tests', () => {
       avatars: defaultAvatars,
     };
     element = await fixture(
-      html`<gr-avatar .account=${accountWithId}></gr-avatar>`
+      html`<gr-avatar .account=${accountWithId}></gr-avatar>`,
     );
 
     assert.isFalse(isVisible(element));
@@ -48,7 +48,7 @@ suite('gr-avatar tests', () => {
       avatars: defaultAvatars,
     };
     element = await fixture(
-      html`<gr-avatar .account=${accountWithId}></gr-avatar>`
+      html`<gr-avatar .account=${accountWithId}></gr-avatar>`,
     );
 
     assert.isFalse(isVisible(element));
@@ -68,13 +68,16 @@ suite('gr-avatar tests', () => {
         avatars: defaultAvatars,
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithId} .imageSize=${64}></gr-avatar>`
+        html`<gr-avatar
+          .account=${accountWithId}
+          .imageSize=${64}
+        ></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("/accounts/123/avatar?s=64")'
+        'url("/accounts/123/avatar?s=64")',
       );
     });
 
@@ -84,13 +87,13 @@ suite('gr-avatar tests', () => {
         avatars: defaultAvatars,
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithId}></gr-avatar>`
+        html`<gr-avatar .account=${accountWithId}></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("/accounts/123/avatar?s=16")'
+        'url("/accounts/123/avatar?s=16")',
       );
     });
 
@@ -100,13 +103,13 @@ suite('gr-avatar tests', () => {
         avatars: defaultAvatars,
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithEmail}></gr-avatar>`
+        html`<gr-avatar .account=${accountWithEmail}></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("/accounts/foo%40gmail.com/avatar?s=16")'
+        'url("/accounts/foo%40gmail.com/avatar?s=16")',
       );
     });
 
@@ -116,13 +119,13 @@ suite('gr-avatar tests', () => {
         avatars: defaultAvatars,
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithName}></gr-avatar>`
+        html`<gr-avatar .account=${accountWithName}></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("/accounts/John%20Doe/avatar?s=16")'
+        'url("/accounts/John%20Doe/avatar?s=16")',
       );
     });
 
@@ -132,13 +135,13 @@ suite('gr-avatar tests', () => {
         avatars: defaultAvatars,
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithUsername}></gr-avatar>`
+        html`<gr-avatar .account=${accountWithUsername}></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("/accounts/John_Doe/avatar?s=16")'
+        'url("/accounts/John_Doe/avatar?s=16")',
       );
     });
 
@@ -164,13 +167,13 @@ suite('gr-avatar tests', () => {
         ],
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`
+        html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("https://cdn.example.com/s16-p/photo.jpg")'
+        'url("https://cdn.example.com/s16-p/photo.jpg")',
       );
     });
 
@@ -186,13 +189,13 @@ suite('gr-avatar tests', () => {
         ],
       };
       element = await fixture(
-        html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`
+        html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`,
       );
 
       assert.isTrue(isVisible(element));
       assert.equal(
         element.style.backgroundImage,
-        'url("/accounts/123/avatar?s=16")'
+        'url("/accounts/123/avatar?s=16")',
       );
     });
   });

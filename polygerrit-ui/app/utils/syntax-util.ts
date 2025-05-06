@@ -57,7 +57,7 @@ function unique(r: SyntaxLayerRange, index: number, array: SyntaxLayerRange[]) {
  * Unclosed spans will be carried over to the next line.
  */
 export function highlightedStringToRanges(
-  highlightedCode: string
+  highlightedCode: string,
 ): SyntaxLayerLine[] {
   // What the function eventually returns.
   const rangesPerLine: SyntaxLayerLine[] = [];

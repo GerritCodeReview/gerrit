@@ -189,7 +189,7 @@ suite('gr-gpg-editor tests', () => {
             Add New GPG Key
           </gr-button>
         </fieldset>
-      </div> `
+      </div> `,
     );
   });
 
@@ -209,7 +209,7 @@ suite('gr-gpg-editor tests', () => {
     const lastKey = keys[Object.keys(keys)[1]];
 
     const saveStub = stubRestApi('deleteAccountGPGKey').callsFake(() =>
-      Promise.resolve(new Response())
+      Promise.resolve(new Response()),
     );
 
     assert.equal(element.keysToRemove.length, 0);
@@ -218,7 +218,7 @@ suite('gr-gpg-editor tests', () => {
     // Get the delete button for the last row.
     const button = queryAndAssert<GrButton>(
       element,
-      'tbody tr:last-of-type td:nth-child(6) gr-button'
+      'tbody tr:last-of-type td:nth-child(6) gr-button',
     );
 
     button.click();
@@ -242,7 +242,7 @@ suite('gr-gpg-editor tests', () => {
     // Get the show button for the last row.
     const button = queryAndAssert<GrButton>(
       element,
-      'tbody tr:last-of-type td:nth-child(4) gr-button'
+      'tbody tr:last-of-type td:nth-child(4) gr-button',
     );
 
     button.click();
@@ -265,7 +265,7 @@ suite('gr-gpg-editor tests', () => {
     };
 
     const addStub = stubRestApi('addAccountGPGKey').callsFake(() =>
-      Promise.resolve(newKeyObject)
+      Promise.resolve(newKeyObject),
     );
 
     element.newKey = newKeyString;
@@ -294,7 +294,7 @@ suite('gr-gpg-editor tests', () => {
     const newKeyString = 'not even close to valid';
 
     const addStub = stubRestApi('addAccountGPGKey').callsFake(() =>
-      Promise.reject(new Error('error'))
+      Promise.reject(new Error('error')),
     );
 
     element.newKey = newKeyString;

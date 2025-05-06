@@ -79,10 +79,10 @@ suite('gr-admin-view tests', () => {
       Promise.resolve({
         name: 'test-user',
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     await element.reload();
     assert.equal(element.filteredLinks!.length, 4);
@@ -156,21 +156,21 @@ suite('gr-admin-view tests', () => {
       Promise.resolve({
         name: 'test-user',
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     await element.reload();
     await element.updateComplete;
     assert.equal(queryAll<HTMLLIElement>(element, '.sectionTitle').length, 4);
     assert.equal(
       queryAndAssert<HTMLSpanElement>(element, '.breadcrumbText').innerText,
-      'Test Repo'
+      'Test Repo',
     );
     assert.equal(
       queryAndAssert<GrDropdownList>(element, '#pageSelect').items!.length,
-      8
+      8,
     );
   });
 
@@ -183,10 +183,10 @@ suite('gr-admin-view tests', () => {
       Promise.resolve({
         name: 'test-user',
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     await element.reload();
     await element.updateComplete;
@@ -202,13 +202,13 @@ suite('gr-admin-view tests', () => {
 
   test('Needs reload when repo changes', async () => {
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     stubRestApi('getAccount').returns(
       Promise.resolve({
         _id: 1,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
 
     element.view = GerritView.REPO;
@@ -225,13 +225,13 @@ suite('gr-admin-view tests', () => {
   test('Needs reload when group changes', async () => {
     sinon.stub(element, 'computeGroupName');
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     stubRestApi('getAccount').returns(
       Promise.resolve({
         _id: 1,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
     element.view = GerritView.GROUP;
     element.groupViewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
@@ -245,10 +245,10 @@ suite('gr-admin-view tests', () => {
       Promise.resolve({
         name: 'test-user',
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     await element.reload();
     await element.updateComplete;
@@ -281,7 +281,7 @@ suite('gr-admin-view tests', () => {
         detail: {name: newName},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.equal(element.groupName, newName);
   });
@@ -314,13 +314,13 @@ suite('gr-admin-view tests', () => {
       detail: RepoDetailView.ACCESS,
     };
     stubRestApi('getAccountCapabilities').returns(
-      Promise.resolve(createAdminCapabilities())
+      Promise.resolve(createAdminCapabilities()),
     );
     stubRestApi('getAccount').returns(
       Promise.resolve({
         _id: 1,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -468,7 +468,7 @@ suite('gr-admin-view tests', () => {
     const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     const selectedIsCurrentPageSpy = sinon.spy(
       element,
-      'selectedIsCurrentPage'
+      'selectedIsCurrentPage',
     );
     sinon.spy(element, 'handleSubsectionChange');
     await element.reload();
@@ -477,7 +477,7 @@ suite('gr-admin-view tests', () => {
     assert.deepEqual(element.subsectionLinks, expectedSubsectionLinks);
     assert.equal(
       queryAndAssert<GrDropdownList>(element, '#pageSelect').value,
-      'repoaccess'
+      'repoaccess',
     );
     assert.equal(selectedIsCurrentPageSpy.callCount, 1);
     // Doesn't trigger navigation from the page select menu.
@@ -514,13 +514,13 @@ suite('gr-admin-view tests', () => {
   suite('computeSelectedClass', () => {
     setup(async () => {
       stubRestApi('getAccountCapabilities').returns(
-        Promise.resolve(createAdminCapabilities())
+        Promise.resolve(createAdminCapabilities()),
       );
       stubRestApi('getAccount').returns(
         Promise.resolve({
           _id: 1,
           registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-        })
+        }),
       );
       await element.reload();
     });
@@ -563,14 +563,14 @@ suite('gr-admin-view tests', () => {
           <div class="main table">
             <gr-repo-list class="table"></gr-repo-list>
           </div>
-        `
+        `,
       );
     });
 
     suite('repos', () => {
       setup(() => {
         stubElement('gr-repo-access', '_repoChanged').callsFake(() =>
-          Promise.resolve()
+          Promise.resolve(),
         );
       });
 
@@ -638,7 +638,7 @@ suite('gr-admin-view tests', () => {
       setup(async () => {
         stubElement('gr-group', 'loadGroup').callsFake(() => Promise.resolve());
         stubElement('gr-group-members', 'loadGroupDetails').callsFake(() =>
-          Promise.resolve()
+          Promise.resolve(),
         );
 
         getGroupConfigStub = stubRestApi('getGroupConfig');
@@ -646,7 +646,7 @@ suite('gr-admin-view tests', () => {
           Promise.resolve({
             name: 'foo',
             id: 'c0f83e941ce90caea30e6ad88f0d4ea0e841a7a9',
-          })
+          }),
         );
         stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
         await element.reload();
@@ -676,7 +676,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const subsectionItems = queryAll<HTMLLIElement>(
           element,
-          '.subsectionItem'
+          '.subsectionItem',
         );
         assert.equal(subsectionItems.length, 2);
         assert.isTrue(element.groupIsInternal);
@@ -690,7 +690,7 @@ suite('gr-admin-view tests', () => {
           Promise.resolve({
             name: 'foo',
             id: 'external-id',
-          })
+          }),
         );
         element.view = GerritView.GROUP;
         element.groupViewState = {
@@ -702,7 +702,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const subsectionItems = queryAll<HTMLLIElement>(
           element,
-          '.subsectionItem'
+          '.subsectionItem',
         );
         assert.equal(subsectionItems.length, 0);
         assert.isFalse(element.groupIsInternal);

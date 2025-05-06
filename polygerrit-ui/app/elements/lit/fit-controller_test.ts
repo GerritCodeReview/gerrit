@@ -39,7 +39,7 @@ suite('fit controller', () => {
     element.fitController.calculateAndSetPositions(
       hostRect,
       positionRect,
-      windowRect
+      windowRect,
     );
 
     assert.equal(element.style.top, '37px');
@@ -48,7 +48,7 @@ suite('fit controller', () => {
 
   test('refit positioning with offset', async () => {
     const elementWithOffset: FitElement = await fixture(
-      html`<fit-element></fit-element>`
+      html`<fit-element></fit-element>`,
     );
     elementWithOffset.verticalOffset = 10;
     elementWithOffset.horizontalOffset = 20;
@@ -62,7 +62,7 @@ suite('fit controller', () => {
     elementWithOffset.fitController.calculateAndSetPositions(
       hostRect,
       positionRect,
-      windowRect
+      windowRect,
     );
 
     assert.equal(elementWithOffset.style.top, '47px');
@@ -81,7 +81,7 @@ suite('fit controller', () => {
     element.fitController.calculateAndSetPositions(
       hostRect,
       positionRect,
-      windowRect
+      windowRect,
     );
 
     // is 10px extra from the previous test due to host margin
@@ -105,7 +105,7 @@ suite('fit controller', () => {
     element.fitController.calculateAndSetPositions(
       hostRect,
       positionRect,
-      windowRect
+      windowRect,
     );
 
     assert.equal(element.style.top, '47px');
@@ -130,7 +130,7 @@ suite('fit controller', () => {
     element.fitController.calculateAndSetPositions(
       hostRect,
       positionRect,
-      windowRect
+      windowRect,
     );
 
     assert.equal(element.style.top, '47px');

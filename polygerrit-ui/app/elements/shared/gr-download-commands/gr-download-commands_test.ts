@@ -54,7 +54,7 @@ suite('gr-download-commands', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       element = await fixture(
-        html`<gr-download-commands></gr-download-commands>`
+        html`<gr-download-commands></gr-download-commands>`,
       );
       element.schemes = SCHEMES;
       element.commands = COMMANDS;
@@ -108,14 +108,14 @@ suite('gr-download-commands', () => {
           <gr-shell-command class="_label_cherrypick"> </gr-shell-command>
           <gr-shell-command class="_label_formatpatch"> </gr-shell-command>
           <gr-shell-command class="_label_pull"> </gr-shell-command>
-        `
+        `,
       );
     });
 
     test('focusOnCopy', async () => {
       const focusStub = sinon.stub(
         queryAndAssert<GrShellCommand>(element, 'gr-shell-command'),
-        'focusOnCopy'
+        'focusOnCopy',
       );
       await element.focusOnCopy();
       assert.isTrue(focusStub.called);
@@ -139,28 +139,28 @@ suite('gr-download-commands', () => {
     test('tab selection', async () => {
       assert.equal(
         queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
-        '0'
+        '0',
       );
       queryAndAssert<PaperTabElement>(element, '[data-scheme="ssh"]').click();
       await element.updateComplete;
       assert.equal(element.selectedScheme, 'ssh');
       assert.equal(
         queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
-        '2'
+        '2',
       );
     });
 
     test('saves scheme to preferences', async () => {
       element.loggedIn = true;
       const savePrefsStub = stubRestApi('savePreferences').returns(
-        Promise.resolve(createDefaultPreferences())
+        Promise.resolve(createDefaultPreferences()),
       );
 
       await element.updateComplete;
 
       const repoTab = queryAndAssert<PaperTabElement>(
         element,
-        'paper-tab[data-scheme="repo"]'
+        'paper-tab[data-scheme="repo"]',
       );
 
       repoTab.click();
@@ -168,7 +168,7 @@ suite('gr-download-commands', () => {
       assert.isTrue(savePrefsStub.called);
       assert.equal(
         savePrefsStub.lastCall.args[0].download_scheme,
-        repoTab.getAttribute('data-scheme')
+        repoTab.getAttribute('data-scheme'),
       );
     });
   });
@@ -178,7 +178,7 @@ suite('gr-download-commands', () => {
     setup(async () => {
       userModel = testResolver(userModelToken);
       element = await fixture(
-        html`<gr-download-commands></gr-download-commands>`
+        html`<gr-download-commands></gr-download-commands>`,
       );
     });
     test('loads scheme from preferences', async () => {

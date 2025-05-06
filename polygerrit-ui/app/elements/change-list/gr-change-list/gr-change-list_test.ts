@@ -72,7 +72,7 @@ suite('gr-change-list basic tests', () => {
         <gr-change-list-section> </gr-change-list-section>
         <gr-change-list-section> </gr-change-list-section>
         <table id="changeList"></table>
-      `
+      `,
     );
   });
 
@@ -99,9 +99,9 @@ suite('gr-change-list basic tests', () => {
 
     assert.deepEqual(
       [...element.shadowRoot!.querySelectorAll('gr-change-list-section')].map(
-        section => section.startIndex
+        section => section.startIndex,
       ),
-      [0, 1, 3]
+      [0, 1, 3],
     );
   });
 
@@ -149,13 +149,13 @@ suite('gr-change-list basic tests', () => {
     let selectedChangeIndex = 0;
     assert.equal(
       computeRelativeIndex(selectedChangeIndex, 0, element.sections),
-      0
+      0,
     );
 
     // index lies outside the first section
     assert.equal(
       computeRelativeIndex(selectedChangeIndex, 1, element.sections),
-      undefined
+      undefined,
     );
 
     selectedChangeIndex = 2;
@@ -163,13 +163,13 @@ suite('gr-change-list basic tests', () => {
     // index lies outside the first section
     assert.equal(
       computeRelativeIndex(selectedChangeIndex, 0, element.sections),
-      undefined
+      undefined,
     );
 
     // 3rd change belongs to the second section
     assert.equal(
       computeRelativeIndex(selectedChangeIndex, 1, element.sections),
-      1
+      1,
     );
   });
 
@@ -182,7 +182,7 @@ suite('gr-change-list basic tests', () => {
           ],
         },
       ]).length,
-      0
+      0,
     );
     assert.equal(
       element.computeLabelNames([
@@ -225,7 +225,7 @@ suite('gr-change-list basic tests', () => {
           ],
         },
       ]).length,
-      3
+      3,
     );
   });
 
@@ -249,12 +249,12 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     const section = queryAndAssert<GrChangeListSection>(
       element,
-      'gr-change-list-section'
+      'gr-change-list-section',
     );
     await section.updateComplete;
     const elementItems = queryAll<GrChangeListItem>(
       section,
-      'gr-change-list-item'
+      'gr-change-list-item',
     );
     assert.equal(elementItems.length, 3);
 
@@ -324,12 +324,12 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     const section = queryAndAssert<GrChangeListSection>(
       element,
-      'gr-change-list-section'
+      'gr-change-list-section',
     );
     await section.updateComplete;
     const elementItems = queryAll<GrChangeListItem>(
       section,
-      'gr-change-list-item'
+      'gr-change-list-item',
     );
     assert.equal(elementItems.length, 3);
 
@@ -380,13 +380,13 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     const listItems = queryAll<GrChangeListItem>(
       element,
-      'gr-change-list-item'
+      'gr-change-list-item',
     );
     assert.equal(listItems.length, 0);
     const section = queryAndAssert(element, 'gr-change-list-section');
     const noChangesMsg = queryAndAssert<HTMLTableRowElement>(
       section,
-      '.noChanges'
+      '.noChanges',
     );
     assert.ok(noChangesMsg);
   });
@@ -396,12 +396,12 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     const listItems = queryAll<GrChangeListItem>(
       element,
-      'gr-change-list-item'
+      'gr-change-list-item',
     );
     assert.equal(listItems.length, 0);
     const sections = queryAll<GrChangeListSection>(
       element,
-      'gr-change-list-section'
+      'gr-change-list-section',
     );
     sections.forEach(section => {
       assert.isOk(query(section, '.noChanges'));
@@ -434,7 +434,7 @@ suite('gr-change-list basic tests', () => {
         const elementClass = '.' + column.trim().toLowerCase();
         const section = queryAndAssert(element, 'gr-change-list-section');
         assert.isFalse(
-          queryAndAssert<HTMLElement>(section, elementClass)!.hidden
+          queryAndAssert<HTMLElement>(section, elementClass).hidden,
         );
       }
     });
@@ -471,7 +471,7 @@ suite('gr-change-list basic tests', () => {
         const elementClass = '.' + column.trim().toLowerCase();
         const section = queryAndAssert(element, 'gr-change-list-section');
         assert.isFalse(
-          queryAndAssert<HTMLElement>(section, elementClass).hidden
+          queryAndAssert<HTMLElement>(section, elementClass).hidden,
         );
       }
     });
@@ -548,7 +548,7 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     const section = query<GrChangeListSection>(
       element,
-      'gr-change-list-section'
+      'gr-change-list-section',
     )!;
     await section.updateComplete;
 

@@ -16,7 +16,7 @@ suite('gr-ranged-comment-hint tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-ranged-comment-hint></gr-ranged-comment-hint>`
+      html`<gr-ranged-comment-hint></gr-ranged-comment-hint>`,
     );
     await waitEventLoop();
   });

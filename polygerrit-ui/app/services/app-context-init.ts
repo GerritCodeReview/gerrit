@@ -105,7 +105,7 @@ export type Creator<T> = () => T & Finalizable;
 // after setting up stubs.
 export function createAppDependencies(
   appContext: AppContext,
-  resolver: <T>(token: DependencyToken<T>) => T
+  resolver: <T>(token: DependencyToken<T>) => T,
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   return new Map<DependencyToken<unknown>, Creator<unknown>>([
     [authServiceToken, () => appContext.authService],
@@ -127,7 +127,7 @@ export function createAppDependencies(
         new SearchViewModel(
           appContext.restApiService,
           resolver(userModelToken),
-          () => resolver(navigationToken)
+          () => resolver(navigationToken),
         ),
     ],
     [settingsViewModelToken, () => new SettingsViewModel()],
@@ -147,7 +147,7 @@ export function createAppDependencies(
           resolver(pluginViewModelToken),
           resolver(repoViewModelToken),
           resolver(searchViewModelToken),
-          resolver(settingsViewModelToken)
+          resolver(settingsViewModelToken),
         ),
     ],
     [navigationToken, () => resolver(routerToken)],
@@ -160,7 +160,7 @@ export function createAppDependencies(
           appContext.restApiService,
           resolver(userModelToken),
           resolver(pluginLoaderToken),
-          appContext.reportingService
+          appContext.reportingService,
         ),
     ],
     [
@@ -172,7 +172,7 @@ export function createAppDependencies(
           resolver(accountsModelToken),
           appContext.restApiService,
           appContext.reportingService,
-          resolver(navigationToken)
+          resolver(navigationToken),
         ),
     ],
     [
@@ -183,7 +183,7 @@ export function createAppDependencies(
           resolver(commentsModelToken),
           resolver(checksModelToken),
           appContext.restApiService,
-          appContext.reportingService
+          appContext.reportingService,
         ),
     ],
     [
@@ -197,7 +197,7 @@ export function createAppDependencies(
         new RelatedChangesModel(
           resolver(changeModelToken),
           resolver(configModelToken),
-          appContext.restApiService
+          appContext.restApiService,
         ),
     ],
     [
@@ -205,7 +205,7 @@ export function createAppDependencies(
       () =>
         new PluginLoader(
           appContext.reportingService,
-          appContext.restApiService
+          appContext.restApiService,
         ),
     ],
     [
@@ -215,7 +215,7 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          resolver(pluginLoaderToken).pluginsModel
+          resolver(pluginLoaderToken).pluginsModel,
         ),
     ],
     [
@@ -223,7 +223,7 @@ export function createAppDependencies(
       () =>
         new ShortcutsService(
           resolver(userModelToken),
-          appContext.reportingService
+          appContext.reportingService,
         ),
     ],
     [storageServiceToken, () => new GrStorageService()],
@@ -237,7 +237,7 @@ export function createAppDependencies(
         new ServiceWorkerInstaller(
           appContext.flagsService,
           appContext.reportingService,
-          resolver(userModelToken)
+          resolver(userModelToken),
         ),
     ],
     [
@@ -246,7 +246,7 @@ export function createAppDependencies(
         new GrSuggestionsService(
           appContext.reportingService,
           resolver(pluginLoaderToken).pluginsModel,
-          resolver(changeModelToken)
+          resolver(changeModelToken),
         ),
     ],
   ]);

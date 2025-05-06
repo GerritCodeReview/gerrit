@@ -175,7 +175,7 @@ export class GrLabelScoreRow extends LitElement {
         () => html`
           <span class="placeholder" data-label=${this.label?.name ?? ''}>
           </span>
-        `
+        `,
       );
   }
 
@@ -204,7 +204,7 @@ export class GrLabelScoreRow extends LitElement {
           data-vote=${this._computeVoteAttribute(
             Number(value),
             index,
-            items.length
+            items.length,
           )}
           data-name=${ifDefined(this.label?.name)}
           data-value=${value}
@@ -220,7 +220,7 @@ export class GrLabelScoreRow extends LitElement {
             ${value}
           </gr-tooltip-content>
         </gr-button>
-      `
+      `,
     );
   }
 
@@ -296,7 +296,7 @@ export class GrLabelScoreRow extends LitElement {
       return this.permittedLabels[this.label.name].find(
         value =>
           Number(value) ===
-          (this.labels![this.label!.name] as QuickLabelInfo).default_value
+          (this.labels![this.label!.name] as QuickLabelInfo).default_value,
       );
     }
     return;

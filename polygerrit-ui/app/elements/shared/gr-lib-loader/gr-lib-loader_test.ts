@@ -24,7 +24,7 @@ suite('gr-lib-loader tests', () => {
         new Promise((resolve, reject) => {
           resolveLoad = resolve;
           rejectLoad = reject;
-        })
+        }),
     );
   });
 

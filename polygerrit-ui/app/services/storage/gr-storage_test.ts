@@ -75,12 +75,12 @@ suite('gr-storage tests', () => {
     grStorage.setEditableContentItem('testKey', 'my content');
     grStorage.setEditableContentItem(
       'c50_psedit_index.php',
-      'my content test 1'
+      'my content test 1',
     );
     grStorage.setEditableContentItem('c50_ps3_index.php', 'my content test 2');
 
     const item = grStorage.storage.getItem(
-      'editablecontent:c50_psedit_index.php'
+      'editablecontent:c50_psedit_index.php',
     );
     assert.isOk(item);
     assert.equal(JSON.parse(item).message, 'my content test 1');

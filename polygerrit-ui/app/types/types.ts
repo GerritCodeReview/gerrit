@@ -70,7 +70,7 @@ export interface HighlightJS {
     languageName: string,
     code: string,
     ignore_illegals: boolean,
-    continuation?: unknown
+    continuation?: unknown,
   ): HighlightJSResult;
 }
 
@@ -79,7 +79,7 @@ export type DiffLayerListener = (
   start: number,
   /** 1-based inclusive */
   end: number,
-  side: Side
+  side: Side,
 ) => void;
 
 export interface DiffLayer extends DiffLayerApi {
@@ -98,7 +98,7 @@ export interface PatchNumOnly {
 }
 
 export function isPatchSetFile(
-  x: PatchSetFile | PatchNumOnly
+  x: PatchSetFile | PatchNumOnly,
 ): x is PatchSetFile {
   return !!(x as PatchSetFile).path;
 }
@@ -109,7 +109,7 @@ export function isPatchSetNumber(
     | PatchSetNumber
     | RevisionPatchSetNum
     | BasePatchSetNum
-    | null
+    | null,
 ): x is PatchSetNumber {
   return !!x && Number.isInteger(x) && (x as number) > 0;
 }

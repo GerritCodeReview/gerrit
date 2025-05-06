@@ -59,17 +59,17 @@ export class GrDownloadDialog extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      x => (this.patchNum = x)
+      x => (this.patchNum = x),
     );
     subscribe(
       this,
       () => this.getConfigModel().download$,
-      x => (this.config = x)
+      x => (this.config = x),
     );
     for (const key of ['1', '2', '3', '4', '5', '6', '7', '8', '9']) {
       this.shortcuts.addLocal({key}, e => this.handleNumberKey(e));
@@ -252,7 +252,7 @@ export class GrDownloadDialog extends LitElement {
     if (index > commands.length) return;
     await copyToClipbard(
       commands[index].command,
-      `${commands[index].title} command`
+      `${commands[index].title} command`,
     );
     fire(this, 'close', {});
   }

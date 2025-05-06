@@ -155,11 +155,11 @@ suite('diff-util tests', () => {
       };
       assert.equal(
         getContentFromDiff(diff, 1, 0, 5, 10, Side.LEFT),
-        'l1-asdf\nl2-asdf\nl3-r2-qwer\nl4-r3-uiop\nl5-r5-bnm,'
+        'l1-asdf\nl2-asdf\nl3-r2-qwer\nl4-r3-uiop\nl5-r5-bnm,',
       );
       assert.equal(
         getContentFromDiff(diff, 1, 0, 5, 10, Side.RIGHT),
-        'r1-wxyz\nl3-r2-qwer\nl4-r3-uiop\nr4-hjkl\nl5-r5-bnm,'
+        'r1-wxyz\nl3-r2-qwer\nl4-r3-uiop\nr4-hjkl\nl5-r5-bnm,',
       );
     });
 

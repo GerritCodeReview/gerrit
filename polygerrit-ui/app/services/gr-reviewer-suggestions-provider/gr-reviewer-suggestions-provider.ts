@@ -33,7 +33,7 @@ import {throwingErrorCallback} from '../../elements/shared/gr-rest-api-interface
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;
   makeSuggestionItem(
-    suggestion: Suggestion
+    suggestion: Suggestion,
   ): AutocompleteSuggestion<SuggestedReviewerInfo>;
 }
 
@@ -62,8 +62,8 @@ export class GrReviewerSuggestionsProvider
 
     const resultsByChangeIndex = await allSettled(
       this.changes.map(change =>
-        this.getSuggestionsForChange(change._number, input)
-      )
+        this.getSuggestionsForChange(change._number, input),
+      ),
     );
     const suggestionsByChangeIndex = resultsByChangeIndex
       .filter(isFulfilled)
@@ -87,13 +87,13 @@ export class GrReviewerSuggestionsProvider
         ...suggestionsByChangeIndex[changeIndex].map(suggestionKey),
       ]);
       return suggestions.filter(suggestion =>
-        reviewerAndSuggestionKeys.has(suggestionKey(suggestion))
+        reviewerAndSuggestionKeys.has(suggestionKey(suggestion)),
       );
     }, uniqueSuggestions(suggestionsByChangeIndex.flat()));
   }
 
   makeSuggestionItem(
-    suggestion: Suggestion
+    suggestion: Suggestion,
   ): AutocompleteSuggestion<SuggestedReviewerInfo> {
     const name = getSuggestedReviewerName(suggestion, this.config);
     const value = isAccountSuggestion(suggestion)
@@ -104,18 +104,18 @@ export class GrReviewerSuggestionsProvider
 
   private getSuggestionsForChange(
     changeNumber: NumericChangeId,
-    input: string
+    input: string,
   ): Promise<SuggestedReviewerInfo[] | undefined> {
     return this.type === ReviewerState.REVIEWER
       ? this.restApi.getChangeSuggestedReviewers(
           changeNumber,
           input,
-          throwingErrorCallback
+          throwingErrorCallback,
         )
       : this.restApi.getChangeSuggestedCCs(
           changeNumber,
           input,
-          throwingErrorCallback
+          throwingErrorCallback,
         );
   }
 }
@@ -125,8 +125,8 @@ function uniqueSuggestions(suggestions: Suggestion[]): Suggestion[] {
     (suggestion, index) =>
       index ===
       suggestions.findIndex(
-        other => suggestionKey(suggestion) === suggestionKey(other)
-      )
+        other => suggestionKey(suggestion) === suggestionKey(other),
+      ),
   );
 }
 

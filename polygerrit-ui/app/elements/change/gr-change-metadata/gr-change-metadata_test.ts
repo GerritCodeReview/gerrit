@@ -194,7 +194,7 @@ suite('gr-change-metadata tests', () => {
           <gr-submit-requirements></gr-submit-requirements>
         </div>
       </gr-endpoint-decorator>
-    </div>`
+    </div>`,
     );
   });
 
@@ -205,11 +205,11 @@ suite('gr-change-metadata tests', () => {
     };
     assert.deepEqual(
       element.computeMergedCommitInfo('0' as CommitId, dummyRevs),
-      undefined
+      undefined,
     );
     assert.deepEqual(
       element.computeMergedCommitInfo('1' as CommitId, dummyRevs),
-      dummyRevs[1].commit
+      dummyRevs[1].commit,
     );
 
     // Regression test for issue 5337.
@@ -505,7 +505,7 @@ suite('gr-change-metadata tests', () => {
       assert.equal(
         result?.message,
         'Push certificate is invalid:\n' +
-          'No public keys found for key ID E5E20E52'
+          'No public keys found for key ID E5E20E52',
       );
       assert.equal(result?.icon, 'close');
       assert.equal(result?.class, 'invalid');
@@ -523,7 +523,7 @@ suite('gr-change-metadata tests', () => {
       const result = element.computePushCertificateValidation();
       assert.equal(
         result?.message,
-        'Push certificate is valid and key is trusted'
+        'Push certificate is valid and key is trusted',
       );
       assert.equal(result?.icon, 'check');
       assert.equal(result?.class, 'trusted');
@@ -536,7 +536,7 @@ suite('gr-change-metadata tests', () => {
       const result = element.computePushCertificateValidation();
       assert.equal(
         result?.message,
-        'This patch set was created without a push certificate'
+        'This patch set was created without a push certificate',
       );
       assert.equal(result?.icon, 'help');
       assert.equal(result?.class, 'help filled');
@@ -651,19 +651,19 @@ suite('gr-change-metadata tests', () => {
     element.parentIsCurrent = true;
     assert.equal(
       element.computeParentListClass(),
-      'parentList nonMerge current'
+      'parentList nonMerge current',
     );
     element.currentParents = [parent];
     element.parentIsCurrent = false;
     assert.equal(
       element.computeParentListClass(),
-      'parentList nonMerge notCurrent'
+      'parentList nonMerge notCurrent',
     );
     element.currentParents = [parent, parent];
     element.parentIsCurrent = false;
     assert.equal(
       element.computeParentListClass(),
-      'parentList merge notCurrent'
+      'parentList merge notCurrent',
     );
     element.currentParents = [parent, parent];
     element.parentIsCurrent = true;
@@ -850,7 +850,7 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element.mutable, 'Mutable');
       assert.isFalse(
         element.change.actions?.hashtags?.enabled,
-        'hashtags disabled'
+        'hashtags disabled',
       );
       assert.isTrue(element.hashtagReadOnly, 'hashtag read only');
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
@@ -891,7 +891,7 @@ suite('gr-change-metadata tests', () => {
     test('changing topic', async () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = stubRestApi('setChangeTopic').returns(
-        Promise.resolve(newTopic)
+        Promise.resolve(newTopic),
       );
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
@@ -899,7 +899,7 @@ suite('gr-change-metadata tests', () => {
       element.handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
 
       assert.isTrue(
-        setChangeTopicStub.calledWith(42 as NumericChangeId, newTopic)
+        setChangeTopicStub.calledWith(42 as NumericChangeId, newTopic),
       );
       await setChangeTopicStub.lastCall.returnValue;
       await waitUntilCalled(alertStub, 'alertStub');
@@ -912,7 +912,7 @@ suite('gr-change-metadata tests', () => {
     test('topic removal', async () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = stubRestApi('setChangeTopic').returns(
-        Promise.resolve(newTopic)
+        Promise.resolve(newTopic),
       );
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
@@ -936,17 +936,17 @@ suite('gr-change-metadata tests', () => {
       await element.updateComplete;
       const newHashtag: Hashtag[] = ['new hashtag' as Hashtag];
       const setChangeHashtagStub = stubRestApi('setChangeHashtag').returns(
-        Promise.resolve(newHashtag)
+        Promise.resolve(newHashtag),
       );
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       element.handleHashtagChanged(
-        new CustomEvent('test', {detail: 'new hashtag'})
+        new CustomEvent('test', {detail: 'new hashtag'}),
       );
       assert.isTrue(
         setChangeHashtagStub.calledWith(42 as NumericChangeId, {
           add: ['new hashtag' as Hashtag],
-        })
+        }),
       );
       await setChangeHashtagStub.lastCall.returnValue;
       await waitUntilCalled(alertStub, 'alertStub');
@@ -963,20 +963,20 @@ suite('gr-change-metadata tests', () => {
     element.editMode = true;
     await element.updateComplete;
     const updateIdentityInChangeEditStub = stubRestApi(
-      'updateIdentityInChangeEdit'
+      'updateIdentityInChangeEdit',
     ).resolves();
     const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
     queryAndAssert(element, '#author-edit-label').dispatchEvent(
-      new CustomEvent('changed', {detail: 'user <user@example.com>'})
+      new CustomEvent('changed', {detail: 'user <user@example.com>'}),
     );
     assert.isTrue(
       updateIdentityInChangeEditStub.calledWith(
         42 as NumericChangeId,
         'user',
         'user@example.com',
-        'AUTHOR'
-      )
+        'AUTHOR',
+      ),
     );
     await updateIdentityInChangeEditStub.lastCall.returnValue;
     await waitUntilCalled(alertStub, 'alertStub');
@@ -995,7 +995,7 @@ suite('gr-change-metadata tests', () => {
     await element.updateComplete;
 
     const label = element.shadowRoot!.querySelector(
-      '.topicEditableLabel'
+      '.topicEditableLabel',
     ) as GrEditableLabel;
     assert.ok(label);
     const openStub = sinon.stub(label, 'open');
@@ -1025,7 +1025,7 @@ suite('gr-change-metadata tests', () => {
           plugin = p;
         },
         '0.1',
-        'http://some/plugins/url.js'
+        'http://some/plugins/url.js',
       );
       await element.updateComplete;
       const hookEl = (await plugin!

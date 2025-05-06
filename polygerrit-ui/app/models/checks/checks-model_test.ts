@@ -89,7 +89,7 @@ suite('checks-model tests', () => {
       testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       getAppContext().reportingService,
-      testResolver(pluginLoaderToken).pluginsModel
+      testResolver(pluginLoaderToken).pluginsModel,
     );
     model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
   });
@@ -119,7 +119,7 @@ suite('checks-model tests', () => {
     assert.equal(
       model.latestPatchNum,
       testChange!.revisions[testChange!.current_revision]
-        ._number as PatchSetNumber
+        ._number as PatchSetNumber,
     );
     assert.equal(model.changeNum, testChange!._number);
   });
@@ -207,7 +207,7 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     assert.isFalse(current.loading);
     assert.isFalse(current.firstTimeLoad);
@@ -220,7 +220,7 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     assert.isFalse(current.loading);
     assert.isFalse(current.firstTimeLoad);
@@ -234,7 +234,7 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     assert.lengthOf(current.runs, 1);
     assert.lengthOf(current.runs[0].results!, 1);
@@ -263,7 +263,7 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     // 2 out of 3 runs are ignored.
     assert.lengthOf(current.runs, 1);
@@ -277,11 +277,11 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     assert.equal(
       current.runs[0].results![0].summary,
-      RUNS[0]!.results![0].summary
+      RUNS[0].results![0].summary,
     );
     const result = RUNS[0].results![0];
     const updatedResult = {...result, summary: 'new'};
@@ -289,7 +289,7 @@ suite('checks-model tests', () => {
       PLUGIN_NAME,
       RUNS[0],
       updatedResult,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     assert.lengthOf(current.runs, 1);
     assert.lengthOf(current.runs[0].results!, 1);
@@ -314,7 +314,7 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
     assert.equal(results!.length, 1);
 
@@ -324,7 +324,7 @@ suite('checks-model tests', () => {
       [],
       [],
       undefined,
-      ChecksPatchset.SELECTED
+      ChecksPatchset.SELECTED,
     );
 
     assert.equal(results!.length, 1);

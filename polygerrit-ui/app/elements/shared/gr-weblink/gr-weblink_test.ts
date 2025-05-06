@@ -19,7 +19,7 @@ suite('gr-weblink tests', () => {
       tooltip: 'Open in Gitiles',
     };
     const element = await fixture<GrWeblink>(
-      html`<gr-weblink .info=${info}></gr-weblink>`
+      html`<gr-weblink .info=${info}></gr-weblink>`,
     );
     assert.shadowDom.equal(
       element,
@@ -33,7 +33,7 @@ suite('gr-weblink tests', () => {
             <img src="https://www.google.com/favicon.ico" />
           </gr-tooltip-content>
         </a>
-      `
+      `,
     );
   });
 
@@ -44,7 +44,7 @@ suite('gr-weblink tests', () => {
       tooltip: 'Open in Gitiles',
     };
     const element = await fixture<GrWeblink>(
-      html`<gr-weblink .info=${info}></gr-weblink>`
+      html`<gr-weblink .info=${info}></gr-weblink>`,
     );
     assert.shadowDom.equal(
       element,
@@ -58,7 +58,7 @@ suite('gr-weblink tests', () => {
             <span>gitiles</span>
           </gr-tooltip-content>
         </a>
-      `
+      `,
     );
   });
 });

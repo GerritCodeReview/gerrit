@@ -194,7 +194,7 @@ export class GrGpgEditor extends LitElement {
   // private but used in test
   save() {
     const promises = this.keysToRemove.map(key =>
-      this.restApiService.deleteAccountGPGKey(key.id!)
+      this.restApiService.deleteAccountGPGKey(key.id!),
     );
 
     return Promise.all(promises).then(() => {

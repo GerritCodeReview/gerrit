@@ -18,7 +18,7 @@ export class GrAdminApi implements AdminPluginApi {
 
   constructor(
     private readonly reporting: ReportingService,
-    private readonly plugin: PluginApi
+    private readonly plugin: PluginApi,
   ) {
     this.reporting.trackApi(this.plugin, 'admin', 'constructor');
     this.plugin.on(EventType.ADMIN_MENU_LINKS, this);

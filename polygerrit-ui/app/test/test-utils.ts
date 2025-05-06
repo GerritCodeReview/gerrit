@@ -47,7 +47,7 @@ export function registerTestCleanup(cleanupCallback: CleanupCallback) {
 export function addListenerForTest(
   el: EventTarget,
   type: string,
-  listener: EventListenerOrEventListenerObject
+  listener: EventListenerOrEventListenerObject,
 ) {
   el.addEventListener(type, listener);
   registerListenerCleanup(el, type, listener);
@@ -56,7 +56,7 @@ export function addListenerForTest(
 export function registerListenerCleanup(
   el: EventTarget,
   type: string,
-  listener: EventListenerOrEventListenerObject
+  listener: EventListenerOrEventListenerObject,
 ) {
   registerTestCleanup(() => {
     el.removeEventListener(type, listener);
@@ -92,7 +92,7 @@ export function stubFlags<K extends keyof FlagsService>(method: K) {
 
 export function stubElement<
   T extends keyof HTMLElementTagNameMap,
-  K extends keyof HTMLElementTagNameMap[T]
+  K extends keyof HTMLElementTagNameMap[T],
 >(tagName: T, method: K) {
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor
@@ -142,11 +142,11 @@ export function isFocusInsideElement(element: Element) {
 
 export async function waitQueryAndAssert<E extends Element = Element>(
   el: Element | null | undefined,
-  selector: string
+  selector: string,
 ): Promise<E> {
   await waitUntil(
     () => !!query<E>(el, selector),
-    `The element '${selector}' did not appear in the DOM within 1000 ms.`
+    `The element '${selector}' did not appear in the DOM within 1000 ms.`,
   );
   return queryAndAssert<E>(el, selector);
 }
@@ -172,7 +172,7 @@ export function waitUntilCalled(stub: SinonStub | SinonSpy, name: string) {
 export async function waitUntilObserved<T>(
   observable$: Observable<T>,
   predicate: (t: T) => boolean,
-  message = 'The waitUntilObserved() predicate did not match after 1000 ms.'
+  message = 'The waitUntilObserved() predicate did not match after 1000 ms.',
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     observable$.pipe(filter(predicate), take(1), timeout(1000)).subscribe({
@@ -205,7 +205,7 @@ export function waitEventLoop(): Promise<void> {
  */
 export function listenOnce<T extends Event>(
   el: EventTarget,
-  eventType: string
+  eventType: string,
 ) {
   return new Promise<T>(resolve => {
     const listener = (e: Event) => {
@@ -294,7 +294,7 @@ export function assertRouteState<T extends ViewState>(
   route: Route<T>,
   path: string,
   state: T,
-  createUrl: (state: T) => string
+  createUrl: (state: T) => string,
 ) {
   const {urlPattern, createState} = route;
   const ctx = new PageContext(path);
@@ -306,7 +306,7 @@ export function assertRouteState<T extends ViewState>(
 
 export function assertRouteFalse<T extends ViewState>(
   route: Route<T>,
-  path: string
+  path: string,
 ) {
   const ctx = new PageContext(path);
   const matches = ctx.match(route.urlPattern);

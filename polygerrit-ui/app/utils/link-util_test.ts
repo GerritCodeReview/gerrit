@@ -20,7 +20,7 @@ suite('link-util tests', () => {
             link: 'foo.gov',
           },
         }),
-        link('foo', 'foo.gov')
+        link('foo', 'foo.gov'),
       );
     });
 
@@ -33,7 +33,7 @@ suite('link-util tests', () => {
             text: 'foo site',
           },
         }),
-        link('foo site', 'foo.gov')
+        link('foo site', 'foo.gov'),
       );
     });
 
@@ -48,7 +48,7 @@ suite('link-util tests', () => {
             suffix: '$3',
           },
         }),
-        `there are 12 on the ${link('foo list', 'foo.gov')} here`
+        `there are 12 on the ${link('foo list', 'foo.gov')} here`,
       );
     });
 
@@ -60,7 +60,7 @@ suite('link-util tests', () => {
             link: 'foo.gov',
           },
         }),
-        `${link('foo', 'foo.gov')} ${link('foo', 'foo.gov')}`
+        `${link('foo', 'foo.gov')} ${link('foo', 'foo.gov')}`,
       );
     });
   });
@@ -81,7 +81,7 @@ suite('link-util tests', () => {
           link: 'foobar.gov',
         },
       }),
-      link('foobarbaz', 'foobarbaz.gov')
+      link('foobarbaz', 'foobarbaz.gov'),
     );
   });
 
@@ -101,7 +101,7 @@ suite('link-util tests', () => {
           link: 'BarBaz.gov',
         },
       }),
-      link('foobarbaz', 'FooBarBaz.gov')
+      link('foobarbaz', 'FooBarBaz.gov'),
     );
   });
 
@@ -121,7 +121,7 @@ suite('link-util tests', () => {
           link: 'BAZ',
         },
       }),
-      `${link('foo', 'FOO')}bar${link('baz', 'BAZ')}`
+      `${link('foo', 'FOO')}bar${link('baz', 'BAZ')}`,
     );
   });
 
@@ -149,8 +149,8 @@ suite('link-util tests', () => {
       }),
       `bugs: ${link('bug/123', 'bug/123')} ${link('bug/234', 'bug/234')} ${link(
         'bug/345',
-        'bug/345'
-      )}`
+        'bug/345',
+      )}`,
     );
   });
 });

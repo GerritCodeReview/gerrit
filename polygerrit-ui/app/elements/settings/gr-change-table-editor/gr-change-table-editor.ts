@@ -64,7 +64,7 @@ export class GrChangeTableEditor extends LitElement {
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
-      }
+      },
     );
   }
 
@@ -123,8 +123,8 @@ export class GrChangeTableEditor extends LitElement {
     if (this.shadowRoot === null) return [];
     return Array.from(
       this.shadowRoot.querySelectorAll<HTMLInputElement>(
-        '.checkboxContainer input:not([name=number])'
-      )
+        '.checkboxContainer input:not([name=number])',
+      ),
     )
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.name);

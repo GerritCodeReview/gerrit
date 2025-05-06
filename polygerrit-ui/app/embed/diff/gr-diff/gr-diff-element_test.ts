@@ -45,8 +45,8 @@ suite('gr-diff-element tests', () => {
         wrapInProvider(
           html`<gr-diff-element></gr-diff-element>`,
           diffModelToken,
-          model
-        )
+          model,
+        ),
       )
     ).querySelector('gr-diff-element')!;
   });
@@ -67,7 +67,7 @@ suite('gr-diff-element tests', () => {
               </colgroup>
             </table>
           </div>
-        `
+        `,
       );
     });
 
@@ -1255,7 +1255,7 @@ suite('gr-diff-element tests', () => {
             'gr-diff-text',
             'slot',
           ],
-        }
+        },
       );
     });
 
@@ -2728,7 +2728,7 @@ suite('gr-diff-element tests', () => {
             'gr-diff-text',
             'slot',
           ],
-        }
+        },
       );
     });
   });
@@ -2810,7 +2810,7 @@ suite('gr-diff-element tests', () => {
                 </tbody>
               </table>
             </div>
-          `
+          `,
         );
       });
     });
@@ -2911,7 +2911,7 @@ suite('gr-diff-element tests', () => {
                 </td>
               </tr>
             </tbody>
-          `
+          `,
         );
         const endpoint = queryAndAssert(element, 'tbody.endpoint');
         assert.dom.equal(
@@ -2927,7 +2927,7 @@ suite('gr-diff-element tests', () => {
                 </gr-endpoint-decorator>
               </tr>
             </tbody>
-          `
+          `,
         );
       });
 
@@ -2970,7 +2970,7 @@ suite('gr-diff-element tests', () => {
               <br class="gr-diff" />
               <span class="gr-diff label"> 1×1 image/bmp </span>
             </label>
-          `
+          `,
         );
         assert.dom.equal(
           rightLabel,
@@ -2980,7 +2980,7 @@ suite('gr-diff-element tests', () => {
               <br class="gr-diff" />
               <span class="gr-diff label"> 1×1 image/bmp </span>
             </label>
-          `
+          `,
         );
       });
 
@@ -3021,7 +3021,7 @@ suite('gr-diff-element tests', () => {
               class="gr-diff right"
               src="data:image/bmp;base64,${mockFile2.body}"
             />
-          `
+          `,
         );
       });
 
@@ -3062,7 +3062,7 @@ suite('gr-diff-element tests', () => {
               class="gr-diff left"
               src="data:image/bmp;base64,${mockFile1.body}"
             />
-          `
+          `,
         );
       });
 
@@ -3166,7 +3166,7 @@ suite('gr-diff-element tests', () => {
       await element.updateComplete;
       assert.include(
         getWarning(element),
-        NO_NEWLINE_LEFT + ' \u2014 ' + NO_NEWLINE_RIGHT
+        NO_NEWLINE_LEFT + ' \u2014 ' + NO_NEWLINE_RIGHT,
       ); // \u2014 - '—'
     });
 
@@ -3360,7 +3360,7 @@ suite('gr-diff-element tests', () => {
           <label class="gr-diff">
             <span class="gr-diff label"> No image </span>
           </label>
-        `
+        `,
       );
     });
 
@@ -3371,7 +3371,7 @@ suite('gr-diff-element tests', () => {
       const body = queryAndAssert(element, 'tbody.binary-diff');
       assert.lightDom.equal(
         body,
-        /* HTML */ '<span>Difference in binary files. Download commit to view (shortcut: d)</span>'
+        /* HTML */ '<span>Difference in binary files. Download commit to view (shortcut: d)</span>',
       );
     });
   });

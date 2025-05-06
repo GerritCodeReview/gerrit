@@ -14,7 +14,7 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-confirm-delete-comment-dialog></gr-confirm-delete-comment-dialog>`
+      html`<gr-confirm-delete-comment-dialog></gr-confirm-delete-comment-dialog>`,
     );
   });
 
@@ -44,7 +44,7 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
           </iron-autogrow-textarea>
         </div>
       </gr-dialog>
-    `
+    `,
     );
   });
 
@@ -53,7 +53,7 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
     await element.updateComplete;
 
     assert.isTrue(
-      (element.shadowRoot!.querySelector('gr-dialog') as GrDialog).disabled
+      (element.shadowRoot!.querySelector('gr-dialog') as GrDialog).disabled,
     );
   });
 });

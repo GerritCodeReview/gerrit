@@ -99,7 +99,7 @@ suite('gr-diff-host tests', () => {
       sinon.stub(element.syntaxLayer, 'process').returns(
         new Promise(resolve => {
           notifySyntaxProcessed = resolve;
-        })
+        }),
       );
       const promise = element.reload(true);
       // Multiple cascading microtasks are scheduled.
@@ -120,7 +120,7 @@ suite('gr-diff-host tests', () => {
       sinon.stub(element.syntaxLayer, 'process').returns(
         new Promise(resolve => {
           notifySyntaxProcessed = resolve;
-        })
+        }),
       );
       getDiffRestApiStub.returns(Promise.resolve(createDiff()));
       element.patchRange = createPatchRange();
@@ -150,7 +150,7 @@ suite('gr-diff-host tests', () => {
         >
         </gr-diff>
       `,
-      {ignoreAttributes: ['style']}
+      {ignoreAttributes: ['style']},
     );
   });
 
@@ -182,11 +182,11 @@ suite('gr-diff-host tests', () => {
         _3: PatchSetNum,
         _4: string,
         _5?: IgnoreWhitespaceType,
-        onErr?: ErrorCallback
+        onErr?: ErrorCallback,
       ) => {
         if (onErr) onErr(error);
         return Promise.resolve(undefined);
-      }
+      },
     );
     element.patchRange = createPatchRange();
     return element.reload().then(() => {
@@ -232,7 +232,7 @@ suite('gr-diff-host tests', () => {
       assert.isFalse(pageErrorStub.called);
       assert.equal(
         element.errorMessage,
-        'Encountered error when loading the diff: 500 Failure!'
+        'Encountered error when loading the diff: 500 Failure!',
       );
     });
   });
@@ -291,7 +291,7 @@ suite('gr-diff-host tests', () => {
             _expectedType: 'image/jpeg',
             _name: 'carrot.jpg',
           },
-        })
+        }),
       );
 
       element.prefs = createDefaultDiffPrefs();
@@ -313,7 +313,7 @@ suite('gr-diff-host tests', () => {
       assert.isOk(leftImage);
       assert.equal(
         leftImage.getAttribute('src'),
-        'data:image/bmp;base64,' + mockFile1.body
+        'data:image/bmp;base64,' + mockFile1.body,
       );
       assert.isTrue(leftLabelContent?.textContent?.includes('image/bmp'));
       assert.isNotOk(leftLabelName);
@@ -321,7 +321,7 @@ suite('gr-diff-host tests', () => {
       assert.isOk(rightImage);
       assert.equal(
         rightImage.getAttribute('src'),
-        'data:image/bmp;base64,' + mockFile2.body
+        'data:image/bmp;base64,' + mockFile2.body,
       );
       assert.isTrue(rightLabelContent?.textContent?.includes('image/bmp'));
       assert.isNotOk(rightLabelName);
@@ -356,7 +356,7 @@ suite('gr-diff-host tests', () => {
             _expectedType: 'image/jpeg',
             _name: 'carrot2.jpg',
           },
-        })
+        }),
       );
 
       element.prefs = createDefaultDiffPrefs();
@@ -384,14 +384,14 @@ suite('gr-diff-host tests', () => {
       assert.isOk(leftImage);
       assert.equal(
         leftImage.getAttribute('src'),
-        'data:image/bmp;base64,' + mockFile1.body
+        'data:image/bmp;base64,' + mockFile1.body,
       );
       assert.isTrue(leftLabelContent?.textContent?.includes('image/bmp'));
 
       assert.isOk(rightImage);
       assert.equal(
         rightImage.getAttribute('src'),
-        'data:image/bmp;base64,' + mockFile2.body
+        'data:image/bmp;base64,' + mockFile2.body,
       );
       assert.isTrue(rightLabelContent?.textContent?.includes('image/bmp'));
     });
@@ -420,7 +420,7 @@ suite('gr-diff-host tests', () => {
             _expectedType: 'image/jpeg',
             _name: 'carrot2.jpg',
           },
-        })
+        }),
       );
 
       element.prefs = createDefaultDiffPrefs();
@@ -459,7 +459,7 @@ suite('gr-diff-host tests', () => {
             _name: 'carrot.jpg',
           },
           revisionImage: null,
-        })
+        }),
       );
 
       element.prefs = createDefaultDiffPrefs();
@@ -505,7 +505,7 @@ suite('gr-diff-host tests', () => {
             _name: 'carrot.jpg',
           },
           revisionImage: null,
-        })
+        }),
       );
 
       element.prefs = createDefaultDiffPrefs();
@@ -530,7 +530,7 @@ suite('gr-diff-host tests', () => {
           side: Side.LEFT,
           path: '/p',
         },
-      })
+      }),
     );
 
     assertIsDefined(element.diffElement);
@@ -579,7 +579,7 @@ suite('gr-diff-host tests', () => {
     const showAlertStub = sinon.stub();
     element.addEventListener('show-alert', showAlertStub);
     const getBlameStub = stubRestApi('getBlame').returns(
-      Promise.resolve(mockBlame)
+      Promise.resolve(mockBlame),
     );
     const changeNum = 42 as NumericChangeId;
     element.changeNum = changeNum;
@@ -595,8 +595,8 @@ suite('gr-diff-host tests', () => {
           changeNum,
           1 as RevisionPatchSetNum,
           'foo/bar.baz',
-          true
-        )
+          true,
+        ),
       );
       assert.isFalse(showAlertStub.called);
       assert.equal(element.blame, mockBlame);
@@ -767,7 +767,7 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(
         reportStub.calledWith('rebase-percent-nonzero', {
           percentRebaseDelta: 50,
-        })
+        }),
       );
     });
 
@@ -787,7 +787,7 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(
         reportStub.calledWith('rebase-percent-nonzero', {
           percentRebaseDelta: 100,
-        })
+        }),
       );
     });
 
@@ -826,7 +826,7 @@ suite('gr-diff-host tests', () => {
             slot="right-1"
           >
           </gr-comment-thread>
-        `
+        `,
       );
     });
     test('left start_line:2', async () => {
@@ -847,7 +847,7 @@ suite('gr-diff-host tests', () => {
             slot="left-2"
           >
           </gr-comment-thread>
-        `
+        `,
       );
     });
   });
@@ -870,7 +870,7 @@ suite('gr-diff-host tests', () => {
             slot="right-12"
           >
           </gr-diff-check-result>
-        `
+        `,
       );
     });
 
@@ -893,7 +893,7 @@ suite('gr-diff-host tests', () => {
             slot="right-14"
           >
           </gr-diff-check-result>
-        `
+        `,
       );
     });
 
@@ -925,7 +925,7 @@ suite('gr-diff-host tests', () => {
             range='{"start_line":13,"end_line":14,"start_character":5,"end_character":7}'
           >
           </gr-diff-check-result>
-        `
+        `,
       );
     });
 
@@ -946,7 +946,7 @@ suite('gr-diff-host tests', () => {
             slot="right-FILE"
           >
           </gr-diff-check-result>
-        `
+        `,
       );
     });
   });
@@ -973,7 +973,7 @@ suite('gr-diff-host tests', () => {
             side: Side.LEFT,
             path: '/p',
           },
-        })
+        }),
       );
 
       assert.equal(addDraftSpy.callCount, 1);
@@ -999,7 +999,7 @@ suite('gr-diff-host tests', () => {
             path: '/p',
             range,
           },
-        })
+        }),
       );
 
       assert.equal(addDraftSpy.callCount, 2);
@@ -1018,7 +1018,7 @@ suite('gr-diff-host tests', () => {
           detail: {
             side: Side.RIGHT,
           },
-        })
+        }),
       );
 
       assert.equal(addDraftSpy.callCount, 1);
@@ -1035,7 +1035,7 @@ suite('gr-diff-host tests', () => {
           detail: {
             side: Side.LEFT,
           },
-        })
+        }),
       );
 
       assert.equal(addDraftSpy.callCount, 1);
@@ -1052,7 +1052,7 @@ suite('gr-diff-host tests', () => {
           detail: {
             side: Side.LEFT,
           },
-        })
+        }),
       );
 
       assert.equal(addDraftSpy.callCount, 1);
@@ -1069,7 +1069,7 @@ suite('gr-diff-host tests', () => {
           detail: {
             side: Side.LEFT,
           },
-        })
+        }),
       );
 
       assert.equal(addDraftSpy.callCount, 1);
@@ -1092,7 +1092,7 @@ suite('gr-diff-host tests', () => {
               side: Side.LEFT,
               path: '/p',
             },
-          })
+          }),
         );
 
         assert.equal(addDraftSpy.callCount, 1);
@@ -1100,7 +1100,7 @@ suite('gr-diff-host tests', () => {
         assert.equal(draft1.side, CommentSide.REVISION);
         assert.equal(draft1.patch_set, 2 as RevisionPatchSetNum);
         assert.equal(draft1.path, element.file.basePath);
-      }
+      },
     );
 
     test(
@@ -1117,7 +1117,7 @@ suite('gr-diff-host tests', () => {
               side: Side.RIGHT,
               path: '/p',
             },
-          })
+          }),
         );
 
         assert.equal(addDraftSpy.callCount, 1);
@@ -1125,7 +1125,7 @@ suite('gr-diff-host tests', () => {
         assert.equal(draft1.side, CommentSide.REVISION);
         assert.equal(draft1.patch_set, 3 as RevisionPatchSetNum);
         assert.equal(draft1.path, element.file.path);
-      }
+      },
     );
 
     test(
@@ -1142,7 +1142,7 @@ suite('gr-diff-host tests', () => {
               side: Side.LEFT,
               path: '/p',
             },
-          })
+          }),
         );
 
         assert.equal(addDraftSpy.callCount, 1);
@@ -1150,7 +1150,7 @@ suite('gr-diff-host tests', () => {
         assert.equal(draft1.side, CommentSide.PARENT);
         assert.equal(draft1.patch_set, 1 as RevisionPatchSetNum);
         assert.equal(draft1.path, element.file.path);
-      }
+      },
     );
 
     test('cannot create thread on an edit', () => {
@@ -1168,7 +1168,7 @@ suite('gr-diff-host tests', () => {
             side: diffSide,
             path: '/p',
           },
-        })
+        }),
       );
 
       assert.isFalse(addDraftSpy.called);
@@ -1190,7 +1190,7 @@ suite('gr-diff-host tests', () => {
             side: diffSide,
             path: '/p',
           },
-        })
+        }),
       );
 
       assert.isFalse(addDraftSpy.called);
@@ -1237,7 +1237,7 @@ suite('gr-diff-host tests', () => {
       getDiffRestApiStub.returns(Promise.resolve(createDiff()));
       await element.reload();
       element.dispatchEvent(
-        new CustomEvent('render', {bubbles: true, composed: true})
+        new CustomEvent('render', {bubbles: true, composed: true}),
       );
       assert.isTrue(stub.called);
     });
@@ -1279,7 +1279,7 @@ suite('gr-diff-host tests', () => {
               a: ['*'.repeat(501)],
             },
           ],
-        })
+        }),
       );
       await element.waitForReloadToRender();
       assert.isFalse(element.syntaxLayer.enabled);
@@ -1324,7 +1324,7 @@ suite('gr-diff-host tests', () => {
         Promise.resolve({
           ...createDiff(),
           content: [{a: ['foo']}],
-        })
+        }),
       );
       testResolver(pluginLoaderToken).pluginsModel.coverageRegister({
         pluginName: 'test-coverage-plugin',
@@ -1344,8 +1344,8 @@ suite('gr-diff-host tests', () => {
           'some/path',
           1,
           3,
-          element.change
-        )
+          element.change,
+        ),
       );
     });
 
@@ -1358,8 +1358,8 @@ suite('gr-diff-host tests', () => {
           'some/path',
           undefined,
           1,
-          element.change
-        )
+          element.change,
+        ),
       );
     });
   });

@@ -62,7 +62,7 @@ export class GrCommentsSummary extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.selfAccount = x)
+      x => (this.selfAccount = x),
     );
   }
 
@@ -109,13 +109,13 @@ export class GrCommentsSummary extends LitElement {
     return html`
       ${when(
         this.commentsLoading,
-        () => html`<span class="loadingSpin"></span>`
+        () => html`<span class="loadingSpin"></span>`,
       )}
       ${this.renderZeroState(countResolvedComments, countUnresolvedComments)}
       ${this.renderDraftChip()} ${this.renderMentionChip()}
       ${this.renderUnresolvedCommentsChip(
         countUnresolvedComments,
-        unresolvedAuthors
+        unresolvedAuthors,
       )}
       ${this.renderResolvedCommentsChip(countResolvedComments, resolveAuthors)}
     `;
@@ -123,7 +123,7 @@ export class GrCommentsSummary extends LitElement {
 
   private renderZeroState(
     countResolvedComments: number,
-    countUnresolvedComments: number
+    countUnresolvedComments: number,
   ) {
     if (
       this.emptyWhenNoComments ||
@@ -172,7 +172,7 @@ export class GrCommentsSummary extends LitElement {
 
   private renderUnresolvedCommentsChip(
     countUnresolvedComments: number,
-    unresolvedAuthors: AccountInfo[]
+    unresolvedAuthors: AccountInfo[],
   ) {
     if (!countUnresolvedComments) return nothing;
     return html` <gr-summary-chip
@@ -201,7 +201,7 @@ export class GrCommentsSummary extends LitElement {
 
   private renderResolvedCommentsChip(
     countResolvedComments: number,
-    resolvedAuthors?: AccountInfo[]
+    resolvedAuthors?: AccountInfo[],
   ) {
     if (!countResolvedComments) return nothing;
     if (resolvedAuthors) {

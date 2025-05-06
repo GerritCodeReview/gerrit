@@ -140,7 +140,7 @@ export class GrSubmitRequirements extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
-      x => (this.runs = x)
+      x => (this.runs = x),
     );
   }
 
@@ -150,7 +150,7 @@ export class GrSubmitRequirements extends LitElement {
 
   private renderSubmitRequirements() {
     const submit_requirements = orderSubmitRequirements(
-      getRequirements(this.change)
+      getRequirements(this.change),
     );
     if (submit_requirements.length === 0) return nothing;
     return html` <h3
@@ -169,7 +169,7 @@ export class GrSubmitRequirements extends LitElement {
         </thead>
         <tbody>
           ${submit_requirements.map((requirement, index) =>
-            this.renderRequirement(requirement, index)
+            this.renderRequirement(requirement, index),
           )}
         </tbody>
       </table>
@@ -184,13 +184,13 @@ export class GrSubmitRequirements extends LitElement {
                 .account=${this.account}
                 .mutable=${this.mutable ?? false}
               ></gr-submit-requirement-hovercard>
-            `
+            `,
           )}`;
   }
 
   private renderRequirement(
     requirement: SubmitRequirementResultInfo,
-    index: number
+    index: number,
   ) {
     const row = html`
      <td>${this.renderStatus(requirement)}</td>
@@ -225,7 +225,7 @@ export class GrSubmitRequirements extends LitElement {
 
   renderEndpoint(
     requirement: SubmitRequirementResultInfo,
-    slot: TemplateResult
+    slot: TemplateResult,
   ) {
     if (this.disableEndpoints)
       return html`<div class="votes-cell">${slot}</div>`;
@@ -263,7 +263,7 @@ export class GrSubmitRequirements extends LitElement {
     const requirementLabels = extractAssociatedLabels(requirement);
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
-      requirementLabels.includes(label)
+      requirementLabels.includes(label),
     );
 
     const requirementWithoutLabelToVoteOn = associatedLabels.length === 0;
@@ -273,14 +273,14 @@ export class GrSubmitRequirements extends LitElement {
     }
 
     const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
-      label => !hasVotes(allLabels[label])
+      label => !hasVotes(allLabels[label]),
     );
     if (everyAssociatedLabelsIsWithoutVotes) {
       return this.renderChecks(requirement) || html`No votes`;
     }
 
     const associatedLabelsWithVotes = associatedLabels.filter(label =>
-      hasVotes(allLabels[label])
+      hasVotes(allLabels[label]),
     );
 
     return html`<div class="votes">
@@ -293,10 +293,10 @@ export class GrSubmitRequirements extends LitElement {
             ${this.renderOverrideLabels(
               requirement,
               label,
-              associatedLabelsWithVotes.length > 1
+              associatedLabelsWithVotes.length > 1,
             )}
             ${this.renderChecks(requirement, label)}
-          </div>`
+          </div>`,
       )}
     </div> `;
   }
@@ -305,7 +305,7 @@ export class GrSubmitRequirements extends LitElement {
   renderVoteCountHelpLabel(
     requirement: SubmitRequirementResultInfo,
     label: string,
-    labels: LabelNameToInfoMap
+    labels: LabelNameToInfoMap,
   ) {
     if (requirement.status !== SubmitRequirementStatus.UNSATISFIED) {
       return nothing;
@@ -317,7 +317,7 @@ export class GrSubmitRequirements extends LitElement {
     }
 
     const count = extractLabelsWithCountFrom(
-      requirement.submittability_expression_result.expression
+      requirement.submittability_expression_result.expression,
     ).find(labelWithCount => labelWithCount.label === label)?.count;
 
     if (!count || count === 1) return nothing;
@@ -329,7 +329,7 @@ export class GrSubmitRequirements extends LitElement {
     const labelInfo = labels[label];
     if (isDetailedLabelInfo(labelInfo)) {
       const uniqueApprovals = getAllUniqueApprovals(labelInfo).filter(
-        approval => !hasNeutralStatus(labelInfo, approval)
+        approval => !hasNeutralStatus(labelInfo, approval),
       );
       return uniqueApprovals.map(
         approvalInfo =>
@@ -337,9 +337,9 @@ export class GrSubmitRequirements extends LitElement {
             .vote=${approvalInfo}
             .label=${labelInfo}
             .more=${(labelInfo.all ?? []).filter(
-              other => other.value === approvalInfo.value
+              other => other.value === approvalInfo.value,
             ).length > 1}
-          ></gr-vote-chip>`
+          ></gr-vote-chip>`,
       );
     } else if (isQuickLabelInfo(labelInfo)) {
       return [html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`];
@@ -351,7 +351,7 @@ export class GrSubmitRequirements extends LitElement {
   renderOverrideLabels(
     requirement: SubmitRequirementResultInfo,
     forLabel: string,
-    showForAllLabel: boolean
+    showForAllLabel: boolean,
   ) {
     if (
       !showForAllLabel &&
@@ -360,7 +360,7 @@ export class GrSubmitRequirements extends LitElement {
       return;
     const requirementLabels = extractAssociatedLabels(
       requirement,
-      showForAllLabel ? 'all' : 'onlyOverride'
+      showForAllLabel ? 'all' : 'onlyOverride',
     )
       .filter(label => label === forLabel)
       .filter(label => {
@@ -368,7 +368,7 @@ export class GrSubmitRequirements extends LitElement {
         return allLabels[label] && hasVotes(allLabels[label]);
       });
     return requirementLabels.map(
-      label => html`<span class="overrideLabel">${label}</span>`
+      label => html`<span class="overrideLabel">${label}</span>`,
     );
   }
 
@@ -385,19 +385,19 @@ export class GrSubmitRequirements extends LitElement {
       });
     const errorRunsCount = errorRuns.reduce(
       (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
-      0
+      0,
     );
     if (errorRunsCount > 0) {
       return this.renderChecksCategoryChip(
         errorRuns,
         errorRunsCount,
-        Category.ERROR
+        Category.ERROR,
       );
     }
     const runningRuns = this.runs
       .filter(r => r.isLatestAttempt)
       .filter(
-        r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED
+        r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED,
       )
       .filter(run => {
         if (labelName) {
@@ -412,7 +412,7 @@ export class GrSubmitRequirements extends LitElement {
       return this.renderChecksCategoryChip(
         runningRuns,
         runningRunsCount,
-        RunStatus.RUNNING
+        RunStatus.RUNNING,
       );
     }
     return;
@@ -420,8 +420,8 @@ export class GrSubmitRequirements extends LitElement {
 
   renderChecksCategoryChip(
     runs: CheckRun[],
-    runsCount: Number,
-    category: Category | RunStatus
+    runsCount: number,
+    category: Category | RunStatus,
   ) {
     if (runsCount === 0) return;
     const links = [];
@@ -445,7 +445,7 @@ export class GrSubmitRequirements extends LitElement {
   renderTriggerVotes() {
     const labels = this.change?.labels ?? {};
     const triggerVotes = getTriggerVotes(this.change).filter(label =>
-      hasVotes(labels[label])
+      hasVotes(labels[label]),
     );
     if (!triggerVotes.length) return;
     return html`<h3 class="metadata-title heading-3">
@@ -461,7 +461,7 @@ export class GrSubmitRequirements extends LitElement {
               .account=${this.account}
               .mutable=${this.mutable ?? false}
               .disableHovercards=${this.disableHovercards}
-            ></gr-trigger-vote>`
+            ></gr-trigger-vote>`,
         )}
       </section>`;
   }

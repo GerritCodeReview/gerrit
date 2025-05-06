@@ -54,7 +54,7 @@ export class Plugin implements PluginApi {
     private readonly report: ReportingService,
     private readonly restApiService: RestApiService,
     private readonly pluginsModel: PluginsModel,
-    private readonly pluginEndpoints: GrPluginEndpoints
+    private readonly pluginEndpoints: GrPluginEndpoints,
   ) {
     this.domHooks = new GrDomHooksManager(this);
 
@@ -62,8 +62,8 @@ export class Plugin implements PluginApi {
       this.report.error(
         'Plugin constructor',
         new Error(
-          'Plugin not being loaded from /plugins base path. Unable to determine name.'
-        )
+          'Plugin not being loaded from /plugins base path. Unable to determine name.',
+        ),
       );
       return this;
     }
@@ -83,7 +83,7 @@ export class Plugin implements PluginApi {
   registerCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
-    options?: RegisterOptions
+    options?: RegisterOptions,
   ): HookApi<T> {
     this.report.trackApi(this, 'plugin', 'registerCustomComponent');
     return this._registerCustomComponent(endpointName, moduleName, options);
@@ -98,7 +98,7 @@ export class Plugin implements PluginApi {
   registerDynamicCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
-    options?: RegisterOptions
+    options?: RegisterOptions,
   ): HookApi<T> {
     this.report.trackApi(this, 'plugin', 'registerDynamicCustomComponent');
     const fullEndpointName = `${endpointName}-${this.getPluginName()}`;
@@ -106,7 +106,7 @@ export class Plugin implements PluginApi {
       fullEndpointName,
       moduleName,
       options,
-      endpointName
+      endpointName,
     );
   }
 
@@ -114,7 +114,7 @@ export class Plugin implements PluginApi {
     endpoint: string,
     moduleName?: string,
     options?: RegisterOptions,
-    dynamicEndpoint?: string
+    dynamicEndpoint?: string,
   ): HookApi<T> {
     const type = options?.replace
       ? EndpointType.REPLACE
@@ -139,7 +139,7 @@ export class Plugin implements PluginApi {
    */
   hook<T extends PluginElement>(
     endpointName: string,
-    options?: RegisterOptions
+    options?: RegisterOptions,
   ): HookApi<T> {
     this.report.trackApi(this, 'plugin', 'hook');
     return this.registerCustomComponent(endpointName, undefined, options);
@@ -182,7 +182,7 @@ export class Plugin implements PluginApi {
     return new GrAnnotationActionsInterface(
       this.report,
       this.pluginsModel,
-      this
+      this,
     );
   }
 
@@ -191,8 +191,8 @@ export class Plugin implements PluginApi {
       this,
       this.jsApi,
       this.jsApi.getElement(
-        TargetElement.CHANGE_ACTIONS
-      ) as unknown as GrChangeActions
+        TargetElement.CHANGE_ACTIONS,
+      ) as unknown as GrChangeActions,
     );
   }
 
@@ -249,13 +249,13 @@ export class Plugin implements PluginApi {
     if (moduleName && typeof moduleName !== 'string') {
       console.error(
         '.screen(pattern, callback) deprecated, use ' +
-          '.screen(screenName, moduleName)!'
+          '.screen(screenName, moduleName)!',
       );
       return;
     }
     return this.registerCustomComponent(
       this._getScreenName(screenName),
-      moduleName
+      moduleName,
     );
   }
 

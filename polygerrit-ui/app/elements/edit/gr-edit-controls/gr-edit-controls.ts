@@ -588,7 +588,7 @@ export class GrEditControls extends LitElement {
         this.change._number,
         this.patchNum,
         input,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(res => {
         if (!res)

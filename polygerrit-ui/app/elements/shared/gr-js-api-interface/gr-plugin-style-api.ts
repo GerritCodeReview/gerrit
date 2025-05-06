@@ -23,7 +23,7 @@ function getOrCreatePluginStyleEl(): HTMLStyleElement {
 export class GrPluginStyleApi implements StylePluginApi {
   constructor(
     private readonly reporting: ReportingService,
-    private readonly plugin: PluginApi
+    private readonly plugin: PluginApi,
   ) {
     this.reporting.trackApi(this.plugin, 'style', 'constructor');
   }
@@ -36,7 +36,7 @@ export class GrPluginStyleApi implements StylePluginApi {
       styleEl.sheet?.insertRule(rule);
     } catch (error) {
       console.error(
-        `Failed to insert CSS rule for plugin ${this.plugin.getPluginName()}: ${error}`
+        `Failed to insert CSS rule for plugin ${this.plugin.getPluginName()}: ${error}`,
       );
     }
   }

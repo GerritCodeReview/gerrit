@@ -186,7 +186,7 @@ suite('gr-ssh-editor tests', () => {
             </gr-button>
           </fieldset>
         </div>
-      `
+      `,
     );
   });
 
@@ -194,7 +194,7 @@ suite('gr-ssh-editor tests', () => {
     const lastKey = keys[1];
 
     const saveStub = stubRestApi('deleteAccountSSHKey').callsFake(() =>
-      Promise.resolve()
+      Promise.resolve(),
     );
 
     assert.equal(element.keysToRemove.length, 0);
@@ -203,7 +203,7 @@ suite('gr-ssh-editor tests', () => {
     // Get the delete button for the last row.
     const button = query<GrButton>(
       element,
-      'tbody tr:last-of-type td:nth-child(5) gr-button'
+      'tbody tr:last-of-type td:nth-child(5) gr-button',
     );
 
     button!.click();
@@ -227,7 +227,7 @@ suite('gr-ssh-editor tests', () => {
     // Get the show button for the last row.
     const button = query<GrButton>(
       element,
-      'tbody tr:last-of-type td:nth-child(3) gr-button'
+      'tbody tr:last-of-type td:nth-child(3) gr-button',
     );
 
     button!.click();

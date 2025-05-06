@@ -77,7 +77,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private readonly getRelatedChangesModel = resolve(
     this,
-    relatedChangesModelToken
+    relatedChangesModelToken,
   );
 
   constructor() {
@@ -85,37 +85,37 @@ export class GrRelatedChangesList extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().relatedChanges$,
-      x => (this.relatedChanges = x ?? [])
+      x => (this.relatedChanges = x ?? []),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().submittedTogether$,
-      x => (this.submittedTogether = x)
+      x => (this.submittedTogether = x),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().cherryPicks$,
-      x => (this.cherryPickChanges = x ?? [])
+      x => (this.cherryPickChanges = x ?? []),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().conflictingChanges$,
-      x => (this.conflictingChanges = x ?? [])
+      x => (this.conflictingChanges = x ?? []),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().sameTopicChanges$,
-      x => (this.sameTopicChanges = x ?? [])
+      x => (this.sameTopicChanges = x ?? []),
     );
   }
 
@@ -221,7 +221,7 @@ export class GrRelatedChangesList extends LitElement {
       this.submittedTogether?.changes.length || 0,
       this.sameTopicChanges.length,
       this.conflictingChanges.length,
-      this.cherryPickChanges.length
+      this.cherryPickChanges.length,
     );
 
     const sectionRenderers = [
@@ -238,7 +238,7 @@ export class GrRelatedChangesList extends LitElement {
       const section: TemplateResult<1> | undefined = renderer.call(
         this,
         !firstNonEmptySectionFound,
-        sectionSize
+        sectionSize,
       );
       firstNonEmptySectionFound = firstNonEmptySectionFound || !!section;
       sections.push(section);
@@ -257,7 +257,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderRelationChain(
     isFirst: boolean,
-    sectionSize: (section: Section) => number
+    sectionSize: (section: Section) => number,
   ) {
     if (this.relatedChanges.length === 0) {
       return undefined;
@@ -265,14 +265,14 @@ export class GrRelatedChangesList extends LitElement {
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
       this.relatedChanges.findIndex(relatedChange =>
-        this._changesEqual(relatedChange, this.change)
+        this._changesEqual(relatedChange, this.change),
       ),
-      sectionSize(Section.RELATED_CHANGES)
+      sectionSize(Section.RELATED_CHANGES),
     );
     const connectedRevisions = this._computeConnectedRevisions(
       this.change,
       this.latestPatchNum,
-      this.relatedChanges
+      this.relatedChanges,
     );
 
     return html`<section id="relatedChanges">
@@ -297,7 +297,7 @@ export class GrRelatedChangesList extends LitElement {
               })}
             >
               ${this.renderMarkers(
-                relatedChangesMarkersPredicate(index)
+                relatedChangesMarkersPredicate(index),
               )}<gr-related-change
                 .change=${change}
                 .connectedRevisions=${connectedRevisions}
@@ -315,7 +315,7 @@ export class GrRelatedChangesList extends LitElement {
                   >${change.commit.subject}</span
                 ></gr-related-change
               >
-            </div>`
+            </div>`,
         )}
       </gr-related-collapse>
     </section>`;
@@ -323,7 +323,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderSubmittedTogether(
     isFirst: boolean,
-    sectionSize: (section: Section) => number
+    sectionSize: (section: Section) => number,
   ) {
     const submittedTogetherChanges = this.submittedTogether?.changes ?? [];
     if (
@@ -337,9 +337,9 @@ export class GrRelatedChangesList extends LitElement {
     const submittedTogetherMarkersPredicate = this.markersPredicateFactory(
       submittedTogetherChanges.length,
       submittedTogetherChanges.findIndex(relatedChange =>
-        this._changesEqual(relatedChange, this.change)
+        this._changesEqual(relatedChange, this.change),
       ),
-      sectionSize(Section.SUBMITTED_TOGETHER)
+      sectionSize(Section.SUBMITTED_TOGETHER),
     );
     return html`<section id="submittedTogether">
       <gr-related-collapse
@@ -364,9 +364,9 @@ export class GrRelatedChangesList extends LitElement {
               })}
             >
               ${this.renderMarkers(
-                submittedTogetherMarkersPredicate(index)
+                submittedTogetherMarkersPredicate(index),
               )}${this.renderSubmittedTogetherLine(change)}
-            </div>`
+            </div>`,
         )}
       </gr-related-collapse>
       <div class="note" ?hidden=${!countNonVisibleChanges}>
@@ -394,7 +394,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderSameTopic(
     isFirst: boolean,
-    sectionSize: (section: Section) => number
+    sectionSize: (section: Section) => number,
   ) {
     if (!this.sameTopicChanges?.length) {
       return undefined;
@@ -403,7 +403,7 @@ export class GrRelatedChangesList extends LitElement {
     const sameTopicMarkersPredicate = this.markersPredicateFactory(
       this.sameTopicChanges.length,
       -1,
-      sectionSize(Section.SAME_TOPIC)
+      sectionSize(Section.SAME_TOPIC),
     );
     return html`<section id="sameTopic">
       <gr-related-collapse
@@ -425,9 +425,9 @@ export class GrRelatedChangesList extends LitElement {
               })}
             >
               ${this.renderMarkers(
-                sameTopicMarkersPredicate(index)
+                sameTopicMarkersPredicate(index),
               )}${this.renderSubmittedTogetherLine(change)}
-            </div>`
+            </div>`,
         )}
       </gr-related-collapse>
     </section>`;
@@ -435,7 +435,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderMergeConflicts(
     isFirst: boolean,
-    sectionSize: (section: Section) => number
+    sectionSize: (section: Section) => number,
   ) {
     if (!this.conflictingChanges?.length) {
       return undefined;
@@ -443,7 +443,7 @@ export class GrRelatedChangesList extends LitElement {
     const mergeConflictsMarkersPredicate = this.markersPredicateFactory(
       this.conflictingChanges.length,
       -1,
-      sectionSize(Section.MERGE_CONFLICTS)
+      sectionSize(Section.MERGE_CONFLICTS),
     );
     return html`<section id="mergeConflicts">
       <gr-related-collapse
@@ -466,13 +466,13 @@ export class GrRelatedChangesList extends LitElement {
               })}
             >
               ${this.renderMarkers(
-                mergeConflictsMarkersPredicate(index)
+                mergeConflictsMarkersPredicate(index),
               )}<gr-related-change
                 .change=${change}
                 .href=${createChangeUrl({change, usp: 'merge-conflict'})}
                 ><span slot="name">${change.subject}</span></gr-related-change
               >
-            </div>`
+            </div>`,
         )}
       </gr-related-collapse>
     </section>`;
@@ -480,7 +480,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderCherryPicks(
     isFirst: boolean,
-    sectionSize: (section: Section) => number
+    sectionSize: (section: Section) => number,
   ) {
     if (!this.cherryPickChanges.length) {
       return undefined;
@@ -488,7 +488,7 @@ export class GrRelatedChangesList extends LitElement {
     const cherryPicksMarkersPredicate = this.markersPredicateFactory(
       this.cherryPickChanges.length,
       -1,
-      sectionSize(Section.CHERRY_PICKS)
+      sectionSize(Section.CHERRY_PICKS),
     );
     return html`<section id="cherryPicks">
       <gr-related-collapse
@@ -507,7 +507,7 @@ export class GrRelatedChangesList extends LitElement {
               })}
             >
               ${this.renderMarkers(
-                cherryPicksMarkersPredicate(index)
+                cherryPicksMarkersPredicate(index),
               )}<gr-related-change
                 .change=${change}
                 .href=${createChangeUrl({change, usp: 'cherry-pick'})}
@@ -516,7 +516,7 @@ export class GrRelatedChangesList extends LitElement {
                   >${change.branch}: ${change.subject}</span
                 ></gr-related-change
               >
-            </div>`
+            </div>`,
         )}
       </gr-related-collapse>
     </section>`;
@@ -531,7 +531,7 @@ export class GrRelatedChangesList extends LitElement {
     submittedTogetherLen: number,
     sameTopicLen: number,
     mergeConflictsLen: number,
-    cherryPicksLen: number
+    cherryPicksLen: number,
   ) {
     const calcDefaultSize = (length: number) =>
       Math.min(length, DEFAULT_NUM_CHANGES_WHEN_COLLAPSED);
@@ -567,7 +567,7 @@ export class GrRelatedChangesList extends LitElement {
     const FILLER = 1; // space for header
     let totalSize = sectionSizes.reduce(
       (acc, val) => acc + val.size + (val.size !== 0 ? FILLER : 0),
-      0
+      0,
     );
 
     const MAX_SIZE = 16;
@@ -577,7 +577,7 @@ export class GrRelatedChangesList extends LitElement {
       if (sizeObj.size === sizeObj.len) continue;
       const newSize = Math.min(
         MAX_SIZE - totalSize + sizeObj.size,
-        sizeObj.len
+        sizeObj.len,
       );
       totalSize += newSize - sizeObj.size;
       sizeObj.size = newSize;
@@ -593,7 +593,7 @@ export class GrRelatedChangesList extends LitElement {
   markersPredicateFactory(
     length: number,
     highlightIndex: number,
-    numChangesShownWhenCollapsed = DEFAULT_NUM_CHANGES_WHEN_COLLAPSED
+    numChangesShownWhenCollapsed = DEFAULT_NUM_CHANGES_WHEN_COLLAPSED,
   ): (index: number) => ChangeMarkersInList {
     const showWhenCollapsedPredicate = (index: number) => {
       if (highlightIndex === -1) return index < numChangesShownWhenCollapsed;
@@ -607,7 +607,7 @@ export class GrRelatedChangesList extends LitElement {
         (numChangesShownWhenCollapsed % 2 ? 0 : 1);
       numBeforeHighlight += Math.max(
         highlightIndex + numAfterHighlight - length + 1,
-        0
+        0,
       );
       numAfterHighlight -= Math.min(0, highlightIndex - numBeforeHighlight);
       return (
@@ -668,7 +668,7 @@ export class GrRelatedChangesList extends LitElement {
    */
   _changesEqual(
     a?: ChangeInfo | RelatedChangeAndCommitInfo,
-    b?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
+    b?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo,
   ) {
     if (!a || !b) return false;
     const aNum = getChangeNumber(a);
@@ -683,7 +683,7 @@ export class GrRelatedChangesList extends LitElement {
   _computeConnectedRevisions(
     change?: ParsedChangeInfo,
     latestPatchNum?: PatchSetNumber,
-    relatedChanges?: RelatedChangeAndCommitInfo[]
+    relatedChanges?: RelatedChangeAndCommitInfo[],
   ) {
     if (!latestPatchNum || !relatedChanges || !change) {
       return [];

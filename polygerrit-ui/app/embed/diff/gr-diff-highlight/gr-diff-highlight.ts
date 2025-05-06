@@ -78,15 +78,15 @@ export class GrDiffHighlight {
 
     diffTable.addEventListener(
       'comment-thread-mouseleave',
-      this.handleCommentThreadMouseleave
+      this.handleCommentThreadMouseleave,
     );
     diffTable.addEventListener(
       'comment-thread-mouseenter',
-      this.handleCommentThreadMouseenter
+      this.handleCommentThreadMouseenter,
     );
     diffTable.addEventListener(
       'create-comment-requested',
-      this.handleRangeCommentRequest
+      this.handleRangeCommentRequest,
     );
   }
 
@@ -95,15 +95,15 @@ export class GrDiffHighlight {
     if (this.diffTable) {
       this.diffTable.removeEventListener(
         'comment-thread-mouseleave',
-        this.handleCommentThreadMouseleave
+        this.handleCommentThreadMouseleave,
       );
       this.diffTable.removeEventListener(
         'comment-thread-mouseenter',
-        this.handleCommentThreadMouseenter
+        this.handleCommentThreadMouseenter,
       );
       this.diffTable.removeEventListener(
         'create-comment-requested',
-        this.handleRangeCommentRequest
+        this.handleRangeCommentRequest,
       );
     }
   }
@@ -126,7 +126,7 @@ export class GrDiffHighlight {
    */
   handleSelectionChange(
     selection: Selection | Range | null,
-    isMouseUp: boolean
+    isMouseUp: boolean,
   ) {
     if (selection === null) return;
     // Debounce is not just nice for waiting until the selection has settled,
@@ -139,13 +139,13 @@ export class GrDiffHighlight {
     this.selectionChangeTask = debounce(
       this.selectionChangeTask,
       () => this.handleSelection(selection, isMouseUp),
-      10
+      10,
     );
   }
 
   private toggleRangeElHighlight(
     thread: GrDiffCommentThread,
-    highlightRange = false
+    highlightRange = false,
   ) {
     const rootId = thread?.rootId;
     if (!rootId) return;
@@ -159,13 +159,13 @@ export class GrDiffHighlight {
   }
 
   private handleCommentThreadMouseenter = (
-    e: CustomEvent<GrDiffCommentThread>
+    e: CustomEvent<GrDiffCommentThread>,
   ) => {
     this.toggleRangeElHighlight(e.detail, /* highlightRange= */ true);
   };
 
   private handleCommentThreadMouseleave = (
-    e: CustomEvent<GrDiffCommentThread>
+    e: CustomEvent<GrDiffCommentThread>,
   ) => {
     this.toggleRangeElHighlight(e.detail, /* highlightRange= */ false);
   };
@@ -190,7 +190,7 @@ export class GrDiffHighlight {
     } else {
       const startRange = this.normalizeRange(selection.getRangeAt(0));
       const endRange = this.normalizeRange(
-        selection.getRangeAt(rangeCount - 1)
+        selection.getRangeAt(rangeCount - 1),
       );
       return {
         start: startRange.start,
@@ -210,11 +210,11 @@ export class GrDiffHighlight {
       {
         start: this.normalizeSelectionSide(
           range.startContainer,
-          range.startOffset
+          range.startOffset,
         ),
         end: this.normalizeSelectionSide(range.endContainer, range.endOffset),
       },
-      domRange
+      domRange,
     );
   }
 
@@ -272,7 +272,7 @@ export class GrDiffHighlight {
    */
   private normalizeSelectionSide(
     node: Node | null,
-    offset: number
+    offset: number,
   ): NormalizedPosition | null {
     let column;
     if (!this.diffTable) return null;
@@ -319,7 +319,7 @@ export class GrDiffHighlight {
   positionActionBox(
     actionBox: GrSelectionActionBox,
     startLine: number,
-    range: Text | Element | Range
+    range: Text | Element | Range,
   ) {
     if (startLine > 1) {
       actionBox.positionBelow = false;
@@ -419,7 +419,7 @@ export class GrDiffHighlight {
         this.positionActionBox(
           actionBox,
           start.line,
-          start.node.splitText(start.column)
+          start.node.splitText(start.column),
         );
       }
       start.node.parentElement!.normalize(); // Undo splitText from above.
@@ -455,7 +455,7 @@ export class GrDiffHighlight {
   removeActionBox() {
     this.selectedRange = undefined;
     const actionBox = this.diffTable?.querySelector(
-      'gr-selection-action-box'
+      'gr-selection-action-box',
     ) as GrSelectionActionBox | null;
     if (actionBox) {
       fire(actionBox, 'selection-action-box-removed', {});

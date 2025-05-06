@@ -15,7 +15,7 @@ suite('gr-create-change-help tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-create-change-help></gr-create-change-help>`
+      html`<gr-create-change-help></gr-create-change-help>`,
     );
   });
 
@@ -47,7 +47,7 @@ suite('gr-create-change-help tests', () => {
             Create Change
           </gr-button>
         </div>
-      `
+      `,
     );
   });
 });

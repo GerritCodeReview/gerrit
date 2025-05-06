@@ -119,7 +119,7 @@ export class GrApplyFixDialog extends LitElement {
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
+    () => getAppContext().reportingService,
   );
 
   constructor() {
@@ -133,14 +133,14 @@ export class GrApplyFixDialog extends LitElement {
           layers.push(new TokenHighlightLayer(this));
         }
         this.layers = layers;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
-      }
+      },
     );
     subscribe(
       this,
@@ -149,40 +149,40 @@ export class GrApplyFixDialog extends LitElement {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;
         this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      change => (this.change = change)
+      change => (this.change = change),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      changeNum => (this.changeNum = changeNum)
+      changeNum => (this.changeNum = changeNum),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED),
     );
     subscribe(
       this,
       () => this.getChangeModel().revisions$,
       revisions =>
         (this.hasEdit = Object.values(revisions).some(
-          info => info._number === EDIT
-        ))
+          info => info._number === EDIT,
+        )),
     );
   }
 
@@ -253,7 +253,7 @@ export class GrApplyFixDialog extends LitElement {
           <span>${item.filepath}</span>
         </div>
         <div class="diffContainer">${this.renderDiff(item)}</div>
-      `
+      `,
     );
     return html`<div slot="main">${items}</div>`;
   }
@@ -280,10 +280,10 @@ export class GrApplyFixDialog extends LitElement {
     return html`
       <div slot="footer" class="fix-picker">
         ${when(shouldRenderNav, () =>
-          this.renderNavForMultipleSuggestedFixes(fixCount)
+          this.renderNavForMultipleSuggestedFixes(fixCount),
         )}
         ${when(shouldRenderWarning, () =>
-          this.renderWarning(reasonForDisabledApplyButton)
+          this.renderWarning(reasonForDisabledApplyButton),
         )}
       </div>
     `;
@@ -343,7 +343,7 @@ export class GrApplyFixDialog extends LitElement {
   private async fetchFixPreview(fixSuggestion: FixSuggestionInfo) {
     if (!this.changeNum || !this.patchNum) {
       return Promise.reject(
-        new Error('Both patchNum and changeNum must be set')
+        new Error('Both patchNum and changeNum must be set'),
       );
     }
     let res: FilePathToDiffInfoMap | undefined;
@@ -352,7 +352,7 @@ export class GrApplyFixDialog extends LitElement {
         res = await this.restApiService.getFixPreview(
           this.changeNum,
           this.patchNum,
-          fixSuggestion.replacements
+          fixSuggestion.replacements,
         );
       } else {
         // TODO(b/227463363) Remove once Robot Comments are deprecated.
@@ -360,7 +360,7 @@ export class GrApplyFixDialog extends LitElement {
         res = await this.restApiService.getRobotCommentFixPreview(
           this.changeNum,
           this.patchNum,
-          fixSuggestion.fix_id
+          fixSuggestion.fix_id,
         );
       }
       if (res) {
@@ -468,7 +468,7 @@ export class GrApplyFixDialog extends LitElement {
           changeNum,
           patchNum,
           this.fixSuggestions[this.selectedFixIdx].replacements,
-          this.latestPatchNum
+          this.latestPatchNum,
         );
       } catch (error) {
         if (error instanceof Error) {
@@ -481,7 +481,7 @@ export class GrApplyFixDialog extends LitElement {
           method: 'apply-fix-dialog',
           description: this.fixSuggestions?.[0].description,
           fileExtension: getFileExtension(
-            this.fixSuggestions?.[0]?.replacements?.[0].path ?? ''
+            this.fixSuggestions?.[0]?.replacements?.[0].path ?? '',
           ),
           success: res?.ok ?? false,
           status: res?.status ?? status,
@@ -493,14 +493,14 @@ export class GrApplyFixDialog extends LitElement {
       res = await this.restApiService.applyRobotFixSuggestion(
         changeNum,
         patchNum,
-        this.currentFix.fix_id
+        this.currentFix.fix_id,
       );
       this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
         method: 'apply-fix-dialog',
         description: this.fixSuggestions?.[0].description,
         isRobotComment: true,
         fileExtension: getFileExtension(
-          this.fixSuggestions?.[0].replacements?.[0].path ?? ''
+          this.fixSuggestions?.[0].replacements?.[0].path ?? '',
         ),
         success: res.ok,
         status: res.status,
@@ -513,7 +513,7 @@ export class GrApplyFixDialog extends LitElement {
           patchNum: EDIT,
           basePatchNum: patchNum as BasePatchSetNum,
           forceReload: !this.hasEdit,
-        })
+        }),
       );
       this.close(true);
     }

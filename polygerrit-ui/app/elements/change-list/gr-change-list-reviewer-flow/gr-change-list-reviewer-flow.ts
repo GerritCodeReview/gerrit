@@ -160,22 +160,22 @@ export class GrChangeListReviewerFlow extends LitElement {
     subscribe(
       this,
       () => this.getBulkActionsModel().selectedChanges$,
-      selectedChanges => (this.selectedChanges = selectedChanges)
+      selectedChanges => (this.selectedChanges = selectedChanges),
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      serverConfig => (this.serverConfig = serverConfig)
+      serverConfig => (this.serverConfig = serverConfig),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+      isLoggedIn => (this.isLoggedIn = isLoggedIn),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      account => (this.account = account)
+      account => (this.account = account),
     );
   }
 
@@ -213,7 +213,7 @@ export class GrChangeListReviewerFlow extends LitElement {
             ${this.renderAccountList(
               ReviewerState.REVIEWER,
               'reviewer-list',
-              'Add reviewer'
+              'Add reviewer',
             )}
             <span>CC</span>
             ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
@@ -227,7 +227,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   private renderAccountList(
     reviewerState: ReviewerState,
     id: string,
-    placeholder: string
+    placeholder: string,
   ) {
     const updatedAccounts =
       this.updatedAccountsByReviewerState.get(reviewerState);
@@ -244,11 +244,11 @@ export class GrChangeListReviewerFlow extends LitElement {
         .suggestionsProvider=${suggestionsProvider}
         .placeholder=${placeholder}
         .pendingConfirmation=${this.groupPendingConfirmationByReviewerState.get(
-          reviewerState
+          reviewerState,
         )}
         @accounts-changed=${() => this.onAccountsChanged(reviewerState)}
         @pending-confirmation-changed=${(
-          ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+          ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>,
         ) => this.onPendingConfirmationChanged(reviewerState, ev)}
       >
       </gr-account-list>
@@ -351,13 +351,13 @@ export class GrChangeListReviewerFlow extends LitElement {
       .flatMap(
         change =>
           change.reviewers[currentReviewerState]?.filter(isNotOwner(change)) ??
-          []
+          [],
       )
       .filter(account => account?._account_id !== undefined);
   }
 
   private getOverwrittenDisplayNames(
-    currentReviewerState: ReviewerState
+    currentReviewerState: ReviewerState,
   ): string[] {
     const updatedReviewerState =
       currentReviewerState === ReviewerState.CC
@@ -369,8 +369,8 @@ export class GrChangeListReviewerFlow extends LitElement {
       .get(updatedReviewerState)!
       .filter(account =>
         accountsInCurrentState.some(
-          otherAccount => getUserId(otherAccount) === getUserId(account)
-        )
+          otherAccount => getUserId(otherAccount) === getUserId(account),
+        ),
       )
       .map(reviewer => getDisplayName(this.serverConfig, reviewer));
   }
@@ -392,17 +392,17 @@ export class GrChangeListReviewerFlow extends LitElement {
       this.selectedChanges.map(change => [
         change._number,
         ProgressStatus.NOT_STARTED,
-      ])
+      ]),
     );
     for (const state of [ReviewerState.REVIEWER, ReviewerState.CC] as const) {
       this.updatedAccountsByReviewerState.set(
         state,
-        this.getCurrentAccounts(state)
+        this.getCurrentAccounts(state),
       );
       if (this.selectedChanges.length > 0) {
         this.suggestionsProviderByReviewerState.set(
           state,
-          this.createSuggestionsProvider(state)
+          this.createSuggestionsProvider(state),
         );
       }
     }
@@ -423,18 +423,18 @@ export class GrChangeListReviewerFlow extends LitElement {
         ? ReviewerState.REVIEWER
         : ReviewerState.CC;
     const oppositeUpdatedAccounts = this.updatedAccountsByReviewerState.get(
-      oppositeReviewerState
+      oppositeReviewerState,
     )!;
 
     const notOverwrittenOppositeAccounts = oppositeUpdatedAccounts.filter(
-      acc => !reviewerStateKeys.includes(getUserId(acc))
+      acc => !reviewerStateKeys.includes(getUserId(acc)),
     );
     if (
       notOverwrittenOppositeAccounts.length !== oppositeUpdatedAccounts.length
     ) {
       this.updatedAccountsByReviewerState.set(
         oppositeReviewerState,
-        notOverwrittenOppositeAccounts
+        notOverwrittenOppositeAccounts,
       );
     }
     this.requestUpdate();
@@ -442,11 +442,11 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private async onPendingConfirmationChanged(
     reviewerState: ReviewerState,
-    ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+    ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>,
   ) {
     this.groupPendingConfirmationByReviewerState.set(
       reviewerState,
-      ev.detail.value
+      ev.detail.value,
     );
     this.requestUpdate();
     await this.updateComplete;
@@ -474,7 +474,7 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private confirmPendingGroup(
     reviewerState: ReviewerState,
-    suggestion: SuggestedReviewerGroupInfo | null | undefined
+    suggestion: SuggestedReviewerGroupInfo | null | undefined,
   ) {
     if (!suggestion) return;
     const accountList =
@@ -507,7 +507,7 @@ export class GrChangeListReviewerFlow extends LitElement {
     if (numReviewersAdded && numCcsAdded) {
       alert = `${pluralize(numReviewersAdded, 'reviewer')} and ${pluralize(
         numCcsAdded,
-        'CC'
+        'CC',
       )} added`;
     } else if (numReviewersAdded) {
       alert = `${pluralize(numReviewersAdded, 'reviewer')} added`;
@@ -526,11 +526,11 @@ export class GrChangeListReviewerFlow extends LitElement {
       this.selectedChanges.map(change => [
         change._number,
         ProgressStatus.RUNNING,
-      ])
+      ]),
     );
     const inFlightActions = this.getBulkActionsModel().addReviewers(
       this.updatedAccountsByReviewerState,
-      getReplyByReason(this.account, this.serverConfig)
+      getReplyByReason(this.account, this.serverConfig),
     );
 
     await allSettled(
@@ -540,7 +540,7 @@ export class GrChangeListReviewerFlow extends LitElement {
           .then(() => {
             this.progressByChangeNum.set(
               change._number,
-              ProgressStatus.SUCCESSFUL
+              ProgressStatus.SUCCESSFUL,
             );
             this.requestUpdate();
           })
@@ -548,13 +548,13 @@ export class GrChangeListReviewerFlow extends LitElement {
             this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
             this.requestUpdate();
           });
-      })
+      }),
     );
     if (getOverallStatus(this.progressByChangeNum) === ProgressStatus.FAILED) {
       this.reportingService.reportInteraction('bulk-action-failure', {
         type: 'add-reviewer',
         count: Array.from(this.progressByChangeNum.values()).filter(
-          status => status === ProgressStatus.FAILED
+          status => status === ProgressStatus.FAILED,
         ).length,
       });
     } else {
@@ -574,23 +574,23 @@ export class GrChangeListReviewerFlow extends LitElement {
   getCurrentAccounts(reviewerState: ReviewerState) {
     const reviewersPerChange = this.selectedChanges.map(
       change =>
-        change.reviewers[reviewerState]?.filter(isNotOwner(change)) ?? []
+        change.reviewers[reviewerState]?.filter(isNotOwner(change)) ?? [],
     );
     return intersection(
       reviewersPerChange,
-      (account1, account2) => accountKey(account1) === accountKey(account2)
+      (account1, account2) => accountKey(account1) === accountKey(account2),
     );
   }
 
   private createSuggestionsProvider(
-    state: ReviewerState.CC | ReviewerState.REVIEWER
+    state: ReviewerState.CC | ReviewerState.REVIEWER,
   ): ReviewerSuggestionsProvider {
     const suggestionsProvider = new GrReviewerSuggestionsProvider(
       this.restApiService,
       state,
       this.serverConfig,
       this.isLoggedIn,
-      ...this.selectedChanges
+      ...this.selectedChanges,
     );
     return suggestionsProvider;
   }

@@ -26,7 +26,7 @@ suite('annotation', () => {
     parent = await fixture(
       html`
         <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
-      `
+      `,
     );
     textNode = parent.childNodes[0] as Text;
     str = textNode.textContent!;
@@ -38,7 +38,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      '<hl class="foobar"></hl>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula'
+      '<hl class="foobar"></hl>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula',
     );
   });
 
@@ -48,7 +48,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      'L<hl class="foobar"></hl>orem ipsum dolor sit amet, suspendisse inceptos vehicula'
+      'L<hl class="foobar"></hl>orem ipsum dolor sit amet, suspendisse inceptos vehicula',
     );
   });
 
@@ -58,7 +58,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula<hl class="foobar"></hl>'
+      'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula<hl class="foobar"></hl>',
     );
   });
 
@@ -68,7 +68,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      '<hl class="foobar">Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</hl>'
+      '<hl class="foobar">Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</hl>',
     );
   });
 
@@ -78,7 +78,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      '<hl class="foobar">Lorem ipsum </hl>dolor sit amet, suspendisse inceptos vehicula'
+      '<hl class="foobar">Lorem ipsum </hl>dolor sit amet, suspendisse inceptos vehicula',
     );
   });
 
@@ -88,7 +88,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      'Lorem ipsum <hl class="foobar">dolor sit amet, suspendisse inceptos vehicula</hl>'
+      'Lorem ipsum <hl class="foobar">dolor sit amet, suspendisse inceptos vehicula</hl>',
     );
   });
 
@@ -101,7 +101,7 @@ suite('annotation', () => {
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      'Lorem ipsum <hl class="foobar">dolor </hl>sit amet, suspendisse inceptos vehicula'
+      'Lorem ipsum <hl class="foobar">dolor </hl>sit amet, suspendisse inceptos vehicula',
     );
   });
 
@@ -114,14 +114,14 @@ suite('annotation', () => {
         parent,
         str.indexOf(layer),
         layer.length,
-        `layer-${i + 1}`
+        `layer-${i + 1}`,
       );
     });
 
     assert.equal(parent.textContent, str);
     assert.equal(
       parent.innerHTML,
-      'Lorem ipsum dolor sit <hl class="layer-1"><hl class="layer-3">am<hl class="layer-4">et, </hl></hl></hl><hl class="layer-4">suspendisse </hl><hl class="layer-2"><hl class="layer-4">ince</hl>ptos </hl>vehicula'
+      'Lorem ipsum dolor sit <hl class="layer-1"><hl class="layer-3">am<hl class="layer-4">et, </hl></hl></hl><hl class="layer-4">suspendisse </hl><hl class="layer-2"><hl class="layer-4">ince</hl>ptos </hl>vehicula',
     );
   });
 
@@ -153,7 +153,7 @@ suite('annotation', () => {
       value: unknown,
       name: string,
       type: 'property' | 'attribute',
-      node: Node | null | undefined
+      node: Node | null | undefined,
     ) => unknown;
 
     setup(() => {
@@ -178,7 +178,7 @@ suite('annotation', () => {
 
       assert.equal(
         container.innerHTML,
-        '0<test-wrapper>1234567890</test-wrapper>123456789'
+        '0<test-wrapper>1234567890</test-wrapper>123456789',
       );
     });
 
@@ -199,7 +199,7 @@ suite('annotation', () => {
           '<hl class="testclass">567890</hl>' +
           '</test-wrapper>' +
           '<hl class="testclass">1234</hl>' +
-          '56789'
+          '56789',
       );
     });
 
@@ -213,7 +213,7 @@ suite('annotation', () => {
 
       assert.equal(
         container.innerHTML,
-        '0<test-wrapper>1234567890</test-wrapper>123456789'
+        '0<test-wrapper>1234567890</test-wrapper>123456789',
       );
     });
 
@@ -228,7 +228,7 @@ suite('annotation', () => {
 
       assert.equal(
         container.innerHTML,
-        '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789'
+        '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789',
       );
     });
 
@@ -248,7 +248,7 @@ suite('annotation', () => {
         '<!--comment1-->' +
           '0<test-wrapper>123456789' +
           '<!--comment2-->' +
-          '<span></span>0</test-wrapper>123456789'
+          '<span></span>0</test-wrapper>123456789',
       );
     });
 
@@ -269,24 +269,24 @@ suite('annotation', () => {
           'foo',
           'href',
           'attribute',
-          sinon.match.instanceOf(Element)
-        )
+          sinon.match.instanceOf(Element),
+        ),
       );
       assert(
         mockSanitize.calledWith(
           'bar',
           'data-foo',
           'attribute',
-          sinon.match.instanceOf(Element)
-        )
+          sinon.match.instanceOf(Element),
+        ),
       );
       assert(
         mockSanitize.calledWith(
           'hello world',
           'class',
           'attribute',
-          sinon.match.instanceOf(Element)
-        )
+          sinon.match.instanceOf(Element),
+        ),
       );
       const el = container.querySelector('test-wrapper')!;
       assert.equal(el.getAttribute('href'), 'foo');

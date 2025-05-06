@@ -76,7 +76,7 @@ export class GrCopyLinks extends LitElement {
   private renderCopyLinks() {
     return html`<div slot="dropdown-content">
       ${this.copyLinks?.map((link, index) =>
-        this.renderCopyLinkRow(link, index)
+        this.renderCopyLinkRow(link, index),
       )}
     </div>`;
   }
@@ -117,7 +117,7 @@ export class GrCopyLinks extends LitElement {
       if (!this.copyClipboardRef?.value) return;
       queryAndAssert<HTMLInputElement>(
         this.copyClipboardRef.value,
-        'input'
+        'input',
       )?.select();
     });
   }

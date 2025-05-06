@@ -294,7 +294,7 @@ suite('gr-plugin-list tests', () => {
               </tbody>
             </table>
           </gr-list-view>
-        `
+        `,
       );
     });
 
@@ -313,7 +313,7 @@ suite('gr-plugin-list tests', () => {
       assert.isOk(queryAndAssert<HTMLAnchorElement>(names[2], 'a'));
       assert.equal(
         queryAndAssert<HTMLAnchorElement>(names[2], 'a').innerText,
-        'test1'
+        'test1',
       );
       assert.isNotOk(query(names[3], 'a'));
       assert.equal(names[3].innerText, 'test2');
@@ -375,7 +375,7 @@ suite('gr-plugin-list tests', () => {
       assert.equal(
         getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading'))
           .display,
-        'block'
+        'block',
       );
 
       element.loading = false;
@@ -395,7 +395,7 @@ suite('gr-plugin-list tests', () => {
             errFn(response);
           }
           return Promise.resolve(undefined);
-        }
+        },
       );
 
       const promise = mockPromise();

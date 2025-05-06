@@ -33,7 +33,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
+      'paper-button.showContext',
     );
     assert.equal(buttons.length, 1);
     assert.equal(buttons[0].textContent!.trim(), '+10 common lines');
@@ -45,7 +45,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
+      'paper-button.showContext',
     );
 
     assert.equal(buttons.length, 2);
@@ -62,7 +62,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
+      'paper-button.showContext',
     );
 
     assert.equal(buttons.length, 3);
@@ -81,7 +81,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
+      'paper-button.showContext',
     );
 
     assert.equal(buttons.length, 2);
@@ -104,24 +104,24 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion paper-button'
+      '.fullExpansion paper-button',
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion paper-button'
+      '.partialExpansion paper-button',
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
     assert.equal(
       blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
-      '+Block'
+      '+Block',
     );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
-      'belowButton'
+      'belowButton',
     );
   });
 
@@ -132,32 +132,32 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion paper-button'
+      '.fullExpansion paper-button',
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion paper-button'
+      '.partialExpansion paper-button',
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 2);
     assert.equal(blockExpansionButtons.length, 2);
     assert.equal(
       blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
-      '+Block'
+      '+Block',
     );
     assert.equal(
       blockExpansionButtons[1].querySelector('span')!.textContent!.trim(),
-      '+Block'
+      '+Block',
     );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
-      'aboveButton'
+      'aboveButton',
     );
     assert.include(
       [...blockExpansionButtons[1].classList.values()],
-      'belowButton'
+      'belowButton',
     );
   });
 
@@ -168,24 +168,24 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion paper-button'
+      '.fullExpansion paper-button',
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion paper-button'
+      '.partialExpansion paper-button',
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
     assert.equal(
       blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
-      '+Block'
+      '+Block',
     );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
-      'aboveButton'
+      'aboveButton',
     );
   });
 
@@ -207,19 +207,19 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     assert.equal(
       blockExpansionButtons[0]
         .querySelector('.breadcrumbTooltip')!
         .textContent?.trim(),
-      'aSpecificFunction'
+      'aSpecificFunction',
     );
     assert.equal(
       blockExpansionButtons[1]
         .querySelector('.breadcrumbTooltip')!
         .textContent?.trim(),
-      'anotherFunction'
+      'anotherFunction',
     );
   });
 
@@ -258,13 +258,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     assert.equal(
       blockExpansionButtons[0]
         .querySelector('.breadcrumbTooltip')!
         .textContent?.trim(),
-      'aSpecificNamespace > MyClass > aMethod'
+      'aSpecificNamespace > MyClass > aMethod',
     );
   });
 
@@ -302,13 +302,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     assert.equal(
       blockExpansionButtons[0]
         .querySelector('.breadcrumbTooltip')!
         .textContent?.trim(),
-      'aSpecificNamespace > (anonymous) > aMethod'
+      'aSpecificNamespace > (anonymous) > aMethod',
     );
   });
 
@@ -319,7 +319,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion paper-button',
     );
     const tooltipAbove =
       blockExpansionButtons[0].querySelector('paper-tooltip')!;
@@ -327,11 +327,11 @@ suite('gr-context-control tests', () => {
       blockExpansionButtons[1].querySelector('paper-tooltip')!;
     assert.equal(
       tooltipAbove.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
-      '20 common lines'
+      '20 common lines',
     );
     assert.equal(
       tooltipBelow.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
-      '20 common lines'
+      '20 common lines',
     );
     assert.equal(tooltipAbove.getAttribute('position'), 'top');
     assert.equal(tooltipBelow.getAttribute('position'), 'bottom');
@@ -342,7 +342,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
+      'paper-button.showContext',
     );
     assert.equal(buttons.length, 1);
     assert.equal(buttons[0].textContent!.trim(), '+ Unrelated changes');

@@ -25,11 +25,11 @@ import {ReactiveElement} from 'lit';
 suite('gr-app callback tests', () => {
   const requestUpdateStub = sinon.stub(
     ReactiveElement.prototype,
-    'requestUpdate'
+    'requestUpdate',
   );
   const dispatchLocationChangeEventSpy = sinon.spy(
     GrRouter.prototype,
-    <any>'dispatchLocationChangeEvent'
+    <any>'dispatchLocationChangeEvent',
   );
   setup(async () => {
     await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);

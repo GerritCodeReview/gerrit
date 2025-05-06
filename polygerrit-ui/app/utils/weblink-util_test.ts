@@ -21,7 +21,7 @@ suite('weblink util tests', () => {
         {name: 'browse', url: 'http://www.test.com'},
         {name: 'test', url: 'http://www.test.com'},
       ]),
-      {name: 'gitiles', url: 'http://www.test.com'}
+      {name: 'gitiles', url: 'http://www.test.com'},
     );
 
     assert.deepEqual(
@@ -29,7 +29,7 @@ suite('weblink util tests', () => {
         {name: 'gitweb', url: 'http://www.test.com'},
         {name: 'test', url: 'http://www.test.com'},
       ]),
-      {name: 'gitweb', url: 'http://www.test.com'}
+      {name: 'gitweb', url: 'http://www.test.com'},
     );
   });
 

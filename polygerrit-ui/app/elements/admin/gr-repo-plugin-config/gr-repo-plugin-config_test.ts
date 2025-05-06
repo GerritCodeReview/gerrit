@@ -19,7 +19,7 @@ suite('gr-repo-plugin-config tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-repo-plugin-config></gr-repo-plugin-config>`
+      html`<gr-repo-plugin-config></gr-repo-plugin-config>`,
     );
   });
 
@@ -50,7 +50,7 @@ suite('gr-repo-plugin-config tests', () => {
             </section>
           </fieldset>
         </div>
-      `
+      `,
     );
   });
 
@@ -70,7 +70,7 @@ suite('gr-repo-plugin-config tests', () => {
             type: 'STRING' as ConfigParameterInfoType,
           },
         },
-      ]
+      ],
     );
   });
 
@@ -120,7 +120,7 @@ suite('gr-repo-plugin-config tests', () => {
 
       const editor = queryAndAssert<GrPluginConfigArrayEditor>(
         element,
-        'gr-plugin-config-array-editor'
+        'gr-plugin-config-array-editor',
       );
       assert.ok(editor);
       element._handleArrayChange({detail: 'test'} as CustomEvent);
@@ -143,7 +143,7 @@ suite('gr-repo-plugin-config tests', () => {
 
       const toggle = queryAndAssert<PaperToggleButtonElement>(
         element,
-        'paper-toggle-button'
+        'paper-toggle-button',
       );
       assert.ok(toggle);
       toggle.click();
@@ -199,7 +199,7 @@ suite('gr-repo-plugin-config tests', () => {
       assert.ok(select);
       select.value = 'newTest';
       select.dispatchEvent(
-        new Event('change', {bubbles: true, composed: true})
+        new Event('change', {bubbles: true, composed: true}),
       );
       await element.updateComplete;
 

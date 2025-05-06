@@ -55,7 +55,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
   test('renders', async () => {
     element = await fixture<GrChangeListColumnRequirementsSummary>(
       html`<gr-change-list-column-requirements-summary .change=${change}>
-      </gr-change-list-column-requirements-summary>`
+      </gr-change-list-column-requirements-summary>`,
     );
     assert.shadowDom.equal(
       element,
@@ -64,7 +64,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
         </gr-submit-requirement-dashboard-hovercard>
         <gr-icon class="block" role="img" icon="block"></gr-icon>
         <span class="unsatisfied">1 missing</span>
-      </span>`
+      </span>`,
     );
   });
 
@@ -75,7 +75,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
     };
     element = await fixture<GrChangeListColumnRequirementsSummary>(
       html`<gr-change-list-column-requirements-summary .change=${change}>
-      </gr-change-list-column-requirements-summary>`
+      </gr-change-list-column-requirements-summary>`,
     );
     assert.shadowDom.equal(
       element,
@@ -91,7 +91,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
           filled
           icon="chat_bubble"
           title="5 unresolved comments"
-        ></gr-icon>`
+        ></gr-icon>`,
     );
   });
 });

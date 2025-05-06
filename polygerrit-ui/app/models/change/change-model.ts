@@ -114,7 +114,7 @@ export function updateRevisionsWithCommitShas(changeInput?: ParsedChangeInfo) {
 export function updateChangeWithEdit(
   change?: ParsedChangeInfo,
   edit?: EditInfo,
-  viewModelPatchNum?: PatchSetNum
+  viewModelPatchNum?: PatchSetNum,
 ): ParsedChangeInfo | undefined {
   if (!change || !edit) return change;
   assertIsDefined(edit.commit.commit, 'edit.commit.commit');
@@ -151,7 +151,7 @@ function computeBase(
   viewModelBasePatchNum: BasePatchSetNum | undefined,
   patchNum: RevisionPatchSetNum | undefined,
   change: ParsedChangeInfo | undefined,
-  preferences: PreferencesInfo
+  preferences: PreferencesInfo,
 ): BasePatchSetNum {
   if (viewModelBasePatchNum && viewModelBasePatchNum !== PARENT) {
     return viewModelBasePatchNum;
@@ -202,27 +202,27 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly change$ = select(
     this.state$,
-    changeState => changeState.change
+    changeState => changeState.change,
   );
 
   public readonly changeLoadingStatus$ = select(
     this.state$,
-    changeState => changeState.loadingStatus
+    changeState => changeState.loadingStatus,
   );
 
   public readonly loading$ = select(
     this.changeLoadingStatus$,
-    status => status === LoadingStatus.LOADING
+    status => status === LoadingStatus.LOADING,
   );
 
   public readonly reviewedFiles$ = select(
     this.state$,
-    changeState => changeState?.reviewedFiles
+    changeState => changeState?.reviewedFiles,
   );
 
   public readonly mergeable$ = select(
     this.state$,
-    changeState => changeState.mergeable
+    changeState => changeState.mergeable,
   );
 
   public readonly branch$ = select(this.change$, change => change?.branch);
@@ -241,35 +241,35 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly attentionSet$ = select(
     this.change$,
-    change => change?.attention_set
+    change => change?.attention_set,
   );
 
   public readonly owner$ = select(this.change$, change => change?.owner);
 
   public readonly revisions$ = select(this.change$, change =>
-    sortRevisions(Object.values(change?.revisions || {}))
+    sortRevisions(Object.values(change?.revisions || {})),
   );
 
   public readonly patchsets$ = select(this.change$, change =>
-    computeAllPatchSets(change)
+    computeAllPatchSets(change),
   );
 
   public readonly latestPatchNum$ = select(this.patchsets$, patchsets =>
-    computeLatestPatchNum(patchsets)
+    computeLatestPatchNum(patchsets),
   );
 
   public readonly latestPatchNumWithEdit$ = select(this.patchsets$, patchsets =>
-    computeLatestPatchNumWithEdit(patchsets)
+    computeLatestPatchNumWithEdit(patchsets),
   );
 
   public readonly latestUploader$ = select(
     this.change$,
-    change => change?.revisions[change.current_revision]?.uploader
+    change => change?.revisions[change.current_revision]?.uploader,
   );
 
   public readonly latestCommitter$ = select(
     this.change$,
-    change => change?.revisions[change.current_revision]?.commit?.committer
+    change => change?.revisions[change.current_revision]?.commit?.committer,
   );
 
   /**
@@ -293,16 +293,16 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly basePatchNum$: Observable<BasePatchSetNum>;
 
   private selectRevision(
-    revisionNum$: Observable<RevisionPatchSetNum | BasePatchSetNum | undefined>
+    revisionNum$: Observable<RevisionPatchSetNum | BasePatchSetNum | undefined>,
   ) {
     return select(
       combineLatest([this.revisions$, revisionNum$]),
       ([revisions, patchNum]) => {
         if (!revisions || !patchNum || patchNum === PARENT) return undefined;
         return Object.values(revisions).find(
-          revision => revision._number === patchNum
+          revision => revision._number === patchNum,
         );
-      }
+      },
     );
   }
 
@@ -326,7 +326,7 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
   ) {
     super(initialState);
     this.patchNum$ = select(
@@ -344,14 +344,14 @@ export class ChangeModel extends Model<ChangeState> {
           const changeNum = changeState.change?._number;
           const viewModelChangeNum = viewModelState?.changeNum;
           return changeNum === undefined || changeNum === viewModelChangeNum;
-        })
+        }),
       ),
       ([viewModelState, _changeState, latestPatchN]) =>
-        viewModelState?.patchNum || latestPatchN
+        viewModelState?.patchNum || latestPatchN,
     );
     this.editMode$ = select(
       combineLatest([this.viewModel.edit$, this.patchNum$]),
-      ([edit, patchNum]) => !!edit || patchNum === EDIT
+      ([edit, patchNum]) => !!edit || patchNum === EDIT,
     );
     this.basePatchNum$ = select(
       combineLatest([
@@ -368,11 +368,11 @@ export class ChangeModel extends Model<ChangeState> {
           this.viewModel.basePatchNum$,
           this.patchNum$,
           this.change$,
-          this.userModel.preferences$
-        )
+          this.userModel.preferences$,
+        ),
       ),
       ([_, viewModelBasePatchNum, patchNum, change, preferences]) =>
-        computeBase(viewModelBasePatchNum, patchNum, change, preferences)
+        computeBase(viewModelBasePatchNum, patchNum, change, preferences),
     );
     this.revision$ = this.selectRevision(this.patchNum$);
     this.baseRevision$ = this.selectRevision(this.basePatchNum$) as Observable<
@@ -380,15 +380,15 @@ export class ChangeModel extends Model<ChangeState> {
     >;
     this.latestRevision$ = this.selectRevision(this.latestPatchNum$);
     this.latestRevisionWithEdit$ = this.selectRevision(
-      this.latestPatchNumWithEdit$
+      this.latestPatchNumWithEdit$,
     );
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
-      ([change, account]) => isOwner(change, account)
+      ([change, account]) => isOwner(change, account),
     );
     this.messages$ = select(this.change$, change => change?.messages);
     this.revertingChangeIds$ = select(this.messages$, messages =>
-      getRevertCreatedChangeIds(messages ?? [])
+      getRevertCreatedChangeIds(messages ?? []),
     );
     this.subscriptions = [
       this.loadChange(),
@@ -404,10 +404,10 @@ export class ChangeModel extends Model<ChangeState> {
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
-        basePatchNum => (this.basePatchNum = basePatchNum)
+        basePatchNum => (this.basePatchNum = basePatchNum),
       ),
       this.latestPatchNum$.subscribe(
-        latestPatchNum => (this.latestPatchNum = latestPatchNum)
+        latestPatchNum => (this.latestPatchNum = latestPatchNum),
       ),
     ];
   }
@@ -436,8 +436,8 @@ export class ChangeModel extends Model<ChangeState> {
       .pipe(
         filter(
           ([change, basePatchNum, patchNum, mergeable]) =>
-            !!change && !!basePatchNum && !!patchNum && mergeable !== undefined
-        )
+            !!change && !!basePatchNum && !!patchNum && mergeable !== undefined,
+        ),
       )
       .subscribe(([change, basePatchNum, patchNum, mergeable]) => {
         this.pluginLoader.jsApiService.handleShowChange({
@@ -460,8 +460,8 @@ export class ChangeModel extends Model<ChangeState> {
           ([revisions, patchNum, status]) =>
             status === ChangeStatus.NEW &&
             revisions.length > 0 &&
-            patchNum === EDIT
-        )
+            patchNum === EDIT,
+        ),
       )
       .subscribe(([revisions]) => {
         const editRev = findEdit(revisions);
@@ -486,8 +486,8 @@ export class ChangeModel extends Model<ChangeState> {
             (status === ChangeStatus.ABANDONED ||
               status === ChangeStatus.MERGED) &&
             revisions.length > 0 &&
-            (patchNum === EDIT || edit)
-        )
+            (patchNum === EDIT || edit),
+        ),
       )
       .subscribe(([revisions]) => {
         const editRev = findEdit(revisions);
@@ -506,7 +506,7 @@ export class ChangeModel extends Model<ChangeState> {
       .pipe(
         filter(([childView, _]) => childView === ChangeChildView.OVERVIEW),
         map(([_, change]) => change),
-        filter(isDefined)
+        filter(isDefined),
       )
       .subscribe(change => {
         const title = `${change.subject} (${change._number})`;
@@ -519,7 +519,7 @@ export class ChangeModel extends Model<ChangeState> {
       .pipe(
         filter(([childView, _]) => childView === ChangeChildView.DIFF),
         map(([_, diffPath]) => diffPath),
-        filter(isDefined)
+        filter(isDefined),
       )
       .subscribe(diffPath => {
         const title = computeTruncatedPath(diffPath);
@@ -532,7 +532,7 @@ export class ChangeModel extends Model<ChangeState> {
       .pipe(
         filter(([childView, _]) => childView === ChangeChildView.EDIT),
         map(([_, editPath]) => editPath),
-        filter(isDefined)
+        filter(isDefined),
       )
       .subscribe(editPath => {
         const title = `Editing ${computeTruncatedPath(editPath)}`;
@@ -553,7 +553,7 @@ export class ChangeModel extends Model<ChangeState> {
             return of(undefined);
           }
           return from(this.fetchReviewedFiles(patchNum, changeNum));
-        })
+        }),
       )
       .subscribe();
   }
@@ -569,9 +569,9 @@ export class ChangeModel extends Model<ChangeState> {
           return from(
             this.restApiService
               .getMergeable(change._number)
-              .then(mergableInfo => mergableInfo?.mergeable ?? false)
+              .then(mergableInfo => mergableInfo?.mergeable ?? false),
           );
-        })
+        }),
       )
       .subscribe(mergeable => this.updateState({mergeable}));
   }
@@ -588,13 +588,13 @@ export class ChangeModel extends Model<ChangeState> {
         }),
         withLatestFrom(this.viewModel.patchNum$),
         map(([[change, edit], patchNum]) =>
-          updateChangeWithEdit(change, edit, patchNum)
+          updateChangeWithEdit(change, edit, patchNum),
         ),
         catchError(err => {
           // Reset loading state and re-throw.
           this.updateState({loadingStatus: LoadingStatus.NOT_LOADED});
           throw err;
-        })
+        }),
       )
       .subscribe(change => {
         // The change service is currently a singleton, so we have to be
@@ -619,7 +619,7 @@ export class ChangeModel extends Model<ChangeState> {
       // TODO(dhruvsri): disable updating status if reviewed files are not loaded.
       fireAlert(
         document,
-        'Updating status failed. Reviewed files not loaded yet.'
+        'Updating status failed. Reviewed files not loaded yet.',
       );
       return;
     }
@@ -649,7 +649,7 @@ export class ChangeModel extends Model<ChangeState> {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     file: string,
-    reviewed: boolean
+    reviewed: boolean,
   ) {
     return this.restApiService
       .saveFileReviewed(changeNum, patchNum, file, reviewed)
@@ -675,7 +675,7 @@ export class ChangeModel extends Model<ChangeState> {
   navigateToDiff(
     diffView: {path: string; lineNum?: number},
     patchNum = this.patchNum,
-    basePatchNum = this.basePatchNum
+    basePatchNum = this.basePatchNum,
   ) {
     if (!patchNum) return;
     const url = this.viewModel.diffUrl({diffView, patchNum, basePatchNum});
@@ -731,7 +731,7 @@ export class ChangeModel extends Model<ChangeState> {
    */
   async fetchChangeUpdates(
     change: ChangeInfo | ParsedChangeInfo,
-    includeExtraOptions = false
+    includeExtraOptions = false,
   ) {
     const knownLatest = change.current_revision_number;
     // The extra options need to be passed so that the GrReviewerUpdatesParser.parse
@@ -746,9 +746,9 @@ export class ChangeModel extends Model<ChangeState> {
         ? listChangesOptionsToHex(
             ListChangesOption.MESSAGES,
             ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.REVIEWER_UPDATES
+            ListChangesOption.REVIEWER_UPDATES,
           )
-        : undefined
+        : undefined,
     )) as ChangeViewChangeInfo | undefined;
     if (!detail) {
       throw new Error('Change request failed.');

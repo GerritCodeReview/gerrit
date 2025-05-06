@@ -16,7 +16,7 @@ suite('gr-repo-branch-picker tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-repo-branch-picker></gr-repo-branch-picker>`
+      html`<gr-repo-branch-picker></gr-repo-branch-picker>`,
     );
   });
 
@@ -40,7 +40,7 @@ suite('gr-repo-branch-picker tests', () => {
           >
           </gr-labeled-autocomplete>
         </div>
-      `
+      `,
     );
   });
 
@@ -65,7 +65,7 @@ suite('gr-repo-branch-picker tests', () => {
             id: 'plugins%2Favatars%2Fgravatar',
             name: 'plugins/avatars/gravatar' as RepoName,
           },
-        ] as ProjectInfoWithName[])
+        ] as ProjectInfoWithName[]),
       );
     });
 
@@ -81,11 +81,11 @@ suite('gr-repo-branch-picker tests', () => {
       ];
       assert.deepEqual(
         suggestions.map(s => s.name),
-        unencodedNames
+        unencodedNames,
       );
       assert.deepEqual(
         suggestions.map(s => s.value),
-        unencodedNames
+        unencodedNames,
       );
     });
   });
@@ -102,7 +102,7 @@ suite('gr-repo-branch-picker tests', () => {
           {ref: 'refs/heads/stable-2.13' as GitRef, revision: '123456'},
           {ref: 'refs/heads/stable-2.14' as GitRef, revision: '1234567'},
           {ref: 'refs/heads/stable-2.15' as GitRef, revision: '12345678'},
-        ])
+        ]),
       );
     });
 
@@ -122,11 +122,11 @@ suite('gr-repo-branch-picker tests', () => {
       ];
       assert.deepEqual(
         suggestions.map(s => s.name),
-        refNames
+        refNames,
       );
       assert.deepEqual(
         suggestions.map(s => s.value),
-        refNames
+        refNames,
       );
     });
 

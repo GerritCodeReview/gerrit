@@ -41,7 +41,7 @@ export class GrDiffModeSelector extends LitElement {
     subscribe(
       this,
       () => this.getBrowserModel().diffViewMode$,
-      x => (this.mode = x)
+      x => (this.mode = x),
     );
   }
 

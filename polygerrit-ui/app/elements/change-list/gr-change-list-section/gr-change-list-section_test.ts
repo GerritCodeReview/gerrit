@@ -61,7 +61,7 @@ suite('gr-change-list section', () => {
         .config=${createServerInfo()}
         .visibleChangeTableColumns=${Object.values(ColumnNames)}
         .changeSection=${changeSection}
-      ></gr-change-list-section> `
+      ></gr-change-list-section> `,
     );
   });
 
@@ -89,7 +89,7 @@ suite('gr-change-list section', () => {
         tabindex="0"
       >
       </gr-change-list-item>
-    `
+    `,
     );
   });
 
@@ -101,7 +101,7 @@ suite('gr-change-list section', () => {
     });
     await waitUntilObserved(
       element.bulkActionsModel.selectedChangeNums$,
-      s => s.length === 1
+      s => s.length === 1,
     );
 
     element.requestUpdate();
@@ -126,7 +126,7 @@ suite('gr-change-list section', () => {
           tabindex="0"
         >
         </gr-change-list-item>
-      `
+      `,
     );
   });
 
@@ -166,7 +166,7 @@ suite('gr-change-list section', () => {
       });
       await waitUntilObserved(
         element.bulkActionsModel.selectedChangeNums$,
-        s => s.length === 0
+        s => s.length === 0,
       );
       assert.isFalse(element.numSelected > 0);
 
@@ -176,7 +176,7 @@ suite('gr-change-list section', () => {
       });
       await waitUntilObserved(
         element.bulkActionsModel.selectedChangeNums$,
-        s => s.length === 1
+        s => s.length === 1,
       );
       assert.isTrue(element.numSelected > 0);
     });
@@ -207,17 +207,17 @@ suite('gr-change-list section', () => {
       let rows = queryAll(element, 'gr-change-list-item');
       assert.lengthOf(rows, 2);
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked,
       );
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked,
       );
 
       const checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
       checkbox.click();
       await waitUntilObserved(
         element.bulkActionsModel.selectedChangeNums$,
-        s => s.length === 2
+        s => s.length === 2,
       );
       await element.updateComplete;
 
@@ -279,10 +279,10 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
 
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked,
       );
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked,
       );
     });
   });
@@ -336,13 +336,13 @@ suite('gr-change-list section', () => {
     assert.equal(computeLabelShortcut('polygerrit-review'), 'PR');
     assert.equal(
       computeLabelShortcut('Invalid-Prolog-Rules-Label-Name--Verified'),
-      'V'
+      'V',
     );
     assert.equal(computeLabelShortcut('Some-Special-Label-7'), 'SSL7');
     assert.equal(computeLabelShortcut('--Too----many----dashes---'), 'TMD');
     assert.equal(
       computeLabelShortcut('Really-rather-entirely-too-long-of-a-label-name'),
-      'RRETL'
+      'RRETL',
     );
   });
 
@@ -352,7 +352,7 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
       const listItems = queryAll<GrChangeListItem>(
         element,
-        'gr-change-list-item'
+        'gr-change-list-item',
       );
       assert.equal(listItems.length, 0);
       const noChangesMsg = queryAll<HTMLTableRowElement>(element, '.noChanges');

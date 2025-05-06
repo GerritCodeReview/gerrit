@@ -90,7 +90,7 @@ export class GrPageNav extends LitElement {
 
     this.nav.classList.toggle(
       'pinned',
-      this.getScrollY() >= (this.headerHeight || 0)
+      this.getScrollY() >= (this.headerHeight || 0),
     );
   }
 

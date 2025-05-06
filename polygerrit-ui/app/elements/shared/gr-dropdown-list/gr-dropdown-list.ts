@@ -248,7 +248,7 @@ export class GrDropdownList extends LitElement {
               <option ?disabled=${item.disabled} value=${`${item.value}`}>
                 ${this.computeMobileText(item)}
               </option>
-            `
+            `,
           )}
         </select>
       </gr-select>
@@ -267,20 +267,20 @@ export class GrDropdownList extends LitElement {
                 .commentThreads=${item.commentThreads}
                 emptyWhenNoComments
                 showAvatarForResolved
-              ></gr-comments-summary>`
+              ></gr-comments-summary>`,
             )}
           </div>
           ${when(
             item.date,
             () => html`
               <gr-date-formatter .dateStr=${item.date}></gr-date-formatter>
-            `
+            `,
           )}
           ${when(
             item.file?.status && !isMagicPath(item.file?.__path),
             () => html`
               <gr-file-status .status=${item.file?.status}></gr-file-status>
-            `
+            `,
           )}
         </div>
         ${when(
@@ -289,7 +289,7 @@ export class GrDropdownList extends LitElement {
             <div class="bottomContent">
               <div>${item.bottomText}</div>
             </div>
-          `
+          `,
         )}
       </paper-item>
     `;

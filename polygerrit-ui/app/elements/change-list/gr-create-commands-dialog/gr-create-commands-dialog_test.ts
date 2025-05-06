@@ -13,7 +13,7 @@ suite('gr-create-commands-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-create-commands-dialog></gr-create-commands-dialog>`
+      html`<gr-create-commands-dialog></gr-create-commands-dialog>`,
     );
   });
 
@@ -66,7 +66,7 @@ suite('gr-create-commands-dialog tests', () => {
           </div>
         </gr-dialog>
       </dialog>
-    `
+    `,
     );
   });
 });

@@ -31,7 +31,7 @@ suite('gr-error-dialog tests', () => {
           <div class="header" slot="header">An error occurred</div>
           <div class="main" slot="main"></div>
         </gr-dialog>
-      `
+      `,
     );
   });
 

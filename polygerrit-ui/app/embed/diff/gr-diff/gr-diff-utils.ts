@@ -41,7 +41,7 @@ export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 export function getResponsiveMode(
   prefs?: DiffPreferencesInfo,
-  renderPrefs?: RenderPreferences
+  renderPrefs?: RenderPreferences,
 ): DiffResponsiveMode {
   if (renderPrefs?.responsive_mode) {
     return renderPrefs.responsive_mode;
@@ -172,7 +172,7 @@ export interface GrDiffCommentThread {
  * contract defines for such elements.
  */
 export function getDataFromCommentThreadEl(
-  threadEl?: EventTarget | null
+  threadEl?: EventTarget | null,
 ): GrDiffCommentThread | undefined {
   if (!isThreadEl(threadEl)) return undefined;
   const side = getSide(threadEl);
@@ -213,7 +213,7 @@ export enum FullContext {
 export function computeContext(
   prefsContext: number | undefined,
   showFullContext: FullContext,
-  defaultContext: number
+  defaultContext: number,
 ) {
   if (showFullContext === FullContext.YES) {
     return FULL_CONTEXT;
@@ -229,7 +229,7 @@ export function computeContext(
 
 export function computeLineLength(
   prefs: DiffPreferencesInfo,
-  path: string | undefined
+  path: string | undefined,
 ): number {
   if (path === SpecialFilePath.COMMIT_MESSAGE) {
     return 72;
@@ -243,7 +243,7 @@ export function computeLineLength(
 
 export function computeKeyLocations(
   lineOfInterest: DisplayLine | undefined,
-  comments: GrDiffCommentThread[]
+  comments: GrDiffCommentThread[],
 ) {
   const keyLocations: KeyLocations = {left: {}, right: {}};
 
@@ -263,7 +263,7 @@ export function computeKeyLocations(
 
 export function compareComments(
   c1: GrDiffCommentThread,
-  c2: GrDiffCommentThread
+  c2: GrDiffCommentThread,
 ): number {
   if (c1.side !== c2.side) {
     return c1.side === Side.RIGHT ? 1 : -1;
@@ -306,7 +306,7 @@ export interface GrDiffThreadElement extends HTMLElement {
 }
 
 export function isThreadEl(
-  node?: Node | EventTarget | null
+  node?: Node | EventTarget | null,
 ): node is GrDiffThreadElement {
   return (
     !!node &&
@@ -326,6 +326,6 @@ export interface DiffContextExpandedEventDetail
 export function findBlame(blameInfos: BlameInfo[], line?: LineNumber) {
   if (typeof line !== 'number') return undefined;
   return blameInfos.find(info =>
-    info.ranges.find(range => range.start <= line && line <= range.end)
+    info.ranges.find(range => range.start <= line && line <= range.end),
   );
 }

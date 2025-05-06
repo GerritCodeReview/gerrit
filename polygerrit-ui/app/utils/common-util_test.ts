@@ -77,7 +77,7 @@ suite('common-util tests', () => {
         [2, 3, 4],
         [5, 3, 2],
       ]),
-      [2, 3]
+      [2, 3],
     );
 
     const foo1 = {value: 5};
@@ -88,7 +88,7 @@ suite('common-util tests', () => {
     assert.sameDeepMembers(intersection([[foo1], [foo2]]), []);
     assert.sameDeepMembers(
       intersection([[foo1], [foo2]], (a, b) => a.value === b.value),
-      [foo1]
+      [foo1],
     );
   });
 

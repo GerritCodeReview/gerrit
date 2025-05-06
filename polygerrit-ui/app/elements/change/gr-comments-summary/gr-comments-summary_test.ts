@@ -19,7 +19,7 @@ suite('gr-comments-summary test', () => {
       html`<gr-comments-summary
         showCommentCategoryName
         clickableChips
-      ></gr-comments-summary>`
+      ></gr-comments-summary>`,
     );
   });
 
@@ -62,7 +62,7 @@ suite('gr-comments-summary test', () => {
           styletype="check"
         >
           1 resolved
-        </gr-summary-chip>`
+        </gr-summary-chip>`,
     );
   });
 });

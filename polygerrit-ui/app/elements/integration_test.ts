@@ -40,7 +40,7 @@ suite('integration tests', () => {
 
   setup(async () => {
     appElement = await fixture<GrAppElement>(
-      html`<gr-app-element id="app-element"></gr-app-element>`
+      html`<gr-app-element id="app-element"></gr-app-element>`,
     );
     router = testResolver(routerToken);
     router._testOnly_startRouter();
@@ -57,7 +57,7 @@ suite('integration tests', () => {
         createChange({_number: 1 as NumericChangeId}),
         createChange({_number: 2 as NumericChangeId}),
         createChange({_number: 3 as NumericChangeId}),
-      ])
+      ]),
     );
 
     router.setUrl(createSearchUrl({query: 'asdf'}));

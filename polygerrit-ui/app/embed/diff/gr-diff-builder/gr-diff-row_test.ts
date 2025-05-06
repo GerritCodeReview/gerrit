@@ -85,7 +85,7 @@ suite('gr-diff-row test', () => {
             <slot name="post-right-line-1"></slot>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 
@@ -140,7 +140,7 @@ suite('gr-diff-row test', () => {
             <slot name="post-right-line-1"></slot>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 
@@ -188,7 +188,7 @@ suite('gr-diff-row test', () => {
             </tr>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 
@@ -236,7 +236,7 @@ suite('gr-diff-row test', () => {
             <slot name="post-left-line-1"></slot>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 });

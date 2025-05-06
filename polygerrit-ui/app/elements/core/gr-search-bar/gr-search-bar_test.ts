@@ -44,12 +44,12 @@ suite('gr-search-bar tests', () => {
     stubRestApi('getConfig').returns(Promise.resolve(serverConfig));
     configModel = new ConfigModel(
       testResolver(changeModelToken),
-      getAppContext().restApiService
+      getAppContext().restApiService,
     );
     configModel.updateServerConfig(serverConfig);
     await waitUntilObserved(
       configModel.docsBaseUrl$,
-      docsBaseUrl => docsBaseUrl === 'https://mydocumentationurl.google.com/'
+      docsBaseUrl => docsBaseUrl === 'https://mydocumentationurl.google.com/',
     );
 
     element = (
@@ -57,8 +57,8 @@ suite('gr-search-bar tests', () => {
         wrapInProvider(
           html`<gr-search-bar></gr-search-bar>`,
           configModelToken,
-          configModel
-        )
+          configModel,
+        ),
       )
     ).querySelector('gr-search-bar')!;
   });
@@ -88,7 +88,7 @@ suite('gr-search-bar tests', () => {
             </a>
           </gr-autocomplete>
         </form>
-      `
+      `,
     );
   });
 
@@ -108,7 +108,7 @@ suite('gr-search-bar tests', () => {
     element.addEventListener('handle-search', () => {
       assert.notEqual(
         getActiveElement(),
-        queryAndAssert<GrAutocomplete>(element, '#searchInput')
+        queryAndAssert<GrAutocomplete>(element, '#searchInput'),
       );
       promise.resolve();
     });
@@ -117,7 +117,7 @@ suite('gr-search-bar tests', () => {
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
       queryAndAssert<PaperInputElement>(searchInput, '#input'),
-      Key.ENTER
+      Key.ENTER,
     );
     await promise;
   });
@@ -130,7 +130,7 @@ suite('gr-search-bar tests', () => {
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
       queryAndAssert<PaperInputElement>(searchInput, '#input'),
-      Key.ENTER
+      Key.ENTER,
     );
     assert.isFalse(searchSpy.called);
   });
@@ -143,7 +143,7 @@ suite('gr-search-bar tests', () => {
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
       queryAndAssert<PaperInputElement>(searchInput, '#input'),
-      Key.ENTER
+      Key.ENTER,
     );
     assert.isFalse(searchSpy.called);
   });
@@ -156,7 +156,7 @@ suite('gr-search-bar tests', () => {
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
       queryAndAssert<PaperInputElement>(searchInput, '#input'),
-      Key.ENTER
+      Key.ENTER,
     );
     await waitUntil(() => searchSpy.called);
   });
@@ -169,7 +169,7 @@ suite('gr-search-bar tests', () => {
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
       queryAndAssert<PaperInputElement>(searchInput, '#input'),
-      Key.ENTER
+      Key.ENTER,
     );
     await waitUntil(() => searchSpy.called);
   });
@@ -182,7 +182,7 @@ suite('gr-search-bar tests', () => {
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
       queryAndAssert<PaperInputElement>(searchInput, '#input'),
-      Key.ENTER
+      Key.ENTER,
     );
     await waitUntil(() => searchSpy.called);
   });
@@ -190,11 +190,11 @@ suite('gr-search-bar tests', () => {
   test('keyboard shortcuts', async () => {
     const focusSpy = sinon.spy(
       queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-      'focus'
+      'focus',
     );
     const selectAllSpy = sinon.spy(
       queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-      'selectAll'
+      'selectAll',
     );
     pressKey(document.body, '/');
     assert.isTrue(focusSpy.called);

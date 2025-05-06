@@ -31,7 +31,7 @@ suite('gr-hovercard-account tests', () => {
         .change=${createChange()}
         .highlightAttention=${true}
       >
-      </gr-hovercard-account>`
+      </gr-hovercard-account>`,
     );
     await element.show({});
     testResolver(userModelToken).setAccount({...account});
@@ -51,7 +51,7 @@ suite('gr-hovercard-account tests', () => {
         <div id="container" role="tooltip" tabindex="-1">
           <gr-hovercard-account-contents></gr-hovercard-account-contents>
         </div>
-      `
+      `,
     );
   });
 

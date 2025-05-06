@@ -53,7 +53,7 @@ suite('gr-hovercard tests', () => {
     document.body.appendChild(button);
 
     element = await fixture(
-      html`<hovercard-mixin-test></hovercard-mixin-test>`
+      html`<hovercard-mixin-test></hovercard-mixin-test>`,
     );
   });
 
@@ -85,11 +85,11 @@ suite('gr-hovercard tests', () => {
 
     assert.equal(
       pixelCompare(element.style.left),
-      pixelCompare(`${targetLeft + (targetRect.width - thisRect.width) / 2}px`)
+      pixelCompare(`${targetLeft + (targetRect.width - thisRect.width) / 2}px`),
     );
     assert.equal(
       pixelCompare(element.style.top),
-      pixelCompare(`${targetTop + targetRect.height + element.offset}px`)
+      pixelCompare(`${targetTop + targetRect.height + element.offset}px`),
     );
   });
 

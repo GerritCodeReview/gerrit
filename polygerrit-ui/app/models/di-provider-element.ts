@@ -26,7 +26,7 @@ import {DependencyToken, provide} from './dependency';
 export function wrapInProvider<T>(
   template: TemplateResult,
   token: DependencyToken<T>,
-  value: T
+  value: T,
 ) {
   return html`
     <di-provider-element .token=${token} .value=${value}

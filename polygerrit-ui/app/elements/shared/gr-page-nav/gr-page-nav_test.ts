@@ -30,7 +30,7 @@ suite('gr-page-nav tests', () => {
         <nav aria-label="Sidebar">
           <slot> </slot>
         </nav>
-      `
+      `,
     );
   });
 

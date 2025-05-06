@@ -110,26 +110,26 @@ export class GrPreferences extends LitElement {
       prefs => {
         this.originalPrefs = prefs;
         this.prefs = {...prefs};
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
       acc => {
         this.account = acc;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
     subscribe(
       this,
       () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
       // We currently support results from only 1 provider.
       suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider),
     );
   }
 
@@ -187,7 +187,7 @@ export class GrPreferences extends LitElement {
                 .bindValue=${convertToString(this.prefs?.changes_per_page)}
                 @change=${() => {
                   this.prefs!.changes_per_page = Number(
-                    this.changesPerPageSelect.value
+                    this.changesPerPageSelect.value,
                   ) as 10 | 25 | 50 | 100;
                   this.requestUpdate();
                 }}
@@ -438,7 +438,7 @@ export class GrPreferences extends LitElement {
   private renderBrowserNotifications() {
     if (
       !this.flagsService.isEnabled(
-        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER
+        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER,
       ) &&
       !areNotificationsEnabled(this.account)
     )
@@ -451,7 +451,7 @@ export class GrPreferences extends LitElement {
         <a
           href=${getDocUrl(
             this.docsBaseUrl,
-            'user-attention-set.html#_browser_notifications'
+            'user-attention-set.html#_browser_notifications',
           )}
           target="_blank"
           rel="noopener noreferrer"
@@ -488,7 +488,7 @@ export class GrPreferences extends LitElement {
             href=${this.suggestionsProvider.getDocumentationLink?.() ||
             getDocUrl(
               this.docsBaseUrl,
-              'user-suggest-edits.html#_generate_suggestion'
+              'user-suggest-edits.html#_generate_suggestion',
             )}
             target="_blank"
             rel="noopener noreferrer"

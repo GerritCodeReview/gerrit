@@ -28,7 +28,7 @@ suite('gr-account-dropdown tests', () => {
           <span>John Doe</span>
           <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
         </gr-dropdown>
-      `
+      `,
     );
   });
 
@@ -115,7 +115,7 @@ suite('gr-account-dropdown tests', () => {
     assert.equal(interpolate('${test}'), 'TEST');
     assert.equal(
       interpolate('${}, ${test}, ${TEST}, ${foo}'),
-      '${}, TEST, , bar'
+      '${}, TEST, , bar',
     );
   });
 });

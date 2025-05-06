@@ -52,6 +52,29 @@ suite('gr-create-pointer-dialog tests', () => {
                 <input placeholder="Annotation (Optional)" />
               </iron-input>
             </section>
+            <section id="createEmptyCommitSection">
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Choose 'false' if the new branch should point to an existing revision, choose 'true' if the new branch should be created on an initial empty commit."
+                  >
+                    Create Empty Commit<gr-icon icon="info">
+                    </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-select id="initialCommit">
+                    <select>
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </gr-select>
+                </span>
+              </div>
+            </section>
           </div>
         </div>
       `

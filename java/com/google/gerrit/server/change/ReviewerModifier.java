@@ -287,7 +287,13 @@ public class ReviewerModifier {
         reviewerUser =
             accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asUniqueUser();
       } else {
-        reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
+        try {
+          // First try to find a unique active account that matches the reviewer input
+          reviewerUser = accountResolver.resolve(input.reviewer).asUniqueUser();
+        } catch (ConfigInvalidException | IOException e) {
+          // Fallback to also searching inactive account if that does not work
+          reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
+        }
       }
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {

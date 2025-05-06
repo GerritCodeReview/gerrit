@@ -41,15 +41,22 @@ class FileSizeEvaluator {
   }
 
   /**
+   * Computes the file ObjectId (SHA-1) identified by the {@code path} parameter at the given git
+   * tree identified by {@code gitTreeId}.
+   */
+  ObjectId getFileObjectId(AbbreviatedObjectId gitTreeId, Patch.FileMode mode, String path)
+      throws IOException {
+    if (!isBlob(mode)) {
+      return ObjectId.zeroId();
+    }
+    return toObjectId(reader, gitTreeId).orElseGet(() -> lookupObjectId(reader, path, tree));
+  }
+
+  /**
    * Computes the file size identified by the {@code path} parameter at the given git tree
    * identified by {@code gitTreeId}.
    */
-  long compute(AbbreviatedObjectId gitTreeId, Patch.FileMode mode, String path) throws IOException {
-    if (!isBlob(mode)) {
-      return 0;
-    }
-    ObjectId fileId =
-        toObjectId(reader, gitTreeId).orElseGet(() -> lookupObjectId(reader, path, tree));
+  long compute(ObjectId fileId) throws IOException {
     if (ObjectId.zeroId().equals(fileId)) {
       return 0;
     }

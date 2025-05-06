@@ -70,6 +70,7 @@ import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.sha1.SHA1;
 
 /**
  * Cache for the single file diff between two commits for a single file path. This cache adds extra
@@ -334,6 +335,12 @@ public class FileDiffCacheImpl implements FileDiffCache {
       byte[] rawHdr = getRawHeader(!comparisonType.isAgainstParentOrAutoMerge(), fileName);
       byte[] aContent = aText.getContent();
       byte[] bContent = bText.getContent();
+      SHA1 aContentDigest = SHA1.newInstance();
+      aContentDigest.update(aContent);
+      ObjectId aSha = ObjectId.fromRaw(aContentDigest.digest());
+      SHA1 bContentDigest = SHA1.newInstance();
+      bContentDigest.update(bContent);
+      ObjectId bSha = ObjectId.fromRaw(aContentDigest.digest());
       long size = bContent.length;
       long sizeDelta = size - aContent.length;
       RawText aRawText = new RawText(aContent);
@@ -348,6 +355,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
           .comparisonType(comparisonType)
           .oldPath(FileHeaderUtil.getOldPath(fileHeader))
           .newPath(FileHeaderUtil.getNewPath(fileHeader))
+          .oldSha(Optional.of(aSha))
+          .newSha(Optional.of(bSha))
           .changeType(changeType)
           .patchType(Optional.of(FileHeaderUtil.getPatchType(fileHeader)))
           .headerLines(FileHeaderUtil.getHeaderLines(fileHeader))
@@ -415,22 +424,20 @@ public class FileDiffCacheImpl implements FileDiffCache {
         RevTree aTree = oldTreeId.equals(ObjectId.zeroId()) ? null : rw.parseTree(oldTreeId);
         RevTree bTree = rw.parseTree(allDiffs.mainDiff().gitKey().newTree());
 
-        Long oldSize =
+        FileSizeEvaluator aEvaluator = new FileSizeEvaluator(reader, aTree);
+        ObjectId oldSha =
             aTree != null && mainGitDiff.oldMode().isPresent() && mainGitDiff.oldPath().isPresent()
-                ? new FileSizeEvaluator(reader, aTree)
-                    .compute(
-                        mainGitDiff.oldId(),
-                        mainGitDiff.oldMode().get(),
-                        mainGitDiff.oldPath().get())
-                : 0;
-        Long newSize =
+                ? aEvaluator.getFileObjectId(
+                    mainGitDiff.oldId(), mainGitDiff.oldMode().get(), mainGitDiff.oldPath().get())
+                : ObjectId.zeroId();
+        Long oldSize = aEvaluator.compute(oldSha);
+        FileSizeEvaluator bEvaluator = new FileSizeEvaluator(reader, bTree);
+        ObjectId newSha =
             mainGitDiff.newMode().isPresent() && mainGitDiff.newPath().isPresent()
-                ? new FileSizeEvaluator(reader, bTree)
-                    .compute(
-                        mainGitDiff.newId(),
-                        mainGitDiff.newMode().get(),
-                        mainGitDiff.newPath().get())
-                : 0;
+                ? bEvaluator.getFileObjectId(
+                    mainGitDiff.newId(), mainGitDiff.newMode().get(), mainGitDiff.newPath().get())
+                : ObjectId.zeroId();
+        Long newSize = bEvaluator.compute(newSha);
 
         ObjectId oldCommit = augmentedKey.key().oldCommit();
         ObjectId newCommit = augmentedKey.key().newCommit();
@@ -445,6 +452,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
                 .newPath(mainGitDiff.newPath())
                 .oldMode(mainGitDiff.oldMode())
                 .newMode(mainGitDiff.newMode())
+                .oldSha(!oldSha.equals(ObjectId.zeroId()) ? Optional.of(oldSha) : Optional.empty())
+                .newSha(!newSha.equals(ObjectId.zeroId()) ? Optional.of(newSha) : Optional.empty())
                 .headerLines(FileHeaderUtil.getHeaderLines(mainGitDiff.fileHeader()))
                 .edits(asTaggedEdits(mainGitDiff.edits(), rebaseEdits))
                 .size(newSize)

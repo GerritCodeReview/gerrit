@@ -80,6 +80,20 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public abstract Optional<Patch.FileMode> newMode();
 
+  /**
+   * The SHA-1 of the old file at the old git tree diff identified by {@link #oldCommitId()} ()}.
+   *
+   * <p>Not populated if diffing was not performed (ie. error/timeout) or if the file is added.
+   */
+  public abstract Optional<ObjectId> oldSha();
+
+  /**
+   * The SHA-1 of the new file at the new git tree diff identified by {@link #newCommitId()} ()}.
+   *
+   * <p>Not populated if diffing was not performed (ie. error/timeout) or if the file is deleted.
+   */
+  public abstract Optional<ObjectId> newSha();
+
   /** The change type of the underlying file, e.g. added, deleted, renamed, etc... */
   public abstract Patch.ChangeType changeType();
 
@@ -223,6 +237,10 @@ public abstract class FileDiffOutput implements Serializable {
 
     public abstract Builder newMode(Optional<Patch.FileMode> newMode);
 
+    public abstract Builder oldSha(Optional<ObjectId> oldSha);
+
+    public abstract Builder newSha(Optional<ObjectId> newSha);
+
     public abstract Builder changeType(ChangeType value);
 
     public abstract Builder patchType(Optional<PatchType> value);
@@ -263,6 +281,12 @@ public abstract class FileDiffOutput implements Serializable {
 
     private static final FieldDescriptor NEW_MODE_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(14);
+
+    private static final FieldDescriptor OLD_SHA_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(15);
+
+    private static final FieldDescriptor NEW_SHA_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(16);
 
     @Override
     public byte[] serialize(FileDiffOutput fileDiff) {
@@ -315,6 +339,14 @@ public abstract class FileDiffOutput implements Serializable {
         builder.setNewMode(FILE_MODE_CONVERTER.reverse().convert(fileDiff.newMode().get()));
       }
 
+      if (fileDiff.oldSha().isPresent()) {
+        builder.setOldSha(idConverter.toByteString(fileDiff.oldSha().get()));
+      }
+
+      if (fileDiff.newSha().isPresent()) {
+        builder.setNewSha(idConverter.toByteString(fileDiff.newSha().get()));
+      }
+
       return Protos.toByteArray(builder.build());
     }
 
@@ -361,6 +393,12 @@ public abstract class FileDiffOutput implements Serializable {
       }
       if (proto.hasField(NEW_MODE_DESCRIPTOR)) {
         builder.newMode(Optional.of(FILE_MODE_CONVERTER.convert(proto.getNewMode())));
+      }
+      if (proto.hasField(OLD_SHA_DESCRIPTOR)) {
+        builder.oldSha(Optional.of(idConverter.fromByteString(proto.getOldSha())));
+      }
+      if (proto.hasField(NEW_SHA_DESCRIPTOR)) {
+        builder.newSha(Optional.of(idConverter.fromByteString(proto.getNewSha())));
       }
       return builder.build();
     }

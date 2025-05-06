@@ -33,6 +33,24 @@
       "message": "Strange thing this passes locally but fails on luci.",
       "revId": "cf6d45676662ac1469e24d19888a5ad81ff2bfd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54fc0215_6b6c36ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-06T12:23:22Z",
+      "side": 1,
+      "message": "Ben mentioned that \n\n```\nnpm run clean\nnpm run setup\nnpm run start\n```\n\nThis resolves the issue locally. Abandoning this change.",
+      "parentUuid": "0189655b_72120d06",
+      "revId": "cf6d45676662ac1469e24d19888a5ad81ff2bfd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

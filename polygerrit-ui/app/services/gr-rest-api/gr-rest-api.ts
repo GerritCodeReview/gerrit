@@ -100,7 +100,7 @@ import {
 } from '../../types/diff';
 import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {FixReplacementInfo} from '../../api/rest-api';
+import {FileInfo, FixReplacementInfo} from '../../api/rest-api';
 
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
@@ -202,6 +202,12 @@ export interface RestApiService extends Finalizable {
     changeNum?: number | string,
     errFn?: ErrorCallback
   ): Promise<ParsedChangeInfo | undefined>;
+
+  getAllRevisionFiles(
+    changeNum?: NumericChangeId
+  ): Promise<
+    {[revisionId: string]: {[filename: string]: FileInfo}} | undefined
+  >;
 
   /**
    * Given a changeNum, gets the change.

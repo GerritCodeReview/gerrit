@@ -21,6 +21,5 @@ public class AccountModule extends FactoryModule {
   protected void configure() {
     bind(AuthRequest.Factory.class);
     bind(AuthTokenVerifier.class);
-    factory(PasswordMigrator.Factory.class);
   }
 }

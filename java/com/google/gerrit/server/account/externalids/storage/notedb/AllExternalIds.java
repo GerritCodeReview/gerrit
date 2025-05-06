@@ -81,9 +81,6 @@ public abstract class AllExternalIds {
       if (externalId.email() != null) {
         b.setEmail(externalId.email());
       }
-      if (externalId.password() != null) {
-        b.setPassword(externalId.password());
-      }
       if (externalId.blobId() != null) {
         b.setBlobId(idConverter.toByteString(externalId.blobId()));
       }
@@ -104,7 +101,6 @@ public abstract class AllExternalIds {
           Account.id(proto.getAccountId()),
           // ExternalId treats null and empty strings the same, so no need to distinguish here.
           proto.getEmail(),
-          proto.getPassword(),
           !proto.getBlobId().isEmpty() ? idConverter.fromByteString(proto.getBlobId()) : null);
     }
   }

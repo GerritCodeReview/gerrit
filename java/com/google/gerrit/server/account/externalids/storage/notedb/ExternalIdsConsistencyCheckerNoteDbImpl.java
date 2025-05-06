@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllUsersName;
@@ -139,18 +137,6 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
           String.format(
               "External ID '%s' has an invalid email: %s", extId.key().get(), extId.email()),
           problems);
-    }
-
-    if (extId.password() != null && extId.isScheme(SCHEME_USERNAME)) {
-      try {
-        @SuppressWarnings("unused")
-        var unused = HashedPassword.decode(extId.password());
-      } catch (HashedPassword.DecoderException e) {
-        addError(
-            String.format(
-                "External ID '%s' has an invalid password: %s", extId.key().get(), e.getMessage()),
-            problems);
-      }
     }
 
     return problems;

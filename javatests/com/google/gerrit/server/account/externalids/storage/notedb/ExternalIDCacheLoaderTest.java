@@ -191,8 +191,7 @@ public class ExternalIDCacheLoaderTest {
     ObjectId head =
         modifyExternalId(
             externalId(1, 1),
-            externalIdFactory.create(
-                "fooschema", "bar1", Account.id(1), "foo@bar.com", "password"));
+            externalIdFactory.createWithEmail("fooschema", "bar1", Account.id(1), "foo@bar.com"));
     assertThat(allFromGit(head).byAccount().size()).isEqualTo(1);
     externalIdCache.put(firstState, allFromGit(firstState));
 

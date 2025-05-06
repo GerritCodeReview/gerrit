@@ -80,9 +80,6 @@ public class AccountRestApiModule extends RestApiModule {
     get(ACCOUNT_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
 
-    put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
-    delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
-
     child(ACCOUNT_KIND, "tokens").to(TokensCollection.class);
     create(TOKEN_KIND).to(CreateToken.class);
     delete(TOKEN_KIND).to(DeleteToken.class);

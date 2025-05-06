@@ -48,7 +48,6 @@ public class DefaultEmailFactories implements EmailFactories {
   private final AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory;
   private final AuthTokenWillExpireEmailDecoratorFactory authTokenWillExpireEmailFactory;
   private final AuthTokenExpiredEmailDecoratorFactory authTokenExpiredEmailFactory;
-  private final HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory;
   private final RegisterNewEmailDecoratorImplFactory registerNewEmailFactory;
   private final OutgoingEmailFactory outgoingEmailFactory;
 
@@ -63,7 +62,6 @@ public class DefaultEmailFactories implements EmailFactories {
       AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory,
       AuthTokenWillExpireEmailDecoratorFactory authTokenWillExpireEmailFactory,
       AuthTokenExpiredEmailDecoratorFactory authTokenExpiredEmailFactory,
-      HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory,
       RegisterNewEmailDecoratorImplFactory registerNewEmailFactory,
       OutgoingEmailFactory outgoingEmailFactory) {
     this.commentChangeEmailFactory = commentChangeEmailFactory;
@@ -75,7 +73,6 @@ public class DefaultEmailFactories implements EmailFactories {
     this.authTokenUpdateEmailFactory = authTokenUpdateEmailFactory;
     this.authTokenWillExpireEmailFactory = authTokenWillExpireEmailFactory;
     this.authTokenExpiredEmailFactory = authTokenExpiredEmailFactory;
-    this.httpPasswordUpdateEmailFactory = httpPasswordUpdateEmailFactory;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.outgoingEmailFactory = outgoingEmailFactory;
   }
@@ -182,11 +179,6 @@ public class DefaultEmailFactories implements EmailFactories {
   @Override
   public EmailDecorator createAuthTokenExpiredEmail(Account account, AuthToken authToken) {
     return authTokenExpiredEmailFactory.create(account, authToken);
-  }
-
-  @Override
-  public EmailDecorator createHttpPasswordUpdateEmail(IdentifiedUser user, String operation) {
-    return httpPasswordUpdateEmailFactory.create(user, operation);
   }
 
   @Override

@@ -49,10 +49,9 @@ public abstract class TestAccount {
       @Nullable String email,
       @Nullable String fullName,
       @Nullable String displayName,
-      @Nullable String httpPassword,
+      @Nullable String token,
       ImmutableList<String> tags) {
-    return new AutoValue_TestAccount(
-        id, username, email, fullName, displayName, httpPassword, tags);
+    return new AutoValue_TestAccount(id, username, email, fullName, displayName, token, tags);
   }
 
   public abstract Account.Id id();
@@ -70,7 +69,7 @@ public abstract class TestAccount {
   public abstract String displayName();
 
   @Nullable
-  public abstract String httpPassword();
+  public abstract String token();
 
   public abstract ImmutableList<String> tags();
 
@@ -83,7 +82,7 @@ public abstract class TestAccount {
     InetSocketAddress addr = server.getHttpAddress().get();
     return new URIBuilder()
         .setScheme("http")
-        .setUserInfo(username(), httpPassword())
+        .setUserInfo(username(), token())
         .setHost(InetAddresses.toUriString(addr.getAddress()))
         .setPort(addr.getPort())
         .toString();

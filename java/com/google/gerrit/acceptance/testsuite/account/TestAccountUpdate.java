@@ -26,7 +26,7 @@ import java.util.function.Function;
 public abstract class TestAccountUpdate {
   public abstract Optional<String> fullname();
 
-  public abstract Optional<String> httpPassword();
+  public abstract Optional<String> token();
 
   public abstract Optional<String> preferredEmail();
 
@@ -44,7 +44,7 @@ public abstract class TestAccountUpdate {
     return new AutoValue_TestAccountUpdate.Builder()
         .accountUpdater(accountUpdater)
         .secondaryEmailsModification(in -> in)
-        .httpPassword("http-pass");
+        .token("http-pass");
   }
 
   @AutoValue.Builder
@@ -55,10 +55,10 @@ public abstract class TestAccountUpdate {
       return fullname("");
     }
 
-    public abstract Builder httpPassword(String httpPassword);
+    public abstract Builder token(String token);
 
-    public Builder clearHttpPassword() {
-      return httpPassword("");
+    public Builder clearToken() {
+      return token("");
     }
 
     public abstract Builder preferredEmail(String preferredEmail);

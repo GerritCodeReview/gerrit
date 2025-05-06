@@ -62,12 +62,6 @@ final class CreateAccountCommand extends SshCommand {
   @Option(name = "--ssh-key", metaVar = "-|KEY", usage = "public key for SSH authentication")
   private String sshKey;
 
-  @Option(
-      name = "--http-password",
-      metaVar = "PASSWORD",
-      usage = "password for HTTP authentication")
-  private String httpPassword;
-
   @Option(name = "--token", metaVar = "TOKEN", usage = "token for HTTP authentication")
   private String token;
 
@@ -92,7 +86,6 @@ final class CreateAccountCommand extends SshCommand {
     input.email = email;
     input.name = fullName;
     input.sshKey = readSshKey();
-    input.httpPassword = httpPassword;
 
     if (!Strings.isNullOrEmpty(token)) {
       AuthTokenInput tokenInput = new AuthTokenInput();

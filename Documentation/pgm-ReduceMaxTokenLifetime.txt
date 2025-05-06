@@ -30,13 +30,6 @@ to match the new maximum lifetime, this can be done with this tool.
 This command can only be run offline with direct access to the server's
 site.
 
-== EXAMPLES
-To convert the HTTP passwords to tokens:
-
-----
-    $ java -jar gerrit.war ReduceMaxTokenLifetime -d site_path --lifetime "2d"
-----
-
 == SEE ALSO
 
 GERRIT

@@ -25,11 +25,11 @@ The user is authenticated using standard BasicAuth. Depending on the
 value of link:#auth.gitBasicAuthPolicy[auth.gitBasicAuthPolicy],
 credentials are validated using:
 
-* The randomly generated HTTP password on the `HTTP Password` tab
+* The randomly generated tokens on the `HTTP Password` tab
   in the user settings page if `gitBasicAuthPolicy` is `HTTP`.
 * The LDAP password if `gitBasicAuthPolicy` is `LDAP`
-* Both, the HTTP and the LDAP passwords (in this order) if `gitBasicAuthPolicy`
-  is `HTTP_LDAP`.
+* Both, the authentication tokens and the LDAP passwords
+  (in this order) if `gitBasicAuthPolicy` is `HTTP_LDAP`.
 
 When gitBasicAuthPolicy is set to `LDAP` or `HTTP_LDAP` and the user
 is authenticating with the LDAP username/password, the Git client config
@@ -45,7 +45,7 @@ Credentials` section.
 For Gerrit installations where an link:config-gerrit.html#auth.httpPasswordUrl[HTTP password URL]
 is configured, the password can be obtained by clicking on `Obtain Password`
 and then following the site-specific instructions.  On sites where this URL is
-not configured, a token can be obtained by clicking on `Generate Password`.
+not configured, a token can be obtained by clicking on `Generate`.
 
 [[ssh]]
 == SSH

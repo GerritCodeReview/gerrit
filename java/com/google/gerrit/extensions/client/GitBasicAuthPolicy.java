@@ -15,7 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 public enum GitBasicAuthPolicy {
-  /** Only the HTTP password is accepted when doing Git over HTTP and REST API requests. */
+  /** Only the authentication token is accepted when doing Git over HTTP and REST API requests. */
   HTTP,
 
   /** Only the LDAP password is allowed when doing Git over HTTP and REST API requests. */

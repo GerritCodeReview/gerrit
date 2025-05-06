@@ -77,8 +77,6 @@ class MailSoySauceLoader {
     "InboundEmailRejectionHtml.soy",
     "Footer.soy",
     "FooterHtml.soy",
-    "HttpPasswordUpdate.soy",
-    "HttpPasswordUpdateHtml.soy",
     "Merged.soy",
     "MergedHtml.soy",
     "NewChange.soy",

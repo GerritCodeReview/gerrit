@@ -655,11 +655,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private ExternalId createExternalIdWithOtherCaseEmail(String externalId) {
-    return externalIdFactory.createWithPassword(
-        externalIdKeyFactory.parse(externalId),
-        admin.id(),
-        admin.email().toUpperCase(Locale.US),
-        "password");
+    return externalIdFactory.createWithEmail(
+        externalIdKeyFactory.parse(externalId), admin.id(), admin.email().toUpperCase(Locale.US));
   }
 
   private ExternalId createExternalIdForNonExistingAccount(String externalId) {
@@ -736,25 +733,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.commit(md);
 
       assertThat(extIdNotes.get(extId.key())).hasValue(extIdWithoutEmail);
-    }
-  }
-
-  @Test
-  @Deprecated
-  public void unsetHttpPassword() throws Exception {
-    ExternalId extId =
-        externalIdFactory.createWithPassword(
-            externalIdKeyFactory.create("y", "1"), user.id(), null, "secret");
-    insertExtId(extId);
-
-    ExternalId extIdWithoutPassword = externalIdFactory.create("y", "1", user.id());
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.upsert(extIdWithoutPassword);
-      extIdNotes.commit(md);
-
-      assertThat(extIdNotes.get(extId.key())).hasValue(extIdWithoutPassword);
     }
   }
 

@@ -32,18 +32,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class DirectAuthTokenAccessorTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
-  private Account account;
   @Mock private VersionedAuthTokens versionedAuthTokens;
   @Mock private VersionedAuthTokens.Factory authTokenFactory;
-  @Mock private AccountCache accountCache;
-  private HttpPasswordFallbackAuthTokenAccessor tokenAccessor;
+  private DirectAuthTokenAccessor tokenAccessor;
   private ImmutableList<AuthToken> tokens;
 
   @Before
   public void setUp() throws Exception {
     tokenAccessor =
-        new HttpPasswordFallbackAuthTokenAccessor(
-            accountCache, new DirectAuthTokenAccessor(null, authTokenFactory, null, null));
+        new DirectAuthTokenAccessor(null, authTokenFactory, null, null);
     tokens =
         ImmutableList.of(
             AuthToken.createWithPlainToken("id1", "hashedToken"),
@@ -51,29 +48,6 @@ public class DirectAuthTokenAccessorTest {
     doReturn(versionedAuthTokens).when(authTokenFactory).create(ACCOUNT_ID);
     doReturn(versionedAuthTokens).when(versionedAuthTokens).load();
     doReturn(tokens).when(versionedAuthTokens).getTokens();
-    account =
-        Account.builder(ACCOUNT_ID, Instant.EPOCH)
-            .setFullName("foo bar")
-            .setDisplayName("foo")
-            .setActive(true)
-            .setMetaId("dead..beef")
-            .setUniqueTag("dead..beef..tag")
-            .setStatus("OOO")
-            .setPreferredEmail("foo@bar.tld")
-            .build();
-    ;
-    doReturn(
-            AccountState.forAccount(
-                account,
-                ImmutableSet.of(
-                    ExternalId.create(
-                        ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo", false),
-                        ACCOUNT_ID,
-                        null,
-                        "secret",
-                        null))))
-        .when(accountCache)
-        .getEvenIfMissing(ACCOUNT_ID);
   }
 
   @Test
@@ -82,19 +56,9 @@ public class DirectAuthTokenAccessorTest {
   }
 
   @Test
-  public void getTokensReturnsHttpPasswordIfNoAuthTokenExists() throws Exception {
+  public void getTokensReturnsEmptyListIfNoTokensExist() throws Exception {
     doReturn(ImmutableList.of()).when(versionedAuthTokens).getTokens();
-    List<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
-    assertThat(result).hasSize(1);
-    assertThat(result.get(0))
-        .isEqualTo(AuthToken.create(DirectAuthTokenAccessor.LEGACY_ID, "secret"));
-  }
-
-  @Test
-  public void getTokensReturnsEmptyListIfNeitherTokensOrPasswordExists() throws Exception {
-    doReturn(ImmutableList.of()).when(versionedAuthTokens).getTokens();
-    doReturn(AccountState.forAccount(account)).when(accountCache).getEvenIfMissing(ACCOUNT_ID);
-    List<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
+    ImmutableList<AuthToken> result = tokenAccessor.getTokens(ACCOUNT_ID);
     assertThat(result).hasSize(0);
   }
 }

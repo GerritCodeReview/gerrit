@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -55,7 +56,10 @@ public class PushToRefsUsersIT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
+      AuthTokenInput token = new AuthTokenInput();
+      token.id = "testtoken";
+      token.token = ADMIN_PASSWORD;
+      gApi.accounts().id(admin.id().get()).createToken(token);
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =

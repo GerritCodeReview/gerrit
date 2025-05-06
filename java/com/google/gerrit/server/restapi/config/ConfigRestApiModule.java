@@ -73,7 +73,6 @@ public class ConfigRestApiModule extends RestApiModule {
     post(INDEX_VERSION_KIND, "snapshot").to(SnapshotIndexVersion.class);
     post(INDEX_VERSION_KIND, "reindex").to(ReindexIndexVersion.class);
 
-    post(CONFIG_KIND, "passwords.to.tokens").to(MigratePasswordsToTokens.class);
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
   }
 }

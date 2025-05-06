@@ -67,8 +67,7 @@ public class AccountOperationsImpl implements AccountOperations {
 
   @Override
   public TestAccountCreation.Builder newAccount() {
-    return TestAccountCreation.builder(
-        this::createAccount, externalIdFactory.arePasswordsAllowed());
+    return TestAccountCreation.builder(this::createAccount);
   }
 
   protected Account.Id createAccount(TestAccountCreation testAccountCreation) throws Exception {
@@ -84,8 +83,7 @@ public class AccountOperationsImpl implements AccountOperations {
       AccountDelta.Builder builder, TestAccountCreation accountCreation, Account.Id accountId) {
     accountCreation.fullname().ifPresent(builder::setFullName);
     accountCreation.preferredEmail().ifPresent(e -> setPreferredEmail(builder, accountId, e));
-    String httpPassword = accountCreation.httpPassword().orElse(null);
-    accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
+    accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u));
     accountCreation.status().ifPresent(builder::setStatus);
     accountCreation.active().ifPresent(builder::setActive);
     accountCreation
@@ -102,9 +100,8 @@ public class AccountOperationsImpl implements AccountOperations {
         .addExternalId(externalIdFactory.createEmail(accountId, preferredEmail));
   }
 
-  private void setUsername(
-      AccountDelta.Builder builder, Account.Id accountId, String username, String httpPassword) {
-    builder.addExternalId(externalIdFactory.createUsername(username, accountId, httpPassword));
+  private void setUsername(AccountDelta.Builder builder, Account.Id accountId, String username) {
+    builder.addExternalId(externalIdFactory.createUsername(username, accountId));
   }
 
   private class PerAccountOperationsImpl implements PerAccountOperations {
@@ -171,8 +168,7 @@ public class AccountOperationsImpl implements AccountOperations {
         AccountDelta.Builder builder, TestAccountUpdate accountUpdate, AccountState accountState) {
       accountUpdate.fullname().ifPresent(builder::setFullName);
       accountUpdate.preferredEmail().ifPresent(e -> setPreferredEmail(builder, accountId, e));
-      String httpPassword = accountUpdate.httpPassword().orElse(null);
-      accountUpdate.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
+      accountUpdate.username().ifPresent(u -> setUsername(builder, accountId, u));
       accountUpdate.status().ifPresent(builder::setStatus);
       accountUpdate.active().ifPresent(builder::setActive);
 

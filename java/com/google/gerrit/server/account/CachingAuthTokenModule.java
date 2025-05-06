@@ -25,15 +25,13 @@ public class CachingAuthTokenModule extends FactoryModule {
     install(AuthTokenCache.module());
     install(AuthTokenExpiryNotifier.module());
     factory(CachingAuthTokenAccessor.Factory.class);
-    factory(HttpPasswordFallbackAuthTokenAccessor.Factory.class);
   }
 
   @Provides
   @Singleton
   public AuthTokenAccessor createAuthTokenAccessor(
-      HttpPasswordFallbackAuthTokenAccessor.Factory fallbackFactory,
-      CachingAuthTokenAccessor.Factory cachingFactory,
+	  CachingAuthTokenAccessor.Factory cachingFactory,
       DirectAuthTokenAccessor directAccessor) {
-    return fallbackFactory.create(cachingFactory.create(directAccessor));
+    return cachingFactory.create(directAccessor);
   }
 }

@@ -90,11 +90,6 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.builder(GET, "/accounts/%s/oauthtoken")
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
-
-          // The password.http REST endpoints must be tested separately, since changing/deleting the
-          // HTTP password breaks all further calls.
-          // See tests updateHttpPasswordEndpoints and deleteHttpPasswordEndpoints.
-
           RestCall.get("/accounts/%s/preferences"),
           RestCall.put("/accounts/%s/preferences"),
           RestCall.get("/accounts/%s/preferences.diff"),
@@ -173,16 +168,6 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
       })
   public void accountEndpoints() throws Exception {
     execute(adminRestSession, ACCOUNT_ENDPOINTS, "self");
-  }
-
-  @Test
-  public void updateHttpPasswordEndpoints() throws Exception {
-    execute(adminRestSession, RestCall.put("/accounts/%s/password.http"), "self");
-  }
-
-  @Test
-  public void deleteHttpPasswordEndpoints() throws Exception {
-    execute(adminRestSession, RestCall.delete("/accounts/%s/password.http"), "self");
   }
 
   @Test

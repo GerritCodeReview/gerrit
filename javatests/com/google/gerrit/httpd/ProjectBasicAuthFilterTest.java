@@ -69,7 +69,7 @@ public class ProjectBasicAuthFilterTest {
   private static final String AUTH_USER = "johndoe";
   private static final String AUTH_USER_B64 =
       B64_ENC.encodeToString(AUTH_USER.getBytes(StandardCharsets.UTF_8));
-  private static final String AUTH_PASSWORD = "jd123";
+  private static final String AUTH_TOKEN = "jd123";
   private static final String GERRIT_COOKIE_KEY = "GerritAccount";
   private static final String AUTH_COOKIE_VALUE = "gerritcookie";
 
@@ -120,7 +120,7 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSessionValue)
         .when(webSessionManager)
         .createVal(any(), any(), eq(false), any(), any(), any());
-    doReturn(List.of(AuthToken.createWithPlainToken("token", AUTH_PASSWORD)))
+    doReturn(List.of(AuthToken.createWithPlainToken("token", AUTH_TOKEN)))
         .when(tokenAccessor)
         .getValidTokens(AUTH_ACCOUNT_ID);
   }
@@ -197,8 +197,8 @@ public class ProjectBasicAuthFilterTest {
   }
 
   @Test
-  public void shouldValidateUserPasswordAndNotReturnCookie() throws Exception {
-    ExternalId extId = createUsernamePasswordExternalId();
+  public void shouldValidateUserTokenAndNotReturnCookie() throws Exception {
+    ExternalId extId = createUsernameExternalId();
     initAccount(ImmutableSet.of(extId));
     initWebSessionWithoutCookie();
     requestBasicAuth(req);
@@ -345,13 +345,9 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSession).when(webSessionItem).get();
   }
 
-  @Deprecated
-  private ExternalId createUsernamePasswordExternalId() {
-    return extIdFactory.createWithPassword(
-        extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
-        AUTH_ACCOUNT_ID,
-        null,
-        AUTH_PASSWORD);
+  private ExternalId createUsernameExternalId() {
+    return extIdFactory.createWithEmail(
+        extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER), AUTH_ACCOUNT_ID, null);
   }
 
   private void requestBasicAuth(FakeHttpServletRequest fakeReq) {
@@ -359,6 +355,6 @@ public class ProjectBasicAuthFilterTest {
         "Authorization",
         "Basic "
             + B64_ENC.encodeToString(
-                (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
+                (AUTH_USER + ":" + AUTH_TOKEN).getBytes(StandardCharsets.UTF_8)));
   }
 }

@@ -272,16 +272,15 @@ message TagSetHolderProto {
 
 // Serialized form of
 // com.google.gerrit.server.account.externalids.AllExternalIds.
-// Next ID: 2
+// Next ID: 3
 message AllExternalIdsProto {
-  // Next ID: 7
+  // Next ID: 8
   message ExternalIdProto {
     string key = 1;
     int32 accountId = 2;
     string email = 3;
-    string password = 4;
-    bytes blobId = 5;
-    bool isCaseInsensitive = 6;
+    bytes blobId = 4;
+    bool isCaseInsensitive = 5;
   }
   repeated ExternalIdProto external_id = 1;
 }

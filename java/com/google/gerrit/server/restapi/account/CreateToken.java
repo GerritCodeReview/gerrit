@@ -163,7 +163,7 @@ public class CreateToken
           .send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(
-          "Cannot send HttpPassword update message to %s", user.getAccount().preferredEmail());
+          "Cannot send token update message to %s", user.getAccount().preferredEmail());
     }
 
     AuthTokenInfo info = new AuthTokenInfo();

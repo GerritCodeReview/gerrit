@@ -40,6 +40,25 @@ suite('gr-create-pointer-dialog tests', () => {
                 <input placeholder=" Name" />
               </iron-input>
             </section>
+            <section id="createEmptyCommitSection">
+              <div class="title-flex">
+                <span class="title">Point to</span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-select id="initialCommit">
+                    <select>
+                      <option value="false">
+                        Existing Revision
+                      </option>
+                      <option value="true">
+                        Initial empty commit
+                      </option>
+                    </select>
+                  </gr-select>
+                </span>
+              </div>
+            </section>
             <section id="itemRevisionSection">
               <span class="title"> Initial Revision </span>
               <iron-input>

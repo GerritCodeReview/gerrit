@@ -13,6 +13,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fire, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
 
@@ -45,6 +46,8 @@ export class GrCreatePointerDialog extends LitElement {
   /* private but used in test */
   @state() itemAnnotation?: string;
 
+  @state() createEmptyCommit?: boolean;
+
   private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
@@ -64,6 +67,9 @@ export class GrCreatePointerDialog extends LitElement {
         #itemAnnotationSection.hideItem {
           display: none;
         }
+        #createEmptyCommitSection.hideItem {
+          display: none;
+        }
       `,
     ];
   }
@@ -81,7 +87,7 @@ export class GrCreatePointerDialog extends LitElement {
               <input placeholder="${this.detailType} Name" />
             </iron-input>
           </section>
-          <section id="itemRevisionSection">
+          <section id="itemRevisionSection" ?hidden=${this.createEmptyCommit}>
             <span class="title">Initial Revision</span>
             <iron-input
               .bindValue=${this.itemRevision}
@@ -103,6 +109,36 @@ export class GrCreatePointerDialog extends LitElement {
             >
               <input placeholder="Annotation (Optional)" />
             </iron-input>
+          </section>
+          <section
+            id="createEmptyCommitSection"
+            class=${this.itemDetail === RepoDetailView.TAGS ? 'hideItem' : ''}
+          >
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="Choose 'false' if the new branch should point to an existing revision, choose 'true' if the new branch should be created on an initial empty commit."
+                >
+                  Create Empty Commit <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
+            <div class="value-flex">
+              <span class="value">
+                <gr-select
+                  id="initialCommit"
+                  .bindValue=${this.createEmptyCommit}
+                  @bind-value-changed=${this
+                    .handleCreateEmptyCommitBindValueChanged}
+                >
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
+              </span>
+            </div>
           </section>
         </div>
       </div>
@@ -127,9 +163,15 @@ export class GrCreatePointerDialog extends LitElement {
       throw new Error('itemName name is not set');
     }
     const USE_HEAD = this.itemRevision ? this.itemRevision : 'HEAD';
+    const CREATE_EMPTY_COMMIT = this.createEmptyCommit
+      ? this.createEmptyCommit
+      : false;
     if (this.itemDetail === RepoDetailView.BRANCHES) {
+      const CREATE_BRANCH_INPUT = CREATE_EMPTY_COMMIT
+        ? {create_empty_commit: true}
+        : {revision: USE_HEAD};
       return this.restApiService
-        .createRepoBranch(this.repoName, this.itemName, {revision: USE_HEAD})
+        .createRepoBranch(this.repoName, this.itemName, CREATE_BRANCH_INPUT)
         .then(itemRegistered => {
           if (itemRegistered.status === 201) {
             fireAlert(this, 'Branch created successfully. Reloading...');
@@ -162,5 +204,11 @@ export class GrCreatePointerDialog extends LitElement {
 
   private handleItemAnnotationBindValueChanged(e: BindValueChangeEvent) {
     this.itemAnnotation = e.detail.value;
+  }
+
+  private handleCreateEmptyCommitBindValueChanged(
+    e: ValueChangedEvent<string>
+  ) {
+    this.createEmptyCommit = e.detail.value === 'true';
   }
 }

@@ -276,6 +276,25 @@ The html, css, js files are placed in:
  `bazel-bin/Documentation/`
 ----
 
+[[license]]
+== License
+
+To check that licenses are up to date, run:
+
+----
+  bazelisk test Documentation:check_licenses
+----
+
+You can then copy by doing:
+
+----
+  cp bazel-bin/Documentation/licenses.gen.txt Documentation/licenses.txt
+  cp bazel-bin/Documentation/js_licenses.gen.txt Documentation/js_licenses.txt
+----
+
+Note: Follow link:#npm-binary[NPM Binaries] for adding npm package dependencies licenses.
+      This is for js_licenses.txt.
+
 [[tests]]
 == Running Unit Tests
 

@@ -16,6 +16,24 @@
       "message": "Could the current Gerrit url protocols be used instead (I mean fetch the local protocol)? Preferring https being used.",
       "revId": "9ba43944ad7078189cc0205d295e91a525f0a642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e461aa_ac678f0c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2025-05-06T01:47:06Z",
+      "side": 1,
+      "message": "I had originally used `https` instead of `http`, but tests fail for a reason that I don\u0027t understand. Updating this to prepend `https://` and updating the rewriting logic in the tests to prepend `https://` gets:\n```\n ❌ gr-formatted-text tests \u003e as markdown \u003e does default linking\n      AssertionError: expected \u0027http://www.google.com\u0027 to equal \u0027https://www.google.com\u0027\n      + expected - actual\n\n      -http://www.google.com\n      +https://www.google.com\n\n      at checkLinking (polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts:781:15)\n      at async Ka.\u003canonymous\u003e (polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts:793:6)\n```\n\nThis is for the `await checkLinking(\u0027www.google.com\u0027);` case which doesn\u0027t have a scheme and should be getting rewritten with `https://`, but it doesn\u0027t.\n\nIf you mean using `link: \u0027//$1\u0027`, that gets:\n```\n ❌ gr-formatted-text tests \u003e as markdown \u003e does default linking\n      AssertionError: expected \u0027http://www.google.com\u0027 to equal \u0027//www.google.com\u0027\n      + expected - actual\n\n      -http://www.google.com\n      +//www.google.com\n\n      at checkLinking (polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts:781:15)\n      at async Ka.\u003canonymous\u003e (polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts:793:6)\n```\n\nThis is also failing `await checkLinking(\u0027www.google.com\u0027);` case. Like the other attempt, `www.google.com` is schemeless and the text expects it to get rewritten to `//www.google.com`, but it\u0027s rewritten to `http://google.com`.\n\n@milutin@google.com let me know what I\u0027m missing. Do you know why it keeps on rewriting with `http://`?",
+      "parentUuid": "6d722982_47f8ec24",
+      "revId": "9ba43944ad7078189cc0205d295e91a525f0a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

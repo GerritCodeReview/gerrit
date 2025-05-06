@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f2fc70_92f539c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-06T11:52:10Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/469761 changed these files. I dunno what package update caused it. I\u0027m not seeing any eslint updates in the yarn file.",
+      "revId": "cf6d45676662ac1469e24d19888a5ad81ff2bfd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

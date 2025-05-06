@@ -16,6 +16,52 @@
       "message": "I\u0027m always forgetting how to do this. So making it clearer.",
       "revId": "884a1feb4851b8127c270b6c81645b831979fe05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d78491de_747a794d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-06T07:32:04Z",
+      "side": 1,
+      "message": "nit: dependencies",
+      "range": {
+        "startLine": 295,
+        "startChar": 69,
+        "endLine": 295,
+        "endChar": 80
+      },
+      "revId": "884a1feb4851b8127c270b6c81645b831979fe05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf17baf9_90b354b9",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-06T07:32:04Z",
+      "side": 1,
+      "message": "Should this be \"npm-binary\"?",
+      "range": {
+        "startLine": 295,
+        "startChar": 19,
+        "endLine": 295,
+        "endChar": 31
+      },
+      "revId": "884a1feb4851b8127c270b6c81645b831979fe05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -51,12 +51,12 @@ export class GrConfirmAbandonDialog
     super();
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
-      () => this.confirm()
+      () => this.confirm(),
     );
 
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
-      _ => this.confirm()
+      _ => this.confirm(),
     );
   }
 

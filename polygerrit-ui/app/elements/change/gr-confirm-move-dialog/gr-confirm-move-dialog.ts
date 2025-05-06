@@ -53,11 +53,11 @@ export class GrConfirmMoveDialog
     super();
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
-      e => this.handleConfirmTap(e)
+      e => this.handleConfirmTap(e),
     );
     this.shortcuts.addLocal(
       {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
-      e => this.handleConfirmTap(e)
+      e => this.handleConfirmTap(e),
     );
   }
 
@@ -163,7 +163,7 @@ export class GrConfirmMoveDialog
         this.project,
         SUGGESTIONS_LIMIT,
         /* offest=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         if (!response) return [];

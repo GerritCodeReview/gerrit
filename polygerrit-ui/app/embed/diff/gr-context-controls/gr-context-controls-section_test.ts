@@ -27,8 +27,8 @@ suite('gr-context-controls-section test', () => {
         wrapInProvider(
           html`<gr-context-controls-section></gr-context-controls-section>`,
           diffModelToken,
-          diffModel
-        )
+          diffModel,
+        ),
       )
     ).querySelector<GrContextControlsSection>('gr-context-controls-section')!;
     await element.updateComplete;
@@ -77,7 +77,7 @@ suite('gr-context-controls-section test', () => {
             </tr>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 
@@ -106,7 +106,7 @@ suite('gr-context-controls-section test', () => {
             </tr>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 
@@ -135,7 +135,7 @@ suite('gr-context-controls-section test', () => {
             </tr>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 });

@@ -60,7 +60,7 @@ export class GrCommitInfo extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      config => (this.serverConfig = config)
+      config => (this.serverConfig = config),
     );
   }
 
@@ -79,7 +79,7 @@ export class GrCommitInfo extends LitElement {
             .text=${commit}
           >
           </gr-copy-clipboard>
-        `
+        `,
       )}
     </div>`;
   }
@@ -94,7 +94,7 @@ export class GrCommitInfo extends LitElement {
     const name = shorten(commit)!;
     const primaryLink = getBrowseCommitWeblink(
       this.commitInfo?.web_links,
-      this.serverConfig
+      this.serverConfig,
     );
     if (primaryLink) return {...primaryLink, name};
     return {name, url: createSearchUrl({query: commit})};

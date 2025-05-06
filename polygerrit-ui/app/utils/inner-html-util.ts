@@ -13,7 +13,7 @@ export {sanitizeHtml, htmlEscape, sanitizeHtmlToFragment} from 'safevalues';
 export type SafeStyleSheet = BrandType<string, '_safeHtml'>;
 
 export function safeStyleSheet(
-  templateObj: TemplateStringsArray
+  templateObj: TemplateStringsArray,
 ): SafeStyleSheet {
   const styleSheet = templateObj[0];
   if (/[<>]/.test(styleSheet)) {
@@ -24,7 +24,7 @@ export function safeStyleSheet(
 
 export function setStyleTextContent(
   elem: HTMLStyleElement,
-  safeStyleSheet: SafeStyleSheet
+  safeStyleSheet: SafeStyleSheet,
 ) {
   elem.textContent = safeStyleSheet;
 }

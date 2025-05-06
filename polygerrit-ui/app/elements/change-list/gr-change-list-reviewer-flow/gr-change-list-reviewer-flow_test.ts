@@ -84,7 +84,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChanges$, selected =>
-      selected.some(other => other._number === change._number)
+      selected.some(other => other._number === change._number),
     );
     await element.updateComplete;
   }
@@ -100,8 +100,8 @@ suite('gr-change-list-reviewer-flow tests', () => {
         wrapInProvider(
           html`<gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>`,
           bulkActionsModelToken,
-          model
-        )
+          model,
+        ),
       )
     ).querySelector('gr-change-list-reviewer-flow')!;
     await selectChange(changes[0]);
@@ -123,7 +123,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           >Add Reviewer/CC</gr-button
         >
         <dialog id="flow" tabindex="-1"></dialog>
-      `
+      `,
     );
   });
 
@@ -267,18 +267,18 @@ suite('gr-change-list-reviewer-flow tests', () => {
             </gr-dialog>
             <div id="gr-hovercard-container"></div>
           </dialog>
-        `
+        `,
       );
     });
 
     test('only lists reviewers/CCs shared by all changes', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       const ccList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#cc-list'
+        'gr-account-list#cc-list',
       );
       // does not include account 1 because it is not shared, does not include
       // account 6 because it is the owner
@@ -290,11 +290,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
     test('adds reviewer & CC', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       const ccList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#cc-list'
+        'gr-account-list#cc-list',
       );
       reviewerList.accounts.push(accounts[2], groups[0]);
       ccList.accounts.push(accounts[5]);
@@ -308,7 +308,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       assert.isTrue(dialog.loading);
       assert.equal(
         dialog.loadingLabel,
-        'Adding Reviewer and CC in progress...'
+        'Adding Reviewer and CC in progress...',
       );
 
       assert.deepEqual(reportingStub.lastCall.args[1], {
@@ -368,11 +368,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
     test('removes from reviewer list when added to cc', async () => {
       const ccList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#cc-list'
+        'gr-account-list#cc-list',
       );
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       assert.sameOrderedMembers(reviewerList.accounts, [accounts[0]]);
 
@@ -384,7 +384,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               count: 1,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       await element.updateComplete;
 
@@ -394,11 +394,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
     test('removes from cc list when added to reviewer', async () => {
       const ccList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#cc-list'
+        'gr-account-list#cc-list',
       );
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       assert.sameOrderedMembers(ccList.accounts, [accounts[3]]);
 
@@ -410,7 +410,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               count: 1,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       await element.updateComplete;
 
@@ -421,11 +421,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
       test('reviewer only', async () => {
         const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
         const existingReviewers = element.getCurrentAccounts(
-          ReviewerState.REVIEWER
+          ReviewerState.REVIEWER,
         );
         const getCurrentAccountsStub = sinon.stub(
           element,
-          'getCurrentAccounts'
+          'getCurrentAccounts',
         );
         getCurrentAccountsStub.withArgs(ReviewerState.CC).returns([]);
         getCurrentAccountsStub
@@ -433,7 +433,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           .returns(existingReviewers);
         const reviewerList = queryAndAssert<GrAccountList>(
           dialog,
-          'gr-account-list#reviewer-list'
+          'gr-account-list#reviewer-list',
         );
         reviewerList.accounts.push(accounts[2], groups[0]);
         element.updatedAccountsByReviewerState.set(ReviewerState.CC, []);
@@ -445,12 +445,12 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         await waitUntil(
           () => dispatchEventStub.callCount > 0,
-          'dispatchEventStub never called'
+          'dispatchEventStub never called',
         );
 
         assert.equal(
           (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
-          '2 reviewers added'
+          '2 reviewers added',
         );
       });
 
@@ -459,13 +459,13 @@ suite('gr-change-list-reviewer-flow tests', () => {
         const existingCCs = element.getCurrentAccounts(ReviewerState.CC);
         const getCurrentAccountsStub = sinon.stub(
           element,
-          'getCurrentAccounts'
+          'getCurrentAccounts',
         );
         getCurrentAccountsStub.withArgs(ReviewerState.CC).returns(existingCCs);
         getCurrentAccountsStub.withArgs(ReviewerState.REVIEWER).returns([]);
         const ccsList = queryAndAssert<GrAccountList>(
           dialog,
-          'gr-account-list#cc-list'
+          'gr-account-list#cc-list',
         );
         ccsList.accounts.push(accounts[2], groups[0]);
         ccsList.accounts = [];
@@ -478,24 +478,24 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         await waitUntil(
           () => dispatchEventStub.callCount > 0,
-          'dispatchEventStub never called'
+          'dispatchEventStub never called',
         );
 
         assert.equal(
           (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
-          '2 CCs added'
+          '2 CCs added',
         );
       });
 
       test('reviewers and CC', async () => {
         const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
         const existingReviewers = element.getCurrentAccounts(
-          ReviewerState.REVIEWER
+          ReviewerState.REVIEWER,
         );
         const existingCCs = element.getCurrentAccounts(ReviewerState.CC);
         const getCurrentAccountsStub = sinon.stub(
           element,
-          'getCurrentAccounts'
+          'getCurrentAccounts',
         );
         getCurrentAccountsStub.withArgs(ReviewerState.CC).returns(existingCCs);
         getCurrentAccountsStub
@@ -504,11 +504,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         const reviewerList = queryAndAssert<GrAccountList>(
           dialog,
-          'gr-account-list#reviewer-list'
+          'gr-account-list#reviewer-list',
         );
         const ccsList = queryAndAssert<GrAccountList>(
           dialog,
-          'gr-account-list#cc-list'
+          'gr-account-list#cc-list',
         );
 
         reviewerList.accounts.push(accounts[2], groups[0]);
@@ -521,12 +521,12 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         await waitUntil(
           () => dispatchEventStub.callCount > 0,
-          'dispatchEventStub never called'
+          'dispatchEventStub never called',
         );
 
         assert.equal(
           (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
-          '2 reviewers and 2 CCs added'
+          '2 reviewers and 2 CCs added',
         );
       });
     });
@@ -535,7 +535,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
 
       reviewerList.accounts.push(accounts[2], groups[0]);
@@ -548,7 +548,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
       await waitUntil(
         () => dispatchEventStub.callCount > 0,
-        'dispatchEventStub never called'
+        'dispatchEventStub never called',
       );
 
       assert.isTrue(dispatchEventStub.calledTwice);
@@ -559,7 +559,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
 
       reviewerList.accounts.push(accounts[2], groups[0]);
@@ -572,7 +572,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
       await waitUntil(
         () => reportingStub.calledWith('bulk-action-failure'),
-        'reporting stub never called'
+        'reporting stub never called',
       );
 
       assert.deepEqual(reportingStub.lastCall.args, [
@@ -588,11 +588,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
     test('renders warnings when reviewer/cc are overwritten', async () => {
       const ccList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#cc-list'
+        'gr-account-list#cc-list',
       );
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
 
       reviewerList.handleAdd(
@@ -603,7 +603,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               count: 1,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       ccList.handleAdd(
         new CustomEvent('add', {
@@ -613,7 +613,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               count: 1,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       await element.updateComplete;
 
@@ -713,14 +713,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           // dialog sizing seems to vary between local & CI
           ignoreAttributes: [{tags: ['dialog'], attributes: ['style']}],
-        }
+        },
       );
     });
 
     test('renders errors when requests fail', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
 
       reviewerList.accounts.push(accounts[2], groups[0]);
@@ -827,14 +827,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           // dialog sizing seems to vary between local & CI
           ignoreAttributes: [{tags: ['dialog'], attributes: ['style']}],
-        }
+        },
       );
     });
 
     test('shows confirmation dialog when large group is added', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       reviewerList.handleAdd(
         new CustomEvent('add', {
@@ -848,7 +848,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               confirm: true,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       // reviewerList needs to set the pendingConfirmation property which
       // triggers an update of ReviewerFlow
@@ -858,14 +858,15 @@ suite('gr-change-list-reviewer-flow tests', () => {
       const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       await waitUntil(
         () =>
-          getComputedStyle(confirmDialog).getPropertyValue('display') !== 'none'
+          getComputedStyle(confirmDialog).getPropertyValue('display') !==
+          'none',
       );
     });
 
     test('"yes" button confirms large group', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       reviewerList.handleAdd(
         new CustomEvent('add', {
@@ -879,7 +880,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               confirm: true,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       // reviewerList needs to set the pendingConfirmation property which
       // triggers an update of ReviewerFlow
@@ -888,14 +889,15 @@ suite('gr-change-list-reviewer-flow tests', () => {
       // "Yes" button is first
       queryAndAssert<GrButton>(
         element,
-        '.confirmation-buttons > gr-button:first-of-type'
+        '.confirmation-buttons > gr-button:first-of-type',
       ).click();
       await element.updateComplete;
 
       const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       await waitUntil(
         () =>
-          getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
+          getComputedStyle(confirmDialog).getPropertyValue('display') ===
+          'none',
       );
 
       assert.deepEqual(reviewerList.accounts[1], {
@@ -908,7 +910,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
     test('confirmation dialog skipped for small group', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       // "confirm" field is used to decide whether to use the confirmation flow,
       // not the count. "confirm" value comes from server based on count
@@ -925,7 +927,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               confirm: false,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       // reviewerList needs to set the pendingConfirmation property which
       // triggers an update of ReviewerFlow
@@ -933,7 +935,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await element.updateComplete;
       const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       assert.isTrue(
-        getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
+        getComputedStyle(confirmDialog).getPropertyValue('display') === 'none',
       );
       assert.deepEqual(reviewerList.accounts[1], {
         id: '5' as GroupId,
@@ -944,7 +946,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
     test('"no" button cancels large group', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list#reviewer-list'
+        'gr-account-list#reviewer-list',
       );
       reviewerList.handleAdd(
         new CustomEvent('add', {
@@ -958,7 +960,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
               confirm: true,
             },
           },
-        }) as unknown as ValueChangedEvent<string>
+        }) as unknown as ValueChangedEvent<string>,
       );
       // reviewerList needs to set the pendingConfirmation property which
       // triggers an update of ReviewerFlow
@@ -967,13 +969,13 @@ suite('gr-change-list-reviewer-flow tests', () => {
       // "No" button is last
       queryAndAssert<GrButton>(
         element,
-        '.confirmation-buttons > gr-button:last-of-type'
+        '.confirmation-buttons > gr-button:last-of-type',
       ).click();
       await element.updateComplete;
 
       const confirmDialog = queryAndAssert(element, 'dialog#confirm-reviewer');
       assert.isTrue(
-        getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
+        getComputedStyle(confirmDialog).getPropertyValue('display') === 'none',
       );
       // Group not present
       assert.sameDeepMembers(reviewerList.accounts, [accounts[0]]);

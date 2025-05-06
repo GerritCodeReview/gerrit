@@ -23,7 +23,7 @@ suite('gr-trigger-vote tests', () => {
     element = await fixture<GrValidationOptions>(
       html`<gr-validation-options
         .validationOptions=${validationOptions}
-      ></gr-validation-options>`
+      ></gr-validation-options>`,
     );
   });
 
@@ -39,14 +39,14 @@ suite('gr-trigger-vote tests', () => {
           <input type="checkbox" />
           Option 2
         </label>
-      `
+      `,
     );
   });
 
   test('selects and unselects options', () => {
     const checkboxes = queryAll<HTMLInputElement>(
       element,
-      'input[type="checkbox"]'
+      'input[type="checkbox"]',
     );
     element.validationOptions?.validation_options;
 

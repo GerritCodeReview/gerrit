@@ -104,7 +104,7 @@ export class GrChangeListSection extends LitElement {
   private totalChangeCount = 0;
 
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
-    getAppContext().restApiService
+    getAppContext().restApiService,
   );
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -157,17 +157,17 @@ export class GrChangeListSection extends LitElement {
       () => this.bulkActionsModel.selectedChangeNums$,
       selectedChanges => {
         this.numSelected = selectedChanges.length;
-      }
+      },
     );
     subscribe(
       this,
       () => this.bulkActionsModel.totalChangeCount$,
-      totalChangeCount => (this.totalChangeCount = totalChangeCount)
+      totalChangeCount => (this.totalChangeCount = totalChangeCount),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+      isLoggedIn => (this.isLoggedIn = isLoggedIn),
     );
   }
 
@@ -193,7 +193,7 @@ export class GrChangeListSection extends LitElement {
           ? this.renderNoChangesRow(colSpan)
           : this.renderColumnHeaders(columns)}
         ${this.changeSection.results.map((change, index) =>
-          this.renderChangeRow(change, index, columns)
+          this.renderChangeRow(change, index, columns),
         )}
       </tbody>
     `;
@@ -269,10 +269,10 @@ export class GrChangeListSection extends LitElement {
               <td class="number" ?hidden=${!this.showNumber}>#</td>
               ${columns.map(item => this.renderHeaderCell(item))}
               ${this.labelNames?.map(labelName =>
-                this.renderLabelHeader(labelName)
+                this.renderLabelHeader(labelName),
               )}
               ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
-                this.renderEndpointHeader(pluginHeader)
+                this.renderEndpointHeader(pluginHeader),
               )}`}
       </tr>
     `;
@@ -324,7 +324,7 @@ export class GrChangeListSection extends LitElement {
   private renderChangeRow(
     change: ChangeInfo,
     index: number,
-    columns: string[]
+    columns: string[],
   ) {
     const ariaLabel = this.computeAriaLabel(change);
     const selected = this.computeItemSelected(index);
@@ -377,7 +377,7 @@ export class GrChangeListSection extends LitElement {
 
   toggleChange(index: number) {
     this.bulkActionsModel.toggleSelectedChangeNum(
-      this.changeSection.results[index]._number
+      this.changeSection.results[index]._number,
     );
   }
 
@@ -397,7 +397,7 @@ export class GrChangeListSection extends LitElement {
     let tokens = query.split(' ');
     tokens = tokens.filter(
       token =>
-        !INVALID_TOKENS.some(invalidToken => token.startsWith(invalidToken))
+        !INVALID_TOKENS.some(invalidToken => token.startsWith(invalidToken)),
     );
     return tokens.join(' ');
   }

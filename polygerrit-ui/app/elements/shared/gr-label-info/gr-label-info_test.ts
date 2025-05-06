@@ -72,7 +72,7 @@ suite('gr-label-info tests', () => {
             </gr-button>
           </gr-tooltip-content>
         </div>
-      </div>`
+      </div>`,
     );
   });
 
@@ -133,8 +133,8 @@ suite('gr-label-info tests', () => {
         deleteStub.calledWithExactly(
           element.change!._number,
           account._account_id!,
-          'Code-Review'
-        )
+          'Code-Review',
+        ),
       );
     });
   });

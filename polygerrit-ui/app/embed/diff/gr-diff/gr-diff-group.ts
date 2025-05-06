@@ -53,7 +53,7 @@ export function hideInContextControl(
   groups: readonly GrDiffGroup[],
   hiddenStart: number,
   hiddenEndLeft: number,
-  hiddenEndRight?: number
+  hiddenEndRight?: number,
 ): GrDiffGroup[] {
   if (groups.length === 0) return [];
   // Clamp hiddenStart and hiddenEnd - inspired by e.g. substring
@@ -90,7 +90,7 @@ export function hideInContextControl(
       [hidden, after] = splitCommonGroups(
         hidden,
         hiddenEndLeft - beforeLengthLeft,
-        hiddenEndRight - beforeLengthRight
+        hiddenEndRight - beforeLengthRight,
       );
     }
   } else {
@@ -103,7 +103,7 @@ export function hideInContextControl(
       new GrDiffGroup({
         type: GrDiffGroupType.CONTEXT_CONTROL,
         contextGroups: [...hidden],
-      })
+      }),
     );
   }
   result.push(...after);
@@ -124,7 +124,7 @@ export function hideInContextControl(
 function splitGroupInTwo(
   group: GrDiffGroup,
   leftSplit: number,
-  rightSplit: number
+  rightSplit: number,
 ) {
   let beforeSplit: GrDiffGroup | undefined;
   let afterSplit: GrDiffGroup | undefined;
@@ -194,7 +194,7 @@ function splitGroupInTwo(
 function splitCommonGroups(
   groups: readonly GrDiffGroup[],
   splitLeft: number,
-  splitRight: number
+  splitRight: number,
 ): GrDiffGroup[][] {
   if (groups.length === 0) return [[], []];
   const leftSplit = groups[0].lineRange.left.start_line + splitLeft;
@@ -225,7 +225,7 @@ function splitCommonGroups(
         const {beforeSplit, afterSplit} = splitGroupInTwo(
           group,
           leftSplit,
-          rightSplit
+          rightSplit,
         );
         if (beforeSplit) {
           beforeGroups.push(beforeSplit);
@@ -281,7 +281,7 @@ export class GrDiffGroup {
       | {
           type: GrDiffGroupType.CONTEXT_CONTROL;
           contextGroups: GrDiffGroup[];
-        }
+        },
   ) {
     this.type = options.type;
     switch (options.type) {
@@ -473,7 +473,7 @@ export class GrDiffGroup {
    */
   hasNonCommonDeltaGroup() {
     return this.contextGroups?.some(
-      g => g.type === GrDiffGroupType.DELTA && !g.ignoredWhitespaceOnly
+      g => g.type === GrDiffGroupType.DELTA && !g.ignoredWhitespaceOnly,
     );
   }
 
@@ -550,7 +550,7 @@ export class GrDiffGroup {
 
   id() {
     return `${this.type} ${this.startLine(Side.LEFT)}  ${this.startLine(
-      Side.RIGHT
+      Side.RIGHT,
     )}`;
   }
 }

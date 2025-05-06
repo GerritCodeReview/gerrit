@@ -18,7 +18,7 @@ import {
 } from '../../../types/common';
 
 export interface PluginOption<
-  T extends ConfigParameterInfoBase = ConfigParameterInfo
+  T extends ConfigParameterInfoBase = ConfigParameterInfo,
 > {
   _key: string; // parameterName of PluginParameterToConfigParameterInfoMap
   info: T;

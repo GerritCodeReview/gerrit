@@ -291,7 +291,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   private readonly layerUpdateListener: (
     start: LineNumber,
     end: LineNumber,
-    side: Side
+    side: Side,
   ) => void;
 
   static override get styles() {
@@ -321,24 +321,24 @@ export class GrDiff extends LitElement implements GrDiffApi {
     subscribe(
       this,
       () => this.diffModel.context$,
-      context => (this.context = context)
+      context => (this.context = context),
     );
     subscribe(
       this,
       () => this.diffModel.groups$,
-      groups => (this.groups = groups)
+      groups => (this.groups = groups),
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
       this.diffModel.selectLine(e.detail.lineNum, e.detail.side);
     });
     this.addEventListener(
       'diff-context-expanded-internal-new',
-      this.onDiffContextExpanded
+      this.onDiffContextExpanded,
     );
     this.layerUpdateListener = (
       start: LineNumber,
       end: LineNumber,
-      side: Side
+      side: Side,
     ) => this.requestRowUpdates(start, end, side);
     this.layersInternalInit();
   }
@@ -503,7 +503,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // corresponding range is determined and normalized.
     const selection = getShadowOrDocumentSelection(
       this.shadowRoot,
-      getContentEditableRange()
+      getContentEditableRange(),
     );
     this.highlights.handleSelectionChange(selection, false);
   };
@@ -514,14 +514,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // can't do that on selection change since the user may still be dragging.
     const selection = getShadowOrDocumentSelection(
       this.shadowRoot,
-      getContentEditableRange()
+      getContentEditableRange(),
     );
     this.highlights.handleSelectionChange(selection, true);
   };
 
   private commentThreadRedispatcher = (
     target: EventTarget | null,
-    eventName: 'comment-thread-mouseenter' | 'comment-thread-mouseleave'
+    eventName: 'comment-thread-mouseenter' | 'comment-thread-mouseleave',
   ) => {
     if (!isThreadEl(target)) return;
     const data = getDataFromCommentThreadEl(target);
@@ -628,7 +628,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const lineLimit = `${lineLength}ch`;
     this.style.setProperty(
       '--line-limit-marker',
-      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : '-1px'
+      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : '-1px',
     );
     this.style.setProperty('--content-width', responsive ? 'none' : lineLimit);
     if (responsiveMode === 'SHRINK_ONLY') {
@@ -664,7 +664,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       const dontWrapCorrection = '2px';
       this.style.setProperty(
         '--diff-max-width',
-        `calc(${contentWidth} + ${lineNumberWidth} + ${signColsWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`
+        `calc(${contentWidth} + ${lineNumberWidth} + ${signColsWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`,
       );
     } else {
       this.style.setProperty('--diff-max-width', 'none');
@@ -677,11 +677,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
   private renderPrefsChanged() {
     this.classList.toggle(
       'disable-context-control-buttons',
-      !!this.renderPrefs.disable_context_control_buttons
+      !!this.renderPrefs.disable_context_control_buttons,
     );
     this.classList.toggle(
       'hide-line-length-indicator',
-      !!this.renderPrefs.hide_line_length_indicator
+      !!this.renderPrefs.hide_line_length_indicator,
     );
     this.classList.toggle('with-sign-col', !!this.renderPrefs.show_sign_col);
     if (this.prefs) {
@@ -768,7 +768,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private onDiffContextExpanded = (
-    e: CustomEvent<DiffContextExpandedEventDetail>
+    e: CustomEvent<DiffContextExpandedEventDetail>,
   ) => {
     // Don't stop propagation. The host may listen for reporting or
     // resizing.
@@ -827,7 +827,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const groups = hideInContextControl(
       group.contextGroups,
       0,
-      lineOffset - 1 - this.context
+      lineOffset - 1 - this.context,
     );
     // If there is a context group, it will be the first group because we
     // start hiding from 0 offset
@@ -841,8 +841,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
         // Both ends inclusive, so difference is the offset of the last line.
         // But we need to pass the first line not to hide, which is the element
         // after.
-        lineRange.end_line - lineRange.start_line + 1
-      )
+        lineRange.end_line - lineRange.start_line + 1,
+      ),
     );
     this.diffModel.replaceGroup(group, newGroups);
   }
@@ -882,7 +882,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
             contentEl,
             highlight.startIndex,
             endIndex - highlight.startIndex,
-            HL_CLASS
+            HL_CLASS,
           );
         }
       },
@@ -910,7 +910,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           contentEl,
           line,
           /[\u202A-\u202E\u2066-\u2069]/,
-          'special-char-warning'
+          'special-char-warning',
         );
       },
     };
@@ -932,7 +932,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
             contentEl,
             index,
             length,
-            'trailing-whitespace'
+            'trailing-whitespace',
           );
         }
       },
@@ -941,7 +941,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   getContentTdByLine(
     lineNumber: LineNumber,
-    side?: Side
+    side?: Side,
   ): HTMLTableCellElement | undefined {
     if (!side) return undefined;
     const row = this.findRow(side, lineNumber);
@@ -950,7 +950,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   getLineElByNumber(
     lineNumber: LineNumber,
-    side?: Side
+    side?: Side,
   ): HTMLTableCellElement | undefined {
     if (!side) return undefined;
     const row = this.findRow(side, lineNumber);
@@ -998,7 +998,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const rightClass = `right-${group.startLine(Side.RIGHT)}`;
     return (
       this.diffElement.querySelector<GrDiffSection>(
-        `gr-diff-section.${leftClass}.${rightClass}`
+        `gr-diff-section.${leftClass}.${rightClass}`,
       ) ?? undefined
     );
   }
@@ -1011,14 +1011,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
   getGroupsByLineRange(
     startLine: LineNumber,
     endLine: LineNumber,
-    side: Side
+    side: Side,
   ): GrDiffGroup[] {
     const startIndex = this.groups.findIndex(group =>
-      group.containsLine(side, startLine)
+      group.containsLine(side, startLine),
     );
     if (startIndex === -1) return [];
     let endIndex = this.groups.findIndex(group =>
-      group.containsLine(side, endLine)
+      group.containsLine(side, endLine),
     );
     // Not all groups may have been processed yet (i.e. this.groups is still
     // incomplete). In that case let's just return *all* groups until the end
@@ -1040,7 +1040,7 @@ function annotateSymbols(
   contentEl: HTMLElement,
   line: GrDiffLine,
   separator: string | RegExp,
-  className: string
+  className: string,
 ) {
   const split = line.text.split(separator);
   if (!split || split.length < 2) {

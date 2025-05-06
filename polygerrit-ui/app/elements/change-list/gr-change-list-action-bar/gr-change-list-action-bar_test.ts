@@ -31,7 +31,7 @@ suite('gr-change-list-action-bar tests', () => {
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChangeNums$, selectedChangeNums =>
-      selectedChangeNums.includes(change._number)
+      selectedChangeNums.includes(change._number),
     );
     await element.updateComplete;
   }
@@ -45,8 +45,8 @@ suite('gr-change-list-action-bar tests', () => {
         wrapInProvider(
           html`<gr-change-list-action-bar></gr-change-list-action-bar>`,
           bulkActionsModelToken,
-          model
-        )
+          model,
+        ),
       )
     ).querySelector('gr-change-list-action-bar')!;
     await element.updateComplete;
@@ -72,7 +72,7 @@ suite('gr-change-list-action-bar tests', () => {
             </div>
           </div>
         </td>
-      `
+      `,
     );
   });
 
@@ -80,7 +80,7 @@ suite('gr-change-list-action-bar tests', () => {
     // zero case
     let numSelectedLabel = query<HTMLSpanElement>(
       element,
-      '.selectionInfo span'
+      '.selectionInfo span',
     );
     assert.isUndefined(numSelectedLabel);
 
@@ -88,7 +88,7 @@ suite('gr-change-list-action-bar tests', () => {
     await selectChange(change1);
     numSelectedLabel = queryAndAssert<HTMLSpanElement>(
       element,
-      '.selectionInfo span'
+      '.selectionInfo span',
     );
     assert.equal(numSelectedLabel.innerText, '1 change selected');
 
@@ -97,7 +97,7 @@ suite('gr-change-list-action-bar tests', () => {
 
     numSelectedLabel = queryAndAssert<HTMLSpanElement>(
       element,
-      '.selectionInfo span'
+      '.selectionInfo span',
     );
     assert.equal(numSelectedLabel.innerText, '2 changes selected');
   });

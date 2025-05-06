@@ -16,14 +16,14 @@ suite('gr-plugin-style-api tests', () => {
     window.Gerrit.install(
       p => (styleApi = p.styleApi()),
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
   });
 
   teardown(() => {
     const styleEl = query<HTMLStyleElement>(
       document.head,
-      'style#plugin-style'
+      'style#plugin-style',
     );
     styleEl?.remove();
   });
@@ -32,7 +32,7 @@ suite('gr-plugin-style-api tests', () => {
     styleApi.insertCSSRule('html{color:green;}');
     const styleEl = queryAndAssert<HTMLStyleElement>(
       document.head,
-      'style#plugin-style'
+      'style#plugin-style',
     );
     const styleSheet = styleEl.sheet;
     assert.equal(styleSheet?.cssRules.length, 1);
@@ -43,7 +43,7 @@ suite('gr-plugin-style-api tests', () => {
     styleApi.insertCSSRule('html{margin:0px;}');
     const styleEl = queryAndAssert<HTMLStyleElement>(
       document.head,
-      'style#plugin-style'
+      'style#plugin-style',
     );
     const styleSheet = styleEl.sheet;
     assert.equal(styleSheet?.cssRules.length, 2);

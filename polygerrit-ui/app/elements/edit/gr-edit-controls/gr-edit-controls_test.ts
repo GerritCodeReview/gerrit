@@ -69,7 +69,7 @@ suite('gr-edit-controls tests', () => {
     queryStub = stubRestApi('queryChangeFiles').returns(Promise.resolve([]));
     navigateResetStub = sinon.stub(
       testResolver(changeModelToken),
-      'navigateToChangeResetReload'
+      'navigateToChangeResetReload',
     );
     await element.updateComplete;
   });
@@ -184,14 +184,14 @@ suite('gr-edit-controls tests', () => {
             </div>
           </gr-dialog>
         </dialog>
-      `
+      `,
     );
   });
 
   test('all actions exist', () => {
     assert.equal(
       queryAll<GrButton>(element, 'gr-button').length,
-      element.actions.length
+      element.actions.length,
     );
   });
 
@@ -203,7 +203,7 @@ suite('gr-edit-controls tests', () => {
       setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       openAutoComplete = queryAndAssert<GrAutocomplete>(
         element.openDialog,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
     });
 
@@ -237,7 +237,7 @@ suite('gr-edit-controls tests', () => {
       await waitUntil(() => !element.openDialog!.disabled);
       queryAndAssert<GrButton>(
         element.openDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
 
       assert.isTrue(setUrlStub.called);
@@ -269,7 +269,7 @@ suite('gr-edit-controls tests', () => {
       const deleteDialog = element.deleteDialog;
       deleteAutocomplete = queryAndAssert<GrAutocomplete>(
         deleteDialog,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
     });
 
@@ -293,7 +293,7 @@ suite('gr-edit-controls tests', () => {
       await waitUntil(() => !element.deleteDialog!.disabled);
       queryAndAssert<GrButton>(
         element.deleteDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
       await element.updateComplete;
 
@@ -324,7 +324,7 @@ suite('gr-edit-controls tests', () => {
       await waitUntil(() => !element.deleteDialog!.disabled);
       queryAndAssert<GrButton>(
         element.deleteDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
       await element.updateComplete;
 
@@ -341,7 +341,7 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element.deleteDialog!.disabled);
       queryAndAssert<GrAutocomplete>(
         element.deleteDialog,
-        'gr-autocomplete'
+        'gr-autocomplete',
       ).text = 'src/test.cpp';
       await element.updateComplete;
       await waitUntil(() => !element.deleteDialog!.disabled);
@@ -363,7 +363,7 @@ suite('gr-edit-controls tests', () => {
       const renameDialog = element.renameDialog;
       renameAutocomplete = queryAndAssert<GrAutocomplete>(
         renameDialog,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
     });
 
@@ -392,7 +392,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(element.renameDialog!.disabled);
       queryAndAssert<GrButton>(
         element.renameDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
       await element.updateComplete;
       assert.isTrue(renameStub.called);
@@ -428,7 +428,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(element.renameDialog!.disabled);
       queryAndAssert<GrButton>(
         element.renameDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
       await element.updateComplete;
 
@@ -445,7 +445,7 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element.renameDialog!.disabled);
       queryAndAssert<GrAutocomplete>(
         element.renameDialog,
-        'gr-autocomplete'
+        'gr-autocomplete',
       ).text = 'src/test.cpp';
       element.newPathIronInput!.bindValue = 'src/test.newPath';
       await element.updateComplete;
@@ -468,7 +468,7 @@ suite('gr-edit-controls tests', () => {
 
     test('restore hidden by default', () => {
       assert.isTrue(
-        queryAndAssert(element, '#restore').classList.contains('invisible')!
+        queryAndAssert(element, '#restore').classList.contains('invisible'),
       );
     });
 
@@ -479,7 +479,7 @@ suite('gr-edit-controls tests', () => {
       await waitUntilVisible(element.modal!);
       queryAndAssert<GrButton>(
         element.restoreDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
       await element.updateComplete;
 
@@ -499,7 +499,7 @@ suite('gr-edit-controls tests', () => {
       await waitUntilVisible(element.modal!);
       queryAndAssert<GrButton>(
         element.restoreDialog,
-        'gr-button[primary]'
+        'gr-button[primary]',
       ).click();
       await element.updateComplete;
 
@@ -566,7 +566,7 @@ suite('gr-edit-controls tests', () => {
     await waitUntil(
       () =>
         queryAndAssert<GrAutocomplete>(element.openDialog, 'gr-autocomplete')
-          .text === 'test/path.cpp'
+          .text === 'test/path.cpp',
     );
   });
 
@@ -584,7 +584,7 @@ suite('gr-edit-controls tests', () => {
 
     queryAndAssert<GrAutocomplete>(
       element.deleteDialog,
-      'gr-autocomplete'
+      'gr-autocomplete',
     ).click();
 
     await element.updateComplete;

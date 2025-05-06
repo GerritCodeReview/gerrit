@@ -129,7 +129,7 @@ suite('gr-diff-processor tests', () => {
         const content = [
           {
             ab: Array.from<string>({length: 100}).fill(
-              'all work and no play make jack a dull boy'
+              'all work and no play make jack a dull boy',
             ),
           },
           {a: ['all work and no play make andybons a dull boy']},
@@ -159,7 +159,7 @@ suite('gr-diff-processor tests', () => {
         const content = [
           {
             ab: Array.from<string>({length: 20}).fill(
-              'all work and no play make jack a dull boy'
+              'all work and no play make jack a dull boy',
             ),
           },
           {skip: 43900},
@@ -211,7 +211,7 @@ suite('gr-diff-processor tests', () => {
         const content = [
           {
             ab: Array.from<string>({length: 5}).fill(
-              'all work and no play make jack a dull boy'
+              'all work and no play make jack a dull boy',
             ),
           },
           {a: ['all work and no play make andybons a dull boy']},
@@ -236,7 +236,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
           {
             ab: Array.from<string>({length: 100}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
         ];
@@ -267,7 +267,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
           {
             ab: Array.from<string>({length: 5}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
         ];
@@ -292,35 +292,35 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
           {
             ab: Array.from<string>({length: 3}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
           {
             a: Array.from<string>({length: 3}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
             b: Array.from<string>({length: 3}).fill(
-              '  all work and no play make jill a dull girl'
+              '  all work and no play make jill a dull girl',
             ),
             common: true,
           },
           {
             ab: Array.from<string>({length: 3}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
           {
             a: Array.from<string>({length: 3}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
             b: Array.from<string>({length: 3}).fill(
-              '  all work and no play make jill a dull girl'
+              '  all work and no play make jill a dull girl',
             ),
             common: true,
           },
           {
             ab: Array.from<string>({length: 3}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
         ];
@@ -398,7 +398,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
           {
             ab: Array.from<string>({length: 100}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
           {a: ['all work and no play make andybons a dull boy']},
@@ -437,7 +437,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
           {
             ab: Array.from<string>({length: 5}).fill(
-              'all work and no play make jill a dull girl'
+              'all work and no play make jill a dull girl',
             ),
           },
           {a: ['all work and no play make andybons a dull boy']},
@@ -464,13 +464,13 @@ suite('gr-diff-processor tests', () => {
         {a: ['all work and no play make andybons a dull boy']},
         {
           ab: Array.from<string>({length: 20}).fill(
-            'all work and no play make jill a dull girl'
+            'all work and no play make jill a dull girl',
           ),
         },
         {skip: 60},
         {
           ab: Array.from<string>({length: 20}).fill(
-            'all work and no play make jill a dull girl'
+            'all work and no play make jill a dull girl',
           ),
         },
         {a: ['all work and no play make andybons a dull boy']},
@@ -625,7 +625,7 @@ suite('gr-diff-processor tests', () => {
         GrDiffLineType.BOTH,
         content,
         0,
-        highlights
+        highlights,
       );
       assert.equal(lines.length, 3);
       assert.isTrue(lines[0].hasIntralineInfo);
@@ -737,20 +737,20 @@ suite('gr-diff-processor tests', () => {
         // Line numbers are set correctly.
         assert.equal(
           result.groups[0].lines[0].beforeNumber,
-          state.lineNums.left + 1
+          state.lineNums.left + 1,
         );
         assert.equal(
           result.groups[0].lines[0].afterNumber,
-          state.lineNums.right + 1
+          state.lineNums.right + 1,
         );
 
         assert.equal(
           result.groups[0].lines[rows.length - 1].beforeNumber,
-          state.lineNums.left + rows.length
+          state.lineNums.left + rows.length,
         );
         assert.equal(
           result.groups[0].lines[rows.length - 1].afterNumber,
-          state.lineNums.right + rows.length
+          state.lineNums.right + rows.length,
         );
       });
 
@@ -816,7 +816,7 @@ suite('gr-diff-processor tests', () => {
         // The collapsed group has the hidden lines as its context group.
         assert.equal(
           result.groups[1].contextGroups[0].lines.length,
-          expectedCollapseSize
+          expectedCollapseSize,
         );
       });
 
@@ -838,7 +838,7 @@ suite('gr-diff-processor tests', () => {
         // The collapsed group has the hidden lines as its context group.
         assert.equal(
           result.groups[0].contextGroups[0].lines.length,
-          expectedCollapseSize
+          expectedCollapseSize,
         );
       });
 
@@ -899,7 +899,7 @@ suite('gr-diff-processor tests', () => {
           // The collapsed group has the hidden lines as its context group.
           assert.equal(
             result.groups[0].contextGroups[0].lines.length,
-            rows.length - processor.context
+            rows.length - processor.context,
           );
           assert.equal(result.groups[1].lines.length, processor.context);
         });
@@ -929,7 +929,7 @@ suite('gr-diff-processor tests', () => {
           // The collapsed group has the hidden lines as its context group.
           assert.equal(
             result.groups[1].contextGroups[0].lines.length,
-            rows.length - processor.context
+            rows.length - processor.context,
           );
         });
       });
@@ -951,7 +951,7 @@ suite('gr-diff-processor tests', () => {
           chunks = [
             {
               ab: Array.from<string>({length: 5}).fill(
-                'all work and no play make jill a dull boy'
+                'all work and no play make jill a dull boy',
               ),
             },
             {
@@ -960,7 +960,7 @@ suite('gr-diff-processor tests', () => {
             },
             {
               ab: Array.from<string>({length: 5}).fill(
-                'all work and no play make jack a dull boy'
+                'all work and no play make jack a dull boy',
               ),
             },
             {
@@ -989,7 +989,7 @@ suite('gr-diff-processor tests', () => {
             ...chunks,
             {
               ab: Array.from<string>({length: 5}).fill(
-                'all work and no play make jack a dull boy'
+                'all work and no play make jack a dull boy',
               ),
             },
           ]);
@@ -1006,11 +1006,11 @@ suite('gr-diff-processor tests', () => {
           assert.equal(result.groups[1].contextGroups[0].lines.length, 2);
           assert.equal(
             result.groups[1].contextGroups[1].type,
-            GrDiffGroupType.DELTA
+            GrDiffGroupType.DELTA,
           );
           assert.equal(
             result.groups[1].contextGroups[2].type,
-            GrDiffGroupType.BOTH
+            GrDiffGroupType.BOTH,
           );
         });
 
@@ -1033,7 +1033,7 @@ suite('gr-diff-processor tests', () => {
           assert.equal(result.groups[1].contextGroups[0].lines.length, 2);
           assert.equal(
             result.groups[1].contextGroups[1].type,
-            GrDiffGroupType.DELTA
+            GrDiffGroupType.DELTA,
           );
         });
 
@@ -1065,7 +1065,7 @@ suite('gr-diff-processor tests', () => {
             ...chunks,
             {
               ab: Array.from<string>({length: 2}).fill(
-                'all work and no play make jill a dull boy'
+                'all work and no play make jill a dull boy',
               ),
               keyLocation: false,
             },
@@ -1077,7 +1077,7 @@ suite('gr-diff-processor tests', () => {
           assert.equal(result.groups.length, 3);
           assert.equal(
             result.groups[2].contextGroups[0].lines[0].text,
-            keyLocationLineText
+            keyLocationLineText,
           );
         });
       });
@@ -1095,7 +1095,7 @@ suite('gr-diff-processor tests', () => {
         let result = processor.linesFromRows(
           GrDiffLineType.ADD,
           rows,
-          startLineNum + 1
+          startLineNum + 1,
         );
 
         assert.equal(result.length, rows.length);
@@ -1105,14 +1105,14 @@ suite('gr-diff-processor tests', () => {
         assert.notOk(result[0].beforeNumber);
         assert.equal(
           result[result.length - 1].afterNumber,
-          startLineNum + rows.length
+          startLineNum + rows.length,
         );
         assert.notOk(result[result.length - 1].beforeNumber);
 
         result = processor.linesFromRows(
           GrDiffLineType.REMOVE,
           rows,
-          startLineNum + 1
+          startLineNum + 1,
         );
 
         assert.equal(result.length, rows.length);
@@ -1122,7 +1122,7 @@ suite('gr-diff-processor tests', () => {
         assert.notOk(result[0].afterNumber);
         assert.equal(
           result[result.length - 1].beforeNumber,
-          startLineNum + rows.length
+          startLineNum + rows.length,
         );
         assert.notOk(result[result.length - 1].afterNumber);
       });

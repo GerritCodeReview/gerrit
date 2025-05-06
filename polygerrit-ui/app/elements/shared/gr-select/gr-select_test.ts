@@ -71,7 +71,7 @@ suite('gr-select tests', () => {
       new CustomEvent('change', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
     // It should be updated.

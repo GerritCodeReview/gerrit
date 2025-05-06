@@ -39,39 +39,39 @@ suite('path-list-utl tests', () => {
   test('special file path sorting', () => {
     assert.deepEqual(
       ['.b', '/COMMIT_MSG', '.a', 'file'].sort(specialFilePathCompare),
-      ['/COMMIT_MSG', '.a', '.b', 'file']
+      ['/COMMIT_MSG', '.a', '.b', 'file'],
     );
 
     assert.deepEqual(
       ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h'].sort(
-        specialFilePathCompare
+        specialFilePathCompare,
       ),
-      ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']
+      ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc'],
     );
 
     assert.deepEqual(
       ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hpp'].sort(
-        specialFilePathCompare
+        specialFilePathCompare,
       ),
-      ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc']
+      ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc'],
     );
 
     assert.deepEqual(
       ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hxx'].sort(
-        specialFilePathCompare
+        specialFilePathCompare,
       ),
-      ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']
+      ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc'],
     );
 
     assert.deepEqual(
       ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(specialFilePathCompare),
-      ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']
+      ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx'],
     );
 
     // Regression test for Issue 15635
     assert.deepEqual(
       ['manager.cc', 'manager.hh'].sort(specialFilePathCompare),
-      ['manager.hh', 'manager.cc']
+      ['manager.hh', 'manager.cc'],
     );
 
     // Regression test for Issue 4448.
@@ -87,7 +87,7 @@ suite('path-list-utl tests', () => {
         'minidump/minidump_memory_writer.cc',
         'minidump/minidump_thread_writer.h',
         'minidump/minidump_thread_writer.cc',
-      ]
+      ],
     );
 
     // Regression test for Issue 4545.
@@ -128,7 +128,7 @@ suite('path-list-utl tests', () => {
     assert.equal(files['file1.txt'].status, FileInfoStatus.UNMODIFIED);
     assert.equal(files['file2.txt'].status, FileInfoStatus.REWRITTEN);
     assert.isFalse(
-      hasOwnProperty(files, SpecialFilePath.PATCHSET_LEVEL_COMMENTS)
+      hasOwnProperty(files, SpecialFilePath.PATCHSET_LEVEL_COMMENTS),
     );
   });
 

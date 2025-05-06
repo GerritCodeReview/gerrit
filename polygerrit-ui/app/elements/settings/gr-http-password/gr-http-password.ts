@@ -58,7 +58,7 @@ export class GrHttpPassword extends LitElement {
         } else {
           this.passwordUrl = null;
         }
-      }
+      },
     );
     subscribe(
       this,
@@ -67,7 +67,7 @@ export class GrHttpPassword extends LitElement {
         if (account) {
           this.username = account.username;
         }
-      }
+      },
     );
   }
 

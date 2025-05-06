@@ -33,7 +33,7 @@ suite('gr-checks-chip test', () => {
       >
         <gr-icon icon="check_circle"></gr-icon>
         <div class="text">0</div>
-      </div>`
+      </div>`,
     );
   });
 
@@ -53,7 +53,7 @@ suite('gr-checks-chip test', () => {
           <gr-icon icon="error" filled></gr-icon>
           <div class="text">Super Check</div>
         </div>
-      `
+      `,
     );
   });
 
@@ -82,7 +82,7 @@ suite('gr-checks-chip test', () => {
           </a>
           <div class="text">LinkProducer</div>
         </div>
-      `
+      `,
     );
   });
 });

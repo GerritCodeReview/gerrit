@@ -28,7 +28,7 @@ suite('gr-diff-preferences-dialog', () => {
     };
 
     stubRestApi('getDiffPreferences').returns(
-      Promise.resolve(originalDiffPrefs)
+      Promise.resolve(originalDiffPrefs),
     );
 
     element = await fixture<GrDiffPreferencesDialog>(html`
@@ -70,7 +70,7 @@ suite('gr-diff-preferences-dialog', () => {
             </div>
           </div>
         </dialog>
-      `
+      `,
     );
   });
 
@@ -81,20 +81,20 @@ suite('gr-diff-preferences-dialog', () => {
     assert.isTrue(
       queryAndAssert<HTMLInputElement>(
         queryAndAssert(element, '#diffPreferences'),
-        '#lineWrappingInput'
-      ).checked
+        '#lineWrappingInput',
+      ).checked,
     );
 
     queryAndAssert<HTMLInputElement>(
       queryAndAssert(element, '#diffPreferences'),
-      '#lineWrappingInput'
+      '#lineWrappingInput',
     ).click();
     await element.updateComplete;
     assert.isFalse(
       queryAndAssert<HTMLInputElement>(
         queryAndAssert(element, '#diffPreferences'),
-        '#lineWrappingInput'
-      ).checked
+        '#lineWrappingInput',
+      ).checked,
     );
     assert.isTrue(element.diffPrefsChanged);
     assert.isTrue(originalDiffPrefs.line_wrapping);
@@ -104,8 +104,8 @@ suite('gr-diff-preferences-dialog', () => {
         makePrefixedJSON({
           ...originalDiffPrefs,
           line_wrapping: false,
-        })
-      )
+        }),
+      ),
     );
 
     queryAndAssert<GrButton>(element, '#saveButton').click();

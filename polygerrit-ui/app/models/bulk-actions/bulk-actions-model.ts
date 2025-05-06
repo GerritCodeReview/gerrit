@@ -59,17 +59,17 @@ export class BulkActionsModel extends Model<BulkActionsState> {
 
   public readonly selectedChangeNums$ = select(
     this.state$,
-    bulkActionsState => bulkActionsState.selectedChangeNums
+    bulkActionsState => bulkActionsState.selectedChangeNums,
   );
 
   public readonly totalChangeCount$ = select(
     this.state$,
-    bulkActionsState => bulkActionsState.allChanges.size
+    bulkActionsState => bulkActionsState.allChanges.size,
   );
 
   public readonly loadingState$ = select(
     this.state$,
-    bulkActionsState => bulkActionsState.loadingState
+    bulkActionsState => bulkActionsState.loadingState,
   );
 
   public readonly selectedChanges$ = select(this.state$, bulkActionsState => {
@@ -91,7 +91,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     const current = this.getState();
     if (!current.selectableChangeNums.includes(changeNum)) {
       throw new Error(
-        `Trying to add change ${changeNum} that is not part of bulk-actions model`
+        `Trying to add change ${changeNum} that is not part of bulk-actions model`,
       );
     }
     const selectedChangeNums = [...current.selectedChangeNums];
@@ -103,7 +103,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     const current = this.getState();
     if (!current.selectableChangeNums.includes(changeNum)) {
       throw new Error(
-        `Trying to remove change ${changeNum} that is not part of bulk-actions model`
+        `Trying to remove change ${changeNum} that is not part of bulk-actions model`,
       );
     }
     const selectedChangeNums = [...current.selectedChangeNums];
@@ -127,7 +127,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   abandonChanges(
     reason?: string,
     // errorFn is needed to avoid showing an error dialog
-    errFn?: (changeNum: NumericChangeId) => void
+    errFn?: (changeNum: NumericChangeId) => void,
   ): Promise<Response>[] {
     const current = this.getState();
     return current.selectedChangeNums.map(changeNum => {
@@ -143,7 +143,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
         '/abandon',
         undefined,
         {message: reason ?? ''},
-        () => errFn && errFn(getChangeNumber(change))
+        () => errFn && errFn(getChangeNumber(change)),
       );
     });
   }
@@ -159,25 +159,25 @@ export class BulkActionsModel extends Model<BulkActionsState> {
         reviewInput,
         () => {
           throw new Error();
-        }
+        },
       );
     });
   }
 
   addReviewers(
     changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>,
-    reason: string
+    reason: string,
   ): Promise<ReviewResult | undefined>[] {
     const current = this.getState();
     const changes = current.selectedChangeNums.map(
-      changeNum => current.allChanges.get(changeNum)!
+      changeNum => current.allChanges.get(changeNum)!,
     );
     return changes.map(change => {
       const reviewersNewToChange: ReviewerInput[] = [
         ReviewerState.REVIEWER,
         ReviewerState.CC,
       ].flatMap(state =>
-        this.getNewReviewersToChange(change, state, changedReviewers)
+        this.getNewReviewersToChange(change, state, changedReviewers),
       );
       if (reviewersNewToChange.length === 0) {
         return Promise.resolve(undefined);
@@ -200,7 +200,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
       return this.restApiService.saveChangeReview(
         getChangeNumber(change),
         'current',
-        reviewInput
+        reviewInput,
       );
     });
   }
@@ -214,7 +214,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
           {
             add: hashtags,
           },
-          throwingErrorCallback
+          throwingErrorCallback,
         )
         .then(responseHashtags => {
           // With throwingErrorCallback guaranteed to be non-null.
@@ -237,7 +237,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
           });
           this.setState(nextState);
           return responseHashtags;
-        })
+        }),
     );
   }
 
@@ -245,7 +245,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     const basicChanges = new Map(changes.map(c => [getChangeNumber(c), c]));
     let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
-      changeNum => basicChanges.has(changeNum)
+      changeNum => basicChanges.has(changeNum),
     );
     const selectableChangeNums = changes.map(c => getChangeNumber(c));
     this.updateState({
@@ -264,7 +264,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
         changes.map(c => getChangeNumber(c)),
-        needsSubmitRequirements
+        needsSubmitRequirements,
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.
@@ -289,7 +289,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   }
 
   private hasSubmitRequirements(
-    change: ChangeInfo | RelatedChangeAndCommitInfo
+    change: ChangeInfo | RelatedChangeAndCommitInfo,
   ): boolean {
     return isChangeInfo(change) && change.submit_requirements !== undefined;
   }
@@ -297,7 +297,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   private getNewReviewersToChange(
     change: ChangeInfo,
     state: ReviewerState,
-    changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>
+    changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>,
   ): ReviewerInput[] {
     return (
       changedReviewers

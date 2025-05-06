@@ -106,11 +106,11 @@ export class GrChangeListColumnRequirement extends LitElement {
   private renderUnsatisfiedState(requirement: SubmitRequirementResultInfo) {
     const requirementLabels = extractAssociatedLabels(
       requirement,
-      'onlySubmittability'
+      'onlySubmittability',
     );
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
-      requirementLabels.includes(label)
+      requirementLabels.includes(label),
     );
 
     let worstVote: ApprovalInfo | undefined;
@@ -118,7 +118,7 @@ export class GrChangeListColumnRequirement extends LitElement {
     for (const label of associatedLabels) {
       // votes sorted from worst e.g -2 to best e.g +2
       const votes = this.getSortedVotes(label).sort(
-        (a, b) => (a.value ?? 0) - (b.value ?? 0)
+        (a, b) => (a.value ?? 0) - (b.value ?? 0),
       );
       if (votes.length === 0) break;
       if (!worstVote || (worstVote.value ?? 0) > (votes[0].value ?? 0)) {
@@ -171,11 +171,11 @@ export class GrChangeListColumnRequirement extends LitElement {
     if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
       const requirementLabels = extractAssociatedLabels(
         requirement,
-        'onlySubmittability'
+        'onlySubmittability',
       );
       const allLabels = this.change?.labels ?? {};
       const associatedLabels = Object.keys(allLabels).filter(label =>
-        requirementLabels.includes(label)
+        requirementLabels.includes(label),
       );
       const requirementWithoutLabelToVoteOn = associatedLabels.length === 0;
       if (requirementWithoutLabelToVoteOn) {
@@ -184,7 +184,7 @@ export class GrChangeListColumnRequirement extends LitElement {
       }
 
       const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
-        label => !hasVotes(allLabels[label])
+        label => !hasVotes(allLabels[label]),
       );
       if (everyAssociatedLabelsIsWithoutVotes) {
         return 'No votes';
@@ -198,7 +198,7 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   private getRequirement(labelName: string) {
     const requirements = getRequirements(this.change).filter(
-      sr => sr.name === labelName
+      sr => sr.name === labelName,
     );
     // It can be removed in future when is_legacy is not used on any host.
     if (requirements.length > 1) {
@@ -213,7 +213,7 @@ export class GrChangeListColumnRequirement extends LitElement {
     const labelInfo = allLabels[label];
     if (isDetailedLabelInfo(labelInfo)) {
       return getAllUniqueApprovals(labelInfo).filter(
-        approval => !hasNeutralStatus(labelInfo, approval)
+        approval => !hasNeutralStatus(labelInfo, approval),
       );
     }
     return [];

@@ -175,7 +175,7 @@ export class GrSubmitRequirementHovercard extends base {
     let description = this.requirement?.description;
     if (this.requirement?.status === SubmitRequirementStatus.ERROR) {
       const submitRecord = this.change?.submit_records?.filter(
-        record => record.rule_name === this.requirement?.name
+        record => record.rule_name === this.requirement?.name,
       );
       if (submitRecord?.length === 1 && submitRecord[0].error_message) {
         description = submitRecord[0].error_message;
@@ -204,7 +204,7 @@ export class GrSubmitRequirementHovercard extends base {
       if (requirementLabels.includes(label)) {
         const labelInfo = allLabels[label];
         const canSomeoneVote = (this.change?.reviewers['REVIEWER'] ?? []).some(
-          reviewer => canReviewerVote(labelInfo, reviewer)
+          reviewer => canReviewerVote(labelInfo, reviewer),
         );
         if (hasVotes(labelInfo) || canSomeoneVote) {
           labels.push(label);
@@ -259,18 +259,18 @@ export class GrSubmitRequirementHovercard extends base {
 
     const submittabilityLabels = extractAssociatedLabels(
       this.requirement,
-      'onlySubmittability'
+      'onlySubmittability',
     );
     const submittabilityVotes = submittabilityLabels.map(labelName =>
-      this.renderLabelVote(labelName, 'submittability')
+      this.renderLabelVote(labelName, 'submittability'),
     );
 
     const overrideLabels = extractAssociatedLabels(
       this.requirement,
-      'onlyOverride'
+      'onlyOverride',
     );
     const overrideVotes = overrideLabels.map(labelName =>
-      this.renderLabelVote(labelName, 'override')
+      this.renderLabelVote(labelName, 'override'),
     );
 
     return submittabilityVotes.concat(overrideVotes);
@@ -278,7 +278,7 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderLabelVote(
     labelName: string,
-    type: 'override' | 'submittability'
+    type: 'override' | 'submittability',
   ) {
     if (!this.account) return;
     const votes = this.change?.permitted_labels?.[labelName];
@@ -304,7 +304,7 @@ export class GrSubmitRequirementHovercard extends base {
   private computeVoteButtonName(
     labelName: string,
     maxVote: number,
-    type: 'override' | 'submittability'
+    type: 'override' | 'submittability',
   ) {
     if (type === 'override') {
       return `Override (${labelName})`;
@@ -325,7 +325,7 @@ export class GrSubmitRequirementHovercard extends base {
       .saveChangeReview(
         this.change._number,
         this.change.current_revision,
-        review
+        review,
       )
       .then(() => {
         fireReload(this);
@@ -337,21 +337,21 @@ export class GrSubmitRequirementHovercard extends base {
     return html`
       ${this.renderCondition(
         'Submit condition',
-        this.requirement?.submittability_expression_result
+        this.requirement?.submittability_expression_result,
       )}
       ${this.renderCondition(
         'Application condition',
-        this.requirement?.applicability_expression_result
+        this.requirement?.applicability_expression_result,
       )}
       ${this.renderCondition(
         'Override condition',
-        this.requirement?.override_expression_result
+        this.requirement?.override_expression_result,
       )}
     `;
   }
 
   private getClassFromAtomStatus(
-    status: SubmitRequirementExpressionAtomStatus
+    status: SubmitRequirementExpressionAtomStatus,
   ) {
     switch (status) {
       case SubmitRequirementExpressionAtomStatus.PASSING:
@@ -372,7 +372,7 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private getTitleFromAtomStatus(
-    status: SubmitRequirementExpressionAtomStatus
+    status: SubmitRequirementExpressionAtomStatus,
   ) {
     switch (status) {
       case SubmitRequirementExpressionAtomStatus.PASSING:
@@ -386,7 +386,7 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderCondition(
     name: string,
-    expression?: SubmitRequirementExpressionInfo
+    expression?: SubmitRequirementExpressionInfo,
   ) {
     if (!expression?.expression) return '';
     return html`
@@ -401,7 +401,7 @@ export class GrSubmitRequirementHovercard extends base {
                     title=${this.getTitleFromPart(part)}
                     >${part.value}</span
                   >`
-                : part.value
+                : part.value,
             )}
           </span>
         </div>

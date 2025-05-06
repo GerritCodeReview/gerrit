@@ -36,7 +36,7 @@ suite('related-changes-model tests', () => {
     model = new RelatedChangesModel(
       changeModel,
       testResolver(configModelToken),
-      getAppContext().restApiService
+      getAppContext().restApiService,
     );
     await waitUntilObserved(changeModel.change$, c => c === undefined);
   });
@@ -56,7 +56,7 @@ suite('related-changes-model tests', () => {
 
     setup(() => {
       getRelatedChangesStub = stubRestApi('getRelatedChanges').callsFake(() =>
-        Promise.resolve(getRelatedChangesResponse)
+        Promise.resolve(getRelatedChangesResponse),
       );
       model.hasParent$.subscribe(x => (hasParent = x));
     });
@@ -64,7 +64,7 @@ suite('related-changes-model tests', () => {
     test('relatedChanges initially undefined', async () => {
       await waitUntilObserved(
         model.relatedChanges$,
-        relatedChanges => relatedChanges === undefined
+        relatedChanges => relatedChanges === undefined,
       );
       assert.isFalse(getRelatedChangesStub.called);
       assert.isUndefined(hasParent);
@@ -75,7 +75,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.relatedChanges$,
-        relatedChanges => relatedChanges?.length === 0
+        relatedChanges => relatedChanges?.length === 0,
       );
       assert.isTrue(getRelatedChangesStub.calledOnce);
       assert.isFalse(hasParent);
@@ -90,7 +90,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.relatedChanges$,
-        relatedChanges => relatedChanges?.length === 1
+        relatedChanges => relatedChanges?.length === 1,
       );
       assert.isTrue(getRelatedChangesStub.calledOnce);
       assert.isTrue(hasParent);
@@ -103,14 +103,14 @@ suite('related-changes-model tests', () => {
 
     setup(() => {
       getChangesSubmittedTogetherStub = stubRestApi(
-        'getChangesSubmittedTogether'
+        'getChangesSubmittedTogether',
       ).callsFake(() => Promise.resolve(getChangesSubmittedTogetherResponse));
     });
 
     test('submittedTogether initially undefined', async () => {
       await waitUntilObserved(
         model.submittedTogether$,
-        submittedTogether => submittedTogether === undefined
+        submittedTogether => submittedTogether === undefined,
       );
       assert.isFalse(getChangesSubmittedTogetherStub.called);
     });
@@ -124,7 +124,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.submittedTogether$,
-        submittedTogether => submittedTogether?.changes?.length === 1
+        submittedTogether => submittedTogether?.changes?.length === 1,
       );
       assert.isTrue(getChangesSubmittedTogetherStub.calledOnce);
     });
@@ -136,14 +136,14 @@ suite('related-changes-model tests', () => {
 
     setup(() => {
       getChangeCherryPicksStub = stubRestApi('getChangeCherryPicks').callsFake(
-        () => Promise.resolve(getChangeCherryPicksResponse)
+        () => Promise.resolve(getChangeCherryPicksResponse),
       );
     });
 
     test('cherryPicks initially undefined', async () => {
       await waitUntilObserved(
         model.cherryPicks$,
-        cherryPicks => cherryPicks === undefined
+        cherryPicks => cherryPicks === undefined,
       );
       assert.isFalse(getChangeCherryPicksStub.called);
     });
@@ -154,7 +154,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.cherryPicks$,
-        cherryPicks => cherryPicks?.length === 1
+        cherryPicks => cherryPicks?.length === 1,
       );
       assert.isTrue(getChangeCherryPicksStub.calledOnce);
     });
@@ -166,14 +166,14 @@ suite('related-changes-model tests', () => {
 
     setup(() => {
       getChangeConflictsStub = stubRestApi('getChangeConflicts').callsFake(() =>
-        Promise.resolve(getChangeConflictsResponse)
+        Promise.resolve(getChangeConflictsResponse),
       );
     });
 
     test('conflictingChanges initially undefined', async () => {
       await waitUntilObserved(
         model.conflictingChanges$,
-        conflictingChanges => conflictingChanges === undefined
+        conflictingChanges => conflictingChanges === undefined,
       );
       assert.isFalse(getChangeConflictsStub.called);
     });
@@ -188,7 +188,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.conflictingChanges$,
-        conflictingChanges => conflictingChanges === undefined
+        conflictingChanges => conflictingChanges === undefined,
       );
       assert.isFalse(getChangeConflictsStub.called);
     });
@@ -199,7 +199,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.conflictingChanges$,
-        conflictingChanges => conflictingChanges?.length === 1
+        conflictingChanges => conflictingChanges?.length === 1,
       );
       assert.isTrue(getChangeConflictsStub.calledOnce);
     });
@@ -211,14 +211,14 @@ suite('related-changes-model tests', () => {
 
     setup(() => {
       getChangesWithSameTopicStub = stubRestApi(
-        'getChangesWithSameTopic'
+        'getChangesWithSameTopic',
       ).callsFake(() => Promise.resolve(getChangesWithSameTopicResponse));
     });
 
     test('sameTopicChanges initially undefined', async () => {
       await waitUntilObserved(
         model.sameTopicChanges$,
-        sameTopicChanges => sameTopicChanges === undefined
+        sameTopicChanges => sameTopicChanges === undefined,
       );
       assert.isFalse(getChangesWithSameTopicStub.called);
     });
@@ -232,7 +232,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.sameTopicChanges$,
-        sameTopicChanges => sameTopicChanges?.length === 1
+        sameTopicChanges => sameTopicChanges?.length === 1,
       );
       assert.isTrue(getChangesWithSameTopicStub.calledOnce);
     });
@@ -243,14 +243,14 @@ suite('related-changes-model tests', () => {
 
     setup(() => {
       getChangeStub = stubRestApi('getChange').callsFake(() =>
-        Promise.resolve(createChange())
+        Promise.resolve(createChange()),
       );
     });
 
     test('revertingChanges initially empty', async () => {
       await waitUntilObserved(
         model.revertingChanges$,
-        revertingChanges => revertingChanges.length === 0
+        revertingChanges => revertingChanges.length === 0,
       );
       assert.isFalse(getChangeStub.called);
     });
@@ -259,7 +259,7 @@ suite('related-changes-model tests', () => {
       changeModel.updateStateChange(createParsedChange());
       await waitUntilObserved(
         model.revertingChanges$,
-        revertingChanges => revertingChanges.length === 0
+        revertingChanges => revertingChanges.length === 0,
       );
       assert.isFalse(getChangeStub.called);
     });
@@ -279,7 +279,7 @@ suite('related-changes-model tests', () => {
 
       await waitUntilObserved(
         model.revertingChanges$,
-        revertingChanges => revertingChanges?.length === 1
+        revertingChanges => revertingChanges?.length === 1,
       );
       assert.isTrue(getChangeStub.calledOnce);
     });

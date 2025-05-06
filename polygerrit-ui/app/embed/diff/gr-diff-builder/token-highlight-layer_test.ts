@@ -57,7 +57,7 @@ suite('token-highlight-layer', () => {
   let tokenHighlightingCalls: {details?: TokenHighlightEventDetails}[] = [];
 
   function tokenHighlightListener(
-    highlightDetails?: TokenHighlightEventDetails
+    highlightDetails?: TokenHighlightEventDetails,
   ) {
     tokenHighlightingCalls.push({details: highlightDetails});
     listener.notify({details: highlightDetails});
@@ -115,7 +115,7 @@ suite('token-highlight-layer', () => {
         offset: number;
         length: number;
         cssClass: string;
-      }
+      },
     ) {
       assert.equal(args[0], expected.parent);
       assert.equal(args[1], expected.offset);
@@ -126,7 +126,7 @@ suite('token-highlight-layer', () => {
     test('annotate adds css token', () => {
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       const el = createLine('these are words');
       annotate(el);
@@ -154,7 +154,7 @@ suite('token-highlight-layer', () => {
     test('annotate adds css tokens w/ emojis', () => {
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       const el = createLine('these 💩 are 👨‍👩‍👧‍👦 words');
 
@@ -314,7 +314,7 @@ suite('token-highlight-layer', () => {
       annotate(line2, Side.RIGHT, 2);
       const tokenNode = queryAndAssert(
         line1,
-        '.tk-text-tokenWithSingleOccurence'
+        '.tk-text-tokenWithSingleOccurence',
       );
       assert.isTrue(tokenNode.classList.contains('token'));
       dispatchMouseEvent('mouseover', tokenNode);
@@ -377,7 +377,7 @@ suite('token-highlight-layer', () => {
       highlighter = new TokenHighlightLayer(
         container,
         tokenHighlightListener,
-        /* getTokenQueryContainer=*/ () => container
+        /* getTokenQueryContainer=*/ () => container,
       );
       const clock = sinon.useFakeTimers();
       const line1 = createLine('two words');

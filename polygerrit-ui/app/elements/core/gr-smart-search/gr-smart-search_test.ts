@@ -20,7 +20,7 @@ suite('gr-smart-search tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <gr-search-bar id="search"> </gr-search-bar> '
+      /* HTML */ ' <gr-search-bar id="search"> </gr-search-bar> ',
     );
   });
 
@@ -31,7 +31,7 @@ suite('gr-smart-search tests', () => {
           name: 'fred',
           email: 'fred@goog.co' as EmailAddress,
         },
-      ])
+      ]),
     );
     return element.fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
@@ -45,7 +45,7 @@ suite('gr-smart-search tests', () => {
           name: 'fred',
           email: 'fred@goog.co' as EmailAddress,
         },
-      ])
+      ]),
     );
     element
       .fetchAccounts('owner', 's')
@@ -66,7 +66,7 @@ suite('gr-smart-search tests', () => {
           name: 'fred',
           email: 'fred@goog.co' as EmailAddress,
         },
-      ])
+      ]),
     );
     return element
       .fetchAccounts('owner', 'm')
@@ -86,7 +86,7 @@ suite('gr-smart-search tests', () => {
         Polygerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
         gerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
         gerrittest: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
-      })
+      }),
     );
     return element.fetchGroups('ownerin', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
@@ -95,7 +95,7 @@ suite('gr-smart-search tests', () => {
 
   test('Autocompletes projects', () => {
     stubRestApi('getSuggestedRepos').callsFake(() =>
-      Promise.resolve({Polygerrit: {id: 'test' as UrlEncodedRepoName}})
+      Promise.resolve({Polygerrit: {id: 'test' as UrlEncodedRepoName}}),
     );
     return element.fetchProjects('project', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'project:Polygerrit'});
@@ -108,7 +108,7 @@ suite('gr-smart-search tests', () => {
         Polygerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
         gerrit: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
         gerrittest: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f' as GroupId},
-      })
+      }),
     );
     return element.fetchGroups('ownerin', 'gerrit').then(s => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
@@ -119,7 +119,7 @@ suite('gr-smart-search tests', () => {
 
   test('Autocompletes accounts with no email', () => {
     stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([{name: 'fred'}])
+      Promise.resolve([{name: 'fred'}]),
     );
     return element.fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
@@ -128,7 +128,7 @@ suite('gr-smart-search tests', () => {
 
   test('Autocompletes accounts with email', () => {
     stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([{email: 'fred@goog.co' as EmailAddress}])
+      Promise.resolve([{email: 'fred@goog.co' as EmailAddress}]),
     );
     return element.fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});

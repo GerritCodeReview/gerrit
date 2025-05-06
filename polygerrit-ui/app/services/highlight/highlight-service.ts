@@ -123,7 +123,7 @@ export class HighlightService implements Finalizable {
     if (result.error) {
       this.reporting.error(
         'Diff Syntax Layer',
-        new Error(`syntax worker failed: ${result.error}`)
+        new Error(`syntax worker failed: ${result.error}`),
       );
     }
     const resolver = this.queueForResult.get(worker);
@@ -133,7 +133,7 @@ export class HighlightService implements Finalizable {
 
   async highlight(
     language?: string,
-    code?: string
+    code?: string,
   ): Promise<SyntaxLayerLine[]> {
     if (!language || !code) return [];
     if (code.length > CODE_MAX_LENGTH) return [];

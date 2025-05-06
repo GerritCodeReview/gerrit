@@ -102,7 +102,7 @@ export class GrIncludedInDialog extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      changeNum => (this.changeNum = changeNum)
+      changeNum => (this.changeNum = changeNum),
     );
   }
 

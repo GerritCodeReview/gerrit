@@ -47,7 +47,7 @@ export class ShortcutController implements ReactiveController {
   addLocal(
     binding: Binding,
     listener: (e: KeyboardEvent) => void,
-    options?: ShortcutOptions
+    options?: ShortcutOptions,
   ) {
     this.listenersLocal.push({binding, listener, options});
   }
@@ -70,7 +70,7 @@ export class ShortcutController implements ReactiveController {
   addAbstract(
     shortcut: Shortcut,
     listener: (e: KeyboardEvent) => void,
-    options?: ShortcutOptions
+    options?: ShortcutOptions,
   ) {
     this.listenersAbstract.push({shortcut, listener, options});
   }
@@ -85,7 +85,7 @@ export class ShortcutController implements ReactiveController {
         {
           shouldSuppress: options?.shouldSuppress ?? false,
           preventDefault: options?.preventDefault,
-        }
+        },
       );
       this.cleanups.push(cleanup);
     }
@@ -93,7 +93,7 @@ export class ShortcutController implements ReactiveController {
       const cleanup = shortcutsService.addShortcutListener(
         shortcut,
         listener,
-        options
+        options,
       );
       this.cleanups.push(cleanup);
     }
@@ -101,7 +101,7 @@ export class ShortcutController implements ReactiveController {
       const cleanup = shortcutsService.addShortcut(
         document.body,
         binding,
-        listener
+        listener,
       );
       this.cleanups.push(cleanup);
     }

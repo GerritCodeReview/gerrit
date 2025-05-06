@@ -53,8 +53,8 @@ suite('gr-reporting tests', () => {
         'timing-report',
         'UI Latency',
         'App Started',
-        42
-      )
+        42,
+      ),
     );
     assert.isTrue(
       service.reporter.calledWithExactly(
@@ -63,8 +63,8 @@ suite('gr-reporting tests', () => {
         'NavResTime - loadEventEnd',
         fakePerformance.loadEventEnd - fakePerformance.navigationStart,
         undefined,
-        true
-      )
+        true,
+      ),
     );
   });
 
@@ -76,8 +76,8 @@ suite('gr-reporting tests', () => {
         'timing-report',
         'UI Latency',
         'WebComponentsReady',
-        42
-      )
+        42,
+      ),
     );
   });
 
@@ -91,7 +91,7 @@ suite('gr-reporting tests', () => {
     assert.isTrue(service.time.calledWithExactly('DiffViewDisplayed'));
     assert.isTrue(service.time.calledWithExactly('FileListDisplayed'));
     assert.isFalse(
-      Object.prototype.hasOwnProperty.call(service._baselines, 'garbage')
+      Object.prototype.hasOwnProperty.call(service._baselines, 'garbage'),
     );
   });
 
@@ -109,7 +109,7 @@ suite('gr-reporting tests', () => {
     service.changeFullyLoaded();
     assert.isFalse(service.timeEnd.calledWithExactly('ChangeFullyLoaded'));
     assert.isTrue(
-      service.timeEnd.calledWithExactly('StartupChangeFullyLoaded')
+      service.timeEnd.calledWithExactly('StartupChangeFullyLoaded'),
     );
     service.changeFullyLoaded();
     assert.isTrue(service.timeEnd.calledWithExactly('ChangeFullyLoaded'));
@@ -129,7 +129,7 @@ suite('gr-reporting tests', () => {
     service.fileListDisplayed();
     assert.isFalse(service.timeEnd.calledWithExactly('FileListDisplayed'));
     assert.isTrue(
-      service.timeEnd.calledWithExactly('StartupFileListDisplayed')
+      service.timeEnd.calledWithExactly('StartupFileListDisplayed'),
     );
     service.fileListDisplayed();
     assert.isTrue(service.timeEnd.calledWithExactly('FileListDisplayed'));
@@ -176,7 +176,7 @@ suite('gr-reporting tests', () => {
         usedJSHeapSizeMb: 1,
         hiddenDurationMs: 0,
         parallelRequestsEnabled: false,
-      })
+      }),
     );
   });
 
@@ -188,7 +188,7 @@ suite('gr-reporting tests', () => {
       assert.isTrue(
         service.timeEnd.calledWithMatch('StartupDashboardDisplayed', {
           hiddenDurationMs,
-        })
+        }),
       );
     };
 
@@ -253,7 +253,7 @@ suite('gr-reporting tests', () => {
       assert.isTrue(
         service.timeEnd.calledWithMatch('DashboardDisplayed', {
           hiddenDurationMs: 0,
-        })
+        }),
       );
     });
   });
@@ -268,10 +268,10 @@ suite('gr-reporting tests', () => {
     nowStub.returns(3);
     service.timeEnd('foo');
     assert.isTrue(
-      service.reporter.calledWithMatch('timing-report', 'UI Latency', 'foo', 3)
+      service.reporter.calledWithMatch('timing-report', 'UI Latency', 'foo', 3),
     );
     assert.isTrue(
-      service.reporter.calledWithMatch('timing-report', 'UI Latency', 'bar', 1)
+      service.reporter.calledWithMatch('timing-report', 'UI Latency', 'bar', 1),
     );
   });
 
@@ -285,8 +285,8 @@ suite('gr-reporting tests', () => {
         'timing-report',
         'UI Latency',
         'foo-bar',
-        50
-      )
+        50,
+      ),
     );
   });
 
@@ -320,8 +320,8 @@ suite('gr-reporting tests', () => {
         'Extension detected',
         'Extension detected',
         undefined,
-        {name: 'foo'}
-      )
+        {name: 'foo'},
+      ),
     );
   });
 
@@ -335,7 +335,7 @@ suite('gr-reporting tests', () => {
         type: 'interaction',
         name: 'button-click',
         eventDetails: JSON.stringify({name: 'sendReply'}),
-      })
+      }),
     );
   });
 
@@ -364,11 +364,11 @@ suite('gr-reporting tests', () => {
         name: 'timeAction',
         value: 0,
         eventStart: 42,
-      })
+      }),
     );
     assert.equal(
       (dispatchStub.getCall(2).args[0] as CustomEvent).detail.eventStart,
-      42
+      42,
     );
   });
 
@@ -425,7 +425,7 @@ suite('gr-reporting tests', () => {
           category: 'UI Latency',
           name: 'PluginsLoaded',
           value: 42,
-        })
+        }),
       );
     });
 
@@ -436,7 +436,7 @@ suite('gr-reporting tests', () => {
           type: 'lifecycle',
           category: 'Plugins installed',
           eventDetails: JSON.stringify({pluginsList: ['foo', 'bar']}),
-        })
+        }),
       );
     });
 
@@ -466,26 +466,26 @@ suite('gr-reporting tests', () => {
           type: 'timing-report',
           category: 'UI Latency',
           name: 'foo',
-        })
+        }),
       );
       assert.isTrue(
         service._reportEvent.getCall(1).calledWithMatch({
           type: 'timing-report',
           category: 'UI Latency',
           name: 'PluginsLoaded',
-        })
+        }),
       );
       assert.isTrue(
         service._reportEvent
           .getCall(2)
-          .calledWithMatch({type: 'lifecycle', category: 'Plugins installed'})
+          .calledWithMatch({type: 'lifecycle', category: 'Plugins installed'}),
       );
       assert.isTrue(
         service._reportEvent.getCall(3).calledWithMatch({
           type: 'timing-report',
           category: 'UI Latency',
           name: 'bar',
-        })
+        }),
       );
     });
   });
@@ -497,8 +497,8 @@ suite('gr-reporting tests', () => {
         'nav-report',
         'Location Changed',
         'Page',
-        '_handleSomeRoute'
-      )
+        '_handleSomeRoute',
+      ),
     );
   });
 
@@ -511,7 +511,7 @@ suite('gr-reporting tests', () => {
       url?: string,
       line?: number,
       column?: number,
-      error?: Error
+      error?: Error,
     ) {
       return fakeWindow.onerror(msg, url, line, column, error);
     };
@@ -563,7 +563,7 @@ suite('gr-reporting tests', () => {
       const newError = new Error('bar');
       fakeWindow.handlers['unhandledrejection']({reason: newError});
       assert.isTrue(
-        reporter.calledWith('error', 'exception', 'unhandledrejection')
+        reporter.calledWith('error', 'exception', 'unhandledrejection'),
       );
     });
   });

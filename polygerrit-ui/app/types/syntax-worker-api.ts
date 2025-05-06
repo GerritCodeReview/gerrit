@@ -38,7 +38,7 @@ export interface SyntaxWorkerInit extends SyntaxWorkerMessage {
 }
 
 export function isInit(
-  x: SyntaxWorkerMessage | undefined
+  x: SyntaxWorkerMessage | undefined,
 ): x is SyntaxWorkerInit {
   return !!x && x.type === SyntaxWorkerMessageType.INIT;
 }
@@ -54,7 +54,7 @@ export interface SyntaxWorkerRequest extends SyntaxWorkerMessage {
 }
 
 export function isRequest(
-  x: SyntaxWorkerMessage | undefined
+  x: SyntaxWorkerMessage | undefined,
 ): x is SyntaxWorkerRequest {
   return !!x && x.type === SyntaxWorkerMessageType.REQUEST;
 }

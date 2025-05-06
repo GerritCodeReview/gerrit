@@ -72,32 +72,32 @@ export class GrChecksFixPreview extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      changeNum => (this.changeNum = changeNum)
+      changeNum => (this.changeNum = changeNum),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().repo$,
-      x => (this.repo = x)
+      x => (this.repo = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      loggedIn => (this.loggedIn = loggedIn)
+      loggedIn => (this.loggedIn = loggedIn),
     );
   }
 

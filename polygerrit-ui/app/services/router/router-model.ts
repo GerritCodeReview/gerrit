@@ -37,7 +37,7 @@ export const routerModelToken = define<RouterModel>('router-model');
 export class RouterModel extends Model<RouterState> {
   readonly routerView$: Observable<GerritView | undefined> = select(
     this.state$,
-    state => state.view
+    state => state.view,
   );
 
   constructor(private readonly pluginLoader: PluginLoader) {

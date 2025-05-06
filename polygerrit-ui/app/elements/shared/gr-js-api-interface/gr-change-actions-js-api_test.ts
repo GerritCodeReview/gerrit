@@ -35,7 +35,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
           plugin = p;
         },
         '0.1',
-        'http://test.com/plugins/testplugin/static/test.js'
+        'http://test.com/plugins/testplugin/static/test.js',
       );
       // Mimic all plugins loaded.
       testResolver(pluginLoaderToken).loadPlugins([]);
@@ -64,7 +64,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
           plugin = p;
         },
         '0.1',
-        'http://test.com/plugins/testplugin/static/test.js'
+        'http://test.com/plugins/testplugin/static/test.js',
       );
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
@@ -101,7 +101,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions.remove(key);
       await element.updateComplete;
       assert.isUndefined(
-        query<GrButton>(element, `[data-action-key="${key}"]`)
+        query<GrButton>(element, `[data-action-key="${key}"]`),
       );
     });
 
@@ -110,7 +110,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       await element.updateComplete;
       const button = queryAndAssert<GrButton>(
         element,
-        `[data-action-key="${key}"]`
+        `[data-action-key="${key}"]`,
       );
       assert.isOk(button);
       assert.equal(button.getAttribute('data-label'), 'Bork!');
@@ -164,7 +164,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions.setActionPriority(
         ActionType.REVISION,
         key1,
-        ActionPriority.PRIMARY
+        ActionPriority.PRIMARY,
       );
       await element.updateComplete;
       buttons = queryAll<GrButton>(element, '[data-action-key]');

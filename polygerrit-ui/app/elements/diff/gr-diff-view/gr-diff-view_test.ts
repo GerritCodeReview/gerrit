@@ -83,7 +83,7 @@ function createComment(
   id: string,
   line: number,
   ps: number | PatchSetNum,
-  path: string
+  path: string,
 ): CommentInfo {
   return {
     ...createCommentGeneric(),
@@ -129,7 +129,7 @@ suite('gr-diff-view tests', () => {
           'chell.go': createFileInfo(),
           'glados.txt': createFileInfo(),
           'wheatley.md': createFileInfo(),
-        })
+        }),
       );
       stubRestApi('saveFileReviewed').returns(Promise.resolve(new Response()));
       diffCommentsStub = stubRestApi('getDiffComments');
@@ -381,7 +381,7 @@ suite('gr-diff-view tests', () => {
             <gr-download-dialog id="downloadDialog" role="dialog">
             </gr-download-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -479,7 +479,7 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
       assert.equal(
         element.diffHost.diffElement.viewMode,
-        DiffViewMode.SIDE_BY_SIDE
+        DiffViewMode.SIDE_BY_SIDE,
       );
 
       const setReviewedStub = sinon.stub(element, 'setReviewed');
@@ -812,7 +812,7 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
-        '.editButton gr-button'
+        '.editButton gr-button',
       );
       assert.isTrue(!!editBtn);
       editBtn.click();
@@ -833,7 +833,7 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
-        '.editButton gr-button'
+        '.editButton gr-button',
       );
       assert.isTrue(!!editBtn);
       editBtn.click();
@@ -872,18 +872,18 @@ suite('gr-diff-view tests', () => {
       for (const changeStatus of Object.keys(ChangeStatus) as ChangeStatus[]) {
         assert.isFalse(
           await isEditVisibile({loggedIn: false, changeStatus}),
-          `loggedIn: false, changeStatus: ${changeStatus}`
+          `loggedIn: false, changeStatus: ${changeStatus}`,
         );
 
         if (changeStatus !== ChangeStatus.NEW) {
           assert.isFalse(
             await isEditVisibile({loggedIn: true, changeStatus}),
-            `loggedIn: true, changeStatus: ${changeStatus}`
+            `loggedIn: true, changeStatus: ${changeStatus}`,
           );
         } else {
           assert.isTrue(
             await isEditVisibile({loggedIn: true, changeStatus}),
-            `loggedIn: true, changeStatus: ${changeStatus}`
+            `loggedIn: true, changeStatus: ${changeStatus}`,
           );
         }
       }
@@ -891,7 +891,7 @@ suite('gr-diff-view tests', () => {
 
     test('edit visible when logged and status NEW', async () => {
       assert.isTrue(
-        await isEditVisibile({loggedIn: true, changeStatus: ChangeStatus.NEW})
+        await isEditVisibile({loggedIn: true, changeStatus: ChangeStatus.NEW}),
       );
     });
 
@@ -900,7 +900,7 @@ suite('gr-diff-view tests', () => {
         await isEditVisibile({
           loggedIn: true,
           changeStatus: ChangeStatus.ABANDONED,
-        })
+        }),
       );
     });
 
@@ -909,7 +909,7 @@ suite('gr-diff-view tests', () => {
         await isEditVisibile({
           loggedIn: true,
           changeStatus: ChangeStatus.MERGED,
-        })
+        }),
       );
     });
 
@@ -1053,12 +1053,12 @@ suite('gr-diff-view tests', () => {
         assert.equal(linkEls.length, 3);
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '/c/test-project/+/42/10/chell.go'
+          '/c/test-project/+/42/10/chell.go',
         );
         assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '/c/test-project/+/42/10/wheatley.md'
+          '/c/test-project/+/42/10/wheatley.md',
         );
 
         element.path = 'wheatley.md';
@@ -1066,7 +1066,7 @@ suite('gr-diff-view tests', () => {
 
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '/c/test-project/+/42/10/glados.txt'
+          '/c/test-project/+/42/10/glados.txt',
         );
         assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(linkEls[2].getAttribute('href'), '/c/test-project/+/42');
@@ -1078,7 +1078,7 @@ suite('gr-diff-view tests', () => {
         assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '/c/test-project/+/42/10/glados.txt'
+          '/c/test-project/+/42/10/glados.txt',
         );
 
         element.path = 'not_a_real_file';
@@ -1086,12 +1086,12 @@ suite('gr-diff-view tests', () => {
 
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '/c/test-project/+/42/10/wheatley.md'
+          '/c/test-project/+/42/10/wheatley.md',
         );
         assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '/c/test-project/+/42/10/chell.go'
+          '/c/test-project/+/42/10/chell.go',
         );
       });
 
@@ -1124,15 +1124,15 @@ suite('gr-diff-view tests', () => {
         assert.equal(linkEls.length, 3);
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '/c/test-project/+/42/5..10/chell.go'
+          '/c/test-project/+/42/5..10/chell.go',
         );
         assert.equal(
           linkEls[1].getAttribute('href'),
-          '/c/test-project/+/42/5..10'
+          '/c/test-project/+/42/5..10',
         );
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '/c/test-project/+/42/5..10/wheatley.md'
+          '/c/test-project/+/42/5..10/wheatley.md',
         );
 
         viewModel.updateState({diffView: {path: 'wheatley.md'}});
@@ -1140,15 +1140,15 @@ suite('gr-diff-view tests', () => {
 
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '/c/test-project/+/42/5..10/glados.txt'
+          '/c/test-project/+/42/5..10/glados.txt',
         );
         assert.equal(
           linkEls[1].getAttribute('href'),
-          '/c/test-project/+/42/5..10'
+          '/c/test-project/+/42/5..10',
         );
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '/c/test-project/+/42/5..10'
+          '/c/test-project/+/42/5..10',
         );
 
         viewModel.updateState({diffView: {path: 'chell.go'}});
@@ -1156,15 +1156,15 @@ suite('gr-diff-view tests', () => {
 
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '/c/test-project/+/42/5..10'
+          '/c/test-project/+/42/5..10',
         );
         assert.equal(
           linkEls[1].getAttribute('href'),
-          '/c/test-project/+/42/5..10'
+          '/c/test-project/+/42/5..10',
         );
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '/c/test-project/+/42/5..10/glados.txt'
+          '/c/test-project/+/42/5..10/glados.txt',
         );
       });
     });
@@ -1180,7 +1180,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 1 as RevisionPatchSetNum,
       };
       queryAndAssert(element, '#rangeSelect').dispatchEvent(
-        new CustomEvent('patch-range-change', {detail, bubbles: false})
+        new CustomEvent('patch-range-change', {detail, bubbles: false}),
       );
 
       assert.deepEqual(navToDiffStub.lastCall.args, [
@@ -1224,7 +1224,7 @@ suite('gr-diff-view tests', () => {
 
         await element.updateComplete;
         assert.isFalse(setReviewedFileStatusStub.called);
-      }
+      },
     );
 
     test('prefs.manual_review false means set reviewed is called', async () => {
@@ -1280,7 +1280,7 @@ suite('gr-diff-view tests', () => {
 
       const reviewedStatusCheckBox = queryAndAssert<HTMLInputElement>(
         element,
-        'input#reviewed'
+        'input#reviewed',
       );
 
       assert.isTrue(reviewedStatusCheckBox.checked);
@@ -1328,7 +1328,7 @@ suite('gr-diff-view tests', () => {
     test('do not set file review status for EDIT patchset', async () => {
       const saveReviewedStub = sinon.stub(
         changeModel,
-        'setReviewedFilesStatus'
+        'setReviewedFilesStatus',
       );
 
       element.patchNum = EDIT;
@@ -1377,7 +1377,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(
         userStub.calledWithExactly({
           diff_view: DiffViewMode.UNIFIED,
-        })
+        }),
       );
     });
 
@@ -1626,7 +1626,7 @@ suite('gr-diff-view tests', () => {
           {text: '/foo', value: '/foo'},
           {text: '/bar', value: '/bar'},
         ]),
-        1
+        1,
       );
       element.path = '/bar';
       assert.equal(
@@ -1634,7 +1634,7 @@ suite('gr-diff-view tests', () => {
           {text: '/foo', value: '/foo'},
           {text: '/bar', value: '/bar'},
         ]),
-        2
+        2,
       );
     });
 
@@ -1645,7 +1645,7 @@ suite('gr-diff-view tests', () => {
           {text: '/foo', value: '/foo'},
           {text: '/bar', value: '/bar'},
         ]),
-        'show'
+        'show',
       );
     });
 
@@ -1719,7 +1719,7 @@ suite('gr-diff-view tests', () => {
         assertIsDefined(element.cursor);
         moveToPreviousChunkStub = sinon.stub(
           element.cursor,
-          'moveToPreviousChunk'
+          'moveToPreviousChunk',
         );
         moveToNextChunkStub = sinon.stub(element.cursor, 'moveToNextChunk');
         isAtStartStub = sinon.stub(element.cursor, 'isAtStart');
@@ -1859,7 +1859,7 @@ suite('gr-diff-view tests', () => {
 
       // Switch to file2
       element.handleFileChange(
-        new CustomEvent('value-change', {detail: {value: 'file2'}})
+        new CustomEvent('value-change', {detail: {value: 'file2'}}),
       );
       assert.isTrue(navToDiffStub.calledOnce);
       assert.deepEqual(navToDiffStub.lastCall.firstArg, {path: 'file2'});
@@ -1941,9 +1941,9 @@ suite('gr-diff-view tests', () => {
           12 as NumericChangeId,
           {patchNum: 1 as PatchSetNumber, basePatchNum: PARENT},
           'index.php',
-          true
+          true,
         ),
-        '/changes/test~12/revisions/1/files/index.php/download?parent=1'
+        '/changes/test~12/revisions/1/files/index.php/download?parent=1',
       );
 
       assert.equal(
@@ -1952,9 +1952,9 @@ suite('gr-diff-view tests', () => {
           12 as NumericChangeId,
           {patchNum: 1 as PatchSetNumber, basePatchNum: -2 as PatchSetNumber},
           'index.php',
-          true
+          true,
         ),
-        '/changes/test~12/revisions/1/files/index.php/download?parent=2'
+        '/changes/test~12/revisions/1/files/index.php/download?parent=2',
       );
 
       assert.equal(
@@ -1963,9 +1963,9 @@ suite('gr-diff-view tests', () => {
           12 as NumericChangeId,
           {patchNum: 3 as PatchSetNumber, basePatchNum: 2 as PatchSetNumber},
           'index.php',
-          true
+          true,
         ),
-        '/changes/test~12/revisions/2/files/index.php/download'
+        '/changes/test~12/revisions/2/files/index.php/download',
       );
 
       assert.equal(
@@ -1974,9 +1974,9 @@ suite('gr-diff-view tests', () => {
           12 as NumericChangeId,
           {patchNum: 3 as PatchSetNumber, basePatchNum: 2 as PatchSetNumber},
           'index.php',
-          false
+          false,
         ),
-        '/changes/test~12/revisions/3/files/index.php/download'
+        '/changes/test~12/revisions/3/files/index.php/download',
       );
     });
 
@@ -1986,9 +1986,9 @@ suite('gr-diff-view tests', () => {
           'test' as RepoName,
           12 as NumericChangeId,
           {basePatchNum: PARENT, patchNum: 1 as RevisionPatchSetNum},
-          'index.php'
+          'index.php',
         ),
-        '/changes/test~12/revisions/1/patch?zip&path=index.php'
+        '/changes/test~12/revisions/1/patch?zip&path=index.php',
       );
     });
 
@@ -2002,7 +2002,7 @@ suite('gr-diff-view tests', () => {
       let showEntireFileBtn = query(element, 'gr-button#toggleEntireFile');
       assert.isDefined(
         showEntireFileBtn,
-        'Button should be visible for regular files'
+        'Button should be visible for regular files',
       );
       // Test with magic path
       element.path = '/COMMIT_MSG';
@@ -2011,7 +2011,7 @@ suite('gr-diff-view tests', () => {
       showEntireFileBtn = query(element, 'gr-button#toggleEntireFile');
       assert.isUndefined(
         showEntireFileBtn,
-        'Button should be hidden for magic paths'
+        'Button should be hidden for magic paths',
       );
 
       // Test with image diff
@@ -2027,7 +2027,7 @@ suite('gr-diff-view tests', () => {
       showEntireFileBtn = query(element, 'gr-button#toggleEntireFile');
       assert.isUndefined(
         showEntireFileBtn,
-        'Button should be hidden for image diffs'
+        'Button should be hidden for image diffs',
       );
     });
   });

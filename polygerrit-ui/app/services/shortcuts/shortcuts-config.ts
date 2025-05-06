@@ -136,43 +136,43 @@ export function createShortcutConfig() {
     Shortcut.OPEN_SHORTCUT_HELP_DIALOG,
     ShortcutSection.EVERYWHERE,
     'Show this dialog',
-    {key: '?'}
+    {key: '?'},
   );
   describe(
     Shortcut.GO_TO_USER_DASHBOARD,
     ShortcutSection.EVERYWHERE,
     'Go to User Dashboard',
-    {key: 'i', combo: ComboKey.G}
+    {key: 'i', combo: ComboKey.G},
   );
   describe(
     Shortcut.GO_TO_OPENED_CHANGES,
     ShortcutSection.EVERYWHERE,
     'Go to Opened Changes',
-    {key: 'o', combo: ComboKey.G}
+    {key: 'o', combo: ComboKey.G},
   );
   describe(
     Shortcut.GO_TO_MERGED_CHANGES,
     ShortcutSection.EVERYWHERE,
     'Go to Merged Changes',
-    {key: 'm', combo: ComboKey.G}
+    {key: 'm', combo: ComboKey.G},
   );
   describe(
     Shortcut.GO_TO_ABANDONED_CHANGES,
     ShortcutSection.EVERYWHERE,
     'Go to Abandoned Changes',
-    {key: 'a', combo: ComboKey.G}
+    {key: 'a', combo: ComboKey.G},
   );
   describe(
     Shortcut.GO_TO_WATCHED_CHANGES,
     ShortcutSection.EVERYWHERE,
     'Go to Watched Changes',
-    {key: 'w', combo: ComboKey.G}
+    {key: 'w', combo: ComboKey.G},
   );
   describe(
     Shortcut.GO_TO_REPOS,
     ShortcutSection.EVERYWHERE,
     'Go to Repositories',
-    {key: 'r', combo: ComboKey.G}
+    {key: 'r', combo: ComboKey.G},
   );
   describe(Shortcut.GO_TO_GROUPS, ShortcutSection.EVERYWHERE, 'Go to Groups', {
     key: 'g',
@@ -182,105 +182,105 @@ export function createShortcutConfig() {
     Shortcut.TOGGLE_CHECKBOX,
     ShortcutSection.ACTIONS,
     'Toggle checkbox',
-    {key: 'x'}
+    {key: 'x'},
   );
   describe(
     Shortcut.CURSOR_NEXT_CHANGE,
     ShortcutSection.ACTIONS,
     'Select next change',
-    {key: 'j', allowRepeat: true}
+    {key: 'j', allowRepeat: true},
   );
   describe(
     Shortcut.CURSOR_PREV_CHANGE,
     ShortcutSection.ACTIONS,
     'Select previous change',
-    {key: 'k', allowRepeat: true}
+    {key: 'k', allowRepeat: true},
   );
   describe(
     Shortcut.OPEN_CHANGE,
     ShortcutSection.ACTIONS,
     'Show selected change',
-    {key: 'o'}
+    {key: 'o'},
   );
   describe(
     Shortcut.NEXT_PAGE,
     ShortcutSection.ACTIONS,
     'Go to next page',
     {key: 'n'},
-    {key: ']'}
+    {key: ']'},
   );
   describe(
     Shortcut.PREV_PAGE,
     ShortcutSection.ACTIONS,
     'Go to previous page',
     {key: 'p'},
-    {key: '['}
+    {key: '['},
   );
   describe(
     Shortcut.OPEN_REPLY_DIALOG,
     ShortcutSection.ACTIONS,
     'Open reply dialog to publish comments and add reviewers',
-    {key: 'a'}
+    {key: 'a'},
   );
   describe(
     Shortcut.OPEN_DOWNLOAD_DIALOG,
     ShortcutSection.ACTIONS,
     'Open download overlay',
-    {key: 'd'}
+    {key: 'd'},
   );
   describe(
     Shortcut.OPEN_COPY_LINKS_DROPDOWN,
     ShortcutSection.ACTIONS,
     'Open link dialog',
-    {key: 'l'}
+    {key: 'l'},
   );
   describe(
     Shortcut.EXPAND_ALL_MESSAGES,
     ShortcutSection.ACTIONS,
     'Expand all messages',
-    {key: 'x'}
+    {key: 'x'},
   );
   describe(
     Shortcut.COLLAPSE_ALL_MESSAGES,
     ShortcutSection.ACTIONS,
     'Collapse all messages',
-    {key: 'z'}
+    {key: 'z'},
   );
   describe(
     Shortcut.REFRESH_CHANGE,
     ShortcutSection.ACTIONS,
     'Reload the change at the latest patch',
-    {key: 'R'}
+    {key: 'R'},
   );
   describe(
     Shortcut.TOGGLE_FILE_REVIEWED,
     ShortcutSection.ACTIONS,
     'Toggle review flag on selected file',
-    {key: 'r'}
+    {key: 'r'},
   );
   describe(
     Shortcut.REFRESH_CHANGE_LIST,
     ShortcutSection.ACTIONS,
     'Refresh list of changes',
-    {key: 'R'}
+    {key: 'R'},
   );
   describe(
     Shortcut.TOGGLE_CHANGE_STAR,
     ShortcutSection.ACTIONS,
     'Star/unstar change',
-    {key: 's'}
+    {key: 's'},
   );
   describe(
     Shortcut.OPEN_SUBMIT_DIALOG,
     ShortcutSection.ACTIONS,
     'Open submit dialog',
-    {key: 'S'}
+    {key: 'S'},
   );
   describe(
     Shortcut.TOGGLE_ATTENTION_SET,
     ShortcutSection.ACTIONS,
     'Toggle attention set status',
-    {key: 'T'}
+    {key: 'T'},
   );
   describe(Shortcut.EDIT_TOPIC, ShortcutSection.ACTIONS, 'Add a change topic', {
     key: 't',
@@ -290,34 +290,34 @@ export function createShortcutConfig() {
     ShortcutSection.DIFFS,
     'Diff against base',
     {key: Key.DOWN, combo: ComboKey.V},
-    {key: 's', combo: ComboKey.V}
+    {key: 's', combo: ComboKey.V},
   );
   describe(
     Shortcut.DIFF_AGAINST_LATEST,
     ShortcutSection.DIFFS,
     'Diff against latest patchset',
     {key: Key.UP, combo: ComboKey.V},
-    {key: 'w', combo: ComboKey.V}
+    {key: 'w', combo: ComboKey.V},
   );
   describe(
     Shortcut.DIFF_BASE_AGAINST_LEFT,
     ShortcutSection.DIFFS,
     'Diff base against left',
     {key: Key.LEFT, combo: ComboKey.V},
-    {key: 'a', combo: ComboKey.V}
+    {key: 'a', combo: ComboKey.V},
   );
   describe(
     Shortcut.DIFF_RIGHT_AGAINST_LATEST,
     ShortcutSection.DIFFS,
     'Diff right against latest',
     {key: Key.RIGHT, combo: ComboKey.V},
-    {key: 'd', combo: ComboKey.V}
+    {key: 'd', combo: ComboKey.V},
   );
   describe(
     Shortcut.DIFF_BASE_AGAINST_LATEST,
     ShortcutSection.DIFFS,
     'Diff base against latest',
-    {key: 'b', combo: ComboKey.V}
+    {key: 'b', combo: ComboKey.V},
   );
 
   describe(
@@ -325,20 +325,20 @@ export function createShortcutConfig() {
     ShortcutSection.DIFFS,
     'Go to next line',
     {key: 'j', allowRepeat: true},
-    {key: Key.DOWN, allowRepeat: true}
+    {key: Key.DOWN, allowRepeat: true},
   );
   describe(
     Shortcut.PREV_LINE,
     ShortcutSection.DIFFS,
     'Go to previous line',
     {key: 'k', allowRepeat: true},
-    {key: Key.UP, allowRepeat: true}
+    {key: Key.UP, allowRepeat: true},
   );
   describe(
     Shortcut.VISIBLE_LINE,
     ShortcutSection.DIFFS,
     'Move cursor to currently visible code',
-    {key: '.'}
+    {key: '.'},
   );
   describe(
     Shortcut.NEXT_CHUNK,
@@ -346,49 +346,49 @@ export function createShortcutConfig() {
     'Go to next diff chunk',
     {
       key: 'n',
-    }
+    },
   );
   describe(
     Shortcut.PREV_CHUNK,
     ShortcutSection.DIFFS,
     'Go to previous diff chunk',
-    {key: 'p'}
+    {key: 'p'},
   );
   describe(
     Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
     ShortcutSection.DIFFS,
     'Toggle all diff context',
-    {key: 'X'}
+    {key: 'X'},
   );
   describe(
     Shortcut.NEXT_COMMENT_THREAD,
     ShortcutSection.DIFFS,
     'Go to next comment thread',
-    {key: 'N'}
+    {key: 'N'},
   );
   describe(
     Shortcut.PREV_COMMENT_THREAD,
     ShortcutSection.DIFFS,
     'Go to previous comment thread',
-    {key: 'P'}
+    {key: 'P'},
   );
   describe(
     Shortcut.EXPAND_ALL_COMMENT_THREADS,
     ShortcutSection.DIFFS,
     'Expand all comment threads',
-    {key: 'e', docOnly: true}
+    {key: 'e', docOnly: true},
   );
   describe(
     Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
     ShortcutSection.DIFFS,
     'Collapse all comment threads',
-    {key: 'E', docOnly: true}
+    {key: 'E', docOnly: true},
   );
   describe(
     Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
     ShortcutSection.DIFFS,
     'Hide/Display all comment threads',
-    {key: 'h'}
+    {key: 'h'},
   );
   describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane', {
     key: Key.LEFT,
@@ -402,7 +402,7 @@ export function createShortcutConfig() {
     Shortcut.TOGGLE_LEFT_PANE,
     ShortcutSection.DIFFS,
     'Hide/show left diff',
-    {key: 'A'}
+    {key: 'A'},
   );
   describe(Shortcut.NEW_COMMENT, ShortcutSection.DIFFS, 'Draft new comment', {
     key: 'c',
@@ -414,31 +414,31 @@ export function createShortcutConfig() {
     {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
     {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
     {key: 's', modifiers: [Modifier.CTRL_KEY]},
-    {key: 's', modifiers: [Modifier.META_KEY]}
+    {key: 's', modifiers: [Modifier.META_KEY]},
   );
   describe(
     Shortcut.OPEN_DIFF_PREFS,
     ShortcutSection.DIFFS,
     'Show diff preferences',
-    {key: ','}
+    {key: ','},
   );
   describe(
     Shortcut.TOGGLE_DIFF_REVIEWED,
     ShortcutSection.DIFFS,
     'Mark/unmark file as reviewed',
-    {key: 'r'}
+    {key: 'r'},
   );
   describe(
     Shortcut.TOGGLE_DIFF_MODE,
     ShortcutSection.DIFFS,
     'Toggle unified/side-by-side diff',
-    {key: 'm'}
+    {key: 'm'},
   );
   describe(
     Shortcut.NEXT_UNREVIEWED_FILE,
     ShortcutSection.DIFFS,
     'Mark file as reviewed and go to next unreviewed file',
-    {key: 'M'}
+    {key: 'M'},
   );
   describe(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS, 'Toggle blame', {
     key: 'b',
@@ -453,37 +453,37 @@ export function createShortcutConfig() {
     Shortcut.PREV_FILE,
     ShortcutSection.NAVIGATION,
     'Go to previous file',
-    {key: '['}
+    {key: '['},
   );
   describe(
     Shortcut.NEXT_FILE_WITH_COMMENTS,
     ShortcutSection.NAVIGATION,
     'Go to next file that has comments',
-    {key: 'J'}
+    {key: 'J'},
   );
   describe(
     Shortcut.PREV_FILE_WITH_COMMENTS,
     ShortcutSection.NAVIGATION,
     'Go to previous file that has comments',
-    {key: 'K'}
+    {key: 'K'},
   );
   describe(
     Shortcut.OPEN_FIRST_FILE,
     ShortcutSection.NAVIGATION,
     'Go to first file',
-    {key: ']'}
+    {key: ']'},
   );
   describe(
     Shortcut.OPEN_LAST_FILE,
     ShortcutSection.NAVIGATION,
     'Go to last file',
-    {key: '['}
+    {key: '['},
   );
   describe(
     Shortcut.UP_TO_DASHBOARD,
     ShortcutSection.NAVIGATION,
     'Up to dashboard',
-    {key: 'u'}
+    {key: 'u'},
   );
   describe(Shortcut.UP_TO_CHANGE, ShortcutSection.NAVIGATION, 'Up to change', {
     key: 'u',
@@ -494,45 +494,45 @@ export function createShortcutConfig() {
     ShortcutSection.FILE_LIST,
     'Select next file',
     {key: 'j', allowRepeat: true},
-    {key: Key.DOWN, allowRepeat: true}
+    {key: Key.DOWN, allowRepeat: true},
   );
   describe(
     Shortcut.CURSOR_PREV_FILE,
     ShortcutSection.FILE_LIST,
     'Select previous file',
     {key: 'k', allowRepeat: true},
-    {key: Key.UP, allowRepeat: true}
+    {key: Key.UP, allowRepeat: true},
   );
   describe(
     Shortcut.OPEN_FILE,
     ShortcutSection.FILE_LIST,
     'Go to selected file',
     {key: 'o'},
-    {key: Key.ENTER}
+    {key: Key.ENTER},
   );
   describe(
     Shortcut.TOGGLE_ALL_INLINE_DIFFS,
     ShortcutSection.FILE_LIST,
     'Show/hide all inline diffs',
-    {key: 'I'}
+    {key: 'I'},
   );
   describe(
     Shortcut.TOGGLE_INLINE_DIFF,
     ShortcutSection.FILE_LIST,
     'Show/hide selected inline diff',
-    {key: 'i'}
+    {key: 'i'},
   );
   describe(
     Shortcut.EMOJI_DROPDOWN,
     ShortcutSection.REPLY_DIALOG,
     'Emoji dropdown',
-    {key: ':', docOnly: true}
+    {key: ':', docOnly: true},
   );
   describe(
     Shortcut.MENTIONS_DROPDOWN,
     ShortcutSection.REPLY_DIALOG,
     'Mentions dropdown',
-    {key: '@', docOnly: true}
+    {key: '@', docOnly: true},
   );
   return config;
 }

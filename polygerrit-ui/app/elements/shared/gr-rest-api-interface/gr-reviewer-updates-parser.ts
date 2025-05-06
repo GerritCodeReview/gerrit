@@ -28,7 +28,7 @@ interface ChangeInfoParserInput extends ChangeViewChangeInfo {
 }
 
 function isChangeInfoParserInput(
-  change: ChangeInfo
+  change: ChangeInfo,
 ): change is ChangeInfoParserInput {
   return !!(
     change.messages &&
@@ -50,7 +50,7 @@ interface ParserBatchWithNonEmptyUpdates extends ParserBatch {
 }
 
 function isParserBatchWithNonEmptyUpdates(
-  x: ParserBatch
+  x: ParserBatch,
 ): x is ParserBatchWithNonEmptyUpdates {
   return !!(x.updates && x.updates.length);
 }
@@ -86,7 +86,7 @@ export class GrReviewerUpdatesParser {
    */
   _filterRemovedMessages() {
     this.result.messages = this.result.messages.filter(
-      message => message.tag !== MessageTag.TAG_DELETE_REVIEWER
+      message => message.tag !== MessageTag.TAG_DELETE_REVIEWER,
     );
   }
 
@@ -180,7 +180,7 @@ export class GrReviewerUpdatesParser {
    */
   private _getUpdateMessage(
     prevReviewerState: string | undefined,
-    currentReviewerState: string
+    currentReviewerState: string,
   ): string {
     if (prevReviewerState === 'REMOVED' || !prevReviewerState) {
       return `Added to ${currentReviewerState.toLowerCase()}: `;
@@ -266,7 +266,7 @@ export class GrReviewerUpdatesParser {
   }
 
   static parse(
-    change: ChangeViewChangeInfo | undefined
+    change: ChangeViewChangeInfo | undefined,
   ): ParsedChangeInfo | undefined {
     if (!change || !isChangeInfoParserInput(change)) {
       return change;

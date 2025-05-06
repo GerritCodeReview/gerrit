@@ -68,7 +68,7 @@ suite('gr-autocomplete tests', () => {
         ignoreAttributes: [
           {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
         ],
-      }
+      },
     );
   });
 
@@ -80,7 +80,7 @@ suite('gr-autocomplete tests', () => {
         {name: input + ' 2', value: '2'},
         {name: input + ' 3', value: '3'},
         {name: input + ' 4', value: '4'},
-      ] as AutocompleteSuggestion[])
+      ] as AutocompleteSuggestion[]),
     );
     element.query = queryStub;
 
@@ -113,13 +113,13 @@ suite('gr-autocomplete tests', () => {
         ignoreAttributes: [
           {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
         ],
-      }
+      },
     );
   });
 
   test('renders with error', async () => {
     const queryStub = sinon.spy((input: string) =>
-      Promise.reject(new Error(`${input} not allowed`))
+      Promise.reject(new Error(`${input} not allowed`)),
     );
     element.query = queryStub;
 
@@ -152,11 +152,11 @@ suite('gr-autocomplete tests', () => {
         ignoreAttributes: [
           {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
         ],
-      }
+      },
     );
     assert.equal(
       element.suggestionsDropdown?.queryStatus?.message,
-      'blah not allowed'
+      'blah not allowed',
     );
   });
 
@@ -168,7 +168,7 @@ suite('gr-autocomplete tests', () => {
         {name: input + ' 2', value: '2'},
         {name: input + ' 3', value: '3'},
         {name: input + ' 4', value: '4'},
-      ] as AutocompleteSuggestion[])
+      ] as AutocompleteSuggestion[]),
     );
     element.query = queryStub;
 
@@ -203,7 +203,7 @@ suite('gr-autocomplete tests', () => {
       (_: string) =>
         (promise = Promise.resolve([
           {name: 'blah', value: '123'},
-        ] as AutocompleteSuggestion[]))
+        ] as AutocompleteSuggestion[])),
     );
     element.query = queryStub;
 
@@ -235,7 +235,7 @@ suite('gr-autocomplete tests', () => {
   test('esc key behavior on error', async () => {
     let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
     const queryStub = sinon.spy(
-      (_: string) => (promise = Promise.reject(new Error('Test error')))
+      (_: string) => (promise = Promise.reject(new Error('Test error'))),
     );
     element.query = queryStub;
 
@@ -277,7 +277,7 @@ suite('gr-autocomplete tests', () => {
         {name: input + ' 2', value: '2'},
         {name: input + ' 3', value: '3'},
         {name: input + ' 4', value: '4'},
-      ] as AutocompleteSuggestion[])
+      ] as AutocompleteSuggestion[]),
     );
     element.query = queryStub;
     await element.updateComplete;
@@ -378,7 +378,7 @@ suite('gr-autocomplete tests', () => {
 
   test('threshold guards the query', async () => {
     const queryStub = sinon.spy(() =>
-      Promise.resolve([] as AutocompleteSuggestion[])
+      Promise.resolve([] as AutocompleteSuggestion[]),
     );
     element.query = queryStub;
     element.threshold = 2;
@@ -394,7 +394,7 @@ suite('gr-autocomplete tests', () => {
 
   test('noDebounce=false debounces the query', async () => {
     const queryStub = sinon.spy(() =>
-      Promise.resolve([] as AutocompleteSuggestion[])
+      Promise.resolve([] as AutocompleteSuggestion[]),
     );
 
     element.query = queryStub;
@@ -431,7 +431,7 @@ suite('gr-autocomplete tests', () => {
       .returns(
         (promise = Promise.resolve([
           {name: 'suggestion', value: '0'},
-        ] as AutocompleteSuggestion[]))
+        ] as AutocompleteSuggestion[])),
       );
     element.query = queryStub;
     focusOnInput();
@@ -452,7 +452,7 @@ suite('gr-autocomplete tests', () => {
       .returns(
         (promise = Promise.resolve([
           {name: 'suggestion', value: '0'},
-        ] as AutocompleteSuggestion[]))
+        ] as AutocompleteSuggestion[])),
       );
     element.query = queryStub;
     element.text = 'bla';
@@ -513,7 +513,7 @@ suite('gr-autocomplete tests', () => {
       .returns(
         (promise = Promise.resolve([
           {name: 'suggestion', value: '0'},
-        ] as AutocompleteSuggestion[]))
+        ] as AutocompleteSuggestion[])),
       );
     element.query = queryStub;
     focusOnInput();
@@ -612,7 +612,7 @@ suite('gr-autocomplete tests', () => {
       suggestionsEl().isHidden = true;
       element.handleInputCommit();
       assert.isFalse(commitStub.called);
-    }
+    },
   );
 
   test(
@@ -627,7 +627,7 @@ suite('gr-autocomplete tests', () => {
       element.suggestions = [];
       element.handleInputCommit();
       assert.isFalse(commitStub.called);
-    }
+    },
   );
 
   test(
@@ -639,7 +639,7 @@ suite('gr-autocomplete tests', () => {
       suggestionsEl().isHidden = true;
       element.handleInputCommit();
       assert.isTrue(commitStub.called);
-    }
+    },
   );
 
   test(
@@ -654,7 +654,7 @@ suite('gr-autocomplete tests', () => {
       element.suggestions = [];
       element.handleInputCommit();
       assert.isTrue(commitStub.called);
-    }
+    },
   );
 
   test('handleInputCommit with autocomplete open calls commit', () => {
@@ -674,7 +674,7 @@ suite('gr-autocomplete tests', () => {
       suggestionsEl().isHidden = false;
       element.handleInputCommit();
       assert.isTrue(commitStub.calledOnce);
-    }
+    },
   );
 
   test('issue 8655', async () => {

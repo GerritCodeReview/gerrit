@@ -79,7 +79,7 @@ export class GrPluginEndpoints {
           info.plugin === plugin &&
           info.moduleName === moduleName &&
           info.domHook === domHook &&
-          info.slot === slot
+          info.slot === slot,
       );
     if (existingModule) {
       return existingModule;
@@ -139,7 +139,7 @@ export class GrPluginEndpoints {
    */
   getDetails(name: string): ModuleInfo[] {
     return (this._endpoints.get(name) ?? []).sort((m1, m2) =>
-      m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName())
+      m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName()),
     );
   }
 }

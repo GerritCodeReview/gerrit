@@ -161,7 +161,7 @@ suite('gr-repo tests', () => {
     loggedInStub = stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     repoStub = stubRestApi('getProjectConfig').returns(
-      Promise.resolve(repoConf)
+      Promise.resolve(repoConf),
     );
     element = await fixture(html`<gr-repo></gr-repo>`);
   });
@@ -411,7 +411,7 @@ suite('gr-repo tests', () => {
         </div>
       </div>
     `,
-      {ignoreTags: ['option']}
+      {ignoreTags: ['option']},
     );
   });
 
@@ -454,7 +454,7 @@ suite('gr-repo tests', () => {
         <div id="loading">Loading...</div>
       </div>
     `,
-      {ignoreTags: ['option']}
+      {ignoreTags: ['option']},
     );
   });
 
@@ -522,7 +522,7 @@ suite('gr-repo tests', () => {
             <gr-download-commands id="downloadCommands"></gr-download-commands>
           </fieldset>
         </div>
-      `
+      `,
     );
   });
 
@@ -560,7 +560,7 @@ suite('gr-repo tests', () => {
           } as RepoAccessGroups,
           config_web_links: [{name: 'gitiles', url: 'test'}],
         },
-      } as RepoAccessInfoMap)
+      } as RepoAccessInfoMap),
     );
     await element.loadRepo();
     assert.isTrue(element.readOnly);
@@ -682,7 +682,7 @@ suite('gr-repo tests', () => {
       getRepoAccessStub = stubRestApi('getRepoAccess').callsFake(() =>
         Promise.resolve({
           'test-repo': testRepoAccess,
-        } as RepoAccessInfoMap)
+        } as RepoAccessInfoMap),
       );
     });
 
@@ -701,7 +701,7 @@ suite('gr-repo tests', () => {
       assert.equal(element.repoConfig!.state, RepoState.ACTIVE);
       assert.equal(
         queryAndAssert<GrSelect>(element, '#stateSelect').bindValue,
-        RepoState.ACTIVE
+        RepoState.ACTIVE,
       );
     });
 
@@ -711,7 +711,7 @@ suite('gr-repo tests', () => {
       assert.equal(sel.bindValue, 'INHERIT');
       assert.equal(
         sel.nativeSelect.options[0].text,
-        'Inherit (Merge if necessary)'
+        'Inherit (Merge if necessary)',
       );
     });
 
@@ -739,7 +739,7 @@ suite('gr-repo tests', () => {
       };
 
       const saveStub = stubRestApi('saveRepoConfig').callsFake(() =>
-        Promise.resolve(new Response())
+        Promise.resolve(new Response()),
       );
 
       await element.loadRepo();
@@ -749,8 +749,8 @@ suite('gr-repo tests', () => {
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
           element,
-          '#Title'
-        ).classList.contains('edited')
+          '#Title',
+        ).classList.contains('edited'),
       );
       queryAndAssert<GrSuggestionTextarea>(element, '#descriptionInput').text =
         configInputObj.description;
@@ -770,27 +770,27 @@ suite('gr-repo tests', () => {
         configInputObj.require_signed_push;
       queryAndAssert<GrSelect>(
         element,
-        '#rejectImplicitMergesSelect'
+        '#rejectImplicitMergesSelect',
       ).bindValue = configInputObj.reject_implicit_merges;
       queryAndAssert<GrSelect>(
         element,
-        '#setAllnewChangesPrivateByDefaultSelect'
+        '#setAllnewChangesPrivateByDefaultSelect',
       ).bindValue = configInputObj.private_by_default;
       queryAndAssert<GrSelect>(
         element,
-        '#setAllNewChangesWorkInProgressByDefaultSelect'
+        '#setAllNewChangesWorkInProgressByDefaultSelect',
       ).bindValue = configInputObj.work_in_progress_by_default;
       queryAndAssert<GrSelect>(
         element,
-        '#matchAuthoredDateWithCommitterDateSelect'
+        '#matchAuthoredDateWithCommitterDateSelect',
       ).bindValue = configInputObj.match_author_to_committer_date;
       queryAndAssert<IronInputElement>(
         element,
-        '#maxGitObjSizeIronInput'
+        '#maxGitObjSizeIronInput',
       ).bindValue = String(configInputObj.max_object_size_limit);
       queryAndAssert<GrSelect>(
         element,
-        '#contributorAgreementSelect'
+        '#contributorAgreementSelect',
       ).bindValue = configInputObj.use_contributor_agreements;
       queryAndAssert<GrSelect>(element, '#useSignedOffBySelect').bindValue =
         configInputObj.use_signed_off_by;
@@ -805,8 +805,8 @@ suite('gr-repo tests', () => {
       assert.isTrue(
         queryAndAssert<HTMLHeadingElement>(
           element,
-          '#configurations'
-        ).classList.contains('edited')
+          '#configurations',
+        ).classList.contains('edited'),
       );
 
       const formattedObj = element.formatRepoConfigForSave(element.repoConfig);
@@ -817,11 +817,11 @@ suite('gr-repo tests', () => {
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(
           element,
-          '#Title'
-        ).classList.contains('edited')
+          '#Title',
+        ).classList.contains('edited'),
       );
       assert.isTrue(
-        saveStub.lastCall.calledWithExactly(REPO as RepoName, configInputObj)
+        saveStub.lastCall.calledWithExactly(REPO as RepoName, configInputObj),
       );
     });
 
@@ -830,13 +830,13 @@ suite('gr-repo tests', () => {
       sinon
         .stub(flagsService, 'isEnabled')
         .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
+          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW,
         );
       await element.loadRepo();
       await element.updateComplete;
       const button = queryAndAssert<GrButton>(
         element,
-        'gr-button#saveReviewBtn'
+        'gr-button#saveReviewBtn',
       );
       assert.isFalse(button.hasAttribute('hidden'));
     });
@@ -846,7 +846,7 @@ suite('gr-repo tests', () => {
       sinon
         .stub(flagsService, 'isEnabled')
         .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
+          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW,
         );
       getRepoAccessStub.callsFake(() =>
         Promise.resolve({
@@ -854,7 +854,7 @@ suite('gr-repo tests', () => {
             ...testRepoAccess,
             require_change_for_config_update: true,
           },
-        } as RepoAccessInfoMap)
+        } as RepoAccessInfoMap),
       );
       await element.loadRepo();
       await element.updateComplete;
@@ -867,11 +867,11 @@ suite('gr-repo tests', () => {
       sinon
         .stub(flagsService, 'isEnabled')
         .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
+          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW,
         );
       let resolver: (value: ChangeInfo | PromiseLike<ChangeInfo>) => void;
       const saveForReviewStub = stubRestApi('saveRepoConfigForReview').returns(
-        new Promise(r => (resolver = r))
+        new Promise(r => (resolver = r)),
       );
       resolver!(createChange());
       const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
@@ -880,7 +880,7 @@ suite('gr-repo tests', () => {
       await element.updateComplete;
       const input = queryAndAssert<GrSuggestionTextarea>(
         element,
-        '#descriptionInput'
+        '#descriptionInput',
       );
       input.text = 'New description';
       await input.updateComplete;
@@ -892,7 +892,7 @@ suite('gr-repo tests', () => {
       assert.isTrue(saveForReviewStub.called);
       assert.isTrue(setUrlStub.called);
       assert.isTrue(
-        setUrlStub.lastCall.args?.[0]?.includes(`${createChange()._number}`)
+        setUrlStub.lastCall.args?.[0]?.includes(`${createChange()._number}`),
       );
     });
   });

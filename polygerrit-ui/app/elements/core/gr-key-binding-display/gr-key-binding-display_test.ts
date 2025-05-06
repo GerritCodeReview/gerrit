@@ -19,7 +19,7 @@ suite('gr-key-binding-display tests', () => {
     element = await fixture(
       html`<gr-key-binding-display
         .binding=${[x, ctrlX, shiftMetaX]}
-      ></gr-key-binding-display>`
+      ></gr-key-binding-display>`,
     );
   });
 
@@ -35,7 +35,7 @@ suite('gr-key-binding-display tests', () => {
         <span class="key modifier"> Shift </span>
         <span class="key modifier"> Meta </span>
         <span class="key"> x </span>
-      `
+      `,
     );
   });
 

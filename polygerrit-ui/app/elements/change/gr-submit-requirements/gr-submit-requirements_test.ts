@@ -58,7 +58,7 @@ suite('gr-submit-requirements tests', () => {
       html`<gr-submit-requirements
         .change=${change}
         .account=${account}
-      ></gr-submit-requirements>`
+      ></gr-submit-requirements>`,
     );
   });
 
@@ -114,7 +114,7 @@ suite('gr-submit-requirements tests', () => {
         </table>
         <gr-submit-requirement-hovercard for="requirement-0-Verified">
         </gr-submit-requirement-hovercard>
-      `
+      `,
     );
   });
 
@@ -135,7 +135,7 @@ suite('gr-submit-requirements tests', () => {
               </div>
             </div>
           </div>
-        `
+        `,
       );
     });
 
@@ -151,20 +151,20 @@ suite('gr-submit-requirements tests', () => {
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
       assert.dom.equal(
         votesCell?.[0],
-        /* HTML */ ' <div class="votes-cell">No votes</div> '
+        /* HTML */ ' <div class="votes-cell">No votes</div> ',
       );
     });
 
     test('without label to vote on', async () => {
       const modifiedChange = {...change};
-      modifiedChange.submit_requirements![0]!.submittability_expression_result.expression =
+      modifiedChange.submit_requirements![0].submittability_expression_result.expression =
         'hasfooter:"Release-Notes"';
       element.change = modifiedChange;
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
       assert.dom.equal(
         votesCell?.[0],
-        /* HTML */ ' <div class="votes-cell">Satisfied</div> '
+        /* HTML */ ' <div class="votes-cell">Satisfied</div> ',
       );
     });
 
@@ -189,7 +189,7 @@ suite('gr-submit-requirements tests', () => {
               </div>
             </div>
           </div>
-        `
+        `,
       );
     });
 
@@ -215,7 +215,7 @@ suite('gr-submit-requirements tests', () => {
               </div>
             </div>
           </div>
-        `
+        `,
       );
     });
 
@@ -237,7 +237,7 @@ suite('gr-submit-requirements tests', () => {
           ...createSubmitRequirementResultInfo(),
           status: SubmitRequirementStatus.OVERRIDDEN,
           override_expression_result: createSubmitRequirementExpressionInfo(
-            'label:Override=MAX -label:Override=MIN'
+            'label:Override=MAX -label:Override=MIN',
           ),
         },
       ];
@@ -253,7 +253,7 @@ suite('gr-submit-requirements tests', () => {
               <span class="overrideLabel"> Override </span>
             </div>
           </div>
-        </div>`
+        </div>`,
       );
     });
 
@@ -284,7 +284,7 @@ suite('gr-submit-requirements tests', () => {
           ...createSubmitRequirementResultInfo(),
           status: SubmitRequirementStatus.OVERRIDDEN,
           override_expression_result: createSubmitRequirementExpressionInfo(
-            'label:Override=MAX label:Override2=MAX'
+            'label:Override=MAX label:Override2=MAX',
           ),
         },
       ];
@@ -304,7 +304,7 @@ suite('gr-submit-requirements tests', () => {
               <span class="overrideLabel"> Override2 </span>
             </div>
           </div>
-        </div>`
+        </div>`,
       );
     });
   });
@@ -312,7 +312,7 @@ suite('gr-submit-requirements tests', () => {
   test('calculateEndpointName()', () => {
     assert.equal(
       element.computeEndpointName('code-owners~CodeOwnerSub'),
-      'submit-requirement-codeowners'
+      'submit-requirement-codeowners',
     );
   });
 });

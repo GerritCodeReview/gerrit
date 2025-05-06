@@ -150,7 +150,7 @@ export class GrDialog extends LitElement {
                 aria-label=${this.loadingLabel}
               ></span>
               <span class="loadingLabel"> ${this.loadingLabel} </span>
-            `
+            `,
           )}
           <slot name="footer"></slot>
           <div class="flex-space"></div>

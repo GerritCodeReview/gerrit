@@ -59,7 +59,7 @@ export function isPatchSetNum(patchset: string) {
 }
 
 export function convertToPatchSetNum(
-  patchset: string | undefined
+  patchset: string | undefined,
 ): PatchSetNum | undefined {
   if (!patchset) return undefined;
   if (!isPatchSetNum(patchset)) {
@@ -82,7 +82,7 @@ export function isNumber(psn?: PatchSetNum): psn is PatchSetNumber {
  */
 export function getRevisionByPatchNum(
   revisions: (RevisionInfo | EditRevisionInfo)[],
-  patchNum: PatchSetNum
+  patchNum: PatchSetNum,
 ) {
   for (const rev of revisions) {
     if (rev._number === patchNum) {
@@ -95,7 +95,7 @@ export function getRevisionByPatchNum(
 
 export function getShaByPatchNum(
   revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo},
-  patchNum: RevisionPatchSetNum
+  patchNum: RevisionPatchSetNum,
 ) {
   for (const [sha, rev] of Object.entries(revisions)) {
     if (rev._number === patchNum) return sha;
@@ -107,7 +107,7 @@ export function getShaByPatchNum(
  * Find change edit revision if change edit exists.
  */
 export function findEdit(
-  revisions: Array<RevisionInfo | EditRevisionInfo>
+  revisions: Array<RevisionInfo | EditRevisionInfo>,
 ): EditRevisionInfo | undefined {
   const editRev = revisions.find(info => info._number === EDIT);
   return editRev as EditRevisionInfo | undefined;
@@ -120,7 +120,7 @@ export function findEdit(
  *     doesn't exist.
  */
 export function findEditParentRevision(
-  revisions: Array<RevisionInfo | EditRevisionInfo>
+  revisions: Array<RevisionInfo | EditRevisionInfo>,
 ) {
   const editInfo = findEdit(revisions);
   if (!editInfo) return null;
@@ -135,7 +135,7 @@ export function findEditParentRevision(
  *
  */
 export function findEditParentPatchNum(
-  revisions: Array<RevisionInfo | EditRevisionInfo>
+  revisions: Array<RevisionInfo | EditRevisionInfo>,
 ) {
   const revisionInfo = findEditParentRevision(revisions);
   // finding parent of EDIT patchset, hence revisionInfo._number cannot be
@@ -155,7 +155,7 @@ export function findEditParentPatchNum(
  *
  */
 export function sortRevisions<T extends RevisionInfo | EditRevisionInfo>(
-  revisions: T[]
+  revisions: T[],
 ): T[] {
   const editParent: number = findEditParentPatchNum(revisions);
   // Map a normal patchNum to 2 * (patchNum - 1) + 1... I.e. 1 -> 1,
@@ -183,7 +183,7 @@ export function sortRevisions<T extends RevisionInfo | EditRevisionInfo>(
  *     above
  */
 export function computeAllPatchSets(
-  change: ChangeInfo | ParsedChangeInfo | undefined
+  change: ChangeInfo | ParsedChangeInfo | undefined,
 ): PatchSet[] {
   if (!change) return [];
 
@@ -217,7 +217,7 @@ export function computeAllPatchSets(
  */
 function computeWipForPatchSets(
   change: ChangeInfo | ParsedChangeInfo,
-  patchNums: PatchSet[]
+  patchNums: PatchSet[],
 ) {
   if (!change.messages || !change.messages.length) {
     return patchNums;
@@ -249,7 +249,7 @@ function computeWipForPatchSets(
 export const _testOnly_computeWipForPatchSets = computeWipForPatchSets;
 
 export function computeLatestPatchNum(
-  allPatchSets?: PatchSet[]
+  allPatchSets?: PatchSet[],
 ): PatchSetNumber | undefined {
   if (!allPatchSets || !allPatchSets.length) {
     return undefined;
@@ -264,7 +264,7 @@ export function computeLatestPatchNum(
 
 // Basically is computeLatestPatchNum but allows "edits".
 export function computeLatestPatchNumWithEdit(
-  allPatchSets?: PatchSet[]
+  allPatchSets?: PatchSet[],
 ): RevisionPatchSetNum | undefined {
   if (!allPatchSets || !allPatchSets.length) {
     return undefined;
@@ -273,7 +273,7 @@ export function computeLatestPatchNumWithEdit(
 }
 
 export function computePredecessor(
-  patchset?: PatchSetNum
+  patchset?: PatchSetNum,
 ): BasePatchSetNum | undefined {
   if (!patchset || patchset === PARENT || patchset === EDIT) {
     return undefined;
@@ -283,7 +283,7 @@ export function computePredecessor(
 }
 
 export function hasEditBasedOnCurrentPatchSet(
-  allPatchSets: PatchSet[]
+  allPatchSets: PatchSet[],
 ): boolean {
   if (!allPatchSets || allPatchSets.length < 2) {
     return false;
@@ -298,7 +298,7 @@ export function hasEditBasedOnCurrentPatchSet(
  */
 export function findSortedIndex(
   patchNum: PatchSetNum,
-  revisions: (RevisionInfo | EditRevisionInfo)[]
+  revisions: (RevisionInfo | EditRevisionInfo)[],
 ) {
   revisions = revisions || [];
   const findNum = (rev: RevisionInfo | EditRevisionInfo) =>
@@ -329,7 +329,7 @@ export function branchName(branch?: string | BranchName): BranchName {
 
 export function getParentCommit(
   rev?: RevisionInfo | EditRevisionInfo,
-  index?: number
+  index?: number,
 ) {
   const parents = rev?.parents_data ?? [];
   const parent = parents[index ?? 0];
@@ -339,7 +339,7 @@ export function getParentCommit(
 
 export function getParentInfoString(
   rev?: RevisionInfo | EditRevisionInfo,
-  index?: number
+  index?: number,
 ) {
   const parents = rev?.parents_data ?? [];
   const parent = parents[index ?? 0];

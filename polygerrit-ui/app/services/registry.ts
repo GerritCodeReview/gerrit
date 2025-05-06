@@ -9,7 +9,7 @@ import {Finalizable} from '../types/types';
 // A factory can take a partially created TContext and generate a property
 // for a given key on that TContext.
 export type Factory<TContext, K extends keyof TContext> = (
-  ctx: Partial<TContext>
+  ctx: Partial<TContext>,
 ) => TContext[K] & Finalizable;
 
 // A registry contains a factory for each key in TContext.
@@ -19,7 +19,7 @@ export type Registry<TContext> = {
 
 // Creates a context given a registry.
 export function create<TContext>(
-  registry: Registry<TContext>
+  registry: Registry<TContext>,
 ): TContext & Finalizable {
   const context: Partial<TContext> & Finalizable = {
     finalize() {

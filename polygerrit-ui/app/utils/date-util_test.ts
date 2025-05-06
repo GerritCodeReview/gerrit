@@ -44,7 +44,7 @@ suite('date-util tests', () => {
       assert.equal('1 hour ago', fromNow(new Date('May 08 2020 11:00:00')));
       assert.equal(
         '1 hour 5 min ago',
-        fromNow(new Date('May 08 2020 10:55:00'))
+        fromNow(new Date('May 08 2020 10:55:00')),
       );
       assert.equal('3 hours ago', fromNow(new Date('May 08 2020 9:00:00')));
       assert.equal('1 day ago', fromNow(new Date('May 07 2020 12:00:00')));
@@ -67,14 +67,14 @@ suite('date-util tests', () => {
       assert.isTrue(
         isWithinDay(
           new Date('May 08 2020 12:00:00'),
-          new Date('May 08 2020 02:00:00')
-        )
+          new Date('May 08 2020 02:00:00'),
+        ),
       );
       assert.isFalse(
         isWithinDay(
           new Date('May 08 2020 12:00:00'),
-          new Date('May 07 2020 12:00:00')
-        )
+          new Date('May 07 2020 12:00:00'),
+        ),
       );
     });
   });
@@ -84,28 +84,28 @@ suite('date-util tests', () => {
       assert.isFalse(
         wasYesterday(
           new Date('May 08 2020 12:00:00'),
-          new Date('May 08 2020 02:00:00')
-        )
+          new Date('May 08 2020 02:00:00'),
+        ),
       );
       assert.isTrue(
         wasYesterday(
           new Date('May 08 2020 12:00:00'),
-          new Date('May 07 2020 12:00:00')
-        )
+          new Date('May 07 2020 12:00:00'),
+        ),
       );
     });
     test('more 24 hours', () => {
       assert.isTrue(
         wasYesterday(
           new Date('May 08 2020 12:00:00'),
-          new Date('May 07 2020 2:00:00')
-        )
+          new Date('May 07 2020 2:00:00'),
+        ),
       );
       assert.isFalse(
         wasYesterday(
           new Date('May 08 2020 12:00:00'),
-          new Date('May 06 2020 14:00:00')
-        )
+          new Date('May 06 2020 14:00:00'),
+        ),
       );
     });
   });
@@ -115,14 +115,14 @@ suite('date-util tests', () => {
       assert.isTrue(
         isWithinHalfYear(
           new Date('May 08 2020 12:00:00'),
-          new Date('Feb 08 2020 12:00:00')
-        )
+          new Date('Feb 08 2020 12:00:00'),
+        ),
       );
       assert.isFalse(
         isWithinHalfYear(
           new Date('May 08 2020 12:00:00'),
-          new Date('Nov 07 2019 12:00:00')
-        )
+          new Date('Nov 07 2019 12:00:00'),
+        ),
       );
     });
   });
@@ -132,11 +132,11 @@ suite('date-util tests', () => {
       const stdFormat = 'MMM DD, YYYY';
       assert.equal(
         'May 08, 2020',
-        formatDate(new Date('May 08 2020 12:00:00'), stdFormat)
+        formatDate(new Date('May 08 2020 12:00:00'), stdFormat),
       );
       assert.equal(
         'Feb 28, 2020',
-        formatDate(new Date('Feb 28 2020 12:00:00'), stdFormat)
+        formatDate(new Date('Feb 28 2020 12:00:00'), stdFormat),
       );
 
       const time24Format = 'HH:mm:ss';
@@ -144,19 +144,19 @@ suite('date-util tests', () => {
         'Feb 28, 2020 12:01:12',
         formatDate(
           new Date('Feb 28 2020 12:01:12'),
-          stdFormat + ' ' + time24Format
-        )
+          stdFormat + ' ' + time24Format,
+        ),
       );
     });
     test('works for euro format', () => {
       const euroFormat = 'DD.MM.YYYY';
       assert.equal(
         '01.12.2019',
-        formatDate(new Date('Dec 01 2019 12:00:00'), euroFormat)
+        formatDate(new Date('Dec 01 2019 12:00:00'), euroFormat),
       );
       assert.equal(
         '20.01.2002',
-        formatDate(new Date('Jan 20 2002 12:00:00'), euroFormat)
+        formatDate(new Date('Jan 20 2002 12:00:00'), euroFormat),
       );
 
       const time24Format = 'HH:mm:ss';
@@ -164,19 +164,19 @@ suite('date-util tests', () => {
         '28.02.2020 00:01:12',
         formatDate(
           new Date('Feb 28 2020 00:01:12'),
-          euroFormat + ' ' + time24Format
-        )
+          euroFormat + ' ' + time24Format,
+        ),
       );
     });
     test('works for iso format', () => {
       const isoFormat = 'YYYY-MM-DD';
       assert.equal(
         '2015-01-01',
-        formatDate(new Date('Jan 01 2015 12:00:00'), isoFormat)
+        formatDate(new Date('Jan 01 2015 12:00:00'), isoFormat),
       );
       assert.equal(
         '2013-07-03',
-        formatDate(new Date('Jul 03 2013 12:00:00'), isoFormat)
+        formatDate(new Date('Jul 03 2013 12:00:00'), isoFormat),
       );
 
       const timeFormat = 'h:mm:ss A';
@@ -184,26 +184,26 @@ suite('date-util tests', () => {
         '2013-07-03 5:00:00 AM',
         formatDate(
           new Date('Jul 03 2013 05:00:00'),
-          isoFormat + ' ' + timeFormat
-        )
+          isoFormat + ' ' + timeFormat,
+        ),
       );
       assert.equal(
         '2013-07-03 5:00:00 PM',
         formatDate(
           new Date('Jul 03 2013 17:00:00'),
-          isoFormat + ' ' + timeFormat
-        )
+          isoFormat + ' ' + timeFormat,
+        ),
       );
     });
 
     test('weekday', () => {
       assert.equal(
         '2013-07-03 Wed',
-        formatDate(new Date('Jul 03 2013 12:14:00'), 'YYYY-MM-DD ddd')
+        formatDate(new Date('Jul 03 2013 12:14:00'), 'YYYY-MM-DD ddd'),
       );
       assert.equal(
         '2013-07-03 Wednesday',
-        formatDate(new Date('Jul 03 2013 00:15:00'), 'YYYY-MM-DD dddd')
+        formatDate(new Date('Jul 03 2013 00:15:00'), 'YYYY-MM-DD dddd'),
       );
     });
 
@@ -211,11 +211,11 @@ suite('date-util tests', () => {
       const timeFormat = 'h:mm A';
       assert.equal(
         '12:14 PM',
-        formatDate(new Date('Jul 03 2013 12:14:00'), timeFormat)
+        formatDate(new Date('Jul 03 2013 12:14:00'), timeFormat),
       );
       assert.equal(
         '12:15 AM',
-        formatDate(new Date('Jul 03 2013 00:15:00'), timeFormat)
+        formatDate(new Date('Jul 03 2013 00:15:00'), timeFormat),
       );
     });
   });

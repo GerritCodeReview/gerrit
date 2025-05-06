@@ -16,7 +16,7 @@ suite('gr-confirm-delete-item-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-confirm-delete-item-dialog></gr-confirm-delete-item-dialog>`
+      html`<gr-confirm-delete-item-dialog></gr-confirm-delete-item-dialog>`,
     );
   });
 
@@ -37,7 +37,7 @@ suite('gr-confirm-delete-item-dialog tests', () => {
             <div>UNKNOWN ITEM</div>
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -48,7 +48,7 @@ suite('gr-confirm-delete-item-dialog tests', () => {
       new CustomEvent('confirm', {
         composed: true,
         bubbles: false,
-      })
+      }),
     );
     assert.equal(confirmHandler.callCount, 1);
   });
@@ -60,7 +60,7 @@ suite('gr-confirm-delete-item-dialog tests', () => {
       new CustomEvent('cancel', {
         composed: true,
         bubbles: false,
-      })
+      }),
     );
     assert.equal(cancelHandler.callCount, 1);
   });

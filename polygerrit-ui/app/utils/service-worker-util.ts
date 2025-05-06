@@ -15,13 +15,13 @@ import {parseDate} from './date-util';
 export function filterAttentionChangesAfter(
   changes: ParsedChangeInfo[],
   account: AccountDetailInfo,
-  latestUpdateTimestampMs: number
+  latestUpdateTimestampMs: number,
 ) {
   return changes.filter(change => {
     const attention_set = change.attention_set![account._account_id!];
     if (!attention_set.last_update) return false;
     const lastUpdateTimestampMs = parseDate(
-      attention_set.last_update
+      attention_set.last_update,
     ).valueOf();
     return latestUpdateTimestampMs < lastUpdateTimestampMs;
   });

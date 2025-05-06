@@ -16,7 +16,7 @@ suite('gr-included-in-dialog', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-included-in-dialog></gr-included-in-dialog>`
+      html`<gr-included-in-dialog></gr-included-in-dialog>`,
     );
   });
 
@@ -42,7 +42,7 @@ suite('gr-included-in-dialog', () => {
           </iron-input>
         </header>
         <div>Loading...</div>
-      `
+      `,
     );
   });
 
@@ -54,12 +54,12 @@ suite('gr-included-in-dialog', () => {
     element.includedIn.branches.push(
       'master' as BranchName,
       'development' as BranchName,
-      'stable-2.0' as BranchName
+      'stable-2.0' as BranchName,
     );
     element.includedIn.tags.push(
       'v1.9' as TagName,
       'v2.0' as TagName,
-      'v2.1' as TagName
+      'v2.1' as TagName,
     );
     assert.deepEqual(element.computeGroups(), [
       {title: 'Branches', items: ['master', 'development', 'stable-2.0']},
@@ -92,12 +92,12 @@ suite('gr-included-in-dialog', () => {
   });
 
   test('computeGroups with .bindValue', async () => {
-    queryAndAssert<IronInputElement>(element, '#filterInput')!.bindValue =
+    queryAndAssert<IronInputElement>(element, '#filterInput').bindValue =
       'stable-3.2';
     element.includedIn = {branches: [], tags: []} as IncludedInInfo;
     element.includedIn.branches.push(
       'master' as BranchName,
-      'stable-3.2' as BranchName
+      'stable-3.2' as BranchName,
     );
     await element.updateComplete;
     assert.deepEqual(element.computeGroups(), [

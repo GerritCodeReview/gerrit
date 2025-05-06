@@ -20,7 +20,7 @@ suite('gr-settings-api tests', () => {
         pluginApi = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     testResolver(pluginLoaderToken).loadPlugins([]);
     assert.isOk(pluginApi);

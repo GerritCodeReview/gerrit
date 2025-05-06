@@ -57,7 +57,7 @@ suite('gr-copy-clipboard tests', () => {
             </gr-button>
           </gr-tooltip-content>
         </div>
-      `
+      `,
     );
   });
 
@@ -97,7 +97,7 @@ suite('gr-copy-clipboard tests', () => {
             </gr-button>
           </gr-tooltip-content>
         </div>
-      `
+      `,
     );
   });
 

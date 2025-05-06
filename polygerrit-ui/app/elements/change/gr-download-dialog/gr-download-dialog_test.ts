@@ -156,7 +156,7 @@ suite('gr-download-dialog', () => {
           </gr-button>
         </span>
       </section>
-    `
+    `,
     );
   });
 
@@ -164,7 +164,7 @@ suite('gr-download-dialog', () => {
     const fireStub = sinon.stub(element, 'dispatchEvent');
     const commands = queryAndAssert<GrDownloadCommands>(
       element,
-      'gr-download-commands'
+      'gr-download-commands',
     );
     commands.dispatchEvent(new CustomEvent('item-copied'));
 
@@ -199,7 +199,7 @@ suite('gr-download-dialog', () => {
     test('focuses on first download link if no copy links', () => {
       const focusStub = sinon.stub(
         queryAndAssert<HTMLAnchorElement>(element, '#download'),
-        'focus'
+        'focus',
       );
       element.focus();
       assert.isTrue(focusStub.called);
@@ -216,7 +216,7 @@ suite('gr-download-dialog', () => {
     test('focuses on first copy link', async () => {
       const focusStub = sinon.stub(
         queryAndAssert<GrDownloadCommands>(element, '#downloadCommands'),
-        'focusOnCopy'
+        'focusOnCopy',
       );
       element.focus();
       await element.updateComplete;
@@ -233,7 +233,7 @@ suite('gr-download-dialog', () => {
       element.patchNum = 2 as PatchSetNum;
       assert.equal(
         element.computeArchiveDownloadLink('tgz'),
-        '/changes/test%2Fproject~123/revisions/2/archive?format=tgz'
+        '/changes/test%2Fproject~123/revisions/2/archive?format=tgz',
       );
     });
 
@@ -244,7 +244,7 @@ suite('gr-download-dialog', () => {
       });
       const closeButton = queryAndAssert<GrButton>(
         element,
-        '.closeButtonContainer gr-button'
+        '.closeButtonContainer gr-button',
       );
       closeButton.click();
       await closeCalled;

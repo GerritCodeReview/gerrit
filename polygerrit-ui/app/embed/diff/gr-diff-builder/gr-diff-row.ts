@@ -126,12 +126,12 @@ export class GrDiffRow extends LitElement {
           map(([left, comments]) =>
             comments.filter(
               c =>
-                c.line === left?.lineNumber(Side.LEFT) && c.side === Side.LEFT
-            )
+                c.line === left?.lineNumber(Side.LEFT) && c.side === Side.LEFT,
+            ),
           ),
-          distinctUntilChanged(deepEqual)
+          distinctUntilChanged(deepEqual),
         ),
-      leftComments => (this.leftComments = leftComments)
+      leftComments => (this.leftComments = leftComments),
     );
     subscribe(
       this,
@@ -141,17 +141,17 @@ export class GrDiffRow extends LitElement {
             comments.filter(
               c =>
                 c.line === right?.lineNumber(Side.RIGHT) &&
-                c.side === Side.RIGHT
-            )
+                c.side === Side.RIGHT,
+            ),
           ),
-          distinctUntilChanged(deepEqual)
+          distinctUntilChanged(deepEqual),
         ),
-      rightComments => (this.rightComments = rightComments)
+      rightComments => (this.rightComments = rightComments),
     );
     subscribe(
       this,
       () => this.getDiffModel().columnsToShow$,
-      columnsToShow => (this.columns = columnsToShow)
+      columnsToShow => (this.columns = columnsToShow),
     );
     subscribe(
       this,
@@ -159,7 +159,7 @@ export class GrDiffRow extends LitElement {
       blameInfos => {
         const line = this.left?.lineNumber(Side.LEFT);
         this.blameInfo = findBlame(blameInfos, line);
-      }
+      },
     );
   }
 
@@ -360,7 +360,7 @@ export class GrDiffRow extends LitElement {
   private renderLineNumberButton(
     line: GrDiffLine,
     lineNumber: LineNumber,
-    side: Side
+    side: Side,
   ) {
     if (this.hideFileCommentButton && lineNumber === FILE) return;
     if (lineNumber === LOST) return;
@@ -514,7 +514,7 @@ export class GrDiffRow extends LitElement {
       range =>
         html`
           <gr-ranged-comment-hint .range=${range}></gr-ranged-comment-hint>
-        `
+        `,
     );
   }
 

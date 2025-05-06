@@ -13,7 +13,7 @@ import {getBaseUrl} from './url-util';
  */
 export function linkifyUrlsAndApplyRewrite(
   base: string,
-  repoCommentLinks: CommentLinks
+  repoCommentLinks: CommentLinks,
 ): string {
   const rewriteResults = getRewriteResultsFromConfig(base, repoCommentLinks);
   return applyRewrites(base, rewriteResults);
@@ -27,11 +27,11 @@ export function linkifyUrlsAndApplyRewrite(
  */
 function getRewriteResultsFromConfig(
   base: string,
-  repoCommentLinks: CommentLinks
+  repoCommentLinks: CommentLinks,
 ): RewriteResult[] {
   const enabledRewrites = Object.values(repoCommentLinks).filter(
     commentLinkInfo =>
-      commentLinkInfo.enabled !== false && commentLinkInfo.link !== undefined
+      commentLinkInfo.enabled !== false && commentLinkInfo.link !== undefined,
   );
   return enabledRewrites.flatMap(rewrite => {
     const regexp = new RegExp(rewrite.match, 'g');
@@ -49,11 +49,11 @@ function getRewriteResultsFromConfig(
       // rewrites depending on their order of definition/execution.
       const sharedPrefixLength = getSharedPrefixLength(
         match[0],
-        fullReplacementText
+        fullReplacementText,
       );
       const sharedSuffixLength = getSharedSuffixLength(
         match[0],
-        fullReplacementText
+        fullReplacementText,
       );
       const prefixIndex = sharedPrefixLength;
       const matchSuffixIndex = match[0].length - sharedSuffixLength;
@@ -64,7 +64,7 @@ function getRewriteResultsFromConfig(
         replacedTextEndPosition: match.index + matchSuffixIndex,
         replacementText: fullReplacementText.substring(
           prefixIndex,
-          fullReplacementSuffixIndex
+          fullReplacementSuffixIndex,
         ),
       });
     }
@@ -100,7 +100,7 @@ function applyRewrites(base: string, rewriteResults: RewriteResult[]): string {
         .substring(0, rewrite.replacedTextStartPosition)
         .concat(rewrite.replacementText)
         .concat(text.substring(rewrite.replacedTextEndPosition)),
-    base
+    base,
   );
 }
 
@@ -110,7 +110,7 @@ function applyRewrites(base: string, rewriteResults: RewriteResult[]): string {
  */
 function getReplacementText(
   matchedText: string,
-  rewrite: CommentLinkInfo
+  rewrite: CommentLinkInfo,
 ): string {
   const replacementHref = rewrite.link.startsWith('/')
     ? `${getBaseUrl()}${rewrite.link}`
@@ -122,8 +122,8 @@ function getReplacementText(
       replacementHref,
       rewrite.text ?? '$&',
       rewrite.prefix,
-      rewrite.suffix
-    )
+      rewrite.suffix,
+    ),
   );
 }
 
@@ -131,7 +131,7 @@ function createLinkTemplate(
   href: string,
   displayText: string,
   prefix?: string,
-  suffix?: string
+  suffix?: string,
 ) {
   return `${
     prefix ?? ''

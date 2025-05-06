@@ -124,7 +124,7 @@ export class GrAccountList extends LitElement {
     super();
     this.querySuggestions = input => this.getSuggestions(input);
     this.addEventListener('remove-account', e =>
-      this.handleRemove(e as CustomEvent<{account: AccountInput}>)
+      this.handleRemove(e as CustomEvent<{account: AccountInput}>),
     );
   }
 
@@ -171,7 +171,7 @@ export class GrAccountList extends LitElement {
                 newlyAdded: isAccountNewlyAdded(
                   account,
                   this.reviewerState,
-                  this.change
+                  this.change,
                 ),
               })}
               ?removable=${this.computeRemovable(account)}
@@ -179,7 +179,7 @@ export class GrAccountList extends LitElement {
               tabindex="-1"
             >
             </gr-account-chip>
-          `
+          `,
         )}
       </div>
       <gr-account-entry
@@ -206,7 +206,7 @@ export class GrAccountList extends LitElement {
 
   get accountChips(): GrAccountChip[] {
     return Array.from(
-      this.shadowRoot?.querySelectorAll('gr-account-chip') || []
+      this.shadowRoot?.querySelectorAll('gr-account-chip') || [],
     );
   }
 
@@ -216,7 +216,7 @@ export class GrAccountList extends LitElement {
   }
 
   getSuggestions(
-    input: string
+    input: string,
   ): Promise<AutocompleteSuggestion<SuggestedReviewerInfo>[]> {
     const provider = this.suggestionsProvider;
     if (!provider) return Promise.resolve([]);
@@ -226,7 +226,7 @@ export class GrAccountList extends LitElement {
         suggestions = suggestions.filter(this.filter);
       }
       return suggestions.map(suggestion =>
-        provider.makeSuggestionItem(suggestion)
+        provider.makeSuggestionItem(suggestion),
       );
     });
   }
@@ -423,7 +423,7 @@ export class GrAccountList extends LitElement {
   additions(): AccountInput[] {
     if (!this.change) return [];
     return this.accounts.filter(account =>
-      isAccountNewlyAdded(account, this.reviewerState, this.change)
+      isAccountNewlyAdded(account, this.reviewerState, this.change),
     );
   }
 
@@ -432,7 +432,7 @@ export class GrAccountList extends LitElement {
     return difference(
       this.change?.reviewers[this.reviewerState] ?? [],
       this.accounts,
-      (a, b) => getUserId(a) === getUserId(b)
+      (a, b) => getUserId(a) === getUserId(b),
     );
   }
 }

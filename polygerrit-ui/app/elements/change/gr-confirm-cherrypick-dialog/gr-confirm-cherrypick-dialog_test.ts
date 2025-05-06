@@ -96,7 +96,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       }
     });
     element = await fixture(
-      html`<gr-confirm-cherrypick-dialog></gr-confirm-cherrypick-dialog>`
+      html`<gr-confirm-cherrypick-dialog></gr-confirm-cherrypick-dialog>`,
     );
     element.project = 'test-project' as RepoName;
   });
@@ -143,7 +143,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
             </gr-endpoint-decorator>
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -208,7 +208,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       element.branch = 'master' as BranchName;
       await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
-        'executeChangeAction'
+        'executeChangeAction',
       ).resolves(new Response());
       queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
       await element.updateComplete;
@@ -224,16 +224,16 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     test('deselecting a change removes it from being cherry picked', async () => {
       const duplicateChangesStub = sinon.stub(
         element,
-        'containsDuplicateProject'
+        'containsDuplicateProject',
       );
       element.branch = 'master' as BranchName;
       await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
-        'executeChangeAction'
+        'executeChangeAction',
       ).resolves(new Response());
       const checkboxes = queryAll<HTMLInputElement>(
         element,
-        'input[type="checkbox"]'
+        'input[type="checkbox"]',
       );
       assert.equal(checkboxes.length, 2);
       assert.isTrue(checkboxes[0].checked);
@@ -248,11 +248,11 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       element.branch = 'master' as BranchName;
       await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
-        'executeChangeAction'
+        'executeChangeAction',
       ).resolves(new Response());
       const checkboxes = queryAll<HTMLInputElement>(
         element,
-        'input[type="checkbox"]'
+        'input[type="checkbox"]',
       );
       assert.equal(checkboxes.length, 2);
       checkboxes[0].click();
@@ -262,7 +262,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       assert.equal(executeChangeActionStub.callCount, 0);
       assert.equal(
         queryAndAssert<HTMLElement>(element, '.error-message').innerText,
-        'No change selected'
+        'No change selected',
       );
     });
 
@@ -270,23 +270,23 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       assert.equal(
         element.computeStatusClass(
           {...createChange(), id: '1' as ChangeInfoId},
-          {1: {status: ProgressStatus.RUNNING}}
+          {1: {status: ProgressStatus.RUNNING}},
         ),
-        ''
+        '',
       );
       assert.equal(
         element.computeStatusClass(
           {...createChange(), id: '1' as ChangeInfoId},
-          {1: {status: ProgressStatus.FAILED}}
+          {1: {status: ProgressStatus.FAILED}},
         ),
-        'error'
+        'error',
       );
     });
 
     test('submit button is blocked while cherry picks is running', async () => {
       const confirmButton = queryAndAssert<GrDialog>(
         element,
-        'gr-dialog'
+        'gr-dialog',
       ).confirmButton;
       assert.isTrue(confirmButton!.hasAttribute('disabled'));
       element.branch = 'b' as BranchName;
@@ -324,22 +324,22 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       await element.updateComplete;
       const cherryPickEmailDropdown = queryAndAssert(
         element,
-        '#cherryPickEmailDropdown'
+        '#cherryPickEmailDropdown',
       );
       assert.dom.equal(
         cherryPickEmailDropdown,
         `<div id="cherryPickEmailDropdown">Cherry Pick Committer Email
         <gr-dropdown-list></gr-dropdown-list>
         <span></span>
-        </div>`
+        </div>`,
       );
       const emailDropdown = queryAndAssert<GrDropdownList>(
         cherryPickEmailDropdown,
-        'gr-dropdown-list'
+        'gr-dropdown-list',
       );
       assert.deepEqual(
         emailDropdown.items?.map(e => e.value),
-        emails.map(e => e.email)
+        emails.map(e => e.email),
       );
     });
   });

@@ -49,13 +49,13 @@ export type RawAccountInput =
 
 // type guards for SuggestedReviewerAccountInfo and SuggestedReviewerGroupInfo
 export function isAccountObject(
-  x: RawAccountInput
+  x: RawAccountInput,
 ): x is SuggestedReviewerAccountInfo {
   return !!(x as SuggestedReviewerAccountInfo).account;
 }
 
 export function isSuggestedReviewerGroupInfo(
-  x: RawAccountInput
+  x: RawAccountInput,
 ): x is SuggestedReviewerGroupInfo {
   return !!(x as SuggestedReviewerGroupInfo).group;
 }
@@ -110,7 +110,7 @@ export function isAccountEmailOnly(entry: AccountInfo | GroupInfo) {
 export function isAccountNewlyAdded(
   account: AccountInfo | GroupInfo,
   state?: ReviewerState,
-  change?: ChangeInfo | ParsedChangeInfo
+  change?: ChangeInfo | ParsedChangeInfo,
 ) {
   if (!change || !state) return false;
   const accounts = [...(change.reviewers[state] ?? [])];
@@ -120,7 +120,7 @@ export function isAccountNewlyAdded(
 export function uniqueDefinedAvatar(
   account: AccountInfo,
   index: number,
-  accountArray: AccountInfo[]
+  accountArray: AccountInfo[],
 ) {
   return (
     index === accountArray.findIndex(other => hasSameAvatar(account, other))
@@ -130,7 +130,7 @@ export function uniqueDefinedAvatar(
 export function uniqueAccountId(
   account: AccountInfo,
   index: number,
-  accountArray: AccountInfo[]
+  accountArray: AccountInfo[],
 ) {
   return (
     index ===
@@ -163,20 +163,20 @@ export function getAccountTemplate(account?: AccountInfo, config?: ServerInfo) {
 export function replaceTemplates(
   text: string,
   accountsInText?: AccountInfo[],
-  config?: ServerInfo
+  config?: ServerInfo,
 ) {
   return text.replace(
     new RegExp(ACCOUNT_TEMPLATE_REGEX, 'g'),
     (_accountIdTemplate, accountId) => {
       const parsedAccountId = Number(accountId) as AccountId;
       const accountInText = (accountsInText || []).find(
-        account => account._account_id === parsedAccountId
+        account => account._account_id === parsedAccountId,
       );
       if (!accountInText) {
         return `Gerrit Account ${parsedAccountId}`;
       }
       return getDisplayName(config, accountInText);
-    }
+    },
   );
 }
 
@@ -186,7 +186,7 @@ export function replaceTemplates(
 const getReviewerPermittedScore = (
   change: ChangeInfo,
   reviewer: AccountInfo,
-  label: string
+  label: string,
 ) => {
   // Note (issue 7874): sometimes the "all" list is not included in change
   // detail responses, even when DETAILED_LABELS is included in options.
@@ -229,7 +229,7 @@ const getSelfPermittedScore = (change: ChangeInfo, label: string): number => {
 export function computeVoteableText(
   change: ChangeInfo,
   reviewer: AccountInfo,
-  self?: AccountInfo
+  self?: AccountInfo,
 ) {
   if (!change || !change.labels) {
     return '';
@@ -274,7 +274,7 @@ export function extractMentionedUsers(text?: string): AccountInfo[] {
 
 export function toReviewInput(
   account: AccountInput,
-  state: ReviewerState
+  state: ReviewerState,
 ): ReviewerInput {
   if (isAccount(account)) {
     return {
@@ -299,7 +299,7 @@ export function isAccountSuggestion(s: Suggestion): s is AccountInfo {
 
 export function getSuggestedReviewerName(
   suggestion: Suggestion,
-  config?: ServerInfo
+  config?: ServerInfo,
 ) {
   if (isAccountSuggestion(suggestion)) {
     // Reviewer is an account suggestion from getSuggestedAccounts.

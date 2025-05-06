@@ -51,7 +51,7 @@ suite('gr-apply-fix-dialog tests', () => {
   function getConfirmButton(): GrButton {
     return queryAndAssert(
       queryAndAssert(element, '#applyFixDialog'),
-      '#confirm'
+      '#confirm',
     );
   }
 
@@ -59,7 +59,7 @@ suite('gr-apply-fix-dialog tests', () => {
     element.open(
       new CustomEvent<OpenFixPreviewEventDetail>('open-fix-preview', {
         detail,
-      })
+      }),
     );
     await element.updateComplete;
   }
@@ -67,7 +67,7 @@ suite('gr-apply-fix-dialog tests', () => {
   setup(async () => {
     setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     element = await fixture<GrApplyFixDialog>(
-      html`<gr-apply-fix-dialog></gr-apply-fix-dialog>`
+      html`<gr-apply-fix-dialog></gr-apply-fix-dialog>`,
     );
     const change = {
       ...createParsedChange(),
@@ -146,7 +146,7 @@ suite('gr-apply-fix-dialog tests', () => {
         Promise.resolve({
           f1: diffInfo1,
           f2: diffInfo2,
-        })
+        }),
       );
       sinon.stub(element.applyFixModal!, 'showModal');
     });
@@ -201,7 +201,7 @@ suite('gr-apply-fix-dialog tests', () => {
           </gr-dialog>
         </dialog>
       `,
-      {ignoreAttributes: ['style']}
+      {ignoreAttributes: ['style']},
     );
   });
 
@@ -220,7 +220,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('preview endpoint throws error should reset dialog', async () => {
     stubRestApi('getRobotCommentFixPreview').returns(
-      Promise.reject(new Error('backend error'))
+      Promise.reject(new Error('backend error')),
     );
     try {
       await open(TWO_FIXES);
@@ -232,7 +232,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('apply fix button should call apply, navigate to change view and fire close', async () => {
     const applyRobotFixSuggestionStub = stubRestApi(
-      'applyRobotFixSuggestion'
+      'applyRobotFixSuggestion',
     ).returns(Promise.resolve(new Response(null, {status: 200})));
     element.currentFix = createFixSuggestionInfo('123');
     element.hasEdit = true;
@@ -246,7 +246,7 @@ suite('gr-apply-fix-dialog tests', () => {
       applyRobotFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
-      '123'
+      '123',
     );
     assert.isTrue(setUrlStub.called);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/2..edit');
@@ -259,7 +259,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('should not navigate to change view if incorect reponse', async () => {
     const applyRobotFixSuggestionStub = stubRestApi(
-      'applyRobotFixSuggestion'
+      'applyRobotFixSuggestion',
     ).returns(Promise.resolve(new Response(null, {status: 500})));
     element.currentFix = createFixSuggestionInfo('fix_123');
 
@@ -269,7 +269,7 @@ suite('gr-apply-fix-dialog tests', () => {
       applyRobotFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
-      'fix_123'
+      'fix_123',
     );
     assert.isFalse(setUrlStub.called);
     assert.equal(element.isApplyFixLoading, false);
@@ -287,7 +287,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('server-error should throw for failed apply call', async () => {
     stubRestApi('applyRobotFixSuggestion').returns(
-      Promise.reject(new Error('backend error'))
+      Promise.reject(new Error('backend error')),
     );
     element.currentFix = createFixSuggestionInfo('fix_123');
 
@@ -312,7 +312,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('applies second fix with PROVIDED_FIX_ID', async () => {
     const applyFixSuggestionStub = stubRestApi('applyFixSuggestion').returns(
-      Promise.resolve(new Response(null, {status: 200}))
+      Promise.resolve(new Response(null, {status: 200})),
     );
 
     const fixes: OpenFixPreviewEventDetail = {
@@ -355,12 +355,12 @@ suite('gr-apply-fix-dialog tests', () => {
       element.change!._number,
       2 as PatchSetNum,
       [{path: 'file2.txt', replacement: 'other content', range: createRange()}],
-      element.latestPatchNum
+      element.latestPatchNum,
     );
     assert.isTrue(setUrlStub.called);
     assert.equal(
       setUrlStub.lastCall.firstArg,
-      '/c/test-project/+/42/2..edit?forceReload=true'
+      '/c/test-project/+/42/2..edit?forceReload=true',
     );
   });
 });

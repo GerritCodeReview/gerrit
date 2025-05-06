@@ -144,14 +144,14 @@ export class GrSuggestionTextarea extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
-      }
+      },
     );
     this.shortcuts.addLocal({key: Key.UP}, e => this.handleUpKey(e), {
       preventDefault: false,
@@ -459,7 +459,7 @@ export class GrSuggestionTextarea extends LitElement {
     const specialCharIndex = this.specialCharIndex ?? 0;
     const beforeSearchString = this.text.substring(0, specialCharIndex);
     const afterSearchString = this.text.substring(
-      specialCharIndex + 1 + (this.currentSearchString?.length ?? 0)
+      specialCharIndex + 1 + (this.currentSearchString?.length ?? 0),
     );
     return beforeSearchString + value + afterSearchString;
   }
@@ -533,7 +533,7 @@ export class GrSuggestionTextarea extends LitElement {
       this.shouldResetDropdown(
         this.text,
         this.specialCharIndex,
-        this.text[this.specialCharIndex]
+        this.text[this.specialCharIndex],
       )
     ) {
       this.resetDropdown();
@@ -616,7 +616,7 @@ export class GrSuggestionTextarea extends LitElement {
       return this.formatSuggestions(ALL_SUGGESTIONS);
     } else {
       const matches = ALL_SUGGESTIONS.filter(suggestion =>
-        suggestion.match.includes(suggestionsText)
+        suggestion.match.includes(suggestionsText),
       ).slice(0, MAX_ITEMS_DROPDOWN);
       return this.formatSuggestions(matches);
     }
@@ -629,7 +629,7 @@ export class GrSuggestionTextarea extends LitElement {
         this.currentSearchString ?? '',
         /* number= */ 15,
         this.changeNum,
-        /* filterActive= */ true
+        /* filterActive= */ true,
       )) ?? []
     )
       .filter(account => account.email)

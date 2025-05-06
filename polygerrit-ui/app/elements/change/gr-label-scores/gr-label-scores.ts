@@ -86,7 +86,7 @@ export class GrLabelScores extends LitElement {
     if (!labels.length) return;
     if (
       labels.filter(
-        label => !this.permittedLabels || this.permittedLabels[label.name]
+        label => !this.permittedLabels || this.permittedLabels[label.name],
       ).length === 0
     ) {
       return html`<h3 class="heading-4">Submit requirements votes</h3>
@@ -99,12 +99,12 @@ export class GrLabelScores extends LitElement {
   private renderTriggerVotes() {
     const triggerVotes = getTriggerVotes(this.change);
     const labels = computeLabels(this.account, this.change).filter(label =>
-      triggerVotes.includes(label.name)
+      triggerVotes.includes(label.name),
     );
     if (!labels.length) return;
     if (
       labels.filter(
-        label => !this.permittedLabels || this.permittedLabels[label.name]
+        label => !this.permittedLabels || this.permittedLabels[label.name],
       ).length === 0
     ) {
       return nothing;
@@ -119,7 +119,7 @@ export class GrLabelScores extends LitElement {
         .filter(
           label =>
             this.permittedLabels?.[label.name] &&
-            this.permittedLabels?.[label.name].length > 0
+            this.permittedLabels?.[label.name].length > 0,
         )
         .map(
           label => html`<gr-label-score-row
@@ -128,9 +128,9 @@ export class GrLabelScores extends LitElement {
             .labels=${this.change?.labels}
             .permittedLabels=${this.permittedLabels}
             .orderedLabelValues=${computeOrderedLabelValues(
-              this.permittedLabels
+              this.permittedLabels,
             )}
-          ></gr-label-score-row>`
+          ></gr-label-score-row>`,
         )}
     </div>`;
   }
@@ -157,7 +157,7 @@ export class GrLabelScores extends LitElement {
     }
     for (const label of Object.keys(this.permittedLabels ?? {})) {
       const selectorEl = this.shadowRoot.querySelector<GrLabelScoreRow>(
-        `gr-label-score-row[name="${label}"]`
+        `gr-label-score-row[name="${label}"]`,
       );
       if (!selectorEl?.selectedItem) continue;
 

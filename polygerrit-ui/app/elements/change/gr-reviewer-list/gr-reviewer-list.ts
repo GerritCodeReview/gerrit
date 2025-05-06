@@ -117,14 +117,14 @@ export class GrReviewerList extends LitElement {
       () => this.getChangeModel().change$,
       change => {
         this.change = change;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
       account => {
         this.account = account;
-      }
+      },
     );
   }
 
@@ -138,7 +138,7 @@ export class GrReviewerList extends LitElement {
           ${repeat(
             displayedReviewers,
             reviewer => accountKey(reviewer),
-            reviewer => this.renderAccountChip(reviewer)
+            reviewer => this.renderAccountChip(reviewer),
           )}
           <div class="controlsContainer" ?hidden=${!this.mutable}>
             <gr-button
@@ -220,7 +220,7 @@ export class GrReviewerList extends LitElement {
     }
     this.reviewers = result
       .filter(
-        reviewer => reviewer._account_id !== this.change?.owner._account_id
+        reviewer => reviewer._account_id !== this.change?.owner._account_id,
       )
       .sort((r1, r2) =>
         sortReviewers(
@@ -228,19 +228,19 @@ export class GrReviewerList extends LitElement {
           r2,
           this.change?.attention_set,
           this.change?.labels,
-          this.account
-        )
+          this.account,
+        ),
       );
     if (this.reviewers.length > 8 && !this.showAllReviewers) {
       // Show all reviewers with attention set or with vote on the label
       const reviewersWithAttentionOrVote = this.reviewers.filter(
         reviewer =>
           hasAttention(reviewer, this.change?.attention_set) ||
-          getCodeReviewVote(reviewer, this.change?.labels) !== 0
+          getCodeReviewVote(reviewer, this.change?.labels) !== 0,
       );
       return this.reviewers.slice(
         0,
-        Math.max(6, reviewersWithAttentionOrVote.length)
+        Math.max(6, reviewersWithAttentionOrVote.length),
       );
     } else {
       return this.reviewers;

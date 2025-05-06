@@ -99,67 +99,67 @@ export class GrDiffElement extends LitElement {
     subscribe(
       this,
       () => this.getDiffModel().diff$,
-      diff => (this.diff = diff)
+      diff => (this.diff = diff),
     );
     subscribe(
       this,
       () => this.getDiffModel().baseImage$,
-      baseImage => (this.baseImage = baseImage)
+      baseImage => (this.baseImage = baseImage),
     );
     subscribe(
       this,
       () => this.getDiffModel().revisionImage$,
-      revisionImage => (this.revisionImage = revisionImage)
+      revisionImage => (this.revisionImage = revisionImage),
     );
     subscribe(
       this,
       () => this.getDiffModel().diffPrefs$,
-      diffPrefs => (this.diffPrefs = diffPrefs)
+      diffPrefs => (this.diffPrefs = diffPrefs),
     );
     subscribe(
       this,
       () => this.getDiffModel().renderPrefs$,
-      renderPrefs => (this.renderPrefs = renderPrefs)
+      renderPrefs => (this.renderPrefs = renderPrefs),
     );
     subscribe(
       this,
       () => this.getDiffModel().columnsToShow$,
-      columnsToShow => (this.columns = columnsToShow)
+      columnsToShow => (this.columns = columnsToShow),
     );
     subscribe(
       this,
       () => this.getDiffModel().columnCount$,
-      columnCount => (this.columnCount = columnCount)
+      columnCount => (this.columnCount = columnCount),
     );
     subscribe(
       this,
       () => this.getDiffModel().viewMode$,
-      viewMode => (this.viewMode = viewMode)
+      viewMode => (this.viewMode = viewMode),
     );
     subscribe(
       this,
       () => this.getDiffModel().showFullContext$,
-      showFullContext => (this.showFullContext = showFullContext)
+      showFullContext => (this.showFullContext = showFullContext),
     );
     subscribe(
       this,
       () => this.getDiffModel().errorMessage$,
-      errorMessage => (this.errorMessage = errorMessage)
+      errorMessage => (this.errorMessage = errorMessage),
     );
     subscribe(
       this,
       () => this.getDiffModel().groups$,
-      groups => (this.groups = groups)
+      groups => (this.groups = groups),
     );
     subscribe(
       this,
       () => this.getDiffModel().loading$,
-      loading => (this.loading = loading)
+      loading => (this.loading = loading),
     );
     subscribe(
       this,
       () => this.getDiffModel().responsiveMode$,
-      responsiveMode => (this.responsiveMode = responsiveMode)
+      responsiveMode => (this.responsiveMode = responsiveMode),
     );
   }
 
@@ -231,8 +231,8 @@ export class GrDiffElement extends LitElement {
             repeat(
               this.groups,
               group => group.id(),
-              group => this.renderSectionElement(group)
-            )
+              group => this.renderSectionElement(group),
+            ),
           )}
           ${when(isImage, () => this.renderImageDiff())}
           ${when(!isImage && isBinary, () => this.renderBinaryDiff())}
@@ -244,7 +244,7 @@ export class GrDiffElement extends LitElement {
               This file only contains whitespace changes. Modify the whitespace
               setting to see the changes.
             </div>
-          `
+          `,
         )}
         ${when(this.showWarning(), () => this.renderSizeWarning())}
       </div>
@@ -311,7 +311,7 @@ export class GrDiffElement extends LitElement {
             item.startsWith('+++ ') ||
             item.startsWith('--- ') ||
             item === 'Binary files differ'
-          )
+          ),
       )
       .map(expandFileMode);
   }
@@ -342,7 +342,7 @@ export class GrDiffElement extends LitElement {
     return when(
       this.renderPrefs.use_new_image_diff_ui,
       () => this.renderImageDiffNew(),
-      () => this.renderImageDiffOld()
+      () => this.renderImageDiffOld(),
     );
   }
 
@@ -396,20 +396,20 @@ export class GrDiffElement extends LitElement {
 
   renderColumns() {
     const lineNumberWidth = getLineNumberCellWidth(
-      this.diffPrefs ?? createDefaultDiffPrefs()
+      this.diffPrefs ?? createDefaultDiffPrefs(),
     );
     return html`
       <colgroup>
         ${when(this.columns.blame, () => html`<col class="blame" />`)}
         ${when(
           this.columns.leftNumber,
-          () => html`<col class="left" width=${lineNumberWidth} />`
+          () => html`<col class="left" width=${lineNumberWidth} />`,
         )}
         ${when(this.columns.leftSign, () => html`<col class="left sign" />`)}
         ${when(this.columns.leftContent, () => html`<col class="left" />`)}
         ${when(
           this.columns.rightNumber,
-          () => html`<col class="right" width=${lineNumberWidth} />`
+          () => html`<col class="right" width=${lineNumberWidth} />`,
         )}
         ${when(this.columns.rightSign, () => html`<col class="right sign" />`)}
         ${when(this.columns.rightContent, () => html`<col class="right" />`)}

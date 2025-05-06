@@ -60,7 +60,7 @@ suite('gr-watched-projects-editor tests', () => {
     });
 
     element = await fixture(
-      html`<gr-watched-projects-editor></gr-watched-projects-editor>`
+      html`<gr-watched-projects-editor></gr-watched-projects-editor>`,
     );
 
     await element.loadData();
@@ -263,7 +263,7 @@ suite('gr-watched-projects-editor tests', () => {
             </tfoot>
           </table>
         </div>
-      `
+      `,
     );
   });
 
@@ -287,11 +287,11 @@ suite('gr-watched-projects-editor tests', () => {
   test('autocompletes repo input', async () => {
     const repoAutocomplete = queryAndAssert<GrAutocomplete>(
       element,
-      'gr-autocomplete'
+      'gr-autocomplete',
     );
     const repoInput = queryAndAssert<HTMLInputElement>(
       repoAutocomplete,
-      '#input'
+      '#input',
     );
 
     repoInput.focus();
@@ -374,7 +374,7 @@ suite('gr-watched-projects-editor tests', () => {
 
     const button = queryAndAssert<GrButton>(
       element,
-      'table tbody tr:nth-child(2) gr-button'
+      'table tbody tr:nth-child(2) gr-button',
     );
     button.click();
 

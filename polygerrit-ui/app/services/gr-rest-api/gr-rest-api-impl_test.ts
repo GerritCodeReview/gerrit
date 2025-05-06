@@ -65,7 +65,7 @@ const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   // They are not used in bulk actions.
   // ListChangesOption.CURRENT_ACTIONS,
   ListChangesOption.CURRENT_REVISION,
-  ListChangesOption.DETAILED_LABELS
+  ListChangesOption.DETAILED_LABELS,
 );
 
 suite('gr-rest-api-service-impl tests', () => {
@@ -88,7 +88,7 @@ suite('gr-rest-api-service-impl tests', () => {
     sinon.stub(authService, 'authCheck').resolves(true);
     element = new GrRestApiServiceImpl(
       authService,
-      new FlagsServiceImplementation()
+      new FlagsServiceImplementation(),
     );
 
     element._projectLookup = {};
@@ -120,7 +120,7 @@ suite('gr-rest-api-service-impl tests', () => {
       undefined,
       PARENT,
       1 as PatchSetNum,
-      'sieve.go'
+      'sieve.go',
     );
     assert.equal(obj.baseComments.length, 1);
     assert.deepEqual(obj.baseComments[0], {
@@ -289,7 +289,7 @@ suite('gr-rest-api-service-impl tests', () => {
       undefined,
       1 as BasePatchSetNum,
       2 as PatchSetNum,
-      'sieve.go'
+      'sieve.go',
     );
     assert.equal(obj.baseComments.length, 1);
     assert.deepEqual(obj.baseComments[0], {
@@ -340,7 +340,7 @@ suite('gr-rest-api-service-impl tests', () => {
         .resolves(new Response(makePrefixedJSON(createAccountWithId())));
       element.addRepoNameToCache(
         testChangeNumber as NumericChangeId,
-        testProject as RepoName
+        testProject as RepoName,
       );
     });
 
@@ -357,7 +357,7 @@ suite('gr-rest-api-service-impl tests', () => {
       await element.queryAccounts(
         'bro',
         undefined,
-        testChangeNumber as NumericChangeId
+        testChangeNumber as NumericChangeId,
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.deepEqual(fetchStub.firstCall.args[0].params, {
@@ -371,7 +371,7 @@ suite('gr-rest-api-service-impl tests', () => {
         'bro',
         undefined,
         testChangeNumber as NumericChangeId,
-        true
+        true,
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.deepEqual(fetchStub.firstCall.args[0].params, {
@@ -442,7 +442,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(stub.called);
     assert.equal(
       element._cache.get(cacheKey),
-      account as unknown as ParsedJSON
+      account as unknown as ParsedJSON,
     );
   });
 
@@ -494,7 +494,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string)
         .download_scheme,
-      'http'
+      'http',
     );
   });
 
@@ -525,7 +525,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string)
         .show_tabs,
-      false
+      false,
     );
   });
 
@@ -559,7 +559,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string)
         .show_tabs,
-      false
+      false,
     );
   });
 
@@ -569,15 +569,15 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(
       fetchStub.lastCall.args[0].url,
-      '/config/server/email.confirm'
+      '/config/server/email.confirm',
     );
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {token: 'foo'}
+      {token: 'foo'},
     );
   });
 
@@ -595,11 +595,11 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(sendStub.calledOnce);
     assert.equal(
       sendStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(
       sendStub.lastCall.args[0].url,
-      `/accounts/self/emails/${encodedEmail}/preferred`
+      `/accounts/self/emails/${encodedEmail}/preferred`,
     );
     assert.deepEqual(element._cache.get('/accounts/self/emails'), [
       {email: email1, preferred: false},
@@ -613,24 +613,26 @@ suite('gr-rest-api-service-impl tests', () => {
       .resolves(new Response(makePrefixedJSON('john')));
     element._cache.set(
       '/accounts/self/detail',
-      createAccountDetailWithId() as unknown as ParsedJSON
+      createAccountDetailWithId() as unknown as ParsedJSON,
     );
     await element.setAccountUsername('john');
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/username');
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {username: 'john'}
+      {username: 'john'},
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.username,
-      'john'
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).username,
+      'john',
     );
   });
 
@@ -646,12 +648,14 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.username
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).username,
     );
   });
 
@@ -661,24 +665,26 @@ suite('gr-rest-api-service-impl tests', () => {
       .resolves(new Response(makePrefixedJSON('john')));
     element._cache.set(
       '/accounts/self/detail',
-      createAccountDetailWithId() as unknown as ParsedJSON
+      createAccountDetailWithId() as unknown as ParsedJSON,
     );
     await element.setAccountDisplayName('john');
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/displayname');
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {display_name: 'john'}
+      {display_name: 'john'},
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.display_name,
-      'john'
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).display_name,
+      'john',
     );
   });
 
@@ -694,12 +700,14 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.display_name
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).display_name,
     );
   });
 
@@ -709,24 +717,26 @@ suite('gr-rest-api-service-impl tests', () => {
       .resolves(new Response(makePrefixedJSON('john')));
     element._cache.set(
       '/accounts/self/detail',
-      createAccountDetailWithId() as unknown as ParsedJSON
+      createAccountDetailWithId() as unknown as ParsedJSON,
     );
     await element.setAccountName('john');
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/name');
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {name: 'john'}
+      {name: 'john'},
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.name,
-      'john'
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).name,
+      'john',
     );
   });
 
@@ -742,12 +752,14 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.name
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).name,
     );
   });
 
@@ -757,24 +769,26 @@ suite('gr-rest-api-service-impl tests', () => {
       .resolves(new Response(makePrefixedJSON('OOO')));
     element._cache.set(
       '/accounts/self/detail',
-      createAccountDetailWithId() as unknown as ParsedJSON
+      createAccountDetailWithId() as unknown as ParsedJSON,
     );
     await element.setAccountStatus('OOO');
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/status');
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {status: 'OOO'}
+      {status: 'OOO'},
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.status,
-      'OOO'
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).status,
+      'OOO',
     );
   });
 
@@ -790,12 +804,14 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.status
+      (
+        element._cache.get(
+          '/accounts/self/detail',
+        ) as unknown as AccountDetailInfo
+      ).status,
     );
   });
 
@@ -820,7 +836,7 @@ suite('gr-rest-api-service-impl tests', () => {
         HttpMethod.PUT,
         123 as NumericChangeId,
         1 as PatchSetNum,
-        draft
+        draft,
       );
       assert.equal(obj.sendDiffDraft.length, 1);
       assert.isTrue(!!element.hasPendingDiffDrafts());
@@ -829,7 +845,7 @@ suite('gr-rest-api-service-impl tests', () => {
         HttpMethod.PUT,
         123 as NumericChangeId,
         1 as PatchSetNum,
-        draft
+        draft,
       );
       assert.equal(obj.sendDiffDraft.length, 2);
       assert.isTrue(!!element.hasPendingDiffDrafts());
@@ -845,7 +861,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.called);
       assert.deepEqual(
         JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-        draft
+        draft,
       );
     });
 
@@ -858,7 +874,7 @@ suite('gr-rest-api-service-impl tests', () => {
           HttpMethod.PUT,
           123 as NumericChangeId,
           4 as PatchSetNum,
-          {}
+          {},
         );
         assert.isTrue(failStub.calledOnce);
       });
@@ -873,7 +889,7 @@ suite('gr-rest-api-service-impl tests', () => {
           4 as PatchSetNum,
           {
             id: '123' as UrlEncodedCommentId,
-          }
+          },
         );
         assert.isFalse(failStub.called);
       });
@@ -887,7 +903,7 @@ suite('gr-rest-api-service-impl tests', () => {
           },
         });
         const error = await assertFails<Error>(
-          element._failForCreate200(Promise.resolve(result))
+          element._failForCreate200(Promise.resolve(result)),
         );
         assert.isOk(error);
         assert.include(error.message, 'Saving draft resulted in HTTP 200');
@@ -910,17 +926,17 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     element._cache.set(
       `/changes/${change_num}/edit/${file_name}`,
-      {} as unknown as ParsedJSON
+      {} as unknown as ParsedJSON,
     );
     await element.saveChangeEdit(change_num, file_name, file_contents);
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(
       fetchStub.lastCall.args[0].url,
-      '/changes/test~1/edit/' + file_name
+      '/changes/test~1/edit/' + file_name,
     );
     assert.equal(fetchStub.lastCall.args[0].fetchOptions?.body, file_contents);
   });
@@ -933,13 +949,13 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     element._cache.set(
       `/changes/${change_num}/message`,
-      {} as unknown as ParsedJSON
+      {} as unknown as ParsedJSON,
     );
     await element.putChangeCommitMessage(change_num, message, committer_email);
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(fetchStub.lastCall.args[0].url, '/changes/test~1/message');
     assert.deepEqual(
@@ -947,7 +963,7 @@ suite('gr-rest-api-service-impl tests', () => {
       {
         message,
         committer_email,
-      }
+      },
     );
   });
 
@@ -962,11 +978,11 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.PUT
+      HttpMethod.PUT,
     );
     assert.equal(
       fetchStub.lastCall.args[0].url,
-      '/changes/test~1/edit:identity'
+      '/changes/test~1/edit:identity',
     );
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
@@ -974,7 +990,7 @@ suite('gr-rest-api-service-impl tests', () => {
         email: 'user@example.com',
         name: 'user',
         type: 'AUTHOR',
-      }
+      },
     );
   });
 
@@ -987,11 +1003,11 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.DELETE
+      HttpMethod.DELETE,
     );
     assert.equal(
       fetchStub.lastCall.args[0].url,
-      '/changes/test~1/messages/abc'
+      '/changes/test~1/messages/abc',
     );
   });
 
@@ -1008,12 +1024,12 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isNotOk(urlSpy.lastCall.args[1]);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.POST
+      HttpMethod.POST,
     );
     assert.isTrue(fetchStub.lastCall.args[0].url.endsWith('/wip'));
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {}
+      {},
     );
 
     await element.startWorkInProgress(42 as NumericChangeId, 'revising...');
@@ -1022,14 +1038,14 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isNotOk(urlSpy.lastCall.args[1]);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.POST
+      HttpMethod.POST,
     );
     assert.isTrue(fetchStub.lastCall.args[0].url.endsWith('/wip'));
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
       {
         message: 'revising...',
-      }
+      },
     );
   });
 
@@ -1043,23 +1059,23 @@ suite('gr-rest-api-service-impl tests', () => {
       123 as NumericChangeId,
       1 as PatchSetNum,
       '01234' as UrlEncodedCommentId,
-      'removal reason'
+      'removal reason',
     );
     assert.equal(response, comment);
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
       fetchStub.lastCall.args[0].fetchOptions?.method,
-      HttpMethod.POST
+      HttpMethod.POST,
     );
     assert.equal(
       fetchStub.lastCall.args[0].url,
-      '/changes/test-project~123/revisions/1/comments/01234/delete'
+      '/changes/test-project~123/revisions/1/comments/01234/delete',
     );
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
       {
         reason: 'removal reason',
-      }
+      },
     );
   });
 
@@ -1078,7 +1094,7 @@ suite('gr-rest-api-service-impl tests', () => {
     await element.queryChangeFiles(42 as NumericChangeId, EDIT, 'test/path.js');
     assert.equal(
       fetchStub.lastCall.args[0].url,
-      '/changes/test-project~42/revisions/edit/files?q=test%2Fpath.js'
+      '/changes/test-project~42/revisions/edit/files?q=test%2Fpath.js',
     );
   });
 
@@ -1087,22 +1103,22 @@ suite('gr-rest-api-service-impl tests', () => {
 
     assert.equal(
       element._getReposUrl('test', 25).toString(),
-      [false, '/projects/?n=26&S=0&d=&m=test'].toString()
+      [false, '/projects/?n=26&S=0&d=&m=test'].toString(),
     );
 
     assert.equal(
       element._getReposUrl(undefined, 25).toString(),
-      [false, `/projects/?n=26&S=0&d=&m=${defaultQuery}`].toString()
+      [false, `/projects/?n=26&S=0&d=&m=${defaultQuery}`].toString(),
     );
 
     assert.equal(
       element._getReposUrl('test', 25, 25).toString(),
-      [false, '/projects/?n=26&S=25&d=&m=test'].toString()
+      [false, '/projects/?n=26&S=25&d=&m=test'].toString(),
     );
 
     assert.equal(
       element._getReposUrl('inname:test', 25, 25).toString(),
-      [true, '/projects/?n=26&S=25&query=inname%3Atest'].toString()
+      [true, '/projects/?n=26&S=25&query=inname%3Atest'].toString(),
     );
   });
 
@@ -1143,19 +1159,19 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('test', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=test'
+        '/projects/?n=26&S=0&d=&m=test',
       );
 
       element.getRepos(undefined, 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        `/projects/?n=26&S=0&d=&m=${defaultQuery}`
+        `/projects/?n=26&S=0&d=&m=${defaultQuery}`,
       );
 
       element.getRepos('test', 25, 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=25&d=&m=test'
+        '/projects/?n=26&S=25&d=&m=test',
       );
     });
 
@@ -1163,7 +1179,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('test/test', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=test%2Ftest'
+        '/projects/?n=26&S=0&d=&m=test%2Ftest',
       );
     });
 
@@ -1171,7 +1187,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('foo-bar', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=foo-bar'
+        '/projects/?n=26&S=0&d=&m=foo-bar',
       );
     });
 
@@ -1179,7 +1195,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('-bar', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=-bar'
+        '/projects/?n=26&S=0&d=&m=-bar',
       );
     });
 
@@ -1187,7 +1203,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('foo-bar-', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=foo-bar-'
+        '/projects/?n=26&S=0&d=&m=foo-bar-',
       );
     });
 
@@ -1195,7 +1211,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('foo_bar', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=foo_bar'
+        '/projects/?n=26&S=0&d=&m=foo_bar',
       );
     });
 
@@ -1203,7 +1219,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('foo_bar', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=foo_bar'
+        '/projects/?n=26&S=0&d=&m=foo_bar',
       );
     });
 
@@ -1211,7 +1227,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('-', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&d=&m=-'
+        '/projects/?n=26&S=0&d=&m=-',
       );
     });
 
@@ -1219,7 +1235,7 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getRepos('description:project', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/projects/?n=26&S=0&query=description%3Aproject'
+        '/projects/?n=26&S=0&query=description%3Aproject',
       );
     });
   });
@@ -1231,7 +1247,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
     assert.equal(
       element._getGroupsUrl('test', 25, 25),
-      '/groups/?n=26&S=25&m=test'
+      '/groups/?n=26&S=25&m=test',
     );
   });
 
@@ -1257,19 +1273,19 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getGroups('test', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/groups/?n=26&S=0&m=test'
+        '/groups/?n=26&S=0&m=test',
       );
 
       element.getGroups('', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/groups/?n=26&S=0'
+        '/groups/?n=26&S=0',
       );
 
       element.getGroups('test', 25, 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/groups/?n=26&S=25&m=test'
+        '/groups/?n=26&S=25&m=test',
       );
     });
 
@@ -1277,13 +1293,13 @@ suite('gr-rest-api-service-impl tests', () => {
       element.getGroups('^test.*', 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/groups/?n=26&S=0&r=%5Etest.*'
+        '/groups/?n=26&S=0&r=%5Etest.*',
       );
 
       element.getGroups('^test.*', 25, 25);
       assert.equal(
         fetchCacheJSONStub.lastCall.args[0].url,
-        '/groups/?n=26&S=25&r=%5Etest.*'
+        '/groups/?n=26&S=25&r=%5Etest.*',
       );
     });
   });
@@ -1338,7 +1354,7 @@ suite('gr-rest-api-service-impl tests', () => {
         assert.strictEqual(123, change!._number);
         const options = changeDetailStub.firstCall.args[1];
         assert.isNotOk(
-          parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES)
+          parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES),
         );
       });
 
@@ -1351,7 +1367,7 @@ suite('gr-rest-api-service-impl tests', () => {
         assert.strictEqual(123, change!._number);
         const options = changeDetailStub.firstCall.args[1];
         assert.ok(
-          parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES)
+          parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES),
         );
       });
     });
@@ -1378,8 +1394,8 @@ suite('gr-rest-api-service-impl tests', () => {
           makePrefixedJSON({
             ...createChange(),
             _number: 123 as NumericChangeId,
-          })
-        )
+          }),
+        ),
       );
       await element._getChangeDetail(changeNum, '516714');
       assert.isTrue(optionsStub.calledWithExactly(expectedUrl));
@@ -1401,7 +1417,7 @@ suite('gr-rest-api-service-impl tests', () => {
       sinon.stub(element._restApiHelper, 'fetch').resolves(
         new Response(')]}\'{"_number":1,"project":"test"}', {
           status: 200,
-        })
+        }),
       );
       await element._getChangeDetail(1 as NumericChangeId, '516714');
       assert.equal(Object.keys(element._projectLookup).length, 1);
@@ -1428,7 +1444,7 @@ suite('gr-rest-api-service-impl tests', () => {
         sinon.stub(element._restApiHelper, 'fetch').resolves(
           new Response(mockResponseSerial, {
             status: 200,
-          })
+          }),
         );
 
         await element._getChangeDetail(123 as NumericChangeId, '516714');
@@ -1444,7 +1460,7 @@ suite('gr-rest-api-service-impl tests', () => {
         sinon.stub(element._restApiHelper, 'fetch').resolves(
           new Response(undefined, {
             status: 304,
-          })
+          }),
         );
 
         await element._getChangeDetail(123 as NumericChangeId, '');
@@ -1474,7 +1490,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const err: Error = await assertFails(projectLookup);
       assert.equal(
         err.message,
-        'Failed to lookup the repo for change number 555'
+        'Failed to lookup the repo for change number 555',
       );
     });
 
@@ -1564,7 +1580,7 @@ suite('gr-rest-api-service-impl tests', () => {
       ListChangesOption.CHANGE_ACTIONS,
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.DETAILED_LABELS,
-      ListChangesOption.SUBMIT_REQUIREMENTS
+      ListChangesOption.SUBMIT_REQUIREMENTS,
     );
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;
@@ -1592,7 +1608,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {topic: 'foo-bar'}
+      {topic: 'foo-bar'},
     );
   });
 
@@ -1604,8 +1620,8 @@ suite('gr-rest-api-service-impl tests', () => {
     });
     assert.isTrue(fetchStub.calledOnce);
     assert.sameDeepMembers(
-      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string).add!,
-      ['foo-bar']
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string).add,
+      ['foo-bar'],
     );
   });
 
@@ -1617,7 +1633,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
-      {generate: true}
+      {generate: true},
     );
   });
 
@@ -1632,7 +1648,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/2/files'
+        '/changes/test-project~123/revisions/2/files',
       );
       assert.isNotOk(fetchStub.lastCall.args[0].params);
     });
@@ -1650,7 +1666,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/5/files'
+        '/changes/test-project~123/revisions/5/files',
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
       assert.equal(fetchStub.lastCall.args[0].params.base, 4);
@@ -1670,7 +1686,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/5/files'
+        '/changes/test-project~123/revisions/5/files',
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
       assert.isNotOk(fetchStub.lastCall.args[0].params.base);
@@ -1688,12 +1704,12 @@ suite('gr-rest-api-service-impl tests', () => {
         123 as NumericChangeId,
         PARENT,
         2 as PatchSetNum,
-        'foo/bar.baz'
+        'foo/bar.baz',
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/2/files/foo%2Fbar.baz/diff'
+        '/changes/test-project~123/revisions/2/files/foo%2Fbar.baz/diff',
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
       assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
@@ -1709,12 +1725,12 @@ suite('gr-rest-api-service-impl tests', () => {
         123 as NumericChangeId,
         4 as PatchSetNum,
         5 as PatchSetNum,
-        'foo/bar.baz'
+        'foo/bar.baz',
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/5/files/foo%2Fbar.baz/diff'
+        '/changes/test-project~123/revisions/5/files/foo%2Fbar.baz/diff',
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
       assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
@@ -1730,12 +1746,12 @@ suite('gr-rest-api-service-impl tests', () => {
         123 as NumericChangeId,
         -3 as PatchSetNum,
         5 as PatchSetNum,
-        'foo/bar.baz'
+        'foo/bar.baz',
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/5/files/foo%2Fbar.baz/diff'
+        '/changes/test-project~123/revisions/5/files/foo%2Fbar.baz/diff',
       );
       assert.isOk(fetchStub.lastCall.args[0].params);
       assert.isNotOk(fetchStub.lastCall.args[0].params.base);
@@ -1746,16 +1762,16 @@ suite('gr-rest-api-service-impl tests', () => {
   test('getDashboard', () => {
     const fetchCacheJSONStub = sinon.stub(
       element._restApiHelper,
-      'fetchCacheJSON'
+      'fetchCacheJSON',
     );
     element.getDashboard(
       'gerrit/project' as RepoName,
-      'default:main' as DashboardId
+      'default:main' as DashboardId,
     );
     assert.isTrue(fetchCacheJSONStub.calledOnce);
     assert.equal(
       fetchCacheJSONStub.lastCall.args[0].url,
-      '/projects/gerrit%2Fproject/dashboards/default%3Amain'
+      '/projects/gerrit%2Fproject/dashboards/default%3Amain',
     );
   });
 
@@ -1768,14 +1784,14 @@ suite('gr-rest-api-service-impl tests', () => {
           headers: {
             'X-FYI-Content-Type': 'text/java',
           },
-        })
-      )
+        }),
+      ),
     );
 
     const edit = await element.getFileContent(
       1 as NumericChangeId,
       'tst/path',
-      'EDIT' as PatchSetNum
+      'EDIT' as PatchSetNum,
     );
 
     assert.deepEqual(edit, {
@@ -1787,7 +1803,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const normal = await element.getFileContent(
       1 as NumericChangeId,
       'tst/path',
-      '3' as PatchSetNum
+      '3' as PatchSetNum,
     );
     assert.deepEqual(normal, {
       content: 'new content',
@@ -1806,7 +1822,7 @@ suite('gr-rest-api-service-impl tests', () => {
     await element.getFileContent(
       1 as NumericChangeId,
       'tst/path',
-      1 as PatchSetNum
+      1 as PatchSetNum,
     );
     await waitEventLoop();
     assert.isFalse(spy.called);
@@ -1815,7 +1831,7 @@ suite('gr-rest-api-service-impl tests', () => {
     await element.getFileContent(
       1 as NumericChangeId,
       'tst/path',
-      1 as PatchSetNum
+      1 as PatchSetNum,
     );
     assert.isTrue(spy.called);
     assert.notEqual(spy.lastCall.args[0].detail.response.status, 404);
@@ -1892,7 +1908,7 @@ suite('gr-rest-api-service-impl tests', () => {
     sinon.stub(element, 'getLoggedIn').resolves(false);
     const getChangeURLAndFetchStub = sinon.stub(
       element._restApiHelper,
-      'fetchJSON'
+      'fetchJSON',
     );
 
     element.getPortedDrafts(change._number, CURRENT);
@@ -1934,17 +1950,17 @@ suite('gr-rest-api-service-impl tests', () => {
       await element.applyFixSuggestion(
         123 as NumericChangeId,
         1 as PatchSetNum,
-        [fixReplacementInfo]
+        [fixReplacementInfo],
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/1/fix:apply'
+        '/changes/test-project~123/revisions/1/fix:apply',
       );
       const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
       assert.isTrue(
         Object.keys(body).length === 1 &&
-          body.fix_replacement_infos.length === 1
+          body.fix_replacement_infos.length === 1,
       );
       assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
     });
@@ -1955,12 +1971,12 @@ suite('gr-rest-api-service-impl tests', () => {
         123 as NumericChangeId,
         1 as PatchSetNum,
         [fixReplacementInfo],
-        1 as PatchSetNum
+        1 as PatchSetNum,
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/1/fix:apply'
+        '/changes/test-project~123/revisions/1/fix:apply',
       );
       const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
       assert.isTrue(Object.keys(body).length === 1);
@@ -1973,12 +1989,12 @@ suite('gr-rest-api-service-impl tests', () => {
         123 as NumericChangeId,
         1 as PatchSetNum,
         [fixReplacementInfo],
-        2 as PatchSetNum
+        2 as PatchSetNum,
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        '/changes/test-project~123/revisions/2/fix:apply'
+        '/changes/test-project~123/revisions/2/fix:apply',
       );
       const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
       assert.isTrue(Object.keys(body).length === 2);

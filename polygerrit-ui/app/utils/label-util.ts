@@ -100,7 +100,7 @@ export function getLabelStatus(label?: LabelInfo, vote?: number): LabelStatus {
 
 export function hasNeutralStatus(
   label: DetailedLabelInfo,
-  approvalInfo?: ApprovalInfo
+  approvalInfo?: ApprovalInfo,
 ) {
   if (approvalInfo?.value === undefined) return true;
   return getLabelStatus(label, approvalInfo.value) === LabelStatus.NEUTRAL;
@@ -110,7 +110,7 @@ export function hasApprovedVote(labelInfo: LabelInfo) {
   if (isDetailedLabelInfo(labelInfo)) {
     return getAllUniqueApprovals(labelInfo).some(
       approval =>
-        getLabelStatus(labelInfo, approval.value) === LabelStatus.APPROVED
+        getLabelStatus(labelInfo, approval.value) === LabelStatus.APPROVED,
     );
   } else if (isQuickLabelInfo(labelInfo)) {
     return getLabelStatus(labelInfo) === LabelStatus.APPROVED;
@@ -123,7 +123,7 @@ export function hasRejectedVote(labelInfo: LabelInfo) {
   if (isDetailedLabelInfo(labelInfo)) {
     return getAllUniqueApprovals(labelInfo).some(
       approval =>
-        getLabelStatus(labelInfo, approval.value) === LabelStatus.REJECTED
+        getLabelStatus(labelInfo, approval.value) === LabelStatus.REJECTED,
     );
   } else if (isQuickLabelInfo(labelInfo)) {
     return getLabelStatus(labelInfo) === LabelStatus.REJECTED;
@@ -167,7 +167,7 @@ export function getMaxAccounts(label?: LabelInfo): ApprovalInfo[] {
 
 export function getApprovalInfo(
   label: DetailedLabelInfo,
-  account: AccountInfo
+  account: AccountInfo,
 ): ApprovalInfo | undefined {
   return label.all?.filter(x => x._account_id === account._account_id)[0];
 }
@@ -190,7 +190,7 @@ export function hasVoted(label: LabelInfo, account: AccountInfo) {
 // can see permitted labels for logged in user in change.permitted_labels
 export function canReviewerVote(
   label: DetailedLabelInfo,
-  account: AccountInfo
+  account: AccountInfo,
 ) {
   const approvalInfo = getApprovalInfo(label, account);
   if (!approvalInfo) return false;
@@ -206,7 +206,7 @@ export function getAllUniqueApprovals(labelInfo?: LabelInfo) {
   const uniqueApprovals = (labelInfo.all ?? [])
     .filter(
       (approvalInfo, index, array) =>
-        index === array.findIndex(other => other.value === approvalInfo.value)
+        index === array.findIndex(other => other.value === approvalInfo.value),
     )
     .sort((a, b) => -(a.value ?? 0) + (b.value ?? 0));
   return uniqueApprovals;
@@ -215,7 +215,7 @@ export function getAllUniqueApprovals(labelInfo?: LabelInfo) {
 export function hasVotes(labelInfo: LabelInfo): boolean {
   if (isDetailedLabelInfo(labelInfo)) {
     return (labelInfo.all ?? []).some(
-      approval => !hasNeutralStatus(labelInfo, approval)
+      approval => !hasNeutralStatus(labelInfo, approval),
     );
   }
   if (isQuickLabelInfo(labelInfo)) {
@@ -242,7 +242,7 @@ export function labelCompare(labelName1: string, labelName2: string) {
 }
 
 export function getCodeReviewLabel(
-  labels: LabelNameToInfoMap
+  labels: LabelNameToInfoMap,
 ): LabelInfo | undefined {
   for (const label of Object.keys(labels)) {
     if (label === StandardLabels.CODE_REVIEW) {
@@ -255,7 +255,7 @@ export function getCodeReviewLabel(
 export function extractLabelsWithCountFrom(expression: string) {
   const pattern = new RegExp(
     'label[0-9]*:([\\w-]+)[^,]*,count>?=?([0-9])',
-    'g'
+    'g',
   );
   const labels = [];
   let match;
@@ -279,17 +279,19 @@ function extractLabelsFrom(expression: string) {
 
 export function extractAssociatedLabels(
   requirement: SubmitRequirementResultInfo,
-  type: 'all' | 'onlyOverride' | 'onlySubmittability' = 'all'
+  type: 'all' | 'onlyOverride' | 'onlySubmittability' = 'all',
 ): string[] {
   let labels: string[] = [];
   if (requirement.submittability_expression_result && type !== 'onlyOverride') {
     labels = labels.concat(
-      extractLabelsFrom(requirement.submittability_expression_result.expression)
+      extractLabelsFrom(
+        requirement.submittability_expression_result.expression,
+      ),
     );
   }
   if (requirement.override_expression_result && type !== 'onlySubmittability') {
     labels = labels.concat(
-      extractLabelsFrom(requirement.override_expression_result.expression)
+      extractLabelsFrom(requirement.override_expression_result.expression),
     );
   }
   return labels.filter(unique);
@@ -302,7 +304,7 @@ export interface SubmitRequirementsIcon {
 }
 
 export function iconForRequirement(
-  requirement: SubmitRequirementResultInfo
+  requirement: SubmitRequirementResultInfo,
 ): SubmitRequirementsIcon {
   if (isBlockingCondition(requirement)) {
     return {icon: 'cancel', filled: true};
@@ -311,7 +313,7 @@ export function iconForRequirement(
 }
 
 export function iconForStatus(
-  status: SubmitRequirementStatus
+  status: SubmitRequirementStatus,
 ): SubmitRequirementsIcon {
   switch (status) {
     case SubmitRequirementStatus.SATISFIED:
@@ -336,7 +338,7 @@ export function iconForStatus(
  */
 export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
   return (change?.submit_requirements ?? []).filter(
-    req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
+    req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE,
   );
 }
 
@@ -348,7 +350,7 @@ export const PRIORITY_REQUIREMENTS_ORDER: string[] = [
   StandardLabels.PRESUBMIT_VERIFIED,
 ];
 export function orderSubmitRequirements(
-  requirements: SubmitRequirementResultInfo[]
+  requirements: SubmitRequirementResultInfo[],
 ) {
   let priorityRequirementList: SubmitRequirementResultInfo[] = [];
   for (const label of PRIORITY_REQUIREMENTS_ORDER) {
@@ -357,7 +359,7 @@ export function orderSubmitRequirements(
       priorityRequirementList.concat(priorityRequirement);
   }
   const nonPriorityRequirements = requirements.filter(
-    r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name)
+    r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name),
   );
   return priorityRequirementList.concat(nonPriorityRequirements);
 }
@@ -365,7 +367,7 @@ export function orderSubmitRequirements(
 function getStringLabelValue(
   labels: LabelNameToInfoMap,
   labelName: string,
-  numberValue?: number
+  numberValue?: number,
 ): string {
   const detailedInfo = labels[labelName] as DetailedLabelInfo;
   if (detailedInfo.values) {
@@ -384,7 +386,7 @@ function getStringLabelValue(
 
 export function getDefaultValue(
   labels?: LabelNameToInfoMap,
-  labelName?: string
+  labelName?: string,
 ) {
   if (!labelName || !labels?.[labelName]) return undefined;
   const labelInfo = labels[labelName] as DetailedLabelInfo;
@@ -394,7 +396,7 @@ export function getDefaultValue(
 export function getVoteForAccount(
   labelName: string,
   account?: AccountInfo,
-  change?: ParsedChangeInfo | ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo,
 ): string | null {
   const labels = change?.labels;
   if (!account || !labels) return null;
@@ -409,7 +411,7 @@ export function getVoteForAccount(
 }
 
 export function computeOrderedLabelValues(
-  permittedLabels?: LabelNameToValuesMap
+  permittedLabels?: LabelNameToValuesMap,
 ) {
   if (!permittedLabels) return [];
   const labels = Object.keys(permittedLabels);
@@ -425,7 +427,7 @@ export function computeOrderedLabelValues(
 
 export function mergeLabelInfoMaps(
   a?: LabelNameToInfoMap,
-  b?: LabelNameToInfoMap
+  b?: LabelNameToInfoMap,
 ): LabelNameToInfoMap {
   if (!a || !b) return {};
   const mergedMap: LabelNameToInfoMap = {};
@@ -438,7 +440,7 @@ export function mergeLabelInfoMaps(
 
 export function mergeLabelMaps(
   a?: LabelNameToValuesMap,
-  b?: LabelNameToValuesMap
+  b?: LabelNameToValuesMap,
 ): LabelNameToValuesMap {
   if (!a || !b) return {};
   const mergedMap: LabelNameToValuesMap = {};
@@ -455,7 +457,7 @@ export function mergeLabelValues(a: string[], b: string[]) {
 
 export function computeLabels(
   account?: AccountInfo,
-  change?: ParsedChangeInfo | ChangeInfo
+  change?: ParsedChangeInfo | ChangeInfo,
 ): Label[] {
   if (!account) return [];
   const labelsObj = change?.labels;
@@ -480,7 +482,7 @@ export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
     .flatMap(req => extractAssociatedLabels(req))
     .filter(unique);
   return allLabels.filter(
-    label => !labelAssociatedWithSubmitReqs.includes(label)
+    label => !labelAssociatedWithSubmitReqs.includes(label),
   );
 }
 
@@ -497,20 +499,20 @@ export function getApplicableLabels(change?: ParsedChangeInfo | ChangeInfo) {
     .filter(unique);
 
   const onlyInNotApplicableLabels = notApplicableLabels.filter(
-    label => !applicableLabels.includes(label)
+    label => !applicableLabels.includes(label),
   );
 
   return applicableLabels.filter(
-    label => !onlyInNotApplicableLabels.includes(label)
+    label => !onlyInNotApplicableLabels.includes(label),
   );
 }
 
 export function isBlockingCondition(
-  requirement: SubmitRequirementResultInfo
+  requirement: SubmitRequirementResultInfo,
 ): boolean {
   if (requirement.status !== SubmitRequirementStatus.UNSATISFIED) return false;
 
   return !!requirement.submittability_expression_result.passing_atoms?.some(
-    atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/)
+    atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/),
   );
 }

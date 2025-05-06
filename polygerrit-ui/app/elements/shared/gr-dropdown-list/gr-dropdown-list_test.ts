@@ -23,7 +23,7 @@ suite('gr-dropdown-list tests', () => {
 
   setup(async () => {
     element = await fixture<GrDropdownList>(
-      html`<gr-dropdown-list></gr-dropdown-list>`
+      html`<gr-dropdown-list></gr-dropdown-list>`,
     );
   });
 
@@ -135,14 +135,14 @@ suite('gr-dropdown-list tests', () => {
             <option disabled="" value="3">Mobile Text 3</option>
           </select>
         </gr-select>
-      `
+      `,
     );
   });
 
   test('hide copy by default', () => {
     const copyEl = query<HTMLElement>(
       element,
-      '#triggerText + gr-copy-clipboard'
+      '#triggerText + gr-copy-clipboard',
     )!;
     assert.isOk(copyEl);
     assert.isTrue(copyEl.hidden);
@@ -153,7 +153,7 @@ suite('gr-dropdown-list tests', () => {
     await element.updateComplete;
     const copyEl = query<HTMLElement>(
       element,
-      '#triggerText + gr-copy-clipboard'
+      '#triggerText + gr-copy-clipboard',
     )!;
     assert.isOk(copyEl);
     assert.isFalse(copyEl.hidden);
@@ -210,7 +210,7 @@ suite('gr-dropdown-list tests', () => {
 
     assert.equal(
       queryAndAssert<PaperListboxElement>(element, 'paper-listbox').selected,
-      element.value
+      element.value,
     );
     assert.equal(element.text, 'Button Text 2');
 
@@ -233,7 +233,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(
       queryAndAssert<HTMLDivElement>(items[0], '.topContent div span')
         .innerText,
-      element.items[0].text
+      element.items[0].text,
     );
 
     // Since no mobile specific text, it should fall back to text.
@@ -253,7 +253,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(
       queryAndAssert<HTMLDivElement>(items[1], '.topContent div span')
         .textContent,
-      element.items[1].text
+      element.items[1].text,
     );
 
     // Since there is mobile specific text, it should that.
@@ -277,7 +277,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(
       queryAndAssert<HTMLDivElement>(items[2], '.topContent div span')
         .innerText,
-      element.items[2].text
+      element.items[2].text,
     );
 
     // Since there is mobile specific text, it should that.

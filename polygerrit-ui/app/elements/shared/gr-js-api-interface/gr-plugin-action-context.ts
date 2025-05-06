@@ -25,7 +25,7 @@ export class GrPluginActionContext {
     public readonly plugin: PluginApi,
     public readonly action: UIActionInfo,
     public readonly change: ChangeInfo,
-    public readonly revision: RevisionInfo
+    public readonly revision: RevisionInfo,
   ) {}
 
   popup(element: Node) {
@@ -101,7 +101,7 @@ export class GrPluginActionContext {
     if (!this.action.__url) {
       this.reporting.error(
         'GrPluginActionContext',
-        new Error(`Unable to ${this.action.method} to ${this.action.__key}!`)
+        new Error(`Unable to ${this.action.method} to ${this.action.__key}!`),
       );
       return;
     }

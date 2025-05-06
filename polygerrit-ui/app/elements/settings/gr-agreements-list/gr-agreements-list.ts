@@ -70,7 +70,7 @@ export class GrAgreementsList extends LitElement {
         </thead>
         <tbody>
           ${(this._agreements ?? []).map(agreement =>
-            this.renderAgreement(agreement)
+            this.renderAgreement(agreement),
           )}
         </tbody>
       </table>

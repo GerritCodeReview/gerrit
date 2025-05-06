@@ -110,7 +110,7 @@ export class GrCoverageLayer implements DiffLayer {
     const notifyRanges = mergeRanges(
       ranges.map(r => {
         return {start: r.code_range.start_line, end: r.code_range.end_line + 1};
-      })
+      }),
     );
     for (const r of notifyRanges) {
       for (const l of this.listeners) l(r.start, r.end - 1, this.side);

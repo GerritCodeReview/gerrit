@@ -59,10 +59,10 @@ export class GrWeblink extends LitElement {
         >
           ${when(
             this.info.image_url,
-            () => html`<img src=${this.info!.image_url!} />`
+            () => html`<img src=${this.info!.image_url!} />`,
           )}${when(
             !this.info.image_url || this.imageAndText,
-            () => html`<span>${this.info!.name}</span>`
+            () => html`<span>${this.info!.name}</span>`,
           )}
         </gr-tooltip-content>
       </a>

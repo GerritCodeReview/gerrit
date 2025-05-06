@@ -131,7 +131,7 @@ export class GrDiffProcessor {
   processNext(state: State, chunks: DiffContent[]) {
     const firstUncollapsibleChunkIndex = this.firstUncollapsibleChunkIndex(
       chunks,
-      state
+      state,
     );
     if (firstUncollapsibleChunkIndex === state.chunkIndex) {
       const chunk = chunks[state.chunkIndex];
@@ -144,7 +144,7 @@ export class GrDiffProcessor {
           this.chunkToGroup(
             chunk,
             state.lineNums.left + 1,
-            state.lineNums.right + 1
+            state.lineNums.right + 1,
           ),
         ],
         newChunkIndex: state.chunkIndex + 1,
@@ -154,7 +154,7 @@ export class GrDiffProcessor {
     return this.processCollapsibleChunks(
       state,
       chunks,
-      firstUncollapsibleChunkIndex
+      firstUncollapsibleChunkIndex,
     );
   }
 
@@ -195,13 +195,13 @@ export class GrDiffProcessor {
   private isCollapsibleChunk(
     chunk: DiffContent,
     offsetLeft: number,
-    offsetRight: number
+    offsetRight: number,
   ) {
     const isCommonOrSkip = chunk.ab || chunk.common || chunk.skip;
     const isOutsideOfFocusRange = this.isChunkOutsideOfFocusRange(
       chunk,
       offsetLeft,
-      offsetRight
+      offsetRight,
     );
     return (isCommonOrSkip && !chunk.keyLocation) || isOutsideOfFocusRange;
   }
@@ -209,7 +209,7 @@ export class GrDiffProcessor {
   private isChunkOutsideOfFocusRange(
     chunk: DiffContent,
     offsetLeft: number,
-    offsetRight: number
+    offsetRight: number,
   ) {
     if (!this.diffRangesToFocus) {
       return false;
@@ -219,21 +219,21 @@ export class GrDiffProcessor {
     const hasLeftSideOverlap = this.diffRangesToFocus.left.some(range =>
       this.hasAnyOverlap(
         {start: offsetLeft, end: offsetLeft + leftLineCount},
-        range
-      )
+        range,
+      ),
     );
     const hasRightSideOverlap = this.diffRangesToFocus.right.some(range =>
       this.hasAnyOverlap(
         {start: offsetRight, end: offsetRight + rightLineCount},
-        range
-      )
+        range,
+      ),
     );
     return !hasLeftSideOverlap && !hasRightSideOverlap;
   }
 
   private hasAnyOverlap(
     firstRange: {start: number; end: number},
-    secondRange: {start: number; end: number}
+    secondRange: {start: number; end: number},
   ) {
     const startOverlap = Math.max(firstRange.start, secondRange.start);
     const endOverlap = Math.min(firstRange.end, secondRange.end);
@@ -253,30 +253,30 @@ export class GrDiffProcessor {
   private processCollapsibleChunks(
     state: State,
     chunks: DiffContent[],
-    firstUncollapsibleChunkIndex: number
+    firstUncollapsibleChunkIndex: number,
   ) {
     const collapsibleChunks = chunks.slice(
       state.chunkIndex,
-      firstUncollapsibleChunkIndex
+      firstUncollapsibleChunkIndex,
     );
     const leftLineCount = collapsibleChunks.reduce(
       (sum, chunk) => sum + this.chunkLength(chunk, Side.LEFT),
-      0
+      0,
     );
     const rightLineCount = collapsibleChunks.reduce(
       (sum, chunk) => sum + this.chunkLength(chunk, Side.RIGHT),
-      0
+      0,
     );
 
     let groups = this.chunksToGroups(
       collapsibleChunks,
       state.lineNums.left + 1,
-      state.lineNums.right + 1
+      state.lineNums.right + 1,
     );
 
     const hasSkippedGroup = !!groups.find(g => g.skip);
     const hasNonCommonDeltaGroup = !!groups.find(
-      g => g.type === GrDiffGroupType.DELTA && !g.ignoredWhitespaceOnly
+      g => g.type === GrDiffGroupType.DELTA && !g.ignoredWhitespaceOnly,
     );
     if (
       this.context !== FULL_CONTEXT ||
@@ -295,7 +295,7 @@ export class GrDiffProcessor {
         groups,
         hiddenStart,
         hiddenEndLeft,
-        hiddenEndRight
+        hiddenEndRight,
       );
     }
 
@@ -328,7 +328,7 @@ export class GrDiffProcessor {
     console.assert(
       !chunk.a || (!!chunk.b && chunk.a.length === chunk.b.length),
       'common chunk needs same number of a and b lines: ',
-      chunk
+      chunk,
     );
     return this.linesLeft(chunk).length;
   }
@@ -336,7 +336,7 @@ export class GrDiffProcessor {
   private chunksToGroups(
     chunks: DiffContent[],
     offsetLeft: number,
-    offsetRight: number
+    offsetRight: number,
   ): GrDiffGroup[] {
     return chunks.map(chunk => {
       const group = this.chunkToGroup(chunk, offsetLeft, offsetRight);
@@ -349,7 +349,7 @@ export class GrDiffProcessor {
   private chunkToGroup(
     chunk: DiffContent,
     offsetLeft: number,
-    offsetRight: number
+    offsetRight: number,
   ): GrDiffGroup {
     const type =
       chunk.ab || chunk.skip ? GrDiffGroupType.BOTH : GrDiffGroupType.DELTA;
@@ -380,11 +380,11 @@ export class GrDiffProcessor {
   private linesFromChunk(
     chunk: DiffContent,
     offsetLeft: number,
-    offsetRight: number
+    offsetRight: number,
   ) {
     if (chunk.ab) {
       return chunk.ab.map((row, i) =>
-        this.lineFromRow(GrDiffLineType.BOTH, offsetLeft, offsetRight, row, i)
+        this.lineFromRow(GrDiffLineType.BOTH, offsetLeft, offsetRight, row, i),
       );
     }
     let lines: GrDiffLine[] = [];
@@ -396,8 +396,8 @@ export class GrDiffProcessor {
           GrDiffLineType.REMOVE,
           chunk.a,
           offsetLeft,
-          chunk.edit_a
-        )
+          chunk.edit_a,
+        ),
       );
     }
     if (chunk.b) {
@@ -408,8 +408,8 @@ export class GrDiffProcessor {
           GrDiffLineType.ADD,
           chunk.b,
           offsetRight,
-          chunk.edit_b
-        )
+          chunk.edit_b,
+        ),
       );
     }
     return lines;
@@ -420,13 +420,13 @@ export class GrDiffProcessor {
     lineType: GrDiffLineType,
     rows: string[],
     offset: number,
-    intralineInfos?: number[][]
+    intralineInfos?: number[][],
   ): GrDiffLine[] {
     const grDiffHighlights = intralineInfos
       ? this.convertIntralineInfos(rows, intralineInfos)
       : undefined;
     return rows.map((row, i) =>
-      this.lineFromRow(lineType, offset, offset, row, i, grDiffHighlights)
+      this.lineFromRow(lineType, offset, offset, row, i, grDiffHighlights),
     );
   }
 
@@ -436,7 +436,7 @@ export class GrDiffProcessor {
     offsetRight: number,
     row: string,
     i: number,
-    highlights?: Highlights[]
+    highlights?: Highlights[],
   ): GrDiffLine {
     const line = new GrDiffLine(type);
     line.text = row;
@@ -487,14 +487,14 @@ export class GrDiffProcessor {
 
       if (chunk.common && chunk.a!.length !== chunk.b!.length) {
         throw new Error(
-          'DiffContent with common=true must always have equal length'
+          'DiffContent with common=true must always have equal length',
         );
       }
       const numLines = this.commonChunkLength(chunk);
       const chunkEnds = this.findChunkEndsAtKeyLocations(
         numLines,
         leftLineNum,
-        rightLineNum
+        rightLineNum,
       );
       leftLineNum += numLines;
       rightLineNum += numLines;
@@ -514,8 +514,8 @@ export class GrDiffProcessor {
                 ab: lines,
                 keyLocation,
               };
-            }
-          )
+            },
+          ),
         );
       } else if (chunk.common) {
         const aChunks = this.splitAtChunkEnds(chunk.a!, chunkEnds);
@@ -528,7 +528,7 @@ export class GrDiffProcessor {
               b: bChunks[i].lines,
               keyLocation,
             };
-          })
+          }),
         );
       }
     }
@@ -543,7 +543,7 @@ export class GrDiffProcessor {
   private findChunkEndsAtKeyLocations(
     numLines: number,
     leftOffset: number,
-    rightOffset: number
+    rightOffset: number,
   ): ChunkEnd[] {
     const result = [];
     let lastChunkEnd = 0;
@@ -594,7 +594,7 @@ export class GrDiffProcessor {
   // visible for testing
   convertIntralineInfos(
     rows: string[],
-    intralineInfos: number[][]
+    intralineInfos: number[][],
   ): Highlights[] {
     // +1 to account for the \n that is not part of the rows passed here
     const lineLengths = rows.map(r => getStringLength(r) + 1);

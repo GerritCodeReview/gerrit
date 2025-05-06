@@ -60,40 +60,40 @@ suite('file syntax-util', () => {
     test('one line, one span', async () => {
       assert.deepEqual(
         highlightedStringToRanges('asdf<span class="c">qwer</span>asdf'),
-        [{ranges: [{start: 4, length: 4, className: 'c'}]}]
+        [{ranges: [{start: 4, length: 4, className: 'c'}]}],
       );
       assert.deepEqual(
         highlightedStringToRanges('<span class="d">asdfqwer</span>'),
-        [{ranges: [{start: 0, length: 8, className: 'd'}]}]
+        [{ranges: [{start: 0, length: 8, className: 'd'}]}],
       );
     });
 
     test('removal of empty spans', async () => {
       assert.deepEqual(
         highlightedStringToRanges('asdf<span class="c"></span>asdf'),
-        [{ranges: []}]
+        [{ranges: []}],
       );
       assert.deepEqual(
         highlightedStringToRanges(
-          '<span class="d"></span>\n<span class="d"></span>'
+          '<span class="d"></span>\n<span class="d"></span>',
         ),
-        [{ranges: []}, {ranges: []}]
+        [{ranges: []}, {ranges: []}],
       );
     });
 
     test('removal of duplicate spans', async () => {
       assert.deepEqual(
         highlightedStringToRanges(
-          '<span class="d"><span class="d">asdfqwer</span></span>'
+          '<span class="d"><span class="d">asdfqwer</span></span>',
         ),
-        [{ranges: [{start: 0, length: 8, className: 'd'}]}]
+        [{ranges: [{start: 0, length: 8, className: 'd'}]}],
       );
     });
 
     test('one line, two spans one after another', async () => {
       assert.deepEqual(
         highlightedStringToRanges(
-          'asdf<span class="c">qwer</span>zxcv<span class="d">qwer</span>asdf'
+          'asdf<span class="c">qwer</span>zxcv<span class="d">qwer</span>asdf',
         ),
         [
           {
@@ -102,14 +102,14 @@ suite('file syntax-util', () => {
               {start: 12, length: 4, className: 'd'},
             ],
           },
-        ]
+        ],
       );
     });
 
     test('one line, two nested spans', async () => {
       assert.deepEqual(
         highlightedStringToRanges(
-          'asdf<span class="c">qwer<span class="d">zxcv</span>qwer</span>asdf'
+          'asdf<span class="c">qwer<span class="d">zxcv</span>qwer</span>asdf',
         ),
         [
           {
@@ -118,7 +118,7 @@ suite('file syntax-util', () => {
               {start: 8, length: 4, className: 'd'},
             ],
           },
-        ]
+        ],
       );
     });
 
@@ -147,7 +147,7 @@ suite('file syntax-util', () => {
     test('one complex line with escaped HTML', async () => {
       assert.deepEqual(
         highlightedStringToRanges(
-          '  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>[[name]]<span class="tag">&lt;/<span class="name">span</span>&gt;</span>'
+          '  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>[[name]]<span class="tag">&lt;/<span class="name">span</span>&gt;</span>',
         ),
         [
           {
@@ -161,7 +161,7 @@ suite('file syntax-util', () => {
               {start: 32, length: 4, className: 'name'},
             ],
           },
-        ]
+        ],
       );
     });
 
@@ -169,24 +169,24 @@ suite('file syntax-util', () => {
       assert.deepEqual(
         highlightedStringToRanges(
           'asdf<span class="c">qwer</span>asdf\n' +
-            'asd<span class="d">qwe</span>asd'
+            'asd<span class="d">qwe</span>asd',
         ),
         [
           {ranges: [{start: 4, length: 4, className: 'c'}]},
           {ranges: [{start: 3, length: 3, className: 'd'}]},
-        ]
+        ],
       );
     });
 
     test('one span over two lines', async () => {
       assert.deepEqual(
         highlightedStringToRanges(
-          'asdf<span class="c">qwer\n' + 'asdf</span>qwer'
+          'asdf<span class="c">qwer\n' + 'asdf</span>qwer',
         ),
         [
           {ranges: [{start: 4, length: 4, className: 'c'}]},
           {ranges: [{start: 0, length: 4, className: 'c'}]},
-        ]
+        ],
       );
     });
 
@@ -194,7 +194,7 @@ suite('file syntax-util', () => {
       assert.deepEqual(
         highlightedStringToRanges(
           'asdf<span class="c">qwer<span class="d">zxcv\n' +
-            'asdf</span>qwer</span>zxcv'
+            'asdf</span>qwer</span>zxcv',
         ),
         [
           {
@@ -209,7 +209,7 @@ suite('file syntax-util', () => {
               {start: 0, length: 4, className: 'd'},
             ],
           },
-        ]
+        ],
       );
     });
 
@@ -219,7 +219,7 @@ suite('file syntax-util', () => {
           'asdf<span class="c">qwer\n' +
             'asdf<span class="d">qwer\n' +
             'asdf</span>qwer\n' +
-            'asdf</span>qwer'
+            'asdf</span>qwer',
         ),
         [
           {ranges: [{start: 4, length: 4, className: 'c'}]},
@@ -236,7 +236,7 @@ suite('file syntax-util', () => {
             ],
           },
           {ranges: [{start: 0, length: 4, className: 'c'}]},
-        ]
+        ],
       );
     });
   });

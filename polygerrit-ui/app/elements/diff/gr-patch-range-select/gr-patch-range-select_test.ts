@@ -42,7 +42,10 @@ import {fire} from '../../../utils/event-util';
 import {fixture, html, assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {changeViewModelToken} from '../../../models/views/change';
-import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeModelToken,
+  RevisionFileUpdateStatus,
+} from '../../../models/change/change-model';
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;
@@ -149,6 +152,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: EDIT,
         commentThreads: [],
+        deemphasizeReason: undefined,
       },
       {
         disabled: true,
@@ -159,6 +163,7 @@ suite('gr-patch-range-select tests', () => {
         value: 3,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
+        deemphasizeReason: undefined,
       } as DropdownItem,
       {
         disabled: true,
@@ -169,6 +174,7 @@ suite('gr-patch-range-select tests', () => {
         value: 2,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
+        deemphasizeReason: undefined,
       } as DropdownItem,
       {
         disabled: true,
@@ -179,6 +185,7 @@ suite('gr-patch-range-select tests', () => {
         value: 1,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
+        deemphasizeReason: undefined,
       } as DropdownItem,
       {
         text: 'Base | ',
@@ -295,6 +302,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: '',
         value: EDIT,
         commentThreads: [],
+        deemphasizeReason: undefined,
       },
       {
         disabled: false,
@@ -305,6 +313,7 @@ suite('gr-patch-range-select tests', () => {
         value: 3,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
+        deemphasizeReason: undefined,
       } as DropdownItem,
       {
         disabled: false,
@@ -315,6 +324,7 @@ suite('gr-patch-range-select tests', () => {
         value: 2,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
+        deemphasizeReason: undefined,
       } as DropdownItem,
       {
         disabled: true,
@@ -325,6 +335,7 @@ suite('gr-patch-range-select tests', () => {
         value: 1,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
+        deemphasizeReason: undefined,
       } as DropdownItem,
     ];
 
@@ -528,6 +539,68 @@ suite('gr-patch-range-select tests', () => {
     assert.isTrue(
       computeCommentThreadsSpy.firstCall.args[1],
       'Should ignore patchset level comments when path is defined'
+    );
+  });
+
+  test('revisions without modification are deemphasized', async () => {
+    element.availablePatches = [
+      {num: 3, sha: 'sha3'} as PatchSet,
+      {num: 2, sha: 'sha2'} as PatchSet,
+      {num: 1, sha: 'sha1'} as PatchSet,
+    ];
+    element.sortedRevisions = [
+      createRevision(3),
+      createRevision(2),
+      createRevision(1),
+    ];
+    element.revisionUpdatedFiles = {
+      sha1: {
+        foo: RevisionFileUpdateStatus.MODIFIED,
+        bar: RevisionFileUpdateStatus.MODIFIED,
+      },
+      sha2: {
+        foo: RevisionFileUpdateStatus.SAME,
+        bar: RevisionFileUpdateStatus.MODIFIED,
+      },
+      sha3: {
+        foo: RevisionFileUpdateStatus.UNKNOWN,
+        bar: RevisionFileUpdateStatus.SAME,
+      },
+    };
+    element.path = 'foo';
+    element.revisionInfo = getInfo(element.sortedRevisions);
+    element.patchNum = 3 as PatchSetNumber;
+    element.basePatchNum = PARENT;
+    await element.updateComplete;
+
+    const expectedResult: {triggerText: string; deemphasizeReason?: string}[] =
+      [
+        {
+          triggerText: 'Patchset 3',
+          deemphasizeReason: undefined,
+        },
+        {
+          triggerText: 'Patchset 2',
+          deemphasizeReason: 'unmodified',
+        },
+        {
+          triggerText: 'Patchset 1',
+          deemphasizeReason: undefined,
+        },
+        {
+          triggerText: 'Base',
+          deemphasizeReason: undefined,
+        },
+      ];
+    assert.deepEqual(
+      element.computeBaseDropdownContent().map(
+        x =>
+          ({
+            triggerText: x.triggerText,
+            deemphasizeReason: x.deemphasizeReason,
+          } as {triggerText: string; deemphasizeReason?: string})
+      ),
+      expectedResult
     );
   });
 });

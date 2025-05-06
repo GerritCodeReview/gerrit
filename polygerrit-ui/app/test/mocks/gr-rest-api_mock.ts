@@ -206,6 +206,9 @@ export const grRestApiMock: RestApiService = {
   getAccountStatus(): Promise<string | undefined> {
     return Promise.resolve('');
   },
+  getAllRevisionFiles() {
+    return Promise.resolve(undefined);
+  },
   getAvatarChangeUrl(): Promise<string | undefined> {
     return Promise.resolve('');
   },

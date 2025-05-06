@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72138a5b_9b321e59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-06T23:54:08Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/luci-config/+/473381 will fix luci.\n\nBut anyways the main changes to review are package.json and .eslintrc.js. There\u0027s also eslint.bzl",
+      "revId": "0d47d8a31a452696ab83333c5b199b59683610a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -102,7 +102,7 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
         # See note and example here:
         # https://bazelbuild.github.io/rules_nodejs/Built-ins.html#nodejs_binary
         "$$(rlocation $(rootpath {}))".format(config),
-        "--ignore-path",
+        "--ignore-pattern",
         "$$(rlocation $(rootpath {}))".format(ignore),
         # Load custom rules from eslint-rules directory
         "--rulesdir",

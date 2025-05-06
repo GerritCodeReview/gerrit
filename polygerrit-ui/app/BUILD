@@ -144,7 +144,7 @@ eslint(
     config = ".eslintrc-bazel.js",
     data = [
         # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
-        ".eslintrc.js",
+        "eslint.config.js",
         ".prettierrc.js",
         ".eslint-ts-resolver.js",
         "tsconfig_eslint.json",

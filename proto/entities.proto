@@ -140,16 +140,15 @@ message ApplyPatchInput {
 }
 
 // Serialized form of com.google.gerrit.extensions.api.accounts.AccountInput.
-// Next ID: 9
+// Next ID: 10
 message AccountInput {
  optional string username = 1;
  optional string name = 2;
  optional string display_name = 3;
  optional string email = 4;
  optional string ssh_key = 5;
- optional string http_password = 6;
- repeated string groups = 7;
- repeated TokenInput tokens = 8;
+ repeated string groups = 6;
+ repeated TokenInput tokens = 7;
 }
 
 // Serialized form of com.google.gerrit.extensions.common.TokenInput.

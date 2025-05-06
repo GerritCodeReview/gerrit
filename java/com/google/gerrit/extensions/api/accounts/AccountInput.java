@@ -24,7 +24,6 @@ public class AccountInput {
   public String displayName;
   public String email;
   public String sshKey;
-  @Deprecated public String httpPassword;
   public List<TokenInput> tokens;
   public List<String> groups;
 }

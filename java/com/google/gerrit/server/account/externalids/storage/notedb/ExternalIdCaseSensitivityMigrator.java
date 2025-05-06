@@ -100,11 +100,9 @@ public class ExternalIdCaseSensitivityMigrator {
           && !extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {
         logger.atInfo().log("Converting note name of external ID: %s", oldKey);
         ExternalId updatedExtId =
-            externalIdFactory.create(
-                updatedKey, extId.accountId(), extId.email(), extId.password(), extId.blobId());
+            externalIdFactory.create(updatedKey, extId.accountId(), extId.email(), extId.blobId());
         ExternalId oldExtId =
-            externalIdFactory.create(
-                oldKey, extId.accountId(), extId.email(), extId.password(), extId.blobId());
+            externalIdFactory.create(oldKey, extId.accountId(), extId.email(), extId.blobId());
         extIdNotes.replace(
             Collections.singleton(oldExtId),
             Collections.singleton(updatedExtId),

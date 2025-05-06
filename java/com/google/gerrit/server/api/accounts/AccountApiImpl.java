@@ -18,7 +18,6 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.AgreementInput;
@@ -42,7 +41,6 @@ import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -87,7 +85,6 @@ import com.google.gerrit.server.restapi.account.PostWatchedProjects;
 import com.google.gerrit.server.restapi.account.PutActive;
 import com.google.gerrit.server.restapi.account.PutAgreement;
 import com.google.gerrit.server.restapi.account.PutDisplayName;
-import com.google.gerrit.server.restapi.account.PutHttpPassword;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutStatus;
 import com.google.gerrit.server.restapi.account.SetDiffPreferences;
@@ -149,7 +146,6 @@ public class AccountApiImpl implements AccountApi {
   private final PutName putName;
   private final GetTokens getTokens;
   private final CreateToken createToken;
-  private final PutHttpPassword putHttpPassword;
   private final DeleteAccount deleteAccount;
 
   @Inject
@@ -194,7 +190,6 @@ public class AccountApiImpl implements AccountApi {
       PutName putName,
       CreateToken createToken,
       GetTokens getTokens,
-      PutHttpPassword putPassword,
       DeleteAccount deleteAccount,
       @Assisted AccountResource account) {
     this.account = account;
@@ -238,7 +233,6 @@ public class AccountApiImpl implements AccountApi {
     this.putName = putName;
     this.createToken = createToken;
     this.getTokens = getTokens;
-    this.putHttpPassword = putPassword;
     this.deleteAccount = deleteAccount;
   }
 
@@ -644,37 +638,6 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<TokenInfo> getTokens() throws RestApiException {
     return getTokens.apply(account.getUser());
-  }
-
-  @Nullable
-  @Override
-  @Deprecated
-  public String generateHttpPassword() throws RestApiException {
-    HttpPasswordInput input = new HttpPasswordInput();
-    input.generate = true;
-    try {
-      // Response should never be 'none' for a generated password, but
-      // let's make sure.
-      Response<String> result = putHttpPassword.apply(account, input);
-      return result.isNone() ? null : result.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot generate HTTP password", e);
-    }
-  }
-
-  @Nullable
-  @Override
-  @Deprecated
-  public String setHttpPassword(String password) throws RestApiException {
-    HttpPasswordInput input = new HttpPasswordInput();
-    input.generate = false;
-    input.httpPassword = password;
-    try {
-      Response<String> result = putHttpPassword.apply(account, input);
-      return result.isNone() ? null : result.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot generate HTTP password", e);
-    }
   }
 
   @Override

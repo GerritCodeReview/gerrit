@@ -15,14 +15,11 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.account.externalids.ExternalId;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,41 +56,9 @@ public class AuthTokenCacheTest {
   }
 
   @Test
-  public void loadTokenFromExternalId() throws Exception {
-    doReturn(
-            Optional.of(
-                AccountState.forAccount(
-                    ACCOUNT,
-                    List.of(
-                        ExternalId.create(
-                            ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
-                            ACCOUNT_ID,
-                            null,
-                            HashedPassword.fromPassword(PWD).encode(),
-                            null)))))
-        .when(accountCache)
-        .get(ACCOUNT_ID);
-    doReturn(ImmutableList.of()).when(versionedAuthTokens).getTokens();
-    ImmutableList<AuthToken> tokens = cacheLoader.load(ACCOUNT_ID);
-    assertThat(HashedPassword.decode(tokens.get(0).hashedToken()).checkPassword(PWD)).isTrue();
-  }
-
-  @Test
   public void loadTokenFromAccount() throws Exception {
-    doReturn(
-            Optional.of(
-                AccountState.forAccount(
-                    ACCOUNT,
-                    List.of(
-                        ExternalId.create(
-                            ExternalId.Key.create(SCHEME_USERNAME, "foo", false),
-                            ACCOUNT_ID,
-                            null,
-                            null,
-                            null)))))
-        .when(accountCache)
-        .get(ACCOUNT_ID);
-    doReturn(ImmutableList.of(AuthToken.createWithPlainToken("token", PWD)))
+    doReturn(Optional.of(AccountState.forAccount(ACCOUNT))).when(accountCache).get(ACCOUNT_ID);
+    doReturn(ImmutableList.of(AuthToken.createWithPlainToken("testtoken", PWD)))
         .when(versionedAuthTokens)
         .getTokens();
     ImmutableList<AuthToken> tokens = cacheLoader.load(ACCOUNT_ID);

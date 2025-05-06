@@ -125,25 +125,5 @@ public interface AccountApi {
 
   List<TokenInfo> getTokens() throws RestApiException;
 
-  /**
-   * Generate a new HTTP password.
-   *
-   * @return the generated password.
-   */
-  @Deprecated
-  String generateHttpPassword() throws RestApiException;
-
-  /**
-   * Set a new HTTP password.
-   *
-   * <p>May only be invoked by administrators.
-   *
-   * @param httpPassword the new password, {@code null} to remove the password.
-   * @return the new password, {@code null} if the password was removed.
-   */
-  @CanIgnoreReturnValue
-  @Deprecated
-  String setHttpPassword(String httpPassword) throws RestApiException;
-
   void delete() throws RestApiException;
 }

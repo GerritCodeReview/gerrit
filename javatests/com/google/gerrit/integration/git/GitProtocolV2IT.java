@@ -41,6 +41,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.TokenInput;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -270,8 +272,8 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
 
-      // Setup admin password
-      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
+      // Setup admin token
+      setupAdminToken();
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =
@@ -336,7 +338,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
+      setupAdminToken();
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =
@@ -405,7 +407,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
+      setupAdminToken();
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =
@@ -488,7 +490,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
+      setupAdminToken();
 
       String url = config.getString("gerrit", null, "canonicalweburl");
 
@@ -562,7 +564,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
 
   private void setUpUserAuthentication(String username, int accountId) throws Exception {
     // Assign HTTP password to user
-    gApi.accounts().id(accountId).setHttpPassword(ADMIN_PASSWORD);
+    setupAccountToken(accountId);
 
     // Generate private/public key for user
     execute(
@@ -603,5 +605,16 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
 
   private static String execute(ImmutableList<String> cmd, File dir) throws Exception {
     return execute(cmd, dir, ImmutableMap.of());
+  }
+
+  private void setupAdminToken() throws RestApiException {
+    setupAccountToken(admin.id().get());
+  }
+
+  private void setupAccountToken(int accountId) throws RestApiException {
+    TokenInput token = new TokenInput();
+    token.id = "testtoken";
+    token.token = ADMIN_PASSWORD;
+    gApi.accounts().id(accountId).createToken(token);
   }
 }

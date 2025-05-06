@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -110,38 +107,8 @@ public class AuthTokenCacheImpl implements AuthTokenCache {
 
         ImmutableList<AuthToken> tokens = authTokenFactory.create(accountId).load().getTokens();
 
-        // Fall back to legacy HTTP password if no tokens are present.
-        if (tokens.isEmpty()) {
-          Optional<AuthToken> legacyHttpPassword = getLegacyHttpPassword(accountState.get());
-          tokens =
-              legacyHttpPassword.isPresent()
-                  ? ImmutableList.of(legacyHttpPassword.get())
-                  : ImmutableList.of();
-        }
-
         return tokens;
       }
-    }
-
-    @Deprecated
-    private Optional<AuthToken> getLegacyHttpPassword(AccountState accountState) {
-      Optional<ExternalId> optUser =
-          accountState.externalIds().stream()
-              .filter(e -> e.key().scheme().equals(SCHEME_USERNAME))
-              .findFirst();
-      if (optUser.isEmpty()) {
-        return Optional.empty();
-      }
-      ExternalId user = optUser.get();
-      String password = user.password();
-      if (password != null) {
-        try {
-          return Optional.of(AuthToken.create(LEGACY_ID, password));
-        } catch (InvalidAuthTokenException e1) {
-          // Can be ignored because the token ID is hardcoded.
-        }
-      }
-      return Optional.empty();
     }
   }
 }

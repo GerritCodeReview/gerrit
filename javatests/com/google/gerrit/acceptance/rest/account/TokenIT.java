@@ -108,7 +108,7 @@ public class TokenIT extends AbstractDaemonTest {
     resp.assertOK();
 
     JsonArray json = JsonParser.parseReader(resp.getReader()).getAsJsonArray();
-    assertThat(json.size()).isEqualTo(1);
+    assertThat(json.size()).isEqualTo(2);
     assertThat(json.get(0).getAsJsonObject().get("id").getAsString()).isEqualTo("userToken1");
   }
 
@@ -180,7 +180,7 @@ public class TokenIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "auth.maxAuthTokensPerAccount", value = "2")
+  @GerritConfig(name = "auth.maxAuthTokensPerAccount", value = "3")
   public void assertCreatingMoreTokensThanAllowedFails() throws Exception {
     RestResponse resp =
         userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput.id), tokenInput);

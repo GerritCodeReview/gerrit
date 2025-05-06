@@ -47,7 +47,6 @@ public class AccountInputProtoConverterTest {
     accountInput.displayName = "test-display-name";
     accountInput.email = "test-email@gmail.com";
     accountInput.sshKey = "test-ssh-key";
-    accountInput.httpPassword = "test-http-password";
     accountInput.groups = List.of("group1", "group2");
     accountInput.tokens = getTokens();
     return accountInput;
@@ -72,7 +71,6 @@ public class AccountInputProtoConverterTest {
                 && Objects.equals(expected.displayName, actual.displayName)
                 && Objects.equals(expected.email, actual.email)
                 && Objects.equals(expected.sshKey, actual.sshKey)
-                && Objects.equals(expected.httpPassword, actual.httpPassword)
                 && Objects.equals(expected.tokens, actual.tokens)
                 && Objects.equals(expected.groups, actual.groups))
         .isTrue();
@@ -90,7 +88,6 @@ public class AccountInputProtoConverterTest {
             .setDisplayName("test-display-name")
             .setEmail("test-email@gmail.com")
             .setSshKey("test-ssh-key")
-            .setHttpPassword("test-http-password")
             .addAllGroups(ImmutableList.of("group1", "group2"))
             .addAllTokens(
                 getTokens().stream()
@@ -121,7 +118,6 @@ public class AccountInputProtoConverterTest {
                 .put("displayName", String.class)
                 .put("email", String.class)
                 .put("sshKey", String.class)
-                .put("httpPassword", String.class)
                 .put("groups", new TypeLiteral<List<String>>() {}.getType())
                 .put("tokens", new TypeLiteral<List<TokenInput>>() {}.getType())
                 .build());

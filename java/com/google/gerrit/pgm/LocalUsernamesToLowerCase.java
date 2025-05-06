@@ -107,12 +107,8 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
       String localUserLowerCase = localUser.toLowerCase(Locale.US);
       if (!localUser.equals(localUserLowerCase)) {
         ExternalId extIdLowerCase =
-            externalIdFactory.create(
-                SCHEME_GERRIT,
-                localUserLowerCase,
-                extId.accountId(),
-                extId.email(),
-                extId.password());
+            externalIdFactory.createWithEmail(
+                SCHEME_GERRIT, localUserLowerCase, extId.accountId(), extId.email());
         replaceIfNotExists(extIdNotes, extId, extIdLowerCase);
       }
     }
@@ -125,8 +121,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
           extIdNotes
               .get(extIdLowerCase.key())
               .filter(eid -> eid.accountId().equals(extIdLowerCase.accountId()))
-              .filter(eid -> StringUtils.equalsIgnoreCase(eid.email(), extId.email()))
-              .filter(eid -> StringUtils.equalsIgnoreCase(eid.password(), extId.password()));
+              .filter(eid -> StringUtils.equalsIgnoreCase(eid.email(), extId.email()));
       if (existingExternalId.isPresent()) {
         System.err.println(
             "WARNING: external-id "

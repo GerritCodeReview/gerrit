@@ -96,20 +96,6 @@ public class AllExternalIdsTest {
   }
 
   @Test
-  public void serializeExternalIdWithPassword() throws Exception {
-    assertRoundTrip(
-        allExternalIds(
-            externalIdFactory.create("scheme", "id", Account.id(1001), null, "hashed password")),
-        AllExternalIdsProto.newBuilder()
-            .addExternalId(
-                ExternalIdProto.newBuilder()
-                    .setKey("scheme:id")
-                    .setAccountId(1001)
-                    .setPassword("hashed password"))
-            .build());
-  }
-
-  @Test
   public void serializeExternalIdWithBlobId() throws Exception {
     assertRoundTrip(
         allExternalIds(
@@ -150,7 +136,6 @@ public class AllExternalIdsTest {
                 .put("accountId", Account.Id.class)
                 .put("isCaseInsensitive", boolean.class)
                 .put("email", String.class)
-                .put("password", String.class)
                 .put("blobId", ObjectId.class)
                 .build());
   }

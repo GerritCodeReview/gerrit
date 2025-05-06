@@ -142,8 +142,7 @@ public class CreateToken
     try {
       token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);
     } catch (InvalidAuthTokenException e) {
-      throw RestApiException.wrap(
-          String.format("Invalid token creation request: %s", e.getMessage()), e);
+      throw new BadRequestException("Invalid token creation request", e);
     }
     try {
       emailFactories
@@ -152,7 +151,7 @@ public class CreateToken
           .send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(
-          "Cannot send HttpPassword update message to %s", user.getAccount().preferredEmail());
+          "Cannot send token update message to %s", user.getAccount().preferredEmail());
     }
 
     TokenInfo info = new TokenInfo();

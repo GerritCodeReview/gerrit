@@ -219,10 +219,6 @@ public class CreateAccount
       }
     }
 
-    if (input.httpPassword != null) {
-      tokens.add(AuthToken.createWithPlainToken("legacy", input.httpPassword));
-    }
-
     if (!tokens.isEmpty()) {
       tokensAccessor.addTokens(accountId, tokens);
       tokenCache.evict(accountId);

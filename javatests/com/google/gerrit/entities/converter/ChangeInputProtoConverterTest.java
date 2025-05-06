@@ -68,7 +68,6 @@ public class ChangeInputProtoConverterTest {
     accountInput.name = "test-name";
     accountInput.email = "test-email";
     accountInput.sshKey = "test-ssh-key";
-    accountInput.httpPassword = "test-http-password";
     accountInput.groups = ImmutableList.of("test-group");
     TokenInput tokenInput = new TokenInput();
     tokenInput.id = "test-id";
@@ -125,7 +124,6 @@ public class ChangeInputProtoConverterTest {
                     && Objects.equals(expected.displayName, actual.displayName)
                     && Objects.equals(expected.email, actual.email)
                     && Objects.equals(expected.sshKey, actual.sshKey)
-                    && Objects.equals(expected.httpPassword, actual.httpPassword)
                     && Objects.equals(expected.groups, actual.groups)))
         .isTrue();
   }

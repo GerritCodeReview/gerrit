@@ -132,7 +132,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   protected void commit(Account.Id accountId, VersionedAuthTokens authTokens) throws IOException {
     try (MetaDataUpdate md =
         metaDataUpdateFactory.get().create(allUsersName, userFactory.create(accountId))) {
-      authTokens.commit(md);
+      authTokens.commit(md, false);
     }
   }
 }

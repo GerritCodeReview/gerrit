@@ -102,7 +102,6 @@ public abstract class ExternalId implements Serializable {
   public static final String EXTERNAL_ID_SECTION = "externalId";
   public static final String ACCOUNT_ID_KEY = "accountId";
   public static final String EMAIL_KEY = "email";
-  public static final String PASSWORD_KEY = "password";
 
   /**
    * Scheme used to label accounts created, when using the LDAP-based authentication types {@link
@@ -252,26 +251,10 @@ public abstract class ExternalId implements Serializable {
     }
   }
 
-  @Deprecated
-  public static ExternalId create(
-      Key key,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String hashedPassword,
-      @Nullable ObjectId blobId) {
-    return new AutoValue_ExternalId(
-        key,
-        accountId,
-        key.isCaseInsensitive(),
-        Strings.emptyToNull(email),
-        Strings.emptyToNull(hashedPassword),
-        blobId);
-  }
-
   public static ExternalId create(
       Key key, Account.Id accountId, @Nullable String email, @Nullable ObjectId blobId) {
     return new AutoValue_ExternalId(
-        key, accountId, key.isCaseInsensitive(), Strings.emptyToNull(email), null, blobId);
+        key, accountId, key.isCaseInsensitive(), Strings.emptyToNull(email), blobId);
   }
 
   public abstract Key key();
@@ -281,9 +264,6 @@ public abstract class ExternalId implements Serializable {
   public abstract boolean isCaseInsensitive();
 
   public abstract @Nullable String email();
-
-  @Deprecated
-  public abstract @Nullable String password();
 
   /**
    * ID of the note blob in the external IDs branch that stores this external ID. {@code null} if
@@ -313,27 +293,24 @@ public abstract class ExternalId implements Serializable {
     return Objects.equals(key(), o.key())
         && Objects.equals(accountId(), o.accountId())
         && isCaseInsensitive() == o.isCaseInsensitive()
-        && Objects.equals(email(), o.email())
-        && Objects.equals(password(), o.password());
+        && Objects.equals(email(), o.email());
   }
 
   @Memoized
   @Override
   public int hashCode() {
-    return Objects.hash(key(), accountId(), isCaseInsensitive(), email(), password());
+    return Objects.hash(key(), accountId(), isCaseInsensitive(), email());
   }
 
   /**
    * Exports this external ID as Git config file text.
    *
-   * <p>The Git config has exactly one externalId subsection with an accountId and optionally email
-   * and password:
+   * <p>The Git config has exactly one externalId subsection with an accountId and optionally email:
    *
    * <pre>
    * [externalId "username:jdoe"]
    *   accountId = 1003407
    *   email = jdoe@example.com
-   *   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
    * </pre>
    */
   @Override
@@ -356,12 +333,6 @@ public abstract class ExternalId implements Serializable {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY, email());
     } else {
       c.unset(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY);
-    }
-
-    if (password() != null) {
-      c.setString(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY, password());
-    } else {
-      c.unset(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY);
     }
   }
 }

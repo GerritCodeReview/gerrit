@@ -28,8 +28,6 @@ import java.util.Set;
 public abstract class TestAccountCreation {
   public abstract Optional<String> fullname();
 
-  public abstract Optional<String> httpPassword();
-
   public abstract Optional<String> preferredEmail();
 
   public abstract Optional<String> username();
@@ -42,14 +40,9 @@ public abstract class TestAccountCreation {
 
   abstract ThrowingFunction<TestAccountCreation, Account.Id> accountCreator();
 
-  public static Builder builder(
-      ThrowingFunction<TestAccountCreation, Account.Id> accountCreator,
-      boolean arePasswordsAllowed) {
+  public static Builder builder(ThrowingFunction<TestAccountCreation, Account.Id> accountCreator) {
     TestAccountCreation.Builder builder =
         new AutoValue_TestAccountCreation.Builder().accountCreator(accountCreator);
-    if (arePasswordsAllowed) {
-      builder.httpPassword("http-pass");
-    }
     return builder;
   }
 
@@ -60,13 +53,6 @@ public abstract class TestAccountCreation {
     @CanIgnoreReturnValue
     public Builder clearFullname() {
       return fullname("");
-    }
-
-    public abstract Builder httpPassword(String httpPassword);
-
-    @CanIgnoreReturnValue
-    public Builder clearHttpPassword() {
-      return httpPassword("");
     }
 
     public abstract Builder preferredEmail(String preferredEmail);

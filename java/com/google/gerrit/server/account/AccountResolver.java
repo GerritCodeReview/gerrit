@@ -874,6 +874,8 @@ public class AccountResolver {
       }
       Stream<AccountState> results = maybeResults.get();
 
+      System.out.println("AccountResolver results ");
+
       // Filter out non-visible results, except if it's the BySelf searcher. Since users can always
       // see themselves checking the visibility is not needed for the BySelf searcher.
       results = searcher instanceof BySelf ? results : results.filter(visibilitySupplier.get());
@@ -888,6 +890,9 @@ public class AccountResolver {
       } else {
         list = results.collect(toImmutableList());
       }
+
+      System.out.println("AccountResolver list ");
+      System.out.println(list);
 
       if (!list.isEmpty()) {
         return createResult(input, list, asUser);

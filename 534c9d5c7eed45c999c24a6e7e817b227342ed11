@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdbdb4ee_33b3421a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-06T13:59:11Z",
+      "side": 0,
+      "message": "selected\nnot selected",
+      "revId": "534c9d5c7eed45c999c24a6e7e817b227342ed11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

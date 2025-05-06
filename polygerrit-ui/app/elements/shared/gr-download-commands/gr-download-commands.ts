@@ -54,6 +54,9 @@ export class GrDownloadCommands extends LitElement {
   @property({type: Boolean, attribute: 'show-keyboard-shortcut-tooltips'})
   showKeyboardShortcutTooltips = false;
 
+  @state()
+  private useWindowsCommands = false;
+
   // Private but used in tests.
   readonly getUserModel = resolve(this, userModelToken);
 
@@ -75,6 +78,28 @@ export class GrDownloadCommands extends LitElement {
         }
       }
     );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.useWindowsCommands =
+      navigator.platform.startsWith('Win') ||
+      navigator.userAgent.includes('Windows');
+  }
+
+  private onToggleChange(e: Event) {
+    this.useWindowsCommands = (e.target as HTMLInputElement).checked;
+  }
+
+  private transformCommandForPlatform(command: string): string {
+    if (this.useWindowsCommands) {
+      // Split by '&&', wrap each part in parentheses, and join with ' -and '
+      return command
+        .split('&&')
+        .map(cmd => `(${cmd.trim()})`)
+        .join(' -and ');
+    }
+    return command;
   }
 
   static override get styles() {
@@ -135,7 +160,18 @@ export class GrDownloadCommands extends LitElement {
   override render() {
     return html`
       <div class="schemes">${this.renderDownloadTabs()}</div>
-      ${this.renderDescription()} ${this.renderCommands()}
+      ${this.renderDescription()}
+      <div style="margin-bottom: 1em;">
+        <label>
+          <input
+            type="checkbox"
+            .checked=${this.useWindowsCommands}
+            @change=${this.onToggleChange}
+          />
+          Show Windows (PowerShell) commands
+        </label>
+      </div>
+      ${this.renderCommands()}
     `;
   }
 
@@ -165,7 +201,7 @@ export class GrDownloadCommands extends LitElement {
 
   private renderCommands() {
     return html`
-      <div class="commands" ?hidden=${!this.schemes.length}></div>
+      <div class="commands" ?hidden=${!this.schemes.length}>
         ${this.commands?.map((command, index) =>
           this.renderShellCommand(command, index)
         )}
@@ -178,7 +214,7 @@ export class GrDownloadCommands extends LitElement {
       <gr-shell-command
         class=${this.computeClass(command.title)}
         .label=${command.title}
-        .command=${command.command}
+        .command=${this.transformCommandForPlatform(command.command)}
         .tooltip=${this.computeTooltip(index)}
       ></gr-shell-command>
     `;

@@ -49,7 +49,7 @@ suite('gr-group-audit-log tests', () => {
             </tr>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 
@@ -68,24 +68,24 @@ suite('gr-group-audit-log tests', () => {
     test('test isGroupEvent', () => {
       assert.isTrue(
         element.isGroupEvent(
-          createGroupAuditEventInfo(GroupAuditEventType.ADD_GROUP)
-        )
+          createGroupAuditEventInfo(GroupAuditEventType.ADD_GROUP),
+        ),
       );
       assert.isTrue(
         element.isGroupEvent(
-          createGroupAuditEventInfo(GroupAuditEventType.REMOVE_GROUP)
-        )
+          createGroupAuditEventInfo(GroupAuditEventType.REMOVE_GROUP),
+        ),
       );
 
       assert.isFalse(
         element.isGroupEvent(
-          createGroupAuditEventInfo(GroupAuditEventType.ADD_USER)
-        )
+          createGroupAuditEventInfo(GroupAuditEventType.ADD_USER),
+        ),
       );
       assert.isFalse(
         element.isGroupEvent(
-          createGroupAuditEventInfo(GroupAuditEventType.REMOVE_USER)
-        )
+          createGroupAuditEventInfo(GroupAuditEventType.REMOVE_USER),
+        ),
       );
     });
   });

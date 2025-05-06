@@ -16,7 +16,7 @@ suite('gr-confirm-revert-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-confirm-revert-dialog></gr-confirm-revert-dialog>`
+      html`<gr-confirm-revert-dialog></gr-confirm-revert-dialog>`,
     );
   });
 
@@ -41,7 +41,7 @@ suite('gr-confirm-revert-dialog tests', () => {
             <gr-validation-options></gr-validation-options>
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -52,7 +52,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'not a commitHash in sight',
-      undefined
+      undefined,
     );
     assert.isTrue(alertStub.calledOnce);
   });
@@ -62,7 +62,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'one line commit\n\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert "one line commit"\n\n' +
@@ -76,7 +76,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert "many lines"\n\n' +
@@ -90,7 +90,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nIssue: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     let expected =
       'Revert "much lines"\n\n' +
@@ -102,7 +102,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nIssue= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     expected =
       'Revert "much lines"\n\n' +
@@ -114,7 +114,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nISSUE= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     expected =
       'Revert "much lines"\n\n' +
@@ -126,7 +126,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nISSUE: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     expected =
       'Revert "much lines"\n\n' +
@@ -141,7 +141,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\n\nIssue: 1234567very\n\ncommit\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert "much lines"\n\n' +
@@ -155,7 +155,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nBug: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     let expected =
       'Revert "much lines"\n\n' +
@@ -167,7 +167,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nBug= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     expected =
       'Revert "much lines"\n\n' +
@@ -179,7 +179,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nBUG= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     expected =
       'Revert "much lines"\n\n' +
@@ -191,7 +191,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\nBUG: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     expected =
       'Revert "much lines"\n\n' +
@@ -206,7 +206,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\n\nBug: 1234567very\n\ncommit\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert "much lines"\n\n' +
@@ -220,7 +220,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'much lines\nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert "much lines"\n\n' +
@@ -235,7 +235,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'Revert "one line commit"\n\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert^2 "one line commit"\n\n' +
@@ -249,7 +249,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.populateRevertSingleChangeMessage(
       createParsedChange(),
       'Revert^2 "one line commit"\n\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
+      'abcd123' as CommitId,
     );
     const expected =
       'Revert^3 "one line commit"\n\n' +
@@ -266,7 +266,7 @@ suite('gr-confirm-revert-dialog tests', () => {
         submission_id: '5545' as ChangeSubmissionId,
         current_revision: 'abcd123' as CommitId,
       },
-      'one line commit\n\nChange-Id: abcdefg\n'
+      'one line commit\n\nChange-Id: abcdefg\n',
     );
 
     const expected =

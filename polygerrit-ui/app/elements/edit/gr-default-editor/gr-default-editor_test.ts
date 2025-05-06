@@ -25,7 +25,7 @@ suite('gr-default-editor tests', () => {
   test('render', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <textarea id="textarea"></textarea> '
+      /* HTML */ ' <textarea id="textarea"></textarea> ',
     );
   });
 

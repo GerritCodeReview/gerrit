@@ -32,7 +32,7 @@ suite('gr-checks-fix-preview test', () => {
     stubRestApi('getFixPreview').returns(promise);
 
     element = await fixture<GrChecksFixPreview>(
-      html`<gr-checks-fix-preview></gr-checks-fix-preview>`
+      html`<gr-checks-fix-preview></gr-checks-fix-preview>`,
     );
     await element.updateComplete;
 
@@ -79,7 +79,7 @@ suite('gr-checks-fix-preview test', () => {
           </div>
         </div>
         <gr-suggestion-diff-preview></gr-suggestion-diff-preview>
-      `
+      `,
     );
   });
 
@@ -106,11 +106,11 @@ suite('gr-checks-fix-preview test', () => {
     await element.updateComplete;
     const diffPreview = queryAndAssert<GrSuggestionDiffPreview>(
       element,
-      'gr-suggestion-diff-preview'
+      'gr-suggestion-diff-preview',
     );
     const applyFixSpy = sinon.spy(diffPreview, 'applyFix');
     stubRestApi('applyFixSuggestion').returns(
-      Promise.resolve({ok: true} as Response)
+      Promise.resolve({ok: true} as Response),
     );
 
     const button = queryAndAssert<HTMLElement>(element, 'gr-button.applyFix');
@@ -178,7 +178,7 @@ suite('gr-checks-fix-preview test', () => {
           </div>
         </div>
         <gr-suggestion-diff-preview> </gr-suggestion-diff-preview>
-      `
+      `,
     );
   });
 
@@ -193,7 +193,7 @@ suite('gr-checks-fix-preview test', () => {
     await element.updateComplete;
     const prevButton = queryAndAssert<HTMLElement>(
       element,
-      'gr-button#prevFix'
+      'gr-button#prevFix',
     );
     assert.isFalse(prevButton.hasAttribute('disabled'));
     prevButton.click();

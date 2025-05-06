@@ -91,7 +91,7 @@ suite('gr-diff-group tests', () => {
     const l3 = new GrDiffLine(GrDiffLineType.BOTH);
 
     assert.throws(
-      () => new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [l1, l2, l3]})
+      () => new GrDiffGroup({type: GrDiffGroupType.BOTH, lines: [l1, l2, l3]}),
     );
   });
 
@@ -201,16 +201,16 @@ suite('gr-diff-group tests', () => {
 
       assert.equal(
         collapsedGroups[2].contextGroups[0].type,
-        GrDiffGroupType.BOTH
+        GrDiffGroupType.BOTH,
       );
       assert.deepEqual(
         collapsedGroups[2].contextGroups[0].lines,
-        groups[1].lines.slice(1)
+        groups[1].lines.slice(1),
       );
 
       assert.equal(
         collapsedGroups[2].contextGroups[1].type,
-        GrDiffGroupType.BOTH
+        GrDiffGroupType.BOTH,
       );
       assert.deepEqual(collapsedGroups[2].contextGroups[1].lines, [
         groups[2].lines[0],
@@ -224,7 +224,7 @@ suite('gr-diff-group tests', () => {
       const collapsedGroups = hideInContextControl(
         groupsWithWhiteSpaceOnlyChange,
         4,
-        8
+        8,
       );
       assert.equal(collapsedGroups.length, 4);
       assert.equal(collapsedGroups[0], groupsWithWhiteSpaceOnlyChange[0]);
@@ -242,20 +242,20 @@ suite('gr-diff-group tests', () => {
 
       assert.equal(
         collapsedGroups[2].contextGroups[0].type,
-        GrDiffGroupType.DELTA
+        GrDiffGroupType.DELTA,
       );
       assert.deepEqual(
         collapsedGroups[2].contextGroups[0].adds,
-        groupsWithWhiteSpaceOnlyChange[1].adds.slice(1)
+        groupsWithWhiteSpaceOnlyChange[1].adds.slice(1),
       );
       assert.deepEqual(
         collapsedGroups[2].contextGroups[0].removes,
-        groupsWithWhiteSpaceOnlyChange[1].removes.slice(1)
+        groupsWithWhiteSpaceOnlyChange[1].removes.slice(1),
       );
 
       assert.equal(
         collapsedGroups[2].contextGroups[1].type,
-        GrDiffGroupType.BOTH
+        GrDiffGroupType.BOTH,
       );
       assert.deepEqual(collapsedGroups[2].contextGroups[1].lines, [
         groupsWithWhiteSpaceOnlyChange[2].lines[0],
@@ -264,7 +264,7 @@ suite('gr-diff-group tests', () => {
       assert.equal(collapsedGroups[3].type, GrDiffGroupType.BOTH);
       assert.deepEqual(
         collapsedGroups[3].lines,
-        groupsWithWhiteSpaceOnlyChange[2].lines.slice(1)
+        groupsWithWhiteSpaceOnlyChange[2].lines.slice(1),
       );
     });
 

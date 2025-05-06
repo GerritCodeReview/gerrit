@@ -13,7 +13,7 @@ suite('gr-app-element tests', () => {
 
   setup(async () => {
     element = await fixture<GrAppElement>(
-      html`<gr-app-element></gr-app-element>`
+      html`<gr-app-element></gr-app-element>`,
     );
     await element.updateComplete;
   });
@@ -54,7 +54,7 @@ suite('gr-app-element tests', () => {
         <gr-endpoint-decorator name="plugin-overlay"> </gr-endpoint-decorator>
         <gr-error-manager id="errorManager"> </gr-error-manager>
         <gr-plugin-host id="plugins"> </gr-plugin-host>
-      `
+      `,
     );
   });
 });

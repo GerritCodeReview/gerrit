@@ -54,7 +54,7 @@ suite('gr-avatar tests', () => {
         html`<gr-avatar-stack
           .accounts=${accounts}
           .imageSize=${32}
-        ></gr-avatar-stack>`
+        ></gr-avatar-stack>`,
       );
       await element.updateComplete;
 
@@ -69,7 +69,7 @@ suite('gr-avatar tests', () => {
             aria-label="1"
             style='background-image: url("https://a.b.c/photo1.jpg");'
           >
-          </gr-avatar> `
+          </gr-avatar> `,
       );
       // Verify that margins are set correctly.
       const avatars = element.shadowRoot!.querySelectorAll('gr-avatar');
@@ -78,7 +78,7 @@ suite('gr-avatar tests', () => {
       for (let i = 1; i < avatars.length; ++i) {
         assert.strictEqual(
           window.getComputedStyle(avatars[i]).marginLeft,
-          '-8px'
+          '-8px',
         );
       }
     });
@@ -114,7 +114,7 @@ suite('gr-avatar tests', () => {
           .accounts=${accounts}
           .imageSize=${32}
           .enableHover=${true}
-        ></gr-avatar-stack>`
+        ></gr-avatar-stack>`,
       );
       await element.updateComplete;
 
@@ -131,7 +131,7 @@ suite('gr-avatar tests', () => {
             style='background-image: url("https://a.b.c/photo1.jpg");'
           >
             <gr-hovercard-account></gr-hovercard-account>
-          </gr-avatar> `
+          </gr-avatar> `,
       );
       // Verify that margins are set correctly.
       const avatars = element.shadowRoot!.querySelectorAll('gr-avatar');
@@ -140,7 +140,7 @@ suite('gr-avatar tests', () => {
       for (let i = 1; i < avatars.length; ++i) {
         assert.strictEqual(
           window.getComputedStyle(avatars[i]).marginLeft,
-          '-8px'
+          '-8px',
         );
       }
     });
@@ -162,7 +162,7 @@ suite('gr-avatar tests', () => {
           .accounts=${[{_account_id: 1}]}
           .forceFetch=${true}
           .imageSize=${32}
-        ></gr-avatar-stack>`
+        ></gr-avatar-stack>`,
       );
       await element.updateComplete;
       // The previous `updated` should have started the fetch which fills
@@ -176,7 +176,7 @@ suite('gr-avatar tests', () => {
           aria-label="1"
           style='background-image: url("https://a.b.c/photo0.jpg");'
         >
-        </gr-avatar>`
+        </gr-avatar>`,
       );
       // Verify that margins are set correctly.
       const avatars = element.shadowRoot!.querySelectorAll('gr-avatar');
@@ -194,7 +194,7 @@ suite('gr-avatar tests', () => {
           .accounts=${[{_account_id: 1}]}
           .forceFetch=${true}
           .imageSize=${32}
-        ></gr-avatar-stack>`
+        ></gr-avatar-stack>`,
       );
       await element.updateComplete;
       // The previous `updated` should have started the fetch which fills
@@ -204,7 +204,7 @@ suite('gr-avatar tests', () => {
       assert.equal(stub.callCount, 1);
       assert.shadowDom.equal(
         element,
-        /* HTML */ '<slot name="fallback"></slot>'
+        /* HTML */ '<slot name="fallback"></slot>',
       );
     });
 
@@ -226,11 +226,11 @@ suite('gr-avatar tests', () => {
       const element = await fixture(
         html`<gr-avatar-stack .accounts=${accounts} .imageSize=${32}>
           <span slot="fallback">Fall back!</span>
-        </gr-avatar-stack>`
+        </gr-avatar-stack>`,
       );
       assert.shadowDom.equal(
         element,
-        /* HTML */ '<slot name="fallback"></slot>'
+        /* HTML */ '<slot name="fallback"></slot>',
       );
     });
 
@@ -241,11 +241,11 @@ suite('gr-avatar tests', () => {
       const element = await fixture(
         html`<gr-avatar-stack .accounts=${accounts} .imageSize=${32}>
           <span slot="fallback">Fall back!</span>
-        </gr-avatar-stack>`
+        </gr-avatar-stack>`,
       );
       assert.shadowDom.equal(
         element,
-        /* HTML */ '<slot name="fallback"></slot>'
+        /* HTML */ '<slot name="fallback"></slot>',
       );
     });
   });
@@ -262,7 +262,7 @@ suite('gr-avatar tests', () => {
     const element = await fixture(
       html`<gr-avatar-stack .accounts=${accounts} .imageSize=${32}>
         <span slot="fallback">Fall back!</span>
-      </gr-avatar-stack>`
+      </gr-avatar-stack>`,
     );
     assert.shadowDom.equal(element, /* HTML */ '<slot name="fallback"></slot>');
   });

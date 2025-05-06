@@ -13,7 +13,7 @@ import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 export class GrReportingJsApi implements ReportingPluginApi {
   constructor(
     private readonly reporting: ReportingService,
-    private readonly plugin: PluginApi
+    private readonly plugin: PluginApi,
   ) {
     this.reporting.trackApi(this.plugin, 'reporting', 'constructor');
   }
@@ -22,7 +22,7 @@ export class GrReportingJsApi implements ReportingPluginApi {
     this.reporting.trackApi(this.plugin, 'reporting', 'reportInteraction');
     this.reporting.reportPluginInteractionLog(
       `${this.plugin.getPluginName()}-${eventName}`,
-      details
+      details,
     );
   }
 
@@ -30,7 +30,7 @@ export class GrReportingJsApi implements ReportingPluginApi {
     this.reporting.trackApi(this.plugin, 'reporting', 'reportLifeCycle');
     this.reporting.reportPluginLifeCycleLog(
       `${this.plugin.getPluginName()}-${eventName}`,
-      details
+      details,
     );
   }
 }

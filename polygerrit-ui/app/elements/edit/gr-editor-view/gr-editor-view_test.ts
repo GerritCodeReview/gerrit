@@ -137,7 +137,7 @@ suite('gr-editor-view tests', () => {
             <gr-default-editor id="file"> </gr-default-editor>
           </gr-endpoint-decorator>
         </div>
-      `
+      `,
     );
   });
 
@@ -201,7 +201,7 @@ suite('gr-editor-view tests', () => {
         bubbles: true,
         composed: true,
         detail: {value: 'new content value'},
-      })
+      }),
     );
     element.storeTask?.flush();
     await element.updateComplete;
@@ -225,10 +225,10 @@ suite('gr-editor-view tests', () => {
     test('initial load', () => {
       assert.equal(
         query<GrDefaultEditor>(element, '#file')!.fileContent,
-        originalText
+        originalText,
       );
       assert.isTrue(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
     });
 
@@ -241,7 +241,7 @@ suite('gr-editor-view tests', () => {
       await element.updateComplete;
 
       assert.isFalse(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
       assert.isFalse(element.saving);
 
@@ -251,7 +251,7 @@ suite('gr-editor-view tests', () => {
       assert.isTrue(element.saving);
       await element.updateComplete;
       assert.isTrue(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
 
       return saveSpy.lastCall.returnValue.then(() => {
@@ -266,7 +266,7 @@ suite('gr-editor-view tests', () => {
         ]);
         assert.isFalse(navigateStub.called);
         assert.isFalse(
-          query<GrButton>(element, '#save')!.hasAttribute('disabled')
+          query<GrButton>(element, '#save')!.hasAttribute('disabled'),
         );
         assert.notEqual(element.content, element.newContent);
       });
@@ -281,7 +281,7 @@ suite('gr-editor-view tests', () => {
 
       assert.isFalse(element.saving);
       assert.isFalse(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
 
       query<GrButton>(element, '#save')!.click();
@@ -290,7 +290,7 @@ suite('gr-editor-view tests', () => {
       assert.isTrue(element.saving);
       await element.updateComplete;
       assert.isTrue(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
 
       return saveSpy.lastCall.returnValue.then(() => {
@@ -298,7 +298,7 @@ suite('gr-editor-view tests', () => {
         assert.isFalse(element.saving);
         assert.equal(alertStub.lastCall.args[0], 'All changes saved');
         assert.isTrue(
-          query<GrButton>(element, '#save')!.hasAttribute('disabled')
+          query<GrButton>(element, '#save')!.hasAttribute('disabled'),
         );
         assert.equal(element.content, element.newContent);
         assert.isTrue(element.successfulSave);
@@ -316,7 +316,7 @@ suite('gr-editor-view tests', () => {
 
       assert.isFalse(element.saving);
       assert.isFalse(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
 
       query<GrButton>(element, '#publish')!.click();
@@ -325,7 +325,7 @@ suite('gr-editor-view tests', () => {
       assert.isTrue(element.saving);
       await element.updateComplete;
       assert.isTrue(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
 
       return saveSpy.lastCall.returnValue.then(() => {
@@ -336,7 +336,7 @@ suite('gr-editor-view tests', () => {
         assert.equal(alertStub.getCall(2).args[0], 'Publishing edit...');
 
         assert.isTrue(
-          query<GrButton>(element, '#save')!.hasAttribute('disabled')
+          query<GrButton>(element, '#save')!.hasAttribute('disabled'),
         );
         assert.equal(element.content, element.newContent);
         assert.isTrue(element.successfulSave);
@@ -355,7 +355,7 @@ suite('gr-editor-view tests', () => {
       await element.updateComplete;
 
       assert.isFalse(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
+        query<GrButton>(element, '#save')!.hasAttribute('disabled'),
       );
 
       query<GrButton>(element, '#close')!.click();
@@ -379,7 +379,7 @@ suite('gr-editor-view tests', () => {
           ok: true,
           type: 'text/javascript',
           content: 'new content',
-        })
+        }),
       );
       element.viewState = {
         ...createEditViewState(),
@@ -398,7 +398,7 @@ suite('gr-editor-view tests', () => {
 
     test('!res.ok', () => {
       stubRestApi('getFileContent').returns(
-        Promise.resolve(new Response(null, {status: 500}))
+        Promise.resolve(new Response(null, {status: 500})),
       );
       element.viewState = {
         ...createEditViewState(),
@@ -421,7 +421,7 @@ suite('gr-editor-view tests', () => {
           ...new Response(),
           ok: true,
           type: 'text/javascript' as ResponseType,
-        })
+        }),
       );
       element.viewState = {
         ...createEditViewState(),
@@ -439,7 +439,7 @@ suite('gr-editor-view tests', () => {
 
     test('content and type is undefined', () => {
       stubRestApi('getFileContent').returns(
-        Promise.resolve({...new Response(), ok: true})
+        Promise.resolve({...new Response(), ok: true}),
       );
       element.viewState = {
         ...createEditViewState(),
@@ -478,7 +478,7 @@ suite('gr-editor-view tests', () => {
     assert.isTrue(setUrlStub.called);
     assert.equal(
       setUrlStub.lastCall.firstArg,
-      '/c/test-project/+/42,edit?forceReload=true'
+      '/c/test-project/+/42,edit?forceReload=true',
     );
   });
 
@@ -536,7 +536,7 @@ suite('gr-editor-view tests', () => {
           ok: true,
           type: 'text/javascript',
           content: 'old content',
-        })
+        }),
       );
       element.viewState = {
         ...createEditViewState(),
@@ -568,7 +568,7 @@ suite('gr-editor-view tests', () => {
           ok: true,
           type: 'text/javascript',
           content: 'pending edit',
-        })
+        }),
       );
       element.viewState = {
         ...createEditViewState(),

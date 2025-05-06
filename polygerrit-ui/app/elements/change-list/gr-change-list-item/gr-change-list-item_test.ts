@@ -65,7 +65,7 @@ suite('gr-change-list-item tests', () => {
 
   setup(async () => {
     bulkActionsModel = new BulkActionsModel(
-      createTestAppContext().restApiService
+      createTestAppContext().restApiService,
     );
     userModel = testResolver(userModelToken);
     element = (
@@ -73,8 +73,8 @@ suite('gr-change-list-item tests', () => {
         wrapInProvider(
           html`<gr-change-list-item></gr-change-list-item>`,
           bulkActionsModelToken,
-          bulkActionsModel
-        )
+          bulkActionsModel,
+        ),
       )
     ).element as GrChangeListItem;
     await element.updateComplete;
@@ -97,7 +97,7 @@ suite('gr-change-list-item tests', () => {
     for (const column of Object.values(ColumnNames)) {
       const elementClass = '.' + column.trim().toLowerCase();
       assert.isFalse(
-        queryAndAssert(element, elementClass).hasAttribute('hidden')
+        queryAndAssert(element, elementClass).hasAttribute('hidden'),
       );
     }
   });
@@ -114,12 +114,12 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > input',
       );
       checkbox.click();
       let selectedChangeNums = await waitUntilObserved(
         bulkActionsModel.selectedChangeNums$,
-        s => s.length === 1
+        s => s.length === 1,
       );
 
       assert.deepEqual(selectedChangeNums, [1]);
@@ -127,7 +127,7 @@ suite('gr-change-list-item tests', () => {
       checkbox.click();
       selectedChangeNums = await waitUntilObserved(
         bulkActionsModel.selectedChangeNums$,
-        s => s.length === 0
+        s => s.length === 0,
       );
 
       assert.deepEqual(selectedChangeNums, []);
@@ -147,7 +147,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > input',
       );
       checkbox.click();
       await element.updateComplete;
@@ -170,7 +170,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > input',
       );
       assert.isTrue(checkbox.checked);
 
@@ -199,7 +199,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > input',
       );
       assert.isTrue(checkbox.checked);
 
@@ -238,7 +238,7 @@ suite('gr-change-list-item tests', () => {
     reviewerIds: number[],
     reviewerNames: (string | undefined)[],
     attSetIds: number[],
-    expected: number[]
+    expected: number[],
   ) {
     element.loggedInUser = userId
       ? {_account_id: userId as AccountId}
@@ -277,14 +277,14 @@ suite('gr-change-list-item tests', () => {
       [2, 3, 4, 5],
       ['b', 'a', 'd', 'c'],
       [3, 4],
-      [3, 4, 2, 5]
+      [3, 4, 2, 5],
     );
     checkComputeReviewers(
       1,
       [2, 3, 1, 4, 5],
       ['b', 'a', 'x', 'd', 'c'],
       [3, 4],
-      [1, 3, 4, 2, 5]
+      [1, 3, 4, 2, 5],
     );
   });
 
@@ -437,7 +437,7 @@ suite('gr-change-list-item tests', () => {
         </gr-tooltip-content>
         <gr-change-list-column-requirements-summary>
         </gr-change-list-column-requirements-summary>
-      `
+      `,
     );
   });
 
@@ -463,8 +463,8 @@ suite('gr-change-list-item tests', () => {
             .labelNames=${[StandardLabels.CODE_REVIEW]}
           ></gr-change-list-item>`,
           bulkActionsModelToken,
-          bulkActionsModel
-        )
+          bulkActionsModel,
+        ),
       )
     ).element as GrChangeListItem;
 
@@ -472,7 +472,7 @@ suite('gr-change-list-item tests', () => {
     assert.dom.equal(
       requirement,
       /* HTML */ ` <gr-change-list-column-requirement>
-      </gr-change-list-column-requirement>`
+      </gr-change-list-column-requirement>`,
     );
   });
 });

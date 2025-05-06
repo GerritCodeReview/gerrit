@@ -86,7 +86,7 @@ suite('gr-group-list tests', () => {
             </tbody>
           </table>
         </div>
-      `
+      `,
     );
   });
 });

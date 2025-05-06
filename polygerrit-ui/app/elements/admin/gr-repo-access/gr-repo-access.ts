@@ -124,7 +124,7 @@ export class GrRepoAccess extends LitElement {
     super();
     this.query = () => this.getInheritFromSuggestions();
     this.addEventListener('access-modified', () =>
-      this._handleAccessModified()
+      this._handleAccessModified(),
     );
   }
 
@@ -213,11 +213,11 @@ export class GrRepoAccess extends LitElement {
           <div class="weblinks ${this.weblinks?.length ? 'show' : ''}">
             History:
             ${this.weblinks?.map(
-              info => html`<gr-weblink .info=${info}></gr-weblink>`
+              info => html`<gr-weblink .info=${info}></gr-weblink>`,
             )}
           </div>
           ${this.sections?.map((section, index) =>
-            this.renderPermissionSections(section, index)
+            this.renderPermissionSections(section, index),
           )}
           <div class="referenceContainer">
             <gr-button
@@ -260,7 +260,7 @@ export class GrRepoAccess extends LitElement {
 
   private renderPermissionSections(
     section: PermissionAccessSection,
-    index: number
+    index: number,
   ) {
     return html`
       <gr-access-section
@@ -398,7 +398,7 @@ export class GrRepoAccess extends LitElement {
         this.inheritFromFilter,
         MAX_AUTOCOMPLETE_RESULTS,
         /* offset=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         const repos: AutocompleteSuggestion[] = [];
@@ -457,7 +457,7 @@ export class GrRepoAccess extends LitElement {
 
   private updateRemoveObj(
     addRemoveObj: {remove: PropertyTreeNode},
-    path: string[]
+    path: string[],
   ) {
     let curPos: PropertyTreeNode = addRemoveObj.remove;
     for (const item of path) {
@@ -485,7 +485,7 @@ export class GrRepoAccess extends LitElement {
   private updateAddObj(
     addRemoveObj: {add: PropertyTreeNode},
     path: string[],
-    value: PropertyTreeNode | PrimitiveValue
+    value: PropertyTreeNode | PrimitiveValue,
   ) {
     let curPos: PropertyTreeNode = addRemoveObj.add;
     for (const item of path) {
@@ -530,7 +530,7 @@ export class GrRepoAccess extends LitElement {
       add: PropertyTreeNode;
       remove: PropertyTreeNode;
     },
-    path: string[] = []
+    path: string[] = [],
   ) {
     if (!obj) return;
     for (const k of Object.keys(obj)) {
@@ -551,7 +551,7 @@ export class GrRepoAccess extends LitElement {
           deleted in the current state. */
           if (updatedId && updatedId !== k) {
             this.recursivelyRemoveDeleted(
-              addRemoveObj.add[updatedId] as PropertyTreeNode
+              addRemoveObj.add[updatedId] as PropertyTreeNode,
             );
           }
           continue;
@@ -564,7 +564,7 @@ export class GrRepoAccess extends LitElement {
            * @see Issue 11339
            */
           this.recursivelyRemoveDeleted(
-            addRemoveObj.add[k] as PropertyTreeNode
+            addRemoveObj.add[k] as PropertyTreeNode,
           );
           continue;
         }
@@ -608,7 +608,7 @@ export class GrRepoAccess extends LitElement {
 
     this.recursivelyUpdateAddRemoveObj(
       this.local as unknown as PropertyTreeNode,
-      addRemoveObj
+      addRemoveObj,
     );
 
     if (inheritFromChanged) {
@@ -737,7 +737,7 @@ export class GrRepoAccess extends LitElement {
 
   private handleAccessSectionChanged(
     e: ValueChangedEvent<PermissionAccessSection>,
-    index: number
+    index: number,
   ) {
     this.sections![index] = e.detail.value;
     this.requestUpdate();

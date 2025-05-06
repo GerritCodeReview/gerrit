@@ -112,11 +112,11 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   constructor(
     private readonly reportingService: ReportingService,
-    private readonly restApiService: RestApiService
+    private readonly restApiService: RestApiService,
   ) {
     this.jsApiService = new GrJsApiInterface(
       () => this.awaitPluginsLoaded(),
-      this.reportingService
+      this.reportingService,
     );
     this.pluginsModel = new PluginsModel();
     this.awaitPluginsLoaded().finally(() => {
@@ -176,7 +176,7 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.reportingService.error(
           'GrPluginLoader',
           new Error('url parse error'),
-          e
+          e,
         );
         return false;
       }
@@ -192,7 +192,7 @@ export class PluginLoader implements Gerrit, Finalizable {
   install(
     callback: (plugin: PluginApi) => void,
     version?: string,
-    src?: string
+    src?: string,
   ) {
     // HTML import polyfill adds __importElement pointing to the import tag.
     const gerritScript = document.currentScript as GerritScriptElement | null;
@@ -210,7 +210,7 @@ export class PluginLoader implements Gerrit, Finalizable {
     if (version && version !== API_VERSION) {
       this.failToLoad(
         `Plugin ${src} install error: only version ${API_VERSION} is supported in PolyGerrit. ${version} was given.`,
-        src
+        src,
       );
       return;
     }
@@ -225,7 +225,7 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.reportingService,
         this.restApiService,
         this.pluginsModel,
-        this.pluginEndPoints
+        this.pluginEndPoints,
       );
     }
     try {
@@ -238,7 +238,7 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.reportingService.error(
           'GrPluginLoader',
           new Error('plugin callback error'),
-          e
+          e,
         );
       }
     }
@@ -283,7 +283,7 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   private updatePluginState(
     pluginUrl: string,
-    state: PluginState
+    state: PluginState,
   ): PluginObject {
     const key = this.getPluginKeyFromUrl(pluginUrl);
     if (this.plugins.has(key)) {
@@ -411,7 +411,7 @@ export class PluginLoader implements Gerrit, Finalizable {
           (_, reject) =>
             (timerId = window.setTimeout(() => {
               reject(new Error(this.timeout()));
-            }, PLUGIN_LOADING_TIMEOUT_MS))
+            }, PLUGIN_LOADING_TIMEOUT_MS)),
         ),
       ]).finally(() => {
         if (timerId) clearTimeout(timerId);

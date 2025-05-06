@@ -30,7 +30,7 @@ import {customElement} from 'lit/decorators.js';
 function keyEventOn(
   el: HTMLElement,
   callback: (e: KeyboardEvent) => void,
-  key = 'k'
+  key = 'k',
 ): Promise<KeyboardEvent> {
   const promise = mockPromise<KeyboardEvent>();
   el.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -81,7 +81,7 @@ suite('dom-util tests', () => {
       const dd = document.createElement('dd');
       assert.equal(
         getEventPath({...new MouseEvent('click'), composedPath: () => [dd]}),
-        'dd'
+        'dd',
       );
     });
 
@@ -97,7 +97,7 @@ suite('dom-util tests', () => {
           ...new MouseEvent('click'),
           composedPath: () => [dd, divNode],
         }),
-        'div#test2.a.b.c>dd#test.a.b'
+        'div#test2.a.b.c>dd#test.a.b',
       );
     });
 
@@ -117,7 +117,7 @@ suite('dom-util tests', () => {
           composedPath: () => [],
           target: fakeTarget,
         }),
-        'div#test2.a.b.c>dd#test.a.b>span'
+        'div#test2.a.b.c>dd#test.a.b>span',
       );
     });
 
@@ -194,8 +194,8 @@ suite('dom-util tests', () => {
         descendedFromClass(
           queryAndAssert(testEl, '.c'),
           'a',
-          queryAndAssert(testEl, '.b')
-        )
+          queryAndAssert(testEl, '.b'),
+        ),
       );
     });
   });
@@ -347,7 +347,7 @@ suite('dom-util tests', () => {
       await keyEventOn(
         document.createElement('gr-button'),
         e => assert.isTrue(shouldSuppress(e)),
-        Key.ENTER
+        Key.ENTER,
       );
     });
 
@@ -358,7 +358,7 @@ suite('dom-util tests', () => {
       await keyEventOn(
         document.createElement('a'),
         e => assert.isTrue(shouldSuppress(e)),
-        Key.ENTER
+        Key.ENTER,
       );
     });
   });

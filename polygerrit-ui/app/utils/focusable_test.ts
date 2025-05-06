@@ -24,12 +24,12 @@ async function createDom() {
         <button class="not in shadow"></button>
       </div>
     `,
-    shadow
+    shadow,
   );
   const slottedContent = document.createElement('div');
   render(
     html` <textarea id="second">Slotted TextArea</textarea> `,
-    slottedContent
+    slottedContent,
   );
   container.appendChild(slottedContent);
   const slot: HTMLSlotElement | null = shadow.querySelector('slot');
@@ -46,7 +46,7 @@ async function createDom() {
         <input id="sixth" type="submit" value="Submit" />
       </form>
     `,
-    moreShadow
+    moreShadow,
   );
   return container;
 }
@@ -57,7 +57,7 @@ suite('focusable', () => {
     const results = [...getFocusableElements(container)];
     assert.includeOrderedMembers(
       results.map(e => e.id),
-      ['first', 'second', 'third', 'fourth', 'fifth', 'sixth']
+      ['first', 'second', 'third', 'fourth', 'fifth', 'sixth'],
     );
   });
 
@@ -66,7 +66,7 @@ suite('focusable', () => {
     const results = [...getFocusableElementsReverse(container)];
     assert.includeOrderedMembers(
       results.map(e => e.id),
-      ['sixth', 'fifth', 'fourth', 'third', 'second', 'first']
+      ['sixth', 'fifth', 'fourth', 'third', 'second', 'first'],
     );
   });
 });

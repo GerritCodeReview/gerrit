@@ -22,7 +22,7 @@ import {sameOrigin} from '../../../utils/url-util';
  */
 export type PageCallback = (
   context: PageContext,
-  next: PageNextCallback
+  next: PageNextCallback,
 ) => void;
 
 /** See comment on `PageCallback` above. */
@@ -329,7 +329,7 @@ export class PageContext {
   constructor(
     path: string,
     private readonly state: PageState = {},
-    pageBase = ''
+    pageBase = '',
   ) {
     this.title = window.document.title;
 

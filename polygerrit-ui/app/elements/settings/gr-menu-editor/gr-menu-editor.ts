@@ -44,7 +44,7 @@ export class GrMenuEditor extends LitElement {
       prefs => {
         this.originalPrefs = prefs;
         this.menuItems = [...prefs.my];
-      }
+      },
     );
   }
 
@@ -95,7 +95,7 @@ export class GrMenuEditor extends LitElement {
             </thead>
             <tbody>
               ${this.menuItems.map((item, index) =>
-                this.renderMenuItemRow(item, index)
+                this.renderMenuItemRow(item, index),
               )}
             </tbody>
             <tfoot>

@@ -60,7 +60,7 @@ suite('gr-dialog tests', () => {
             Confirm
           </gr-button>
         </footer>
-      </div> `
+      </div> `,
     );
   });
 
@@ -106,7 +106,7 @@ suite('gr-dialog tests', () => {
             Confirm
           </gr-button>
         </footer>
-      </div> `
+      </div> `,
     );
   });
 

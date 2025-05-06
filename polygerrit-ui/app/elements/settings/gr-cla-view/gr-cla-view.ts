@@ -179,16 +179,16 @@ export class GrClaView extends LitElement {
     promises.push(
       this.restApiService.getConfig(true).then(config => {
         this.serverConfig = config;
-      })
+      }),
     );
 
     promises.push(
       this.restApiService.getAccountGroups().then(groups => {
         if (!groups) return;
         this.groups = groups.sort((a, b) =>
-          (a.name || '').localeCompare(b.name || '')
+          (a.name || '').localeCompare(b.name || ''),
         );
-      })
+      }),
     );
 
     promises.push(
@@ -196,7 +196,7 @@ export class GrClaView extends LitElement {
         .getAccountAgreements()
         .then((agreements: ContributorAgreementInfo[] | undefined) => {
           this.signedAgreements = agreements || [];
-        })
+        }),
     );
 
     return Promise.all(promises);
@@ -215,7 +215,7 @@ export class GrClaView extends LitElement {
 
   private readonly handleShowAgreement = (e: Event) => {
     this.agreementName = (e.target as HTMLInputElement).getAttribute(
-      'data-name'
+      'data-name',
     )!;
     const url = (e.target as HTMLInputElement).getAttribute('data-url')!;
     this.agreementsUrl = this.getAgreementsUrl(url);
@@ -266,7 +266,7 @@ export class GrClaView extends LitElement {
     return contributorAgreements.some(
       (contributorAgreement: ContributorAgreementInfo) =>
         this.agreementName === contributorAgreement.name &&
-        !contributorAgreement.auto_verify_group
+        !contributorAgreement.auto_verify_group,
     );
   }
 

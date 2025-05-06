@@ -130,7 +130,7 @@ export class GrImageViewer extends LitElement {
           };
         }
       }
-    }
+    },
   );
 
   // Ensure constant function references, so that render() does not bind a new
@@ -521,7 +521,7 @@ export class GrImageViewer extends LitElement {
               <paper-item value=${zoomLevel}>
                 ${zoomLevel === 'fit' ? 'Fit' : `${zoomLevel * 100}%`}
               </paper-item>
-            `
+            `,
           )}
         </paper-listbox>
       </paper-dropdown-menu>
@@ -543,7 +543,7 @@ export class GrImageViewer extends LitElement {
         <div class="options">
           ${this.renderCheckerboardButton()}
           ${this.colorPickerCallbacks.map(({color, callback}) =>
-            this.renderColorPickerButton(color, callback)
+            this.renderColorPickerButton(color, callback),
           )}
         </div>
       </div>

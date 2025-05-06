@@ -137,7 +137,7 @@ export class GrRelatedChange extends LitElement {
   }
 
   private computeChangeStatusClass(
-    change: RelatedChangeAndCommitInfo | ChangeInfo
+    change: RelatedChangeAndCommitInfo | ChangeInfo,
   ) {
     const classes = ['status'];
     if (

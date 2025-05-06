@@ -295,7 +295,7 @@ export class GrDiffView extends LitElement {
           sortedPaths: files.map(f => f.__path),
           changeFilesByPath: filesByPath,
         };
-      }
+      },
     );
   }
 
@@ -309,10 +309,10 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.PREV_LINE, _ => this.handlePrevLine());
     listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea());
     listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
-      this.moveToFileWithComment(1)
+      this.moveToFileWithComment(1),
     );
     listen(Shortcut.PREV_FILE_WITH_COMMENTS, _ =>
-      this.moveToFileWithComment(-1)
+      this.moveToFileWithComment(-1),
     );
     listen(Shortcut.NEW_COMMENT, _ => this.handleNewComment());
     listen(Shortcut.SAVE_COMMENT, _ => {});
@@ -326,7 +326,7 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.TOGGLE_LEFT_PANE, _ => this.handleToggleLeftPane());
     listen(Shortcut.OPEN_DOWNLOAD_DIALOG, _ => this.handleOpenDownloadDialog());
     listen(Shortcut.UP_TO_CHANGE, _ =>
-      this.getChangeModel().navigateToChange()
+      this.getChangeModel().navigateToChange(),
     );
     listen(Shortcut.OPEN_DIFF_PREFS, _ => this.handleCommaKey());
     listen(Shortcut.TOGGLE_DIFF_MODE, _ => this.handleToggleDiffMode());
@@ -336,24 +336,24 @@ export class GrDiffView extends LitElement {
       }
     });
     listen(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, _ =>
-      this.handleToggleAllDiffContext()
+      this.handleToggleAllDiffContext(),
     );
     listen(Shortcut.NEXT_UNREVIEWED_FILE, _ => this.handleNextUnreviewedFile());
     listen(Shortcut.TOGGLE_BLAME, _ => this.toggleBlame());
     listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
-      this.handleToggleHideAllCommentThreads()
+      this.handleToggleHideAllCommentThreads(),
     );
     listen(Shortcut.OPEN_FILE_LIST, _ => this.handleOpenFileList());
     listen(Shortcut.DIFF_AGAINST_BASE, _ => this.handleDiffAgainstBase());
     listen(Shortcut.DIFF_AGAINST_LATEST, _ => this.handleDiffAgainstLatest());
     listen(Shortcut.DIFF_BASE_AGAINST_LEFT, _ =>
-      this.handleDiffBaseAgainstLeft()
+      this.handleDiffBaseAgainstLeft(),
     );
     listen(Shortcut.DIFF_RIGHT_AGAINST_LATEST, _ =>
-      this.handleDiffRightAgainstLatest()
+      this.handleDiffRightAgainstLatest(),
     );
     listen(Shortcut.DIFF_BASE_AGAINST_LATEST, _ =>
-      this.handleDiffBaseAgainstLatest()
+      this.handleDiffBaseAgainstLatest(),
     );
     listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}); // docOnly
     listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}); // docOnly
@@ -365,28 +365,28 @@ export class GrDiffView extends LitElement {
       () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getCommentsModel().changeComments$,
       changeComments => {
         this.changeComments = changeComments;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().preferences$,
       preferences => {
         this.userPrefs = preferences;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         this.prefs = diffPreferences;
-      }
+      },
     );
     subscribe(
       this,
@@ -395,19 +395,19 @@ export class GrDiffView extends LitElement {
         // The diff view is tied to a specific change number, so don't update
         // change to undefined.
         if (change) this.change = change;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      latestPatchNum => (this.latestPatchNum = latestPatchNum)
+      latestPatchNum => (this.latestPatchNum = latestPatchNum),
     );
     subscribe(
       this,
       () => this.getChangeModel().reviewedFiles$,
       reviewedFiles => {
         this.reviewedFiles = new Set(reviewedFiles) ?? new Set();
-      }
+      },
     );
     subscribe(
       this,
@@ -421,42 +421,43 @@ export class GrDiffView extends LitElement {
         // The parent element will make sure that a new change view is created
         // when the change number changes (using the `keyed` directive).
         if (!this.changeNum) this.changeNum = changeNum;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getViewModel().childView$,
-      childView => (this.isActiveChildView = childView === ChangeChildView.DIFF)
+      childView =>
+        (this.isActiveChildView = childView === ChangeChildView.DIFF),
     );
     subscribe(
       this,
       () => this.getViewModel().diffPath$,
-      path => (this.path = path)
+      path => (this.path = path),
     );
     subscribe(
       this,
       () => this.getFilesModel().file$(this.getViewModel().diffPath$),
-      file => (this.file = file)
+      file => (this.file = file),
     );
     subscribe(
       this,
       () => this.getViewModel().diffLine$,
-      line => (this.focusLineNum = line)
+      line => (this.focusLineNum = line),
     );
     subscribe(
       this,
       () => this.getViewModel().diffLeftSide$,
-      leftSide => (this.leftSide = leftSide)
+      leftSide => (this.leftSide = leftSide),
     );
     subscribe(
       this,
       () => this.getViewModel().patchNum$,
-      patchNum => (this.patchNum = patchNum)
+      patchNum => (this.patchNum = patchNum),
     );
     subscribe(
       this,
       () => this.getViewModel().basePatchNum$,
-      basePatchNum => (this.basePatchNum = basePatchNum ?? PARENT)
+      basePatchNum => (this.basePatchNum = basePatchNum ?? PARENT),
     );
     subscribe(
       this,
@@ -467,14 +468,14 @@ export class GrDiffView extends LitElement {
         ]),
       ([path, files]) => {
         this.reviewed = !!path && !!files && files.includes(path);
-      }
+      },
     );
 
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       serverConfig =>
-        (this.allowBlame = serverConfig?.change.allow_blame ?? false)
+        (this.allowBlame = serverConfig?.change.allow_blame ?? false),
     );
 
     // When user initially loads the diff view, we want to automatically mark
@@ -498,17 +499,17 @@ export class GrDiffView extends LitElement {
                   !!patchNum &&
                   childView === ChangeChildView.DIFF &&
                   !!diffPrefs &&
-                  !!reviewedFiles
+                  !!reviewedFiles,
               ),
-              take(1)
-            )
-          )
+              take(1),
+            ),
+          ),
         ),
       ([patchNum, _routerView, diffPrefs]) => {
         // `patchNum` must be defined, because of the `!!patchNum` filter above.
         assertIsDefined(patchNum, 'patchNum');
         this.setReviewedStatus(patchNum, diffPrefs);
-      }
+      },
     );
   }
 
@@ -722,7 +723,7 @@ export class GrDiffView extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.throttledToggleFileReviewed = throttleWrap(_ =>
-      this.handleToggleFileReviewed()
+      this.handleToggleFileReviewed(),
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
@@ -732,7 +733,7 @@ export class GrDiffView extends LitElement {
     this.getUserModel()
       .preferences$.pipe(
         map(p => p.diff_page_sidebar),
-        take(1)
+        take(1),
       )
       .toPromise()
       .then(initialSidebar => {
@@ -803,7 +804,7 @@ export class GrDiffView extends LitElement {
           assertIsDefined(this.changeComments);
           this.diffHost.threads = this.changeComments.getThreadsBySideForFile(
             {path: this.path, basePath: file?.old_path},
-            this.patchRange
+            this.patchRange,
           );
         });
       }
@@ -819,7 +820,7 @@ export class GrDiffView extends LitElement {
     ) {
       this.commentsForPath = this.changeComments.getCommentsForPath(
         this.path,
-        this.patchRange
+        this.patchRange,
       );
     }
     this.updateSidebarHeight();
@@ -922,7 +923,7 @@ export class GrDiffView extends LitElement {
           class="navLink"
           title=${this.createTitle(
             Shortcut.PREV_FILE,
-            ShortcutSection.NAVIGATION
+            ShortcutSection.NAVIGATION,
           )}
           href=${ifDefined(this.computeNavLinkURL(-1))}
           >Prev</a
@@ -932,7 +933,7 @@ export class GrDiffView extends LitElement {
           class="navLink"
           title=${this.createTitle(
             Shortcut.UP_TO_CHANGE,
-            ShortcutSection.NAVIGATION
+            ShortcutSection.NAVIGATION,
           )}
           href=${ifDefined(this.getChangeModel().changeUrl())}
           >Up</a
@@ -942,7 +943,7 @@ export class GrDiffView extends LitElement {
           class="navLink"
           title=${this.createTitle(
             Shortcut.NEXT_FILE,
-            ShortcutSection.NAVIGATION
+            ShortcutSection.NAVIGATION,
           )}
           href=${ifDefined(this.computeNavLinkURL(1))}
           >Next</a
@@ -1043,7 +1044,7 @@ export class GrDiffView extends LitElement {
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
-          `
+          `,
         )}
       </div>
     `;
@@ -1092,16 +1093,16 @@ export class GrDiffView extends LitElement {
               >Edit</gr-button
             >
           </span>
-        `
+        `,
       )}
       ${when(
         this.computeShowEditLinks(),
         () => html`
           <span class="separator"></span>
           ${this.editWeblinks!.map(
-            weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`
+            weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`,
           )}
-        `
+        `,
       )}
       ${when(
         this.loggedIn && this.prefs,
@@ -1131,7 +1132,7 @@ export class GrDiffView extends LitElement {
               </gr-tooltip-content>
             </span>
           </span>
-        `
+        `,
       )}
       <gr-endpoint-decorator name="annotation-toggler">
         <span hidden="" id="annotation-span">
@@ -1156,7 +1157,7 @@ export class GrDiffView extends LitElement {
       id="toggleEntireFile"
       title=${this.createTitle(
         Shortcut.TOGGLE_ALL_DIFF_CONTEXT,
-        ShortcutSection.DIFFS
+        ShortcutSection.DIFFS,
       )}
       @click=${this.handleToggleAllDiffContext}
       >${this.isShowingEntireFile
@@ -1180,7 +1181,7 @@ export class GrDiffView extends LitElement {
           id="toggleBlame"
           title=${this.createTitle(
             Shortcut.TOGGLE_BLAME,
-            ShortcutSection.DIFFS
+            ShortcutSection.DIFFS,
           )}
           ?disabled=${this.isBlameLoading}
           @click=${this.toggleBlame}
@@ -1209,7 +1210,7 @@ export class GrDiffView extends LitElement {
    */
   setReviewedStatus(
     patchNum: RevisionPatchSetNum,
-    diffPrefs: DiffPreferencesInfo
+    diffPrefs: DiffPreferencesInfo,
   ) {
     if (!this.loggedIn) return;
     if (!diffPrefs.manual_review) {
@@ -1239,7 +1240,7 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   setReviewed(
     reviewed: boolean,
-    patchNum: RevisionPatchSetNum | undefined = this.patchNum
+    patchNum: RevisionPatchSetNum | undefined = this.patchNum,
   ) {
     if (this.patchNum === EDIT) return;
     if (!patchNum || !this.path || !this.changeNum) return;
@@ -1251,7 +1252,7 @@ export class GrDiffView extends LitElement {
       this.changeNum,
       patchNum,
       this.path,
-      reviewed
+      reviewed,
     );
   }
 
@@ -1279,13 +1280,13 @@ export class GrDiffView extends LitElement {
   }
 
   private onEditWeblinksChanged(
-    e: ValueChangedEvent<WebLinkInfo[] | undefined>
+    e: ValueChangedEvent<WebLinkInfo[] | undefined>,
   ) {
     this.editWeblinks = e.detail.value;
   }
 
   private onFilesWeblinksChanged(
-    e: ValueChangedEvent<FilesWebLinks | undefined>
+    e: ValueChangedEvent<FilesWebLinks | undefined>,
   ) {
     this.filesWeblinks = e.detail.value;
   }
@@ -1360,7 +1361,7 @@ export class GrDiffView extends LitElement {
       }
       fireAlert(
         this,
-        `Press ${shortcut} again to navigate to ${direction} unreviewed file`
+        `Press ${shortcut} again to navigate to ${direction} unreviewed file`,
       );
       this.hasShownNavigateToFileToast.set(direction, true);
     }
@@ -1373,7 +1374,7 @@ export class GrDiffView extends LitElement {
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
     const unreviewedFiles = this.files.sortedPaths.filter(
-      file => file === this.path || !this.reviewedFiles.has(file)
+      file => file === this.path || !this.reviewedFiles.has(file),
     );
 
     this.navToFile(unreviewedFiles, direction === 'next' ? 1 : -1);
@@ -1413,11 +1414,11 @@ export class GrDiffView extends LitElement {
       this.downloadDialog.focus();
       const downloadCommands = queryAndAssert(
         this.downloadDialog,
-        'gr-download-commands'
+        'gr-download-commands',
       );
       const paperTabs = queryAndAssert<PaperTabsElement>(
         downloadCommands,
-        'paper-tabs'
+        'paper-tabs',
       );
       // Paper Tabs normally listen to 'iron-resize' event to call this method.
       // After migrating to Dialog element, this event is no longer fired
@@ -1454,7 +1455,7 @@ export class GrDiffView extends LitElement {
   navToFile(
     fileList: string[],
     direction: -1 | 1,
-    navigateToFirstComment?: boolean
+    navigateToFirstComment?: boolean,
   ) {
     const newPath = this.getNavLinkPath(fileList, direction);
     if (!newPath) return;
@@ -1470,7 +1471,7 @@ export class GrDiffView extends LitElement {
     if (navigateToFirstComment)
       lineNum = this.changeComments?.getCommentsForPath(
         newPath.path,
-        this.patchRange
+        this.patchRange,
       )?.[0].line;
     this.getChangeModel().navigateToDiff({path: newPath.path, lineNum});
   }
@@ -1617,7 +1618,7 @@ export class GrDiffView extends LitElement {
           this.patchRange,
           path,
           file,
-          /* includeUnmodified= */ true
+          /* includeUnmodified= */ true,
         ),
         file,
       });
@@ -1644,7 +1645,7 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       patchNum,
-      basePatchNum
+      basePatchNum,
     );
   }
 
@@ -1661,7 +1662,7 @@ export class GrDiffView extends LitElement {
     if (!Number.isInteger(lineNumber)) return;
     this.updateUrlToDiffUrl(
       lineNumber as number,
-      e.detail.side === CommentSide.PARENT
+      e.detail.side === CommentSide.PARENT,
     );
   }
 
@@ -1689,7 +1690,7 @@ export class GrDiffView extends LitElement {
           this.change.project,
           this.changeNum,
           this.patchRange,
-          this.path
+          this.path,
         ),
         name: 'Patch',
       },
@@ -1716,7 +1717,7 @@ export class GrDiffView extends LitElement {
             this.changeNum,
             this.patchRange,
             leftPath,
-            true
+            true,
           ),
           name: 'Left Content',
         });
@@ -1729,7 +1730,7 @@ export class GrDiffView extends LitElement {
             this.changeNum,
             this.patchRange,
             this.path,
-            false
+            false,
           ),
           name: 'Right Content',
         });
@@ -1746,7 +1747,7 @@ export class GrDiffView extends LitElement {
     changeNum: NumericChangeId,
     patchRange: PatchRange,
     path: string,
-    isBase?: boolean
+    isBase?: boolean,
   ) {
     let patchNum = patchRange.patchNum;
     let parent: number | undefined = undefined;
@@ -1774,7 +1775,7 @@ export class GrDiffView extends LitElement {
     repo: RepoName,
     changeNum: NumericChangeId,
     patchRange: PatchRange,
-    path: string
+    path: string,
   ) {
     let url = changeBaseURL(repo, changeNum, patchRange.patchNum);
     url += '/patch?zip&path=' + encodeURIComponent(path);
@@ -1849,7 +1850,7 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.patchNum,
-      PARENT
+      PARENT,
     );
   }
 
@@ -1866,7 +1867,7 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.basePatchNum as RevisionPatchSetNum,
-      PARENT
+      PARENT,
     );
   }
 
@@ -1884,7 +1885,7 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.latestPatchNum,
-      this.basePatchNum
+      this.basePatchNum,
     );
   }
 
@@ -1902,7 +1903,7 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.latestPatchNum,
-      this.patchNum as BasePatchSetNum
+      this.patchNum as BasePatchSetNum,
     );
   }
 
@@ -1920,7 +1921,7 @@ export class GrDiffView extends LitElement {
     this.getChangeModel().navigateToDiff(
       {path: this.path},
       this.latestPatchNum,
-      PARENT
+      PARENT,
     );
   }
 
@@ -1959,7 +1960,7 @@ export class GrDiffView extends LitElement {
     const hasComment = (path: string) =>
       this.changeComments?.getCommentsForPath(path, range)?.length ?? 0 > 0;
     const filesWithComments = this.files.sortedPaths.filter(
-      file => file === this.path || hasComment(file)
+      file => file === this.path || hasComment(file),
     );
     this.navToFile(filesWithComments, 1, true);
   }

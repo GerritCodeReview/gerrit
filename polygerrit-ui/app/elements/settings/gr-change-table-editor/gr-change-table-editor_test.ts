@@ -17,7 +17,7 @@ suite('gr-change-table-editor tests', () => {
 
   setup(async () => {
     element = await fixture<GrChangeTableEditor>(
-      html`<gr-change-table-editor></gr-change-table-editor>`
+      html`<gr-change-table-editor></gr-change-table-editor>`,
     );
 
     columns = [
@@ -110,7 +110,7 @@ suite('gr-change-table-editor tests', () => {
             </tr>
           </tbody>
         </table>
-      </div>`
+      </div>`,
     );
   });
 
@@ -130,7 +130,7 @@ suite('gr-change-table-editor tests', () => {
   test('hide item', async () => {
     const checkbox = queryAndAssert<HTMLInputElement>(
       element,
-      'table tr:nth-child(2) input'
+      'table tr:nth-child(2) input',
     );
     const isChecked = checkbox.checked;
     const displayedLength = element.displayedColumns.length;
@@ -155,7 +155,7 @@ suite('gr-change-table-editor tests', () => {
     await element.updateComplete;
     const checkbox = queryAndAssert<HTMLInputElement>(
       element,
-      'table tr:nth-child(2) input'
+      'table tr:nth-child(2) input',
     );
     const isChecked = checkbox.checked;
     const displayedLength = element.displayedColumns.length;
@@ -174,19 +174,19 @@ suite('gr-change-table-editor tests', () => {
     assert.deepEqual(element.getDisplayedColumns(), enabledColumns);
     const input = queryAndAssert<HTMLInputElement>(
       element,
-      '.checkboxContainer input[name=Subject]'
+      '.checkboxContainer input[name=Subject]',
     );
     input.click();
     assert.deepEqual(
       element.getDisplayedColumns(),
-      enabledColumns.filter(c => c !== 'Subject')
+      enabledColumns.filter(c => c !== 'Subject'),
     );
   });
 
   test('handleCheckboxContainerClick relays taps to checkboxes', async () => {
     const firstContainer = queryAndAssert<HTMLTableRowElement>(
       element,
-      'table tr:first-of-type .checkboxContainer'
+      'table tr:first-of-type .checkboxContainer',
     );
     assert.isFalse(element.showNumber);
     firstContainer.click();
@@ -194,7 +194,7 @@ suite('gr-change-table-editor tests', () => {
 
     const lastContainer = queryAndAssert<HTMLTableRowElement>(
       element,
-      'table tr:last-of-type .checkboxContainer'
+      'table tr:last-of-type .checkboxContainer',
     );
     const lastColumn =
       element.defaultColumns[element.defaultColumns.length - 1];
@@ -207,7 +207,7 @@ suite('gr-change-table-editor tests', () => {
   test('handleNumberCheckboxClick', () => {
     const numberInput = queryAndAssert<HTMLInputElement>(
       element,
-      '.checkboxContainer input[name=number]'
+      '.checkboxContainer input[name=number]',
     );
     numberInput.click();
     assert.isTrue(element.showNumber);
@@ -220,7 +220,7 @@ suite('gr-change-table-editor tests', () => {
     assert.include(element.displayedColumns, 'Subject');
     const subjectInput = queryAndAssert<HTMLInputElement>(
       element,
-      '.checkboxContainer input[name=Subject]'
+      '.checkboxContainer input[name=Subject]',
     );
     subjectInput.click();
     assert.notInclude(element.displayedColumns, 'Subject');

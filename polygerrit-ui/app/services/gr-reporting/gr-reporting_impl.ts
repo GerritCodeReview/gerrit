@@ -115,7 +115,7 @@ export function initErrorReporter(reportingService: ReportingService) {
     url?: string,
     line?: number,
     column?: number,
-    error?: Error
+    error?: Error,
   ) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
@@ -142,13 +142,13 @@ export function initErrorReporter(reportingService: ReportingService) {
       source?: string,
       lineno?: number,
       colno?: number,
-      error?: Error
+      error?: Error,
     ) => onError(oldOnError, event, source, lineno, colno, error);
     context.addEventListener(
       'unhandledrejection',
       (e: PromiseRejectionEvent) => {
         reportingService.error('unhandledrejection', normalizeError(e.reason));
-      }
+      },
     );
   };
 
@@ -174,7 +174,7 @@ export function initPerformanceReporter(reportingService: ReportingService) {
               `Task ${task.name}`,
               Math.round(task.duration),
               {},
-              false
+              false,
             );
           }
         }
@@ -228,18 +228,18 @@ export class InteractionReporter implements Finalizable {
 
   constructor(
     private readonly reportingService: ReportingService,
-    private readonly reportingIntervalMs = 10 * 1000
+    private readonly reportingIntervalMs = 10 * 1000,
   ) {
     const events = ['mousemove', 'scroll', 'wheel', 'keydown', 'pointerdown'];
     for (const eventName of events) {
       document.addEventListener(eventName, () =>
-        this.interactionEvents.add(eventName)
+        this.interactionEvents.add(eventName),
       );
     }
 
     this.intervalId = window.setInterval(
       () => this.report(),
-      this.reportingIntervalMs
+      this.reportingIntervalMs,
     );
   }
 
@@ -285,7 +285,7 @@ export function initWebVitals(reportingService: ReportingService) {
         navigationType: metric.navigationType,
         rating: metric.rating,
         entries: metric.entries,
-      }
+      },
     );
   }
 
@@ -430,18 +430,18 @@ export class GrReporting implements ReportingService, Finalizable {
     eventName: string,
     eventValue?: EventValue,
     eventDetails?: EventDetails,
-    noLog?: boolean
+    noLog?: boolean,
   ) {
     const eventInfo = this._createEventInfo(
       type,
       category,
       eventName,
       eventValue,
-      eventDetails
+      eventDetails,
     );
     if (type === ERROR.TYPE && category === ERROR.CATEGORY.EXCEPTION) {
       console.error(
-        (typeof eventValue === 'object' && eventValue.error) || eventName
+        (typeof eventValue === 'object' && eventValue.error) || eventName,
       );
     }
 
@@ -469,11 +469,11 @@ export class GrReporting implements ReportingService, Finalizable {
     if (type !== ERROR.TYPE) {
       if (value !== undefined) {
         console.debug(
-          `Reporting(${new Date().toISOString()}): ${name}: ${value}`
+          `Reporting(${new Date().toISOString()}): ${name}: ${value}`,
         );
       } else if (eventDetails !== undefined) {
         console.debug(
-          `Reporting(${new Date().toISOString()}): ${name}: ${eventDetails}`
+          `Reporting(${new Date().toISOString()}): ${name}: ${eventDetails}`,
         );
       } else {
         console.debug(`Reporting(${new Date().toISOString()}): ${name}`);
@@ -486,7 +486,7 @@ export class GrReporting implements ReportingService, Finalizable {
     category: string,
     name: string,
     value?: EventValue,
-    eventDetails?: EventDetails
+    eventDetails?: EventDetails,
   ): EventInfo {
     const eventInfo: EventInfo = {
       type,
@@ -520,7 +520,7 @@ export class GrReporting implements ReportingService, Finalizable {
       this._flagsService.enabledExperiments.length
     ) {
       eventInfo.enabledExperiments = JSON.stringify(
-        this._flagsService.enabledExperiments
+        this._flagsService.enabledExperiments,
       );
     }
 
@@ -545,7 +545,7 @@ export class GrReporting implements ReportingService, Finalizable {
         isVisible: document.visibilityState === 'visible',
         hasFocus: document.hasFocus(),
       },
-      false
+      false,
     );
   }
 
@@ -568,7 +568,7 @@ export class GrReporting implements ReportingService, Finalizable {
           isVisible: document.visibilityState === 'visible',
           hasFocus: document.hasFocus(),
         },
-        false
+        false,
       );
   }
 
@@ -578,13 +578,13 @@ export class GrReporting implements ReportingService, Finalizable {
   private _reportNavResTimes() {
     const perfEvents = Object.keys(this.performanceTiming.toJSON());
     perfEvents.forEach(eventName =>
-      this._reportPerformanceTiming(eventName as PeformanceTimingEventName)
+      this._reportPerformanceTiming(eventName as PeformanceTimingEventName),
     );
   }
 
   private _reportPerformanceTiming(
     eventName: PeformanceTimingEventName,
-    eventDetails?: EventDetails
+    eventDetails?: EventDetails,
   ) {
     const eventTiming = this.performanceTiming[eventName];
     if (eventTiming > 0) {
@@ -596,7 +596,7 @@ export class GrReporting implements ReportingService, Finalizable {
         `NavResTime - ${eventName}`,
         elapsedTime,
         eventDetails,
-        true
+        true,
       );
     }
   }
@@ -625,7 +625,7 @@ export class GrReporting implements ReportingService, Finalizable {
       NAVIGATION.TYPE,
       NAVIGATION.CATEGORY.LOCATION_CHANGED,
       NAVIGATION.EVENT.PAGE,
-      page
+      page,
     );
   }
 
@@ -666,7 +666,7 @@ export class GrReporting implements ReportingService, Finalizable {
     if (
       hasOwnProperty(
         this._baselines,
-        Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED
+        Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED,
       )
     ) {
       this.timeEnd(Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED);
@@ -688,7 +688,7 @@ export class GrReporting implements ReportingService, Finalizable {
       rpcList: this.slowRpcSnapshot,
       hiddenDurationMs: this.hiddenDurationTimer.accHiddenDurationMs,
       parallelRequestsEnabled: this._flagsService.isEnabled(
-        KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS
+        KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS,
       ),
     };
 
@@ -722,7 +722,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LIFECYCLE.CATEGORY.EXTENSION_DETECTED,
       LifeCycle.EXTENSION_DETECTED,
       undefined,
-      {name}
+      {name},
     );
   }
 
@@ -740,7 +740,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LifeCycle.PLUGINS_INSTALLED,
       undefined,
       {pluginsList: pluginsList || []},
-      false
+      false,
     );
   }
 
@@ -752,7 +752,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LifeCycle.PLUGINS_FAILED,
       undefined,
       {pluginsList: pluginsList || []},
-      false
+      false,
     );
   }
 
@@ -805,14 +805,14 @@ export class GrReporting implements ReportingService, Finalizable {
   private _reportTiming(
     name: string,
     time: number,
-    eventDetails?: EventDetails
+    eventDetails?: EventDetails,
   ) {
     this.reporter(
       TIMING.TYPE,
       TIMING.CATEGORY.UI_LATENCY,
       name,
       time,
-      eventDetails
+      eventDetails,
     );
   }
 
@@ -876,7 +876,7 @@ export class GrReporting implements ReportingService, Finalizable {
       'RPC-' + anonymizedUrl,
       elapsed,
       {},
-      true
+      true,
     );
     if (elapsed >= SLOW_RPC_THRESHOLD) {
       this.slowRpcList.push({anonymizedUrl, elapsed});
@@ -890,7 +890,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      false
+      false,
     );
   }
 
@@ -901,7 +901,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      false
+      false,
     );
   }
 
@@ -912,7 +912,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      true
+      true,
     );
   }
 
@@ -922,7 +922,7 @@ export class GrReporting implements ReportingService, Finalizable {
   _dedup(
     eventName: string | Interaction,
     details: EventDetails,
-    deduping?: Deduping
+    deduping?: Deduping,
   ): boolean {
     if (!deduping) return false;
     let id = '';
@@ -950,7 +950,7 @@ export class GrReporting implements ReportingService, Finalizable {
   reportInteraction(
     eventName: string | Interaction,
     details: EventDetails,
-    options?: ReportingOptions
+    options?: ReportingOptions,
   ) {
     if (this._dedup(eventName, details, options?.deduping)) return;
     this.reporter(
@@ -959,7 +959,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      false
+      false,
     );
   }
 
@@ -971,14 +971,14 @@ export class GrReporting implements ReportingService, Finalizable {
       name,
       undefined,
       details,
-      true // skip console log
+      true, // skip console log
     );
   }
 
   trackApi(
     pluginApi: Pick<PluginApi, 'getPluginName'>,
     object: string,
-    method: string
+    method: string,
   ) {
     const plugin = pluginApi?.getPluginName() ?? 'unknown';
     this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
@@ -997,7 +997,7 @@ export class GrReporting implements ReportingService, Finalizable {
       ERROR.CATEGORY.EXCEPTION,
       errorSource,
       {error},
-      eventDetails
+      eventDetails,
     );
   }
 
@@ -1007,7 +1007,7 @@ export class GrReporting implements ReportingService, Finalizable {
       ERROR.CATEGORY.ERROR_DIALOG,
       'ErrorDialog',
       {error: new Error(message)},
-      {errorMessage: message}
+      {errorMessage: message},
     );
   }
 

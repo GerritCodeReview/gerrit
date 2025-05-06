@@ -113,7 +113,7 @@ export class GrAccountInfo extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
   }
 
@@ -142,7 +142,7 @@ export class GrAccountInfo extends LitElement {
           <span class="value">
             <a href=${this.avatarChangeUrl}> Change avatar </a>
           </span>
-        </section>`
+        </section>`,
       )}
       <section>
         <span class="title">ID</span>
@@ -183,7 +183,7 @@ export class GrAccountInfo extends LitElement {
               />
             </iron-input>
           </span>`,
-          () => html`<span class="value">${this.username}</span>`
+          () => html`<span class="value">${this.username}</span>`,
         )}
       </section>
       <section id="nameSection">
@@ -209,7 +209,7 @@ export class GrAccountInfo extends LitElement {
               />
             </iron-input>
           </span>`,
-          () => html` <span class="value">${this.account?.name}</span>`
+          () => html` <span class="value">${this.account?.name}</span>`,
         )}
       </section>
       <section>
@@ -306,7 +306,7 @@ export class GrAccountInfo extends LitElement {
     promises.push(
       this.restApiService.getConfig().then(config => {
         this.serverConfig = config;
-      })
+      }),
     );
 
     this.restApiService.invalidateAccountsDetailCache();
@@ -323,13 +323,13 @@ export class GrAccountInfo extends LitElement {
         account.username = account.username || '';
         this.account = account;
         this.username = account.username;
-      })
+      }),
     );
 
     promises.push(
       this.restApiService.getAvatarChangeUrl().then(url => {
         this.avatarChangeUrl = url || '';
-      })
+      }),
     );
 
     return Promise.all(promises).then(() => {
@@ -406,14 +406,14 @@ export class GrAccountInfo extends LitElement {
   computeUsernameEditable() {
     return (
       !!this.serverConfig?.auth.editable_account_fields.includes(
-        EditableAccountField.USER_NAME
+        EditableAccountField.USER_NAME,
       ) && !this.account?.username
     );
   }
 
   private computeNameMutable() {
     return !!this.serverConfig?.auth.editable_account_fields.includes(
-      EditableAccountField.FULL_NAME
+      EditableAccountField.FULL_NAME,
     );
   }
 

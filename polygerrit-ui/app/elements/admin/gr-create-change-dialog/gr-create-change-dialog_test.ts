@@ -32,7 +32,7 @@ suite('gr-create-change-dialog tests', () => {
       }
     });
     element = await fixture(
-      html`<gr-create-change-dialog></gr-create-change-dialog>`
+      html`<gr-create-change-dialog></gr-create-change-dialog>`,
     );
     element.repoName = 'test-repo' as RepoName;
   });
@@ -100,7 +100,7 @@ suite('gr-create-change-dialog tests', () => {
             </span>
           </section>
         </div>
-      `
+      `,
     );
   });
 
@@ -114,7 +114,7 @@ suite('gr-create-change-dialog tests', () => {
     };
 
     const saveStub = stubRestApi('createChange').returns(
-      Promise.resolve(createChange())
+      Promise.resolve(createChange()),
     );
 
     element.branch = 'test-branch' as BranchName;
@@ -124,7 +124,7 @@ suite('gr-create-change-dialog tests', () => {
 
     const messageInput = queryAndAssert<IronAutogrowTextareaElement>(
       element,
-      '#messageInput'
+      '#messageInput',
     );
     messageInput.bindValue = configInputObj.subject;
 
@@ -154,7 +154,7 @@ suite('gr-create-change-dialog tests', () => {
     };
 
     const saveStub = stubRestApi('createChange').returns(
-      Promise.resolve(createChange())
+      Promise.resolve(createChange()),
     );
 
     element.branch = 'test-branch' as BranchName;
@@ -164,7 +164,7 @@ suite('gr-create-change-dialog tests', () => {
 
     const messageInput = queryAndAssert<IronAutogrowTextareaElement>(
       element,
-      '#messageInput'
+      '#messageInput',
     );
     messageInput.bindValue = configInputObj.subject;
 

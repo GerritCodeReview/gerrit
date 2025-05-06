@@ -53,7 +53,7 @@ if (isSafari() && !SUPPORTS_SHADOW_SELECTION && SUPPORTS_BEFORE_INPUT) {
         processing = false;
       }
     },
-    true
+    true,
   );
 
   window.addEventListener(
@@ -86,7 +86,7 @@ if (isSafari() && !SUPPORTS_SHADOW_SELECTION && SUPPORTS_BEFORE_INPUT) {
         }
       }
     },
-    true
+    true,
   );
 
   window.addEventListener(
@@ -94,7 +94,7 @@ if (isSafari() && !SUPPORTS_SHADOW_SELECTION && SUPPORTS_BEFORE_INPUT) {
     _ => {
       contentEditableRange = null;
     },
-    true
+    true,
   );
 }
 

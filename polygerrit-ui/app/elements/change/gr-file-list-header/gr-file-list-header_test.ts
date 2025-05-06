@@ -50,7 +50,7 @@ suite('gr-file-list-header tests', () => {
       html`<gr-file-list-header
         .change=${change}
         .shownFileCount=${3}
-      ></gr-file-list-header>`
+      ></gr-file-list-header>`,
     );
     element.loggedIn = true;
     element.diffPrefs = createDefaultDiffPrefs();
@@ -134,7 +134,7 @@ suite('gr-file-list-header tests', () => {
             </gr-tooltip-content>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -273,7 +273,7 @@ suite('gr-file-list-header tests', () => {
       await element.updateComplete;
 
       assert.isTrue(
-        isVisible(queryAndAssert<HTMLElement>(element, '#editControls'))
+        isVisible(queryAndAssert<HTMLElement>(element, '#editControls')),
       );
 
       element.editMode = false;

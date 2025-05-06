@@ -64,7 +64,7 @@ suite('gr-rest-api-helper tests', () => {
         text() {
           return Promise.resolve(testJSON);
         },
-      })
+      }),
     );
 
     readScheduler = new FakeScheduler<Response>();
@@ -75,7 +75,7 @@ suite('gr-rest-api-helper tests', () => {
       authService,
       fetchPromisesCache,
       readScheduler,
-      writeScheduler
+      writeScheduler,
     );
   });
 
@@ -104,7 +104,7 @@ suite('gr-rest-api-helper tests', () => {
           text() {
             return Promise.resolve('Yay');
           },
-        })
+        }),
       );
     });
 
@@ -167,7 +167,7 @@ suite('gr-rest-api-helper tests', () => {
       assert.isTrue(authFetchStub.called);
       assert.equal(
         authFetchStub.lastCall.args[1].headers.get('Accept'),
-        'application/json'
+        'application/json',
       );
     });
 
@@ -211,7 +211,7 @@ suite('gr-rest-api-helper tests', () => {
         const err = await assertFails(promise);
         assert.equal(
           (err as Error).message,
-          'Network error when trying to fetch. Cause: No response'
+          'Network error when trying to fetch. Cause: No response',
         );
         await waitEventLoop();
         assert.isTrue(networkErrorCalled);
@@ -229,7 +229,7 @@ suite('gr-rest-api-helper tests', () => {
         const err = await assertFails(promise);
         assert.equal(
           (err as Error).message,
-          'Network error when trying to fetch. Cause: No response'
+          'Network error when trying to fetch. Cause: No response',
         );
         await waitEventLoop();
         assert.isTrue(errFn.called);
@@ -246,7 +246,7 @@ suite('gr-rest-api-helper tests', () => {
             text() {
               return Promise.resolve('Nope');
             },
-          })
+          }),
         );
         const promise = helper.fetchJSON({url: '/dummy/url'});
         await assertReadRequest();
@@ -266,7 +266,7 @@ suite('gr-rest-api-helper tests', () => {
             text() {
               return Promise.resolve('Nope');
             },
-          })
+          }),
         );
         const errFn = sinon.stub();
         const promise = helper.fetchJSON({url: '/dummy/url', errFn});
@@ -287,7 +287,7 @@ suite('gr-rest-api-helper tests', () => {
             text() {
               return Promise.resolve('not a prefixed json');
             },
-          })
+          }),
         );
         const errFn = sinon.stub();
         const promise = helper.fetchJSON({url: '/dummy/url', errFn});
@@ -330,11 +330,11 @@ suite('gr-rest-api-helper tests', () => {
       .callsFake(() => Promise.resolve(makeParsedJSON(++n)));
     const promises = [];
     promises.push(
-      helper.fetchCacheJSON({url: '/foo', params: {hello: 'world'}})
+      helper.fetchCacheJSON({url: '/foo', params: {hello: 'world'}}),
     );
     promises.push(helper.fetchCacheJSON({url: '/foo'}));
     promises.push(
-      helper.fetchCacheJSON({url: '/foo', params: {hello: 'world'}})
+      helper.fetchCacheJSON({url: '/foo', params: {hello: 'world'}}),
     );
 
     return Promise.all(promises).then(results => {
@@ -373,7 +373,7 @@ suite('gr-rest-api-helper tests', () => {
     });
     assert.equal(
       url,
-      `${window.CANONICAL_PATH}/path/?sp=hola&gr=guten%20tag&noval&novaltoo`
+      `${window.CANONICAL_PATH}/path/?sp=hola&gr=guten%20tag&noval&novaltoo`,
     );
 
     url = helper.urlWithParams('/path/', {
@@ -409,7 +409,7 @@ suite('gr-rest-api-helper tests', () => {
           text() {
             return Promise.resolve('Nope');
           },
-        })
+        }),
       );
     });
 
@@ -443,7 +443,7 @@ suite('gr-rest-api-helper tests', () => {
           ...new Response(),
           status: 429,
           ok: false,
-        })
+        }),
       );
     });
 
@@ -481,7 +481,7 @@ suite('gr-rest-api-helper tests', () => {
         authService,
         fetchPromisesCache,
         new RetryScheduler<Response>(readScheduler, 1, 50),
-        writeScheduler
+        writeScheduler,
       );
       const promise = helper.fetch({
         url: '/dummy/url',
@@ -494,7 +494,7 @@ suite('gr-rest-api-helper tests', () => {
           text() {
             return Promise.resolve('Yay');
           },
-        })
+        }),
       );
       // Flush the retry scheduler
       clock.tick(50);
@@ -528,7 +528,7 @@ suite('gr-rest-api-helper tests', () => {
       const err: Error = await assertFails(readJSONResponsePayload(response));
       assert.equal(
         err.message,
-        'Response payload is not prefixed json. Payload: ['
+        'Response payload is not prefixed json. Payload: [',
       );
     });
   });
@@ -555,7 +555,7 @@ suite('gr-rest-api-helper tests', () => {
     assert.isTrue(authFetchStub.called);
     assert.equal(
       authFetchStub.lastCall.args[1].headers.get(REQUEST_ORIGIN_HEADER),
-      'test-origin'
+      'test-origin',
     );
   });
 
@@ -565,7 +565,7 @@ suite('gr-rest-api-helper tests', () => {
     assert.isTrue(authFetchStub.called);
     assert.equal(
       authFetchStub.lastCall.args[1].headers.get(REQUEST_ORIGIN_HEADER),
-      'core-ui'
+      'core-ui',
     );
   });
 });

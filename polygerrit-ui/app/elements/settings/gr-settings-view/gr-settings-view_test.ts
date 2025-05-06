@@ -40,7 +40,7 @@ suite('gr-settings-view tests', () => {
 
   function stubAddAccountEmail(statusCode: number) {
     return stubRestApi('addAccountEmail').callsFake(() =>
-      Promise.resolve({status: statusCode} as Response)
+      Promise.resolve({status: statusCode} as Response),
     );
   }
 
@@ -295,7 +295,7 @@ suite('gr-settings-view tests', () => {
           <gr-endpoint-decorator name="settings-screen">
           </gr-endpoint-decorator>
         </div>
-      </div>`
+      </div>`,
     );
   });
 
@@ -424,7 +424,7 @@ suite('gr-settings-view tests', () => {
 
   suite('when email verification token is provided', () => {
     let resolveConfirm: (
-      value: string | PromiseLike<string | null> | null
+      value: string | PromiseLike<string | null> | null,
     ) => void;
     let confirmEmailStub: sinon.SinonStub;
 
@@ -432,7 +432,7 @@ suite('gr-settings-view tests', () => {
       confirmEmailStub = stubRestApi('confirmEmail').returns(
         new Promise(resolve => {
           resolveConfirm = resolve;
-        })
+        }),
       );
 
       element.emailToken = 'foo';
@@ -451,11 +451,11 @@ suite('gr-settings-view tests', () => {
       await element._testOnly_loadingPromise;
       assert.equal(
         (dispatchEventSpy.lastCall.args[0] as CustomEvent).type,
-        'show-alert'
+        'show-alert',
       );
       assert.deepEqual(
         (dispatchEventSpy.lastCall.args[0] as CustomEvent).detail,
-        {message: 'bar', showDismiss: true}
+        {message: 'bar', showDismiss: true},
       );
     });
   });

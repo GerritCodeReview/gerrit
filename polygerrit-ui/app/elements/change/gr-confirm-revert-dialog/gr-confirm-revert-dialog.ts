@@ -200,12 +200,12 @@ export class GrConfirmRevertDialog
   modifyRevertMsg(
     change: ParsedChangeInfo,
     commitMessage: string,
-    message: string
+    message: string,
   ) {
     return this.getPluginLoader().jsApiService.modifyRevertMsg(
       change as ChangeInfo,
       message,
-      commitMessage
+      commitMessage,
     );
   }
 
@@ -213,7 +213,7 @@ export class GrConfirmRevertDialog
     change: ParsedChangeInfo,
     validationOptions: ValidationOptionsInfo | undefined,
     commitMessage: string,
-    changesCount: number
+    changesCount: number,
   ) {
     this.changesCount = changesCount;
     this.validationOptions = validationOptions;
@@ -221,7 +221,7 @@ export class GrConfirmRevertDialog
     this.populateRevertSingleChangeMessage(
       change,
       commitMessage,
-      change.current_revision
+      change.current_revision,
     );
     this.populateRevertSubmissionMessage(change, commitMessage);
   }
@@ -229,7 +229,7 @@ export class GrConfirmRevertDialog
   populateRevertSingleChangeMessage(
     change: ParsedChangeInfo,
     commitMessage: string,
-    commitHash?: CommitId
+    commitHash?: CommitId,
   ) {
     if (!commitHash) {
       fireAlert(this, ERR_COMMIT_NOT_FOUND);
@@ -240,14 +240,14 @@ export class GrConfirmRevertDialog
     const originalTitle = (commitMessage || '').split('\n')[0];
     let revertTitle = `Revert "${originalTitle}"`;
     const revertTitleRegex = originalTitle.match(
-      /^Revert(?:\^([0-9]+))? "(.*)"$/
+      /^Revert(?:\^([0-9]+))? "(.*)"$/,
     );
 
     // Footer can be Issue:, Issue=, Bug: ISSUE=
     const footers = parseCommitMessageString(commitMessage).footer.filter(
       f =>
         f.toLocaleLowerCase().startsWith('issue') ||
-        f.toLocaleLowerCase().startsWith('bug')
+        f.toLocaleLowerCase().startsWith('bug'),
     );
 
     if (revertTitleRegex) {
@@ -278,18 +278,18 @@ export class GrConfirmRevertDialog
   private modifyRevertSubmissionMsg(
     change: ParsedChangeInfo,
     msg: string,
-    commitMessage: string
+    commitMessage: string,
   ) {
     return this.getPluginLoader().jsApiService.modifyRevertSubmissionMsg(
       change as ChangeInfo,
       msg,
-      commitMessage
+      commitMessage,
     );
   }
 
   populateRevertSubmissionMessage(
     change: ParsedChangeInfo,
-    commitMessage: string
+    commitMessage: string,
   ) {
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
@@ -308,7 +308,7 @@ export class GrConfirmRevertDialog
     this.message = this.modifyRevertSubmissionMsg(
       change,
       message,
-      commitMessage
+      commitMessage,
     );
     this.revertType = RevertType.REVERT_SUBMISSION;
     this.revertMessages[this.revertType] = this.message;

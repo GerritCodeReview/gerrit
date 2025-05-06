@@ -27,7 +27,7 @@ export class GrGroupList extends LitElement {
     return this.restApiService.getAccountGroups().then(groups => {
       if (!groups) return;
       this._groups = groups.sort((a, b) =>
-        (a.name || '').localeCompare(b.name || '')
+        (a.name || '').localeCompare(b.name || ''),
       );
     });
   }

@@ -53,22 +53,22 @@ export class GrContextControlsSection extends LitElement {
     subscribe(
       this,
       () => this.getDiffModel().viewMode$,
-      viewMode => (this.viewMode = viewMode)
+      viewMode => (this.viewMode = viewMode),
     );
     subscribe(
       this,
       () => this.getDiffModel().columnsToShow$,
-      columnsToShow => (this.columns = columnsToShow)
+      columnsToShow => (this.columns = columnsToShow),
     );
     subscribe(
       this,
       () => this.getDiffModel().columnCount$,
-      columnCount => (this.columnCount = columnCount)
+      columnCount => (this.columnCount = columnCount),
     );
     subscribe(
       this,
       () => this.getDiffModel().lineCountLeft$,
-      lineCountLeft => (this.lineCountLeft = lineCountLeft)
+      lineCountLeft => (this.lineCountLeft = lineCountLeft),
     );
   }
 
@@ -106,17 +106,17 @@ export class GrContextControlsSection extends LitElement {
       >
         ${when(
           this.columns.blame,
-          () => html`<td class="blame" data-line-number="0"></td>`
+          () => html`<td class="blame" data-line-number="0"></td>`,
         )}
         ${when(
           this.columns.leftNumber,
-          () => html`<td class="contextLineNum"></td>`
+          () => html`<td class="contextLineNum"></td>`,
         )}
         ${when(this.columns.leftSign, () => html`<td class="sign"></td>`)}
         ${when(this.columns.leftContent, () => html`<td></td>`)}
         ${when(
           this.columns.rightNumber,
-          () => html`<td class="contextLineNum"></td>`
+          () => html`<td class="contextLineNum"></td>`,
         )}
         ${when(this.columns.rightSign, () => html`<td class="sign"></td>`)}
         ${when(this.columns.rightContent, () => html`<td></td>`)}
@@ -137,7 +137,7 @@ export class GrContextControlsSection extends LitElement {
       <tr class=${['dividerRow', `show-${showConfig}`].join(' ')}>
         ${when(
           this.columns.blame,
-          () => html`<td class="blame" data-line-number="0"></td>`
+          () => html`<td class="blame" data-line-number="0"></td>`,
         )}
         <td class="dividerCell" colspan=${colspan}>
           <gr-context-controls .group=${this.group}> </gr-context-controls>

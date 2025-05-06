@@ -112,7 +112,7 @@ suite('bulk actions model test', () => {
 
     let selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      selectedChangeNums => selectedChangeNums.includes(change1._number)
+      selectedChangeNums => selectedChangeNums.includes(change1._number),
     );
     assert.sameMembers(selectedChangeNums, [change1._number]);
 
@@ -121,7 +121,7 @@ suite('bulk actions model test', () => {
 
     selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      selectedChangeNums => selectedChangeNums.includes(change2._number)
+      selectedChangeNums => selectedChangeNums.includes(change2._number),
     );
     assert.sameMembers(selectedChangeNums, [change1._number, change2._number]);
 
@@ -130,7 +130,7 @@ suite('bulk actions model test', () => {
 
     selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      selectedChangeNums => !selectedChangeNums.includes(change1._number)
+      selectedChangeNums => !selectedChangeNums.includes(change1._number),
     );
     assert.sameMembers(selectedChangeNums, [change2._number]);
   });
@@ -145,11 +145,11 @@ suite('bulk actions model test', () => {
     bulkActionsModel.addSelectedChangeNum(c2._number);
     let selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      s => s.length === 2
+      s => s.length === 2,
     );
     let totalChangeCount = await waitUntilObserved(
       bulkActionsModel.totalChangeCount$,
-      totalChangeCount => totalChangeCount === 2
+      totalChangeCount => totalChangeCount === 2,
     );
     assert.sameMembers(selectedChangeNums, [c1._number, c2._number]);
     assert.equal(totalChangeCount, 2);
@@ -157,11 +157,11 @@ suite('bulk actions model test', () => {
     bulkActionsModel.clearSelectedChangeNums();
     selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      s => s.length === 0
+      s => s.length === 0,
     );
     totalChangeCount = await waitUntilObserved(
       bulkActionsModel.totalChangeCount$,
-      totalChangeCount => totalChangeCount === 2
+      totalChangeCount => totalChangeCount === 2,
     );
 
     assert.isEmpty(selectedChangeNums);
@@ -176,11 +176,11 @@ suite('bulk actions model test', () => {
     bulkActionsModel.sync([c1, c2]);
     let selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      s => s.length === 0
+      s => s.length === 0,
     );
     let totalChangeCount = await waitUntilObserved(
       bulkActionsModel.totalChangeCount$,
-      totalChangeCount => totalChangeCount === 2
+      totalChangeCount => totalChangeCount === 2,
     );
     assert.isEmpty(selectedChangeNums);
     assert.equal(totalChangeCount, 2);
@@ -188,11 +188,11 @@ suite('bulk actions model test', () => {
     bulkActionsModel.selectAll();
     selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      s => s.length === 2
+      s => s.length === 2,
     );
     totalChangeCount = await waitUntilObserved(
       bulkActionsModel.totalChangeCount$,
-      totalChangeCount => totalChangeCount === 2
+      totalChangeCount => totalChangeCount === 2,
     );
 
     assert.sameMembers(selectedChangeNums, [c1._number, c2._number]);
@@ -214,7 +214,7 @@ suite('bulk actions model test', () => {
         Promise.resolve([
           {...c1, actions: {abandon: {method: HttpMethod.POST}}},
           {...c2, status: ChangeStatus.ABANDONED},
-        ])
+        ]),
       );
 
       bulkActionsModel.sync([c1, c2]);
@@ -278,7 +278,7 @@ suite('bulk actions model test', () => {
           [ReviewerState.REVIEWER, [accounts[0], groups[0]]],
           [ReviewerState.CC, [accounts[1]]],
         ]),
-        '<GERRIT_ACCOUNT_12345> replied on the change'
+        '<GERRIT_ACCOUNT_12345> replied on the change',
       );
 
       assert.isTrue(saveChangeReviewStub.calledTwice);
@@ -338,7 +338,7 @@ suite('bulk actions model test', () => {
         Promise.resolve([
           {...c1, actions: {abandon: {method: HttpMethod.POST}}},
           {...c2, status: ChangeStatus.ABANDONED},
-        ])
+        ]),
       );
 
       await bulkActionsModel.sync([c1, c2]);
@@ -409,7 +409,8 @@ suite('bulk actions model test', () => {
 
       const updatedChanges = await waitUntilObserved(
         bulkActionsModel.selectedChanges$,
-        changes => changes.some(change => change.hashtags?.includes(newHashtag))
+        changes =>
+          changes.some(change => change.hashtags?.includes(newHashtag)),
       );
 
       assert.deepEqual(updatedChanges, [
@@ -439,11 +440,11 @@ suite('bulk actions model test', () => {
 
     let selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      s => s.length === 2
+      s => s.length === 2,
     );
     let totalChangeCount = await waitUntilObserved(
       bulkActionsModel.totalChangeCount$,
-      totalChangeCount => totalChangeCount === 2
+      totalChangeCount => totalChangeCount === 2,
     );
 
     assert.sameMembers(selectedChangeNums, [c1._number, c2._number]);
@@ -452,11 +453,11 @@ suite('bulk actions model test', () => {
     bulkActionsModel.sync([c1]);
     selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
-      s => s.length === 1
+      s => s.length === 1,
     );
     totalChangeCount = await waitUntilObserved(
       bulkActionsModel.totalChangeCount$,
-      totalChangeCount => totalChangeCount === 1
+      totalChangeCount => totalChangeCount === 1,
     );
 
     assert.sameMembers(selectedChangeNums, [c1._number]);
@@ -471,28 +472,28 @@ suite('bulk actions model test', () => {
 
     assert.equal(
       bulkActionsModel.getState().loadingState,
-      LoadingState.NOT_SYNCED
+      LoadingState.NOT_SYNCED,
     );
 
     bulkActionsModel.sync([c1, c2]);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADING
+      s => s === LoadingState.LOADING,
     );
 
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADED
+      s => s === LoadingState.LOADED,
     );
     const model = bulkActionsModel.getState();
 
     assert.strictEqual(
       model.allChanges.get(1 as NumericChangeId)?.subject,
-      'Subject 1'
+      'Subject 1',
     );
     assert.strictEqual(
       model.allChanges.get(2 as NumericChangeId)?.subject,
-      'Subject 2'
+      'Subject 2',
     );
   });
 
@@ -505,13 +506,13 @@ suite('bulk actions model test', () => {
     const responsePromise1 = mockPromise<ChangeInfo[]>();
     let promise = responsePromise1;
     const getChangesStub = stubRestApi(
-      'getDetailedChangesWithActions'
+      'getDetailedChangesWithActions',
     ).callsFake(() => promise);
     bulkActionsModel.sync([c1]);
     assert.strictEqual(getChangesStub.callCount, 1);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADING
+      s => s === LoadingState.LOADING,
     );
     const responsePromise2 = mockPromise<ChangeInfo[]>();
 
@@ -526,16 +527,16 @@ suite('bulk actions model test', () => {
 
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADED
+      s => s === LoadingState.LOADED,
     );
     const model = bulkActionsModel.getState();
     assert.strictEqual(
       model.allChanges.get(1 as NumericChangeId)?.subject,
-      'Subject 1'
+      'Subject 1',
     );
     assert.strictEqual(
       model.allChanges.get(2 as NumericChangeId)?.subject,
-      'Subject 2'
+      'Subject 2',
     );
 
     // Resolve the old promise.
@@ -548,11 +549,11 @@ suite('bulk actions model test', () => {
     // No change should happen.
     assert.strictEqual(
       model2.allChanges.get(1 as NumericChangeId)?.subject,
-      'Subject 1'
+      'Subject 1',
     );
     assert.strictEqual(
       model2.allChanges.get(2 as NumericChangeId)?.subject,
-      'Subject 2'
+      'Subject 2',
     );
   });
 });

@@ -141,7 +141,7 @@ export class GrRepo extends LitElement {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this.selectedScheme = prefs.download_scheme.toLowerCase();
         }
-      }
+      },
     );
   }
 
@@ -234,7 +234,7 @@ export class GrRepo extends LitElement {
                 ></gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
-          </div>`
+          </div>`,
         )}
       </div>
     `;
@@ -316,7 +316,7 @@ export class GrRepo extends LitElement {
               ${this.states.map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -339,7 +339,7 @@ export class GrRepo extends LitElement {
               ${this.formatSubmitTypeSelect(this.repoConfig).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -360,11 +360,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.use_content_merge
+                this.repoConfig?.use_content_merge,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -388,11 +388,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.create_new_change_for_all_not_in_target
+                this.repoConfig?.create_new_change_for_all_not_in_target,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -414,11 +414,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.require_change_id
+                this.repoConfig?.require_change_id,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -444,11 +444,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.enable_signed_push
+                this.repoConfig?.enable_signed_push,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -474,11 +474,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.require_signed_push
+                this.repoConfig?.require_signed_push,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -503,11 +503,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.reject_implicit_merges
+                this.repoConfig?.reject_implicit_merges,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -532,11 +532,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.enable_reviewer_by_email
+                this.repoConfig?.enable_reviewer_by_email,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -558,11 +558,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.private_by_default
+                this.repoConfig?.private_by_default,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -587,11 +587,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.work_in_progress_by_default
+                this.repoConfig?.work_in_progress_by_default,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -641,11 +641,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.match_author_to_committer_date
+                this.repoConfig?.match_author_to_committer_date,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -667,11 +667,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.reject_empty_commit
+                this.repoConfig?.reject_empty_commit,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -696,11 +696,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.use_contributor_agreements
+                this.repoConfig?.use_contributor_agreements,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -722,11 +722,11 @@ export class GrRepo extends LitElement {
           >
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
-                this.repoConfig?.use_signed_off_by
+                this.repoConfig?.use_signed_off_by,
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
-                `
+                `,
               )}
             </select>
           </gr-select>
@@ -749,7 +749,7 @@ export class GrRepo extends LitElement {
             .pluginData=${item}
             ?disabled=${this.readOnly}
           ></gr-repo-plugin-config>
-        `
+        `,
       )}
     </div>`;
   }
@@ -805,19 +805,19 @@ export class GrRepo extends LitElement {
             // If the user is not an owner, is_owner is not a property.
             this.readOnly = !access[repo]?.is_owner;
             this.showSaveForReviewButton = this.flagsService.isEnabled(
-              KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
+              KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW,
             );
             this.disableSaveWithoutReview =
               !!access[repo]?.require_change_for_config_update;
           });
         }
-      })
+      }),
     );
 
     const repoConfigHelper = async () => {
       const config = await this.restApiService.getProjectConfig(
         this.repo as RepoName,
-        errFn
+        errFn,
       );
       if (!config) return;
 
@@ -946,7 +946,7 @@ export class GrRepo extends LitElement {
       return Promise.reject(new Error('undefined repoConfig or repo'));
     await this.restApiService.saveRepoConfig(
       this.repo,
-      this.formatRepoConfigForSave(this.repoConfig)
+      this.formatRepoConfigForSave(this.repoConfig),
     );
     this.originalConfig = deepClone<ConfigInfo>(this.repoConfig);
     this.pluginConfigChanged = false;
@@ -964,7 +964,7 @@ export class GrRepo extends LitElement {
     return this.restApiService
       .saveRepoConfigForReview(
         this.repo,
-        this.formatRepoConfigForSave(this.repoConfig)
+        this.formatRepoConfigForSave(this.repoConfig),
       )
       .then(change => {
         // Don't navigate on server error.
@@ -981,7 +981,7 @@ export class GrRepo extends LitElement {
 
   private isEdited(
     original?: InheritedBooleanInfo | MaxObjectSizeLimitInfo,
-    repo?: InheritedBooleanInfo | MaxObjectSizeLimitInfo
+    repo?: InheritedBooleanInfo | MaxObjectSizeLimitInfo,
   ) {
     return original?.configured_value !== repo?.configured_value;
   }
@@ -1003,7 +1003,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.use_content_merge,
-        repoConfig.use_content_merge
+        repoConfig.use_content_merge,
       )
     ) {
       return true;
@@ -1011,7 +1011,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.create_new_change_for_all_not_in_target,
-        repoConfig.create_new_change_for_all_not_in_target
+        repoConfig.create_new_change_for_all_not_in_target,
       )
     ) {
       return true;
@@ -1019,7 +1019,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.require_change_id,
-        repoConfig.require_change_id
+        repoConfig.require_change_id,
       )
     ) {
       return true;
@@ -1027,7 +1027,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.enable_signed_push,
-        repoConfig.enable_signed_push
+        repoConfig.enable_signed_push,
       )
     ) {
       return true;
@@ -1035,7 +1035,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.require_signed_push,
-        repoConfig.require_signed_push
+        repoConfig.require_signed_push,
       )
     ) {
       return true;
@@ -1043,7 +1043,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.reject_implicit_merges,
-        repoConfig.reject_implicit_merges
+        repoConfig.reject_implicit_merges,
       )
     ) {
       return true;
@@ -1051,7 +1051,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.enable_reviewer_by_email,
-        repoConfig.enable_reviewer_by_email
+        repoConfig.enable_reviewer_by_email,
       )
     ) {
       return true;
@@ -1059,7 +1059,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.private_by_default,
-        repoConfig.private_by_default
+        repoConfig.private_by_default,
       )
     ) {
       return true;
@@ -1067,7 +1067,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.work_in_progress_by_default,
-        repoConfig.work_in_progress_by_default
+        repoConfig.work_in_progress_by_default,
       )
     ) {
       return true;
@@ -1075,7 +1075,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.max_object_size_limit,
-        repoConfig.max_object_size_limit
+        repoConfig.max_object_size_limit,
       )
     ) {
       return true;
@@ -1083,7 +1083,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.match_author_to_committer_date,
-        repoConfig.match_author_to_committer_date
+        repoConfig.match_author_to_committer_date,
       )
     ) {
       return true;
@@ -1091,7 +1091,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.reject_empty_commit,
-        repoConfig.reject_empty_commit
+        repoConfig.reject_empty_commit,
       )
     ) {
       return true;
@@ -1099,7 +1099,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.use_contributor_agreements,
-        repoConfig.use_contributor_agreements
+        repoConfig.use_contributor_agreements,
       )
     ) {
       return true;
@@ -1107,7 +1107,7 @@ export class GrRepo extends LitElement {
     if (
       this.isEdited(
         originalConfig.use_signed_off_by,
-        repoConfig.use_signed_off_by
+        repoConfig.use_signed_off_by,
       )
     ) {
       return true;
@@ -1151,7 +1151,7 @@ export class GrRepo extends LitElement {
           .replace(/\${project}/gi, encodeURI(this.repo))
           .replace(
             /\${project-base-name}/gi,
-            encodeURI(this.repo.substring(this.repo.lastIndexOf('/') + 1))
+            encodeURI(this.repo.substring(this.repo.lastIndexOf('/') + 1)),
           ),
       });
     }
@@ -1249,7 +1249,7 @@ export class GrRepo extends LitElement {
   }
 
   private handleRejectImplicitMergeSelectBindValueChanged(
-    e: BindValueChangeEvent
+    e: BindValueChangeEvent,
   ) {
     if (!this.repoConfig?.reject_implicit_merges || this.loading) return;
     this.repoConfig.reject_implicit_merges.configured_value = e.detail
@@ -1265,7 +1265,7 @@ export class GrRepo extends LitElement {
   }
 
   private handleSetAllNewChangesPrivateByDefaultSelectBindValueChanged(
-    e: BindValueChangeEvent
+    e: BindValueChangeEvent,
   ) {
     if (!this.repoConfig?.private_by_default || this.loading) return;
     this.repoConfig.private_by_default.configured_value = e.detail
@@ -1274,7 +1274,7 @@ export class GrRepo extends LitElement {
   }
 
   private handleSetAllNewChangesWorkInProgressByDefaultSelectBindValueChanged(
-    e: BindValueChangeEvent
+    e: BindValueChangeEvent,
   ) {
     if (!this.repoConfig?.work_in_progress_by_default || this.loading) return;
     this.repoConfig.work_in_progress_by_default.configured_value = e.detail
@@ -1290,7 +1290,7 @@ export class GrRepo extends LitElement {
   }
 
   private handleMatchAuthoredDateWithCommitterDateSelectBindValueChanged(
-    e: BindValueChangeEvent
+    e: BindValueChangeEvent,
   ) {
     if (!this.repoConfig?.match_author_to_committer_date || this.loading)
       return;
@@ -1300,7 +1300,7 @@ export class GrRepo extends LitElement {
   }
 
   private handleRejectEmptyCommitSelectBindValueChanged(
-    e: BindValueChangeEvent
+    e: BindValueChangeEvent,
   ) {
     if (!this.repoConfig?.reject_empty_commit || this.loading) return;
     this.repoConfig.reject_empty_commit.configured_value = e.detail
@@ -1309,7 +1309,7 @@ export class GrRepo extends LitElement {
   }
 
   private handleUseContributorAgreementsBindValueChanged(
-    e: BindValueChangeEvent
+    e: BindValueChangeEvent,
   ) {
     if (!this.repoConfig?.use_contributor_agreements || this.loading) return;
     this.repoConfig.use_contributor_agreements.configured_value = e.detail

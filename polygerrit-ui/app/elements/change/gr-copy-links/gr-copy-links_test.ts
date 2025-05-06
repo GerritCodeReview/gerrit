@@ -24,7 +24,7 @@ suite('gr-copy-links tests', () => {
       },
     ];
     element = await fixture<GrCopyLinks>(
-      html`<gr-copy-links .copyLinks=${links}></gr-copy-links>`
+      html`<gr-copy-links .copyLinks=${links}></gr-copy-links>`,
     );
     await element.updateComplete;
     element.openDropdown();
@@ -50,7 +50,7 @@ suite('gr-copy-links tests', () => {
       {
         // iron-dropdown sizing seems to vary between local & CI
         ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
-      }
+      },
     );
   });
 
@@ -58,7 +58,7 @@ suite('gr-copy-links tests', () => {
     const clipboardStub = sinon.stub(navigator.clipboard, 'writeText');
     const copyClipboard = queryAndAssert<GrCopyClipboard>(
       element,
-      'gr-copy-clipboard'
+      'gr-copy-clipboard',
     );
     const copyBtn = queryAndAssert<GrButton>(copyClipboard, '.copyToClipboard');
     copyBtn.click();
@@ -70,7 +70,7 @@ suite('gr-copy-links tests', () => {
     const clipboardStub = sinon.stub(window.navigator.clipboard, 'writeText');
     const ironDropdown = queryAndAssert<IronDropdownElement>(
       element,
-      'iron-dropdown'
+      'iron-dropdown',
     );
     pressKey(ironDropdown, 'd');
     assert.isTrue(clipboardStub.called);

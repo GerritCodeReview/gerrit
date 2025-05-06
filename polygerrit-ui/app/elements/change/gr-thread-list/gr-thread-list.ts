@@ -77,7 +77,7 @@ export const __testOnly_SortDropdownState = SortDropdownState;
 export function compareThreads(
   c1: CommentThread,
   c2: CommentThread,
-  byTimestamp = false
+  byTimestamp = false,
 ) {
   if (byTimestamp) {
     const c1Time = lastUpdated(c1)?.getTime() ?? 0;
@@ -212,17 +212,17 @@ export class GrThreadList extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.account = x),
     );
   }
 
@@ -404,7 +404,7 @@ export class GrThreadList extends LitElement {
             : undefined;
         const commentThread = this.renderCommentThread(thread, isFirst);
         return html`${separator}${commentThread}`;
-      }
+      },
     );
   }
 
@@ -429,13 +429,13 @@ export class GrThreadList extends LitElement {
     const authors = getCommentAuthors(this.getDisplayedThreads(), this.account);
     if (authors.length === 0) return;
     return html`<span class="author-text">From:</span>${authors.map(author =>
-        this.renderAccountChip(author)
+        this.renderAccountChip(author),
       )}`;
   }
 
   private renderAccountChip(account: AccountInfo) {
     const selected = this.selectedAuthors.some(
-      a => a._account_id === account._account_id
+      a => a._account_id === account._account_id,
     );
     return html`
       <gr-account-label
@@ -526,7 +526,7 @@ export class GrThreadList extends LitElement {
       t =>
         !this.onlyShowRobotCommentsWithHumanReply ||
         !isRobotThread(t) ||
-        hasHumanReply(t)
+        hasHumanReply(t),
     );
   }
 
@@ -547,7 +547,7 @@ export class GrThreadList extends LitElement {
   private isASelectedAuthor(account?: AccountInfo) {
     if (!account) return false;
     return this.selectedAuthors.some(
-      author => account._account_id === author._account_id
+      author => account._account_id === author._account_id,
     );
   }
 
@@ -561,7 +561,7 @@ export class GrThreadList extends LitElement {
       const hasACommentFromASelectedAuthor = thread.comments.some(
         c =>
           (isDraft(c) && this.isASelectedAuthor(this.account)) ||
-          this.isASelectedAuthor(c.author)
+          this.isASelectedAuthor(c.author),
       );
       if (!hasACommentFromASelectedAuthor) return false;
     }

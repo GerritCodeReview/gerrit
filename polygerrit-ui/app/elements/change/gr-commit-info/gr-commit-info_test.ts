@@ -44,7 +44,7 @@ suite('gr-commit-info tests', () => {
           <gr-weblink imageandtext=""> </gr-weblink>
           <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
         </div>
-      `
+      `,
     );
     const weblink = queryAndAssert(element, 'gr-weblink');
     assert.shadowDom.equal(
@@ -55,7 +55,7 @@ suite('gr-commit-info tests', () => {
             <span> sha4567 </span>
           </gr-tooltip-content>
         </a>
-      `
+      `,
     );
   });
 
@@ -73,7 +73,7 @@ suite('gr-commit-info tests', () => {
           <gr-weblink imageandtext=""> </gr-weblink>
           <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
         </div>
-      `
+      `,
     );
     const weblink = queryAndAssert(element, 'gr-weblink');
     assert.shadowDom.equal(
@@ -88,7 +88,7 @@ suite('gr-commit-info tests', () => {
             <span> sha4567 </span>
           </gr-tooltip-content>
         </a>
-      `
+      `,
     );
   });
 });

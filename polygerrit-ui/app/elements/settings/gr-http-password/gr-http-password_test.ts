@@ -30,10 +30,10 @@ suite('gr-http-password tests', () => {
 
     element = await fixture(html`<gr-http-password></gr-http-password>`);
     await waitUntil(
-      () => element.getUserModel().getState().account === account
+      () => element.getUserModel().getState().account === account,
     );
     await waitUntil(
-      () => element.getConfigModel().getState().serverConfig === config
+      () => element.getConfigModel().getState().serverConfig === config,
     );
     await waitEventLoop();
   });
@@ -92,7 +92,7 @@ suite('gr-http-password tests', () => {
             </gr-button>
           </div>
         </dialog>
-      `
+      `,
     );
   });
 
@@ -104,7 +104,7 @@ suite('gr-http-password tests', () => {
       () =>
         new Promise(resolve => {
           generateResolve = resolve;
-        })
+        }),
     );
 
     assert.isNotOk(element.generatedPassword);

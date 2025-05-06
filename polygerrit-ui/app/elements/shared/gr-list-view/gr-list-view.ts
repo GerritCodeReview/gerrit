@@ -154,7 +154,7 @@ export class GrListView extends LitElement {
     if (changedProperties.has('filter')) {
       this.filterChanged(
         this.filter,
-        changedProperties.get('filter') as string
+        changedProperties.get('filter') as string,
       );
     }
   }
@@ -175,13 +175,13 @@ export class GrListView extends LitElement {
         if (!this.isConnected || !this.path) return;
         if (filter) {
           this.getNavigation().setUrl(
-            `${this.path}/q/filter:${encodeURL(filter)}`
+            `${this.path}/q/filter:${encodeURL(filter)}`,
           );
           return;
         }
         this.getNavigation().setUrl(this.path);
       },
-      REQUEST_DEBOUNCE_INTERVAL_MS
+      REQUEST_DEBOUNCE_INTERVAL_MS,
     );
   }
 

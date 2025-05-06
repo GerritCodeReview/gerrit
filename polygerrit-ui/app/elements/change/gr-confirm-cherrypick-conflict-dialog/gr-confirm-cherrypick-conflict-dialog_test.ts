@@ -17,7 +17,7 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-confirm-cherrypick-conflict-dialog></gr-confirm-cherrypick-conflict-dialog>`
+      html`<gr-confirm-cherrypick-conflict-dialog></gr-confirm-cherrypick-conflict-dialog>`,
     );
   });
 
@@ -35,7 +35,7 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
             >
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -56,8 +56,8 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
 
     queryAndAssert<GrButton>(
       queryAndAssert<GrDialog>(element, 'gr-dialog'),
-      'gr-button#cancel'
-    )!.click();
+      'gr-button#cancel',
+    ).click();
     await element.updateComplete;
 
     assert.isTrue(cancelHandler.called);

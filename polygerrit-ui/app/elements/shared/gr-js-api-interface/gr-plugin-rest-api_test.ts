@@ -35,12 +35,12 @@ suite('gr-plugin-rest-api tests', () => {
         pluginApi = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     instance = new GrPluginRestApi(
       getAppContext().restApiService,
       getAppContext().reportingService,
-      pluginApi!
+      pluginApi!,
     );
   });
 
@@ -54,8 +54,8 @@ suite('gr-plugin-rest-api tests', () => {
         payload,
         /* errFn=*/ undefined,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.equal(r.status, 200);
   });
@@ -72,8 +72,8 @@ suite('gr-plugin-rest-api tests', () => {
         payload,
         throwingErrorCallback,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.deepEqual(r, response);
   });
@@ -89,8 +89,8 @@ suite('gr-plugin-rest-api tests', () => {
         /* payload=*/ undefined,
         throwingErrorCallback,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.deepEqual(r, response);
   });
@@ -107,8 +107,8 @@ suite('gr-plugin-rest-api tests', () => {
         payload,
         throwingErrorCallback,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.deepEqual(r, response);
   });
@@ -125,8 +125,8 @@ suite('gr-plugin-rest-api tests', () => {
         payload,
         throwingErrorCallback,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.deepEqual(r, response);
   });
@@ -142,8 +142,8 @@ suite('gr-plugin-rest-api tests', () => {
         /* payload=*/ undefined,
         /* errFn=*/ undefined,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.strictEqual(r, response);
   });
@@ -164,8 +164,8 @@ suite('gr-plugin-rest-api tests', () => {
         /* payload=*/ undefined,
         /* errFn=*/ undefined,
         /* contentType=*/ undefined,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
   });
 
@@ -190,8 +190,8 @@ suite('gr-plugin-rest-api tests', () => {
     assert.isTrue(
       stub.calledWith(
         /* noCache=*/ false,
-        /* requestOrigin=*/ 'plugin:testplugin'
-      )
+        /* requestOrigin=*/ 'plugin:testplugin',
+      ),
     );
     assert.equal(config, info);
   });

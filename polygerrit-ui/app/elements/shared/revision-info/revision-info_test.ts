@@ -89,7 +89,7 @@ suite('revision-info tests', () => {
         [3 as PatchSetNumber, 1],
         [4 as PatchSetNumber, 2],
         [5 as PatchSetNumber, 3],
-      ])
+      ]),
     );
   });
 

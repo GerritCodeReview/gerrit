@@ -98,7 +98,7 @@ suite('gr-admin-group-list tests', () => {
             </div>
           </gr-dialog>
         </dialog>
-      `
+      `,
     );
   });
 
@@ -125,7 +125,7 @@ suite('gr-admin-group-list tests', () => {
     test('maybeOpenCreateModal', async () => {
       const modalOpen = sinon.stub(
         queryAndAssert<HTMLDialogElement>(element, '#createModal'),
-        'showModal'
+        'showModal',
       );
       await element.maybeOpenCreateModal();
       assert.isFalse(modalOpen.called);
@@ -171,7 +171,7 @@ suite('gr-admin-group-list tests', () => {
       assert.equal(
         getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading'))
           .display,
-        'block'
+        'block',
       );
 
       element.loading = false;
@@ -181,7 +181,7 @@ suite('gr-admin-group-list tests', () => {
       assert.equal(
         getComputedStyle(queryAndAssert<HTMLTableElement>(element, '#loading'))
           .display,
-        'none'
+        'none',
       );
     });
   });
@@ -190,13 +190,13 @@ suite('gr-admin-group-list tests', () => {
     test('handleCreateClicked called when create-click fired', () => {
       const handleCreateClickedStub = sinon.stub(
         element,
-        'handleCreateClicked'
+        'handleCreateClicked',
       );
       queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
         new CustomEvent('create-clicked', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCreateClickedStub.called);
     });
@@ -204,7 +204,7 @@ suite('gr-admin-group-list tests', () => {
     test('handleCreateClicked opens modal', () => {
       const openStub = sinon.stub(
         queryAndAssert<HTMLDialogElement>(element, '#createModal'),
-        'showModal'
+        'showModal',
       );
       element.handleCreateClicked();
       assert.isTrue(openStub.called);
@@ -216,7 +216,7 @@ suite('gr-admin-group-list tests', () => {
         new CustomEvent('confirm', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCreateGroupStub.called);
     });
@@ -227,7 +227,7 @@ suite('gr-admin-group-list tests', () => {
         new CustomEvent('cancel', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCloseCreateStub.called);
     });

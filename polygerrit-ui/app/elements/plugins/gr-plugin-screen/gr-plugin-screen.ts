@@ -28,14 +28,14 @@ export class GrPluginScreen extends LitElement {
       () => this.getPluginViewModel().state$,
       state => {
         this.screen = state.screen;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getPluginViewModel().screenName$,
       screenName => {
         this.screenName = screenName;
-      }
+      },
     );
   }
 
@@ -49,7 +49,7 @@ export class GrPluginScreen extends LitElement {
             .value=${this.screen}
           ></gr-endpoint-param>
         </gr-endpoint-decorator>
-      `
+      `,
     );
   }
 }

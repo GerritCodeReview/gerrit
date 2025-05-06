@@ -15,7 +15,7 @@ import {define} from '../../models/dependency';
 import {Observable} from 'rxjs';
 
 export const suggestionsServiceToken = define<SuggestionsService>(
-  'suggestions-service'
+  'suggestions-service',
 );
 
 export enum ReportSource {
@@ -82,7 +82,7 @@ export interface SuggestionsService extends Finalizable {
     comment?: Comment,
     commentText?: string,
     generatedSuggestionId?: string,
-    reportSource?: ReportSource
+    reportSource?: ReportSource,
   ): Promise<FixSuggestionInfo | undefined>;
 
   /**
@@ -91,6 +91,6 @@ export interface SuggestionsService extends Finalizable {
   autocompleteComment(
     comment?: Comment,
     commentText?: string,
-    comments?: Comment[]
+    comments?: Comment[],
   ): Promise<AutocompletionContext | undefined>;
 }

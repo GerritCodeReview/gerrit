@@ -145,7 +145,7 @@ suite('gr-account-info tests', () => {
           </section>
         </div>
       `,
-      {ignoreChildren: ['p']}
+      {ignoreChildren: ['p']},
     );
   });
 
@@ -216,7 +216,7 @@ suite('gr-account-info tests', () => {
     assert.isTrue(element.computeUsernameEditable());
     assert.equal(
       queryIronInput('#usernameIronInput').bindValue,
-      account.username
+      account.username,
     );
     assert.isFalse(inputSpan.hasAttribute('hidden'));
   });
@@ -298,7 +298,7 @@ suite('gr-account-info tests', () => {
 
       const statusTextarea = queryAndAssert<IronAutogrowTextareaElement>(
         element,
-        '#statusInput'
+        '#statusInput',
       );
       statusTextarea.value = 'new status';
       await element.updateComplete;
@@ -345,7 +345,7 @@ suite('gr-account-info tests', () => {
 
       const statusTextarea = queryAndAssert<IronAutogrowTextareaElement>(
         element,
-        '#statusInput'
+        '#statusInput',
       );
       statusTextarea.value = 'new status';
       await element.updateComplete;
@@ -394,7 +394,7 @@ suite('gr-account-info tests', () => {
 
       const statusTextarea = queryAndAssert<IronAutogrowTextareaElement>(
         element,
-        '#statusInput'
+        '#statusInput',
       );
       statusTextarea.value = 'new status';
       await element.updateComplete;

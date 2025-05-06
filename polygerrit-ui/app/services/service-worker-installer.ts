@@ -30,7 +30,7 @@ export enum ServiceWorkerMessageType {
 export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
 
 export const serviceWorkerInstallerToken = define<ServiceWorkerInstaller>(
-  'service-worker-installer'
+  'service-worker-installer',
 );
 
 /**
@@ -46,14 +46,14 @@ export interface ServiceWorkerInstallerState {
 }
 
 export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
-  readonly initialized$: Observable<Boolean | undefined> = select(
+  readonly initialized$: Observable<boolean | undefined> = select(
     this.state$,
-    state => state.initialized
+    state => state.initialized,
   );
 
-  readonly shouldShowPrompt$: Observable<Boolean | undefined> = select(
+  readonly shouldShowPrompt$: Observable<boolean | undefined> = select(
     this.initialized$,
-    _ => this.shouldShowPrompt()
+    _ => this.shouldShowPrompt(),
   );
 
   // Internal state, it's exposed in initialized$
@@ -66,7 +66,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
   constructor(
     private readonly flagsService: FlagsService,
     private readonly reportingService: ReportingService,
-    private readonly userModel: UserModel
+    private readonly userModel: UserModel,
   ) {
     super({initialized: false, shouldShowPrompt: false});
     this.userModel.account$.subscribe(acc => (this.account = acc));
@@ -91,7 +91,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
       until(this.userModel.account$, account => !!account),
       until(
         this.userModel.preferences$,
-        prefs => !!prefs.allow_browser_notifications
+        prefs => !!prefs.allow_browser_notifications,
       ),
     ]).then(() => {
       this.init();
@@ -145,7 +145,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     // are disabled for this.account.
     if (
       !this.flagsService.isEnabled(
-        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER
+        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER,
       ) &&
       !areNotificationsEnabled(this.account)
     ) {

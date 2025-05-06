@@ -332,7 +332,7 @@ export class GrDiffHost extends LitElement {
     super();
     this.syntaxLayer = new GrSyntaxLayerWorker(
       resolve(this, highlightServiceToken),
-      () => getAppContext().reportingService
+      () => getAppContext().reportingService,
     );
     this.addEventListener(
       // These are named inconsistently for a reason:
@@ -342,10 +342,10 @@ export class GrDiffHost extends LitElement {
       // change in some way, and that we should update any models we may want
       // to keep in sync.
       'create-comment',
-      e => this.handleCreateThread(e)
+      e => this.handleCreateThread(e),
     );
     this.addEventListener('diff-context-expanded', event =>
-      this.handleDiffContextExpanded(event)
+      this.handleDiffContextExpanded(event),
     );
     this.addEventListener('reload-diff', (e: CustomEvent) => {
       if (e.detail.path === this.path) {
@@ -355,26 +355,26 @@ export class GrDiffHost extends LitElement {
     subscribe(
       this,
       () => this.getBrowserModel().diffViewMode$,
-      diffView => (this.viewMode = diffView)
+      diffView => (this.viewMode = diffView),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      loggedIn => (this.loggedIn = loggedIn)
+      loggedIn => (this.loggedIn = loggedIn),
     );
     subscribe(
       this,
       () => this.getCommentsModel().changeComments$,
       changeComments => {
         this.changeComments = changeComments;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         this.prefs = diffPreferences;
-      }
+      },
     );
   }
 
@@ -412,7 +412,7 @@ export class GrDiffHost extends LitElement {
       this.threads = this.computeFileThreads(
         this.changeComments,
         this.patchRange,
-        this.file
+        this.file,
       );
     }
     if (
@@ -426,7 +426,7 @@ export class GrDiffHost extends LitElement {
         changedProperties.get('prefs'),
         this.prefs,
         this.path,
-        this.changeNum
+        this.changeNum,
       );
     }
     if (
@@ -441,7 +441,7 @@ export class GrDiffHost extends LitElement {
         this.loadedWhitespaceLevel,
         this.noRenderOnPrefsChange,
         this.path,
-        this.changeNum
+        this.changeNum,
       );
     }
   }
@@ -463,7 +463,7 @@ export class GrDiffHost extends LitElement {
           this.reporting.error(
             'GrDiffHost Reload:',
             new Error('reloadPromise error'),
-            e
+            e,
           );
         }
       }
@@ -477,7 +477,7 @@ export class GrDiffHost extends LitElement {
     const showNewlineWarningRight =
       this.hasTrailingNewlines(this.diff, false) === false;
     const useNewImageDiffUi = this.flags.isEnabled(
-      KnownExperimentId.NEW_IMAGE_DIFF_UI
+      KnownExperimentId.NEW_IMAGE_DIFF_UI,
     );
 
     return keyed(
@@ -506,20 +506,20 @@ export class GrDiffHost extends LitElement {
         .useNewImageDiffUi=${useNewImageDiffUi}
         .binaryDiffHint=${` Download commit to view (shortcut:
               ${this.getShortcutsService().getShortcut(
-                Shortcut.OPEN_DOWNLOAD_DIALOG
+                Shortcut.OPEN_DOWNLOAD_DIALOG,
               )})`}
       >
         ${repeat(
           this.threads,
           t => t.rootId,
-          t => this.renderThread(t)
+          t => this.renderThread(t),
         )}
         ${repeat(
           this.checks,
           c => c.internalResultId,
-          c => this.renderCheck(c)
+          c => this.renderCheck(c),
         )}
-      </gr-diff>`
+      </gr-diff>`,
     );
   }
 
@@ -555,14 +555,14 @@ export class GrDiffHost extends LitElement {
             this.reporting.error(
               'GrDiffHost Reload:',
               new Error('reloadInternal error'),
-              e
+              e,
             );
           }
         } finally {
           this.reloadPromise = undefined;
         }
       },
-      0
+      0,
     );
     return this.reloadPromise;
   }
@@ -629,7 +629,7 @@ export class GrDiffHost extends LitElement {
         this.reporting.error(
           'GrDiffHost Reload:',
           new Error('reload error'),
-          e
+          e,
         );
       }
     } finally {
@@ -683,10 +683,10 @@ export class GrDiffHost extends LitElement {
                 path: this.path!,
                 diffElement: this.diffElement!,
               },
-              highlight
+              highlight,
             );
           }
-        })
+        }),
       );
     }
     layers.push(this.syntaxLayer);
@@ -723,9 +723,9 @@ export class GrDiffHost extends LitElement {
             // Only one code pointer is supported. See API docs.
             const pointer = result.codePointers?.[0];
             return pointer?.path === this.path && !!pointer?.range;
-          })
+          }),
         ),
-        distinctUntilChanged(deepEqual)
+        distinctUntilChanged(deepEqual),
       )
       .subscribe(results => (this.checks = results));
   }
@@ -787,7 +787,7 @@ export class GrDiffHost extends LitElement {
           path,
           basePatchNum,
           patchNum,
-          change
+          change,
         );
         assertIsDefined(this.patchRange, 'patchRange');
         if (
@@ -810,7 +810,7 @@ export class GrDiffHost extends LitElement {
   private computeFileThreads(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
-    file?: PatchSetFile
+    file?: PatchSetFile,
   ) {
     if (!changeComments || !patchRange || !file) return this.threads;
     return changeComments.getThreadsBySideForFile(file, patchRange);
@@ -921,7 +921,7 @@ export class GrDiffHost extends LitElement {
           this.patchRange.patchNum,
           this.path,
           this.getIgnoreWhitespace(),
-          reject
+          reject,
         )
         .then(diff => resolve(diff!)); // reject is called in case of error, so we can't get undefined here
     });
@@ -966,7 +966,7 @@ export class GrDiffHost extends LitElement {
       }
       const deltaSize = Math.max(
         chunk.a ? chunk.a.length : 0,
-        chunk.b ? chunk.b.length : 0
+        chunk.b ? chunk.b.length : 0,
       );
       if (chunk.due_to_rebase) {
         rebaseDelta += deltaSize;
@@ -1016,7 +1016,7 @@ export class GrDiffHost extends LitElement {
     return this.restApiService.getImagesForDiff(
       this.changeNum,
       diff,
-      this.patchRange
+      this.patchRange,
     );
   }
 
@@ -1137,7 +1137,7 @@ export class GrDiffHost extends LitElement {
     loadedWhitespaceLevel: IgnoreWhitespaceType | undefined,
     noRenderOnPrefsChange: boolean | undefined,
     path: string | undefined,
-    changeNum: NumericChangeId | undefined
+    changeNum: NumericChangeId | undefined,
   ): void | Promise<void> {
     if (preferredWhitespaceLevel === undefined) return;
     if (loadedWhitespaceLevel === undefined) return;
@@ -1159,7 +1159,7 @@ export class GrDiffHost extends LitElement {
     oldPrefs: DiffPreferencesInfo | undefined,
     prefs: DiffPreferencesInfo | undefined,
     path: string | undefined,
-    changeNum: NumericChangeId | undefined
+    changeNum: NumericChangeId | undefined,
   ): void | Promise<void> {
     if (noRenderOnPrefsChange === undefined) return;
     if (prefs === undefined) return;
@@ -1188,7 +1188,7 @@ export class GrDiffHost extends LitElement {
       fireAlert(
         this,
         `Files with more than ${CODE_MAX_LINES} lines` +
-          '  will not be syntax highlighted.'
+          '  will not be syntax highlighted.',
       );
       return false;
     }
@@ -1196,7 +1196,7 @@ export class GrDiffHost extends LitElement {
   }
 
   private handleDiffContextExpanded(
-    e: CustomEvent<DiffContextExpandedExternalDetail>
+    e: CustomEvent<DiffContextExpandedExternalDetail>,
   ) {
     this.reporting.reportInteraction('diff-context-expanded', {
       numLines: e.detail.numLines,

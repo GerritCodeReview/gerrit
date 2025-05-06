@@ -199,13 +199,13 @@ export class GrButton extends LitElement {
     if (changedProperties.has('disabled')) {
       this.setAttribute(
         'tabindex',
-        this.disabled ? '-1' : this.initialTabindex || '0'
+        this.disabled ? '-1' : this.initialTabindex || '0',
       );
     }
     if (changedProperties.has('loading') || changedProperties.has('disabled')) {
       this.setAttribute(
         'aria-disabled',
-        this.disabled || this.loading ? 'true' : 'false'
+        this.disabled || this.loading ? 'true' : 'false',
       );
     }
   }

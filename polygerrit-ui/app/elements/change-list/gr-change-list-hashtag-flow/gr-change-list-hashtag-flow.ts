@@ -140,7 +140,7 @@ export class GrChangeListHashtagFlow extends LitElement {
       () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => {
         this.selectedChanges = selectedChanges;
-      }
+      },
     );
   }
 
@@ -202,12 +202,12 @@ export class GrChangeListHashtagFlow extends LitElement {
                         @click=${this.closeDropdown}
                         >Cancel</gr-button
                       >
-                    `
+                    `,
                   )}
                 </div>
               </div>
             </div>
-          `
+          `,
         )}
       </iron-dropdown>
     `;
@@ -265,7 +265,7 @@ export class GrChangeListHashtagFlow extends LitElement {
       ...(this.hashtagToAdd === '' ? [] : [this.hashtagToAdd]),
     ];
     const allHashtagsAreAlreadyAdded = allHashtagsToAdd.every(hashtag =>
-      this.selectedChanges.every(change => change.hashtags?.includes(hashtag))
+      this.selectedChanges.every(change => change.hashtags?.includes(hashtag)),
     );
     return (
       allHashtagsAreAlreadyAdded ||
@@ -296,11 +296,11 @@ export class GrChangeListHashtagFlow extends LitElement {
   }
 
   private async getHashtagSuggestions(
-    query: string
+    query: string,
   ): Promise<AutocompleteSuggestion[]> {
     const suggestions = await this.restApiService.getChangesWithSimilarHashtag(
       query,
-      throwingErrorCallback
+      throwingErrorCallback,
     );
     this.existingHashtagSuggestions = (suggestions ?? [])
       .flatMap(change => change.hashtags ?? [])
@@ -334,14 +334,14 @@ export class GrChangeListHashtagFlow extends LitElement {
     this.trackPromises(
       this.getBulkActionsModel().addHashtags(allHashtagsToAdd),
       alert,
-      'Failed to add'
+      'Failed to add',
     );
   }
 
   private async trackPromises(
     promises: Promise<Hashtag[]>[],
     alert: string,
-    errorText: string
+    errorText: string,
   ) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);

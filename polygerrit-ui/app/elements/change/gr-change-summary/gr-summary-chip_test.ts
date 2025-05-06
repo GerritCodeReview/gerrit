@@ -27,7 +27,7 @@ suite('gr-summary-chip test', () => {
       element,
       /* HTML */ `<button class="font-small summaryChip warning">
         <slot> </slot>
-      </button>`
+      </button>`,
     );
   });
 
@@ -40,7 +40,7 @@ suite('gr-summary-chip test', () => {
       element,
       /* HTML */ `<span class="check font-small summaryChip">
         <slot> </slot>
-      </span>`
+      </span>`,
     );
   });
 });

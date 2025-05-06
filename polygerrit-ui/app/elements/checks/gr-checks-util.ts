@@ -29,7 +29,7 @@ export function fireRunSelected(target: EventTarget, checkName: string) {
 
 export function isAttemptSelected(
   selectedAttempt: AttemptChoice,
-  run: CheckRun
+  run: CheckRun,
 ) {
   if (selectedAttempt === LATEST_ATTEMPT) return run.isLatestAttempt;
   if (selectedAttempt === ALL_ATTEMPTS) return true;

@@ -46,13 +46,13 @@ suite('comment-util', () => {
       isUnresolved({
         ...thread,
         comments: [{...createComment(), unresolved: true}],
-      })
+      }),
     );
     assert.isFalse(
       isUnresolved({
         ...thread,
         comments: [{...createComment(), unresolved: false}],
-      })
+      }),
     );
     assert.isTrue(
       isUnresolved({
@@ -61,7 +61,7 @@ suite('comment-util', () => {
           {...createComment(), unresolved: false},
           {...createComment(), unresolved: true},
         ],
-      })
+      }),
     );
     assert.isFalse(
       isUnresolved({
@@ -70,7 +70,7 @@ suite('comment-util', () => {
           {...createComment(), unresolved: true},
           {...createComment(), unresolved: false},
         ],
-      })
+      }),
     );
   });
 
@@ -100,7 +100,7 @@ suite('comment-util', () => {
         {
           basePatchNum: PARENT,
           patchNum: 4 as RevisionPatchSetNum,
-        }
+        },
       );
     });
   });
@@ -138,7 +138,7 @@ suite('comment-util', () => {
 
     assert.deepEqual(
       getMentionedThreads(threads, createAccountWithEmail('xyz@def.com')),
-      []
+      [],
     );
   });
 
@@ -559,7 +559,7 @@ suite('comment-util', () => {
       ]);
       assert.equal(
         getUserSuggestionFromString(content, 1),
-        'Second suggestion'
+        'Second suggestion',
       );
     });
 
@@ -570,7 +570,7 @@ suite('comment-util', () => {
       ]);
       assert.equal(
         getUserSuggestionFromString(content, 5),
-        'Second suggestion'
+        'Second suggestion',
       );
     });
 
@@ -587,15 +587,15 @@ suite('comment-util', () => {
       ]);
       assert.equal(
         getUserSuggestionFromString(content, 0),
-        'First\nMultiline\nSuggestion'
+        'First\nMultiline\nSuggestion',
       );
       assert.equal(
         getUserSuggestionFromString(content, 1),
-        'Second suggestion'
+        'Second suggestion',
       );
       assert.equal(
         getUserSuggestionFromString(content, 2),
-        'Third suggestion with `backticks`'
+        'Third suggestion with `backticks`',
       );
     });
   });

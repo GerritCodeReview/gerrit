@@ -45,7 +45,7 @@ suite('gr-alert tests', () => {
           >
           </gr-button>
         </div>
-      `
+      `,
     );
   });
 

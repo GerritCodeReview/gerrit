@@ -45,7 +45,7 @@ suite('gr-button tests', () => {
           tabindex="-1"
           ><slot></slot>
         </paper-button>
-      `
+      `,
     );
   });
 
@@ -57,14 +57,14 @@ suite('gr-button tests', () => {
       icon,
       /* HTML */ `
         <gr-icon icon="arrow_drop_down" class="downArrow"></gr-icon>
-      `
+      `,
     );
   });
 
   test('disabled is set by disabled', async () => {
     const paperBtn = queryAndAssert<PaperButtonElement>(
       element,
-      'paper-button'
+      'paper-button',
     );
     assert.isFalse(paperBtn.disabled);
     element.disabled = true;
@@ -84,7 +84,7 @@ suite('gr-button tests', () => {
     });
     const paperBtn = queryAndAssert<PaperButtonElement>(
       element,
-      'paper-button'
+      'paper-button',
     );
     assert.isFalse(paperBtn.disabled);
     element.click();

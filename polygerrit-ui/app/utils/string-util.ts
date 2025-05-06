@@ -56,6 +56,15 @@ export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export function trimWithEllipsis(
+  s: string | undefined,
+  maxLength: number
+): string {
+  if (!s) return '';
+  if (s.length <= maxLength) return s;
+  return s.substring(0, maxLength - 3) + '...';
+}
+
 /**
  * Converts the items into a sentence-friendly format. Examples:
  * listForSentence(["Foo", "Bar", "Baz"])

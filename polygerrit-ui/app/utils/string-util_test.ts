@@ -11,6 +11,7 @@ import {
   listForSentence,
   diffFilePaths,
   escapeAndWrapSearchOperatorValue,
+  trimWithEllipsis,
 } from './string-util';
 
 suite('string-util tests', () => {
@@ -40,6 +41,14 @@ suite('string-util tests', () => {
     assert.equal(listForSentence(['Foo', 'Bar']), 'Foo and Bar');
     assert.equal(listForSentence(['Foo']), 'Foo');
     assert.equal(listForSentence([]), '');
+  });
+
+  test('trimWithEllipsis', () => {
+    assert.equal(trimWithEllipsis('asdf', 10), 'asdf');
+    assert.equal(trimWithEllipsis('asdf', 4), 'asdf');
+    assert.equal(trimWithEllipsis('asdf', 3), '...');
+    assert.equal(trimWithEllipsis('asdf qwer', 5), 'as...');
+    assert.equal(trimWithEllipsis('asdf qwer', 8), 'asdf ...');
   });
 
   test('diffFilePaths', () => {

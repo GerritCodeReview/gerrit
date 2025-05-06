@@ -27,14 +27,14 @@ suite('gr-plugin-loader tests', () => {
     clock = sinon.useFakeTimers();
 
     stubRestApi('getAccount').returns(
-      Promise.resolve({name: 'Judy Hopps', registered_on: '' as Timestamp})
+      Promise.resolve({name: 'Judy Hopps', registered_on: '' as Timestamp}),
     );
     stubRestApi('send').returns(
-      Promise.resolve({...new Response(), status: 200})
+      Promise.resolve({...new Response(), status: 200}),
     );
     pluginLoader = new PluginLoader(
       getAppContext().reportingService,
-      getAppContext().restApiService
+      getAppContext().restApiService,
     );
     bodyStub = sinon.stub(document.body, 'appendChild');
     url = window.location.origin;
@@ -50,7 +50,7 @@ suite('gr-plugin-loader tests', () => {
         plugin = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
 
     let otherPlugin;
@@ -59,7 +59,7 @@ suite('gr-plugin-loader tests', () => {
         otherPlugin = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     assert.strictEqual(plugin, otherPlugin);
   });
@@ -73,7 +73,7 @@ suite('gr-plugin-loader tests', () => {
   test('report pluginsLoaded', async () => {
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
     pluginsLoadedStub.reset();
     pluginLoader.loadPlugins([]);
@@ -103,7 +103,7 @@ suite('gr-plugin-loader tests', () => {
     });
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
 
     const plugins = [
@@ -129,7 +129,7 @@ suite('gr-plugin-loader tests', () => {
     ];
     pluginLoader.loadPlugins(plugins);
     assert.isTrue(
-      plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
+      plugins.every(plugin => pluginLoader.isPluginEnabled(plugin)),
     );
 
     await waitEventLoop();
@@ -154,13 +154,13 @@ suite('gr-plugin-loader tests', () => {
           }
         },
         undefined,
-        url
+        url,
       );
     });
 
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
 
     pluginLoader.loadPlugins(plugins);
@@ -188,18 +188,18 @@ suite('gr-plugin-loader tests', () => {
           }
         },
         undefined,
-        url
+        url,
       );
     });
 
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
 
     pluginLoader.loadPlugins(plugins);
     assert.isTrue(
-      plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
+      plugins.every(plugin => pluginLoader.isPluginEnabled(plugin)),
     );
 
     await waitEventLoop();
@@ -225,13 +225,13 @@ suite('gr-plugin-loader tests', () => {
           throw new Error('failed');
         },
         undefined,
-        url
+        url,
       );
     });
 
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
 
     pluginLoader.loadPlugins(plugins);
@@ -257,7 +257,7 @@ suite('gr-plugin-loader tests', () => {
 
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
 
     pluginLoader.loadPlugins(plugins);
@@ -274,7 +274,7 @@ suite('gr-plugin-loader tests', () => {
     });
     const pluginsLoadedStub = sinon.stub(
       getAppContext().reportingService,
-      'pluginsLoaded'
+      'pluginsLoaded',
     );
 
     const plugins = [
@@ -296,7 +296,7 @@ suite('gr-plugin-loader tests', () => {
       sinon
         .stub(pluginLoader, 'createScriptTag')
         .callsFake((url: string, _onerror?: OnErrorEventHandler | undefined) =>
-          loadJsPluginStub(url)
+          loadJsPluginStub(url),
         );
     });
 
@@ -312,8 +312,8 @@ suite('gr-plugin-loader tests', () => {
       assert.isTrue(
         failToLoadStub.calledWithExactly(
           'Unrecognized plugin path foo/bar',
-          'foo/bar'
-        )
+          'foo/bar',
+        ),
       );
     });
 
@@ -332,7 +332,7 @@ suite('gr-plugin-loader tests', () => {
 
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
-        loadJsPluginStub.calledWithExactly(`${url}${testUrl}/foo/bar.js`)
+        loadJsPluginStub.calledWithExactly(`${url}${testUrl}/foo/bar.js`),
       );
     });
 
@@ -341,7 +341,7 @@ suite('gr-plugin-loader tests', () => {
 
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
-        loadJsPluginStub.calledWithExactly('http://e.com/foo/bar.js')
+        loadJsPluginStub.calledWithExactly('http://e.com/foo/bar.js'),
       );
     });
   });
@@ -354,7 +354,7 @@ suite('gr-plugin-loader tests', () => {
       sinon
         .stub(pluginLoader, 'createScriptTag')
         .callsFake((url: string, _onerror?: OnErrorEventHandler | undefined) =>
-          loadJsPluginStub(url)
+          loadJsPluginStub(url),
         );
     });
 
@@ -367,7 +367,7 @@ suite('gr-plugin-loader tests', () => {
 
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
-        loadJsPluginStub.calledWithExactly('https://cdn.com/foo/bar.js')
+        loadJsPluginStub.calledWithExactly('https://cdn.com/foo/bar.js'),
       );
     });
 
@@ -376,7 +376,7 @@ suite('gr-plugin-loader tests', () => {
 
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
-        loadJsPluginStub.calledWithExactly('http://e.com/foo/bar.js')
+        loadJsPluginStub.calledWithExactly('http://e.com/foo/bar.js'),
       );
     });
 
@@ -386,7 +386,7 @@ suite('gr-plugin-loader tests', () => {
 
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
-        loadJsPluginStub.calledWithExactly('https://cdn.com/foo/bar.js')
+        loadJsPluginStub.calledWithExactly('https://cdn.com/foo/bar.js'),
       );
     });
   });

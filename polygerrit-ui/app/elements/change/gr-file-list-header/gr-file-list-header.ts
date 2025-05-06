@@ -113,29 +113,29 @@ export class GrFileListHeader extends LitElement {
       diffPreferences => {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      x => (this.patchNum = x)
+      x => (this.patchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().basePatchNum$,
-      x => (this.basePatchNum = x)
+      x => (this.basePatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
   }
 
@@ -272,7 +272,7 @@ export class GrFileListHeader extends LitElement {
                 ></gr-edit-controls>
                 <span class="separator"></span>
               </span>
-            `
+            `,
           )}
           ${when(
             this.loggedIn && this.diffPrefs,
@@ -286,14 +286,14 @@ export class GrFileListHeader extends LitElement {
                 ${this.renderDiffPrefsContainer()}
                 <span class="separator"></span>
               </div>
-            `
+            `,
           )}
           <span class="downloadContainer desktop">
             <gr-tooltip-content
               has-tooltip
               title=${this.createTitle(
                 Shortcut.OPEN_DOWNLOAD_DIALOG,
-                ShortcutSection.ACTIONS
+                ShortcutSection.ACTIONS,
               )}
             >
               <gr-button link class="download" @click=${this.handleDownloadTap}
@@ -304,13 +304,13 @@ export class GrFileListHeader extends LitElement {
           ${when(
             this.fileListActionsVisible(
               this.shownFileCount,
-              this.maxFilesForBulkActions
+              this.maxFilesForBulkActions,
             ),
             () => html` <gr-tooltip-content
                 has-tooltip
                 title=${this.createTitle(
                   Shortcut.TOGGLE_ALL_INLINE_DIFFS,
-                  ShortcutSection.FILE_LIST
+                  ShortcutSection.FILE_LIST,
                 )}
               >
                 <gr-button id="expandBtn" link @click=${this.expandAllDiffs}
@@ -321,7 +321,7 @@ export class GrFileListHeader extends LitElement {
                 has-tooltip
                 title=${this.createTitle(
                   Shortcut.TOGGLE_ALL_INLINE_DIFFS,
-                  ShortcutSection.FILE_LIST
+                  ShortcutSection.FILE_LIST,
                 )}
               >
                 <gr-button id="collapseBtn" link @click=${this.collapseAllDiffs}
@@ -332,7 +332,7 @@ export class GrFileListHeader extends LitElement {
               <div class="warning">
                 Bulk actions disabled because there are too many files.
               </div>
-            `
+            `,
           )}
         </div>
       </div>
@@ -385,7 +385,7 @@ export class GrFileListHeader extends LitElement {
 
   private fileListActionsVisible(
     shownFileCount: number,
-    maxFilesForBulkActions: number
+    maxFilesForBulkActions: number,
   ) {
     return shownFileCount <= maxFilesForBulkActions;
   }
@@ -399,7 +399,7 @@ export class GrFileListHeader extends LitElement {
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum, basePatchNum})
+      createChangeUrl({change: this.change, patchNum, basePatchNum}),
     );
   }
 

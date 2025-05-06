@@ -25,7 +25,7 @@ suite('gr-create-group-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-create-group-dialog></gr-create-group-dialog>`
+      html`<gr-create-group-dialog></gr-create-group-dialog>`,
     );
   });
 
@@ -43,7 +43,7 @@ suite('gr-create-group-dialog tests', () => {
             </section>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -64,10 +64,10 @@ suite('gr-create-group-dialog tests', () => {
 
   test('test for redirecting to group on successful creation', async () => {
     stubRestApi('createGroup').returns(
-      Promise.resolve({status: 201} as Response)
+      Promise.resolve({status: 201} as Response),
     );
     stubRestApi('getGroupConfig').returns(
-      Promise.resolve({id: 'testId551' as GroupId, group_id: 551})
+      Promise.resolve({id: 'testId551' as GroupId, group_id: 551}),
     );
 
     const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
@@ -77,10 +77,10 @@ suite('gr-create-group-dialog tests', () => {
 
   test('test for unsuccessful group creation', async () => {
     stubRestApi('createGroup').returns(
-      Promise.resolve({status: 409} as Response)
+      Promise.resolve({status: 409} as Response),
     );
     stubRestApi('getGroupConfig').returns(
-      Promise.resolve({id: 'testId551' as GroupId, group_id: 551})
+      Promise.resolve({id: 'testId551' as GroupId, group_id: 551}),
     );
 
     const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');

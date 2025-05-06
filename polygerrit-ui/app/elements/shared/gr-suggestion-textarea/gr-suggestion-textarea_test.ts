@@ -35,7 +35,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
 
   setup(async () => {
     element = await fixture<GrSuggestionTextarea>(
-      html`<gr-suggestion-textarea></gr-suggestion-textarea>`
+      html`<gr-suggestion-textarea></gr-suggestion-textarea>`,
     );
     sinon.stub(element.reporting, 'reportInteraction');
     await element.updateComplete;
@@ -60,7 +60,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
         ignoreAttributes: [
           {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
         ],
-      }
+      },
     );
   });
 
@@ -74,7 +74,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
-        ])
+        ]),
       );
       element.textarea!.focus();
       await waitUntil(() => element.isTextareaFocused() === true);
@@ -108,7 +108,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
             display_name: 'display A',
           },
           {...createAccountWithEmail('abcdef@google.com'), name: 'B'},
-        ])
+        ]),
       );
       element.textarea!.focus();
       await waitUntil(() => element.isTextareaFocused() === true);
@@ -225,7 +225,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
-        ])
+        ]),
       );
 
       element.textarea!.focus();
@@ -255,7 +255,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
-        ])
+        ]),
       );
       element.textarea!.focus();
       await waitUntil(() => element.isTextareaFocused() === true);
@@ -343,7 +343,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
-        ])
+        ]),
       );
 
       element.textarea!.focus();
@@ -501,7 +501,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
           text: "😂 tears :')",
         },
         {dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
-      ])
+      ]),
     );
   });
 
@@ -516,7 +516,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
         {value: '😢', dataValue: '😢', match: 'tear', text: '😢 tear'},
         {value: '😂', dataValue: '😂', match: 'tears', text: '😂 tears'},
       ],
-      suggestions
+      suggestions,
     );
   });
 
@@ -571,7 +571,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     element.updateCaratPosition();
     assert.deepEqual(
       element.hiddenText!.innerHTML,
-      element.text + element.caratSpan!.outerHTML
+      element.text + element.caratSpan!.outerHTML,
     );
   });
 
@@ -589,7 +589,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
       new CustomEvent('dropdown-closed', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     await element.updateComplete;
     assert.isTrue(resetSpy.called);
@@ -641,7 +641,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
 
     setup(async () => {
       element = await fixture<GrSuggestionTextarea>(
-        html`<gr-suggestion-textarea monospace></gr-suggestion-textarea>`
+        html`<gr-suggestion-textarea monospace></gr-suggestion-textarea>`,
       );
       await element.updateComplete;
     });
@@ -656,7 +656,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
 
     setup(async () => {
       element = await fixture<GrSuggestionTextarea>(
-        html`<gr-suggestion-textarea hide-border></gr-suggestion-textarea>`
+        html`<gr-suggestion-textarea hide-border></gr-suggestion-textarea>`,
       );
       await element.updateComplete;
     });

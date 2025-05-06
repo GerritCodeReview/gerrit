@@ -75,7 +75,7 @@ suite('gr-repo-dashboards tests', () => {
             project: 'gerrit',
             ref: 'custom',
           },
-        ] as DashboardInfo[])
+        ] as DashboardInfo[]),
       );
     });
 
@@ -97,7 +97,7 @@ suite('gr-repo-dashboards tests', () => {
               </tr>
             </tbody>
           </table>
-        `
+        `,
       );
     });
 

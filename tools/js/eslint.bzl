@@ -41,6 +41,7 @@ def plugin_eslint():
             "@npm//eslint-plugin-import",
             "@npm//eslint-plugin-jsdoc",
             "@npm//eslint-plugin-lit",
+            "@npm//eslint-plugin-n",
             "@npm//eslint-plugin-prettier",
             "@npm//eslint-plugin-regex",
             "@npm//gts",
@@ -122,6 +123,11 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
             "*_test_loader.js",
             "./",  # Relative to the config file location
         ],
+        # Needed for eslint 9+.
+        # Remove this when migrating the config to flat config.
+        env = {
+            "ESLINT_USE_FLAT_CONFIG": "false",
+        },
         # Should not run sandboxed.
         tags = [
             "local",
@@ -143,4 +149,7 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
             "--ignore-pattern",
             "*_bin_loader.js",
         ],
+        env = {
+            "ESLINT_USE_FLAT_CONFIG": "false",
+        },
     )

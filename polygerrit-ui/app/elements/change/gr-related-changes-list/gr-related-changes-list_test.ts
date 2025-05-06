@@ -44,7 +44,7 @@ suite('gr-related-changes-list', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-related-changes-list></gr-related-changes-list>`
+      html`<gr-related-changes-list></gr-related-changes-list>`,
     );
   });
 
@@ -53,23 +53,23 @@ suite('gr-related-changes-list', () => {
       instructions: Array<{
         len: number;
         v: boolean;
-      }>
+      }>,
     ) {
       return instructions.flatMap(inst =>
-        Array.from({length: inst.len}, () => inst.v)
+        Array.from({length: inst.len}, () => inst.v),
       );
     }
 
     function checkShowWhenCollapsed(
       expected: boolean[],
       markersPredicate: (index: number) => ChangeMarkersInList,
-      msg: string
+      msg: string,
     ) {
       for (let i = 0; i < expected.length; i++) {
         assert.equal(
           markersPredicate(i).showWhenCollapsed,
           expected[i],
-          `change on pos (${i}) ${msg}`
+          `change on pos (${i}) ${msg}`,
         );
       }
     }
@@ -84,7 +84,7 @@ suite('gr-related-changes-list', () => {
       checkShowWhenCollapsed(
         expectedCollapsing,
         markersPredicate,
-        'highlight 4, size 10, size 5'
+        'highlight 4, size 10, size 5',
       );
 
       const markersPredicate2 = element.markersPredicateFactory(10, 8, 5);
@@ -95,7 +95,7 @@ suite('gr-related-changes-list', () => {
       checkShowWhenCollapsed(
         expectedCollapsing2,
         markersPredicate2,
-        'highlight 8, size 10, size 5'
+        'highlight 8, size 10, size 5',
       );
 
       const markersPredicate3 = element.markersPredicateFactory(10, 1, 5);
@@ -106,7 +106,7 @@ suite('gr-related-changes-list', () => {
       checkShowWhenCollapsed(
         expectedCollapsing3,
         markersPredicate3,
-        'highlight 1, size 10, size 5'
+        'highlight 1, size 10, size 5',
       );
     });
 
@@ -120,7 +120,7 @@ suite('gr-related-changes-list', () => {
       checkShowWhenCollapsed(
         expectedCollapsing,
         markersPredicate,
-        'highlight 4, len 10, size 4'
+        'highlight 4, len 10, size 4',
       );
 
       const markersPredicate2 = element.markersPredicateFactory(10, 8, 4);
@@ -131,7 +131,7 @@ suite('gr-related-changes-list', () => {
       checkShowWhenCollapsed(
         expectedCollapsing2,
         markersPredicate2,
-        'highlight 8, len 10, size 4'
+        'highlight 8, len 10, size 4',
       );
 
       const markersPredicate3 = element.markersPredicateFactory(10, 1, 4);
@@ -142,7 +142,7 @@ suite('gr-related-changes-list', () => {
       checkShowWhenCollapsed(
         expectedCollapsing3,
         markersPredicate3,
-        'highlight 1, len 10, size 4'
+        'highlight 1, len 10, size 4',
       );
     });
   });
@@ -252,7 +252,7 @@ suite('gr-related-changes-list', () => {
             </section>
             <gr-endpoint-slot name="bottom"> </gr-endpoint-slot>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -263,7 +263,7 @@ suite('gr-related-changes-list', () => {
       const section = queryAndAssert<HTMLElement>(element, '#relatedChanges');
       const relatedChanges = queryAndAssert<GrRelatedCollapse>(
         section,
-        'gr-related-collapse'
+        'gr-related-collapse',
       );
       assert.isTrue(relatedChanges.classList.contains('first'));
     });
@@ -277,7 +277,7 @@ suite('gr-related-changes-list', () => {
       assert.notExists(relatedChanges);
       const submittedTogetherSection = queryAndAssert<GrRelatedCollapse>(
         queryAndAssert<HTMLElement>(element, '#submittedTogether'),
-        'gr-related-collapse'
+        'gr-related-collapse',
       );
       assert.isTrue(submittedTogetherSection.classList.contains('first'));
     });
@@ -290,17 +290,17 @@ suite('gr-related-changes-list', () => {
 
       const relatedChanges = queryAndAssert<GrRelatedCollapse>(
         queryAndAssert<HTMLElement>(element, '#relatedChanges'),
-        'gr-related-collapse'
+        'gr-related-collapse',
       );
       assert.isTrue(relatedChanges.classList.contains('first'));
       const submittedTogetherSection = query<HTMLElement>(
         element,
-        '#submittedTogether'
+        '#submittedTogether',
       );
       assert.notExists(submittedTogetherSection);
       const cherryPicks = queryAndAssert<GrRelatedCollapse>(
         queryAndAssert<HTMLElement>(element, '#cherryPicks'),
-        'gr-related-collapse'
+        'gr-related-collapse',
       );
       assert.isFalse(cherryPicks.classList.contains('first'));
     });
@@ -368,7 +368,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '2cebeedfb1e80f4b872d0a13ade529e70652c0c8'
+            '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
           ),
           parents: [
             {
@@ -382,7 +382,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '87ed20b241576b620bbaa3dfd47715ce6782b7dd'
+            '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
           ),
           parents: [
             {
@@ -396,7 +396,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb'
+            '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
           ),
           parents: [
             {
@@ -410,7 +410,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            'b0ccb183494a8e340b8725a2dc553967d61e6dae'
+            'b0ccb183494a8e340b8725a2dc553967d61e6dae',
           ),
           parents: [
             {
@@ -424,7 +424,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            'bf7884d695296ca0c91702ba3e2bc8df0f69a907'
+            'bf7884d695296ca0c91702ba3e2bc8df0f69a907',
           ),
           parents: [
             {
@@ -438,7 +438,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '613bc4f81741a559c6667ac08d71dcc3348f73ce'
+            '613bc4f81741a559c6667ac08d71dcc3348f73ce',
           ),
           parents: [
             {
@@ -453,7 +453,7 @@ suite('gr-related-changes-list', () => {
     let connectedChanges = element._computeConnectedRevisions(
       change,
       latestPatchNum,
-      relatedChanges
+      relatedChanges,
     );
     assert.deepEqual(connectedChanges, [
       '613bc4f81741a559c6667ac08d71dcc3348f73ce',
@@ -471,7 +471,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '2cebeedfb1e80f4b872d0a13ade529e70652c0c8'
+            '2cebeedfb1e80f4b872d0a13ade529e70652c0c8',
           ),
           parents: [
             {
@@ -485,7 +485,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '87ed20b241576b620bbaa3dfd47715ce6782b7dd'
+            '87ed20b241576b620bbaa3dfd47715ce6782b7dd',
           ),
           parents: [
             {
@@ -499,7 +499,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb'
+            '6c71f9e86ba955a7e01e2088bce0050a90eb9fbb',
           ),
           parents: [
             {
@@ -513,7 +513,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b'
+            'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b',
           ),
           parents: [
             {
@@ -527,7 +527,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6'
+            '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
           ),
           parents: [
             {
@@ -541,7 +541,7 @@ suite('gr-related-changes-list', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            'af815dac54318826b7f1fa468acc76349ffc588e'
+            'af815dac54318826b7f1fa468acc76349ffc588e',
           ),
           parents: [
             {
@@ -556,7 +556,7 @@ suite('gr-related-changes-list', () => {
     connectedChanges = element._computeConnectedRevisions(
       change,
       latestPatchNum,
-      relatedChanges
+      relatedChanges,
     );
     assert.deepEqual(connectedChanges, [
       'af815dac54318826b7f1fa468acc76349ffc588e',
@@ -571,7 +571,7 @@ suite('gr-related-changes-list', () => {
 
     setup(async () => {
       element = await fixture(
-        html`<gr-related-changes-list></gr-related-changes-list>`
+        html`<gr-related-changes-list></gr-related-changes-list>`,
       );
     });
 
@@ -593,7 +593,7 @@ suite('gr-related-changes-list', () => {
             .then(el => (hookEl = el as RelatedChangesListGrEndpointDecorator));
         },
         '0.1',
-        'http://some/plugins/url1.js'
+        'http://some/plugins/url1.js',
       );
       testResolver(pluginLoaderToken).loadPlugins([]);
       await waitEventLoop();

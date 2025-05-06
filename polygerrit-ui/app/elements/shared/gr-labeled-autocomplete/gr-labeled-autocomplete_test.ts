@@ -15,7 +15,7 @@ suite('gr-labeled-autocomplete tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-labeled-autocomplete></gr-labeled-autocomplete>`
+      html`<gr-labeled-autocomplete></gr-labeled-autocomplete>`,
     );
   });
 
@@ -54,7 +54,7 @@ suite('gr-labeled-autocomplete tests', () => {
             <div id="trigger">▼</div>
           </div>
         </div>
-      `
+      `,
     );
   });
 });

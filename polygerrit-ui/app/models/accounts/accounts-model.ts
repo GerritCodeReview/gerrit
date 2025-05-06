@@ -29,7 +29,7 @@ export class AccountsModel extends Model<AccountsState> {
 
   private updateStateAccount(
     id: UserId,
-    account: AccountDetailInfo | AccountInfo
+    account: AccountDetailInfo | AccountInfo,
   ) {
     if (!account) return;
     const current = {...this.getState()};
@@ -38,7 +38,7 @@ export class AccountsModel extends Model<AccountsState> {
   }
 
   async getAccount(
-    partialAccount: AccountInfo
+    partialAccount: AccountInfo,
   ): Promise<AccountDetailInfo | AccountInfo> {
     const current = this.getState();
     const id = getUserId(partialAccount);

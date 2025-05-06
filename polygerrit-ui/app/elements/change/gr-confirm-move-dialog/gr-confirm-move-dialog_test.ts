@@ -31,7 +31,7 @@ suite('gr-confirm-move-dialog tests', () => {
     element = await fixture(
       html`<gr-confirm-move-dialog
         .project=${'test-repo' as RepoName}
-      ></gr-confirm-move-dialog>`
+      ></gr-confirm-move-dialog>`,
     );
   });
 
@@ -57,7 +57,7 @@ suite('gr-confirm-move-dialog tests', () => {
             ></iron-autogrow-textarea>
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -73,7 +73,7 @@ suite('gr-confirm-move-dialog tests', () => {
   test('suggestions empty', async () => {
     const autoComplete = queryAndAssert<GrAutocomplete>(
       element,
-      'gr-autocomplete'
+      'gr-autocomplete',
     );
     const branches = await autoComplete.query!('nonexistent');
     assert.equal(branches.length, 0);
@@ -82,7 +82,7 @@ suite('gr-confirm-move-dialog tests', () => {
   test('suggestions non-empty', async () => {
     const autoComplete = queryAndAssert<GrAutocomplete>(
       element,
-      'gr-autocomplete'
+      'gr-autocomplete',
     );
     const branches = await autoComplete.query!('test-branch');
     assert.equal(branches.length, 1);
@@ -92,7 +92,7 @@ suite('gr-confirm-move-dialog tests', () => {
   test('suggestions input empty string', async () => {
     const autoComplete = queryAndAssert<GrAutocomplete>(
       element,
-      'gr-autocomplete'
+      'gr-autocomplete',
     );
     const branches = await autoComplete.query!('');
     assert.equal(branches.length, 0);

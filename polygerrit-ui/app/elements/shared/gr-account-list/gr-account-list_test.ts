@@ -42,7 +42,7 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   }
 
   makeSuggestionItem(
-    _: Suggestion
+    _: Suggestion,
   ): AutocompleteSuggestion<SuggestedReviewerInfo> {
     return {
       name: 'test',
@@ -86,7 +86,7 @@ suite('gr-account-list tests', () => {
     element.handleAdd(
       new CustomEvent<{value: string}>('add', {
         detail: {value: value as unknown as string},
-      })
+      }),
     );
   }
 
@@ -113,7 +113,7 @@ suite('gr-account-list tests', () => {
           <gr-account-chip removable="" tabindex="-1"> </gr-account-chip>
         </div>
         <gr-account-entry borderless="" id="entry"></gr-account-entry>
-        <slot></slot>`
+        <slot></slot>`,
     );
   });
 
@@ -121,12 +121,12 @@ suite('gr-account-list tests', () => {
     element.readonly = false;
     await element.updateComplete;
     assert.isFalse(
-      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
+      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden'),
     );
     element.readonly = true;
     await element.updateComplete;
     assert.isTrue(
-      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
+      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden'),
     );
   });
 
@@ -155,7 +155,7 @@ suite('gr-account-list tests', () => {
         detail: {account: existingAccount1},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     await element.updateComplete;
     chips = getChips();
@@ -169,14 +169,14 @@ suite('gr-account-list tests', () => {
         detail: {account: existingAccount1},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     element.dispatchEvent(
       new CustomEvent('remove-account', {
         detail: {account: newAccount},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     await element.updateComplete;
     chips = getChips();
@@ -198,7 +198,7 @@ suite('gr-account-list tests', () => {
         detail: {account: newGroup},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     await element.updateComplete;
     chips = getChips();
@@ -270,18 +270,18 @@ suite('gr-account-list tests', () => {
     const newAccount = makeAccount() as AccountInfoInput;
     element.readonly = false;
     element.removableValues = [];
-    element.updateComplete;
+    await element.updateComplete;
     assert.isFalse(element.computeRemovable(existingAccount1));
     assert.isTrue(element.computeRemovable(newAccount));
 
     element.removableValues = [existingAccount1];
-    element.updateComplete;
+    await element.updateComplete;
     assert.isTrue(element.computeRemovable(existingAccount1));
     assert.isTrue(element.computeRemovable(newAccount));
     assert.isFalse(element.computeRemovable(existingAccount2));
 
     element.readonly = true;
-    element.updateComplete;
+    await element.updateComplete;
     assert.isFalse(element.computeRemovable(existingAccount1));
     assert.isFalse(element.computeRemovable(newAccount));
   });
@@ -301,7 +301,7 @@ suite('gr-account-list tests', () => {
 
     const getTextStub = sinon.stub(
       queryAndAssert<GrAccountEntry>(element, '#entry'),
-      'getText'
+      'getText',
     );
     getTextStub.onFirstCall().returns('');
     getTextStub.onSecondCall().returns('test');
@@ -310,7 +310,7 @@ suite('gr-account-list tests', () => {
     // When entry is empty, return true.
     const clearStub = sinon.stub(
       queryAndAssert<GrAccountEntry>(element, '#entry'),
-      'clear'
+      'clear',
     );
     assert.isTrue(element.submitEntryText());
     assert.isFalse(clearStub.called);
@@ -324,7 +324,7 @@ suite('gr-account-list tests', () => {
     assert.isTrue(clearStub.called);
     assert.equal(
       (element.additions()[0] as AccountInfo)?.email,
-      'test@test' as EmailAddress
+      'test@test' as EmailAddress,
     );
   });
 
@@ -398,12 +398,12 @@ suite('gr-account-list tests', () => {
 
     const makeSuggestionItemSpy = sinon.spy(
       suggestionsProvider,
-      'makeSuggestionItem'
+      'makeSuggestionItem',
     );
 
     const input = queryAndAssert<GrAutocomplete>(
       queryAndAssert<GrAccountEntry>(element, '#entry'),
-      '#input'
+      '#input',
     );
     input.text = 'newTest';
     input.input!.focus();
@@ -425,7 +425,7 @@ suite('gr-account-list tests', () => {
       assert.equal(element.accounts.length, accountLen + 1);
       assert.equal(
         (element.accounts[accountLen] as AccountInfoInput).email,
-        'test@test' as EmailAddress
+        'test@test' as EmailAddress,
       );
     });
 
@@ -441,7 +441,7 @@ suite('gr-account-list tests', () => {
     test('backspace at text input start removes last account', async () => {
       const input = queryAndAssert<GrAutocomplete>(
         queryAndAssert<GrAccountEntry>(element, '#entry'),
-        '#input'
+        '#input',
       );
       sinon.stub(input, 'updateSuggestions');
       sinon.stub(element, 'computeRemovable').returns(true);
@@ -464,7 +464,7 @@ suite('gr-account-list tests', () => {
     test('arrow key navigation', async () => {
       const input = queryAndAssert<GrAutocomplete>(
         queryAndAssert<GrAccountEntry>(element, '#entry'),
-        '#input'
+        '#input',
       );
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];

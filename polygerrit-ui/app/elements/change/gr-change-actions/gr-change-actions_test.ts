@@ -104,13 +104,13 @@ suite('gr-change-actions tests', () => {
             title: 'Revert this submission',
             enabled: true,
           },
-        })
+        }),
       );
 
       stubRestApi('getValidationOptions').returns(
         Promise.resolve({
           validation_options: [{name: 'o1', description: 'option 1'}],
-        } as ValidationOptionsInfo)
+        } as ValidationOptionsInfo),
       );
 
       sinon
@@ -141,7 +141,7 @@ suite('gr-change-actions tests', () => {
       stubRestApi('getRepoBranches').returns(Promise.resolve([]));
       navigateResetStub = sinon.stub(
         testResolver(changeModelToken),
-        'navigateToChangeResetReload'
+        'navigateToChangeResetReload',
       );
 
       await element.updateComplete;
@@ -304,7 +304,7 @@ suite('gr-change-actions tests', () => {
               </div>
             </gr-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -313,7 +313,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const loadingButton = queryAndAssert(
           element,
-          'div#mainContent > gr-button'
+          'div#mainContent > gr-button',
         );
         assert.equal(loadingButton.textContent, 'Loading actions...');
         return loadingButton.getAttribute('hidden') === null;
@@ -363,7 +363,7 @@ suite('gr-change-actions tests', () => {
       assert.equal(element.topLevelPrimaryActions![0].label, 'Submit');
       assert.equal(
         element.topLevelSecondaryActions!.length,
-        element.topLevelActions!.length - 1
+        element.topLevelActions!.length - 1,
       );
     });
 
@@ -371,19 +371,19 @@ suite('gr-change-actions tests', () => {
       assert.equal(
         element.allActionValues.filter(action => action.__key === 'submit')
           .length,
-        1
+        1,
       );
       assert.equal(
         element.allActionValues.filter(
-          action => action.__key === 'revert_submission'
+          action => action.__key === 'revert_submission',
         ).length,
-        0
+        0,
       );
     });
 
     test('plugin revision actions', async () => {
       const stub = stubRestApi('getChangeActionURL').returns(
-        Promise.resolve('the-url')
+        Promise.resolve('the-url'),
       );
       element.revisionActions = {
         'plugin~action': {},
@@ -394,18 +394,18 @@ suite('gr-change-actions tests', () => {
         stub.calledWith(
           element.changeNum,
           element.latestPatchNum,
-          '/plugin~action'
-        )
+          '/plugin~action',
+        ),
       );
       assert.equal(
-        (element.revisionActions['plugin~action'] as UIActionInfo)!.__url,
-        'the-url'
+        (element.revisionActions['plugin~action'] as UIActionInfo).__url,
+        'the-url',
       );
     });
 
     test('plugin change actions', async () => {
       const stub = stubRestApi('getChangeActionURL').returns(
-        Promise.resolve('the-url')
+        Promise.resolve('the-url'),
       );
       element.actions = {
         'plugin~action': {},
@@ -413,11 +413,11 @@ suite('gr-change-actions tests', () => {
       assert.isOk(element.actions['plugin~action']);
       await element.updateComplete;
       assert.isTrue(
-        stub.calledWith(element.changeNum, undefined, '/plugin~action')
+        stub.calledWith(element.changeNum, undefined, '/plugin~action'),
       );
       assert.equal(
-        (element.actions['plugin~action'] as UIActionInfo)!.__url,
-        'the-url'
+        (element.actions['plugin~action'] as UIActionInfo).__url,
+        'the-url',
       );
     });
 
@@ -425,9 +425,9 @@ suite('gr-change-actions tests', () => {
       element.revisionActions = {followup: {}};
       assert.equal(
         element.querySelectorAll(
-          'section gr-button[data-action-type="revision"]'
+          'section gr-button[data-action-type="revision"]',
         ).length,
-        0
+        0,
       );
     });
 
@@ -439,11 +439,11 @@ suite('gr-change-actions tests', () => {
       assert.isUndefined(element.getActionDetails('rubbish'));
       assert.strictEqual(
         element.revisionActions['plugin~action'],
-        element.getActionDetails('plugin~action')
+        element.getActionDetails('plugin~action'),
       );
       assert.strictEqual(
         element.revisionActions['rebase'],
-        element.getActionDetails('rebase')
+        element.getActionDetails('rebase'),
       );
     });
 
@@ -451,13 +451,13 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       let buttonEl: Element | undefined = queryAndAssert(
         element,
-        '[data-action-key="submit"]'
+        '[data-action-key="submit"]',
       );
       assert.isOk(buttonEl);
       element.setActionHidden(
         ActionType.REVISION,
         RevisionActions.SUBMIT,
-        true
+        true,
       );
       assert.lengthOf(element.hiddenActions, 1);
       await element.updateComplete;
@@ -467,7 +467,7 @@ suite('gr-change-actions tests', () => {
       element.setActionHidden(
         ActionType.REVISION,
         RevisionActions.SUBMIT,
-        false
+        false,
       );
       await element.updateComplete;
       buttonEl = queryAndAssert(element, '[data-action-key="submit"]');
@@ -479,14 +479,14 @@ suite('gr-change-actions tests', () => {
       const buttonEls = queryAll(element, 'gr-button');
       const menuItems = queryAndAssert<GrDropdown>(
         element,
-        '#moreActions'
+        '#moreActions',
       ).items;
 
       // Total button number is one greater than the number of total actions
       // due to the existence of the overflow menu trigger.
       assert.equal(
         buttonEls.length + menuItems!.length,
-        element.allActionValues.length + 1
+        element.allActionValues.length + 1,
       );
       assert.isFalse(element.hidden);
     });
@@ -495,7 +495,7 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       const deleteItems = queryAndAssert<GrDropdown>(
         element,
-        '#moreActions'
+        '#moreActions',
       ).items!.filter(item => item.id!.startsWith('delete'));
       assert.equal(deleteItems.length, 1);
       assert.equal(deleteItems[0].name, 'Delete change');
@@ -515,7 +515,7 @@ suite('gr-change-actions tests', () => {
       };
       assert.deepEqual(
         element.getRevision(change, 2 as PatchSetNumber),
-        revObj
+        revObj,
       );
     });
 
@@ -553,14 +553,17 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"]'
+        'gr-button[data-action-key="submit"]',
       ).click();
 
       await element.updateComplete;
       assert.isTrue(
         showSpy.calledWith(
-          queryAndAssert<GrConfirmSubmitDialog>(element, '#confirmSubmitDialog')
-        )
+          queryAndAssert<GrConfirmSubmitDialog>(
+            element,
+            '#confirmSubmitDialog',
+          ),
+        ),
       );
     });
 
@@ -570,9 +573,9 @@ suite('gr-change-actions tests', () => {
         .stub(
           queryAndAssert<GrConfirmSubmitDialog>(
             element,
-            '#confirmSubmitDialog'
+            '#confirmSubmitDialog',
           ),
-          'resetFocus'
+          'resetFocus',
         )
         .callsFake(() => submitted.resolve());
       stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));
@@ -587,7 +590,7 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"] gr-icon'
+        'gr-button[data-action-key="submit"] gr-icon',
       ).click();
       await submitted;
     });
@@ -598,15 +601,15 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"] gr-icon'
+        'gr-button[data-action-key="submit"] gr-icon',
       );
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="rebase"] gr-icon'
+        'gr-button[data-action-key="rebase"] gr-icon',
       );
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="edit"] gr-icon[filled]'
+        'gr-button[data-action-key="edit"] gr-icon[filled]',
       );
     });
 
@@ -635,7 +638,7 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"]'
+        'gr-button[data-action-key="submit"]',
       ).click();
       assert.equal(fireActionStub.callCount, 0);
     });
@@ -645,13 +648,13 @@ suite('gr-change-actions tests', () => {
       const fetchChangesStub = sinon
         .stub(
           queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase'),
-          'fetchRecentChanges'
+          'fetchRecentChanges',
         )
         .returns(Promise.resolve([]));
       await element.updateComplete;
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="rebase"]'
+        'gr-button[data-action-key="rebase"]',
       ).click();
       const rebaseAction = {
         __key: 'rebase',
@@ -672,7 +675,7 @@ suite('gr-change-actions tests', () => {
             onBehalfOfUploader: true,
             committerEmail: 'test@default.org',
           },
-        })
+        }),
       );
       assert.deepEqual(fireActionStub.lastCall.args, [
         '/rebase',
@@ -693,7 +696,7 @@ suite('gr-change-actions tests', () => {
       const fireActionStub = sinon.stub(element, 'fireAction');
       const confirmRebaseDialog = queryAndAssert<GrConfirmRebaseDialog>(
         element,
-        '#confirmRebase'
+        '#confirmRebase',
       );
       const fetchChangesStub = sinon
         .stub(confirmRebaseDialog, 'fetchRecentChanges')
@@ -704,7 +707,7 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="rebase"]'
+        'gr-button[data-action-key="rebase"]',
       ).click();
       const rebaseAction = {
         __key: 'rebase',
@@ -725,7 +728,7 @@ suite('gr-change-actions tests', () => {
             onBehalfOfUploader: true,
             committerEmail: 'test@default.org',
           },
-        })
+        }),
       );
       assert.deepEqual(fireActionStub.lastCall.args, [
         '/rebase',
@@ -745,7 +748,7 @@ suite('gr-change-actions tests', () => {
     test('rebase change fires reload event', async () => {
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
-        new Response()
+        new Response(),
       );
       assert.isTrue(navigateResetStub.called);
     });
@@ -754,13 +757,13 @@ suite('gr-change-actions tests', () => {
       const fetchChangesStub = sinon
         .stub(
           queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase'),
-          'fetchRecentChanges'
+          'fetchRecentChanges',
         )
         .returns(Promise.resolve([]));
       await element.updateComplete;
       const rebaseButton = queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="rebase"]'
+        'gr-button[data-action-key="rebase"]',
       );
       rebaseButton.click();
       await element.updateComplete;
@@ -769,12 +772,12 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       queryAndAssert<GrConfirmRebaseDialog>(
         element,
-        '#confirmRebase'
+        '#confirmRebase',
       ).dispatchEvent(
         new CustomEvent('cancel', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       rebaseButton.click();
       assert.isTrue(fetchChangesStub.calledTwice);
@@ -784,21 +787,21 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="rebase"]'
+        'gr-button[data-action-key="rebase"]',
       ).click();
       await element.updateComplete;
       assert.isFalse(
-        queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase').hidden
+        queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase').hidden,
       );
       stubRestApi('getChanges').returns(Promise.resolve([]));
       element.handleCherrypickTap();
       await element.updateComplete;
       assert.isTrue(
-        queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase').hidden
+        queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase').hidden,
       );
       assert.isFalse(
         queryAndAssert<GrConfirmCherrypickDialog>(element, '#confirmCherrypick')
-          .hidden
+          .hidden,
       );
     });
 
@@ -808,11 +811,11 @@ suite('gr-change-actions tests', () => {
       sinon
         .stub(
           testResolver(pluginLoaderToken).jsApiService,
-          'getReviewPostRevert'
+          'getReviewPostRevert',
         )
         .returns(review);
       const saveStub = stubRestApi('saveChangeReview').returns(
-        Promise.resolve({})
+        Promise.resolve({}),
       );
       const setReviewOnRevert = element.setReviewOnRevert(changeId) as Promise<
         undefined | Response
@@ -834,11 +837,11 @@ suite('gr-change-actions tests', () => {
         const fireActionStub = sinon.stub(element, 'fireAction');
         element.handleDeleteEditTap();
         assert.isFalse(
-          queryAndAssert<GrDialog>(element, '#confirmDeleteEditDialog').hidden
+          queryAndAssert<GrDialog>(element, '#confirmDeleteEditDialog').hidden,
         );
         queryAndAssert<GrButton>(
           queryAndAssert(element, '#confirmDeleteEditDialog'),
-          'gr-button[primary]'
+          'gr-button[primary]',
         ).click();
         await element.updateComplete;
 
@@ -854,20 +857,20 @@ suite('gr-change-actions tests', () => {
         const storage = testResolver(storageServiceToken);
         storage.setEditableContentItem(
           'c42_ps2_index.php',
-          '<?php\necho 42_ps_2'
+          '<?php\necho 42_ps_2',
         );
         storage.setEditableContentItem(
           'c42_psedit_index.php',
-          '<?php\necho 42_ps_edit'
+          '<?php\necho 42_ps_edit',
         );
 
         assert.equal(
           storage.getEditableContentItem('c42_ps2_index.php')!.message,
-          '<?php\necho 42_ps_2'
+          '<?php\necho 42_ps_2',
         );
         assert.equal(
           storage.getEditableContentItem('c42_psedit_index.php')!.message,
-          '<?php\necho 42_ps_edit'
+          '<?php\necho 42_ps_edit',
         );
 
         assert.isOk(storage.getEditableContentItem('c42_psedit_index.php')!);
@@ -876,16 +879,16 @@ suite('gr-change-actions tests', () => {
 
         const eraseEditableContentItemsForChangeEditSpy = sinon.spy(
           storage,
-          'eraseEditableContentItemsForChangeEdit'
+          'eraseEditableContentItemsForChangeEdit',
         );
         sinon.stub(element, 'fireAction');
         element.handleDeleteEditTap();
         assert.isFalse(
-          queryAndAssert<GrDialog>(element, '#confirmDeleteEditDialog').hidden
+          queryAndAssert<GrDialog>(element, '#confirmDeleteEditDialog').hidden,
         );
         queryAndAssert<GrButton>(
           queryAndAssert(element, '#confirmDeleteEditDialog'),
-          'gr-button[primary]'
+          'gr-button[primary]',
         ).click();
         await element.updateComplete;
         assert.isTrue(eraseEditableContentItemsForChangeEditSpy.called);
@@ -905,7 +908,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
 
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="publishEdit"]')
+          query(element, 'gr-button[data-action-key="publishEdit"]'),
         );
         assert.isOk(query(element, 'gr-button[data-action-key="rebaseEdit"]'));
         assert.isOk(query(element, 'gr-button[data-action-key="deleteEdit"]'));
@@ -926,7 +929,7 @@ suite('gr-change-actions tests', () => {
 
         assert.isOk(query(element, 'gr-button[data-action-key="publishEdit"]'));
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="rebaseEdit"]')
+          query(element, 'gr-button[data-action-key="rebaseEdit"]'),
         );
         assert.isOk(query(element, 'gr-button[data-action-key="deleteEdit"]'));
         assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
@@ -944,13 +947,13 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
 
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="publishEdit"]')
+          query(element, 'gr-button[data-action-key="publishEdit"]'),
         );
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="rebaseEdit"]')
+          query(element, 'gr-button[data-action-key="rebaseEdit"]'),
         );
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="deleteEdit"]')
+          query(element, 'gr-button[data-action-key="deleteEdit"]'),
         );
         assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
         assert.isOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
@@ -967,13 +970,13 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
 
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="publishEdit"]')
+          query(element, 'gr-button[data-action-key="publishEdit"]'),
         );
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="rebaseEdit"]')
+          query(element, 'gr-button[data-action-key="rebaseEdit"]'),
         );
         assert.isNotOk(
-          query(element, 'gr-button[data-action-key="deleteEdit"]')
+          query(element, 'gr-button[data-action-key="deleteEdit"]'),
         );
         assert.isOk(query(element, 'gr-button[data-action-key="edit"]'));
         assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
@@ -1010,7 +1013,7 @@ suite('gr-change-actions tests', () => {
 
         queryAndAssert<GrButton>(
           element,
-          'gr-button[data-action-key="edit"]'
+          'gr-button[data-action-key="edit"]',
         ).click();
         await editTapped;
       });
@@ -1027,7 +1030,7 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
 
       assert.isNotOk(
-        query(element, 'gr-button[data-action-key="publishEdit"]')
+        query(element, 'gr-button[data-action-key="publishEdit"]'),
       );
       assert.isNotOk(query(element, 'gr-button[data-action-key="rebaseEdit"]'));
       assert.isNotOk(query(element, 'gr-button[data-action-key="deleteEdit"]'));
@@ -1060,7 +1063,7 @@ suite('gr-change-actions tests', () => {
 
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).branch = 'master' as BranchName;
         element.handleCherrypickConfirm();
         assert.equal(fireActionStub.callCount, 0); // Still needs a message.
@@ -1068,15 +1071,15 @@ suite('gr-change-actions tests', () => {
         // Add attributes that are used to determine the message.
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).commitMessage = 'foo message';
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).changeStatus = ChangeStatus.NEW;
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).commitNum = '123' as CommitId;
         await element.updateComplete;
 
@@ -1086,9 +1089,9 @@ suite('gr-change-actions tests', () => {
         const autogrowEl = queryAndAssert<IronAutogrowTextareaElement>(
           queryAndAssert<GrConfirmCherrypickDialog>(
             element,
-            '#confirmCherrypick'
+            '#confirmCherrypick',
           ),
-          '#messageInput'
+          '#messageInput',
         );
         assert.equal(autogrowEl.value, 'foo message');
 
@@ -1120,21 +1123,21 @@ suite('gr-change-actions tests', () => {
 
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).branch = 'master' as BranchName;
 
         // Add attributes that are used to determine the message.
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).commitMessage = 'foo message';
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).changeStatus = ChangeStatus.NEW;
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).commitNum = '123' as CommitId;
         await element.updateComplete;
 
@@ -1159,16 +1162,16 @@ suite('gr-change-actions tests', () => {
         const emptyBranchName = '';
         queryAndAssert<GrConfirmCherrypickDialog>(
           element,
-          '#confirmCherrypick'
+          '#confirmCherrypick',
         ).branch = 'master' as BranchName;
 
         element.handleCherrypickTap();
         assert.equal(
           queryAndAssert<GrConfirmCherrypickDialog>(
             element,
-            '#confirmCherrypick'
+            '#confirmCherrypick',
           ).branch,
-          emptyBranchName
+          emptyBranchName,
         );
       });
 
@@ -1198,12 +1201,12 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           const confirmCherrypick = queryAndAssert<GrConfirmCherrypickDialog>(
             element,
-            '#confirmCherrypick'
+            '#confirmCherrypick',
           );
           await element.updateComplete;
           const radioButtons = queryAll<HTMLInputElement>(
             confirmCherrypick,
-            "input[name='cherryPickOptions']"
+            "input[name='cherryPickOptions']",
           );
           assert.equal(radioButtons.length, 2);
           radioButtons[1].click();
@@ -1213,7 +1216,7 @@ suite('gr-change-actions tests', () => {
         test('cherry pick topic dialog is rendered', async () => {
           const dialog = queryAndAssert<GrConfirmCherrypickDialog>(
             element,
-            '#confirmCherrypick'
+            '#confirmCherrypick',
           );
           await element.updateComplete;
           const changesTable = queryAndAssert(dialog, 'table');
@@ -1234,7 +1237,7 @@ suite('gr-change-actions tests', () => {
           }
           const changeRows = queryAll(changesTable, 'tbody > tr');
           const change = Array.from(changeRows[0].querySelectorAll('td')).map(
-            e => e.innerText
+            e => e.innerText,
           );
           const expectedChange = [
             '',
@@ -1253,11 +1256,11 @@ suite('gr-change-actions tests', () => {
         test('changes with duplicate project show an error', async () => {
           const dialog = queryAndAssert<GrConfirmCherrypickDialog>(
             element,
-            '#confirmCherrypick'
+            '#confirmCherrypick',
           );
           const error = queryAndAssert<HTMLSpanElement>(
             dialog,
-            '.error-message'
+            '.error-message',
           );
           assert.equal(error.innerText, '');
           dialog.updateChanges([
@@ -1279,7 +1282,7 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           assert.equal(
             error.innerText,
-            'Two changes cannot be of the same' + ' project'
+            'Two changes cannot be of the same' + ' project',
           );
         });
       });
@@ -1322,7 +1325,7 @@ suite('gr-change-actions tests', () => {
         element.handleMoveTap();
         assert.equal(
           queryAndAssert<GrConfirmMoveDialog>(element, '#confirmMove').branch,
-          emptyBranchName
+          emptyBranchName,
         );
       });
     });
@@ -1335,7 +1338,7 @@ suite('gr-change-actions tests', () => {
       element.addEventListener(key + '-tap', async e => {
         assert.equal(
           (e as CustomEvent).detail.node.getAttribute('data-action-key'),
-          key
+          key,
         );
         element.removeActionButton(key);
         await element.updateComplete;
@@ -1346,7 +1349,7 @@ suite('gr-change-actions tests', () => {
       await element.updateComplete;
       queryAndAssert<GrButton>(
         element,
-        '[data-action-key="' + key + '"]'
+        '[data-action-key="' + key + '"]',
       ).click();
       await keyTapped;
     });
@@ -1363,11 +1366,11 @@ suite('gr-change-actions tests', () => {
 
       const button = queryAndAssert<GrButton>(
         element,
-        '[data-action-key="' + key + '"]'
+        '[data-action-key="' + key + '"]',
       );
       const dialog = queryAndAssert<GrConfirmRebaseDialog>(
         element,
-        'gr-confirm-rebase-dialog'
+        'gr-confirm-rebase-dialog',
       );
       assert.isTrue(button.hasAttribute('loading'));
       assert.isTrue(button.disabled);
@@ -1427,20 +1430,20 @@ suite('gr-change-actions tests', () => {
         const newAbandonMsg = 'Test Abandon Message';
         queryAndAssert<GrConfirmAbandonDialog>(
           element,
-          '#confirmAbandonDialog'
+          '#confirmAbandonDialog',
         ).message = newAbandonMsg;
         await element.updateComplete;
         queryAndAssert<GrButton>(
           element,
-          'gr-button[data-action-key="abandon"]'
+          'gr-button[data-action-key="abandon"]',
         ).click();
 
         assert.equal(
           queryAndAssert<GrConfirmAbandonDialog>(
             element,
-            '#confirmAbandonDialog'
+            '#confirmAbandonDialog',
           ).message,
-          newAbandonMsg
+          newAbandonMsg,
         );
       });
 
@@ -1448,31 +1451,31 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         queryAndAssert<GrButton>(
           element,
-          'gr-button[data-action-key="abandon"]'
+          'gr-button[data-action-key="abandon"]',
         ).click();
 
         assert.equal(
           queryAndAssert<GrConfirmAbandonDialog>(
             element,
-            '#confirmAbandonDialog'
+            '#confirmAbandonDialog',
           ).message,
-          ''
+          '',
         );
       });
 
       test('works', () => {
         queryAndAssert<GrConfirmAbandonDialog>(
           element,
-          '#confirmAbandonDialog'
+          '#confirmAbandonDialog',
         ).message = 'original message';
         queryAndAssert<GrButton>(
           element,
-          'gr-button[data-action-key="abandon"]'
+          'gr-button[data-action-key="abandon"]',
         ).click();
 
         queryAndAssert<GrConfirmAbandonDialog>(
           element,
-          '#confirmAbandonDialog'
+          '#confirmAbandonDialog',
         ).message = 'foo message';
         element.handleAbandonDialogConfirm();
         assert.notOk(alertStub.called);
@@ -1524,7 +1527,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         queryAndAssert<GrButton>(
           element,
-          'gr-button[data-action-key="revert"]'
+          'gr-button[data-action-key="revert"]',
         ).click();
         const revertAction = {
           __key: 'revert',
@@ -1541,7 +1544,7 @@ suite('gr-change-actions tests', () => {
               message: 'foo message',
               revertType: 1,
             },
-          })
+          }),
         );
         assert.deepEqual(fireActionStub.lastCall.args, [
           '/revert',
@@ -1558,7 +1561,7 @@ suite('gr-change-actions tests', () => {
         const newRevertMsg = 'Modified revert msg';
         const revertDialog = queryAndAssert<GrConfirmRevertDialog>(
           element,
-          '#confirmRevertDialog'
+          '#confirmRevertDialog',
         );
         sinon
           .stub(revertDialog, 'modifyRevertMsg')
@@ -1589,7 +1592,7 @@ suite('gr-change-actions tests', () => {
               topic: 'T' as TopicName,
               subject: 'a'.repeat(100),
             },
-          ])
+          ]),
         );
         sinon
           .stub(revertDialog, 'populateRevertSubmissionMessage')
@@ -1597,7 +1600,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         queryAndAssert<GrButton>(
           element,
-          'gr-button[data-action-key="revert"]'
+          'gr-button[data-action-key="revert"]',
         ).click();
         await element.updateComplete;
         await waitUntil(() => !!revertDialog.message);
@@ -1634,7 +1637,7 @@ suite('gr-change-actions tests', () => {
                 topic: 'T' as TopicName,
                 subject: 'a'.repeat(100),
               },
-            ])
+            ]),
           );
           await element.updateComplete;
         });
@@ -1642,11 +1645,11 @@ suite('gr-change-actions tests', () => {
         test('confirm revert dialog shows both options', async () => {
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
-            '#confirmRevertDialog'
+            '#confirmRevertDialog',
           );
           queryAndAssert<GrButton>(
             element,
-            'gr-button[data-action-key="revert"]'
+            'gr-button[data-action-key="revert"]',
           ).click();
           await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
@@ -1654,18 +1657,18 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           const revertSingleChangeLabel = queryAndAssert<HTMLLabelElement>(
             confirmRevertDialog,
-            '.revertSingleChange'
+            '.revertSingleChange',
           );
           const revertSubmissionLabel = queryAndAssert<HTMLLabelElement>(
             confirmRevertDialog,
-            '.revertSubmission'
+            '.revertSubmission',
           );
           assert(
-            revertSingleChangeLabel.innerText.trim() === 'Revert single change'
+            revertSingleChangeLabel.innerText.trim() === 'Revert single change',
           );
           assert(
             revertSubmissionLabel.innerText.trim() ===
-              'Revert entire submission (2 Changes)'
+              'Revert entire submission (2 Changes)',
           );
           let expectedMsg =
             'Revert submission 199 0' +
@@ -1676,7 +1679,7 @@ suite('gr-change-actions tests', () => {
           assert.equal(confirmRevertDialog.message, expectedMsg);
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'input[name="revertOptions"]',
           );
           radioInputs[0].click();
           await element.updateComplete;
@@ -1690,11 +1693,11 @@ suite('gr-change-actions tests', () => {
         test('submit fails if message is not edited', async () => {
           queryAndAssert<GrButton>(
             element,
-            'gr-button[data-action-key="revert"]'
+            'gr-button[data-action-key="revert"]',
           ).click();
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
-            '#confirmRevertDialog'
+            '#confirmRevertDialog',
           );
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
           await waitUntil(() => !!confirmRevertDialog.message);
@@ -1703,11 +1706,11 @@ suite('gr-change-actions tests', () => {
             queryAndAssert(
               queryAndAssert<GrConfirmRevertDialog>(
                 element,
-                '#confirmRevertDialog'
+                '#confirmRevertDialog',
               ),
-              'gr-dialog'
+              'gr-dialog',
             ),
-            '#confirm'
+            '#confirm',
           ).click();
           await element.updateComplete;
           assert.isTrue(confirmRevertDialog.showErrorMessage);
@@ -1717,18 +1720,18 @@ suite('gr-change-actions tests', () => {
         test('message modification is retained on switching', async () => {
           queryAndAssert<GrButton>(
             element,
-            'gr-button[data-action-key="revert"]'
+            'gr-button[data-action-key="revert"]',
           ).click();
           await element.updateComplete;
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
-            '#confirmRevertDialog'
+            '#confirmRevertDialog',
           );
           await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'input[name="revertOptions"]',
           );
           const revertSubmissionMsg =
             'Revert submission 199 0' +
@@ -1782,7 +1785,7 @@ suite('gr-change-actions tests', () => {
                 topic: 'T' as TopicName,
                 subject: 'random',
               },
-            ])
+            ]),
           );
           await element.updateComplete;
         });
@@ -1790,11 +1793,11 @@ suite('gr-change-actions tests', () => {
         test('submit fails if message is not edited', async () => {
           queryAndAssert<GrButton>(
             element,
-            'gr-button[data-action-key="revert"]'
+            'gr-button[data-action-key="revert"]',
           ).click();
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
-            '#confirmRevertDialog'
+            '#confirmRevertDialog',
           );
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
           await waitUntil(() => !!confirmRevertDialog.message);
@@ -1803,11 +1806,11 @@ suite('gr-change-actions tests', () => {
             queryAndAssert(
               queryAndAssert<GrConfirmRevertDialog>(
                 element,
-                '#confirmRevertDialog'
+                '#confirmRevertDialog',
               ),
-              'gr-dialog'
+              'gr-dialog',
             ),
-            '#confirm'
+            '#confirm',
           ).click();
           await element.updateComplete;
           assert.isTrue(confirmRevertDialog.showErrorMessage);
@@ -1817,17 +1820,17 @@ suite('gr-change-actions tests', () => {
         test('confirm revert dialog shows no radio button', async () => {
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
-            '#confirmRevertDialog'
+            '#confirmRevertDialog',
           );
           queryAndAssert<GrButton>(
             element,
-            'gr-button[data-action-key="revert"]'
+            'gr-button[data-action-key="revert"]',
           ).click();
           await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           const radioInputs = queryAll(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'input[name="revertOptions"]',
           );
           assert.equal(radioInputs.length, 0);
           const msg =
@@ -1841,11 +1844,11 @@ suite('gr-change-actions tests', () => {
             queryAndAssert(
               queryAndAssert<GrConfirmRevertDialog>(
                 element,
-                '#confirmRevertDialog'
+                '#confirmRevertDialog',
               ),
-              'gr-dialog'
+              'gr-dialog',
             ),
-            '#confirm'
+            '#confirm',
           );
           confirmButton.click();
           await element.updateComplete;
@@ -1853,7 +1856,7 @@ suite('gr-change-actions tests', () => {
           assert.isFalse(fireActionStub.called);
           confirmRevertDialog.message = confirmRevertDialog.message.replace(
             '<MUST SPECIFY REASON HERE>',
-            ''
+            '',
           );
           editedMsg = editedMsg.replace('<MUST SPECIFY REASON HERE>', '');
           confirmButton.click();
@@ -1896,7 +1899,7 @@ suite('gr-change-actions tests', () => {
         async () => {
           await element.updateComplete;
           assert.isNotOk(query(element, '[data-action-key="private"]'));
-        }
+        },
       );
 
       test('private change', async () => {
@@ -1904,8 +1907,8 @@ suite('gr-change-actions tests', () => {
         assert.isOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private-change"]'
-          )
+            'span[data-id="private-change"]',
+          ),
         );
         element.setActionOverflow(ActionType.CHANGE, 'private', false);
         await element.updateComplete;
@@ -1913,8 +1916,8 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private-change"]'
-          )
+            'span[data-id="private-change"]',
+          ),
         );
       });
     });
@@ -1950,7 +1953,7 @@ suite('gr-change-actions tests', () => {
         async () => {
           await element.updateComplete;
           assert.isNotOk(query(element, '[data-action-key="private.delete"]'));
-        }
+        },
       );
 
       test('unmark the private change', async () => {
@@ -1958,8 +1961,8 @@ suite('gr-change-actions tests', () => {
         assert.isOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private.delete-change"]'
-          )
+            'span[data-id="private.delete-change"]',
+          ),
         );
         element.setActionOverflow(ActionType.CHANGE, 'private.delete', false);
         await element.updateComplete;
@@ -1967,8 +1970,8 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private.delete-change"]'
-          )
+            'span[data-id="private.delete-change"]',
+          ),
         );
       });
     });
@@ -2003,11 +2006,11 @@ suite('gr-change-actions tests', () => {
       test('shows confirm dialog', async () => {
         element.handleDeleteTap();
         assert.isFalse(
-          queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').hidden
+          queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').hidden,
         );
         queryAndAssert<GrButton>(
           queryAndAssert(element, '#confirmDeleteDialog'),
-          'gr-button[primary]'
+          'gr-button[primary]',
         ).click();
         await element.updateComplete;
         assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
@@ -2017,11 +2020,11 @@ suite('gr-change-actions tests', () => {
         element.handleDeleteTap();
         queryAndAssert<GrButton>(
           queryAndAssert(element, '#confirmDeleteDialog'),
-          'gr-button:not([primary])'
+          'gr-button:not([primary])',
         ).click();
         await element.updateComplete;
         assert.isTrue(
-          queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').hidden
+          queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').hidden,
         );
         assert.isFalse(fireActionStub.called);
       });
@@ -2051,7 +2054,7 @@ suite('gr-change-actions tests', () => {
       test('added when can approve', () => {
         const approveButton = queryAndAssert(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotNull(approveButton);
       });
@@ -2059,7 +2062,7 @@ suite('gr-change-actions tests', () => {
       test('hide quick approve', async () => {
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotNull(approveButton);
         assert.isFalse(element._hideQuickApproveAction);
@@ -2069,7 +2072,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButtonUpdated = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButtonUpdated);
         assert.isTrue(element._hideQuickApproveAction);
@@ -2078,7 +2081,7 @@ suite('gr-change-actions tests', () => {
       test('is first in list of secondary actions', () => {
         const approveButton = queryAndAssert<HTMLElement>(
           element,
-          '#secondaryActions'
+          '#secondaryActions',
         ).querySelector('gr-button');
         assert.equal(approveButton!.getAttribute('data-label'), 'foo+1');
       });
@@ -2092,7 +2095,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2114,7 +2117,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2133,7 +2136,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2159,7 +2162,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isOk(approveButton);
       });
@@ -2168,7 +2171,7 @@ suite('gr-change-actions tests', () => {
         const fireActionStub = sinon.stub(element, 'fireAction');
         queryAndAssert<GrButton>(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         ).click();
         await element.updateComplete;
         assert.isTrue(fireActionStub.called);
@@ -2193,7 +2196,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2223,7 +2226,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = queryAndAssert(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isOk(approveButton);
       });
@@ -2249,7 +2252,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = queryAndAssert(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
@@ -2275,7 +2278,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2301,7 +2304,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = queryAndAssert(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
       });
@@ -2327,7 +2330,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = queryAndAssert<GrButton>(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotNull(approveButton);
       });
@@ -2360,7 +2363,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2387,7 +2390,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         const approveButton = query(
           element,
-          "gr-button[data-action-key='review']"
+          "gr-button[data-action-key='review']",
         );
         assert.isNotOk(approveButton);
       });
@@ -2424,14 +2427,14 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(query(element, '[data-action-key="cherrypick"]'));
         assert.strictEqual(
           queryAndAssert<GrDropdown>(element, '#moreActions').items![0].id,
-          'cherrypick-revision'
+          'cherrypick-revision',
         );
         element.setActionOverflow(ActionType.REVISION, 'cherrypick', false);
         await element.updateComplete;
         assert.isOk(query(element, '[data-action-key="cherrypick"]'));
         assert.notEqual(
           queryAndAssert<GrDropdown>(element, '#moreActions').items![0].id,
-          'cherrypick-revision'
+          'cherrypick-revision',
         );
       });
 
@@ -2442,7 +2445,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(query(element, '[data-action-key="submit"]'));
         assert.strictEqual(
           queryAndAssert<GrDropdown>(element, '#moreActions').items![3].id,
-          'submit-revision'
+          'submit-revision',
         );
       });
 
@@ -2474,7 +2477,7 @@ suite('gr-change-actions tests', () => {
         test('succeed', async () => {
           stubRestApi('getChange').callsFake(makeGetChange(5));
           const promise = element.waitForChangeReachable(
-            123 as NumericChangeId
+            123 as NumericChangeId,
           );
           tickAndFlush(5);
           const success = await promise;
@@ -2484,7 +2487,7 @@ suite('gr-change-actions tests', () => {
         test('fail', async () => {
           stubRestApi('getChange').callsFake(makeGetChange(6));
           const promise = element.waitForChangeReachable(
-            123 as NumericChangeId
+            123 as NumericChangeId,
           );
           tickAndFlush(6);
           const success = await promise;
@@ -2527,10 +2530,10 @@ suite('gr-change-actions tests', () => {
               // element has latest info
               current_revision_number: element.latestPatchNum!,
               messages: createChangeMessages(1),
-            })
+            }),
           );
           executeChangeActionStub = stubRestApi('executeChangeAction').returns(
-            Promise.resolve(new Response())
+            Promise.resolve(new Response()),
           );
         });
 
@@ -2541,7 +2544,7 @@ suite('gr-change-actions tests', () => {
             '/endpoint',
             false,
             cleanup,
-            {} as UIActionInfo
+            {} as UIActionInfo,
           );
           assert.isFalse(onShowError.called);
           assert.isTrue(cleanup.calledOnce);
@@ -2551,8 +2554,8 @@ suite('gr-change-actions tests', () => {
               HttpMethod.DELETE,
               '/endpoint',
               undefined,
-              payload
-            )
+              payload,
+            ),
           );
         });
 
@@ -2566,7 +2569,7 @@ suite('gr-change-actions tests', () => {
             const response = new Response(
               makePrefixedJSON({
                 revert_changes: [{change_id: 12345, topic: 'T'}],
-              })
+              }),
             );
             executeChangeActionStub.resolves(response);
             await element.send(
@@ -2575,7 +2578,7 @@ suite('gr-change-actions tests', () => {
               '/revert_submission',
               false,
               cleanup,
-              {} as UIActionInfo
+              {} as UIActionInfo,
             );
             await element.handleResponse(
               {
@@ -2583,7 +2586,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              response
+              response,
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/q/topic:"T"');
@@ -2595,7 +2598,7 @@ suite('gr-change-actions tests', () => {
                 change_id: 12345,
                 project: 'projectId',
                 _number: 12345,
-              })
+              }),
             );
             executeChangeActionStub.resolves(response);
             await element.send(
@@ -2604,7 +2607,7 @@ suite('gr-change-actions tests', () => {
               '/revert',
               false,
               cleanup,
-              {} as UIActionInfo
+              {} as UIActionInfo,
             );
             await element.handleResponse(
               {
@@ -2612,7 +2615,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              response
+              response,
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/c/projectId/+/12345');
@@ -2632,12 +2635,12 @@ suite('gr-change-actions tests', () => {
           };
           const confirmRevertDialog = query<GrConfirmRevertDialog>(
             element,
-            '#confirmRevertDialog'
+            '#confirmRevertDialog',
           );
           assertIsDefined(confirmRevertDialog, 'confirmDialog');
           const populateRevertDialogStub = sinon.stub(
             confirmRevertDialog,
-            'populate'
+            'populate',
           );
           element.showRevertDialog();
           await waitUntil(() => !!populateRevertDialogStub.called);
@@ -2651,7 +2654,7 @@ suite('gr-change-actions tests', () => {
                 revertType: RevertType.REVERT_SINGLE_CHANGE,
                 message: 'revert this change',
               },
-            })
+            }),
           );
           await waitUntil(() => !!fireActionStub.called);
 
@@ -2669,7 +2672,7 @@ suite('gr-change-actions tests', () => {
                   {change_id: 12345, topic: 'T'},
                   {change_id: 23456, topic: 'T'},
                 ],
-              })
+              }),
             );
             executeChangeActionStub.resolves(response);
             showActionDialogStub = sinon.stub(element, 'showActionDialog');
@@ -2683,7 +2686,7 @@ suite('gr-change-actions tests', () => {
               '/revert_submission',
               false,
               cleanup,
-              {} as UIActionInfo
+              {} as UIActionInfo,
             );
             await element.handleResponse(
               {
@@ -2691,7 +2694,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              response
+              response,
             );
             assert.isFalse(showActionDialogStub.called);
             assert.isTrue(setUrlStub.called);
@@ -2706,7 +2709,7 @@ suite('gr-change-actions tests', () => {
             '/endpoint',
             true,
             cleanup,
-            {} as UIActionInfo
+            {} as UIActionInfo,
           );
           assert.isFalse(onShowError.called);
           assert.isTrue(cleanup.calledOnce);
@@ -2716,8 +2719,8 @@ suite('gr-change-actions tests', () => {
               'DELETE',
               '/endpoint',
               12,
-              payload
-            )
+              payload,
+            ),
           );
         });
       });
@@ -2731,7 +2734,7 @@ suite('gr-change-actions tests', () => {
               current_revision_number: (element.latestPatchNum! +
                 1) as PatchSetNumber,
               messages: createChangeMessages(1),
-            })
+            }),
           );
           const executeChangeActionStub = stubRestApi('executeChangeAction');
 
@@ -2742,7 +2745,7 @@ suite('gr-change-actions tests', () => {
               '/endpoint',
               true,
               cleanup,
-              {} as UIActionInfo
+              {} as UIActionInfo,
             )
             .then(() => {
               assert.isTrue(onShowAlert.calledOnce);
@@ -2759,16 +2762,16 @@ suite('gr-change-actions tests', () => {
               // element has latest info
               current_revision_number: element.latestPatchNum!,
               messages: createChangeMessages(1),
-            })
+            }),
           );
           const executeChangeActionStub = stubRestApi(
-            'executeChangeAction'
+            'executeChangeAction',
           ).callsFake(
             (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
               return Promise.resolve(new Response());
-            }
+            },
           );
           const handleErrorStub = sinon.stub(element, 'handleResponseError');
 
@@ -2779,7 +2782,7 @@ suite('gr-change-actions tests', () => {
               '/endpoint',
               true,
               cleanup,
-              {} as UIActionInfo
+              {} as UIActionInfo,
             )
             .then(() => {
               assert.isFalse(onShowError.called);
@@ -2815,18 +2818,18 @@ suite('gr-change-actions tests', () => {
           });
           const setUrlStub = sinon.stub(
             testResolver(navigationToken),
-            'setUrl'
+            'setUrl',
           );
           const setReviewOnRevertStub = sinon.stub(
             element,
-            'setReviewOnRevert'
+            'setReviewOnRevert',
           );
           const response = new Response(
             makePrefixedJSON({
               change_id: 12345,
               project: 'projectId',
               _number: 12345,
-            })
+            }),
           );
 
           await element.send(
@@ -2835,7 +2838,7 @@ suite('gr-change-actions tests', () => {
             '/revert',
             false,
             cleanup,
-            {} as UIActionInfo
+            {} as UIActionInfo,
           );
           await element.handleResponse(
             {
@@ -2843,7 +2846,7 @@ suite('gr-change-actions tests', () => {
               __type: ActionType.CHANGE,
               label: 'l',
             },
-            response
+            response,
           );
 
           assert.isTrue(errorFired);
@@ -2871,7 +2874,7 @@ suite('gr-change-actions tests', () => {
 
     setup(async () => {
       stubRestApi('getChangeRevisionActions').returns(
-        Promise.resolve(changeRevisionActions)
+        Promise.resolve(changeRevisionActions),
       );
       stubRestApi('send').returns(Promise.reject(new Error('error')));
 
@@ -2899,12 +2902,12 @@ suite('gr-change-actions tests', () => {
       assert.strictEqual(
         queryAndAssert<GrConfirmSubmitDialog>(element, '#confirmSubmitDialog')
           .action,
-        undefined
+        undefined,
       );
       assert.strictEqual(
         queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase')
           .rebaseOnCurrent,
-        false
+        false,
       );
     });
   });

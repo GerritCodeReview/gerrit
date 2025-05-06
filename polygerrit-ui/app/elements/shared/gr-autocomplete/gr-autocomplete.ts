@@ -32,7 +32,7 @@ const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
 
 export type AutocompleteQuery<T = string> = (
-  text: string
+  text: string,
 ) => Promise<Array<AutocompleteSuggestion<T>>>;
 
 declare global {
@@ -358,7 +358,7 @@ export class GrAutocomplete extends LitElement {
   }
 
   private handleItemSelectEnter(
-    e: CustomEvent<ItemSelectedEventDetail> | KeyboardEvent
+    e: CustomEvent<ItemSelectedEventDetail> | KeyboardEvent,
   ) {
     this.handleInputCommit();
     e.stopPropagation();
@@ -412,7 +412,7 @@ export class GrAutocomplete extends LitElement {
   onInputBlur() {
     this.input?.classList.toggle(
       'warnUncommitted',
-      this.warnUncommitted && !!this.text.length && !this.focused
+      this.warnUncommitted && !!this.text.length && !this.focused,
     );
     // Needed so that --paper-input-container-input updated style is applied.
     this.requestUpdate();
@@ -454,14 +454,14 @@ export class GrAutocomplete extends LitElement {
     this.updateSuggestionsTask = debounce(
       this.updateSuggestionsTask,
       this.createUpdateTask(queryId, this.query, this.text),
-      DEBOUNCE_WAIT_MS
+      DEBOUNCE_WAIT_MS,
     );
   }
 
   private createUpdateTask(
     queryId: number,
     query: AutocompleteQuery,
-    text: string
+    text: string,
   ): () => Promise<void> {
     return async () => {
       let suggestions: AutocompleteSuggestion[];
@@ -630,7 +630,7 @@ export class GrAutocomplete extends LitElement {
 
   updateValue(
     suggestion: HTMLElement | null,
-    suggestions: AutocompleteSuggestion[]
+    suggestions: AutocompleteSuggestion[],
   ) {
     if (!suggestion) {
       return;
@@ -739,7 +739,7 @@ export class GrAutocomplete extends LitElement {
  * And later user $.branchSelect.text without type conversion to BranchName.
  */
 export interface GrTypedAutocomplete<
-  T extends PropertyType<GrAutocomplete, 'text'>
+  T extends PropertyType<GrAutocomplete, 'text'>,
 > extends GrAutocomplete {
   text: T;
   value: T;

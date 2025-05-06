@@ -63,7 +63,7 @@ export class GrApp extends LitElement {
 
     const injectDependency = <T>(
       token: DependencyToken<T>,
-      creator: Creator<T>
+      creator: Creator<T>,
     ) => {
       let service: (T & Finalizable) | undefined = undefined;
       dependencies.set(token, () => {
@@ -81,14 +81,14 @@ export class GrApp extends LitElement {
       } else {
         throw new DependencyError(
           token,
-          'Forgot to set up dependency for gr-app'
+          'Forgot to set up dependency for gr-app',
         );
       }
     };
 
     for (const [token, creator] of createAppDependencies(
       getAppContext(),
-      resolver
+      resolver,
     )) {
       injectDependency(token, creator);
     }

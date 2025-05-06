@@ -131,14 +131,14 @@ export class GrDashboardView extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.loggedInUser = x)
+      x => (this.loggedInUser = x),
     );
     subscribe(
       this,
       () => this.getUserModel().preferences$,
       prefs => {
         this.preferences = prefs ?? {};
-      }
+      },
     );
     subscribe(
       this,
@@ -146,7 +146,7 @@ export class GrDashboardView extends LitElement {
       x => {
         this.viewState = x;
         this.reload();
-      }
+      },
     );
     this.addEventListener('reload', () => this.reload());
     this.shortcuts.addAbstract(Shortcut.UP_TO_DASHBOARD, () => this.reload());
@@ -168,14 +168,14 @@ export class GrDashboardView extends LitElement {
     super.connectedCallback();
     document.addEventListener(
       'visibilitychange',
-      this.visibilityChangeListener
+      this.visibilityChangeListener,
     );
   }
 
   override disconnectedCallback() {
     document.removeEventListener(
       'visibilitychange',
-      this.visibilityChangeListener
+      this.visibilityChangeListener,
     );
     super.disconnectedCallback();
   }
@@ -247,7 +247,7 @@ export class GrDashboardView extends LitElement {
       <gr-create-destination-dialog
         id="destinationDialog"
         @confirm-destination=${(
-          e: CustomEvent<CreateDestinationConfirmDetail>
+          e: CustomEvent<CreateDestinationConfirmDetail>,
         ) => {
           this.handleDestinationConfirm(e);
         }}
@@ -347,7 +347,7 @@ export class GrDashboardView extends LitElement {
   // private but used in test
   getRepositoryDashboard(
     repo: RepoName,
-    dashboard?: DashboardId
+    dashboard?: DashboardId,
   ): Promise<UserDashboard | undefined> {
     const errFn = (response?: Response | null) => {
       firePageError(response);
@@ -367,7 +367,7 @@ export class GrDashboardView extends LitElement {
               name: section.name,
               query: (section.query + suffix).replace(
                 PROJECT_PLACEHOLDER_PATTERN,
-                repo
+                repo,
               ),
             };
           }),
@@ -403,7 +403,7 @@ export class GrDashboardView extends LitElement {
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this.getRepositoryDashboard(project, dashboard)
       : Promise.resolve(
-          getUserDashboard(user, sections, title || this.computeTitle(user))
+          getUserDashboard(user, sections, title || this.computeTitle(user)),
         );
     // Checking `this.loggedInUser` to make sure that the user is logged in.
     // Otherwise sending a query for 'owner:self' will result in an error.
@@ -436,7 +436,7 @@ export class GrDashboardView extends LitElement {
    */
   async fetchDashboardChanges(
     res: UserDashboard | undefined,
-    isLoggedInUserDashboard: boolean
+    isLoggedInUserDashboard: boolean,
   ) {
     if (!res) return;
     let queries: string[];
@@ -449,7 +449,7 @@ export class GrDashboardView extends LitElement {
       queries = res.sections.map(section =>
         section.suffixForDashboard
           ? section.query + ' ' + section.suffixForDashboard
-          : section.query
+          : section.query,
       );
 
       if (isLoggedInUserDashboard) {
@@ -460,7 +460,7 @@ export class GrDashboardView extends LitElement {
 
     const changes = await this.restApiService.getChangesForDashboard(
       undefined,
-      queries
+      queries,
     );
     if (!changes) {
       throw new Error('getChanges returns undefined');
@@ -487,7 +487,7 @@ export class GrDashboardView extends LitElement {
       .filter(
         (section, i) =>
           i < res.sections.length &&
-          (!res.sections[i].hideIfEmpty || section.results.length)
+          (!res.sections[i].hideIfEmpty || section.results.length),
       );
 
     // Show the notifications prompt if the user has any results in their attention set.
@@ -496,7 +496,7 @@ export class GrDashboardView extends LitElement {
       this.results.filter(
         changelistSection =>
           changelistSection.name === YOUR_TURN.name &&
-          changelistSection.results.length > 0
+          changelistSection.results.length > 0,
       ).length !== 0;
   }
 
@@ -552,7 +552,7 @@ export class GrDashboardView extends LitElement {
     fireAlert(this, msg);
     await this.restApiService.saveChangeStarred(
       e.detail.change._number,
-      e.detail.starred
+      e.detail.starred,
     );
     fire(this, 'hide-alert', {});
     if (e.detail.starred) {
@@ -568,7 +568,7 @@ export class GrDashboardView extends LitElement {
             e.detail.starred;
           this.requestUpdate('results');
         }
-      })
+      }),
     );
   }
 
@@ -587,12 +587,12 @@ export class GrDashboardView extends LitElement {
     }
 
     const draftSection = this.results.find(
-      section => section.query === 'has:draft'
+      section => section.query === 'has:draft',
     );
     if (!draftSection || !draftSection.results.length) return;
 
     const closedChanges = draftSection.results.filter(
-      change => !changeIsOpen(change)
+      change => !changeIsOpen(change),
     );
     if (!closedChanges.length) return;
 
@@ -630,7 +630,7 @@ export class GrDashboardView extends LitElement {
   }
 
   private handleDestinationConfirm(
-    e: CustomEvent<CreateDestinationConfirmDetail>
+    e: CustomEvent<CreateDestinationConfirmDetail>,
   ) {
     assertIsDefined(this.commandsDialog, 'commandsDialog');
     this.commandsDialog.branch = e.detail.branch;

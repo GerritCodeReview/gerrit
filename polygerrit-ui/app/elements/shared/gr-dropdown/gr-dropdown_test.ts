@@ -48,19 +48,19 @@ suite('gr-dropdown tests', () => {
   test('link URLs', () => {
     assert.equal(
       element.computeLinkURL({url: 'http://example.com/test'}),
-      'http://example.com/test'
+      'http://example.com/test',
     );
     assert.equal(
       element.computeLinkURL({url: 'https://example.com/test'}),
-      'https://example.com/test'
+      'https://example.com/test',
     );
     assert.equal(
       element.computeLinkURL({url: '/test'}),
-      '//' + window.location.host + '/test'
+      '//' + window.location.host + '/test',
     );
     assert.equal(
       element.computeLinkURL({url: '/test', target: '_blank'}),
-      '/test'
+      '/test',
     );
   });
 
@@ -132,7 +132,7 @@ suite('gr-dropdown tests', () => {
     await element.updateComplete;
     const tooltipContents = queryAll<GrTooltipContent>(
       element,
-      'iron-dropdown li gr-tooltip-content'
+      'iron-dropdown li gr-tooltip-content',
     );
     assert.equal(tooltipContents.length, 2);
     assert.isTrue(tooltipContents[0].hasTooltip);
@@ -217,7 +217,7 @@ suite('gr-dropdown tests', () => {
             </li>
         </div>
           </ul>
-      </iron-dropdown>`
+      </iron-dropdown>`,
     );
   });
 
@@ -261,7 +261,7 @@ suite('gr-dropdown tests', () => {
 
       const el = queryAndAssert<HTMLAnchorElement>(
         element.cursor.target as HTMLElement,
-        ':not([hidden]) a'
+        ':not([hidden]) a',
       );
       const stub = sinon.stub(el, 'click');
       pressKey(element, ' ');

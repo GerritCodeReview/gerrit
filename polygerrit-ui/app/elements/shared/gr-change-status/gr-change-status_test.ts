@@ -43,7 +43,7 @@ suite('gr-change-status tests', () => {
         >
           <div aria-label="Label: WIP" class="chip">Work in Progress</div>
         </gr-tooltip-content>
-      `
+      `,
     );
   });
 
@@ -52,7 +52,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Work in Progress'
+      'Work in Progress',
     );
     assert.equal(element.tooltipText, WIP_TOOLTIP);
     assert.isTrue(element.classList.contains('wip'));
@@ -64,7 +64,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'WIP'
+      'WIP',
     );
     assert.isDefined(element.tooltipText);
     assert.isTrue(element.classList.contains('wip'));
@@ -76,7 +76,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Merged'
+      'Merged',
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('merged'));
@@ -90,7 +90,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Abandoned'
+      'Abandoned',
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('abandoned'));
@@ -103,7 +103,7 @@ suite('gr-change-status tests', () => {
 
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Merge Conflict'
+      'Merge Conflict',
     );
     assert.equal(element.tooltipText, MERGE_CONFLICT_TOOLTIP);
     assert.isTrue(element.classList.contains('merge-conflict'));
@@ -143,7 +143,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Private'
+      'Private',
     );
     assert.equal(element.tooltipText, PRIVATE_TOOLTIP);
     assert.isTrue(element.classList.contains('private'));
@@ -154,7 +154,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Active'
+      'Active',
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('active'));
@@ -165,7 +165,7 @@ suite('gr-change-status tests', () => {
     await element.updateComplete;
     assert.equal(
       queryAndAssert<HTMLDivElement>(element, '.chip').innerText,
-      'Ready to submit'
+      'Ready to submit',
     );
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('ready-to-submit'));

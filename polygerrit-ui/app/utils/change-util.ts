@@ -42,7 +42,7 @@ export function listChangesOptionsToHex(...args: number[]) {
 export function changeBaseURL(
   repo: string,
   changeNum: NumericChangeId,
-  patchNum: PatchSetNum
+  patchNum: PatchSetNum,
 ): string {
   let v = `${getBaseUrl()}/changes/${encodeURIComponent(repo)}~${changeNum}`;
   if (patchNum) {
@@ -64,7 +64,7 @@ export function changeIsMerged(change?: ChangeInfo | ParsedChangeInfo | null) {
 }
 
 export function changeIsAbandoned(
-  change?: ChangeInfo | ParsedChangeInfo | null
+  change?: ChangeInfo | ParsedChangeInfo | null,
 ) {
   return change?.status === ChangeStatus.ABANDONED;
 }
@@ -75,7 +75,7 @@ export function changeIsAbandoned(
  * RelatedChangesInfo response).
  */
 export function getChangeNumber(
-  change: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
+  change: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo,
 ): NumericChangeId {
   if (isChangeInfo(change)) {
     return change._number;
@@ -85,7 +85,7 @@ export function getChangeNumber(
 
 export function changeStatuses(
   change: ChangeInfo,
-  options?: ChangeStatusesOptions
+  options?: ChangeStatusesOptions,
 ): ChangeStates[] {
   const states: ChangeStates[] = [];
 
@@ -148,7 +148,7 @@ export function changeStatuses(
 
 export function isOwner(
   change?: ChangeInfo | ParsedChangeInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ): boolean {
   if (!change || !account) return false;
   return change.owner?._account_id === account._account_id;
@@ -156,7 +156,7 @@ export function isOwner(
 
 export function isReviewer(
   change?: ChangeInfo | ParsedChangeInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ): boolean {
   if (!change || !account) return false;
   if (isOwner(change, account)) return false;
@@ -166,7 +166,7 @@ export function isReviewer(
 
 export function isCc(
   change?: ChangeInfo | ParsedChangeInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ): boolean {
   if (!change || !account) return false;
   const ccs = change.reviewers.CC ?? [];
@@ -175,7 +175,7 @@ export function isCc(
 
 export function isUploader(
   change?: ChangeInfo | ParsedChangeInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ): boolean {
   if (!change || !account) return false;
   const rev = getCurrentRevision(change);
@@ -184,7 +184,7 @@ export function isUploader(
 
 export function isInvolved(
   change?: ChangeInfo | ParsedChangeInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ): boolean {
   const owner = isOwner(change, account);
   const uploader = isUploader(change, account);
@@ -195,7 +195,7 @@ export function isInvolved(
 
 export function roleDetails(
   change?: ChangeInfo | ParsedChangeInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ) {
   return {
     isOwner: isOwner(change, account),
@@ -212,15 +212,15 @@ export function getCurrentRevision(change?: ChangeInfo | ParsedChangeInfo) {
 
 export function getRevisionKey(
   change: ChangeInfo | ParsedChangeInfo,
-  patchNum: PatchSetNum
+  patchNum: PatchSetNum,
 ) {
   return Object.keys(change.revisions ?? []).find(
-    rev => change?.revisions?.[rev]._number === patchNum
+    rev => change?.revisions?.[rev]._number === patchNum,
   );
 }
 
 export function hasHumanReviewer(
-  change?: ChangeInfo | ParsedChangeInfo
+  change?: ChangeInfo | ParsedChangeInfo,
 ): boolean {
   if (!change) return false;
   const reviewers = change.reviewers.REVIEWER ?? [];
@@ -231,7 +231,7 @@ export function hasHumanReviewer(
 
 export function isRemovableReviewer(
   change?: ChangeInfo,
-  reviewer?: AccountInfo
+  reviewer?: AccountInfo,
 ): boolean {
   if (!reviewer || !change) return false;
   if (isCc(change, reviewer)) return true;
@@ -239,12 +239,12 @@ export function isRemovableReviewer(
   return change.removable_reviewers.some(
     account =>
       account._account_id === reviewer._account_id ||
-      (!reviewer._account_id && account.email === reviewer.email)
+      (!reviewer._account_id && account.email === reviewer.email),
   );
 }
 
 export function isChangeInfo(
-  x: ChangeInfo | RelatedChangeAndCommitInfo | ParsedChangeInfo
+  x: ChangeInfo | RelatedChangeAndCommitInfo | ParsedChangeInfo,
 ): x is ChangeInfo | ParsedChangeInfo {
   return (x as ChangeInfo)._number !== undefined;
 }

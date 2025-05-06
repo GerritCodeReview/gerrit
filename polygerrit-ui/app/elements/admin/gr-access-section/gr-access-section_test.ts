@@ -172,7 +172,7 @@ suite('gr-access-section tests', () => {
               </gr-button>
             </div>
           </fieldset>
-        `
+        `,
       );
     });
 
@@ -305,7 +305,7 @@ suite('gr-access-section tests', () => {
         element.computePermissions(),
         labelOptions
           .concat(toSortedPermissionsArray(AccessPermissions))
-          .filter(permission => permission.id !== 'read')
+          .filter(permission => permission.id !== 'read'),
       );
     });
 
@@ -329,7 +329,7 @@ suite('gr-access-section tests', () => {
       };
       assert.equal(
         element.computePermissionName(permission),
-        element.capabilities![permission.id].name
+        element.capabilities![permission.id].name,
       );
 
       permission = {
@@ -346,7 +346,7 @@ suite('gr-access-section tests', () => {
 
       assert.equal(
         element.computePermissionName(permission),
-        AccessPermissions[permission.id].name
+        AccessPermissions[permission.id].name,
       );
 
       element.section.id = 'refs/for/*' as GitRef;
@@ -360,7 +360,7 @@ suite('gr-access-section tests', () => {
 
       assert.equal(
         element.computePermissionName(permission),
-        'Label Code-Review'
+        'Label Code-Review',
       );
 
       permission = {
@@ -373,7 +373,7 @@ suite('gr-access-section tests', () => {
 
       assert.equal(
         element.computePermissionName(permission),
-        'Label Code-Review (On Behalf Of)'
+        'Label Code-Review (On Behalf Of)',
       );
 
       permission = {
@@ -386,7 +386,7 @@ suite('gr-access-section tests', () => {
 
       assert.equal(
         element.computePermissionName(permission),
-        'Remove Label Code-Review'
+        'Remove Label Code-Review',
       );
     });
 
@@ -498,19 +498,19 @@ suite('gr-access-section tests', () => {
         assert.isFalse(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('editing')
+            '#section',
+          ).classList.contains('editing'),
         );
         assert.isFalse(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('deleted')
+            '#section',
+          ).classList.contains('deleted'),
         );
         assert.isTrue(
           queryAndAssert<GrButton>(element, '#editBtn').classList.contains(
-            'global'
-          )
+            'global',
+          ),
         );
         element.editing = true;
         element.canUpload = true;
@@ -518,7 +518,7 @@ suite('gr-access-section tests', () => {
         assert.equal(
           getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn'))
             .display,
-          'none'
+          'none',
         );
       });
     });
@@ -544,19 +544,19 @@ suite('gr-access-section tests', () => {
         assert.isFalse(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('editing')
+            '#section',
+          ).classList.contains('editing'),
         );
         assert.isFalse(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('deleted')
+            '#section',
+          ).classList.contains('deleted'),
         );
         assert.isFalse(
           queryAndAssert<GrButton>(element, '#editBtn').classList.contains(
-            'global'
-          )
+            'global',
+          ),
         );
         element.editing = true;
         element.canUpload = true;
@@ -565,7 +565,7 @@ suite('gr-access-section tests', () => {
         assert.notEqual(
           getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn'))
             .display,
-          'none'
+          'none',
         );
       });
 
@@ -596,7 +596,7 @@ suite('gr-access-section tests', () => {
         assert.equal(Object.keys(element.section!.value.permissions).length, 2);
         assert.deepEqual(
           element.section!.value.permissions['label-Code-Review'],
-          permission.value
+          permission.value,
         );
 
         queryAndAssert<HTMLSelectElement>(element, '#permissionSelect').value =
@@ -617,7 +617,7 @@ suite('gr-access-section tests', () => {
         assert.equal(Object.keys(element.section!.value.permissions).length, 3);
         assert.deepEqual(
           element.section!.value.permissions['abandon'],
-          permission.value
+          permission.value,
         );
 
         // Unsaved changes are discarded when editing is cancelled.
@@ -638,16 +638,16 @@ suite('gr-access-section tests', () => {
         assert.isFalse(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('editing')
+            '#section',
+          ).classList.contains('editing'),
         );
         element.editing = true;
         await element.updateComplete;
         assert.isTrue(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('editing')
+            '#section',
+          ).classList.contains('editing'),
         );
         assert.isFalse(element.editingRef);
         queryAndAssert<GrButton>(element, '#editBtn').click();
@@ -658,8 +658,8 @@ suite('gr-access-section tests', () => {
         assert.isTrue(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('editingRef')
+            '#section',
+          ).classList.contains('editingRef'),
         );
         element.editing = false;
         await element.updateComplete;
@@ -717,8 +717,8 @@ suite('gr-access-section tests', () => {
         assert.isTrue(
           queryAndAssert<HTMLFieldSetElement>(
             element,
-            '#section'
-          ).classList.contains('deleted')
+            '#section',
+          ).classList.contains('deleted'),
         );
         assert.isTrue(element.section!.value.deleted);
 
@@ -745,7 +745,7 @@ suite('gr-access-section tests', () => {
           new CustomEvent('added-permission-removed', {
             composed: true,
             bubbles: true,
-          })
+          }),
         );
         await element.updateComplete;
         assert.equal(element.permissions!.length, 0);

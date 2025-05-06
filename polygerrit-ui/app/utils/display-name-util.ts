@@ -10,7 +10,7 @@ const ANONYMOUS_NAME = 'Anonymous';
 
 export function getUserName(
   config?: ServerInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
 ): string {
   if (account?.name) {
     return account.name;
@@ -32,7 +32,7 @@ export function getUserName(
 export function getDisplayName(
   config?: ServerInfo,
   account?: AccountInfo,
-  firstNameOnly = false
+  firstNameOnly = false,
 ): string {
   if (account?.display_name) {
     return account.display_name;
@@ -53,7 +53,7 @@ export function getDisplayName(
 
 export function getAccountDisplayName(
   config: ServerInfo | undefined,
-  account: AccountInfo
+  account: AccountInfo,
 ) {
   const reviewerName = getDisplayName(config, account);
   const reviewerEmail = accountEmail(account.email);

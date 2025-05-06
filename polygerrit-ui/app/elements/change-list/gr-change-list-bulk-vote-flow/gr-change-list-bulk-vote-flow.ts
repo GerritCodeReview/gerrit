@@ -139,12 +139,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       selectedChanges => {
         this.selectedChanges = selectedChanges;
         this.resetFlow();
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      account => (this.account = account)
+      account => (this.account = account),
     );
   }
 
@@ -152,7 +152,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     const permittedLabels = this.computePermittedLabels();
     const triggerLabels = this.computeCommonTriggerLabels(permittedLabels);
     const nonTriggerLabels = this.computeCommonPermittedLabels(
-      permittedLabels
+      permittedLabels,
     ).filter(label => !triggerLabels.some(l => l.name === label.name));
     return html`
       <gr-button id="voteFlowButton" flatten @click=${this.openModal}
@@ -162,7 +162,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         <gr-dialog
           .disableCancel=${!this.isCancelEnabled()}
           .disabled=${this.isDisabled(
-            triggerLabels.length + nonTriggerLabels.length
+            triggerLabels.length + nonTriggerLabels.length,
           )}
           ?loading=${this.isLoading()}
           .loadingLabel=${'Voting in progress...'}
@@ -179,12 +179,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
               nonTriggerLabels,
               'Submit requirements votes',
               permittedLabels,
-              true
+              true,
             )}
             ${this.renderLabels(
               triggerLabels,
               'Trigger Votes',
-              permittedLabels
+              permittedLabels,
             )}
             ${this.renderErrors()}
           </div>
@@ -208,7 +208,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
             <gr-button
               aria-label=${`Open ${pluralize(
                 this.selectedChanges.length,
-                'change'
+                'change',
               )} in different tabs`}
               flatten
               link
@@ -242,9 +242,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           <!-- prettier-ignore -->
           Failed to vote on ${pluralize(
             Array.from(this.progressByChange.values()).filter(
-              status => status === ProgressStatus.FAILED
+              status => status === ProgressStatus.FAILED,
             ).length,
-            'change'
+            'change',
           )}
         </span>
       </div>
@@ -255,7 +255,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     labels: Label[],
     heading: string,
     permittedLabels?: LabelNameToValuesMap,
-    showCodeReviewWarning?: boolean
+    showCodeReviewWarning?: boolean,
   ) {
     return html` <div class="scoresTable newSubmitRequirements">
       <h3 class="heading-4 vote-type">${labels.length ? heading : nothing}</h3>
@@ -264,7 +264,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         .filter(
           label =>
             permittedLabels?.[label.name] &&
-            permittedLabels?.[label.name].length > 0
+            permittedLabels?.[label.name].length > 0,
         )
         .map(
           label => html`<gr-label-score-row
@@ -273,7 +273,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
             .labels=${this.computeLabelNameToInfoMap()}
             .permittedLabels=${permittedLabels}
             .orderedLabelValues=${computeOrderedLabelValues(permittedLabels)}
-          ></gr-label-score-row>`
+          ></gr-label-score-row>`,
         )}
     </div>`;
   }
@@ -283,7 +283,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       this.selectedChanges.map(change => [
         change._number,
         ProgressStatus.NOT_STARTED,
-      ])
+      ]),
     );
   }
 
@@ -319,7 +319,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     });
     const reviewInput: ReviewInput = {
       labels: this.getLabelValues(
-        this.computeCommonPermittedLabels(this.computePermittedLabels())
+        this.computeCommonPermittedLabels(this.computePermittedLabels()),
       ),
     };
     for (const change of this.selectedChanges) {
@@ -348,13 +348,13 @@ export class GrChangeListBulkVoteFlow extends LitElement {
               this.handleClose();
             }
           });
-      })
+      }),
     );
     if (getOverallStatus(this.progressByChange) === ProgressStatus.FAILED) {
       this.reportingService.reportInteraction('bulk-action-failure', {
         type: 'vote',
         count: Array.from(this.progressByChange.values()).filter(
-          status => status === ProgressStatus.FAILED
+          status => status === ProgressStatus.FAILED,
         ).length,
       });
     }
@@ -367,7 +367,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     for (const label of commonPermittedLabels) {
       const selectorEl = queryAndAssert<GrLabelScoreRow>(
         this,
-        `gr-label-score-row[name="${label.name}"]`
+        `gr-label-score-row[name="${label.name}"]`,
       );
       if (!selectorEl?.selectedItem) continue;
 
@@ -412,10 +412,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     const triggerVotes = this.selectedChanges
       .map(change => getTriggerVotes(change))
       .reduce((prev, current) =>
-        current.filter(label => prev.some(l => l === label))
+        current.filter(label => prev.some(l => l === label)),
       );
     return this.computeCommonPermittedLabels(permittedLabels).filter(label =>
-      triggerVotes.includes(label.name)
+      triggerVotes.includes(label.name),
     );
   }
 
@@ -426,12 +426,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     return this.selectedChanges
       .map(change => computeLabels(this.account, change))
       .reduce((prev, current) =>
-        current.filter(label => prev.some(l => l.name === label.name))
+        current.filter(label => prev.some(l => l.name === label.name)),
       )
       .filter(
         label =>
           permittedLabels?.[label.name] &&
-          permittedLabels?.[label.name].length > 0
+          permittedLabels?.[label.name].length > 0,
       );
   }
 }

@@ -148,30 +148,30 @@ suite('gr-group tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
   test('loading displays before group config is loaded', () => {
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(element, '#loading').classList.contains(
-        'loading'
-      )
+        'loading',
+      ),
     );
     assert.isFalse(
       getComputedStyle(queryAndAssert<HTMLDivElement>(element, '#loading'))
-        .display === 'none'
+        .display === 'none',
     );
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(
         element,
-        '#loadedContent'
-      ).classList.contains('loading')
+        '#loadedContent',
+      ).classList.contains('loading'),
     );
     assert.isTrue(
       getComputedStyle(
-        queryAndAssert<HTMLDivElement>(element, '#loadedContent')
-      ).display === 'none'
+        queryAndAssert<HTMLDivElement>(element, '#loadedContent'),
+      ).display === 'none',
     );
   });
 
@@ -184,7 +184,7 @@ suite('gr-group tests', () => {
     // thus we have to check with the string.
     assert.equal(
       queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue,
-      'false'
+      'false',
     );
   });
 
@@ -193,7 +193,7 @@ suite('gr-group tests', () => {
     groupExternal.id = 'external-group-id' as GroupId;
     groupStub.restore();
     groupStub = stubRestApi('getGroupConfig').returns(
-      Promise.resolve(groupExternal)
+      Promise.resolve(groupExternal),
     );
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
     element.groupId = '1' as GroupId;
@@ -203,7 +203,7 @@ suite('gr-group tests', () => {
     // thus we have to check with the string.
     assert.equal(
       queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue,
-      'false'
+      'false',
     );
   });
 
@@ -219,7 +219,7 @@ suite('gr-group tests', () => {
 
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
     stubRestApi('saveGroupName').returns(
-      Promise.resolve({...new Response(), status: 200})
+      Promise.resolve({...new Response(), status: 200}),
     );
 
     const button = queryAndAssert<GrButton>(element, '#inputUpdateNameBtn');
@@ -228,8 +228,8 @@ suite('gr-group tests', () => {
     assert.isTrue(button.hasAttribute('disabled'));
     assert.isFalse(
       queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains(
-        'edited'
-      )
+        'edited',
+      ),
     );
 
     queryAndAssert<GrAutocomplete>(element, '#groupNameInput').text =
@@ -240,16 +240,16 @@ suite('gr-group tests', () => {
     assert.isTrue(
       queryAndAssert<HTMLHeadingElement>(
         element,
-        '#groupName'
-      ).classList.contains('edited')
+        '#groupName',
+      ).classList.contains('edited'),
     );
 
     await element.handleSaveName();
     assert.isTrue(button.disabled);
     assert.isFalse(
       queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains(
-        'edited'
-      )
+        'edited',
+      ),
     );
     assert.equal(element.originalName, groupName2);
   });
@@ -272,8 +272,8 @@ suite('gr-group tests', () => {
     assert.isTrue(button.disabled);
     assert.isFalse(
       queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains(
-        'edited'
-      )
+        'edited',
+      ),
     );
 
     queryAndAssert<GrAutocomplete>(element, '#groupOwnerInput').text =
@@ -283,16 +283,16 @@ suite('gr-group tests', () => {
     assert.isTrue(
       queryAndAssert<HTMLHeadingElement>(
         element,
-        '#groupOwner'
-      ).classList.contains('edited')
+        '#groupOwner',
+      ).classList.contains('edited'),
     );
 
     await element.handleSaveOwner();
     assert.isTrue(button.disabled);
     assert.isFalse(
       queryAndAssert<HTMLHeadingElement>(element, '#Title').classList.contains(
-        'edited'
-      )
+        'edited',
+      ),
     );
   });
 
@@ -312,8 +312,8 @@ suite('gr-group tests', () => {
     await element.loadGroup();
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(element, '#loading').classList.contains(
-        'loading'
-      )
+        'loading',
+      ),
     );
 
     assert.isTrue(element.loading);
@@ -326,7 +326,7 @@ suite('gr-group tests', () => {
     };
     element.groupId = 'gg' as GroupId;
     stubRestApi('saveGroupName').returns(
-      Promise.resolve({...new Response(), status: 200})
+      Promise.resolve({...new Response(), status: 200}),
     );
 
     const showStub = sinon.stub(element, 'dispatchEvent');
@@ -397,7 +397,7 @@ suite('gr-group tests', () => {
 
     assert.equal(
       element.groupConfig.id,
-      queryAndAssert<GrCopyClipboard>(element, '#uuid').text
+      queryAndAssert<GrCopyClipboard>(element, '#uuid').text,
     );
 
     element.groupConfig = {
@@ -408,7 +408,7 @@ suite('gr-group tests', () => {
 
     assert.equal(
       'user/group',
-      queryAndAssert<GrCopyClipboard>(element, '#uuid').text
+      queryAndAssert<GrCopyClipboard>(element, '#uuid').text,
     );
   });
 });

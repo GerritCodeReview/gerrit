@@ -19,11 +19,11 @@ suite('AutocompleteCache', () => {
 
   const assertCacheEqual = (
     draftContent: string,
-    expectedCommentCompletion?: string
+    expectedCommentCompletion?: string,
   ) => {
     assert.equal(
       cache.get(draftContent)?.commentCompletion,
-      expectedCommentCompletion
+      expectedCommentCompletion,
     );
   };
 

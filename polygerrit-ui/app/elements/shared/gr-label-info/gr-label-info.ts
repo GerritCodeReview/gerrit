@@ -142,7 +142,7 @@ export class GrLabelInfo extends LitElement {
     if (!labelInfo) return;
     return html`<div>
       ${this.computeVoters(labelInfo).map(reviewer =>
-        this.renderReviewerVote(reviewer)
+        this.renderReviewerVote(reviewer),
       )}
     </div>`;
   }
@@ -200,7 +200,7 @@ export class GrLabelInfo extends LitElement {
         class="deleteBtn ${this.computeDeleteClass(
           reviewer,
           this.mutable,
-          this.change
+          this.change,
         )}"
       >
         <gr-icon icon="delete" filled></gr-icon>
@@ -245,8 +245,8 @@ export class GrLabelInfo extends LitElement {
           r2,
           this.change?.attention_set,
           this.change?.labels,
-          this.account
-        )
+          this.account,
+        ),
       );
   }
 
@@ -261,7 +261,7 @@ export class GrLabelInfo extends LitElement {
   private computeDeleteClass(
     reviewer: ApprovalInfo,
     mutable: boolean,
-    change?: ParsedChangeInfo
+    change?: ParsedChangeInfo,
   ) {
     if (!mutable || !change || !change.removable_reviewers) {
       return 'hidden';
@@ -291,7 +291,7 @@ export class GrLabelInfo extends LitElement {
 
     target.disabled = true;
     const accountID = Number(
-      `${target.getAttribute('data-account-id')}`
+      `${target.getAttribute('data-account-id')}`,
     ) as AccountId;
     this._xhrPromise = this.restApiService
       .deleteVote(this.change._number, accountID, this.label)

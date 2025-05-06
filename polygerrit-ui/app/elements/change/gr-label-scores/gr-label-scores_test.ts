@@ -93,7 +93,7 @@ suite('gr-label-scores tests', () => {
         <div class="abandonedMessage" hidden="">
           Because this change has been abandoned, you cannot vote.
         </div>
-      `
+      `,
     );
   });
 
@@ -101,7 +101,7 @@ suite('gr-label-scores tests', () => {
     for (const label of Object.keys(element.permittedLabels!)) {
       const row = queryAndAssert<GrLabelScoreRow>(
         element,
-        'gr-label-score-row[name="' + label + '"]'
+        'gr-label-score-row[name="' + label + '"]',
       );
       row.setSelectedValue('-1');
     }
@@ -132,7 +132,7 @@ suite('gr-label-scores tests', () => {
     const labelName = 'Code-Review';
     assert.strictEqual(
       getVoteForAccount(labelName, element.account, element.change),
-      '+1'
+      '+1',
     );
   });
 

@@ -21,7 +21,7 @@ suite('gr-create-repo-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-create-repo-dialog></gr-create-repo-dialog>`
+      html`<gr-create-repo-dialog></gr-create-repo-dialog>`,
     );
   });
 
@@ -130,13 +130,13 @@ It will only have a 'refs/meta/config' branch."
             </section>
           </div>
         </div>
-      `
+      `,
     );
   });
 
   test('default values are populated', () => {
     assert.isTrue(
-      queryAndAssert<GrSelect>(element, '#initialCommit').bindValue
+      queryAndAssert<GrSelect>(element, '#initialCommit').bindValue,
     );
     assert.isFalse(queryAndAssert<GrSelect>(element, '#parentRepo').bindValue);
   });
@@ -150,7 +150,7 @@ It will only have a 'refs/meta/config' branch."
     };
 
     const saveStub = stubRestApi('createRepo').returns(
-      Promise.resolve(new Response())
+      Promise.resolve(new Response()),
     );
 
     const promise = mockPromise();
@@ -171,11 +171,11 @@ It will only have a 'refs/meta/config' branch."
 
     const repoNameInput = queryAndAssert<HTMLInputElement>(
       element,
-      '#repoNameInput'
+      '#repoNameInput',
     );
     repoNameInput.value = configInputObj.name;
     repoNameInput.dispatchEvent(
-      new Event('input', {bubbles: true, composed: true})
+      new Event('input', {bubbles: true, composed: true}),
     );
     queryAndAssert<GrAutocomplete>(element, '#rightsInheritFromInput').value =
       configInputObj.parent;
@@ -192,7 +192,7 @@ It will only have a 'refs/meta/config' branch."
         ...configInputObj,
         owners: ['testId' as GroupId],
         branches: ['main' as BranchName],
-      })
+      }),
     );
 
     await promise;

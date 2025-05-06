@@ -272,7 +272,7 @@ export class GrHovercardRun extends base {
               ${durationString(
                 this.run.startedTimestamp,
                 this.run.finishedTimestamp,
-                true
+                true,
               )}
             </div>
           </div>`
@@ -354,7 +354,7 @@ export class GrHovercardRun extends base {
               .action=${action}
             ></gr-checks-action>
           </div>
-        `
+        `,
     );
   }
 

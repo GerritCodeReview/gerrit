@@ -30,7 +30,7 @@ export class RetryScheduler<T> implements Scheduler<T> {
     private readonly base: Scheduler<T>,
     private maxRetry: number,
     private backoffIntervalMs: number,
-    private backoffFactor: number = 1.618
+    private backoffFactor: number = 1.618,
   ) {}
 
   async schedule(task: Task<T>): Promise<T> {

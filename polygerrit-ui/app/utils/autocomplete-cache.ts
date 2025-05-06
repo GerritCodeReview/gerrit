@@ -70,7 +70,7 @@ export class AutocompleteCache {
 
   set(context: AutocompletionContext) {
     const index = this.cache.findIndex(
-      c => c.draftContent === context.draftContent
+      c => c.draftContent === context.draftContent,
     );
     if (index !== -1) {
       this.cache.splice(index, 1);

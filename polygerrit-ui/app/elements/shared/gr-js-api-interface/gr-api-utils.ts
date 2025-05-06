@@ -40,7 +40,7 @@ export function getPluginNameFromUrl(url: URL | string) {
     console.warn(
       'Plugin not being loaded from /plugins base path:',
       url.href,
-      '— Unable to determine name.'
+      '— Unable to determine name.',
     );
     return null;
   }

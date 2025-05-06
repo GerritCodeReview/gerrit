@@ -29,7 +29,7 @@ export class GrPopupInterface implements PopupPluginApi {
   constructor(
     readonly plugin: PluginApi,
     // private but used in tests
-    readonly moduleName: string | null = null
+    readonly moduleName: string | null = null,
   ) {
     this.reporting.trackApi(this.plugin, 'popup', 'constructor');
   }
@@ -60,7 +60,7 @@ export class GrPopupInterface implements PopupPluginApi {
           const popup = document.createElement('gr-plugin-popup');
           if (this.moduleName) {
             const el = popup.appendChild(
-              document.createElement(this.moduleName) as CustomPolymerPluginEl
+              document.createElement(this.moduleName) as CustomPolymerPluginEl,
             );
             el.plugin = this.plugin;
           }

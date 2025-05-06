@@ -48,7 +48,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChanges$, selected =>
-      selected.some(other => other._number === change._number)
+      selected.some(other => other._number === change._number),
     );
     await element.updateComplete;
   }
@@ -77,8 +77,8 @@ suite('gr-change-list-hashtag-flow tests', () => {
           wrapInProvider(
             html`<gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>`,
             bulkActionsModelToken,
-            model
-          )
+            model,
+          ),
         )
       ).querySelector('gr-change-list-hashtag-flow')!;
       await selectChange(changes[0]);
@@ -108,14 +108,14 @@ suite('gr-change-list-hashtag-flow tests', () => {
             horizontal-align="auto"
           >
           </iron-dropdown>
-        `
+        `,
       );
     });
 
     test('dropdown hidden before flow button clicked', async () => {
       const dropdown = queryAndAssert<IronDropdownElement>(
         element,
-        'iron-dropdown'
+        'iron-dropdown',
       );
       assert.isFalse(dropdown.opened);
     });
@@ -128,7 +128,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       const dropdown = queryAndAssert<IronDropdownElement>(
         element,
-        'iron-dropdown'
+        'iron-dropdown',
       );
       assert.isTrue(dropdown.opened);
     });
@@ -137,13 +137,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await waitUntil(() =>
         Boolean(
-          queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-        )
+          queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
+        ),
       );
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await waitUntil(
         () =>
-          !queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+          !queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
       );
     });
   });
@@ -214,8 +214,8 @@ suite('gr-change-list-hashtag-flow tests', () => {
           wrapInProvider(
             html`<gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>`,
             bulkActionsModelToken,
-            model
-          )
+            model,
+          ),
         )
       ).querySelector('gr-change-list-hashtag-flow')!;
 
@@ -298,7 +298,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         {
           // iron-dropdown sizing seems to vary between local & CI
           ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
-        }
+        },
       );
     });
 
@@ -314,7 +314,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Adding hashtag...'
+        'Adding hashtag...',
       );
 
       await resolvePromises(['hashtag1' as Hashtag]);
@@ -347,7 +347,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         hashtagsApplied: 1,
       });
       assert.isTrue(
-        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
       );
     });
 
@@ -367,7 +367,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Adding hashtag...'
+        'Adding hashtag...',
       );
 
       await resolvePromises(['hashtag1' as Hashtag, 'hashtag2' as Hashtag]);
@@ -407,11 +407,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
       element.addEventListener('show-alert', alertStub);
 
       const getHashtagsStub = stubRestApi(
-        'getChangesWithSimilarHashtag'
+        'getChangesWithSimilarHashtag',
       ).resolves([{...createChange(), hashtags: ['foo' as Hashtag]}]);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
 
       autocomplete.setFocus(true);
@@ -424,7 +424,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Adding hashtag...'
+        'Adding hashtag...',
       );
 
       await resolvePromises(['foo' as Hashtag]);
@@ -457,7 +457,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         hashtagsApplied: 1,
       });
       assert.isTrue(
-        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
       );
     });
 
@@ -466,18 +466,18 @@ suite('gr-change-list-hashtag-flow tests', () => {
       element.addEventListener('show-alert', alertStub);
 
       const getHashtagsStub = stubRestApi(
-        'getChangesWithSimilarHashtag'
+        'getChangesWithSimilarHashtag',
       ).resolves([]);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled
+        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled,
       );
 
       queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
@@ -485,12 +485,12 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Adding hashtag...'
+        'Adding hashtag...',
       );
 
       await resolvePromises(['foo' as Hashtag]);
       await waitUntilObserved(model.selectedChanges$, selected =>
-        selected.every(change => change.hashtags?.includes('foo' as Hashtag))
+        selected.every(change => change.hashtags?.includes('foo' as Hashtag)),
       );
       await element.updateComplete;
 
@@ -522,28 +522,28 @@ suite('gr-change-list-hashtag-flow tests', () => {
         hashtagsApplied: 1,
       });
       assert.isTrue(
-        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
       );
       assert.equal(
         queryAll<HTMLButtonElement>(element, 'button.chip')[2].innerText,
-        'foo'
+        'foo',
       );
     });
 
     test('shows error when add hashtag fails', async () => {
       const getHashtagsStub = stubRestApi(
-        'getChangesWithSimilarHashtag'
+        'getChangesWithSimilarHashtag',
       ).resolves([]);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled
+        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled,
       );
 
       queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
@@ -551,7 +551,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Adding hashtag...'
+        'Adding hashtag...',
       );
 
       // Rest api doesn't reject on error by default, but it does in topic flow,
@@ -562,11 +562,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to add'
+        'Failed to add',
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,
-        'Cancel'
+        'Cancel',
       );
       assert.isUndefined(query(element, '.loadingText'));
     });
@@ -579,7 +579,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       await element.updateComplete;
 
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled
+        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled,
       );
     });
   });

@@ -89,13 +89,13 @@ suite('gr-focus-layer', () => {
         createTextElement(),
         createLineElement(100, Side.RIGHT),
         line,
-        Side.RIGHT
+        Side.RIGHT,
       );
       layer.annotate(
         createTextElement(),
         createLineElement(101, Side.RIGHT),
         line,
-        Side.RIGHT
+        Side.RIGHT,
       );
       layer.setRanges(RANGES);
       assert.isTrue(listener.called);

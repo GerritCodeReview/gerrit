@@ -31,7 +31,7 @@ const eventCallbacks: {[key: string]: EventCallback[]} = {};
 export class GrJsApiInterface implements JsApiService, Finalizable {
   constructor(
     private waitForPluginsToLoad: Provider<Promise<void>>,
-    readonly reporting: ReportingService
+    readonly reporting: ReportingService,
   ) {}
 
   finalize() {}
@@ -111,7 +111,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       get mergeable() {
         console.warn(
           'Accessing change.mergeable from SHOW_CHANGE is ' +
-            'deprecated! Use info.mergeable instead.'
+            'deprecated! Use info.mergeable instead.',
         );
         return detail.info && detail.info.mergeable;
       },
@@ -152,7 +152,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   async handleShowRevisionActions(detail: ShowRevisionActionsDetail) {
     await this.waitForPluginsToLoad();
     const registeredCallbacks = this._getEventCallbacks(
-      EventType.SHOW_REVISION_ACTIONS
+      EventType.SHOW_REVISION_ACTIONS,
     );
     for (const cb of registeredCallbacks) {
       try {
@@ -198,14 +198,14 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   modifyRevertSubmissionMsg(
     change: ChangeInfo,
     revertSubmissionMsg: string,
-    origMsg: string
+    origMsg: string,
   ) {
     for (const cb of this._getEventCallbacks(EventType.REVERT_SUBMISSION)) {
       try {
         revertSubmissionMsg = cb(
           change,
           revertSubmissionMsg,
-          origMsg
+          origMsg,
         ) as string;
       } catch (err: unknown) {
         this.reportError(err, EventType.REVERT_SUBMISSION);
@@ -255,7 +255,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     this.reporting.error(
       'GrJsApiInterface',
       new Error(`plugin event callback error for type "${type}"`),
-      err
+      err,
     );
   }
 

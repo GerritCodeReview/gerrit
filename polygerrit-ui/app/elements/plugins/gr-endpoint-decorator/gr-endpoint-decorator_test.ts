@@ -49,19 +49,19 @@ suite('gr-endpoint-decorator', () => {
             .value=${'yes'}
           ></gr-endpoint-param>
         </gr-endpoint-decorator>
-      </div>`
+      </div>`,
     );
     first = queryAndAssert<GrEndpointDecorator>(
       container,
-      'gr-endpoint-decorator[name="first"]'
+      'gr-endpoint-decorator[name="first"]',
     );
     second = queryAndAssert<GrEndpointDecorator>(
       container,
-      'gr-endpoint-decorator[name="second"]'
+      'gr-endpoint-decorator[name="second"]',
     );
     banana = queryAndAssert<GrEndpointDecorator>(
       container,
-      'gr-endpoint-decorator[name="banana"]'
+      'gr-endpoint-decorator[name="banana"]',
     );
 
     window.Gerrit.install(
@@ -69,7 +69,7 @@ suite('gr-endpoint-decorator', () => {
         plugin = p;
       },
       '0.1',
-      'http://some/plugin/url.js'
+      'http://some/plugin/url.js',
     );
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
@@ -80,11 +80,11 @@ suite('gr-endpoint-decorator', () => {
     decorationHookWithSlot = plugin.registerCustomComponent(
       'first',
       'some-module-2',
-      {slot: 'test'}
+      {slot: 'test'},
     );
     const decorationHookSlotPromise = mockPromise();
     decorationHookWithSlot.onAttached(() =>
-      decorationHookSlotPromise.resolve()
+      decorationHookSlotPromise.resolve(),
     );
 
     // Replacement
@@ -101,7 +101,7 @@ suite('gr-endpoint-decorator', () => {
 
   test('imports plugin-provided modules into endpoints', () => {
     const endpoints = Array.from(
-      container.querySelectorAll('gr-endpoint-decorator')
+      container.querySelectorAll('gr-endpoint-decorator'),
     );
     assert.equal(endpoints.length, 3);
   });
@@ -109,7 +109,7 @@ suite('gr-endpoint-decorator', () => {
   test('first decoration', () => {
     const element = first;
     const modules = Array.from(element.children).filter(
-      element => element.nodeName === 'SOME-MODULE'
+      element => element.nodeName === 'SOME-MODULE',
     );
     assert.equal(modules.length, 1);
     const [module] = modules;
@@ -147,7 +147,7 @@ suite('gr-endpoint-decorator', () => {
   test('replacement', () => {
     const element = second;
     const module = Array.from(element.children).find(
-      element => element.nodeName === 'OTHER-MODULE'
+      element => element.nodeName === 'OTHER-MODULE',
     );
     assert.isOk(module);
     assert.equal((module as any)['second-param'], 'foofoo');
@@ -170,7 +170,7 @@ suite('gr-endpoint-decorator', () => {
 
     const element = banana;
     const module = Array.from(element.children).find(
-      element => element.nodeName === 'NOOB-NOOB'
+      element => element.nodeName === 'NOOB-NOOB',
     );
     assert.isOk(module);
   });
@@ -188,11 +188,11 @@ suite('gr-endpoint-decorator', () => {
 
     const element = banana;
     const module1 = Array.from(element.children).find(
-      element => element.nodeName === 'MOD-ONE'
+      element => element.nodeName === 'MOD-ONE',
     );
     assert.isOk(module1);
     const module2 = Array.from(element.children).find(
-      element => element.nodeName === 'MOD-TWO'
+      element => element.nodeName === 'MOD-TWO',
     );
     assert.isOk(module2);
   });
@@ -209,10 +209,10 @@ suite('gr-endpoint-decorator', () => {
 
     element = queryAndAssert<GrEndpointDecorator>(
       container,
-      'gr-endpoint-decorator[name="banana"]'
+      'gr-endpoint-decorator[name="banana"]',
     );
     let module = Array.from(element.children).find(
-      element => element.nodeName === 'NOOB-NOOB'
+      element => element.nodeName === 'NOOB-NOOB',
     );
     // Module waits for param to be defined.
     assert.isNotOk(module);
@@ -222,7 +222,7 @@ suite('gr-endpoint-decorator', () => {
     await bananaHookPromise;
 
     module = Array.from(element.children).find(
-      element => element.nodeName === 'NOOB-NOOB'
+      element => element.nodeName === 'NOOB-NOOB',
     );
     assert.isOk(module);
     assert.strictEqual((module as any)['banana-param'], value);
@@ -242,7 +242,7 @@ suite('gr-endpoint-decorator', () => {
     await bananaHookPromise;
 
     const module = Array.from(element.children).find(
-      element => element.nodeName === 'NOOB-NOOB'
+      element => element.nodeName === 'NOOB-NOOB',
     );
     assert.isOk(module);
     assert.strictEqual((module as any)['banana-param'], value1);

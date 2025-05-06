@@ -69,7 +69,7 @@ export declare interface PluginApi {
   getPluginName(): string;
   hook<T extends PluginElement>(
     endpointName: string,
-    opt_options?: RegisterOptions
+    opt_options?: RegisterOptions,
   ): HookApi<T>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   on(eventName: EventType, target: any): void;
@@ -79,12 +79,12 @@ export declare interface PluginApi {
   registerCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
-    options?: RegisterOptions
+    options?: RegisterOptions,
   ): HookApi<T>;
   registerDynamicCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
-    options?: RegisterOptions
+    options?: RegisterOptions,
   ): HookApi<T>;
   reporting(): ReportingPluginApi;
   restApi(): RestPluginApi;

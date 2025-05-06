@@ -49,7 +49,7 @@ suite('gr-plugin-endpoints tests', () => {
     window.Gerrit.install(
       plugin => (decoratePlugin = plugin),
       '0.1',
-      'http://test.com/plugins/testplugin/static/decorate.js'
+      'http://test.com/plugins/testplugin/static/decorate.js',
     );
     instance.registerModule(decoratePlugin, {
       endpoint: 'my-endpoint',
@@ -60,7 +60,7 @@ suite('gr-plugin-endpoints tests', () => {
     window.Gerrit.install(
       plugin => (replacePlugin = plugin),
       '0.1',
-      'http://test.com/plugins/testplugin/static/replace.js'
+      'http://test.com/plugins/testplugin/static/replace.js',
     );
     instance.registerModule(replacePlugin, {
       endpoint: 'my-endpoint',

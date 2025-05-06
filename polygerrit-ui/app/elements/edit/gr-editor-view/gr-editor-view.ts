@@ -117,12 +117,12 @@ export class GrEditorView extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getUserModel().editPreferences$,
-      editPreferences => (this.editPrefs = editPreferences)
+      editPreferences => (this.editPrefs = editPreferences),
     );
     subscribe(
       this,
@@ -132,25 +132,25 @@ export class GrEditorView extends LitElement {
         // `viewStateChanged()` call here.
         this.viewState = state;
         this.viewStateChanged();
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNumWithEdit$,
-      x => (this.latestPatchsetNumber = x)
+      x => (this.latestPatchsetNumber = x),
     );
     subscribe(
       this,
       () => this.getUserModel().preferenceTheme$,
       theme => {
         this.darkMode = isDarkTheme(theme);
-      }
+      },
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
-      this.handleSaveShortcut()
+      this.handleSaveShortcut(),
     );
     this.shortcuts.addLocal({key: 's', modifiers: [Modifier.META_KEY]}, () =>
-      this.handleSaveShortcut()
+      this.handleSaveShortcut(),
     );
   }
 
@@ -355,7 +355,7 @@ export class GrEditorView extends LitElement {
     if (!changeIsMerged(this.change) && !changeIsAbandoned(this.change)) return;
     fireAlert(
       this,
-      'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+      'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.',
     );
     this.getNavigation().setUrl(createChangeUrl({change: this.change}));
   }
@@ -380,7 +380,7 @@ export class GrEditorView extends LitElement {
     const res = await this.restApiService.renameFileInChangeEdit(
       changeNum,
       currentPath,
-      newPath
+      newPath,
     );
     if (!res?.ok) return;
 
@@ -392,7 +392,7 @@ export class GrEditorView extends LitElement {
   viewEditInChangeView() {
     if (!this.change) return;
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, edit: true, forceReload: true})
+      createChangeUrl({change: this.change, edit: true, forceReload: true}),
     );
   }
 
@@ -406,7 +406,7 @@ export class GrEditorView extends LitElement {
     assertIsDefined(path, 'path');
 
     const storedContent = this.getStorage().getEditableContentItem(
-      this.storageKey
+      this.storageKey,
     );
 
     return this.restApiService
@@ -511,7 +511,7 @@ export class GrEditorView extends LitElement {
           '/edit:publish',
           undefined,
           {notify: NotifyType.NONE},
-          handleError
+          handleError,
         )
         .then(res => {
           if (res === undefined) {
@@ -536,7 +536,7 @@ export class GrEditorView extends LitElement {
           this.getStorage().eraseEditableContentItem(this.storageKey);
         }
       },
-      STORAGE_DEBOUNCE_INTERVAL_MS
+      STORAGE_DEBOUNCE_INTERVAL_MS,
     );
   }
 

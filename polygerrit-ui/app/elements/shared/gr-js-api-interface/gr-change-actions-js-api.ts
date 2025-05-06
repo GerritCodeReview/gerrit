@@ -32,7 +32,7 @@ export interface GrChangeActionsElement extends Element {
   setActionPriority(
     type: ActionType,
     key: string,
-    overflow: ActionPriority
+    overflow: ActionPriority,
   ): void;
   setActionHidden(type: ActionType, key: string, hidden: boolean): void;
   addActionButton(type: ActionType, label: string): string;
@@ -40,13 +40,13 @@ export interface GrChangeActionsElement extends Element {
   setActionButtonProp<T extends keyof UIActionInfo>(
     key: string,
     prop: T,
-    value: UIActionInfo[T]
+    value: UIActionInfo[T],
   ): void;
   getActionDetails(actionName: string): ActionInfo | undefined;
   requestUpdate(
     name?: PropertyKey,
     oldValue?: unknown,
-    options?: PropertyDeclaration
+    options?: PropertyDeclaration,
   ): void;
 }
 
@@ -58,7 +58,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
   constructor(
     public plugin: PluginApi,
     private readonly jsApiService: JsApiService,
-    el?: GrChangeActionsElement
+    el?: GrChangeActionsElement,
   ) {
     this.reporting.trackApi(this.plugin, 'actions', 'constructor');
     this.setEl(el);
@@ -71,7 +71,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
     if (!el) {
       this.reporting.error(
         'GrChangeActionsInterface',
-        new Error('changeActions() API is not ready')
+        new Error('changeActions() API is not ready'),
       );
       return;
     }
@@ -87,8 +87,8 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
       const sharedApiElement = this.jsApiService;
       this.setEl(
         sharedApiElement.getElement(
-          TargetElement.CHANGE_ACTIONS
-        ) as unknown as GrChangeActionsElement
+          TargetElement.CHANGE_ACTIONS,
+        ) as unknown as GrChangeActionsElement,
       );
     }
     return this.el!;

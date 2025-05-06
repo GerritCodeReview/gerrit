@@ -156,7 +156,7 @@ export class GrFormattedText extends LitElement {
           link: 'http://$1',
           enabled: true,
         };
-      }
+      },
     );
   }
 
@@ -173,7 +173,7 @@ export class GrFormattedText extends LitElement {
   private renderAsPlaintext() {
     const linkedText = linkifyUrlsAndApplyRewrite(
       htmlEscape(this.content).toString(),
-      this.repoCommentLinks
+      this.repoCommentLinks,
     );
 
     return html`
@@ -186,8 +186,8 @@ export class GrFormattedText extends LitElement {
     const boundRewriteText = (text: string) => {
       const nonAsteriskRewrites = Object.fromEntries(
         Object.entries(this.repoCommentLinks).filter(
-          ([_name, rewrite]) => !rewrite.match.includes('\\*')
-        )
+          ([_name, rewrite]) => !rewrite.match.includes('\\*'),
+        ),
       );
       return linkifyUrlsAndApplyRewrite(text, nonAsteriskRewrites);
     };
@@ -202,8 +202,8 @@ export class GrFormattedText extends LitElement {
     const boundRewriteAsterisks = (text: string) => {
       const asteriskRewrites = Object.fromEntries(
         Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
-          rewrite.match.includes('\\*')
-        )
+          rewrite.match.includes('\\*'),
+        ),
       );
       const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
       return `<p>${linkedText}</p>`;
@@ -291,7 +291,7 @@ export class GrFormattedText extends LitElement {
     for (;;) {
       const newText = text.replace(
         /(^|\n)((?:\s{0,3}&gt;)*\s{0,3})&gt;/g,
-        '$1$2>'
+        '$1$2>',
       );
       if (newText === text) {
         break;
@@ -310,7 +310,7 @@ export class GrFormattedText extends LitElement {
 
   private convertEmailsToAccountChips() {
     for (const emailLink of this.renderRoot.querySelectorAll(
-      'a[href^="mailto"]'
+      'a[href^="mailto"]',
     )) {
       const previous = emailLink.previousSibling;
       // This Regexp matches the beginning of the MENTIONS_REGEX at the end of
@@ -339,14 +339,14 @@ export class GrFormattedText extends LitElement {
       if (this.content.includes('\t')) {
         userSuggestion.textContent = getUserSuggestionFromString(
           this.content,
-          index
+          index,
         );
       } else {
         userSuggestion.textContent = userSuggestionMark.textContent ?? '';
       }
       userSuggestionMark.parentNode?.replaceChild(
         userSuggestion,
-        userSuggestionMark
+        userSuggestionMark,
       );
     });
   }

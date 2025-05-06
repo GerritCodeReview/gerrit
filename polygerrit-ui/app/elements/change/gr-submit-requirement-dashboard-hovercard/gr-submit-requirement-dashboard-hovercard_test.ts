@@ -16,7 +16,7 @@ suite('gr-submit-requirement-dashboard-hovercard tests', () => {
     element = await fixture<GrSubmitRequirementDashboardHovercard>(
       html`<gr-submit-requirement-dashboard-hovercard
         .change=${createParsedChange()}
-      ></gr-submit-requirement-dashboard-hovercard>`
+      ></gr-submit-requirement-dashboard-hovercard>`,
     );
     await element.updateComplete;
   });
@@ -33,7 +33,7 @@ suite('gr-submit-requirement-dashboard-hovercard tests', () => {
           >
           </gr-submit-requirements>
         </div>
-      `
+      `,
     );
   });
 });

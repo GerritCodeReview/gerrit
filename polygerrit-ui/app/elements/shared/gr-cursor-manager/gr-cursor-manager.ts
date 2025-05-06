@@ -93,7 +93,7 @@ export class GrCursorManager {
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
       circular?: boolean;
-    } = {}
+    } = {},
   ): CursorMoveResult {
     return this._moveCursor(1, options);
   }
@@ -114,7 +114,7 @@ export class GrCursorManager {
     options: {
       filter?: (stop: HTMLElement) => boolean;
       circular?: boolean;
-    } = {}
+    } = {},
   ): CursorMoveResult {
     return this._moveCursor(-1, options);
   }
@@ -139,7 +139,7 @@ export class GrCursorManager {
   }
 
   private async getCenterMostStop(
-    filter?: (el: Element) => boolean
+    filter?: (el: Element) => boolean,
   ): Promise<HTMLElement | undefined> {
     const visibleEntries = await this.getVisibleEntries(filter);
     const windowCenter = Math.round(window.innerHeight / 2);
@@ -166,7 +166,7 @@ export class GrCursorManager {
   }
 
   private async getVisibleEntries(
-    filter?: (el: Element) => boolean
+    filter?: (el: Element) => boolean,
   ): Promise<IntersectionObserverEntry[]> {
     if (!this.stops) {
       return [];
@@ -183,8 +183,8 @@ export class GrCursorManager {
             // In Edge it is recommended to use intersectionRatio instead of
             // isIntersecting.
             .filter(
-              entry => entry.isIntersecting || entry.intersectionRatio > 0
-            )
+              entry => entry.isIntersecting || entry.intersectionRatio > 0,
+            ),
         );
 
         // This callback is called for the first time immediately.
@@ -285,7 +285,7 @@ export class GrCursorManager {
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
       circular?: boolean;
-    } = {}
+    } = {},
   ): CursorMoveResult {
     if (!this.stops.length) {
       this.unsetCursor();

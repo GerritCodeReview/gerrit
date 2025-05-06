@@ -75,7 +75,7 @@ suite('gr-account-label tests', () => {
             </gr-endpoint-decorator>
           </span>
         </div>
-      `
+      `,
     );
   });
 
@@ -110,7 +110,7 @@ suite('gr-account-label tests', () => {
             </span>
           </a>
         </div>
-      `
+      `,
     );
   });
 
@@ -135,7 +135,7 @@ suite('gr-account-label tests', () => {
       const account = {};
       assert.deepEqual(
         element.computeName(account, false, config),
-        'Anonymous'
+        'Anonymous',
       );
     });
 
@@ -195,14 +195,14 @@ suite('gr-account-label tests', () => {
     test('no status icons attribute', async () => {
       queryAndAssert(
         element,
-        'gr-endpoint-decorator[name="account-status-icon"]'
+        'gr-endpoint-decorator[name="account-status-icon"]',
       );
 
       element.noStatusIcons = true;
       await element.updateComplete;
 
       assert.notExists(
-        query(element, 'gr-endpoint-decorator[name="account-status-icon"]')
+        query(element, 'gr-endpoint-decorator[name="account-status-icon"]'),
       );
     });
   });

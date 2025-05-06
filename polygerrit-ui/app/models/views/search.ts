@@ -107,15 +107,15 @@ export function createSearchUrl(params: SearchUrlOptions): string {
   }
   if (params.topic) {
     operators.push(
-      'topic:' + escapeAndWrapSearchOperatorValue(encodeURL(params.topic))
+      'topic:' + escapeAndWrapSearchOperatorValue(encodeURL(params.topic)),
     );
   }
   if (params.hashtag) {
     operators.push(
       'hashtag:' +
         escapeAndWrapSearchOperatorValue(
-          encodeURL(params.hashtag.toLowerCase())
-        )
+          encodeURL(params.hashtag.toLowerCase()),
+        ),
     );
   }
   if (params.statuses) {
@@ -125,7 +125,7 @@ export function createSearchUrl(params: SearchUrlOptions): string {
       operators.push(
         '(' +
           params.statuses.map(s => `status:${encodeURL(s)}`).join(' OR ') +
-          ')'
+          ')',
       );
     }
   }
@@ -174,7 +174,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
         return undefined;
       }
       return ownerKey;
-    }
+    },
   );
 
   public readonly repo$ = select(
@@ -183,7 +183,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
       if (changes.length === 0) return undefined;
       if (!REPO_QUERY_PATTERN.test(query)) return undefined;
       return changes[0].project;
-    }
+    },
   );
 
   public readonly loading$ = select(this.state$, s => s?.loading ?? false);
@@ -192,7 +192,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
   // initial value.
   private readonly reload$: Observable<unknown> = fromEvent(
     document,
-    'reload'
+    'reload',
   ).pipe(startWith(undefined));
 
   private readonly reloadChangesTrigger$;
@@ -200,7 +200,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
   constructor(
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
-    private readonly getNavigation: Provider<NavigationService>
+    private readonly getNavigation: Provider<NavigationService>,
   ) {
     super(undefined);
 
@@ -217,23 +217,23 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
           changesPerPage,
         ];
         return params;
-      })
+      }),
     );
 
     this.subscriptions = [
       this.reloadChangesTrigger$
         .pipe(
           switchMap(a => this.reloadChanges(a)),
-          tap(changes => this.updateState({changes, loading: false}))
+          tap(changes => this.updateState({changes, loading: false})),
         )
         .subscribe(),
       this.changes$
         .pipe(
           filter(changes => changes.length === 1),
-          withLatestFrom(this.query$)
+          withLatestFrom(this.query$),
         )
         .subscribe(([changes, query]) =>
-          this.redirectSingleResult(query, changes)
+          this.redirectSingleResult(query, changes),
         ),
     ];
   }
@@ -241,7 +241,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
   private async reloadChanges([query, offset, changesPerPage]: [
     string,
     number,
-    number
+    number,
   ]): Promise<ChangeInfo[]> {
     if (this.getState() === undefined) return [];
     if (query.trim().length === 0) return [];
@@ -249,7 +249,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     const changes = await this.restApiService.getChanges(
       changesPerPage,
       query,
-      offset
+      offset,
     );
     return changes ?? [];
   }

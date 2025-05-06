@@ -102,7 +102,7 @@ const DEFAULT_SECTIONS: DashboardSection[] = [
 export function getUserDashboard(
   user = 'self',
   sections = DEFAULT_SECTIONS,
-  title = ''
+  title = '',
 ): UserDashboard {
   sections = sections
     .filter(section => user === 'self' || !section.selfOnly)

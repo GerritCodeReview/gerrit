@@ -53,7 +53,7 @@ suite('gr-dashboard-view tests', () => {
     stubRestApi('getAccountDetails').returns(
       Promise.resolve({
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
 
     element = await fixture<GrDashboardView>(html`
@@ -114,7 +114,7 @@ suite('gr-dashboard-view tests', () => {
         </gr-create-destination-dialog>
         <gr-create-commands-dialog id="commandsDialog">
         </gr-create-commands-dialog>
-      `
+      `,
     );
   });
 
@@ -141,9 +141,9 @@ suite('gr-dashboard-view tests', () => {
       const checkbox = queryAndAssert<HTMLInputElement>(
         query(
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
-          'gr-change-list-item'
+          'gr-change-list-item',
         ),
-        '.selection > label > input'
+        '.selection > label > input',
       );
       checkbox.click();
       await waitUntil(() => checkbox.checked);
@@ -244,7 +244,7 @@ suite('gr-dashboard-view tests', () => {
     test('delete tap opens dialog', async () => {
       const handleOpenDeleteDialogStub = sinon.stub(
         element,
-        'handleOpenDeleteDialog'
+        'handleOpenDeleteDialog',
       );
       element.showDraftsBanner = true;
       await element.updateComplete;
@@ -259,23 +259,23 @@ suite('gr-dashboard-view tests', () => {
 
       // Set up control over timing of when RPC resolves.
       let deleteDraftCommentsPromiseResolver: (
-        value: Response | PromiseLike<Response>
+        value: Response | PromiseLike<Response>,
       ) => void;
       const deleteDraftCommentsPromise: Promise<Response> = new Promise(
         resolve => {
           deleteDraftCommentsPromiseResolver = resolve;
           return Promise.resolve(new Response());
-        }
+        },
       );
 
       const deleteStub = stubRestApi('deleteDraftComments').returns(
-        deleteDraftCommentsPromise
+        deleteDraftCommentsPromise,
       );
 
       // Open confirmation dialog and tap confirm button.
       const modal = queryAndAssert<HTMLDialogElement>(
         element,
-        '#confirmDeleteModal'
+        '#confirmDeleteModal',
       );
       modal.showModal();
       const dialog = queryAndAssert<GrDialog>(modal, '#confirmDeleteDialog');
@@ -284,7 +284,7 @@ suite('gr-dashboard-view tests', () => {
       await element.updateComplete;
       assert.isTrue(deleteStub.calledWithExactly('-is:open'));
       assert.isTrue(
-        queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').disabled
+        queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').disabled,
       );
       assert.equal(reloadStub.callCount, 0);
 
@@ -314,7 +314,7 @@ suite('gr-dashboard-view tests', () => {
     test('2 changes', () => {
       assert.equal(
         '(2)',
-        element.computeSectionCountLabel([createChange(), createChange()])
+        element.computeSectionCountLabel([createChange(), createChange()]),
       );
     });
 
@@ -323,7 +323,7 @@ suite('gr-dashboard-view tests', () => {
         '(1 and more)',
         element.computeSectionCountLabel([
           {...createChange(), _more_changes: true},
-        ])
+        ]),
       );
     });
   });
@@ -359,7 +359,7 @@ suite('gr-dashboard-view tests', () => {
       };
       await element.reload();
       assert.isTrue(
-        getChangesStub.calledWith(undefined, ['1', '2', 'owner:self limit:1'])
+        getChangesStub.calledWith(undefined, ['1', '2', 'owner:self limit:1']),
       );
     });
 
@@ -409,11 +409,11 @@ suite('gr-dashboard-view tests', () => {
             {name: 'section 1', query: 'query 1'},
             {name: 'section 2', query: '${project} query 2'},
           ],
-        })
+        }),
       );
       const dashboard = await element.getRepositoryDashboard(
         'project' as RepoName,
-        '' as DashboardId
+        '' as DashboardId,
       );
       assert.deepEqual(dashboard, {
         title: 'title',
@@ -441,11 +441,11 @@ suite('gr-dashboard-view tests', () => {
             {name: 'section 1', query: 'query 1'},
             {name: 'section 2', query: '${project} query 2'},
           ],
-        })
+        }),
       );
       const dashboard = await element.getRepositoryDashboard(
         'project' as RepoName,
-        '' as DashboardId
+        '' as DashboardId,
       );
       assert.deepEqual(dashboard, {
         title: 'title',
@@ -512,7 +512,7 @@ suite('gr-dashboard-view tests', () => {
           change,
           starred: true,
         },
-      })
+      }),
     );
 
     assert.isTrue(change.starred);
@@ -532,9 +532,9 @@ suite('gr-dashboard-view tests', () => {
     assert.equal(
       queryAndAssert<HTMLDivElement>(
         element,
-        '#emptyOutgoing'
+        '#emptyOutgoing',
       ).textContent!.trim(),
-      'No changes'
+      'No changes',
     );
     query<GrCreateChangeHelp>(element, 'gr-create-change-help');
     assert.isNotOk(query<GrCreateChangeHelp>(element, 'gr-create-change-help'));
@@ -544,9 +544,9 @@ suite('gr-dashboard-view tests', () => {
     assert.notEqual(
       queryAndAssert<HTMLDivElement>(
         element,
-        '#emptyOutgoing'
+        '#emptyOutgoing',
       ).textContent!.trim(),
-      'No changes'
+      'No changes',
     );
     assert.isOk(query<GrCreateChangeHelp>(element, 'gr-create-change-help'));
   });
@@ -562,13 +562,13 @@ suite('gr-dashboard-view tests', () => {
 
     query<GrNotificationsPrompt>(element, 'gr-notifications-prompt');
     assert.isNotOk(
-      query<GrNotificationsPrompt>(element, 'gr-notifications-prompt')
+      query<GrNotificationsPrompt>(element, 'gr-notifications-prompt'),
     );
     element.showNotificationsPrompt = true;
     await element.updateComplete;
 
     assert.isOk(
-      query<GrNotificationsPrompt>(element, 'gr-notifications-prompt')
+      query<GrNotificationsPrompt>(element, 'gr-notifications-prompt'),
     );
   });
 
@@ -615,7 +615,7 @@ suite('gr-dashboard-view tests', () => {
           errFn(response);
         }
         return Promise.resolve(undefined);
-      }
+      },
     );
     const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {
@@ -656,7 +656,7 @@ suite('gr-dashboard-view tests', () => {
         title: 'title',
         foreach: 'foreach for ${project}',
         sections: [],
-      })
+      }),
     );
     getChangesStub.returns(Promise.resolve([]));
     const dashboardDisplayedStub = stubReporting('dashboardDisplayed');

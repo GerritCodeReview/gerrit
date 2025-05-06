@@ -24,7 +24,7 @@ suite('gr-create-pointer-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-create-pointer-dialog></gr-create-pointer-dialog>`
+      html`<gr-create-pointer-dialog></gr-create-pointer-dialog>`,
     );
   });
 
@@ -54,7 +54,7 @@ suite('gr-create-pointer-dialog tests', () => {
             </section>
           </div>
         </div>
-      `
+      `,
     );
   });
 

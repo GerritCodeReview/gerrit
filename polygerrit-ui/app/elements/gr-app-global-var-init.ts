@@ -26,7 +26,7 @@ import {Finalizable} from '../types/types';
 
 export function initGlobalVariables(
   appContext: AppContext & Finalizable,
-  initializeReporting: boolean
+  initializeReporting: boolean,
 ) {
   injectAppContext(appContext);
   if (initializeReporting) {

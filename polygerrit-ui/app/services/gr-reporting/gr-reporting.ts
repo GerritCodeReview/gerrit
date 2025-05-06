@@ -29,7 +29,7 @@ export interface ReportingService extends Finalizable {
     eventName: string,
     eventValue?: EventValue,
     eventDetails?: EventDetails,
-    noLog?: boolean
+    noLog?: boolean,
   ): void;
 
   appStarted(): void;
@@ -84,12 +84,12 @@ export interface ReportingService extends Finalizable {
   trackApi(
     plugin: Pick<PluginApi, 'getPluginName'>,
     object: string,
-    method: string
+    method: string,
   ): void;
   reportInteraction(
     eventName: string | Interaction,
     details?: EventDetails,
-    options?: ReportingOptions
+    options?: ReportingOptions,
   ): void;
   reportErrorDialog(message: string): void;
   setRepoName(repoName: string): void;

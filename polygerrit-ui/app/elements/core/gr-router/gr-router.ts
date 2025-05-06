@@ -322,7 +322,7 @@ export class GrRouter implements Finalizable, NavigationService {
     private readonly pluginViewModel: PluginViewModel,
     private readonly repoViewModel: RepoViewModel,
     private readonly searchViewModel: SearchViewModel,
-    private readonly settingsViewModel: SettingsViewModel
+    private readonly settingsViewModel: SettingsViewModel,
   ) {
     this.subscriptions = [
       // TODO: Do the same for other view models.
@@ -465,8 +465,8 @@ export class GrRouter implements Finalizable, NavigationService {
     assign(
       window.location,
       `${basePath}/login/${encodeURIComponent(
-        returnUrl.substring(basePath.length)
-      )}`
+        returnUrl.substring(basePath.length),
+      )}`,
     );
   }
 
@@ -536,10 +536,10 @@ export class GrRouter implements Finalizable, NavigationService {
     pattern: RegExp,
     handlerName: string,
     handler: (ctx: PageContext) => void,
-    authRedirect?: boolean
+    authRedirect?: boolean,
   ) {
     this.page.registerRoute(pattern, (ctx, next) =>
-      this.loadUserMiddleware(ctx, next)
+      this.loadUserMiddleware(ctx, next),
     );
     this.page.registerRoute(pattern, ctx => {
       this.reporting.locationChanged(handlerName);
@@ -562,7 +562,7 @@ export class GrRouter implements Finalizable, NavigationService {
     route: Route<T>,
     viewModel: Model<T | undefined>,
     handlerName: string,
-    authRedirect?: boolean
+    authRedirect?: boolean,
   ) {
     const handler = (ctx: PageContext) => {
       const state = route.createState(ctx);
@@ -664,7 +664,7 @@ export class GrRouter implements Finalizable, NavigationService {
             const reason = [...this.navigationBlockers][0];
             fireAlert(document, `Navigation is blocked by: ${reason}`);
           }
-        }
+        },
       );
     });
 
@@ -689,290 +689,290 @@ export class GrRouter implements Finalizable, NavigationService {
     });
 
     this.mapRoute(RoutePattern.ROOT, 'handleRootRoute', ctx =>
-      this.handleRootRoute(ctx)
+      this.handleRootRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.DASHBOARD, 'handleDashboardRoute', ctx =>
-      this.handleDashboardRoute(ctx)
+      this.handleDashboardRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.CUSTOM_DASHBOARD,
       'handleCustomDashboardRoute',
-      ctx => this.handleCustomDashboardRoute(ctx)
+      ctx => this.handleCustomDashboardRoute(ctx),
     );
 
     this.mapRouteState(
       PROJECT_DASHBOARD_ROUTE,
       this.dashboardViewModel,
-      'handleProjectDashboardRoute'
+      'handleProjectDashboardRoute',
     );
 
     this.mapRoute(
       RoutePattern.LEGACY_PROJECT_DASHBOARD,
       'handleLegacyProjectDashboardRoute',
-      ctx => this.handleLegacyProjectDashboardRoute(ctx)
+      ctx => this.handleLegacyProjectDashboardRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.GROUP_INFO,
       'handleGroupInfoRoute',
       ctx => this.handleGroupInfoRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.GROUP_AUDIT_LOG,
       'handleGroupAuditLogRoute',
       ctx => this.handleGroupAuditLogRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.GROUP_MEMBERS,
       'handleGroupMembersRoute',
       ctx => this.handleGroupMembersRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.GROUP_LIST,
       'handleGroupListRoute',
       ctx => this.handleGroupListRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.GROUP_SELF,
       'handleGroupSelfRedirectRoute',
       ctx => this.handleGroupSelfRedirectRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.GROUP,
       'handleGroupRoute',
       ctx => this.handleGroupRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(RoutePattern.PROJECT_OLD, 'handleProjectsOldRoute', ctx =>
-      this.handleProjectsOldRoute(ctx)
+      this.handleProjectsOldRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.REPO_COMMANDS,
       'handleRepoCommandsRoute',
       ctx => this.handleRepoCommandsRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.REPO_EDIT_FILE,
       'handleRepoEditFileRoute',
       ctx => this.handleRepoEditFileRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(RoutePattern.REPO_GENERAL, 'handleRepoGeneralRoute', ctx =>
-      this.handleRepoGeneralRoute(ctx)
+      this.handleRepoGeneralRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.REPO_ACCESS, 'handleRepoAccessRoute', ctx =>
-      this.handleRepoAccessRoute(ctx)
+      this.handleRepoAccessRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.REPO_DASHBOARDS,
       'handleRepoDashboardsRoute',
-      ctx => this.handleRepoDashboardsRoute(ctx)
+      ctx => this.handleRepoDashboardsRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.REPO_SUBMIT_REQUIREMENTS,
       'handleRepoSubmitRequirementsRoute',
-      ctx => this.handleRepoSubmitRequirementsRoute(ctx)
+      ctx => this.handleRepoSubmitRequirementsRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.BRANCH_LIST, 'handleBranchListRoute', ctx =>
-      this.handleBranchListRoute(ctx)
+      this.handleBranchListRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.TAG_LIST, 'handleTagListRoute', ctx =>
-      this.handleTagListRoute(ctx)
+      this.handleTagListRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.LEGACY_CREATE_GROUP,
       'handleCreateGroupRoute',
       ctx => this.handleCreateGroupRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.LEGACY_CREATE_PROJECT,
       'handleCreateProjectRoute',
       ctx => this.handleCreateProjectRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(RoutePattern.REPO_LIST, 'handleRepoListRoute', ctx =>
-      this.handleRepoListRoute(ctx)
+      this.handleRepoListRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.REPO, 'handleRepoRoute', ctx =>
-      this.handleRepoRoute(ctx)
+      this.handleRepoRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.PLUGIN_LIST,
       'handlePluginListFilterRoute',
       ctx => this.handlePluginListFilterRoute(ctx),
-      true
+      true,
     );
 
     this.mapRouteState(
       PLUGIN_LIST_ROUTE,
       this.adminViewModel,
       'handlePluginListRoute',
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.QUERY_LEGACY_SUFFIX,
       'handleQueryLegacySuffixRoute',
-      ctx => this.handleQueryLegacySuffixRoute(ctx)
+      ctx => this.handleQueryLegacySuffixRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.QUERY, 'handleQueryRoute', ctx =>
-      this.handleQueryRoute(ctx)
+      this.handleQueryRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.CHANGE_ID_QUERY,
       'handleChangeIdQueryRoute',
-      ctx => this.handleChangeIdQueryRoute(ctx)
+      ctx => this.handleChangeIdQueryRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.DIFF_LEGACY_LINENUM,
       'handleLegacyLinenum',
-      ctx => this.handleLegacyLinenum(ctx)
+      ctx => this.handleLegacyLinenum(ctx),
     );
 
     this.mapRoute(
       RoutePattern.CHANGE_NUMBER_LEGACY,
       'handleChangeNumberLegacyRoute',
-      ctx => this.handleChangeNumberLegacyRoute(ctx)
+      ctx => this.handleChangeNumberLegacyRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.DIFF_EDIT,
       'handleDiffEditRoute',
       ctx => this.handleDiffEditRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.CHANGE_EDIT,
       'handleChangeEditRoute',
       ctx => this.handleChangeEditRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(RoutePattern.COMMENT, 'handleCommentRoute', ctx =>
-      this.handleCommentRoute(ctx)
+      this.handleCommentRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.COMMENTS_TAB, 'handleCommentsRoute', ctx =>
-      this.handleCommentsRoute(ctx)
+      this.handleCommentsRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.DIFF, 'handleDiffRoute', ctx =>
-      this.handleDiffRoute(ctx)
+      this.handleDiffRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.CHANGE, 'handleChangeRoute', ctx =>
-      this.handleChangeRoute(ctx)
+      this.handleChangeRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.CHANGE_LEGACY, 'handleChangeLegacyRoute', ctx =>
-      this.handleChangeLegacyRoute(ctx)
+      this.handleChangeLegacyRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.AGREEMENTS,
       'handleAgreementsRoute',
       () => this.handleAgreementsRoute(),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.NEW_AGREEMENTS,
       'handleNewAgreementsRoute',
       () => this.handleNewAgreementsRoute(),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.SETTINGS_LEGACY,
       'handleSettingsLegacyRoute',
       ctx => this.handleSettingsLegacyRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.SETTINGS,
       'handleSettingsRoute',
       ctx => this.handleSettingsRoute(ctx),
-      true
+      true,
     );
 
     this.mapRoute(RoutePattern.REGISTER, 'handleRegisterRoute', ctx =>
-      this.handleRegisterRoute(ctx)
+      this.handleRegisterRoute(ctx),
     );
 
     this.mapRoute(
       RoutePattern.IMPROPERLY_ENCODED_PLUS,
       'handleImproperlyEncodedPlusRoute',
-      ctx => this.handleImproperlyEncodedPlusRoute(ctx)
+      ctx => this.handleImproperlyEncodedPlusRoute(ctx),
     );
 
     this.mapRoute(RoutePattern.PLUGIN_SCREEN, 'handlePluginScreen', ctx =>
-      this.handlePluginScreen(ctx)
+      this.handlePluginScreen(ctx),
     );
 
     this.mapRouteState(
       SERVER_INFO_ROUTE,
       this.adminViewModel,
       'handleServerInfoRoute',
-      true
+      true,
     );
 
     this.mapRoute(
       RoutePattern.DOCUMENTATION_SEARCH_FILTER,
       'handleDocumentationSearchRoute',
-      ctx => this.handleDocumentationSearchRoute(ctx)
+      ctx => this.handleDocumentationSearchRoute(ctx),
     );
 
     // redirects /Documentation/q/* to /Documentation/q/filter:*
     this.mapRoute(
       RoutePattern.DOCUMENTATION_SEARCH,
       'handleDocumentationSearchRedirectRoute',
-      ctx => this.handleDocumentationSearchRedirectRoute(ctx)
+      ctx => this.handleDocumentationSearchRedirectRoute(ctx),
     );
 
     // Makes sure /Documentation/* links work (don't return 404)
     this.mapRoute(
       RoutePattern.DOCUMENTATION,
       'handleDocumentationRedirectRoute',
-      ctx => this.handleDocumentationRedirectRoute(ctx)
+      ctx => this.handleDocumentationRedirectRoute(ctx),
     );
 
     // Note: this route should appear last so it only catches URLs unmatched
     // by other patterns.
     this.mapRoute(RoutePattern.DEFAULT, 'handleDefaultRoute', () =>
-      this.handleDefaultRoute()
+      this.handleDefaultRoute(),
     );
 
     this.page.start(opts);
@@ -1339,7 +1339,7 @@ export class GrRouter implements Finalizable, NavigationService {
     this.redirect(
       '/c/' +
         ctx.params[0] +
-        (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
+        (ctx.querystring.length > 0 ? `?${ctx.querystring}` : ''),
     );
   }
 
@@ -1409,7 +1409,7 @@ export class GrRouter implements Finalizable, NavigationService {
     }
     let {basePatchNum, patchNum} = getPatchRangeForCommentUrl(
       comment,
-      latestPatchNum
+      latestPatchNum,
     );
 
     if (basePatchNum !== PARENT) {
@@ -1417,13 +1417,13 @@ export class GrRouter implements Finalizable, NavigationService {
         changeNum,
         basePatchNum,
         patchNum,
-        path
+        path,
       );
       if (diff && isFileUnchanged(diff)) {
         fireAlert(
           document,
           `File is unchanged between Patchset ${basePatchNum} and ${patchNum}.
-           Showing diff of Base vs ${basePatchNum}.`
+           Showing diff of Base vs ${basePatchNum}.`,
         );
         patchNum = basePatchNum as RevisionPatchSetNum;
         basePatchNum = PARENT;
@@ -1511,7 +1511,7 @@ export class GrRouter implements Finalizable, NavigationService {
       this.redirect(
         `/c/${project}/+/${changeNum}/${ctx.params[1]}` +
           (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '') +
-          (ctx.hash.length > 0 ? `#${ctx.hash}` : '')
+          (ctx.hash.length > 0 ? `#${ctx.hash}` : ''),
       );
     });
   }

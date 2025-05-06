@@ -122,26 +122,26 @@ export function getAdminLinks(
   account: AccountDetailInfo | undefined,
   getAccountCapabilities: () => Promise<AccountCapabilityInfo>,
   getAdminMenuLinks: () => MenuLink[],
-  options?: AdminNavLinksOption
+  options?: AdminNavLinksOption,
 ): Promise<AdminLinks> {
   if (!account) {
     return Promise.resolve(
-      filterLinks(link => !!link.viewableToAll, getAdminMenuLinks, options)
+      filterLinks(link => !!link.viewableToAll, getAdminMenuLinks, options),
     );
   }
   return getAccountCapabilities().then(capabilities =>
     filterLinks(
       link => !link.capability || hasOwnProperty(capabilities, link.capability),
       getAdminMenuLinks,
-      options
-    )
+      options,
+    ),
   );
 }
 
 function filterLinks(
   filterFn: (link: NavLink) => boolean,
   getAdminMenuLinks: () => MenuLink[],
-  options?: AdminNavLinksOption
+  options?: AdminNavLinksOption,
 ): AdminLinks {
   let links: NavLink[] = ADMIN_LINKS.slice(0);
   let expandedSection: SubsectionInterface | undefined = undefined;
@@ -159,7 +159,7 @@ function filterLinks(
         viewableToAll: !link.capability,
         target: isExternalLink(link) ? '_blank' : null,
       };
-    })
+    }),
   );
 
   links = links.filter(filterFn);
@@ -192,7 +192,7 @@ function filterLinks(
         groupName,
         groupIsInternal,
         isAdmin,
-        groupOwner
+        groupOwner,
       );
       expandedSection = linkCopy.subsection;
     }
@@ -206,7 +206,7 @@ function getGroupSubsections(
   groupName: string,
   groupIsInternal?: boolean,
   isAdmin?: boolean,
-  groupOwner?: boolean
+  groupOwner?: boolean,
 ) {
   const children: SubsectionInterface[] = [];
   const subsection: SubsectionInterface = {

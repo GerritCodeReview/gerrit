@@ -221,7 +221,7 @@ export class GrChecksRun extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
-      x => (this.selectedAttempt = x)
+      x => (this.selectedAttempt = x),
     );
   }
 
@@ -439,32 +439,32 @@ export class GrChecksRuns extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().allRunsSelectedPatchset$,
-      x => (this.runs = x)
+      x => (this.runs = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().errorMessagesLatest$,
-      x => (this.errorMessages = x)
+      x => (this.errorMessages = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().loginCallbackLatest$,
-      x => (this.loginCallback = x)
+      x => (this.loginCallback = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
-      x => (this.selectedAttempt = x)
+      x => (this.selectedAttempt = x),
     );
     subscribe(
       this,
       () => this.getChecksModel().runFilterRegexp$,
-      x => (this.filterRegExp = x)
+      x => (this.filterRegExp = x),
     );
     subscribe(
       this,
       () => this.getViewModel().checksRunsSelected$,
-      x => (this.selectedRuns = x)
+      x => (this.selectedRuns = x),
     );
     this.addEventListener('click', () => {
       if (this.collapsed) this.toggleCollapsed();
@@ -677,14 +677,14 @@ export class GrChecksRuns extends LitElement {
     if (this.selectedRuns.size < 2) return;
     const actions = [...this.selectedRuns].map(selected => {
       const run = this.runs.find(
-        run => run.isLatestAttempt && run.checkName === selected
+        run => run.isLatestAttempt && run.checkName === selected,
       );
       return primaryRunAction(run);
     });
     const runButtonDisabled = !actions.every(
       action =>
         action?.name === PRIMARY_STATUS_ACTIONS.RUN ||
-        action?.name === PRIMARY_STATUS_ACTIONS.RERUN
+        action?.name === PRIMARY_STATUS_ACTIONS.RERUN,
     );
     return html`
       <gr-button
@@ -710,11 +710,11 @@ export class GrChecksRuns extends LitElement {
               this.getChecksModel().triggerAction(
                 action,
                 undefined,
-                'run-selected'
+                'run-selected',
               );
             });
             this.reporting.reportInteraction(
-              Interaction.CHECKS_RUNS_SELECTED_TRIGGERED
+              Interaction.CHECKS_RUNS_SELECTED_TRIGGERED,
             );
           }}
           >Run Selected</gr-button
@@ -764,7 +764,7 @@ export class GrChecksRuns extends LitElement {
     this.reporting.reportInteraction(
       Interaction.CHECKS_RUN_FILTER_CHANGED,
       {},
-      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE},
     );
     const value = this.filterInput.value;
     this.getChecksModel().updateStateSetRunFilter(value ?? '');
@@ -775,7 +775,7 @@ export class GrChecksRuns extends LitElement {
     runs: CheckRun[],
     actions: Action[] = [],
     links: Link[] = [],
-    summaryMessage: string | undefined = undefined
+    summaryMessage: string | undefined = undefined,
   ) {
     const newRuns = this.runs.includes(runs[0]) ? [] : runs;
     this.getChecksModel().updateStateSetResults(
@@ -784,7 +784,7 @@ export class GrChecksRuns extends LitElement {
       actions,
       links,
       summaryMessage,
-      ChecksPatchset.LATEST
+      ChecksPatchset.LATEST,
     );
   }
 
@@ -795,7 +795,7 @@ export class GrChecksRuns extends LitElement {
       .filter(
         r =>
           r.status === status ||
-          (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED)
+          (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED),
       )
       .filter(r => regExp.test(r.checkName))
       .sort(compareByWorstCategory);
@@ -810,7 +810,7 @@ export class GrChecksRuns extends LitElement {
     const count = when(!this.collapsed, () => html` (${runs.length})`);
     const grIcon = when(
       !this.collapsed,
-      () => html`<gr-icon icon=${icon} class="expandIcon"></gr-icon>`
+      () => html`<gr-icon icon=${icon} class="expandIcon"></gr-icon>`,
     );
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">

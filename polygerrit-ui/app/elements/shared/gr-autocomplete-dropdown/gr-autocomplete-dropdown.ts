@@ -163,10 +163,10 @@ export class GrAutocompleteDropdown extends LitElement {
     this.cursor.cursorTargetClass = 'selected';
     this.cursor.focusOnMove = true;
     this.shortcuts.addLocal({key: Key.UP, allowRepeat: true}, () =>
-      this.cursorUp()
+      this.cursorUp(),
     );
     this.shortcuts.addLocal({key: Key.DOWN, allowRepeat: true}, () =>
-      this.cursorDown()
+      this.cursorDown(),
     );
     this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEscape());
@@ -238,9 +238,9 @@ export class GrAutocompleteDropdown extends LitElement {
                       >${item.label}</span
                     >
                   </li>
-                `
+                `,
               )}
-            `
+            `,
           )}
         </ul>
       </div>
@@ -326,7 +326,7 @@ export class GrAutocompleteDropdown extends LitElement {
   computeCursorStopsAndRefit() {
     if (this.suggestions.length > 0) {
       this.cursor.stops = Array.from(
-        this.suggestionsDiv?.querySelectorAll('li.autocompleteOption') ?? []
+        this.suggestionsDiv?.querySelectorAll('li.autocompleteOption') ?? [],
       );
       this.resetCursorIndex();
     } else {

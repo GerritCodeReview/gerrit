@@ -70,7 +70,7 @@ const finalizers: Finalizable[] = [];
 
 function injectDependency<T>(
   dependency: DependencyToken<T>,
-  creator: Creator<T>
+  creator: Creator<T>,
 ) {
   let service: (T & Finalizable) | undefined = undefined;
   injectedDependencies.set(dependency, () => {
@@ -147,7 +147,7 @@ function checkChildAllowed(element: Element) {
     `The following node remains in document after the test:
       ${element.tagName}
       Outer HTML:
-      ${element.outerHTML}`
+      ${element.outerHTML}`,
   );
 }
 function checkGlobalSpace() {

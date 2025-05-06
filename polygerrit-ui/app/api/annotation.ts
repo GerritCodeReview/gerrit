@@ -21,7 +21,7 @@ export type CoverageProvider = (
   path: string,
   basePatchNum?: number,
   patchNum?: number,
-  change?: ChangeInfo
+  change?: ChangeInfo,
 ) => Promise<Array<CoverageRange> | undefined>;
 
 export declare interface DiffDetails {
@@ -36,7 +36,7 @@ export declare interface DiffDetails {
 
 export declare type TokenHoverListener = (
   diff: DiffDetails,
-  highlight?: TokenHighlightEventDetails
+  highlight?: TokenHighlightEventDetails,
 ) => void;
 
 export declare interface AnnotationPluginApi {

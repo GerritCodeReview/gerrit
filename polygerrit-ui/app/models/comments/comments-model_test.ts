@@ -78,28 +78,28 @@ suite('change service tests', () => {
       testResolver(accountsModelToken),
       getAppContext().restApiService,
       getAppContext().reportingService,
-      testResolver(navigationToken)
+      testResolver(navigationToken),
     );
     const diffCommentsSpy = stubRestApi('getDiffComments').returns(
-      Promise.resolve({'foo.c': [createComment()]})
+      Promise.resolve({'foo.c': [createComment()]}),
     );
     const diffRobotCommentsSpy = stubRestApi('getDiffRobotComments').returns(
-      Promise.resolve({})
+      Promise.resolve({}),
     );
     const diffDraftsSpy = stubRestApi('getDiffDrafts').returns(
-      Promise.resolve({})
+      Promise.resolve({}),
     );
     const portedCommentsSpy = stubRestApi('getPortedComments').returns(
-      Promise.resolve({'foo.c': [createComment()]})
+      Promise.resolve({'foo.c': [createComment()]}),
     );
     const portedDraftsSpy = stubRestApi('getPortedDrafts').returns(
-      Promise.resolve({})
+      Promise.resolve({}),
     );
     let comments: {[path: string]: CommentInfo[]} = {};
     subscriptions.push(model.comments$.subscribe(c => (comments = c ?? {})));
     let portedComments: {[path: string]: CommentInfo[]} = {};
     subscriptions.push(
-      model.portedComments$.subscribe(c => (portedComments = c ?? {}))
+      model.portedComments$.subscribe(c => (portedComments = c ?? {})),
     );
 
     testResolver(changeViewModelToken).setState(createChangeViewState());
@@ -112,11 +112,11 @@ suite('change service tests', () => {
     await waitUntilCalled(portedDraftsSpy, 'portedDraftsSpy');
     await waitUntil(
       () => Object.keys(comments).length > 0,
-      'comment in model not set'
+      'comment in model not set',
     );
     await waitUntil(
       () => Object.keys(portedComments).length > 0,
-      'ported comment in model not set'
+      'ported comment in model not set',
     );
 
     assert.equal(comments['foo.c'].length, 1);
@@ -137,7 +137,7 @@ suite('change service tests', () => {
       testResolver(accountsModelToken),
       getAppContext().restApiService,
       getAppContext().reportingService,
-      testResolver(navigationToken)
+      testResolver(navigationToken),
     );
     let mentionedUsers: AccountInfo[] = [];
     const draft = {...createDraft(), message: 'hey @abc@def.com'};
@@ -166,7 +166,7 @@ suite('change service tests', () => {
       testResolver(accountsModelToken),
       getAppContext().restApiService,
       getAppContext().reportingService,
-      testResolver(navigationToken)
+      testResolver(navigationToken),
     );
     let mentionedUsers: AccountInfo[] = [];
     const draft = {...createDraft(), message: 'hey @abc@def.com'};
@@ -197,7 +197,7 @@ suite('change service tests', () => {
       Promise.resolve({
         ...comment,
         message: 'Comment is deleted',
-      })
+      }),
     );
     const model = new CommentsModel(
       testResolver(changeViewModelToken),
@@ -205,7 +205,7 @@ suite('change service tests', () => {
       testResolver(accountsModelToken),
       getAppContext().restApiService,
       getAppContext().reportingService,
-      testResolver(navigationToken)
+      testResolver(navigationToken),
     );
 
     let changeComments: ChangeComments | undefined = undefined;
@@ -220,7 +220,7 @@ suite('change service tests', () => {
     await waitUntil(
       () =>
         changeComments?.getAllCommentsForPath(comment.path!)[0].message ===
-        'Comment is deleted'
+        'Comment is deleted',
     );
   });
 });

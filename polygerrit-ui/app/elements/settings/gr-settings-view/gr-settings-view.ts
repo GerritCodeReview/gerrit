@@ -171,14 +171,14 @@ export class GrSettingsView extends LitElement {
       x => {
         this.emailToken = x;
         this.confirmEmail();
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
       acc => {
         this.account = acc;
-      }
+      },
     );
     subscribe(
       this,
@@ -190,7 +190,7 @@ export class GrSettingsView extends LitElement {
         this.prefs = prefs;
         this.showNumber = !!prefs.legacycid_in_change_table;
         this.localChangeTableColumns = changeTablePrefs(prefs);
-      }
+      },
     );
   }
 
@@ -235,18 +235,18 @@ export class GrSettingsView extends LitElement {
 
         if (this.serverConfig?.sshd) {
           configPromises.push(
-            this.sshEditorPromise.then(sshEditor => sshEditor.loadData())
+            this.sshEditorPromise.then(sshEditor => sshEditor.loadData()),
           );
         }
 
         if (this.serverConfig?.receive?.enable_signed_push) {
           configPromises.push(
-            this.gpgEditorPromise.then(gpgEditor => gpgEditor.loadData())
+            this.gpgEditorPromise.then(gpgEditor => gpgEditor.loadData()),
           );
         }
 
         return Promise.all(configPromises);
-      })
+      }),
     );
 
     this._testOnly_loadingPromise = Promise.all(promises).then(() => {
@@ -333,21 +333,21 @@ export class GrSettingsView extends LitElement {
             ${when(
               this.showHttpAuth(),
               () =>
-                html`<li><a href="#HTTPCredentials">HTTP Credentials</a></li>`
+                html`<li><a href="#HTTPCredentials">HTTP Credentials</a></li>`,
             )}
             ${when(
               this.serverConfig?.sshd,
-              () => html`<li><a href="#SSHKeys"> SSH Keys </a></li>`
+              () => html`<li><a href="#SSHKeys"> SSH Keys </a></li>`,
             )}
             ${when(
               this.serverConfig?.receive?.enable_signed_push,
-              () => html`<li><a href="#GPGKeys"> GPG Keys </a></li>`
+              () => html`<li><a href="#GPGKeys"> GPG Keys </a></li>`,
             )}
             <li><a href="#Groups">Groups</a></li>
             <li><a href="#Identities">Identities</a></li>
             ${when(
               this.serverConfig?.auth.use_contributor_agreements,
-              () => html`<li><a href="#Agreements">Agreements</a></li>`
+              () => html`<li><a href="#Agreements">Agreements</a></li>`,
             )}
             <gr-endpoint-decorator name="settings-menu-item">
             </gr-endpoint-decorator>
@@ -445,7 +445,7 @@ ${this.accountState}</textarea
             <gr-diff-preferences
               id="diffPrefs"
               @has-unsaved-changes-changed=${(
-                e: ValueChangedEvent<boolean>
+                e: ValueChangedEvent<boolean>,
               ) => {
                 this.diffPrefsChanged = e.detail.value;
               }}
@@ -469,7 +469,7 @@ ${this.accountState}</textarea
             <gr-edit-preferences
               id="editPrefs"
               @has-unsaved-changes-changed=${(
-                e: ValueChangedEvent<boolean>
+                e: ValueChangedEvent<boolean>,
               ) => {
                 this.editPrefsChanged = e.detail.value;
               }}
@@ -520,7 +520,7 @@ ${this.accountState}</textarea
           <fieldset id="watchedProjects">
             <gr-watched-projects-editor
               @has-unsaved-changes-changed=${(
-                e: ValueChangedEvent<boolean>
+                e: ValueChangedEvent<boolean>,
               ) => {
                 this.watchedProjectsChanged = e.detail.value;
               }}
@@ -545,7 +545,7 @@ ${this.accountState}</textarea
             <gr-email-editor
               id="emailEditor"
               @has-unsaved-changes-changed=${(
-                e: ValueChangedEvent<boolean>
+                e: ValueChangedEvent<boolean>,
               ) => {
                 this.emailsChanged = e.detail.value;
               }}
@@ -603,7 +603,7 @@ ${this.accountState}</textarea
               <fieldset>
                 <gr-http-password id="httpPass"></gr-http-password>
               </fieldset>
-            </div>`
+            </div>`,
           )}
           ${when(
             this.serverConfig?.sshd,
@@ -617,11 +617,11 @@ ${this.accountState}</textarea
                 id="sshEditor"
                 ?hasUnsavedChanges=${this.keysChanged}
                 @has-unsaved-changes-changed=${(
-                  e: ValueChangedEvent<boolean>
+                  e: ValueChangedEvent<boolean>,
                 ) => {
                   this.keysChanged = e.detail.value;
                 }}
-              ></gr-ssh-editor>`
+              ></gr-ssh-editor>`,
           )}
           ${when(
             this.serverConfig?.receive?.enable_signed_push,
@@ -636,12 +636,12 @@ ${this.accountState}</textarea
                 id="gpgEditor"
                 ?hasUnsavedChanges=${this.gpgKeysChanged}
                 @has-unsaved-changes-changed=${(
-                  e: ValueChangedEvent<boolean>
+                  e: ValueChangedEvent<boolean>,
                 ) => {
                   this.gpgKeysChanged = e.detail.value;
                 }}
               ></gr-gpg-editor>
-            </div>`
+            </div>`,
           )}
           <h2 id="Groups">Groups</h2>
           <fieldset>
@@ -659,7 +659,7 @@ ${this.accountState}</textarea
             () => html`<h2 id="Agreements">Agreements</h2>
               <fieldset>
                 <gr-agreements-list id="agreementsList"></gr-agreements-list>
-              </fieldset>`
+              </fieldset>`,
           )}
           <gr-endpoint-decorator name="settings-screen">
           </gr-endpoint-decorator>
@@ -759,7 +759,7 @@ ${this.accountState}</textarea
   showHttpAuth() {
     if (this.serverConfig?.auth?.git_basic_auth_policy) {
       return HTTP_AUTH.includes(
-        this.serverConfig.auth.git_basic_auth_policy.toUpperCase()
+        this.serverConfig.auth.git_basic_auth_policy.toUpperCase(),
       );
     }
 

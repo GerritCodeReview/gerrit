@@ -56,14 +56,14 @@ suite('gr-coverage-layer', () => {
         {start: 1, end: 2},
         {start: 2, end: 3},
       ]),
-      [{start: 1, end: 3}]
+      [{start: 1, end: 3}],
     );
     assert.deepEqual(
       mergeRanges([
         {start: 2, end: 3},
         {start: 1, end: 2},
       ]),
-      [{start: 1, end: 3}]
+      [{start: 1, end: 3}],
     );
     assert.deepEqual(
       mergeRanges([
@@ -73,7 +73,7 @@ suite('gr-coverage-layer', () => {
       [
         {start: 1, end: 3},
         {start: 4, end: 5},
-      ]
+      ],
     );
   });
 
@@ -121,7 +121,7 @@ suite('gr-coverage-layer', () => {
     function checkLine(
       lineNumber: number,
       className: string,
-      negated?: boolean
+      negated?: boolean,
     ) {
       const content = document.createElement('div');
       const line = createLine(lineNumber);

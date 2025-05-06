@@ -24,7 +24,7 @@ export class GrPluginRestApi implements RestPluginApi {
     private readonly restApi: RestApiService,
     private readonly reporting: ReportingService,
     readonly plugin: PluginApi,
-    private readonly prefix = ''
+    private readonly prefix = '',
   ) {
     this.reporting.trackApi(this.plugin, 'rest', 'constructor');
   }
@@ -71,7 +71,7 @@ export class GrPluginRestApi implements RestPluginApi {
       reposPerPage,
       offset,
       /* errFn=*/ undefined,
-      this.getRequestOrigin()
+      this.getRequestOrigin(),
     );
   }
 
@@ -80,7 +80,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: undefined,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response>;
 
   fetch(
@@ -88,7 +88,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload: RequestPayload | undefined,
     errFn: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response | void>;
 
   fetch(
@@ -96,7 +96,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload: RequestPayload | undefined,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response | void>;
 
   /**
@@ -107,7 +107,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response | void> {
     this.reporting.trackApi(this.plugin, 'rest', 'fetch');
     return this.restApi.send(
@@ -116,7 +116,7 @@ export class GrPluginRestApi implements RestPluginApi {
       payload,
       errFn,
       contentType,
-      this.getRequestOrigin()
+      this.getRequestOrigin(),
     );
   }
 
@@ -128,7 +128,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ) {
     this.reporting.trackApi(this.plugin, 'rest', 'send');
     return this.fetch(
@@ -136,7 +136,7 @@ export class GrPluginRestApi implements RestPluginApi {
       url,
       payload,
       errFn ?? throwingErrorCallback,
-      contentType
+      contentType,
     ).then(response => {
       // Will typically not happen. The response can only be unset, if the
       // errFn handles the error and then returns void or undefined or null.
@@ -148,11 +148,11 @@ export class GrPluginRestApi implements RestPluginApi {
       // caller will get a rejected promise already.
       if (response.status < 200 || response.status >= 300) {
         return getErrorMessage(response).then(msg =>
-          Promise.reject(new Error(msg))
+          Promise.reject(new Error(msg)),
         );
       } else {
         return readJSONResponsePayload(response).then(
-          obj => obj.parsed
+          obj => obj.parsed,
         ) as Promise<T>;
       }
     });
@@ -167,7 +167,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ) {
     this.reporting.trackApi(this.plugin, 'rest', 'post');
     return this.send<T>(HttpMethod.POST, url, payload, errFn, contentType);
@@ -177,7 +177,7 @@ export class GrPluginRestApi implements RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ) {
     this.reporting.trackApi(this.plugin, 'rest', 'put');
     return this.send<T>(HttpMethod.PUT, url, payload, errFn, contentType);

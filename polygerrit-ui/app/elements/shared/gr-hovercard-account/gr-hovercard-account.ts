@@ -55,7 +55,7 @@ export class GrHovercardAccount extends base {
               @hide-alert=${this.redirectEventToTarget}
               @show-alert=${this.redirectEventToTarget}
               @reload=${this.redirectEventToTarget}
-            ></gr-hovercard-account-contents>`
+            ></gr-hovercard-account-contents>`,
         )}
       </div>
     `;

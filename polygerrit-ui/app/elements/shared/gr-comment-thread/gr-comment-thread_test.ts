@@ -150,7 +150,7 @@ suite('gr-comment-thread tests', () => {
             ></gr-comment>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -179,7 +179,7 @@ suite('gr-comment-thread tests', () => {
             ></gr-comment>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -236,7 +236,7 @@ suite('gr-comment-thread tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -307,7 +307,7 @@ suite('gr-comment-thread tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -340,7 +340,7 @@ suite('gr-comment-thread tests', () => {
           </div>
         </div>
       `,
-      {ignoreAttributes: ['style']}
+      {ignoreAttributes: ['style']},
     );
   });
 
@@ -430,7 +430,7 @@ suite('gr-comment-thread tests', () => {
       await element.updateComplete;
       const draftElement = queryAndAssert<GrComment>(
         element,
-        'gr-comment.draft'
+        'gr-comment.draft',
       );
 
       // Simulate user adding additional text to the quoted text
@@ -478,16 +478,16 @@ suite('gr-comment-thread tests', () => {
 
       const draftElement = queryAndAssert<GrComment>(
         element,
-        'gr-comment.draft'
+        'gr-comment.draft',
       );
       await draftElement.updateComplete;
       await waitUntil(
         () => !!draftElement.textarea,
-        'textarea element not found'
+        'textarea element not found',
       );
       const textarea = queryAndAssert<GrSuggestionTextarea>(
         draftElement,
-        '#editTextarea'
+        '#editTextarea',
       );
       await textarea.updateComplete;
 
@@ -592,7 +592,7 @@ suite('gr-comment-thread tests', () => {
     assert.equal(1, clipboardStub.callCount);
     assert.equal(
       clipboardStub.firstCall.args[0],
-      'http://localhost:9876/c/test-repo-name/+/1/comments/the-root'
+      'http://localhost:9876/c/test-repo-name/+/1/comments/the-root',
     );
   });
 
@@ -606,7 +606,7 @@ suite('gr-comment-thread tests', () => {
     assert.equal(1, clipboardStub.callCount);
     assert.equal(
       clipboardStub.firstCall.args[0],
-      'http://localhost:9876/c/test-repo-name/+/1/comment/the-root/'
+      'http://localhost:9876/c/test-repo-name/+/1/comment/the-root/',
     );
   });
 
@@ -702,7 +702,7 @@ suite('gr-comment-thread tests', () => {
               </div>
             </div>
           </div>
-        `
+        `,
       );
     });
 
@@ -735,7 +735,7 @@ suite('gr-comment-thread tests', () => {
       element.changeNum = 123 as NumericChangeId;
       const createReplyCommentSpy = sinon.spy(
         element as any,
-        'createReplyComment'
+        'createReplyComment',
       );
 
       element.dispatchEvent(new CustomEvent('apply-user-suggestion'));

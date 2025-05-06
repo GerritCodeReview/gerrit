@@ -165,6 +165,6 @@ export function toSortedPermissionsArray<T>(obj?: {
     })
     .sort((a, b) =>
       // Since IDs are strings, use localeCompare.
-      a.id.localeCompare(b.id)
+      a.id.localeCompare(b.id),
     );
 }

@@ -130,7 +130,7 @@ export function setComments(
   state: CommentState,
   comments?: {
     [path: string]: CommentInfo[];
-  }
+  },
 ): CommentState {
   const nextState = {...state};
   if (deepEqual(comments, nextState.comments)) return state;
@@ -141,7 +141,7 @@ export function setComments(
 /** Updates a single comment in a state. */
 export function updateComment(
   state: CommentState,
-  comment: CommentInfo
+  comment: CommentInfo,
 ): CommentState {
   if (!comment.path || !state.comments) {
     return state;
@@ -172,7 +172,7 @@ export function setRobotComments(
   state: CommentState,
   robotComments?: {
     [path: string]: RobotCommentInfo[];
-  }
+  },
 ): CommentState {
   if (deepEqual(robotComments, state.robotComments)) return state;
   const nextState = {...state};
@@ -183,7 +183,7 @@ export function setRobotComments(
 // Private but used in tests.
 export function setDrafts(
   state: CommentState,
-  drafts?: {[path: string]: DraftInfo[]}
+  drafts?: {[path: string]: DraftInfo[]},
 ): CommentState {
   if (deepEqual(drafts, state.drafts)) return state;
   const nextState = {...state};
@@ -194,7 +194,7 @@ export function setDrafts(
 // Private but used in tests.
 export function setPortedComments(
   state: CommentState,
-  portedComments?: {[path: string]: CommentInfo[]}
+  portedComments?: {[path: string]: CommentInfo[]},
 ): CommentState {
   if (deepEqual(portedComments, state.portedComments)) return state;
   const nextState = {...state};
@@ -205,7 +205,7 @@ export function setPortedComments(
 // Private but used in tests.
 export function setPortedDrafts(
   state: CommentState,
-  portedDrafts?: {[path: string]: DraftInfo[]}
+  portedDrafts?: {[path: string]: DraftInfo[]},
 ): CommentState {
   if (deepEqual(portedDrafts, state.portedDrafts)) return state;
   const nextState = {...state};
@@ -216,7 +216,7 @@ export function setPortedDrafts(
 // Private but used in tests.
 export function setDiscardedDraft(
   state: CommentState,
-  draft: DraftInfo
+  draft: DraftInfo,
 ): CommentState {
   const nextState = {...state};
   nextState.discardedDrafts = [...nextState.discardedDrafts, draft];
@@ -226,7 +226,7 @@ export function setDiscardedDraft(
 // Private but used in tests.
 export function deleteDiscardedDraft(
   state: CommentState,
-  draftID?: string
+  draftID?: string,
 ): CommentState {
   const nextState = {...state};
   const drafts = [...nextState.discardedDrafts];
@@ -266,7 +266,7 @@ export function setDraft(state: CommentState, draft: DraftInfo): CommentState {
  */
 export function deleteDraft(
   state: CommentState,
-  draft: DraftInfo
+  draft: DraftInfo,
 ): CommentState {
   const nextState = {...state};
   assert(!!draft.path, 'draft without path');
@@ -293,71 +293,71 @@ export class CommentsModel extends Model<CommentState> {
     commentState =>
       commentState.comments === undefined ||
       commentState.robotComments === undefined ||
-      commentState.drafts === undefined
+      commentState.drafts === undefined,
   );
 
   public readonly comments$ = select(
     this.state$,
-    commentState => commentState.comments
+    commentState => commentState.comments,
   );
 
   public readonly robotComments$ = select(
     this.state$,
-    commentState => commentState.robotComments
+    commentState => commentState.robotComments,
   );
 
   public readonly robotCommentCount$ = select(
     this.robotComments$,
-    robotComments => Object.values(robotComments ?? {}).flat().length
+    robotComments => Object.values(robotComments ?? {}).flat().length,
   );
 
   public readonly drafts$ = select(
     this.state$,
-    commentState => commentState.drafts
+    commentState => commentState.drafts,
   );
 
   public readonly draftsLoading$ = select(
     this.drafts$,
-    drafts => drafts === undefined
+    drafts => drafts === undefined,
   );
 
   public readonly draftsArray$ = select(this.drafts$, drafts =>
-    Object.values(drafts ?? {}).flat()
+    Object.values(drafts ?? {}).flat(),
   );
 
   public readonly draftsSaved$ = select(this.draftsArray$, drafts =>
-    drafts.filter(d => !isNew(d))
+    drafts.filter(d => !isNew(d)),
   );
 
   public readonly draftsCount$ = select(
     this.draftsSaved$,
-    drafts => drafts.length
+    drafts => drafts.length,
   );
 
   public readonly portedComments$ = select(
     this.state$,
-    commentState => commentState.portedComments
+    commentState => commentState.portedComments,
   );
 
   public readonly discardedDrafts$ = select(
     this.state$,
-    commentState => commentState.discardedDrafts
+    commentState => commentState.discardedDrafts,
   );
 
   public readonly savingInProgress$ = select(this.draftsArray$, drafts =>
-    drafts.some(isSaving)
+    drafts.some(isSaving),
   );
 
   public readonly savingError$ = select(this.draftsArray$, drafts =>
-    drafts.some(isError)
+    drafts.some(isError),
   );
 
   public readonly patchsetLevelDrafts$ = select(this.draftsArray$, drafts =>
     drafts.filter(
       draft =>
         draft.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
-        !draft.in_reply_to
-    )
+        !draft.in_reply_to,
+    ),
   );
 
   public readonly mentionedUsersInDrafts$: Observable<AccountInfo[]> =
@@ -369,7 +369,7 @@ export class CommentsModel extends Model<CommentState> {
         }
         const uniqueUsers = users.filter(
           (user, index) =>
-            index === users.findIndex(u => getUserId(u) === getUserId(user))
+            index === users.findIndex(u => getUserId(u) === getUserId(user)),
         );
         // forkJoin only emits value when the array is non-empty
         if (uniqueUsers.length === 0) {
@@ -381,7 +381,7 @@ export class CommentsModel extends Model<CommentState> {
       }),
       map(users => users.filter(isDefined)),
       distinctUntilChanged(deepEqual),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   public readonly mentionedUsersInUnresolvedDrafts$: Observable<AccountInfo[]> =
@@ -394,7 +394,7 @@ export class CommentsModel extends Model<CommentState> {
         }
         const uniqueUsers = users.filter(
           (user, index) =>
-            index === users.findIndex(u => getUserId(u) === getUserId(user))
+            index === users.findIndex(u => getUserId(u) === getUserId(user)),
         );
         // forkJoin only emits value when the array is non-empty
         if (uniqueUsers.length === 0) {
@@ -406,7 +406,7 @@ export class CommentsModel extends Model<CommentState> {
       }),
       map(users => users.filter(isDefined)),
       distinctUntilChanged(deepEqual),
-      shareReplay(1)
+      shareReplay(1),
     );
 
   // Emits a new value even if only a single draft is changed. Components should
@@ -419,20 +419,20 @@ export class CommentsModel extends Model<CommentState> {
         commentState.robotComments,
         commentState.drafts,
         commentState.portedComments,
-        commentState.portedDrafts
-      )
+        commentState.portedDrafts,
+      ),
   );
 
   public readonly threads$ = select(this.changeComments$, changeComments =>
-    changeComments.getAllThreadsForChange()
+    changeComments.getAllThreadsForChange(),
   );
 
   public readonly threadsSaved$ = select(this.threads$, threads =>
-    threads.filter(t => !isNewThread(t))
+    threads.filter(t => !isNewThread(t)),
   );
 
   public readonly draftThreadsSaved$ = select(this.threads$, threads =>
-    threads.filter(t => !isNewThread(t) && isDraftThread(t))
+    threads.filter(t => !isNewThread(t) && isDraftThread(t)),
   );
 
   public readonly threadsWithUnappliedSuggestions$;
@@ -461,7 +461,7 @@ export class CommentsModel extends Model<CommentState> {
     private readonly accountsModel: AccountsModel,
     private readonly restApiService: RestApiService,
     private readonly reporting: ReportingService,
-    private readonly navigation: NavigationService
+    private readonly navigation: NavigationService,
   ) {
     super(initialState);
 
@@ -472,8 +472,8 @@ export class CommentsModel extends Model<CommentState> {
           t =>
             isUnresolved(t) &&
             hasSuggestion(t) &&
-            getFirstComment(t)?.patch_set === latestPs
-        )
+            getFirstComment(t)?.patch_set === latestPs,
+        ),
     );
     this.commentedPaths$ = select(
       combineLatest([
@@ -485,7 +485,7 @@ export class CommentsModel extends Model<CommentState> {
         if (!patchNum) return [];
         const pathsMap = changeComments.getPaths({basePatchNum, patchNum});
         return Object.keys(pathsMap);
-      }
+      },
     );
     this.reloadAllComments$ = new BehaviorSubject(undefined);
 
@@ -496,7 +496,7 @@ export class CommentsModel extends Model<CommentState> {
         } else {
           this.navigation.releaseNavigation('draft comment still saving');
         }
-      })
+      }),
     );
     this.subscriptions.push(
       this.savingError$.subscribe(savingError => {
@@ -505,13 +505,13 @@ export class CommentsModel extends Model<CommentState> {
         } else {
           this.navigation.releaseNavigation('draft comment failed to save');
         }
-      })
+      }),
     );
     this.subscriptions.push(
-      this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x))
+      this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x)),
     );
     this.subscriptions.push(
-      this.drafts$.subscribe(x => (this.drafts = x ?? {}))
+      this.drafts$.subscribe(x => (this.drafts = x ?? {})),
     );
     // Patchset-level draft should always exist when opening reply dialog.
     // If there are none, create an empty one.
@@ -523,7 +523,7 @@ export class CommentsModel extends Model<CommentState> {
       ]).subscribe(([loading, plDraft, latestPatchNum]) => {
         if (loading || plDraft.length > 0 || !latestPatchNum) return;
         this.addNewDraft(createNewPatchsetLevel(latestPatchNum, '', false));
-      })
+      }),
     );
     this.subscriptions.push(
       combineLatest([this.changeViewModel.changeNum$, this.reloadAllComments$])
@@ -537,7 +537,7 @@ export class CommentsModel extends Model<CommentState> {
               this.restApiService.getDiffRobotComments(changeNum),
               this.restApiService.getDiffDrafts(changeNum),
             ]);
-          })
+          }),
         )
         .subscribe(([comments, robotComments, drafts]) => {
           this.reportRobotCommentStats(robotComments);
@@ -546,7 +546,7 @@ export class CommentsModel extends Model<CommentState> {
             s = setRobotComments(s, robotComments);
             return setDrafts(s, drafts);
           });
-        })
+        }),
     );
     // When the patchset selection changes update information about comments
     // ported from earlier patchsets.
@@ -561,14 +561,14 @@ export class CommentsModel extends Model<CommentState> {
               this.restApiService.getPortedComments(changeNum, revision),
               this.restApiService.getPortedDrafts(changeNum, revision),
             ]);
-          })
+          }),
         )
         .subscribe(([portedComments, portedDrafts]) =>
           this.modifyState(s => {
             s = setPortedComments(s, portedComments);
             return setPortedDrafts(s, portedDrafts);
-          })
-        )
+          }),
+        ),
     );
     this.subscriptions.push(
       combineLatest([
@@ -576,7 +576,7 @@ export class CommentsModel extends Model<CommentState> {
         this.changeModel.latestPatchNum$,
       ]).subscribe(([comments, latestPatchset]) => {
         this.reportCommentStats(comments, latestPatchset);
-      })
+      }),
     );
     this.subscriptions.push(
       combineLatest([
@@ -584,7 +584,7 @@ export class CommentsModel extends Model<CommentState> {
         this.changeModel.latestPatchNum$,
       ]).subscribe(([threads, latestPatchset]) => {
         this.reportThreadsStats(threads, latestPatchset);
-      })
+      }),
     );
   }
 
@@ -606,7 +606,7 @@ export class CommentsModel extends Model<CommentState> {
     const latestPatchset = comments.reduce(
       (latestPs, comment) =>
         Math.max(latestPs, (comment?.patch_set as number) ?? 0),
-      0
+      0,
     );
     const commentsLatest = comments.filter(c => c.patch_set === latestPatchset);
     const commentsFixes = comments
@@ -622,13 +622,13 @@ export class CommentsModel extends Model<CommentState> {
     this.reporting.reportInteraction(
       Interaction.ROBOT_COMMENTS_STATS,
       details,
-      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE},
     );
   }
 
   private reportCommentStats(
     obj?: {[path: string]: CommentInfo[]},
-    latestPatchset?: PatchSetNumber
+    latestPatchset?: PatchSetNumber,
   ) {
     if (!obj || !latestPatchset) return;
     const comments = Object.values(obj).flat();
@@ -655,7 +655,7 @@ export class CommentsModel extends Model<CommentState> {
       countAllUnresolvedWithFix: commentsUnresolved.filter(hasFix).length,
       countAllWithUserFix: comments.filter(hasUserSuggestion).length,
       countAllUnresolvedWithUserFix: comments.filter(
-        c => c.unresolved && hasUserSuggestion(c)
+        c => c.unresolved && hasUserSuggestion(c),
       ).length,
     };
     this.reporting.reportInteraction(Interaction.COMMENTS_STATS, details, {
@@ -665,13 +665,13 @@ export class CommentsModel extends Model<CommentState> {
 
   private reportThreadsStats(
     threads?: CommentThread[],
-    latestPatchset?: PatchSetNumber
+    latestPatchset?: PatchSetNumber,
   ) {
     if (!threads || !latestPatchset) return;
     if (threads.length === 0) return;
 
     const threadsLatest = threads.filter(
-      t => getFirstComment(t)?.patch_set === latestPatchset
+      t => getFirstComment(t)?.patch_set === latestPatchset,
     );
     const threadsUnresolved = threads.filter(isUnresolved);
     const commentsLatestUnresolved = threadsLatest.filter(isUnresolved);
@@ -758,7 +758,7 @@ export class CommentsModel extends Model<CommentState> {
       const result = await this.restApiService.saveDiffDraft(
         changeNum,
         draft.patch_set,
-        convertToCommentInput(draft)
+        convertToCommentInput(draft),
       );
       if (changeNum !== this.changeNum) return draft;
       if (!result.ok) throw new Error('request failed');
@@ -806,7 +806,7 @@ export class CommentsModel extends Model<CommentState> {
       const result = await this.restApiService.deleteDiffDraft(
         changeNum,
         draft.patch_set,
-        {id: draft.id}
+        {id: draft.id},
       );
       timer.end({id: draft.id});
       if (changeNum !== this.changeNum) throw new Error('change changed');
@@ -814,7 +814,7 @@ export class CommentsModel extends Model<CommentState> {
         this.handleFailedDraftRequest();
         await this.restoreDraft(draftId);
         throw new Error(
-          `Failed to discard draft comment: ${JSON.stringify(result)}`
+          `Failed to discard draft comment: ${JSON.stringify(result)}`,
         );
       }
       this.showEndRequest();
@@ -834,7 +834,7 @@ export class CommentsModel extends Model<CommentState> {
   async deleteComment(
     changeNum: NumericChangeId,
     comment: Comment,
-    reason: string
+    reason: string,
   ) {
     assertIsDefined(comment.patch_set, 'comment.patch_set');
     assert(!isDraft(comment), 'Admin deletion is only for published comments.');
@@ -843,7 +843,7 @@ export class CommentsModel extends Model<CommentState> {
       changeNum,
       comment.patch_set,
       comment.id,
-      reason
+      reason,
     );
     // Don't update state on server error.
     if (newComment) {
@@ -878,13 +878,13 @@ export class CommentsModel extends Model<CommentState> {
     }
     const message = getSavingMessage(
       this.numPendingDraftRequests,
-      requestFailed
+      requestFailed,
     );
     if (!message) return;
     this.draftToastTask = debounce(
       this.draftToastTask,
       () => fireAlert(document.body, message),
-      TOAST_DEBOUNCE_INTERVAL
+      TOAST_DEBOUNCE_INTERVAL,
     );
   }
 

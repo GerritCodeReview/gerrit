@@ -355,7 +355,7 @@ export type ChangeViewChangeInfo = RequireProperties<
 >;
 
 export function isAccount(
-  x: AccountInfo | GroupInfo | GitPersonInfo
+  x: AccountInfo | GroupInfo | GitPersonInfo,
 ): x is AccountInfo {
   const account = x as AccountInfo;
   return account._account_id !== undefined || account.email !== undefined;
@@ -421,7 +421,7 @@ export interface GroupAuditGroupEventInfo extends GroupAuditEventInfoBase {
 }
 
 export function isGroupAuditAccountEventInfo(
-  x: GroupAuditEventInfo
+  x: GroupAuditEventInfo,
 ): x is GroupAuditAccountEventInfo {
   return (
     x.type === GroupAuditEventType.ADD_USER ||
@@ -430,7 +430,7 @@ export function isGroupAuditAccountEventInfo(
 }
 
 export function isGroupAuditGroupEventInfo(
-  x: GroupAuditEventInfo
+  x: GroupAuditEventInfo,
 ): x is GroupAuditGroupEventInfo {
   return (
     x.type === GroupAuditEventType.ADD_GROUP ||
@@ -603,25 +603,25 @@ export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
 export type CommentMap = {[path: string]: boolean};
 
 export function isRobot<T extends Comment>(
-  x: T | RobotCommentInfo | undefined
+  x: T | RobotCommentInfo | undefined,
 ): x is RobotCommentInfo {
   return !!x && !!(x as RobotCommentInfo).robot_id;
 }
 
 export function isDraft<T extends Comment>(
-  x: T | DraftInfo | undefined
+  x: T | DraftInfo | undefined,
 ): x is DraftInfo {
   return !!x && (x as DraftInfo).savingState !== undefined;
 }
 
 export function isSaving<T extends Comment>(
-  x: T | DraftInfo | undefined
+  x: T | DraftInfo | undefined,
 ): boolean {
   return !!x && (x as DraftInfo).savingState === SavingState.SAVING;
 }
 
 export function isError<T extends Comment>(
-  x: T | DraftInfo | undefined
+  x: T | DraftInfo | undefined,
 ): boolean {
   return !!x && (x as DraftInfo).savingState === SavingState.ERROR;
 }
@@ -632,7 +632,7 @@ export function isError<T extends Comment>(
  * `client_id`, but it must not have an `id`.
  */
 export function isNew<T extends Comment>(
-  x: T | DraftInfo | undefined
+  x: T | DraftInfo | undefined,
 ): x is NewDraftInfo {
   return !!x && !!(x as DraftInfo).client_id && !(x as DraftInfo).id;
 }
@@ -1289,13 +1289,13 @@ export type SuggestedReviewerInfo =
 export type Suggestion = SuggestedReviewerInfo | AccountInfo;
 
 export function isReviewerAccountSuggestion(
-  s: Suggestion
+  s: Suggestion,
 ): s is SuggestedReviewerAccountInfo {
   return (s as SuggestedReviewerAccountInfo).account !== undefined;
 }
 
 export function isReviewerGroupSuggestion(
-  s: Suggestion
+  s: Suggestion,
 ): s is SuggestedReviewerGroupInfo {
   return (s as SuggestedReviewerGroupInfo).group !== undefined;
 }

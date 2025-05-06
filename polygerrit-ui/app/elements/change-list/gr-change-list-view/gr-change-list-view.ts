@@ -85,47 +85,47 @@ export class GrChangeListView extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().query$,
-      x => (this.query = x)
+      x => (this.query = x),
     );
     subscribe(
       this,
       () => this.getViewModel().offsetNumber$,
-      x => (this.offset = x)
+      x => (this.offset = x),
     );
     subscribe(
       this,
       () => this.getViewModel().loading$,
-      x => (this.loading = x)
+      x => (this.loading = x),
     );
     subscribe(
       this,
       () => this.getViewModel().changes$,
-      x => (this.changes = x)
+      x => (this.changes = x),
     );
     subscribe(
       this,
       () => this.getViewModel().userId$,
-      x => (this.userId = x)
+      x => (this.userId = x),
     );
     subscribe(
       this,
       () => this.getViewModel().repo$,
-      x => (this.repo = x)
+      x => (this.repo = x),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.account = x),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      x => (this.loggedIn = x)
+      x => (this.loggedIn = x),
     );
     subscribe(
       this,
       () => this.getUserModel().preferenceChangesPerPage$,
-      x => (this.changesPerPage = x)
+      x => (this.changesPerPage = x),
     );
   }
 
@@ -337,7 +337,7 @@ export class GrChangeListView extends LitElement {
     fireAlert(this, msg);
     await this.restApiService.saveChangeStarred(
       e.detail.change._number,
-      e.detail.starred
+      e.detail.starred,
     );
     fire(this, 'hide-alert', {});
   }

@@ -16,7 +16,7 @@ suite('gr-confirm-abandon-dialog tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-confirm-abandon-dialog></gr-confirm-abandon-dialog>`
+      html`<gr-confirm-abandon-dialog></gr-confirm-abandon-dialog>`,
     );
   });
 
@@ -38,7 +38,7 @@ suite('gr-confirm-abandon-dialog tests', () => {
             </iron-autogrow-textarea>
           </div>
         </gr-dialog>
-      `
+      `,
     );
   });
 
@@ -51,7 +51,7 @@ suite('gr-confirm-abandon-dialog tests', () => {
       new CustomEvent('confirm', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.isTrue(confirmHandler.called);
     assert.isTrue(confirmHandler.calledOnce);
@@ -68,7 +68,7 @@ suite('gr-confirm-abandon-dialog tests', () => {
       new CustomEvent('cancel', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.isTrue(cancelHandler.called);
     assert.isTrue(cancelHandler.calledOnce);

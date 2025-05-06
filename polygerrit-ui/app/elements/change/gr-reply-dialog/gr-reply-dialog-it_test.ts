@@ -66,7 +66,7 @@ suite('gr-reply-dialog-it tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
     testResolver(commentsModelToken).addNewDraft(
-      createNewPatchsetLevel(latestPatchNum, '', false)
+      createNewPatchsetLevel(latestPatchNum, '', false),
     );
   };
 
@@ -78,7 +78,7 @@ suite('gr-reply-dialog-it tests', () => {
       Promise.resolve({
         _account_id: 42 as AccountId,
         registered_on: '' as Timestamp,
-      })
+      }),
     );
 
     element = await fixture<GrReplyDialog>(html`
@@ -121,7 +121,7 @@ suite('gr-reply-dialog-it tests', () => {
         });
       },
       undefined,
-      'http://test.com/plugins/lgtm.js'
+      'http://test.com/plugins/lgtm.js',
     );
     element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
     setupElement(element);
@@ -135,7 +135,7 @@ suite('gr-reply-dialog-it tests', () => {
 
     const comment = queryAndAssert<GrComment>(
       element,
-      'gr-comment#patchsetLevelComment'
+      'gr-comment#patchsetLevelComment',
     );
     comment.messageText = 'LGTM';
 
@@ -143,11 +143,11 @@ suite('gr-reply-dialog-it tests', () => {
 
     const labelScoreRows = queryAndAssert(
       element.getLabelScores(),
-      'gr-label-score-row[name="Code-Review"]'
+      'gr-label-score-row[name="Code-Review"]',
     );
     const selectedBtn = queryAndAssert(
       labelScoreRows,
-      'gr-button[data-value="+1"].iron-selected'
+      'gr-button[data-value="+1"].iron-selected',
     );
     assert.isOk(selectedBtn);
   });

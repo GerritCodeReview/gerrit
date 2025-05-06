@@ -117,7 +117,7 @@ suite('gr-cla-view tests', () => {
     stubRestApi('getConfig').returns(Promise.resolve(config));
     stubRestApi('getAccountGroups').returns(Promise.resolve(groups));
     stubRestApi('getAccountAgreements').returns(
-      Promise.resolve(signedAgreements)
+      Promise.resolve(signedAgreements),
     );
     element = await fixture<GrClaView>(html` <gr-cla-view></gr-cla-view> `);
     await element.loadData();
@@ -156,7 +156,7 @@ suite('gr-cla-view tests', () => {
           <div class="alreadySubmittedText">Agreement already submitted.</div>
           <div class="agreementsUrl">Contributor License Agreement</div>
         </main>
-      `
+      `,
     );
   });
 
@@ -185,7 +185,7 @@ suite('gr-cla-view tests', () => {
   test('getAgreementsUrl', () => {
     assert.equal(
       element.getAgreementsUrl('http://test.org/test.html'),
-      'http://test.org/test.html'
+      'http://test.org/test.html',
     );
     assert.equal(element.getAgreementsUrl('test_cla.html'), '/test_cla.html');
   });

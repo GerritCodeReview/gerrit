@@ -141,7 +141,7 @@ interface Registrations {
 export function provide<T>(
   host: ReactiveControllerHost & HTMLElement & Registrations,
   dependency: DependencyToken<T>,
-  provider: Provider<T>
+  provider: Provider<T>,
 ) {
   const hostProviders = (host[PROVIDERS_SYMBOL] ||= new Map<
     DependencyToken<unknown>,
@@ -164,7 +164,7 @@ export function provide<T>(
  */
 export function resolve<T>(
   host: ReactiveControllerHost & HTMLElement & Registrations,
-  dependency: DependencyToken<T>
+  dependency: DependencyToken<T>,
 ): Provider<T> {
   const hostResolvers = (host[RESOLVERS_SYMBOL] ||= new Map<
     DependencyToken<unknown>,
@@ -220,7 +220,7 @@ export class DependencyRequestEvent<T>
 {
   public constructor(
     public readonly dependency: DependencyToken<T>,
-    public readonly callback: Callback<Provider<T>>
+    public readonly callback: Callback<Provider<T>>,
   ) {
     super('request-dependency', {bubbles: true, composed: true});
   }
@@ -242,7 +242,7 @@ export class DependencyError<T> extends Error {
 
 function makeDependencyError<T>(
   host: HTMLElement,
-  dependency: DependencyToken<T>
+  dependency: DependencyToken<T>,
 ): DependencyError<T> {
   const dep = dependency.description;
   const tag = host.tagName;
@@ -257,7 +257,7 @@ class DependencySubscriber<T>
 
   constructor(
     private readonly host: ReactiveControllerHost & HTMLElement,
-    private readonly dependency: DependencyToken<T>
+    private readonly dependency: DependencyToken<T>,
   ) {}
 
   get() {
@@ -272,7 +272,7 @@ class DependencySubscriber<T>
     this.host.dispatchEvent(
       new DependencyRequestEvent(this.dependency, (provider: Provider<T>) => {
         this.provider = provider;
-      })
+      }),
     );
     if (!this.provider) {
       throw makeDependencyError(this.host, this.dependency);
@@ -284,7 +284,7 @@ class DependencyProvider<T> implements ReactiveController {
   constructor(
     private readonly host: ReactiveControllerHost & HTMLElement,
     private readonly dependency: DependencyToken<T>,
-    private readonly provider: Provider<T>
+    private readonly provider: Provider<T>,
   ) {}
 
   hostConnected() {

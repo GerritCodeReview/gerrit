@@ -76,7 +76,7 @@ const HIDE_DELAY_MS = 500;
  * @mixinFunction
  */
 export const HovercardMixin = <T extends Constructor<LitElement>>(
-  superClass: T
+  superClass: T,
 ) => {
   /**
    * @lit
@@ -148,7 +148,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       this.addEventListener('mouseleave', this.mouseHide);
       const keyboardController = new ShortcutController(this);
       keyboardController.addGlobal({key: Key.ESC}, (e: KeyboardEvent) =>
-        this.hide({keyboardEvent: e})
+        this.hide({keyboardEvent: e}),
       );
     }
 
@@ -171,8 +171,8 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           },
           {
             preventDefault: false,
-          }
-        )
+          },
+        ),
       );
       this.cleanups.push(
         addShortcut(
@@ -183,8 +183,8 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           },
           {
             preventDefault: false,
-          }
-        )
+          },
+        ),
       );
     }
 
@@ -210,12 +210,12 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.targetCleanups.push(
           addShortcut(this._target, {key: Key.ENTER}, (e: KeyboardEvent) => {
             this.show({keyboardEvent: e});
-          })
+          }),
         );
         this.targetCleanups.push(
           addShortcut(this._target, {key: Key.SPACE}, (e: KeyboardEvent) => {
             this.show({keyboardEvent: e});
-          })
+          }),
         );
       }
       this.addEventListener('request-dependency', this.resolveDep);
@@ -284,7 +284,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           if (!this.isScheduledToHide) return;
           this.hide(props);
         },
-        HIDE_DELAY_MS
+        HIDE_DELAY_MS,
       );
     };
 
@@ -304,12 +304,12 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     dispatchEventThroughTarget(
       eventName: 'show-alert',
-      detail: ShowAlertEventDetail
+      detail: ShowAlertEventDetail,
     ): void;
 
     dispatchEventThroughTarget(
       eventName: 'reload',
-      detail: ReloadEventDetail
+      detail: ReloadEventDetail,
     ): void;
 
     dispatchEventThroughTarget(eventName: string, detail?: unknown) {
@@ -320,7 +320,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
             detail,
             bubbles: true,
             composed: true,
-          })
+          }),
         );
     }
 
@@ -383,7 +383,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
      */
     readonly resolveDep = (e: DependencyRequestEvent<unknown>) => {
       this._target?.dispatchEvent(
-        new DependencyRequestEvent<unknown>(e.dependency, e.callback)
+        new DependencyRequestEvent<unknown>(e.dependency, e.callback),
       );
     };
 
@@ -469,7 +469,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
           if (!this.isScheduledToShow) return;
           this.show(props);
         },
-        delayMs
+        delayMs,
       );
     }
 

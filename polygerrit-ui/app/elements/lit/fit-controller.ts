@@ -153,7 +153,7 @@ export class FitController implements ReactiveController {
   calculateAndSetPositions(
     hostRect: DOMRect,
     positionRect: DOMRect,
-    windowRect: DOMRect
+    windowRect: DOMRect,
   ) {
     const hostStyles = (window as Window).getComputedStyle(this.host);
     const hostMinWidth = parseInt(hostStyles.minWidth) || 0;
@@ -174,11 +174,11 @@ export class FitController implements ReactiveController {
     // Limit right/bottom within window respecting the margin.
     const rightPosition = Math.min(
       windowRect.right - hostMargin.right,
-      leftPosition + hostRect.width
+      leftPosition + hostRect.width,
     );
     const bottomPosition = Math.min(
       windowRect.bottom - hostMargin.bottom,
-      topPosition + hostRect.height
+      topPosition + hostRect.height,
     );
 
     // Respect hostMinWidth and hostMinHeight

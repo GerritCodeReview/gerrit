@@ -84,7 +84,7 @@ suite('async-util tests', () => {
       const promise = debounceP<number>(
         undefined,
         () => Promise.resolve(5),
-        100
+        100,
       );
       let hasResolved = false;
       promise.then((value: number) => {
@@ -112,7 +112,7 @@ suite('async-util tests', () => {
       const promise = debounceP<number>(
         undefined,
         () => Promise.resolve(5),
-        100
+        100,
       );
       let hasResolved = false;
       promise.then((value: number) => {
@@ -134,7 +134,7 @@ suite('async-util tests', () => {
       const promise = debounceP<number>(
         undefined,
         () => Promise.resolve(5),
-        100
+        100,
       );
       let hasCanceled = false;
       promise.then((_value: number) => {
@@ -158,7 +158,7 @@ suite('async-util tests', () => {
       const promise1 = debounceP<number>(
         undefined,
         () => Promise.resolve(5),
-        100
+        100,
       );
       let hasResolved1 = false;
       promise1.then((value: number) => {
@@ -175,7 +175,7 @@ suite('async-util tests', () => {
       const promise2 = debounceP<number>(
         promise1,
         () => Promise.resolve(6),
-        100
+        100,
       );
       let hasResolved2 = false;
       promise2.then((value: number) => {
@@ -202,7 +202,7 @@ suite('async-util tests', () => {
       const promise1 = debounceP<number>(
         undefined,
         () => Promise.resolve(5),
-        100
+        100,
       );
       let hasResolved1 = false;
       promise1.then((value: number) => {
@@ -221,7 +221,7 @@ suite('async-util tests', () => {
       const promise2 = debounceP<number>(
         promise1,
         () => Promise.resolve(6),
-        100
+        100,
       );
       let hasResolved2 = false;
       promise2.then((value: number) => {

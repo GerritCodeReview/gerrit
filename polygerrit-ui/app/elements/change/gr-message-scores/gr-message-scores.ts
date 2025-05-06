@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-trigger-vote/gr-trigger-vote';
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-import {ChangeInfo} from '../../../api/rest-api';
+import {LitElement, css, html, nothing} from 'lit';
+import {customElement, property, state} from 'lit/decorators.js';
+import {ChangeInfo, PatchSetNum, PatchSetNumber} from '../../../api/rest-api';
 import {
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
@@ -14,6 +14,14 @@ import {
 import {hasOwnProperty} from '../../../utils/common-util';
 import {getTriggerVotes} from '../../../utils/label-util';
 import {ChangeMessage} from '../../../types/common';
+import {Category, CheckRun, RunStatus} from '../../../api/checks';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {checksModelToken} from '../../../models/checks/checks-model';
+import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
+import {fireShowTab} from '../../../utils/event-util';
+import {Tab} from '../../../constants/constants';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const VOTE_RESET_TEXT = '0 (vote reset)';
 
@@ -35,6 +43,13 @@ export class GrMessageScores extends LitElement {
 
   @property({type: Object})
   change?: ChangeInfo;
+
+  @property({type: Number})
+  patchsetNum?: PatchSetNum;
+
+  @state() runs: CheckRun[] = [];
+
+  @state() latestPatchNum?: PatchSetNumber;
 
   static override get styles() {
     return css`
@@ -86,7 +101,31 @@ export class GrMessageScores extends LitElement {
           min-width: 0px;
         }
       }
+
+      gr-checks-chip {
+        /* .checksChip has top: 2px, this is canceling it */
+        position: relative;
+        top: -2px;
+      }
     `;
+  }
+
+  private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
+      x => (this.runs = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
   }
 
   override render() {
@@ -113,10 +152,57 @@ export class GrMessageScores extends LitElement {
       </gr-trigger-vote>`;
     }
     return html`<span
-      class="score ${this._computeScoreClass(score, this.labelExtremes)}"
-    >
-      ${score.label} ${score.value}
-    </span>`;
+        class="score ${this._computeScoreClass(score, this.labelExtremes)}"
+      >
+        ${score.label} ${score.value} </span
+      >${this.renderChecks(score)}`;
+  }
+
+  renderChecks(score: Score) {
+    const labelName = score.label;
+    if (!labelName) return nothing;
+    if (Number(score.value) >= 0) return nothing;
+    if (this.latestPatchNum !== this.patchsetNum) return nothing;
+
+    const errorRuns = this.runs.filter(
+      run => hasResultsOf(run, Category.ERROR) && labelName === run.labelName
+    );
+    const errorRunsCount = errorRuns.reduce(
+      (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
+      0
+    );
+    if (errorRunsCount > 0) {
+      return this.renderChecksCategoryChip(
+        errorRuns,
+        errorRunsCount,
+        Category.ERROR
+      );
+    }
+    return nothing;
+  }
+
+  renderChecksCategoryChip(
+    runs: CheckRun[],
+    runsCount: Number,
+    category: Category | RunStatus
+  ) {
+    if (runsCount === 0) return;
+    const links = [];
+    if (runs.length === 1 && runs[0].statusLink) {
+      links.push(runs[0].statusLink);
+    }
+    return html`<gr-checks-chip
+      .text=${`${runsCount}`}
+      .links=${links}
+      .statusOrCategory=${category}
+      @click=${() => {
+        fireShowTab(this, Tab.CHECKS, false, {
+          checksTab: {
+            statusOrCategory: category,
+          },
+        });
+      }}
+    ></gr-checks-chip>`;
   }
 
   _computeScoreClass(score?: Score, labelExtremes?: LabelExtreme) {

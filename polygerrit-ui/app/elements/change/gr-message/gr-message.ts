@@ -345,6 +345,7 @@ export class GrMessage extends LitElement {
         .labelExtremes=${this.labelExtremes}
         .message=${this.message}
         .change=${this.change}
+        .patchsetNum=${this.message?._revision_number}
       ></gr-message-scores>
     </div>`;
   }

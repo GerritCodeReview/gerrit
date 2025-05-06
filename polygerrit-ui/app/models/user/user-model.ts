@@ -81,16 +81,16 @@ export class UserModel extends Model<UserState> {
    */
   readonly account$: Observable<AccountDetailInfo | undefined> = select(
     this.state$,
-    userState => userState.account
+    userState => userState.account,
   );
 
   readonly emails$: Observable<EmailInfo[] | undefined> = select(
     this.state$,
-    userState => userState.emails
+    userState => userState.emails,
   ).pipe(
     tap(emails => {
       if (emails === undefined) this.loadEmails();
-    })
+    }),
   );
 
   /**
@@ -103,13 +103,13 @@ export class UserModel extends Model<UserState> {
    */
   readonly loadedAccount$: Observable<AccountDetailInfo | undefined> = select(
     this.state$.pipe(filter(s => s.accountLoaded)),
-    userState => userState.account
+    userState => userState.account,
   );
 
   /** Note that this may still be true, even if credentials have expired. */
   readonly loggedIn$: Observable<boolean> = select(
     this.account$,
-    account => !!account
+    account => !!account,
   );
 
   readonly capabilities$: Observable<AccountCapabilityInfo | undefined> =
@@ -117,42 +117,42 @@ export class UserModel extends Model<UserState> {
 
   readonly isAdmin$: Observable<boolean> = select(
     this.capabilities$,
-    capabilities => capabilities?.administrateServer ?? false
+    capabilities => capabilities?.administrateServer ?? false,
   );
 
   readonly preferences$: Observable<PreferencesInfo> = select(
     this.state$,
-    userState => userState.preferences
+    userState => userState.preferences,
   ).pipe(filter(isDefined));
 
   readonly diffPreferences$: Observable<DiffPreferencesInfo> = select(
     this.state$,
-    userState => userState.diffPreferences
+    userState => userState.diffPreferences,
   ).pipe(filter(isDefined));
 
   readonly editPreferences$: Observable<EditPreferencesInfo> = select(
     this.state$,
-    userState => userState.editPreferences
+    userState => userState.editPreferences,
   ).pipe(filter(isDefined));
 
   readonly preferenceDiffViewMode$: Observable<DiffViewMode> = select(
     this.preferences$,
-    preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE
+    preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE,
   );
 
   readonly preferenceTheme$: Observable<AppTheme> = select(
     this.preferences$,
-    preference => preference.theme
+    preference => preference.theme,
   );
 
   readonly myMenuItems$: Observable<TopMenuItemInfo[]> = select(
     this.preferences$,
-    preference => preference?.my ?? []
+    preference => preference?.my ?? [],
   );
 
   readonly preferenceChangesPerPage$: Observable<number> = select(
     this.preferences$,
-    preference => preference.changes_per_page
+    preference => preference.changes_per_page,
   );
 
   constructor(readonly restApiService: RestApiService) {
@@ -166,7 +166,7 @@ export class UserModel extends Model<UserState> {
           switchMap(account => {
             if (!account) return of(createDefaultPreferences());
             return from(this.restApiService.getPreferences());
-          })
+          }),
         )
         .subscribe((preferences?: PreferencesInfo) => {
           this.setPreferences(preferences ?? createDefaultPreferences());
@@ -176,7 +176,7 @@ export class UserModel extends Model<UserState> {
           switchMap(account => {
             if (!account) return of(createDefaultDiffPrefs());
             return from(this.restApiService.getDiffPreferences());
-          })
+          }),
         )
         .subscribe((diffPrefs?: DiffPreferencesInfoAPI) => {
           this.setDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
@@ -186,7 +186,7 @@ export class UserModel extends Model<UserState> {
           switchMap(account => {
             if (!account) return of(createDefaultEditPrefs());
             return from(this.restApiService.getEditPreferences());
-          })
+          }),
         )
         .subscribe((editPrefs?: EditPreferencesInfo) => {
           this.setEditPreferences(editPrefs ?? createDefaultEditPrefs());
@@ -196,7 +196,7 @@ export class UserModel extends Model<UserState> {
           switchMap(account => {
             if (!account) return of(undefined);
             return from(this.restApiService.getAccountCapabilities());
-          })
+          }),
         )
         .subscribe((capabilities?: AccountCapabilityInfo) => {
           this.setCapabilities(capabilities);
@@ -226,7 +226,7 @@ export class UserModel extends Model<UserState> {
           const newPrefs = obj.parsed as unknown as DiffPreferencesInfo;
           if (!newPrefs) return;
           this.setDiffPreferences(newPrefs);
-        })
+        }),
       );
   }
 
@@ -238,7 +238,7 @@ export class UserModel extends Model<UserState> {
           const newPrefs = obj.parsed as unknown as EditPreferencesInfo;
           if (!newPrefs) return;
           this.setEditPreferences(newPrefs);
-        })
+        }),
       );
   }
 

@@ -55,7 +55,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
 
   setup(() => {
     getChangeSuggestedReviewersStub = stubRestApi(
-      'getChangeSuggestedReviewers'
+      'getChangeSuggestedReviewers',
     );
     getChangeSuggestedCCsStub = stubRestApi('getChangeSuggestedCCs');
     provider = new GrReviewerSuggestionsProvider(
@@ -63,7 +63,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       ReviewerState.REVIEWER,
       createServerInfo(),
       true,
-      ...changes
+      ...changes,
     );
   });
 
@@ -94,7 +94,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       ReviewerState.REVIEWER,
       createServerInfo(),
       false,
-      ...changes
+      ...changes,
     );
 
     await provider.getSuggestions('');
@@ -114,7 +114,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       ReviewerState.REVIEWER,
       createServerInfo(),
       true,
-      ...changes
+      ...changes,
     );
 
     // suggestions[0] is excluded because it is not returned for the second
@@ -139,7 +139,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       ReviewerState.CC,
       createServerInfo(),
       true,
-      ...changes
+      ...changes,
     );
 
     // suggestions[0] is excluded because it is not returned for the second
@@ -192,7 +192,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
         },
       },
       true,
-      ...changes
+      ...changes,
     );
 
     suggestion = provider.makeSuggestionItem({account: {}, count: 1});

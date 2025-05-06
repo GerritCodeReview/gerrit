@@ -30,7 +30,7 @@ export class BrowserModel extends Model<BrowserState> {
     this.state$,
     state =>
       !!state.screenWidth &&
-      state.screenWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX
+      state.screenWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX,
   );
 
   readonly diffViewMode$: Observable<DiffViewMode>;
@@ -44,7 +44,7 @@ export class BrowserModel extends Model<BrowserState> {
         this.userModel.preferenceDiffViewMode$,
       ]),
       ([isScreenTooSmall, preferenceDiffViewMode]) =>
-        isScreenTooSmall ? DiffViewMode.UNIFIED : preferenceDiffViewMode
+        isScreenTooSmall ? DiffViewMode.UNIFIED : preferenceDiffViewMode,
     );
   }
 

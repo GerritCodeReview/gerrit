@@ -32,7 +32,7 @@ function appendAllOccurrences(
   match: string,
   isPassing: boolean,
   explanation: string,
-  matchedAtoms: AtomMatch[]
+  matchedAtoms: AtomMatch[],
 ) {
   for (let searchStartIndex = 0; ; ) {
     let index = text.indexOf(match, searchStartIndex);
@@ -57,7 +57,7 @@ function appendAllOccurrences(
 
 function splitExpressionIntoParts(
   expression: string,
-  matchedAtoms: AtomMatch[]
+  matchedAtoms: AtomMatch[],
 ): SubmitRequirementExpressionPart[] {
   const result: SubmitRequirementExpressionPart[] = [];
   let currentIndex = 0;
@@ -97,7 +97,7 @@ function splitExpressionIntoParts(
  * Unary minus is included in the atom and is accounted in the status.
  */
 export function atomizeExpression(
-  expression: SubmitRequirementExpressionInfo
+  expression: SubmitRequirementExpressionInfo,
 ): SubmitRequirementExpressionPart[] {
   const matchedAtoms: AtomMatch[] = [];
   expression.passing_atoms?.forEach(atom =>
@@ -106,8 +106,8 @@ export function atomizeExpression(
       atom,
       /* isPassing=*/ true,
       expression.atom_explanations?.[atom] ?? '',
-      matchedAtoms
-    )
+      matchedAtoms,
+    ),
   );
   expression.failing_atoms?.forEach(atom =>
     appendAllOccurrences(
@@ -115,8 +115,8 @@ export function atomizeExpression(
       atom,
       /* isPassing=*/ false,
       expression.atom_explanations?.[atom] ?? '',
-      matchedAtoms
-    )
+      matchedAtoms,
+    ),
   );
   matchedAtoms.sort((a, b) => a.start - b.start);
 

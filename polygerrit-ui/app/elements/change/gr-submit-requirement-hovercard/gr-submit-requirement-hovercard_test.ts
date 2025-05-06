@@ -31,7 +31,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         .requirement=${createSubmitRequirementResultInfo()}
         .change=${createChange()}
         .account=${createAccountWithId()}
-      ></gr-submit-requirement-hovercard>`
+      ></gr-submit-requirement-hovercard>`,
     );
   });
 
@@ -81,7 +81,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </gr-button>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -148,7 +148,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -177,7 +177,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         .requirement=${submitRequirement}
         .change=${change}
         .account=${createAccountWithId()}
-      ></gr-submit-requirement-hovercard>`
+      ></gr-submit-requirement-hovercard>`,
     );
     assert.shadowDom.equal(
       element,
@@ -239,7 +239,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             </gr-button>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -278,7 +278,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
           .requirement=${submitRequirement}
           .change=${change}
           .account=${account}
-        ></gr-submit-requirement-hovercard>`
+        ></gr-submit-requirement-hovercard>`,
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
       assert.dom.equal(
@@ -289,7 +289,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
               Vote Verified +2
             </gr-button>
           </div>
-        `
+        `,
       );
     });
 
@@ -319,7 +319,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
           .requirement=${submitRequirement}
           .change=${changeWithVote}
           .account=${account}
-        ></gr-submit-requirement-hovercard>`
+        ></gr-submit-requirement-hovercard>`,
       );
       assert.isUndefined(query(element, '.quickApprove'));
     });
@@ -331,7 +331,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
           .requirement=${submitRequirement}
           .change=${change}
           .account=${account}
-        ></gr-submit-requirement-hovercard>`
+        ></gr-submit-requirement-hovercard>`,
       );
 
       queryAndAssert<GrButton>(element, '.quickApprove > gr-button').click();
@@ -347,7 +347,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         submittability_expression_result:
           createSubmitRequirementExpressionInfo(),
         override_expression_result: createSubmitRequirementExpressionInfo(
-          'label:Build-Cop=MAX'
+          'label:Build-Cop=MAX',
         ),
       };
       const account = createAccountWithId();
@@ -378,7 +378,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
           .requirement=${submitRequirement}
           .change=${change}
           .account=${account}
-        ></gr-submit-requirement-hovercard>`
+        ></gr-submit-requirement-hovercard>`,
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
       assert.dom.equal(
@@ -389,7 +389,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
               >Override (Build-Cop)
             </gr-button>
           </div>
-        `
+        `,
       );
     });
   });

@@ -24,7 +24,7 @@ suite('gr-selection-action-box', () => {
     `);
     element = queryAndAssert<GrSelectionActionBox>(
       container,
-      'gr-selection-action-box'
+      'gr-selection-action-box',
     );
     await element.updateComplete;
 
@@ -39,7 +39,7 @@ suite('gr-selection-action-box', () => {
         <slot name="selectionActionBox" invisible="">
           <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
         </slot>
-      `
+      `,
     );
   });
 
@@ -65,7 +65,7 @@ suite('gr-selection-action-box', () => {
       assert.isTrue(e.preventDefault.called);
       assert.equal(
         dispatchEventStub.lastCall.args[0].type,
-        'create-comment-requested'
+        'create-comment-requested',
       );
     });
 
@@ -117,7 +117,7 @@ suite('gr-selection-action-box', () => {
           <slot name="selectionActionBox">
             <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
           </slot>
-        `
+        `,
       );
     });
 
@@ -156,7 +156,7 @@ suite('gr-selection-action-box', () => {
 
 function assertEqualIgnoreWhitespaceAndNewlines(
   actual: string,
-  expected: string
+  expected: string,
 ): void {
   const normalize = (str: string): string =>
     str

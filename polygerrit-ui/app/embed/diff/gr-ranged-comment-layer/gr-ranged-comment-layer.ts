@@ -87,7 +87,7 @@ export class GrRangedCommentLayer implements DiffLayer {
         range.start,
         range.end - range.start,
         (range.longRange ? RANGE_BASE_ONLY : RANGE_HIGHLIGHT) +
-          ` ${strToClassName(range.id)}`
+          ` ${strToClassName(range.id)}`,
       );
     }
   }
@@ -151,7 +151,7 @@ export class GrRangedCommentLayer implements DiffLayer {
       range,
       operation: forLine => {
         const index = forLine.findIndex(
-          lineRange => id(commentRange) === lineRange.id
+          lineRange => id(commentRange) === lineRange.id,
         );
         if (index > -1) forLine.splice(index, 1);
       },
@@ -164,7 +164,7 @@ export class GrRangedCommentLayer implements DiffLayer {
     operation: (
       forLine: CommentRangeLineLayer[],
       start: number,
-      end: number
+      end: number,
     ) => void;
   }) {
     const {side, range, operation} = options;

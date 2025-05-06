@@ -32,7 +32,7 @@ suite('service worker installer tests', () => {
     };
     await waitUntilObserved(
       userModel.preferences$,
-      pref => pref.allow_browser_notifications === false
+      pref => pref.allow_browser_notifications === false,
     );
     userModel.setPreferences(prefs);
 
@@ -43,7 +43,7 @@ suite('service worker installer tests', () => {
     userModel.setPreferences(prefs2);
     await waitUntilObserved(
       userModel.preferences$,
-      pref => pref.allow_browser_notifications === true
+      pref => pref.allow_browser_notifications === true,
     );
 
     assert.isTrue(registerStub.called);

@@ -18,7 +18,7 @@ suite('gr-event-helper tests', () => {
     window.Gerrit.install(
       p => (plugin = p),
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     element = await fixture(html`<div></div>`);
     eventHelper = plugin!.eventHelper(element);
@@ -28,7 +28,7 @@ suite('gr-event-helper tests', () => {
     let parentReceivedClick = false;
     element.parentElement!.addEventListener(
       'click',
-      () => (parentReceivedClick = true)
+      () => (parentReceivedClick = true),
     );
     let helperReceivedClick = false;
 
@@ -46,7 +46,7 @@ suite('gr-event-helper tests', () => {
     let parentReceivedClick = false;
     element.parentElement!.addEventListener(
       'click',
-      () => (parentReceivedClick = true)
+      () => (parentReceivedClick = true),
     );
     let helperReceivedClick = false;
 
@@ -64,7 +64,7 @@ suite('gr-event-helper tests', () => {
     let parentReceivedTap = false;
     element.parentElement!.addEventListener(
       'tap',
-      () => (parentReceivedTap = true)
+      () => (parentReceivedTap = true),
     );
 
     eventHelper.onTap(() => false);
@@ -77,7 +77,7 @@ suite('gr-event-helper tests', () => {
     let parentReceivedTap = false;
     element.parentElement!.addEventListener(
       'tap',
-      () => (parentReceivedTap = true)
+      () => (parentReceivedTap = true),
     );
 
     eventHelper.onClick(() => false);

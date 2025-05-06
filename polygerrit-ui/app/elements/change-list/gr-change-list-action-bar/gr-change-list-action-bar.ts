@@ -50,14 +50,14 @@ export class GrChangeListActionBar extends LitElement {
     subscribe(
       this,
       () => this.getBulkActionsModel().selectedChangeNums$,
-      selectedChangeNums => (this.numSelected = selectedChangeNums.length)
+      selectedChangeNums => (this.numSelected = selectedChangeNums.length),
     );
   }
 
   override render() {
     const numSelectedLabel = `${pluralize(
       this.numSelected,
-      'change'
+      'change',
     )} selected`;
     return html`
       <!--

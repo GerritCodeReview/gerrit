@@ -118,7 +118,7 @@ export class GrGroupMembers extends LitElement {
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
-      }
+      },
     );
     this.queryMembers = input =>
       this.getAccountSuggestions(input, this.serverConfig);
@@ -217,7 +217,7 @@ export class GrGroupMembers extends LitElement {
                 </tbody>
                 <tbody>
                   ${this.groupMembers?.map((member, index) =>
-                    this.renderGroupMember(member, index)
+                    this.renderGroupMember(member, index),
                   )}
                 </tbody>
               </table>
@@ -253,7 +253,7 @@ export class GrGroupMembers extends LitElement {
                 </tbody>
                 <tbody>
                   ${this.includedGroups?.map((group, index) =>
-                    this.renderIncludedGroup(group, index)
+                    this.renderIncludedGroup(group, index),
                   )}
                 </tbody>
               </table>
@@ -277,7 +277,7 @@ export class GrGroupMembers extends LitElement {
     input: string,
     config?: ServerInfo,
     canSee?: NumericChangeId,
-    filterActive = false
+    filterActive = false,
   ) {
     return this.restApiService
       .queryAccounts(
@@ -285,7 +285,7 @@ export class GrGroupMembers extends LitElement {
         SUGGESTIONS_LIMIT,
         canSee,
         filterActive,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(accounts => {
         if (!accounts) return [];
@@ -372,19 +372,19 @@ export class GrGroupMembers extends LitElement {
         promises.push(
           this.restApiService.getIsAdmin().then(isAdmin => {
             this.isAdmin = !!isAdmin;
-          })
+          }),
         );
 
         promises.push(
           this.restApiService.getIsGroupOwner(this.groupName).then(isOwner => {
             this.groupOwner = !!isOwner;
-          })
+          }),
         );
 
         promises.push(
           this.restApiService.getGroupMembers(this.groupName).then(members => {
             this.groupMembers = members;
-          })
+          }),
         );
 
         promises.push(
@@ -392,7 +392,7 @@ export class GrGroupMembers extends LitElement {
             .getIncludedGroup(this.groupName)
             .then(includedGroup => {
               this.includedGroups = includedGroup;
-            })
+            }),
         );
 
         return Promise.all(promises).then(() => {
@@ -509,7 +509,7 @@ export class GrGroupMembers extends LitElement {
   handleSavingIncludedGroups() {
     if (!this.groupName || !this.includedGroupSearchId) {
       return Promise.reject(
-        new Error('group name or includedGroupSearchId undefined')
+        new Error('group name or includedGroupSearchId undefined'),
       );
     }
     return this.restApiService
@@ -525,7 +525,7 @@ export class GrGroupMembers extends LitElement {
             throw Error(errResponse.statusText);
           }
           throw err;
-        }
+        },
       )
       .then(config => {
         if (!config || !this.groupName) {
@@ -565,7 +565,7 @@ export class GrGroupMembers extends LitElement {
         input,
         /* project=*/ undefined,
         /* n=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         const groups: AutocompleteSuggestion[] = [];

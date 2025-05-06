@@ -53,7 +53,7 @@ suite('gr-agreements-list tests', () => {
           </table>
           <a href="/settings/new-agreement"> New Contributor Agreement </a>
         </div>
-      `
+      `,
     );
   });
 });

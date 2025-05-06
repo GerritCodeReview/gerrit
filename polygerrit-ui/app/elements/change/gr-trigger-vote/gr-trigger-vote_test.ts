@@ -56,7 +56,7 @@ suite('gr-trigger-vote tests', () => {
         .change=${change}
         .account=${account}
         .mutable=${false}
-      ></gr-trigger-vote>`
+      ></gr-trigger-vote>`,
     );
   });
 
@@ -69,7 +69,7 @@ suite('gr-trigger-vote tests', () => {
         </gr-trigger-vote-hovercard>
         <span class="label"> Verified </span>
         <gr-vote-chip> </gr-vote-chip>
-      </div>`
+      </div>`,
     );
   });
 });

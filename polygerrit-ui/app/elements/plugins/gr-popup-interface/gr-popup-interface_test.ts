@@ -37,7 +37,7 @@ suite('gr-popup-interface tests', () => {
         plugin = p;
       },
       '0.1',
-      'http://test.com/plugins/testplugin/static/test.js'
+      'http://test.com/plugins/testplugin/static/test.js',
     );
     container = await fixture(html`<div></div>`);
     sinon.stub(plugin, 'hook').returns({
@@ -63,7 +63,7 @@ suite('gr-popup-interface tests', () => {
       await waitEventLoop();
       assert.equal(
         queryAndAssert(container, '#foobar').textContent,
-        'manual content'
+        'manual content',
       );
     });
 

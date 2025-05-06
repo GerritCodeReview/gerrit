@@ -15,7 +15,7 @@ suite('gr-repo-submit-requirements tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-repo-submit-requirements></gr-repo-submit-requirements>`
+      html`<gr-repo-submit-requirements></gr-repo-submit-requirements>`,
     );
   });
 
@@ -29,7 +29,7 @@ suite('gr-repo-submit-requirements tests', () => {
             submittability_expression:
               'label:Verified=MAX AND -label:Verified=MIN',
           },
-        ] as SubmitRequirementInfo[])
+        ] as SubmitRequirementInfo[]),
       );
       element.repo = 'test' as RepoName;
     });
@@ -59,7 +59,7 @@ suite('gr-repo-submit-requirements tests', () => {
               <td>Loading...</td>
             </tr>
           </tbody>
-        </table>`
+        </table>`,
       );
     });
 
@@ -99,7 +99,7 @@ suite('gr-repo-submit-requirements tests', () => {
               </tr>
             </tbody>
           </table>
-        `
+        `,
       );
     });
   });

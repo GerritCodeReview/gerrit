@@ -43,7 +43,7 @@ suite('search view state tests', () => {
     assert.equal(
       createSearchUrl(options),
       '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-        'topic:"g%2525h"+status:op%2525en'
+        'topic:"g%2525h"+status:op%2525en',
     );
 
     window.CANONICAL_PATH = '/base';
@@ -54,7 +54,7 @@ suite('search view state tests', () => {
     assert.equal(
       createSearchUrl(options),
       '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-        'topic:"g%2525h"+status:op%2525en,100'
+        'topic:"g%2525h"+status:op%2525en,100',
     );
     delete options.offset;
 
@@ -68,7 +68,7 @@ suite('search view state tests', () => {
     options = {statuses: ['a', 'b', 'c']};
     assert.equal(
       createSearchUrl(options),
-      '/q/(status:a OR status:b OR status:c)'
+      '/q/(status:a OR status:b OR status:c)',
     );
 
     options = {topic: 'test' as TopicName};

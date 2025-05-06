@@ -168,7 +168,7 @@ export class GrDiffSelection {
       selectionInfo.start_column,
       selectionInfo.end_line,
       selectionInfo.end_column,
-      side
+      side,
     );
   }
 

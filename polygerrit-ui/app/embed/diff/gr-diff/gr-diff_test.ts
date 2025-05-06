@@ -76,7 +76,7 @@ suite('gr-diff tests', () => {
     setup(async () => {
       handleSelectionChangeStub = sinon.spy(
         element.highlights,
-        'handleSelectionChange'
+        'handleSelectionChange',
       );
     });
 
@@ -119,7 +119,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--line-limit-marker', element),
-        '100ch'
+        '100ch',
       );
     });
 
@@ -144,7 +144,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(2 * 80ch + 2 * 48px + 0ch + 1px + 2px)'
+        'calc(2 * 80ch + 2 * 48px + 0ch + 1px + 2px)',
       );
     });
 
@@ -153,7 +153,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(1 * 80ch + 2 * 48px + 0ch + 1px + 2px)'
+        'calc(1 * 80ch + 2 * 48px + 0ch + 1px + 2px)',
       );
     });
 
@@ -163,7 +163,7 @@ suite('gr-diff tests', () => {
       // Each line number column: 4 * 13 = 52px
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(2 * 80ch + 2 * 52px + 0ch + 1px + 2px)'
+        'calc(2 * 80ch + 2 * 52px + 0ch + 1px + 2px)',
       );
     });
 
@@ -172,7 +172,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(2 * 80ch + 2 * 48px + 2ch + 1px + 2px)'
+        'calc(2 * 80ch + 2 * 48px + 2ch + 1px + 2px)',
       );
     });
   });
@@ -240,7 +240,7 @@ suite('gr-diff tests', () => {
         const LOST_ROW = 1;
         assert.equal(
           element.getCursorStops().length,
-          ROWS + FILE_ROW + LOST_ROW
+          ROWS + FILE_ROW + LOST_ROW,
         );
       });
 
@@ -293,7 +293,7 @@ suite('gr-diff tests', () => {
 
       const hint = await waitQueryAndAssert<GrRangedCommentHint>(
         element,
-        'gr-ranged-comment-hint'
+        'gr-ranged-comment-hint',
       );
       assert.deepEqual(hint.range, range);
     });
@@ -329,7 +329,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(
         element.querySelectorAll('gr-ranged-comment-hint').length,
-        1
+        1,
       );
     });
   });
@@ -598,7 +598,7 @@ suite('former gr-diff-builder tests', () => {
       const el = document.createElement('div');
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
@@ -613,7 +613,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
@@ -628,7 +628,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
@@ -650,7 +650,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
@@ -665,7 +665,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
@@ -692,7 +692,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
@@ -723,7 +723,7 @@ suite('former gr-diff-builder tests', () => {
       const el = document.createElement('div');
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
@@ -736,7 +736,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
@@ -749,7 +749,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
@@ -764,7 +764,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
@@ -779,7 +779,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
@@ -794,7 +794,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
@@ -813,7 +813,7 @@ suite('former gr-diff-builder tests', () => {
       el.textContent = str;
       const annotateElementStub = sinon.stub(
         GrAnnotationImpl,
-        'annotateElement'
+        'annotateElement',
       );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
@@ -856,7 +856,7 @@ suite('former gr-diff-builder tests', () => {
       const contextControls = queryAll(element, 'gr-context-controls');
       const topExpandCommonButton =
         contextControls[0].shadowRoot?.querySelectorAll<HTMLElement>(
-          '.showContext'
+          '.showContext',
         )[0];
       assert.isOk(topExpandCommonButton);
       assert.include(topExpandCommonButton.textContent, '+9 common lines');

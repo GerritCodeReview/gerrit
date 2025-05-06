@@ -429,7 +429,7 @@ suite('gr-repo-list tests', () => {
               </div>
             </gr-dialog>
           </dialog>
-        `
+        `,
       );
     });
 
@@ -449,7 +449,7 @@ suite('gr-repo-list tests', () => {
     test('maybeOpenCreateModal', () => {
       const modalOpen = sinon.stub(
         queryAndAssert<HTMLDialogElement>(element, '#createModal'),
-        'showModal'
+        'showModal',
       );
       element.maybeOpenCreateModal();
       assert.isFalse(modalOpen.called);
@@ -549,9 +549,9 @@ suite('gr-repo-list tests', () => {
       assert.equal(element.computeLoadingClass(element.loading), 'loading');
       assert.equal(
         getComputedStyle(
-          queryAndAssert<HTMLTableRowElement>(element, '#loading')
+          queryAndAssert<HTMLTableRowElement>(element, '#loading'),
         ).display,
-        'block'
+        'block',
       );
 
       element.loading = false;
@@ -561,9 +561,9 @@ suite('gr-repo-list tests', () => {
       assert.equal(element.computeLoadingClass(element.loading), '');
       assert.equal(
         getComputedStyle(
-          queryAndAssert<HTMLTableRowElement>(element, '#loading')
+          queryAndAssert<HTMLTableRowElement>(element, '#loading'),
         ).display,
-        'none'
+        'none',
       );
     });
   });
@@ -572,13 +572,13 @@ suite('gr-repo-list tests', () => {
     test('handleCreateClicked called when create-clicked fired', () => {
       const handleCreateClickedStub = sinon.stub(
         element,
-        'handleCreateClicked'
+        'handleCreateClicked',
       );
       queryAndAssert<GrListView>(element, 'gr-list-view').dispatchEvent(
         new CustomEvent('create-clicked', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCreateClickedStub.called);
     });
@@ -586,7 +586,7 @@ suite('gr-repo-list tests', () => {
     test('handleCreateClicked opens modal', () => {
       const openStub = sinon.stub(
         queryAndAssert<HTMLDialogElement>(element, '#createModal'),
-        'showModal'
+        'showModal',
       );
       element.handleCreateClicked();
       assert.isTrue(openStub.called);
@@ -598,7 +598,7 @@ suite('gr-repo-list tests', () => {
         new CustomEvent('confirm', {
           composed: true,
           bubbles: false,
-        })
+        }),
       );
       assert.isTrue(handleCreateRepoStub.called);
     });
@@ -609,7 +609,7 @@ suite('gr-repo-list tests', () => {
         new CustomEvent('cancel', {
           composed: true,
           bubbles: false,
-        })
+        }),
       );
       assert.isTrue(handleCloseCreateStub.called);
     });

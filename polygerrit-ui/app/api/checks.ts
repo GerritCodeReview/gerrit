@@ -301,7 +301,7 @@ export type ActionCallback = (
    */
   checkName: string | undefined,
   /** Identical to 'name' property of Action entity. */
-  actionName: string
+  actionName: string,
   /**
    * If the callback does not return a promise, then the user will get no
    * feedback from the Gerrit UI. This is adequate when the plugin opens a

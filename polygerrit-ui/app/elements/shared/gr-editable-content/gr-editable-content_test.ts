@@ -82,7 +82,7 @@ suite('gr-editable-content tests', () => {
           </gr-button>
         </div>
         <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
-      </gr-endpoint-decorator> `
+      </gr-endpoint-decorator> `,
     );
   });
 
@@ -179,7 +179,7 @@ suite('gr-editable-content tests', () => {
 
     test('save button is disabled initially', () => {
       assert.isTrue(
-        queryAndAssert<GrButton>(element, 'gr-button[primary]').disabled
+        queryAndAssert<GrButton>(element, 'gr-button[primary]').disabled,
       );
     });
 
@@ -187,7 +187,7 @@ suite('gr-editable-content tests', () => {
       element.newContent = 'new content';
       await element.updateComplete;
       assert.isFalse(
-        queryAndAssert<GrButton>(element, 'gr-button[primary]').disabled
+        queryAndAssert<GrButton>(element, 'gr-button[primary]').disabled,
       );
     });
 
@@ -195,7 +195,7 @@ suite('gr-editable-content tests', () => {
       test('click opens edit url', async () => {
         const editUrlStub = sinon.stub(
           testResolver(changeViewModelToken),
-          'editUrl'
+          'editUrl',
         );
         editUrlStub.returns('fakeUrl');
         const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
@@ -206,7 +206,7 @@ suite('gr-editable-content tests', () => {
         await element.updateComplete;
         const editButton = queryAndAssert<GrButton>(
           element,
-          'gr-button.edit-commit-message'
+          'gr-button.edit-commit-message',
         );
         editButton.click();
         assert.isTrue(setUrlStub.called);
@@ -265,7 +265,7 @@ suite('gr-editable-content tests', () => {
       assert.isTrue(storeStub.called);
       assert.deepEqual(
         [element.storageKey, element.newContent],
-        storeStub.lastCall.args
+        storeStub.lastCall.args,
       );
 
       element.newContent = '';
@@ -293,22 +293,22 @@ suite('gr-editable-content tests', () => {
       await element.updateComplete;
       const editMessageEmailDropdown = queryAndAssert(
         element,
-        '#editMessageEmailDropdown'
+        '#editMessageEmailDropdown',
       );
       assert.dom.equal(
         editMessageEmailDropdown,
         `<div class="email-dropdown" id="editMessageEmailDropdown">Committer Email
         <gr-dropdown-list></gr-dropdown-list>
         <span></span>
-        </div>`
+        </div>`,
       );
       const emailDropdown = queryAndAssert<GrDropdownList>(
         editMessageEmailDropdown,
-        'gr-dropdown-list'
+        'gr-dropdown-list',
       );
       assert.deepEqual(
         emailDropdown.items?.map(e => e.value),
-        emails.map(e => e.email)
+        emails.map(e => e.email),
       );
     });
   });
@@ -318,7 +318,7 @@ suite('gr-editable-content tests', () => {
 
     setup(async () => {
       element = await fixture(
-        html`<gr-editable-content></gr-editable-content>`
+        html`<gr-editable-content></gr-editable-content>`,
       );
       element.editing = true;
       await element.updateComplete;
@@ -327,7 +327,7 @@ suite('gr-editable-content tests', () => {
     test('toggles between Format and Undo', async () => {
       const formatButton = queryAndAssert<GrButton>(
         element,
-        'gr-button.format-button'
+        'gr-button.format-button',
       );
 
       // Initially shows "Format"
@@ -363,7 +363,7 @@ suite('gr-editable-content tests', () => {
     test('reverts to Format when content is modified after formatting', async () => {
       const formatButton = queryAndAssert<GrButton>(
         element,
-        'gr-button.format-button'
+        'gr-button.format-button',
       );
 
       // Set content and format it
@@ -388,7 +388,7 @@ suite('gr-editable-content tests', () => {
     test('format button tooltip changes for Format/Undo states', async () => {
       const formatButton = queryAndAssert<GrButton>(
         element,
-        'gr-button.format-button'
+        'gr-button.format-button',
       );
 
       // Set content that needs formatting
@@ -420,13 +420,13 @@ suite('gr-editable-content tests', () => {
     test('disables format button when only current line needs formatting', async () => {
       const formatButton = queryAndAssert<GrButton>(
         element,
-        'gr-button.format-button'
+        'gr-button.format-button',
       );
 
       element.newContent = 'line1\nline2    \nline3';
       const textarea = queryAndAssert<IronAutogrowTextareaElement>(
         element,
-        'iron-autogrow-textarea'
+        'iron-autogrow-textarea',
       ).textarea;
 
       textarea.setSelectionRange(7, 7); // Position cursor after "line2"
@@ -443,13 +443,13 @@ suite('gr-editable-content tests', () => {
     test('enables format button when other lines need formatting', async () => {
       const formatButton = queryAndAssert<GrButton>(
         element,
-        'gr-button.format-button'
+        'gr-button.format-button',
       );
 
       element.newContent = 'line1    \nline2    \nline3    ';
       const textarea = queryAndAssert<IronAutogrowTextareaElement>(
         element,
-        'iron-autogrow-textarea'
+        'iron-autogrow-textarea',
       ).textarea;
 
       textarea.setSelectionRange(7, 7); // Position cursor after "line2"

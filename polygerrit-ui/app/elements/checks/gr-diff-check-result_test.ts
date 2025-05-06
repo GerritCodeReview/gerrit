@@ -29,7 +29,7 @@ suite('gr-diff-check-result tests', () => {
     sinon
       .stub(flagsService, 'isEnabled')
       .callsFake(
-        (id: KnownExperimentId) => id === KnownExperimentId.GET_AI_FIX
+        (id: KnownExperimentId) => id === KnownExperimentId.GET_AI_FIX,
       );
 
     sinon
@@ -102,7 +102,7 @@ suite('gr-diff-check-result tests', () => {
             </div>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -124,7 +124,7 @@ suite('gr-diff-check-result tests', () => {
             ></gr-checks-action>
           </div>
         </div>
-      `
+      `,
     );
   });
   suite('AI fix button', () => {

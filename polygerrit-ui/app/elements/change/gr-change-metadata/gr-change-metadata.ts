@@ -182,7 +182,7 @@ export class GrChangeMetadata extends LitElement {
 
   private readonly getRelatedChangesModel = resolve(
     this,
-    relatedChangesModelToken
+    relatedChangesModelToken,
   );
 
   constructor() {
@@ -190,37 +190,37 @@ export class GrChangeMetadata extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      serverConfig => (this.serverConfig = serverConfig)
+      serverConfig => (this.serverConfig = serverConfig),
     );
     subscribe(
       this,
       () => this.getConfigModel().repoConfig$,
-      repoConfig => (this.repoConfig = repoConfig)
+      repoConfig => (this.repoConfig = repoConfig),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      account => (this.account = account)
+      account => (this.account = account),
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      change => (this.change = change)
+      change => (this.change = change),
     );
     subscribe(
       this,
       () => this.getChangeModel().revision$,
-      revision => (this.revision = revision)
+      revision => (this.revision = revision),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().revertingChange$,
-      revertingChange => (this.revertedChange = revertingChange)
+      revertingChange => (this.revertedChange = revertingChange),
     );
     subscribe(
       this,
       () => this.getChangeModel().editMode$,
-      x => (this.editMode = x)
+      x => (this.editMode = x),
     );
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
     this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
@@ -445,7 +445,7 @@ export class GrChangeMetadata extends LitElement {
               icon=${this.pushCertificateValidation!.icon}
               class="icon ${this.pushCertificateValidation!.class}"
             ></gr-icon>
-          </gr-tooltip-content>`
+          </gr-tooltip-content>`,
         )}
       </span>
     </section>`;
@@ -501,7 +501,7 @@ export class GrChangeMetadata extends LitElement {
               autocomplete
               .query=${(text: string) => this.getIdentitySuggestions(text)}
             ></gr-editable-label>
-          `
+          `,
         )}
       </span>
     </section>`;
@@ -590,7 +590,7 @@ export class GrChangeMetadata extends LitElement {
               ></gr-limited-text>
             </a>
           </span>
-        </section>`
+        </section>`,
     );
   }
 
@@ -610,7 +610,7 @@ export class GrChangeMetadata extends LitElement {
                 show-icon
                 .title=${this.notCurrentMessage}
               ></gr-tooltip-content>
-            </li>`
+            </li>`,
           )}
         </ol>
       </span>
@@ -626,7 +626,7 @@ export class GrChangeMetadata extends LitElement {
         <gr-commit-info
           .commitInfo=${this.computeMergedCommitInfo(
             this.change?.current_revision,
-            this.change?.revisions
+            this.change?.revisions,
           )}
         ></gr-commit-info>
       </span>
@@ -665,7 +665,7 @@ export class GrChangeMetadata extends LitElement {
             href=${createSearchUrl({topic: this.change!.topic!})}
             ?removable=${!this.topicReadOnly}
             @remove=${this.handleTopicRemoved}
-          ></gr-linked-chip>`
+          ></gr-linked-chip>`,
         )}
         ${when(
           this.showAddTopic(),
@@ -682,7 +682,7 @@ export class GrChangeMetadata extends LitElement {
               showAsEditPencil
               autocomplete
               .query=${this.queryTopic}
-            ></gr-editable-label>`
+            ></gr-editable-label>`,
         )}
       </span>
     </section>`;
@@ -699,7 +699,7 @@ export class GrChangeMetadata extends LitElement {
           href=${this.computeCherryPickOfUrl(
             this.change?.cherry_pick_of_change,
             this.change?.cherry_pick_of_patch_set,
-            this.change?.project
+            this.change?.project,
           )}
         >
           <gr-limited-text
@@ -755,7 +755,7 @@ export class GrChangeMetadata extends LitElement {
             @remove=${this.handleHashtagRemoved}
             limit="40"
           >
-          </gr-linked-chip>`
+          </gr-linked-chip>`,
         )}
         ${when(
           !this.hashtagReadOnly,
@@ -769,7 +769,7 @@ export class GrChangeMetadata extends LitElement {
               autocomplete
               .query=${this.queryHashtag}
             ></gr-editable-label>
-          `
+          `,
         )}
       </span>
     </section>`;
@@ -823,7 +823,7 @@ export class GrChangeMetadata extends LitElement {
   computeWebLinks(): WebLinkInfo[] {
     return getChangeWeblinks(
       this.revision?.commit?.web_links,
-      this.serverConfig
+      this.serverConfig,
     );
   }
 
@@ -898,7 +898,7 @@ export class GrChangeMetadata extends LitElement {
     if (!name || !email) {
       fireError(
         this,
-        'Invalid input format, valid identity format is "FullName <user@example.com>"'
+        'Invalid input format, valid identity format is "FullName <user@example.com>"',
       );
       return;
     }
@@ -907,7 +907,7 @@ export class GrChangeMetadata extends LitElement {
       this.change._number,
       name,
       email,
-      role.toUpperCase()
+      role.toUpperCase(),
     );
     fire(this, 'hide-alert', {});
     fireReload(this);
@@ -970,7 +970,7 @@ export class GrChangeMetadata extends LitElement {
           icon: 'info',
           message: this.problems(
             'Push certificate is valid, but key is not trusted',
-            key
+            key,
           ),
         };
       case GpgKeyInfoStatus.TRUSTED:
@@ -979,7 +979,7 @@ export class GrChangeMetadata extends LitElement {
           icon: 'check',
           message: this.problems(
             'Push certificate is valid and key is trusted',
-            key
+            key,
           ),
         };
       case undefined:
@@ -1030,7 +1030,7 @@ export class GrChangeMetadata extends LitElement {
   private computeCherryPickOfUrl(
     change?: NumericChangeId,
     patchset?: RevisionPatchSetNum,
-    project?: RepoName
+    project?: RepoName,
   ) {
     if (!change || !project) {
       return '';
@@ -1106,7 +1106,7 @@ export class GrChangeMetadata extends LitElement {
   // private but used in test
   computeMergedCommitInfo(
     currentrevision?: CommitId,
-    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
+    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo},
   ): CommitInfo | undefined {
     if (!currentrevision || !revisions) return;
     const rev = revisions[currentrevision];
@@ -1139,7 +1139,7 @@ export class GrChangeMetadata extends LitElement {
       return {
         commit: this.computeMergedCommitInfo(
           revertedChange.current_revision,
-          revertedChange.revisions
+          revertedChange.revisions,
         ),
       } as CommitInfo;
     }
@@ -1232,7 +1232,7 @@ export class GrChangeMetadata extends LitElement {
       return;
     }
     const topicEditableLabel = this.shadowRoot!.querySelector<GrEditableLabel>(
-      '.topicEditableLabel'
+      '.topicEditableLabel',
     );
     if (topicEditableLabel) {
       topicEditableLabel.open();
@@ -1240,7 +1240,7 @@ export class GrChangeMetadata extends LitElement {
   }
 
   private getTopicSuggestions(
-    input: string
+    input: string,
   ): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
       .getChangesWithSimilarTopic(input, throwingErrorCallback)
@@ -1251,12 +1251,12 @@ export class GrChangeMetadata extends LitElement {
           .filter(unique)
           .map(topic => {
             return {name: topic, value: topic};
-          })
+          }),
       );
   }
 
   private getHashtagSuggestions(
-    input: string
+    input: string,
   ): Promise<AutocompleteSuggestion[]> {
     const inputReg = input.startsWith('^') ? new RegExp(input) : null;
     return this.restApiService
@@ -1267,16 +1267,16 @@ export class GrChangeMetadata extends LitElement {
           .filter(isDefined)
           .filter(unique)
           .filter(hashtag =>
-            inputReg ? inputReg.test(hashtag) : hashtag.includes(input)
+            inputReg ? inputReg.test(hashtag) : hashtag.includes(input),
           )
           .map(hashtag => {
             return {name: hashtag, value: hashtag};
-          })
+          }),
       );
   }
 
   private async getIdentitySuggestions(
-    input: string
+    input: string,
   ): Promise<AutocompleteSuggestion[]> {
     const suggestions = await this.restApiService.getAccountSuggestions(input);
     if (!suggestions) return [];

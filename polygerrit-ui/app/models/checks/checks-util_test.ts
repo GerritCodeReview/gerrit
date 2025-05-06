@@ -51,13 +51,13 @@ suite('checks-util tests', () => {
     assert.isUndefined(rectifyFix(undefined, 'name'));
     assert.isUndefined(rectifyFix({} as Fix, 'name'));
     assert.isUndefined(
-      rectifyFix({description: 'asdf', replacements: []}, 'name')
+      rectifyFix({description: 'asdf', replacements: []}, 'name'),
     );
     assert.isUndefined(
       rectifyFix(
         {description: 'asdf', replacements: [{} as Replacement]},
-        'test-check-name'
-      )
+        'test-check-name',
+      ),
     );
     assert.isUndefined(
       rectifyFix(
@@ -71,8 +71,8 @@ suite('checks-util tests', () => {
             },
           ],
         },
-        'test-check-name'
-      )
+        'test-check-name',
+      ),
     );
     const rectified = rectifyFix(
       {
@@ -89,7 +89,7 @@ suite('checks-util tests', () => {
           },
         ],
       },
-      'test-check-name'
+      'test-check-name',
     );
     assert.isDefined(rectified);
     assert.equal(rectified?.description, 'Fix provided by test-check-name');
@@ -113,7 +113,7 @@ suite('checks-util tests', () => {
         ],
         description: '',
       },
-      'test-check-name'
+      'test-check-name',
     );
     assert.isDefined(rectified);
     assert.equal(rectified?.description, 'Fix provided by test-check-name');
@@ -152,13 +152,13 @@ suite('checks-util tests', () => {
           ...createCheckResult(),
           message: 'asdf',
           summary: undefined as unknown as string,
-        })
+        }),
       );
     });
 
     test('has message', () => {
       assert.isTrue(
-        computeIsExpandable({...createCheckResult(), message: 'asdf'})
+        computeIsExpandable({...createCheckResult(), message: 'asdf'}),
       );
     });
 
@@ -167,7 +167,7 @@ suite('checks-util tests', () => {
         computeIsExpandable({
           ...createCheckResult(),
           links: [createCheckLink()],
-        })
+        }),
       );
     });
 
@@ -176,7 +176,7 @@ suite('checks-util tests', () => {
         computeIsExpandable({
           ...createCheckResult(),
           links: [createCheckLink(), createCheckLink()],
-        })
+        }),
       );
     });
 
@@ -185,7 +185,7 @@ suite('checks-util tests', () => {
         computeIsExpandable({
           ...createCheckResult(),
           codePointers: [{path: 'asdf', range: createRange()}],
-        })
+        }),
       );
     });
 
@@ -194,7 +194,7 @@ suite('checks-util tests', () => {
         computeIsExpandable({
           ...createCheckResult(),
           fixes: [createCheckFix()],
-        })
+        }),
       );
     });
   });

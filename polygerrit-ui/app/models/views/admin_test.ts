@@ -35,13 +35,13 @@ suite('admin links', () => {
   const testAdminLinks = async (
     account: AccountDetailInfo | undefined,
     options: AdminNavLinksOption | undefined,
-    expected: any
+    expected: any,
   ) => {
     const res = await getAdminLinks(
       account,
       capabilityStub,
       menuLinkStub,
-      options
+      options,
     );
 
     assert.equal(expected.totalLength, res.links.length);
@@ -72,7 +72,7 @@ suite('admin links', () => {
       assert.isOk(res.links[1].subsection);
       assert.equal(
         res.links[1].subsection.children!.length,
-        expected.groupSubpageLength
+        expected.groupSubpageLength,
       );
     } else if (expected.totalLength > 1) {
       assert.isNotOk(res.links[1].subsection);
@@ -81,7 +81,7 @@ suite('admin links', () => {
     if (expected.pluginGeneratedLinks) {
       for (const link of expected.pluginGeneratedLinks) {
         const linkMatch = res.links.find(
-          l => l.url === link.url && l.name === link.text
+          l => l.url === link.url && l.name === link.text,
         );
         assert.isOk(linkMatch);
 
@@ -108,7 +108,7 @@ suite('admin links', () => {
       assert.equal(res.expandedSection!.name, 'my-group');
       assert.equal(
         res.expandedSection!.children!.length,
-        expected.groupSubpageLength
+        expected.groupSubpageLength,
       );
     }
   };
@@ -371,7 +371,7 @@ suite('admin view model', () => {
         PLUGIN_LIST_ROUTE,
         '/admin/plugins',
         state,
-        createAdminUrl
+        createAdminUrl,
       );
     });
   });

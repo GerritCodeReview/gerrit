@@ -72,37 +72,37 @@ export class GrDiffSection extends LitElement {
     subscribe(
       this,
       () => this.getDiffModel().lineLength$,
-      lineLength => (this.lineLength = lineLength)
+      lineLength => (this.lineLength = lineLength),
     );
     subscribe(
       this,
       () => this.getDiffModel().viewMode$,
-      viewMode => (this.viewMode = viewMode)
+      viewMode => (this.viewMode = viewMode),
     );
     subscribe(
       this,
       () => this.getDiffModel().diff$,
-      diff => (this.diff = diff)
+      diff => (this.diff = diff),
     );
     subscribe(
       this,
       () => this.getDiffModel().renderPrefs$,
-      renderPrefs => (this.renderPrefs = renderPrefs)
+      renderPrefs => (this.renderPrefs = renderPrefs),
     );
     subscribe(
       this,
       () => this.getDiffModel().diffPrefs$,
-      diffPrefs => (this.diffPrefs = diffPrefs)
+      diffPrefs => (this.diffPrefs = diffPrefs),
     );
     subscribe(
       this,
       () => this.getDiffModel().layers$,
-      layers => (this.layers = layers)
+      layers => (this.layers = layers),
     );
     subscribe(
       this,
       () => this.getDiffModel().columnsToShow$,
-      columnsToShow => (this.columns = columnsToShow)
+      columnsToShow => (this.columns = columnsToShow),
     );
   }
 
@@ -219,19 +219,19 @@ export class GrDiffSection extends LitElement {
         ${when(this.columns.blame, () => html`<td class="blame"></td>`)}
         ${when(
           this.columns.leftNumber,
-          () => html`<td class="moveControlsLineNumCol"></td>`
+          () => html`<td class="moveControlsLineNumCol"></td>`,
         )}
         ${when(this.columns.leftSign, () => html`<td class="sign"></td>`)}
         ${when(this.columns.leftContent, () =>
-          movedIn ? plainCell : moveCell
+          movedIn ? plainCell : moveCell,
         )}
         ${when(
           this.columns.rightNumber,
-          () => html`<td class="moveControlsLineNumCol"></td>`
+          () => html`<td class="moveControlsLineNumCol"></td>`,
         )}
         ${when(this.columns.rightSign, () => html`<td class="sign"></td>`)}
         ${when(this.columns.rightContent, () =>
-          movedIn || this.isUnifiedDiff() ? moveCell : plainCell
+          movedIn || this.isUnifiedDiff() ? moveCell : plainCell,
         )}
       </tr>
     `;
@@ -273,7 +273,7 @@ export class GrDiffSection extends LitElement {
   private handleMovedLineAnchorClick(
     anchor: EventTarget | null,
     side: Side,
-    line: number
+    line: number,
   ) {
     if (!anchor) return;
     fire(anchor, 'moved-link-clicked', {

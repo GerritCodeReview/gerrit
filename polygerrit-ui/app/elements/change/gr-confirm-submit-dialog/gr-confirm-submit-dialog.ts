@@ -103,17 +103,17 @@ export class GrConfirmSubmitDialog
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getCommentsModel().threadsSaved$,
-      x => (this.unresolvedThreads = x.filter(isUnresolved))
+      x => (this.unresolvedThreads = x.filter(isUnresolved)),
     );
     subscribe(
       this,
       () => this.getChangeModel().revisions$,
-      x => (this.sortedRevisions = x)
+      x => (this.sortedRevisions = x),
     );
   }
 
@@ -218,7 +218,7 @@ export class GrConfirmSubmitDialog
   // Private method, but visible for testing.
   computeHasChangeEdit() {
     return Object.values(this.change?.revisions ?? {}).some(
-      rev => rev._number === EDIT
+      rev => rev._number === EDIT,
     );
   }
 

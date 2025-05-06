@@ -156,27 +156,27 @@ export class GrEditableContent extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().latestCommitter$,
-      x => (this.latestCommitter = x)
+      x => (this.latestCommitter = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().editMode$,
-      editMode => (this.editMode = editMode)
+      editMode => (this.editMode = editMode),
     );
     subscribe(
       this,
       () => this.getChangeModel().repo$,
-      x => (this.repoName = x)
+      x => (this.repoName = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      x => (this.patchNum = x)
+      x => (this.patchNum = x),
     );
   }
 
@@ -355,17 +355,17 @@ export class GrEditableContent extends LitElement {
               <div>
                 ${when(
                   !this.commitCollapsed,
-                  () => html`<gr-icon icon="expand_less" small></gr-icon>`
+                  () => html`<gr-icon icon="expand_less" small></gr-icon>`,
                 )}
                 ${when(
                   this.commitCollapsed,
-                  () => html`<gr-icon icon="expand_more" small></gr-icon>`
+                  () => html`<gr-icon icon="expand_more" small></gr-icon>`,
                 )}
                 <span>${this.commitCollapsed ? 'Show All' : 'Show Less'}</span>
               </div>
             </gr-button>
             <div class="flex-space"></div>
-          `
+          `,
         )}
         ${when(
           !this.hideEditCommitMessage,
@@ -380,7 +380,7 @@ export class GrEditableContent extends LitElement {
                 <span>Edit</span>
               </div></gr-button
             >
-          `
+          `,
         )}
         ${when(
           this.editing,
@@ -393,7 +393,7 @@ export class GrEditableContent extends LitElement {
                 @value-change=${this.setCommitterEmail}
             >
             </gr-dropdown-list>
-            <span></div>`
+            <span></div>`,
             )}
             <div class="editButtons">
               ${when(
@@ -403,7 +403,7 @@ export class GrEditableContent extends LitElement {
                     .map(e => `${e.line ? `Line ${e.line}: ` : ''}${e.message}`)
                     .join('\n')}
                   ><gr-icon class="warning" icon="warning" filled></gr-icon
-                ></gr-tooltip-content>`
+                ></gr-tooltip-content>`,
               )}
               <gr-button
                 link
@@ -413,7 +413,7 @@ export class GrEditableContent extends LitElement {
                 .title=${this.computeFormatButtonTooltip(
                   this.formatDisabled,
                   this.formattedErrors,
-                  !!this.lastFormattedContent
+                  !!this.lastFormattedContent,
                 )}
                 >${this.lastFormattedContent ? 'Undo' : 'Format'}</gr-button
               >
@@ -431,7 +431,7 @@ export class GrEditableContent extends LitElement {
                 ?disabled=${this.computeSaveDisabled()}
                 >Save</gr-button
               >
-            </div>`
+            </div>`,
         )}
         </div>
       </div>
@@ -480,7 +480,7 @@ export class GrEditableContent extends LitElement {
       () => {
         this.formattedErrors = detectFormattingErrorsInString(this.newContent);
         const filteredFormattedErrors = this.filterActiveLineErrors(
-          this.formattedErrors
+          this.formattedErrors,
         );
         this.showFormattedErrors = filteredFormattedErrors.length > 0;
 
@@ -492,7 +492,7 @@ export class GrEditableContent extends LitElement {
           formatCommitMessageString(this.newContent) === this.newContent ||
           isOnlyCurrentLineFormatting;
       },
-      DEBOUNCE_DELAY_MS
+      DEBOUNCE_DELAY_MS,
     );
   }
 
@@ -514,7 +514,7 @@ export class GrEditableContent extends LitElement {
           this.getStorage().eraseEditableContentItem(storageKey);
         }
       },
-      STORAGE_DEBOUNCE_INTERVAL_MS
+      STORAGE_DEBOUNCE_INTERVAL_MS,
     );
   }
 
@@ -542,7 +542,7 @@ export class GrEditableContent extends LitElement {
     let content;
     if (this.storageKey) {
       const storedContent = this.getStorage().getEditableContentItem(
-        this.storageKey
+        this.storageKey,
       );
       if (storedContent?.message) {
         content = storedContent.message;
@@ -602,7 +602,7 @@ export class GrEditableContent extends LitElement {
         this.getViewModel().editUrl({
           editView: {path: SpecialFilePath.COMMIT_MESSAGE},
           patchNum: this.patchNum,
-        })
+        }),
       );
 
       return;
@@ -693,7 +693,7 @@ export class GrEditableContent extends LitElement {
   private computeFormatButtonTooltip(
     formatDisabled: boolean,
     formattedErrors: FormattingError[],
-    isUndo: boolean
+    isUndo: boolean,
   ): string {
     if (isUndo) {
       return 'Undo formatting changes';

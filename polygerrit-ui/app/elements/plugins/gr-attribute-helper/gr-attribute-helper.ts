@@ -17,7 +17,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
     private readonly reporting: ReportingService,
     readonly plugin: PluginApi,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public element: any
+    public element: any,
   ) {
     this.reporting.trackApi(this.plugin, 'attribute', 'constructor');
   }
@@ -57,7 +57,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
     const unbind = () =>
       this.element.removeEventListener(
         attributeChangedEventName,
-        changedHandler
+        changedHandler,
       );
     this.element.addEventListener(attributeChangedEventName, changedHandler);
     if (this._elementHasProperty(name)) {
@@ -97,7 +97,7 @@ export class GrAttributeHelper implements AttributeHelperPluginApi {
     this.reporting.trackApi(this.plugin, 'attribute', 'set');
     this.element[name] = value;
     this.element.dispatchEvent(
-      new CustomEvent(this._getChangedEventName(name), {detail: {value}})
+      new CustomEvent(this._getChangedEventName(name), {detail: {value}}),
     );
   }
 }

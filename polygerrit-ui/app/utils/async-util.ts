@@ -18,7 +18,7 @@ import {assertIsDefined} from './common-util';
  */
 export function asyncForeach<T>(
   array: T[],
-  fn: (item: T, stopCallback: () => void) => Promise<unknown>
+  fn: (item: T, stopCallback: () => void) => Promise<unknown>,
 ): Promise<T | void> {
   if (!array.length) {
     return Promise.resolve();
@@ -68,7 +68,7 @@ export class DelayedTask {
   public readonly promise: Promise<ResolvedDelayedTaskStatus>;
 
   private resolvePromise?: (
-    value: ResolvedDelayedTaskStatus | PromiseLike<ResolvedDelayedTaskStatus>
+    value: ResolvedDelayedTaskStatus | PromiseLike<ResolvedDelayedTaskStatus>,
   ) => void;
 
   private callCallbackAndResolveOnCompletion() {
@@ -85,7 +85,7 @@ export class DelayedTask {
 
   constructor(
     private readonly callback: () => void | Promise<void>,
-    waitMs = 0
+    waitMs = 0,
   ) {
     this.promise = new Promise(resolve => {
       this.resolvePromise = resolve;
@@ -137,7 +137,7 @@ export class DelayedTask {
 export function debounce(
   existingTask: DelayedTask | undefined,
   callback: () => void,
-  waitMs = 0
+  waitMs = 0,
 ) {
   existingTask?.cancel();
   return new DelayedTask(callback, waitMs);
@@ -223,7 +223,7 @@ export class DelayedPromise<T> extends Promise<T> {
 export function debounceP<T>(
   existingPromise: DelayedPromise<T> | undefined,
   callback: () => Promise<T>,
-  waitMs = 0
+  waitMs = 0,
 ): DelayedPromise<T> {
   const promise = new DelayedPromise<T>(callback, waitMs);
   if (existingPromise) existingPromise.delegate(promise);
@@ -266,7 +266,7 @@ export type PromiseResult<T> =
   | {status: 'fulfilled'; value: T}
   | {status: 'rejected'; reason: string};
 export function isFulfilled<T>(
-  promiseResult?: PromiseResult<T>
+  promiseResult?: PromiseResult<T>,
 ): promiseResult is PromiseResult<T> & {status: 'fulfilled'} {
   return promiseResult?.status === 'fulfilled';
 }
@@ -275,14 +275,14 @@ export function isFulfilled<T>(
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
 // TODO: Migrate our tooling to ES2020 and remove this method.
 export function allSettled<T>(
-  promises: Promise<T>[]
+  promises: Promise<T>[],
 ): Promise<PromiseResult<T>[]> {
   return Promise.all(
     promises.map(promise =>
       promise
         .then(value => ({status: 'fulfilled', value} as const))
-        .catch(reason => ({status: 'rejected', reason} as const))
-    )
+        .catch(reason => ({status: 'rejected', reason} as const)),
+    ),
   );
 }
 
@@ -326,9 +326,9 @@ export function makeCancelable<T>(promise: Promise<T>) {
         error => {
           if (!isDone) reject(error);
           isDone = true;
-        }
+        },
       );
-    }
+    },
   ) as CancelablePromise<T>;
 
   wrappedPromise.cancel = () => {
@@ -353,7 +353,7 @@ export function mockPromise<T = unknown>(): MockPromise<T> {
     (resolve, reject) => {
       res = resolve;
       rej = reject;
-    }
+    },
   ) as MockPromise<T>;
   promise.resolve = res!;
   promise.reject = rej!;
@@ -375,7 +375,7 @@ export function timeoutPromise(timeoutMs: number): Promise<void> {
 export async function waitUntil(
   predicate: (() => boolean) | (() => Promise<boolean>),
   message = 'The waitUntil() predicate is still false after 1000 ms.',
-  timeout_ms = 1000
+  timeout_ms = 1000,
 ): Promise<void> {
   if (await predicate()) return Promise.resolve();
   const start = Date.now();

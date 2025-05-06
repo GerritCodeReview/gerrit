@@ -90,7 +90,7 @@ suite('gr-editable-label tests', () => {
           </div>
         </div>
       </div>
-    </iron-dropdown>`
+    </iron-dropdown>`,
     );
   });
 
@@ -226,7 +226,7 @@ suite('gr-editable-label tests', () => {
       // The dropdown is closed.
       const dropdown = queryAndAssert<IronDropdownElement>(
         element,
-        '#dropdown'
+        '#dropdown',
       );
       assert.isFalse(dropdown.opened);
       label.click();

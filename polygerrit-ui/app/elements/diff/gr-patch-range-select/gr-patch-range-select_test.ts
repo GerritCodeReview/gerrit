@@ -63,7 +63,7 @@ suite('gr-patch-range-select tests', () => {
     // Element must be wrapped in an element with direct access to the
     // comment API.
     element = await fixture(
-      html`<gr-patch-range-select></gr-patch-range-select>`
+      html`<gr-patch-range-select></gr-patch-range-select>`,
     );
 
     const viewModel = testResolver(changeViewModelToken);
@@ -95,7 +95,7 @@ suite('gr-patch-range-select tests', () => {
         <span aria-label="patch range ends with" class="patchRange">
           <gr-dropdown-list id="patchNumDropdown"> </gr-dropdown-list>
         </span>
-      `
+      `,
     );
   });
 
@@ -110,7 +110,7 @@ suite('gr-patch-range-select tests', () => {
 
     for (const patchNum of [1, 2, 3]) {
       assert.isFalse(
-        element.computeRightDisabled(PARENT, patchNum as PatchSetNumber)
+        element.computeRightDisabled(PARENT, patchNum as PatchSetNumber),
       );
     }
     for (const basePatchNum of [1, 2]) {
@@ -118,11 +118,11 @@ suite('gr-patch-range-select tests', () => {
       assert.isFalse(element.computeLeftDisabled(base, 3 as PatchSetNum));
     }
     assert.isTrue(
-      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
+      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum),
     );
 
     assert.isTrue(
-      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
+      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum),
     );
   });
 
@@ -382,14 +382,14 @@ suite('gr-patch-range-select tests', () => {
 
     assert.equal(
       element.computePatchSetCommentsString(1 as PatchSetNum),
-      ' (4 comments, 2 unresolved)'
+      ' (4 comments, 2 unresolved)',
     );
 
     // Test string for specific file path.
     element.path = 'foo';
     assert.equal(
       element.computePatchSetCommentsString(1 as PatchSetNum),
-      ' (1 comment, 1 unresolved)'
+      ' (1 comment, 1 unresolved)',
     );
     element.path = undefined;
 
@@ -398,7 +398,7 @@ suite('gr-patch-range-select tests', () => {
     element.changeComments = new ChangeComments(comments);
     assert.equal(
       element.computePatchSetCommentsString(1 as PatchSetNum),
-      ' (3 comments, 1 unresolved)'
+      ' (3 comments, 1 unresolved)',
     );
 
     // Test string with no comments.
@@ -406,7 +406,7 @@ suite('gr-patch-range-select tests', () => {
     element.changeComments = new ChangeComments(comments);
     assert.equal(
       element.computePatchSetCommentsString(1 as PatchSetNum),
-      ' (1 comment, 1 unresolved)'
+      ' (1 comment, 1 unresolved)',
     );
   });
 
@@ -432,7 +432,7 @@ suite('gr-patch-range-select tests', () => {
     element.addEventListener('patch-range-change', handler);
     const basePatchDropdown = queryAndAssert<GrDropdownList>(
       element,
-      '#basePatchDropdown'
+      '#basePatchDropdown',
     );
     basePatchDropdown.value = '2';
     await basePatchDropdown.updateComplete;
@@ -445,7 +445,7 @@ suite('gr-patch-range-select tests', () => {
     // BasePatchNum should not have changed, due to one-way data binding.
     const patchNumDropdown = queryAndAssert<GrDropdownList>(
       element,
-      '#patchNumDropdown'
+      '#patchNumDropdown',
     );
     patchNumDropdown.value = EDIT;
     await patchNumDropdown.updateComplete;
@@ -490,7 +490,7 @@ suite('gr-patch-range-select tests', () => {
     element.changeComments = new ChangeComments();
     const computeCommentThreadsSpy = sinon.spy(
       element.changeComments,
-      'computeCommentThreads'
+      'computeCommentThreads',
     );
 
     // First test with path undefined
@@ -508,7 +508,7 @@ suite('gr-patch-range-select tests', () => {
     });
     assert.isFalse(
       computeCommentThreadsSpy.firstCall.args[1],
-      'Should not ignore patchset level comments when path is undefined'
+      'Should not ignore patchset level comments when path is undefined',
     );
     // Reset the spy
     computeCommentThreadsSpy.resetHistory();
@@ -527,7 +527,7 @@ suite('gr-patch-range-select tests', () => {
     });
     assert.isTrue(
       computeCommentThreadsSpy.firstCall.args[1],
-      'Should ignore patchset level comments when path is defined'
+      'Should ignore patchset level comments when path is defined',
     );
   });
 });

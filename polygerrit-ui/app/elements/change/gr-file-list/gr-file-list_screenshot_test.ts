@@ -21,10 +21,10 @@ suite('gr-file-list screenshot tests', () => {
 
   function createFiles(
     count: number,
-    fileInfo: FileInfo
+    fileInfo: FileInfo,
   ): NormalizedFileInfo[] {
     return Array.from(Array(count).keys()).map(index =>
-      normalize(fileInfo, `/file${index}`)
+      normalize(fileInfo, `/file${index}`),
     );
   }
 
@@ -44,7 +44,7 @@ suite('gr-file-list screenshot tests', () => {
       html`<gr-file-list
         .patchRange=${patchRange}
         .diffPrefs=${diffPrefs}
-      ></gr-file-list>`
+      ></gr-file-list>`,
     );
   });
 

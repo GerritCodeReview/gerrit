@@ -80,7 +80,7 @@ export class GrEditFileControls extends LitElement {
       .filter(
         action =>
           this.filePath !== SpecialFilePath.COMMIT_MESSAGE ||
-          action.label === GrEditConstants.Actions.OPEN.label
+          action.label === GrEditConstants.Actions.OPEN.label,
       )
       .map(action => {
         return {

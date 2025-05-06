@@ -47,7 +47,7 @@ const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
 
 function sectionsToEncodedParams(
   sections: DashboardSection[],
-  repoName?: RepoName
+  repoName?: RepoName,
 ) {
   return sections.map(section => {
     // If there is a repo name provided, make sure to substitute it into the
@@ -80,7 +80,7 @@ export function createDashboardUrl(state: Omit<DashboardViewState, 'view'>) {
 }
 
 export const dashboardViewModelToken = define<DashboardViewModel>(
-  'dashboard-view-model'
+  'dashboard-view-model',
 );
 
 export class DashboardViewModel extends Model<DashboardViewState | undefined> {

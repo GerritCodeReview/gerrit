@@ -112,7 +112,7 @@ ${result.message}`;
 export function toComment(
   result: RunResult,
   message?: string,
-  unresolved?: boolean
+  unresolved?: boolean,
 ): DraftInfo {
   const pointer = result.codePointers?.[0];
   assertIsDefined(pointer, 'code pointer required for conversion to comment');
@@ -149,7 +149,7 @@ export function createPleaseFixComment(result: RunResult): DraftInfo {
 
 export function createFixAction(
   target: EventTarget,
-  result?: RunResult
+  result?: RunResult,
 ): Action | undefined {
   if (!result?.patchset) return;
   if (!result?.fixes) return;
@@ -183,7 +183,7 @@ export function createGetAiFixAction(target: EventTarget): Action | undefined {
 
 export function rectifyFix(
   fix: Fix | undefined,
-  checkName: string | undefined
+  checkName: string | undefined,
 ): FixSuggestionInfo | undefined {
   if (!fix?.replacements || !checkName) return undefined;
   const replacements = fix.replacements
@@ -201,7 +201,7 @@ export function rectifyFix(
 }
 
 export function rectifyReplacement(
-  r: Replacement | undefined
+  r: Replacement | undefined,
 ): FixReplacementInfo | undefined {
   if (!r?.path) return undefined;
   if (!r?.range) return undefined;
@@ -222,7 +222,7 @@ export function worstCategory(run: CheckRunApi) {
 }
 
 export function isCategory(
-  catStat?: Category | RunStatus
+  catStat?: Category | RunStatus,
 ): catStat is Category {
   return (
     catStat === Category.ERROR ||
@@ -333,7 +333,7 @@ function primaryActionName(status: RunStatus) {
 export function primaryRunAction(run?: CheckRun): Action | undefined {
   if (!run) return undefined;
   return runActions(run).filter(
-    action => !action.disabled && action.name === primaryActionName(run.status)
+    action => !action.disabled && action.name === primaryActionName(run.status),
   )[0];
 }
 
@@ -385,7 +385,7 @@ export function allResults(runs: CheckRun[]): CheckResult[] {
       ...results,
       ...(run.results ?? []),
     ],
-    []
+    [],
   );
 }
 
@@ -459,7 +459,7 @@ export function isAttemptChoice(x: number | string): x is AttemptChoice {
 }
 
 export function stringToAttemptChoice(
-  s?: string | null
+  s?: string | null,
 ): AttemptChoice | undefined {
   if (s === undefined) return undefined;
   if (s === null) return undefined;
@@ -482,7 +482,7 @@ export function sortAttemptDetails(a: AttemptDetail, b: AttemptDetail): number {
 
 export function sortAttemptChoices(
   a?: AttemptChoice,
-  b?: AttemptChoice
+  b?: AttemptChoice,
 ): number {
   if (a === b) return 0;
   if (a === undefined) return -1;
@@ -515,7 +515,7 @@ export function createAttemptMap(runs: CheckRunApi[]) {
     if (!run.attempt || !value.latestAttempt) {
       throw new Error(
         'If multiple run attempts are provided, ' +
-          'then each run must have the "attempt" property set.'
+          'then each run must have the "attempt" property set.',
       );
     }
     value.isSingleAttempt = false;

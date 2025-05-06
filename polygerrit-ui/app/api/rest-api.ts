@@ -640,7 +640,7 @@ export declare interface DetailedLabelInfo extends LabelCommonInfo {
 }
 
 export function isDetailedLabelInfo(
-  label: LabelInfo
+  label: LabelInfo,
 ): label is DetailedLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
   return !!(label as DetailedLabelInfo).values;
 }
@@ -976,7 +976,7 @@ export declare interface QuickLabelInfo extends LabelCommonInfo {
 }
 
 export function isQuickLabelInfo(
-  l: LabelInfo
+  l: LabelInfo,
 ): l is QuickLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
   const quickLabelInfo = l as QuickLabelInfo;
   return (
@@ -1328,7 +1328,7 @@ export declare interface Base64FileContent {
 }
 
 export function isBase64FileContent(
-  res: Response | Base64FileContent
+  res: Response | Base64FileContent,
 ): res is Base64FileContent {
   return (res as Base64FileContent).ok;
 }

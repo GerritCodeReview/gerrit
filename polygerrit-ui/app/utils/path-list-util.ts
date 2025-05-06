@@ -56,7 +56,7 @@ export function shouldHideFile(file: string) {
 // we explicitly displays the file to render the comments with Unchanged status
 export function addUnmodifiedFiles(
   files: FileNameToFileInfoMap,
-  commentedPaths: {[fileName: string]: boolean}
+  commentedPaths: {[fileName: string]: boolean},
 ) {
   if (!commentedPaths) return;
   Object.keys(commentedPaths).forEach(commentedPath => {
@@ -70,7 +70,7 @@ export function addUnmodifiedFiles(
       Object.values(files).some(
         file =>
           file.status === FileInfoStatus.RENAMED &&
-          file.old_path === commentedPath
+          file.old_path === commentedPath,
       )
     ) {
       return;

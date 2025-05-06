@@ -187,13 +187,13 @@ export class GrAccessSection extends LitElement {
           <!-- end header -->
           <div class="sectionContent">
             ${this.permissions?.map((permission, index) =>
-              this.renderPermission(permission, index)
+              this.renderPermission(permission, index),
             )}
             <div id="addPermission">
               Add permission:
               <select id="permissionSelect">
                 ${this.computePermissions().map(item =>
-                  this.renderPermissionOptions(item)
+                  this.renderPermissionOptions(item),
                 )}
               </select>
               <gr-button link id="addBtn" @click=${this.handleAddPermission}
@@ -218,7 +218,7 @@ export class GrAccessSection extends LitElement {
 
   private renderPermission(
     permission: PermissionArrayItem<EditablePermissionInfo>,
-    index: number
+    index: number,
   ) {
     return html`
       <gr-permission
@@ -233,7 +233,7 @@ export class GrAccessSection extends LitElement {
           this.handleAddedPermissionRemoved(index);
         }}
         @permission-changed=${(
-          e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>
+          e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>,
         ) => {
           this.handlePermissionChanged(e, index);
         }}
@@ -261,7 +261,7 @@ export class GrAccessSection extends LitElement {
   // private but used in test
   updateSection() {
     this.permissions = toSortedPermissionsArray(
-      this.section!.value.permissions
+      this.section!.value.permissions,
     );
     this.originalId = this.section!.id;
   }
@@ -331,11 +331,11 @@ export class GrAccessSection extends LitElement {
     } else {
       const labelOptions = this.computeLabelOptions();
       allPermissions = labelOptions.concat(
-        toSortedPermissionsArray(AccessPermissions)
+        toSortedPermissionsArray(AccessPermissions),
       );
     }
     return allPermissions.filter(
-      permission => !section.value.permissions[permission.id]
+      permission => !section.value.permissions[permission.id],
     );
   }
 
@@ -375,7 +375,7 @@ export class GrAccessSection extends LitElement {
 
   // private but used in test
   computePermissionName(
-    permission: PermissionArrayItem<EditablePermissionInfo>
+    permission: PermissionArrayItem<EditablePermissionInfo>,
   ): string | undefined {
     if (this.section?.id === GLOBAL_NAME) {
       return this.capabilities?.[permission.id]?.name;
@@ -512,7 +512,7 @@ export class GrAccessSection extends LitElement {
 
   private handlePermissionChanged = (
     e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>,
-    index: number
+    index: number,
   ) => {
     this.permissions![index] = e.detail.value;
     this.requestUpdate();

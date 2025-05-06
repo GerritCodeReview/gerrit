@@ -41,7 +41,7 @@ suite('gr-message-score tests', () => {
         <span class="max positive score"> Verified +1 </span>
         <span class="min negative score"> Code-Review -2 </span>
         <span class="positive score"> Trybot-Label3 +1 </span>
-      `
+      `,
     );
   });
 
@@ -178,7 +178,7 @@ suite('gr-message-score tests', () => {
       `<div class="container">
       <span class="label">Auto-Submit</span>
       <gr-vote-chip></gr-vote-chip>
-    </div>`
+    </div>`,
     );
     const voteChips = triggerChip?.shadowRoot?.querySelectorAll('gr-vote-chip');
     assert.equal(voteChips?.length, 1);
@@ -189,7 +189,7 @@ suite('gr-message-score tests', () => {
       scoreChips?.[0],
       /* HTML */ `
         <span class="removed score"> Commit-Queue 0 (vote reset) </span>
-      `
+      `,
     );
   });
 });

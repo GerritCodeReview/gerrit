@@ -42,7 +42,7 @@ export class GrDocumentationSearch extends LitElement {
       x => {
         this.filter = x?.filter ?? '';
         if (x !== undefined) this.getDocumentationSearches();
-      }
+      },
     );
   }
 
@@ -75,7 +75,7 @@ export class GrDocumentationSearch extends LitElement {
         </tbody>
         <tbody class=${this.loading ? 'loading' : ''}>
           ${this.documentationSearches?.map(search =>
-            this.renderDocumentationList(search)
+            this.renderDocumentationList(search),
           )}
         </tbody>
       </table>

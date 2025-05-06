@@ -326,10 +326,10 @@ suite('gr-change-view tests', () => {
           ...createUserConfig(),
           anonymous_coward_name: 'test coward name',
         },
-      })
+      }),
     );
     stubRestApi('getAccount').returns(
-      Promise.resolve(createAccountDetailWithId(5))
+      Promise.resolve(createAccountDetailWithId(5)),
     );
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
@@ -339,18 +339,18 @@ suite('gr-change-view tests', () => {
       plugin => {
         plugin.registerDynamicCustomComponent(
           'change-view-tab-header',
-          'gr-checks-change-view-tab-header-view'
+          'gr-checks-change-view-tab-header-view',
         );
         plugin.registerDynamicCustomComponent(
           'change-view-tab-content',
-          'gr-checks-view'
+          'gr-checks-view',
         );
       },
       '0.1',
-      'http://some/plugins/url.js'
+      'http://some/plugins/url.js',
     );
     element = await fixture<GrChangeView>(
-      html`<gr-change-view></gr-change-view>`
+      html`<gr-change-view></gr-change-view>`,
     );
     element.viewState = {
       view: GerritView.CHANGE,
@@ -523,7 +523,7 @@ suite('gr-change-view tests', () => {
           <gr-included-in-dialog id="includedInDialog"> </gr-included-in-dialog>
         </dialog>
         <dialog id="replyModal"></dialog>
-      `
+      `,
     );
   });
 
@@ -534,7 +534,7 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     const replaceStateStub = sinon.stub(history, 'replaceState');
     element.handleMessageAnchorTap(
-      new CustomEvent('message-anchor-tap', {detail: {id: 'a12345'}})
+      new CustomEvent('message-anchor-tap', {detail: {id: 'a12345'}}),
     );
 
     assert.isTrue(replaceStateStub.called);
@@ -606,11 +606,11 @@ suite('gr-change-view tests', () => {
       revisions: createRevisions(10),
     };
     const addToAttentionSetStub = stubRestApi('addToAttentionSet').returns(
-      Promise.resolve(new Response())
+      Promise.resolve(new Response()),
     );
 
     const removeFromAttentionSetStub = stubRestApi(
-      'removeFromAttentionSet'
+      'removeFromAttentionSet',
     ).returns(Promise.resolve(new Response()));
     element.basePatchNum = 1 as BasePatchSetNum;
     element.patchNum = 3 as RevisionPatchSetNum;
@@ -633,7 +633,9 @@ suite('gr-change-view tests', () => {
 
     test('plugin added tab shows up as a dynamic endpoint', async () => {
       assert(
-        element.pluginTabsHeaderEndpoints.includes('change-view-tab-header-url')
+        element.pluginTabsHeaderEndpoints.includes(
+          'change-view-tab-header-url',
+        ),
       );
       const tabs = element.shadowRoot!.querySelector('#tabs')!;
       const paperTabs = tabs.querySelectorAll<HTMLElement>('paper-tab');
@@ -648,7 +650,7 @@ suite('gr-change-view tests', () => {
       element.setActiveTab(
         new CustomEvent('', {
           detail: {tab: 'change-view-tab-header-url'},
-        })
+        }),
       );
       await element.updateComplete;
       assert.equal(element.activeTab, 'change-view-tab-header-url');
@@ -662,7 +664,7 @@ suite('gr-change-view tests', () => {
           detail: {
             tab: 'change-view-tab-header-url',
           },
-        })
+        }),
       );
       await element.updateComplete;
       assert.equal(element.activeTab, 'change-view-tab-header-url');
@@ -693,7 +695,7 @@ suite('gr-change-view tests', () => {
             <gr-endpoint-param name="change"></gr-endpoint-param>
             <gr-endpoint-param name="revision"></gr-endpoint-param>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
   });
@@ -770,7 +772,7 @@ suite('gr-change-view tests', () => {
       // restore clock so that setTimeout in waitUntil() works as expected
       clock.restore();
       stubRestApi('getChangeDetail').returns(
-        Promise.resolve(createParsedChange())
+        Promise.resolve(createParsedChange()),
       );
       const change = {
         ...createChangeViewChange(),
@@ -798,7 +800,7 @@ suite('gr-change-view tests', () => {
       element.replyModal.close();
       assert(
         openSpy.lastCall.calledWithExactly(FocusTarget.ANY),
-        'openReplyDialog should have been passed ANY'
+        'openReplyDialog should have been passed ANY',
       );
       assert.equal(openSpy.callCount, 1);
       await waitUntil(() => !element.replyModalOpened);
@@ -812,7 +814,7 @@ suite('gr-change-view tests', () => {
         new CustomEvent('expand-diffs', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleExpand.called);
     });
@@ -825,7 +827,7 @@ suite('gr-change-view tests', () => {
         new CustomEvent('collapse-diffs', {
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       assert.isTrue(handleCollapse.called);
     });
@@ -834,7 +836,7 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
       const handleExpand = sinon.stub(
         element.messagesList!,
-        'handleExpandCollapse'
+        'handleExpandCollapse',
       );
       pressKey(element, 'x');
       assert(handleExpand.calledWith(true));
@@ -844,7 +846,7 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
       const handleExpand = sinon.stub(
         element.messagesList!,
-        'handleExpandCollapse'
+        'handleExpandCollapse',
       );
       pressKey(element, 'z');
       assert(handleExpand.calledWith(false));
@@ -882,7 +884,7 @@ suite('gr-change-view tests', () => {
       userModel.setPreferences(prefs);
       element.handleToggleDiffMode();
       assert.isTrue(
-        updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED})
+        updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED}),
       );
 
       const newPrefs = {
@@ -893,7 +895,9 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
       element.handleToggleDiffMode();
       assert.isTrue(
-        updatePreferencesStub.calledWith({diff_view: DiffViewMode.SIDE_BY_SIDE})
+        updatePreferencesStub.calledWith({
+          diff_view: DiffViewMode.SIDE_BY_SIDE,
+        }),
       );
     });
   });
@@ -953,7 +957,7 @@ suite('gr-change-view tests', () => {
     test('commentId overrides unresolveOnly default', async () => {
       const threadList = queryAndAssert<GrThreadList>(
         element,
-        'gr-thread-list'
+        'gr-thread-list',
       );
       assert.isTrue(element.unresolvedOnly);
       assert.isNotOk(element.scrollCommentId);
@@ -1000,15 +1004,15 @@ suite('gr-change-view tests', () => {
       assert.deepEqual(count, expectedCount);
       assert.equal(
         element.computeText(createRevision(2), THREADS),
-        'Patchset 2 (1 finding)'
+        'Patchset 2 (1 finding)',
       );
       assert.equal(
         element.computeText(createRevision(4), THREADS),
-        'Patchset 4 (2 findings)'
+        'Patchset 4 (2 findings)',
       );
       assert.equal(
         element.computeText(createRevision(5), THREADS),
-        'Patchset 5'
+        'Patchset 5',
       );
     });
 
@@ -1019,14 +1023,14 @@ suite('gr-change-view tests', () => {
           element.computeRobotCommentThreads()[0]
             .comments[0] as RobotCommentInfo
         ).robot_id,
-        'rc1'
+        'rc1',
       );
       assert.equal(
         (
           element.computeRobotCommentThreads()[1]
             .comments[0] as RobotCommentInfo
         ).robot_id,
-        'rc2'
+        'rc2',
       );
     });
 
@@ -1057,7 +1061,7 @@ suite('gr-change-view tests', () => {
         assert.isOk(element.shadowRoot!.querySelector('.show-robot-comments'));
         assert.equal(
           element.computeRobotCommentThreads().length,
-          ROBOT_COMMENTS_LIMIT
+          ROBOT_COMMENTS_LIMIT,
         );
       });
 
@@ -1085,7 +1089,7 @@ suite('gr-change-view tests', () => {
       new CustomEvent('download-tap', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.isTrue(openDialogStub.called);
   });
@@ -1094,7 +1098,7 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     assert.equal(
       element.serverConfig!.user.anonymous_coward_name,
-      'test coward name'
+      'test coward name',
     );
   });
 
@@ -1108,7 +1112,7 @@ suite('gr-change-view tests', () => {
       new CustomEvent('open-diff-prefs', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     assert.isTrue(overlayOpenStub.called);
   });
@@ -1168,7 +1172,7 @@ suite('gr-change-view tests', () => {
     };
     assert.equal(
       element.computeCopyTextForTitle(),
-      `123: test subject | http://${location.host}/c/test-project/+/123`
+      `123: test subject | http://${location.host}/c/test-project/+/123`,
     );
   });
 
@@ -1183,7 +1187,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(element.computeHideEditCommitMessage(false, true, change));
     assert.isFalse(element.computeHideEditCommitMessage(true, false, change));
     assert.isTrue(
-      element.computeHideEditCommitMessage(true, false, mergedChanged)
+      element.computeHideEditCommitMessage(true, false, mergedChanged),
     );
     assert.isFalse(element.computeHideEditCommitMessage(true, false, change));
   });
@@ -1193,7 +1197,7 @@ suite('gr-change-view tests', () => {
     element.change = createChangeViewChange();
     // Response code is 500, because we want to avoid window reloading
     const putStub = stubRestApi('putChangeCommitMessage').returns(
-      Promise.resolve(new Response(null, {status: 500}))
+      Promise.resolve(new Response(null, {status: 500})),
     );
     await element.updateComplete;
     const committerEmail = 'test@example.org';
@@ -1204,7 +1208,7 @@ suite('gr-change-view tests', () => {
 
     assertIsDefined(element.commitMessageEditor);
     element.handleCommitMessageSave(
-      mockEvent('test \n  test ', committerEmail)
+      mockEvent('test \n  test ', committerEmail),
     );
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
     element.commitMessageEditor.disabled = false;
@@ -1212,7 +1216,7 @@ suite('gr-change-view tests', () => {
     assert.equal(putStub.lastCall.args[1], '  test\ntest');
     element.commitMessageEditor.disabled = false;
     element.handleCommitMessageSave(
-      mockEvent('\n\n\n\n\n\n\n\n', committerEmail)
+      mockEvent('\n\n\n\n\n\n\n\n', committerEmail),
     );
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });
@@ -1224,7 +1228,7 @@ suite('gr-change-view tests', () => {
     element.replyBtn.click();
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.ANY),
-      'openReplyDialog should have been passed ANY'
+      'openReplyDialog should have been passed ANY',
     );
     assert.equal(openStub.callCount, 1);
   });
@@ -1238,7 +1242,7 @@ suite('gr-change-view tests', () => {
     element.handleShowReplyDialog(e);
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
-      'openReplyDialog should have been passed REVIEWERS'
+      'openReplyDialog should have been passed REVIEWERS',
     );
     assert.equal(openStub.callCount, 1);
 
@@ -1246,7 +1250,7 @@ suite('gr-change-view tests', () => {
     element.handleShowReplyDialog(e);
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.CCS),
-      'openReplyDialog should have been passed CCS'
+      'openReplyDialog should have been passed CCS',
     );
     assert.equal(openStub.callCount, 2);
   });
@@ -1320,7 +1324,7 @@ suite('gr-change-view tests', () => {
           composed: true,
           bubbles: true,
           detail: {},
-        })
+        }),
       );
       await element.updateComplete;
       assert.isTrue(openReplyDialogStub.calledOnce);
@@ -1364,7 +1368,7 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     const controls = queryAndAssert<GrEditControls>(
       element.fileListHeader,
-      '#editControls'
+      '#editControls',
     );
     const openDeleteDialogStub = sinon.stub(controls, 'openDeleteDialog');
     const openRenameDialogStub = sinon.stub(controls, 'openRenameDialog');
@@ -1376,7 +1380,7 @@ suite('gr-change-view tests', () => {
         detail: {action: Actions.DELETE.id, path: 'foo'},
         bubbles: true,
         composed: true,
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1389,7 +1393,7 @@ suite('gr-change-view tests', () => {
         detail: {action: Actions.RESTORE.id, path: 'foo'},
         bubbles: true,
         composed: true,
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1402,7 +1406,7 @@ suite('gr-change-view tests', () => {
         detail: {action: Actions.RENAME.id, path: 'foo'},
         bubbles: true,
         composed: true,
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1415,7 +1419,7 @@ suite('gr-change-view tests', () => {
         detail: {action: Actions.OPEN.id, path: 'foo'},
         bubbles: true,
         composed: true,
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1461,7 +1465,7 @@ suite('gr-change-view tests', () => {
       assert.isTrue(setUrlStub.called);
       assert.equal(
         setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42/1,edit?forceReload=true'
+        '/c/test-project/+/42/1,edit?forceReload=true',
       );
     });
 
@@ -1477,7 +1481,7 @@ suite('gr-change-view tests', () => {
       assert.isTrue(setUrlStub.called);
       assert.equal(
         setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42,edit?forceReload=true'
+        '/c/test-project/+/42,edit?forceReload=true',
       );
     });
   });
@@ -1493,13 +1497,13 @@ suite('gr-change-view tests', () => {
 
     element.patchNum = 1 as RevisionPatchSetNum;
     element.actions.dispatchEvent(
-      new CustomEvent('stop-edit-tap', {bubbles: false})
+      new CustomEvent('stop-edit-tap', {bubbles: false}),
     );
 
     assert.isTrue(setUrlStub.called);
     assert.equal(
       setUrlStub.lastCall.firstArg,
-      '/c/test-project/+/42/1?forceReload=true'
+      '/c/test-project/+/42/1?forceReload=true',
     );
   });
 
@@ -1511,7 +1515,7 @@ suite('gr-change-view tests', () => {
       window.Gerrit.install(
         promise.resolve,
         '0.1',
-        'http://some/plugins/url.js'
+        'http://some/plugins/url.js',
       );
       await element.updateComplete;
       const plugin: PluginApi = (await promise) as PluginApi;
@@ -1536,7 +1540,7 @@ suite('gr-change-view tests', () => {
     const stub = sinon.stub(element, 'handleToggleStar');
 
     const changeStar = queryAndAssert<GrChangeStar>(element, '#changeStar');
-    queryAndAssert<HTMLButtonElement>(changeStar, 'button')!.click();
+    queryAndAssert<HTMLButtonElement>(changeStar, 'button').click();
     assert.isTrue(stub.called);
   });
 
@@ -1549,11 +1553,11 @@ suite('gr-change-view tests', () => {
     test("don't report changeDisplayed on reply", async () => {
       const changeDisplayStub = sinon.stub(
         element.reporting,
-        'changeDisplayed'
+        'changeDisplayed',
       );
       const changeFullyLoadedStub = sinon.stub(
         element.reporting,
-        'changeFullyLoaded'
+        'changeFullyLoaded',
       );
       element.handleReplySent();
       await element.updateComplete;
@@ -1568,11 +1572,11 @@ suite('gr-change-view tests', () => {
       });
       const changeDisplayStub = sinon.stub(
         element.reporting,
-        'changeDisplayed'
+        'changeDisplayed',
       );
       const changeFullyLoadedStub = sinon.stub(
         element.reporting,
-        'changeFullyLoaded'
+        'changeFullyLoaded',
       );
       // reset so reload is triggered
       element.changeNum = undefined;
@@ -1619,10 +1623,10 @@ suite('gr-change-view tests', () => {
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
       element,
-      'gr-copy-links'
+      'gr-copy-links',
     );
     assert.isTrue(
-      copyLinksDialog.copyLinks.some(copyLink => copyLink.value === sha)
+      copyLinksDialog.copyLinks.some(copyLink => copyLink.value === sha),
     );
   });
 
@@ -1632,7 +1636,7 @@ suite('gr-change-view tests', () => {
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
       element,
-      'gr-copy-links'
+      'gr-copy-links',
     );
     assert.deepEqual(copyLinksDialog.copyLinks[1], {
       label: 'Change URL',
@@ -1648,7 +1652,7 @@ suite('gr-change-view tests', () => {
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
       element,
-      'gr-copy-links'
+      'gr-copy-links',
     );
 
     assert.deepEqual(copyLinksDialog.copyLinks[1], {

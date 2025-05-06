@@ -141,7 +141,7 @@ export class GrErrorManager extends LitElement {
     document.removeEventListener('show-error', this.handleShowErrorDialog);
     document.removeEventListener(
       'visibilitychange',
-      this.handleVisibilityChange
+      this.handleVisibilityChange,
     );
     document.removeEventListener('show-auth-required', this.handleAuthRequired);
     this.checkLoggedInTask?.cancel();
@@ -193,7 +193,7 @@ export class GrErrorManager extends LitElement {
   private readonly handleAuthRequired = () => {
     this.showAuthErrorAlert(
       'Log in is required to perform that action.',
-      'Log in.'
+      'Log in.',
     );
   };
 
@@ -246,7 +246,7 @@ export class GrErrorManager extends LitElement {
               errorText,
               url,
               trace,
-            })
+            }),
           );
         }
       }
@@ -276,7 +276,7 @@ export class GrErrorManager extends LitElement {
         }),
         {
           showSignInButton: !isLoggedIn,
-        }
+        },
       );
     });
   }
@@ -290,7 +290,7 @@ export class GrErrorManager extends LitElement {
         statusText,
         errorText,
         tip,
-      })
+      }),
     );
   }
 
@@ -301,7 +301,7 @@ export class GrErrorManager extends LitElement {
       e.detail.callback,
       e.detail.dismissOnNavigation,
       undefined,
-      e.detail.showDismiss
+      e.detail.showDismiss,
     );
   };
 
@@ -323,7 +323,7 @@ export class GrErrorManager extends LitElement {
     actionCallback?: () => void,
     dismissOnNavigation?: boolean,
     type?: ErrorType,
-    showDismiss?: boolean
+    showDismiss?: boolean,
   ) {
     if (this.alertElement) {
       // check priority before hiding
@@ -338,7 +338,7 @@ export class GrErrorManager extends LitElement {
     } else {
       this.hideAlertHandle = window.setTimeout(
         this.hideAlert,
-        HIDE_ALERT_TIMEOUT_MS
+        HIDE_ALERT_TIMEOUT_MS,
       );
     }
     const el = this.createToastAlert(showDismiss);
@@ -378,7 +378,7 @@ export class GrErrorManager extends LitElement {
     this.alertElement = this.createToastAlert();
     this.alertElement.type = ErrorType.AUTH;
     this.alertElement.show(errorText, actionText, () =>
-      this.createLoginPopup()
+      this.createLoginPopup(),
     );
     fireIronAnnounce(this, errorText);
     this.reporting.reportInteraction('show-auth-error', {text: errorText});
@@ -426,7 +426,7 @@ export class GrErrorManager extends LitElement {
     this.checkLoggedInTask = debounce(
       this.checkLoggedInTask,
       () => this.checkSignedIn(),
-      CHECK_SIGN_IN_INTERVAL_MS
+      CHECK_SIGN_IN_INTERVAL_MS,
     );
   }
 
@@ -484,7 +484,7 @@ export class GrErrorManager extends LitElement {
     window.open(
       getBaseUrl() + '/login/%3FcloseAfterLogin',
       '_blank',
-      options.join(',')
+      options.join(','),
     );
     window.addEventListener('focus', this.handleWindowFocus);
   }

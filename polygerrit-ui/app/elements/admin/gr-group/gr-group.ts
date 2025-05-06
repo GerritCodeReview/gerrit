@@ -270,7 +270,7 @@ export class GrGroup extends LitElement {
             <gr-select
               id="visibleToAll"
               .bindValue=${convertToString(
-                Boolean(this.groupConfig?.options?.visible_to_all)
+                Boolean(this.groupConfig?.options?.visible_to_all),
               )}
               @bind-value-changed=${this.handleOptionsBindValueChanged}
             >
@@ -278,7 +278,7 @@ export class GrGroup extends LitElement {
                 ${this.submitTypes.map(
                   item => html`
                     <option value=${item.value}>${item.label}</option>
-                  `
+                  `,
                 )}
               </select>
             </gr-select>
@@ -314,7 +314,7 @@ export class GrGroup extends LitElement {
 
     const config = await this.restApiService.getGroupConfig(
       this.groupId,
-      errFn
+      errFn,
     );
     if (!config || !config.name) return;
 
@@ -330,13 +330,13 @@ export class GrGroup extends LitElement {
     promises.push(
       this.restApiService.getIsAdmin().then(isAdmin => {
         this.isAdmin = !!isAdmin;
-      })
+      }),
     );
 
     promises.push(
       this.restApiService.getIsGroupOwner(config.name).then(isOwner => {
         this.groupOwner = !!isOwner;
-      })
+      }),
     );
 
     this.groupConfig = config;
@@ -362,7 +362,7 @@ export class GrGroup extends LitElement {
     const groupName = groupConfig.name;
     const config = await this.restApiService.saveGroupName(
       this.groupId,
-      groupName
+      groupName,
     );
     if (config.status === 200) {
       this.originalName = groupName;
@@ -400,7 +400,7 @@ export class GrGroup extends LitElement {
       return;
     await this.restApiService.saveGroupDescription(
       this.groupId,
-      this.groupConfig.description
+      this.groupConfig.description,
     );
     this.originalDescriptionName = this.groupConfig.description;
   }
@@ -424,7 +424,7 @@ export class GrGroup extends LitElement {
         input,
         /* project=*/ undefined,
         /* n=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(response => {
         const groups: AutocompleteSuggestion[] = [];

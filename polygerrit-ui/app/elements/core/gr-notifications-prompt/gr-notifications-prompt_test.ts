@@ -37,17 +37,17 @@ suite('gr-notifications-prompt tests', () => {
 
     await waitUntilObserved(
       userModel.preferences$,
-      pref => pref.allow_browser_notifications === true
+      pref => pref.allow_browser_notifications === true,
     );
     serviceWorkerInstaller = testResolver(serviceWorkerInstallerToken);
     // Since we cannot stub Notification.permission, we stub shouldShowPrompt.
     sinon.stub(serviceWorkerInstaller, 'shouldShowPrompt').returns(true);
     element = await fixture(
-      html`<gr-notifications-prompt></gr-notifications-prompt>`
+      html`<gr-notifications-prompt></gr-notifications-prompt>`,
     );
     await waitUntilObserved(
       serviceWorkerInstaller.shouldShowPrompt$,
-      shouldShowPrompt => shouldShowPrompt === true
+      shouldShowPrompt => shouldShowPrompt === true,
     );
     await element.updateComplete;
   });
@@ -84,7 +84,7 @@ suite('gr-notifications-prompt tests', () => {
             <gr-icon icon="close"> </gr-icon>
           </gr-button>
         </div>
-      </div>`
+      </div>`,
     );
   });
 });

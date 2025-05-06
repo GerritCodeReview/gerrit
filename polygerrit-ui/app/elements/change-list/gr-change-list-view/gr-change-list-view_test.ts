@@ -59,7 +59,7 @@ suite('gr-change-list-view tests', () => {
             </a>
           </nav>
         </div>
-      `
+      `,
     );
   });
 
@@ -75,22 +75,22 @@ suite('gr-change-list-view tests', () => {
     test('checkboxes remain checked after soft reload', async () => {
       const changeListEl = queryAndAssert<GrChangeList>(
         element,
-        'gr-change-list'
+        'gr-change-list',
       );
       await changeListEl.updateComplete;
       const changeListSectionEl = queryAndAssert<GrChangeListSection>(
         changeListEl,
-        'gr-change-list-section'
+        'gr-change-list-section',
       );
       await changeListSectionEl.updateComplete;
       const changeListItemEl = queryAndAssert<GrChangeListItem>(
         changeListSectionEl,
-        'gr-change-list-item'
+        'gr-change-list-item',
       );
       await changeListItemEl.updateComplete;
       let checkbox = queryAndAssert<HTMLInputElement>(
         changeListItemEl,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > input',
       );
       checkbox.click();
       await waitUntil(() => checkbox.checked);
@@ -101,9 +101,9 @@ suite('gr-change-list-view tests', () => {
       checkbox = queryAndAssert<HTMLInputElement>(
         query(
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
-          'gr-change-list-item'
+          'gr-change-list-item',
         ),
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > input',
       );
       assert.isTrue(checkbox.checked);
     });
@@ -151,7 +151,7 @@ suite('gr-change-list-view tests', () => {
     element.loading = false;
     await element.updateComplete;
     assert.isTrue(
-      query<HTMLAnchorElement>(element, '#prevArrow')?.hasAttribute('disabled')
+      query<HTMLAnchorElement>(element, '#prevArrow')?.hasAttribute('disabled'),
     );
 
     element.offset = 5;

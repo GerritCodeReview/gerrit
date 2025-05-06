@@ -39,33 +39,33 @@ const initialState: RelatedChangesState = {
 };
 
 export const relatedChangesModelToken = define<RelatedChangesModel>(
-  'related-changes-model'
+  'related-changes-model',
 );
 
 export class RelatedChangesModel extends Model<RelatedChangesState> {
   public readonly relatedChanges$ = select(
     this.state$,
-    state => state.relatedChanges
+    state => state.relatedChanges,
   );
 
   public readonly submittedTogether$ = select(
     this.state$,
-    state => state.submittedTogether
+    state => state.submittedTogether,
   );
 
   public readonly cherryPicks$ = select(
     this.state$,
-    state => state.cherryPicks
+    state => state.cherryPicks,
   );
 
   public readonly conflictingChanges$ = select(
     this.state$,
-    state => state.conflictingChanges
+    state => state.conflictingChanges,
   );
 
   public readonly sameTopicChanges$ = select(
     this.state$,
-    state => state.sameTopicChanges
+    state => state.sameTopicChanges,
   );
 
   /**
@@ -75,7 +75,7 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
    */
   public readonly revertingChanges$ = select(
     this.state$,
-    state => state.revertingChanges
+    state => state.revertingChanges,
   );
 
   /**
@@ -87,11 +87,11 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
     revertingChanges => {
       if (revertingChanges.length === 0) return undefined;
       const submittedRevert = revertingChanges.find(
-        c => c.status === ChangeStatus.MERGED
+        c => c.status === ChangeStatus.MERGED,
       );
       if (submittedRevert) return submittedRevert;
       return revertingChanges[0];
-    }
+    },
   );
 
   /**
@@ -104,7 +104,7 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
   constructor(
     readonly changeModel: ChangeModel,
     readonly configModel: ConfigModel,
-    readonly restApiService: RestApiService
+    readonly restApiService: RestApiService,
   ) {
     super(initialState);
 
@@ -117,7 +117,7 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
         const lastChangeId =
           relatedChanges[relatedChanges.length - 1].change_id;
         return lastChangeId !== change.change_id;
-      }
+      },
     );
 
     this.subscriptions = [
@@ -141,9 +141,9 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
           return from(
             this.restApiService
               .getRelatedChanges(changeNum, latestPatchNum)
-              .then(info => info?.changes ?? [])
+              .then(info => info?.changes ?? []),
           );
-        })
+        }),
       )
       .subscribe(relatedChanges => {
         this.updateState({relatedChanges});
@@ -156,9 +156,9 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
         switchMap(changeNum => {
           if (!changeNum) return of(undefined);
           return from(
-            this.restApiService.getChangesSubmittedTogether(changeNum)
+            this.restApiService.getChangesSubmittedTogether(changeNum),
           );
-        })
+        }),
       )
       .subscribe(submittedTogether => {
         this.updateState({submittedTogether});
@@ -175,9 +175,9 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
         switchMap(([branch, changeId, repo]) => {
           if (!branch || !changeId || !repo) return of(undefined);
           return from(
-            this.restApiService.getChangeCherryPicks(repo, changeId, branch)
+            this.restApiService.getChangeCherryPicks(repo, changeId, branch),
           );
-        })
+        }),
       )
       .subscribe(cherryPicks => {
         this.updateState({cherryPicks});
@@ -195,7 +195,7 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
           if (!changeNum || !status || !mergeable) return of(undefined);
           if (status !== ChangeStatus.NEW) return of(undefined);
           return from(this.restApiService.getChangeConflicts(changeNum));
-        })
+        }),
       )
       .subscribe(conflictingChanges => {
         this.updateState({conflictingChanges});
@@ -216,9 +216,9 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
             this.restApiService.getChangesWithSameTopic(topic, {
               openChangesOnly: true,
               changeToExclude: changeNum,
-            })
+            }),
           );
-        })
+        }),
       )
       .subscribe(sameTopicChanges => {
         this.updateState({sameTopicChanges});
@@ -232,12 +232,14 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
           if (!changeIds?.length) return of([]);
           return forkJoin(
             changeIds.map(changeId =>
-              from(this.restApiService.getChange(changeId))
-            )
+              from(this.restApiService.getChange(changeId)),
+            ),
           );
         }),
         map(changes => changes.filter(isDefined)),
-        map(changes => changes.filter(c => c.status !== ChangeStatus.ABANDONED))
+        map(changes =>
+          changes.filter(c => c.status !== ChangeStatus.ABANDONED),
+        ),
       )
       .subscribe(revertingChanges => {
         this.updateState({revertingChanges});

@@ -179,14 +179,14 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     commentsModel = testResolver(commentsModelToken);
     commentsModel.addNewDraft(
-      createNewPatchsetLevel(latestPatchNum, '', false)
+      createNewPatchsetLevel(latestPatchNum, '', false),
     );
 
     await element.updateComplete;
   });
 
   function stubSaveReview(
-    jsonResponseProducer: (input: ReviewInput) => ReviewResult | void
+    jsonResponseProducer: (input: ReviewInput) => ReviewResult | void,
   ) {
     return sinon.stub(element, 'saveReview').callsFake(
       review =>
@@ -197,7 +197,7 @@ suite('gr-reply-dialog tests', () => {
           } catch (err) {
             reject(err);
           }
-        })
+        }),
     );
   }
 
@@ -342,7 +342,7 @@ suite('gr-reply-dialog tests', () => {
             </gr-endpoint-decorator>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -352,7 +352,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     const peopleContainer = queryAndAssert<HTMLDivElement>(
       element,
-      '.peopleContainer'
+      '.peopleContainer',
     );
 
     // Info is rendered only if reviewer is added
@@ -397,7 +397,7 @@ suite('gr-reply-dialog tests', () => {
           </div>
         </dialog>
       </section>
-    `
+    `,
     );
 
     const account = createAccountWithId(22);
@@ -406,7 +406,7 @@ suite('gr-reply-dialog tests', () => {
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account},
-      })
+      }),
     );
     element.requestUpdate();
     await element.updateComplete;
@@ -459,7 +459,7 @@ suite('gr-reply-dialog tests', () => {
           </div>
         </div>
       </section>
-    `
+    `,
     );
   });
 
@@ -602,7 +602,7 @@ suite('gr-reply-dialog tests', () => {
     expectedIds?: AccountId[],
     uploaderId?: AccountId,
     hasDraft = true,
-    includeComments = true
+    includeComments = true,
   ) {
     element.account = {_account_id: userId};
     element.reviewers =
@@ -621,7 +621,7 @@ suite('gr-reply-dialog tests', () => {
       draftThreads[0].comments.push({
         ...createComment(),
         author: {_account_id: id},
-      })
+      }),
     );
     const change = {
       ...createChange(),
@@ -665,7 +665,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [],
       [],
-      [999 as AccountId]
+      [999 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -675,7 +675,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [1 as AccountId],
       [],
-      [999 as AccountId]
+      [999 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -685,7 +685,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [],
       [],
-      [999 as AccountId]
+      [999 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -695,7 +695,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [22 as AccountId],
       [],
-      [22 as AccountId, 999 as AccountId]
+      [22 as AccountId, 999 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -705,7 +705,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [],
       [22 as AccountId],
-      [22 as AccountId, 999 as AccountId]
+      [22 as AccountId, 999 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -715,7 +715,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [33 as AccountId],
       [22 as AccountId],
-      [22 as AccountId, 33 as AccountId, 999 as AccountId]
+      [22 as AccountId, 33 as AccountId, 999 as AccountId],
     );
     // If the owner replies, then do not add them.
     await checkComputeAttention(
@@ -726,7 +726,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -736,7 +736,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [1 as AccountId],
       [],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -746,7 +746,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [],
-      []
+      [],
     );
 
     await checkComputeAttention(
@@ -757,7 +757,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [22 as AccountId],
-      [22 as AccountId]
+      [22 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -767,7 +767,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [33 as AccountId],
       [22 as AccountId],
-      [22 as AccountId, 33 as AccountId]
+      [22 as AccountId, 33 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -777,7 +777,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [22 as AccountId],
-      [22 as AccountId]
+      [22 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -787,7 +787,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [22 as AccountId, 33 as AccountId],
-      [22 as AccountId, 33 as AccountId]
+      [22 as AccountId, 33 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -797,7 +797,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [22 as AccountId, 33 as AccountId],
       [],
-      [22 as AccountId, 33 as AccountId]
+      [22 as AccountId, 33 as AccountId],
     );
     // with uploader
     await checkComputeAttention(
@@ -809,7 +809,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [2 as AccountId],
       [2 as AccountId],
-      2 as AccountId
+      2 as AccountId,
     );
     await checkComputeAttention(
       element,
@@ -820,7 +820,7 @@ suite('gr-reply-dialog tests', () => {
       [2 as AccountId],
       [],
       [2 as AccountId],
-      2 as AccountId
+      2 as AccountId,
     );
     await checkComputeAttention(
       element,
@@ -831,7 +831,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       [2 as AccountId, 3 as AccountId],
-      2 as AccountId
+      2 as AccountId,
     );
   });
 
@@ -846,7 +846,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       undefined,
-      false
+      false,
     );
     await checkComputeAttention(
       element,
@@ -858,7 +858,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       undefined,
-      false
+      false,
     );
     await checkComputeAttention(
       element,
@@ -870,7 +870,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [999 as AccountId],
       undefined,
-      true
+      true,
     );
     await checkComputeAttention(
       element,
@@ -883,7 +883,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       undefined,
       true,
-      false
+      false,
     );
     await checkComputeAttention(
       element,
@@ -895,7 +895,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       undefined,
-      false
+      false,
     );
     await checkComputeAttention(
       element,
@@ -907,7 +907,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       undefined,
-      false
+      false,
     );
     await checkComputeAttention(
       element,
@@ -919,7 +919,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [22 as AccountId],
       undefined,
-      false
+      false,
     );
     await checkComputeAttention(
       element,
@@ -929,7 +929,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [],
       [22 as AccountId],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -939,7 +939,7 @@ suite('gr-reply-dialog tests', () => {
       999 as AccountId,
       [33 as AccountId],
       [22 as AccountId],
-      [33 as AccountId]
+      [33 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -949,7 +949,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -961,7 +961,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       undefined,
-      true
+      true,
     );
     await checkComputeAttention(
       element,
@@ -971,7 +971,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [1 as AccountId],
       [],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -983,7 +983,7 @@ suite('gr-reply-dialog tests', () => {
       [],
       [],
       undefined,
-      true
+      true,
     );
     await checkComputeAttention(
       element,
@@ -993,7 +993,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -1003,7 +1003,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [22 as AccountId],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -1013,7 +1013,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [33 as AccountId],
       [22 as AccountId],
-      [33 as AccountId]
+      [33 as AccountId],
     );
     await checkComputeAttention(
       element,
@@ -1023,7 +1023,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [22 as AccountId],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -1033,7 +1033,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [],
       [22 as AccountId, 33 as AccountId],
-      []
+      [],
     );
     await checkComputeAttention(
       element,
@@ -1043,7 +1043,7 @@ suite('gr-reply-dialog tests', () => {
       1 as AccountId,
       [22 as AccountId, 33 as AccountId],
       [],
-      [22 as AccountId, 33 as AccountId]
+      [22 as AccountId, 33 as AccountId],
     );
   });
 
@@ -1069,7 +1069,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     assert.sameMembers(
       [...element.newAttentionSet],
-      [1 as AccountId, 2 as AccountId]
+      [1 as AccountId, 2 as AccountId],
     );
 
     // If the user votes on the change, then they should not be added to the
@@ -1079,7 +1079,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     assert.sameMembers(
       [...element.newAttentionSet],
-      [2 as AccountId, 5 as AccountId]
+      [2 as AccountId, 5 as AccountId],
     );
   });
 
@@ -1123,7 +1123,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     assert.sameMembers(
       [...element.newAttentionSet],
-      [2 as AccountId, 3 as AccountId]
+      [2 as AccountId, 3 as AccountId],
     );
 
     // ... but not when someone else replies.
@@ -1151,14 +1151,14 @@ suite('gr-reply-dialog tests', () => {
     assert.sameMembers(compute([999 as AccountId], [999 as AccountId]), []);
     assert.sameMembers(
       compute([123 as AccountId, 321 as AccountId], [999 as AccountId]),
-      [999 as AccountId]
+      [999 as AccountId],
     );
     assert.sameMembers(
       compute(
         [999 as AccountId],
-        [7 as AccountId, 123 as AccountId, 999 as AccountId]
+        [7 as AccountId, 123 as AccountId, 999 as AccountId],
       ),
-      [7 as AccountId, 123 as AccountId]
+      [7 as AccountId, 123 as AccountId],
     );
   });
 
@@ -1386,7 +1386,7 @@ suite('gr-reply-dialog tests', () => {
   test('getlabelValue returns value', async () => {
     const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
-      'gr-label-score-row[name="Verified"]'
+      'gr-label-score-row[name="Verified"]',
     );
     el.setSelectedValue('-1');
     assert.equal('-1', element.getLabelValue('Verified'));
@@ -1395,7 +1395,7 @@ suite('gr-reply-dialog tests', () => {
   test('getlabelValue when no score is selected', async () => {
     const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
-      'gr-label-score-row[name="Code-Review"]'
+      'gr-label-score-row[name="Code-Review"]',
     );
     el.setSelectedValue('-1');
     assert.strictEqual(element.getLabelValue('Verified'), ' 0');
@@ -1411,7 +1411,7 @@ suite('gr-reply-dialog tests', () => {
 
     const labels = queryAndAssert<GrLabelScores>(
       element,
-      '#labelScores'
+      '#labelScores',
     ).getLabelValues();
     assert.deepEqual(labels, {
       'Code-Review': 0,
@@ -1422,18 +1422,18 @@ suite('gr-reply-dialog tests', () => {
   async function testConfirmationDialog(cc?: boolean) {
     const yesButton = queryAndAssert<GrButton>(
       element,
-      '.reviewerConfirmationButtons gr-button:first-child'
+      '.reviewerConfirmationButtons gr-button:first-child',
     );
     const noButton = queryAndAssert<GrButton>(
       element,
-      '.reviewerConfirmationButtons gr-button:last-child'
+      '.reviewerConfirmationButtons gr-button:last-child',
     );
 
     element.ccPendingConfirmation = null;
     element.reviewerPendingConfirmation = null;
     await element.updateComplete;
     assert.isFalse(
-      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal')),
     );
 
     const group = {
@@ -1458,29 +1458,29 @@ suite('gr-reply-dialog tests', () => {
     if (cc) {
       assert.deepEqual(
         element.ccPendingConfirmation,
-        element.pendingConfirmationDetails
+        element.pendingConfirmationDetails,
       );
     } else {
       assert.deepEqual(
         element.reviewerPendingConfirmation,
-        element.pendingConfirmationDetails
+        element.pendingConfirmationDetails,
       );
     }
 
     assert.isTrue(
-      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal')),
     );
     const expected = 'Group name has 10 members';
     assert.notEqual(
       queryAndAssert<HTMLElement>(
         element,
-        '#reviewerConfirmationModal'
+        '#reviewerConfirmationModal',
       ).innerText.indexOf(expected),
-      -1
+      -1,
     );
     noButton.click(); // close the dialog
     await waitUntil(
-      () => !isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
+      () => !isVisible(queryAndAssert(element, '#reviewerConfirmationModal')),
     );
 
     // TODO(dhruvsri): figure out why focus is not on the input element
@@ -1512,12 +1512,12 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
 
     assert.isTrue(
-      isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
+      isVisible(queryAndAssert(element, '#reviewerConfirmationModal')),
     );
 
     yesButton.click(); // Confirm the group.
     await waitUntil(
-      () => !isVisible(queryAndAssert(element, '#reviewerConfirmationModal'))
+      () => !isVisible(queryAndAssert(element, '#reviewerConfirmationModal')),
     );
     const additions = cc
       ? element.ccsList?.additions()
@@ -1586,7 +1586,7 @@ suite('gr-reply-dialog tests', () => {
       element.reviewersList!.dispatchEvent(
         new CustomEvent('account-added', {
           detail: {account},
-        })
+        }),
       );
       element.change = {
         ...createChange(),
@@ -1608,7 +1608,7 @@ suite('gr-reply-dialog tests', () => {
       element.reviewersList!.dispatchEvent(
         new CustomEvent('account-added', {
           detail: {account},
-        })
+        }),
       );
       element.change = {
         ...createChange(),
@@ -1628,10 +1628,10 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(element.reviewersMutated);
     assert.isTrue(queryAndAssert<GrAccountList>(element, '#ccs').allowAnyInput);
     assert.isFalse(
-      queryAndAssert<GrAccountList>(element, '#reviewers').allowAnyInput
+      queryAndAssert<GrAccountList>(element, '#reviewers').allowAnyInput,
     );
     queryAndAssert(element, '#ccs').dispatchEvent(
-      new CustomEvent('account-text-changed', {bubbles: true, composed: true})
+      new CustomEvent('account-text-changed', {bubbles: true, composed: true}),
     );
     assert.isTrue(element.reviewersMutated);
   });
@@ -1676,7 +1676,7 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
     assert.equal(
       element?.shadowRoot?.activeElement?.id,
-      'patchsetLevelComment'
+      'patchsetLevelComment',
     );
 
     element.focusOn(element.FocusTarget.ANY);
@@ -1686,7 +1686,7 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
     assert.equal(
       element?.shadowRoot?.activeElement?.id,
-      'patchsetLevelComment'
+      'patchsetLevelComment',
     );
 
     element.focusOn(element.FocusTarget.BODY);
@@ -1696,7 +1696,7 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
     assert.equal(
       element?.shadowRoot?.activeElement?.id,
-      'patchsetLevelComment'
+      'patchsetLevelComment',
     );
 
     element.focusOn(element.FocusTarget.REVIEWERS);
@@ -1704,7 +1704,7 @@ suite('gr-reply-dialog tests', () => {
 
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     await waitUntil(
-      () => element?.shadowRoot?.activeElement?.tagName === 'GR-ACCOUNT-LIST'
+      () => element?.shadowRoot?.activeElement?.tagName === 'GR-ACCOUNT-LIST',
     );
     assert.equal(element?.shadowRoot?.activeElement?.id, 'reviewers');
 
@@ -1712,7 +1712,7 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(
       element?.shadowRoot?.activeElement?.tagName,
-      'GR-ACCOUNT-LIST'
+      'GR-ACCOUNT-LIST',
     );
     await waitUntil(() => element?.shadowRoot?.activeElement?.id === 'ccs');
   });
@@ -1753,7 +1753,7 @@ suite('gr-reply-dialog tests', () => {
     // button can be tapped before the others, causing the test to fail.
     const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
-      'gr-label-score-row[name="Verified"]'
+      'gr-label-score-row[name="Verified"]',
     );
     el.setSelectedValue('-1');
 
@@ -1784,7 +1784,7 @@ suite('gr-reply-dialog tests', () => {
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: cc1},
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1795,7 +1795,7 @@ suite('gr-reply-dialog tests', () => {
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: cc4},
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1803,7 +1803,7 @@ suite('gr-reply-dialog tests', () => {
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: cc3},
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1826,7 +1826,7 @@ suite('gr-reply-dialog tests', () => {
 
     const modifyButton = queryAndAssert<GrButton>(
       element,
-      '.edit-attention-button'
+      '.edit-attention-button',
     );
     modifyButton.click();
 
@@ -1835,7 +1835,7 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(element.attentionExpanded);
 
     let accountLabels = Array.from(
-      queryAll(element, '.attention-detail gr-account-label')
+      queryAll(element, '.attention-detail gr-account-label'),
     );
     assert.equal(accountLabels.length, 5);
 
@@ -1845,7 +1845,7 @@ suite('gr-reply-dialog tests', () => {
 
     assert.isTrue(element.attentionExpanded);
     accountLabels = Array.from(
-      queryAll(element, '.attention-detail gr-account-label')
+      queryAll(element, '.attention-detail gr-account-label'),
     );
     assert.equal(accountLabels.length, 7);
 
@@ -1868,7 +1868,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
 
     accountLabels = Array.from(
-      queryAll(element, '.attention-detail gr-account-label')
+      queryAll(element, '.attention-detail gr-account-label'),
     );
     assert.equal(accountLabels.length, 3);
   });
@@ -1889,7 +1889,7 @@ suite('gr-reply-dialog tests', () => {
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: reviewer1},
-      })
+      }),
     );
 
     await element.updateComplete;
@@ -1904,7 +1904,7 @@ suite('gr-reply-dialog tests', () => {
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: reviewer3},
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1912,7 +1912,7 @@ suite('gr-reply-dialog tests', () => {
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: reviewer2},
-      })
+      }),
     );
     await element.updateComplete;
 
@@ -1959,7 +1959,7 @@ suite('gr-reply-dialog tests', () => {
         detail: {account: reviewer1},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
     await element.updateComplete;
@@ -1969,37 +1969,37 @@ suite('gr-reply-dialog tests', () => {
         detail: {value: {account: reviewer1}},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     ccs.dispatchEvent(
       new CustomEvent('remove-account', {
         detail: {account: cc1},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     ccs.dispatchEvent(
       new CustomEvent('remove-account', {
         detail: {account: cc3},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     reviewers.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: cc1}},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
     assert.deepEqual(
       element.reviewers.map(v => accountKey(v)),
-      [reviewer2, cc1].map(v => accountKey(v))
+      [reviewer2, cc1].map(v => accountKey(v)),
     );
     assert.deepEqual(
       element.ccs.map(v => accountKey(v)),
-      [cc2, reviewer1].map(v => accountKey(v))
+      [cc2, reviewer1].map(v => accountKey(v)),
     );
 
     // Add to Reviewer/CC which will automatically remove from CC/Reviewer.
@@ -2008,18 +2008,18 @@ suite('gr-reply-dialog tests', () => {
         detail: {value: {account: cc2}},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
     await element.updateComplete;
 
     assert.deepEqual(
       element.reviewers.map(v => accountKey(v)),
-      [reviewer2, cc1, cc2].map(v => accountKey(v))
+      [reviewer2, cc1, cc2].map(v => accountKey(v)),
     );
     assert.deepEqual(
       element.ccs.map(v => accountKey(v)),
-      [reviewer1].map(v => accountKey(v))
+      [reviewer1].map(v => accountKey(v)),
     );
 
     ccs.entry!.dispatchEvent(
@@ -2027,23 +2027,23 @@ suite('gr-reply-dialog tests', () => {
         detail: {value: {account: reviewer2}},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
     await element.updateComplete;
 
     assert.deepEqual(
       element.reviewers.map(v => accountKey(v)),
-      [cc1, cc2].map(v => accountKey(v))
+      [cc1, cc2].map(v => accountKey(v)),
     );
     assert.deepEqual(
       element.ccs.map(v => accountKey(v)),
-      [reviewer1, reviewer2].map(v => accountKey(v))
+      [reviewer1, reviewer2].map(v => accountKey(v)),
     );
 
     const mapReviewer = function (
       reviewer: AccountInfo,
-      state?: ReviewerState
+      state?: ReviewerState,
     ) {
       const result: ReviewerInput = {
         reviewer: reviewer._account_id as AccountId,
@@ -2098,14 +2098,14 @@ suite('gr-reply-dialog tests', () => {
         detail: {account: reviewer1},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
     ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer1}},
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
     await element.send(false, false);
@@ -2187,7 +2187,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     assert.equal(
       element.messagePlaceholder,
-      'Add a note for your reviewers...'
+      'Add a note for your reviewers...',
     );
   });
 
@@ -2438,7 +2438,7 @@ suite('gr-reply-dialog tests', () => {
   test('isSendDisabled_existingVote', async () => {
     const account = createAccountWithId();
     (
-      element.change!.labels![StandardLabels.CODE_REVIEW]! as DetailedLabelInfo
+      element.change!.labels![StandardLabels.CODE_REVIEW] as DetailedLabelInfo
     ).all = [account];
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
@@ -2502,7 +2502,7 @@ suite('gr-reply-dialog tests', () => {
               <gr-endpoint-param name="change"> </gr-endpoint-param>
             </gr-endpoint-decorator>
           </div>
-        `
+        `,
       );
     });
 
@@ -2525,7 +2525,7 @@ suite('gr-reply-dialog tests', () => {
     test('sending patchset level comment', async () => {
       const patchsetLevelComment = queryAndAssert<GrComment>(
         element,
-        '#patchsetLevelComment'
+        '#patchsetLevelComment',
       );
       const autoSaveStub = sinon
         .stub(patchsetLevelComment, 'save')
@@ -2533,7 +2533,7 @@ suite('gr-reply-dialog tests', () => {
 
       patchsetLevelComment.messageText = 'hello world';
       await waitUntil(
-        () => element.patchsetLevelDraftMessage === 'hello world'
+        () => element.patchsetLevelDraftMessage === 'hello world',
       );
       await element.updateComplete;
 
@@ -2577,16 +2577,16 @@ suite('gr-reply-dialog tests', () => {
     test('sending waits for inflight autosave', async () => {
       const patchsetLevelComment = queryAndAssert<GrComment>(
         element,
-        '#patchsetLevelComment'
+        '#patchsetLevelComment',
       );
 
       const waitForPendingDiffDrafts = stubRestApi(
-        'awaitPendingDiffDrafts'
+        'awaitPendingDiffDrafts',
       ).returns(Promise.resolve());
 
       patchsetLevelComment.messageText = 'hello world';
       await waitUntil(
-        () => element.patchsetLevelDraftMessage === 'hello world'
+        () => element.patchsetLevelDraftMessage === 'hello world',
       );
       await element.updateComplete;
 
@@ -2627,7 +2627,7 @@ suite('gr-reply-dialog tests', () => {
     test('comment is auto saved when dialog is canceled', async () => {
       const patchsetLevelComment = queryAndAssert<GrComment>(
         element,
-        '#patchsetLevelComment'
+        '#patchsetLevelComment',
       );
       const autoSaveStub = sinon
         .stub(patchsetLevelComment, 'save')
@@ -2636,7 +2636,7 @@ suite('gr-reply-dialog tests', () => {
       patchsetLevelComment.messageText = 'hello world';
 
       await waitUntil(
-        () => element.patchsetLevelDraftMessage === 'hello world'
+        () => element.patchsetLevelDraftMessage === 'hello world',
       );
       assert.deepEqual(autoSaveStub.callCount, 0);
 
@@ -2651,7 +2651,7 @@ suite('gr-reply-dialog tests', () => {
     test('comment is auto saved when ESC is pressed from patchset level comment', async () => {
       const patchsetLevelComment = queryAndAssert<GrComment>(
         element,
-        '#patchsetLevelComment'
+        '#patchsetLevelComment',
       );
       const autoSaveStub = sinon
         .stub(patchsetLevelComment, 'save')
@@ -2661,7 +2661,7 @@ suite('gr-reply-dialog tests', () => {
       patchsetLevelComment.messageText = 'hello world';
 
       await waitUntil(
-        () => element.patchsetLevelDraftMessage === 'hello world'
+        () => element.patchsetLevelDraftMessage === 'hello world',
       );
       assert.deepEqual(autoSaveStub.callCount, 0);
 
@@ -2703,12 +2703,12 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     assert.sameMembers(
       [...element.newAttentionSet],
-      [2 as AccountId, 3 as AccountId, 999 as AccountId]
+      [2 as AccountId, 3 as AccountId, 999 as AccountId],
     );
 
     const modifyButton = queryAndAssert<GrButton>(
       element,
-      '.edit-attention-button'
+      '.edit-attention-button',
     );
 
     modifyButton.click();
@@ -2716,7 +2716,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
 
     const accountsChips = Array.from(
-      queryAll<GrAccountLabel>(element, '.attention-detail gr-account-label')
+      queryAll<GrAccountLabel>(element, '.attention-detail gr-account-label'),
     );
     assert.equal(accountsChips.length, 4);
     for (let i = 0; i < 4; ++i) {
@@ -2730,7 +2730,7 @@ suite('gr-reply-dialog tests', () => {
 
     assert.sameMembers(
       [...element.newAttentionSet],
-      [1 as AccountId, 2 as AccountId, 3 as AccountId, 999 as AccountId]
+      [1 as AccountId, 2 as AccountId, 3 as AccountId, 999 as AccountId],
     );
 
     // Doesn't get reset when message changes.
@@ -2739,7 +2739,7 @@ suite('gr-reply-dialog tests', () => {
 
     assert.sameMembers(
       [...element.newAttentionSet],
-      [1 as AccountId, 2 as AccountId, 3 as AccountId, 999 as AccountId]
+      [1 as AccountId, 2 as AccountId, 3 as AccountId, 999 as AccountId],
     );
   });
 
@@ -2772,7 +2772,7 @@ suite('gr-reply-dialog tests', () => {
     // Set a different label value
     const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
-      'gr-label-score-row[name="Verified"]'
+      'gr-label-score-row[name="Verified"]',
     );
     el.setSelectedValue('-1');
     await element.updateComplete;
@@ -2814,7 +2814,7 @@ suite('gr-reply-dialog tests', () => {
     // Set a different label value
     const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
-      'gr-label-score-row[name="Verified"]'
+      'gr-label-score-row[name="Verified"]',
     );
     el.setSelectedValue('-1');
     await element.updateComplete;
@@ -2894,7 +2894,7 @@ suite('gr-reply-dialog tests', () => {
       });
       element.draftCommentThreads = [createCommentThread([draft])];
       await waitUntil(
-        () => element.mentionedUsersInUnresolvedDrafts.length > 0
+        () => element.mentionedUsersInUnresolvedDrafts.length > 0,
       );
 
       await element.updateComplete;
@@ -2905,7 +2905,7 @@ suite('gr-reply-dialog tests', () => {
       // owner(999) is added since (accountId = 1) replied to the change
       assert.sameMembers(
         [...element.newAttentionSet],
-        [999 as AccountId, 1234 as AccountId]
+        [999 as AccountId, 1234 as AccountId],
       );
     });
 
@@ -2915,7 +2915,7 @@ suite('gr-reply-dialog tests', () => {
           ...createAccountWithEmail('abcd@def.com' as EmailAddress),
           _account_id: 1234 as AccountId,
           registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-        })
+        }),
       );
       const draft = {
         ...createDraft(),
@@ -2934,7 +2934,7 @@ suite('gr-reply-dialog tests', () => {
       });
       element.draftCommentThreads = [createCommentThread([draft])];
       await waitUntil(
-        () => element.mentionedUsersInUnresolvedDrafts.length > 0
+        () => element.mentionedUsersInUnresolvedDrafts.length > 0,
       );
 
       await element.updateComplete;
@@ -2942,18 +2942,18 @@ suite('gr-reply-dialog tests', () => {
       // owner(999) is added since (accountId = 1) replied to the change
       assert.sameMembers(
         [...element.newAttentionSet],
-        [999 as AccountId, 1234 as AccountId]
+        [999 as AccountId, 1234 as AccountId],
       );
 
       const modifyButton = queryAndAssert<GrButton>(
         element,
-        '.edit-attention-button'
+        '.edit-attention-button',
       );
       modifyButton.click();
       await element.updateComplete;
 
       const accountsChips = Array.from(
-        queryAll<GrAccountLabel>(element, '.attention-detail gr-account-label')
+        queryAll<GrAccountLabel>(element, '.attention-detail gr-account-label'),
       );
       assert.deepEqual(accountsChips[1].account, {
         email: 'abcd@def.com' as EmailAddress,

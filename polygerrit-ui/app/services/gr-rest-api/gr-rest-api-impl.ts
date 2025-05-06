@@ -225,7 +225,7 @@ function createReadScheduler() {
   return new RetryScheduler<Response>(
     new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 10),
     3 /* maxRetry */,
-    50 /* backoffIntervalMs */
+    50 /* backoffIntervalMs */,
   );
 }
 
@@ -233,7 +233,7 @@ function createWriteScheduler() {
   return new RetryScheduler<Response>(
     new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5),
     3 /* maxRetry */,
-    50 /* backoffIntervalMs */
+    50 /* backoffIntervalMs */,
   );
 }
 
@@ -262,7 +262,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly flagService: FlagsService
+    private readonly flagService: FlagsService,
   ) {
     const readScheduler = createReadScheduler();
     const writeScheduler = createWriteScheduler();
@@ -271,7 +271,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       this.authService,
       this._sharedFetchPromises,
       readScheduler,
-      writeScheduler
+      writeScheduler,
     );
     this._serialScheduler = createSerializingScheduler();
   }
@@ -280,7 +280,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getConfig(
     noCache?: boolean,
-    requestOrigin?: string
+    requestOrigin?: string,
   ): Promise<ServerInfo | undefined> {
     if (!noCache) {
       return this._restApiHelper.fetchCacheJSON({
@@ -302,7 +302,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getValidationOptions(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<ValidationOptionsInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/changes/${changeNum}/validation-options`,
@@ -312,7 +312,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getRepo(
     repo: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ProjectInfo | undefined> {
     return this._restApiHelper.fetchCacheJSON({
       url: '/projects/' + encodeURIComponent(repo),
@@ -323,7 +323,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getProjectConfig(
     repo: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ConfigInfo | undefined> {
     return this._restApiHelper.fetchCacheJSON({
       url: '/projects/' + encodeURIComponent(repo) + '/config',
@@ -341,7 +341,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getRepoDashboards(
     repo: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<DashboardInfo[] | undefined> {
     return this._restApiHelper.fetchCacheJSON({
       url: `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
@@ -366,7 +366,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveRepoConfigForReview(
     repo: RepoName,
-    config: ConfigInput
+    config: ConfigInput,
   ): Promise<ChangeInfo | undefined> {
     const url = `/projects/${encodeURIComponent(repo)}/config:review`;
     return this._restApiHelper.fetchJSON({
@@ -421,7 +421,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getGroupConfig(
     group: GroupId | GroupName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/groups/${encodeURIComponent(group)}/detail`,
@@ -461,7 +461,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   createRepoBranch(
     name: RepoName,
     branch: BranchName,
-    revision: BranchInput
+    revision: BranchInput,
   ): Promise<Response> {
     const encodeName = encodeURIComponent(name);
     const encodeBranch = encodeURIComponent(branch);
@@ -479,7 +479,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   createRepoTag(
     name: RepoName,
     tag: string,
-    revision: TagInput
+    revision: TagInput,
   ): Promise<Response> {
     const encodeName = encodeURIComponent(name);
     const encodeTag = encodeURIComponent(tag);
@@ -515,7 +515,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getIncludedGroup(
-    groupName: GroupId | GroupName
+    groupName: GroupId | GroupName,
   ): Promise<GroupInfo[] | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/groups/${encodeURIComponent(groupName)}/groups/`,
@@ -538,7 +538,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveGroupOwner(
     groupId: GroupId | GroupName,
-    ownerId: string
+    ownerId: string,
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.fetch({
@@ -554,7 +554,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveGroupDescription(
     groupId: GroupId | GroupName,
-    description: string
+    description: string,
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.fetch({
@@ -570,7 +570,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveGroupOptions(
     groupId: GroupId | GroupName,
-    options: GroupOptionsInput
+    options: GroupOptionsInput,
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.fetch({
@@ -586,7 +586,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getGroupAuditLog(
     group: EncodedGroupId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupAuditEventInfo[] | undefined> {
     return this._restApiHelper.fetchCacheJSON({
       url: `/groups/${group}/log.audit`,
@@ -597,7 +597,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveGroupMember(
     groupName: GroupId | GroupName,
-    groupMember: AccountId
+    groupMember: AccountId,
   ): Promise<AccountInfo | undefined> {
     const encodeName = encodeURIComponent(groupName);
     const encodeMember = encodeURIComponent(`${groupMember}`);
@@ -613,7 +613,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   saveIncludedGroup(
     groupName: GroupId | GroupName,
     includedGroup: GroupId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupInfo | undefined> {
     const encodeName = encodeURIComponent(groupName);
     const encodeIncludedGroup = encodeURIComponent(includedGroup);
@@ -632,7 +632,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   deleteGroupMember(
     groupName: GroupId | GroupName,
-    groupMember: AccountId
+    groupMember: AccountId,
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
     const encodeMember = encodeURIComponent(`${groupMember}`);
@@ -648,7 +648,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   deleteIncludedGroup(
     groupName: GroupId,
-    includedGroup: GroupId | GroupName
+    includedGroup: GroupId | GroupName,
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
     const encodeIncludedGroup = encodeURIComponent(includedGroup);
@@ -697,7 +697,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   savePreferences(
-    prefs: PreferencesInput
+    prefs: PreferencesInput,
   ): Promise<PreferencesInfo | undefined> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences');
@@ -805,7 +805,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getAccountDetails(
     userId: AccountId | EmailAddress,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<AccountDetailInfo | undefined> {
     return this._restApiHelper.fetchCacheJSON({
       url: `/accounts/${encodeURIComponent(userId)}/detail`,
@@ -879,7 +879,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // If result of getAccountEmails is in cache, update it in the cache
     // so we don't have to invalidate it.
     const cachedEmails = this._cache.get(
-      '/accounts/self/emails'
+      '/accounts/self/emails',
     ) as unknown as EmailInfo[];
     if (cachedEmails) {
       const emails = cachedEmails.map(entry => {
@@ -1026,7 +1026,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountCapabilities(
-    params?: string[]
+    params?: string[],
   ): Promise<AccountCapabilityInfo | undefined> {
     let queryString = '';
     if (params) {
@@ -1054,7 +1054,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       })
       .then(
         (capabilities: AccountCapabilityInfo | undefined) =>
-          capabilities && capabilities.administrateServer
+          capabilities && capabilities.administrateServer,
       );
   }
 
@@ -1096,7 +1096,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   saveWatchedProjects(
-    projects: ProjectWatchInfo[]
+    projects: ProjectWatchInfo[],
   ): Promise<ProjectWatchInfo[] | undefined> {
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
@@ -1130,7 +1130,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changesPerPage?: number,
     query?: string[] | string,
     offset?: 'n,z' | number,
-    options?: string
+    options?: string,
   ) {
     options = options || this.getListChangesOptionsHex();
     if (offset === 'n,z') {
@@ -1163,18 +1163,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changesPerPage?: number,
     queries?: string[],
     offset?: 'n,z' | number,
-    options?: string
+    options?: string,
   ): Promise<ChangeInfo[][] | undefined> {
     // CAUTION: Before actually enabling this experiment for everyone we will have to also change
     // the prefetched query in the backend. As is the experiment may help improving the
     // DashboardDisplayed metric, but it will definitely make the *Startup*DashboardDisplayed
     // latency worse.
     const parallelRequests = this.flagService.isEnabled(
-      KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS
+      KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS,
     );
     if (parallelRequests && queries && queries.length > 1) {
       const requestPromises = queries.map(query =>
-        this.getChanges(changesPerPage, query, offset, options)
+        this.getChanges(changesPerPage, query, offset, options),
       );
       return Promise.all(requestPromises).then(results => {
         if (results.includes(undefined)) return undefined;
@@ -1185,7 +1185,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         changesPerPage,
         queries,
         offset,
-        options
+        options,
       );
     }
   }
@@ -1200,7 +1200,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changesPerPage?: number,
     query?: string[],
     offset?: 'n,z' | number,
-    options?: string
+    options?: string,
   ): Promise<ChangeInfo[][] | undefined> {
     if (!query) return Promise.resolve(undefined);
 
@@ -1208,13 +1208,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       changesPerPage,
       query,
       offset,
-      options
+      options,
     );
 
     return Promise.resolve(
       this._restApiHelper.fetchJSON(request, true) as Promise<
         ChangeInfo[] | ChangeInfo[][] | undefined
-      >
+      >,
     ).then(response => {
       if (!response) {
         return;
@@ -1248,13 +1248,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     query?: string,
     offset?: 'n,z' | number,
     options?: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo[] | undefined> {
     const request = this.getRequestForGetChanges(
       changesPerPage,
       query,
       offset,
-      options
+      options,
     );
 
     return Promise.resolve(
@@ -1263,8 +1263,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           ...request,
           errFn,
         },
-        true
-      ) as Promise<ChangeInfo[] | undefined>
+        true,
+      ) as Promise<ChangeInfo[] | undefined>,
     ).then(response => {
       if (!response) {
         return;
@@ -1281,21 +1281,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getDetailedChangesWithActions(
     changeNums: NumericChangeId[],
-    needsSubmitRequirements = false
+    needsSubmitRequirements = false,
   ) {
     const options = [
       ListChangesOption.CHANGE_ACTIONS,
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.DETAILED_LABELS,
     ].concat(
-      needsSubmitRequirements ? [ListChangesOption.SUBMIT_REQUIREMENTS] : []
+      needsSubmitRequirements ? [ListChangesOption.SUBMIT_REQUIREMENTS] : [],
     );
     const query = changeNums.map(num => `change:${num}`).join(' OR ');
     const changeDetails = await this.getChanges(
       undefined,
       query,
       undefined,
-      listChangesOptionsToHex(...options)
+      listChangesOptionsToHex(...options),
     );
     return changeDetails;
   }
@@ -1312,16 +1312,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChangeActionURL(
     changeNum: NumericChangeId,
     revisionId: RevisionId | undefined,
-    endpoint: string
+    endpoint: string,
   ): Promise<string> {
     return this._changeBaseURL(changeNum, revisionId).then(
-      url => url + endpoint
+      url => url + endpoint,
     );
   }
 
   async getChangeDetail(
     changeNum?: NumericChangeId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;
     const optionsHex = await this.getChangeOptionsHex();
@@ -1329,7 +1329,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this._getChangeDetail(changeNum, optionsHex, errFn).then(detail =>
       // detail has ChangeViewChangeInfo type because the optionsHex always
       // includes ALL_REVISIONS flag.
-      GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo | undefined)
+      GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo | undefined),
     );
   }
 
@@ -1395,7 +1395,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   _getChangeDetail(
     changeNum: NumericChangeId,
     optionsHex: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo | undefined> {
     return this.getChangeActionURL(changeNum, undefined, '/detail').then(
       url => {
@@ -1412,7 +1412,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           if (response?.status === 304) {
             return parsePrefixedJSON(
               // urlWithParams already cached
-              this._etags.getCachedPayload(urlWithParams)!
+              this._etags.getCachedPayload(urlWithParams)!,
             ) as unknown as ChangeInfo;
           }
 
@@ -1433,20 +1433,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             .then(payload => {
               this._etags.collect(urlWithParams, response, payload.raw);
               this._maybeInsertInLookup(
-                payload.parsed as unknown as ChangeInfo
+                payload.parsed as unknown as ChangeInfo,
               );
 
               return payload.parsed as unknown as ChangeInfo;
             })
             .catch(() => undefined);
         });
-      }
+      },
     );
   }
 
   async getChangeCommitInfo(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<CommitInfo | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
@@ -1458,7 +1458,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeFiles(
     changeNum: NumericChangeId,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<FileNameToFileInfoMap | undefined> {
     let params = undefined;
     if (isMergeParent(patchRange.basePatchNum)) {
@@ -1476,7 +1476,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeEditFiles(
     changeNum: NumericChangeId,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<{files: FileNameToFileInfoMap} | undefined> {
     const changeUrl = await this._changeBaseURL(changeNum);
     let url = `${changeUrl}/edit?list`;
@@ -1499,7 +1499,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     query: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string[] | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
@@ -1511,11 +1511,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChangeOrEditFiles(
     changeNum: NumericChangeId,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<FileNameToFileInfoMap | undefined> {
     if (patchRange.patchNum === EDIT) {
       return this.getChangeEditFiles(changeNum, patchRange).then(
-        res => res && res.files
+        res => res && res.files,
       );
     }
     return this.getChangeFiles(changeNum, patchRange);
@@ -1523,7 +1523,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeRevisionActions(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<ActionNameToActionInfoMap | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
@@ -1535,26 +1535,26 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
     inputVal: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ) {
     return this._getChangeSuggestedGroup(
       ReviewerState.REVIEWER,
       changeNum,
       inputVal,
-      errFn
+      errFn,
     );
   }
 
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
     inputVal: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ) {
     return this._getChangeSuggestedGroup(
       ReviewerState.CC,
       changeNum,
       inputVal,
-      errFn
+      errFn,
     );
   }
 
@@ -1562,7 +1562,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     reviewerState: ReviewerState,
     changeNum: NumericChangeId,
     inputVal: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<SuggestedReviewerInfo[] | undefined> {
     // More suggestions may obscure content underneath in the reply dialog,
     // see issue 10793.
@@ -1583,7 +1583,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   async getChangeIncludedIn(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<IncludedInInfo | undefined> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetchJSON({
@@ -1615,7 +1615,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   _getReposUrl(
     filter: string | undefined,
     reposPerPage: number,
-    offset?: number
+    offset?: number,
   ): [boolean, string] {
     const defaultFilter = '';
     offset = offset || 0;
@@ -1672,7 +1672,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     reposPerPage: number,
     offset?: number,
     errFn?: ErrorCallback,
-    requestOrigin?: string
+    requestOrigin?: string,
   ): Promise<ProjectInfoWithName[] | undefined> {
     const [isQuery, url] = this._getReposUrl(filter, reposPerPage, offset);
     // If the request is a query then return the response directly as the result
@@ -1723,7 +1723,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repo: RepoName,
     reposBranchesPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<BranchInfo[] | undefined> {
     offset = offset || 0;
     const count = reposBranchesPerPage + 1;
@@ -1742,7 +1742,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repo: RepoName,
     reposTagsPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ) {
     offset = offset || 0;
     const encodedRepo = encodeURIComponent(repo);
@@ -1761,7 +1761,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     filter: string,
     pluginsPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<{[pluginName: string]: PluginInfo} | undefined> {
     offset = offset || 0;
     const encodedFilter = this._computeFilter(filter);
@@ -1776,7 +1776,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getRepoSubmitRequirements(
     repoName: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<SubmitRequirementInfo[] | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/projects/${encodeURIComponent(repoName)}/submit_requirements`,
@@ -1787,7 +1787,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getRepoAccessRights(
     repoName: RepoName,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ProjectAccessInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/projects/${encodeURIComponent(repoName)}/access`,
@@ -1798,7 +1798,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   setRepoAccessRights(
     repoName: RepoName,
-    repoInfo: ProjectAccessInput
+    repoInfo: ProjectAccessInput,
   ): Promise<Response> {
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
@@ -1813,7 +1813,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   setRepoAccessRightsForReview(
     projectName: RepoName,
-    projectInfo: ProjectAccessInput
+    projectInfo: ProjectAccessInput,
   ): Promise<ChangeInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
@@ -1829,7 +1829,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     inputVal: string,
     project?: RepoName,
     n?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<GroupNameToGroupInfoMap | undefined> {
     const params: QueryGroupsParams = {s: inputVal};
     if (n) {
@@ -1849,7 +1849,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getSuggestedRepos(
     inputVal: string,
     n?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<NameToProjectInfoMap | undefined> {
     const params = {
       m: inputVal,
@@ -1872,7 +1872,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     n?: number,
     canSee?: NumericChangeId,
     filterActive?: boolean,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<AccountInfo[] | undefined> {
     const params: QueryAccountsParams = {o: 'DETAILS', q: ''};
     const queryParams = [];
@@ -1919,30 +1919,30 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   addChangeReviewer(
     changeNum: NumericChangeId,
-    reviewerID: AccountId | EmailAddress | GroupId
+    reviewerID: AccountId | EmailAddress | GroupId,
   ) {
     return this._sendChangeReviewerRequest(
       HttpMethod.POST,
       changeNum,
-      reviewerID
+      reviewerID,
     );
   }
 
   removeChangeReviewer(
     changeNum: NumericChangeId,
-    reviewerID: AccountId | EmailAddress | GroupId
+    reviewerID: AccountId | EmailAddress | GroupId,
   ) {
     return this._sendChangeReviewerRequest(
       HttpMethod.DELETE,
       changeNum,
-      reviewerID
+      reviewerID,
     );
   }
 
   _sendChangeReviewerRequest(
     method: HttpMethod.POST | HttpMethod.DELETE,
     changeNum: NumericChangeId,
-    reviewerID: AccountId | EmailAddress | GroupId
+    reviewerID: AccountId | EmailAddress | GroupId,
   ) {
     return this.getChangeActionURL(changeNum, undefined, '/reviewers').then(
       url => {
@@ -1963,13 +1963,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           url,
           reportServerError: true,
         });
-      }
+      },
     );
   }
 
   async getRelatedChanges(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<RelatedChangesInfo | undefined> {
     const options = '?o=SUBMITTABLE';
     const url = await this._changeBaseURL(changeNum, patchNum);
@@ -1981,7 +1981,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangesSubmittedTogether(
     changeNum: NumericChangeId,
-    options: string[] = ['NON_VISIBLE_CHANGES']
+    options: string[] = ['NON_VISIBLE_CHANGES'],
   ): Promise<SubmittedTogetherInfo | undefined> {
     const url = await this._changeBaseURL(changeNum);
     const endpoint = `/submitted_together?o=${options.join('&o=')}`;
@@ -1992,7 +1992,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   async getChangeConflicts(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<ChangeInfo[] | undefined> {
     const config = await this.getConfig(false);
     if (!config?.change?.conflicts_predicate_enabled) {
@@ -2001,7 +2001,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
-      ListChangesOption.SUBMITTABLE
+      ListChangesOption.SUBMITTABLE,
     );
     const params = {
       O: options,
@@ -2017,11 +2017,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChangeCherryPicks(
     repo: RepoName,
     changeID: ChangeId,
-    branch: BranchName
+    branch: BranchName,
   ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
-      ListChangesOption.CURRENT_COMMIT
+      ListChangesOption.CURRENT_COMMIT,
     );
     const query = [
       `project:${repo}`,
@@ -2045,14 +2045,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     options?: {
       openChangesOnly?: boolean;
       changeToExclude?: NumericChangeId;
-    }
+    },
   ): Promise<ChangeInfo[] | undefined> {
     const requestOptions = listChangesOptionsToHex(
       ListChangesOption.LABELS,
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.DETAILED_LABELS,
-      ListChangesOption.SUBMITTABLE
+      ListChangesOption.SUBMITTABLE,
     );
     const queryTerms = [`topic:${escapeAndWrapSearchOperatorValue(topic)}`];
     if (options?.openChangesOnly) {
@@ -2074,7 +2074,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChangesWithSimilarTopic(
     topic: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo[] | undefined> {
     const query = `intopic:${escapeAndWrapSearchOperatorValue(topic)}`;
     return this._restApiHelper.fetchJSON({
@@ -2087,7 +2087,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChangesWithSimilarHashtag(
     hashtag: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<ChangeInfo[] | undefined> {
     const query = `inhashtag:${escapeAndWrapSearchOperatorValue(hashtag)}`;
     return this._restApiHelper.fetchJSON({
@@ -2100,7 +2100,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getReviewedFiles(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<string[] | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
@@ -2113,7 +2113,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
-    reviewed: boolean
+    reviewed: boolean,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetch({
@@ -2143,7 +2143,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum: PatchSetNum,
     review: ReviewInput,
     errFn?: ErrorCallback,
-    fetchDetail?: boolean
+    fetchDetail?: boolean,
   ): Promise<ReviewResult | undefined> {
     if (fetchDetail) {
       review.response_format_options = this.getSaveReviewChangeOptions();
@@ -2160,12 +2160,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         }),
         url,
         errFn,
-      })
+      }),
     ) as unknown as Promise<ReviewResult | undefined>;
   }
 
   async getChangeEdit(
-    changeNum?: NumericChangeId
+    changeNum?: NumericChangeId,
   ): Promise<EditInfo | undefined> {
     if (!changeNum) return undefined;
     const params = {'download-commands': true};
@@ -2195,7 +2195,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     isPrivate?: boolean,
     workInProgress?: boolean,
     baseChange?: ChangeId,
-    baseCommit?: string
+    baseCommit?: string,
   ): Promise<ChangeInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
@@ -2219,7 +2219,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getFileContent(
     changeNum: NumericChangeId,
     path: string,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): Promise<Response | Base64FileContent | undefined> {
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
@@ -2252,7 +2252,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     path: string,
     patchNum: PatchSetNum,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetch({
@@ -2271,7 +2271,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
    */
   async _getFileInChangeEdit(
     changeNum: NumericChangeId,
-    path: string
+    path: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2306,7 +2306,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async restoreFileInChangeEdit(
     changeNum: NumericChangeId,
-    restore_path: string
+    restore_path: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2323,7 +2323,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async renameFileInChangeEdit(
     changeNum: NumericChangeId,
     old_path: string,
-    new_path: string
+    new_path: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2339,7 +2339,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async deleteFileInChangeEdit(
     changeNum: NumericChangeId,
-    path: string
+    path: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2353,7 +2353,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async saveChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    contents: string
+    contents: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2371,7 +2371,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async saveFileUploadChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    content: string
+    content: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2388,7 +2388,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async getFixPreview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixReplacementInfos: FixReplacementInfo[]
+    fixReplacementInfos: FixReplacementInfo[],
   ): Promise<FilePathToDiffInfoMap | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
@@ -2404,7 +2404,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async getRobotCommentFixPreview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixId: FixId
+    fixId: FixId,
   ): Promise<FilePathToDiffInfoMap | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     const endpoint = `/fixes/${encodeURIComponent(fixId)}/preview`;
@@ -2419,11 +2419,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     fixPatchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[],
     targetPatchNum?: PatchSetNum,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Response> {
     const url = await this._changeBaseURL(
       changeNum,
-      targetPatchNum ?? fixPatchNum
+      targetPatchNum ?? fixPatchNum,
     );
     const body: {
       fix_replacement_infos: FixReplacementInfo[];
@@ -2450,7 +2450,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async applyRobotFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixId: string
+    fixId: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     const endpoint = `/fixes/${encodeURIComponent(fixId)}/apply`;
@@ -2475,7 +2475,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async putChangeCommitMessage(
     changeNum: NumericChangeId,
     message: string,
-    committerEmail: string | null
+    committerEmail: string | null,
   ) {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2493,7 +2493,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     name: string,
     email: string,
-    type: string
+    type: string,
   ) {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2509,7 +2509,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async deleteChangeCommitMessage(
     changeNum: NumericChangeId,
-    messageId: ChangeMessageId
+    messageId: ChangeMessageId,
   ) {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2522,7 +2522,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveChangeStarred(
     changeNum: NumericChangeId,
-    starred: boolean
+    starred: boolean,
   ): Promise<Response> {
     // Some servers may require the project name to be provided
     // alongside the change number, so resolve the project name
@@ -2535,7 +2535,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           fetchOptions: {method: starred ? HttpMethod.PUT : HttpMethod.DELETE},
           url,
           anonymizedUrl: '/accounts/self/starred.changes/*',
-        })
+        }),
       );
     });
   }
@@ -2553,7 +2553,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     body?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string,
-    requestOrigin?: string
+    requestOrigin?: string,
   ): Promise<Response | undefined> {
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
@@ -2574,7 +2574,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum: PatchSetNum,
     path: string,
     whitespace?: IgnoreWhitespaceType,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<DiffInfo | undefined> {
     const params: GetDiffParams = {
       intraline: null,
@@ -2601,21 +2601,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getDiffComments(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   getDiffComments(
     changeNum: NumericChangeId,
     basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
-    path: string
+    path: string,
   ): Promise<GetDiffCommentsOutput>;
 
   getDiffComments(
     changeNum: NumericChangeId,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ) {
     if (!basePatchNum && !patchNum && !path) {
       return this._getDiffComments(changeNum, '/comments', {
@@ -2629,26 +2629,26 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       {'enable-context': true, 'context-padding': 3},
       basePatchNum,
       patchNum,
-      path
+      path,
     );
   }
 
   getDiffRobotComments(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
 
   getDiffRobotComments(
     changeNum: NumericChangeId,
     basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
-    path: string
+    path: string,
   ): Promise<GetDiffRobotCommentsOutput>;
 
   getDiffRobotComments(
     changeNum: NumericChangeId,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ) {
     if (!basePatchNum && !patchNum && !path) {
       return this._getDiffComments(changeNum, '/robotcomments');
@@ -2660,12 +2660,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       undefined,
       basePatchNum,
       patchNum,
-      path
+      path,
     );
   }
 
   async getDiffDrafts(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<{[path: string]: DraftInfo[]} | undefined> {
     const loggedIn = await this.getLoggedIn();
     if (!loggedIn) return {};
@@ -2691,7 +2691,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   _setRanges(comments?: CommentInfo[]) {
     comments = comments || [];
     comments.sort(
-      (a, b) => parseDate(a.updated).valueOf() - parseDate(b.updated).valueOf()
+      (a, b) => parseDate(a.updated).valueOf() - parseDate(b.updated).valueOf(),
     );
     for (const comment of comments) {
       this._setRange(comments, comment);
@@ -2702,12 +2702,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   _getDiffComments(
     changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts',
-    params?: FetchParams
+    params?: FetchParams,
   ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   _getDiffComments(
     changeNum: NumericChangeId,
-    endpoint: '/robotcomments'
+    endpoint: '/robotcomments',
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
 
   _getDiffComments(
@@ -2716,7 +2716,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     params?: FetchParams,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ): Promise<GetDiffCommentsOutput>;
 
   _getDiffComments(
@@ -2725,7 +2725,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     params?: FetchParams,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ): Promise<GetDiffRobotCommentsOutput>;
 
   /**
@@ -2738,7 +2738,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     params?: FetchParams,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
   ): Promise<
     | GetDiffCommentsOutput
     | GetDiffRobotCommentsOutput
@@ -2757,8 +2757,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${endpoint}`,
             params,
           },
-          noAcceptHeader
-        )
+          noAcceptHeader,
+        ),
       ) as Promise<
         {[path: string]: CommentInfo[]} | PathToRobotCommentsInfoMap | undefined
       >;
@@ -2799,7 +2799,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (basePatchNum !== PARENT) {
       fetchPromise = fetchComments(basePatchNum).then(response => {
         baseComments = ((response && path && response[path]) || []).filter(
-          withoutParent
+          withoutParent,
         );
         baseComments = this._setRanges(baseComments);
         baseComments.forEach(setPath);
@@ -2811,13 +2811,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       Promise.resolve({
         baseComments,
         comments,
-      })
+      }),
     );
   }
 
   async getPortedComments(
     changeNum: NumericChangeId,
-    revision: RevisionId
+    revision: RevisionId,
   ): Promise<{[path: string]: CommentInfo[]} | undefined> {
     // maintaining a custom error function so that errors do not surface in UI
     const errFn: ErrorCallback = (response?: Response | null) => {
@@ -2833,7 +2833,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getPortedDrafts(
     changeNum: NumericChangeId,
-    revision: RevisionId
+    revision: RevisionId,
   ): Promise<{[path: string]: DraftInfo[]} | undefined> {
     // maintaining a custom error function so that errors do not surface in UI
     const errFn: ErrorCallback = (response?: Response | null) => {
@@ -2853,26 +2853,26 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   saveDiffDraft(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: CommentInput
+    draft: CommentInput,
   ) {
     return this._sendDiffDraftRequest(
       HttpMethod.PUT,
       changeNum,
       patchNum,
-      draft
+      draft,
     );
   }
 
   deleteDiffDraft(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: {id: UrlEncodedCommentId}
+    draft: {id: UrlEncodedCommentId},
   ) {
     return this._sendDiffDraftRequest(
       HttpMethod.DELETE,
       changeNum,
       patchNum,
-      draft
+      draft,
     );
   }
 
@@ -2883,7 +2883,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   awaitPendingDiffDrafts(): Promise<void> {
     return Promise.all(
-      this._pendingRequests[Requests.SEND_DIFF_DRAFT] || []
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT] || [],
     ).then(() => {
       this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
     });
@@ -2893,21 +2893,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     method: HttpMethod.PUT,
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: CommentInput
+    draft: CommentInput,
   ): Promise<Response>;
 
   _sendDiffDraftRequest(
     method: HttpMethod.GET | HttpMethod.DELETE,
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: {id?: UrlEncodedCommentId}
+    draft: {id?: UrlEncodedCommentId},
   ): Promise<Response>;
 
   _sendDiffDraftRequest(
     method: HttpMethod,
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    draft: CommentInput | {id: UrlEncodedCommentId}
+    draft: CommentInput | {id: UrlEncodedCommentId},
   ): Promise<Response> {
     const isCreate = !draft.id && method === HttpMethod.PUT;
     let endpoint = '/drafts';
@@ -2932,7 +2932,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         url: `${url}${endpoint}`,
         anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${anonymizedEndpoint}`,
         reportServerError: true,
-      })
+      }),
     );
 
     this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
@@ -2946,7 +2946,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getCommitInfo(
     repo: RepoName,
-    commit: CommitId
+    commit: CommitId,
   ): Promise<CommitInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       url:
@@ -2974,7 +2974,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeId: NumericChangeId,
     patchNum: RevisionId,
     path: string,
-    parentIndex?: number
+    parentIndex?: number,
   ) {
     const parent =
       typeof parentIndex === 'number' ? `?parent=${parentIndex}` : '';
@@ -2987,7 +2987,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getImagesForDiff(
     changeNum: NumericChangeId,
     diff: DiffInfo,
-    patchRange: PatchRange
+    patchRange: PatchRange,
   ): Promise<ImagesForDiff> {
     let promiseA;
     let promiseB;
@@ -2999,13 +2999,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           changeNum,
           patchRange.patchNum,
           diff.meta_a.name,
-          1
+          1,
         );
       } else {
         promiseA = this.getB64FileContents(
           changeNum,
           patchRange.basePatchNum,
-          diff.meta_a.name
+          diff.meta_a.name,
         );
       }
     } else {
@@ -3016,7 +3016,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       promiseB = this.getB64FileContents(
         changeNum,
         patchRange.patchNum,
-        diff.meta_b.name
+        diff.meta_b.name,
       );
     } else {
       promiseB = Promise.resolve(null);
@@ -3047,7 +3047,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   _changeBaseURL(
     changeNum: NumericChangeId,
-    revisionId?: RevisionId
+    revisionId?: RevisionId,
   ): Promise<string> {
     return this.getRepoName(changeNum).then(project => {
       let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
@@ -3061,7 +3061,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async addToAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId | undefined | null,
-    reason: string
+    reason: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -3078,7 +3078,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async removeFromAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId,
-    reason: string
+    reason: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -3095,7 +3095,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async setChangeTopic(
     changeNum: NumericChangeId,
     topic?: string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string | undefined> {
     const url = await this._changeBaseURL(changeNum);
     const response = await this._restApiHelper.fetch({
@@ -3119,7 +3119,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   removeChangeTopic(
     changeNum: NumericChangeId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string | undefined> {
     return this.setChangeTopic(changeNum, '', errFn);
   }
@@ -3127,7 +3127,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async setChangeHashtag(
     changeNum: NumericChangeId,
     hashtag: HashtagsInput,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Hashtag[] | undefined> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetchJSON({
@@ -3223,7 +3223,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async deleteVote(
     changeNum: NumericChangeId,
     account: AccountId,
-    label: string
+    label: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -3237,7 +3237,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async setDescription(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    desc: string
+    desc: string,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetch({
@@ -3268,7 +3268,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getCapabilities(
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<CapabilityInfoMap | undefined> {
     return this._restApiHelper.fetchJSON({
       url: '/config/server/capabilities',
@@ -3286,13 +3286,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   probePath(path: string) {
     return fetch(new Request(path, {method: HttpMethod.HEAD})).then(
-      response => response.ok
+      response => response.ok,
     );
   }
 
   async startWorkInProgress(
     changeNum: NumericChangeId,
-    message?: string
+    message?: string,
   ): Promise<string | undefined> {
     const url = await this._changeBaseURL(changeNum);
     const response = await this._restApiHelper.fetch({
@@ -3314,7 +3314,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     commentID: UrlEncodedCommentId,
-    reason: string
+    reason: string,
   ): Promise<CommentInfo | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
@@ -3330,7 +3330,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChange(
     changeNum: ChangeId | NumericChangeId,
     errFn: ErrorCallback,
-    optionsHex?: string
+    optionsHex?: string,
   ): Promise<ChangeInfo | undefined> {
     if (changeNum in this._projectLookup) {
       // _projectLookup can only store NumericChangeId, so we are sure that
@@ -3343,8 +3343,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             errFn,
             anonymizedUrl: '/changes/*~*',
           },
-          /* noAcceptHeader */ true
-        )
+          /* noAcceptHeader */ true,
+        ),
       ) as Promise<ChangeInfo | undefined>;
     } else {
       return this._restApiHelper
@@ -3354,7 +3354,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             errFn,
             anonymizedUrl: '/changes/?q=change:*',
           },
-          /* noAcceptHeader */ true
+          /* noAcceptHeader */ true,
         )
         .then(res => {
           const changeInfos = res as ChangeInfo[] | undefined;
@@ -3400,13 +3400,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       firePageError(
         new Response(
           `Failed to lookup the repo for change number ${changeNum}`,
-          {status: 404}
-        )
+          {status: 404},
+        ),
       );
       // Don't store failed lookups in the lookup.
       this._projectLookup[changeNum] = undefined;
       throw new Error(
-        `Failed to lookup the repo for change number ${changeNum}`
+        `Failed to lookup the repo for change number ${changeNum}`,
       );
     });
     this._projectLookup[changeNum] = projectPromise;
@@ -3419,7 +3419,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     // No anonymizedUrl specified so the request will not be logged.
@@ -3438,7 +3438,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
-    base?: boolean
+    base?: boolean,
   ): Promise<BlameInfo[] | undefined> {
     const encodedPath = encodeURIComponent(path);
     const url = await this._changeBaseURL(changeNum, patchNum);
@@ -3468,13 +3468,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             }
             return obj;
           },
-          {} as Record<string, string>
+          {} as Record<string, string>,
         );
         const err = new Error(
           [
             CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
             JSON.stringify(headers),
-          ].join('\n')
+          ].join('\n'),
         );
         // Throw the error so that it is caught by gr-reporting.
         throw err;
@@ -3486,7 +3486,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getDashboard(
     repo: RepoName,
     dashboard: DashboardId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<DashboardInfo | undefined> {
     const url =
       '/projects/' +
@@ -3511,7 +3511,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   async getMergeable(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
   ): Promise<MergeableInfo | undefined> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetchJSON({

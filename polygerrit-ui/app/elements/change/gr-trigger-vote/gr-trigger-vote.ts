@@ -118,13 +118,13 @@ export class GrTriggerVote extends LitElement {
       ></gr-vote-chip>`;
     if (isDetailedLabelInfo(labelInfo)) {
       const approvals = getAllUniqueApprovals(labelInfo).filter(
-        approval => !hasNeutralStatus(labelInfo, approval)
+        approval => !hasNeutralStatus(labelInfo, approval),
       );
       return approvals.map(
         approvalInfo => html`<gr-vote-chip
           .vote=${approvalInfo}
           .label=${labelInfo}
-        ></gr-vote-chip>`
+        ></gr-vote-chip>`,
       );
     } else if (isQuickLabelInfo(labelInfo)) {
       return [html`<gr-vote-chip .label=${this.labelInfo}></gr-vote-chip>`];

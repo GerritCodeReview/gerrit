@@ -39,7 +39,7 @@ export function createTestAppContext(): AppContext & Finalizable {
 
 export function createTestDependencies(
   appContext: AppContext,
-  resolver: <T>(token: DependencyToken<T>) => T
+  resolver: <T>(token: DependencyToken<T>) => T,
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = createAppDependencies(appContext, resolver);
   dependencies.set(storageServiceToken, () => grStorageMock);
@@ -54,7 +54,7 @@ export function createTestDependencies(
   });
   dependencies.set(
     highlightServiceToken,
-    () => new MockHighlightService(appContext.reportingService)
+    () => new MockHighlightService(appContext.reportingService),
   );
   dependencies.set(diffModelToken, () => new DiffModel(document));
   dependencies.set(suggestionsServiceToken, () => suggestionsServiceMock);

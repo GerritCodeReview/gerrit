@@ -63,15 +63,15 @@ const PARTIAL_CONTEXT_AMOUNT = 10;
  */
 function findBlockTreePathForLine(
   lineNum: number,
-  blocks?: SyntaxBlock[]
+  blocks?: SyntaxBlock[],
 ): SyntaxBlock[] {
   const containingBlock = blocks?.find(
-    ({range}) => range.start_line < lineNum && range.end_line > lineNum
+    ({range}) => range.start_line < lineNum && range.end_line > lineNum,
   );
   if (!containingBlock) return [];
   const innerPathInChild = findBlockTreePathForLine(
     lineNum,
-    containingBlock?.children
+    containingBlock?.children,
   );
   return [containingBlock].concat(innerPathInChild);
 }
@@ -291,12 +291,12 @@ export class GrContextControls extends LitElement {
     subscribe(
       this,
       () => this.getDiffModel().syntaxTreeRight$,
-      syntaxTree => (this.syntaxTreeRight = syntaxTree)
+      syntaxTree => (this.syntaxTreeRight = syntaxTree),
     );
     subscribe(
       this,
       () => this.getDiffModel().renderPrefs$,
-      renderPrefs => (this.renderPreferences = renderPrefs)
+      renderPrefs => (this.renderPreferences = renderPrefs),
     );
     subscribe(
       this,
@@ -304,7 +304,7 @@ export class GrContextControls extends LitElement {
       lineCountLeft => {
         this.lineCountLeft = lineCountLeft;
         this.updateShowConfig();
-      }
+      },
     );
   }
 
@@ -340,14 +340,14 @@ export class GrContextControls extends LitElement {
               return EMPTY;
             }
             return of(e).pipe(delay(500));
-          })
+          }),
         ),
       ({buttonType, linesToExpand}) => {
         fire(this, 'diff-context-button-hovered', {
           buttonType,
           linesToExpand,
         });
-      }
+      },
     );
   }
 
@@ -371,7 +371,7 @@ export class GrContextControls extends LitElement {
   private createContextButton(
     type: ContextButtonType,
     linesToExpand: number,
-    tooltip?: TemplateResult
+    tooltip?: TemplateResult,
   ) {
     if (!this.group) return;
     let text = '';
@@ -402,7 +402,7 @@ export class GrContextControls extends LitElement {
       groups = hideInContextControl(
         this.group.contextGroups,
         linesToExpand,
-        this.numLines()
+        this.numLines(),
       );
       text = `+${linesToExpand}`;
       classes += 'aboveButton';
@@ -411,7 +411,7 @@ export class GrContextControls extends LitElement {
       groups = hideInContextControl(
         this.group.contextGroups,
         0,
-        this.numLines() - linesToExpand
+        this.numLines() - linesToExpand,
       );
       text = `+${linesToExpand}`;
       classes += 'belowButton';
@@ -420,7 +420,7 @@ export class GrContextControls extends LitElement {
       groups = hideInContextControl(
         this.group.contextGroups,
         linesToExpand,
-        this.numLines()
+        this.numLines(),
       );
       text = '+Block';
       classes += 'aboveButton';
@@ -429,7 +429,7 @@ export class GrContextControls extends LitElement {
       groups = hideInContextControl(
         this.group.contextGroups,
         0,
-        this.numLines() - linesToExpand
+        this.numLines() - linesToExpand,
       );
       text = '+Block';
       classes += 'belowButton';
@@ -438,7 +438,7 @@ export class GrContextControls extends LitElement {
     const expandHandler = this.createExpansionHandler(
       linesToExpand,
       type,
-      groups
+      groups,
     );
 
     const mouseHandler = (eventType: 'enter' | 'leave') => {
@@ -465,7 +465,7 @@ export class GrContextControls extends LitElement {
   private createExpansionHandler(
     linesToExpand: number,
     type: ContextButtonType,
-    groups: GrDiffGroup[]
+    groups: GrDiffGroup[],
   ) {
     return (e: Event) => {
       assertIsDefined(this.group);
@@ -507,13 +507,13 @@ export class GrContextControls extends LitElement {
     if (this.showAbove()) {
       aboveButton = this.createContextButton(
         ContextButtonType.ABOVE,
-        PARTIAL_CONTEXT_AMOUNT
+        PARTIAL_CONTEXT_AMOUNT,
       );
     }
     if (this.showBelow()) {
       belowButton = this.createContextButton(
         ContextButtonType.BELOW,
-        PARTIAL_CONTEXT_AMOUNT
+        PARTIAL_CONTEXT_AMOUNT,
       );
     }
     return aboveButton || belowButton
@@ -541,13 +541,13 @@ export class GrContextControls extends LitElement {
     if (this.showAbove()) {
       aboveBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_ABOVE,
-        this.group.lineRange.right.start_line - 1
+        this.group.lineRange.right.start_line - 1,
       );
     }
     if (this.showBelow()) {
       belowBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_BELOW,
-        this.group.lineRange.right.end_line + 1
+        this.group.lineRange.right.end_line + 1,
       );
     }
     if (aboveBlockButton || belowBlockButton) {
@@ -561,7 +561,7 @@ export class GrContextControls extends LitElement {
   private createBlockButtonTooltip(
     buttonType: ContextButtonType,
     syntaxPath: SyntaxBlock[],
-    linesToExpand: number
+    linesToExpand: number,
   ) {
     // Create breadcrumb string:
     // myNamespace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
@@ -582,12 +582,12 @@ export class GrContextControls extends LitElement {
    */
   private createBlockButton(
     buttonType: ContextButtonType,
-    referenceLineRight: number
+    referenceLineRight: number,
   ) {
     if (this.syntaxTreeRight === undefined) return;
     const outlineSyntaxPath = findBlockTreePathForLine(
       referenceLineRight,
-      this.syntaxTreeRight
+      this.syntaxTreeRight,
     );
     let linesToExpand = this.numLines();
     if (outlineSyntaxPath.length) {
@@ -604,7 +604,7 @@ export class GrContextControls extends LitElement {
     const tooltip = this.createBlockButtonTooltip(
       buttonType,
       outlineSyntaxPath,
-      linesToExpand
+      linesToExpand,
     );
     return this.createContextButton(buttonType, linesToExpand, tooltip);
   }

@@ -231,7 +231,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getChangeDetail(
-    changeNum?: number | string
+    changeNum?: number | string,
   ): Promise<ParsedChangeInfo | undefined> {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
@@ -278,7 +278,7 @@ export const grRestApiMock: RestApiService = {
           _number: changeNum,
           subject: `Subject ${changeNum}`,
         };
-      })
+      }),
     );
   },
   getChangesWithSameTopic(): Promise<ChangeInfo[] | undefined> {
@@ -558,7 +558,7 @@ export const grRestApiMock: RestApiService = {
   },
   removeChangeTopic(
     changeNum: NumericChangeId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
   ): Promise<string | undefined> {
     return this.setChangeTopic(changeNum, '', errFn);
   },

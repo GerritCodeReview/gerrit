@@ -236,7 +236,7 @@ export class GrTooltipContent extends LitElement {
     const {isBelow, top} = this.computeTop(
       tooltipRect,
       hoveredRect,
-      parentRect
+      parentRect,
     );
     const tooltipCenter = left + 0.5 * tooltipRect.width;
 
@@ -249,7 +249,7 @@ export class GrTooltipContent extends LitElement {
   private computeLeft(
     tooltipRect: DOMRect,
     hoveredCenter: number,
-    parentWidth: number
+    parentWidth: number,
   ) {
     let left = hoveredCenter - 0.5 * tooltipRect.width;
     if (left + tooltipRect.width > parentWidth - 1) {
@@ -264,7 +264,7 @@ export class GrTooltipContent extends LitElement {
   private computeTop(
     tooltipRect: DOMRect,
     hoveredRect: DOMRect,
-    parentRect: DOMRect
+    parentRect: DOMRect,
   ): {
     isBelow: boolean;
     top: number;

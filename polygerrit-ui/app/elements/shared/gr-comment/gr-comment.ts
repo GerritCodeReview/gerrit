@@ -311,7 +311,7 @@ export class GrComment extends LitElement {
 
   private readonly getSuggestionsService = resolve(
     this,
-    suggestionsServiceToken
+    suggestionsServiceToken,
   );
 
   private readonly flagsService = getAppContext().flagsService;
@@ -366,7 +366,7 @@ export class GrComment extends LitElement {
         }
         this.handleEsc();
       },
-      {preventDefault: false}
+      {preventDefault: false},
     );
     for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
       this.shortcuts.addLocal(
@@ -382,7 +382,7 @@ export class GrComment extends LitElement {
             e.stopPropagation();
           }
         },
-        {preventDefault: false}
+        {preventDefault: false},
       );
     }
     // For Ctrl+s add shorctut with preventDefault so that it does
@@ -402,28 +402,28 @@ export class GrComment extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.account = x),
     );
     subscribe(
       this,
       () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
+      x => (this.isAdmin = x),
     );
 
     subscribe(
       this,
       () => this.getChangeModel().repo$,
-      x => (this.repoName = x)
+      x => (this.repoName = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().isOwner$,
-      x => (this.isOwner = x)
+      x => (this.isOwner = x),
     );
     subscribe(
       this,
@@ -431,39 +431,39 @@ export class GrComment extends LitElement {
         this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
       () => {
         this.autoSave();
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
     subscribe(
       this,
       () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
       // We currently support results from only 1 provider.
       suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider),
     );
     subscribe(
       this,
       () =>
         this.autocompleteTrigger$.pipe(
-          debounceTime(AUTOCOMPLETE_DEBOUNCE_DELAY_MS)
+          debounceTime(AUTOCOMPLETE_DEBOUNCE_DELAY_MS),
         ),
       () => {
         this.autocompleteComment();
-      }
+      },
     );
     subscribe(
       this,
       () =>
         this.generateSuggestionTrigger$.pipe(
-          debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
+          debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS),
         ),
       () => {
         this.generateSuggestEdit();
-      }
+      },
     );
     subscribe(
       this,
@@ -476,7 +476,7 @@ export class GrComment extends LitElement {
         ) {
           this.generateSuggestion = !!prefs.allow_suggest_code_while_commenting;
         }
-      }
+      },
     );
     subscribe(
       this,
@@ -485,7 +485,7 @@ export class GrComment extends LitElement {
         if (updated) {
           this.requestUpdate();
         }
-      }
+      },
     );
   }
 
@@ -494,7 +494,7 @@ export class GrComment extends LitElement {
     if (this.comment?.id) {
       const generateSuggestionStoredContent =
         this.getStorage().getEditableContentItem(
-          ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment.id
+          ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment.id,
         );
       if (generateSuggestionStoredContent?.message === 'false') {
         this.generateSuggestion = false;
@@ -948,7 +948,7 @@ export class GrComment extends LitElement {
 
     this.reportHintInteraction(
       Interaction.COMMENT_COMPLETION_SUGGESTION_SHOWN,
-      context
+      context,
     );
   }
 
@@ -959,7 +959,7 @@ export class GrComment extends LitElement {
     this.autocompleteAcceptedHints.push(e.detail.hint);
     this.reportHintInteraction(
       Interaction.COMMENT_COMPLETION_SUGGESTION_ACCEPTED,
-      context
+      context,
     );
   }
 
@@ -983,13 +983,13 @@ export class GrComment extends LitElement {
     };
     this.reportHintInteraction(
       Interaction.COMMENT_COMPLETION_SAVE_DRAFT,
-      context
+      context,
     );
   }
 
   private reportHintInteraction(
     interaction: Interaction,
-    context: Partial<AutocompletionContext>
+    context: Partial<AutocompletionContext>,
   ) {
     context = {
       ...context,
@@ -1174,7 +1174,7 @@ export class GrComment extends LitElement {
   showGeneratedSuggestion() {
     return (
       this.getSuggestionsService().isGeneratedSuggestedFixEnabledForComment(
-        this.comment
+        this.comment,
       ) &&
       this.editing &&
       !this.permanentEditingMode &&
@@ -1226,7 +1226,7 @@ export class GrComment extends LitElement {
               if (this.comment?.id) {
                 this.getStorage().setEditableContentItem(
                   ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment.id,
-                  this.generateSuggestion.toString()
+                  this.generateSuggestion.toString(),
                 );
               }
               if (this.generateSuggestion) {
@@ -1238,7 +1238,7 @@ export class GrComment extends LitElement {
               this.reporting.reportInteraction(
                 this.generateSuggestion
                   ? Interaction.GENERATE_SUGGESTION_ENABLED
-                  : Interaction.GENERATE_SUGGESTION_DISABLED
+                  : Interaction.GENERATE_SUGGESTION_DISABLED,
               );
             }}
           />
@@ -1246,14 +1246,14 @@ export class GrComment extends LitElement {
           ${when(
             this.suggestionLoading,
             () => html`<span class="loadingSpin"></span>`,
-            () => html`${this.getNumberOfSuggestions()}`
+            () => html`${this.getNumberOfSuggestions()}`,
           )}
         </label>
         <a
           href=${this.suggestionsProvider?.getDocumentationLink?.() ||
           getDocUrl(
             this.docsBaseUrl,
-            'user-suggest-edits.html#generate_suggestion'
+            'user-suggest-edits.html#generate_suggestion',
           )}
           target="_blank"
           rel="noopener noreferrer"
@@ -1294,7 +1294,7 @@ export class GrComment extends LitElement {
           this.comment,
           this.messageText,
           this.generatedSuggestionId,
-          ReportSource.FIX_FOR_REVIEWER_COMMENT
+          ReportSource.FIX_FOR_REVIEWER_COMMENT,
         );
     } finally {
       this.suggestionLoading = false;
@@ -1314,7 +1314,7 @@ export class GrComment extends LitElement {
 
   private async autocompleteComment() {
     const enabled = this.flagsService.isEnabled(
-      KnownExperimentId.COMMENT_AUTOCOMPLETION
+      KnownExperimentId.COMMENT_AUTOCOMPLETION,
     );
     if (!enabled || !this.autocompleteEnabled) {
       return;
@@ -1323,12 +1323,12 @@ export class GrComment extends LitElement {
     const context = await this.getSuggestionsService().autocompleteComment(
       this.comment,
       this.messageText,
-      this.comments
+      this.comments,
     );
     if (!context) return;
     this.reportHintInteraction(
       Interaction.COMMENT_COMPLETION_SUGGESTION_FETCHED,
-      {...context, hasDraftChanged: this.messageText !== commentText}
+      {...context, hasDraftChanged: this.messageText !== commentText},
     );
     // Note that we are setting the cache value for `commentText` and getting the value
     // for `this.messageText`.
@@ -1445,7 +1445,7 @@ export class GrComment extends LitElement {
       (async () => {
         this.commentedText = await this.commentModel.getCommentedCode(
           this.comment,
-          this.changeNum
+          this.changeNum,
         );
       })();
     }
@@ -1501,7 +1501,7 @@ export class GrComment extends LitElement {
     await waitUntil(
       () => !!this.textarea,
       'textarea element not found',
-      5 * 1000
+      5 * 1000,
     );
     this.messageText = quote + this.messageText;
   }
@@ -1511,13 +1511,13 @@ export class GrComment extends LitElement {
   private hasHumanReply() {
     if (!this.comment || !this.comments) return false;
     return this.comments.some(
-      c => c.in_reply_to && c.in_reply_to === this.comment?.id && !isRobot(c)
+      c => c.in_reply_to && c.in_reply_to === this.comment?.id && !isRobot(c),
     );
   }
 
   // private, but visible for testing
   async createFixPreview(
-    replacement?: string
+    replacement?: string,
   ): Promise<OpenFixPreviewEventDetail> {
     assertIsDefined(this.comment?.patch_set, 'comment.patch_set');
     assertIsDefined(this.comment?.path, 'comment.path');
@@ -1529,7 +1529,7 @@ export class GrComment extends LitElement {
       if (!commentedCode) {
         commentedCode = await this.commentModel.getCommentedCode(
           this.comment,
-          this.changeNum
+          this.changeNum,
         );
         if (!commentedCode) {
           throw new Error('unable to create preview fix event');
@@ -1540,7 +1540,7 @@ export class GrComment extends LitElement {
         fixSuggestions: createUserFixSuggestion(
           this.comment,
           commentedCode,
-          replacement
+          replacement,
         ),
         patchNum: this.comment.patch_set,
         onCloseFixPreviewCallbacks: [
@@ -1657,7 +1657,7 @@ export class GrComment extends LitElement {
     e.stopPropagation();
     const line = await this.commentModel.getCommentedCode(
       this.comment,
-      this.changeNum
+      this.changeNum,
     );
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
@@ -1821,7 +1821,7 @@ export class GrComment extends LitElement {
     await this.getCommentsModel().deleteComment(
       this.changeNum,
       this.comment,
-      this.confirmDeleteDialog.message
+      this.confirmDeleteDialog.message,
     );
     this.closeDeleteCommentModal();
   }

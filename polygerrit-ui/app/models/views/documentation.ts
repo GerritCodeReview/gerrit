@@ -23,7 +23,7 @@ export function createDocumentationUrl() {
 }
 
 export const documentationViewModelToken = define<DocumentationViewModel>(
-  'documentation-view-model'
+  'documentation-view-model',
 );
 
 export class DocumentationViewModel extends Model<

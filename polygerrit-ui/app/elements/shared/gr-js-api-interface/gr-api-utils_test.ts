@@ -22,25 +22,25 @@ suite('gr-api-utils tests', () => {
       assert.equal(getPluginNameFromUrl('http://example.com'), null);
       assert.equal(
         getPluginNameFromUrl('http://example.com/static/a.js'),
-        null
+        null,
       );
     });
 
     test('with valid urls', () => {
       assert.equal(
         getPluginNameFromUrl('http://example.com/plugins/a.js'),
-        'a'
+        'a',
       );
       assert.equal(
         getPluginNameFromUrl('http://example.com/plugins/a/static/t.js'),
-        'a'
+        'a',
       );
     });
 
     test('with gerrit-theme override', () => {
       assert.equal(
         getPluginNameFromUrl('http://example.com/static/gerrit-theme.js'),
-        'gerrit-theme'
+        'gerrit-theme',
       );
     });
 
@@ -48,7 +48,7 @@ suite('gr-api-utils tests', () => {
       window.ASSETS_PATH = 'http://cdn.com/2';
       assert.equal(
         getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.js`),
-        'a'
+        'a',
       );
       window.ASSETS_PATH = undefined;
     });

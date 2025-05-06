@@ -30,7 +30,7 @@ suite('gr-vote-chip tests', () => {
         approved: createAccountWithIdNameAndEmail(),
       };
       const element = await fixture<GrVoteChip>(
-        html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`
+        html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`,
       );
       assert.shadowDom.equal(
         element,
@@ -40,7 +40,7 @@ suite('gr-vote-chip tests', () => {
           title=""
         >
           <div class="max vote-chip">&#x2713;</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
 
@@ -50,7 +50,7 @@ suite('gr-vote-chip tests', () => {
         rejected: createAccountWithIdNameAndEmail(),
       };
       const element = await fixture<GrVoteChip>(
-        html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`
+        html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`,
       );
       assert.shadowDom.equal(
         element,
@@ -60,7 +60,7 @@ suite('gr-vote-chip tests', () => {
           title=""
         >
           <div class="min vote-chip">&#x2717;</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
   });
@@ -75,7 +75,7 @@ suite('gr-vote-chip tests', () => {
 
     setup(async () => {
       element = await fixture<GrVoteChip>(
-        html`<gr-vote-chip .label=${labelInfo} .vote=${vote}></gr-vote-chip>`
+        html`<gr-vote-chip .label=${labelInfo} .vote=${vote}></gr-vote-chip>`,
       );
     });
 
@@ -88,7 +88,7 @@ suite('gr-vote-chip tests', () => {
           title=""
         >
           <div class="positive vote-chip">+2</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
 
@@ -98,7 +98,7 @@ suite('gr-vote-chip tests', () => {
         value: -1,
       };
       element = await fixture<GrVoteChip>(
-        html`<gr-vote-chip .label=${labelInfo} .vote=${vote}></gr-vote-chip>`
+        html`<gr-vote-chip .label=${labelInfo} .vote=${vote}></gr-vote-chip>`,
       );
       assert.shadowDom.equal(
         element,
@@ -108,7 +108,7 @@ suite('gr-vote-chip tests', () => {
           title="Wrong Style or Formatting"
         >
           <div class="min vote-chip">-1</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
 
@@ -118,7 +118,7 @@ suite('gr-vote-chip tests', () => {
           .label=${labelInfo}
           .vote=${vote}
           more
-        ></gr-vote-chip>`
+        ></gr-vote-chip>`,
       );
       assert.shadowDom.equal(
         element,
@@ -129,7 +129,7 @@ suite('gr-vote-chip tests', () => {
         >
           <div class="positive vote-chip">+2</div>
           <div class="chip-angle positive">+2</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
 
@@ -144,7 +144,7 @@ suite('gr-vote-chip tests', () => {
           .label=${labelInfo}
           .vote=${vote}
           tooltip-with-who-voted
-        ></gr-vote-chip>`
+        ></gr-vote-chip>`,
       );
       assert.shadowDom.equal(
         element,
@@ -154,7 +154,7 @@ suite('gr-vote-chip tests', () => {
           title="Tester: Great"
         >
           <div class="max vote-chip">+2</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
 
@@ -164,7 +164,7 @@ suite('gr-vote-chip tests', () => {
           .displayValue=${-1}
           .label=${labelInfo}
           .vote=${vote}
-        ></gr-vote-chip>`
+        ></gr-vote-chip>`,
       );
       assert.shadowDom.equal(
         element,
@@ -174,7 +174,7 @@ suite('gr-vote-chip tests', () => {
           title=""
         >
           <div class="min vote-chip">-1</div>
-        </gr-tooltip-content>`
+        </gr-tooltip-content>`,
       );
     });
   });

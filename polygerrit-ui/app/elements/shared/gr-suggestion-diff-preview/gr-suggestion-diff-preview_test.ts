@@ -37,8 +37,8 @@ suite('gr-suggestion-diff-preview tests', () => {
             ></gr-suggestion-diff-preview>
           `,
           commentModelToken,
-          commentModel
-        )
+          commentModel,
+        ),
       )
     ).querySelector<GrSuggestionDiffPreview>('gr-suggestion-diff-preview')!;
     await element.updateComplete;
@@ -113,7 +113,7 @@ suite('gr-suggestion-diff-preview tests', () => {
           </gr-diff>
         </div>
       `,
-      {ignoreAttributes: ['style']}
+      {ignoreAttributes: ['style']},
     );
   });
 });

@@ -107,12 +107,12 @@ suite('change model tests', () => {
   const testCompleted = new Subject<void>();
 
   async function waitForLoadingStatus(
-    loadingStatus: LoadingStatus
+    loadingStatus: LoadingStatus,
   ): Promise<ChangeState> {
     return await waitUntilObserved(
       changeModel.state$,
       state => state.loadingStatus === loadingStatus,
-      `LoadingStatus was never ${loadingStatus}`
+      `LoadingStatus was never ${loadingStatus}`,
     );
   }
 
@@ -124,7 +124,7 @@ suite('change model tests', () => {
       getAppContext().restApiService,
       testResolver(userModelToken),
       testResolver(pluginLoaderToken),
-      getAppContext().reportingService
+      getAppContext().reportingService,
     );
     knownChangeNoRevision = {
       ...createChange(),
@@ -153,14 +153,14 @@ suite('change model tests', () => {
 
     setup(() => {
       getMergeableStub = stubRestApi('getMergeable').callsFake(() =>
-        Promise.resolve(createMergeable(mergeableApiResponse))
+        Promise.resolve(createMergeable(mergeableApiResponse)),
       );
     });
 
     test('mergeability initially undefined', async () => {
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === undefined
+        mergeable => mergeable === undefined,
       );
       assert.isFalse(getMergeableStub.called);
     });
@@ -170,7 +170,7 @@ suite('change model tests', () => {
 
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === true
+        mergeable => mergeable === true,
       );
       assert.isFalse(getMergeableStub.called);
     });
@@ -180,7 +180,7 @@ suite('change model tests', () => {
 
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === true
+        mergeable => mergeable === true,
       );
       assert.isFalse(getMergeableStub.called);
     });
@@ -193,7 +193,7 @@ suite('change model tests', () => {
 
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === false
+        mergeable => mergeable === false,
       );
       assert.isFalse(getMergeableStub.called);
     });
@@ -206,7 +206,7 @@ suite('change model tests', () => {
 
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === false
+        mergeable => mergeable === false,
       );
       assert.isFalse(getMergeableStub.called);
     });
@@ -217,7 +217,7 @@ suite('change model tests', () => {
 
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === true
+        mergeable => mergeable === true,
       );
       assert.isTrue(getMergeableStub.calledOnce);
     });
@@ -228,7 +228,7 @@ suite('change model tests', () => {
 
       waitUntilObserved(
         changeModel.mergeable$,
-        mergeable => mergeable === false
+        mergeable => mergeable === false,
       );
       assert.isTrue(getMergeableStub.calledOnce);
     });
@@ -421,7 +421,7 @@ suite('change model tests', () => {
       messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
     };
     const getChangeStub = stubRestApi('getChange').returns(
-      Promise.resolve(actualChange)
+      Promise.resolve(actualChange),
     );
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
@@ -443,11 +443,11 @@ suite('change model tests', () => {
       messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
     };
     const getChangeStub = stubRestApi('getChange').returns(
-      Promise.resolve(actualChange)
+      Promise.resolve(actualChange),
     );
     const result = await changeModel.fetchChangeUpdates(
       knownChange,
-      /* includeExtraOptions=*/ true
+      /* includeExtraOptions=*/ true,
     );
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);

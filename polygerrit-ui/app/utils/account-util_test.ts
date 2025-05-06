@@ -133,7 +133,7 @@ suite('account-util tests', () => {
   test('isAccountEmailOnly', () => {
     assert.isFalse(isAccountEmailOnly(createAccountWithId(1)));
     assert.isTrue(
-      isAccountEmailOnly(createAccountWithEmailOnly('a' as EmailAddress))
+      isAccountEmailOnly(createAccountWithEmailOnly('a' as EmailAddress)),
     );
     assert.isFalse(isAccountEmailOnly(createGroupInfo()));
   });
@@ -143,33 +143,33 @@ suite('account-util tests', () => {
       replaceTemplates(
         'Text with action by <GERRIT_ACCOUNT_0000001>',
         accounts,
-        config
+        config,
       ),
-      'Text with action by test-username-1'
+      'Text with action by test-username-1',
     );
     assert.equal(
       replaceTemplates(
         'Text with action by <GERRIT_ACCOUNT_0000002>',
         accounts,
-        config
+        config,
       ),
-      'Text with action by Test User #2'
+      'Text with action by Test User #2',
     );
     assert.equal(
       replaceTemplates(
         'Text with action by <GERRIT_ACCOUNT_3>',
         accounts,
-        config
+        config,
       ),
-      'Text with action by Gerrit Account 3'
+      'Text with action by Gerrit Account 3',
     );
     assert.equal(
       replaceTemplates(
         'Text with multiple accounts: <GERRIT_ACCOUNT_0000003>, <GERRIT_ACCOUNT_0000002>, <GERRIT_ACCOUNT_0000001>',
         accounts,
-        config
+        config,
       ),
-      'Text with multiple accounts: Gerrit Account 3, Test User #2, test-username-1'
+      'Text with multiple accounts: Gerrit Account 3, Test User #2, test-username-1',
     );
   });
 
@@ -177,29 +177,29 @@ suite('account-util tests', () => {
     assert.equal(
       replaceTemplates(
         'Text with action by <GERRIT_ACCOUNT_0000001>',
-        accounts
+        accounts,
       ),
-      'Text with action by Test User #1'
+      'Text with action by Test User #1',
     );
     assert.equal(
       replaceTemplates(
         'Text with action by <GERRIT_ACCOUNT_0000002>',
-        accounts
+        accounts,
       ),
-      'Text with action by Test User #2'
+      'Text with action by Test User #2',
     );
 
     assert.equal(
       replaceTemplates('Text with action by <GERRIT_ACCOUNT_3>', accounts),
-      'Text with action by Gerrit Account 3'
+      'Text with action by Gerrit Account 3',
     );
 
     assert.equal(
       replaceTemplates(
         'Text with multiple accounts: <GERRIT_ACCOUNT_0000003>, <GERRIT_ACCOUNT_0000002>, <GERRIT_ACCOUNT_0000001>',
-        accounts
+        accounts,
       ),
-      'Text with multiple accounts: Gerrit Account 3, Test User #2, Test User #1'
+      'Text with multiple accounts: Gerrit Account 3, Test User #2, Test User #1',
     );
   });
 
@@ -248,15 +248,15 @@ suite('account-util tests', () => {
 
     assert.strictEqual(
       computeVoteableText(change, {...createAccountDetailWithId(1)}),
-      'Bar: +1'
+      'Bar: +1',
     );
     assert.strictEqual(
       computeVoteableText(change, {...createAccountDetailWithId(7)}),
-      'Foo: +2, Bar: +1, FooBar: 0'
+      'Foo: +2, Bar: +1, FooBar: 0',
     );
     assert.strictEqual(
       computeVoteableText(change, {...createAccountDetailWithId(2)}),
-      ''
+      '',
     );
   });
 
@@ -304,13 +304,13 @@ suite('account-util tests', () => {
       isDetailedAccount({
         _account_id: 12345 as AccountId,
         email: 'abcd' as EmailAddress,
-      })
+      }),
     );
     assert.isTrue(
       isDetailedAccount({
         _account_id: 12345 as AccountId,
         name: 'Kermit',
-      })
+      }),
     );
   });
 
@@ -324,7 +324,7 @@ suite('account-util tests', () => {
     };
     assert.strictEqual(
       computeVoteableText(change, {...createAccountDetailWithId(1)}),
-      ''
+      '',
     );
   });
 

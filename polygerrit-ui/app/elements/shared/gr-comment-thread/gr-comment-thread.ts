@@ -281,7 +281,7 @@ export class GrCommentThread extends LitElement {
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
+    () => getAppContext().reportingService,
   );
 
   private readonly flagsService = getAppContext().flagsService;
@@ -296,22 +296,22 @@ export class GrCommentThread extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.account = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().repo$,
-      x => (this.repoName = x)
+      x => (this.repoName = x),
     );
     subscribe(
       this,
       () => this.getUserModel().diffPreferences$,
-      x => this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
+      x => this.syntaxLayer.setEnabled(!!x.syntax_highlighting),
     );
     subscribe(
       this,
@@ -322,7 +322,7 @@ export class GrCommentThread extends LitElement {
           layers.push(new TokenHighlightLayer(this));
         }
         this.layers = layers;
-      }
+      },
     );
     subscribe(
       this,
@@ -334,12 +334,12 @@ export class GrCommentThread extends LitElement {
           // remaining space after comment card has rendered
           line_wrapping: true,
         };
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().isOwner$,
-      isOwner => (this.isOwner = isOwner)
+      isOwner => (this.isOwner = isOwner),
     );
     subscribe(
       this,
@@ -348,7 +348,7 @@ export class GrCommentThread extends LitElement {
         if (updated) {
           this.requestUpdate();
         }
-      }
+      },
     );
   }
 
@@ -543,7 +543,7 @@ export class GrCommentThread extends LitElement {
     const publishedComments = repeat(
       this.thread.comments.filter(c => !isDraft(c)),
       comment => comment.id,
-      comment => this.renderComment(comment)
+      comment => this.renderComment(comment),
     );
     // We are deliberately not including the draft in the repeat directive,
     // because we ran into spurious issues with <gr-comment> being destroyed
@@ -576,7 +576,7 @@ export class GrCommentThread extends LitElement {
         @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
         @comment-editing-changed=${(
-          e: CustomEvent<CommentEditingChangedDetail>
+          e: CustomEvent<CommentEditingChangedDetail>,
         ) => {
           if (isDraft(comment)) this.editing = e.detail.editing;
         }}
@@ -636,7 +636,7 @@ export class GrCommentThread extends LitElement {
                           >Get AI Fix
                           ${when(
                             this.suggestionLoading,
-                            () => html`<span class="loadingSpin"></span>`
+                            () => html`<span class="loadingSpin"></span>`,
                           )}</gr-button
                         >
                       `
@@ -754,7 +754,7 @@ export class GrCommentThread extends LitElement {
     await waitUntil(
       () => !!this.draftElement,
       'draft element not found',
-      5 * 1000
+      5 * 1000,
     );
     this.draftElement!.edit();
   }
@@ -763,7 +763,7 @@ export class GrCommentThread extends LitElement {
     await waitUntil(
       () => !!this.draftElement,
       'draft element not found',
-      5 * 1000
+      5 * 1000,
     );
     await this.draftElement!.addQuote(quote);
   }
@@ -789,7 +789,7 @@ export class GrCommentThread extends LitElement {
     const diff = computeDiffFromContext(
       firstComment.context_lines,
       this.thread?.path,
-      firstComment.source_content_type
+      firstComment.source_content_type,
     );
     // Do we really have to re-compute (and re-render) the diff?
     if (this.diff && JSON.stringify(this.diff) === JSON.stringify(diff)) {
@@ -914,7 +914,7 @@ export class GrCommentThread extends LitElement {
     userWantsToEdit: boolean,
     unresolved: boolean,
     quote?: string,
-    fixSuggestion?: FixSuggestionInfo
+    fixSuggestion?: FixSuggestionInfo,
   ) {
     const replyingTo = this.getLastComment();
     assertIsDefined(this.thread, 'thread');
@@ -952,13 +952,13 @@ export class GrCommentThread extends LitElement {
         '',
         /* userWantsToEdit= */ true,
         comment.unresolved ?? true,
-        content
+        content,
       );
     } else {
       this.createReplyComment(
         content,
         /* userWantsToEdit= */ true,
-        comment.unresolved ?? true
+        comment.unresolved ?? true,
       );
     }
   }
@@ -967,7 +967,7 @@ export class GrCommentThread extends LitElement {
     this.createReplyComment(
       'Acknowledged',
       /* userWantsToEdit= */ false,
-      /* unresolved= */ false
+      /* unresolved= */ false,
     );
   }
 
@@ -975,7 +975,7 @@ export class GrCommentThread extends LitElement {
     this.createReplyComment(
       'Done',
       /* userWantsToEdit= */ false,
-      /* unresolved= */ false
+      /* unresolved= */ false,
     );
   }
 
@@ -1005,7 +1005,7 @@ export class GrCommentThread extends LitElement {
           comment,
           comment.message,
           this.generatedSuggestionId,
-          ReportSource.GET_AI_FIX_FOR_COMMENT
+          ReportSource.GET_AI_FIX_FOR_COMMENT,
         );
     } finally {
       this.suggestionLoading = false;
@@ -1029,7 +1029,7 @@ export class GrCommentThread extends LitElement {
     const comment = this.thread.comments[0];
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabledForComment(
-        comment
+        comment,
       )
     ) {
       return false;
@@ -1050,7 +1050,7 @@ export class GrCommentThread extends LitElement {
       /* userWantsToEdit= */ false,
       /* unresolved= */ false,
       /* quote= */ '',
-      fixSuggestion
+      fixSuggestion,
     );
   }
 }

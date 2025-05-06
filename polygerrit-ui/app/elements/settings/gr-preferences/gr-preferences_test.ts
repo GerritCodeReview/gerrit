@@ -262,7 +262,7 @@ suite('gr-preferences tests', () => {
             Save Changes
           </gr-button>
         </fieldset>
-      `
+      `,
     );
   });
 
@@ -288,7 +288,7 @@ suite('gr-preferences tests', () => {
         <span class="value">
           <input checked="" id="allowBrowserNotifications" type="checkbox" />
         </span>
-      </section>`
+      </section>`,
     );
   });
 
@@ -297,90 +297,88 @@ suite('gr-preferences tests', () => {
     assert.equal(
       Number(
         (
-          valueOf('Changes per page', 'preferences')!
+          valueOf('Changes per page', 'preferences')
             .firstElementChild as GrSelect
-        ).bindValue
+        ).bindValue,
       ),
-      preferences.changes_per_page
+      preferences.changes_per_page,
     );
     assert.equal(
       (valueOf('Theme', 'preferences').firstElementChild as GrSelect).bindValue,
-      preferences.theme
+      preferences.theme,
+    );
+    assert.equal(
+      (valueOf('Date/time format', 'preferences').firstElementChild as GrSelect)
+        .bindValue,
+      preferences.date_format,
+    );
+    assert.equal(
+      (valueOf('Date/time format', 'preferences').lastElementChild as GrSelect)
+        .bindValue,
+      preferences.time_format,
     );
     assert.equal(
       (
-        valueOf('Date/time format', 'preferences')!
+        valueOf('Email notifications', 'preferences')
           .firstElementChild as GrSelect
       ).bindValue,
-      preferences.date_format
+      preferences.email_strategy,
     );
     assert.equal(
-      (valueOf('Date/time format', 'preferences')!.lastElementChild as GrSelect)
+      (valueOf('Email format', 'preferences').firstElementChild as GrSelect)
         .bindValue,
-      preferences.time_format
+      preferences.email_format,
     );
     assert.equal(
       (
-        valueOf('Email notifications', 'preferences')!
-          .firstElementChild as GrSelect
-      ).bindValue,
-      preferences.email_strategy
-    );
-    assert.equal(
-      (valueOf('Email format', 'preferences')!.firstElementChild as GrSelect)
-        .bindValue,
-      preferences.email_format
-    );
-    assert.equal(
-      (
-        valueOf('Show Relative Dates In Changes Table', 'preferences')!
+        valueOf('Show Relative Dates In Changes Table', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
-      false
+      false,
     );
     assert.equal(
-      (valueOf('Diff view', 'preferences')!.firstElementChild as GrSelect)
+      (valueOf('Diff view', 'preferences').firstElementChild as GrSelect)
         .bindValue,
-      preferences.diff_view
+      preferences.diff_view,
     );
     assert.equal(
       (
-        valueOf('Show size bars in file list', 'preferences')!
+        valueOf('Show size bars in file list', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
-      true
+      true,
     );
     assert.equal(
       (
-        valueOf('Publish comments on push', 'preferences')!
+        valueOf('Publish comments on push', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
-      false
+      false,
     );
     assert.equal(
       (
         valueOf(
           'Set new changes to "work in progress" by default',
-          'preferences'
-        )!.firstElementChild as HTMLInputElement
+          'preferences',
+        ).firstElementChild as HTMLInputElement
       ).checked,
-      false
+      false,
     );
     assert.equal(
       (
-        valueOf('Disable token highlighting on hover', 'preferences')!
+        valueOf('Disable token highlighting on hover', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
-      false
+      false,
     );
     assert.equal(
       (
         valueOf(
           'Insert Signed-off-by Footer For Inline Edit Changes',
-          'preferences'
-        )!.firstElementChild as HTMLInputElement
+          'preferences',
+        ).firstElementChild as HTMLInputElement
       ).checked,
-      false
+      false,
     );
 
     assert.isFalse(element.hasUnsavedChanges());
@@ -397,10 +395,10 @@ suite('gr-preferences tests', () => {
       new CustomEvent('change', {
         composed: true,
         bubbles: true,
-      })
+      }),
     );
 
-    const publishOnPush = valueOf('Publish comments on push', 'preferences')!
+    const publishOnPush = valueOf('Publish comments on push', 'preferences')
       .firstElementChild! as HTMLSpanElement;
 
     publishOnPush.click();
@@ -408,7 +406,7 @@ suite('gr-preferences tests', () => {
     assert.isTrue(element.hasUnsavedChanges());
 
     const savePrefStub = stubRestApi('savePreferences').resolves(
-      element.prefs as PreferencesInfo
+      element.prefs as PreferencesInfo,
     );
 
     await element.save();
@@ -416,15 +414,16 @@ suite('gr-preferences tests', () => {
     // Wait for model state update, since this is not awaited by element.save()
     await waitUntil(
       () =>
-        element.getUserModel().getState().preferences?.theme === AppTheme.DARK
+        element.getUserModel().getState().preferences?.theme === AppTheme.DARK,
     );
     await waitUntil(
-      () => element.getUserModel().getState().preferences?.my === preferences.my
+      () =>
+        element.getUserModel().getState().preferences?.my === preferences.my,
     );
     await waitUntil(
       () =>
         element.getUserModel().getState().preferences
-          ?.publish_comments_on_push === true
+          ?.publish_comments_on_push === true,
     );
 
     assert.isTrue(savePrefStub.called);
@@ -436,8 +435,8 @@ suite('gr-preferences tests', () => {
 
     const publishCommentsOnPush = valueOf(
       'Publish comments on push',
-      'preferences'
-    )!.firstElementChild! as HTMLSpanElement;
+      'preferences',
+    ).firstElementChild! as HTMLSpanElement;
     publishCommentsOnPush.click();
 
     assert.isTrue(element.hasUnsavedChanges());
@@ -457,8 +456,8 @@ suite('gr-preferences tests', () => {
 
     const newChangesWorkInProgress = valueOf(
       'Set new changes to "work in progress" by default',
-      'preferences'
-    )!.firstElementChild! as HTMLSpanElement;
+      'preferences',
+    ).firstElementChild! as HTMLSpanElement;
     newChangesWorkInProgress.click();
 
     assert.isTrue(element.hasUnsavedChanges());

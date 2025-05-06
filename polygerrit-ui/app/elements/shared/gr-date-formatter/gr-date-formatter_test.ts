@@ -50,7 +50,7 @@ suite('gr-date-formatter tests', () => {
     dateStr: string,
     expected: string,
     expectedWithDateAndTime: string,
-    expectedTooltip: string
+    expectedTooltip: string,
   ) {
     // Normalize and convert the date to mimic server response.
     const normalizedDateStr = normalizedDate(dateStr as Timestamp)
@@ -63,7 +63,7 @@ suite('gr-date-formatter tests', () => {
     const span = queryAndAssert<HTMLSpanElement>(element, 'span');
     const tooltip = queryAndAssert<GrTooltipContent>(
       element,
-      'gr-tooltip-content'
+      'gr-tooltip-content',
     );
     assert.equal(span.textContent?.trim(), expected);
     assert.equal(tooltip.title, expectedTooltip);
@@ -85,7 +85,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '15:34',
         '15:34',
-        'Wednesday, Jul 29, 2015, 15:34:14'
+        'Wednesday, Jul 29, 2015, 15:34:14',
       );
     });
 
@@ -95,7 +95,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-28 20:25:14.985000000',
         'Jul 28',
         'Jul 28 20:25',
-        'Tuesday, Jul 28, 2015, 20:25:14'
+        'Tuesday, Jul 28, 2015, 20:25:14',
       );
     });
 
@@ -105,7 +105,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 02:25:14.985000000',
         'Jul 29',
         'Jul 29 02:25',
-        'Wednesday, Jul 29, 2015, 02:25:14'
+        'Wednesday, Jul 29, 2015, 02:25:14',
       );
     });
 
@@ -115,7 +115,7 @@ suite('gr-date-formatter tests', () => {
         '2015-06-15 03:25:14.985000000',
         'Jun 15',
         'Jun 15 03:25',
-        'Monday, Jun 15, 2015, 03:25:14'
+        'Monday, Jun 15, 2015, 03:25:14',
       );
     });
 
@@ -125,7 +125,7 @@ suite('gr-date-formatter tests', () => {
         '2015-01-15 03:25:00.000000000',
         'Jan 15, 2015',
         'Jan 15, 2015 03:25',
-        'Thursday, Jan 15, 2015, 03:25:00'
+        'Thursday, Jan 15, 2015, 03:25:00',
       );
     });
   });
@@ -143,7 +143,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '15:34',
         '15:34',
-        'Wednesday, 07/29/15, 15:34:14'
+        'Wednesday, 07/29/15, 15:34:14',
       );
     });
 
@@ -153,7 +153,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-28 20:25:14.985000000',
         '07/28',
         '07/28 20:25',
-        'Tuesday, 07/28/15, 20:25:14'
+        'Tuesday, 07/28/15, 20:25:14',
       );
     });
 
@@ -163,7 +163,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 02:25:14.985000000',
         '07/29',
         '07/29 02:25',
-        'Wednesday, 07/29/15, 02:25:14'
+        'Wednesday, 07/29/15, 02:25:14',
       );
     });
 
@@ -173,7 +173,7 @@ suite('gr-date-formatter tests', () => {
         '2015-06-15 03:25:14.985000000',
         '06/15',
         '06/15 03:25',
-        'Monday, 06/15/15, 03:25:14'
+        'Monday, 06/15/15, 03:25:14',
       );
     });
   });
@@ -191,7 +191,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '15:34',
         '15:34',
-        'Wednesday, 2015-07-29, 15:34:14'
+        'Wednesday, 2015-07-29, 15:34:14',
       );
     });
 
@@ -201,7 +201,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-28 20:25:14.985000000',
         '07-28',
         '07-28 20:25',
-        'Tuesday, 2015-07-28, 20:25:14'
+        'Tuesday, 2015-07-28, 20:25:14',
       );
     });
 
@@ -211,7 +211,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 02:25:14.985000000',
         '07-29',
         '07-29 02:25',
-        'Wednesday, 2015-07-29, 02:25:14'
+        'Wednesday, 2015-07-29, 02:25:14',
       );
     });
 
@@ -221,7 +221,7 @@ suite('gr-date-formatter tests', () => {
         '2015-06-15 03:25:14.985000000',
         '06-15',
         '06-15 03:25',
-        'Monday, 2015-06-15, 03:25:14'
+        'Monday, 2015-06-15, 03:25:14',
       );
     });
   });
@@ -239,7 +239,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '15:34',
         '15:34',
-        'Wednesday, 29.07.2015, 15:34:14'
+        'Wednesday, 29.07.2015, 15:34:14',
       );
     });
 
@@ -249,7 +249,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-28 20:25:14.985000000',
         '28. Jul',
         '28. Jul 20:25',
-        'Tuesday, 28.07.2015, 20:25:14'
+        'Tuesday, 28.07.2015, 20:25:14',
       );
     });
 
@@ -259,7 +259,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 02:25:14.985000000',
         '29. Jul',
         '29. Jul 02:25',
-        'Wednesday, 29.07.2015, 02:25:14'
+        'Wednesday, 29.07.2015, 02:25:14',
       );
     });
 
@@ -269,7 +269,7 @@ suite('gr-date-formatter tests', () => {
         '2015-06-15 03:25:14.985000000',
         '15. Jun',
         '15. Jun 03:25',
-        'Monday, 15.06.2015, 03:25:14'
+        'Monday, 15.06.2015, 03:25:14',
       );
     });
   });
@@ -287,7 +287,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '15:34',
         '15:34',
-        'Wednesday, 29/07/2015, 15:34:14'
+        'Wednesday, 29/07/2015, 15:34:14',
       );
     });
 
@@ -297,7 +297,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-28 20:25:14.985000000',
         '28/07',
         '28/07 20:25',
-        'Tuesday, 28/07/2015, 20:25:14'
+        'Tuesday, 28/07/2015, 20:25:14',
       );
     });
 
@@ -307,7 +307,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 02:25:14.985000000',
         '29/07',
         '29/07 02:25',
-        'Wednesday, 29/07/2015, 02:25:14'
+        'Wednesday, 29/07/2015, 02:25:14',
       );
     });
 
@@ -317,7 +317,7 @@ suite('gr-date-formatter tests', () => {
         '2015-06-15 03:25:14.985000000',
         '15/06',
         '15/06 03:25',
-        'Monday, 15/06/2015, 03:25:14'
+        'Monday, 15/06/2015, 03:25:14',
       );
     });
 
@@ -327,7 +327,7 @@ suite('gr-date-formatter tests', () => {
         '2016-08-15 03:25:14.985000000',
         '15/08/2016',
         '15/08/2016 03:25',
-        'Monday, 15/08/2016, 03:25:14'
+        'Monday, 15/08/2016, 03:25:14',
       );
     });
   });
@@ -345,7 +345,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '3:34 PM',
         '3:34 PM',
-        'Wednesday, Jul 29, 2015, 3:34:14 PM'
+        'Wednesday, Jul 29, 2015, 3:34:14 PM',
       );
     });
   });
@@ -363,7 +363,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '3:34 PM',
         '3:34 PM',
-        'Wednesday, 07/29/15, 3:34:14 PM'
+        'Wednesday, 07/29/15, 3:34:14 PM',
       );
     });
   });
@@ -381,7 +381,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '3:34 PM',
         '3:34 PM',
-        'Wednesday, 2015-07-29, 3:34:14 PM'
+        'Wednesday, 2015-07-29, 3:34:14 PM',
       );
     });
   });
@@ -399,7 +399,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '3:34 PM',
         '3:34 PM',
-        'Wednesday, 29.07.2015, 3:34:14 PM'
+        'Wednesday, 29.07.2015, 3:34:14 PM',
       );
     });
   });
@@ -417,7 +417,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '3:34 PM',
         '3:34 PM',
-        'Wednesday, 29/07/2015, 3:34:14 PM'
+        'Wednesday, 29/07/2015, 3:34:14 PM',
       );
     });
   });
@@ -439,7 +439,7 @@ suite('gr-date-formatter tests', () => {
         '2015-07-29 15:34:14.985000000',
         '5 hours ago',
         '5 hours ago',
-        'Wednesday, Jul 29, 2015, 3:34:14 PM'
+        'Wednesday, Jul 29, 2015, 3:34:14 PM',
       );
     });
 
@@ -449,7 +449,7 @@ suite('gr-date-formatter tests', () => {
         '2015-01-15 03:25:00.000000000',
         '8 months ago',
         '8 months ago',
-        'Thursday, Jan 15, 2015, 3:25:00 AM'
+        'Thursday, Jan 15, 2015, 3:25:00 AM',
       );
     });
   });
@@ -496,7 +496,7 @@ suite('gr-date-formatter tests', () => {
     test('Tooltip is present', () => {
       const tooltip = queryAndAssert<GrTooltipContent>(
         element,
-        'gr-tooltip-content'
+        'gr-tooltip-content',
       );
       assert.isOk(tooltip);
     });

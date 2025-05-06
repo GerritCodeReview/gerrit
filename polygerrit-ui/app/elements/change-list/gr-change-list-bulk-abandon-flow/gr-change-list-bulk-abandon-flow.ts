@@ -40,7 +40,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     subscribe(
       this,
       () => this.getBulkActionsModel().selectedChanges$,
-      selectedChanges => (this.selectedChanges = selectedChanges)
+      selectedChanges => (this.selectedChanges = selectedChanges),
     );
   }
 
@@ -81,7 +81,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
                         Status: ${this.getStatus(change._number)}
                       </td>
                     </tr>
-                  `
+                  `,
                 )}
               </tbody>
             </table>
@@ -100,7 +100,7 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   private isEnabled() {
     return this.selectedChanges.every(
       change =>
-        !!change.actions?.abandon || change.status === ChangeStatus.ABANDONED
+        !!change.actions?.abandon || change.status === ChangeStatus.ABANDONED,
     );
   }
 

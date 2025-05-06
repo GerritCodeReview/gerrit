@@ -124,7 +124,7 @@ export class GrDiffPreferencesDialog extends LitElement {
   }
 
   private readonly handleHasUnsavedChangesChanged = (
-    e: ValueChangedEvent<boolean>
+    e: ValueChangedEvent<boolean>,
   ) => {
     this.diffPrefsChanged = e.detail.value;
   };

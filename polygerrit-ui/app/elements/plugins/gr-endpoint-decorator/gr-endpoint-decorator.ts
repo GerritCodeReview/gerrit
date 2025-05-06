@@ -50,14 +50,14 @@ export class GrEndpointDecorator extends LitElement {
     assertIsDefined(this.name);
     this.getPluginLoader().pluginEndPoints.onNewEndpoint(
       this.name,
-      this.initModule
+      this.initModule,
     );
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         assertIsDefined(this.name);
         const modules = this.getPluginLoader().pluginEndPoints.getDetails(
-          this.name
+          this.name,
         );
         for (const module of modules) {
           this.initModule(module);
@@ -72,7 +72,7 @@ export class GrEndpointDecorator extends LitElement {
     assertIsDefined(this.name);
     this.getPluginLoader().pluginEndPoints.onDetachedEndpoint(
       this.name,
-      this.initModule
+      this.initModule,
     );
     super.disconnectedCallback();
   }
@@ -80,7 +80,7 @@ export class GrEndpointDecorator extends LitElement {
   private initDecoration(
     name: string,
     plugin: PluginApi,
-    slot?: string
+    slot?: string,
   ): Promise<HTMLElement> {
     const el = document.createElement(name) as PluginElement;
     return this.initProperties(
@@ -88,7 +88,7 @@ export class GrEndpointDecorator extends LitElement {
       plugin,
       // The direct children are slotted into <slot>, so this is identical to
       // this.shadowRoot.querySelector('slot').assignedElements()[0].
-      this.firstElementChild
+      this.firstElementChild,
     ).then(el => {
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
@@ -104,7 +104,7 @@ export class GrEndpointDecorator extends LitElement {
 
   private initReplacement(
     name: string,
-    plugin: PluginApi
+    plugin: PluginApi,
   ): Promise<HTMLElement> {
     // The direct children are slotted into <slot>, so they are identical to
     // this.shadowRoot.querySelector('slot').assignedElements().
@@ -116,7 +116,7 @@ export class GrEndpointDecorator extends LitElement {
       .forEach(node => node.remove());
     const el = document.createElement(name);
     return this.initProperties(el, plugin).then((el: HTMLElement) =>
-      this.appendChild(el)
+      this.appendChild(el),
     );
   }
 
@@ -127,7 +127,7 @@ export class GrEndpointDecorator extends LitElement {
   private initProperties(
     el: PluginElement,
     plugin: PluginApi,
-    content?: Element | null
+    content?: Element | null,
   ) {
     const pluginName = plugin.getPluginName();
     el.plugin = plugin;
@@ -146,8 +146,8 @@ export class GrEndpointDecorator extends LitElement {
         this.reporting.error(
           `Plugin '${pluginName}', endpoint '${this.name}'`,
           new Error(
-            `Plugin '${pluginName}', endpoint '${this.name}': param is missing a name.`
-          )
+            `Plugin '${pluginName}', endpoint '${this.name}': param is missing a name.`,
+          ),
         );
         return;
       }
@@ -155,8 +155,8 @@ export class GrEndpointDecorator extends LitElement {
         helper.bind('value', value =>
           // Note that despite the naming this sets the property, not the
           // attribute. :-)
-          plugin.attributeHelper(el).set(paramName, value)
-        )
+          plugin.attributeHelper(el).set(paramName, value),
+        ),
       );
     });
     let timeoutId: number;
@@ -170,10 +170,10 @@ export class GrEndpointDecorator extends LitElement {
             `Plugin '${pluginName}', endpoint '${this.name}'`,
             new Error(
               `Plugin ${pluginName}, endpoint ${this.name}: ` +
-                'Timeout waiting for endpoint properties initialization'
-            )
+                'Timeout waiting for endpoint properties initialization',
+            ),
           );
-        }, INIT_PROPERTIES_TIMEOUT_MS))
+        }, INIT_PROPERTIES_TIMEOUT_MS)),
     );
     return Promise.race([timeout, Promise.all(expectProperties)])
       .then(() => el)

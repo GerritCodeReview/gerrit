@@ -24,7 +24,7 @@ suite('commit-message-formatter-util tests', () => {
       const message = longSubject + '\n\nThis is body.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        longSubject + '\n\nThis is body.\n\nChange-Id: abcdefg\n'
+        longSubject + '\n\nThis is body.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -33,7 +33,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\nThis is a very long long long long line with a very-long-word-that-should-not-be-split.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is a very long long long long line with a\nvery-long-word-that-should-not-be-split.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is a very long long long long line with a\nvery-long-word-that-should-not-be-split.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -42,7 +42,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\nhttps://very-long-url-without-spaces-that-exceeds-72-characters.com/with/some/path/and/query?params=and&more=params\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nhttps://very-long-url-without-spaces-that-exceeds-72-characters.com/with/some/path/and/query?params=and&more=params\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nhttps://very-long-url-without-spaces-that-exceeds-72-characters.com/with/some/path/and/query?params=and&more=params\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -51,7 +51,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing   \n\nThis is a line with trailing spaces.   \nAnd another one.  \n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is a line with trailing spaces. And another one.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is a line with trailing spaces. And another one.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -60,7 +60,7 @@ suite('commit-message-formatter-util tests', () => {
         '   Fix the thing\n\n   This is the body.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is the body.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is the body.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -69,7 +69,7 @@ suite('commit-message-formatter-util tests', () => {
         '\n\nFix the thing\n\nThis is the body.\n\n\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is the body.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is the body.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -78,7 +78,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\nThis is the body.\n\n\nAnd another paragraph.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is the body.\n\nAnd another paragraph.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is the body.\n\nAnd another paragraph.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -87,7 +87,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\nThis is a paragraph\nwith lines that should be\nmerged and then split\naccording to the line\nlength limit.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is a paragraph with lines that should be merged and then split\naccording to the line length limit.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is a paragraph with lines that should be merged and then split\naccording to the line length limit.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -96,7 +96,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\nThis is the body.\n\nFixes: #123\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\nThis is the body.\n\nFixes: #123\nChange-Id: abcdefg\n'
+        'Fix the thing\n\nThis is the body.\n\nFixes: #123\nChange-Id: abcdefg\n',
       );
     });
 
@@ -105,7 +105,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n    This is an indented line.\n        This is another indented line.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\n    This is an indented line.\n        This is another indented line.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\n    This is an indented line.\n        This is another indented line.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -114,7 +114,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n> This is a quoted line.\n> And another one.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\n> This is a quoted line.\n> And another one.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\n> This is a quoted line.\n> And another one.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -123,7 +123,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n```\nThis is a code block.\n  It should not be formatted.\n```\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\n```\nThis is a code block.\n  It should not be formatted.\n```\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\n```\nThis is a code block.\n  It should not be formatted.\n```\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -132,7 +132,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n - This is a bullet point.\n * This is another one.\n   + And one more.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\n - This is a bullet point.\n * This is another one.\n   + And one more.\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\n - This is a bullet point.\n * This is another one.\n   + And one more.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -141,7 +141,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n   - This is a body line that starts with spaces and should be untouched\n   \n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\n   - This is a body line that starts with spaces and should be untouched\n\nChange-Id: abcdefg\n'
+        'Fix the thing\n\n   - This is a body line that starts with spaces and should be untouched\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -161,7 +161,7 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue.\n' +
           '  This new buffer\n' +
           '- Test a new buffer\n' +
-          '  call it.\n\nChange-Id: abcdefg\n'
+          '  call it.\n\nChange-Id: abcdefg\n',
       );
     });
 
@@ -182,7 +182,7 @@ suite('commit-message-formatter-util tests', () => {
           '- https://example.com/1\n' +
           '- https://example.com/2\n' +
           '- https://example.com/3\n\n' +
-          'Change-Id: abcdefg\n'
+          'Change-Id: abcdefg\n',
       );
     });
   });
@@ -192,17 +192,17 @@ suite('commit-message-formatter-util tests', () => {
       errors: FormattingError[],
       type: ErrorType,
       line: number,
-      message: string
+      message: string,
     ) {
       assert.isTrue(
         errors.some(
           error =>
             error.type === type &&
             error.line === line &&
-            error.message === message
+            error.message === message,
         ),
         `Expected error ${type} on line ${line} with message "${message}, but` +
-          JSON.stringify(errors)
+          JSON.stringify(errors),
       );
     }
 
@@ -215,7 +215,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.SUBJECT_TOO_LONG,
         1,
-        'Subject exceeds 72 characters'
+        'Subject exceeds 72 characters',
       );
     });
 
@@ -228,7 +228,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.SUBJECT_TOO_LONG,
         1,
-        'Subject exceeds 72 characters'
+        'Subject exceeds 72 characters',
       );
       assert.equal(errors.length, 1);
     });
@@ -241,7 +241,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.LEADING_SPACES,
         1,
-        'Subject should not start with spaces'
+        'Subject should not start with spaces',
       );
     });
 
@@ -253,7 +253,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.TRAILING_SPACES,
         1,
-        'Subject should not end with spaces'
+        'Subject should not end with spaces',
       );
     });
 
@@ -265,7 +265,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.LINE_TOO_LONG,
         3,
-        'Line exceeds 72 characters'
+        'Line exceeds 72 characters',
       );
     });
 
@@ -277,7 +277,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.LINE_TOO_LONG,
         5,
-        'Line exceeds 72 characters'
+        'Line exceeds 72 characters',
       );
     });
 
@@ -296,13 +296,13 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.TRAILING_SPACES,
         3,
-        'Line should not end with spaces'
+        'Line should not end with spaces',
       );
       assertError(
         errors,
         ErrorType.TRAILING_SPACES,
         4,
-        'Line should not end with spaces'
+        'Line should not end with spaces',
       );
     });
 
@@ -314,7 +314,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.TRAILING_SPACES,
         5,
-        'Line should not end with spaces'
+        'Line should not end with spaces',
       );
     });
 
@@ -326,7 +326,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.EXTRA_BLANK_LINE,
         5,
-        'Consecutive blank lines are not allowed'
+        'Consecutive blank lines are not allowed',
       );
     });
 
@@ -338,7 +338,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.EXTRA_BLANK_LINE,
         7,
-        'Consecutive blank lines are not allowed'
+        'Consecutive blank lines are not allowed',
       );
     });
 
@@ -349,7 +349,7 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.LEADING_SPACES,
         5,
-        'Line should not start with spaces'
+        'Line should not start with spaces',
       );
     });
 
@@ -361,13 +361,13 @@ suite('commit-message-formatter-util tests', () => {
         errors,
         ErrorType.COMMENT_LINE,
         3,
-        "'#' at line start is a comment marker in Git. Line will be ignored"
+        "'#' at line start is a comment marker in Git. Line will be ignored",
       );
       assertError(
         errors,
         ErrorType.COMMENT_LINE,
         5,
-        "'#' at line start is a comment marker in Git. Line will be ignored"
+        "'#' at line start is a comment marker in Git. Line will be ignored",
       );
     });
   });
@@ -376,13 +376,13 @@ suite('commit-message-formatter-util tests', () => {
     function assertParseResult(
       message: string,
       expected: CommitMessage,
-      messageDescription: string
+      messageDescription: string,
     ) {
       const actual = parseCommitMessageString(message);
       assert.deepEqual(
         actual,
         expected,
-        `Test Case Failed: ${messageDescription}\nInput Message:\n${message}`
+        `Test Case Failed: ${messageDescription}\nInput Message:\n${message}`,
       );
     }
 
@@ -390,7 +390,7 @@ suite('commit-message-formatter-util tests', () => {
       assertParseResult(
         '',
         {subject: '', body: [], footer: [], hasTrailingBlankLine: false},
-        'Empty message should parse to empty subject, body, and footer'
+        'Empty message should parse to empty subject, body, and footer',
       );
     });
 
@@ -403,7 +403,7 @@ suite('commit-message-formatter-util tests', () => {
           footer: [],
           hasTrailingBlankLine: false,
         },
-        'Single line subject should parse correctly'
+        'Single line subject should parse correctly',
       );
     });
 
@@ -416,7 +416,7 @@ suite('commit-message-formatter-util tests', () => {
           footer: ['Footer line 1', 'footer: Footer line 2'],
           hasTrailingBlankLine: false,
         },
-        'body and footer without blank line separator'
+        'body and footer without blank line separator',
       );
     });
 
@@ -429,7 +429,7 @@ suite('commit-message-formatter-util tests', () => {
           footer: ['Fixes: #123', 'Change-Id: abcdefg'],
           hasTrailingBlankLine: true,
         },
-        'with trailing blank line'
+        'with trailing blank line',
       );
     });
 
@@ -447,7 +447,7 @@ suite('commit-message-formatter-util tests', () => {
           footer: [],
           hasTrailingBlankLine: false,
         },
-        'footer without proper format should be moved to body'
+        'footer without proper format should be moved to body',
       );
     });
 
@@ -463,7 +463,7 @@ suite('commit-message-formatter-util tests', () => {
           ],
           hasTrailingBlankLine: false,
         },
-        'footer with at least one proper format line should be kept as footer'
+        'footer with at least one proper format line should be kept as footer',
       );
     });
   });

@@ -15,7 +15,7 @@ declare global {
     HTMLImports?: {whenReady: (cb: () => void) => void};
     linkify(
       text: string,
-      options: {callback: (text: string, href?: string) => void}
+      options: {callback: (text: string, href?: string) => void},
     ): void;
     ASSETS_PATH?: string;
     // TODO(TS): remove page when better workaround is found

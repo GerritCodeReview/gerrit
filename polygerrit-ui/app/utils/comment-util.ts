@@ -42,7 +42,7 @@ import {assertIsDefined, uuid} from './common-util';
 import {FILE} from '../api/diff';
 
 export function isFormattedReviewerUpdate(
-  message: ChangeMessage
+  message: ChangeMessage,
 ): message is ChangeMessage & FormattedReviewerUpdateInfo {
   return message.type === 'REVIEWER_UPDATE';
 }
@@ -122,12 +122,12 @@ export function compareComments(c1: Comment, c2: Comment) {
   if (startLine !== 0) return startLine;
   const endCharComp = compareNumber(
     c1.range?.end_character,
-    c2.range?.end_character
+    c2.range?.end_character,
   );
   if (endCharComp !== 0) return endCharComp;
   const startCharComp = compareNumber(
     c1.range?.start_character,
-    c2.range?.start_character
+    c2.range?.start_character,
   );
   if (startCharComp !== 0) return startCharComp;
 
@@ -172,7 +172,7 @@ export function compareNumber(n1?: number, n2?: number): number {
 
 export function createNew(
   message?: string,
-  unresolved?: boolean
+  unresolved?: boolean,
 ): NewDraftInfo {
   const newDraft: NewDraftInfo = {
     savingState: SavingState.OK,
@@ -189,7 +189,7 @@ export function createNew(
 export function createNewPatchsetLevel(
   patchNum?: PatchSetNumber,
   message?: string,
-  unresolved?: boolean
+  unresolved?: boolean,
 ): DraftInfo {
   return {
     ...createNew(message, unresolved),
@@ -204,7 +204,7 @@ export function createNewReply(
     'id' | 'path' | 'patch_set' | 'line' | 'range' | 'side' | 'parent'
   >,
   message: string,
-  unresolved: boolean
+  unresolved: boolean,
 ): DraftInfo {
   return {
     ...createNew(message, unresolved),
@@ -278,14 +278,14 @@ export function equalLocation(t1?: CommentThread, t2?: CommentThread) {
 }
 
 export function getLastComment(
-  thread: CommentThread
+  thread: CommentThread,
 ): CommentInfo | DraftInfo | undefined {
   const len = thread.comments.length;
   return thread.comments[len - 1];
 }
 
 export function getLastPublishedComment(
-  thread: CommentThread
+  thread: CommentThread,
 ): CommentInfo | DraftInfo | undefined {
   const publishedComments = thread.comments.filter(c => !isDraft(c));
   const len = publishedComments.length;
@@ -293,7 +293,7 @@ export function getLastPublishedComment(
 }
 
 export function getFirstComment(
-  thread: CommentThread
+  thread: CommentThread,
 ): CommentInfo | DraftInfo | undefined {
   return thread.comments[0];
 }
@@ -329,7 +329,7 @@ export function isNewThread(thread: CommentThread): boolean {
 
 export function isMentionedThread(
   thread: CommentThread,
-  account?: AccountInfo
+  account?: AccountInfo,
 ) {
   if (!account?.email) return false;
   return getMentionedUsers(thread)
@@ -371,7 +371,7 @@ export function isInBaseOfPatchRange(
     side?: CommentSide;
     parent?: number;
   },
-  range: PatchRange
+  range: PatchRange,
 ) {
   // If the base of the patch range is a parent of a merge, and the comment
   // appears on a specific parent then only show the comment if the parent
@@ -408,7 +408,7 @@ export function isInRevisionOfPatchRange(
     patch_set?: PatchSetNum;
     side?: CommentSide;
   },
-  range: PatchRange
+  range: PatchRange,
 ) {
   return (
     comment.side !== CommentSide.PARENT && comment.patch_set === range.patchNum
@@ -427,7 +427,7 @@ export function isInPatchRange(comment: Comment, range: PatchRange): boolean {
 
 export function getPatchRangeForCommentUrl(
   comment: Comment,
-  latestPatchNum: RevisionPatchSetNum
+  latestPatchNum: RevisionPatchSetNum,
 ) {
   if (!comment.patch_set) throw new Error('Missing comment.patch_set');
 
@@ -453,7 +453,7 @@ export function getPatchRangeForCommentUrl(
 export function computeDiffFromContext(
   context: ContextLine[],
   path: string,
-  content_type?: string
+  content_type?: string,
 ) {
   // do not render more than 20 lines of context
   context = context.slice(0, 20);
@@ -487,7 +487,7 @@ export function computeDiffFromContext(
 
 export function getCommentAuthors(
   threads?: CommentThread[],
-  user?: AccountDetailInfo
+  user?: AccountDetailInfo,
 ) {
   if (!threads || !user) return [];
   const ids = new Set();
@@ -503,7 +503,7 @@ export function getCommentAuthors(
         ids.add(c.author._account_id);
         authors.push(c.author);
       }
-    })
+    }),
   );
   return authors;
 }
@@ -529,7 +529,7 @@ export function addPath<T>(comments: {[path: string]: T[]} = {}): {
  * they can be told apart from published comments easily.
  */
 export function addDraftProp(
-  draftsByPath: {[path: string]: CommentInfo[]} = {}
+  draftsByPath: {[path: string]: CommentInfo[]} = {},
 ) {
   const updated: {[path: string]: DraftInfo[]} = {};
   for (const filePath of Object.keys(draftsByPath)) {
@@ -568,7 +568,7 @@ export function hasUserSuggestion(comment: Comment) {
 
 export function getUserSuggestionFromString(
   content: string,
-  suggestionIndex = 0
+  suggestionIndex = 0,
 ) {
   const suggestions = content.split(USER_SUGGESTION_START_PATTERN).slice(1);
   if (suggestions.length === 0) return '';
@@ -586,7 +586,7 @@ export function getUserSuggestion(comment: Comment) {
 
 export function getContentInCommentRange(
   fileContent: string,
-  comment: Comment
+  comment: Comment,
 ) {
   if (comment.path === SpecialFilePath.COMMIT_MESSAGE) {
     // We need to add 6 lines, because commit message diff is
@@ -604,7 +604,7 @@ export function getContentInCommentRange(
 export function createUserFixSuggestion(
   comment: Comment,
   line: string,
-  replacement: string
+  replacement: string,
 ): FixSuggestionInfo[] {
   const lastLine = line.split('\n').pop();
   return [
@@ -633,13 +633,13 @@ function getMentionedUsers(thread: CommentThread) {
 
 export function getMentionedThreads(
   threads: CommentThread[],
-  account: AccountInfo
+  account: AccountInfo,
 ) {
   if (!account.email) return [];
   return threads.filter(t =>
     getMentionedUsers(t)
       .map(v => v.email)
-      .includes(account.email)
+      .includes(account.email),
   );
 }
 
@@ -647,7 +647,7 @@ export function findComment(
   comments: {
     [path: string]: (CommentInfo | DraftInfo)[];
   },
-  commentId: UrlEncodedCommentId
+  commentId: UrlEncodedCommentId,
 ) {
   if (!commentId) return undefined;
   let comment;

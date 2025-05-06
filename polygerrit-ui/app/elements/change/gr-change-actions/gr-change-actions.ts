@@ -180,7 +180,7 @@ const QUICK_APPROVE_ACTION: QuickApproveUIActionInfo = {
 };
 
 function isQuickApproveAction(
-  action: UIActionInfo
+  action: UIActionInfo,
 ): action is QuickApproveUIActionInfo {
   return (action as QuickApproveUIActionInfo).key === QUICK_APPROVE_ACTION.key;
 }
@@ -511,77 +511,77 @@ export class GrChangeActions
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchsets$,
-      x => (this.editBasedOnCurrentPatchSet = hasEditBasedOnCurrentPatchSet(x))
+      x => (this.editBasedOnCurrentPatchSet = hasEditBasedOnCurrentPatchSet(x)),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      x => (this.editPatchsetLoaded = x === 'edit')
+      x => (this.editPatchsetLoaded = x === 'edit'),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.change = x)
+      x => (this.change = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      x => (this.changeStatus = x)
+      x => (this.changeStatus = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().mergeable$,
-      x => (this.mergeable = x)
+      x => (this.mergeable = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().editMode$,
-      x => (this.editMode = x)
+      x => (this.editMode = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().revision$,
-      rev => (this.commitNum = rev?.commit?.commit)
+      rev => (this.commitNum = rev?.commit?.commit),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestRevision$,
-      rev => (this.commitMessage = rev?.commit?.message ?? '')
+      rev => (this.commitMessage = rev?.commit?.message ?? ''),
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.account = x),
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
-      x => (this.loggedIn = x)
+      x => (this.loggedIn = x),
     );
     subscribe(
       this,
       () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
-      x => (this.pluginsLoaded = x)
+      x => (this.pluginsLoaded = x),
     );
     subscribe(
       this,
       () => this.getConfigModel().repoConfig$,
-      config => (this.privateByDefault = config?.private_by_default)
+      config => (this.privateByDefault = config?.private_by_default),
     );
     subscribe(
       this,
       () => this.getCommentsModel().threadsWithUnappliedSuggestions$,
-      x => (this.threadsWithUnappliedSuggestions = x)
+      x => (this.threadsWithUnappliedSuggestions = x),
     );
   }
 
@@ -589,7 +589,7 @@ export class GrChangeActions
     super.connectedCallback();
     this.getPluginLoader().jsApiService.addElement(
       TargetElement.CHANGE_ACTIONS,
-      this
+      this,
     );
   }
 
@@ -682,7 +682,7 @@ export class GrChangeActions
           !this.topLevelActions.length}
         >
           ${this.topLevelPrimaryActions?.map(action =>
-            this.renderUIAction(action)
+            this.renderUIAction(action),
           )}
         </section>
         <section
@@ -692,7 +692,7 @@ export class GrChangeActions
           !this.topLevelActions.length}
         >
           ${this.topLevelSecondaryActions?.map(action =>
-            this.renderUIAction(action)
+            this.renderUIAction(action),
           )}
         </section>
         <gr-button ?hidden=${!this.isLoading()}>Loading actions...</gr-button>
@@ -719,7 +719,7 @@ export class GrChangeActions
           @confirm-rebase=${this.handleRebaseConfirm}
           @cancel=${this.handleConfirmDialogCancel}
           .disableActions=${this.inProgressActionKeys.has(
-            RevisionActions.REBASE
+            RevisionActions.REBASE,
           )}
           .branch=${this.change?.branch}
           .rebaseOnCurrent=${!!this.revisionActions?.rebase?.enabled}
@@ -826,7 +826,7 @@ export class GrChangeActions
                 <gr-icon id="icon" icon="info" small></gr-icon>
                 Heads Up! ${this.numberOfThreadsWithUnappliedSuggestions()}
                 comments have suggestions you can apply before publishing
-              </p>`
+              </p>`,
             )}
             Do you really want to publish the edit?
           </div>
@@ -880,10 +880,10 @@ export class GrChangeActions
       return !this.isOverflowAction(a.__type, a.__key);
     });
     this.topLevelPrimaryActions = this.topLevelActions.filter(
-      action => action.__primary
+      action => action.__primary,
     );
     this.topLevelSecondaryActions = this.topLevelActions.filter(
-      action => !action.__primary
+      action => !action.__primary,
     );
     this.menuActions = this.computeMenuActions();
   }
@@ -950,7 +950,7 @@ export class GrChangeActions
   setActionButtonProp<T extends keyof UIActionInfo>(
     key: string,
     prop: T,
-    value: UIActionInfo[T]
+    value: UIActionInfo[T],
   ) {
     this.additionalActions[this.indexOfActionButtonWithKey(key)][prop] = value;
     this.requestUpdate('additionalActions');
@@ -969,7 +969,7 @@ export class GrChangeActions
     // remove from overflowActions
     if (!overflow) {
       this.overflowActions = this.overflowActions.filter(
-        action => action.type !== type || action.key !== key
+        action => action.type !== type || action.key !== key,
       );
     }
     // add to overflowActions
@@ -981,13 +981,13 @@ export class GrChangeActions
   setActionPriority(
     type: ActionType.CHANGE | ActionType.REVISION,
     key: string,
-    priority: ActionPriority
+    priority: ActionPriority,
   ) {
     if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
       throw Error(`Invalid action type given: ${type}`);
     }
     const index = this.actionPriorityOverrides.findIndex(
-      action => action.type === type && action.key === key
+      action => action.type === type && action.key === key,
     );
     const action: ActionPriorityOverride = {
       type,
@@ -1006,7 +1006,7 @@ export class GrChangeActions
   setActionHidden(
     type: ActionType.CHANGE | ActionType.REVISION,
     key: string,
-    hidden: boolean
+    hidden: boolean,
   ) {
     if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
       throw Error(`Invalid action type given: ${type}`);
@@ -1213,7 +1213,7 @@ export class GrChangeActions
       throw new Error('topLevelSecondaryActions must be set');
     }
     this.topLevelSecondaryActions = this.topLevelSecondaryActions.filter(
-      sa => !isQuickApproveAction(sa)
+      sa => !isQuickApproveAction(sa),
     );
     this._hideQuickApproveAction = true;
   }
@@ -1248,7 +1248,7 @@ export class GrChangeActions
     actionsChange: ActionNameToActionInfoMap | undefined,
     primariesChange: PrimaryActionKey[],
     additionalActionsChange: UIActionInfo[],
-    type: ActionType
+    type: ActionType,
   ): UIActionInfo[] {
     if (!actionsChange || !primariesChange) {
       return [];
@@ -1349,7 +1349,7 @@ export class GrChangeActions
     const revision = this.getRevision(change, this.latestPatchNum);
     return this.getPluginLoader().jsApiService.canSubmitChange(
       change,
-      revision
+      revision,
     );
   }
 
@@ -1389,7 +1389,7 @@ export class GrChangeActions
       change,
       validationOptions,
       this.commitMessage,
-      changes.length
+      changes.length,
     );
     this.showActionDialog(this.confirmRevertDialog);
   }
@@ -1421,7 +1421,7 @@ export class GrChangeActions
           detail: {node: el},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       return;
     }
@@ -1441,7 +1441,7 @@ export class GrChangeActions
           detail: {node: el},
           composed: true,
           bubbles: true,
-        })
+        }),
       );
       return;
     }
@@ -1462,7 +1462,7 @@ export class GrChangeActions
         this.fireAction(
           this.prependSlash(key),
           assertUIActionInfo(this.actions[key]),
-          false
+          false,
         );
     }
   }
@@ -1519,7 +1519,7 @@ export class GrChangeActions
         this.fireAction(
           this.prependSlash(key),
           assertUIActionInfo(this.actions[key]),
-          false
+          false,
         );
     }
   }
@@ -1548,7 +1548,7 @@ export class GrChangeActions
         this.fireAction(
           this.prependSlash(key),
           assertUIActionInfo(this.revisionActions?.[key]),
-          true
+          true,
         );
     }
   }
@@ -1588,7 +1588,7 @@ export class GrChangeActions
       on_behalf_of_uploader: e.detail.onBehalfOfUploader,
       committer_email: e.detail.committerEmail,
       validation_options: this.computeValidationOptionsForPayload(
-        this.confirmRebase.getValidationOptions()
+        this.confirmRebase.getValidationOptions(),
       ),
     };
     const rebaseChain = !!e.detail.rebaseChain;
@@ -1600,7 +1600,7 @@ export class GrChangeActions
       {
         allow_conflicts: payload.allow_conflicts,
         on_behalf_of_uploader: payload.on_behalf_of_uploader,
-      }
+      },
     );
   }
 
@@ -1638,7 +1638,7 @@ export class GrChangeActions
         message: el.message,
         allow_conflicts: conflicts,
         committer_email: el.committerEmail ? el.committerEmail : null,
-      }
+      },
     );
   }
 
@@ -1688,9 +1688,9 @@ export class GrChangeActions
           {
             message,
             validation_options: this.computeValidationOptionsForPayload(
-              this.confirmRevertDialog.getValidationOptions()
+              this.confirmRevertDialog.getValidationOptions(),
             ),
-          }
+          },
         );
         break;
       case RevertType.REVERT_SUBMISSION:
@@ -1703,15 +1703,15 @@ export class GrChangeActions
           {
             message,
             validation_options: this.computeValidationOptionsForPayload(
-              this.confirmRevertDialog.getValidationOptions()
+              this.confirmRevertDialog.getValidationOptions(),
             ),
-          }
+          },
         );
         break;
       default:
         this.reporting.error(
           'Change Actions',
-          new Error('invalid revert type')
+          new Error('invalid revert type'),
         );
     }
   }
@@ -1729,7 +1729,7 @@ export class GrChangeActions
       false,
       {
         message: el.message,
-      }
+      },
     );
   }
 
@@ -1749,7 +1749,7 @@ export class GrChangeActions
     this.fireAction(
       '/',
       assertUIActionInfo(this.actions[ChangeActions.DELETE]),
-      false
+      false,
     );
   }
 
@@ -1763,7 +1763,7 @@ export class GrChangeActions
     this.fireAction(
       '/edit',
       assertUIActionInfo(this.actions.deleteEdit),
-      false
+      false,
     );
   }
 
@@ -1780,7 +1780,7 @@ export class GrChangeActions
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),
       false,
-      {notify: NotifyType.NONE}
+      {notify: NotifyType.NONE},
     );
     this.sendPublishEditEvent();
   }
@@ -1794,13 +1794,13 @@ export class GrChangeActions
     this.fireAction(
       '/submit',
       assertUIActionInfo(this.revisionActions?.submit),
-      true
+      true,
     );
   }
 
   private isOverflowAction(type: string, key: string) {
     return this.overflowActions.some(
-      action => action.type === type && action.key === key
+      action => action.type === type && action.key === key,
     );
   }
 
@@ -1830,7 +1830,7 @@ export class GrChangeActions
 
     // Otherwise it's a top-level action.
     const buttonEl = this.shadowRoot!.querySelector(
-      `[data-action-key="${buttonKey}"]`
+      `[data-action-key="${buttonKey}"]`,
     ) as GrButton;
     if (!buttonEl) {
       throw new Error(`Can't find button by data-action-key '${buttonKey}'`);
@@ -1852,7 +1852,7 @@ export class GrChangeActions
     action: UIActionInfo,
     revAction: boolean,
     payload?: RequestPayload,
-    toReport?: Object
+    toReport?: object,
   ) {
     const cleanupFn = this.setLoadingOnButtonWithKey(action);
     this.reporting.reportInteraction(Interaction.CHANGE_ACTION_FIRED, {
@@ -1866,7 +1866,7 @@ export class GrChangeActions
       endpoint,
       revAction,
       cleanupFn,
-      action
+      action,
     ).then(res => this.handleResponse(action, res));
   }
 
@@ -1889,7 +1889,7 @@ export class GrChangeActions
   // private but used in test
   setReviewOnRevert(newChangeId: NumericChangeId) {
     const review = this.getPluginLoader().jsApiService.getReviewPostRevert(
-      this.change as ChangeInfo
+      this.change as ChangeInfo,
     );
     if (!review) {
       return Promise.resolve(undefined);
@@ -1908,15 +1908,15 @@ export class GrChangeActions
           .parsed as unknown as ChangeInfo;
         this.restApiService.addRepoNameToCache(
           revertChangeInfo._number,
-          revertChangeInfo.project
+          revertChangeInfo.project,
         );
         const reachable = await this.waitForChangeReachable(
-          revertChangeInfo._number
+          revertChangeInfo._number,
         );
         if (!reachable) return;
         await this.setReviewOnRevert(revertChangeInfo._number);
         this.getNavigation().setUrl(
-          createChangeUrl({change: revertChangeInfo})
+          createChangeUrl({change: revertChangeInfo}),
         );
         break;
       }
@@ -1925,14 +1925,14 @@ export class GrChangeActions
           .parsed as unknown as ChangeInfo;
         this.restApiService.addRepoNameToCache(
           cherrypickChangeInfo._number,
-          cherrypickChangeInfo.project
+          cherrypickChangeInfo.project,
         );
         const reachable = this.waitForChangeReachable(
-          cherrypickChangeInfo._number
+          cherrypickChangeInfo._number,
         );
         if (!reachable) return;
         this.getNavigation().setUrl(
-          createChangeUrl({change: cherrypickChangeInfo})
+          createChangeUrl({change: cherrypickChangeInfo}),
         );
         break;
       }
@@ -1976,7 +1976,7 @@ export class GrChangeActions
   handleResponseError(
     action: UIActionInfo,
     response: Response | undefined | null,
-    body?: RequestPayload
+    body?: RequestPayload,
   ) {
     if (!response) {
       return Promise.resolve(() => {
@@ -1991,7 +1991,7 @@ export class GrChangeActions
       ) {
         assertIsDefined(
           this.confirmCherrypickConflict,
-          'confirmCherrypickConflict'
+          'confirmCherrypickConflict',
         );
         this.showActionDialog(this.confirmCherrypickConflict);
         return;
@@ -2012,7 +2012,7 @@ export class GrChangeActions
     actionEndpoint: string,
     revisionAction: boolean,
     cleanupFn: () => void,
-    action: UIActionInfo
+    action: UIActionInfo,
   ): Promise<Response | undefined> {
     const handleError: ErrorCallback = response => {
       cleanupFn.call(this);
@@ -2022,7 +2022,7 @@ export class GrChangeActions
     const changeNum = this.changeNum;
     if (!change || !changeNum) {
       return Promise.reject(
-        new Error('Properties change and changeNum must be set.')
+        new Error('Properties change and changeNum must be set.'),
       );
     }
     return this.getChangeModel()
@@ -2051,7 +2051,7 @@ export class GrChangeActions
             actionEndpoint,
             patchNum,
             payload,
-            handleError
+            handleError,
           )
           .then(response => {
             cleanupFn.call(this);
@@ -2079,7 +2079,7 @@ export class GrChangeActions
     const query = `topic: "${this.change.topic}"`;
     const options = listChangesOptionsToHex(
       ListChangesOption.MESSAGES,
-      ListChangesOption.ALL_REVISIONS
+      ListChangesOption.ALL_REVISIONS,
     );
     return this.restApiService
       .getChanges(0, query, undefined, options)
@@ -2087,7 +2087,7 @@ export class GrChangeActions
         if (!changes) {
           this.reporting.error(
             'Change Actions',
-            new Error('getChanges returns undefined')
+            new Error('getChanges returns undefined'),
           );
           return [];
         }
@@ -2141,7 +2141,7 @@ export class GrChangeActions
     if (this.numberOfThreadsWithUnappliedSuggestions() > 0) {
       assertIsDefined(
         this.confirmPublishEditDialog,
-        'confirmPublishEditDialog'
+        'confirmPublishEditDialog',
       );
       this.showActionDialog(this.confirmPublishEditDialog);
     } else {
@@ -2157,7 +2157,7 @@ export class GrChangeActions
     this.fireAction(
       '/edit:rebase',
       assertUIActionInfo(this.actions.rebaseEdit),
-      false
+      false,
     );
   }
 
@@ -2174,13 +2174,13 @@ export class GrChangeActions
       this.revisionActions,
       this.primaryActionKeys,
       this.additionalActions,
-      ActionType.REVISION
+      ActionType.REVISION,
     );
     const changeActionValues = this.getActionValues(
       this.actions,
       this.primaryActionKeys,
       this.additionalActions,
-      ActionType.CHANGE
+      ActionType.CHANGE,
     );
     const quickApprove = this.getQuickApproveAction();
     if (quickApprove) {
@@ -2202,7 +2202,7 @@ export class GrChangeActions
   private getActionPriority(action: UIActionInfo) {
     if (action.__type && action.__key) {
       const overrideAction = this.actionPriorityOverrides.find(
-        i => i.type === action.__type && i.key === action.__key
+        i => i.type === action.__type && i.key === action.__key,
       );
 
       if (overrideAction !== undefined) {

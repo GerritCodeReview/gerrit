@@ -40,7 +40,7 @@ suite('gr-identities tests', () => {
     stubRestApi('getExternalIds').returns(Promise.resolve(ids));
 
     element = await fixture<GrIdentities>(
-      html`<gr-identities></gr-identities>`
+      html`<gr-identities></gr-identities>`,
     );
     await element.loadData();
     await element.updateComplete;
@@ -103,7 +103,7 @@ suite('gr-identities tests', () => {
             itemtypename="ID"
           >
           </gr-confirm-delete-item-dialog>
-        </dialog>`
+        </dialog>`,
     );
   });
 
@@ -123,7 +123,7 @@ suite('gr-identities tests', () => {
 
     assert.equal(rows.length, 2);
 
-    const nameCells = rows.map(row => queryAll(row, 'td')[1]!.textContent);
+    const nameCells = rows.map(row => queryAll(row, 'td')[1].textContent);
 
     assert.equal(nameCells[0]!, 'gerrit@example.com');
     assert.equal(nameCells[1]!, 'gerrit2@example.com');

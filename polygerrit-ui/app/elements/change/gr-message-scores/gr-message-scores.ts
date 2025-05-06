@@ -166,7 +166,7 @@ export class GrMessageScores extends LitElement {
       .split(' ')
       .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
       .filter(
-        ms => ms && ms.length === 4 && hasOwnProperty(labelExtremes, ms[2])
+        ms => ms && ms.length === 4 && hasOwnProperty(labelExtremes, ms[2]),
       )
       .map(ms => {
         const label = ms?.[2];

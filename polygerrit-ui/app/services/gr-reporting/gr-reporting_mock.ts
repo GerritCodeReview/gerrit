@@ -62,7 +62,7 @@ export const grReportingMock: ReportingService & Finalizable = {
   reportExtension: () => {},
   reportInteraction: (
     _eventName: string | Interaction,
-    _details?: EventDetails
+    _details?: EventDetails,
   ) => {},
   reportLifeCycle: () => {},
   reportPluginLifeCycleLog: () => {},

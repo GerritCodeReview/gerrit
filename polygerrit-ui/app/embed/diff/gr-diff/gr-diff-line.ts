@@ -15,7 +15,7 @@ export class GrDiffLine implements GrDiffLineApi {
   constructor(
     readonly type: GrDiffLineType,
     public beforeNumber: LineNumber = 0,
-    public afterNumber: LineNumber = 0
+    public afterNumber: LineNumber = 0,
   ) {}
 
   hasIntralineInfo = false;

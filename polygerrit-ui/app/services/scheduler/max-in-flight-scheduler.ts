@@ -12,7 +12,7 @@ export class MaxInFlightScheduler<T> implements Scheduler<T> {
 
   constructor(
     private readonly base: Scheduler<T>,
-    private maxInflight: number = 10
+    private maxInflight: number = 10,
   ) {}
 
   async schedule(task: Task<T>): Promise<T> {

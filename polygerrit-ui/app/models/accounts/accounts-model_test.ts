@@ -35,7 +35,7 @@ suite('accounts-model tests', () => {
 
   test('basic lookup', async () => {
     const stub = stubRestApi('getAccountDetails').returns(
-      Promise.resolve(KERMIT)
+      Promise.resolve(KERMIT),
     );
 
     let filled = await model.fillDetails({_account_id: 1 as AccountId});
@@ -59,7 +59,7 @@ suite('accounts-model tests', () => {
           errFn(response);
         }
         return Promise.resolve(undefined);
-      }
+      },
     );
 
     model.fillDetails({email: 'Invalid_email@def.com' as EmailAddress});

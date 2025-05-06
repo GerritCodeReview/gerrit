@@ -33,14 +33,14 @@ suite('gr-formatted-text tests', () => {
     configModel.updateRepoConfig({...createConfig(), commentlinks});
     await waitUntilObserved(
       configModel.repoCommentLinks$,
-      links => links === commentlinks
+      links => links === commentlinks,
     );
   }
 
   setup(async () => {
     configModel = new ConfigModel(
       testResolver(changeModelToken),
-      getAppContext().restApiService
+      getAppContext().restApiService,
     );
     const commentModel = new CommentModel(getAppContext().restApiService);
     commentModel.updateState({
@@ -66,11 +66,11 @@ suite('gr-formatted-text tests', () => {
           wrapInProvider(
             html`<gr-formatted-text></gr-formatted-text>`,
             configModelToken,
-            configModel
+            configModel,
           ),
           commentModelToken,
-          commentModel
-        )
+          commentModel,
+        ),
       )
     ).querySelector('gr-formatted-text')!;
   });
@@ -99,7 +99,7 @@ suite('gr-formatted-text tests', () => {
             </a>
           </pre>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -127,7 +127,7 @@ suite('gr-formatted-text tests', () => {
           FOO<a href="a.b.c" rel="noopener noreferrer" target="_blank">foo</a>
         </pre>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -163,7 +163,7 @@ suite('gr-formatted-text tests', () => {
             </a>
           </pre>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -205,7 +205,7 @@ suite('gr-formatted-text tests', () => {
             </a>
           </pre>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -218,7 +218,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `<gr-endpoint-decorator name="formatted-text-endpoint">
           <pre class="plaintext">plain text ${escapedDiv}</pre>
-        </gr-endpoint-decorator>`
+        </gr-endpoint-decorator>`,
       );
     });
 
@@ -231,7 +231,7 @@ suite('gr-formatted-text tests', () => {
         /* HTML */
         `<gr-endpoint-decorator name="formatted-text-endpoint">
           <pre class="plaintext"># A Markdown Heading</pre>
-        </gr-endpoint-decorator>`
+        </gr-endpoint-decorator>`,
       );
     });
 
@@ -263,7 +263,7 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com/asdf-');
       // matches & part as well, even we first linkify and then htmlEscape
       await checkLinking(
-        'https://google.com/traces/list?project=gerrit&tid=123'
+        'https://google.com/traces/list?project=gerrit&tid=123',
       );
 
       await checkLinking('www.google.com');
@@ -330,7 +330,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -376,7 +376,7 @@ suite('gr-formatted-text tests', () => {
           </a>
         </pre>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -426,7 +426,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -454,7 +454,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -482,7 +482,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -500,7 +500,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -520,15 +520,15 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
       const accountChip = queryAndAssert<GrAccountChip>(
         element,
-        'gr-account-chip'
+        'gr-account-chip',
       );
       assert.equal(
         accountChip.account?.email,
-        'someone@google.com' as EmailAddress
+        'someone@google.com' as EmailAddress,
       );
     });
 
@@ -555,7 +555,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -612,7 +612,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -658,7 +658,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -700,7 +700,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -724,7 +724,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -757,7 +757,7 @@ suite('gr-formatted-text tests', () => {
               </div>
             </marked-element>
           </gr-endpoint-decorator>
-        `
+        `,
       );
     });
 
@@ -787,7 +787,7 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com/');
       // matches & part as well, even we first linkify and then htmlEscape
       await checkLinking(
-        'https://google.com/traces/list?project=gerrit&tid=123'
+        'https://google.com/traces/list?project=gerrit&tid=123',
       );
 
       await checkLinking('www.google.com');
@@ -819,7 +819,7 @@ suite('gr-formatted-text tests', () => {
                 </div>
               </marked-element>
             </gr-endpoint-decorator>
-          `
+          `,
         );
       });
     });

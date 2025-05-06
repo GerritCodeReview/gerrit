@@ -16,7 +16,7 @@ suite('gr-plugin-screen', () => {
 
   setup(async () => {
     element = await fixture<GrPluginScreen>(
-      html`<gr-plugin-screen></gr-plugin-screen>`
+      html`<gr-plugin-screen></gr-plugin-screen>`,
     );
     await element.updateComplete;
   });
@@ -28,7 +28,7 @@ suite('gr-plugin-screen', () => {
         <gr-endpoint-decorator>
           <gr-endpoint-param name="token"></gr-endpoint-param>
         </gr-endpoint-decorator>
-      `
+      `,
     );
   });
 
@@ -39,7 +39,7 @@ suite('gr-plugin-screen', () => {
 
     const endpoint1 = queryAndAssert<GrEndpointDecorator>(
       element,
-      'gr-endpoint-decorator'
+      'gr-endpoint-decorator',
     );
     assert.equal(endpoint1.name, 'test-plugin-screen-test-screen-1');
 
@@ -49,7 +49,7 @@ suite('gr-plugin-screen', () => {
 
     const endpoint2 = queryAndAssert<GrEndpointDecorator>(
       element,
-      'gr-endpoint-decorator'
+      'gr-endpoint-decorator',
     );
     assert.equal(endpoint2.name, 'test-plugin-screen-test-screen-2');
 

@@ -59,7 +59,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
       return statuses.map(
         status =>
           html`<span class="comma">, </span
-            ><gr-change-status flat .status=${status}></gr-change-status>`
+            ><gr-change-status flat .status=${status}></gr-change-status>`,
       );
     }
     return this.renderActiveStatus();
@@ -72,29 +72,29 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     const numSatisfied = submitRequirements.filter(
       req =>
         req.status === SubmitRequirementStatus.SATISFIED ||
-        req.status === SubmitRequirementStatus.OVERRIDDEN
+        req.status === SubmitRequirementStatus.OVERRIDDEN,
     ).length;
 
     if (numSatisfied === numRequirements) {
       return this.renderState(
         iconForStatus(SubmitRequirementStatus.SATISFIED),
-        'Ready'
+        'Ready',
       );
     }
 
     const numUnsatisfied = submitRequirements.filter(
-      req => req.status === SubmitRequirementStatus.UNSATISFIED
+      req => req.status === SubmitRequirementStatus.UNSATISFIED,
     ).length;
 
     return this.renderState(
       iconForStatus(SubmitRequirementStatus.UNSATISFIED),
-      this.renderSummary(numUnsatisfied)
+      this.renderSummary(numUnsatisfied),
     );
   }
 
   renderState(
     icon: SubmitRequirementsIcon,
-    aggregation: string | TemplateResult
+    aggregation: string | TemplateResult,
   ) {
     return html`<span class=${icon.icon} role="button" tabindex="0">
       <gr-submit-requirement-dashboard-hovercard .change=${this.change}>
@@ -122,7 +122,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
       filled
       .title=${pluralize(
         this.change?.unresolved_comment_count,
-        'unresolved comment'
+        'unresolved comment',
       )}
     ></gr-icon>`;
   }

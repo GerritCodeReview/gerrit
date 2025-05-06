@@ -13,6 +13,11 @@
     "@koa/cors": "^5.0.0",
     "@types/page": "^1.11.9",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
+<<<<<<< PATCH SET (c53ab3 Test: DO NOT MERGE)
+    "@typescript-eslint/parser": "^8.32.0",
+||||||| BASE
+=======
+>>>>>>> BASE      (9a4495 Increase the cache version to invalidate entries.)
     "@web/dev-server": "^0.1.38",
     "@web/dev-server-esbuild": "^0.3.6",
     "eslint": "^9.26.0",
@@ -20,7 +25,13 @@
     "eslint-plugin-html": "^8.1.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^50.6.11",
+<<<<<<< PATCH SET (c53ab3 Test: DO NOT MERGE)
+    "eslint-plugin-lit": "^2.1.1",
+||||||| BASE
     "eslint-plugin-lit": "^1.15.0",
+=======
+    "eslint-plugin-lit": "^1.15.0",
+>>>>>>> BASE      (9a4495 Increase the cache version to invalidate entries.)
     "eslint-plugin-n": "^17.17.0",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-regex": "^1.10.0",

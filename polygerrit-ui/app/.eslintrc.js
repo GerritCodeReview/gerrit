@@ -316,12 +316,24 @@ module.exports = {
           'error',
           {argsIgnorePattern: '^_', caughtErrors: 'none'},
         ],
+<<<<<<< PATCH SET (c53ab3 Test: DO NOT MERGE)
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-unsupported-features/es-builtins.md
+        'node/no-unsupported-features/es-builtins': 'off',
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-unsupported-features/node-builtins.md
+        'node/no-unsupported-features/node-builtins': 'off',
+||||||| BASE
+        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-builtins.md
+        'node/no-unsupported-features/es-builtins': 'off',
+        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
+        'node/no-unsupported-features/node-builtins': 'off',
+=======
         '@typescript-eslint/no-unused-expressions': 'off',
         '@typescript-eslint/no-unsafe-declaration-merging': 'off',
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-builtins.md
         'n/no-unsupported-features/es-builtins': 'off',
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         'n/no-unsupported-features/node-builtins': 'off',
+>>>>>>> BASE      (9a4495 Increase the cache version to invalidate entries.)
         // Disable no-invalid-this for ts files, because it incorrectly reports
         // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
         // At the same tigit llme, we are using typescript in a strict mode and

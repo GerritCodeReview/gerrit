@@ -44,6 +44,7 @@ def plugin_eslint():
             "@npm//eslint-plugin-n",
             "@npm//eslint-plugin-prettier",
             "@npm//eslint-plugin-regex",
+            "@npm//@typescript-eslint/parser",
             "@npm//gts",
         ],
     )
@@ -103,11 +104,8 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
         # See note and example here:
         # https://bazelbuild.github.io/rules_nodejs/Built-ins.html#nodejs_binary
         "$$(rlocation $(rootpath {}))".format(config),
-        "--ignore-path",
+        "--ignore-pattern",
         "$$(rlocation $(rootpath {}))".format(ignore),
-        # Load custom rules from eslint-rules directory
-        "--rulesdir",
-        "$$(dirname $$(rlocation $(rootpath {})))".format(eslint_rules_toplevel_file),
     ]
     nodejs_test(
         name = name + "_test",

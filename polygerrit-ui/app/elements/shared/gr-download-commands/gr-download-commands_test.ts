@@ -103,11 +103,20 @@ suite('gr-download-commands', () => {
               </paper-tab>
             </paper-tabs>
           </div>
-          <div class="commands"></div>
-          <gr-shell-command class="_label_checkout"> </gr-shell-command>
-          <gr-shell-command class="_label_cherrypick"> </gr-shell-command>
-          <gr-shell-command class="_label_formatpatch"> </gr-shell-command>
-          <gr-shell-command class="_label_pull"> </gr-shell-command>
+          <div style="margin-bottom: 1em;">
+            <label>
+              <input
+                type="checkbox"
+              />
+              Show Windows (PowerShell) commands
+            </label>
+          </div>
+          <div class="commands">
+            <gr-shell-command class="_label_checkout"></gr-shell-command>
+            <gr-shell-command class="_label_cherrypick"></gr-shell-command>
+            <gr-shell-command class="_label_formatpatch"></gr-shell-command>
+            <gr-shell-command class="_label_pull"></gr-shell-command>
+          </div>
         `
       );
     });
@@ -171,7 +180,27 @@ suite('gr-download-commands', () => {
         repoTab.getAttribute('data-scheme')
       );
     });
+
+    test('transforms commands for Windows format when checkbox is checked', async () => {
+      const checkbox = queryAndAssert<HTMLInputElement>(element, 'input[type="checkbox"]');
+
+      const shellCommand = queryAndAssert<GrShellCommand>(element, '._label_checkout');
+
+      const originalCommandProp = shellCommand.command;
+      assert.include(originalCommandProp, '&&');
+      assert.notInclude(originalCommandProp, '-and');
+
+      checkbox.checked = true;
+      checkbox.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const transformedCommandProp = queryAndAssert<GrShellCommand>(element, '._label_checkout').command;
+      assert.notInclude(transformedCommandProp, '&&');
+      assert.include(transformedCommandProp, '-and');
+      assert.include(transformedCommandProp, '(git fetch');
+    });
   });
+
   suite('authenticated', () => {
     let element: GrDownloadCommands;
     let userModel: UserModel;

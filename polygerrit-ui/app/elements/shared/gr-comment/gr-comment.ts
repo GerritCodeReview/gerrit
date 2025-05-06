@@ -1603,9 +1603,7 @@ export class GrComment extends LitElement {
   }
 
   private handleEsc() {
-    // vim users don't like ESC to cancel/discard, so only do this when the
-    // comment text is empty.
-    if (!this.messageText?.trimEnd()) this.cancel();
+    this.cancel();
   }
 
   private handleAnchorClick() {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ec7145_31a66322",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-06T11:31:18Z",
+      "side": 1,
+      "message": "`ruby` is very obscure and not widely known. Maybe prefer `flex`.",
+      "revId": "2e66098ffb67a90ae2bd925f17459d5fd4dc17e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209bf740_cf5a8552",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-06T11:31:18Z",
+      "side": 1,
+      "message": "Add some padding between the weblinks and the buttons.",
+      "revId": "2e66098ffb67a90ae2bd925f17459d5fd4dc17e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

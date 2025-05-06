@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4769871f_f364d28d",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-06T12:54:56Z",
+      "side": 1,
+      "message": "Could this create too large of a query?",
+      "revId": "2c22be70516377d4793937150f1333d016effaa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

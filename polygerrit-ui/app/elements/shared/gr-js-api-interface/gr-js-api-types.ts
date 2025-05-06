@@ -43,7 +43,7 @@ export interface JsApiService extends Finalizable {
   modifyRevertSubmissionMsg(
     change: ChangeInfo,
     revertSubmissionMsg: string,
-    origMsg: string
+    origMsg: string,
   ): string;
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null): void;
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
@@ -53,7 +53,7 @@ export interface JsApiService extends Finalizable {
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,
-    origMsg: string
+    origMsg: string,
   ): string;
   addElement(key: TargetElement, el: HTMLElement): void;
   getAdminMenuLinks(): MenuLink[];

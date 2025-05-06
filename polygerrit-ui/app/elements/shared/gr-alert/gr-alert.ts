@@ -130,7 +130,7 @@ export class GrAlert extends LitElement {
   @property()
   _boundTransitionEndHandler?: (
     this: HTMLElement,
-    ev: TransitionEvent
+    ev: TransitionEvent,
   ) => unknown;
 
   @property()
@@ -148,7 +148,7 @@ export class GrAlert extends LitElement {
     if (this._boundTransitionEndHandler) {
       this.removeEventListener(
         'transitionend',
-        this._boundTransitionEndHandler
+        this._boundTransitionEndHandler,
       );
     }
     super.disconnectedCallback();
@@ -160,7 +160,7 @@ export class GrAlert extends LitElement {
    */
   readonly resolveDep = (e: DependencyRequestEvent<unknown>) => {
     this.owner?.dispatchEvent(
-      new DependencyRequestEvent<unknown>(e.dependency, e.callback)
+      new DependencyRequestEvent<unknown>(e.dependency, e.callback),
     );
   };
 

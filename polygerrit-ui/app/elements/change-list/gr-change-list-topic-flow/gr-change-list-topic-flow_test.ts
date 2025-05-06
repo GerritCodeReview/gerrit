@@ -48,7 +48,7 @@ suite('gr-change-list-topic-flow tests', () => {
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChanges$, selected =>
-      selected.some(other => other._number === change._number)
+      selected.some(other => other._number === change._number),
     );
     await element.updateComplete;
   }
@@ -57,7 +57,7 @@ suite('gr-change-list-topic-flow tests', () => {
     model.removeSelectedChangeNum(change._number);
     await waitUntilObserved(
       model.selectedChanges$,
-      selected => !selected.some(other => other._number === change._number)
+      selected => !selected.some(other => other._number === change._number),
     );
     await element.updateComplete;
   }
@@ -86,8 +86,8 @@ suite('gr-change-list-topic-flow tests', () => {
           wrapInProvider(
             html`<gr-change-list-topic-flow></gr-change-list-topic-flow>`,
             bulkActionsModelToken,
-            model
-          )
+            model,
+          ),
         )
       ).querySelector('gr-change-list-topic-flow')!;
       await selectChange(changes[0]);
@@ -117,14 +117,14 @@ suite('gr-change-list-topic-flow tests', () => {
             horizontal-align="auto"
           >
           </iron-dropdown>
-        `
+        `,
       );
     });
 
     test('dropdown hidden before flow button clicked', async () => {
       const dropdown = queryAndAssert<IronDropdownElement>(
         element,
-        'iron-dropdown'
+        'iron-dropdown',
       );
       assert.isFalse(dropdown.opened);
     });
@@ -137,7 +137,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       const dropdown = queryAndAssert<IronDropdownElement>(
         element,
-        'iron-dropdown'
+        'iron-dropdown',
       );
       assert.isTrue(dropdown.opened);
     });
@@ -146,13 +146,13 @@ suite('gr-change-list-topic-flow tests', () => {
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await waitUntil(() =>
         Boolean(
-          queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-        )
+          queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
+        ),
       );
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await waitUntil(
         () =>
-          !queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+          !queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened,
       );
     });
   });
@@ -198,7 +198,7 @@ suite('gr-change-list-topic-flow tests', () => {
           .withArgs(
             changesWithTopics[i]._number,
             sinon.match.any,
-            sinon.match.any
+            sinon.match.any,
           )
           .returns(promise);
       }
@@ -210,8 +210,8 @@ suite('gr-change-list-topic-flow tests', () => {
           wrapInProvider(
             html`<gr-change-list-topic-flow></gr-change-list-topic-flow>`,
             bulkActionsModelToken,
-            model
-          )
+            model,
+          ),
         )
       ).querySelector('gr-change-list-topic-flow')!;
 
@@ -291,20 +291,20 @@ suite('gr-change-list-topic-flow tests', () => {
         {
           // iron-dropdown sizing seems to vary between local & CI
           ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
-        }
+        },
       );
     });
 
     test('apply all button is disabled if all changes have the same topic', async () => {
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled,
       );
 
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled,
       );
 
       await deselectChange(changesWithTopics[1]);
@@ -325,7 +325,7 @@ suite('gr-change-list-topic-flow tests', () => {
       await selectChange(change2);
 
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled,
       );
     });
 
@@ -339,7 +339,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Removing topic...'
+        'Removing topic...',
       );
 
       await resolvePromises();
@@ -373,7 +373,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Removing topics...'
+        'Removing topics...',
       );
 
       await resolvePromises();
@@ -403,7 +403,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Removing topic...'
+        'Removing topic...',
       );
 
       // Rest api doesn't reject on error by default, but it does in topic flow,
@@ -414,32 +414,32 @@ suite('gr-change-list-topic-flow tests', () => {
       await waitUntil(() => query(element, '.error') !== undefined);
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to remove topic'
+        'Failed to remove topic',
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,
-        'Cancel'
+        'Cancel',
       );
       assert.isUndefined(query(element, '.loadingText'));
     });
 
     test('can only apply a single topic', async () => {
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled,
       );
 
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled,
       );
 
       queryAll<HTMLButtonElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
 
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled,
       );
     });
 
@@ -455,7 +455,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying to all'
+        'Applying to all',
       );
 
       await resolvePromises();
@@ -515,7 +515,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
     setup(async () => {
       stubRestApi('getDetailedChangesWithActions').resolves(
-        changesWithNoTopics
+        changesWithNoTopics,
       );
       setChangeTopicPromises = [];
       setChangeTopicStub = stubRestApi('setChangeTopic');
@@ -526,7 +526,7 @@ suite('gr-change-list-topic-flow tests', () => {
           .withArgs(
             changesWithNoTopics[i]._number,
             sinon.match.any,
-            sinon.match.any
+            sinon.match.any,
           )
           .returns(promise);
       }
@@ -539,8 +539,8 @@ suite('gr-change-list-topic-flow tests', () => {
           wrapInProvider(
             html`<gr-change-list-topic-flow></gr-change-list-topic-flow>`,
             bulkActionsModelToken,
-            model
-          )
+            model,
+          ),
         )
       ).querySelector('gr-change-list-topic-flow')!;
 
@@ -599,7 +599,7 @@ suite('gr-change-list-topic-flow tests', () => {
         {
           // iron-dropdown sizing seems to vary between local & CI
           ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
-        }
+        },
       );
     });
 
@@ -607,18 +607,18 @@ suite('gr-change-list-topic-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves(
-        []
+        [],
       );
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled,
       );
 
       queryAndAssert<GrButton>(element, '#set-topic-button').click();
@@ -626,7 +626,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Setting topic...'
+        'Setting topic...',
       );
 
       await resolvePromises();
@@ -659,25 +659,25 @@ suite('gr-change-list-topic-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves(
-        []
+        [],
       );
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled,
       );
       queryAndAssert<GrButton>(element, '#set-topic-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Setting topic...'
+        'Setting topic...',
       );
 
       // Rest api doesn't reject on error by default, but it does in topic flow,
@@ -688,11 +688,11 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to set topic'
+        'Failed to set topic',
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,
-        'Cancel'
+        'Cancel',
       );
       assert.isUndefined(query(element, '.loadingText'));
     });
@@ -705,7 +705,7 @@ suite('gr-change-list-topic-flow tests', () => {
       element.addEventListener('show-alert', alertStub);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
-        'gr-autocomplete'
+        'gr-autocomplete',
       );
 
       autocomplete.setFocus(true);
@@ -714,14 +714,14 @@ suite('gr-change-list-topic-flow tests', () => {
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
 
       assert.isFalse(
-        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled,
       );
       queryAndAssert<GrButton>(element, '#set-topic-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Setting topic...'
+        'Setting topic...',
       );
 
       await resolvePromises();

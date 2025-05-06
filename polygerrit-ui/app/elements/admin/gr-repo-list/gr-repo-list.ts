@@ -225,7 +225,7 @@ export class GrRepoList extends LitElement {
     const repos = await this.restApiService.getRepos(
       this.filter,
       this.reposPerPage,
-      this.offset
+      this.offset,
     );
 
     // Late response.

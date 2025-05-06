@@ -434,7 +434,7 @@ export class GrChangeView extends LitElement {
 
   private readonly getRelatedChangesModel = resolve(
     this,
-    relatedChangesModelToken
+    relatedChangesModelToken,
   );
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
@@ -478,10 +478,10 @@ export class GrChangeView extends LitElement {
     this.addEventListener('open-reply-dialog', () => this.openReplyDialog());
     this.addEventListener('change-message-deleted', () => fireReload(this));
     this.addEventListener('editable-content-save', e =>
-      this.handleCommitMessageSave(e)
+      this.handleCommitMessageSave(e),
     );
     this.addEventListener('editable-content-cancel', () =>
-      this.handleCommitMessageCancel()
+      this.handleCommitMessageCancel(),
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.addEventListener('show-tab', e => this.setActiveTab(e));
@@ -493,16 +493,16 @@ export class GrChangeView extends LitElement {
     this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.SAVE_COMMENT, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
-      this.getChangeModel().navigateToChangeResetReload()
+      this.getChangeModel().navigateToChangeResetReload(),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_REPLY_DIALOG, () =>
-      this.handleOpenReplyDialog()
+      this.handleOpenReplyDialog(),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_DOWNLOAD_DIALOG, () =>
-      this.handleOpenDownloadDialog()
+      this.handleOpenDownloadDialog(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_DIFF_MODE, () =>
-      this.handleToggleDiffMode()
+      this.handleToggleDiffMode(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_CHANGE_STAR, e => {
       if (this.throttledToggleChangeStar) {
@@ -510,47 +510,47 @@ export class GrChangeView extends LitElement {
       }
     });
     this.shortcutsController.addAbstract(Shortcut.UP_TO_DASHBOARD, () =>
-      this.determinePageBack()
+      this.determinePageBack(),
     );
     this.shortcutsController.addAbstract(Shortcut.EXPAND_ALL_MESSAGES, () =>
-      this.handleExpandAllMessages()
+      this.handleExpandAllMessages(),
     );
     this.shortcutsController.addAbstract(Shortcut.COLLAPSE_ALL_MESSAGES, () =>
-      this.handleCollapseAllMessages()
+      this.handleCollapseAllMessages(),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_DIFF_PREFS, () =>
-      this.handleOpenDiffPrefsShortcut()
+      this.handleOpenDiffPrefsShortcut(),
     );
     this.shortcutsController.addAbstract(Shortcut.EDIT_TOPIC, () => {
       assertIsDefined(this.metadata);
       this.metadata.editTopic();
     });
     this.shortcutsController.addAbstract(Shortcut.DIFF_AGAINST_BASE, () =>
-      this.handleDiffAgainstBase()
+      this.handleDiffAgainstBase(),
     );
     this.shortcutsController.addAbstract(Shortcut.DIFF_AGAINST_LATEST, () =>
-      this.handleDiffAgainstLatest()
+      this.handleDiffAgainstLatest(),
     );
     this.shortcutsController.addAbstract(Shortcut.DIFF_BASE_AGAINST_LEFT, () =>
-      this.handleDiffBaseAgainstLeft()
+      this.handleDiffBaseAgainstLeft(),
     );
     this.shortcutsController.addAbstract(
       Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-      () => this.handleDiffRightAgainstLatest()
+      () => this.handleDiffRightAgainstLatest(),
     );
     this.shortcutsController.addAbstract(
       Shortcut.DIFF_BASE_AGAINST_LATEST,
-      () => this.handleDiffBaseAgainstLatest()
+      () => this.handleDiffBaseAgainstLatest(),
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_SUBMIT_DIALOG, () =>
-      this.handleOpenSubmitDialog()
+      this.handleOpenSubmitDialog(),
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_ATTENTION_SET, () =>
-      this.handleToggleAttentionSet()
+      this.handleToggleAttentionSet(),
     );
     this.shortcutsController.addAbstract(
       Shortcut.OPEN_COPY_LINKS_DROPDOWN,
-      () => this.copyLinksDropdown?.openDropdown()
+      () => this.copyLinksDropdown?.openDropdown(),
     );
   }
 
@@ -558,7 +558,7 @@ export class GrChangeView extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().state$,
-      s => (this.viewState = s)
+      s => (this.viewState = s),
     );
     subscribe(
       this,
@@ -571,12 +571,12 @@ export class GrChangeView extends LitElement {
           this.tabs.scrollIntoView({block: 'nearest'});
         }
         this.activeTab = t;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getViewModel().commentId$,
-      commentId => (this.scrollCommentId = commentId)
+      commentId => (this.scrollCommentId = commentId),
     );
     subscribe(
       this,
@@ -585,14 +585,14 @@ export class GrChangeView extends LitElement {
         // Here we are relying on `this.loggedIn` being set *before*
         // `openReplyDialog`, but that is fine for this feature.
         if (openReplyDialog && this.loggedIn) this.handleOpenReplyDialog();
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChecksModel().aPluginHasRegistered$,
       b => {
         this.showChecksTab = b;
-      }
+      },
     );
     subscribe(
       this,
@@ -603,7 +603,7 @@ export class GrChangeView extends LitElement {
         ]),
       ([enableRobotComments, count]) => {
         this.showFindingsTab = enableRobotComments && count > 0;
-      }
+      },
     );
     subscribe(
       this,
@@ -615,35 +615,35 @@ export class GrChangeView extends LitElement {
         if (this.isViewCurrent) {
           document.documentElement.scrollTop = this.scrollPosition ?? 0;
         }
-      }
+      },
     );
     subscribe(
       this,
       () => this.getViewModel().patchNum$,
       patchNum => {
         this.viewModelPatchNum = patchNum;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().preferenceDiffViewMode$,
       diffViewMode => {
         this.diffViewMode = diffViewMode;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getCommentsModel().draftsCount$,
       draftCount => {
         this.draftCount = draftCount;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getCommentsModel().threadsSaved$,
       threads => {
         this.commentThreads = threads;
-      }
+      },
     );
     subscribe(
       this,
@@ -652,7 +652,7 @@ export class GrChangeView extends LitElement {
         // The change view is tied to a specific change number, so don't update
         // change to undefined.
         if (change) this.change = change;
-      }
+      },
     );
     subscribe(
       this,
@@ -661,60 +661,60 @@ export class GrChangeView extends LitElement {
         // The change view is tied to a specific change number, so don't update
         // changeNum to undefined and only set it once.
         if (changeNum && !this.changeNum) this.changeNum = changeNum;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getChangeModel().editMode$,
-      editMode => (this.editMode = editMode)
+      editMode => (this.editMode = editMode),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      patchNum => (this.patchNum = patchNum)
+      patchNum => (this.patchNum = patchNum),
     );
     subscribe(
       this,
       () => this.getChangeModel().basePatchNum$,
-      basePatchNum => (this.basePatchNum = basePatchNum)
+      basePatchNum => (this.basePatchNum = basePatchNum),
     );
     subscribe(
       this,
       () => this.getChangeModel().mergeable$,
-      mergeable => (this.mergeable = mergeable)
+      mergeable => (this.mergeable = mergeable),
     );
     subscribe(
       this,
       () => this.getChangeModel().revision$,
-      revision => (this.revision = revision)
+      revision => (this.revision = revision),
     );
     subscribe(
       this,
       () => this.getChangeModel().changeLoadingStatus$,
-      status => (this.loading = status !== LoadingStatus.LOADED)
+      status => (this.loading = status !== LoadingStatus.LOADED),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestRevisionWithEdit$,
       revision => {
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(
-          revision?.commit?.message ?? ''
+          revision?.commit?.message ?? '',
         );
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().account$,
       account => {
         this.account = account;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
-      }
+      },
     );
     subscribe(
       this,
@@ -722,24 +722,24 @@ export class GrChangeView extends LitElement {
       config => {
         this.serverConfig = config;
         this.replyDisabled = false;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().loginUrl$,
-      loginUrl => (this.loginUrl = loginUrl)
+      loginUrl => (this.loginUrl = loginUrl),
     );
     subscribe(
       this,
       () => this.getConfigModel().loginText$,
-      loginText => (this.loginText = loginText)
+      loginText => (this.loginText = loginText),
     );
     subscribe(
       this,
       () => this.getRelatedChangesModel().revertingChange$,
       revertingChange => {
         this.revertingChange = revertingChange;
-      }
+      },
     );
   }
 
@@ -780,11 +780,11 @@ export class GrChangeView extends LitElement {
       .then(() => {
         this.pluginTabsHeaderEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-tab-header'
+            'change-view-tab-header',
           );
         this.pluginTabsContentEndpoints =
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
-            'change-view-tab-content'
+            'change-view-tab-content',
           );
         if (
           this.pluginTabsContentEndpoints.length !==
@@ -792,20 +792,20 @@ export class GrChangeView extends LitElement {
         ) {
           this.reporting.error(
             'Plugin change-view-tab',
-            new Error('Mismatch of headers and content.')
+            new Error('Mismatch of headers and content.'),
           );
         }
       });
 
     this.throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
-      this.handleToggleChangeStar()
+      this.handleToggleChangeStar(),
     );
   }
 
   override disconnectedCallback() {
     document.removeEventListener(
       'visibilitychange',
-      this.handleVisibilityChange
+      this.handleVisibilityChange,
     );
     document.removeEventListener('scroll', this.handleScroll);
     this.scrollTask?.cancel();
@@ -1185,7 +1185,7 @@ export class GrChangeView extends LitElement {
               @cancel=${this.handleReplyCancel}
             >
             </gr-reply-dialog>
-          `
+          `,
         )}
       </dialog>
     `;
@@ -1215,7 +1215,7 @@ export class GrChangeView extends LitElement {
             .revertedChange=${this.revertingChange}
             .status=${status}
             .resolveWeblinks=${resolveWeblinks}
-          ></gr-change-status>`
+          ></gr-change-status>`,
         )}
       </div>
       ${this.renderCopyLinksDropdown()}
@@ -1325,7 +1325,7 @@ export class GrChangeView extends LitElement {
     const hideEditCommitMessage = this.computeHideEditCommitMessage(
       this.loggedIn,
       this.editingCommitMessage,
-      this.change
+      this.change,
     );
     return html` <div class="changeInfo">
       <div class="changeInfo-column changeMetadata">
@@ -1346,7 +1346,7 @@ export class GrChangeView extends LitElement {
                 class="reply"
                 title=${this.createTitle(
                   Shortcut.OPEN_REPLY_DIALOG,
-                  ShortcutSection.ACTIONS
+                  ShortcutSection.ACTIONS,
                 )}
                 primary=""
                 .disabled=${this.replyDisabled}
@@ -1417,7 +1417,7 @@ export class GrChangeView extends LitElement {
             <paper-tab data-name=${Tab.CHECKS} @click=${this.onPaperTabClick}
               ><span>Checks</span></paper-tab
             >
-          `
+          `,
         )}
         ${this.pluginTabsHeaderEndpoints.map(
           tabHeader => html`
@@ -1429,7 +1429,7 @@ export class GrChangeView extends LitElement {
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </paper-tab>
-          `
+          `,
         )}
         ${when(
           this.showFindingsTab,
@@ -1437,7 +1437,7 @@ export class GrChangeView extends LitElement {
             <paper-tab data-name=${Tab.FINDINGS} @click=${this.onPaperTabClick}>
               <span>Findings</span>
             </paper-tab>
-          `
+          `,
         )}
       </paper-tabs>
     `;
@@ -1474,7 +1474,7 @@ export class GrChangeView extends LitElement {
         </gr-file-list-header>
         ${when(
           this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA),
-          () => html`<gr-revision-parents></gr-revision-parents>`
+          () => html`<gr-revision-parents></gr-revision-parents>`,
         )}
         <gr-file-list
           id="fileList"
@@ -1485,7 +1485,7 @@ export class GrChangeView extends LitElement {
             this.shownFileCount = e.detail.length;
           }}
           @files-expanded-changed=${(
-            _e: ValueChangedEvent<FilesExpandedState>
+            _e: ValueChangedEvent<FilesExpandedState>,
           ) => {
             this.requestUpdate();
           }}
@@ -1544,14 +1544,14 @@ export class GrChangeView extends LitElement {
           >
             ${this.showAllRobotComments ? 'Show Less' : 'Show More'}
           </gr-button>
-        `
+        `,
       )}
     `;
   }
 
   private renderPluginTab() {
     const i = this.pluginTabsHeaderEndpoints.findIndex(
-      t => this.activeTab === t
+      t => this.activeTab === t,
     );
     if (i === -1) return nothing;
     const pluginTabContentEndpoint = this.pluginTabsContentEndpoints[i];
@@ -1607,7 +1607,7 @@ export class GrChangeView extends LitElement {
     this.scrollTask = debounce(
       this.scrollTask,
       () => (this.scrollPosition = document.documentElement.scrollTop),
-      150
+      150,
     );
   };
 
@@ -1635,7 +1635,7 @@ export class GrChangeView extends LitElement {
     const tabIndex = Number(e.detail.value);
     assert(
       Number.isInteger(tabIndex) && 0 <= tabIndex && tabIndex < tabs.length,
-      `${tabIndex} must be integer`
+      `${tabIndex} must be integer`,
     );
     const tab = tabs[tabIndex].dataset['name'];
 
@@ -1702,7 +1702,7 @@ export class GrChangeView extends LitElement {
 
     this.getPluginLoader().jsApiService.handleCommitMessage(
       this.change,
-      message
+      message,
     );
 
     this.commitMessageEditor.disabled = true;
@@ -1742,7 +1742,7 @@ export class GrChangeView extends LitElement {
   computeHideEditCommitMessage(
     loggedIn: boolean,
     editing: boolean,
-    change?: ParsedChangeInfo
+    change?: ParsedChangeInfo,
   ) {
     if (
       !loggedIn ||
@@ -1761,7 +1761,7 @@ export class GrChangeView extends LitElement {
       const comments = thread.comments;
       const robotCommentsCount = comments.reduce(
         (acc, comment) => (isRobot(comment) ? acc + 1 : acc),
-        0
+        0,
       );
       if (comments[0].patch_set)
         robotCommentCountMap[`${comments[0].patch_set}`] =
@@ -1774,7 +1774,7 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   computeText(
     patch: RevisionInfo | EditRevisionInfo,
-    commentThreads: CommentThread[]
+    commentThreads: CommentThread[],
   ) {
     const commentCount = this.robotCommentCountPerPatchSet(commentThreads);
     const commentCnt = commentCount[patch._number] || 0;
@@ -1821,7 +1821,7 @@ export class GrChangeView extends LitElement {
     this.showRobotCommentsButton = threads.length > ROBOT_COMMENTS_LIMIT;
     return threads.slice(
       0,
-      this.showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT
+      this.showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT,
     );
   }
 
@@ -1882,11 +1882,11 @@ export class GrChangeView extends LitElement {
       this.downloadDialog.focus();
       const downloadCommands = queryAndAssert(
         this.downloadDialog,
-        'gr-download-commands'
+        'gr-download-commands',
       );
       const paperTabs = queryAndAssert<PaperTabsElement>(
         downloadCommands,
-        'paper-tabs'
+        'paper-tabs',
       );
       // Paper Tabs normally listen to 'iron-resize' event to call this method.
       // After migrating to Dialog element, this event is no longer fired
@@ -2076,7 +2076,7 @@ export class GrChangeView extends LitElement {
         .removeFromAttentionSet(
           this.change._number,
           this.account._account_id,
-          reason
+          reason,
         )
         .then(() => {
           fire(this, 'hide-alert', {});
@@ -2093,7 +2093,7 @@ export class GrChangeView extends LitElement {
         .addToAttentionSet(
           this.change._number,
           this.account._account_id,
-          reason
+          reason,
         )
         .then(() => {
           fire(this, 'hide-alert', {});
@@ -2111,7 +2111,7 @@ export class GrChangeView extends LitElement {
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum: this.patchNum})
+      createChangeUrl({change: this.change, patchNum: this.patchNum}),
     );
   }
 
@@ -2129,7 +2129,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: this.basePatchNum as RevisionPatchSetNum,
-      })
+      }),
     );
   }
 
@@ -2147,7 +2147,7 @@ export class GrChangeView extends LitElement {
         change: this.change,
         patchNum: latestPatchNum,
         basePatchNum: this.basePatchNum,
-      })
+      }),
     );
   }
 
@@ -2165,7 +2165,7 @@ export class GrChangeView extends LitElement {
         change: this.change,
         patchNum: latestPatchNum,
         basePatchNum: this.patchNum as BasePatchSetNum,
-      })
+      }),
     );
   }
 
@@ -2179,7 +2179,7 @@ export class GrChangeView extends LitElement {
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum: latestPatchNum})
+      createChangeUrl({change: this.change, patchNum: latestPatchNum}),
     );
   }
 
@@ -2214,7 +2214,7 @@ export class GrChangeView extends LitElement {
 
   private handleLabelRemoved(
     oldLabels: LabelNameToInfoMap,
-    newLabels: LabelNameToInfoMap
+    newLabels: LabelNameToInfoMap,
   ) {
     for (const key in oldLabels) {
       if (!Object.prototype.hasOwnProperty.call(oldLabels, key)) continue;
@@ -2239,7 +2239,7 @@ export class GrChangeView extends LitElement {
 
   private labelsChanged(
     oldLabels: LabelNameToInfoMap | undefined,
-    newLabels: LabelNameToInfoMap | undefined
+    newLabels: LabelNameToInfoMap | undefined,
   ) {
     if (!oldLabels || !newLabels) {
       return;
@@ -2426,7 +2426,7 @@ export class GrChangeView extends LitElement {
     assertIsDefined(this.fileListHeader);
     const controls =
       this.fileListHeader.shadowRoot!.querySelector<GrEditControls>(
-        '#editControls'
+        '#editControls',
       );
     if (!controls) throw new Error('Missing edit controls');
     assertIsDefined(this.change, 'change');
@@ -2442,7 +2442,7 @@ export class GrChangeView extends LitElement {
           this.getViewModel().editUrl({
             editView: {path},
             patchNum: this.patchNum,
-          })
+          }),
         );
         break;
       case GrEditConstants.Actions.RENAME.id:
@@ -2462,7 +2462,7 @@ export class GrChangeView extends LitElement {
     if (!this.change || !this.change.revisions)
       throw new Error('missing required change property');
     const editInfo = Object.values(this.change.revisions).find(
-      info => info._number === EDIT
+      info => info._number === EDIT,
     );
 
     if (editInfo) {
@@ -2477,7 +2477,7 @@ export class GrChangeView extends LitElement {
         patchNum: this.viewModelPatchNum,
         edit: true,
         forceReload: true,
-      })
+      }),
     );
   }
 
@@ -2489,7 +2489,7 @@ export class GrChangeView extends LitElement {
         change: this.change,
         patchNum: this.patchNum,
         forceReload: true,
-      })
+      }),
     );
   }
 
@@ -2512,7 +2512,7 @@ export class GrChangeView extends LitElement {
     fireAlert(this, msg);
     await this.restApiService.saveChangeStarred(
       e.detail.change._number,
-      e.detail.starred
+      e.detail.starred,
     );
     fire(this, 'hide-alert', {});
   }
@@ -2522,7 +2522,7 @@ export class GrChangeView extends LitElement {
   }
 
   private handleRevisionActionsChanged(
-    e: CustomEvent<{value: ActionNameToActionInfoMap}>
+    e: CustomEvent<{value: ActionNameToActionInfoMap}>,
   ) {
     this.currentRevisionActions = e.detail.value;
   }

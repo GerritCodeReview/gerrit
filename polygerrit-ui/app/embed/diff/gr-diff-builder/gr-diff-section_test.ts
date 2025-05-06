@@ -19,7 +19,7 @@ suite('gr-diff-section test', () => {
 
   setup(async () => {
     element = await fixture<GrDiffSection>(
-      html`<gr-diff-section></gr-diff-section>`
+      html`<gr-diff-section></gr-diff-section>`,
     );
     element.addTableWrapperForTesting = true;
     await element.updateComplete;
@@ -68,7 +68,7 @@ suite('gr-diff-section test', () => {
             </tbody>
           </table>
         `,
-        {}
+        {},
       );
     });
 
@@ -103,7 +103,7 @@ suite('gr-diff-section test', () => {
             </tbody>
           </table>
         `,
-        {}
+        {},
       );
     });
   });
@@ -256,7 +256,7 @@ suite('gr-diff-section test', () => {
             </tr>
           </tbody>
         </table>
-      `
+      `,
     );
   });
 });

@@ -17,7 +17,7 @@ export enum HttpMethod {
 
 export type ErrorCallback = (
   response?: Response | null,
-  err?: Error
+  err?: Error,
 ) => Promise<void> | void;
 
 export declare interface RestPluginApi {
@@ -34,7 +34,7 @@ export declare interface RestPluginApi {
   getRepos(
     filter: string,
     reposPerPage: number,
-    offset?: number
+    offset?: number,
   ): Promise<ProjectInfoWithName[] | undefined>;
 
   fetch(
@@ -42,7 +42,7 @@ export declare interface RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: undefined,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response>;
 
   fetch(
@@ -50,7 +50,7 @@ export declare interface RestPluginApi {
     url: string,
     payload: RequestPayload | undefined,
     errFn: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response | void>;
 
   fetch(
@@ -58,7 +58,7 @@ export declare interface RestPluginApi {
     url: string,
     payload: RequestPayload | undefined,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response | void>;
 
   /**
@@ -69,7 +69,7 @@ export declare interface RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<Response | void>;
 
   /**
@@ -80,7 +80,7 @@ export declare interface RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<T>;
 
   get<T>(url: string): Promise<T>;
@@ -89,14 +89,14 @@ export declare interface RestPluginApi {
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<T>;
 
   put<T>(
     url: string,
     payload?: RequestPayload,
     errFn?: ErrorCallback,
-    contentType?: string
+    contentType?: string,
   ): Promise<T>;
 
   delete(url: string): Promise<Response>;

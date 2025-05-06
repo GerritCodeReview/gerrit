@@ -46,7 +46,7 @@ suite('gr-account-chip tests', () => {
             <gr-icon icon="close"></gr-icon>
           </gr-button>
         </div>
-      `
+      `,
     );
   });
 });

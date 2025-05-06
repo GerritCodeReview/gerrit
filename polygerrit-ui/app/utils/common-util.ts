@@ -42,7 +42,7 @@ export function assertNever(obj: never, msg: string): never {
  */
 export function assert(
   condition: boolean,
-  errorMessage: string
+  errorMessage: string,
 ): asserts condition {
   if (!condition) throw new Error(errorMessage);
 }
@@ -52,7 +52,7 @@ export function assert(
  */
 export function assertIsDefined<T>(
   val: T,
-  variableName = 'variable'
+  variableName = 'variable',
 ): asserts val is NonNullable<T> {
   if (val === undefined || val === null) {
     throw new Error(`${variableName} is not defined`);
@@ -61,7 +61,7 @@ export function assertIsDefined<T>(
 
 export function queryAll<E extends Element = Element>(
   el: Element,
-  selector: string
+  selector: string,
 ): NodeListOf<E> {
   if (!el) throw new Error('element not defined');
   if (el.shadowRoot) {
@@ -73,7 +73,7 @@ export function queryAll<E extends Element = Element>(
 
 export function query<E extends Element = Element>(
   el: Element | null | undefined,
-  selector: string
+  selector: string,
 ): E | undefined {
   if (!el) return undefined;
   if (el.shadowRoot) {
@@ -85,7 +85,7 @@ export function query<E extends Element = Element>(
 
 export function queryAndAssert<E extends Element = Element>(
   el: Element | null | undefined,
-  selector: string
+  selector: string,
 ): E {
   const found = query<E>(el, selector);
   if (!found) throw new Error(`selector '${selector}' did not match anything'`);
@@ -144,7 +144,7 @@ export function unique<T>(item: T, index: number, array: T[]) {
  */
 export function intersection<T>(
   arrays: T[][],
-  compareBy: (t: T, u: T) => boolean = (t, u) => t === u
+  compareBy: (t: T, u: T) => boolean = (t, u) => t === u,
 ): T[] {
   // Array.prototype.reduce needs either an initialValue or a non-empty array.
   // Since there is no good initialValue for intersecting (∅ ∩ X = ∅), the
@@ -156,7 +156,7 @@ export function intersection<T>(
     return [...arrays[0]];
   }
   return arrays.reduce((result, array) =>
-    result.filter(t => array.find(u => compareBy(t, u)))
+    result.filter(t => array.find(u => compareBy(t, u))),
   );
 }
 
@@ -166,7 +166,7 @@ export function intersection<T>(
 export function difference<T>(
   a: T[],
   b: T[],
-  compareBy: (t: T, u: T) => boolean = (t, u) => t === u
+  compareBy: (t: T, u: T) => boolean = (t, u) => t === u,
 ): T[] {
   return a.filter(aVal => !b.some(bVal => compareBy(aVal, bVal)));
 }

@@ -52,14 +52,14 @@ suite('gr-change-list-column-requirement tests', () => {
         .change=${change}
         .labelName=${StandardLabels.CODE_REVIEW}
       >
-      </gr-change-list-column-requirement>`
+      </gr-change-list-column-requirement>`,
     );
     assert.shadowDom.equal(
       element,
       /* HTML */
       ` <div class="container" title="Satisfied">
         <gr-icon class="check_circle" filled icon="check_circle"></gr-icon>
-      </div>`
+      </div>`,
     );
   });
 
@@ -96,14 +96,14 @@ suite('gr-change-list-column-requirement tests', () => {
         .change=${change}
         .labelName=${StandardLabels.CODE_REVIEW}
       >
-      </gr-change-list-column-requirement>`
+      </gr-change-list-column-requirement>`,
     );
     assert.shadowDom.equal(
       element,
       /* HTML */
       ` <div class="container">
         <gr-vote-chip tooltip-with-who-voted=""></gr-vote-chip>
-      </div>`
+      </div>`,
     );
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
     assert.shadowDom.equal(
@@ -115,7 +115,7 @@ suite('gr-change-list-column-requirement tests', () => {
         title="Reviewer: bad"
       >
         <div class="negative vote-chip">-1</div>
-      </gr-tooltip-content>`
+      </gr-tooltip-content>`,
     );
   });
 
@@ -145,14 +145,14 @@ suite('gr-change-list-column-requirement tests', () => {
         .change=${change}
         .labelName=${'Commit-Queue'}
       >
-      </gr-change-list-column-requirement>`
+      </gr-change-list-column-requirement>`,
     );
     assert.shadowDom.equal(
       element,
       /* HTML */
       ` <div class="container">
         <gr-vote-chip tooltip-with-who-voted=""></gr-vote-chip>
-      </div>`
+      </div>`,
     );
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
     assert.shadowDom.equal(
@@ -164,7 +164,7 @@ suite('gr-change-list-column-requirement tests', () => {
         title="Reviewer 2: good"
       >
         <div class="positive vote-chip">+1</div>
-      </gr-tooltip-content>`
+      </gr-tooltip-content>`,
     );
   });
 });

@@ -139,7 +139,7 @@ export type CreateChangeUrlObject = Omit<
 };
 
 export function isCreateChangeUrlObject(
-  state: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+  state: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>,
 ): state is CreateChangeUrlObject {
   return !!(state as CreateChangeUrlObject).change;
 }
@@ -147,7 +147,7 @@ export function isCreateChangeUrlObject(
 export function objToState(
   obj:
     | (CreateChangeUrlObject & {childView: ChangeChildView})
-    | Omit<ChangeViewState, 'view'>
+    | Omit<ChangeViewState, 'view'>,
 ): ChangeViewState {
   if (isCreateChangeUrlObject(obj)) {
     return {
@@ -172,7 +172,7 @@ export function createChangeViewUrl(state: ChangeViewState): string {
 }
 
 export function createChangeUrl(
-  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>,
 ): string {
   const state: ChangeViewState = objToState({
     ...obj,
@@ -229,7 +229,7 @@ export function createChangeUrl(
 }
 
 export function createDiffUrl(
-  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>,
 ): string {
   const state: ChangeViewState = objToState({
     ...obj,
@@ -270,7 +270,7 @@ export function createDiffUrl(
 }
 
 export function createEditUrl(
-  obj: Omit<ChangeViewState, 'view' | 'childView'>
+  obj: Omit<ChangeViewState, 'view' | 'childView'>,
 ): string {
   const state: ChangeViewState = objToState({
     ...obj,
@@ -309,12 +309,12 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly basePatchNum$ = select(
     this.state$,
-    state => state?.basePatchNum
+    state => state?.basePatchNum,
   );
 
   public readonly openReplyDialog$ = select(
     this.state$,
-    state => state?.openReplyDialog
+    state => state?.openReplyDialog,
   );
 
   public readonly commentId$ = select(this.state$, state => state?.commentId);
@@ -323,22 +323,22 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly editPath$ = select(
     this.state$,
-    state => state?.editView?.path
+    state => state?.editView?.path,
   );
 
   public readonly diffPath$ = select(
     this.state$,
-    state => state?.diffView?.path
+    state => state?.diffView?.path,
   );
 
   public readonly diffLine$ = select(
     this.state$,
-    state => state?.diffView?.lineNum
+    state => state?.diffView?.lineNum,
   );
 
   public readonly diffLeftSide$ = select(
     this.state$,
-    state => state?.diffView?.leftSide ?? false
+    state => state?.diffView?.leftSide ?? false,
   );
 
   public readonly childView$ = select(this.state$, state => state?.childView);
@@ -364,12 +364,12 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly checksResultsFilter$ = select(
     this.state$,
-    state => state?.checksResultsFilter ?? ''
+    state => state?.checksResultsFilter ?? '',
   );
 
   public readonly checksRunsSelected$ = select(
     this.state$,
-    state => state?.checksRunsSelected ?? new Set<string>()
+    state => state?.checksRunsSelected ?? new Set<string>(),
   );
 
   constructor() {

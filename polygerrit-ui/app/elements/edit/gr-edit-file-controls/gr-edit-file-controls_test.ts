@@ -19,7 +19,7 @@ suite('gr-edit-file-controls tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-edit-file-controls></gr-edit-file-controls>`
+      html`<gr-edit-file-controls></gr-edit-file-controls>`,
     );
     fileActionHandler = sinon.stub();
     element.addEventListener('file-action-tap', fileActionHandler);
@@ -33,7 +33,7 @@ suite('gr-edit-file-controls tests', () => {
         <gr-dropdown down-arrow="" id="actions" link="" vertical-offset="20">
           Actions
         </gr-dropdown>
-      `
+      `,
     );
   });
 
@@ -60,7 +60,7 @@ suite('gr-edit-file-controls tests', () => {
 
     const row = queryAndAssert<HTMLSpanElement>(
       actions,
-      'li [data-id="delete"]'
+      'li [data-id="delete"]',
     );
     row.click();
     assert.isTrue(fileActionHandler.called);
@@ -78,7 +78,7 @@ suite('gr-edit-file-controls tests', () => {
 
     const row = queryAndAssert<HTMLSpanElement>(
       actions,
-      'li [data-id="restore"]'
+      'li [data-id="restore"]',
     );
     row.click();
     assert.isTrue(fileActionHandler.called);
@@ -96,7 +96,7 @@ suite('gr-edit-file-controls tests', () => {
 
     const row = queryAndAssert<HTMLSpanElement>(
       actions,
-      'li [data-id="rename"]'
+      'li [data-id="rename"]',
     );
     row.click();
     assert.isTrue(fileActionHandler.called);

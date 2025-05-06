@@ -29,7 +29,7 @@ suite('gr-autocomplete-dropdown', () => {
 
     setup(async () => {
       element = await fixture(
-        html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`
+        html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`,
       );
       element.open();
       element.suggestions = [
@@ -78,7 +78,7 @@ suite('gr-autocomplete-dropdown', () => {
               </li>
             </ul>
           </div>
-        `
+        `,
       );
     });
 
@@ -186,7 +186,7 @@ suite('gr-autocomplete-dropdown', () => {
 
     setup(async () => {
       element = await fixture(
-        html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`
+        html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`,
       );
       element.open();
       element.queryStatus = {
@@ -216,7 +216,7 @@ suite('gr-autocomplete-dropdown', () => {
               </li>
             </ul>
           </div>
-        `
+        `,
       );
     });
 
@@ -241,7 +241,7 @@ suite('gr-autocomplete-dropdown', () => {
               </li>
             </ul>
           </div>
-        `
+        `,
       );
     });
 

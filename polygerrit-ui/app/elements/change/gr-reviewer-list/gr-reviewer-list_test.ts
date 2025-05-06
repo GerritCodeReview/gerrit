@@ -59,7 +59,7 @@ suite('gr-reviewer-list tests', () => {
             and 0 more
           </gr-button>
         </div>
-      `
+      `,
     );
   });
 
@@ -68,14 +68,14 @@ suite('gr-reviewer-list tests', () => {
     await element.updateComplete;
 
     assert.isTrue(
-      queryAndAssert(element, '.controlsContainer').hasAttribute('hidden')
+      queryAndAssert(element, '.controlsContainer').hasAttribute('hidden'),
     );
 
     element.mutable = true;
     await element.updateComplete;
 
     assert.isFalse(
-      queryAndAssert(element, '.controlsContainer').hasAttribute('hidden')
+      queryAndAssert(element, '.controlsContainer').hasAttribute('hidden'),
     );
   });
 
@@ -250,7 +250,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(displayedReviewers.length, 6);
     assert.equal(element.reviewers.length, 9);
     assert.isFalse(
-      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
+      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden,
     );
   });
 
@@ -303,7 +303,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(displayedReviewers.length, 8);
     assert.equal(element.reviewers.length, 10);
     assert.isFalse(
-      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
+      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden,
     );
   });
 
@@ -335,7 +335,7 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(displayedReviewers.length, 6);
     assert.equal(element.reviewers.length, 100);
     assert.isFalse(
-      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
+      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden,
     );
 
     queryAndAssert<GrButton>(element, '.hiddenReviewers').click();

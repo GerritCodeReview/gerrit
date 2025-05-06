@@ -20,7 +20,7 @@ export function createSettingsUrl() {
 }
 
 export const settingsViewModelToken = define<SettingsViewModel>(
-  'settings-view-model'
+  'settings-view-model',
 );
 
 export class SettingsViewModel extends Model<SettingsViewState | undefined> {

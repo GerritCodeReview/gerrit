@@ -115,7 +115,7 @@ export class GrDateFormatter extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().preferences$,
-      prefs => this.setPreferences(prefs)
+      prefs => this.setPreferences(prefs),
     );
   }
 

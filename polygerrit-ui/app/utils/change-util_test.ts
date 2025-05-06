@@ -47,7 +47,7 @@ suite('change-util tests', () => {
   test('changeBaseURL', () => {
     assert.deepEqual(
       changeBaseURL('test/project', 1 as NumericChangeId, '2' as PatchSetNum),
-      '/r/changes/test%2Fproject~1/revisions/2'
+      '/r/changes/test%2Fproject~1/revisions/2',
     );
   });
 
@@ -137,14 +137,14 @@ suite('change-util tests', () => {
         revertingChangeStatus: ChangeStatus.NEW,
         mergeable: true,
       }),
-      [ChangeStates.MERGED, ChangeStates.REVERT_CREATED]
+      [ChangeStates.MERGED, ChangeStates.REVERT_CREATED],
     );
     assert.deepEqual(
       changeStatuses(change, {
         revertingChangeStatus: ChangeStatus.MERGED,
         mergeable: true,
       }),
-      [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED]
+      [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED],
     );
   });
 
@@ -308,13 +308,13 @@ suite('change-util tests', () => {
   test('listChangesOptionsToHex', () => {
     const changeActionsHex = listChangesOptionsToHex(
       ListChangesOption.MESSAGES,
-      ListChangesOption.ALL_REVISIONS
+      ListChangesOption.ALL_REVISIONS,
     );
     assert.equal(changeActionsHex, '204');
     const dashboardHex = listChangesOptionsToHex(
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
-      ListChangesOption.SUBMIT_REQUIREMENTS
+      ListChangesOption.SUBMIT_REQUIREMENTS,
     );
     assert.equal(dashboardHex, '1000081');
   });

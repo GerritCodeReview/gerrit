@@ -76,11 +76,11 @@ suite('gr-diff-selection', () => {
     mouseDown(lineNumberEl);
     assert.isTrue(
       diffTable.classList.contains('selected-left'),
-      'adds selected-left'
+      'adds selected-left',
     );
     assert.isFalse(
       diffTable.classList.contains('selected-right'),
-      'removes selected-right'
+      'removes selected-right',
     );
   });
 
@@ -91,11 +91,11 @@ suite('gr-diff-selection', () => {
     mouseDown(lineNumberEl);
     assert.isTrue(
       diffTable.classList.contains('selected-right'),
-      'adds selected-right'
+      'adds selected-right',
     );
     assert.isFalse(
       diffTable.classList.contains('selected-left'),
-      'removes selected-left'
+      'removes selected-left',
     );
   });
 
@@ -107,11 +107,11 @@ suite('gr-diff-selection', () => {
     mouseDown(blameDiv);
     assert.isTrue(
       diffTable.classList.contains('selected-blame'),
-      'adds selected-right'
+      'adds selected-right',
     );
     assert.isFalse(
       diffTable.classList.contains('selected-left'),
-      'removes selected-left'
+      'removes selected-left',
     );
   });
 
@@ -146,7 +146,7 @@ suite('gr-diff-selection', () => {
     const event = emulateCopyOn(diffTable.querySelector('div.contentText'));
     assert.deepEqual(
       ['Text', 'the text'],
-      event.clipboardData.setData.lastCall.args
+      event.clipboardData.setData.lastCall.args,
     );
   });
 

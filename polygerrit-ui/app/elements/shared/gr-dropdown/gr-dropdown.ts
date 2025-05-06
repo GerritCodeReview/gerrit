@@ -464,7 +464,7 @@ export class GrDropdown extends LitElement {
     assertIsDefined(this.dropdown);
     if (this.items && this.items.length > 0 && this.dropdown?.opened) {
       this.cursor.stops = Array.from(
-        this.shadowRoot?.querySelectorAll('li') ?? []
+        this.shadowRoot?.querySelectorAll('li') ?? [],
       );
     }
   }

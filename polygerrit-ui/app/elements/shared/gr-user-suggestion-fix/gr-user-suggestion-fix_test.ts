@@ -29,8 +29,8 @@ suite('gr-user-suggestion-fix tests', () => {
         wrapInProvider(
           html` <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix> `,
           commentModelToken,
-          commentModel
-        )
+          commentModel,
+        ),
       )
     ).querySelector<GrUserSuggestionsFix>('gr-user-suggestion-fix')!;
     await element.updateComplete;
@@ -82,7 +82,7 @@ suite('gr-user-suggestion-fix tests', () => {
             >
           </div>
         </div>
-        <gr-suggestion-diff-preview></gr-suggestion-diff-preview>`
+        <gr-suggestion-diff-preview></gr-suggestion-diff-preview>`,
     );
   });
 });

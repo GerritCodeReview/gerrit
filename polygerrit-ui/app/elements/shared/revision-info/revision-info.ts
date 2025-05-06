@@ -29,7 +29,7 @@ export class RevisionInfo {
     }
     return Object.values(this.change.revisions).reduce(
       (acc, rev) => Math.max(!rev.commit ? 0 : rev.commit.parents.length, acc),
-      0
+      0,
     );
   }
 
@@ -67,7 +67,7 @@ export class RevisionInfo {
   getParentId(patchNum: PatchSetNum, parentIndex: number) {
     if (!this.change.revisions) return;
     const rev = Object.values(this.change.revisions).find(
-      rev => rev._number === patchNum
+      rev => rev._number === patchNum,
     );
     if (!rev || !rev.commit) return;
     return rev.commit.parents[parentIndex].commit;

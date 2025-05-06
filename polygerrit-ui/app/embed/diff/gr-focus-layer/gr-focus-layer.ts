@@ -81,7 +81,7 @@ export class GrFocusLayer implements DiffLayer {
     textEl: HTMLElement,
     lineNumberEl: HTMLElement,
     _line: GrDiffLine,
-    side: Side
+    side: Side,
   ) {
     this.annotated = true;
     if (!lineNumberEl || !textEl || !this.diffRangesToFocus) {
@@ -104,7 +104,7 @@ export class GrFocusLayer implements DiffLayer {
     if (
       !focusedRanges.some(
         range =>
-          elementLineNumber >= range.start && elementLineNumber <= range.end
+          elementLineNumber >= range.start && elementLineNumber <= range.end,
       )
     ) {
       textEl.classList.add('is-out-of-focus-range');

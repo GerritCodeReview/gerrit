@@ -31,13 +31,13 @@ export class GrDomHooksManager {
 
   getDomHook<T extends PluginElement>(
     endpointName: string,
-    moduleName?: string
+    moduleName?: string,
   ): HookApi<T> {
     const hookName = this._getHookName(endpointName, moduleName);
     if (!this.hooks[hookName]) {
       this.hooks[hookName] = new GrDomHook<T>(
         hookName,
-        moduleName
+        moduleName,
       ) as unknown as GrDomHook<PluginElement>;
     }
     return this.hooks[hookName] as unknown as GrDomHook<T>;

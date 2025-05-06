@@ -54,7 +54,7 @@ suite('change view state tests', () => {
 
     assert.equal(
       createChangeUrl(state),
-      '/c/test-project/+/42?checksRunsSelected=asdf'
+      '/c/test-project/+/42?checksRunsSelected=asdf',
     );
   });
 
@@ -66,7 +66,7 @@ suite('change view state tests', () => {
 
     assert.equal(
       createChangeUrl(state),
-      '/c/test-project/+/42?checksResultsFilter=asdf.*qwer'
+      '/c/test-project/+/42?checksResultsFilter=asdf.*qwer',
     );
   });
 
@@ -97,7 +97,7 @@ suite('change view state tests', () => {
     test('basic', () => {
       assert.equal(
         createDiffUrl(params),
-        '/c/test-project/+/42/12/x%252By/path.cpp'
+        '/c/test-project/+/42/12/x%252By/path.cpp',
       );
     });
 
@@ -110,7 +110,7 @@ suite('change view state tests', () => {
       params.checksPatchset = 4 as PatchSetNumber;
       assert.equal(
         createDiffUrl(params),
-        '/c/test-project/+/42/12/x%252By/path.cpp?checksPatchset=4'
+        '/c/test-project/+/42/12/x%252By/path.cpp?checksPatchset=4',
       );
     });
 
@@ -118,7 +118,7 @@ suite('change view state tests', () => {
       params.basePatchNum = 6 as BasePatchSetNum;
       assert.equal(
         createDiffUrl(params),
-        '/c/test-project/+/42/6..12/x%252By/path.cpp'
+        '/c/test-project/+/42/6..12/x%252By/path.cpp',
       );
     });
 
@@ -130,7 +130,7 @@ suite('change view state tests', () => {
       delete params.basePatchNum;
       assert.equal(
         createDiffUrl(params),
-        '/c/test-project/+/42/2/foo+bar/my%252Bfile.txt%2525'
+        '/c/test-project/+/42/2/foo+bar/my%252Bfile.txt%2525',
       );
     });
 
@@ -141,7 +141,7 @@ suite('change view state tests', () => {
       };
       assert.equal(
         createDiffUrl(params),
-        '/c/test-project/+/42/12/file.cpp#123'
+        '/c/test-project/+/42/12/file.cpp#123',
       );
     });
 
@@ -153,7 +153,7 @@ suite('change view state tests', () => {
       };
       assert.equal(
         createDiffUrl(params),
-        '/c/test-project/+/42/12/file.cpp#b123'
+        '/c/test-project/+/42/12/file.cpp#b123',
       );
     });
 
@@ -166,7 +166,7 @@ suite('change view state tests', () => {
       };
       assert.equal(
         createDiffUrl(params),
-        '/c/x%252B/y/+/42/12/x%252By/path.cpp'
+        '/c/x%252B/y/+/42/12/x%252By/path.cpp',
       );
     });
   });
@@ -179,7 +179,7 @@ suite('change view state tests', () => {
     };
     assert.equal(
       createEditUrl(params),
-      '/c/test-project/+/42/12/x%252By/path.cpp,edit#31'
+      '/c/test-project/+/42/12/x%252By/path.cpp,edit#31',
     );
 
     window.CANONICAL_PATH = '/base';

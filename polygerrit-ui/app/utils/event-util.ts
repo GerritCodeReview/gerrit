@@ -15,19 +15,19 @@ type DocumentEventDetailType<K extends keyof DocumentEventMap> =
 export function fire<K extends keyof DocumentEventMap>(
   target: Document | undefined,
   type: K,
-  detail: DocumentEventDetailType<K>
+  detail: DocumentEventDetailType<K>,
 ): void;
 
 export function fire<K extends keyof HTMLElementEventMap>(
   target: EventTarget | undefined,
   type: K,
-  detail: HTMLElementEventDetailType<K>
+  detail: HTMLElementEventDetailType<K>,
 ): void;
 
 export function fire<T>(
   target: EventTarget | undefined,
   type: string,
-  detail: T
+  detail: T,
 ) {
   if (!target) return;
   target.dispatchEvent(
@@ -35,35 +35,35 @@ export function fire<T>(
       detail,
       composed: true,
       bubbles: true,
-    })
+    }),
   );
 }
 
 export function fireNoBubble<K extends keyof HTMLElementEventMap, T>(
   target: EventTarget,
   type: K,
-  detail: T
+  detail: T,
 ) {
   target.dispatchEvent(
     new CustomEvent<T>(type, {
       detail,
       composed: true,
       bubbles: false,
-    })
+    }),
   );
 }
 
 export function fireNoBubbleNoCompose<K extends keyof HTMLElementEventMap, T>(
   target: EventTarget,
   type: K,
-  detail: T
+  detail: T,
 ) {
   target.dispatchEvent(
     new CustomEvent<T>(type, {
       detail,
       composed: false,
       bubbles: false,
-    })
+    }),
   );
 }
 
@@ -103,7 +103,7 @@ export function fireShowTab(
   target: EventTarget,
   tab: string,
   scrollIntoView?: boolean,
-  tabState?: TabState
+  tabState?: TabState,
 ) {
   const detail: SwitchTabEventDetail = {tab, scrollIntoView, tabState};
   fire(target, 'show-tab', detail);
@@ -115,7 +115,7 @@ export function fireReload(target: EventTarget) {
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(
   el: EventTarget,
-  eventName: K
+  eventName: K,
 ): Promise<HTMLElementEventMap[K]> {
   return new Promise<HTMLElementEventMap[K]>(resolve => {
     const callback = (event: HTMLElementEventMap[K]) => {

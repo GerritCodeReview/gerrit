@@ -78,7 +78,7 @@ export class GrUserHeader extends LitElement {
           <gr-date-formatter
             dateStr=${this._computeDetail(
               this._accountDetails,
-              'registered_on'
+              'registered_on',
             )}
           >
           </gr-date-formatter>
@@ -97,7 +97,7 @@ export class GrUserHeader extends LitElement {
         <div
           class=${this._computeDashboardLinkClass(
             this.showDashboardLink,
-            this.loggedIn
+            this.loggedIn,
           )}
         >
           <a href=${this._computeDashboardUrl(this._accountDetails)}
@@ -130,7 +130,7 @@ export class GrUserHeader extends LitElement {
 
   _computeDetail(
     accountDetails: AccountDetailInfo | undefined,
-    name: keyof AccountDetailInfo
+    name: keyof AccountDetailInfo,
   ) {
     return accountDetails ? String(accountDetails[name]) : '';
   }

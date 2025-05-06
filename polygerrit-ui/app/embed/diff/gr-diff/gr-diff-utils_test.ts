@@ -53,12 +53,12 @@ suite('gr-diff-utils tests', () => {
     test('computeContext FULL_CONTEXT', () => {
       assert.equal(
         computeContext(FULL_CONTEXT, FullContext.YES, 2),
-        FULL_CONTEXT
+        FULL_CONTEXT,
       );
       assert.equal(computeContext(FULL_CONTEXT, FullContext.NO, 2), 2);
       assert.equal(
         computeContext(FULL_CONTEXT, FullContext.UNDECIDED, 2),
-        FULL_CONTEXT
+        FULL_CONTEXT,
       );
     });
   });
@@ -68,16 +68,16 @@ suite('gr-diff-utils tests', () => {
       assert.equal(
         computeLineLength(
           {...createDefaultDiffPrefs(), line_length: 1},
-          'a.txt'
+          'a.txt',
         ),
-        1
+        1,
       );
       assert.equal(
         computeLineLength(
           {...createDefaultDiffPrefs(), line_length: 1},
-          undefined
+          undefined,
         ),
-        1
+        1,
       );
     });
 
@@ -85,9 +85,9 @@ suite('gr-diff-utils tests', () => {
       assert.equal(
         computeLineLength(
           {...createDefaultDiffPrefs(), line_length: 1},
-          '/COMMIT_MSG'
+          '/COMMIT_MSG',
         ),
-        72
+        72,
       );
     });
   });
@@ -137,7 +137,7 @@ suite('gr-diff-utils tests', () => {
   suite('toCommentThreadModel', () => {
     test('simple example', () => {
       const el = document.createElement(
-        'div'
+        'div',
       ) as unknown as GrDiffThreadElement;
       el.className = 'comment-thread';
       el.setAttribute('diff-side', 'left');
@@ -154,7 +154,7 @@ suite('gr-diff-utils tests', () => {
 
     test('FILE default', () => {
       const el = document.createElement(
-        'div'
+        'div',
       ) as unknown as GrDiffThreadElement;
       el.className = 'comment-thread';
       el.setAttribute('diff-side', 'left');
@@ -170,7 +170,7 @@ suite('gr-diff-utils tests', () => {
 
     test('undefined', () => {
       const el = document.createElement(
-        'div'
+        'div',
       ) as unknown as GrDiffThreadElement;
       assert.isUndefined(getDataFromCommentThreadEl(el));
       el.className = 'comment-thread';
@@ -234,7 +234,7 @@ suite('gr-diff-utils tests', () => {
       ];
       assert.sameOrderedMembers(
         comments.sort(compareComments),
-        commentsOrdered
+        commentsOrdered,
       );
     });
   });

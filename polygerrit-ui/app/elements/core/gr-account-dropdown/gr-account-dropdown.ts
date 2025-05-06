@@ -72,7 +72,7 @@ export class GrAccountDropdown extends LitElement {
           this.switchAccountUrl = '';
         }
         this.hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      }
+      },
     );
   }
 
@@ -183,7 +183,7 @@ export class GrAccountDropdown extends LitElement {
   interpolateUrl(url: string, replacements: {[key: string]: string}) {
     return url.replace(
       INTERPOLATE_URL_PATTERN,
-      (_, p1) => replacements[p1] || ''
+      (_, p1) => replacements[p1] || '',
     );
   }
 

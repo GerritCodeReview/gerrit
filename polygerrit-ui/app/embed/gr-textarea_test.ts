@@ -64,7 +64,7 @@ suite('gr-textarea test', () => {
     await element.updateComplete;
 
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     await element.updateComplete;
 
@@ -82,7 +82,7 @@ suite('gr-textarea test', () => {
 
     const changeEventPromise = waitForEventOnce(element, INPUT_EVENT);
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
 
     editableDiv.innerText = value;
@@ -107,7 +107,7 @@ suite('gr-textarea test', () => {
 
     const cursorPositionChangeEventPromise = waitForEventOnce(
       element,
-      CURSOR_POSITION_CHANGE_EVENT
+      CURSOR_POSITION_CHANGE_EVENT,
     );
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
@@ -127,7 +127,7 @@ suite('gr-textarea test', () => {
 
     const cursorPositionChangeEventPromise = waitForEventOnce(
       element,
-      CURSOR_POSITION_CHANGE_EVENT
+      CURSOR_POSITION_CHANGE_EVENT,
     );
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
@@ -149,7 +149,7 @@ suite('gr-textarea test', () => {
 
     const cursorPositionChangeEventPromise = waitForEventOnce(
       element,
-      CURSOR_POSITION_CHANGE_EVENT
+      CURSOR_POSITION_CHANGE_EVENT,
     );
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
@@ -167,7 +167,7 @@ suite('gr-textarea test', () => {
 
   test('when textarea is empty, placeholder hint is shown', async () => {
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     const placeholderHint = 'Some value';
 
@@ -179,7 +179,7 @@ suite('gr-textarea test', () => {
 
   test('when TAB is pressed, placeholder hint is added as content', async () => {
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     const placeholderHint = 'Some value';
 
@@ -193,7 +193,7 @@ suite('gr-textarea test', () => {
 
   test('when cursor is at end, hint is shown', async () => {
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     const oldValue = 'Hola';
     const hint = 'amigos';
@@ -208,7 +208,7 @@ suite('gr-textarea test', () => {
     await rafPromise();
 
     const spanHintElement = editableDiv?.querySelector(
-      '.' + AUTOCOMPLETE_HINT_CLASS
+      '.' + AUTOCOMPLETE_HINT_CLASS,
     ) as HTMLSpanElement;
     const styles = window.getComputedStyle(spanHintElement, ':before');
     assert.equal(styles['content'], '"' + hint + '"');
@@ -216,7 +216,7 @@ suite('gr-textarea test', () => {
 
   test('when TAB is pressed, hint is added as content', async () => {
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     const oldValue = 'Hola';
     const hint = 'amigos';
@@ -238,7 +238,7 @@ suite('gr-textarea test', () => {
     let cursorPosition = -1;
     const value = 'Hola amigos';
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
@@ -251,7 +251,7 @@ suite('gr-textarea test', () => {
     await element.updateComplete;
 
     editableDiv.dispatchEvent(
-      new KeyboardEvent('keydown', {key: 'ArrowRight', metaKey: true})
+      new KeyboardEvent('keydown', {key: 'ArrowRight', metaKey: true}),
     );
     await element.updateComplete;
     await rafPromise();
@@ -264,7 +264,7 @@ suite('gr-textarea test', () => {
     let cursorPosition = -1;
     const value = 'Hola amigos';
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
@@ -277,7 +277,7 @@ suite('gr-textarea test', () => {
     await element.updateComplete;
 
     editableDiv.dispatchEvent(
-      new KeyboardEvent('keydown', {key: 'ArrowLeft', metaKey: true})
+      new KeyboardEvent('keydown', {key: 'ArrowLeft', metaKey: true}),
     );
     await element.updateComplete;
     await rafPromise();
@@ -287,7 +287,7 @@ suite('gr-textarea test', () => {
 
   test('when TAB is pressed inside a code snippet, a tab is added', async () => {
     const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
+      '.editableDiv',
     ) as HTMLDivElement;
     const textContent = 'Some text\n```\ncode snippet\n```\nMore text';
 

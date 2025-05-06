@@ -83,27 +83,27 @@ export class GrFixSuggestions extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
+      x => (this.latestPatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().isOwner$,
-      x => (this.isOwner = x)
+      x => (this.isOwner = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED),
     );
     subscribe(
       this,
       () => this.getChangeModel().status$,
-      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED),
     );
   }
 
@@ -121,7 +121,7 @@ export class GrFixSuggestions extends LitElement {
     if (this.comment?.id) {
       const generateSuggestionStoredContent =
         this.getStorage().getEditableContentItem(
-          COLLAPSE_SUGGESTION_STORAGE_KEY + this.comment.id
+          COLLAPSE_SUGGESTION_STORAGE_KEY + this.comment.id,
         );
       if (generateSuggestionStoredContent?.message === 'true') {
         this.collapsed = true;
@@ -183,12 +183,12 @@ export class GrFixSuggestions extends LitElement {
         <div class="title">
           <span
             >${this.suggestionsProvider?.getFixSuggestionTitle?.(
-              fix_suggestions
+              fix_suggestions,
             ) || 'Suggested edit'}</span
           >
           <a
             href=${this.suggestionsProvider?.getDocumentationLink?.(
-              fix_suggestions
+              fix_suggestions,
             ) || getDocUrl(this.docsBaseUrl, 'user-suggest-edits.html')}
             target="_blank"
             rel="noopener noreferrer"
@@ -225,7 +225,7 @@ export class GrFixSuggestions extends LitElement {
                 .title=${this.computeApplyEditTooltip()}
               >
                 Apply Edit
-              </gr-button>`
+              </gr-button>`,
           )}
           ${this.renderToggle()}
         </div>
@@ -252,17 +252,17 @@ export class GrFixSuggestions extends LitElement {
               this.collapsed = !this.collapsed;
               if (this.collapsed) {
                 this.reporting.reportInteraction(
-                  Interaction.GENERATE_SUGGESTION_COLLAPSED
+                  Interaction.GENERATE_SUGGESTION_COLLAPSED,
                 );
               } else {
                 this.reporting.reportInteraction(
-                  Interaction.GENERATE_SUGGESTION_EXPANDED
+                  Interaction.GENERATE_SUGGESTION_EXPANDED,
                 );
               }
               if (this.comment?.id) {
                 this.getStorage().setEditableContentItem(
                   COLLAPSE_SUGGESTION_STORAGE_KEY + this.comment.id,
-                  this.collapsed.toString()
+                  this.collapsed.toString(),
                 );
               }
             }}

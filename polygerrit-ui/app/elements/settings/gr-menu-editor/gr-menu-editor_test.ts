@@ -19,7 +19,7 @@ suite('gr-menu-editor tests', () => {
 
   function assertMenuNamesEqual(
     element: GrMenuEditor,
-    expected: Array<string>
+    expected: Array<string>,
   ) {
     const names = element.menuItems.map(i => i.name);
     assert.equal(names.length, expected.length);
@@ -35,14 +35,14 @@ suite('gr-menu-editor tests', () => {
 
     const button = query<PaperButtonElement>(
       query<HTMLElement>(query<HTMLTableElement>(element, 'tbody'), selector),
-      'paper-button'
+      'paper-button',
     );
     button!.click();
   }
 
   setup(async () => {
     element = await fixture<GrMenuEditor>(
-      html`<gr-menu-editor></gr-menu-editor>`
+      html`<gr-menu-editor></gr-menu-editor>`,
     );
     menu = [
       {url: '/first/url', name: 'first name', target: '_blank'},
@@ -239,7 +239,7 @@ suite('gr-menu-editor tests', () => {
             </gr-button>
           </fieldset>
         </div>
-      `
+      `,
     );
   });
 
@@ -336,9 +336,9 @@ suite('gr-menu-editor tests', () => {
     query<PaperButtonElement>(
       query<HTMLElement>(
         query<HTMLTableElement>(element, 'tbody'),
-        'tr:nth-child(2) .remove-button'
+        'tr:nth-child(2) .remove-button',
       ),
-      'paper-button'
+      'paper-button',
     )!.click();
 
     assertMenuNamesEqual(element, ['first name', 'third name']);
@@ -348,9 +348,9 @@ suite('gr-menu-editor tests', () => {
       query<PaperButtonElement>(
         query<HTMLElement>(
           query<HTMLTableElement>(element, 'tbody'),
-          'tr:first-child .remove-button'
+          'tr:first-child .remove-button',
         ),
-        'paper-button'
+        'paper-button',
       )!.click();
     }
     assertMenuNamesEqual(element, []);

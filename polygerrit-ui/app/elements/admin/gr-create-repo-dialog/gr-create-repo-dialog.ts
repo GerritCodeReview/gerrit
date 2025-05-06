@@ -89,9 +89,9 @@ export class GrCreateRepoDialog extends LitElement {
       () => this.configModel().serverConfig$,
       config => {
         this.defaultBranch = branchName(
-          config?.gerrit?.default_branch ?? 'master'
+          config?.gerrit?.default_branch ?? 'master',
         );
-      }
+      },
     );
   }
 
@@ -276,7 +276,7 @@ It will only have a 'refs/meta/config' branch."
       this.repoConfig.branches = [this.selectedDefaultBranch];
     if (this.repoOwnerId) this.repoConfig.owners = [this.repoOwnerId];
     const repoRegistered = await this.restApiService.createRepo(
-      this.repoConfig
+      this.repoConfig,
     );
     if (repoRegistered.status === 201) {
       this.repoCreated = true;
@@ -289,7 +289,7 @@ It will only have a 'refs/meta/config' branch."
     const response = await this.restApiService.getSuggestedRepos(
       input,
       /* n=*/ undefined,
-      throwingErrorCallback
+      throwingErrorCallback,
     );
 
     const repos = [];
@@ -304,7 +304,7 @@ It will only have a 'refs/meta/config' branch."
       input,
       /* project=*/ undefined,
       /* n=*/ undefined,
-      throwingErrorCallback
+      throwingErrorCallback,
     );
 
     const groups = [];
@@ -344,7 +344,7 @@ It will only have a 'refs/meta/config' branch."
   }
 
   private handleCreateEmptyCommitBindValueChanged(
-    e: ValueChangedEvent<string>
+    e: ValueChangedEvent<string>,
   ) {
     this.repoConfig = {
       ...this.repoConfig,

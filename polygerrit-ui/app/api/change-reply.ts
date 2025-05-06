@@ -15,7 +15,7 @@ export declare interface ValueChangedDetail {
 export type ReplyChangedCallback = (text: string, change?: ChangeInfo) => void;
 export type LabelsChangedCallback = (
   detail: LabelsChangedDetail,
-  change?: ChangeInfo
+  change?: ChangeInfo,
 ) => void;
 
 export declare interface ChangeReplyPluginApi {

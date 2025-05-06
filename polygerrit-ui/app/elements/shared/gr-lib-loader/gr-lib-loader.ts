@@ -42,7 +42,7 @@ export class GrLibLoader {
           ? Promise.resolve()
           : this._loadScript(this._getPath(config.src));
       const configured = loaded.then(() =>
-        config.configureCallback ? config.configureCallback() : undefined
+        config.configureCallback ? config.configureCallback() : undefined,
       );
       this.libraries.set(config, configured);
     }

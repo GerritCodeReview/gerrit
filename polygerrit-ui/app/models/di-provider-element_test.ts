@@ -31,7 +31,7 @@ class ConsumerElement extends LitElement {
     subscribe(
       this,
       () => this.getModel(),
-      value => (this.injectedValue = value)
+      value => (this.injectedValue = value),
     );
   }
 
@@ -53,8 +53,8 @@ suite('di-provider-element', () => {
         wrapInProvider(
           html`<consumer-element></consumer-element>`,
           modelToken,
-          injectedModel
-        )
+          injectedModel,
+        ),
       )
     ).element as ConsumerElement;
   });

@@ -73,7 +73,7 @@ export declare interface ChangeActionsPluginApi {
   setActionPriority(
     type: ActionType,
     key: string,
-    priority: ActionPriority
+    priority: ActionPriority,
   ): void;
 
   setActionHidden(type: ActionType, key: string, hidden: boolean): void;
@@ -84,12 +84,12 @@ export declare interface ChangeActionsPluginApi {
 
   addTapListener(
     key: string,
-    handler: EventListenerOrEventListenerObject
+    handler: EventListenerOrEventListenerObject,
   ): void;
 
   removeTapListener(
     key: string,
-    handler: EventListenerOrEventListenerObject
+    handler: EventListenerOrEventListenerObject,
   ): void;
 
   setLabel(key: string, text: string): void;

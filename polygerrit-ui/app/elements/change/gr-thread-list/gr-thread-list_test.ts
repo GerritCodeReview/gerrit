@@ -307,7 +307,7 @@ suite('gr-thread-list tests', () => {
         },
         {
           ...createThread(
-            createComment({path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS})
+            createComment({path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS}),
           ),
           path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
         },
@@ -315,7 +315,7 @@ suite('gr-thread-list tests', () => {
       await element.updateComplete;
 
       const paths = Array.from(
-        queryAll<GrCommentThread>(element, 'gr-comment-thread')
+        queryAll<GrCommentThread>(element, 'gr-comment-thread'),
       ).map(threadElement => threadElement.thread?.path);
 
       // Patchset comment is always first, then we have a special case where .h
@@ -417,7 +417,7 @@ suite('gr-thread-list tests', () => {
             show-file-path=""
           ></gr-comment-thread>
         </div>
-      `
+      `,
     );
   });
 
@@ -430,7 +430,7 @@ suite('gr-thread-list tests', () => {
         <div id="threads" part="threads">
           <div><span>No comments</span></div>
         </div>
-      `
+      `,
     );
   });
 
@@ -438,7 +438,7 @@ suite('gr-thread-list tests', () => {
     element.account = createAccountDetailWithId(1);
     await element.updateComplete;
     const chips = Array.from(
-      queryAll<GrAccountLabel>(element, 'gr-account-label')
+      queryAll<GrAccountLabel>(element, 'gr-account-label'),
     );
     const authors = chips.map(chip => getUserId(chip.account!)).sort();
     assert.deepEqual(authors, [
@@ -459,7 +459,7 @@ suite('gr-thread-list tests', () => {
     assert.equal(element.getDisplayedThreads().length, 1);
     assert.equal(
       element.getDisplayedThreads()[0].comments[0].author?._account_id,
-      1000001 as AccountId
+      1000001 as AccountId,
     );
 
     chip!.click();
@@ -473,7 +473,7 @@ suite('gr-thread-list tests', () => {
     element.threads = [createThread(createDraft())];
     await element.updateComplete;
     const chips = Array.from(
-      queryAll<GrAccountLabel>(element, 'gr-account-label')
+      queryAll<GrAccountLabel>(element, 'gr-account-label'),
     );
     const authors = chips.map(chip => getUserId(chip.account!)).sort();
     assert.deepEqual(authors, [1 as AccountId]);
@@ -498,7 +498,7 @@ suite('gr-thread-list tests', () => {
     element.account = createAccountDetailWithId(1);
     await element.updateComplete;
     const chips = Array.from(
-      queryAll<GrAccountLabel>(element, 'gr-account-label')
+      queryAll<GrAccountLabel>(element, 'gr-account-label'),
     );
 
     chips.find(chip => chip.account?._account_id === 1000001)!.click();
@@ -509,22 +509,22 @@ suite('gr-thread-list tests', () => {
     assert.equal(element.getDisplayedThreads().length, 3);
     assert.equal(
       element.getDisplayedThreads()[0].comments[0].author?._account_id,
-      1000002 as AccountId
+      1000002 as AccountId,
     );
     assert.equal(
       element.getDisplayedThreads()[1].comments[0].author?._account_id,
-      1000002 as AccountId
+      1000002 as AccountId,
     );
     assert.equal(
       element.getDisplayedThreads()[2].comments[0].author?._account_id,
-      1000001 as AccountId
+      1000001 as AccountId,
     );
   });
 
   test('show all comments', async () => {
     const filterDropdown = queryAndAssert<GrDropdownList>(
       element,
-      '#filterDropdown'
+      '#filterDropdown',
     );
     filterDropdown.value = CommentTabState.SHOW_ALL;
     await filterDropdown.updateComplete;
@@ -535,7 +535,7 @@ suite('gr-thread-list tests', () => {
   test('unresolved shows all unresolved comments', async () => {
     const filterDropdown = queryAndAssert<GrDropdownList>(
       element,
-      '#filterDropdown'
+      '#filterDropdown',
     );
     filterDropdown.value = CommentTabState.UNRESOLVED;
     await filterDropdown.updateComplete;
@@ -546,7 +546,7 @@ suite('gr-thread-list tests', () => {
   test('toggle drafts only shows threads with draft comments', async () => {
     const filterDropdown = queryAndAssert<GrDropdownList>(
       element,
-      '#filterDropdown'
+      '#filterDropdown',
     );
     filterDropdown.value = CommentTabState.DRAFTS;
     await filterDropdown.updateComplete;
@@ -593,7 +593,7 @@ suite('gr-thread-list tests', () => {
     test('mentions filter', async () => {
       const filterDropdown = queryAndAssert<GrDropdownList>(
         element,
-        '#filterDropdown'
+        '#filterDropdown',
       );
       filterDropdown.value = CommentTabState.MENTIONS;
       await filterDropdown.updateComplete;

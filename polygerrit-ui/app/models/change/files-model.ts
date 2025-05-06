@@ -64,7 +64,7 @@ function mapToList(map?: FileNameToFileInfoMap): NormalizedFileInfo[] {
 export function addUnmodified(
   files: NormalizedFileInfo[],
   commentedPaths: string[],
-  checkResults?: RunResult[]
+  checkResults?: RunResult[],
 ) {
   const combined = [...files];
   // Add paths from comments
@@ -73,13 +73,14 @@ export function addUnmodified(
     if (files.some(f => f.__path === commentedPath)) continue;
     if (
       files.some(
-        f => f.status === FileInfoStatus.RENAMED && f.old_path === commentedPath
+        f =>
+          f.status === FileInfoStatus.RENAMED && f.old_path === commentedPath,
       )
     ) {
       continue;
     }
     combined.push(
-      normalize({status: FileInfoStatus.UNMODIFIED}, commentedPath)
+      normalize({status: FileInfoStatus.UNMODIFIED}, commentedPath),
     );
   }
 
@@ -93,7 +94,7 @@ export function addUnmodified(
         if (files.some(f => f.__path === path)) continue;
         if (
           files.some(
-            f => f.status === FileInfoStatus.RENAMED && f.old_path === path
+            f => f.status === FileInfoStatus.RENAMED && f.old_path === path,
           )
         ) {
           continue;
@@ -148,7 +149,7 @@ export class FilesModel extends Model<FilesState> {
 
   public file$ = (path$: Observable<string | undefined>) =>
     combineLatest([path$, this.files$]).pipe(
-      map(([path, files]) => files.find(f => f.__path === path))
+      map(([path, files]) => files.find(f => f.__path === path)),
     );
 
   /**
@@ -167,7 +168,7 @@ export class FilesModel extends Model<FilesState> {
     readonly commentsModel: CommentsModel,
     readonly checksModel: ChecksModel,
     readonly restApiService: RestApiService,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
   ) {
     super(initialState);
 
@@ -178,7 +179,7 @@ export class FilesModel extends Model<FilesState> {
         this.checksModel.allResults$,
       ]),
       ([files, commentedPaths, checkResults]) =>
-        addUnmodified(files, commentedPaths, checkResults)
+        addUnmodified(files, commentedPaths, checkResults),
     );
     this.filesLeftBase$ = select(this.state$, state => state.filesLeftBase);
     this.filesRightBase$ = select(this.state$, state => state.filesRightBase);
@@ -192,7 +193,7 @@ export class FilesModel extends Model<FilesState> {
         },
         files => {
           return {files: [...files]};
-        }
+        },
       ),
       this.subscribeToFiles(
         (psLeft, _) => {
@@ -202,7 +203,7 @@ export class FilesModel extends Model<FilesState> {
         },
         files => {
           return {filesLeftBase: [...files]};
-        }
+        },
       ),
       this.subscribeToFiles(
         (psLeft, psRight) => {
@@ -212,7 +213,7 @@ export class FilesModel extends Model<FilesState> {
         },
         files => {
           return {filesRightBase: [...files]};
-        }
+        },
       ),
     ];
   }
@@ -223,7 +224,7 @@ export class FilesModel extends Model<FilesState> {
         if (changeLoading) {
           this.reporting.time(Timing.CHANGE_DATA);
         }
-      }
+      },
     );
   }
 
@@ -233,16 +234,16 @@ export class FilesModel extends Model<FilesState> {
         if (!changeLoading && files.length > 0) {
           this.reporting.timeEnd(Timing.CHANGE_DATA);
         }
-      }
+      },
     );
   }
 
   private subscribeToFiles(
     rangeChooser: (
       basePatchNum: BasePatchSetNum,
-      patchNum: RevisionPatchSetNum
+      patchNum: RevisionPatchSetNum,
     ) => PatchRange | undefined,
-    filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>
+    filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>,
   ) {
     return combineLatest([
       this.changeModel.changeNum$,
@@ -255,11 +256,11 @@ export class FilesModel extends Model<FilesState> {
           const range = rangeChooser(basePatchNum, patchNum);
           if (!range) return of({});
           return from(
-            this.restApiService.getChangeOrEditFiles(changeNum, range)
+            this.restApiService.getChangeOrEditFiles(changeNum, range),
           );
         }),
         map(mapToList),
-        map(filesToState)
+        map(filesToState),
       )
       .subscribe(state => {
         this.updateState(state);

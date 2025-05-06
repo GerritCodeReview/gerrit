@@ -173,7 +173,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   constructor(
     private readonly getHighlightService: Provider<HighlightService>,
-    private readonly getReportingService: Provider<ReportingService>
+    private readonly getReportingService: Provider<ReportingService>,
   ) {}
 
   setEnabled(enabled: boolean) {
@@ -221,7 +221,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
         el,
         range.start,
         range.length,
-        CLASS_PREFIX + range.className
+        CLASS_PREFIX + range.className,
       );
     }
   }
@@ -296,7 +296,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   highlight(
     language?: string,
-    code?: string
+    code?: string,
   ): CancelablePromise<SyntaxLayerLine[]> {
     const hlPromise = this.getHighlightService().highlight(language, code);
     return makeCancelable(hlPromise);
@@ -315,7 +315,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
     const rightRangesReversed = [...this.rightRanges].reverse();
     const rightStart = this.rightRanges.findIndex(
-      line => line.ranges.length > 0
+      line => line.ranges.length > 0,
     );
     const rightEnd =
       this.rightRanges.length -

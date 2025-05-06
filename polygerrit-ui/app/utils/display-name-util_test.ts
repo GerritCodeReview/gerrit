@@ -150,7 +150,7 @@ suite('display-name-utils tests', () => {
   test('getAccountDisplayName - account with name only', () => {
     assert.equal(
       getAccountDisplayName(config, {name: 'Some user name'}),
-      'Some user name'
+      'Some user name',
     );
   });
 
@@ -159,7 +159,7 @@ suite('display-name-utils tests', () => {
       getAccountDisplayName(config, {
         email: 'my@example.com' as EmailAddress,
       }),
-      'my@example.com <my@example.com>'
+      'my@example.com <my@example.com>',
     );
   });
 
@@ -169,7 +169,7 @@ suite('display-name-utils tests', () => {
         name: 'Some name',
         status: 'OOO',
       }),
-      'Some name (OOO)'
+      'Some name (OOO)',
     );
   });
 
@@ -179,7 +179,7 @@ suite('display-name-utils tests', () => {
         name: 'Some name',
         email: 'my@example.com' as EmailAddress,
       }),
-      'Some name <my@example.com>'
+      'Some name <my@example.com>',
     );
   });
 
@@ -190,7 +190,7 @@ suite('display-name-utils tests', () => {
         email: 'my@example.com' as EmailAddress,
         status: 'OOO',
       }),
-      'Some name <my@example.com> (OOO)'
+      'Some name <my@example.com> (OOO)',
     );
   });
 
@@ -202,7 +202,7 @@ suite('display-name-utils tests', () => {
         email: 'my@example.com' as EmailAddress,
         status: 'OOO',
       }),
-      'Display Name <my@example.com> (OOO)'
+      'Display Name <my@example.com> (OOO)',
     );
   });
 
@@ -212,14 +212,14 @@ suite('display-name-utils tests', () => {
         ...createGroupInfo(),
         name: 'Some user name' as GroupName,
       }),
-      'Some user name (group)'
+      'Some user name (group)',
     );
   });
 
   test('_accountEmail', () => {
     assert.equal(
       _testOnly_accountEmail('email@gerritreview.com'),
-      '<email@gerritreview.com>'
+      '<email@gerritreview.com>',
     );
     assert.equal(_testOnly_accountEmail(undefined), '');
   });

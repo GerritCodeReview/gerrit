@@ -91,8 +91,8 @@ suite('compare-util tests', () => {
         new Map([
           [1, 'a'],
           [2, 'b'],
-        ])
-      )
+        ]),
+      ),
     );
   });
 

@@ -46,7 +46,7 @@ suite('gr-user-header tests', () => {
             <a href=""> View dashboard </a>
           </div>
         </div>
-      `
+      `,
     );
   });
 
@@ -57,7 +57,7 @@ suite('gr-user-header tests', () => {
         email: 'bar' as EmailAddress,
         status: 'OOO',
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
-      })
+      }),
     );
 
     element.userId = 10 as AccountId;

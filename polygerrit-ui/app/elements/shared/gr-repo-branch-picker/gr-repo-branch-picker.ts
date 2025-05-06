@@ -124,7 +124,7 @@ export class GrRepoBranchPicker extends LitElement {
         this.repo,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(res => this.branchResponseToSuggestions(res));
   }
@@ -146,7 +146,7 @@ export class GrRepoBranchPicker extends LitElement {
         input,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
-        throwingErrorCallback
+        throwingErrorCallback,
       )
       .then(res => this.repoResponseToSuggestions(res));
   }

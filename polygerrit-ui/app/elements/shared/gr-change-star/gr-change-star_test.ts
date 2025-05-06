@@ -33,7 +33,7 @@ suite('gr-change-star tests', () => {
         >
           <gr-icon icon="star" small filled class="active"></gr-icon>
         </button>
-      `
+      `,
     );
   });
 
@@ -52,7 +52,7 @@ suite('gr-change-star tests', () => {
         >
           <gr-icon icon="star" small></gr-icon>
         </button>
-      `
+      `,
     );
   });
 

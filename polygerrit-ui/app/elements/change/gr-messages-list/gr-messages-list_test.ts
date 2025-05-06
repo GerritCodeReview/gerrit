@@ -142,7 +142,7 @@ suite('gr-messages-list tests', () => {
 
       messages = generateRandomMessages(3);
       element = await fixture<GrMessagesList>(
-        html`<gr-messages-list></gr-messages-list>`
+        html`<gr-messages-list></gr-messages-list>`,
       );
       testResolver(changeViewModelToken).setState({
         view: GerritView.CHANGE,
@@ -174,7 +174,7 @@ suite('gr-messages-list tests', () => {
           <gr-message data-message-id="${messages[0].id}"> </gr-message>
           <gr-message data-message-id="${messages[1].id}"> </gr-message>
           <gr-message data-message-id="${messages[2].id}"> </gr-message>
-        `
+        `,
       );
     });
 
@@ -208,25 +208,25 @@ suite('gr-messages-list tests', () => {
       // Start with one expanded message. -> not all collapsed
       await element.scrollToMessage(messages[1].id);
       assert.isFalse(
-        [...getMessages()].filter(m => m.message?.expanded).length === 0
+        [...getMessages()].filter(m => m.message?.expanded).length === 0,
       );
 
       // Press 'z' -> all collapsed
       element.handleExpandCollapse(false);
       assert.isTrue(
-        [...getMessages()].filter(m => m.message?.expanded).length === 0
+        [...getMessages()].filter(m => m.message?.expanded).length === 0,
       );
 
       // Press 'x' -> all expanded
       element.handleExpandCollapse(true);
       assert.isTrue(
-        [...getMessages()].filter(m => !m.message?.expanded).length === 0
+        [...getMessages()].filter(m => !m.message?.expanded).length === 0,
       );
 
       // Press 'z' -> all collapsed
       element.handleExpandCollapse(false);
       assert.isTrue(
-        [...getMessages()].filter(m => m.message?.expanded).length === 0
+        [...getMessages()].filter(m => m.message?.expanded).length === 0,
       );
     });
 
@@ -250,7 +250,7 @@ suite('gr-messages-list tests', () => {
         assertIsDefined(message.message);
         assert.isFalse(
           message.message.expanded,
-          'expected gr-message to not be expanded'
+          'expected gr-message to not be expanded',
         );
       }
 
@@ -263,7 +263,7 @@ suite('gr-messages-list tests', () => {
       await element.scrollToMessage(messageID);
       assert.isTrue(
         queryAndAssert<GrMessage>(element, `[data-message-id="${messageID}"]`)
-          .message?.expanded
+          .message?.expanded,
       );
 
       assert.isTrue(scrollToStub.calledOnce);
@@ -288,7 +288,7 @@ suite('gr-messages-list tests', () => {
       assert.isTrue(highlightStub.calledOnce);
       assert.isTrue(
         queryAndAssert<GrMessage>(element, `[data-message-id="${messageID}"]`)
-          .message?.expanded
+          .message?.expanded,
       );
     });
 
@@ -313,7 +313,7 @@ suite('gr-messages-list tests', () => {
           date: '2016-09-28 13:36:33.000000000' as Timestamp,
           author,
           id: 'e7bfdbc842f6b6d8064bc68e0f52b673f40c0ca5' as ChangeMessageId,
-        } as CombinedMessage
+        } as CombinedMessage,
       );
       element.messages = messages;
       await element.updateComplete;
@@ -343,7 +343,7 @@ suite('gr-messages-list tests', () => {
       // first thread contains 1 comment
       assert.equal(
         messageElements[0].message.commentThreads[0].comments.length,
-        1
+        1,
       );
     });
 
@@ -371,7 +371,7 @@ suite('gr-messages-list tests', () => {
       m.message = '\nUploaded patch set 35.\n\nOutdated Votes:\n';
       assert.equal(
         TEST_ONLY.computeTag(m),
-        MessageTag.TAG_NEW_PATCHSET_OUTDATED_VOTES
+        MessageTag.TAG_NEW_PATCHSET_OUTDATED_VOTES,
       );
 
       m.tag = MessageTag.TAG_NEW_WIP_PATCHSET as ReviewInputTag;
@@ -439,19 +439,19 @@ suite('gr-messages-list tests', () => {
       assert.equal(TEST_ONLY.computeRevision(m1, allMessages), undefined);
       assert.equal(
         TEST_ONLY.computeRevision(m2, allMessages),
-        1 as PatchSetNum
+        1 as PatchSetNum,
       );
       assert.equal(
         TEST_ONLY.computeRevision(m3, allMessages),
-        1 as PatchSetNum
+        1 as PatchSetNum,
       );
       assert.equal(
         TEST_ONLY.computeRevision(m4, allMessages),
-        2 as PatchSetNum
+        2 as PatchSetNum,
       );
       assert.equal(
         TEST_ONLY.computeRevision(m5, allMessages),
-        2 as PatchSetNum
+        2 as PatchSetNum,
       );
     });
 
@@ -570,7 +570,7 @@ suite('gr-messages-list tests', () => {
       ];
 
       element = await fixture<GrMessagesList>(
-        html`<gr-messages-list></gr-messages-list>`
+        html`<gr-messages-list></gr-messages-list>`,
       );
       element.messages = messages;
       await element.updateComplete;
@@ -591,7 +591,7 @@ suite('gr-messages-list tests', () => {
       await element.updateComplete;
       const toggle = queryAndAssert<PaperToggleButtonElement>(
         element,
-        '.showAllActivityToggle'
+        '.showAllActivityToggle',
       );
       assert.isOk(toggle);
       toggle.click();
@@ -605,7 +605,7 @@ suite('gr-messages-list tests', () => {
       await element.updateComplete;
       const toggle = queryAndAssert<PaperToggleButtonElement>(
         element,
-        '.showAllActivityToggle'
+        '.showAllActivityToggle',
       );
       assert.isOk(toggle);
       toggle.click();

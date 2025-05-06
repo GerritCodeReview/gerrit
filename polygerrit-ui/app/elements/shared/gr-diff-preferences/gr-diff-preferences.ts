@@ -63,7 +63,7 @@ export class GrDiffPreferences extends LitElement {
         if (!diffPreferences) return;
         this.originalDiffPrefs = diffPreferences;
         this.diffPrefs = {...diffPreferences};
-      }
+      },
     );
   }
 

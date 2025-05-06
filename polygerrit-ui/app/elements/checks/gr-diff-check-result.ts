@@ -70,7 +70,7 @@ export class GrDiffCheckResult extends LitElement {
 
   private readonly getSuggestionsService = resolve(
     this,
-    suggestionsServiceToken
+    suggestionsServiceToken,
   );
 
   private readonly flagsService = getAppContext().flagsService;
@@ -165,7 +165,7 @@ export class GrDiffCheckResult extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().isOwner$,
-      x => (this.isOwner = x)
+      x => (this.isOwner = x),
     );
     subscribe(
       this,
@@ -174,7 +174,7 @@ export class GrDiffCheckResult extends LitElement {
         if (updated) {
           this.requestUpdate();
         }
-      }
+      },
     );
   }
 
@@ -279,7 +279,7 @@ export class GrDiffCheckResult extends LitElement {
       >Get AI Fix
       ${when(
         this.suggestionLoading,
-        () => html`<span class="loadingSpin"></span>`
+        () => html`<span class="loadingSpin"></span>`,
       )}</gr-button
     >`;
   }
@@ -290,7 +290,7 @@ export class GrDiffCheckResult extends LitElement {
     }
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.result?.codePointers?.[0].path
+        this.result?.codePointers?.[0].path,
       )
     ) {
       return false;

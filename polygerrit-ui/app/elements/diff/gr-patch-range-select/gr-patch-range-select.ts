@@ -135,37 +135,37 @@ export class GrPatchRangeSelect extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().changeNum$,
-      x => (this.changeNum = x)
+      x => (this.changeNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.revisionInfo = x ? new RevisionInfoClass(x) : undefined)
+      x => (this.revisionInfo = x ? new RevisionInfoClass(x) : undefined),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchNum$,
-      x => (this.patchNum = x)
+      x => (this.patchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().basePatchNum$,
-      x => (this.basePatchNum = x)
+      x => (this.basePatchNum = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().patchsets$,
-      x => (this.availablePatches = x)
+      x => (this.availablePatches = x),
     );
     subscribe(
       this,
       () => this.getChangeModel().revisions$,
-      x => (this.sortedRevisions = x)
+      x => (this.sortedRevisions = x),
     );
     subscribe(
       this,
       () => this.getCommentsModel().changeComments$,
-      x => (this.changeComments = x)
+      x => (this.changeComments = x),
     );
   }
 
@@ -242,7 +242,7 @@ export class GrPatchRangeSelect extends LitElement {
     if (!fileLinks) return;
     return html`<span class="filesWeblinks">
       ${fileLinks.map(
-        weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`
+        weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`,
       )}</span
     > `;
   }
@@ -268,7 +268,7 @@ export class GrPatchRangeSelect extends LitElement {
       const entry: DropdownItem = this.createDropdownEntry(
         basePatchNum,
         'Patchset ',
-        shorten(basePatch.sha)!
+        shorten(basePatch.sha)!,
       );
       dropdownContent.push({
         ...entry,
@@ -277,7 +277,7 @@ export class GrPatchRangeSelect extends LitElement {
     }
 
     const showParentsData = this.flags.isEnabled(
-      KnownExperimentId.REVISION_PARENTS_DATA
+      KnownExperimentId.REVISION_PARENTS_DATA,
     );
     dropdownContent.push({
       triggerText: isMerge ? 'Auto Merge' : 'Base',
@@ -325,7 +325,7 @@ export class GrPatchRangeSelect extends LitElement {
       const entry = this.createDropdownEntry(
         patchNum,
         patchNum === EDIT ? '' : 'Patchset ',
-        shorten(patch.sha)!
+        shorten(patch.sha)!,
       );
       dropdownContent.push({
         ...entry,
@@ -353,7 +353,7 @@ export class GrPatchRangeSelect extends LitElement {
           patchNum,
         },
         // don't ignore patchset level comments if the path is not set
-        !!this.path /* ignorePatchsetLevelComments*/
+        !!this.path /* ignorePatchsetLevelComments*/,
       ),
     };
     const date = this.computePatchSetDate(patchNum);
@@ -375,7 +375,7 @@ export class GrPatchRangeSelect extends LitElement {
    */
   computeLeftDisabled(
     basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
   ): boolean {
     return (
       findSortedIndex(basePatchNum, this.sortedRevisions) <=
@@ -401,7 +401,7 @@ export class GrPatchRangeSelect extends LitElement {
    */
   computeRightDisabled(
     basePatchNum: BasePatchSetNum,
-    patchNum: RevisionPatchSetNum
+    patchNum: RevisionPatchSetNum,
   ): boolean {
     if (basePatchNum === PARENT) {
       return false;
@@ -435,7 +435,7 @@ export class GrPatchRangeSelect extends LitElement {
         patchNum,
       },
       // don't ignore patchset level comments if the path is not set
-      !!this.path /* ignorePatchsetLevelComments*/
+      !!this.path /* ignorePatchsetLevelComments*/,
     ).length;
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
@@ -445,7 +445,7 @@ export class GrPatchRangeSelect extends LitElement {
         patchNum,
       },
       // don't ignore patchset level comments if the path is not set
-      !!this.path /* ignorePatchsetLevelComments*/
+      !!this.path /* ignorePatchsetLevelComments*/,
     );
     const unresolvedString =
       unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
@@ -464,7 +464,7 @@ export class GrPatchRangeSelect extends LitElement {
 
   private computePatchSetDescription(
     patchNum: PatchSetNum,
-    addFrontSpace?: boolean
+    addFrontSpace?: boolean,
   ) {
     const rev = getRevisionByPatchNum(this.sortedRevisions, patchNum);
     return rev?.description
@@ -489,7 +489,7 @@ export class GrPatchRangeSelect extends LitElement {
     };
     const target = e.target;
     const patchSetValue = convertToPatchSetNum(
-      e.detail.value
+      e.detail.value,
     ) as RevisionPatchSetNum;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.patchNumDropdown) {

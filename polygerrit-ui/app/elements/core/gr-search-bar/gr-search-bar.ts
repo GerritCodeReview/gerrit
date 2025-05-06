@@ -120,7 +120,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
 
 // All of the ops, with corresponding negations.
 const SEARCH_OPERATORS_WITH_NEGATIONS_SET: ReadonlySet<string> = new Set(
-  SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`))
+  SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`)),
 );
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
@@ -133,7 +133,7 @@ const TOKENIZE_REGEX = /(?:(?:[^\s":]+:\s*[^\s"]+)|[^\s"]+|"[^"]*")+\s*/g;
 
 export type SuggestionProvider = (
   predicate: string,
-  expression: string
+  expression: string,
 ) => Promise<AutocompleteSuggestion[]>;
 
 export interface SearchBarHandleSearchDetail {
@@ -188,12 +188,12 @@ export class GrSearchBar extends LitElement {
       () => this.getConfigModel().mergeabilityComputationBehavior$,
       mergeabilityComputationBehavior => {
         this.mergeabilityComputationBehavior = mergeabilityComputationBehavior;
-      }
+      },
     );
     subscribe(
       this,
       () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl),
     );
   }
 
@@ -293,7 +293,7 @@ export class GrSearchBar extends LitElement {
     const trimmedInput = this.inputVal.trim();
     if (trimmedInput) {
       const predefinedOpOnlyQuery = [...this.searchOperators()].some(
-        op => op.endsWith(':') && op === trimmedInput
+        op => op.endsWith(':') && op === trimmedInput,
       );
       if (predefinedOpOnlyQuery) {
         return;
@@ -331,7 +331,7 @@ export class GrSearchBar extends LitElement {
 
     if (
       /^-?(attention|author|cc|commentby|committer|from|owner|reviewedby|reviewer)$/.test(
-        predicate
+        predicate,
       )
     ) {
       // Fetch accounts.
@@ -343,7 +343,7 @@ export class GrSearchBar extends LitElement {
         .filter(operator => operator.includes(input))
         .map(operator => {
           return {text: operator};
-        })
+        }),
     );
   }
 

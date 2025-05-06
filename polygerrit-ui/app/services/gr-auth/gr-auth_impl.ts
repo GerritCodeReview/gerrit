@@ -134,7 +134,7 @@ export class Auth implements AuthService, Finalizable {
 
   private _fetchWithXsrfToken(
     url: string,
-    options: AuthRequestInitWithHeaders
+    options: AuthRequestInitWithHeaders,
   ): Promise<Response> {
     if (options.method && options.method !== 'GET') {
       const token = this._getCookie('XSRF_TOKEN');

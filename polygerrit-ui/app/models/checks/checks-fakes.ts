@@ -191,7 +191,7 @@ export const fakeRun1: CheckRun = {
             new Promise(resolve => {
               setTimeout(
                 () => resolve({message: 'Feedback recorded.'} as ActionResult),
-                1000
+                1000,
               );
             }),
         },
@@ -202,7 +202,7 @@ export const fakeRun1: CheckRun = {
             new Promise(resolve => {
               setTimeout(
                 () => resolve({message: 'Feedback recorded.'} as ActionResult),
-                1000
+                1000,
               );
             }),
         },
@@ -536,7 +536,7 @@ export function clearAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f1',
@@ -544,7 +544,7 @@ export function clearAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f2',
@@ -552,7 +552,7 @@ export function clearAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f3',
@@ -560,7 +560,7 @@ export function clearAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f4',
@@ -568,7 +568,7 @@ export function clearAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f5',
@@ -576,7 +576,7 @@ export function clearAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
 }
 
@@ -593,7 +593,7 @@ export function setAllFakeRuns(model: ChecksModel) {
     fakeActions,
     fakeLinks,
     'ETA: 1 min',
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f1',
@@ -601,7 +601,7 @@ export function setAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f2',
@@ -609,7 +609,7 @@ export function setAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f3',
@@ -617,7 +617,7 @@ export function setAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f4',
@@ -625,7 +625,7 @@ export function setAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
   model.updateStateSetResults(
     'f5',
@@ -633,6 +633,6 @@ export function setAllFakeRuns(model: ChecksModel) {
     [],
     [],
     undefined,
-    ChecksPatchset.LATEST
+    ChecksPatchset.LATEST,
   );
 }

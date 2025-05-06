@@ -57,7 +57,7 @@ export class GrEditPreferences extends LitElement {
       editPreferences => {
         this.originalEditPrefs = editPreferences;
         this.editPrefs = {...editPreferences};
-      }
+      },
     );
   }
 

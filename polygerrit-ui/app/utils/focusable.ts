@@ -14,7 +14,7 @@ const FOCUSABLE_QUERY =
  * This goes depth-first, so that the order of elements follows the a11y tree.
  */
 export function* getFocusableElements(
-  el: HTMLElement | SVGElement
+  el: HTMLElement | SVGElement,
 ): Generator<HTMLElement | SVGElement> {
   const style = window.getComputedStyle(el);
   if (style.display === 'none' || style.visibility === 'hidden') return;
@@ -30,7 +30,7 @@ export function* getFocusableElements(
   }
 
   for (const node of children.filter(
-    node => node instanceof HTMLElement || node instanceof SVGElement
+    node => node instanceof HTMLElement || node instanceof SVGElement,
   )) {
     yield* getFocusableElements(node as HTMLElement | SVGElement);
   }
@@ -43,7 +43,7 @@ export function* getFocusableElements(
  * This returns in reverse a11 order.
  */
 export function* getFocusableElementsReverse(
-  el: HTMLElement | SVGElement
+  el: HTMLElement | SVGElement,
 ): Generator<HTMLElement | SVGElement> {
   const style = window.getComputedStyle(el);
   if (style.display === 'none' || style.visibility === 'hidden') return;

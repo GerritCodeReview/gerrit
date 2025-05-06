@@ -29,7 +29,7 @@ export class GrSuggestionsApi implements SuggestionsPluginApi {
   constructor(
     private readonly reporting: ReportingService,
     private readonly pluginsModel: PluginsModel,
-    readonly plugin: PluginApi
+    readonly plugin: PluginApi,
   ) {
     this.reporting.trackApi(this.plugin, 'suggestions', 'constructor');
   }

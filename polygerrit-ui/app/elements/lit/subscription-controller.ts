@@ -21,11 +21,11 @@ export class SubscriptionError extends Error {
 export function subscribe<T>(
   host: ReactiveControllerHost & HTMLElement,
   provider: Provider<Observable<T>>,
-  callback: (t: T) => void
+  callback: (t: T) => void,
 ) {
   if (host.isConnected)
     throw new Error(
-      'Subscriptions should happen before a component is connected'
+      'Subscriptions should happen before a component is connected',
     );
   const controller = new SubscriptionController(provider, callback);
   host.addController(controller);
@@ -36,7 +36,7 @@ export class SubscriptionController<T> implements ReactiveController {
 
   constructor(
     private readonly provider: Provider<Observable<T>>,
-    private readonly callback: (t: T) => void
+    private readonly callback: (t: T) => void,
   ) {}
 
   hostConnected() {

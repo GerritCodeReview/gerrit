@@ -54,7 +54,7 @@ suite('gr-diff-cursor tests', () => {
 
     const deltaRows = queryAll<HTMLTableRowElement>(
       diffElement,
-      '.section.delta tr.diff-row'
+      '.section.delta tr.diff-row',
     );
     assert.equal(cursor.diffRowTR, deltaRows[0]);
 
@@ -220,7 +220,7 @@ suite('gr-diff-cursor tests', () => {
     diffElement.dispatchEvent(
       new CustomEvent('line-selected', {
         detail: {number: '123', side: Side.RIGHT, path: 'some/file'},
-      })
+      }),
     );
 
     assert.isTrue(moveToNumStub.called);
@@ -430,7 +430,7 @@ suite('gr-diff-cursor tests', () => {
     test('ignores call if nothing is selected', () => {
       const createRangeCommentStub = sinon.stub(
         diffElement,
-        'createRangeComment'
+        'createRangeComment',
       );
       const addDraftAtLineStub = sinon.stub(diffElement, 'addDraftAtLine');
       cursor.diffRowTR = undefined;

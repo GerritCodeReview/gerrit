@@ -52,6 +52,24 @@
       "parentUuid": "a0e461aa_ac678f0c",
       "revId": "9ba43944ad7078189cc0205d295e91a525f0a642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6dfa399_db208be3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-06T17:09:47Z",
+      "side": 1,
+      "message": "Ok, for markdown http:// is added by markedjs. when called render[\u0027link\u0027] \n`href` is `\"http://www.google.com\"` and  `text` is `www.google.com` on line 227.\n\nWe add \u0027target\u003d\"_blank\" rel\u003d\"noopener noreferrer\u0027 when href is not same origin. Added by https://gerrit-review.git.corp.google.com/c/gerrit/+/372354\n\nIMHO since markedjs is already doing http, I would leave http. I haven\u0027t seen any bug around that.",
+      "parentUuid": "e1d7395b_f6c5c66a",
+      "revId": "9ba43944ad7078189cc0205d295e91a525f0a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

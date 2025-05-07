@@ -392,9 +392,6 @@ export class GrComment extends LitElement {
         this.save();
       });
     }
-    this.addEventListener('apply-user-suggestion', () => {
-      this.handleAppliedFix();
-    });
     this.addEventListener('open-user-suggest-preview', e => {
       this.handleShowFix(e.detail.code);
     });

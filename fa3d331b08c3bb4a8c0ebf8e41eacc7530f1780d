@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc65db83_6cd63171",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-05-07T07:39:55Z",
+      "side": 1,
+      "message": "My understanding is that the idea is to avoid updating caches for old changes: this would also impact new changes and therefore would cause a performance issue upon Gerrit restart as the cache will need to be recreated.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 33
+      },
+      "revId": "fa3d331b08c3bb4a8c0ebf8e41eacc7530f1780d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

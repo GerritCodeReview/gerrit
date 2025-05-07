@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2e0492_31c3ded0",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T12:50:26Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02df89a4_a81cfb48",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T12:50:26Z",
+      "side": 1,
+      "message": "unneeded imports (already imported above in l. 27-29)",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 72
+      },
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10f8b2fc_b81d0a2a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T12:50:26Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f087165_407530b0",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T12:50:26Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15c3af31_86f29a01",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T12:50:26Z",
+      "side": 1,
+      "message": "nit: s/oneAccounts/oneAccount",
+      "range": {
+        "startLine": 839,
+        "startChar": 50,
+        "endLine": 839,
+        "endChar": 61
+      },
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

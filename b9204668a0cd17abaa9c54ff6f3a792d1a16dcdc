@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82dbf1f8_1b239e97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T08:44:11Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebeb8119_c085706a",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T08:44:11Z",
+      "side": 1,
+      "message": "I think this needs to be increased now.",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7906e11_3971883a",
@@ -14,6 +54,24 @@
       "writtenOn": "2025-05-07T00:05:22Z",
       "side": 1,
       "message": "Should we set it to the zeroId if the file is added ? Similar as we do in `RefUpdate`.\nSee `ObjectId.zeroId()`.",
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8a18c05_34e508db",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T08:44:11Z",
+      "side": 1,
+      "message": "I like that returning an Optional here is consistent with the oldMode() method.",
+      "parentUuid": "e7906e11_3971883a",
       "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

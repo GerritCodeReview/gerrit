@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c464fb_2f257d3e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-07T13:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e2e0492_31c3ded0",
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02df89a4_a81cfb48",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-05-07T12:50:26Z",
       "side": 1,
       "message": "unneeded imports (already imported above in l. 27-29)",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 72
+      },
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08b9adb_88cf956a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-07T13:47:58Z",
+      "side": 1,
+      "message": "VSCode auto-imports this.\nSorry.\nRemoved.",
+      "parentUuid": "02df89a4_a81cfb48",
       "range": {
         "startLine": 66,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "773310ac_8f7c8dd5",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-07T13:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f8b2fc_b81d0a2a",
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f087165_407530b0",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c03f2a_5c23298b",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-07T13:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f087165_407530b0",
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15c3af31_86f29a01",
@@ -88,6 +166,30 @@
       "writtenOn": "2025-05-07T12:50:26Z",
       "side": 1,
       "message": "nit: s/oneAccounts/oneAccount",
+      "range": {
+        "startLine": 839,
+        "startChar": 50,
+        "endLine": 839,
+        "endChar": 61
+      },
+      "revId": "f855875355104160d1e3e9968f4d27af10c0be90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "964d3ec1_782c8e04",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-07T13:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c3af31_86f29a01",
       "range": {
         "startLine": 839,
         "startChar": 50,

@@ -41,6 +41,32 @@ suite('gr-create-repo-dialog tests', () => {
             </section>
             <section>
               <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Only serve as a parent repository for other repositories
+to inheright access rights and configs.
+If 'true', then you cannot push code to this repo.
+It will only have a 'refs/meta/config' branch."
+                  >
+                    Parent Repo Only
+                    <gr-icon icon="info"> </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-select id="parentRepo">
+                    <select>
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </gr-select>
+                </span>
+              </div>
+            </section>
+            <section>
+              <div class="title-flex">
                 <span class="title"> Default Branch </span>
               </div>
               <span class="value">
@@ -94,32 +120,6 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="value-flex">
                 <span class="value">
                   <gr-select id="initialCommit">
-                    <select>
-                      <option value="false">False</option>
-                      <option value="true">True</option>
-                    </select>
-                  </gr-select>
-                </span>
-              </div>
-            </section>
-            <section>
-              <div class="title-flex">
-                <span class="title">
-                  <gr-tooltip-content
-                    has-tooltip=""
-                    title="Only serve as a parent repository for other repositories
-to inheright access rights and configs.
-If 'true', then you cannot push code to this repo.
-It will only have a 'refs/meta/config' branch."
-                  >
-                    Parent Repo Only
-                    <gr-icon icon="info"> </gr-icon>
-                  </gr-tooltip-content>
-                </span>
-              </div>
-              <div class="value-flex">
-                <span class="value">
-                  <gr-select id="parentRepo">
                     <select>
                       <option value="false">False</option>
                       <option value="true">True</option>

@@ -145,6 +145,36 @@ export class GrCreateRepoDialog extends LitElement {
               <input id="repoNameInput" autocomplete="on" />
             </iron-input>
           </section>
+          <section>
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="Only serve as a parent repository for other repositories
+to inheright access rights and configs.
+If 'true', then you cannot push code to this repo.
+It will only have a 'refs/meta/config' branch."
+                >
+                  Parent Repo Only <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
+            <div class="value-flex">
+              <span class="value">
+                <gr-select
+                  id="parentRepo"
+                  .bindValue=${this.repoConfig.permissions_only}
+                  @bind-value-changed=${this
+                    .handlePermissionsOnlyBindValueChanged}
+                >
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
+              </span>
+            </div>
+          </section>
           <section ?hidden=${!!this.repoConfig.permissions_only}>
             <div class="title-flex">
               <span class="title">Default Branch</span>
@@ -223,36 +253,6 @@ export class GrCreateRepoDialog extends LitElement {
                   .bindValue=${this.repoConfig.create_empty_commit}
                   @bind-value-changed=${this
                     .handleCreateEmptyCommitBindValueChanged}
-                >
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
-              </span>
-            </div>
-          </section>
-          <section>
-            <div class="title-flex">
-              <span class="title">
-                <gr-tooltip-content
-                  has-tooltip
-                  title="Only serve as a parent repository for other repositories
-to inheright access rights and configs.
-If 'true', then you cannot push code to this repo.
-It will only have a 'refs/meta/config' branch."
-                >
-                  Parent Repo Only <gr-icon icon="info"></gr-icon>
-                </gr-tooltip-content>
-              </span>
-            </div>
-            <div class="value-flex">
-              <span class="value">
-                <gr-select
-                  id="parentRepo"
-                  .bindValue=${this.repoConfig.permissions_only}
-                  @bind-value-changed=${this
-                    .handlePermissionsOnlyBindValueChanged}
                 >
                   <select>
                     <option value="false">False</option>

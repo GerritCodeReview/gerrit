@@ -28,6 +28,7 @@ import {
   CheckRun,
   ChecksPatchset,
   ErrorMessages,
+  RunResult,
 } from '../../models/checks/checks-model';
 import {
   clearAllFakeRuns,
@@ -212,6 +213,9 @@ export class GrChecksRun extends LitElement {
   @state()
   shouldRender = false;
 
+  @state()
+  runs: RunResult[] = [];
+
   private readonly reporting = getAppContext().reportingService;
 
   private getChecksModel = resolve(this, checksModelToken);
@@ -222,6 +226,13 @@ export class GrChecksRun extends LitElement {
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
       x => (this.selectedAttempt = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().allResultsSelected$,
+      x => {
+        this.runs = x;
+      }
     );
   }
 
@@ -296,6 +307,18 @@ export class GrChecksRun extends LitElement {
       attempt !== ALL_ATTEMPTS;
     const selected = this.selectedAttempt === attempt;
     return html`<div class="attemptDetail">
+      ${when(
+        typeof attempt === 'number',
+        () => html` <gr-hovercard-run
+          .run=${this.runs.find(
+            r =>
+              r.attempt === attempt &&
+              r.checkName === this.run?.checkName &&
+              r.pluginName === this.run?.pluginName
+          )}
+          .attempt=${attempt}
+        ></gr-hovercard-run>`
+      )}
       <input
         type="radio"
         id=${id}

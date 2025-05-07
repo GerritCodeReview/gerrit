@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c42d2e6d_2f9d1cb6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-07T14:12:19Z",
+      "side": 1,
+      "message": "It took me over one hour but I refactor it to shared component. It was more complex in gr-submir-requirements because it needs to know if there is chip otherwise it shows status or no vote.",
+      "parentUuid": "04bfbe90_ef920b37",
+      "revId": "f19c23ef742eb5641cda5e4ac6ae9ff78f1f79af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01ebebb3_e27bc455",

@@ -749,20 +749,20 @@ public class CommitValidators {
       PersonIdent committer = commit.getCommitterIdent();
       PersonIdent author = commit.getAuthorIdent();
 
-      boolean sboAuthor = false;
-      boolean sboCommitter = false;
-      boolean sboMe = false;
+      boolean signedOffByAuthor = false;
+      boolean signedOffByCommitter = false;
+      boolean signedOffByMe = false;
       for (FooterLine footer : commit.getFooterLines()) {
         if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
           String e = footer.getEmailAddress();
           if (e != null) {
-            sboAuthor |= author.getEmailAddress().equals(e);
-            sboCommitter |= committer.getEmailAddress().equals(e);
-            sboMe |= user.hasEmailAddress(e);
+            signedOffByAuthor |= author.getEmailAddress().equals(e);
+            signedOffByCommitter |= committer.getEmailAddress().equals(e);
+            signedOffByMe |= user.hasEmailAddress(e);
           }
         }
       }
-      if (!sboAuthor && !sboCommitter && !sboMe) {
+      if (!signedOffByAuthor && !signedOffByCommitter && !signedOffByMe) {
         try {
           if (!perm.test(RefPermission.FORGE_COMMITTER)) {
             throw new CommitValidationException(

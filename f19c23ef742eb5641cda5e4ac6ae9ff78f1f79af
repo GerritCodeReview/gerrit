@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04bfbe90_ef920b37",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-07T12:25:26Z",
+      "side": 1,
+      "message": "Please extract a component or util and share the code.",
+      "parentUuid": "37d0b75a_a15cda35",
+      "revId": "f19c23ef742eb5641cda5e4ac6ae9ff78f1f79af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01ebebb3_e27bc455",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
         "patchSetId": 2

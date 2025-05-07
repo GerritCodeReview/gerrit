@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f43e4c7f_5711de17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf60d6ef_7b280062",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4849d4f2_d26bfce7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -128,6 +152,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "363c2f96_080f8634",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "\u003e You\u0027re using hidden here and hideItem class in other place. Is there a specific \n\u003e reason? Can we have this consistent?\n\nSorry I don\u0027t know what\u0027s the difference. I copied hidden from [1] and hideItem was used here for the itemAnnotationSection section. I tried changing this to\n\n```\n  \u003csection                                                               \n    id\u003d\"itemRevisionSection\"                                             \n    class\u003d${!!this.createEmptyCommit ? \u0027hideItem\u0027 : \u0027\u0027}                  \n  \u003e\n```\n\nbut then hiding stops working (don\u0027t know, maybe class is not reevaluated when the value changes?). \n\n\n\u003e Side-note: hiding it is imo a more jarring experience (things moving \n\u003e disappearing in the UI). I would recommend marking the input box as\n\u003e disabled instead.\n\nYes, this is what I initially wanted to do, but this is similar to the \"Parent Repo Only\" option in the \"Create Repository\" dialog that also hides another field (\"Default Branch\") rather than disabling it. So I made this consistent here. Maybe we better have a follow-up change to change that in both places?\n\n[1] https://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts;rcl\u003d604585707;l\u003d148",
+      "parentUuid": "2be0d65e_39a7af47",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 77
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32fd5bbf_1ab40ee1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b241715_b98c20bb",
+      "range": {
+        "startLine": 90,
+        "startChar": 59,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8567ed4e_c11d2d2c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Yes, it had \"!!\" from where I copied it, but it looked like an unneeded double-negation to me, so I dropped it... Now it makes sense.",
+      "parentUuid": "ef3084f4_8dd05509",
+      "range": {
+        "startLine": 90,
+        "startChar": 59,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a798a5ee_9274d900",
@@ -141,6 +237,30 @@
       "writtenOn": "2025-05-07T09:03:58Z",
       "side": 1,
       "message": "What\u0027s the purpose of this class (same for the \"value-flex\" below)? It doesn\u0027t seem to have any styles associated with it.",
+      "range": {
+        "startLine": 117,
+        "startChar": 24,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bdd12ee_883837af",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Good catch. I copied the whole section tag from gr-create-repo-dialog.ts [1], but forgot to copy the styles. Added the styles now.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts#208",
+      "parentUuid": "a798a5ee_9274d900",
       "range": {
         "startLine": 117,
         "startChar": 24,
@@ -188,6 +308,30 @@
           ]
         }
       ],
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e8ef464_28c29c41",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Nice idea, I like it. Done.\n\nI also changed the order of fields, so that the order make more sense.",
+      "parentUuid": "06ebc00d_a40a2bb9",
+      "range": {
+        "startLine": 121,
+        "startChar": 25,
+        "endLine": 121,
+        "endChar": 173
+      },
       "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -310,6 +454,54 @@
           ]
         }
       ],
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "597bfac0_c0a1329a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d280969a_c59dbd95",
+      "range": {
+        "startLine": 166,
+        "startChar": 10,
+        "endLine": 166,
+        "endChar": 29
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc6d774d_8220a06d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T10:53:34Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "bbbdbe08_87c52e00",
+      "range": {
+        "startLine": 166,
+        "startChar": 37,
+        "endLine": 166,
+        "endChar": 54
+      },
       "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

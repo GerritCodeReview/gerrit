@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ed484d_27ded2ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-07T06:31:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t that have to be that way? The `ChangeIndexer` contains final fields containing maps with the queued tasks. If we now create one ChangeIndexer for all slices of a project, we would share the queue for all slices. This would kind of defeat the sense of slices.",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "146ef1236f060ef6e12e8535d655761ec526e2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

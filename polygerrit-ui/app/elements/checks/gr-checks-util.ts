@@ -3,13 +3,18 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {Category, RunStatus} from '../../api/checks';
+import {SubmitRequirementResultInfo} from '../../api/rest-api';
 import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
+  getResultsOf,
+  hasResultsOf,
   LATEST_ATTEMPT,
 } from '../../models/checks/checks-util';
 import {fire} from '../../utils/event-util';
+import {extractAssociatedLabels} from '../../utils/label-util';
 
 export interface RunSelectedEventDetail {
   checkName?: string;
@@ -43,4 +48,54 @@ export function matches(result: RunResult, regExp: RegExp) {
     (result.tags ?? []).some(tag => regExp.test(tag.name)) ||
     regExp.test(result.message ?? '')
   );
+}
+
+export function countErrorRunsForLabel(
+  runs: CheckRun[],
+  labelName?: string,
+  requirement?: SubmitRequirementResultInfo
+): {errorRuns: CheckRun[]; errorRunsCount: number} {
+  const requirementLabels = requirement
+    ? extractAssociatedLabels(requirement)
+    : [];
+
+  const errorRuns = runs
+    .filter(run => hasResultsOf(run, Category.ERROR))
+    .filter(run => {
+      if (labelName) {
+        return labelName === run.labelName;
+      } else {
+        return run.labelName && requirementLabels.includes(run.labelName);
+      }
+    });
+  const errorRunsCount = errorRuns.reduce(
+    (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
+    0
+  );
+  return {errorRuns, errorRunsCount};
+}
+
+export function countRunningRunsForLabel(
+  runs: CheckRun[],
+  labelName?: string,
+  requirement?: SubmitRequirementResultInfo
+): {runningRuns: CheckRun[]; runningRunsCount: number} {
+  const requirementLabels = requirement
+    ? extractAssociatedLabels(requirement)
+    : [];
+  const runningRuns = runs
+    .filter(r => r.isLatestAttempt)
+    .filter(
+      r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED
+    )
+    .filter(run => {
+      if (labelName) {
+        return labelName === run.labelName;
+      } else {
+        return run.labelName && requirementLabels.includes(run.labelName);
+      }
+    });
+
+  const runningRunsCount = runningRuns.length;
+  return {runningRuns, runningRunsCount};
 }

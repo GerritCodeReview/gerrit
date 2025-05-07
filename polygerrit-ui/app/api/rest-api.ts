@@ -353,6 +353,7 @@ export declare interface ChangeConfigInfo {
   disable_private_changes?: boolean;
   mergeability_computation_behavior: MergeabilityComputationBehavior;
   conflicts_predicate_enabled?: boolean;
+  allow_markdown_base64_images_in_comments?: boolean;
 }
 
 export type ChangeId = BrandType<string, '_changeId'>;

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "179ea292_b0a9c3cc",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T11:28:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebeb8119_c085706a",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7906e11_3971883a",
@@ -76,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "313402c4_4d25d8bf",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T11:28:30Z",
+      "side": 1,
+      "message": "I don\u0027t have an opinion. I wrote this way, because I was using oldMode as reference. I will defer to Edwin on this (not in the least because it lets me not do extra changes 😊 )",
+      "parentUuid": "d8a18c05_34e508db",
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aad8aced_c389559c",
@@ -89,6 +131,24 @@
       "writtenOn": "2025-05-07T00:05:22Z",
       "side": 1,
       "message": "should we set it to the zeroId if the file is deleted ?",
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b84879_18773552",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T11:28:30Z",
+      "side": 1,
+      "message": "Same as with oldSha",
+      "parentUuid": "aad8aced_c389559c",
       "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

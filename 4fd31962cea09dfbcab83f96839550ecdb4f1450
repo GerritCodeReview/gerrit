@@ -16,6 +16,24 @@
       "message": "This seems to not work anymore. Please fix the eslint config instead of adding commas everywhere.",
       "revId": "4fd31962cea09dfbcab83f96839550ecdb4f1450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1f3563_6a680119",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-07T12:57:47Z",
+      "side": 1,
+      "message": "Seems it comes from prettier/prettier.\n\n``` error  Insert `,`  prettier/prettier```",
+      "parentUuid": "aee730e5_0adb55cd",
+      "revId": "4fd31962cea09dfbcab83f96839550ecdb4f1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

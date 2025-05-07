@@ -34,6 +34,24 @@
       "parentUuid": "aee730e5_0adb55cd",
       "revId": "4fd31962cea09dfbcab83f96839550ecdb4f1450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "282535f1_27e329e7",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-07T13:07:08Z",
+      "side": 1,
+      "message": "Fixed, thanks, done.",
+      "parentUuid": "4a1f3563_6a680119",
+      "revId": "4fd31962cea09dfbcab83f96839550ecdb4f1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

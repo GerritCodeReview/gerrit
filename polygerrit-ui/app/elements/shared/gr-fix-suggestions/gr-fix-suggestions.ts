@@ -26,6 +26,7 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {ChangeStatus, FixSuggestionInfo} from '../../../api/rest-api';
+import {ReportSource} from '../../../services/suggestions/suggestions-service';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -295,7 +296,11 @@ export class GrFixSuggestions extends LitElement {
         fixApplied => {
           if (fixApplied)
             fire(this, 'apply-user-suggestion', {
-              fixSuggestion: fixSuggestions?.[0],
+              fixSuggestion: fixSuggestions?.[0]?.description?.includes(
+                ReportSource.GET_AI_FIX_FOR_COMMENT
+              )
+                ? fixSuggestions?.[0]
+                : undefined,
             });
         },
       ],

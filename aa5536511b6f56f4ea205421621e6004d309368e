@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5531a04f_6df6a03c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-07T12:58:24Z",
+      "side": 1,
+      "message": "Seems this was caused by using the title-flex / value-flex styles. I drop them now.",
+      "parentUuid": "60bd7f8e_5af3f174",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "aa5536511b6f56f4ea205421621e6004d309368e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bb6cc11d_206db104",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14

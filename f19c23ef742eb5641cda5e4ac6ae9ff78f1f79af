@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d0b75a_a15cda35",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-07T07:12:15Z",
+      "side": 1,
+      "message": "I used same code as in https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts?q\u003d%22text%3D$%7B%60$%7BrunsCount%7D%60%7D%22\u0026ss\u003dgerrit%2Fgerrit%2Fgerrit\n\nWe can change it in follow-up change. What do you think it is better?",
+      "parentUuid": "15708ba4_3bc79bd3",
+      "revId": "f19c23ef742eb5641cda5e4ac6ae9ff78f1f79af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01ebebb3_e27bc455",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-07T06:19:17Z",
       "side": 1,
       "message": "We are already pass `this.message`. No need to pass this property separately.",
+      "revId": "f19c23ef742eb5641cda5e4ac6ae9ff78f1f79af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef067901_3cef805b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-07T07:12:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01ebebb3_e27bc455",
       "revId": "f19c23ef742eb5641cda5e4ac6ae9ff78f1f79af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

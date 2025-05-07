@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf60d6ef_7b280062",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "Could you attach a screenshot of how the new dialog looks like",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4849d4f2_d26bfce7",
@@ -14,6 +37,279 @@
       "writtenOn": "2025-05-06T21:46:17Z",
       "side": 1,
       "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be0d65e_39a7af47",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "You\u0027re using hidden here and `hideItem` class in other place. Is there a specific reason? Can we have this consistent?\n\nSide-note: hiding it is imo a more jarring experience (things moving disappearing in the UI). I would recommend marking the input box as disabled instead.",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 77
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b241715_b98c20bb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "Should this condition be the same as for createEmptyCommitSection?",
+      "range": {
+        "startLine": 90,
+        "startChar": 59,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef3084f4_8dd05509",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "This should probably be !!this.createEmptyCommit (handling null value)",
+      "range": {
+        "startLine": 90,
+        "startChar": 59,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f33ea602_ce114721",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 90,
+                "startChar": 0,
+                "endLine": 91,
+                "endChar": 0
+              },
+              "replacement": "          \u003csection id\u003d\"itemRevisionSection\" ?hidden\u003d${!!this.createEmptyCommit}\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a798a5ee_9274d900",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this class (same for the \"value-flex\" below)? It doesn\u0027t seem to have any styles associated with it.",
+      "range": {
+        "startLine": 117,
+        "startChar": 24,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ebc00d_a40a2bb9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "Can we instead of needing a long description (or in addition) have more verbose option in the gr-select?",
+      "range": {
+        "startLine": 121,
+        "startChar": 25,
+        "endLine": 121,
+        "endChar": 173
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "63ee4871_a9ae0d7e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 136,
+                "startChar": 0,
+                "endLine": 138,
+                "endChar": 0
+              },
+              "replacement": "                    \u003coption value\u003d\"false\"\u003e\n                      Point to an existing revision\n                    \u003c/option\u003e\n                    \u003coption value\u003d\"true\"\u003e\n                      Create on an initial empty commit\n                    \u003c/option\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d280969a_c59dbd95",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "I can see that USE_HEAD uses it, but capitalized style is wrong here. Only global constants should use all-caps",
+      "range": {
+        "startLine": 166,
+        "startChar": 10,
+        "endLine": 166,
+        "endChar": 29
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1a26a8b3_3769b0af",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 165,
+                "startChar": 0,
+                "endLine": 167,
+                "endChar": 0
+              },
+              "replacement": "    const useHead \u003d this.itemRevision ? this.itemRevision : \u0027HEAD\u0027;\n    const createEmptyCommit \u003d this.createEmptyCommit\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 170,
+                "startChar": 0,
+                "endLine": 171,
+                "endChar": 0
+              },
+              "replacement": "      const createBranchInput \u003d createEmptyCommit\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 172,
+                "startChar": 0,
+                "endLine": 173,
+                "endChar": 0
+              },
+              "replacement": "        : {revision: useHead};\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 174,
+                "startChar": 0,
+                "endLine": 175,
+                "endChar": 0
+              },
+              "replacement": "        .createRepoBranch(this.repoName, this.itemName, createBranchInput)\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 184,
+                "startChar": 0,
+                "endLine": 185,
+                "endChar": 0
+              },
+              "replacement": "          revision: useHead,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbbdbe08_87c52e00",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T09:03:58Z",
+      "side": 1,
+      "message": "!!this.createEmptyCommit , does what you want (return false if null and value otherwise)",
+      "range": {
+        "startLine": 166,
+        "startChar": 37,
+        "endLine": 166,
+        "endChar": 54
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2cd897d9_5c4026ca",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+              "range": {
+                "startLine": 166,
+                "startChar": 0,
+                "endLine": 169,
+                "endChar": 0
+              },
+              "replacement": "    const CREATE_EMPTY_COMMIT \u003d !!this.createEmptyCommit;\n"
+            }
+          ]
+        }
+      ],
       "revId": "a7ebbb5ca3cf16e055335db38563dc4666c6f8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

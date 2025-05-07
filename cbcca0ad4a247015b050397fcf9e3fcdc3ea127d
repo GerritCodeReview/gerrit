@@ -198,6 +198,30 @@
       },
       "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31cbdf0_edc1e099",
+        "filename": "tools/new-contributors.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-05-07T11:53:05Z",
+      "side": 1,
+      "message": "So far we never included merge commits in all statistics, as robots can easily do them and cannot be really considered as creative contributions.",
+      "parentUuid": "62b80da2_3f9bb6c8",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "cbcca0ad4a247015b050397fcf9e3fcdc3ea127d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

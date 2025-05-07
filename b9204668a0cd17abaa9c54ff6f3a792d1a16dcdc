@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82d02207_86198bda",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-07T11:52:10Z",
+      "side": 1,
+      "message": "Yeah, I forgot to push. I am submitting it in https://gerrit-review.git.corp.google.com/c/gerrit/+/473601",
+      "parentUuid": "523ba2b6_eb535929",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7906e11_3971883a",

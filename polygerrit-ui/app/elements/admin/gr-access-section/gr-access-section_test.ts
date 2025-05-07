@@ -112,6 +112,9 @@ suite('gr-access-section tests', () => {
                     <option value="labelAs-Code-Review">
                       Label Code-Review (On Behalf Of)
                     </option>
+                    <option value="removeLabel-Code-Review">
+                      Remove Label Code-Review
+                    </option>
                     <option value="abandon">Abandon</option>
                     <option value="addPatchSet">Add Patch Set</option>
                     <option value="create">Create Reference</option>
@@ -203,6 +206,13 @@ suite('gr-access-section tests', () => {
             id: 'labelAs-Code-Review',
           },
         },
+        {
+          id: 'removeLabel-Code-Review',
+          value: {
+            name: 'Remove Label Code-Review',
+            id: 'removeLabel-Code-Review',
+          },
+        },
       ];
 
       assert.deepEqual(element.computeLabelOptions(), expectedLabelOptions);
@@ -252,6 +262,13 @@ suite('gr-access-section tests', () => {
           value: {
             name: 'Label Code-Review (On Behalf Of)',
             id: 'labelAs-Code-Review',
+          },
+        },
+        {
+          id: 'removeLabel-Code-Review',
+          value: {
+            name: 'Remove Label Code-Review',
+            id: 'removeLabel-Code-Review',
           },
         },
       ];

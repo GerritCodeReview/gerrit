@@ -94,6 +94,30 @@
       },
       "revId": "fa3d331b08c3bb4a8c0ebf8e41eacc7530f1780d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1afe1295_80ba7c85",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-05-07T11:59:39Z",
+      "side": 1,
+      "message": "\u003e \u003e this would also impact new changes and therefore would cause a performance issue upon Gerrit restart as the cache will need to be recreated.\n\u003e \n\u003e I don\u0027t believe this will be the case. Reindexing the data should not lead to updated caches, if the entries already exist.\n\nCaches are indexed on the SHA1, therefore they are immutable. Either an entry exists or does not exist. Here I was referring to the calculation of a missing entry in the cache that *could* have been persisted during reindex and not recalculated at startup.\n\n\u003e I believe while coinciding updates to an index field and a cached object might happen, e.g. a new parameter in the change metadata that can also be used to query changes, these updates should still be decoupled. While reindexing would update the cache with the updated objects, it can slow down reindexing a lot,\n\nHave you done some testing on the pure storage of the cached data? Is H2v2 that slow in storing entries? In my experience, the slower part is the calculation of the cache entry, not its storage on disk.\n\n\u003e which also might affect users and during online reindexing user usage of Gerrit would still be slower, since a lot of cache entries would have to be recreated. \n\nCorrect, that\u0027s why I proposed a cutoff timestamp, to avoid bloating the cache with older data that is most likely to be then pruned and removed again.\n\n\u003e Also huge caches (in our case 100s of Gb will cause other performance issues as well. \n\nAgreed, as they put a lot of pressure on the JVM heap.\n\n\u003e I believe, if we would want a way to update caches with a new object schema or prefill them, this should be an independent task.\n\nThat\u0027s an interesting idea ideed.\n\n\u003e \u003e If we define a \"cutoff\" timestamp for updating the change cache, then it would also work in your case.\n\u003e \n\u003e Yes, that might work and would be a possible optimization even outside of reindexing to keep caches lean.\n\n+1\n\n\u003e In our scenario, I would still prefer completely read-only caches (see Matthias\u0027 explanation), but I would be open to implement that on top of it. Would that work for you?\n\nSure.",
+      "parentUuid": "fd645a13_e1de2aeb",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 33
+      },
+      "revId": "fa3d331b08c3bb4a8c0ebf8e41eacc7530f1780d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

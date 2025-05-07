@@ -38,7 +38,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /** File diff for a single file path. Produced as output of the {@link FileDiffCache}. */
 @AutoValue
 public abstract class FileDiffOutput implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   /**
    * The 20 bytes SHA-1 object ID of the old git commit used in the diff, or {@link

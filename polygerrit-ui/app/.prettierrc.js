@@ -9,7 +9,8 @@ module.exports = {
     {
       "files": ["**/*.ts"],
       "options": {
-          ...require('gts/.prettierrc.json')
+          ...require('gts/.prettierrc.json'),
+          "trailingComma": "es5"
       }
     }
   ]

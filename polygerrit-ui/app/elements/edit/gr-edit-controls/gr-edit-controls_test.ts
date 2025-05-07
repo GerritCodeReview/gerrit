@@ -468,7 +468,7 @@ suite('gr-edit-controls tests', () => {
 
     test('restore hidden by default', () => {
       assert.isTrue(
-        queryAndAssert(element, '#restore').classList.contains('invisible')!
+        queryAndAssert(element, '#restore').classList.contains('invisible')
       );
     });
 

@@ -165,6 +165,7 @@ eslint(
         "@npm//eslint-plugin-import",
         "@npm//eslint-plugin-jsdoc",
         "@npm//eslint-plugin-lit",
+        "@npm//eslint-plugin-n",
         "@npm//eslint-plugin-prettier",
         "@npm//eslint-plugin-regex",
         "@npm//gts",

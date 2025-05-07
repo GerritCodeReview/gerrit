@@ -398,7 +398,7 @@ suite('gr-change-actions tests', () => {
         )
       );
       assert.equal(
-        (element.revisionActions['plugin~action'] as UIActionInfo)!.__url,
+        (element.revisionActions['plugin~action'] as UIActionInfo).__url,
         'the-url'
       );
     });
@@ -416,7 +416,7 @@ suite('gr-change-actions tests', () => {
         stub.calledWith(element.changeNum, undefined, '/plugin~action')
       );
       assert.equal(
-        (element.actions['plugin~action'] as UIActionInfo)!.__url,
+        (element.actions['plugin~action'] as UIActionInfo).__url,
         'the-url'
       );
     });

@@ -2193,7 +2193,7 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('test for tag message in the list', async () => {
-        assert.equal((element.items as TagInfo[])![2].message, 'Annotated tag');
+        assert.equal((element.items as TagInfo[])[2].message, 'Annotated tag');
       });
 
       test('test for tagger in the tag list', async () => {
@@ -2203,7 +2203,7 @@ suite('gr-repo-detail-list', () => {
           date: '2017-09-19 14:54:00.000000000' as Timestamp,
         };
 
-        assert.deepEqual((element.items as TagInfo[])![2].tagger, tagger);
+        assert.deepEqual((element.items as TagInfo[])[2].tagger, tagger);
       });
 
       test('test for web links in the tags list', async () => {

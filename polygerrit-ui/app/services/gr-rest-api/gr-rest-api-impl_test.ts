@@ -627,9 +627,11 @@ suite('gr-rest-api-service-impl tests', () => {
       {username: 'john'}
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.username,
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).username,
       'john'
     );
   });
@@ -649,9 +651,11 @@ suite('gr-rest-api-service-impl tests', () => {
       HttpMethod.PUT
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.username
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).username
     );
   });
 
@@ -675,9 +679,11 @@ suite('gr-rest-api-service-impl tests', () => {
       {display_name: 'john'}
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.display_name,
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).display_name,
       'john'
     );
   });
@@ -697,9 +703,11 @@ suite('gr-rest-api-service-impl tests', () => {
       HttpMethod.PUT
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.display_name
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).display_name
     );
   });
 
@@ -723,9 +731,11 @@ suite('gr-rest-api-service-impl tests', () => {
       {name: 'john'}
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.name,
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).name,
       'john'
     );
   });
@@ -745,9 +755,11 @@ suite('gr-rest-api-service-impl tests', () => {
       HttpMethod.PUT
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.name
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).name
     );
   });
 
@@ -771,9 +783,11 @@ suite('gr-rest-api-service-impl tests', () => {
       {status: 'OOO'}
     );
     assert.deepEqual(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.status,
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).status,
       'OOO'
     );
   });
@@ -793,9 +807,11 @@ suite('gr-rest-api-service-impl tests', () => {
       HttpMethod.PUT
     );
     assert.isUndefined(
-      (element._cache.get(
-        '/accounts/self/detail'
-      ) as unknown as AccountDetailInfo)!.status
+      (
+        element._cache.get(
+          '/accounts/self/detail'
+        ) as unknown as AccountDetailInfo
+      ).status
     );
   });
 
@@ -1604,7 +1620,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
     assert.isTrue(fetchStub.calledOnce);
     assert.sameDeepMembers(
-      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string).add!,
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string).add,
       ['foo-bar']
     );
   });

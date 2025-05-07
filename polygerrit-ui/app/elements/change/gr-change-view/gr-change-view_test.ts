@@ -1536,7 +1536,7 @@ suite('gr-change-view tests', () => {
     const stub = sinon.stub(element, 'handleToggleStar');
 
     const changeStar = queryAndAssert<GrChangeStar>(element, '#changeStar');
-    queryAndAssert<HTMLButtonElement>(changeStar, 'button')!.click();
+    queryAndAssert<HTMLButtonElement>(changeStar, 'button').click();
     assert.isTrue(stub.called);
   });
 

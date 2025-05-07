@@ -273,6 +273,7 @@ module.exports = {
       files: ['**/*.ts'],
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
+        'no-constant-binary-expression': 'off',
         'regex/invalid': [
           'error', [{
             regex: '\'lit/decorators\'',
@@ -296,6 +297,9 @@ module.exports = {
           name: '@polymer/decorators/lib/decorators',
           message: 'Use @polymer/decorators instead',
         }],
+        '@typescript-eslint/no-empty-object-type': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-unsafe-function-type': 'off',
         '@typescript-eslint/no-explicit-any': 'error',
         // See https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
         '@typescript-eslint/ban-ts-comment': 'off',
@@ -310,19 +314,21 @@ module.exports = {
         ],
         '@typescript-eslint/no-unused-vars': [
           'error',
-          {argsIgnorePattern: '^_'},
+          {argsIgnorePattern: '^_', caughtErrors: 'none'},
         ],
+        '@typescript-eslint/no-unused-expressions': 'off',
+        '@typescript-eslint/no-unsafe-declaration-merging': 'off',
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-builtins.md
-        'node/no-unsupported-features/es-builtins': 'off',
+        'n/no-unsupported-features/es-builtins': 'off',
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
-        'node/no-unsupported-features/node-builtins': 'off',
+        'n/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports
         // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
         // At the same tigit llme, we are using typescript in a strict mode and
         // it catches almost all errors related to invalid usage of this.
         'no-invalid-this': 'off',
 
-        'node/no-extraneous-import': 'off',
+        'n/no-extraneous-import': 'off',
 
         // Typescript already checks for undef
         'no-undef': 'off',

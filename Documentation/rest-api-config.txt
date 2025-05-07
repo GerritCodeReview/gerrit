@@ -2051,6 +2051,8 @@ bit is indexed.
 link:config-gerrit.html#change.enableRobotComments[Are robot comments enabled?].
 |`conflicts_predicate_enabled`|not set if `false`|
 link:config-gerrit.html#change.conflictsPredicateEnabled[Are conflicts enabled?].
+|`allow_markdown_base64_images_in_comments`|not set if `false`|
+link:config-gerrit.html#change.allowMarkdownBase64ImagesInComments[Are markdown base64 images in comments allowed?].
 |=============================
 
 [[change-index-config-info]]

@@ -228,6 +228,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.enableRobotComments = toBoolean(config.getBoolean("change", "enableRobotComments", false));
     info.conflictsPredicateEnabled =
         toBoolean(config.getBoolean("change", "conflictsPredicateEnabled", true));
+    info.allowMarkdownBase64ImagesInComments =
+        toBoolean(config.getBoolean("change", "allowMarkdownBase64ImagesInComments", false));
     return info;
   }
 

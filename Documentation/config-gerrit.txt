@@ -1661,6 +1661,18 @@ robot comments. Soon robot comments will be entirely removed.
 +
 By default `false`.
 
+[[change.allowMarkdownBase64ImagesInComments]]change.allowMarkdownBase64ImagesInComments::
++
+Allows Base64 encoded images, embedded via Markdown, to be rendered in Gerrit comments.
++
+This feature addresses the need for teams to share images directly within Gerrit comments. 
+Instead of relying on external image hosting, images are encoded into Base64 strings
+and included in the comment text using Markdown image syntax.
++
+When enabled, the Gerrit UI will detect and render these inline images.
++
+By default `false`.
+
 [[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::
 +
 If set, requests that access the submit requirements of a change fail with an

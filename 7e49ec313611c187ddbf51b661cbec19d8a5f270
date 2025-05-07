@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de10ccdc_c9890ae9",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-07T16:19:10Z",
+      "side": 1,
+      "message": "It\u0027s because on line 272 and 279 we show different thing (state, no votes) when no checks chip for label. But I cannot check if gr-checks-chip-for-label \u003d\u003d\u003d nothing. I was asking AI and googling but I couldn\u0027t find other solution then to do check before I render gr-checks-chip-for-label. Otherwise gr-checks-chip-for-label is rendered always (with nothing inside) and other UI is not shown (like state or no votes)\n\nLet me know if it is blocker.",
+      "parentUuid": "38f882f2_b6f8453c",
+      "revId": "7e49ec313611c187ddbf51b661cbec19d8a5f270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86ab85f3_19bb2a98",
         "filename": "polygerrit-ui/app/elements/checks/gr-checks-chip-for-label.ts",
         "patchSetId": 7
@@ -31,6 +49,30 @@
       "writtenOn": "2025-05-07T15:14:17Z",
       "side": 1,
       "message": "AFAICT `requirement` will be ignored, if `labelname` is set. Furthermore the only thing that you do with `requirement` is to call `extractAssociatedLabels()`. If I am not mistaken, then you can combine these two properties into one property `labels: string[]`.",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "7e49ec313611c187ddbf51b661cbec19d8a5f270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ecc2bb9_97964f38",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-chip-for-label.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-07T16:19:10Z",
+      "side": 1,
+      "message": "Yes, you are right. I can do it if needed.",
+      "parentUuid": "86ab85f3_19bb2a98",
       "range": {
         "startLine": 23,
         "startChar": 1,

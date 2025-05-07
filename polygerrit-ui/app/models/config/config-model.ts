@@ -62,6 +62,12 @@ export class ConfigModel extends Model<ConfigState> {
     serverConfig => !!serverConfig?.change?.enable_robot_comments
   );
 
+  public allowMarkdownBase64ImagesInComments$ = select(
+    this.serverConfig$,
+    serverConfig =>
+      !!serverConfig?.change?.allow_markdown_base64_images_in_comments
+  );
+
   public docsBaseUrl$ = select(
     this.serverConfig$.pipe(
       switchMap(serverConfig => from(this.getDocsBaseUrl(serverConfig)))

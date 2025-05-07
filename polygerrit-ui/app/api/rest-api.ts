@@ -354,6 +354,7 @@ export declare interface ChangeConfigInfo {
   mergeability_computation_behavior: MergeabilityComputationBehavior;
   conflicts_predicate_enabled?: boolean;
   enable_robot_comments?: boolean;
+  allow_markdown_base64_images_in_comments?: boolean;
 }
 
 export type ChangeId = BrandType<string, '_changeId'>;

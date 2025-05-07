@@ -369,6 +369,13 @@ export class GrAccessSection extends LitElement {
           id: 'labelAs-' + labelName,
         },
       });
+      labelOptions.push({
+        id: 'removeLabel-' + labelName,
+        value: {
+          name: `Remove Label ${labelName}`,
+          id: 'removeLabel-' + labelName,
+        },
+      });
     }
     return labelOptions;
   }

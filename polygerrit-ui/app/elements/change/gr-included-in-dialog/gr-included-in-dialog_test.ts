@@ -92,7 +92,7 @@ suite('gr-included-in-dialog', () => {
   });
 
   test('computeGroups with .bindValue', async () => {
-    queryAndAssert<IronInputElement>(element, '#filterInput')!.bindValue =
+    queryAndAssert<IronInputElement>(element, '#filterInput').bindValue =
       'stable-3.2';
     element.includedIn = {branches: [], tags: []} as IncludedInInfo;
     element.includedIn.branches.push(

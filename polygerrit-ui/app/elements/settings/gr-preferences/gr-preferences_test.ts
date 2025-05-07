@@ -297,7 +297,7 @@ suite('gr-preferences tests', () => {
     assert.equal(
       Number(
         (
-          valueOf('Changes per page', 'preferences')!
+          valueOf('Changes per page', 'preferences')
             .firstElementChild as GrSelect
         ).bindValue
       ),
@@ -308,51 +308,49 @@ suite('gr-preferences tests', () => {
       preferences.theme
     );
     assert.equal(
-      (
-        valueOf('Date/time format', 'preferences')!
-          .firstElementChild as GrSelect
-      ).bindValue,
+      (valueOf('Date/time format', 'preferences').firstElementChild as GrSelect)
+        .bindValue,
       preferences.date_format
     );
     assert.equal(
-      (valueOf('Date/time format', 'preferences')!.lastElementChild as GrSelect)
+      (valueOf('Date/time format', 'preferences').lastElementChild as GrSelect)
         .bindValue,
       preferences.time_format
     );
     assert.equal(
       (
-        valueOf('Email notifications', 'preferences')!
+        valueOf('Email notifications', 'preferences')
           .firstElementChild as GrSelect
       ).bindValue,
       preferences.email_strategy
     );
     assert.equal(
-      (valueOf('Email format', 'preferences')!.firstElementChild as GrSelect)
+      (valueOf('Email format', 'preferences').firstElementChild as GrSelect)
         .bindValue,
       preferences.email_format
     );
     assert.equal(
       (
-        valueOf('Show Relative Dates In Changes Table', 'preferences')!
+        valueOf('Show Relative Dates In Changes Table', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
       false
     );
     assert.equal(
-      (valueOf('Diff view', 'preferences')!.firstElementChild as GrSelect)
+      (valueOf('Diff view', 'preferences').firstElementChild as GrSelect)
         .bindValue,
       preferences.diff_view
     );
     assert.equal(
       (
-        valueOf('Show size bars in file list', 'preferences')!
+        valueOf('Show size bars in file list', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
       true
     );
     assert.equal(
       (
-        valueOf('Publish comments on push', 'preferences')!
+        valueOf('Publish comments on push', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
       false
@@ -362,13 +360,13 @@ suite('gr-preferences tests', () => {
         valueOf(
           'Set new changes to "work in progress" by default',
           'preferences'
-        )!.firstElementChild as HTMLInputElement
+        ).firstElementChild as HTMLInputElement
       ).checked,
       false
     );
     assert.equal(
       (
-        valueOf('Disable token highlighting on hover', 'preferences')!
+        valueOf('Disable token highlighting on hover', 'preferences')
           .firstElementChild as HTMLInputElement
       ).checked,
       false
@@ -378,7 +376,7 @@ suite('gr-preferences tests', () => {
         valueOf(
           'Insert Signed-off-by Footer For Inline Edit Changes',
           'preferences'
-        )!.firstElementChild as HTMLInputElement
+        ).firstElementChild as HTMLInputElement
       ).checked,
       false
     );
@@ -400,7 +398,7 @@ suite('gr-preferences tests', () => {
       })
     );
 
-    const publishOnPush = valueOf('Publish comments on push', 'preferences')!
+    const publishOnPush = valueOf('Publish comments on push', 'preferences')
       .firstElementChild! as HTMLSpanElement;
 
     publishOnPush.click();
@@ -437,7 +435,7 @@ suite('gr-preferences tests', () => {
     const publishCommentsOnPush = valueOf(
       'Publish comments on push',
       'preferences'
-    )!.firstElementChild! as HTMLSpanElement;
+    ).firstElementChild! as HTMLSpanElement;
     publishCommentsOnPush.click();
 
     assert.isTrue(element.hasUnsavedChanges());
@@ -458,7 +456,7 @@ suite('gr-preferences tests', () => {
     const newChangesWorkInProgress = valueOf(
       'Set new changes to "work in progress" by default',
       'preferences'
-    )!.firstElementChild! as HTMLSpanElement;
+    ).firstElementChild! as HTMLSpanElement;
     newChangesWorkInProgress.click();
 
     assert.isTrue(element.hasUnsavedChanges());

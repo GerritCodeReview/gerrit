@@ -281,7 +281,7 @@ suite('checks-model tests', () => {
     );
     assert.equal(
       current.runs[0].results![0].summary,
-      RUNS[0]!.results![0].summary
+      RUNS[0].results![0].summary
     );
     const result = RUNS[0].results![0];
     const updatedResult = {...result, summary: 'new'};

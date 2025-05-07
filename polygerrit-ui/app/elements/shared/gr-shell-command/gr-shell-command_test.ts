@@ -38,7 +38,7 @@ suite('gr-shell-command tests', () => {
 
   test('focusOnCopy', async () => {
     const focusStub = sinon.stub(
-      queryAndAssert<GrCopyClipboard>(element, 'gr-copy-clipboard')!,
+      queryAndAssert<GrCopyClipboard>(element, 'gr-copy-clipboard'),
       'focusOnCopy'
     );
     await element.focusOnCopy();

@@ -434,7 +434,7 @@ suite('gr-change-list basic tests', () => {
         const elementClass = '.' + column.trim().toLowerCase();
         const section = queryAndAssert(element, 'gr-change-list-section');
         assert.isFalse(
-          queryAndAssert<HTMLElement>(section, elementClass)!.hidden
+          queryAndAssert<HTMLElement>(section, elementClass).hidden
         );
       }
     });

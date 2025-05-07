@@ -1852,7 +1852,7 @@ export class GrChangeActions
     action: UIActionInfo,
     revAction: boolean,
     payload?: RequestPayload,
-    toReport?: Object
+    toReport?: object
   ) {
     const cleanupFn = this.setLoadingOnButtonWithKey(action);
     this.reporting.reportInteraction(Interaction.CHANGE_ACTION_FIRED, {

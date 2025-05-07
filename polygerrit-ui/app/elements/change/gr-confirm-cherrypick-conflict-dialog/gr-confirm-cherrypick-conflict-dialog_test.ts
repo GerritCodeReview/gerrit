@@ -57,7 +57,7 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
     queryAndAssert<GrButton>(
       queryAndAssert<GrDialog>(element, 'gr-dialog'),
       'gr-button#cancel'
-    )!.click();
+    ).click();
     await element.updateComplete;
 
     assert.isTrue(cancelHandler.called);

@@ -44,21 +44,21 @@ suite('gr-tooltip tests', () => {
 
   test('the correct arrow is displayed', async () => {
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')!).display,
+      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')).display,
       'none'
     );
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')!).display,
+      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')).display,
       'none'
     );
     element.positionBelow = true;
     await element.updateComplete;
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')!).display,
+      getComputedStyle(queryAndAssert(element, '.arrowPositionBelow')).display,
       'none'
     );
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')!).display,
+      getComputedStyle(queryAndAssert(element, '.arrowPositionAbove')).display,
       'none'
     );
   });

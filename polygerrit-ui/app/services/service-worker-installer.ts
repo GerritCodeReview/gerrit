@@ -46,12 +46,12 @@ export interface ServiceWorkerInstallerState {
 }
 
 export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
-  readonly initialized$: Observable<Boolean | undefined> = select(
+  readonly initialized$: Observable<boolean | undefined> = select(
     this.state$,
     state => state.initialized
   );
 
-  readonly shouldShowPrompt$: Observable<Boolean | undefined> = select(
+  readonly shouldShowPrompt$: Observable<boolean | undefined> = select(
     this.initialized$,
     _ => this.shouldShowPrompt()
   );

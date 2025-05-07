@@ -2438,7 +2438,7 @@ suite('gr-reply-dialog tests', () => {
   test('isSendDisabled_existingVote', async () => {
     const account = createAccountWithId();
     (
-      element.change!.labels![StandardLabels.CODE_REVIEW]! as DetailedLabelInfo
+      element.change!.labels![StandardLabels.CODE_REVIEW] as DetailedLabelInfo
     ).all = [account];
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];

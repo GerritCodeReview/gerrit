@@ -157,7 +157,7 @@ suite('gr-submit-requirements tests', () => {
 
     test('without label to vote on', async () => {
       const modifiedChange = {...change};
-      modifiedChange.submit_requirements![0]!.submittability_expression_result.expression =
+      modifiedChange.submit_requirements![0].submittability_expression_result.expression =
         'hasfooter:"Release-Notes"';
       element.change = modifiedChange;
       await element.updateComplete;

@@ -420,7 +420,7 @@ export class GrSubmitRequirements extends LitElement {
 
   renderChecksCategoryChip(
     runs: CheckRun[],
-    runsCount: Number,
+    runsCount: number,
     category: Category | RunStatus
   ) {
     if (runsCount === 0) return;

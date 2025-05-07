@@ -388,7 +388,7 @@ export class GrMessagesList extends LitElement {
           .commentThreads=${message.commentThreads}
           @message-anchor-tap=${this.handleAnchorClick}
           .labelExtremes=${labelExtremes}
-          data-message-id=${ifDefined(getMessageId(message) as String)}
+          data-message-id=${ifDefined(getMessageId(message) as string)}
         ></gr-message>`
       )}`;
   }

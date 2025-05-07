@@ -920,7 +920,7 @@ export function createRobotComment(
         description: 'Robot suggestion',
         replacements: [
           {
-            path: 'abc.txt'!,
+            path: 'abc.txt',
             range: {
               start_line: 0,
               start_character: 0,

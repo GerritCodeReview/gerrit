@@ -8,11 +8,15 @@ import './gr-message-scores';
 import {
   createChange,
   createChangeMessage,
+  createCheckResult,
   createDetailedLabelInfo,
+  createRun,
 } from '../../../test/test-data-generators';
 import {queryAll, stubFlags} from '../../../test/test-utils';
 import {GrMessageScores} from './gr-message-scores';
 import {fixture, html, assert} from '@open-wc/testing';
+import {PatchSetNumber} from '../../../api/rest-api';
+import {Category} from '../../../api/checks';
 
 suite('gr-message-score tests', () => {
   let element: GrMessageScores;
@@ -189,6 +193,41 @@ suite('gr-message-score tests', () => {
       scoreChips?.[0],
       /* HTML */ `
         <span class="removed score"> Commit-Queue 0 (vote reset) </span>
+      `
+    );
+  });
+
+  test('shows checks chip', async () => {
+    element.message = {
+      ...createChangeMessage(),
+      author: {},
+      expanded: false,
+      message: 'Patch Set 1: Verified-1',
+      _revision_number: 1 as PatchSetNumber,
+    };
+    element.labelExtremes = {
+      Verified: {max: 1, min: -1},
+    };
+    element.latestPatchNum = 1 as PatchSetNumber;
+    element.runs = [
+      createRun({
+        labelName: 'Verified',
+
+        results: [
+          createCheckResult({
+            category: Category.ERROR,
+          }),
+        ],
+      }),
+    ];
+
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <span class="min negative score"> Verified -1 </span
+        ><gr-checks-chip></gr-checks-chip>
       `
     );
   });

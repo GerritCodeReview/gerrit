@@ -10,6 +10,7 @@ import '../gr-trigger-vote/gr-trigger-vote';
 import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-vote-chip/gr-vote-chip';
+import '../../checks/gr-checks-chip-for-label';
 import {LitElement, css, html, TemplateResult, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -36,16 +37,15 @@ import {
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {capitalizeFirstLetter, charsOnly} from '../../../utils/string-util';
-import {subscribe} from '../../lit/subscription-controller';
-import {CheckRun} from '../../../models/checks/checks-model';
-import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
-import {Category, RunStatus} from '../../../api/checks';
-import {fireShowTab} from '../../../utils/event-util';
-import {Tab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {resolve} from '../../../models/dependency';
-import {checksModelToken} from '../../../models/checks/checks-model';
+import {CheckRun, checksModelToken} from '../../../models/checks/checks-model';
 import {map} from 'lit/directives/map.js';
+import {
+  countErrorRunsForLabel,
+  countRunningRunsForLabel,
+} from '../../checks/gr-checks-util';
+import {subscribe} from '../../lit/subscription-controller';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -125,7 +125,7 @@ export class GrSubmitRequirements extends LitElement {
         gr-vote-chip {
           margin-right: var(--spacing-s);
         }
-        gr-checks-chip {
+        gr-checks-chip-for-label {
           /* .checksChip has top: 2px, this is canceling it */
           margin-top: -2px;
         }
@@ -373,73 +373,43 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderChecks(requirement: SubmitRequirementResultInfo, labelName?: string) {
-    const requirementLabels = extractAssociatedLabels(requirement);
-    const errorRuns = this.runs
-      .filter(run => hasResultsOf(run, Category.ERROR))
-      .filter(run => {
-        if (labelName) {
-          return labelName === run.labelName;
-        } else {
-          return run.labelName && requirementLabels.includes(run.labelName);
-        }
-      });
-    const errorRunsCount = errorRuns.reduce(
-      (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
-      0
+    // This method includes preliminary checks before rendering the
+    // <gr-checks-chip-for-label> component. These checks are necessary
+    // because:
+    // 1. We only want to display the checks chip for specific conditions
+    //    relevant to message scores (e.g., negative scores on the latest
+    //    patchset for which the message was posted).
+    // 2. It's programmatically difficult for a parent component to know if a
+    //    child Lit component (like <gr-checks-chip-for-label>) will internally
+    //    render 'nothing'. If the child component were rendered unconditionally
+    //    and then its own logic led it to render 'nothing', we might still
+    //    have an empty custom element in the DOM or face challenges in
+    //    conditionally rendering alternative UI elements that depend on the
+    //    child's visibility
+    // These upfront checks ensure that <gr-checks-chip-for-label> is only
+    // instantiated and rendered when it's genuinely appropriate and likely
+    // to display meaningful information, avoiding an empty or superfluous element.
+    const targetLabels = labelName
+      ? [labelName]
+      : requirement
+      ? extractAssociatedLabels(requirement)
+      : [];
+
+    // If there are no labels to filter by, then no checks can be associated.
+    if (targetLabels.length === 0) return undefined;
+
+    const {errorRunsCount} = countErrorRunsForLabel(this.runs, targetLabels);
+    const {runningRunsCount} = countRunningRunsForLabel(
+      this.runs,
+      targetLabels
     );
-    if (errorRunsCount > 0) {
-      return this.renderChecksCategoryChip(
-        errorRuns,
-        errorRunsCount,
-        Category.ERROR
-      );
-    }
-    const runningRuns = this.runs
-      .filter(r => r.isLatestAttempt)
-      .filter(
-        r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED
-      )
-      .filter(run => {
-        if (labelName) {
-          return labelName === run.labelName;
-        } else {
-          return run.labelName && requirementLabels.includes(run.labelName);
-        }
-      });
 
-    const runningRunsCount = runningRuns.length;
-    if (runningRunsCount > 0) {
-      return this.renderChecksCategoryChip(
-        runningRuns,
-        runningRunsCount,
-        RunStatus.RUNNING
-      );
-    }
-    return;
-  }
-
-  renderChecksCategoryChip(
-    runs: CheckRun[],
-    runsCount: number,
-    category: Category | RunStatus
-  ) {
-    if (runsCount === 0) return;
-    const links = [];
-    if (runs.length === 1 && runs[0].statusLink) {
-      links.push(runs[0].statusLink);
-    }
-    return html`<gr-checks-chip
-      .text=${`${runsCount}`}
-      .links=${links}
-      .statusOrCategory=${category}
-      @click=${() => {
-        fireShowTab(this, Tab.CHECKS, false, {
-          checksTab: {
-            statusOrCategory: category,
-          },
-        });
-      }}
-    ></gr-checks-chip>`;
+    if (errorRunsCount <= 0 && runningRunsCount <= 0) return undefined;
+    return html`<gr-checks-chip-for-label
+      .requirement=${requirement}
+      .labels=${targetLabels}
+      .showRunning=${true}
+    ></gr-checks-chip-for-label>`;
   }
 
   renderTriggerVotes() {

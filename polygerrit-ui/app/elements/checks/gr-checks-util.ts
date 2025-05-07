@@ -3,10 +3,13 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {Category, RunStatus} from '../../api/checks';
 import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
+  getResultsOf,
+  hasResultsOf,
   LATEST_ATTEMPT,
 } from '../../models/checks/checks-util';
 import {fire} from '../../utils/event-util';
@@ -43,4 +46,33 @@ export function matches(result: RunResult, regExp: RegExp) {
     (result.tags ?? []).some(tag => regExp.test(tag.name)) ||
     regExp.test(result.message ?? '')
   );
+}
+
+export function countErrorRunsForLabel(
+  runs: CheckRun[],
+  labels: string[]
+): {errorRuns: CheckRun[]; errorRunsCount: number} {
+  const errorRuns = runs
+    .filter(run => hasResultsOf(run, Category.ERROR))
+    .filter(run => run.labelName && labels.includes(run.labelName));
+  const errorRunsCount = errorRuns.reduce(
+    (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
+    0
+  );
+  return {errorRuns, errorRunsCount};
+}
+
+export function countRunningRunsForLabel(
+  runs: CheckRun[],
+  labels: string[]
+): {runningRuns: CheckRun[]; runningRunsCount: number} {
+  const runningRuns = runs
+    .filter(r => r.isLatestAttempt)
+    .filter(
+      r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED
+    )
+    .filter(run => run.labelName && labels.includes(run.labelName));
+
+  const runningRunsCount = runningRuns.length;
+  return {runningRuns, runningRunsCount};
 }

@@ -16,6 +16,24 @@
       "message": "Does this work? IIUC asUniqueUser() throws an UnresolvableAccountException if there are multiple matches (which is neither a ConfigInvalidException nor an IOException). So you would need to catch UnresolvableAccountException and we probably don\u0027t want to fallback in case of ConfigInvalidException and IOException.\n\nI would rather avoid catching exceptions here and rewrite this to something like this:\n\n```\nAccountResolver.Result accountResolverResult \u003d accountResolver.resolve(input.reviewer);\n\nif (accountResolverResult.asList().isEmpty()) {\n  // Fallback to also searching inactive account\n  accountResolverResult \u003d accountResolver.resolveIncludeInactive(input.reviewer);\n}\n\nreviewerUser \u003d accountResolverResult.asUniqueUser();\n```",
       "revId": "86e5cdf2a05f91bba93bbdba7da940461a20d849",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c912d80f_215aff98",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-07T11:56:47Z",
+      "side": 1,
+      "message": "\u003e Does this work\n\nAdded a unit test to verify.",
+      "parentUuid": "0a34c639_642f1cc3",
+      "revId": "86e5cdf2a05f91bba93bbdba7da940461a20d849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "103645d2_f6ebb548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-07T10:29:58Z",
+      "side": 1,
+      "message": "We use offline reindexing in a separate indexing container in k8s-gerrit to prepare the bulk of the new index version based on a snapshot of the filesystem used to store the git repositories. For this offline reindexing we don\u0027t want to update caches since that would bloat them massively and we don\u0027t use them afterwards anyway.\n\nWhen offline reindexing finished we copy the only new index version to the Gerrit primary pods and enable online reindexing with `index.reuseExistingDocuments \u003d true` so that gerrit primary pods reindex changes which were created or updated after the filesystem snapshot was created and switch to the new index version when this finished.",
+      "parentUuid": "ee9d8738_d21ed623",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7

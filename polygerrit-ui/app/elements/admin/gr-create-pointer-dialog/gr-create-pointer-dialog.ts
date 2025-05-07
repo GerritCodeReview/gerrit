@@ -13,6 +13,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fire, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
 
@@ -45,6 +46,8 @@ export class GrCreatePointerDialog extends LitElement {
   /* private but used in test */
   @state() itemAnnotation?: string;
 
+  @state() createEmptyCommit?: boolean;
+
   private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
@@ -57,12 +60,6 @@ export class GrCreatePointerDialog extends LitElement {
         }
         input {
           width: 20em;
-        }
-        /* Add css selector with #id to increase priority
-          (otherwise ".gr-form-styles section" rule wins) */
-        .hideItem,
-        #itemAnnotationSection.hideItem {
-          display: none;
         }
       `,
     ];
@@ -81,7 +78,30 @@ export class GrCreatePointerDialog extends LitElement {
               <input placeholder="${this.detailType} Name" />
             </iron-input>
           </section>
-          <section id="itemRevisionSection">
+          <section
+            id="createEmptyCommitSection"
+            ?hidden=${this.itemDetail === RepoDetailView.TAGS}
+          >
+            <div>
+              <span class="title">Point to</span>
+            </div>
+            <div>
+              <span class="value">
+                <gr-select
+                  id="initialCommit"
+                  .bindValue=${this.createEmptyCommit}
+                  @bind-value-changed=${this
+                    .handleCreateEmptyCommitBindValueChanged}
+                >
+                  <select>
+                    <option value="false">Existing Revision</option>
+                    <option value="true">Initial empty commit</option>
+                  </select>
+                </gr-select>
+              </span>
+            </div>
+          </section>
+          <section id="itemRevisionSection" ?hidden=${!!this.createEmptyCommit}>
             <span class="title">Initial Revision</span>
             <iron-input
               .bindValue=${this.itemRevision}
@@ -92,9 +112,7 @@ export class GrCreatePointerDialog extends LitElement {
           </section>
           <section
             id="itemAnnotationSection"
-            class=${this.itemDetail === RepoDetailView.BRANCHES
-              ? 'hideItem'
-              : ''}
+            ?hidden=${this.itemDetail === RepoDetailView.BRANCHES}
           >
             <span class="title">Annotation</span>
             <iron-input
@@ -126,10 +144,14 @@ export class GrCreatePointerDialog extends LitElement {
     if (!this.itemName) {
       throw new Error('itemName name is not set');
     }
-    const USE_HEAD = this.itemRevision ? this.itemRevision : 'HEAD';
+    const useHead = this.itemRevision ? this.itemRevision : 'HEAD';
+    const createEmptyCommit = !!this.createEmptyCommit;
     if (this.itemDetail === RepoDetailView.BRANCHES) {
+      const createBranchInput = createEmptyCommit
+        ? {create_empty_commit: true}
+        : {revision: useHead};
       return this.restApiService
-        .createRepoBranch(this.repoName, this.itemName, {revision: USE_HEAD})
+        .createRepoBranch(this.repoName, this.itemName, createBranchInput)
         .then(itemRegistered => {
           if (itemRegistered.status === 201) {
             fireAlert(this, 'Branch created successfully. Reloading...');
@@ -139,7 +161,7 @@ export class GrCreatePointerDialog extends LitElement {
     } else if (this.itemDetail === RepoDetailView.TAGS) {
       return this.restApiService
         .createRepoTag(this.repoName, this.itemName, {
-          revision: USE_HEAD,
+          revision: useHead,
           message: this.itemAnnotation || undefined,
         })
         .then(itemRegistered => {
@@ -162,5 +184,11 @@ export class GrCreatePointerDialog extends LitElement {
 
   private handleItemAnnotationBindValueChanged(e: BindValueChangeEvent) {
     this.itemAnnotation = e.detail.value;
+  }
+
+  private handleCreateEmptyCommitBindValueChanged(
+    e: ValueChangedEvent<string>
+  ) {
+    this.createEmptyCommit = e.detail.value === 'true';
   }
 }

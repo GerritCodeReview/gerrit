@@ -25,6 +25,11 @@ import {
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 
+// MIME types for images we allow showing. Do not include SVG, it can contain
+// arbitrary JavaScript.
+const IMAGE_MIME_PATTERN =
+  /^data:image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp);base64,/;
+
 /**
  * This element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
@@ -47,6 +52,9 @@ export class GrFormattedText extends LitElement {
   // run out of memory causing the tab to crash.
   @state()
   MARKDOWN_LIMIT = 100000;
+
+  @state()
+  private allowMarkdownBase64ImagesInComments = false;
 
   /**
    * Note: Do not use sharedStyles or other styles here that should not affect
@@ -174,6 +182,14 @@ export class GrFormattedText extends LitElement {
         };
       }
     );
+
+    subscribe(
+      this,
+      () => this.getConfigModel().allowMarkdownBase64ImagesInComments$,
+      allow => {
+        this.allowMarkdownBase64ImagesInComments = allow;
+      }
+    );
   }
 
   override render() {
@@ -225,6 +241,9 @@ export class GrFormattedText extends LitElement {
       return `<p>${linkedText}</p>`;
     };
 
+    const allowMarkdownBase64ImagesInComments =
+      this.allowMarkdownBase64ImagesInComments;
+
     // We are overriding some marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
     // 2. Inline code blocks ("codespan") do not unescape HTML characters when
@@ -257,8 +276,19 @@ export class GrFormattedText extends LitElement {
           >${text}</a
         >`;
       };
-      renderer['image'] = (href: string, _title: string, text: string) =>
-        `![${text}](${href})`;
+      renderer['image'] = (href: string, title: string, text: string) => {
+        // Check if this is a base64-encoded image
+        if (
+          allowMarkdownBase64ImagesInComments &&
+          IMAGE_MIME_PATTERN.test(href)
+        ) {
+          return `<img src="${href}" alt="${text}" ${
+            title ? `title="${title}"` : ''
+          } />`;
+        }
+        // For non-base64 images just return the markdown
+        return `![${text}](${href})`;
+      };
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
       renderer['code'] = (text: string, infostring: string) => {

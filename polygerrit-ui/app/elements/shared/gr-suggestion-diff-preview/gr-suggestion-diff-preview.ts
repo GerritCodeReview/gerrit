@@ -34,6 +34,7 @@ import {Timing} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {ReportSource} from '../../../services/suggestions/suggestions-service';
 
 export interface PreviewLoadedDetail {
   previewLoadedFor?: FixSuggestionInfo;
@@ -314,7 +315,13 @@ export class GrSuggestionDiffPreview extends LitElement {
         })
       );
       fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});
-      fire(this, 'apply-user-suggestion', {fixSuggestion});
+      fire(this, 'apply-user-suggestion', {
+        fixSuggestion: fixSuggestion.description.includes(
+          ReportSource.GET_AI_FIX_FOR_COMMENT
+        )
+          ? fixSuggestion
+          : undefined,
+      });
     }
   }
 

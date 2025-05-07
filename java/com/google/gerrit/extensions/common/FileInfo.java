@@ -20,6 +20,8 @@ public class FileInfo {
   public Character status;
   public Integer oldMode;
   public Integer newMode;
+  public String oldSha;
+  public String newSha;
   public Boolean binary;
   public String oldPath;
   public Integer linesInserted;
@@ -32,6 +34,10 @@ public class FileInfo {
     if (o instanceof FileInfo) {
       FileInfo fileInfo = (FileInfo) o;
       return Objects.equals(status, fileInfo.status)
+          && Objects.equals(oldMode, fileInfo.oldMode)
+          && Objects.equals(newMode, fileInfo.newMode)
+          && Objects.equals(oldSha, fileInfo.oldSha)
+          && Objects.equals(newSha, fileInfo.newSha)
           && Objects.equals(binary, fileInfo.binary)
           && Objects.equals(oldPath, fileInfo.oldPath)
           && Objects.equals(linesInserted, fileInfo.linesInserted)
@@ -52,6 +58,14 @@ public class FileInfo {
     return "FileInfo{"
         + "status="
         + status
+        + ", oldMode="
+        + oldMode
+        + ", newMode="
+        + oldMode
+        + ", oldSha="
+        + oldSha
+        + ", newSha="
+        + oldSha
         + ", binary="
         + binary
         + ", oldPath="

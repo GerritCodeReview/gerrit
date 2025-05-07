@@ -715,7 +715,7 @@ message FileDiffKeyProto {
 
 // Serialized form of
 // com.google.gerrit.server.patch.filediff.FileDiffOutput
-// Next ID: 15
+// Next ID: 17
 message FileDiffOutputProto {
   // Next ID: 5
   message Edit {
@@ -749,4 +749,6 @@ message FileDiffOutputProto {
   bool negative = 12;
   string old_mode = 13; // ENUM as string
   string new_mode = 14; // ENUM as string
+  bytes old_sha = 15;
+  bytes new_sha = 16;
 }

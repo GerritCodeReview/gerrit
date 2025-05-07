@@ -8199,6 +8199,10 @@ the file permission bits. For added files, this field will not be present.
 |`new_mode`        |optional|File mode in octal (e.g. 100644) at the new commit.
 The first three digits indicate the file type and the last three digits contain
 the file permission bits. For deleted files, this field will not be present.
+|`old_sha`        |optional|SHA-1 of the file content at the old commit.
+For added files, this field will not be present.
+|`new_sha`        |optional|SHA-1 of the file content at the new commit.
+For deleted files, this field will not be present.
 |=============================
 
 [[fix-input]]

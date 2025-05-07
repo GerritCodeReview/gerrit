@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "523ba2b6_eb535929",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-07T11:47:21Z",
+      "side": 1,
+      "message": "did you want to push a new patchset ?",
+      "parentUuid": "179ea292_b0a9c3cc",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7906e11_3971883a",
@@ -114,6 +138,24 @@
       "side": 1,
       "message": "I don\u0027t have an opinion. I wrote this way, because I was using oldMode as reference. I will defer to Edwin on this (not in the least because it lets me not do extra changes 😊 )",
       "parentUuid": "d8a18c05_34e508db",
+      "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a9d712c_6ebabd0e",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-07T11:47:21Z",
+      "side": 1,
+      "message": "ok, LGTM",
+      "parentUuid": "313402c4_4d25d8bf",
       "revId": "b9204668a0cd17abaa9c54ff6f3a792d1a16dcdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -131,31 +131,6 @@ export class GrFormattedText extends LitElement {
           link: '$1',
           enabled: true,
         };
-
-        // Linkify schemeless URLs with proper domain structures.
-        this.repoCommentLinks['ALWAYS_LINK_SCHEMELESS'] = {
-          // (?<=\s|^|[('":[])   // Ensure the match is preceded by whitespace,
-          //                     // start of line, or one of ( ' " : [
-          // (                   // Start capture group 1
-          //   (?:               // Start non-capturing domain group
-          //     [\w-]+\.        //   Sequence of words/hyphens with dot, e.g. "a-b."
-          //   )+                // End domain group. Require at least one match
-          //   [\w-]+            // End with words/hyphens for TLD e.g. "com"
-          //   (?:               // Start optional non-capturing path/query/fragment group
-          //     [/?#]           //   Start with one of / ? #
-          //     [^\s'"]*        //   Followed by some chars that are not whitespace,
-          //                     //   ' or " (to not grab trailing quotes)
-          //   )?                // End optional path/query/fragment group
-          // )                   // End capture group 1
-          // (?=\s|$|[)'"!?.,])  // Ensure the match is followed by whitespace,
-          //                     // end of line, or one of ) ' " ! ? . ,
-          match:
-            '(?<=\\s|^|[(\'":[])((?:[\\w-]+\\.)+[\\w-]+(?:[/?#][^\\s\'"]*)?)(?=\\s|$|[)\'"!?.,])',
-          // Prepend http:// for the link href otherwise it will be treated as
-          // a relative URL.
-          link: 'http://$1',
-          enabled: true,
-        };
       }
     );
   }

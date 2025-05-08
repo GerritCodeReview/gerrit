@@ -59,7 +59,53 @@ suite('gr-repo-submit-requirements tests', () => {
               <td>Loading...</td>
             </tr>
           </tbody>
-        </table>`
+        </table>
+        <div class="actions">
+            <gr-button class="createButton" primary="">
+              Create Submit Requirement
+            </gr-button>
+          </div>
+          <dialog id="createDialog" tabindex="-1">
+            <gr-dialog cancel-label="Cancel" confirm-label="Create">
+              <div class="header" slot="header">Create Submit Requirement</div>
+              <div class="main" slot="main">
+                <form class="form">
+                  <div class="form-group">
+                    <label for="name"> Name </label>
+                    <input id="name" required="" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="description"> Description </label>
+                    <textarea id="description"> </textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="applicability">
+                      Applicability Expression
+                    </label>
+                    <input id="applicability" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="submittability">
+                      Submittability Expression
+                    </label>
+                    <input id="submittability" required="" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="override"> Override Expression </label>
+                    <input id="override" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <div class="checkbox-container">
+                      <label for="allowOverride">
+                        Allow override in child projects
+                      </label>
+                      <input id="allowOverride" type="checkbox" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </gr-dialog>
+          </dialog>`
       );
     });
 
@@ -99,6 +145,52 @@ suite('gr-repo-submit-requirements tests', () => {
               </tr>
             </tbody>
           </table>
+          <div class="actions">
+            <gr-button class="createButton" primary="">
+              Create Submit Requirement
+            </gr-button>
+          </div>
+          <dialog id="createDialog" tabindex="-1">
+            <gr-dialog cancel-label="Cancel" confirm-label="Create">
+              <div class="header" slot="header">Create Submit Requirement</div>
+              <div class="main" slot="main">
+                <form class="form">
+                  <div class="form-group">
+                    <label for="name"> Name </label>
+                    <input id="name" required="" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="description"> Description </label>
+                    <textarea id="description"> </textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="applicability">
+                      Applicability Expression
+                    </label>
+                    <input id="applicability" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="submittability">
+                      Submittability Expression
+                    </label>
+                    <input id="submittability" required="" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="override"> Override Expression </label>
+                    <input id="override" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <div class="checkbox-container">
+                      <label for="allowOverride">
+                        Allow override in child projects
+                      </label>
+                      <input id="allowOverride" type="checkbox" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </gr-dialog>
+          </dialog>
         `
       );
     });

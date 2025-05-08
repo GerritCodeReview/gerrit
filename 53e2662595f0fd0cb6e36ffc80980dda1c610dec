@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c416850_acbf3108",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-08T16:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4c9c69_01c93c17",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "53e2662595f0fd0cb6e36ffc80980dda1c610dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7c39074_073b2e9e",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-05-08T07:49:40Z",
       "side": 1,
       "message": "```suggestion\nare being built since with H2 v1.x DB access is single threaded.\n```",
+      "revId": "53e2662595f0fd0cb6e36ffc80980dda1c610dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01a38167_5986de6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-08T16:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c39074_073b2e9e",
       "revId": "53e2662595f0fd0cb6e36ffc80980dda1c610dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

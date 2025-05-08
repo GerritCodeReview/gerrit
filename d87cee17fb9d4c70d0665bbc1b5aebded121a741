@@ -381,6 +381,30 @@
       },
       "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a9aeeb5_c7d9f69f",
+        "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-08T14:46:33Z",
+      "side": 1,
+      "message": "Please reconsider using a simple \n```\n if (!isWriteEnabled) {\n   return;\n }\n``` \nas it makes it easy to use the feature even online, and it makes it easier to maintain this code base. I have become very familiar with the code in here, and adding a simple \"if\" will not add much complexity, and I do not believe it adds a significant risk of a write method being missed in the future that is not easily rectifiable.",
+      "parentUuid": "f994e276_e9bc6ce4",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 57
+      },
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

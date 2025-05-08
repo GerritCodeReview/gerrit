@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9657355_8349043f",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T10:49:24Z",
+      "side": 1,
+      "message": "I consider both options and I still think it\u0027s best to check before rendering label. I added detailed comment explaining situation",
+      "parentUuid": "2f35da1b_eb334842",
+      "revId": "7e49ec313611c187ddbf51b661cbec19d8a5f270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86ab85f3_19bb2a98",
@@ -115,6 +133,30 @@
       "side": 1,
       "message": "Please do. I think it is a substantial simplification at low cost.",
       "parentUuid": "2ecc2bb9_97964f38",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "7e49ec313611c187ddbf51b661cbec19d8a5f270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5c0a327_cdd20e41",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-chip-for-label.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T10:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d15c0ca_a15dbce0",
       "range": {
         "startLine": 23,
         "startChar": 1,

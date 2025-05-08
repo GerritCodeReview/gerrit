@@ -1156,6 +1156,28 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getEmailsOfOtherAccountIncludesEmailsFromNonMailToExternalIds() throws Exception {
+    String email = "preferred4@example.com";
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
+
+    String secondaryEmail = "secondary4@example.com";
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Add External ID",
+            foo.id(),
+            u ->
+                u.addExternalId(
+                    getExternalIdFactory().createWithEmail("x", "1", foo.id(), secondaryEmail)));
+
+    assertThat(
+            gApi.accounts().id(foo.id().get()).getEmails().stream()
+                .map(e -> e.email)
+                .collect(toSet()))
+        .containsExactly(email, secondaryEmail);
+  }
+
+  @Test
   public void addEmail() throws Exception {
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =

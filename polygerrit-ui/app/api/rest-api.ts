@@ -1095,6 +1095,7 @@ export declare interface ServerInfo {
   user: UserConfigInfo;
   default_theme?: string;
   submit_requirement_dashboard_columns?: string[];
+  dashboard_show_all_labels?: boolean;
   metadata?: MetadataInfo[];
 }
 

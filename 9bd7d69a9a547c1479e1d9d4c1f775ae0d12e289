@@ -40,6 +40,30 @@
       ],
       "revId": "9bd7d69a9a547c1479e1d9d4c1f775ae0d12e289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "205d487e_9d09b8cc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T09:13:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d652d7aa_d2fea541",
+      "range": {
+        "startLine": 232,
+        "startChar": 34,
+        "endLine": 232,
+        "endChar": 52
+      },
+      "revId": "9bd7d69a9a547c1479e1d9d4c1f775ae0d12e289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

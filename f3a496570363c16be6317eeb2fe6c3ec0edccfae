@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3028888e_a79bbb21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-08T08:57:39Z",
+      "side": 1,
+      "message": "Reassigning to Ben as original author of disabling the notification.\n\nNote: at google https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/mail/EmailSettings.java;drc\u003d9a8372bad89b9ccae689df4a69715b675690403c;l\u003d63 this setting is defaulted to false, so this would not change how it behaves for us, except for the weird edgecases cases, where that setting doesn\u0027t apply (which exist). These edgecases are more prevalent in some repos than the others, because AFAIK they are related to starred changes and project watches.",
+      "revId": "f3a496570363c16be6317eeb2fe6c3ec0edccfae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

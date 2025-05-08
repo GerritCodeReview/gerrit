@@ -86,15 +86,13 @@ public abstract class ExternalId implements Serializable {
   }
 
   /**
-   * Returns all IDs of the provided external IDs that have the {@link ExternalId#SCHEME_MAILTO}
-   * scheme as a distinct stream.
+   * Returns all emails of the provided external IDs as a distinct stream.
    *
    * @param extIds external IDs
-   * @return distinct stream of all IDs of the provided external IDs that have the {@link
-   *     ExternalId#SCHEME_MAILTO} scheme
+   * @return distinct stream of all emails of the provided external IDs
    */
   public static Stream<String> getEmails(Collection<ExternalId> extIds) {
-    return extIds.stream().filter(e -> e.isScheme(SCHEME_MAILTO)).map(e -> e.key().id()).distinct();
+    return extIds.stream().map(e -> e.email()).filter(Objects::nonNull).distinct();
   }
 
   private static final long serialVersionUID = 1L;

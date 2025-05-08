@@ -16,6 +16,24 @@
       "message": "Wonder if a test could be added for why the change was reverted in the first place? (To prevent a regression)",
       "revId": "a66c5c0234498b4f84982f6cdcfee18f9267d488",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4dca1ad_5c78d32c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2025-05-08T20:20:08Z",
+      "side": 1,
+      "message": "Added an explicit case `await checkLinking(\u0027com.google.gerrit.server.Event\u0027, false);`",
+      "parentUuid": "1d32c5fc_4a5b0e1a",
+      "revId": "a66c5c0234498b4f84982f6cdcfee18f9267d488",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

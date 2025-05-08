@@ -34,6 +34,24 @@
       "parentUuid": "87f3a8bd_8eb6994f",
       "revId": "e9e21f43dfcff6b4b196c3f614231ff78baf0bd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe845e99_0ec113ca",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T09:12:59Z",
+      "side": 1,
+      "message": "Yes, we expect only limited number of hosts - with special needs to use this feature.",
+      "parentUuid": "82cfa9df_3f9798d0",
+      "revId": "e9e21f43dfcff6b4b196c3f614231ff78baf0bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

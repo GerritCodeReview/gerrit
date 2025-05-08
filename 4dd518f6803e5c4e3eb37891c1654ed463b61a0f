@@ -16,6 +16,24 @@
       "message": "Why the removal?",
       "revId": "4dd518f6803e5c4e3eb37891c1654ed463b61a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01576c59_62e80b34",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T14:06:46Z",
+      "side": 0,
+      "message": "Thank you for checking it. I had to misclick to remove it. It was not intentional. I will return it.",
+      "parentUuid": "d971d4a3_74ef51d2",
+      "revId": "4dd518f6803e5c4e3eb37891c1654ed463b61a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

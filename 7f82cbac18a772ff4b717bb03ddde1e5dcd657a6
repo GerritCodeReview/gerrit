@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c985932f_26202976",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-08T08:13:30Z",
+      "side": 1,
+      "message": "This can be +2\u0027d but merging will have to wait until after 3.12 is released.",
+      "revId": "7f82cbac18a772ff4b717bb03ddde1e5dcd657a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

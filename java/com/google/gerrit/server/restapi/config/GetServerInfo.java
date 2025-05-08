@@ -156,6 +156,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
     info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
+    info.dashboardShowAllLabels = getDashboardShowAllLabels();
     return Response.ok(info);
   }
 
@@ -373,6 +374,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private List<String> getSubmitRequirementDashboardColumns() {
     return Arrays.asList(config.getStringList("dashboard", null, "submitRequirementColumns"));
+  }
+
+  private Boolean getDashboardShowAllLabels() {
+    return toBoolean(config.getBoolean("dashboard", null, "showAllLabels", false));
   }
 
   @Nullable

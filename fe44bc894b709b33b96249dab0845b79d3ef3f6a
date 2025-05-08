@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e0b09e_f57f9fcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T11:30:41Z",
+      "side": 1,
+      "message": "I agree that we shouldn\u0027t linkify \"server.event\" etc. Good compromise is to check if text contains at least one \u0027/\u0027.",
+      "revId": "fe44bc894b709b33b96249dab0845b79d3ef3f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

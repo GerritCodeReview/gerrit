@@ -597,17 +597,56 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi change = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
-    in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
-    ChangeInfo cherryInfo = change.revision(r.getCommit().name()).cherryPick(in).get();
+    ChangeInfo cherryInfo = change.current().cherryPick(in).get();
     assertThat(cherryInfo.messages).hasSize(2);
-    Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
+    Iterator<ChangeMessageInfo> cherryMessageIt = cherryInfo.messages.iterator();
     assertThat(cherryInfo.cherryPickOfChange).isEqualTo(change.get()._number);
 
     // Existing change was updated.
     assertThat(cherryInfo._number).isEqualTo(change.get()._number);
+    assertThat(cherryInfo.cherryPickOfChange).isEqualTo(change.get()._number);
     assertThat(cherryInfo.cherryPickOfPatchSet).isEqualTo(1);
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Patch Set 2: Cherry Picked from branch master.");
+    assertThat(cherryMessageIt.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(cherryMessageIt.next().message)
+        .isEqualTo("Patch Set 2: Cherry Picked from branch master.");
+  }
+
+  @Test
+  public void restoreOldPatchSetByCherryPickToSameBranch() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("a.txt").content("aContent").create();
+    ChangeApi change = gApi.changes().id(project.get(), changeId.get());
+
+    // Amend the change, deleting file a.txt and adding file b.txt.
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("a.txt")
+        .delete()
+        .file("b.txt")
+        .content("bContent")
+        .create();
+
+    // Restore patch set 1 by cherry-picking it.
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "master";
+    ChangeInfo cherryInfo = change.revision(1).cherryPick(in).get();
+    assertThat(cherryInfo.messages).hasSize(3);
+    Iterator<ChangeMessageInfo> cherryMessageIt = cherryInfo.messages.iterator();
+    assertThat(cherryInfo.cherryPickOfChange).isEqualTo(change.get()._number);
+
+    // Existing change was updated.
+    assertThat(cherryInfo._number).isEqualTo(change.get()._number);
+    assertThat(cherryInfo.cherryPickOfChange).isEqualTo(change.get()._number);
+    assertThat(cherryInfo.cherryPickOfPatchSet).isEqualTo(1);
+    assertThat(cherryMessageIt.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(cherryMessageIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryMessageIt.next().message)
+        .isEqualTo("Patch Set 3: Cherry Picked from branch master.");
+
+    // File a.txt has been restored and b.txt has been removed.
+    Map<String, FileInfo> files = change.current().files();
+    assertThat(files.keySet()).containsExactly("a.txt", COMMIT_MSG);
   }
 
   @Test

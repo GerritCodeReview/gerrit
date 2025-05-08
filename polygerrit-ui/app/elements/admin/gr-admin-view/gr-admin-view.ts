@@ -459,6 +459,7 @@ export class GrAdminView extends LitElement {
       <div class="main table breadcrumbs">
         <gr-repo-submit-requirements
           .repo=${this.repoViewState.repo}
+          .params=${this.repoViewState}
         ></gr-repo-submit-requirements>
       </div>
     `;

@@ -92,6 +92,7 @@ import {
   DraftInfo,
   ReviewResult,
   SubmitRequirementInfo,
+  SubmitRequirementInput,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -290,6 +291,12 @@ export interface RestApiService extends Finalizable {
     repoName: RepoName,
     errFn?: ErrorCallback
   ): Promise<SubmitRequirementInfo[] | undefined>;
+
+  createSubmitRequirement(
+    repoName: RepoName,
+    input: SubmitRequirementInput,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo | undefined>;
 
   getRepoAccessRights(
     repoName: RepoName,

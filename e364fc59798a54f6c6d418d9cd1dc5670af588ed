@@ -141,6 +141,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37cf0713_11d842c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-08T14:45:16Z",
+      "side": 1,
+      "message": "dd",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 48,
+        "endChar": 40
+      },
+      "revId": "e364fc59798a54f6c6d418d9cd1dc5670af588ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23bc9dc4_54526569",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
         "patchSetId": 1

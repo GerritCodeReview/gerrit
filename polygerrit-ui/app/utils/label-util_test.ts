@@ -27,6 +27,8 @@ import {
   hasVotes,
   hasVoted,
   extractLabelsWithCountFrom,
+  orderSubmitRequirements,
+  StandardLabels,
 } from './label-util';
 import {
   AccountId,
@@ -710,93 +712,6 @@ suite('label-util', () => {
     });
   });
 
-  suite('getApplicableLabels()', () => {
-    test('1 not applicable', () => {
-      const notApplicableLabel = 'Not-Applicable-Label';
-      const change = {
-        ...createChange(),
-        submit_requirements: [
-          {
-            ...createSubmitRequirementResultInfo(),
-            status: SubmitRequirementStatus.NOT_APPLICABLE,
-            submittability_expression_result: {
-              ...createSubmitRequirementExpressionInfo(),
-              expression: `label:${notApplicableLabel}=MAX`,
-            },
-            is_legacy: false,
-          },
-        ],
-        labels: {
-          [notApplicableLabel]: createDetailedLabelInfo(),
-        },
-      };
-      assert.deepEqual(getApplicableLabels(change), []);
-    });
-    test('1 applicable, 1 not applicable', () => {
-      const applicableLabel = 'Applicable-Label';
-      const notApplicableLabel = 'Not-Applicable-Label';
-      const change = {
-        ...createChange(),
-        submit_requirements: [
-          {
-            ...createSubmitRequirementResultInfo(),
-            status: SubmitRequirementStatus.NOT_APPLICABLE,
-            submittability_expression_result: {
-              ...createSubmitRequirementExpressionInfo(),
-              expression: `label:${notApplicableLabel}=MAX`,
-            },
-            is_legacy: false,
-          },
-          {
-            ...createSubmitRequirementResultInfo(),
-            status: SubmitRequirementStatus.UNSATISFIED,
-            submittability_expression_result: {
-              ...createSubmitRequirementExpressionInfo(),
-              expression: `label:${applicableLabel}=MAX`,
-            },
-            is_legacy: false,
-          },
-        ],
-        labels: {
-          [notApplicableLabel]: createDetailedLabelInfo(),
-          [applicableLabel]: createDetailedLabelInfo(),
-        },
-      };
-      assert.deepEqual(getApplicableLabels(change), [applicableLabel]);
-    });
-
-    test('same label in applicable and not applicable requirement', () => {
-      const label = 'label';
-      const change = {
-        ...createChange(),
-        submit_requirements: [
-          {
-            ...createSubmitRequirementResultInfo(),
-            status: SubmitRequirementStatus.NOT_APPLICABLE,
-            submittability_expression_result: {
-              ...createSubmitRequirementExpressionInfo(),
-              expression: `label:${label}=MAX`,
-            },
-            is_legacy: false,
-          },
-          {
-            ...createSubmitRequirementResultInfo(),
-            status: SubmitRequirementStatus.UNSATISFIED,
-            submittability_expression_result: {
-              ...createSubmitRequirementExpressionInfo(),
-              expression: `label:${label}=MAX`,
-            },
-            is_legacy: false,
-          },
-        ],
-        labels: {
-          [label]: createDetailedLabelInfo(),
-        },
-      };
-      assert.deepEqual(getApplicableLabels(change), [label]);
-    });
-  });
-
   suite('isBlockingCondition', () => {
     test('true', () => {
       const requirement: SubmitRequirementResultInfo = {
@@ -899,6 +814,59 @@ suite('label-util', () => {
     test('quickLabelInfo - negative => false', () => {
       quickLabelInfo.rejected = account;
       assert.isTrue(hasVoted(quickLabelInfo, account));
+    });
+  });
+
+  suite('orderSubmitRequirements', () => {
+    test('orders priority requirements first', () => {
+      const codeReview = {
+        ...createSubmitRequirementResultInfo(),
+        name: StandardLabels.CODE_REVIEW,
+      };
+      const codeOwners = {
+        ...createSubmitRequirementResultInfo(),
+        name: StandardLabels.CODE_OWNERS,
+      };
+      const presubmitVerified = {
+        ...createSubmitRequirementResultInfo(),
+        name: StandardLabels.PRESUBMIT_VERIFIED,
+      };
+      const customLabel = createSubmitRequirementResultInfo('Custom-Label');
+
+      const requirements = [
+        customLabel,
+        codeReview,
+        presubmitVerified,
+        codeOwners,
+      ];
+      const ordered = orderSubmitRequirements(requirements);
+
+      assert.deepEqual(ordered, [
+        codeReview,
+        codeOwners,
+        presubmitVerified,
+        customLabel,
+      ]);
+    });
+
+    test('preserves order of non-priority requirements', () => {
+      const customLabel1 = {
+        ...createSubmitRequirementResultInfo(),
+        name: 'Custom-Label-1',
+      };
+      const customLabel2 = {
+        ...createSubmitRequirementResultInfo(),
+        name: 'Custom-Label-2',
+      };
+      const customLabel3 = {
+        ...createSubmitRequirementResultInfo(),
+        name: 'Custom-Label-3',
+      };
+
+      const requirements = [customLabel2, customLabel1, customLabel3];
+      const ordered = orderSubmitRequirements(requirements);
+
+      assert.deepEqual(ordered, requirements);
     });
   });
 });

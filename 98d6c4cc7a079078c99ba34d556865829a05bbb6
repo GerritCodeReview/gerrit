@@ -16,6 +16,29 @@
       "message": "Thank you, sorry for the mess.",
       "revId": "98d6c4cc7a079078c99ba34d556865829a05bbb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8013e824_d8bc04d0",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T12:12:48Z",
+      "side": 1,
+      "message": "We don\u0027t want to sort them because it\u0027s used in other places like gr-submit-requirements.\n\nI am surprised we sort labels in gr-change-list() but that\u0027s probably relict from past.",
+      "range": {
+        "startLine": 304,
+        "startChar": 16,
+        "endLine": 304,
+        "endChar": 39
+      },
+      "revId": "98d6c4cc7a079078c99ba34d556865829a05bbb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

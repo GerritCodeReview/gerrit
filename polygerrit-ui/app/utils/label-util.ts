@@ -310,9 +310,9 @@ export function orderSubmitRequirements(
     priorityRequirementList =
       priorityRequirementList.concat(priorityRequirement);
   }
-  const nonPriorityRequirements = requirements
-    .filter(r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const nonPriorityRequirements = requirements.filter(
+    r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name)
+  );
   return priorityRequirementList.concat(nonPriorityRequirements);
 }
 

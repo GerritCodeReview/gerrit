@@ -27,6 +27,8 @@ import {
   hasVotes,
   hasVoted,
   extractLabelsWithCountFrom,
+  orderSubmitRequirements,
+  StandardLabels,
 } from './label-util';
 import {
   AccountId,
@@ -899,6 +901,59 @@ suite('label-util', () => {
     test('quickLabelInfo - negative => false', () => {
       quickLabelInfo.rejected = account;
       assert.isTrue(hasVoted(quickLabelInfo, account));
+    });
+  });
+
+  suite('orderSubmitRequirements', () => {
+    test('orders priority requirements first', () => {
+      const codeReview = {
+        ...createSubmitRequirementResultInfo(),
+        name: StandardLabels.CODE_REVIEW,
+      };
+      const codeOwners = {
+        ...createSubmitRequirementResultInfo(),
+        name: StandardLabels.CODE_OWNERS,
+      };
+      const presubmitVerified = {
+        ...createSubmitRequirementResultInfo(),
+        name: StandardLabels.PRESUBMIT_VERIFIED,
+      };
+      const customLabel = createSubmitRequirementResultInfo('Custom-Label');
+
+      const requirements = [
+        customLabel,
+        codeReview,
+        presubmitVerified,
+        codeOwners,
+      ];
+      const ordered = orderSubmitRequirements(requirements);
+
+      assert.deepEqual(ordered, [
+        codeReview,
+        codeOwners,
+        presubmitVerified,
+        customLabel,
+      ]);
+    });
+
+    test('preserves order of non-priority requirements', () => {
+      const customLabel1 = {
+        ...createSubmitRequirementResultInfo(),
+        name: 'Custom-Label-1',
+      };
+      const customLabel2 = {
+        ...createSubmitRequirementResultInfo(),
+        name: 'Custom-Label-2',
+      };
+      const customLabel3 = {
+        ...createSubmitRequirementResultInfo(),
+        name: 'Custom-Label-3',
+      };
+
+      const requirements = [customLabel2, customLabel1, customLabel3];
+      const ordered = orderSubmitRequirements(requirements);
+
+      assert.deepEqual(ordered, requirements);
     });
   });
 });

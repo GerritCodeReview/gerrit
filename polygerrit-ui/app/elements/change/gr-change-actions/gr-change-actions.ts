@@ -1780,7 +1780,7 @@ export class GrChangeActions
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),
       false,
-      {notify: NotifyType.NONE}
+      {notify: NotifyType.OWNER_REVIEWERS}
     );
     this.sendPublishEditEvent();
   }

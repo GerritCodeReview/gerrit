@@ -510,7 +510,7 @@ export class GrEditorView extends LitElement {
           HttpMethod.POST,
           '/edit:publish',
           undefined,
-          {notify: NotifyType.NONE},
+          {notify: NotifyType.OWNER_REVIEWERS},
           handleError
         )
         .then(res => {

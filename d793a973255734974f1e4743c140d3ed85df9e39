@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98e32efc_9b41ca18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-05-08T11:10:26Z",
+      "side": 1,
+      "message": "This seems to be a no-op?\n\n`This file only contains whitespace changes. Modify the whitespace setting to see the changes.`",
+      "revId": "d793a973255734974f1e4743c140d3ed85df9e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

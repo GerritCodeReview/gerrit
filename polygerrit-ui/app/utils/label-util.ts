@@ -357,6 +357,16 @@ export function orderSubmitRequirements(
   return priorityRequirementList.concat(nonPriorityRequirements);
 }
 
+export function orderSubmitRequirementNames(names: string[]) {
+  const result = PRIORITY_REQUIREMENTS_ORDER.filter(label =>
+    names.includes(label)
+  );
+  const nonPriorityRequirements = names
+    .filter(name => !PRIORITY_REQUIREMENTS_ORDER.includes(name))
+    .sort();
+  return result.concat(nonPriorityRequirements);
+}
+
 function getStringLabelValue(
   labels: LabelNameToInfoMap,
   labelName: string,

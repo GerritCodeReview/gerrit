@@ -52,6 +52,24 @@
       "parentUuid": "3d0b2853_12f4d9b4",
       "revId": "d793a973255734974f1e4743c140d3ed85df9e39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26bb859e_30d37a78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-05-08T11:16:23Z",
+      "side": 1,
+      "message": "Sorry, I missed that the intended change is WS only.",
+      "parentUuid": "3d0b2853_12f4d9b4",
+      "revId": "d793a973255734974f1e4743c140d3ed85df9e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -471,7 +471,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
   private ChangeInserter getChangeInserter(Change.Id changeId, String refName, ObjectId commitId) {
     ChangeInserter inserter = changeInserterFactory.create(changeId, commitId, refName);
-    inserter.setMessage(String.format("Uploaded patchset %d.", inserter.getPatchSetId().get()));
+    inserter.setMessage(String.format("Uploaded patch set %d.", inserter.getPatchSetId().get()));
     return inserter;
   }
 
@@ -667,7 +667,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
       PatchSetInserter patchSetInserter =
           patchsetInserterFactory.create(changeNotes, patchsetId, newPatchsetCommit);
       patchSetInserter.setCheckAddPatchSetPermission(false);
-      patchSetInserter.setMessage(String.format("Uploaded patchset %d.", patchsetId.get()));
+      patchSetInserter.setMessage(String.format("Uploaded patch set %d.", patchsetId.get()));
       return patchSetInserter;
     }
 

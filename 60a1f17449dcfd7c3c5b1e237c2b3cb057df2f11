@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a9d071_19d94672",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-08T11:55:54Z",
+      "side": 1,
+      "message": "We don\u0027t want to sort them alphabetically. As in comment for orderSubmitRequirements is written \n\n// Other requirements are ordered as defined in project configuration\n\nI would leave alphabetical ordering to admin (project configuration)",
+      "range": {
+        "startLine": 315,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 50
+      },
+      "revId": "60a1f17449dcfd7c3c5b1e237c2b3cb057df2f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d7b2379_2f6f91f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-08T12:00:11Z",
+      "side": 1,
+      "message": "Please don\u0027t revert the whole change. I pushed https://gerrit-review.googlesource.com/c/gerrit/+/473841 for reverting the needed part only.",
+      "revId": "2bc3a59c504179d167266ce6672f8b77302e3b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

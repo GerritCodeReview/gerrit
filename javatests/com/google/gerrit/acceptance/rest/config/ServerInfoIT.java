@@ -195,6 +195,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // submit requirement columns in dashboard
     assertThat(i.submitRequirementDashboardColumns).isEmpty();
+    assertThat(i.dashboardShowAllLabels).isNull();
   }
 
   @Test
@@ -211,6 +212,13 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfigWithMultipleSubmitRequirementColumn() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.submitRequirementDashboardColumns).containsExactly("Code-Review", "Verified");
+  }
+
+  @Test
+  @GerritConfig(name = "dashboard.showAllLabels", value = "true")
+  public void serverConfigWithDashboardShowAllLabels() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.dashboardShowAllLabels).isTrue();
   }
 
   @Test

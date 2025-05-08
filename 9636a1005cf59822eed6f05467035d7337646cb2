@@ -34,6 +34,23 @@
       "parentUuid": "41e0e0e8_cc288dbd",
       "revId": "9636a1005cf59822eed6f05467035d7337646cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ab1ddd5_e0e4d838",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6319,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-08T18:41:38Z",
+      "side": 1,
+      "message": "Is there a reason this is needed once the two options below are set?",
+      "revId": "9636a1005cf59822eed6f05467035d7337646cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

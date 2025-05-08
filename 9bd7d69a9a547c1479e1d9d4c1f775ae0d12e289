@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d652d7aa_d2fea541",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-08T08:29:25Z",
+      "side": 1,
+      "message": "this should be `allRunsSelectedPatchset$`",
+      "range": {
+        "startLine": 232,
+        "startChar": 34,
+        "endLine": 232,
+        "endChar": 52
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7bafd901_8d06d810",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+              "range": {
+                "startLine": 232,
+                "startChar": 0,
+                "endLine": 233,
+                "endChar": 0
+              },
+              "replacement": "      () \u003d\u003e this.getChecksModel().allRunsSelectedPatchset$,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9bd7d69a9a547c1479e1d9d4c1f775ae0d12e289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

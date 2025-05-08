@@ -310,20 +310,10 @@ export function orderSubmitRequirements(
     priorityRequirementList =
       priorityRequirementList.concat(priorityRequirement);
   }
-  const nonPriorityRequirements = requirements
-    .filter(r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name))
-    .sort((a, b) => a.name.localeCompare(b.name));
-  return priorityRequirementList.concat(nonPriorityRequirements);
-}
-
-export function orderSubmitRequirementNames(names: string[]) {
-  const result = PRIORITY_REQUIREMENTS_ORDER.filter(label =>
-    names.includes(label)
+  const nonPriorityRequirements = requirements.filter(
+    r => !PRIORITY_REQUIREMENTS_ORDER.includes(r.name)
   );
-  const nonPriorityRequirements = names
-    .filter(name => !PRIORITY_REQUIREMENTS_ORDER.includes(name))
-    .sort();
-  return result.concat(nonPriorityRequirements);
+  return priorityRequirementList.concat(nonPriorityRequirements);
 }
 
 function getStringLabelValue(

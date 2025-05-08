@@ -22,6 +22,30 @@
       },
       "revId": "60a1f17449dcfd7c3c5b1e237c2b3cb057df2f11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b3dd771_d7ad8f44",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-08T11:57:33Z",
+      "side": 1,
+      "message": "Oops, sorry. I was too quick to submit. Will revert this part (it\u0027s not needed for the fix anyway).",
+      "parentUuid": "c4a9d071_19d94672",
+      "range": {
+        "startLine": 315,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 50
+      },
+      "revId": "60a1f17449dcfd7c3c5b1e237c2b3cb057df2f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

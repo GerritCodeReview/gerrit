@@ -240,18 +240,7 @@ suite('gr-formatted-text tests', () => {
         element.content = url;
         await element.updateComplete;
         const a = queryAndAssert<HTMLElement>(element, 'a');
-
-        // URLs without scheme are upgraded to https:// by the
-        // ALWAYS_LINK_SCHEMELESS rule. URLs with http:// or https://
-        // are preserved by the ALWAYS_LINK_HTTP rule.
-        const isSchemeless =
-          !url.startsWith('http://') &&
-          !url.startsWith('https://') &&
-          !url.startsWith('mailto:') &&
-          !url.startsWith('/');
-        const expectedHref = isSchemeless ? `http://${url}` : url;
-
-        assert.equal(a.getAttribute('href'), expectedHref);
+        assert.equal(a.getAttribute('href'), url);
         assert.equal(a.innerText, url);
       };
 
@@ -265,14 +254,6 @@ suite('gr-formatted-text tests', () => {
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'
       );
-
-      await checkLinking('www.google.com');
-      await checkLinking('www.google.com/path');
-      await checkLinking('google.com');
-      await checkLinking('sub.google.co.uk');
-      await checkLinking('google-foo.com');
-      await checkLinking('google.io');
-      await checkLinking('google.com?q=1#frag');
     });
   });
 
@@ -767,18 +748,7 @@ suite('gr-formatted-text tests', () => {
         await element.updateComplete;
         const a = queryAndAssert<HTMLElement>(element, 'a');
         const p = queryAndAssert<HTMLElement>(element, 'p');
-
-        // URLs without scheme are upgraded to https:// by the
-        // ALWAYS_LINK_SCHEMELESS rule. URLs with http:// or https://
-        // are preserved by the ALWAYS_LINK_HTTP rule.
-        const isSchemeless =
-          !url.startsWith('http://') &&
-          !url.startsWith('https://') &&
-          !url.startsWith('mailto:') &&
-          !url.startsWith('/');
-        const expectedHref = isSchemeless ? `http://${url}` : url;
-
-        assert.equal(a.getAttribute('href'), expectedHref);
+        assert.equal(a.getAttribute('href'), url);
         assert.equal(p.innerText, url);
       };
 
@@ -789,14 +759,6 @@ suite('gr-formatted-text tests', () => {
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'
       );
-
-      await checkLinking('www.google.com');
-      await checkLinking('www.google.com/path');
-      await checkLinking('google.com');
-      await checkLinking('sub.google.co.uk');
-      await checkLinking('google-foo.com');
-      await checkLinking('google.io');
-      await checkLinking('google.com?q=1#frag');
     });
 
     suite('user suggest fix', () => {

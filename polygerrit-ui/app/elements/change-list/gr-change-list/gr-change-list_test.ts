@@ -215,6 +215,14 @@ suite('gr-change-list basic tests', () => {
       ),
       ['Code-Review', 'Library-Compliance', 'Verified']
     );
+    assert.deepEqual(
+      element.computeLabelNames(
+        createTestSubmitReqs([
+          ['Verified', 'A-Label'],
+          ['Verified', 'Code-Review'],
+        ])
+      ),
+      ['Code-Review', 'A-Label', 'Verified']
     );
   });
 

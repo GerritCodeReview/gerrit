@@ -20,7 +20,7 @@ import {fire, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {
   getRequirements,
-  orderSubmitRequirements,
+  orderSubmitRequirementNames,
 } from '../../../utils/label-util';
 import {Key} from '../../../utils/dom-util';
 import {assertIsDefined, unique} from '../../../utils/common-util';
@@ -364,11 +364,11 @@ export class GrChangeList extends LitElement {
     }
     const changes = sections.map(section => section.results).flat();
     const labels = (changes ?? [])
-      .map(change => orderSubmitRequirements(getRequirements(change)))
+      .map(change => getRequirements(change))
       .flat()
       .map(requirement => requirement.name)
       .filter(unique);
-    return labels.sort();
+    return orderSubmitRequirementNames(labels);
   }
 
   private changesChanged() {

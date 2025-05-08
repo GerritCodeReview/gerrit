@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e6862f3_5927529f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee1d8ad8_0c0aefd6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "Should the default should be false, to be consistent with the default in the backend?\n\nhttps://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html#submit_requirement_can_override_in_child_projects",
+      "range": {
+        "startLine": 52,
+        "startChar": 38,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5906b60e_38c91dee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "The style of the dialog looks different from the style of other create dialogs (e.g. bold text, alignment of label to input fields):\n\nhttps://screenshot.googleplex.com/8mgyULm2YXn9kvj\n\nvs.\n\nhttps://screenshot.googleplex.com/AtM7dgMBk3qgocg\n\nShould they be more consistent?",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b7dce42_5fb87dad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "This button looks inconsistent with other create buttons (e.g. the button to create a new repo, a branch or a tag):\n\nhttps://screenshot.googleplex.com/92DRDN6TjfLGvUj\n\nvs.\n\nhttps://screenshot.googleplex.com/C9VnpYFXCz3Xw6r",
+      "range": {
+        "startLine": 197,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 16
+      },
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1806c5ef_fbe110b3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "When clicking on Create nothing happens when not all mandatory fields are provided. Should there be an error message, or should the button be disabled until all mandatory input is provided?",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "533c8a2c_e0614768",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "Should we mark the optional fields?\n\nE.g. in other dialogs this is done like this:\n\nhttps://screenshot.googleplex.com/KjjcrTWqjXnuocP\n\nvs.\n\nhttps://screenshot.googleplex.com/AtM7dgMBk3qgocg",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c73d9f_0474b0df",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-08T10:47:27Z",
+      "side": 1,
+      "message": "This doesn\u0027t reset the fields in the create dialog.\n\nAfter creating a new SR and then clicking on the create button again, the fields are still populated, but confusingly the values are no longer taken into account (e.g. if I just change the name creating another SR doesn\u0027t work because the submittableIf field is not set, although a value for it is still displayed).",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

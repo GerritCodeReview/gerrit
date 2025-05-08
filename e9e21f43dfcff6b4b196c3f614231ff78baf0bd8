@@ -16,6 +16,24 @@
       "message": "While I appreciate the feature enabling sharing images in review comments I am not sure if it\u0027s a good idea to proliferate storage of binary content in noteDb which may lead to fast growth of git repo size.",
       "revId": "e9e21f43dfcff6b4b196c3f614231ff78baf0bd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82cfa9df_3f9798d0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-08T08:11:51Z",
+      "side": 1,
+      "message": "I understand the concern, but the default is `false`, so it would be a conscious decision for the host admin to turn this on.\n\nAlso, there are two configs `commentSizeLimit` and `cumulativeCommentSizeLimit` that allow admins to further control and validate the size of comments:  https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change",
+      "parentUuid": "87f3a8bd_8eb6994f",
+      "revId": "e9e21f43dfcff6b4b196c3f614231ff78baf0bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

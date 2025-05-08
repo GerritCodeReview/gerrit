@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "332d86e8_efe7e353",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4059245
+      },
+      "writtenOn": "2025-05-08T21:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75f7a8cc_8acb97e9",
+      "revId": "ef6577641c8615878280c4cc0abca7a51c3dd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca3196f4_de57d876",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-07T08:50:43Z",
       "side": 1,
       "message": "This is such a niche use case that I would prefer to not show this checkbox to ALL users. Maybe we can only do this for Windows users?\n\nAlso, can you add an imgur screenshot to the commit message?",
+      "revId": "ef6577641c8615878280c4cc0abca7a51c3dd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "490b1964_e63819b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4059245
+      },
+      "writtenOn": "2025-05-08T21:35:38Z",
+      "side": 1,
+      "message": "Let me add an imgur screenshot, but I actually think that checkbox to all users might be better? Only because \n\n1. Sometimes I have a cloud windows desktop, and I want to copy and paste things from my mac to my cloud windows. \n\n2. This has the same flow as git authentication for some google sources, where the Unix command is selected, but there\u0027s a box for Windows that can be expanded. \n\nThoughts?",
+      "parentUuid": "ca3196f4_de57d876",
       "revId": "ef6577641c8615878280c4cc0abca7a51c3dd122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87f3a8bd_8eb6994f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-08T07:58:49Z",
+      "side": 1,
+      "message": "While I appreciate the feature enabling sharing images in review comments I am not sure if it\u0027s a good idea to proliferate storage of binary content in noteDb which may lead to fast growth of git repo size.",
+      "revId": "e9e21f43dfcff6b4b196c3f614231ff78baf0bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

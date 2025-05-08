@@ -228,6 +228,40 @@ suite('gr-change-list basic tests', () => {
     );
   });
 
+  test('computed fields with all labels', () => {
+    const createTestLabels = (labelLists: string[][]): ChangeListSection[] => {
+      let changeNumber = 0;
+      const sections: ChangeListSection[] = [];
+      for (const labelList of labelLists) {
+        sections.push({
+          results: [
+            {
+              ...createChange(),
+              _number: changeNumber++ as NumericChangeId,
+              labels: Object.fromEntries(labelList.map(label => [label, {}])),
+            },
+          ],
+        });
+      }
+      return sections;
+    };
+
+    element.config = {
+      ...createServerInfo(),
+      dashboard_show_all_labels: true,
+    };
+    assert.deepEqual(
+      element.computeLabelNames(
+        createTestLabels([
+          ['Verified', 'A-Label'],
+          ['Verified', 'Code-Review'],
+          ['Library-Compliance'],
+        ])
+      ),
+      ['Code-Review', 'A-Label', 'Library-Compliance', 'Verified']
+    );
+  });
+
   test('keyboard shortcuts', async () => {
     sinon.stub(element, 'computeLabelNames');
     element.sections = [

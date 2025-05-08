@@ -368,12 +368,16 @@ export class GrChangeList extends LitElement {
       return this.config?.submit_requirement_dashboard_columns;
     }
     const changes = sections.map(section => section.results).flat();
-    const labels = (changes ?? [])
-      .map(change => getRequirements(change))
-      .flat()
-      .map(requirement => requirement.name)
-      .filter(unique);
-    return orderSubmitRequirementNames(labels);
+    let labels: string[] = [];
+    if (this.config?.dashboard_show_all_labels) {
+      labels = changes.map(change => Object.keys(change.labels ?? {})).flat();
+    } else {
+      labels = changes
+        .map(change => getRequirements(change))
+        .flat()
+        .map(requirement => requirement.name);
+    }
+    return orderSubmitRequirementNames(labels.filter(unique));
   }
 
   private changesChanged() {

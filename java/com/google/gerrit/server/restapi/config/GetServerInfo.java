@@ -164,6 +164,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
     info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
+    info.dashboardShowAllLabels = getDashboardShowAllLabels();
     info.metadata = getMetadata();
     return Response.ok(info);
   }
@@ -379,8 +380,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return Arrays.asList(config.getStringList("dashboard", null, "submitRequirementColumns"));
   }
 
-  private ImmutableList<MetadataInfo> getMetadata() {
-    ArrayList<MetadataInfo> metadataList = new ArrayList<>();
     serverStateProviders.runEach(
         serverStateProvider -> metadataList.addAll(serverStateProvider.getMetadata()));
     return metadataList.stream()

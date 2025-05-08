@@ -2365,6 +2365,15 @@ Default is `true`.
 The list of submit requirement names that should be displayed as separate
 columns in the dashboard.
 
+[[dashboard.showAllLabels]]dashboard.showAllLabels::
++
+Display all labels in the dashboard, even if they are not submit
+requirements.
++
+This has no effect if submitRequirementColumns is configured.
++
+Default is `false`.
+
 [[download]]
 === Section download
 

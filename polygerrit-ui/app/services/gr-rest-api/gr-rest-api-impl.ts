@@ -107,6 +107,7 @@ import {
   ListChangesOption,
   ReviewResult,
   SubmitRequirementInfo,
+  SubmitRequirementInput,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -1783,6 +1784,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn,
       anonymizedUrl: '/projects/*/submit_requirements',
     }) as Promise<SubmitRequirementInfo[] | undefined>;
+  }
+
+  createSubmitRequirement(
+    repoName: RepoName,
+    input: SubmitRequirementInput,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/submit_requirements/${encodeURIComponent(input.name)}`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/submit_requirements/*',
+    }) as Promise<SubmitRequirementInfo | undefined>;
   }
 
   getRepoAccessRights(

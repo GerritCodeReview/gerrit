@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
@@ -70,6 +71,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -117,6 +119,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected AccountIndexer accountIndexer;
 
   @Inject protected AccountManager accountManager;
+
+  @Inject protected ExternalIdFactoryNoteDbImpl externalIdFactoryNoteDbImpl;
 
   @Inject protected GerritApi gApi;
 
@@ -587,16 +591,32 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Test
   public void withSecondaryEmails() throws Exception {
     AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
-    String[] secondaryEmails = new String[] {"bar@example.com", "foo@example.com"};
-    addEmails(user1, secondaryEmails);
+
+    String[] mailToSecondaryEmails = new String[] {"bar@example.com", "foo@example.com"};
+    addEmails(user1, mailToSecondaryEmails);
+
+    String nonMailToSecondaryEmail = "baz@example.com";
+    Account.Id accountId = Account.id(user1._accountId);
+    accountsUpdate
+        .get()
+        .update(
+            "Add External ID",
+            accountId,
+            u ->
+                u.addExternalId(
+                    externalIdFactoryNoteDbImpl.createWithEmail(
+                        "x", "1", accountId, nonMailToSecondaryEmail)));
+
+    List<String> secondaryEmails = new ArrayList<>();
+    secondaryEmails.addAll(Arrays.asList(mailToSecondaryEmails));
+    secondaryEmails.add(nonMailToSecondaryEmail);
+    secondaryEmails.sort(naturalOrder());
 
     List<AccountInfo> result = assertQuery(getDefaultSearch(user1), user1);
     assertThat(result.get(0).secondaryEmails).isNull();
 
     result = assertQuery(newQuery(getDefaultSearch(user1)).withSuggest(true), user1);
-    assertThat(result.get(0).secondaryEmails)
-        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
-        .inOrder();
+    assertThat(result.get(0).secondaryEmails).containsExactlyElementsIn(secondaryEmails).inOrder();
 
     result =
         assertQuery(
@@ -606,18 +626,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     result =
         assertQuery(
             newQuery(getDefaultSearch(user1)).withOption(ListAccountsOption.ALL_EMAILS), user1);
-    assertThat(result.get(0).secondaryEmails)
-        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
-        .inOrder();
+    assertThat(result.get(0).secondaryEmails).containsExactlyElementsIn(secondaryEmails).inOrder();
 
     result =
         assertQuery(
             newQuery(getDefaultSearch(user1))
                 .withOptions(ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS),
             user1);
-    assertThat(result.get(0).secondaryEmails)
-        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
-        .inOrder();
+    assertThat(result.get(0).secondaryEmails).containsExactlyElementsIn(secondaryEmails).inOrder();
   }
 
   @Test

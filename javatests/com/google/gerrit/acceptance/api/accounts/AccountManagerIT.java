@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.entities.RefNames.REFS_EXTERNAL_IDS;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GOOGLE_OAUTH;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 import static java.util.stream.Collectors.toSet;
@@ -541,7 +542,12 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AccountState account = accounts.get(authResult.getAccountId()).get();
     ImmutableSet<ExternalId> accountExternalIds = account.externalIds();
     assertThat(accountExternalIds).isNotEmpty();
-    Set<String> emails = ExternalId.getEmails(accountExternalIds).collect(toSet());
+    Set<String> emails =
+        accountExternalIds.stream()
+            .filter(e -> e.isScheme(SCHEME_MAILTO))
+            .map(e -> e.key().id())
+            .distinct()
+            .collect(toSet());
     assertThat(emails).contains(email);
 
     // Verify the preferred email

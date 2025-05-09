@@ -123,11 +123,6 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
             "*_test_loader.js",
             "./",  # Relative to the config file location
         ],
-        # Needed for eslint 9+.
-        # Remove this when migrating the config to flat config.
-        env = {
-            "ESLINT_USE_FLAT_CONFIG": "false",
-        },
         # Should not run sandboxed.
         tags = [
             "local",
@@ -146,10 +141,5 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
         templated_args = common_templated_args + [
             "--ignore-pattern",
             "*_bin_require_patch.js",
-            "--ignore-pattern",
-            "*_bin_loader.js",
         ],
-        env = {
-            "ESLINT_USE_FLAT_CONFIG": "false",
-        },
     )

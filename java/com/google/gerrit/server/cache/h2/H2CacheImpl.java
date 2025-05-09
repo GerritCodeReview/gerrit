@@ -55,6 +55,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -342,6 +343,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final AtomicLong missCount = new AtomicLong();
     private final ConcurrentBloomFilter<K> bloomFilter;
     private boolean trackLastAccess;
+    private final AtomicBoolean isDiskCacheReadOnly;
 
     SqlStore(
         String jdbcUrl,
@@ -354,7 +356,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
-        boolean trackLastAccess) {
+        boolean trackLastAccess,
+        AtomicBoolean isDiskCacheReadOnly) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -363,6 +366,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
       this.trackLastAccess = trackLastAccess;
+      this.isDiskCacheReadOnly = isDiskCacheReadOnly;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -524,6 +528,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
+      if (isDiskCacheReadOnly.get()) {
+        return;
+      }
+
       if (c.touch == null) {
         c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
       }
@@ -538,6 +546,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void put(K key, ValueHolder<V> holder) {
+      if (isDiskCacheReadOnly.get()) {
+        return;
+      }
       if (holder.clean) {
         return;
       }
@@ -572,6 +583,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void invalidate(K key) {
+      if (isDiskCacheReadOnly.get()) {
+        return;
+      }
       SqlHandle c = null;
       try {
         c = acquire();
@@ -599,6 +613,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void invalidateAll() {
+      if (isDiskCacheReadOnly.get()) {
+        return;
+      }
       SqlHandle c = null;
       try {
         c = acquire();
@@ -615,6 +632,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     synchronized void prune(Cache<K, ?> mem) {
+      if (isDiskCacheReadOnly.get()) {
+        return;
+      }
       SqlHandle c = null;
       try {
         c = acquire();

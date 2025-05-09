@@ -58,6 +58,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.multibindings.OptionalBinder;
+import com.google.inject.name.Named;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
@@ -68,6 +69,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
@@ -100,6 +102,12 @@ public class Reindex extends SiteProgram {
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
 
+  @Option(
+      name = "--read-only-disk-caches",
+      aliases = {"--ro-disk-caches"},
+      usage = "Don't update H2 disk caches.")
+  private boolean readOnlyDiskCaches;
+
   private Boolean reuseExistingDocumentsOption;
 
   private Injector dbInjector;
@@ -110,6 +118,9 @@ public class Reindex extends SiteProgram {
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
   @Inject private DynamicMap<Cache<?, ?>> cacheMap;
+
+  @Inject
+  private @Named("DiskCacheReadOnly") AtomicBoolean isDiskCacheReadOnly;
 
   @Option(name = "--reuse", usage = "Reindex only when existing index entry is stale")
   public void setReuseExistingDocuments(boolean value) {
@@ -139,6 +150,7 @@ public class Reindex extends SiteProgram {
 
     sysInjector.injectMembers(this);
     checkIndicesOption();
+    isDiskCacheReadOnly.set(readOnlyDiskCaches);
 
     try {
       boolean ok = list ? list() : reindex();

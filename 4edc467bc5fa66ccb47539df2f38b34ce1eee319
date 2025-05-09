@@ -34,6 +34,24 @@
       "parentUuid": "c7568bb5_f13b6898",
       "revId": "4edc467bc5fa66ccb47539df2f38b34ce1eee319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04352c75_79f53d76",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-09T15:32:32Z",
+      "side": 1,
+      "message": "Resolving comment as you\u0027ve done it, thanks!",
+      "parentUuid": "48a68c14_a2ba0151",
+      "revId": "4edc467bc5fa66ccb47539df2f38b34ce1eee319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

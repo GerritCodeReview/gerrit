@@ -16,6 +16,24 @@
       "message": "Weird subject line of another change?",
       "revId": "d65678445df9feacf406bc013eda243f7b2325e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d350ef_f772ec38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-09T12:16:26Z",
+      "side": 1,
+      "message": "Fixed. messed up when copy-pasting",
+      "parentUuid": "4b58bd92_0c3ca844",
+      "revId": "d65678445df9feacf406bc013eda243f7b2325e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

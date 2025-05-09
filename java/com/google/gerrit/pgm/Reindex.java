@@ -58,6 +58,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.multibindings.OptionalBinder;
+import com.google.inject.name.Named;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
@@ -68,6 +69,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Config;
@@ -100,6 +102,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
 
+  @Option(name = "--read-only-caches", usage = "Don't update H2 disk caches.")
+  private boolean readOnlyCaches;
+
   private Boolean reuseExistingDocumentsOption;
 
   private Injector dbInjector;
@@ -110,6 +115,9 @@ public class Reindex extends SiteProgram {
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
   @Inject private DynamicMap<Cache<?, ?>> cacheMap;
+
+  @Inject
+  private @Named("CacheWriteEnabled") AtomicBoolean isCacheWriteEnabled;
 
   @Option(name = "--reuse", usage = "Reindex only when existing index entry is stale")
   public void setReuseExistingDocuments(boolean value) {
@@ -139,6 +147,7 @@ public class Reindex extends SiteProgram {
 
     sysInjector.injectMembers(this);
     checkIndicesOption();
+    isCacheWriteEnabled.set(!readOnlyCaches);
 
     try {
       boolean ok = list ? list() : reindex();
@@ -232,9 +241,11 @@ public class Reindex extends SiteProgram {
                     reuseExistingDocuments ? IsFirstInsertForEntry.NO : IsFirstInsertForEntry.YES);
           }
         });
-    ImmutableSet<CacheOptions> options =
-        buildBloomFilter ? ImmutableSet.of(CacheOptions.BUILD_BLOOM_FILTER) : ImmutableSet.of();
-    modules.add(new BatchProgramModule(dbInjector, options));
+    ImmutableSet.Builder<CacheOptions> options = new ImmutableSet.Builder<>();
+    if (buildBloomFilter) {
+      options.add(CacheOptions.BUILD_BLOOM_FILTER);
+    }
+    modules.add(new BatchProgramModule(dbInjector, options.build()));
     modules.add(
         new FactoryModule() {
           @Override

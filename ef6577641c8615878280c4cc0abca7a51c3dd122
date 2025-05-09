@@ -69,6 +69,24 @@
       "parentUuid": "ca3196f4_de57d876",
       "revId": "ef6577641c8615878280c4cc0abca7a51c3dd122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17bdac9f_f5141f91",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-09T06:42:05Z",
+      "side": 1,
+      "message": "Yes, please add a screenshot. Thanks!",
+      "parentUuid": "490b1964_e63819b8",
+      "revId": "ef6577641c8615878280c4cc0abca7a51c3dd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

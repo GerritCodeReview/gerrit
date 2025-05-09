@@ -23,6 +23,7 @@ import {
 } from '../../../api/rest-api';
 import {changeViewModelToken} from '../../../models/views/change';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {GrDialog} from '../gr-dialog/gr-dialog';
 
 const emails = [
   {
@@ -41,6 +42,7 @@ suite('gr-editable-content tests', () => {
 
   setup(async () => {
     element = await fixture(html`<gr-editable-content></gr-editable-content>`);
+    element.isUploader = true;
     await element.updateComplete;
     storageService = testResolver(storageServiceToken);
   });
@@ -461,6 +463,40 @@ suite('gr-editable-content tests', () => {
       // Format button should be enabled because other lines need formatting
       assert.isFalse(formatButton.disabled);
       assert.include(formatButton.title, 'Automatically fixes formatting');
+    });
+  });
+
+  suite('uploader confirm dialog', () => {
+    test('shows when user is not uploader', async () => {
+      element.isUploader = false;
+      element.editing = true;
+      await element.updateComplete;
+      const dialog = queryAndAssert<GrDialog>(
+        element,
+        '#uploaderConfirmDialog'
+      );
+      assert.dom.equal(
+        dialog,
+        `
+          <dialog id="uploaderConfirmDialog" tabindex="-1">
+            <gr-dialog confirm-label="Continue">
+              <div class="header" slot="header">Become Uploader</div>
+              <div class="main" slot="main">
+                <p>
+                  By editing the commit message, you will become the uploader of
+              the
+                  <br />
+                  new patch set. This means that your own approvals will be
+              ignored
+                  <br />
+                  for submit requirements that ignore uploader approvals.
+                </p>
+                <p>Do you want to continue?</p>
+              </div>
+            </gr-dialog>
+          </dialog>
+        `
+      );
     });
   });
 });

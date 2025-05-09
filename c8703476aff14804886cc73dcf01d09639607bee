@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5576199_8c381ba2",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-09T19:43:13Z",
+      "side": 1,
+      "message": "You need to do something like return a boolean to track if invalidation was successful and only on success should you invalidate the bloomFilter too.",
+      "revId": "c8703476aff14804886cc73dcf01d09639607bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

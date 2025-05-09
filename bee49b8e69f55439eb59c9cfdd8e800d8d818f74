@@ -50,6 +50,24 @@
       "message": "like in the other implementation we could still extract all writing methods to a  Writer class to make it obvious which methods need to do this check (all methods of the Writer)",
       "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c0881c_053131fc",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-09T15:55:31Z",
+      "side": 1,
+      "message": "I personally think this is pretty good in this class, but would support extending this class and adding these tests to the extension like this (maybe this is what you mean?):\n\n```\nprotected void touch(...) {\n  if (!isCacheWriteEnabled.get()) {\n    return;\n  }\n  super(...);  \n}\n```",
+      "parentUuid": "e344cb4c_ce3c964b",
+      "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

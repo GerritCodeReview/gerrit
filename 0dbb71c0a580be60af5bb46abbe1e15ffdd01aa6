@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4edd90ce_97cff607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-09T07:52:47Z",
+      "side": 1,
+      "message": "Nice, looks great now!\n\nI only noticed one issue. It seems creating a submit requirement with \"Allow Override in Child Projects \u003d true\" is not working. When I select \"true\" the select box first gets empty (https://i.imgur.com/dXNDeeb.png), but even if I re-select \"true\" afterwards it seems to get ignored.",
+      "revId": "0dbb71c0a580be60af5bb46abbe1e15ffdd01aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

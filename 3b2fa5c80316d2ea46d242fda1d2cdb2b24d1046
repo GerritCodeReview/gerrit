@@ -73,6 +73,48 @@
       },
       "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e329377_dbaff03a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2025-05-09T16:30:13Z",
+      "side": 1,
+      "message": "`Gemini 2.5 Pro Preview 05-06`-authored, but hand-refined and tested :)\n\nhttps://www.npmjs.com/package/linkify-it and https://www.npmjs.com/package/autolinker/v/1.8.0 both look useful, but I don\u0027t know the process for importing them or all the pieces I\u0027d have to modify to use it.\n\nThis regex isn\u0027t perfect but IMO the change is an improvement for users and works as a stopgap until Gerrit uses a library for linking",
+      "parentUuid": "599972ec_1e9eaae3",
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4069b71_8ce6e1e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2025-05-09T16:30:13Z",
+      "side": 1,
+      "message": "If you want to scope it down further, another heuristic could be checking the domain ends in a valid TLD (i.e. `com|org|net|gov|edu|...`). The top ~10 most common TLDs should cover the majority of URLs",
+      "parentUuid": "264924c2_f4bf4c8e",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 59
+      },
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

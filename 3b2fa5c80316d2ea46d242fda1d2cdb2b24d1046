@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e96e751_325eab81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-09T07:08:15Z",
+      "side": 1,
+      "message": "Please wait for my review on this. Hence blocking(apologies)",
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "599972ec_1e9eaae3",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 8

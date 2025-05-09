@@ -13,6 +13,7 @@ _java_ -jar gerrit.war _reindex_
   [--verbose]
   [--list]
   [--index]
+  [--read-only-disk-caches]
 --
 
 == DESCRIPTION
@@ -54,6 +55,11 @@ Rebuilds the secondary index.
 	Use this option if offline reindexing is restarted or crashed.
 	Without this option a restart recreates the complete index
 	from scratch without reusing existing index documents.
+
+--read-only-disk-caches|--ro-disk-caches::
+    Use read-only disk caches for the reindexing process. This option
+    can be used to avoid writing old data into caches, which might
+    cause performance issues and a lot of disk space being used.
 
 == CONTEXT
 The secondary index must be enabled. See

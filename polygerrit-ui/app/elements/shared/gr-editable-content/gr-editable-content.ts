@@ -51,6 +51,7 @@ import {
   formatCommitMessageString,
   FormattingError,
 } from '../../../utils/commit-message-formatter-util';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -77,6 +78,9 @@ declare global {
 export class GrEditableContent extends LitElement {
   @query('iron-autogrow-textarea')
   private textarea?: IronAutogrowTextareaElement;
+
+  @query('#uploaderConfirmDialog')
+  private readonly uploaderConfirmDialog?: HTMLDialogElement;
 
   @property({type: String})
   content?: string;
@@ -124,6 +128,8 @@ export class GrEditableContent extends LitElement {
   @state() changeNum?: NumericChangeId;
 
   @state() patchNum?: RevisionPatchSetNum;
+
+  @state() isUploader = false;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -178,6 +184,11 @@ export class GrEditableContent extends LitElement {
       () => this.getChangeModel().patchNum$,
       x => (this.patchNum = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().isUploader$,
+      x => (this.isUploader = x)
+    );
   }
 
   override disconnectedCallback() {
@@ -205,6 +216,7 @@ export class GrEditableContent extends LitElement {
       sharedStyles,
       formStyles,
       fontStyles,
+      modalStyles,
       css`
         :host {
           display: block;
@@ -303,6 +315,7 @@ export class GrEditableContent extends LitElement {
         ${this.renderViewer()} ${this.renderEditor()} ${this.renderButtons()}
         <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
       </gr-endpoint-decorator>
+      ${this.renderUploaderConfirmDialog()}
     `;
   }
 
@@ -435,6 +448,31 @@ export class GrEditableContent extends LitElement {
         )}
         </div>
       </div>
+    `;
+  }
+
+  private renderUploaderConfirmDialog() {
+    if (this.isUploader) return nothing;
+    return html`
+      <dialog id="uploaderConfirmDialog" tabindex="-1">
+        <gr-dialog
+          confirm-label="Continue"
+          @confirm=${this.handleUploaderConfirm}
+          @cancel=${this.handleUploaderCancel}
+        >
+          <div class="header" slot="header">Become Uploader</div>
+          <div class="main" slot="main">
+            <p>
+              By editing the commit message, you will become the uploader of
+              the<br />
+              new patch set. This means that your own approvals will be
+              ignored<br />
+              for submit requirements that ignore uploader approvals.
+            </p>
+            <p>Do you want to continue?</p>
+          </div>
+        </gr-dialog>
+      </dialog>
     `;
   }
 
@@ -604,13 +642,17 @@ export class GrEditableContent extends LitElement {
           patchNum: this.patchNum,
         })
       );
-
       return;
     }
+
     await this.loadEmails();
-    this.editing = true;
-    await this.updateComplete;
-    this.focusTextarea();
+
+    if (!this.isUploader) {
+      assertIsDefined(this.uploaderConfirmDialog, 'uploaderConfirmDialog');
+      this.uploaderConfirmDialog.showModal();
+    } else {
+      this.startEditing();
+    }
   }
 
   async loadEmails() {
@@ -739,6 +781,24 @@ export class GrEditableContent extends LitElement {
         return false;
       }
       return true;
+    });
+  }
+
+  private handleUploaderConfirm() {
+    assertIsDefined(this.uploaderConfirmDialog, 'uploaderConfirmDialog');
+    this.uploaderConfirmDialog.close();
+    this.startEditing();
+  }
+
+  private handleUploaderCancel() {
+    assertIsDefined(this.uploaderConfirmDialog, 'uploaderConfirmDialog');
+    this.uploaderConfirmDialog.close();
+  }
+
+  private startEditing() {
+    this.editing = true;
+    this.updateComplete.then(() => {
+      this.focusTextarea();
     });
   }
 }

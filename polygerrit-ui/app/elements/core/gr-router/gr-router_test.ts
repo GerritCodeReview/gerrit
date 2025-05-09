@@ -734,6 +734,8 @@ suite('gr-router tests', () => {
           ...createRepoViewState(),
           detail: RepoDetailView.SUBMIT_REQUIREMENTS,
           repo: '4321' as RepoName,
+          filter: '',
+          offset: '',
         });
       });
 

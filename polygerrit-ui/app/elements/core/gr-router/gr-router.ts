@@ -167,7 +167,8 @@ const RoutePattern = {
   // Matches /admin/repos/<repos>,access.
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
-  REPO_SUBMIT_REQUIREMENTS: /^\/admin\/repos\/(.+),submit-requirements$/,
+  REPO_SUBMIT_REQUIREMENTS:
+    /^\/admin\/repos\/(.+),submit-requirements\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
 
   // Matches /admin/plugins with optional filter and offset.
   PLUGIN_LIST: /^\/admin\/plugins\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
@@ -1229,6 +1230,8 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.REPO,
       detail: RepoDetailView.SUBMIT_REQUIREMENTS,
       repo,
+      filter: ctx.params[1] ?? null,
+      offset: ctx.params[2] ?? '0',
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

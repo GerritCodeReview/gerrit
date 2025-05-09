@@ -74,6 +74,39 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   @Test
+  public void reindexWithReadOnlyCaches() throws Exception {
+    setUpChange();
+    try (ServerContext ctx = startServer()) {
+      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      assertThat(gApi.config().server().caches("diff_summary").get().entries.disk).isEqualTo(1L);
+      gApi.config().server().caches("diff_summary").flush();
+      assertThat(gApi.config().server().caches("diff_summary").get().entries.disk).isNull();
+    }
+
+    runGerrit(
+        "reindex",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--show-stack-trace",
+        "--verbose",
+        "--read-only-disk-caches");
+    assertReady(ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion());
+    assertIndexQueries();
+
+    try (ServerContext ctx = startServer()) {
+      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      assertThat(gApi.config().server().caches("diff_summary").get().entries.disk).isNull();
+    }
+
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
+
+    try (ServerContext ctx = startServer()) {
+      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      assertThat(gApi.config().server().caches("diff_summary").get().entries.disk).isEqualTo(1L);
+    }
+  }
+
+  @Test
   public void reindexWithSkipExistingDocumentsEnabled() throws Exception {
     updateConfig(config -> config.setBoolean("index", null, "reuseExistingDocuments", true));
     setUpChange();

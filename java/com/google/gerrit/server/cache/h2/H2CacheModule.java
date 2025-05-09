@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,6 +37,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.Config;
 
 @ModuleImpl(name = CacheModule.PERSISTENT_MODULE)
@@ -54,6 +56,9 @@ public class H2CacheModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    bind(AtomicBoolean.class)
+        .annotatedWith(Names.named("DiskCacheReadOnly"))
+        .toInstance(new AtomicBoolean(false));
     bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
     listener().to(H2CacheFactory.class);
   }

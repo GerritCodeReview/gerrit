@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6bfd662_9ed4c204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "Thanks a lot for detailed review!",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee1d8ad8_0c0aefd6",
@@ -31,6 +48,30 @@
       "writtenOn": "2025-05-08T10:47:27Z",
       "side": 1,
       "message": "Should the default should be false, to be consistent with the default in the backend?\n\nhttps://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html#submit_requirement_can_override_in_child_projects",
+      "range": {
+        "startLine": 52,
+        "startChar": 38,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b977a3c_b3d60372",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee1d8ad8_0c0aefd6",
       "range": {
         "startLine": 52,
         "startChar": 38,
@@ -58,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cbb0766_d27f80ec",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "Good idea. I will modify code and UI to be similar to Create Repository.",
+      "parentUuid": "5906b60e_38c91dee",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b7dce42_5fb87dad",
@@ -71,6 +130,54 @@
       "writtenOn": "2025-05-08T10:47:27Z",
       "side": 1,
       "message": "This button looks inconsistent with other create buttons (e.g. the button to create a new repo, a branch or a tag):\n\nhttps://screenshot.googleplex.com/92DRDN6TjfLGvUj\n\nvs.\n\nhttps://screenshot.googleplex.com/C9VnpYFXCz3Xw6r",
+      "range": {
+        "startLine": 197,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 16
+      },
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3482d4ce_b2e7721d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "You gave me idea to use gr-list-view to have same UI and functionality.",
+      "parentUuid": "4b7dce42_5fb87dad",
+      "range": {
+        "startLine": 197,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 16
+      },
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e67d7c37_2c04d76f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "You gave me idea to use gr-list-view to have consistent look like other admin pages",
+      "parentUuid": "4b7dce42_5fb87dad",
       "range": {
         "startLine": 197,
         "startChar": 10,
@@ -98,6 +205,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02aca5bb_7be9ca67",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "Good idea, I disabled create button when name \u0026 submittability are not filled.",
+      "parentUuid": "1806c5ef_fbe110b3",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "533c8a2c_e0614768",
@@ -115,6 +240,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "504ce774_c99d647a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "533c8a2c_e0614768",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97c73d9f_0474b0df",
@@ -128,6 +271,24 @@
       "writtenOn": "2025-05-08T10:47:27Z",
       "side": 1,
       "message": "This doesn\u0027t reset the fields in the create dialog.\n\nAfter creating a new SR and then clicking on the create button again, the fields are still populated, but confusingly the values are no longer taken into account (e.g. if I just change the name creating another SR doesn\u0027t work because the submittableIf field is not set, although a value for it is still displayed).",
+      "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b0f795_ee787d7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:06:08Z",
+      "side": 1,
+      "message": "I checked and it works now after many changes.",
+      "parentUuid": "97c73d9f_0474b0df",
       "revId": "f0620e1918b64927c693a2180d1fe16db7301451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -112,8 +112,8 @@ public class FileInfoJsonImpl implements FileInfoJson {
           fileDiff.newMode().isPresent() && !fileDiff.newMode().get().equals(Patch.FileMode.MISSING)
               ? fileDiff.newMode().get().getMode()
               : null;
-      fileDiff.oldSha().ifPresent(sha -> fileInfo.oldSha = sha.toString());
-      fileDiff.newSha().ifPresent(sha -> fileInfo.newSha = sha.toString());
+      fileDiff.oldSha().ifPresent(sha -> fileInfo.oldSha = sha.name());
+      fileDiff.newSha().ifPresent(sha -> fileInfo.newSha = sha.name());
 
       if (fileDiff.patchType().get() == Patch.PatchType.BINARY) {
         fileInfo.binary = true;

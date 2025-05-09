@@ -41,6 +41,9 @@ export class GrRepoSubmitRequirements extends LitElement {
   @query('#createDialog')
   private readonly createDialog?: HTMLDialogElement;
 
+  @query('#deleteDialog')
+  private readonly deleteDialog?: HTMLDialogElement;
+
   @state()
   loading = true;
 
@@ -60,6 +63,10 @@ export class GrRepoSubmitRequirements extends LitElement {
   @state() filter = '';
 
   @state() itemsPerPage = 25;
+
+  @state() showDeleteDialog = false;
+
+  @state() requirementToDelete?: SubmitRequirementInfo;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -84,6 +91,9 @@ export class GrRepoSubmitRequirements extends LitElement {
         }
         .createButton {
           margin-left: var(--spacing-m);
+        }
+        .deleteBtn {
+          --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
         div.title-flex,
         div.value-flex {
@@ -155,6 +165,7 @@ export class GrRepoSubmitRequirements extends LitElement {
               >
                 Allow Override
               </th>
+              ${when(this.isAdmin, () => html`<th class="topHeader"></th>`)}
             </tr>
           </tbody>
           <tbody id="submit-requirements">
@@ -181,6 +192,20 @@ export class GrRepoSubmitRequirements extends LitElement {
                           item.allow_override_in_child_projects
                         )}
                       </td>
+                      ${when(
+                        this.isAdmin,
+                        () => html`
+                          <td class="actions">
+                            <gr-button
+                              class="deleteBtn"
+                              link
+                              @click=${() => this.handleDeleteClick(item)}
+                            >
+                              Delete
+                            </gr-button>
+                          </td>
+                        `
+                      )}
                     </tr>
                   `
                 )}`
@@ -189,7 +214,7 @@ export class GrRepoSubmitRequirements extends LitElement {
         </table>
       </gr-list-view>
 
-      ${this.renderCreateDialog()}
+      ${this.renderCreateDialog()} ${this.renderDeleteDialog()}
     `;
   }
 
@@ -447,6 +472,55 @@ export class GrRepoSubmitRequirements extends LitElement {
         </gr-dialog>
       </dialog>
     `;
+  }
+
+  private renderDeleteDialog() {
+    if (!this.isAdmin) return nothing;
+
+    return html`
+      <dialog id="deleteDialog" tabindex="-1">
+        <gr-dialog
+          confirm-label="Delete"
+          cancel-label="Cancel"
+          @confirm=${this.handleDeleteConfirm}
+          @cancel=${this.handleDeleteCancel}
+        >
+          <div class="header" slot="header">Delete Submit Requirement</div>
+          <div class="main" slot="main">
+            Are you sure you want to delete the submit requirement
+            "${this.requirementToDelete?.name}"?
+          </div>
+        </gr-dialog>
+      </dialog>
+    `;
+  }
+
+  private handleDeleteClick(requirement: SubmitRequirementInfo) {
+    this.requirementToDelete = requirement;
+    assertIsDefined(this.deleteDialog, 'deleteDialog');
+    this.deleteDialog.showModal();
+  }
+
+  private handleDeleteCancel() {
+    assertIsDefined(this.deleteDialog, 'deleteDialog');
+    this.deleteDialog.close();
+    this.requirementToDelete = undefined;
+  }
+
+  private handleDeleteConfirm() {
+    if (!this.repo || !this.requirementToDelete) return;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    this.restApiService
+      .deleteSubmitRequirement(this.repo, this.requirementToDelete.name, errFn)
+      .then(() => {
+        this.deleteDialog?.close();
+        this.requirementToDelete = undefined;
+        this.getSubmitRequirements(this.filter, this.offset);
+      });
   }
 }
 

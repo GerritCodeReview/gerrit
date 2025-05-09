@@ -129,6 +129,7 @@ suite('gr-repo-submit-requirements tests', () => {
                   >
                     Allow Override
                   </th>
+                  <th class="topHeader"></th>
                 </tr>
               </tbody>
               <tbody id="submit-requirements">
@@ -143,6 +144,17 @@ suite('gr-repo-submit-requirements tests', () => {
                   </td>
                   <td class="override"></td>
                   <td class="allowOverride"></td>
+                  <td class="actions">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -265,6 +277,29 @@ suite('gr-repo-submit-requirements tests', () => {
               </div>
             </gr-dialog>
           </dialog>
+          <dialog
+        id="deleteDialog"
+        tabindex="-1"
+      >
+        <gr-dialog
+          cancel-label="Cancel"
+          confirm-label="Delete"
+        >
+          <div
+            class="header"
+            slot="header"
+          >
+            Delete Submit Requirement
+          </div>
+          <div
+            class="main"
+            slot="main"
+          >
+          Are you sure you want to delete the submit requirement
+            ""?
+          </div>
+        </gr-dialog>
+      </dialog>
         `
       );
     });

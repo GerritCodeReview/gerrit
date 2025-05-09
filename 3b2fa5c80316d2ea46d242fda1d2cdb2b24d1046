@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5ca8003_5d19f01e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:02:39Z",
+      "side": 1,
+      "message": "I am ok with change +1 but someone else should do +2 since I approved last time and it was reverted. Thanks for change and patience! 😊",
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "599972ec_1e9eaae3",
@@ -14,6 +31,29 @@
       "writtenOn": "2025-05-09T06:48:25Z",
       "side": 1,
       "message": "Is this entirely handcrafted? I would expect that this should be a solved problem, and such regexps already exist or there are libraries that do this. Here is also a report from Gemini about the matter: https://docs.google.com/document/d/1l2gWgtqPWOvFPz4edLcV7Qb-PSetOFK0jecMiiXXykw/edit?usp\u003dsharing\u0026resourcekey\u003d0-l-Pve1JSKP5oN1-_YI-vYQ\n\nI have fine with just an \"Ack.\" response, but maybe add a comment about whether this expression was handcrafted from scratch or inspired by some existing library.",
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "264924c2_f4bf4c8e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-09T07:02:39Z",
+      "side": 1,
+      "message": "I asked Gemini what kind of problematic links this can create:\n\n1. Code Constructs and Technical Identifiers\nobject.property/access_level\n\n2. Version Numbers and Numerical Sequences\nrelease-1.2.3/notes\n\n3.Abbreviations, Citations, and Common Writing Patterns:\nThe regex allows for short domain components, including single letters (due to \\w). This can cause common abbreviations or references to be linkified.\n\nFig. a/b http://Fig.a/b\n\n4. File System Paths or Local Resource Identifiers\nIf a filename or a segment of a path contains a dot and is followed by a slash, it might be captured.\nconfig.v2/settings.xml\n\n5. Ambiguity with Non-HTTP \"Domains\"\ninternal_host.some_department/resource_file \n\n\nI don\u0027t see this as blocker, more just FYI that we can get complains about these.",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 59
+      },
       "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

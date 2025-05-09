@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc07903_9730d38e",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-09T11:24:52Z",
+      "side": 1,
+      "message": "I\u0027d rename this to avoid the negations below\n```suggestion\n  private @Named(\"CacheWriteEnabled\") AtomicBoolean isCacheReadOnly;\n```",
+      "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88f5d82e_4b708956",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-09T11:24:52Z",
+      "side": 1,
+      "message": "```suggestion\n  private final AtomicBoolean isReadOnly;\n```",
+      "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e344cb4c_ce3c964b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-09T11:24:52Z",
+      "side": 1,
+      "message": "like in the other implementation we could still extract all writing methods to a  Writer class to make it obvious which methods need to do this check (all methods of the Writer)",
+      "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

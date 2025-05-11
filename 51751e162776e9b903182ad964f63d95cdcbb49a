@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba37f0a1_896d182e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-11T10:29:46Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer and please do `git merge stable-3.9 --log\u003d1000`",
+      "revId": "51751e162776e9b903182ad964f63d95cdcbb49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

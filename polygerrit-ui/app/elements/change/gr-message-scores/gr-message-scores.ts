@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-trigger-vote/gr-trigger-vote';
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-import {ChangeInfo} from '../../../api/rest-api';
+import '../../checks/gr-checks-chip-for-label';
+import {LitElement, css, html, nothing} from 'lit';
+import {customElement, property, state} from 'lit/decorators.js';
+import {ChangeInfo, PatchSetNumber} from '../../../api/rest-api';
 import {
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
@@ -14,6 +15,10 @@ import {
 import {hasOwnProperty} from '../../../utils/common-util';
 import {getTriggerVotes} from '../../../utils/label-util';
 import {ChangeMessage} from '../../../types/common';
+import {CheckRun} from '../../../api/checks';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const VOTE_RESET_TEXT = '0 (vote reset)';
 
@@ -35,6 +40,10 @@ export class GrMessageScores extends LitElement {
 
   @property({type: Object})
   change?: ChangeInfo;
+
+  @state() runs: CheckRun[] = [];
+
+  @state() latestPatchNum?: PatchSetNumber;
 
   static override get styles() {
     return css`
@@ -86,7 +95,24 @@ export class GrMessageScores extends LitElement {
           min-width: 0px;
         }
       }
+
+      gr-checks-chip-for-label {
+        /* .checksChip has top: 2px, this is canceling it */
+        position: relative;
+        top: -2px;
+      }
     `;
+  }
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
   }
 
   override render() {
@@ -113,10 +139,22 @@ export class GrMessageScores extends LitElement {
       </gr-trigger-vote>`;
     }
     return html`<span
-      class="score ${this._computeScoreClass(score, this.labelExtremes)}"
-    >
-      ${score.label} ${score.value}
-    </span>`;
+        class="score ${this._computeScoreClass(score, this.labelExtremes)}"
+      >
+        ${score.label} ${score.value} </span
+      >${this.renderChecks(score)}`;
+  }
+
+  renderChecks(score: Score) {
+    const labelName = score.label;
+    if (!labelName) return nothing;
+    if (Number(score.value) >= 0) return nothing;
+    if (this.latestPatchNum !== this.message?._revision_number) return nothing;
+
+    return html`<gr-checks-chip-for-label
+      .labels=${[labelName]}
+      .showRunning=${false}
+    ></gr-checks-chip-for-label>`;
   }
 
   _computeScoreClass(score?: Score, labelExtremes?: LabelExtreme) {

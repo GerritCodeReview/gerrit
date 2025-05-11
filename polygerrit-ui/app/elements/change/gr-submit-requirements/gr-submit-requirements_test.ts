@@ -185,7 +185,7 @@ suite('gr-submit-requirements tests', () => {
             <div class="votes">
               <div class="votes-line">
                 <gr-vote-chip> </gr-vote-chip>
-                <gr-checks-chip> </gr-checks-chip>
+                <gr-checks-chip-for-label> </gr-checks-chip-for-label>
               </div>
             </div>
           </div>
@@ -211,7 +211,7 @@ suite('gr-submit-requirements tests', () => {
             <div class="votes">
               <div class="votes-line">
                 <gr-vote-chip> </gr-vote-chip>
-                <gr-checks-chip> </gr-checks-chip>
+                <gr-checks-chip-for-label> </gr-checks-chip-for-label>
               </div>
             </div>
           </div>

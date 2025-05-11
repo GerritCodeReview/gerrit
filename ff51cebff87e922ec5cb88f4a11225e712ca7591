@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62939d9c_afad4b4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-11T07:26:58Z",
+      "side": 1,
+      "message": "to nongoogle.bzl",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "ff51cebff87e922ec5cb88f4a11225e712ca7591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43372514_68b8a009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-11T10:51:46Z",
+      "side": 1,
+      "message": "I don\u0027t have \"Move Change\" action. Can you please move it to master?",
+      "revId": "e546f3d8346656973b159036a05dcb87372c5d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

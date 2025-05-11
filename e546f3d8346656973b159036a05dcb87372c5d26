@@ -16,6 +16,24 @@
       "message": "I don\u0027t have \"Move Change\" action. Can you please move it to master?",
       "revId": "e546f3d8346656973b159036a05dcb87372c5d26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a40a197_78b0eadd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-11T10:58:33Z",
+      "side": 1,
+      "message": "You can\u0027t move on gerrit-review as it\u0027s been disabled. We\u0027ve had so many problems with it. You\u0027ll have to abandon and upload it to master.",
+      "parentUuid": "43372514_68b8a009",
+      "revId": "e546f3d8346656973b159036a05dcb87372c5d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

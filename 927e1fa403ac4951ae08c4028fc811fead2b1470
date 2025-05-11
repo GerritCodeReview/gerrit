@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92e3bd1_06609b43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4022801
+      },
+      "writtenOn": "2025-05-11T21:17:22Z",
+      "side": 1,
+      "message": "454042: gc_log is no longer overwritten when rotated | https://gerrit-review.googlesource.com/c/gerrit/+/454042",
+      "revId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
@@ -16,7 +34,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"]}
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -44,10 +62,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(polygerrit-ui/.*)$\""],"failingAtoms":["branch:refs/meta/config","branch:refs/heads/master"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(polygerrit-ui/.*)$\""],"failingAtoms":["branch:refs/meta/config","branch:refs/heads/master"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]}
+        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -75,10 +93,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""]}
+        "value": {"expression":{"expressionString":"message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"is:false"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"is:false"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -106,10 +124,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\"","file:\"^java/com/google/gerrit/entities/.*\\\\.java$\"","file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\""]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\"","file:\"^java/com/google/gerrit/entities/.*\\\\.java$\"","file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\""],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"hasfooter:\"Forward-Compatible\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"hasfooter:\"Forward-Compatible\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -137,10 +155,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"branch:refs/heads/master AND (file:\"^polygerrit-ui/.*\" OR is:merge)"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/heads/master","file:\"^polygerrit-ui/.*\"","is:merge"]}
+        "value": {"expression":{"expressionString":"branch:refs/heads/master AND (file:\"^polygerrit-ui/.*\" OR is:merge)"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/heads/master","file:\"^polygerrit-ui/.*\"","is:merge"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Frontend-Verified=MAX AND -label:Frontend-Verified=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"label:Frontend-Verified=MAX AND -label:Frontend-Verified=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -168,10 +186,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -203,13 +221,13 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"has:unresolved"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["has:unresolved"]}
+        "value": {"expression":{"expressionString":"has:unresolved"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["has:unresolved"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {
-        "value": {"expression":{"expressionString":"hashtag:allow-unresolved-comments"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"hashtag:allow-unresolved-comments"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
       "legacy": {
@@ -236,10 +254,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND -hasfooter:\"Release-Notes\" AND -is:pure-revert"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["hasfooter:\"Release-Notes\""],"failingAtoms":["branch:refs/meta/config","is:pure-revert"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND -hasfooter:\"Release-Notes\" AND -is:pure-revert"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["hasfooter:\"Release-Notes\""],"failingAtoms":["branch:refs/meta/config","is:pure-revert"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"hasfooter:\"Release-Notes\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"hasfooter:\"Release-Notes\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -267,10 +285,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:review-enforced_gerrit"]}
+        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:review-enforced_gerrit"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"is:review-enforcement-satisfied_gerrit"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"is:review-enforcement-satisfied_gerrit"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -298,10 +316,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR is:merge OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(polygerrit-ui/.*)$\""],"failingAtoms":["branch:refs/meta/config","is:merge","branch:refs/heads/master"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR is:merge OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(polygerrit-ui/.*)$\""],"failingAtoms":["branch:refs/meta/config","is:merge","branch:refs/heads/master"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",
@@ -329,10 +347,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["footer:\"Want-Code-Review: all\"","label:Code-Review>=1,users=human_reviewers"]}
+        "value": {"expression":{"expressionString":"footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["footer:\"Want-Code-Review: all\"","label:Code-Review>=1,users=human_reviewers"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Review>=1,users=human_reviewers"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"label:Code-Review>=1,users=human_reviewers"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "927e1fa403ac4951ae08c4028fc811fead2b1470",

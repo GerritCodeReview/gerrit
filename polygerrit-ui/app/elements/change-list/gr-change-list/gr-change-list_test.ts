@@ -5,7 +5,11 @@
  */
 import '../../../test/common-test-setup';
 import './gr-change-list';
-import {GrChangeList, computeRelativeIndex} from './gr-change-list';
+import {
+  ChangeListSection,
+  GrChangeList,
+  computeRelativeIndex,
+} from './gr-change-list';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   pressKey,
@@ -173,58 +177,53 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('computed fields', () => {
-    assert.equal(
-      element.computeLabelNames([
-        {
+    const createTestSubmitReqs = (
+      labelLists: string[][]
+    ): ChangeListSection[] => {
+      let changeNumber = 0;
+      const sections: ChangeListSection[] = [];
+      for (const labelList of labelLists) {
+        sections.push({
           results: [
-            {...createChange(), _number: 0 as NumericChangeId, labels: {}},
+            {
+              ...createChange(),
+              _number: changeNumber++ as NumericChangeId,
+              submit_requirements: labelList.map(label => {
+                return {
+                  ...createSubmitRequirementResultInfo(),
+                  name: label,
+                };
+              }),
+            },
           ],
-        },
-      ]).length,
+        });
+      }
+      return sections;
+    };
+
+    assert.equal(
+      element.computeLabelNames(createTestSubmitReqs([[]])).length,
       0
     );
-    assert.equal(
-      element.computeLabelNames([
-        {
-          results: [
-            {
-              ...createChange(),
-              _number: 0 as NumericChangeId,
-              submit_requirements: [
-                {
-                  ...createSubmitRequirementResultInfo(),
-                  name: 'Verified',
-                },
-              ],
-            },
-            {
-              ...createChange(),
-              _number: 1 as NumericChangeId,
-              submit_requirements: [
-                {
-                  ...createSubmitRequirementResultInfo(),
-                  name: 'Verified',
-                },
-                {
-                  ...createSubmitRequirementResultInfo(),
-                  name: 'Code-Review',
-                },
-              ],
-            },
-            {
-              ...createChange(),
-              _number: 2 as NumericChangeId,
-              submit_requirements: [
-                {
-                  ...createSubmitRequirementResultInfo(),
-                  name: 'Library-Compliance',
-                },
-              ],
-            },
-          ],
-        },
-      ]).length,
-      3
+    assert.deepEqual(
+      element.computeLabelNames(
+        createTestSubmitReqs([
+          ['Verified'],
+          ['Verified', 'Code-Review'],
+          ['Library-Compliance'],
+        ])
+      ),
+      ['Code-Review', 'Library-Compliance', 'Verified']
+    );
+
+    assert.deepEqual(
+      element.computeLabelNames(
+        createTestSubmitReqs([
+          ['Verified', 'A-Label'],
+          ['Verified', 'Code-Review'],
+        ])
+      ),
+      ['Code-Review', 'A-Label', 'Verified']
     );
   });
 

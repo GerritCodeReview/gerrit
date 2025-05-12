@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e296b4af_596ea695",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-12T22:37:27Z",
+      "side": 1,
+      "message": "See downstream task: https://phabricator.wikimedia.org/T393899",
+      "revId": "25d533c332bd611ec78b8f2972bf8ec158d5d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

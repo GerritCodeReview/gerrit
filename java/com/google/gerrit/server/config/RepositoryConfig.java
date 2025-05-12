@@ -19,13 +19,16 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -33,6 +36,7 @@ public class RepositoryConfig {
 
   static final String SECTION_NAME = "repository";
   static final String OWNER_GROUP_NAME = "ownerGroup";
+  static final String DEFAULT_CONFIG_NAME = "defaultConfig";
   static final String DEFAULT_SUBMIT_TYPE_NAME = "defaultSubmitType";
   static final String BASE_PATH_NAME = "basePath";
 
@@ -43,6 +47,32 @@ public class RepositoryConfig {
   @Inject
   public RepositoryConfig(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
+  }
+
+  /**
+   * Gets the default value that is configured for the given boolean project config that matches the
+   * given project.
+   *
+   * <p>If no default value is configured, {@link DefaultBooleanProjectConfig.Value#FALSE} is
+   * returned.
+   */
+  public DefaultBooleanProjectConfig.Value getDefault(
+      Project.NameKey project, BooleanProjectConfig booleanProjectConfig) {
+    return Arrays.stream(
+            cfg.getStringList(SECTION_NAME, findSubSection(project.get()), DEFAULT_CONFIG_NAME))
+        .map(DefaultBooleanProjectConfig::tryParse)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(
+            defaultBooleanProjectConfig ->
+                defaultBooleanProjectConfig.section().equals(booleanProjectConfig.getSection())
+                    && defaultBooleanProjectConfig
+                        .subSection()
+                        .equals(Optional.ofNullable(booleanProjectConfig.getSubSection()))
+                    && defaultBooleanProjectConfig.name().equals(booleanProjectConfig.getName()))
+        .findFirst()
+        .map(DefaultBooleanProjectConfig::defaultValue)
+        .orElse(DefaultBooleanProjectConfig.Value.FALSE);
   }
 
   public SubmitType getDefaultSubmitType(Project.NameKey project) {

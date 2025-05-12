@@ -21,7 +21,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static java.util.stream.Collectors.toList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.clearInvocations;
@@ -57,7 +56,6 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -66,14 +64,12 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -368,7 +364,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "7")
+  @GerritConfig(name = "change.maxComments", value = "5")
   public void restrictNumberOfComments() throws Exception {
     when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
 
@@ -378,17 +374,12 @@ public class PostReviewIT extends AbstractDaemonTest {
     commentInput.line = 1;
     commentInput.message = "foo";
     commentInput.path = filePath;
-    RobotCommentInput robotCommentInput =
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields(filePath);
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
-    reviewInput.robotComments = ImmutableMap.of(filePath, ImmutableList.of(robotCommentInput));
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
-    // Counting change messages plus comments we now have 4.
-
-    // reviewInput still has both a user and a robot comment (and deduplication is false). We also
-    // create a draft, and there's the change message, so that in total there would be 8 comments.
-    // The limit is set to 7, so this verifies that all new comments are considered.
+    // reviewInput still has both a user comment (and deduplication is false). We also
+    // create a draft, and there's the change message, so that in total there would be 6 comments.
+    // The limit is set to 5, so this verifies that all new comments are considered.
     DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, "a draft");
     testCommentHelper.addDraft(r.getChangeId(), r.getPatchSetId().getId(), draftInline);
     reviewInput.drafts = DraftHandling.PUBLISH;
@@ -400,10 +391,9 @@ public class PostReviewIT extends AbstractDaemonTest {
             () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
     assertThat(exception)
         .hasMessageThat()
-        .contains("Exceeding maximum number of comments: 4 (existing) + 4 (new) > 7");
+        .contains("Exceeding maximum number of comments: 3 (existing) + 3 (new) > 5");
 
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
-    assertThat(getRobotComments(r.getChangeId())).hasSize(1);
   }
 
   @Test
@@ -1172,12 +1162,6 @@ public class PostReviewIT extends AbstractDaemonTest {
     public void onCommentAdded(Event event) {
       lastCommentAddedEvent = event;
     }
-  }
-
-  private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
-    return gApi.changes().id(changeId).robotComments().values().stream()
-        .flatMap(Collection::stream)
-        .collect(toList());
   }
 
   private static CommentInput newComment(String path) {

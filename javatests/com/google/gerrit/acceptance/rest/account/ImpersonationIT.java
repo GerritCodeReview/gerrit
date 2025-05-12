@@ -50,12 +50,10 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -423,33 +421,6 @@ public class ImpersonationIT extends AbstractDaemonTest {
     HumanComment c =
         Iterables.getOnlyElement(commentsUtil.publishedHumanCommentsByChange(cd.notes()));
     assertThat(c.message).isEqualTo(ci.message);
-    assertThat(c.author.getId()).isEqualTo(user.id());
-    assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id());
-  }
-
-  @Test
-  public void voteOnBehalfOfWithRobotComment() throws Exception {
-    allowCodeReviewOnBehalfOf();
-    PushOneCommit.Result r = createChange();
-
-    ReviewInput in = new ReviewInput();
-    in.onBehalfOf = user.id().toString();
-    in.label("Code-Review", 1);
-    RobotCommentInput ci = new RobotCommentInput();
-    ci.robotId = "my-robot";
-    ci.robotRunId = "abcd1234";
-    ci.path = Patch.COMMIT_MSG;
-    ci.side = Side.REVISION;
-    ci.line = 1;
-    ci.message = "message";
-    in.robotComments = ImmutableMap.of(ci.path, ImmutableList.of(ci));
-    gApi.changes().id(r.getChangeId()).current().review(in);
-
-    ChangeData cd = r.getChange();
-    RobotComment c = Iterables.getOnlyElement(commentsUtil.robotCommentsByChange(cd.notes()));
-    assertThat(c.message).isEqualTo(ci.message);
-    assertThat(c.robotId).isEqualTo(ci.robotId);
-    assertThat(c.robotRunId).isEqualTo(ci.robotRunId);
     assertThat(c.author.getId()).isEqualTo(user.id());
     assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id());
   }

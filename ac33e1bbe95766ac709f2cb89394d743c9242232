@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7362ac49_ee5aa194",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "It\u0027s slightly different from disabled (in screenshot PS 8 is disabled and PS 7 is deemphasized), but yeah all the colors are fairly close here. I will add it to the UX meeting agenda. I think we can also submit it like this and add UX improvement as a separate change, but if you prefer not to, we can keep this comment unresolved until then.",
+      "parentUuid": "9df5e169_1479aff7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "352f535e_2c26b09b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-12T08:36:24Z",
       "side": 1,
       "message": "```suggestion\neach pair of consecutive patchsets, whereas with GetChange we only need\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3684fc6_05da9bec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "352f535e_2c26b09b",
       "range": {
         "startLine": 25,
         "startChar": 13,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "194fcb7f_ccc97c85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "Only if you specify ALL_FILES and ALL_REVISIONS options. I\u0027ve added this in https://gerrit-review.git.corp.google.com/c/gerrit/+/473162",
+      "parentUuid": "69b5b7e9_e4aafd71",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0f87041_3d9382b6",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-05-12T08:36:24Z",
       "side": 1,
       "message": "can we mark method private that need to be?",
+      "range": {
+        "startLine": 379,
+        "startChar": 2,
+        "endLine": 379,
+        "endChar": 26
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18b37b62_73296f1a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f87041_3d9382b6",
       "range": {
         "startLine": 379,
         "startChar": 2,
@@ -134,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0a182ea_ed4863a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "Not necessary, in the expected result in this test, there are already both normal and deemphasized pathcsets.",
+      "parentUuid": "94cec2ed_7fc6f414",
+      "range": {
+        "startLine": 545,
+        "startChar": 2,
+        "endLine": 545,
+        "endChar": 55
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2066f615_38a02068",
@@ -171,6 +291,30 @@
           ]
         }
       ],
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3f814f7_a5a22374",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2066f615_38a02068",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 16
+      },
       "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -292,6 +436,30 @@
           ]
         }
       ],
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef123f7c_97f935ee",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-12T10:26:56Z",
+      "side": 1,
+      "message": "I find the name too wordy and still not clear enough.\n\nAdded documentation to this method and to the gr-rest-api, hopefully that helps with readability.",
+      "parentUuid": "792bb49c_2830c335",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 11
+      },
       "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1008,20 +1008,6 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putDraft_robotInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-    String parentRobotCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-
-    DraftInput draft = CommentsUtil.newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
-    draft.inReplyTo = parentRobotCommentUuid;
-    String createdDraftUuid = addDraft(changeId, draft).id;
-    TestHumanComment actual =
-        changeOperations.change(changeId).draftComment(createdDraftUuid).get();
-    assertThat(actual.parentUuid()).hasValue(parentRobotCommentUuid);
-  }
-
-  @Test
   public void putDraft_idMismatch() throws Exception {
     String file = "file";
     PushOneCommit.Result r = createChange();
@@ -1117,21 +1103,6 @@ public class CommentsIT extends AbstractDaemonTest {
     updateDraft(changeId, updateDraftInput, originalDraft.id);
     assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().parentUuid())
         .hasValue(parentCommentUuid);
-  }
-
-  @Test
-  public void putDraft_updateRobotInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-    String parentRobotCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-    DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
-    CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
-
-    DraftInput updateDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
-    updateDraftInput.inReplyTo = parentRobotCommentUuid;
-    updateDraft(changeId, updateDraftInput, originalDraft.id);
-    assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().parentUuid())
-        .hasValue(parentRobotCommentUuid);
   }
 
   @Test
@@ -2123,29 +2094,6 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void canCreateHumanCommentWithRobotCommentAsParentAndUnsetUnresolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-    String parentRobotCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-
-    CommentInput createdCommentInput = CommentsUtil.newComment(COMMIT_MSG, "comment reply");
-    createdCommentInput.inReplyTo = parentRobotCommentUuid;
-    createdCommentInput.unresolved = null;
-    CommentsUtil.addComments(gApi, changeId, createdCommentInput);
-
-    CommentInfo resultNewComment =
-        Iterables.getOnlyElement(
-            getPublishedCommentsAsList(changeId).stream()
-                .filter(c -> c.message.equals("comment reply"))
-                .collect(toImmutableSet()));
-
-    assertThat(resultNewComment.inReplyTo).isEqualTo(parentRobotCommentUuid);
-
-    // Default unresolved is false.
-    assertThat(resultNewComment.unresolved).isFalse();
-  }
-
-  @Test
   public void canCreateHumanCommentWithHumanCommentAsParent() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
     String parentCommentUuid =
@@ -2161,24 +2109,6 @@ public class CommentsIT extends AbstractDaemonTest {
                 .filter(c -> c.message.equals("comment reply"))
                 .collect(toImmutableSet()));
     assertThat(resultNewComment.inReplyTo).isEqualTo(parentCommentUuid);
-  }
-
-  @Test
-  public void canCreateHumanCommentWithRobotCommentAsParent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-    String parentRobotCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-
-    CommentInput createdCommentInput = CommentsUtil.newComment(COMMIT_MSG, "comment reply");
-    createdCommentInput.inReplyTo = parentRobotCommentUuid;
-    CommentsUtil.addComments(gApi, changeId, createdCommentInput);
-
-    CommentInfo resultNewComment =
-        Iterables.getOnlyElement(
-            getPublishedCommentsAsList(changeId).stream()
-                .filter(c -> c.message.equals("comment reply"))
-                .collect(toImmutableSet()));
-    assertThat(resultNewComment.inReplyTo).isEqualTo(parentRobotCommentUuid);
   }
 
   @Test

@@ -18,24 +18,18 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RobotCommentResource;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetRobotComment implements RestReadView<RobotCommentResource> {
 
-  private final Provider<CommentJson> commentJson;
-
   @Inject
-  GetRobotComment(Provider<CommentJson> commentJson) {
-    this.commentJson = commentJson;
-  }
+  GetRobotComment() {}
 
   @Override
   public Response<RobotCommentInfo> apply(RobotCommentResource rsrc)
-      throws PermissionBackendException {
-    return Response.ok(commentJson.get().newRobotCommentFormatter().format(rsrc.getComment()));
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException("robot comments unsupported");
   }
 }

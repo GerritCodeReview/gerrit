@@ -27,11 +27,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
-/**
- * Attributes of the human comment. If not provided, arbitrary values will be used. This class is
- * very similar to {@link TestRobotCommentCreation} to allow separation between robot and human
- * comments.
- */
+/** Attributes of the human comment. If not provided, arbitrary values will be used.. */
 @AutoValue
 public abstract class TestCommentCreation {
 

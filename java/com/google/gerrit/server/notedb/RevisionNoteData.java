@@ -21,8 +21,8 @@ import java.util.List;
 /**
  * Holds the raw data of a RevisionNote.
  *
- * <p>It is intended for serialization to JSON only. It is used for human comments and robot
- * comments, as well as for storing submit requirements.
+ * <p>It is intended for serialization to JSON only. It is used for human comments, as well as for
+ * storing submit requirements.
  */
 class RevisionNoteData {
   String pushCert;

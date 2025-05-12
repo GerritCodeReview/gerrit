@@ -16,7 +16,11 @@ import {getAppContext} from '../../../services/app-context';
 import './gr-formatted-text';
 import {GrFormattedText} from './gr-formatted-text';
 import {createComment, createConfig} from '../../../test/test-data-generators';
-import {queryAndAssert, waitUntilObserved} from '../../../test/test-utils';
+import {
+  query,
+  queryAndAssert,
+  waitUntilObserved,
+} from '../../../test/test-utils';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
@@ -236,12 +240,28 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does default linking', async () => {
-      const checkLinking = async (url: string) => {
+      const checkLinking = async (url: string, expectLinkified = true) => {
         element.content = url;
         await element.updateComplete;
-        const a = queryAndAssert<HTMLElement>(element, 'a');
-        assert.equal(a.getAttribute('href'), url);
-        assert.equal(a.innerText, url);
+        const a = query<HTMLElement>(element, 'a');
+
+        if (expectLinkified) {
+          assert.isDefined<HTMLElement | undefined>(a);
+          // URLs without scheme are upgraded to https:// by the
+          // ALWAYS_LINK_SCHEMELESS rule. URLs with http:// or https://
+          // are preserved by the ALWAYS_LINK_HTTP rule.
+          const isSchemeless =
+            !url.startsWith('http://') &&
+            !url.startsWith('https://') &&
+            !url.startsWith('mailto:') &&
+            !url.startsWith('/');
+          const expectedHref = isSchemeless ? `http://${url}` : url;
+
+          assert.equal(a!.getAttribute('href'), expectedHref);
+          assert.equal(a!.innerText, url);
+        } else {
+          assert.isUndefined(a);
+        }
       };
 
       await checkLinking('http://www.google.com');
@@ -254,6 +274,18 @@ suite('gr-formatted-text tests', () => {
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'
       );
+
+      await checkLinking('www.google.com/path');
+      await checkLinking('www.google-foo.com/path');
+      await checkLinking('google.co.uk/path?q=1#frag');
+
+      // Do not linkify URLs without `/`.
+      await checkLinking('google.com', false);
+      await checkLinking('com.google.gerrit.server.Event', false);
+
+      // Do not linkify URLs without a recognized TLD.
+      await checkLinking('google.foogle/path', false);
+      await checkLinking('google.com.blah/path', false);
     });
   });
 
@@ -743,13 +775,29 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does default linking', async () => {
-      const checkLinking = async (url: string) => {
+      const checkLinking = async (url: string, expectLinkified = true) => {
         element.content = url;
         await element.updateComplete;
-        const a = queryAndAssert<HTMLElement>(element, 'a');
+        const a = query<HTMLElement>(element, 'a');
         const p = queryAndAssert<HTMLElement>(element, 'p');
-        assert.equal(a.getAttribute('href'), url);
         assert.equal(p.innerText, url);
+
+        if (expectLinkified) {
+          assert.isDefined<HTMLElement | undefined>(a);
+          // URLs without scheme are upgraded to https:// by the
+          // ALWAYS_LINK_SCHEMELESS rule. URLs with http:// or https://
+          // are preserved by the ALWAYS_LINK_HTTP rule.
+          const isSchemeless =
+            !url.startsWith('http://') &&
+            !url.startsWith('https://') &&
+            !url.startsWith('mailto:') &&
+            !url.startsWith('/');
+          const expectedHref = isSchemeless ? `http://${url}` : url;
+
+          assert.equal(a!.getAttribute('href'), expectedHref);
+        } else {
+          assert.isUndefined(a);
+        }
       };
 
       await checkLinking('http://www.google.com');
@@ -759,6 +807,18 @@ suite('gr-formatted-text tests', () => {
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'
       );
+
+      await checkLinking('www.google.com/path');
+      await checkLinking('www.google-foo.com/path');
+      await checkLinking('google.co.uk/path?q=1#frag');
+
+      // Do not linkify URLs without `/`.
+      await checkLinking('google.com', false);
+      await checkLinking('com.google.gerrit.server.Event', false);
+
+      // Do not linkify URLs without a recognized TLD.
+      await checkLinking('google.foogle/path', false);
+      await checkLinking('google.com.blah/path', false);
     });
 
     suite('user suggest fix', () => {

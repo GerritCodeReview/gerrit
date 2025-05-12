@@ -131,6 +131,47 @@ export class GrFormattedText extends LitElement {
           link: '$1',
           enabled: true,
         };
+
+        // List of common TLDs to specifically match for schemeless URLs.
+        const TLD_REGEX = [
+          'com',
+          'org',
+          'net',
+          'edu',
+          'gov',
+          'co',
+          'jp',
+          'de',
+          'uk',
+          'fr',
+          'us',
+          'io',
+        ].join('|');
+
+        // Linkify schemeless URLs with proper domain structures.
+        this.repoCommentLinks['ALWAYS_LINK_SCHEMELESS'] = {
+          // (?<=\s|^|[('":[])   // Ensure the match is preceded by whitespace,
+          //                     // start of line, or one of ( ' " : [
+          // (                   // Start capture group 1
+          //   (?:               // Start non-capturing domain group
+          //     [\w-]+\.        //   Sequence of words/hyphens with dot, e.g. "a-b."
+          //   )+                // End domain group. Require at least one match
+          //   (?:${TLD_REGEX})  // Ensure the match ends with a common TLD
+          //   (?=.*?/)          // Positive lookahead to ensure a '/' exists in the path/query/fragment
+          //   (?:               // Start non-capturing path/query/fragment group
+          //     [/?#]           //   Start with one of / ? #
+          //     [^\s'"]*        //   Followed by some chars that are not whitespace,
+          //                     //   ' or " (to not grab trailing quotes)
+          //   )                 // End path/query/fragment group
+          // )                   // End capture group 1
+          // (?=\s|$|[)'"!?.,])  // Ensure the match is followed by whitespace,
+          //                     // end of line, or one of ) ' " ! ? . ,
+          match: `(?<=\\s|^|[('":[])((?:[\\w-]+\\.)+(?:${TLD_REGEX})(?=.*?/)(?:[/?#][^\\s'"]*))(?=\\s|$|[)'"!?.,])`,
+          // Prepend http:// for the link href otherwise it will be treated as
+          // a relative URL.
+          link: 'http://$1',
+          enabled: true,
+        };
       }
     );
   }

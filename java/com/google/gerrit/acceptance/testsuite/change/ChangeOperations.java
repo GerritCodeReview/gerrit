@@ -127,13 +127,5 @@ public interface ChangeOperations {
      * @return an aggregation of operations on a specific draft comment
      */
     PerDraftCommentOperations draftComment(String commentUuid);
-
-    /**
-     * Starts the fluent chain for querying or modifying a robot comment. Please see the methods of
-     * {@link PerRobotCommentOperations} for details on possible operations.
-     *
-     * @return an aggregation of operations on a specific robot comment
-     */
-    PerRobotCommentOperations robotComment(String commentUuid);
   }
 }

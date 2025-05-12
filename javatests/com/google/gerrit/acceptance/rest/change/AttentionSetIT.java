@@ -1388,25 +1388,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewIgnoresRobotCommentsForAttentionSet() throws Exception {
-    PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(user.id());
-    testCommentHelper.addRobotComment(
-        r.getChangeId(),
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
-
-    requestScopeOperations.setApiUser(admin.id());
-    change(r)
-        .current()
-        .review(
-            reviewInReplyToComment(
-                Iterables.getOnlyElement(
-                        gApi.changes().id(r.getChangeId()).current().robotCommentsAsList())
-                    .id));
-    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
-  }
-
-  @Test
   public void ownerReplyResolvedAddsNonVotedInCommentThread() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
@@ -1547,44 +1528,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user2.id());
-    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet)
-        .hasReasonThat()
-        .isEqualTo("Someone else replied on a comment you posted");
-  }
-
-  @Test
-  public void reviewAddsAllUsersInCommentThreadWhenOriginalCommentIsARobotComment()
-      throws Exception {
-    PushOneCommit.Result result = createChange();
-    testCommentHelper.addRobotComment(
-        result.getChangeId(),
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
-
-    requestScopeOperations.setApiUser(user.id());
-    // Reply to the robot comment.
-    change(result)
-        .current()
-        .review(
-            reviewInReplyToComment(
-                Iterables.getOnlyElement(
-                        gApi.changes().id(result.getChangeId()).current().robotCommentsAsList())
-                    .id));
-
-    requestScopeOperations.setApiUser(admin.id());
-    // Reply to the human comment. which was a reply to the robot comment.
-    change(result)
-        .current()
-        .review(
-            reviewInReplyToComment(
-                Iterables.getOnlyElement(
-                        gApi.changes().id(result.getChangeId()).current().commentsAsList())
-                    .id));
-
-    // The user which replied to the robot comment was added to the attention set.
-    AttentionSetUpdate attentionSet =
-        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(result, user));
-    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
     assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet)
         .hasReasonThat()
@@ -2069,40 +2012,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
     assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet).hasReasonThat().isEqualTo("Change was submitted");
-  }
-
-  @Test
-  public void robotCommentDoesNotAddOwnerOnClosedChanges() throws Exception {
-    TestAccount robot =
-        accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
-    PushOneCommit.Result r = createChange();
-    gApi.changes().id(r.getChangeId()).abandon();
-
-    requestScopeOperations.setApiUser(robot.id());
-    ReviewInput reviewInput = new ReviewInput();
-    ReviewInput.RobotCommentInput robotCommentInput =
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields("a.txt");
-    reviewInput.robotComments = ImmutableMap.of("a.txt", ImmutableList.of(robotCommentInput));
-    change(r).current().review(reviewInput);
-
-    assertThat(r.getChange().attentionSet()).isEmpty();
-  }
-
-  @Test
-  public void robotCanChangeAttentionSetExplicitly() throws Exception {
-    TestAccount robot =
-        accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
-    PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(robot.id());
-    change(r).current().review(new ReviewInput().addUserToAttentionSet(admin.email(), "reason"));
-
-    AttentionSetUpdate attentionSet =
-        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
-    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test

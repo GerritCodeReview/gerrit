@@ -20,12 +20,12 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 /**
  * Intended modification target.
  *
- * <p>See also {@link ModificationTarget}. Some modifications may have a fixed target (e.g.
- * suggested fixes of robot comments). For other modifications, the presence of a change edit
- * influences their target. The latter comes from the REST endpoints of change edits which work no
- * matter whether a change edit is present or not. If it's not present, a new change edit is created
- * based on the current patchset. As we don't want to create an "empty" commit for the new change
- * edit first, we need this class/interface for the flexible handling.
+ * <p>See also {@link ModificationTarget}. Some modifications may have a fixed target. For other
+ * modifications, the presence of a change edit influences their target. The latter comes from the
+ * REST endpoints of change edits which work no matter whether a change edit is present or not. If
+ * it's not present, a new change edit is created based on the current patchset. As we don't want to
+ * create an "empty" commit for the new change edit first, we need this class/interface for the
+ * flexible handling.
  */
 interface ModificationIntention {
 

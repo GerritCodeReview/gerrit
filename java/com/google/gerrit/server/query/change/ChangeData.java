@@ -51,7 +51,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -82,7 +81,6 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -113,7 +111,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -417,7 +414,6 @@ public class ChangeData {
   private List<String> currentFiles;
   private Optional<DiffSummary> diffSummary;
   private List<HumanComment> publishedComments;
-  private List<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
@@ -1131,16 +1127,6 @@ public class ChangeData {
     return publishedComments;
   }
 
-  public Collection<RobotComment> robotComments() {
-    if (robotComments == null) {
-      if (!lazyload()) {
-        return Collections.emptyList();
-      }
-      robotComments = commentsUtil.robotCommentsByChange(notes());
-    }
-    return robotComments;
-  }
-
   @Nullable
   public Integer unresolvedCommentCount() {
     if (unresolvedCommentCount == null) {
@@ -1148,8 +1134,7 @@ public class ChangeData {
         return null;
       }
 
-      List<Comment> comments =
-          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
+      List<Comment> comments = publishedComments().stream().collect(toList());
 
       ImmutableSet<CommentThread<Comment>> commentThreads =
           CommentThreads.forComments(comments).getThreads();
@@ -1172,8 +1157,7 @@ public class ChangeData {
       }
 
       // Fail on overflow.
-      totalCommentCount =
-          Ints.checkedCast((long) publishedComments().size() + robotComments().size());
+      totalCommentCount = Ints.checkedCast((long) publishedComments().size());
     }
     return totalCommentCount;
   }
@@ -1564,12 +1548,6 @@ public class ChangeData {
       // TODO: instantiating the notes is too much. We don't want to parse NoteDb, we just want the
       // refs.
       result.put(project, RefState.create(notes().getRefName(), notes().getMetaId()));
-
-      @SuppressWarnings("unused")
-      var unused = notes().getRobotComments(); // Force loading robot comments.
-
-      RobotCommentNotes robotNotes = notes().getRobotCommentNotes();
-      result.put(project, RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));
 
       refStates = result.build();
     }

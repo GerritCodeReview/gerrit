@@ -67,25 +67,4 @@ public interface PerPatchsetOperations {
    * @return builder to create a new comment
    */
   TestCommentCreation.Builder newDraftComment();
-
-  /**
-   * Starts the fluent chain to create a new robot comment. The returned builder can be used to
-   * specify the attributes of the robot comment. To create the robot comment for real, {@link
-   * TestRobotCommentCreation.Builder#create()} must be called.
-   *
-   * <p>Example:
-   *
-   * <pre>
-   * String createdRobotCommentUuid = changeOperations
-   *     .change(changeId)
-   *     .currentPatchset()
-   *     .newRobotComment()
-   *     .onLine(2)
-   *     .ofFile("file1")
-   *     .create();
-   * </pre>
-   *
-   * @return builder to create a new comment
-   */
-  TestRobotCommentCreation.Builder newRobotComment();
 }

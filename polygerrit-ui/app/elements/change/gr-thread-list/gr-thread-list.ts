@@ -19,10 +19,8 @@ import {ChangeMessageId} from '../../../api/rest-api';
 import {
   getCommentAuthors,
   getMentionedThreads,
-  hasHumanReply,
   isDraftThread,
   isMentionedThread,
-  isRobotThread,
   isUnresolved,
   lastUpdated,
 } from '../../../utils/comment-util';
@@ -142,8 +140,7 @@ export class GrThreadList extends LitElement {
    * ATTENTION! this.threads should never be used directly within the component.
    *
    * Either use getAllThreads(), which applies filters that are inherent to what
-   * the component is supposed to render,
-   * e.g. onlyShowRobotCommentsWithHumanReply.
+   * the component is supposed to render.
    *
    * Or use getDisplayedThreads(), which applies the currently selected filters
    * on top.
@@ -157,12 +154,6 @@ export class GrThreadList extends LitElement {
   /** Along with `draftsOnly` is the currently selected filter. */
   @property({type: Boolean, attribute: 'unresolved-only'})
   unresolvedOnly = false;
-
-  @property({
-    type: Boolean,
-    attribute: 'only-show-robot-comments-with-human-reply',
-  })
-  onlyShowRobotCommentsWithHumanReply = false;
 
   @property({type: Boolean, attribute: 'hide-dropdown'})
   hideDropdown = false;
@@ -522,12 +513,7 @@ export class GrThreadList extends LitElement {
    */
   // private, but visible for testing
   getAllThreads() {
-    return this.threads.filter(
-      t =>
-        !this.onlyShowRobotCommentsWithHumanReply ||
-        !isRobotThread(t) ||
-        hasHumanReply(t)
-    );
+    return this.threads;
   }
 
   /**
@@ -564,11 +550,6 @@ export class GrThreadList extends LitElement {
           this.isASelectedAuthor(c.author)
       );
       if (!hasACommentFromASelectedAuthor) return false;
-    }
-
-    // This is probably redundant, because getAllThreads() filters this out.
-    if (this.onlyShowRobotCommentsWithHumanReply) {
-      if (isRobotThread(thread) && !hasHumanReply(thread)) return false;
     }
 
     if (this.mentionsOnly && !isMentionedThread(thread, this.account))

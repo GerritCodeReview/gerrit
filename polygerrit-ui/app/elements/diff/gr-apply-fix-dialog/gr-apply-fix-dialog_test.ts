@@ -21,7 +21,6 @@ import {
   getCurrentRevision,
 } from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {DiffInfo} from '../../../types/diff';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -90,71 +89,13 @@ suite('gr-apply-fix-dialog tests', () => {
 
   suite('dialog open', () => {
     setup(() => {
-      const diffInfo1: DiffInfo = {
-        meta_a: {
-          name: 'f1',
-          content_type: 'text',
-          lines: 10,
-        },
-        meta_b: {
-          name: 'f1',
-          content_type: 'text',
-          lines: 12,
-        },
-        content: [
-          {
-            ab: ['loqlwkqll'],
-          },
-          {
-            b: ['qwqqsqw'],
-          },
-          {
-            ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
-          },
-        ],
-        change_type: 'MODIFIED',
-        intraline_status: 'OK',
-      };
-
-      const diffInfo2: DiffInfo = {
-        meta_a: {
-          name: 'f2',
-          content_type: 'text',
-          lines: 10,
-        },
-        meta_b: {
-          name: 'f2',
-          content_type: 'text',
-          lines: 12,
-        },
-        content: [
-          {
-            ab: ['eqweqweqwex'],
-          },
-          {
-            b: ['zassdasd'],
-          },
-          {
-            ab: ['zassdasd', 'dasdasda', 'asdasdad'],
-          },
-        ],
-        change_type: 'MODIFIED',
-        intraline_status: 'OK',
-      };
-
-      stubRestApi('getRobotCommentFixPreview').returns(
-        Promise.resolve({
-          f1: diffInfo1,
-          f2: diffInfo2,
-        })
-      );
       sinon.stub(element.applyFixModal!, 'showModal');
     });
 
     test('dialog opens fetch and sets previews', async () => {
       await open(TWO_FIXES);
       assert.equal(element.currentFix!.fix_id, 'fix_1');
-      assert.equal(element.currentPreviews.length, 2);
+      assert.equal(element.currentPreviews.length, 0);
       const button = getConfirmButton();
       assert.isFalse(button.hasAttribute('disabled'));
       assert.equal(button.getAttribute('title'), '');
@@ -175,7 +116,7 @@ suite('gr-apply-fix-dialog tests', () => {
       element,
       /* HTML */ `
         <dialog id="applyFixModal" tabindex="-1" open="">
-          <gr-dialog id="applyFixDialog" role="dialog" loading="">
+          <gr-dialog id="applyFixDialog" role="dialog">
             <div slot="header">Fix fix_1</div>
             <div slot="main"></div>
             <div class="fix-picker" slot="footer">
@@ -206,8 +147,6 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('next button state updated when suggestions changed', async () => {
-    stubRestApi('getRobotCommentFixPreview').returns(Promise.resolve({}));
-
     await open(ONE_FIX);
     await element.updateComplete;
     assert.notOk(element.nextFix);
@@ -218,63 +157,6 @@ suite('gr-apply-fix-dialog tests', () => {
     assert.notOk(element.nextFix.disabled);
   });
 
-  test('preview endpoint throws error should reset dialog', async () => {
-    stubRestApi('getRobotCommentFixPreview').returns(
-      Promise.reject(new Error('backend error'))
-    );
-    try {
-      await open(TWO_FIXES);
-    } catch (error) {
-      // expected
-    }
-    assert.equal(element.currentFix, undefined);
-  });
-
-  test('apply fix button should call apply, navigate to change view and fire close', async () => {
-    const applyRobotFixSuggestionStub = stubRestApi(
-      'applyRobotFixSuggestion'
-    ).returns(Promise.resolve(new Response(null, {status: 200})));
-    element.currentFix = createFixSuggestionInfo('123');
-    element.hasEdit = true;
-
-    const closeFixPreviewEventSpy = sinon.spy();
-    element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);
-
-    await element.handleApplyFix(new CustomEvent('confirm'));
-
-    sinon.assert.calledOnceWithExactly(
-      applyRobotFixSuggestionStub,
-      element.change!._number,
-      2 as PatchSetNum,
-      '123'
-    );
-    assert.isTrue(setUrlStub.called);
-    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/2..edit');
-
-    sinon.assert.calledOnceWithExactly(closeFixPreviewEventSpy, true);
-    // reset gr-apply-fix-dialog and close
-    assert.equal(element.currentFix, undefined);
-    assert.equal(element.currentPreviews.length, 0);
-  });
-
-  test('should not navigate to change view if incorect reponse', async () => {
-    const applyRobotFixSuggestionStub = stubRestApi(
-      'applyRobotFixSuggestion'
-    ).returns(Promise.resolve(new Response(null, {status: 500})));
-    element.currentFix = createFixSuggestionInfo('fix_123');
-
-    await element.handleApplyFix(new CustomEvent('confirm'));
-
-    sinon.assert.calledWithExactly(
-      applyRobotFixSuggestionStub,
-      element.change!._number,
-      2 as PatchSetNum,
-      'fix_123'
-    );
-    assert.isFalse(setUrlStub.called);
-    assert.equal(element.isApplyFixLoading, false);
-  });
-
   test('select fix forward and back of multiple suggested fixes', async () => {
     sinon.stub(element.applyFixModal!, 'showModal');
 
@@ -283,24 +165,6 @@ suite('gr-apply-fix-dialog tests', () => {
     assert.equal(element.currentFix!.fix_id, 'fix_2');
     element.onPrevFixClick(new CustomEvent('click'));
     assert.equal(element.currentFix!.fix_id, 'fix_1');
-  });
-
-  test('server-error should throw for failed apply call', async () => {
-    stubRestApi('applyRobotFixSuggestion').returns(
-      Promise.reject(new Error('backend error'))
-    );
-    element.currentFix = createFixSuggestionInfo('fix_123');
-
-    const closeFixPreviewEventSpy = sinon.spy();
-    element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);
-
-    let expectedError;
-    await element.handleApplyFix(new CustomEvent('click')).catch(e => {
-      expectedError = e;
-    });
-    assert.isOk(expectedError);
-    assert.isFalse(setUrlStub.called);
-    sinon.assert.notCalled(closeFixPreviewEventSpy);
   });
 
   test('onCancel fires close with correct parameters', () => {

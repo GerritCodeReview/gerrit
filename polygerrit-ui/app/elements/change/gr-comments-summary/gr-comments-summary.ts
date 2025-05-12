@@ -10,9 +10,7 @@ import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   getFirstComment,
-  hasHumanReply,
   isResolved,
-  isRobotThread,
   isUnresolved,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
@@ -96,9 +94,7 @@ export class GrCommentsSummary extends LitElement {
   }
 
   override render() {
-    const commentThreads =
-      this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
-      [];
+    const commentThreads = this.commentThreads ?? [];
     const countResolvedComments = commentThreads.filter(isResolved).length;
     const unresolvedThreads = commentThreads.filter(isUnresolved);
     const countUnresolvedComments = unresolvedThreads.length;

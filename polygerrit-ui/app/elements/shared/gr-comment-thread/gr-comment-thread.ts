@@ -38,7 +38,6 @@ import {
   Comment,
   CommentThread,
   isDraft,
-  isRobot,
   NumericChangeId,
   RepoName,
   UrlEncodedCommentId,
@@ -404,9 +403,6 @@ export class GrCommentThread extends LitElement {
         .comment-box.unresolved {
           background-color: var(--unresolved-comment-background-color);
         }
-        .comment-box.robotComment {
-          background-color: var(--robot-comment-background-color);
-        }
         #actionsContainer {
           display: flex;
         }
@@ -492,7 +488,6 @@ export class GrCommentThread extends LitElement {
   override render() {
     if (!this.thread) return;
     const dynamicBoxClasses = {
-      robotComment: this.isRobotComment(),
       unresolved: this.unresolved,
       saving: this.saving,
     };
@@ -557,7 +552,6 @@ export class GrCommentThread extends LitElement {
 
   private renderComment(comment?: Comment) {
     if (!comment) return nothing;
-    const robotButtonDisabled = !this.account || this.isDraft();
     const isFirstComment = this.getFirstComment() === comment;
     const initiallyCollapsed =
       !isDraft(comment) &&
@@ -570,7 +564,6 @@ export class GrCommentThread extends LitElement {
         .comment=${comment}
         .comments=${this.thread!.comments}
         ?initially-collapsed=${initiallyCollapsed}
-        ?robot-button-disabled=${robotButtonDisabled}
         ?show-patchset=${this.showPatchset}
         ?show-ported-comment=${this.showPortedComment && isFirstComment}
         @reply-to-comment=${this.handleReplyToComment}
@@ -598,7 +591,7 @@ export class GrCommentThread extends LitElement {
   }
 
   renderActions() {
-    if (!this.account || this.isDraft() || this.isRobotComment()) return;
+    if (!this.account || this.isDraft()) return;
     return html`
       <div id="actionsContainer">
         <span id="unresolvedLabel">${
@@ -879,10 +872,6 @@ export class GrCommentThread extends LitElement {
     // If range is set, then lineNum equals the end line of the range.
     if (this.thread.range) return `#${this.thread.range.end_line}`;
     return '';
-  }
-
-  private isRobotComment() {
-    return isRobot(this.getLastComment());
   }
 
   private getFirstComment() {

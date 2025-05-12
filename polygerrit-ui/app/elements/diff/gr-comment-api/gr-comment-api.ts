@@ -6,7 +6,6 @@
 import {
   PatchRange,
   PatchSetNum,
-  RobotCommentInfo,
   FileInfo,
   PARENT,
   CommentThread,
@@ -33,8 +32,6 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 export class ChangeComments {
   private readonly _comments: {[path: string]: CommentInfo[]};
 
-  private readonly _robotComments: {[path: string]: RobotCommentInfo[]};
-
   private readonly _drafts: {[path: string]: DraftInfo[]};
 
   private readonly _portedComments: {[path: string]: CommentInfo[]};
@@ -43,13 +40,11 @@ export class ChangeComments {
 
   constructor(
     comments?: {[path: string]: CommentInfo[]},
-    robotComments?: {[path: string]: RobotCommentInfo[]},
     drafts?: {[path: string]: DraftInfo[]},
     portedComments?: {[path: string]: CommentInfo[]},
     portedDrafts?: {[path: string]: DraftInfo[]}
   ) {
     this._comments = addPath(comments);
-    this._robotComments = addPath(robotComments);
     this._drafts = addPath(drafts);
     this._portedComments = portedComments || {};
     this._portedDrafts = portedDrafts || {};
@@ -61,8 +56,7 @@ export class ChangeComments {
 
   /**
    * Get an object mapping file paths to a boolean representing whether that
-   * path contains diff comments in the given patch set (including drafts and
-   * robot comments).
+   * path contains diff comments in the given patch set (including drafts).
    *
    * Paths with comments are mapped to true, whereas paths without comments
    * are not mapped.
@@ -74,7 +68,6 @@ export class ChangeComments {
     const responses: {[path: string]: Comment[]}[] = [
       this._comments,
       this.drafts,
-      this._robotComments,
     ];
     const commentMap: CommentMap = {};
     for (const response of responses) {
@@ -91,14 +84,14 @@ export class ChangeComments {
   }
 
   /**
-   * Gets all the comments and robot comments for the given change.
+   * Gets all the comments for the given change.
    */
   getAllPublishedComments(patchNum?: PatchSetNum) {
     return this.getAllComments(false, patchNum);
   }
 
   /**
-   * Gets all the comments and robot comments for the given change.
+   * Gets all the comments for the given change.
    */
   getAllComments(includeDrafts?: boolean, patchNum?: PatchSetNum) {
     const paths = this.getPaths();
@@ -126,7 +119,7 @@ export class ChangeComments {
   }
 
   /**
-   * Get the comments (robot comments) for a path and optional patch num.
+   * Get the comments for a path and optional patch num.
    *
    * This method will always return a new shallow copy of all comments,
    * so manipulation on one copy won't affect other copies.
@@ -137,9 +130,7 @@ export class ChangeComments {
     patchNum?: PatchSetNum,
     includeDrafts?: boolean
   ): Comment[] {
-    const comments: Comment[] = this._comments[path] || [];
-    const robotComments = this._robotComments[path] || [];
-    let allComments = comments.concat(robotComments);
+    let allComments: Comment[] = this._comments[path] || [];
     if (includeDrafts) {
       const drafts = this.getAllDraftsForPath(path);
       allComments = allComments.concat(drafts);
@@ -153,7 +144,7 @@ export class ChangeComments {
   }
 
   /**
-   * Get the comments (robot comments) for a file.
+   * Get the comments for a file.
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    */
@@ -203,7 +194,7 @@ export class ChangeComments {
   }
 
   /**
-   * Get the comments (with drafts and robot comments) for a path and
+   * Get the comments (with drafts) for a path and
    * patch-range. Returns an array containing comments from either side of the
    * patch range for that path.
    *
@@ -213,18 +204,14 @@ export class ChangeComments {
   getCommentsForPath(path: string, patchRange: PatchRange): Comment[] {
     let comments: Comment[] = [];
     let drafts: DraftInfo[] = [];
-    let robotComments: RobotCommentInfo[] = [];
     if (this._comments && this._comments[path]) {
       comments = this._comments[path];
     }
     if (this.drafts && this.drafts[path]) {
       drafts = this.drafts[path];
     }
-    if (this._robotComments && this._robotComments[path]) {
-      robotComments = this._robotComments[path];
-    }
 
-    const all = comments.concat(drafts).concat(robotComments);
+    const all = comments.concat(drafts);
     const final = all
       .filter(c => isInPatchRange(c, patchRange))
       .map(c => {
@@ -284,10 +271,7 @@ export class ChangeComments {
     const allComments: Comment[] = this.getAllCommentsForFile(file, true);
 
     return createCommentThreads(allComments).filter(thread => {
-      // Robot comments and drafts are not ported over. A human reply to
-      // the robot comment will be ported over, therefore it's possible to
-      // have the root comment of the thread not be ported, hence loop over
-      // entire thread
+      // Drafts are not ported over.
       const portedComment = portedComments.find(portedComment =>
         thread.comments.some(c => id(portedComment) === id(c))
       );
@@ -338,7 +322,7 @@ export class ChangeComments {
   }
 
   /**
-   * Get the comments (with drafts and robot comments) for a file and
+   * Get the comments (with drafts) for a file and
    * patch-range. Returns an object with left and right properties mapping to
    * arrays of comments in on either side of the patch range for that path.
    *

@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
@@ -249,10 +248,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (input.comments != null) {
       input.comments = cleanUpComments(input.comments);
       commentsValidator.checkComments(revision, input.comments);
-    }
-    if (input.robotComments != null) {
-      input.robotComments = cleanUpComments(input.robotComments);
-      checkRobotComments(revision, input.robotComments);
     }
 
     if (input.notify == null) {
@@ -691,37 +686,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         .filter(Objects::nonNull)
         .filter(comment -> !Strings.nullToEmpty(comment.message).trim().isEmpty())
         .collect(toList());
-  }
-
-  private void checkRobotComments(
-      RevisionResource revision, Map<String, List<RobotCommentInput>> in)
-      throws BadRequestException, PatchListNotAvailableException {
-    logger.atFine().log("checking robot comments");
-    for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
-      String commentPath = e.getKey();
-      for (RobotCommentInput c : e.getValue()) {
-        ensureRobotIdIsSet(c.robotId, commentPath);
-        ensureRobotRunIdIsSet(c.robotRunId, commentPath);
-        // Size is validated later, in CommentLimitsValidator.
-      }
-    }
-    commentsValidator.checkComments(revision, in);
-  }
-
-  private static void ensureRobotIdIsSet(String robotId, String commentPath)
-      throws BadRequestException {
-    if (robotId == null) {
-      throw new BadRequestException(
-          String.format("robotId is missing for comment on %s", commentPath));
-    }
-  }
-
-  private static void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
-      throws BadRequestException {
-    if (robotRunId == null) {
-      throw new BadRequestException(
-          String.format("robotRunId is missing for comment on %s", commentPath));
-    }
   }
 
   /**

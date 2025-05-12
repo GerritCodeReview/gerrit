@@ -30,14 +30,12 @@ import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.comment.CommentContextCache;
@@ -104,10 +102,6 @@ public class CommentJson {
 
   public HumanCommentFormatter newHumanCommentFormatter() {
     return new HumanCommentFormatter();
-  }
-
-  public RobotCommentFormatter newRobotCommentFormatter() {
-    return new RobotCommentFormatter();
   }
 
   private abstract class BaseCommentFormatter<F extends Comment, T extends CommentInfo> {
@@ -280,20 +274,5 @@ public class CommentJson {
     }
 
     private HumanCommentFormatter() {}
-  }
-
-  class RobotCommentFormatter extends BaseCommentFormatter<RobotComment, RobotCommentInfo> {
-    @Override
-    protected RobotCommentInfo toInfo(RobotComment c, AccountLoader loader) {
-      RobotCommentInfo rci = new RobotCommentInfo();
-      rci.robotId = c.robotId;
-      rci.robotRunId = c.robotRunId;
-      rci.url = c.url;
-      rci.properties = c.properties;
-      fillCommentInfo(c, rci, loader);
-      return rci;
-    }
-
-    private RobotCommentFormatter() {}
   }
 }

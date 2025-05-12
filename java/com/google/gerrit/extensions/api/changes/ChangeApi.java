@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -411,14 +410,6 @@ public interface ChangeApi {
    *     {@link CommentsRequest#get()} or {@link CommentsRequest#getAsList()}.
    */
   CommentsRequest commentsRequest() throws RestApiException;
-
-  /**
-   * Get all robot comments on a change.
-   *
-   * @return robot comments in a map keyed by path; robot comments have the {@code revision} field
-   *     set to indicate their patch set.
-   */
-  Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
 
   /**
    * Get all draft comments for the current user on a change.

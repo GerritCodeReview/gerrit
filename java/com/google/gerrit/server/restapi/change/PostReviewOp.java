@@ -41,11 +41,9 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -304,14 +302,9 @@ public class PostReviewOp implements BatchUpdateOp {
     user = ctx.getIdentifiedUser();
     notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), psId);
-    List<RobotComment> newRobotComments =
-        in.robotComments == null ? ImmutableList.of() : getNewRobotComments(ctx);
     boolean dirty = false;
     try (TraceContext.TraceTimer ignored = newTimer("insertComments")) {
-      dirty |= insertComments(ctx, newRobotComments);
-    }
-    try (TraceContext.TraceTimer ignored = newTimer("insertRobotComments")) {
-      dirty |= insertRobotComments(ctx, newRobotComments);
+      dirty |= insertComments(ctx);
     }
     try (TraceContext.TraceTimer ignored = newTimer("updateLabels")) {
       dirty |= updateLabels(projectState, ctx);
@@ -371,10 +364,9 @@ public class PostReviewOp implements BatchUpdateOp {
    * body.
    *
    * @param ctx context for performing the change update.
-   * @param newRobotComments robot comments. Used only for validation in this method.
    * @return true if any input comments where published.
    */
-  private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
+  private boolean insertComments(ChangeContext ctx)
       throws BadRequestException, CommentsRejectedException {
     Map<String, List<CommentInput>> inputComments = in.comments;
     if (inputComments == null) {
@@ -410,15 +402,11 @@ public class PostReviewOp implements BatchUpdateOp {
         validateComments(
             ctx,
             Streams.concat(
-                savedDraftsToPublish.values().stream(),
-                inputCommentsToPublish.stream(),
-                newRobotComments.stream()));
+                savedDraftsToPublish.values().stream(), inputCommentsToPublish.stream()));
         publishCommentUtil.publish(ctx, ctx.getUpdate(psId), filteredDrafts, in.tag);
         comments.addAll(savedDraftsToPublish.values());
       }
-      case KEEP ->
-          validateComments(
-              ctx, Streams.concat(inputCommentsToPublish.stream(), newRobotComments.stream()));
+      case KEEP -> validateComments(ctx, inputCommentsToPublish.stream());
     }
     commentsUtil.putHumanComments(
         ctx.getUpdate(psId), HumanComment.Status.PUBLISHED, inputCommentsToPublish);
@@ -502,9 +490,7 @@ public class PostReviewOp implements BatchUpdateOp {
                 comments.map(
                     comment ->
                         CommentForValidation.create(
-                            comment instanceof RobotComment
-                                ? CommentForValidation.CommentSource.ROBOT
-                                : CommentForValidation.CommentSource.HUMAN,
+                            CommentForValidation.CommentSource.HUMAN,
                             comment.lineNbr > 0
                                 ? CommentForValidation.CommentType.INLINE_COMMENT
                                 : CommentForValidation.CommentType.FILE_COMMENT,
@@ -551,64 +537,8 @@ public class PostReviewOp implements BatchUpdateOp {
     }
   }
 
-  private boolean insertRobotComments(ChangeContext ctx, List<RobotComment> newRobotComments) {
-    if (in.robotComments == null) {
-      return false;
-    }
-    commentsUtil.putRobotComments(ctx.getUpdate(psId), newRobotComments);
-    comments.addAll(newRobotComments);
-    return !newRobotComments.isEmpty();
-  }
-
-  private List<RobotComment> getNewRobotComments(ChangeContext ctx) {
-    List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
-
-    Set<CommentSetEntry> existingIds =
-        in.omitDuplicateComments ? readExistingRobotComments(ctx) : Collections.emptySet();
-
-    for (Map.Entry<String, List<RobotCommentInput>> ent : in.robotComments.entrySet()) {
-      String path = ent.getKey();
-      for (RobotCommentInput c : ent.getValue()) {
-        RobotComment e = createRobotCommentFromInput(ctx, path, c);
-        if (existingIds.contains(CommentSetEntry.create(e))) {
-          continue;
-        }
-        toAdd.add(e);
-      }
-    }
-    return toAdd;
-  }
-
-  private RobotComment createRobotCommentFromInput(
-      ChangeContext ctx, String path, RobotCommentInput robotCommentInput) {
-    RobotComment robotComment =
-        commentsUtil.newRobotComment(
-            ctx,
-            path,
-            psId,
-            robotCommentInput.side(),
-            robotCommentInput.message,
-            robotCommentInput.robotId,
-            robotCommentInput.robotRunId);
-    robotComment.parentUuid = Url.decode(robotCommentInput.inReplyTo);
-    robotComment.url = robotCommentInput.url;
-    robotComment.properties = robotCommentInput.properties;
-    robotComment.setLineNbrAndRange(robotCommentInput.line, robotCommentInput.range);
-    robotComment.tag = in.tag;
-    commentsUtil.setCommentCommitId(robotComment, ctx.getChange(), ps);
-    robotComment.fixSuggestions =
-        CommentsUtil.createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
-    return robotComment;
-  }
-
   private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) {
     return commentsUtil.publishedHumanCommentsByChange(ctx.getNotes()).stream()
-        .map(CommentSetEntry::create)
-        .collect(toSet());
-  }
-
-  private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx) {
-    return commentsUtil.robotCommentsByChange(ctx.getNotes()).stream()
         .map(CommentSetEntry::create)
         .collect(toSet());
   }

@@ -22,7 +22,6 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -97,11 +96,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     return TestCommentCreation.builder(this::createComment, Status.DRAFT);
   }
 
-  @Override
-  public TestRobotCommentCreation.Builder newRobotComment() {
-    return TestRobotCommentCreation.builder(this::createRobotComment);
-  }
-
   private String createComment(TestCommentCreation commentCreation)
       throws IOException, RestApiException, UpdateException {
 
@@ -126,11 +120,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
 
   private IdentifiedUser getAuthor(TestCommentCreation commentCreation) {
     Account.Id authorId = commentCreation.author().orElse(changeNotes.getChange().getOwner());
-    return userFactory.create(authorId);
-  }
-
-  private IdentifiedUser getAuthor(TestRobotCommentCreation robotCommentCreation) {
-    Account.Id authorId = robotCommentCreation.author().orElse(changeNotes.getChange().getOwner());
     return userFactory.create(authorId);
   }
 
@@ -197,84 +186,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       commentsUtil.setCommentCommitId(
           newComment, context.getChange(), changeNotes.getPatchSets().get(patchsetId));
       return newComment;
-    }
-  }
-
-  private String createRobotComment(TestRobotCommentCreation robotCommentCreation)
-      throws IOException, RestApiException, UpdateException {
-    Project.NameKey project = changeNotes.getProjectName();
-    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
-      try (Repository repository = repositoryManager.openRepository(project);
-          ObjectInserter objectInserter = repository.newObjectInserter();
-          RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-        Instant now = TimeUtil.now();
-
-        IdentifiedUser author = getAuthor(robotCommentCreation);
-        RobotCommentAdditionOp robotCommentAdditionOp =
-            new RobotCommentAdditionOp(robotCommentCreation);
-        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
-          batchUpdate.setRepository(repository, revWalk, objectInserter);
-          batchUpdate.addOp(changeNotes.getChangeId(), robotCommentAdditionOp);
-          batchUpdate.execute();
-        }
-        return robotCommentAdditionOp.createdRobotCommentUuid;
-      }
-    }
-  }
-
-  private class RobotCommentAdditionOp implements BatchUpdateOp {
-    private String createdRobotCommentUuid;
-    private final TestRobotCommentCreation robotCommentCreation;
-
-    public RobotCommentAdditionOp(TestRobotCommentCreation robotCommentCreation) {
-      this.robotCommentCreation = robotCommentCreation;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext context) {
-      RobotComment robotComment = toNewRobotComment(context, robotCommentCreation);
-      ChangeUpdate changeUpdate = context.getUpdate(patchsetId);
-      changeUpdate.putRobotComment(robotComment);
-      // For robot comments, only the tag set on the ChangeUpdate (and not on the RobotComment)
-      // matters.
-      robotCommentCreation.tag().ifPresent(changeUpdate::setTag);
-      createdRobotCommentUuid = robotComment.key.uuid;
-      return true;
-    }
-
-    private RobotComment toNewRobotComment(
-        ChangeContext context, TestRobotCommentCreation robotCommentCreation) {
-      String message = robotCommentCreation.message().orElse("The text of a test robot comment.");
-
-      String filePath = robotCommentCreation.file().orElse(Patch.PATCHSET_LEVEL);
-      short side = robotCommentCreation.side().orElse(CommentSide.PATCHSET_COMMIT).getNumericSide();
-      String robotId = robotCommentCreation.robotId().orElse("robot");
-      String robotRunId = robotCommentCreation.robotId().orElse("1");
-      RobotComment newRobotComment =
-          commentsUtil.newRobotComment(
-              context, filePath, patchsetId, side, message, robotId, robotRunId);
-
-      // TODO(paiking): This should not be needed, as the tag only matters in ChangeUpdate.
-      robotCommentCreation.tag().ifPresent(tag -> newRobotComment.tag = tag);
-
-      robotCommentCreation.line().ifPresent(line -> newRobotComment.setLineNbrAndRange(line, null));
-      // Specification of range trumps explicit line specification.
-      robotCommentCreation
-          .range()
-          .map(PerPatchsetOperationsImpl::toCommentRange)
-          .ifPresent(range -> newRobotComment.setLineNbrAndRange(null, range));
-
-      robotCommentCreation
-          .parentUuid()
-          .ifPresent(parentUuid -> newRobotComment.parentUuid = parentUuid);
-      robotCommentCreation.url().ifPresent(url -> newRobotComment.url = url);
-      if (!robotCommentCreation.properties().isEmpty()) {
-        newRobotComment.properties = robotCommentCreation.properties();
-      }
-
-      commentsUtil.setCommentCommitId(
-          newRobotComment, context.getChange(), changeNotes.getPatchSets().get(patchsetId));
-      return newRobotComment;
     }
   }
 }

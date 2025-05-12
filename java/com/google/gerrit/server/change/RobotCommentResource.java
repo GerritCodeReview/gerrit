@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
@@ -25,27 +22,5 @@ public class RobotCommentResource implements RestResource {
   public static final TypeLiteral<RestView<RobotCommentResource>> ROBOT_COMMENT_KIND =
       new TypeLiteral<>() {};
 
-  private final RevisionResource rev;
-  private final RobotComment comment;
-
-  public RobotCommentResource(RevisionResource rev, RobotComment c) {
-    this.rev = rev;
-    this.comment = c;
-  }
-
-  public PatchSet getPatchSet() {
-    return rev.getPatchSet();
-  }
-
-  public RobotComment getComment() {
-    return comment;
-  }
-
-  public String getId() {
-    return comment.key.uuid;
-  }
-
-  public Account.Id getAuthorId() {
-    return comment.author.getId();
-  }
+  public RobotCommentResource() {}
 }

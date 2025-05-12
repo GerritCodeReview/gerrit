@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d22c0e_96ca8ce4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2025-05-12T17:35:10Z",
+      "side": 1,
+      "message": "resolving",
+      "parentUuid": "7e96e751_325eab81",
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "599972ec_1e9eaae3",
@@ -131,6 +149,30 @@
       "side": 1,
       "message": "\u003e another heuristic could be checking the domain ends in a valid TLD\n\nYeah that should resolve a lot of the edge cases potentially.\n\nCan you please implement that?",
       "parentUuid": "d4069b71_8ce6e1e8",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 59
+      },
+      "revId": "3b2fa5c80316d2ea46d242fda1d2cdb2b24d1046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bdf860b_16e48fca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1088583
+      },
+      "writtenOn": "2025-05-12T17:35:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f37aaf1_7bfaa672",
       "range": {
         "startLine": 136,
         "startChar": 8,

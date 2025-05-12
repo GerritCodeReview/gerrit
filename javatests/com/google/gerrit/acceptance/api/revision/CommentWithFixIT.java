@@ -503,7 +503,7 @@ public class CommentWithFixIT extends AbstractDaemonTest {
             .owner(testUser)
             .create();
 
-    // Add Robot Comment to the change
+    // Add comment to the change
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);

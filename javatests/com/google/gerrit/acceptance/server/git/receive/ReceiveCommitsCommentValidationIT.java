@@ -273,7 +273,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "8")
+  @GerritConfig(name = "change.maxComments", value = "4")
   public void countComments_limitNumberOfComments() throws Exception {
     when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
     // Start out with 1 change message.
@@ -287,14 +287,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
 
-    for (int i = 0; i < 2; ++i) {
-      // Adds 1 robot comment and 1 change message.
-      testCommentHelper.addRobotComment(
-          changeId,
-          TestCommentHelper.createRobotCommentInput(result.getChange().currentFilePaths().get(0)));
-    }
-    // We now have 1 comment, 2 robot comments, 5 change messages.
-
+    // We now have 1 comment and 3 change messages.
     DraftInput newDraft = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
     Exception thrown =
         assertThrows(

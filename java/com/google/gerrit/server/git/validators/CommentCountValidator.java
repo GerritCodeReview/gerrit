@@ -45,9 +45,7 @@ public class CommentCountValidator implements CommentValidator {
     ChangeNotes notes =
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
     int numExistingCommentsAndChangeMessages =
-        notes.getHumanComments().size()
-            + notes.getRobotComments().size()
-            + notes.getChangeMessages().size();
+        notes.getHumanComments().size() + notes.getChangeMessages().size();
     if (!comments.isEmpty()
         && numExistingCommentsAndChangeMessages + comments.size() > maxComments) {
       // This warning really applies to the set of all comments, but we need to pick one to attach

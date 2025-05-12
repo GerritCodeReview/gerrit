@@ -47,16 +47,12 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApprovals;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.logging.Metadata;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -390,7 +386,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   private DraftCommentNotes draftCommentNotes;
-  private RobotCommentNotes robotCommentNotes;
 
   // Lazy defensive copies of mutable ReviewDb types, to avoid polluting the
   // ChangeNotesCache from handlers.
@@ -578,11 +573,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         .collect(toImmutableList());
   }
 
-  public ImmutableListMultimap<ObjectId, RobotComment> getRobotComments() {
-    loadRobotComments();
-    return robotCommentNotes.getComments();
-  }
-
   /**
    * If draft comments have already been loaded for this author, then they will not be reloaded.
    * However, this method will load the comments if no draft comments have been loaded or if the
@@ -596,25 +586,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
-  private void loadRobotComments() {
-    if (robotCommentNotes == null) {
-      try (TraceTimer timer =
-          TraceContext.newTimer(
-              "Load Robot Comments", Metadata.builder().changeId(change.getId().get()).build())) {
-        robotCommentNotes = new RobotCommentNotes(args, change);
-        robotCommentNotes.load();
-      }
-    }
-  }
-
   @VisibleForTesting
   DraftCommentNotes getDraftCommentNotes() {
     return draftCommentNotes;
-  }
-
-  public RobotCommentNotes getRobotCommentNotes() {
-    loadRobotComments();
-    return robotCommentNotes;
   }
 
   public boolean containsCommentPublished(Comment c) {

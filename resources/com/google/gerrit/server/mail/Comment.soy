@@ -69,11 +69,6 @@
     {\n}
 
     {for $comment in $group.comments}
-      {if $comment.isRobotComment}
-        Robot Comment from {$comment.robotId} (run ID {$comment.robotRunId}):
-        {\n}
-      {/if}
-
       {for $line, $index in $comment.lines}
         {if $index == 0}
           {if $comment.startLine != 0}

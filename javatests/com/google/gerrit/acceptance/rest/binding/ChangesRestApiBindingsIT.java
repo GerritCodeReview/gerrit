@@ -15,8 +15,6 @@
 package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
-import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
-import static java.util.stream.Collectors.toList;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
@@ -28,17 +26,9 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
-import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.FixReplacementInfo;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import org.junit.Test;
 
 /**
@@ -96,7 +86,9 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.post("/changes/%s/reviewers"),
           // GET /changes/<change-id>/revisions is not implemented
           RestCall.builder(GET, "/changes/%s/revisions").expectedResponseCode(SC_NOT_FOUND).build(),
-          RestCall.get("/changes/%s/robotcomments"),
+          RestCall.builder(GET, "/changes/%s/robotcomments")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
           RestCall.get("/changes/%s/topic"),
           RestCall.put("/changes/%s/topic"),
           RestCall.delete("/changes/%s/topic"),
@@ -164,7 +156,9 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/revisions/%s/review"),
           RestCall.post("/changes/%s/revisions/%s/review"),
           RestCall.get("/changes/%s/revisions/%s/reviewers"),
-          RestCall.get("/changes/%s/revisions/%s/robotcomments"),
+          RestCall.builder(GET, "/changes/%s/revisions/%s/robotcomments")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
           RestCall.post("/changes/%s/revisions/%s/submit"),
           RestCall.get("/changes/%s/revisions/%s/submit_type"),
           RestCall.post("/changes/%s/revisions/%s/test.submit_rule"),
@@ -209,20 +203,6 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/revisions/%s/comments/%s"),
           RestCall.delete("/changes/%s/revisions/%s/comments/%s"),
           RestCall.post("/changes/%s/revisions/%s/comments/%s/delete"));
-
-  /**
-   * Robot comment REST endpoints to be tested, each URL contains placeholders for the change
-   * identifier, the revision identifier and the robot comment identifier.
-   */
-  private static final ImmutableList<RestCall> ROBOT_COMMENT_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/changes/%s/revisions/%s/robotcomments/%s"));
-
-  /**
-   * Fix REST endpoints to be tested, each URL contains placeholders for the change identifier, the
-   * revision identifier and the fix identifier.
-   */
-  private static final ImmutableList<RestCall> FIX_ENDPOINTS =
-      ImmutableList.of(RestCall.post("/changes/%s/revisions/%s/fixes/%s/apply"));
 
   /**
    * Revision file REST endpoints to be tested, each URL contains placeholders for the change
@@ -385,69 +365,6 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void robotCommentEndpoints() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    RobotCommentInput robotCommentInput = new RobotCommentInput();
-    robotCommentInput.robotId = "happyRobot";
-    robotCommentInput.robotRunId = "1";
-    robotCommentInput.line = 1;
-    robotCommentInput.message = "nit: trailing whitespace";
-    robotCommentInput.path = Patch.COMMIT_MSG;
-
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.robotComments =
-        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
-    reviewInput.message = "robot comment test";
-    gApi.changes().id(changeId).current().review(reviewInput);
-
-    List<RobotCommentInfo> robotCommentInfos =
-        gApi.changes().id(changeId).current().robotCommentsAsList();
-    RobotCommentInfo robotCommentInfo = Iterables.getOnlyElement(robotCommentInfos);
-
-    RestApiCallHelper.execute(
-        adminRestSession, ROBOT_COMMENT_ENDPOINTS, changeId, "current", robotCommentInfo.id);
-  }
-
-  @Test
-  public void fixEndpoints() throws Exception {
-    String changeId = createChange("Subject", FILENAME, "content").getChangeId();
-
-    RobotCommentInput robotCommentInput = new RobotCommentInput();
-    robotCommentInput.robotId = "happyRobot";
-    robotCommentInput.robotRunId = "1";
-    robotCommentInput.line = 1;
-    robotCommentInput.message = "nit: trailing whitespace";
-    robotCommentInput.path = FILENAME;
-
-    FixReplacementInfo fixReplacementInfo = new FixReplacementInfo();
-    fixReplacementInfo.path = FILENAME;
-    fixReplacementInfo.replacement = "some replacement code";
-    fixReplacementInfo.range = createRange(1, 1, 1, 2);
-
-    FixSuggestionInfo fixSuggestionInfo = new FixSuggestionInfo();
-    fixSuggestionInfo.fixId = "An ID which must be overwritten.";
-    fixSuggestionInfo.description = "A description for a suggested fix.";
-    fixSuggestionInfo.replacements = ImmutableList.of(fixReplacementInfo);
-
-    robotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
-
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.robotComments =
-        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
-    reviewInput.message = "robot comment test";
-    gApi.changes().id(changeId).current().review(reviewInput);
-
-    List<RobotCommentInfo> robotCommentInfos =
-        gApi.changes().id(changeId).current().robotCommentsAsList();
-
-    List<String> fixIds = getFixIds(robotCommentInfos);
-    String fixId = Iterables.getOnlyElement(fixIds);
-
-    RestApiCallHelper.execute(adminRestSession, FIX_ENDPOINTS, changeId, "current", fixId);
-  }
-
-  @Test
   public void revisionFileEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
     RestApiCallHelper.execute(
@@ -494,25 +411,5 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().create();
     RestApiCallHelper.execute(
         adminRestSession, ATTENTION_SET_ENDPOINTS, changeId, user.id().toString());
-  }
-
-  private static Comment.Range createRange(
-      int startLine, int startCharacter, int endLine, int endCharacter) {
-    Comment.Range range = new Comment.Range();
-    range.startLine = startLine;
-    range.startCharacter = startCharacter;
-    range.endLine = endLine;
-    range.endCharacter = endCharacter;
-    return range;
-  }
-
-  private static List<String> getFixIds(List<RobotCommentInfo> robotComments) {
-    assertThatList(robotComments).isNotNull();
-    return robotComments.stream()
-        .map(robotCommentInfo -> robotCommentInfo.fixSuggestions)
-        .filter(Objects::nonNull)
-        .flatMap(List::stream)
-        .map(fixSuggestionInfo -> fixSuggestionInfo.fixId)
-        .collect(toList());
   }
 }

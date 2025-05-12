@@ -27,9 +27,7 @@ public abstract class CommentForValidation {
   /** The creator of the comment. */
   public enum CommentSource {
     /** A regular user comment. */
-    HUMAN,
-    /** A robot comment. */
-    ROBOT
+    HUMAN
   }
 
   /** The type of comment. */
@@ -52,15 +50,12 @@ public abstract class CommentForValidation {
   public abstract CommentType getType();
 
   /**
-   * Returns the comment text. Note that especially for robot comments the total size may be
-   * significantly larger and should be determined by using {@link #getApproximateSize()}.
+   * Returns the comment text. Note that the total size may be significantly larger and should be
+   * determined by using {@link #getApproximateSize()}.
    */
   public abstract String getText();
 
-  /**
-   * Returns this instance's approximate size in bytes for the purpose of applying size limits. For
-   * robot comments this may be significantly larger than the size of the comment text.
-   */
+  /** Returns this instance's approximate size in bytes for the purpose of applying size limits. */
   public abstract int getApproximateSize();
 
   public CommentValidationFailure failValidation(String message) {

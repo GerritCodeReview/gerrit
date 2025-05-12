@@ -18,8 +18,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Builder for the end position of a range. Used by {@link TestCommentCreation} and {@link
- * TestRobotCommentCreation}.
+ * Builder for the end position of a range. Used by {@link TestCommentCreation}.
  */
 public class StartAwarePositionBuilder<T> {
   private final TestRange.Builder testRangeBuilder;

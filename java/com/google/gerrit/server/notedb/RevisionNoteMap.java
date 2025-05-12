@@ -53,19 +53,6 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
     return new RevisionNoteMap<>(noteMap, result.build());
   }
 
-  static RevisionNoteMap<RobotCommentsRevisionNote> parseRobotComments(
-      ChangeNoteJson changeNoteJson, ObjectReader reader, NoteMap noteMap)
-      throws ConfigInvalidException, IOException {
-    ImmutableMap.Builder<ObjectId, RobotCommentsRevisionNote> result = ImmutableMap.builder();
-    for (Note note : noteMap) {
-      RobotCommentsRevisionNote rn =
-          new RobotCommentsRevisionNote(changeNoteJson, reader, note.getData());
-      rn.parse();
-      result.put(note.copy(), rn);
-    }
-    return new RevisionNoteMap<>(noteMap, result.build());
-  }
-
   static <T extends RevisionNote<? extends Comment>> RevisionNoteMap<T> emptyMap() {
     return new RevisionNoteMap<>(NoteMap.newEmptyMap(), ImmutableMap.of());
   }

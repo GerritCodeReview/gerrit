@@ -46,7 +46,6 @@ public class CommentCountValidator implements CommentValidator {
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
     int numExistingCommentsAndChangeMessages =
         notes.getHumanComments().size()
-            + notes.getRobotComments().size()
             + notes.getChangeMessages().size();
     if (!comments.isEmpty()
         && numExistingCommentsAndChangeMessages + comments.size() > maxComments) {

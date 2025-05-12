@@ -26,16 +26,13 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetRobotComment implements RestReadView<RobotCommentResource> {
 
-  private final Provider<CommentJson> commentJson;
-
   @Inject
-  GetRobotComment(Provider<CommentJson> commentJson) {
-    this.commentJson = commentJson;
+  GetRobotComment() {
   }
 
   @Override
-  public Response<RobotCommentInfo> apply(RobotCommentResource rsrc)
-      throws PermissionBackendException {
-    return Response.ok(commentJson.get().newRobotCommentFormatter().format(rsrc.getComment()));
+  public Response<RobotCommentInfo> apply(RobotCommentResource rsrc) 
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException("robot comments unsupported");
   }
 }

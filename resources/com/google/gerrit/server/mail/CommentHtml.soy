@@ -149,16 +149,6 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
         <ul style="{$ulStyle}">
           {for $comment in $group.comments}
             <li style="{$commentLiStyle}">
-              {if $comment.isRobotComment}
-                <p style="{$commentHeaderStyle}">
-                  Robot Comment from{sp}
-                  {if $comment.robotUrl}<a href="{$comment.robotUrl}">{/if}
-                  {$comment.robotId}
-                  {if $comment.robotUrl}</a>{/if}{sp}
-                  (run ID {$comment.robotRunId}):
-                </p>
-              {/if}
-
               <p style="{$commentHeaderStyle}">
                 <a href="{$comment.link}">
                   {if $comment.startLine == 0}

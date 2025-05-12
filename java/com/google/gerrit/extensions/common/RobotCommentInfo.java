@@ -18,8 +18,4 @@ import java.util.Map;
 
 @Deprecated
 public class RobotCommentInfo extends CommentInfo {
-  public String robotId;
-  public String robotRunId;
-  public String url;
-  public Map<String, String> properties;
 }

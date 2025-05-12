@@ -34,7 +34,6 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.NoSuchEntityException;
@@ -94,16 +93,6 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
       return args.urlFormatter
           .get()
           .getCommentsTabView(changeEmail.getChange())
-          .map(EmailArguments::addUspParam)
-          .orElse(null);
-    }
-
-    /** Returns a web link to the findings tab view of a change. */
-    @Nullable
-    public String getFindingsTabLink() {
-      return args.urlFormatter
-          .get()
-          .getFindingsTabView(changeEmail.getChange())
           .map(EmailArguments::addUspParam)
           .orElse(null);
     }
@@ -443,24 +432,9 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
         // Set the comment link.
 
         if (comment.key.filename.equals(Patch.PATCHSET_LEVEL)) {
-          if (comment instanceof RobotComment) {
-            commentData.put("link", group.getFindingsTabLink());
-          } else {
-            commentData.put("link", group.getCommentsTabLink());
-          }
+          commentData.put("link", group.getCommentsTabLink());
         } else {
           commentData.put("link", group.getCommentLink(comment.key.uuid));
-        }
-
-        // Set robot comment data.
-        if (comment instanceof RobotComment) {
-          RobotComment robotComment = (RobotComment) comment;
-          commentData.put("isRobotComment", true);
-          commentData.put("robotId", robotComment.robotId);
-          commentData.put("robotRunId", robotComment.robotRunId);
-          commentData.put("robotUrl", robotComment.url);
-        } else {
-          commentData.put("isRobotComment", false);
         }
 
         // If the comment has a quote, don't bother loading the parent message.

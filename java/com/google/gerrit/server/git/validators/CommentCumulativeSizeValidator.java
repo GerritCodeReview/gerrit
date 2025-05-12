@@ -54,10 +54,8 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
       CommentValidationContext ctx, ImmutableList<CommentForValidation> comments) {
     ChangeNotes notes =
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
-    int existingCumulativeSize =
-        Stream.concat(
-                    notes.getHumanComments().values().stream(),
-                    notes.getRobotComments().values().stream())
+    int existingCumulativeSize =    
+    notes.getHumanComments().values().stream()
                 .mapToInt(Comment::getApproximateSize)
                 .sum()
             + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();
@@ -85,9 +83,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
    */
   public static boolean isEnoughSpace(ChangeNotes notes, int addedBytes, int maxCumulativeSize) {
     int existingCumulativeSize =
-        Stream.concat(
-                    notes.getHumanComments().values().stream(),
-                    notes.getRobotComments().values().stream())
+    notes.getHumanComments().values().stream()
                 .mapToInt(Comment::getApproximateSize)
                 .sum()
             + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();

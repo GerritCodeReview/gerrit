@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d285b533_fa1099e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-12T09:48:08Z",
+      "side": 1,
+      "message": "LGTM!\n\n[optional] Should there maybe be a \"Do not show this dialog again\" option? Can be a follow-up change.",
+      "revId": "46c03c582e0c367335a8ed99f8d0fe96b8315490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

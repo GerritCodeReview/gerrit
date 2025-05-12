@@ -124,18 +124,6 @@ Same as `result`. The `CheckRun` object is not passed to the endpoint.
 The end point contains the `<gr-formatted-text>` element holding the
 `CheckResult.message` (if any was set).
 
-=== robot-comment-controls
-The `robot-comment-controls` extension point is located inside each comment
-rendered on the diff page, and is only visible when the comment is a robot
-comment, specifically if the comment has a `robot_id` property.
-
-In addition to default parameters, the following are available:
-
-* `comment`
-+
-current comment displayed, an instance of
-link:rest-api-changes.html#comment-info[CommentInfo]
-
 === repo-command
 This endpoint is situated among the repository commands.
 

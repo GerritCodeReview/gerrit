@@ -2529,62 +2529,6 @@ only works if `enable-context` is set to true.
   }
 ----
 
-[[list-change-robot-comments]]
-=== List Change Robot Comments (deprecated)
---
-'GET /changes/link:#change-id[\{change-id\}]/robotcomments'
---
-
-Lists the robot comments of all revisions of the change.
-
-Return a map that maps the file path to a list of
-link:#robot-comment-info[RobotCommentInfo] entries. The entries in the
-map are sorted by file path.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/robotcomments/ HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
-      {
-        "id": "TvcXrmjM",
-        "line": 23,
-        "message": "unused import",
-        "updated": "2016-02-26 15:40:43.986000000",
-        "author": {
-          "_account_id": 1000110,
-          "name": "Code Analyzer",
-          "email": "code.analyzer@example.com"
-        },
-        "robot_id": "importChecker",
-        "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
-      },
-      {
-        "id": "TveXwFiA",
-        "line": 49,
-        "message": "wrong indention",
-        "updated": "2016-02-26 15:40:45.328000000",
-        "author": {
-          "_account_id": 1000110,
-          "name": "Code Analyzer",
-          "email": "code.analyzer@example.com"
-        },
-        "robot_id": "styleChecker",
-        "robot_run_id": "5c606c425dd45184484f9d0a2ffd725a7607839b"
-      }
-    ]
-  }
-----
-
 [[list-change-drafts]]
 === List Change Drafts
 --
@@ -5571,102 +5515,6 @@ describes the updated comment.
   }
 ----
 
-[[list-robot-comments]]
-=== List Robot Comments (deprecated)
---
-'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/'
---
-
-Lists the link:config-robot-comments.html[robot comments] of a
-revision.
-
-As result a map is returned that maps the file path to a list of
-link:#robot-comment-info[RobotCommentInfo] entries. The entries in the
-map are sorted by file path.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/robotcomments/ HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
-      {
-        "id": "TvcXrmjM",
-        "line": 23,
-        "message": "unused import",
-        "updated": "2016-02-26 15:40:43.986000000",
-        "author": {
-          "_account_id": 1000110,
-          "name": "Code Analyzer",
-          "email": "code.analyzer@example.com"
-        },
-        "robot_id": "importChecker",
-        "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
-      },
-      {
-        "id": "TveXwFiA",
-        "line": 49,
-        "message": "wrong indention",
-        "updated": "2016-02-26 15:40:45.328000000",
-        "author": {
-          "_account_id": 1000110,
-          "name": "Code Analyzer",
-          "email": "code.analyzer@example.com"
-        },
-        "robot_id": "styleChecker",
-        "robot_run_id": "5c606c425dd45184484f9d0a2ffd725a7607839b"
-      }
-    ]
-  }
-----
-
-[[get-robot-comment]]
-=== Get Robot Comment (deprecated)
---
-'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/link:#comment-id[\{comment-id\}]'
---
-
-Retrieves a link:config-robot-comments.html[robot comment] of a
-revision.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/robotcomments/TvcXrmjM HTTP/1.0
-----
-
-As response a link:#robot-comment-info[RobotCommentInfo] entity is
-returned that describes the robot comment.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "id": "TvcXrmjM",
-    "line": 23,
-    "message": "unused import",
-    "updated": "2016-02-26 15:40:43.986000000",
-    "author": {
-      "_account_id": 1000110,
-      "name": "Code Analyzer",
-      "email": "code.analyzer@example.com"
-    },
-    "robot_id": "importChecker",
-    "robot_run_id": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
-  }
-----
-
 [[list-ported-comments]]
 === List Ported Comments
 --
@@ -5680,10 +5528,8 @@ due to some additional rules. Callers of this endpoint shouldn't rely on the exa
 comments are ported as that logic might change in the future. Instead, callers must be able to
 handle any smaller/larger set of comments returned by this endpoint.
 
-Typically, a comment thread is returned fully or excluded fully. However, draft comments and
-robot comments are ignored and not returned via this endpoint. Hence, it's possible to get ported
-comments from this endpoint which are a reply to a non-ported robot comment. Callers must be
-able to deal with this situation.
+Typically, a comment thread is returned fully or excluded fully. However, draft comments
+are ignored and not returned via this endpoint.
 
 The returned comments are organized in a map of file path to link:#comment-info[CommentInfo] entries
 in the same fashion as for the link:#list-comments[List Revision Comments] endpoint.
@@ -5766,7 +5612,7 @@ is a reply to a published comment, only the ported draft comment is returned.
 Depending on the filtering rules, it's possible that this endpoint returns a draft comment which is
 a reply to a comment thread which is not returned by the
 link:#list-ported-comments[List Ported Comments] endpoint. That's intended behavior. Callers must be
-able to handle this situation. The same holds for drafts which are a reply to a robot comment.
+able to handle this situation.
 
 Different than the link:#list-ported-comments[List Ported Comments] endpoint, the `author` of the
 returned comments is not filled for this endpoint as only comments of the calling user are returned.
@@ -8863,9 +8709,6 @@ label names to the voting values.
 |`comments`                             |optional|
 The comments that should be added as a map that maps a file path to a
 list of link:#comment-input[CommentInput] entities.
-|`robot_comments`                       |optional, deprecated|
-The robot comments that should be added as a map that maps a file path
-to a list of link:#robot-comment-input[RobotCommentInput] entities.
 |`drafts`                               |optional|
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
@@ -9126,58 +8969,6 @@ Absence of this field, doesn't guarantee absence of conflicts. It can
 also be missing for revisions with conflicts that were created before
 the field was introduced or where the merge was performed locally (not
 by Gerrit operation).
-|===========================
-
-[[robot-comment-info]]
-=== RobotCommentInfo (deprecated)
-The `RobotCommentInfo` entity contains information about a robot inline
-comment.
-
-`RobotCommentInfo` has the same fields as <<comment-info,CommentInfo>>
-except for the `unresolved` field which doesn't exist for robot comments.
-In addition `RobotCommentInfo` has the following fields:
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name       ||Description
-|`robot_id`       ||The ID of the robot that generated this comment.
-|`robot_run_id`   ||An ID of the run of the robot.
-|`url`            |optional|URL to more information.
-|`properties`     |optional|Robot specific properties as map that maps arbitrary
-keys to values.
-|===========================
-
-[[robot-comment-input]]
-=== RobotCommentInput (deprecated)
-The `RobotCommentInput` entity contains information for creating an inline
-robot comment.
-
-[options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`path`        ||
-link:#file-id[The file path] for which the inline comment should be added.
-|`side`        |optional|
-The side on which the comment should be added. +
-Allowed values are `REVISION` and `PARENT`. +
-If not set, the default is `REVISION`.
-|`line`        |optional|
-The number of the line for which the comment should be added. +
-`0` if it is a file comment. +
-If neither line nor range is set, a file comment is added. +
-If range is set, this value is ignored in favor of the `end_line` of the range.
-|`range`       |optional|
-The range of the comment as a link:#comment-range[CommentRange]
-entity.
-|`in_reply_to` |optional|
-The URL encoded UUID of the comment to which this comment is a reply.
-|`message`     |optional|
-The comment message.
-|`robot_id`       ||The ID of the robot that generated this comment.
-|`robot_run_id`   ||An ID of the run of the robot.
-|`url`            |optional|URL to more information.
-|`properties`     |optional|Robot specific properties as map that maps arbitrary
-keys to values.
 |===========================
 
 [[rule-input]]

@@ -63,7 +63,6 @@
 . link:config-hooks.html[Hooks]
 . link:config-mail.html[Mail Templates]
 . link:config-cla.html[Contributor Agreements]
-. link:config-robot-comments.html[Robot Comments]
 
 == Server Administration
 . link:install.html[Installation Guide]

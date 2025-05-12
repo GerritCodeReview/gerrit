@@ -91,12 +91,6 @@ toImmutableList as collector",
     },
 ----
 
-Automated systems may post "robot comments" instead of normal
-comments, which are an extension of the previous comment, defined in
-the
-link:https://gerrit.googlesource.com/gerrit/\+/master/java/com/google/gerrit/entities/RobotComment.java[RobotComment]
-class.
-
 [[migration]]
 == Migration
 

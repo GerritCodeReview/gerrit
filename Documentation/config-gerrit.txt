@@ -1507,7 +1507,7 @@ Default is `true`.
 
 [[change.commentSizeLimit]]change.commentSizeLimit::
 +
-Maximum allowed size in characters of a regular (non-robot) comment. Comments
+Maximum allowed size in characters of a comment. Comments
 which exceed this size will be rejected. Size computation is approximate and may
 be off by roughly 1%. Common unit suffixes of 'k', 'm', or 'g' are supported.
 The value must be positive.
@@ -1523,7 +1523,7 @@ By default 5,000.
 
 [[change.cumulativeCommentSizeLimit]]change.cumulativeCommentSizeLimit::
 +
-Maximum allowed size in characters of all comments (including robot comments)
+Maximum allowed size in characters of all comments
 and change messages. Size computation is approximate and may be off by roughly
 1%. Common unit suffixes of 'k', 'm', or 'g' are supported.
 +
@@ -1537,7 +1537,7 @@ The default is `false`.
 
 [[change.maxComments]]change.maxComments::
 +
-Maximum number of comments (regular plus robot) allowed per change. Additional
+Maximum number of comments allowed per change. Additional
 comments are rejected.
 +
 By default 5,000.
@@ -1570,7 +1570,7 @@ By default 1000.
 [[change.maxUpdates]]change.maxUpdates::
 +
 Maximum number of updates to a change. Counts only updates to the main NoteDb
-meta ref; draft comments, robot comments, stars, etc. do not count towards the
+meta ref; draft comments, stars, etc. do not count towards the
 total.
 +
 Many NoteDb operations require walking the entire change meta ref and loading
@@ -1654,13 +1654,6 @@ link:https://issues.gerritcodereview.com/issues/40009784[issue 40009784]).
 +
 By default `true`.
 
-[[change.enableRobotComments]]change.enableRobotComments::
-+
-Are robot comments enabled in the Gerrit UI? This setting allows phasing out
-robot comments. Soon robot comments will be entirely removed.
-+
-By default `false`.
-
 [[change.allowMarkdownBase64ImagesInComments]]change.allowMarkdownBase64ImagesInComments::
 +
 Allows Base64 encoded images, embedded via Markdown, to be rendered in Gerrit comments.
@@ -1701,15 +1694,6 @@ happens.
 The drawback of enabling this option is that it causes requests to fail rather
 than handling parsing errors gracefully, which can make Gerrit for impacted
 users unusable.
-
-[[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
-+
-Maximum allowed size in characters of a robot comment. Robot comments which
-exceed this size will be rejected on addition. Size computation is approximate
-and may be off by roughly 1%. Common unit suffixes of 'k', 'm', or 'g' are
-supported. Zero or negative values allow robot comments of unlimited size.
-+
-The default limit is 1MiB.
 
 [[change.sendNewPatchsetEmails]]change.sendNewPatchsetEmails::
 +
@@ -4112,7 +4096,7 @@ was added.
 +
 Add patch set level comment as event comment. Without this option, patch set
 level comment will not be included in the event comment attribute. Given that
-currently patch set level, file and robot comments are not exposed in the
+currently patch set level and file comments are not exposed in the
 `comment-added` event type, those comments will be lost. One particular use
 case is to re-trigger CI build from the change screen by adding a comment with
 specific content, e.g.: `recheck`. Jenkins Gerrit Trigger plugin and Zuul CI

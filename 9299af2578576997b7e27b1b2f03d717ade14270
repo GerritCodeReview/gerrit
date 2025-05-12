@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1097db5_fbaffbf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-12T09:17:45Z",
+      "side": 1,
+      "message": "Nice. \n\nShould the delete action maybe look the same as in the branches view (e.g. not rendered as a button)?\n\nSee\n\nhttps://i.imgur.com/yJbBaEY.png\n\nvs.\n\nhttps://i.imgur.com/KUOQNGe.png",
+      "revId": "9299af2578576997b7e27b1b2f03d717ade14270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

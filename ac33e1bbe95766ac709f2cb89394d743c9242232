@@ -1,0 +1,299 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df5e169_1479aff7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "I like the overall idea but the current UX makes it seem like the entry has been \"disabled\" and should not be clicked\n\nYou should get UX approval on this as well.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "352f535e_2c26b09b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "```suggestion\neach pair of consecutive patchsets, whereas with GetChange we only need\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b5b7e9_e4aafd71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "GetChange returns `sha` of all files for all patchsets?\n\nImpressive.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f87041_3d9382b6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "can we mark method private that need to be?",
+      "range": {
+        "startLine": 379,
+        "startChar": 2,
+        "endLine": 379,
+        "endChar": 26
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94cec2ed_7fc6f414",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "should there be a reverse test for this as well?",
+      "range": {
+        "startLine": 545,
+        "startChar": 2,
+        "endLine": 545,
+        "endChar": 55
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "44ae26a7_f649508e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts",
+              "range": {
+                "startLine": 545,
+                "startChar": 0,
+                "endLine": 545,
+                "endChar": 0
+              },
+              "replacement": "  test(\u0027revisions with modification are not deemphasized\u0027, async () \u003d\u003e {\n    element.availablePatches \u003d [\n      {num: 3, sha: \u0027sha3\u0027} as PatchSet,\n      {num: 2, sha: \u0027sha2\u0027} as PatchSet,\n      {num: 1, sha: \u0027sha1\u0027} as PatchSet,\n    ];\n    element.sortedRevisions \u003d [\n      createRevision(3),\n      createRevision(2),\n      createRevision(1),\n    ];\n    element.revisionUpdatedFiles \u003d {\n      sha1: {\n        foo: RevisionFileUpdateStatus.MODIFIED,\n        bar: RevisionFileUpdateStatus.MODIFIED,\n      },\n      sha2: {\n        foo: RevisionFileUpdateStatus.MODIFIED,\n        bar: RevisionFileUpdateStatus.MODIFIED,\n      },\n      sha3: {\n        foo: RevisionFileUpdateStatus.MODIFIED,\n        bar: RevisionFileUpdateStatus.MODIFIED,\n      },\n    };\n    element.path \u003d \u0027foo\u0027;\n    element.revisionInfo \u003d getInfo(element.sortedRevisions);\n    element.patchNum \u003d 3 as PatchSetNumber;\n    element.basePatchNum \u003d PARENT;\n    await element.updateComplete;\n\n    const expectedResult: {triggerText: string; deemphasizeReason?: string}[] \u003d\n      [\n        {\n          triggerText: \u0027Patchset 3\u0027,\n          deemphasizeReason: undefined,\n        },\n        {\n          triggerText: \u0027Patchset 2\u0027,\n          deemphasizeReason: undefined,\n        },\n        {\n          triggerText: \u0027Patchset 1\u0027,\n          deemphasizeReason: undefined,\n        },\n        {\n          triggerText: \u0027Base\u0027,\n          deemphasizeReason: undefined,\n        },\n      ];\n    assert.deepEqual(\n      element.computeBaseDropdownContent().map(\n        x \u003d\u003e\n          ({\n            triggerText: x.triggerText,\n            deemphasizeReason: x.deemphasizeReason,\n          } as {triggerText: string; deemphasizeReason?: string})\n      ),\n      expectedResult\n    );\n  });\n\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2066f615_38a02068",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cc33ea3a_cd2960b1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+              "range": {
+                "startLine": 206,
+                "startChar": 0,
+                "endLine": 207,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "792bb49c_2830c335",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T08:36:24Z",
+      "side": 1,
+      "message": "revisionToChangedFileInfos?",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 11
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "be0f8b4c_1d300dba",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 107,
+                "startChar": 0,
+                "endLine": 108,
+                "endChar": 0
+              },
+              "replacement": "  revisionToChangedFileInfos: {[revId: string]: {[filename: string]: FileInfo}}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 115,
+                "startChar": 0,
+                "endLine": 116,
+                "endChar": 0
+              },
+              "replacement": "      return filename in revisionToChangedFileInfos[prevRevId]\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 121,
+                "startChar": 0,
+                "endLine": 122,
+                "endChar": 0
+              },
+              "replacement": "  if (!prevRevId || !(filename in revisionToChangedFileInfos[prevRevId])) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 125,
+                "startChar": 0,
+                "endLine": 126,
+                "endChar": 0
+              },
+              "replacement": "  const prevSha \u003d revisionToChangedFileInfos[prevRevId][filename].new_sha;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 136,
+                "startChar": 0,
+                "endLine": 137,
+                "endChar": 0
+              },
+              "replacement": "  revisionToChangedFileInfos: {[revId: string]: {[filename: string]: FileInfo}} | undefined\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 138,
+                "startChar": 0,
+                "endLine": 139,
+                "endChar": 0
+              },
+              "replacement": "  if (!change || !revisionToChangedFileInfos) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 151,
+                "startChar": 0,
+                "endLine": 152,
+                "endChar": 0
+              },
+              "replacement": "    Object.keys(revisionToChangedFileInfos[revId] ?? {}).forEach(x \u003d\u003e allFiles.add(x));\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 154,
+                "startChar": 0,
+                "endLine": 155,
+                "endChar": 0
+              },
+              "replacement": "  for (const [revId, files] of Object.entries(revisionToChangedFileInfos)) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 381,
+                "startChar": 0,
+                "endLine": 382,
+                "endChar": 0
+              },
+              "replacement": "    ([change, revisionToChangedFileInfos]) \u003d\u003e computeRevisionUpdatedFiles(change, revisionToChangedFileInfos)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

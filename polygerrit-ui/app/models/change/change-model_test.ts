@@ -13,6 +13,7 @@ import {
   createChangeMessageInfo,
   createChangeViewState,
   createEditInfo,
+  createFileInfo,
   createMergeable,
   createParsedChange,
   createRevision,
@@ -40,6 +41,8 @@ import {
 import {getAppContext} from '../../services/app-context';
 import {
   ChangeState,
+  computeRevisionUpdatedFiles,
+  RevisionFileUpdateStatus,
   updateChangeWithEdit,
   updateRevisionsWithCommitShas,
 } from './change-model';
@@ -96,6 +99,122 @@ suite('updateChangeWithEdit() tests', () => {
     const editRev = change?.revisions[`${edit.commit.commit}`];
     assert.isDefined(editRev);
     assert.equal(change?.current_revision, 'abc' as CommitId);
+  });
+});
+
+suite('computeRevisionUpdatedFiles() tests', () => {
+  test('undefined change', async () => {
+    assert.isUndefined(updateChangeWithEdit());
+  });
+
+  test('calculate status for all files and revisions', async () => {
+    const change = {
+      ...createChange(),
+      revisions: {
+        rev1: createRevision(1),
+        rev2: createRevision(2),
+        rev3: createRevision(3),
+      },
+      current_revision: 'rev3' as CommitId,
+    };
+    const fileInfos = {
+      rev1: {
+        'a.txt': {
+          ...createFileInfo('a.txt'),
+          old_sha: 'sha00',
+          new_sha: 'sha01',
+        },
+        'c.txt': {
+          ...createFileInfo('c.txt'),
+          old_sha: 'sha20',
+          new_sha: 'sha21',
+        },
+      },
+      rev2: {
+        'a.txt': {
+          ...createFileInfo('a.txt'),
+          old_sha: 'sha00',
+          new_sha: 'sha01',
+        },
+        'b.txt': {
+          ...createFileInfo('b.txt'),
+          old_sha: 'sha10',
+          new_sha: 'sha11',
+        },
+      },
+      rev3: {
+        'a.txt': {
+          ...createFileInfo('a.txt'),
+          old_sha: 'sha00',
+          new_sha: 'sha02',
+        },
+        'b.txt': {
+          ...createFileInfo('b.txt'),
+          old_sha: 'sha10',
+          new_sha: 'sha11',
+        },
+        'c.txt': {
+          ...createFileInfo('c.txt'),
+          old_sha: 'sha20',
+          new_sha: 'sha21',
+        },
+      },
+    };
+    const result = computeRevisionUpdatedFiles(change, fileInfos);
+    assert.deepEqual(result, {
+      rev1: {
+        'a.txt': RevisionFileUpdateStatus.MODIFIED,
+        'b.txt': RevisionFileUpdateStatus.SAME,
+        'c.txt': RevisionFileUpdateStatus.MODIFIED,
+      },
+      rev2: {
+        'a.txt': RevisionFileUpdateStatus.SAME,
+        'b.txt': RevisionFileUpdateStatus.MODIFIED,
+        'c.txt': RevisionFileUpdateStatus.MODIFIED,
+      },
+      rev3: {
+        'a.txt': RevisionFileUpdateStatus.MODIFIED,
+        'b.txt': RevisionFileUpdateStatus.SAME,
+        'c.txt': RevisionFileUpdateStatus.MODIFIED,
+      },
+    });
+  });
+
+  test('no known sha, status unknown', async () => {
+    const change = {
+      ...createChange(),
+      revisions: {
+        rev1: createRevision(1),
+        rev2: createRevision(2),
+      },
+      current_revision: 'rev2' as CommitId,
+    };
+    const fileInfos = {
+      rev1: {
+        'a.txt': {
+          ...createFileInfo('a.txt'),
+          old_sha: undefined,
+          new_sha: undefined,
+        },
+      },
+      rev2: {
+        'a.txt': {
+          ...createFileInfo('a.txt'),
+          old_sha: 'sha00',
+          new_sha: 'sha01',
+        },
+      },
+    };
+    const result = computeRevisionUpdatedFiles(change, fileInfos);
+    assert.deepEqual(result, {
+      rev1: {
+        // Presence in fileInfos indicate change against BASE
+        'a.txt': RevisionFileUpdateStatus.MODIFIED,
+      },
+      rev2: {
+        'a.txt': RevisionFileUpdateStatus.UNKNOWN,
+      },
+    });
   });
 });
 

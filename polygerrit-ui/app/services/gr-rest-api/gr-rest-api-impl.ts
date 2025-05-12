@@ -136,7 +136,7 @@ import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
-import {FixReplacementInfo} from '../../api/rest-api';
+import {FileInfo, FixReplacementInfo} from '../../api/rest-api';
 import {
   FetchParams,
   FetchPromisesCache,
@@ -1332,6 +1332,31 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // includes ALL_REVISIONS flag.
       GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo | undefined)
     );
+  }
+
+  async getAllRevisionFiles(
+    changeNum?: NumericChangeId
+  ): Promise<
+    {[revisionId: string]: {[filename: string]: FileInfo}} | undefined
+  > {
+    if (!changeNum) return;
+    const optionsHex = listChangesOptionsToHex(
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.ALL_FILES
+    );
+
+    const change = await this.getChange(changeNum, undefined, optionsHex);
+    if (!change?.revisions) {
+      return undefined;
+    }
+    const result: {[revisionId: string]: {[filename: string]: FileInfo}} = {};
+    for (const revId in change.revisions) {
+      if (!change.revisions[revId]?.files) {
+        continue;
+      }
+      result[revId] = change.revisions[revId].files!;
+    }
+    return result;
   }
 
   private getListChangesOptionsHex() {
@@ -3348,7 +3373,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChange(
     changeNum: ChangeId | NumericChangeId,
-    errFn: ErrorCallback,
+    errFn?: ErrorCallback,
     optionsHex?: string
   ): Promise<ChangeInfo | undefined> {
     if (changeNum in this._projectLookup) {

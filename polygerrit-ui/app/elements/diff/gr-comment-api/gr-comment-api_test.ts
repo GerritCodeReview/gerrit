@@ -18,7 +18,6 @@ import {
   createChangeComments,
   createCommentThread,
   createFileInfo,
-  createRobotComment,
 } from '../../../test/test-data-generators';
 import {CommentSide, FileInfoStatus} from '../../../constants/constants';
 import {
@@ -30,7 +29,6 @@ import {
   PatchRange,
   PatchSetNum,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -43,7 +41,6 @@ suite('ChangeComments tests', () => {
   suite('_changeComment methods', () => {
     setup(() => {
       stubRestApi('getDiffComments').resolves({});
-      stubRestApi('getDiffRobotComments').resolves({});
       stubRestApi('getDiffDrafts').resolves({});
     });
 
@@ -124,7 +121,6 @@ suite('ChangeComments tests', () => {
               comment1,
             ],
           },
-          {} /* robot comments */,
           {} /* drafts */,
           portedComments,
           {} /* ported drafts */
@@ -202,7 +198,6 @@ suite('ChangeComments tests', () => {
             // comment that is not ported over
             'karma.conf.js': [comment2],
           },
-          {} /* robot comments */,
           {
             /* drafts */ 'karma.conf.js': [draft2],
           },
@@ -234,7 +229,6 @@ suite('ChangeComments tests', () => {
             // comment left on Base
             'karma.conf.js': [comment3],
           },
-          {} /* robot comments */,
           {
             /* drafts */ 'karma.conf.js': [draft2],
           },
@@ -288,7 +282,6 @@ suite('ChangeComments tests', () => {
             // comment left on Base
             'karma.conf.js': [comment4],
           },
-          {} /* robot comments */,
           {
             /* drafts */ 'karma.conf.js': [draft2],
           },
@@ -359,7 +352,6 @@ suite('ChangeComments tests', () => {
       test('drafts are ported over', () => {
         changeComments = new ChangeComments(
           {} /* comments */,
-          {} /* robotComments */,
           {
             /* drafts */
             // draft1: resolved draft that will be ported over to ps 4
@@ -460,29 +452,14 @@ suite('ChangeComments tests', () => {
     suite('comment ranges and paths', () => {
       const comments = [
         {
-          ...createRobotComment(),
+          // legacy from when we were still supporting robot comments
+          ...createComment(),
           id: '01' as UrlEncodedCommentId,
-          patch_set: 2 as RevisionPatchSetNum,
-          path: 'file/1',
-          side: CommentSide.PARENT,
-          line: 1,
-          updated: makeTime(1),
-          range: {
-            start_line: 1,
-            start_character: 2,
-            end_line: 2,
-            end_character: 2,
-          },
         },
         {
-          ...createRobotComment(),
+          // legacy from when we were still supporting robot comments
+          ...createComment(),
           id: '02' as UrlEncodedCommentId,
-          in_reply_to: '04' as UrlEncodedCommentId,
-          patch_set: 2 as RevisionPatchSetNum,
-          path: 'file/1',
-          unresolved: true,
-          line: 1,
-          updated: makeTime(3),
         },
         {
           ...createComment(),
@@ -589,9 +566,6 @@ suite('ChangeComments tests', () => {
         'file/1': [comments[11], comments[12]],
         'file/2': [comments[13]],
       };
-      const robotComments: {[path: string]: RobotCommentInfo[]} = {
-        'file/1': [comments[0], comments[1]],
-      };
       const commentsByFile: {[path: string]: CommentInfo[]} = {
         'file/1': [comments[2], comments[3]],
         'file/2': [comments[4], comments[5]],
@@ -606,7 +580,6 @@ suite('ChangeComments tests', () => {
       setup(() => {
         changeComments = new ChangeComments(
           commentsByFile,
-          robotComments,
           drafts,
           {} /* portedComments */,
           {} /* portedDrafts */
@@ -697,7 +670,7 @@ suite('ChangeComments tests', () => {
       test('getAllCommentsForPath', () => {
         let path = 'file/1';
         let comments = changeComments.getAllCommentsForPath(path);
-        assert.equal(comments.length, 4);
+        assert.equal(comments.length, 2);
         path = 'file/2';
         comments = changeComments.getAllCommentsForPath(path, 2 as PatchSetNum);
         assert.equal(comments.length, 1);
@@ -916,7 +889,7 @@ suite('ChangeComments tests', () => {
             patchNum: 2 as PatchSetNum,
             path: 'file/1',
           }).length,
-          3
+          2
         );
         assert.deepEqual(
           changeComments.computeCommentThreads({
@@ -979,32 +952,32 @@ suite('ChangeComments tests', () => {
       test('getAllPublishedComments', () => {
         let publishedComments = changeComments.getAllPublishedComments();
         assert.equal(Object.keys(publishedComments).length, 4);
-        assert.equal(Object.keys(publishedComments['file/1']).length, 4);
+        assert.equal(Object.keys(publishedComments['file/1']).length, 2);
         assert.equal(Object.keys(publishedComments['file/2']).length, 2);
         publishedComments = changeComments.getAllPublishedComments(
           2 as PatchSetNum
         );
-        assert.equal(Object.keys(publishedComments['file/1']).length, 4);
+        assert.equal(Object.keys(publishedComments['file/1']).length, 2);
         assert.equal(Object.keys(publishedComments['file/2']).length, 1);
       });
 
       test('getAllComments', () => {
         let comments = changeComments.getAllComments();
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/1']).length, 4);
+        assert.equal(Object.keys(comments['file/1']).length, 2);
         assert.equal(Object.keys(comments['file/2']).length, 2);
         comments = changeComments.getAllComments(false, 2 as PatchSetNum);
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/1']).length, 4);
+        assert.equal(Object.keys(comments['file/1']).length, 2);
         assert.equal(Object.keys(comments['file/2']).length, 1);
         // Include drafts
         comments = changeComments.getAllComments(true);
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/1']).length, 6);
+        assert.equal(Object.keys(comments['file/1']).length, 4);
         assert.equal(Object.keys(comments['file/2']).length, 3);
         comments = changeComments.getAllComments(true, 2 as PatchSetNum);
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/1']).length, 6);
+        assert.equal(Object.keys(comments['file/1']).length, 4);
         assert.equal(Object.keys(comments['file/2']).length, 1);
       });
 
@@ -1013,15 +986,11 @@ suite('ChangeComments tests', () => {
           {
             ...createCommentThread([
               {...comments[3], path: 'file/1'},
-              {...comments[1], path: 'file/1'},
               {...comments[12], path: 'file/1'},
             ]),
           },
           {
             ...createCommentThread([{...comments[11], path: 'file/1'}]),
-          },
-          {
-            ...createCommentThread([{...comments[0], path: 'file/1'}]),
           },
           {
             ...createCommentThread([{...comments[2], path: 'file/1'}]),

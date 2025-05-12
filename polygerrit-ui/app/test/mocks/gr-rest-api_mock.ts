@@ -96,9 +96,6 @@ export const grRestApiMock: RestApiService = {
   applyFixSuggestion(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  applyRobotFixSuggestion(): Promise<Response> {
-    return Promise.resolve(new Response());
-  },
   awaitPendingDiffDrafts(): Promise<void> {
     return Promise.resolve();
   },
@@ -315,11 +312,6 @@ export const grRestApiMock: RestApiService = {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined> {
     return Promise.resolve(createDefaultDiffPrefs());
   },
-  getDiffRobotComments() {
-    // NOTE: This method can not be typed properly due to overloads.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return Promise.resolve({}) as any;
-  },
   getDocumentationSearches(): Promise<DocResult[] | undefined> {
     return Promise.resolve([]);
   },
@@ -419,9 +411,6 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getFixPreview(): Promise<FilePathToDiffInfoMap | undefined> {
-    return Promise.resolve({});
-  },
-  getRobotCommentFixPreview(): Promise<FilePathToDiffInfoMap | undefined> {
     return Promise.resolve({});
   },
   queryAccounts(): Promise<AccountInfo[] | undefined> {

@@ -26,9 +26,7 @@ import {
   DraftInfo,
   NumericChangeId,
   RepoName,
-  RobotCommentInfo,
   Comment,
-  isRobot,
   isSaving,
   isError,
   isDraft,
@@ -43,7 +41,6 @@ import {
   hasUserSuggestion,
   id,
   isFileLevelComment,
-  NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
@@ -178,7 +175,7 @@ export class GrComment extends LitElement {
   comment?: Comment;
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
-  // property. This is only used for hasHumanReply at the moment.
+  // property.
   @property({type: Array})
   comments?: Comment[];
 
@@ -201,9 +198,6 @@ export class GrComment extends LitElement {
    */
   @property({type: Boolean, reflect: true})
   collapsed?: boolean;
-
-  @property({type: Boolean, attribute: 'robot-button-disabled'})
-  robotButtonDisabled = false;
 
   @property({type: String})
   messagePlaceholder?: string;
@@ -558,17 +552,10 @@ export class GrComment extends LitElement {
         span.date:hover {
           text-decoration: underline;
         }
-        .actions,
-        .robotActions {
+        .actions {
           display: flex;
           justify-content: space-between;
           padding-top: 0;
-        }
-        .robotActions {
-          /* Better than the negative margin would be to remove the gr-button
-       * padding, but then we would also need to fix the buttons that are
-       * inserted by plugins. :-/ */
-          margin: 4px 0 -4px;
         }
         .action {
           margin-left: var(--spacing-l);
@@ -589,16 +576,6 @@ export class GrComment extends LitElement {
         }
         .show-hide {
           margin-left: var(--spacing-s);
-        }
-        .robotId {
-          color: var(--deemphasized-text-color);
-          margin-bottom: var(--spacing-m);
-        }
-        .robotRun {
-          margin-left: var(--spacing-m);
-        }
-        .robotRunLink {
-          margin-left: var(--spacing-m);
         }
         /* just for a11y */
         input.show-hide {
@@ -734,10 +711,9 @@ export class GrComment extends LitElement {
         <div id="container" class=${classMap(classes)}>
           ${this.renderHeader()}
           <div class="body">
-            ${this.renderRobotAuthor()} ${this.renderEditingTextarea()}
-            ${this.renderCommentMessage()}
+            ${this.renderEditingTextarea()} ${this.renderCommentMessage()}
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
-            ${this.renderHumanActions()} ${this.renderRobotActions()}
+            ${this.renderHumanActions()}
           </div>
           ${/* if this.editing */ this.renderGeneratedSuggestionPreview()}
           ${/* if !this.editing */ this.renderFixSuggestionPreview()}
@@ -760,19 +736,15 @@ export class GrComment extends LitElement {
           ${this.renderDraftLabel()}
         </div>
         <div class="headerMiddle">${this.renderCollapsedContent()}</div>
-        ${this.renderSuggestEditButton()} ${this.renderRunDetails()}
-        ${this.renderDeleteButton()} ${this.renderPatchset()}
-        ${this.renderSeparator()} ${this.renderDate()} ${this.renderToggle()}
+        ${this.renderSuggestEditButton()} ${this.renderDeleteButton()}
+        ${this.renderPatchset()} ${this.renderSeparator()} ${this.renderDate()}
+        ${this.renderToggle()}
       </div>
     `;
   }
 
   private renderAuthor() {
     if (isDraft(this.comment)) return;
-    if (isRobot(this.comment)) {
-      const id = this.comment.robot_id;
-      return html`<span class="robotName">${id}</span>`;
-    }
     return html`
       <gr-account-label .account=${this.comment?.author ?? this.account}>
       </gr-account-label>
@@ -822,26 +794,12 @@ export class GrComment extends LitElement {
     `;
   }
 
-  private renderRunDetails() {
-    if (!isRobot(this.comment)) return;
-    if (!this.comment?.url || this.collapsed) return;
-    return html`
-      <div class="runIdMessage message">
-        <div class="runIdInformation">
-          <a class="robotRunLink" href=${this.comment.url}>
-            <span class="robotRun link">Run Details</span>
-          </a>
-        </div>
-      </div>
-    `;
-  }
-
   /**
    * Deleting a comment is an admin feature. It means more than just discarding
    * a draft. It is an action applied to published comments.
    */
   private renderDeleteButton() {
-    if (!this.isAdmin || isDraft(this.comment) || isRobot(this.comment)) return;
+    if (!this.isAdmin || isDraft(this.comment)) return;
     if (this.collapsed) return;
     return html`
       <gr-button
@@ -913,11 +871,6 @@ export class GrComment extends LitElement {
         </label>
       </div>
     `;
-  }
-
-  private renderRobotAuthor() {
-    if (!isRobot(this.comment) || this.collapsed) return;
-    return html`<div class="robotId">${this.comment.author?.name}</div>`;
   }
 
   private renderEditingTextarea() {
@@ -1053,7 +1006,7 @@ export class GrComment extends LitElement {
   }
 
   private renderHumanActions() {
-    if (!this.account || isRobot(this.comment)) return;
+    if (!this.account) return;
     if (this.collapsed || !isDraft(this.comment)) return;
     return html`
       <div class="actions">
@@ -1155,13 +1108,9 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (
-      !this.comment?.fix_suggestions ||
-      this.editing ||
-      isRobot(this.comment) ||
-      this.collapsed
-    )
+    if (!this.comment?.fix_suggestions || this.editing || this.collapsed) {
       return nothing;
+    }
     return html`<gr-fix-suggestions
       .comment=${this.comment}
     ></gr-fix-suggestions>`;
@@ -1342,51 +1291,6 @@ export class GrComment extends LitElement {
     };
   }
 
-  private renderRobotActions() {
-    if (!this.account || !isRobot(this.comment)) return;
-    const endpoint = html`
-      <gr-endpoint-decorator name="robot-comment-controls">
-        <gr-endpoint-param name="comment" .value=${this.comment}>
-        </gr-endpoint-param>
-      </gr-endpoint-decorator>
-    `;
-    return html`
-      <div class="robotActions">
-        ${this.renderCopyLinkIcon()} ${endpoint} ${this.renderShowFixButton()}
-        ${this.renderPleaseFixButton()}
-      </div>
-    `;
-  }
-
-  private renderShowFixButton() {
-    const fix_suggestions = (this.comment as RobotCommentInfo)?.fix_suggestions;
-    if (!fix_suggestions || fix_suggestions.length === 0) return;
-    return html`
-      <gr-button
-        link
-        secondary
-        class="action show-fix"
-        @click=${() => this.handleShowFix()}
-      >
-        Show Fix
-      </gr-button>
-    `;
-  }
-
-  private renderPleaseFixButton() {
-    if (this.hasHumanReply()) return;
-    return html`
-      <gr-button
-        link
-        ?disabled=${this.robotButtonDisabled}
-        class="action fix"
-        @click=${this.handlePleaseFix}
-      >
-        Please Fix
-      </gr-button>
-    `;
-  }
-
   private renderConfirmDialog() {
     return html`
       <dialog id="confirmDeleteModal" tabindex="-1">
@@ -1503,15 +1407,6 @@ export class GrComment extends LitElement {
     this.messageText = quote + this.messageText;
   }
 
-  // TODO: Move this out of gr-comment. gr-comment should not have a comments
-  // property.
-  private hasHumanReply() {
-    if (!this.comment || !this.comments) return false;
-    return this.comments.some(
-      c => c.in_reply_to && c.in_reply_to === this.comment?.id && !isRobot(c)
-    );
-  }
-
   // private, but visible for testing
   async createFixPreview(
     replacement?: string
@@ -1545,23 +1440,6 @@ export class GrComment extends LitElement {
             if (fixApplied) this.handleAppliedFix();
           },
         ],
-      };
-    }
-    if (
-      isRobot(this.comment) &&
-      this.comment.fix_suggestions &&
-      this.comment.fix_suggestions.length > 0
-    ) {
-      const id = this.comment.robot_id;
-      return {
-        fixSuggestions: this.comment.fix_suggestions.map(s => {
-          return {
-            ...s,
-            description: `${id ?? ''} - ${s.description ?? ''}`,
-          };
-        }),
-        patchNum: this.comment.patch_set,
-        onCloseFixPreviewCallbacks: [],
       };
     }
     throw new Error('unable to create preview fix event');
@@ -1618,19 +1496,6 @@ export class GrComment extends LitElement {
     if (this.permanentEditingMode) {
       this.editing = !this.editing;
     }
-  }
-
-  private handlePleaseFix() {
-    const message = this.comment?.message;
-    assert(!!message, 'empty message');
-    const quoted = message.replace(NEWLINE_PATTERN, '\n> ');
-    const eventDetail: ReplyToCommentEventDetail = {
-      content: `> ${quoted}\n\nPlease fix.`,
-      userWantsToEdit: false,
-      unresolved: true,
-    };
-    // Handled by <gr-comment-thread>.
-    fire(this, 'reply-to-comment', eventDetail);
   }
 
   private handleAppliedFix() {

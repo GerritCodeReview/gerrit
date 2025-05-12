@@ -113,7 +113,6 @@ export enum Interaction {
   COMMENT_SAVED = 'comment-saved',
   DISCARD_COMMENT = 'discard-comment',
   COMMENT_DISCARDED = 'comment-discarded',
-  ROBOT_COMMENTS_STATS = 'robot-comments-stats',
   CHECKS_TAB_RENDERED = 'checks-tab-rendered',
   CHECKS_CHIP_CLICKED = 'checks-chip-clicked',
   CHECKS_CHIP_LINK_CLICKED = 'checks-chip-link-clicked',

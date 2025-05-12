@@ -54,7 +54,6 @@ import {
   EncodedGroupId,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
-  FixId,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -78,7 +77,6 @@ import {
   Password,
   PatchRange,
   PatchSetNum,
-  PathToRobotCommentsInfoMap,
   PluginInfo,
   PreferencesInfo,
   PreferencesInput,
@@ -114,11 +112,7 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../types/diff';
-import {
-  GetDiffCommentsOutput,
-  GetDiffRobotCommentsOutput,
-  RestApiService,
-} from './gr-rest-api';
+import {GetDiffCommentsOutput, RestApiService} from './gr-rest-api';
 import {
   CommentSide,
   createDefaultDiffPrefs,
@@ -2420,19 +2414,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
-  async getRobotCommentFixPreview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    fixId: FixId
-  ): Promise<FilePathToDiffInfoMap | undefined> {
-    const url = await this._changeBaseURL(changeNum, patchNum);
-    const endpoint = `/fixes/${encodeURIComponent(fixId)}/preview`;
-    return this._restApiHelper.fetchJSON({
-      url: `${url}${endpoint}`,
-      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${endpoint}`,
-    }) as Promise<FilePathToDiffInfoMap | undefined>;
-  }
-
   async applyFixSuggestion(
     changeNum: NumericChangeId,
     fixPatchNum: PatchSetNum,
@@ -2462,21 +2443,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/fix:apply`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:apply`,
       errFn,
-      reportServerError: true,
-    });
-  }
-
-  async applyRobotFixSuggestion(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    fixId: string
-  ): Promise<Response> {
-    const url = await this._changeBaseURL(changeNum, patchNum);
-    const endpoint = `/fixes/${encodeURIComponent(fixId)}/apply`;
-    return this._restApiHelper.fetch({
-      fetchOptions: {method: HttpMethod.POST},
-      url: `${url}${endpoint}`,
-      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${endpoint}`,
       reportServerError: true,
     });
   }
@@ -2652,37 +2618,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  getDiffRobotComments(
-    changeNum: NumericChangeId
-  ): Promise<PathToRobotCommentsInfoMap | undefined>;
-
-  getDiffRobotComments(
-    changeNum: NumericChangeId,
-    basePatchNum: BasePatchSetNum,
-    patchNum: PatchSetNum,
-    path: string
-  ): Promise<GetDiffRobotCommentsOutput>;
-
-  getDiffRobotComments(
-    changeNum: NumericChangeId,
-    basePatchNum?: BasePatchSetNum,
-    patchNum?: PatchSetNum,
-    path?: string
-  ) {
-    if (!basePatchNum && !patchNum && !path) {
-      return this._getDiffComments(changeNum, '/robotcomments');
-    }
-
-    return this._getDiffComments(
-      changeNum,
-      '/robotcomments',
-      undefined,
-      basePatchNum,
-      patchNum,
-      path
-    );
-  }
-
   async getDiffDrafts(
     changeNum: NumericChangeId
   ): Promise<{[path: string]: DraftInfo[]} | undefined> {
@@ -2726,26 +2661,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   _getDiffComments(
     changeNum: NumericChangeId,
-    endpoint: '/robotcomments'
-  ): Promise<PathToRobotCommentsInfoMap | undefined>;
-
-  _getDiffComments(
-    changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts',
     params?: FetchParams,
     basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ): Promise<GetDiffCommentsOutput>;
-
-  _getDiffComments(
-    changeNum: NumericChangeId,
-    endpoint: '/robotcomments',
-    params?: FetchParams,
-    basePatchNum?: BasePatchSetNum,
-    patchNum?: PatchSetNum,
-    path?: string
-  ): Promise<GetDiffRobotCommentsOutput>;
 
   /**
    * Fetches the comments for a given patchNum.
@@ -2759,11 +2680,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum?: PatchSetNum,
     path?: string
   ): Promise<
-    | GetDiffCommentsOutput
-    | GetDiffRobotCommentsOutput
-    | {[path: string]: CommentInfo[]}
-    | PathToRobotCommentsInfoMap
-    | undefined
+    GetDiffCommentsOutput | {[path: string]: CommentInfo[]} | undefined
   > {
     // We don't want to add accept header, since preloading of comments is
     // working only without accept header.
@@ -2778,9 +2695,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           },
           noAcceptHeader
         )
-      ) as Promise<
-        {[path: string]: CommentInfo[]} | PathToRobotCommentsInfoMap | undefined
-      >;
+      ) as Promise<{[path: string]: CommentInfo[]} | undefined>;
 
     if (!basePatchNum && !patchNum && !path) {
       return fetchComments();

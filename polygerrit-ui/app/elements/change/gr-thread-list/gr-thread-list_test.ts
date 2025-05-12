@@ -29,7 +29,6 @@ import {
   Timestamp,
 } from '../../../api/rest-api';
 import {
-  RobotId,
   UrlEncodedCommentId,
   RevisionPatchSetNum,
   CommentThread,
@@ -222,7 +221,6 @@ suite('gr-thread-list tests', () => {
             updated: '2015-12-08 15:16:15.000000000' as Timestamp,
             message: 'test',
             unresolved: true,
-            robot_id: 'rc1' as RobotId,
           },
         ],
         patchNum: 4 as RevisionPatchSetNum,
@@ -247,7 +245,6 @@ suite('gr-thread-list tests', () => {
             updated: '2015-12-09 15:16:15.000000000' as Timestamp,
             message: 'test',
             unresolved: true,
-            robot_id: 'rc2' as RobotId,
           },
           {
             path: '/COMMIT_MSG',

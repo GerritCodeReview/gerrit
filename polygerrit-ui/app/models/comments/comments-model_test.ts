@@ -39,7 +39,6 @@ suite('comments model tests', () => {
     draft.id = '1' as UrlEncodedCommentId;
     const state = {
       comments: {},
-      robotComments: {},
       drafts: {
         [draft.path!]: [draft],
       },
@@ -50,7 +49,6 @@ suite('comments model tests', () => {
     const output = deleteDraft(state, draft);
     assert.deepEqual(output, {
       comments: {},
-      robotComments: {},
       drafts: {
         'abc.txt': [],
       },
@@ -83,9 +81,6 @@ suite('change service tests', () => {
     const diffCommentsSpy = stubRestApi('getDiffComments').returns(
       Promise.resolve({'foo.c': [createComment()]})
     );
-    const diffRobotCommentsSpy = stubRestApi('getDiffRobotComments').returns(
-      Promise.resolve({})
-    );
     const diffDraftsSpy = stubRestApi('getDiffDrafts').returns(
       Promise.resolve({})
     );
@@ -106,7 +101,6 @@ suite('change service tests', () => {
     testResolver(changeModelToken).updateStateChange(createParsedChange());
 
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
-    await waitUntilCalled(diffRobotCommentsSpy, 'diffRobotCommentsSpy');
     await waitUntilCalled(diffDraftsSpy, 'diffDraftsSpy');
     await waitUntilCalled(portedCommentsSpy, 'portedCommentsSpy');
     await waitUntilCalled(portedDraftsSpy, 'portedDraftsSpy');

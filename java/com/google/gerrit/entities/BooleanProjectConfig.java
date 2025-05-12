@@ -68,4 +68,10 @@ public enum BooleanProjectConfig {
   public String getName() {
     return name;
   }
+
+  public String format() {
+    return getSubSection() != null
+        ? String.format("%s.%s.%s", getSection(), getSubSection(), getName())
+        : String.format("%s.%s", getSection(), getName());
+  }
 }

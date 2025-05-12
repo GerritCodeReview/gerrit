@@ -157,6 +157,24 @@
       "parentUuid": "f9c0881c_053131fc",
       "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcdcfa8_54f51137",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-12T14:00:19Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "5561d2ca_a7bfee4f",
+      "revId": "bee49b8e69f55439eb59c9cfdd8e800d8d818f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8382ec40_712aab63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-12T11:08:36Z",
+      "side": 1,
+      "message": "Since you\u0027re OnDuty you can decide.\n\nI\u0027m approving and fine with anything.\n\nDefinitely take this to UX office hours.",
+      "parentUuid": "7362ac49_ee5aa194",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "ac33e1bbe95766ac709f2cb89394d743c9242232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "352f535e_2c26b09b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

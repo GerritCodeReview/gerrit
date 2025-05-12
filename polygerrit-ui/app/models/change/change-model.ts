@@ -49,7 +49,11 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
-import {isOwner, listChangesOptionsToHex} from '../../utils/change-util';
+import {
+  isOwner,
+  isUploader,
+  listChangesOptionsToHex,
+} from '../../utils/change-util';
 import {
   ChangeChildView,
   ChangeViewModel,
@@ -439,6 +443,8 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly isOwner$: Observable<boolean>;
 
+  public readonly isUploader$: Observable<boolean>;
+
   public readonly messages$;
 
   public readonly revertingChangeIds$;
@@ -508,6 +514,10 @@ export class ChangeModel extends Model<ChangeState> {
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
       ([change, account]) => isOwner(change, account)
+    );
+    this.isUploader$ = select(
+      combineLatest([this.change$, this.userModel.account$]),
+      ([change, account]) => isUploader(change, account)
     );
     this.messages$ = select(this.change$, change => change?.messages);
     this.revertingChangeIds$ = select(this.messages$, messages =>

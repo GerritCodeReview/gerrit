@@ -63,7 +63,11 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
-import {createSearchUrl} from '../models/views/search';
+import {
+  createSearchUrl,
+  searchViewModelToken,
+  SearchViewState,
+} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
 import {DashboardType, createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
@@ -157,6 +161,8 @@ export class GrAppElement extends LitElement {
   private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
   private readonly getPluginViewModel = resolve(this, pluginViewModelToken);
+
+  private readonly getSearchViewModel = resolve(this, searchViewModelToken);
 
   constructor() {
     super();
@@ -651,6 +657,17 @@ export class GrAppElement extends LitElement {
     const viewsToCheck = [GerritView.SEARCH, GerritView.DASHBOARD];
     if (this.params?.view && viewsToCheck.includes(this.params.view)) {
       this.lastSearchPage = location.pathname;
+    }
+
+    // Clear search queries if you leave the search page.
+    if (this.params?.view !== GerritView.SEARCH) {
+      const state: SearchViewState = {
+        view: GerritView.SEARCH,
+        query: '',
+        offset: '',
+        loading: false,
+      };
+      this.getSearchViewModel().updateState(state);
     }
   }
 

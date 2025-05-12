@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -55,11 +54,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
     ChangeNotes notes =
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
     int existingCumulativeSize =
-        Stream.concat(
-                    notes.getHumanComments().values().stream(),
-                    notes.getRobotComments().values().stream())
-                .mapToInt(Comment::getApproximateSize)
-                .sum()
+        notes.getHumanComments().values().stream().mapToInt(Comment::getApproximateSize).sum()
             + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();
     int newCumulativeSize =
         comments.stream().mapToInt(CommentForValidation::getApproximateSize).sum();
@@ -85,11 +80,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
    */
   public static boolean isEnoughSpace(ChangeNotes notes, int addedBytes, int maxCumulativeSize) {
     int existingCumulativeSize =
-        Stream.concat(
-                    notes.getHumanComments().values().stream(),
-                    notes.getRobotComments().values().stream())
-                .mapToInt(Comment::getApproximateSize)
-                .sum()
+        notes.getHumanComments().values().stream().mapToInt(Comment::getApproximateSize).sum()
             + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();
     return existingCumulativeSize + addedBytes < maxCumulativeSize;
   }

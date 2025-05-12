@@ -77,7 +77,6 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -159,7 +158,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory;
-  private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
   private final ServiceUserClassifier serviceUserClassifier;
   private final PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator;
@@ -201,7 +199,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Optional<String> cherryPickOf;
 
   private ChangeDraftUpdate draftUpdate;
-  private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
@@ -217,7 +214,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory,
-      RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
       ServiceUserClassifier serviceUserClassifier,
@@ -231,7 +227,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         serverIdent,
         updateManagerFactory,
         draftUpdateFactory,
-        robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
         serviceUserClassifier,
         patchSetApprovalUuidGenerator,
@@ -257,7 +252,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory,
-      RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ServiceUserClassifier serviceUserClassifier,
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
@@ -270,7 +264,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     super(notes, user, serverIdent, noteUtil, when);
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
-    this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.serviceUserClassifier = serviceUserClassifier;
     this.patchSetApprovalUuidGenerator = patchSetApprovalUuidGenerator;
@@ -419,12 +412,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  public void putRobotComment(RobotComment c) {
-    verifyComment(c);
-    createRobotCommentUpdateIfNull();
-    robotCommentUpdate.putComment(c);
-  }
-
   public void deleteComment(HumanComment c) {
     verifyComment(c);
     createDraftUpdateIfNull().addDraftCommentForDeletion(c);
@@ -454,20 +441,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
     return draftUpdate;
-  }
-
-  private void createRobotCommentUpdateIfNull() {
-    if (robotCommentUpdate == null) {
-      ChangeNotes notes = getNotes();
-      if (notes != null) {
-        robotCommentUpdate =
-            robotCommentUpdateFactory.create(notes, accountId, realAccountId, authorIdent, when);
-      } else {
-        robotCommentUpdate =
-            robotCommentUpdateFactory.create(
-                getChange(), accountId, realAccountId, authorIdent, when);
-      }
-    }
   }
 
   public void setTopic(String topic, TopicValidator validator) throws ValidationException {
@@ -530,7 +503,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    */
   public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
     if (updates == null || updates.isEmpty() || ignoreFurtherAttentionSetUpdates) {
-      // No updates to do. Robots don't change attention set.
+      // No updates to do. Service users don't change attention set.
       return;
     }
     checkArgument(
@@ -1023,7 +996,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         || getNotes().getChange().isWorkInProgress()
         || status == Change.Status.MERGED) {
       // Attention set shouldn't change here for changes that are work in progress or are about to
-      // be submitted or when the caller is a robot.
+      // be submitted or when the caller is a service user.
       return;
     }
 
@@ -1122,7 +1095,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
           && serviceUserClassifier.isServiceUser(attentionSetUpdate.account())) {
-        // Skip adding robots to the attention set.
+        // Skip adding service users to the attention set.
         continue;
       }
 
@@ -1245,10 +1218,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   ChangeDraftUpdate getDraftUpdate() {
     return draftUpdate;
-  }
-
-  RobotCommentUpdate getRobotCommentUpdate() {
-    return robotCommentUpdate;
   }
 
   DeleteCommentRewriter getDeleteCommentRewriter() {

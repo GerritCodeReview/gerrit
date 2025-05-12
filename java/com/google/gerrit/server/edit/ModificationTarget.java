@@ -27,7 +27,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>This is currently used in the context of change edits which involves both direct actions on
  * change edits (e.g. creating a change edit; modifying a file of a change edit) as well as indirect
- * creation/modification of them (e.g. via applying a suggested fix of a robot comment.)
+ * creation/modification of them.
  *
  * <p>Depending on the situation and exact action, either an existing {@link ChangeEdit} (-> {@link
  * EditCommit} or a specific patchset commit (-> {@link PatchsetCommit}) is the target of a

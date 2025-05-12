@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4ef8689_ec81ab92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-12T08:24:12Z",
+      "side": 1,
+      "message": "Milutin, can you have a look at whether I am removing too much wrt fixes and the apply-fix dialog?",
+      "revId": "02b5ab6d09c7fbdafddcd70ea70bd66c033ec99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

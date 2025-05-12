@@ -257,8 +257,8 @@ suite('gr-formatted-text tests', () => {
             !url.startsWith('/');
           const expectedHref = isSchemeless ? `http://${url}` : url;
 
-          assert.equal(a!.getAttribute('href'), expectedHref);
-          assert.equal(a!.innerText, url);
+          assert.equal(a.getAttribute('href'), expectedHref);
+          assert.equal(a.innerText, url);
         } else {
           assert.isUndefined(a);
         }
@@ -794,7 +794,7 @@ suite('gr-formatted-text tests', () => {
             !url.startsWith('/');
           const expectedHref = isSchemeless ? `http://${url}` : url;
 
-          assert.equal(a!.getAttribute('href'), expectedHref);
+          assert.equal(a.getAttribute('href'), expectedHref);
         } else {
           assert.isUndefined(a);
         }

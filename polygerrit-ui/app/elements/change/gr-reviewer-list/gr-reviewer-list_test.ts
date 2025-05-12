@@ -16,6 +16,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
 import './gr-reviewer-list';
 import {fixture, html, assert} from '@open-wc/testing';
+import {IdToAttentionSetMap} from '../../../api/rest-api';
+import {StandardLabels} from '../../../utils/label-util';
 
 suite('gr-reviewer-list tests', () => {
   let element: GrReviewerList;
@@ -247,6 +249,59 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element.computeHiddenReviewerCount(displayedReviewers), 3);
     assert.equal(displayedReviewers.length, 6);
     assert.equal(element.reviewers.length, 9);
+    assert.isFalse(
+      queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
+    );
+  });
+
+  test('if more than 6 reviewers have attention or vote, show all of them', async () => {
+    const reviewers = [];
+    for (let i = 1; i < 11; i++) {
+      reviewers.push({
+        ...createAccountDetailWithId(i),
+        email: `${i}reviewer@google.com` as EmailAddress,
+        name: `reviewer${i}`,
+      });
+    }
+    element.ccsOnly = true;
+
+    element.change = {
+      ...createParsedChange(),
+      owner: {
+        ...createAccountDetailWithId(111),
+      },
+      reviewers: {
+        CC: reviewers,
+      },
+    };
+
+    // add attention set to 7 reviewers (reviewers 1-7)
+    const attentionSet: IdToAttentionSetMap = {};
+    for (let i = 1; i < 8; i++) {
+      attentionSet[i] = {
+        account: reviewers[i],
+      };
+    }
+    element.change.attention_set = attentionSet;
+
+    // add vote to 1 reviewer (reviewer 8)
+    element.change.labels = {
+      [StandardLabels.CODE_REVIEW]: {
+        all: [
+          {
+            ...reviewers[8],
+            value: 2,
+          },
+        ],
+      },
+    };
+    await element.updateComplete;
+
+    const displayedReviewers = element.computeDisplayedReviewers() ?? [];
+    assert.equal(element.computeHiddenReviewerCount(displayedReviewers), 2);
+    // reviewers 1-8 are displayed, reviewers 9-10 are hidden
+    assert.equal(displayedReviewers.length, 8);
+    assert.equal(element.reviewers.length, 10);
     assert.isFalse(
       queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
     );

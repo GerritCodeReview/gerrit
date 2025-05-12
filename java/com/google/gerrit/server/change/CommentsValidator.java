@@ -89,8 +89,7 @@ public class CommentsValidator {
   private void ensureValidInReplyTo(ChangeNotes changeNotes, String inReplyTo)
       throws BadRequestException {
     if (inReplyTo != null
-        && !commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()
-        && !commentsUtil.getRobotComment(changeNotes, inReplyTo).isPresent()) {
+        && !commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()) {
       throw new BadRequestException(
           String.format("Invalid inReplyTo, comment %s not found", inReplyTo));
     }

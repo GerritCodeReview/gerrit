@@ -38,7 +38,6 @@ public class ReviewInput {
 
   public Map<String, Short> labels;
   public Map<String, List<CommentInput>> comments;
-  @Deprecated public Map<String, List<RobotCommentInput>> robotComments;
 
   /**
    * How to process draft comments already in the database that were not also described in this
@@ -112,14 +111,6 @@ public class ReviewInput {
 
   public static class CommentInput extends Comment {
     public Boolean unresolved;
-  }
-
-  @Deprecated
-  public static class RobotCommentInput extends Comment {
-    public String robotId;
-    public String robotRunId;
-    public String url;
-    public Map<String, String> properties;
   }
 
   @CanIgnoreReturnValue

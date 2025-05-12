@@ -33,7 +33,6 @@ import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -47,7 +46,6 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
-import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -146,9 +144,6 @@ public class CommentsUtil {
         // Inherit unresolved value from inReplyTo comment if not specified.
         Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
         Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, key);
-
-        // If the comment was not found, it is descended from a robot comment, or the UUID is
-        // invalid. Either way, we use the default.
         unresolved = parent.map(p -> p.unresolved).orElse(false);
       }
     }
@@ -169,28 +164,6 @@ public class CommentsUtil {
     return c;
   }
 
-  public RobotComment newRobotComment(
-      ChangeContext ctx,
-      String path,
-      PatchSet.Id psId,
-      short side,
-      String message,
-      String robotId,
-      String robotRunId) {
-    RobotComment c =
-        new RobotComment(
-            new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
-            ctx.getUser().getAccountId(),
-            ctx.getWhen(),
-            side,
-            message,
-            serverId,
-            robotId,
-            robotRunId);
-    ctx.getUser().updateRealAccountId(c::setRealAuthor);
-    return c;
-  }
-
   public Optional<HumanComment> getPublishedHumanComment(ChangeNotes notes, Comment.Key key) {
     return publishedHumanCommentsByChange(notes).stream()
         .filter(c -> key.equals(c.key))
@@ -208,21 +181,8 @@ public class CommentsUtil {
     return sort(Lists.newArrayList(notes.getHumanComments().values()));
   }
 
-  public List<RobotComment> robotCommentsByChange(ChangeNotes notes) {
-    notes.load();
-    return sort(Lists.newArrayList(notes.getRobotComments().values()));
-  }
-
-  public Optional<RobotComment> getRobotComment(ChangeNotes notes, String uuid) {
-    return robotCommentsByChange(notes).stream().filter(c -> c.key.uuid.equals(uuid)).findFirst();
-  }
-
   public List<HumanComment> publishedByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     return commentsOnPatchSet(notes.load().getHumanComments().values(), psId);
-  }
-
-  public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    return commentsOnPatchSet(notes.load().getRobotComments().values(), psId);
   }
 
   /**
@@ -306,12 +266,6 @@ public class CommentsUtil {
       ChangeUpdate update, Comment.Status status, Iterable<HumanComment> comments) {
     for (HumanComment c : comments) {
       update.putComment(status, c);
-    }
-  }
-
-  public void putRobotComments(ChangeUpdate update, Iterable<RobotComment> comments) {
-    for (RobotComment c : comments) {
-      update.putRobotComment(c);
     }
   }
 

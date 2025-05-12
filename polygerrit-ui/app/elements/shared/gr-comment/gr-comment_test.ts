@@ -12,7 +12,6 @@ import {
   stubRestApi,
   query,
   pressKey,
-  listenOnce,
   mockPromise,
   waitUntilCalled,
   dispatch,
@@ -34,10 +33,8 @@ import {
 import {
   createComment,
   createDraft,
-  createRobotComment,
   createNewDraft,
 } from '../../../test/test-data-generators';
-import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Key, Modifier} from '../../../utils/dom-util';
@@ -165,82 +162,6 @@ suite('gr-comment tests', () => {
               <div class="body">
                 <gr-formatted-text class="message"></gr-formatted-text>
                 <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
-              </div>
-            </div>
-          </gr-endpoint-decorator>
-          <dialog id="confirmDeleteModal" tabindex="-1">
-            <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
-            </gr-confirm-delete-comment-dialog>
-          </dialog>
-        `
-      );
-    });
-
-    test('renders expanded robot', async () => {
-      element.initiallyCollapsed = false;
-      element.comment = createRobotComment();
-      await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
-        /* HTML */ `
-          <gr-endpoint-decorator name="comment">
-            <gr-endpoint-param name="comment"></gr-endpoint-param>
-            <gr-endpoint-param name="editing"></gr-endpoint-param>
-            <gr-endpoint-param name="message"></gr-endpoint-param>
-            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
-            <div class="container" id="container">
-              <div class="header" id="header">
-                <div class="headerLeft">
-                  <span class="robotName">robot-id-123</span>
-                </div>
-                <div class="headerMiddle"></div>
-                <span class="patchset-text">Patchset 1</span>
-                <span class="separator"></span>
-                <span class="date" tabindex="0">
-                  <gr-date-formatter withtooltip=""></gr-date-formatter>
-                </span>
-                <div class="show-hide" tabindex="0">
-                  <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
-                    <gr-icon id="icon" icon="expand_less"></gr-icon>
-                  </label>
-                </div>
-              </div>
-              <div class="body">
-                <div class="robotId"></div>
-                <gr-formatted-text class="message"></gr-formatted-text>
-                <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
-                <div class="robotActions">
-                  <gr-icon
-                    icon="link"
-                    class="copy link-icon"
-                    role="button"
-                    tabindex="0"
-                    title="Copy link to this comment"
-                  ></gr-icon>
-                  <gr-endpoint-decorator name="robot-comment-controls">
-                    <gr-endpoint-param name="comment"></gr-endpoint-param>
-                  </gr-endpoint-decorator>
-                  <gr-button
-                    aria-disabled="false"
-                    class="action show-fix"
-                    link=""
-                    role="button"
-                    secondary=""
-                    tabindex="0"
-                  >
-                    Show Fix
-                  </gr-button>
-                  <gr-button
-                    aria-disabled="false"
-                    class="action fix"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    Please Fix
-                  </gr-button>
-                </div>
               </div>
             </div>
           </gr-endpoint-decorator>
@@ -783,41 +704,6 @@ suite('gr-comment tests', () => {
       await element.convertToCommentInputAndOrDiscard();
       assert.isTrue(discardStub.called);
       assert.isFalse(saveStub.called);
-    });
-
-    test('handlePleaseFix fires reply-to-comment event', async () => {
-      const listener = listenOnce<ReplyToCommentEvent>(
-        element,
-        'reply-to-comment'
-      );
-      element.comment = createRobotComment();
-      element.comments = [element.comment];
-      await element.updateComplete;
-
-      queryAndAssert<GrButton>(element, '.fix').click();
-
-      const e = await listener;
-      assert.equal(e.detail.unresolved, true);
-      assert.equal(e.detail.userWantsToEdit, false);
-      assert.isTrue(e.detail.content.includes('Please fix.'));
-    });
-
-    test('do not show Please Fix button if human reply exists', async () => {
-      element.initiallyCollapsed = false;
-      const robotComment = createRobotComment();
-      element.comment = robotComment;
-      await element.updateComplete;
-
-      let actions = query(element, '.robotActions gr-button.fix');
-      assert.isOk(actions);
-
-      element.comments = [
-        robotComment,
-        {...createComment(), in_reply_to: robotComment.id},
-      ];
-      await element.updateComplete;
-      actions = query(element, '.robotActions gr-button.fix');
-      assert.isNotOk(actions);
     });
   });
 

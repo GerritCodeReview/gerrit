@@ -50,8 +50,6 @@ import {
   NumericChangeId,
   PARENT,
   RevisionPatchSetNum,
-  RobotId,
-  RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
   RepoName,
@@ -72,7 +70,6 @@ import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
-import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
   ChangeChildView,
@@ -90,27 +87,10 @@ suite('gr-change-view tests', () => {
   let userModel: UserModel;
   let changeModel: ChangeModel;
 
-  const ROBOT_COMMENTS_LIMIT = 10;
-
   // TODO: should have a mock service to generate VALID fake data
   const THREADS: CommentThread[] = [
     {
       comments: [
-        {
-          path: '/COMMIT_MSG',
-          author: {
-            _account_id: 1000000 as AccountId,
-            name: 'user',
-            username: 'user',
-          },
-          patch_set: 2 as RevisionPatchSetNum,
-          robot_id: 'rb1' as RobotId,
-          id: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
-          line: 5,
-          updated: '2018-02-08 18:49:18.000000000' as Timestamp,
-          message: 'test',
-          unresolved: true,
-        },
         {
           path: '/COMMIT_MSG',
           author: {
@@ -145,21 +125,6 @@ suite('gr-change-view tests', () => {
     },
     {
       comments: [
-        {
-          path: '/COMMIT_MSG',
-          author: {
-            _account_id: 1000000 as AccountId,
-            name: 'user',
-            username: 'user',
-          },
-          patch_set: 3 as RevisionPatchSetNum,
-          id: 'ecf0b9fa_fe5f62' as UrlEncodedCommentId,
-          robot_id: 'rb2' as RobotId,
-          line: 5,
-          updated: '2018-02-08 18:49:18.000000000' as Timestamp,
-          message: 'test',
-          unresolved: true,
-        },
         {
           path: 'test.txt',
           author: {
@@ -247,23 +212,7 @@ suite('gr-change-view tests', () => {
       commentSide: CommentSide.REVISION,
     },
     {
-      comments: [
-        {
-          path: '/COMMIT_MSG',
-          author: {
-            _account_id: 1000000 as AccountId,
-            name: 'user',
-            username: 'user',
-          },
-          patch_set: 4 as RevisionPatchSetNum,
-          id: 'rc1' as UrlEncodedCommentId,
-          line: 5,
-          updated: '2019-02-08 18:49:18.000000000' as Timestamp,
-          message: 'test',
-          unresolved: true,
-          robot_id: 'rc1' as RobotId,
-        },
-      ],
+      comments: [],
       patchNum: 4 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 5,
@@ -272,21 +221,6 @@ suite('gr-change-view tests', () => {
     },
     {
       comments: [
-        {
-          path: '/COMMIT_MSG',
-          author: {
-            _account_id: 1000000 as AccountId,
-            name: 'user',
-            username: 'user',
-          },
-          patch_set: 4 as RevisionPatchSetNum,
-          id: 'rc2' as UrlEncodedCommentId,
-          line: 5,
-          updated: '2019-03-08 18:49:18.000000000' as Timestamp,
-          message: 'test',
-          unresolved: true,
-          robot_id: 'rc2' as RobotId,
-        },
         {
           path: '/COMMIT_MSG',
           author: {
@@ -332,7 +266,6 @@ suite('gr-change-view tests', () => {
       Promise.resolve(createAccountDetailWithId(5))
     );
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
-    stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
     window.Gerrit.install(
@@ -962,112 +895,6 @@ suite('gr-change-view tests', () => {
       element.scrollCommentId = 'abcd' as UrlEncodedCommentId;
       await element.updateComplete;
       assert.isFalse(threadList.unresolvedOnly);
-    });
-  });
-
-  suite('Findings robot-comment tab', () => {
-    setup(async () => {
-      element.changeNum = TEST_NUMERIC_CHANGE_ID;
-      element.change = {
-        ...createChangeViewChange(),
-        revisions: {
-          rev2: createRevision(2),
-          rev1: createRevision(1),
-          rev13: createRevision(13),
-          rev3: createRevision(3),
-          rev4: createRevision(4),
-        },
-        current_revision: 'rev4' as CommitId,
-      };
-      element.commentThreads = THREADS;
-      element.showFindingsTab = true;
-      await element.updateComplete;
-      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
-      const tabs = paperTabs.querySelectorAll('paper-tab');
-      assert.isTrue(tabs.length > 3);
-      assert.equal(tabs[3].dataset.name, 'findings');
-      tabs[3].click();
-      await element.updateComplete;
-    });
-
-    test('robot comments count per patchset', () => {
-      const count = element.robotCommentCountPerPatchSet(THREADS);
-      const expectedCount = {
-        2: 1,
-        3: 1,
-        4: 2,
-      };
-      assert.deepEqual(count, expectedCount);
-      assert.equal(
-        element.computeText(createRevision(2), THREADS),
-        'Patchset 2 (1 finding)'
-      );
-      assert.equal(
-        element.computeText(createRevision(4), THREADS),
-        'Patchset 4 (2 findings)'
-      );
-      assert.equal(
-        element.computeText(createRevision(5), THREADS),
-        'Patchset 5'
-      );
-    });
-
-    test('only robot comments are rendered', () => {
-      assert.equal(element.computeRobotCommentThreads().length, 2);
-      assert.equal(
-        (
-          element.computeRobotCommentThreads()[0]
-            .comments[0] as RobotCommentInfo
-        ).robot_id,
-        'rc1'
-      );
-      assert.equal(
-        (
-          element.computeRobotCommentThreads()[1]
-            .comments[0] as RobotCommentInfo
-        ).robot_id,
-        'rc2'
-      );
-    });
-
-    test('changing patchsets resets robot comments', async () => {
-      assertIsDefined(element.change);
-      const newChange = {...element.change};
-      newChange.current_revision = 'rev3' as CommitId;
-      element.change = newChange;
-      await element.updateComplete;
-      assert.equal(element.computeRobotCommentThreads().length, 1);
-    });
-
-    test('Show more button is hidden', () => {
-      assert.isNull(element.shadowRoot!.querySelector('.show-robot-comments'));
-    });
-
-    suite('robot comments show more button', () => {
-      setup(async () => {
-        const arr = [];
-        for (let i = 0; i <= 30; i++) {
-          arr.push(...THREADS);
-        }
-        element.commentThreads = arr;
-        await element.updateComplete;
-      });
-
-      test('Show more button is rendered', () => {
-        assert.isOk(element.shadowRoot!.querySelector('.show-robot-comments'));
-        assert.equal(
-          element.computeRobotCommentThreads().length,
-          ROBOT_COMMENTS_LIMIT
-        );
-      });
-
-      test('Clicking show more button renders all comments', async () => {
-        element
-          .shadowRoot!.querySelector<GrButton>('.show-robot-comments')!
-          .click();
-        await element.updateComplete;
-        assert.equal(element.computeRobotCommentThreads().length, 62);
-      });
     });
   });
 

@@ -136,7 +136,6 @@ const darkThemeCss = safeStyleSheet`
 
     /* comment background colors */
     --comment-background-color: #3c3f43;
-    --robot-comment-background-color: #1e3a5f;
     --unresolved-comment-background-color: #614a19;
 
     /* Suggest edits */

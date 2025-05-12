@@ -50,7 +50,6 @@ import {
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../types/common';
@@ -128,13 +127,13 @@ suite('gr-rest-api-service-impl tests', () => {
       message: 'how did this work in the first place?',
       path: 'sieve.go',
       updated: '2017-02-03 22:33:28.000000000' as Timestamp,
-    } as RobotCommentInfo);
+    } as CommentInfo);
     assert.equal(obj.comments.length, 1);
     assert.deepEqual(obj.comments[0], {
       message: 'this isn’t quite right',
       path: 'sieve.go',
       updated: '2017-02-03 22:32:28.000000000' as Timestamp,
-    } as RobotCommentInfo);
+    } as CommentInfo);
   });
 
   test('_setRange', () => {
@@ -296,18 +295,18 @@ suite('gr-rest-api-service-impl tests', () => {
       message: 'this isn’t quite right',
       path: 'sieve.go',
       updated: '2017-02-03 22:32:28.000000000' as Timestamp,
-    } as RobotCommentInfo);
+    } as CommentInfo);
     assert.equal(obj.comments.length, 2);
     assert.deepEqual(obj.comments[0], {
       message: 'What on earth are you thinking, here?',
       path: 'sieve.go',
       updated: '2017-02-03 22:32:28.000000000' as Timestamp,
-    } as RobotCommentInfo);
+    } as CommentInfo);
     assert.deepEqual(obj.comments[1], {
       message: '¯\\_(ツ)_/¯',
       path: 'sieve.go',
       updated: '2017-02-04 22:33:28.000000000' as Timestamp,
-    } as RobotCommentInfo);
+    } as CommentInfo);
   });
 
   test('legacy n,z key in change url is replaced', async () => {

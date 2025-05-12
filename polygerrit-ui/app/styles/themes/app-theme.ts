@@ -313,7 +313,6 @@ const appThemeCss = safeStyleSheet`
 
     /* comment background colors */
     --comment-background-color: var(--gray-200);
-    --robot-comment-background-color: var(--blue-50);
     --unresolved-comment-background-color: #fef7e0;
 
 

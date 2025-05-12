@@ -2849,7 +2849,6 @@ suite('gr-reply-dialog tests', () => {
       };
       commentsModel.setState({
         comments: {},
-        robotComments: {},
         drafts: {
           a: [draft],
         },
@@ -2884,7 +2883,6 @@ suite('gr-reply-dialog tests', () => {
       };
       commentsModel.setState({
         comments: {},
-        robotComments: {},
         drafts: {
           a: [draft],
         },
@@ -2924,7 +2922,6 @@ suite('gr-reply-dialog tests', () => {
       };
       commentsModel.setState({
         comments: {},
-        robotComments: {},
         drafts: {
           a: [draft],
         },
@@ -2984,7 +2981,6 @@ suite('gr-reply-dialog tests', () => {
 
       commentsModel.setState({
         comments: {},
-        robotComments: {},
         drafts: {
           a: [
             {
@@ -3021,7 +3017,6 @@ suite('gr-reply-dialog tests', () => {
       stubRestApi('getAccountDetails').returns(Promise.resolve(account));
       commentsModel.setState({
         comments: {},
-        robotComments: {},
         drafts: {
           a: [
             {

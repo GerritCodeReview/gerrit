@@ -40,7 +40,6 @@ import {
   EncodedGroupId,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
-  FixId,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -62,7 +61,6 @@ import {
   Password,
   PatchRange,
   PatchSetNum,
-  PathToRobotCommentsInfoMap,
   PluginInfo,
   PreferencesInfo,
   PreferencesInput,
@@ -78,7 +76,6 @@ import {
   RequestPayload,
   ReviewInput,
   RevisionId,
-  RobotCommentInfo,
   ServerInfo,
   ValidationOptionsInfo,
   SshKeyInfo,
@@ -106,11 +103,6 @@ import {FixReplacementInfo} from '../../api/rest-api';
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
   comments: CommentInfo[];
-}
-
-export interface GetDiffRobotCommentsOutput {
-  baseComments: RobotCommentInfo[];
-  comments: RobotCommentInfo[];
 }
 
 export interface RestApiService extends Finalizable {
@@ -456,24 +448,6 @@ export interface RestApiService extends Finalizable {
     | Promise<{[path: string]: CommentInfo[]} | undefined>
     | Promise<GetDiffCommentsOutput>;
 
-  getDiffRobotComments(
-    changeNum: NumericChangeId
-  ): Promise<PathToRobotCommentsInfoMap | undefined>;
-  getDiffRobotComments(
-    changeNum: NumericChangeId,
-    basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum,
-    path: string
-  ): Promise<GetDiffRobotCommentsOutput>;
-  getDiffRobotComments(
-    changeNum: NumericChangeId,
-    basePatchNum?: BasePatchSetNum,
-    patchNum?: PatchSetNum,
-    path?: string
-  ):
-    | Promise<GetDiffRobotCommentsOutput>
-    | Promise<PathToRobotCommentsInfoMap | undefined>;
-
   /**
    * If the user is logged in, fetch the user's draft diff comments. If there
    * is no logged in user, the request is not made and the promise yields an
@@ -714,17 +688,6 @@ export interface RestApiService extends Finalizable {
   awaitPendingDiffDrafts(): Promise<void>;
 
   /**
-   * Preview Stored Fix
-   * Gets the diffs of all files for a certain {fix-id} associated with apply fix.
-   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#preview-stored-fix
-   */
-  getRobotCommentFixPreview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    fixId: FixId
-  ): Promise<FilePathToDiffInfoMap | undefined>;
-
-  /**
    * Preview Provided fix
    * Gets the diffs of all files for a provided fix replacements infos
    * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#preview-provided-fix
@@ -745,16 +708,6 @@ export interface RestApiService extends Finalizable {
     fixReplacementInfos: FixReplacementInfo[],
     targetPatchNum?: PatchSetNum,
     errFn?: ErrorCallback
-  ): Promise<Response>;
-
-  /**
-   * Apply Stored Fix
-   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-stored-fix
-   */
-  applyRobotFixSuggestion(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    fixId: string
   ): Promise<Response>;
 
   /**

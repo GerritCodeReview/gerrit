@@ -97,7 +97,6 @@ suite('gr-file-list tests', () => {
   suite('basic tests', async () => {
     setup(async () => {
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
       stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
@@ -2010,7 +2009,6 @@ suite('gr-file-list tests', () => {
     setup(async () => {
       stubRestApi('getPreferences').returns(Promise.resolve(undefined));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getDiff').callsFake(() => Promise.resolve(createDiff()));
       stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});

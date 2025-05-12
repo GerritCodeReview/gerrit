@@ -18,7 +18,6 @@ import {
   createChangeComments,
   createCommentThread,
   createFileInfo,
-  createRobotComment,
 } from '../../../test/test-data-generators';
 import {CommentSide, FileInfoStatus} from '../../../constants/constants';
 import {
@@ -30,7 +29,6 @@ import {
   PatchRange,
   PatchSetNum,
   RevisionPatchSetNum,
-  RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -43,7 +41,6 @@ suite('ChangeComments tests', () => {
   suite('_changeComment methods', () => {
     setup(() => {
       stubRestApi('getDiffComments').resolves({});
-      stubRestApi('getDiffRobotComments').resolves({});
       stubRestApi('getDiffDrafts').resolves({});
     });
 
@@ -124,7 +121,6 @@ suite('ChangeComments tests', () => {
               comment1,
             ],
           },
-          {} /* robot comments */,
           {} /* drafts */,
           portedComments,
           {} /* ported drafts */
@@ -202,7 +198,6 @@ suite('ChangeComments tests', () => {
             // comment that is not ported over
             'karma.conf.js': [comment2],
           },
-          {} /* robot comments */,
           {
             /* drafts */ 'karma.conf.js': [draft2],
           },
@@ -234,7 +229,6 @@ suite('ChangeComments tests', () => {
             // comment left on Base
             'karma.conf.js': [comment3],
           },
-          {} /* robot comments */,
           {
             /* drafts */ 'karma.conf.js': [draft2],
           },
@@ -288,7 +282,6 @@ suite('ChangeComments tests', () => {
             // comment left on Base
             'karma.conf.js': [comment4],
           },
-          {} /* robot comments */,
           {
             /* drafts */ 'karma.conf.js': [draft2],
           },
@@ -359,7 +352,6 @@ suite('ChangeComments tests', () => {
       test('drafts are ported over', () => {
         changeComments = new ChangeComments(
           {} /* comments */,
-          {} /* robotComments */,
           {
             /* drafts */
             // draft1: resolved draft that will be ported over to ps 4
@@ -460,7 +452,7 @@ suite('ChangeComments tests', () => {
     suite('comment ranges and paths', () => {
       const comments = [
         {
-          ...createRobotComment(),
+          ...createComment(),
           id: '01' as UrlEncodedCommentId,
           patch_set: 2 as RevisionPatchSetNum,
           path: 'file/1',
@@ -475,7 +467,7 @@ suite('ChangeComments tests', () => {
           },
         },
         {
-          ...createRobotComment(),
+          ...createComment(),
           id: '02' as UrlEncodedCommentId,
           in_reply_to: '04' as UrlEncodedCommentId,
           patch_set: 2 as RevisionPatchSetNum,
@@ -589,9 +581,6 @@ suite('ChangeComments tests', () => {
         'file/1': [comments[11], comments[12]],
         'file/2': [comments[13]],
       };
-      const robotComments: {[path: string]: RobotCommentInfo[]} = {
-        'file/1': [comments[0], comments[1]],
-      };
       const commentsByFile: {[path: string]: CommentInfo[]} = {
         'file/1': [comments[2], comments[3]],
         'file/2': [comments[4], comments[5]],
@@ -606,7 +595,6 @@ suite('ChangeComments tests', () => {
       setup(() => {
         changeComments = new ChangeComments(
           commentsByFile,
-          robotComments,
           drafts,
           {} /* portedComments */,
           {} /* portedDrafts */

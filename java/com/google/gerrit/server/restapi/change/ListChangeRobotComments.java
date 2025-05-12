@@ -14,56 +14,23 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static java.util.stream.Collectors.toList;
-
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
 
 public class ListChangeRobotComments implements RestReadView<ChangeResource> {
-  private final ChangeData.Factory changeDataFactory;
-  private final Provider<CommentJson> commentJson;
-  private final CommentsUtil commentsUtil;
-  private final ChangeMessagesUtil changeMessagesUtil;
 
   @Inject
-  ListChangeRobotComments(
-      ChangeData.Factory changeDataFactory,
-      Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil,
-      ChangeMessagesUtil changeMessagesUtil) {
-    this.changeDataFactory = changeDataFactory;
-    this.commentJson = commentJson;
-    this.commentsUtil = commentsUtil;
-    this.changeMessagesUtil = changeMessagesUtil;
-  }
+  ListChangeRobotComments() {}
 
   @Override
   public Response<Map<String, List<RobotCommentInfo>>> apply(ChangeResource rsrc)
-      throws AuthException, PermissionBackendException {
-    ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    Map<String, List<RobotCommentInfo>> robotCommentsMap =
-        commentJson
-            .get()
-            .setFillAccounts(true)
-            .setFillPatchSet(true)
-            .newRobotCommentFormatter()
-            .format(commentsUtil.robotCommentsByChange(cd.notes()));
-    List<RobotCommentInfo> commentInfos =
-        robotCommentsMap.values().stream().flatMap(List::stream).collect(toList());
-    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
-    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, false);
-    return Response.ok(robotCommentsMap);
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException("robot comments unsupported");
   }
 }

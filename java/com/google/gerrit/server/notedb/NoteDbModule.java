@@ -40,8 +40,6 @@ public class NoteDbModule extends FactoryModule {
     factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
-    factory(RobotCommentNotes.Factory.class);
-    factory(RobotCommentUpdate.Factory.class);
 
     if (!useTestBindings) {
       install(ChangeNotesCache.module());

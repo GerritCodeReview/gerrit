@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 /**
  * Marks the commit that contains the comment (also known as side). Used by {@link
- * TestCommentCreation} and {@link TestRobotCommentCreation}.
+ * TestCommentCreation}.
  */
 enum CommentSide {
   PATCHSET_COMMIT(1),

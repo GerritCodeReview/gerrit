@@ -26,12 +26,10 @@ import org.eclipse.jgit.lib.Config;
 /** Limits the size of comments to prevent space/time complexity issues. */
 public class CommentSizeValidator implements CommentValidator {
   private final int commentSizeLimit;
-  private final int robotCommentSizeLimit;
 
   @Inject
   CommentSizeValidator(@GerritServerConfig Config serverConfig) {
     commentSizeLimit = serverConfig.getInt("change", "commentSizeLimit", 16 << 10);
-    robotCommentSizeLimit = serverConfig.getInt("change", "robotCommentSizeLimit", 1 << 20);
   }
 
   @Override
@@ -46,8 +44,6 @@ public class CommentSizeValidator implements CommentValidator {
   private boolean exceedsSizeLimit(CommentForValidation comment) {
     return switch (comment.getSource()) {
       case HUMAN -> commentSizeLimit > 0 && comment.getApproximateSize() > commentSizeLimit;
-      case ROBOT ->
-          robotCommentSizeLimit > 0 && comment.getApproximateSize() > robotCommentSizeLimit;
       default ->
           throw new RuntimeException(
               "Unknown comment source (should not have compiled): " + comment.getSource());
@@ -60,10 +56,6 @@ public class CommentSizeValidator implements CommentValidator {
           String.format(
               "Comment size exceeds limit (%d > %d)",
               comment.getApproximateSize(), commentSizeLimit);
-      case ROBOT ->
-          String.format(
-              "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
-              comment.getApproximateSize(), robotCommentSizeLimit);
       default ->
           throw new RuntimeException(
               "Unknown comment source (should not have compiled): " + comment.getSource());

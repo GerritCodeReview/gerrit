@@ -24,7 +24,6 @@ public class ChangesModule extends FactoryModule {
 
     factory(ChangeApiImpl.Factory.class);
     factory(CommentApiImpl.Factory.class);
-    factory(RobotCommentApiImpl.Factory.class);
     factory(DraftApiImpl.Factory.class);
     factory(RevisionApiImpl.Factory.class);
     factory(FileApiImpl.Factory.class);

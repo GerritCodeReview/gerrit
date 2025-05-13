@@ -166,7 +166,7 @@ export declare interface CheckRun {
   checkName: string;
   /**
    * Optional description of the check. Only shown as a tooltip or in a
-   * hovercard.
+   * hovercard. Interpreted as markdown.
    */
   checkDescription?: string;
   /**

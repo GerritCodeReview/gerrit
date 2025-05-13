@@ -16,6 +16,24 @@
       "message": "Could this create too large of a query?",
       "revId": "2c22be70516377d4793937150f1333d016effaa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d91d4b8_4104ba9f",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-13T11:13:07Z",
+      "side": 1,
+      "message": "If a project has 1 million changes this would take around 30 to 50MB. As soon as all slices of that project are indexed and the callback (lines 503-525) finishes, this set becomes unreferenced and can be gc-ed.",
+      "parentUuid": "4769871f_f364d28d",
+      "revId": "2c22be70516377d4793937150f1333d016effaa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

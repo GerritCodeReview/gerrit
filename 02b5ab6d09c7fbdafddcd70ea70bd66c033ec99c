@@ -16,6 +16,41 @@
       "message": "Milutin, can you have a look at whether I am removing too much wrt fixes and the apply-fix dialog?",
       "revId": "02b5ab6d09c7fbdafddcd70ea70bd66c033ec99c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6078c362_0b61ae04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-13T06:16:13Z",
+      "side": 1,
+      "message": "I checked in detail all changes. It looks good. Since I knew robot comments will be removed, I implemented it in a way to not use much of robot comments code.",
+      "parentUuid": "f4ef8689_ec81ab92",
+      "revId": "02b5ab6d09c7fbdafddcd70ea70bd66c033ec99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "763e1c35_0f3ad4e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-13T06:16:13Z",
+      "side": 1,
+      "message": "I assume backend changes with removing preloading for robot comments will be done in next change.",
+      "revId": "02b5ab6d09c7fbdafddcd70ea70bd66c033ec99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

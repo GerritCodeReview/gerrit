@@ -300,6 +300,13 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<SubmitRequirementInfo | undefined>;
 
+  updateSubmitRequirement(
+    repoName: RepoName,
+    submitRequirementName: string,
+    input: SubmitRequirementInput,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo | undefined>;
+
   deleteSubmitRequirement(
     repoName: RepoName,
     submitRequirementName: string,

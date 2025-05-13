@@ -68,6 +68,12 @@ export class GrRepoSubmitRequirements extends LitElement {
 
   @state() requirementToDelete?: SubmitRequirementInfo;
 
+  @state()
+  requirementToEdit?: SubmitRequirementInfo;
+
+  @state()
+  isEditing = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -197,6 +203,13 @@ export class GrRepoSubmitRequirements extends LitElement {
                         () => html`
                           <td class="actions">
                             <gr-button
+                              class="editBtn"
+                              link
+                              @click=${() => this.handleEditClick(item)}
+                            >
+                              Edit
+                            </gr-button>
+                            <gr-button
                               class="deleteBtn"
                               link
                               @click=${() => this.handleDeleteClick(item)}
@@ -273,6 +286,24 @@ export class GrRepoSubmitRequirements extends LitElement {
   }
 
   private handleCreateClick() {
+    this.isEditing = false;
+    this.newRequirement = this.getEmptyRequirement();
+    assertIsDefined(this.createDialog, 'createDialog');
+    this.createDialog.showModal();
+  }
+
+  private handleEditClick(requirement: SubmitRequirementInfo) {
+    this.isEditing = true;
+    this.requirementToEdit = requirement;
+    this.newRequirement = {
+      name: requirement.name,
+      description: requirement.description || '',
+      applicability_expression: requirement.applicability_expression || '',
+      submittability_expression: requirement.submittability_expression || '',
+      override_expression: requirement.override_expression || '',
+      allow_override_in_child_projects:
+        requirement.allow_override_in_child_projects || false,
+    };
     assertIsDefined(this.createDialog, 'createDialog');
     this.createDialog.showModal();
   }
@@ -281,6 +312,8 @@ export class GrRepoSubmitRequirements extends LitElement {
     assertIsDefined(this.createDialog, 'createDialog');
     this.createDialog.close();
     this.newRequirement = this.getEmptyRequirement();
+    this.requirementToEdit = undefined;
+    this.isEditing = false;
   }
 
   private handleCreateConfirm() {
@@ -296,13 +329,27 @@ export class GrRepoSubmitRequirements extends LitElement {
       firePageError(response);
     };
 
-    this.restApiService
-      .createSubmitRequirement(this.repo, this.newRequirement, errFn)
-      .then(() => {
-        this.createDialog?.close();
-        this.newRequirement = this.getEmptyRequirement();
-        this.getSubmitRequirements(this.filter, this.offset);
-      });
+    const promise =
+      this.isEditing && this.requirementToEdit
+        ? this.restApiService.updateSubmitRequirement(
+            this.repo,
+            this.requirementToEdit.name,
+            this.newRequirement,
+            errFn
+          )
+        : this.restApiService.createSubmitRequirement(
+            this.repo,
+            this.newRequirement,
+            errFn
+          );
+
+    promise.then(() => {
+      this.createDialog?.close();
+      this.newRequirement = this.getEmptyRequirement();
+      this.requirementToEdit = undefined;
+      this.isEditing = false;
+      this.getSubmitRequirements(this.filter, this.offset);
+    });
   }
 
   private getEmptyRequirement(): SubmitRequirementInput {
@@ -322,14 +369,16 @@ export class GrRepoSubmitRequirements extends LitElement {
     return html`
       <dialog id="createDialog" tabindex="-1">
         <gr-dialog
-          confirm-label="Create"
+          confirm-label=${this.isEditing ? 'Save' : 'Create'}
           cancel-label="Cancel"
           ?disabled=${!this.newRequirement.name ||
           !this.newRequirement.submittability_expression}
           @confirm=${this.handleCreateConfirm}
           @cancel=${this.handleCreateCancel}
         >
-          <div class="header" slot="header">Create Submit Requirement</div>
+          <div class="header" slot="header">
+            ${this.isEditing ? 'Edit' : 'Create'} Submit Requirement
+          </div>
           <div class="main" slot="main">
             <div class="gr-form-styles">
               <div id="form">
@@ -348,7 +397,12 @@ export class GrRepoSubmitRequirements extends LitElement {
                           };
                         }}
                       >
-                        <input id="name" type="text" required />
+                        <input
+                          id="name"
+                          type="text"
+                          required
+                          ?disabled=${this.isEditing}
+                        />
                       </iron-input>
                     </span>
                   </div>

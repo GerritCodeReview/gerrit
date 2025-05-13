@@ -1823,6 +1823,25 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<SubmitRequirementInfo | undefined>;
   }
 
+  updateSubmitRequirement(
+    repoName: RepoName,
+    submitRequirementName: string,
+    input: SubmitRequirementInput,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/submit_requirements/${encodeURIComponent(submitRequirementName)}`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/submit_requirements/*',
+    }) as Promise<SubmitRequirementInfo | undefined>;
+  }
+
   deleteSubmitRequirement(
     repoName: RepoName,
     submitRequirementName: string,

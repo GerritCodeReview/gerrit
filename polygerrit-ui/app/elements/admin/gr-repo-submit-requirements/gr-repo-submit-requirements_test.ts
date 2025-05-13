@@ -6,9 +6,14 @@
 import '../../../test/common-test-setup';
 import './gr-repo-submit-requirements';
 import {GrRepoSubmitRequirements} from './gr-repo-submit-requirements';
-import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
+import {
+  queryAndAssert,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {RepoName, SubmitRequirementInfo} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-repo-submit-requirements tests', () => {
   let element: GrRepoSubmitRequirements;
@@ -145,6 +150,15 @@ suite('gr-repo-submit-requirements tests', () => {
                   <td class="override"></td>
                   <td class="allowOverride"></td>
                   <td class="actions">
+                  <gr-button
+                      aria-disabled="false"
+                      class="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Edit
+                    </gr-button>
                     <gr-button
                       aria-disabled="false"
                       class="deleteBtn"
@@ -302,6 +316,54 @@ suite('gr-repo-submit-requirements tests', () => {
       </dialog>
         `
       );
+    });
+
+    test('open edit dialog', async () => {
+      await waitEventLoop();
+      element.isAdmin = true;
+      await element.updateComplete;
+
+      const editButton = queryAndAssert<GrButton>(element, '.editBtn');
+      editButton.click();
+      await element.updateComplete;
+
+      // Verify dialog is open and has correct title
+      const dialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      assert.isTrue(dialog.open);
+
+      const dialogTitle = queryAndAssert<HTMLElement>(element, '.header');
+      assert.equal(dialogTitle.textContent?.trim(), 'Edit Submit Requirement');
+
+      // Verify form is populated with correct data
+      const nameInput = queryAndAssert<HTMLInputElement>(element, '#name');
+      assert.equal(nameInput.value, 'Verified');
+      assert.isTrue(nameInput.disabled);
+
+      const descriptionTextarea = queryAndAssert<HTMLTextAreaElement>(
+        element,
+        '#description'
+      );
+      assert.equal(
+        descriptionTextarea.value,
+        'CI result status for build and tests is passing'
+      );
+      assert.isFalse(descriptionTextarea.disabled);
+
+      const submittabilityInput = queryAndAssert<HTMLInputElement>(
+        element,
+        '#submittability'
+      );
+      assert.equal(
+        submittabilityInput.value,
+        'label:Verified=MAX AND -label:Verified=MIN'
+      );
+
+      // Verify save button is enabled
+      const saveButton = queryAndAssert<HTMLElement>(element, 'gr-dialog');
+      assert.isFalse(saveButton.hasAttribute('disabled'));
     });
   });
 });

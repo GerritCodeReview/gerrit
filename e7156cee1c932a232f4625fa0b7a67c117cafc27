@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e435111_d65fa3e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-13T17:08:43Z",
+      "side": 1,
+      "message": "I don\u0027t think this is going to be race-free in a multi-primary setup, I for both online and offline reindexes. It does seem like a useful feature to have, but maybe it needs to be behind another flag?",
+      "revId": "e7156cee1c932a232f4625fa0b7a67c117cafc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

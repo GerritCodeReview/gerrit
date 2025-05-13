@@ -34,6 +34,24 @@
       "parentUuid": "4769871f_f364d28d",
       "revId": "2c22be70516377d4793937150f1333d016effaa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd5b0683_4ec3236d",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-13T17:08:43Z",
+      "side": 1,
+      "message": "I meant too many terms for the index backend, but I was misreading this line, so that\u0027s not a concern.",
+      "parentUuid": "9d91d4b8_4104ba9f",
+      "revId": "2c22be70516377d4793937150f1333d016effaa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

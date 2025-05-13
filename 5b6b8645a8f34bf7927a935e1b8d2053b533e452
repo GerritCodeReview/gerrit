@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdebeed1_f238084f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-13T11:33:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure if there\u0027s any better way to do this. Suggestions are welcomed.",
+      "revId": "5b6b8645a8f34bf7927a935e1b8d2053b533e452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

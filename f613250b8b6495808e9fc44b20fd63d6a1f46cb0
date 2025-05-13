@@ -16,6 +16,23 @@
       "message": "Comment removed by: Edwin Kempin; Reason: spam",
       "revId": "f613250b8b6495808e9fc44b20fd63d6a1f46cb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1796ec2_99257b93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-05-13T08:38:35Z",
+      "side": 1,
+      "message": "I think this change is obsolete, we are on gjf 1.24 already, see I8607721e9e83519fa2bab415462ace5255032068",
+      "revId": "f613250b8b6495808e9fc44b20fd63d6a1f46cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

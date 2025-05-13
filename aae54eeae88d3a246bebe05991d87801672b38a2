@@ -33,6 +33,24 @@
       "message": "I think that this shall rather be passed as a constructor parameter: makes testing much easier as we can then easily pass a mock.\n\nThe logic of instantiating a caching or direct accessor can go into a guice module where we can use a provider method for that purpose.",
       "revId": "aae54eeae88d3a246bebe05991d87801672b38a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97ca01d_045e0492",
+        "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-13T07:33:07Z",
+      "side": 1,
+      "message": "`CachingAuthTokenAccessor` and `DirectAuthTokenAccessor` both implement `AuthTokenAccessor`, because in most places it is either/or. So I can\u0027t bind them both (without naming them, which will make injection based on configuration hard). I agree however, that dependency injection would be better here. How would I do that?",
+      "parentUuid": "55ec6daf_891d4a0d",
+      "revId": "aae54eeae88d3a246bebe05991d87801672b38a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

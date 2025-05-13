@@ -354,14 +354,6 @@ export class GrApplyFixDialog extends LitElement {
           this.patchNum,
           fixSuggestion.replacements
         );
-      } else {
-        // TODO(b/227463363) Remove once Robot Comments are deprecated.
-        // We don't use this for user suggestions or comments.fix_suggestions.
-        res = await this.restApiService.getRobotCommentFixPreview(
-          this.changeNum,
-          this.patchNum,
-          fixSuggestion.fix_id
-        );
       }
       if (res) {
         this.currentPreviews = Object.keys(res).map(key => {
@@ -488,23 +480,6 @@ export class GrApplyFixDialog extends LitElement {
           errorText,
         });
       }
-      // Robot Comments are deprecated
-    } else {
-      res = await this.restApiService.applyRobotFixSuggestion(
-        changeNum,
-        patchNum,
-        this.currentFix.fix_id
-      );
-      this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
-        method: 'apply-fix-dialog',
-        description: this.fixSuggestions?.[0].description,
-        isRobotComment: true,
-        fileExtension: getFileExtension(
-          this.fixSuggestions?.[0].replacements?.[0].path ?? ''
-        ),
-        success: res.ok,
-        status: res.status,
-      });
     }
     if (res?.ok) {
       this.getNavigation().setUrl(

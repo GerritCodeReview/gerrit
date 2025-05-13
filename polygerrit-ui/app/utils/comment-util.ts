@@ -21,7 +21,6 @@ import {
   CommentThread,
   DraftInfo,
   ChangeMessage,
-  isRobot,
   isDraft,
   Comment,
   CommentIdToCommentThreadMap,
@@ -337,10 +336,6 @@ export function isMentionedThread(
     .includes(account.email);
 }
 
-export function isRobotThread(thread: CommentThread): boolean {
-  return isRobot(getFirstComment(thread));
-}
-
 export function hasSuggestion(thread: CommentThread): boolean {
   const firstComment = getFirstComment(thread);
   if (!firstComment) return false;
@@ -348,10 +343,6 @@ export function hasSuggestion(thread: CommentThread): boolean {
     hasUserSuggestion(firstComment) ||
     firstComment.fix_suggestions?.[0] !== undefined
   );
-}
-
-export function hasHumanReply(thread: CommentThread): boolean {
-  return countComments(thread) > 1 && !isRobot(getLastComment(thread));
 }
 
 export function lastUpdated(thread: CommentThread): Date | undefined {
@@ -557,9 +548,7 @@ export const USER_SUGGESTION_START_PATTERN = `\`\`\`${USER_SUGGESTION_INFO_STRIN
 
 // This can either mean a user or a checks provided fix.
 // "Provided" means that the fix is sent along with the request
-// when previewing and applying the fix. This is in contrast to
-// robot comment fixes, which are stored in the backend, and they
-// are referenced by a unique `FixId`;
+// when previewing and applying the fix.
 export const PROVIDED_FIX_ID = 'provided_fix' as FixId;
 
 export function hasUserSuggestion(comment: Comment) {

@@ -57,9 +57,6 @@ import {
   Reviewers,
   RevisionInfo,
   RevisionPatchSetNum,
-  RobotCommentInfo,
-  RobotId,
-  RobotRunId,
   SchemesInfoMap,
   ServerInfo,
   SubmittedTogetherInfo,
@@ -906,36 +903,6 @@ export function createNewDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   };
 }
 
-export function createRobotComment(
-  extra: Partial<CommentInfo> = {}
-): RobotCommentInfo {
-  return {
-    ...createComment(),
-    robot_id: 'robot-id-123' as RobotId,
-    robot_run_id: 'robot-run-id-456' as RobotRunId,
-    properties: {},
-    fix_suggestions: [
-      {
-        fix_id: 'robot-run-id-456-fix' as FixId,
-        description: 'Robot suggestion',
-        replacements: [
-          {
-            path: 'abc.txt',
-            range: {
-              start_line: 0,
-              start_character: 0,
-              end_line: 1,
-              end_character: 10,
-            },
-            replacement: 'replacement',
-          },
-        ],
-      },
-    ],
-    ...extra,
-  };
-}
-
 export function createChangeComments(): ChangeComments {
   const comments = {
     '/COMMIT_MSG': [
@@ -1036,7 +1003,7 @@ export function createChangeComments(): ChangeComments {
       },
     ],
   };
-  return new ChangeComments(comments, {}, drafts, {}, {});
+  return new ChangeComments(comments, drafts, {}, {});
 }
 
 export function createThread(

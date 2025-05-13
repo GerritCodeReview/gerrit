@@ -137,7 +137,6 @@ suite('gr-messages-list tests', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve(comments));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
       messages = generateRandomMessages(3);
@@ -384,21 +383,6 @@ suite('gr-messages-list tests', () => {
       assert.equal(TEST_ONLY.computeTag(m), 'something');
     });
 
-    test('updateTag with robot comments', () => {
-      const m = randomMessage();
-      (m as any).commentThreads = [
-        {
-          comments: [
-            {
-              robot_id: 'id314',
-              change_message_id: m.id,
-            },
-          ],
-        },
-      ];
-      assert.notEqual(TEST_ONLY.computeTag(m), undefined);
-    });
-
     test('setRevisionNumber nothing to change', () => {
       const m1 = randomMessage();
       const m2 = randomMessage();
@@ -546,7 +530,6 @@ suite('gr-messages-list tests', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
       messages = [

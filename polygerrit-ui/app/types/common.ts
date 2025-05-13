@@ -238,10 +238,6 @@ export type PropertyType<T, K extends keyof T> = ReturnType<() => T[K]>;
  */
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
 
-export type RobotId = BrandType<string, '_robotId'>;
-
-export type RobotRunId = BrandType<string, '_robotRunId'>;
-
 // RevisionId '0' is the same as 'current'. However, we want to avoid '0'
 // in our code, so it is not added here as a possible value.
 export type RevisionId = 'current' | CommitId | PatchSetNum;
@@ -592,21 +588,15 @@ export interface NewDraftInfo extends DraftInfo {
 }
 
 /**
- * This is what human, robot and draft comments can agree upon.
+ * This is what published and draft comments can agree upon.
  *
  * Note that `id` and `updated` must be considered optional, because we might
  * be dealing with unsaved draft comments.
  */
-export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
+export type Comment = DraftInfo | CommentInfo;
 
 // TODO: Replace the CommentMap type with just an array of paths.
 export type CommentMap = {[path: string]: boolean};
-
-export function isRobot<T extends Comment>(
-  x: T | RobotCommentInfo | undefined
-): x is RobotCommentInfo {
-  return !!x && !!(x as RobotCommentInfo).robot_id;
-}
 
 export function isDraft<T extends Comment>(
   x: T | DraftInfo | undefined
@@ -1139,7 +1129,6 @@ export interface ReviewInput {
   tag?: ReviewInputTag;
   labels?: LabelNameToValueMap;
   comments?: PathToCommentsInputMap;
-  robot_comments?: PathToRobotCommentsMap;
   drafts?: DraftsAction;
   notify?: NotifyType;
   notify_details?: RecipientTypeToNotifyInfoMap;
@@ -1182,28 +1171,9 @@ export interface AddReviewerResult {
 
 export type LabelNameToValueMap = {[labelName: string]: number};
 export type PathToCommentsInputMap = {[path: string]: CommentInput[]};
-export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput[]};
 export type RecipientTypeToNotifyInfoMap = {
   [recepientType: string]: NotifyInfo;
 };
-
-/**
- * The RobotCommentInput entity contains information for creating an inline robot comment
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input
- */
-export type RobotCommentInput = RobotCommentInfo;
-
-/**
- * The RobotCommentInfo entity contains information about a robot inline comment
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-info
- */
-export interface RobotCommentInfo extends CommentInfo {
-  robot_id: RobotId;
-  robot_run_id: RobotRunId;
-  url?: string;
-  properties: {[propertyName: string]: string};
-}
-export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
 
 /**
  * The ApplyProvidedFixInput entity contains information for applying fixes, provided in the

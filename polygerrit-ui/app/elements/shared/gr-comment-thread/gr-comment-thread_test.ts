@@ -134,20 +134,14 @@ suite('gr-comment-thread tests', () => {
             <gr-comment
               collapsed=""
               initially-collapsed=""
-              robot-button-disabled=""
               show-patchset=""
             ></gr-comment>
             <gr-comment
               collapsed=""
               initially-collapsed=""
-              robot-button-disabled=""
               show-patchset=""
             ></gr-comment>
-            <gr-comment
-              class="draft"
-              robot-button-disabled=""
-              show-patchset=""
-            ></gr-comment>
+            <gr-comment class="draft" show-patchset=""></gr-comment>
           </div>
         </div>
       `
@@ -172,11 +166,7 @@ suite('gr-comment-thread tests', () => {
         <div id="container">
           <h3 class="assistive-tech-only">Draft Comment thread by Yoda</h3>
           <div class="comment-box" tabindex="0">
-            <gr-comment
-              class="draft"
-              robot-button-disabled=""
-              show-patchset=""
-            ></gr-comment>
+            <gr-comment class="draft" show-patchset=""></gr-comment>
           </div>
         </div>
       `

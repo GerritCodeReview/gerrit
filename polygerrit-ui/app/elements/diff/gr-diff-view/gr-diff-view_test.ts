@@ -134,7 +134,6 @@ suite('gr-diff-view tests', () => {
       stubRestApi('saveFileReviewed').returns(Promise.resolve(new Response()));
       diffCommentsStub = stubRestApi('getDiffComments');
       diffCommentsStub.returns(Promise.resolve({}));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
 
@@ -167,7 +166,6 @@ suite('gr-diff-view tests', () => {
 
       commentsModel.setState({
         comments: {},
-        robotComments: {},
         drafts: {},
         portedComments: {},
         portedDrafts: {},

@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject, combineLatest} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
@@ -66,13 +66,11 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PARENT,
-  PatchSetNum,
   QuickLabelInfo,
   RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
   UrlEncodedCommentId,
-  isRobot,
 } from '../../../types/common';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
@@ -165,8 +163,6 @@ const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
-
-const ROBOT_COMMENTS_LIMIT = 10;
 
 const ReloadToastMessage = {
   NEWER_REVISION: 'A newer patch set has been uploaded',
@@ -359,9 +355,6 @@ export class GrChangeView extends LitElement {
   @state()
   private pluginTabsContentEndpoints: string[] = [];
 
-  @state()
-  private currentRobotCommentsPatchSet?: PatchSetNum;
-
   /**
    * This can be a string only for plugin provided tabs.
    */
@@ -373,22 +366,12 @@ export class GrChangeView extends LitElement {
   unresolvedOnly = true;
 
   @state()
-  private showAllRobotComments = false;
-
-  @state()
-  private showRobotCommentsButton = false;
-
-  @state()
   draftCount = 0;
 
   private throttledToggleChangeStar?: (e: KeyboardEvent) => void;
 
   @state()
   private showChecksTab = false;
-
-  // visible for testing
-  @state()
-  showFindingsTab = false;
 
   @state()
   private isViewCurrent = false;
@@ -592,17 +575,6 @@ export class GrChangeView extends LitElement {
       () => this.getChecksModel().aPluginHasRegistered$,
       b => {
         this.showChecksTab = b;
-      }
-    );
-    subscribe(
-      this,
-      () =>
-        combineLatest([
-          this.getConfigModel().enableRobotComments$,
-          this.getCommentsModel().robotCommentCount$,
-        ]),
-      ([enableRobotComments, count]) => {
-        this.showFindingsTab = enableRobotComments && count > 0;
       }
     );
     subscribe(
@@ -1131,9 +1103,6 @@ export class GrChangeView extends LitElement {
         .patch-set-dropdown {
           margin: var(--spacing-m) 0 0 var(--spacing-m);
         }
-        .show-robot-comments {
-          margin: var(--spacing-m);
-        }
         .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
@@ -1431,14 +1400,6 @@ export class GrChangeView extends LitElement {
             </paper-tab>
           `
         )}
-        ${when(
-          this.showFindingsTab,
-          () => html`
-            <paper-tab data-name=${Tab.FINDINGS} @click=${this.onPaperTabClick}>
-              <span>Findings</span>
-            </paper-tab>
-          `
-        )}
       </paper-tabs>
     `;
   }
@@ -1447,8 +1408,7 @@ export class GrChangeView extends LitElement {
     return html`
       <section class="tabContent">
         ${this.renderFilesTab()} ${this.renderCommentsTab()}
-        ${this.renderChecksTab()} ${this.renderFindingsTab()}
-        ${this.renderPluginTab()}
+        ${this.renderChecksTab()} ${this.renderPluginTab()}
       </section>
     `;
   }
@@ -1503,7 +1463,6 @@ export class GrChangeView extends LitElement {
       <gr-thread-list
         .threads=${this.commentThreads}
         .commentTabState=${this.tabState}
-        only-show-robot-comments-with-human-reply
         .unresolvedOnly=${this.unresolvedOnly}
         .scrollCommentId=${this.scrollCommentId}
         show-comment-context
@@ -1516,36 +1475,6 @@ export class GrChangeView extends LitElement {
     return html`
       <h3 class="assistive-tech-only">Checks</h3>
       <gr-checks-tab id="checksTab" .tabState=${this.tabState}></gr-checks-tab>
-    `;
-  }
-
-  private renderFindingsTab() {
-    if (this.activeTab !== Tab.FINDINGS) return nothing;
-    if (!this.showFindingsTab) return nothing;
-    const robotCommentThreads = this.computeRobotCommentThreads();
-    const robotCommentsPatchSetDropdownItems =
-      this.computeRobotCommentsPatchSetDropdownItems();
-    return html`
-      <gr-dropdown-list
-        class="patch-set-dropdown"
-        .items=${robotCommentsPatchSetDropdownItems}
-        .value=${this.currentRobotCommentsPatchSet}
-        @value-change=${this.handleRobotCommentPatchSetChanged}
-      >
-      </gr-dropdown-list>
-      <gr-thread-list .threads=${robotCommentThreads} hide-dropdown>
-      </gr-thread-list>
-      ${when(
-        this.showRobotCommentsButton,
-        () => html`
-          <gr-button
-            class="show-robot-comments"
-            @click=${this.toggleShowRobotComments}
-          >
-            ${this.showAllRobotComments ? 'Show Less' : 'Show More'}
-          </gr-button>
-        `
-      )}
     `;
   }
 
@@ -1755,76 +1684,6 @@ export class GrChangeView extends LitElement {
     return false;
   }
 
-  // Private but used in tests.
-  robotCommentCountPerPatchSet(threads: CommentThread[]) {
-    return threads.reduce((robotCommentCountMap, thread) => {
-      const comments = thread.comments;
-      const robotCommentsCount = comments.reduce(
-        (acc, comment) => (isRobot(comment) ? acc + 1 : acc),
-        0
-      );
-      if (comments[0].patch_set)
-        robotCommentCountMap[`${comments[0].patch_set}`] =
-          (robotCommentCountMap[`${comments[0].patch_set}`] || 0) +
-          robotCommentsCount;
-      return robotCommentCountMap;
-    }, {} as {[patchset: string]: number});
-  }
-
-  // Private but used in tests.
-  computeText(
-    patch: RevisionInfo | EditRevisionInfo,
-    commentThreads: CommentThread[]
-  ) {
-    const commentCount = this.robotCommentCountPerPatchSet(commentThreads);
-    const commentCnt = commentCount[patch._number] || 0;
-    if (commentCnt === 0) return `Patchset ${patch._number}`;
-    return `Patchset ${patch._number} (${pluralize(commentCnt, 'finding')})`;
-  }
-
-  private computeRobotCommentsPatchSetDropdownItems() {
-    if (!this.change || !this.commentThreads || !this.change.revisions)
-      return [];
-
-    return Object.values(this.change.revisions)
-      .filter(patch => patch._number !== EDIT)
-      .map(patch => {
-        return {
-          text: this.computeText(patch, this.commentThreads!),
-          value: patch._number,
-        };
-      })
-      .sort((a, b) => (b.value as number) - (a.value as number));
-  }
-
-  private handleRobotCommentPatchSetChanged(e: CustomEvent<{value: string}>) {
-    const patchSet = Number(e.detail.value) as PatchSetNum;
-    if (patchSet === this.currentRobotCommentsPatchSet) return;
-    this.currentRobotCommentsPatchSet = patchSet;
-  }
-
-  private toggleShowRobotComments() {
-    this.showAllRobotComments = !this.showAllRobotComments;
-  }
-
-  // Private but used in tests.
-  computeRobotCommentThreads() {
-    if (!this.commentThreads || !this.currentRobotCommentsPatchSet) return [];
-    const threads = this.commentThreads.filter(thread => {
-      const comments = thread.comments || [];
-      return (
-        comments.length &&
-        isRobot(comments[0]) &&
-        comments[0].patch_set === this.currentRobotCommentsPatchSet
-      );
-    });
-    this.showRobotCommentsButton = threads.length > ROBOT_COMMENTS_LIMIT;
-    return threads.slice(
-      0,
-      this.showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT
-    );
-  }
-
   private computeTotalCommentCounts() {
     const unresolvedCount = this.change?.unresolved_comment_count ?? 0;
     const draftCount = this.draftCount;
@@ -2014,14 +1873,6 @@ export class GrChangeView extends LitElement {
     this.allPatchSets = computeAllPatchSets(this.change);
     if (!this.change) return;
     this.labelsChanged(oldChange?.labels, this.change.labels);
-    if (
-      this.change.current_revision &&
-      this.change.revisions &&
-      this.change.revisions[this.change.current_revision]
-    ) {
-      this.currentRobotCommentsPatchSet =
-        this.change.revisions[this.change.current_revision]._number;
-    }
   }
 
   /**

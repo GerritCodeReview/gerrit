@@ -9,8 +9,6 @@ import {
   NumericChangeId,
   RevisionId,
   UrlEncodedCommentId,
-  RobotCommentInfo,
-  PathToRobotCommentsInfoMap,
   AccountInfo,
   DraftInfo,
   Comment,
@@ -74,8 +72,6 @@ import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interfa
 export interface CommentState {
   /** undefined means 'still loading' */
   comments?: {[path: string]: CommentInfo[]};
-  /** undefined means 'still loading' */
-  robotComments?: {[path: string]: RobotCommentInfo[]};
   // All drafts are DraftInfo objects and have `state` state set.
   /** undefined means 'still loading' */
   drafts?: {[path: string]: DraftInfo[]};
@@ -106,7 +102,6 @@ export interface CommentState {
 
 const initialState: CommentState = {
   comments: undefined,
-  robotComments: undefined,
   drafts: undefined,
   portedComments: undefined,
   portedDrafts: undefined,
@@ -165,19 +160,6 @@ export function updateComment(
     }
   }
   throw new Error('Comment to be updated does not exist');
-}
-
-// Private but used in tests.
-export function setRobotComments(
-  state: CommentState,
-  robotComments?: {
-    [path: string]: RobotCommentInfo[];
-  }
-): CommentState {
-  if (deepEqual(robotComments, state.robotComments)) return state;
-  const nextState = {...state};
-  nextState.robotComments = addPath(robotComments) || {};
-  return nextState;
 }
 
 // Private but used in tests.
@@ -291,24 +273,12 @@ export class CommentsModel extends Model<CommentState> {
   public readonly commentsLoading$ = select(
     this.state$,
     commentState =>
-      commentState.comments === undefined ||
-      commentState.robotComments === undefined ||
-      commentState.drafts === undefined
+      commentState.comments === undefined || commentState.drafts === undefined
   );
 
   public readonly comments$ = select(
     this.state$,
     commentState => commentState.comments
-  );
-
-  public readonly robotComments$ = select(
-    this.state$,
-    commentState => commentState.robotComments
-  );
-
-  public readonly robotCommentCount$ = select(
-    this.robotComments$,
-    robotComments => Object.values(robotComments ?? {}).flat().length
   );
 
   public readonly drafts$ = select(
@@ -416,7 +386,6 @@ export class CommentsModel extends Model<CommentState> {
     commentState =>
       new ChangeComments(
         commentState.comments,
-        commentState.robotComments,
         commentState.drafts,
         commentState.portedComments,
         commentState.portedDrafts
@@ -534,16 +503,13 @@ export class CommentsModel extends Model<CommentState> {
             if (!changeNum) return of([undefined, undefined, undefined]);
             return forkJoin([
               this.restApiService.getDiffComments(changeNum),
-              this.restApiService.getDiffRobotComments(changeNum),
               this.restApiService.getDiffDrafts(changeNum),
             ]);
           })
         )
-        .subscribe(([comments, robotComments, drafts]) => {
-          this.reportRobotCommentStats(robotComments);
+        .subscribe(([comments, drafts]) => {
           this.modifyState(s => {
             s = setComments(s, comments);
-            s = setRobotComments(s, robotComments);
             return setDrafts(s, drafts);
           });
         })
@@ -596,34 +562,6 @@ export class CommentsModel extends Model<CommentState> {
   // visible for testing
   modifyState(reducer: (state: CommentState) => CommentState) {
     this.setState(reducer({...this.getState()}));
-  }
-
-  private reportRobotCommentStats(obj?: PathToRobotCommentsInfoMap) {
-    if (!obj) return;
-    const comments = Object.values(obj).flat();
-    if (comments.length === 0) return;
-    const ids = comments.map(c => c.robot_id);
-    const latestPatchset = comments.reduce(
-      (latestPs, comment) =>
-        Math.max(latestPs, (comment?.patch_set as number) ?? 0),
-      0
-    );
-    const commentsLatest = comments.filter(c => c.patch_set === latestPatchset);
-    const commentsFixes = comments
-      .map(c => c.fix_suggestions?.length ?? 0)
-      .filter(l => l > 0);
-    const details = {
-      firstId: ids[0],
-      ids: [...new Set(ids)],
-      count: comments.length,
-      countLatest: commentsLatest.length,
-      countFixes: commentsFixes.length,
-    };
-    this.reporting.reportInteraction(
-      Interaction.ROBOT_COMMENTS_STATS,
-      details,
-      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
-    );
   }
 
   private reportCommentStats(

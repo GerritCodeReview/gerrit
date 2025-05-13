@@ -110,7 +110,7 @@ Controls whether to activate the delete accounts functionality.
 If `true`, then users with permission can delete accounts via the web UI or via the
 link:rest-api-accounts.html#delete-account][REST].
 +
-By default, `true`.
+By default, `false` if <<auth.type, auth.type>> is `LDAP`; otherwise `true`.
 
 [[accounts.caseInsensitiveLocalPart]]accounts.caseInsensitiveLocalPart::
 +

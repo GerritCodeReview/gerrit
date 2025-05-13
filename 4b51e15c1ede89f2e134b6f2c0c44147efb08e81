@@ -16,6 +16,24 @@
       "message": "Is this accurate? I believe this only disables the persistence, the in memory cache is still active? Perhaps this should be renamed to something that indicates this better?",
       "revId": "4b51e15c1ede89f2e134b6f2c0c44147efb08e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44bbe0a9_2b2f0fcf",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-13T05:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8d35cbf_e762ae87",
+      "revId": "4b51e15c1ede89f2e134b6f2c0c44147efb08e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

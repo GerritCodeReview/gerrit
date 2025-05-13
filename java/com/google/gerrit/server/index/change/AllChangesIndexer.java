@@ -247,7 +247,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
-      return reindexProjectSlice(
+      return new ProjectSliceIndexer(
           indexer,
           ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
           done,
@@ -256,11 +256,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       logger.atSevere().log("%s", e.getMessage());
       return null;
     }
-  }
-
-  public Callable<Void> reindexProjectSlice(
-      ChangeIndexer indexer, ProjectSlice projectSlice, Task done, Task failed) {
-    return new ProjectSliceIndexer(indexer, projectSlice, done, failed);
   }
 
   private class ProjectSliceIndexer implements Callable<Void> {
@@ -370,7 +365,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     final AtomicInteger changeCount = new AtomicInteger(0);
     final AtomicInteger projectsFailed = new AtomicInteger(0);
     final List<ListenableFuture<?>> sliceIndexerFutures = new ArrayList<>();
-    final List<ListenableFuture<?>> sliceCreationFutures = new ArrayList<>();
     VolatileTask projTask = mpm.beginVolatileSubTask("project-slices");
     Task slicingProjects;
 
@@ -384,8 +378,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       Set<Project.NameKey> projects = Sets.difference(projectCache.all(), projectsToSkip);
       int projectCount = projects.size();
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
+      List<ListenableFuture<?>> sliceCreationFutures = new ArrayList<>(projects.size());
       for (Project.NameKey name : projects) {
-        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name, notifyListeners)));
+        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
       }
 
       try {
@@ -416,11 +411,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private class ProjectSliceCreator implements Callable<Void> {
       private final Project.NameKey name;
-      private final boolean doNotifyListeners;
 
-      public ProjectSliceCreator(Project.NameKey name, boolean notifyListeners) {
+      public ProjectSliceCreator(Project.NameKey name) {
         this.name = name;
-        this.doNotifyListeners = notifyListeners;
       }
 
       @Override
@@ -446,12 +439,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               if (reuseExistingDocuments) {
                 indexer =
                     indexerFactory.create(
-                        executor, index, stalenessCheckerFactory.create(index), doNotifyListeners);
+                        executor, index, stalenessCheckerFactory.create(index), notifyListeners);
               } else {
-                indexer = indexerFactory.create(executor, index, doNotifyListeners);
+                indexer = indexerFactory.create(executor, index, notifyListeners);
               }
               ListenableFuture<?> future =
-                  executor.submit(reindexProjectSlice(indexer, projectSlice, doneTask, failedTask));
+                  executor.submit(
+                      new ProjectSliceIndexer(indexer, projectSlice, doneTask, failedTask));
               String description = "project " + name + " (" + slice + "/" + slices + ")";
               addErrorListener(future, description, projTask, ok);
               sliceIndexerFutures.add(future);

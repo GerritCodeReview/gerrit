@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.extensions.client.AuthType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
@@ -25,8 +26,9 @@ public class AccountConfig {
   private final String[] caseInsensitiveLocalParts;
 
   @Inject
-  AccountConfig(@GerritServerConfig Config cfg) {
-    enableDelete = cfg.getBoolean("accounts", "enableDelete", true);
+  AccountConfig(@GerritServerConfig Config cfg, AuthConfig authConfig) {
+    enableDelete =
+        cfg.getBoolean("accounts", "enableDelete", authConfig.getAuthType() != AuthType.LDAP);
     caseInsensitiveLocalParts = cfg.getStringList("accounts", null, "caseInsensitiveLocalPart");
   }
 

@@ -400,6 +400,9 @@ export const grRestApiMock: RestApiService = {
   createSubmitRequirement(): Promise<SubmitRequirementInfo | undefined> {
     return Promise.resolve(undefined);
   },
+  updateSubmitRequirement(): Promise<SubmitRequirementInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
   deleteSubmitRequirement(): Promise<Response> {
     return Promise.resolve(new Response());
   },

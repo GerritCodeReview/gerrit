@@ -22,6 +22,30 @@
       },
       "revId": "146ef1236f060ef6e12e8535d655761ec526e2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1591ac_a4a15777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-13T11:02:14Z",
+      "side": 1,
+      "message": "No it wouldn\u0027t defeat the sense of slices: we have one thread per slice and this remains the same. The fields you mention are used to avoid submitting the same change twice for (async) reindexing. `AllChangesIndexer` doesn\u0027t use async reindexing methods of the `ChangeIndexer` and even if it would there would be nothing bad if only one instance of the `ChangeIndexer` would be used.",
+      "parentUuid": "d7ed484d_27ded2ab",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "146ef1236f060ef6e12e8535d655761ec526e2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

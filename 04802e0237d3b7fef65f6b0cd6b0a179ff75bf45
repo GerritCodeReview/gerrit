@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07a0ea7e_1f1d8d67",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-13T08:41:09Z",
+      "side": 1,
+      "message": "asdf",
+      "range": {
+        "startLine": 64,
+        "startChar": 21,
+        "endLine": 64,
+        "endChar": 29
+      },
+      "revId": "04802e0237d3b7fef65f6b0cd6b0a179ff75bf45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

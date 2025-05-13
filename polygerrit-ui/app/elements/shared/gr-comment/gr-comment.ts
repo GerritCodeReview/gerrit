@@ -1558,6 +1558,7 @@ export class GrComment extends LitElement {
   async discard() {
     this.messageText = '';
     await this.save();
+    this.autoSaving;
   }
 
   async convertToCommentInputAndOrDiscard(): Promise<CommentInput | undefined> {

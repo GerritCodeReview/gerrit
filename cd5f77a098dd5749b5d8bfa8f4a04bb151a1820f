@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff7d1a76_00fd1c68",
+        "filename": "java/com/google/gerrit/server/config/DefaultBooleanProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-14T14:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f696ca1e_55e6a4b6",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 21
+      },
+      "revId": "cd5f77a098dd5749b5d8bfa8f4a04bb151a1820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f061224_a48a080f",
@@ -65,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c72b96_1e7e0296",
+        "filename": "java/com/google/gerrit/server/config/DefaultBooleanProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-14T14:11:39Z",
+      "side": 1,
+      "message": "That\u0027s because when com.google.common was written there was no java.util.Optional in Java yet. Actually com.google.common invented com.google.common.base.Optional and because it was good it was taken over into Java. Not sure why Enums.getIfPresent was not adapted to return java.util.Optional (probably to not break existing callers).",
+      "parentUuid": "6f061224_a48a080f",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 35
+      },
+      "revId": "cd5f77a098dd5749b5d8bfa8f4a04bb151a1820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c8c97ba_ff0540f0",
@@ -78,6 +126,30 @@
       "writtenOn": "2025-05-14T11:55:13Z",
       "side": 1,
       "message": "do we ever expect there to be more than one value?",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "cd5f77a098dd5749b5d8bfa8f4a04bb151a1820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0410cf3_4527c303",
+        "filename": "java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-14T14:11:39Z",
+      "side": 1,
+      "message": "Having more than one value here happens when the admin sets multiple default values for the same config parameter, e.g. like this:\n\n```\n[repository \"*\"]\n  defaultConfig \u003d receive.rejectImplicitMerges\u003dtrue\n  defaultConfig \u003d receive.rejectImplicitMerges\u003dfalse\n```\n\nAdded a test for this.",
+      "parentUuid": "9c8c97ba_ff0540f0",
       "range": {
         "startLine": 79,
         "startChar": 12,

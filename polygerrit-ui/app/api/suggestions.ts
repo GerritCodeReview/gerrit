@@ -67,6 +67,37 @@ export declare interface SuggestionsProvider {
    * List of supported file extensions. If undefined, all file extensions supported.
    */
   supportedFileExtensions?: string[];
+  /**
+   * Sends feedback on autocompletion suggestions.
+   * This method allows the plugin to report which suggestions were accepted or
+   * rejected by the user, which can be used for improving future suggestions.
+   */
+  sendAutocompleteFeedback?(feedbackEntries: SuggestionFeedbackEntry[]): void;
+  /**
+   * Sends feedback on 'suggest fix' (code repair) suggestions.
+   * This method allows the plugin to report which suggestions were accepted or
+   * rejected by the user, which can be used for improving future suggestions.
+   *
+   */
+  sendSuggestFixFeedback?(feedbackEntries: SuggestionFeedbackEntry[]): void;
+}
+
+/**
+ * Represents a 128-bit unique identifier for a suggestion, used for tracking feedback.
+ * The ID is split into two 64-bit BigInt components.
+ */
+export declare interface Feedback {
+  /** The least significant 64 bits of the 128-bit identifier. */
+  id1: bigint;
+  /** The most significant 64 bits of the 128-bit identifier. */
+  id2: bigint;
+}
+
+export declare interface SuggestionFeedbackEntry {
+  /** The unique identifier for the suggestion. */
+  feedbackId: Feedback;
+  /** True if the suggestion was accepted by the user, false otherwise. */
+  accepted: boolean;
 }
 
 export declare interface AutocompleteCommentResponse {
@@ -74,6 +105,7 @@ export declare interface AutocompleteCommentResponse {
   completion?: string;
   modelVersion?: string;
   outcome?: number;
+  feedback?: Feedback;
 }
 
 export declare interface SuggestCodeResponse {

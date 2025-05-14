@@ -48,6 +48,7 @@ public class ChangeDataTest {
     cd.setPatchSets(ImmutableList.of(ps1, ps2));
     PatchSet curr2 = cd.currentPatchSet();
     assertThat(curr2).isNotSameInstanceAs(curr1);
+    // FIx a speling mistake.
   }
 
   @Test

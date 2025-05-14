@@ -681,7 +681,7 @@ public class ChangeData {
 
   public Change.Id virtualId() {
     if (virtualId == null) {
-      return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId(), legacyId);
+      return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
     }
     return virtualId;
   }
@@ -1339,6 +1339,16 @@ public class ChangeData {
       }
     }
     return parentCount > 1;
+  }
+
+  @Nullable
+  public Boolean hasParents() {
+    if (parentCount == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return parentCount > 0;
   }
 
   public Set<Account.Id> editsByUser() {

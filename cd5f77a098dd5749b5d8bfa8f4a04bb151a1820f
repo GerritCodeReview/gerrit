@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f696ca1e_55e6a4b6",
+        "filename": "java/com/google/gerrit/server/config/DefaultBooleanProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-14T11:55:13Z",
+      "side": 1,
+      "message": "none",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6d5cfc5b_d3805304",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/config/DefaultBooleanProjectConfig.java",
+              "range": {
+                "startLine": 92,
+                "startChar": 0,
+                "endLine": 93,
+                "endChar": 0
+              },
+              "replacement": "    // Check that none of the parsed parts is empty.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cd5f77a098dd5749b5d8bfa8f4a04bb151a1820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f061224_a48a080f",
+        "filename": "java/com/google/gerrit/server/config/DefaultBooleanProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-14T11:55:13Z",
+      "side": 1,
+      "message": "why is this Optional different?",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 35
+      },
+      "revId": "cd5f77a098dd5749b5d8bfa8f4a04bb151a1820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c8c97ba_ff0540f0",
+        "filename": "java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-14T11:55:13Z",
+      "side": 1,
+      "message": "do we ever expect there to be more than one value?",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "cd5f77a098dd5749b5d8bfa8f4a04bb151a1820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

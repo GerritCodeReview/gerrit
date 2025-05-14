@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -84,6 +86,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final Set<CacheOptions> options;
   private final boolean pruneOnStartup;
   private final Schedule schedule;
+  private final AtomicBoolean isDiskCacheReadOnly;
 
   @Inject
   H2CacheFactory(
@@ -93,7 +96,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       @Nullable @CacheCleanupExecutor ScheduledExecutorService cleanupExecutor,
       @Nullable @CacheStoreExecutor ExecutorService storeExecutor,
       @Nullable @CacheDir Path cacheDir,
-      Set<CacheOptions> options) {
+      Set<CacheOptions> options,
+      @Named("DiskCacheReadOnly") AtomicBoolean isDiskCacheReadOnly) {
     super(memCacheFactory, cfg, cacheDir);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
@@ -107,6 +111,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     this.executor = storeExecutor;
     this.cleanup = cleanupExecutor;
     this.options = options;
+    this.isDiskCacheReadOnly = isDiskCacheReadOnly;
   }
 
   @Override
@@ -245,7 +250,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         expireAfterWrite,
         refreshAfterWrite,
         options.contains(CacheOptions.BUILD_BLOOM_FILTER),
-        options.contains(CacheOptions.TRACK_LAST_ACCESS));
+        options.contains(CacheOptions.TRACK_LAST_ACCESS),
+        isDiskCacheReadOnly);
   }
 
   private boolean has(String name, String var) {

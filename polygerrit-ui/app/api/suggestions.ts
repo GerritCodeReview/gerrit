@@ -69,11 +69,20 @@ export declare interface SuggestionsProvider {
   supportedFileExtensions?: string[];
 }
 
+// A 128-bit ID unique to each Choose-Feedback pair 
+export declare interface Feedback {
+ // least significant 64 bits
+ id1: bigint;
+ // most significant 64 bits
+ id2: bigint;
+}
+
 export declare interface AutocompleteCommentResponse {
   responseCode: ResponseCode;
   completion?: string;
   modelVersion?: string;
   outcome?: number;
+  feedback?: Feedback; 
 }
 
 export declare interface SuggestCodeResponse {

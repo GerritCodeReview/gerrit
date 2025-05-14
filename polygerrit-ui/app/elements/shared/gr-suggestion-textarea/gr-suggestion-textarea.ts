@@ -116,6 +116,10 @@ export class GrSuggestionTextarea extends LitElement {
 
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
+  @state() private isDragging = false;
+
+  @state() private allowMarkdownBase64ImagesInComments = false;
+
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -141,6 +145,10 @@ export class GrSuggestionTextarea extends LitElement {
 
   constructor() {
     super();
+    this.addEventListener('dragenter', this.handleDragEnter);
+    this.addEventListener('dragover', this.handleDragOver);
+    this.addEventListener('dragleave', this.handleDragLeave);
+    this.addEventListener('drop', this.handleDrop);
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
@@ -151,6 +159,13 @@ export class GrSuggestionTextarea extends LitElement {
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().allowMarkdownBase64ImagesInComments$,
+      allow => {
+        this.allowMarkdownBase64ImagesInComments = allow;
       }
     );
     this.shortcuts.addLocal({key: Key.UP}, e => this.handleUpKey(e), {
@@ -245,6 +260,13 @@ export class GrSuggestionTextarea extends LitElement {
           width: 100%;
           white-space: pre-wrap;
         }
+        :host {
+          display: block;
+        }
+        :host([data-dragging]) {
+          border: 2px dashed var(--border-color);
+          background-color: var(--background-color-secondary);
+        }
       `,
     ];
   }
@@ -307,6 +329,13 @@ export class GrSuggestionTextarea extends LitElement {
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
       this.handleTextChanged();
+    }
+    if (changedProperties.has('isDragging')) {
+      if (this.isDragging) {
+        this.setAttribute('data-dragging', '');
+      } else {
+        this.removeAttribute('data-dragging');
+      }
     }
   }
 
@@ -685,6 +714,58 @@ export class GrSuggestionTextarea extends LitElement {
 
   isTextareaFocused() {
     return !!this.textarea?.isFocused;
+  }
+
+  private handleDragEnter(e: DragEvent) {
+    if (!this.allowMarkdownBase64ImagesInComments) return;
+    e.preventDefault();
+    this.isDragging = true;
+  }
+
+  private handleDragOver(e: DragEvent) {
+    if (!this.allowMarkdownBase64ImagesInComments) return;
+    e.preventDefault();
+    e.dataTransfer!.dropEffect = 'copy';
+  }
+
+  private handleDragLeave(e: DragEvent) {
+    if (!this.allowMarkdownBase64ImagesInComments) return;
+    e.preventDefault();
+    this.isDragging = false;
+  }
+
+  private async handleDrop(e: DragEvent) {
+    if (!this.allowMarkdownBase64ImagesInComments) return;
+    e.preventDefault();
+    this.isDragging = false;
+
+    const files = e.dataTransfer?.files;
+    if (!files?.length) return;
+
+    const file = files[0];
+    if (!file.type.startsWith('image/')) {
+      console.warn('Only image files are supported');
+      return;
+    }
+
+    try {
+      const base64 = await this.fileToBase64(file);
+      const imageMarkdown = `![${file.name}](${base64})`;
+
+      // Add the image markdown to the text
+      this.text = this.text ? `${this.text}\n${imageMarkdown}` : imageMarkdown;
+    } catch (err) {
+      console.error('Error processing dropped image:', err);
+    }
+  }
+
+  private fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
 }
 

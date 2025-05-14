@@ -6751,15 +6751,15 @@ configuration.
 When using a shared filesystem, such as NFS, the JGit settings need
 to be adjusted for being tolerant to the filesystem attributes caching.
 The example below shows a typical setting with an NFS v4 mount
-with default caching settings.
+with default caching settings. For details see the JGit documentation
+for the
+link:https://github.com/eclipse-jgit/jgit/blob/master/Documentation/config-options.md[core.trustXXX options,role=external,window=_blank].
 
 Sample `etc/jgit.config` file:
 ----
 [core]
     supportsAtomicFileCreation = false
-    trustFolderStat = false
-    trustLooseRefStat = after_open
-    trustPackedRefsStat = after_open
+    trustStat = after_open
 ----
 
 [[jgit-gc]]

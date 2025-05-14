@@ -36,6 +36,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class ChangeDataTest {
   @Mock private ChangeNotes changeNotesMock;
 
+  // Test
+
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
     Project.NameKey project = Project.nameKey("project");

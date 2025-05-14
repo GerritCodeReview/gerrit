@@ -69,6 +69,30 @@
       },
       "revId": "71016c04dd12f76d9b57d1ef1bbcc6486fb553fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88bbaf42_b9d8e6bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-14T09:37:32Z",
+      "side": 1,
+      "message": "Fair point, but we already have the same issue for other configs:\n\n* label and submit requirement definitions in child projects are ignored if the parent disallows overriding them\n* permissions in child projects are ignored if they are blocked in a parent project\n* the code-owners plugin already has FORCED as value for some of its congifs\n\nSo while this is not perfect, it\u0027s consistent with what we already have.\nI added a note about this to the commit message.\n\nTo mitigate the concern I added debug logs, so that onduty can find that there are configured defaults by doing a trace.\n\nHaving looked at the code-owners plugin I notified that we use \u0027FORCED\u0027 there, so for consistency I changed \u0027ENFORCED\u0027 to \u0027FORCED\u0027 here.",
+      "parentUuid": "4a0e9e4b_6f4da64e",
+      "range": {
+        "startLine": 21,
+        "startChar": 53,
+        "endLine": 22,
+        "endChar": 50
+      },
+      "revId": "71016c04dd12f76d9b57d1ef1bbcc6486fb553fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

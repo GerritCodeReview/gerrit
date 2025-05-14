@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10fbd3a8_0e60c38a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-14T12:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e55f15f2_13c23d44",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "ee90b4470a25d90fae140f51fcb1fba075f4794f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d956d40e_5bfcaff9",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-05-14T10:30:12Z",
       "side": 1,
       "message": "The (Direct)AuthTokenAccessor code from the follow-up change belongs to this change IMHO.",
+      "revId": "ee90b4470a25d90fae140f51fcb1fba075f4794f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7b61871_d5cbc92c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-14T12:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d956d40e_5bfcaff9",
       "revId": "ee90b4470a25d90fae140f51fcb1fba075f4794f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

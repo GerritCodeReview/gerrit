@@ -792,7 +792,8 @@ export class GrRouter implements Finalizable, NavigationService {
     this.mapRoute(
       RoutePattern.REPO_SUBMIT_REQUIREMENTS,
       'handleRepoSubmitRequirementsRoute',
-      ctx => this.handleRepoSubmitRequirementsRoute(ctx)
+      ctx => this.handleRepoSubmitRequirementsRoute(ctx),
+      true
     );
 
     this.mapRoute(RoutePattern.BRANCH_LIST, 'handleBranchListRoute', ctx =>

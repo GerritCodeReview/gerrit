@@ -70,6 +70,52 @@
       },
       "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae6750b_4f07168c",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:53:02Z",
+      "side": 1,
+      "message": "Why do we have two different `AuthToken` loading implementations: one here and one in the `DirectAuthTokenAccessor`? Why is this cache loader not delegating loading to the `DirectAuthTokenAccessor`?",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10292665_8e8a871d",
+        "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:53:02Z",
+      "side": 1,
+      "message": "This same fallback already exists in the `DirectAuthTokenAccessor`. If the cache would delegate to the `DirectAuthTokenAccessor` then we wouldn\u0027t need to repeat the same code here.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

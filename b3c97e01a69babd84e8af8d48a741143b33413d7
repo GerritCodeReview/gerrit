@@ -58,6 +58,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89ab905_0ba795c9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T08:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e2fd9ad_c4fd14f1",
+      "range": {
+        "startLine": 255,
+        "startChar": 57,
+        "endLine": 255,
+        "endChar": 71
+      },
+      "revId": "b3c97e01a69babd84e8af8d48a741143b33413d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "734d5389_0594a1f4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T08:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08336e03_6416a885",
+      "revId": "b3c97e01a69babd84e8af8d48a741143b33413d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed3f7eb0_df9b0206",
@@ -71,6 +113,30 @@
       "writtenOn": "2025-05-15T07:51:02Z",
       "side": 1,
       "message": "How is this test different from the one in line 303 above?\nThat test searches for \"first\" to match an account that has \"First1 Last1\" as its full name (see l. 75).",
+      "range": {
+        "startLine": 328,
+        "startChar": 43,
+        "endLine": 328,
+        "endChar": 49
+      },
+      "revId": "b3c97e01a69babd84e8af8d48a741143b33413d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37f7da6e_c466f605",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T08:51:41Z",
+      "side": 1,
+      "message": "Oh, you are right. I introduce new test. Because this was broken only for recent reviewers - suggestion works for searching all users.",
+      "parentUuid": "ed3f7eb0_df9b0206",
       "range": {
         "startLine": 328,
         "startChar": 43,
@@ -120,6 +186,54 @@
       "range": {
         "startLine": 329,
         "startChar": 4,
+        "endLine": 333,
+        "endChar": 18
+      },
+      "revId": "b3c97e01a69babd84e8af8d48a741143b33413d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21e0ada2_e1c8fc90",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T08:51:41Z",
+      "side": 1,
+      "message": "I rewrote whole test.",
+      "parentUuid": "aab12d97_b1731651",
+      "range": {
+        "startLine": 329,
+        "startChar": 4,
+        "endLine": 333,
+        "endChar": 18
+      },
+      "revId": "b3c97e01a69babd84e8af8d48a741143b33413d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61519d7c_33dc58dd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T08:51:41Z",
+      "side": 1,
+      "message": "New test doesn\u0027t pass without the fix",
+      "parentUuid": "12511bcc_c1c88ed7",
+      "range": {
+        "startLine": 328,
+        "startChar": 1,
         "endLine": 333,
         "endChar": 18
       },

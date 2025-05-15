@@ -18,6 +18,82 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4259efa8_fe8a75fb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T11:41:10Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "090e644c_07523c6f",
+      "fixSuggestions": [
+        {
+          "fixId": "9de752b5_b32e33b4",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 484,
+                "startChar": 0,
+                "endLine": 485,
+                "endChar": 0
+              },
+              "replacement": "    const disabledReasonPrefix \u003d `${action} disabled:`;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 487,
+                "startChar": 0,
+                "endLine": 488,
+                "endChar": 0
+              },
+              "replacement": "      return `${disabledReasonPrefix} Saving in progress...`;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 491,
+                "startChar": 0,
+                "endLine": 492,
+                "endChar": 0
+              },
+              "replacement": "      return `${disabledReasonPrefix} Editor is initializing`;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 494,
+                "startChar": 0,
+                "endLine": 495,
+                "endChar": 0
+              },
+              "replacement": "      return `${disabledReasonPrefix} ${buttonType \u003d\u003d\u003d \u0027save\u0027 ? \u0027No changes made\u0027 : \u0027No changes to publish\u0027}`;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 500,
+                "startChar": 0,
+                "endLine": 501,
+                "endChar": 0
+              },
+              "replacement": "    return \u0027Publish your edit. A new patchset will be created.\u0027;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfb64fb2_1941e4bb",
@@ -31,6 +107,42 @@
       "writtenOn": "2025-05-15T11:38:16Z",
       "side": 1,
       "message": "Please fix the whitespace.",
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ce8e3d_5c64ad95",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T11:41:10Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "cfb64fb2_1941e4bb",
+      "fixSuggestions": [
+        {
+          "fixId": "87f8fa42_6df7b5e8",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 500,
+                "startChar": 0,
+                "endLine": 501,
+                "endChar": 0
+              },
+              "replacement": "    return \u0027Publish your edit. A new patchset will be created.\u0027;\n"
+            }
+          ]
+        }
+      ],
       "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

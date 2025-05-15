@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "090e644c_07523c6f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-15T11:38:16Z",
+      "side": 1,
+      "message": "It\u0027d look better if the space was removed here and instead added to the below.",
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb64fb2_1941e4bb",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-15T11:38:16Z",
+      "side": 1,
+      "message": "Please fix the whitespace.",
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Unrelated, but can\u0027t project owners touch submit requirements? shouldn\u0027t this be changed to support that? We have a similar thing in the repo-detail-list where we allow anyone to try and create a branch, but rely on the server to do the ACL check.",
       "revId": "62d26641ccc968d9dfa5fba4e9696cf9afe8280e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "944e8f11_e42c01ef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T13:37:31Z",
+      "side": 1,
+      "message": "Good point, thanks! Resolved in Change 476581",
+      "parentUuid": "ec5431c7_edd29552",
+      "revId": "62d26641ccc968d9dfa5fba4e9696cf9afe8280e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

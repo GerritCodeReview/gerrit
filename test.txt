@@ -1,0 +1,1 @@
+[null,"/Users/patrickmulhall/gerrit/polygerrit-ui/app/gts/.eslintrc.json"]

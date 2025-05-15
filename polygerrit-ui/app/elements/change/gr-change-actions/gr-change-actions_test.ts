@@ -2764,7 +2764,14 @@ suite('gr-change-actions tests', () => {
           const executeChangeActionStub = stubRestApi(
             'executeChangeAction'
           ).callsFake(
-            (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
+            (
+              _num: any,
+              _method: any,
+              _patchNum: any,
+              _endpoint: any,
+              _payload: any,
+              onErr: any
+            ) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
               return Promise.resolve(new Response());
@@ -2792,7 +2799,7 @@ suite('gr-change-actions tests', () => {
         test('revert single change change not reachable', async () => {
           let getChangeCall = 0;
           let errorFired = false;
-          stubRestApi('getChange').callsFake((_, errFn) => {
+          stubRestApi('getChange').callsFake((_: any, errFn: any) => {
             ++getChangeCall;
             if (getChangeCall === 1) {
               return Promise.resolve({

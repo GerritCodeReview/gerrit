@@ -45,19 +45,21 @@ suite('gr-watched-projects-editor tests', () => {
     ] as ProjectWatchInfo[];
 
     stubRestApi('getWatchedProjects').returns(Promise.resolve(projects));
-    suggestionStub = stubRestApi('getSuggestedRepos').callsFake(input => {
-      if (input.startsWith('th')) {
-        return Promise.resolve({
-          'the project': {
-            id: 'the project',
-            state: 'ACTIVE',
-            web_links: [],
-          },
-        });
-      } else {
-        return Promise.resolve({});
+    suggestionStub = stubRestApi('getSuggestedRepos').callsFake(
+      (input: string) => {
+        if (input.startsWith('th')) {
+          return Promise.resolve({
+            'the project': {
+              id: 'the project',
+              state: 'ACTIVE',
+              web_links: [],
+            },
+          });
+        } else {
+          return Promise.resolve({});
+        }
       }
-    });
+    );
 
     element = await fixture(
       html`<gr-watched-projects-editor></gr-watched-projects-editor>`

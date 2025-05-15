@@ -115,7 +115,7 @@ suite('gr-group-audit-log tests', () => {
       await element.updateComplete;
 
       const response = {...new Response(), status: 404};
-      stubRestApi('getGroupAuditLog').callsFake((_group, errFn) => {
+      stubRestApi('getGroupAuditLog').callsFake((_group: any, errFn: any) => {
         if (errFn) errFn(response);
         return Promise.resolve(undefined);
       });

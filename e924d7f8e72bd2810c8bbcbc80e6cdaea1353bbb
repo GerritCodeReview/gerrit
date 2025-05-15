@@ -22,6 +22,30 @@
       },
       "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "251c8aad_ae6562c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-15T10:39:13Z",
+      "side": 1,
+      "message": "Actually, tokens are only used, if `auth.gitBasicAuthPolicy` is either `HTTP` or `HTTP_LDAP`. Only if that is the case, the cache will also be enabled. Other components like the REST API dealing with tokens will however work regardless, but don\u0027t have an effect on authentication, since the tokens will never be used for authentication in that case. This is the same behaviour as for HTTP passwords.",
+      "parentUuid": "7a63c9b3_0489261a",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

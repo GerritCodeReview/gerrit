@@ -3,6 +3,80 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82d4f1c6_e91c23b5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-15T11:41:40Z",
+      "side": 1,
+      "message": "did you verify that this method is recomputed everytime some dependant state changes?\n\nUsually this works better in the `willUpdate` lifecycle and then it\u0027s clear which properties are causing this string to be computed.",
+      "range": {
+        "startLine": 268,
+        "startChar": 14,
+        "endLine": 268,
+        "endChar": 54
+      },
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ba8201b_cb0f33e2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-15T11:41:40Z",
+      "side": 1,
+      "message": "use capitalizeFirstLetter from `string-util`?",
+      "range": {
+        "startLine": 483,
+        "startChar": 19,
+        "endLine": 483,
+        "endChar": 62
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b684c3fd_d62f071a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 44,
+                "startChar": 0,
+                "endLine": 44,
+                "endChar": 0
+              },
+              "replacement": "import {capitalizeFirstLetter} from \u0027../../../utils/string-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 483,
+                "startChar": 0,
+                "endLine": 484,
+                "endChar": 0
+              },
+              "replacement": "    const action \u003d capitalizeFirstLetter(buttonType);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "090e644c_07523c6f",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 1
@@ -143,6 +217,29 @@
           ]
         }
       ],
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b6f73c6_0baaa851",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-15T11:41:40Z",
+      "side": 1,
+      "message": "can you add a screenshot of this?\n\nThis looks fairly big for being the title. UX approval on this might help as well.",
+      "range": {
+        "startLine": 500,
+        "startChar": 4,
+        "endLine": 500,
+        "endChar": 61
+      },
       "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

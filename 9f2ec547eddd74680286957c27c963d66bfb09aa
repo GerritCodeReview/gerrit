@@ -39,6 +39,48 @@
       },
       "revId": "9f2ec547eddd74680286957c27c963d66bfb09aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d0bcf08_ce6fa2fd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T13:52:35Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "00ca04d4_6654e45f",
+      "range": {
+        "startLine": 142,
+        "startChar": 28,
+        "endLine": 142,
+        "endChar": 54
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ec70753e_354ed7ba",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-repo-submit-requirements/gr-repo-submit-requirements.ts",
+              "range": {
+                "startLine": 142,
+                "startChar": 0,
+                "endLine": 143,
+                "endChar": 0
+              },
+              "replacement": "      this.isProjectOwner \u003d !!access?.is_owner;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9f2ec547eddd74680286957c27c963d66bfb09aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

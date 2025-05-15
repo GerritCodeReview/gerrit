@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,9 +24,11 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
@@ -35,6 +38,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.git.ObjectIds;
@@ -1232,6 +1236,136 @@ public class ProjectConfigIT extends AbstractDaemonTest {
         /* newCopyCondition= */ ":foo",
         /* warningMessage= */ "Cannot parse copy condition ':foo' of label Foo (parameter"
             + " 'label.Foo.copyCondition'): line 1:0 no viable alternative at input ':'");
+  }
+
+  @Test
+  public void falseIsTheDefaultForBooleanProjectConfigIfNoDefaultIsConfigured() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=true")
+  public void configureTrueAsDefaultForBooleanProjectConfig() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isTrue();
+
+    // true can be overridden in the project
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.FALSE));
+      u.save();
+    }
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=forced")
+  public void configureForcedAsDefaultForBooleanProjectConfig() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isTrue();
+
+    // forced cannot be overridden in the project
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.FALSE));
+      u.save();
+    }
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
+  public void configureFalseAsDefaultForBooleanProjectConfig() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isFalse();
+
+    // false can be overridden in the project
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE));
+      u.save();
+    }
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=invalid")
+  public void invalidDefaultForBooleanProjectConfigIsIgnored() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isFalse();
+
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE));
+      u.save();
+    }
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isTrue();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "repository.*.defaultConfig",
+      values = {"receive.rejectImplicitMerges=true", "receive.rejectImplicitMerges=false"})
+  public void firstConfigureDefaultForBooleanProjectConfigApplies() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isTrue();
   }
 
   private void testChangingCopyCondition(

@@ -1658,7 +1658,7 @@ By default `true`.
 +
 Allows Base64 encoded images, embedded via Markdown, to be rendered in Gerrit comments.
 +
-This feature addresses the need for teams to share images directly within Gerrit comments. 
+This feature addresses the need for teams to share images directly within Gerrit comments.
 Instead of relying on external image hosting, images are encoded into Base64 strings
 and included in the comment text using Markdown image syntax.
 +
@@ -5252,6 +5252,42 @@ gerrit, move the repository in the alternate basePath, configure basePath for
 this repository and then start Gerrit.
 +
 Path must be absolute.
+
+[[repository.name.defaultConfig]]repository.<name>.defaultConfig::
++
+Sets the default value for boolean project configs:
++
+--
+* link:config-project-config.html#change.privateByDefault[change.privateByDefault]
+* link:config-project-config.html#change.workInProgressByDefault[change.workInProgressByDefault]
+* link:config-project-config.html#receive.createNewChangeForAllNotInTarget[receive.createNewChangeForAllNotInTarget]
+* link:config-project-config.html#receive.enableSignedPush[receive.enableSignedPush]
+* link:config-project-config.html#receive.requireChangeId[receive.requireChangeId]
+* link:config-project-config.html#receive.requireContributorAgreement[receive.requireContributorAgreement]
+* link:config-project-config.html#receive.rejectImplicitMerges[receive.rejectImplicitMerges]
+* link:config-project-config.html#receive.requireSignedOffBy[receive.requireSignedOffBy]
+* link:config-project-config.html#receive.requireSignedPush[receive.requireSignedPush]
+* link:config-project-config.html#reviewer.enableByEmail[reviewer.enableByEmail]
+* link:config-project-config.html#reviewer.skipAddingAuthorAndCommitterAsReviewers[reviewer.skipAddingAuthorAndCommitterAsReviewers]
+* link:config-project-config.html#submit.matchAuthorToCommitterDate[submit.matchAuthorToCommitterDate]
+* link:config-project-config.html#submit.mergeContent[submit.mergeContent]
+* link:config-project-config.html#submit.rejectEmptyCommit[submit.rejectEmptyCommit]
+--
++
+May be specified multiple times.
++
+The values must have the format `<key>=<defaultValue>`, e.g.
+`receive.rejectImplicitMerges=true`.
++
+Allowed default values are:
++
+* `true`: The default value is `true`. Projects may override the default in
+  their project configuration.
+* `forced`: The value is `true` for all projects. Projects cannot override this
+  default in their project configuration (existing configurations for this
+  parameter on project level are ignored).
+* `false`: The default value is `false`. Projects may override the default in
+  their project configuration.
 
 [[repository.name.defaultSubmitType]]repository.<name>.defaultSubmitType::
 +

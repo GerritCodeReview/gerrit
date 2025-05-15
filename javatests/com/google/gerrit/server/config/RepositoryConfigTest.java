@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.nio.file.Path;
@@ -93,6 +94,72 @@ public class RepositoryConfigTest {
         projectFilter,
         RepositoryConfig.DEFAULT_SUBMIT_TYPE_NAME,
         submitType.toString());
+  }
+
+  @Test
+  public void defaultConfigForSpecificFilter() {
+    configureDefaultConfig(
+        "someProject", "receive.rejectImplicitMerges", DefaultBooleanProjectConfig.Value.FORCED);
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("someProject"), BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.FORCED);
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("someOtherProject"), BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+
+    // for another key the default is false
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("someProject"),
+                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+  }
+
+  @Test
+  public void defaultConfigForStartWithFilter() {
+    configureDefaultConfig(
+        "somePath/somePath/*",
+        "receive.rejectImplicitMerges",
+        DefaultBooleanProjectConfig.Value.FORCED);
+    configureDefaultConfig(
+        "somePath/*", "receive.rejectImplicitMerges", DefaultBooleanProjectConfig.Value.FALSE);
+    configureDefaultConfig(
+        "*", "receive.rejectImplicitMerges", DefaultBooleanProjectConfig.Value.TRUE);
+
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("someProject"), BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.TRUE);
+
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("somePath/someProject"),
+                BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("somePath/somePath/someProject"),
+                BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.FORCED);
+
+    // for another key the default is false
+    assertThat(
+            repoCfg.getDefault(
+                Project.nameKey("someProject"),
+                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET))
+        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+  }
+
+  private void configureDefaultConfig(
+      String projectFilter, String key, DefaultBooleanProjectConfig.Value defaultValue) {
+    cfg.setString(
+        RepositoryConfig.SECTION_NAME,
+        projectFilter,
+        RepositoryConfig.DEFAULT_CONFIG_NAME,
+        String.format("%s=%s", key, defaultValue.name()));
   }
 
   @Test

@@ -45,7 +45,9 @@ import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.DefaultBooleanProjectConfig;
 import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
@@ -76,6 +78,7 @@ public class ProjectState {
 
   private final boolean isAllProjects;
   private final boolean isAllUsers;
+  private final RepositoryConfig repositoryConfig;
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
   private final List<CommentLinkInfo> commentLinks;
@@ -93,6 +96,7 @@ public class ProjectState {
 
   @Inject
   public ProjectState(
+      RepositoryConfig repositoryConfig,
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
@@ -100,6 +104,7 @@ public class ProjectState {
       CapabilityCollection.Factory limitsFactory,
       TransferConfig transferConfig,
       @Assisted CachedProjectConfig cachedProjectConfig) {
+    this.repositoryConfig = repositoryConfig;
     this.projectCache = projectCache;
     this.isAllProjects = cachedProjectConfig.getProject().getNameKey().equals(allProjectsName);
     this.isAllUsers = cachedProjectConfig.getProject().getNameKey().equals(allUsersName);
@@ -370,6 +375,12 @@ public class ProjectState {
   }
 
   public boolean is(BooleanProjectConfig config) {
+    DefaultBooleanProjectConfig.Value defaultValue =
+        repositoryConfig.getDefault(getNameKey(), config);
+    if (DefaultBooleanProjectConfig.Value.FORCED.equals(defaultValue)) {
+      return true;
+    }
+
     for (ProjectState s : tree()) {
       switch (s.getProject().getBooleanConfig(config)) {
         case TRUE:
@@ -381,7 +392,11 @@ public class ProjectState {
           continue;
       }
     }
-    return false;
+
+    return switch (defaultValue) {
+      case TRUE, FORCED -> true;
+      case FALSE -> false;
+    };
   }
 
   /** Get all submit requirements for a project, including those from parent projects. */

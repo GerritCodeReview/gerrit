@@ -87,6 +87,7 @@ export class GrCopyClipboard extends LitElement {
         .copyText {
           flex-grow: 1;
           margin-right: var(--spacing-s);
+          width: 100%;
         }
         .hideInput {
           display: none;
@@ -96,6 +97,16 @@ export class GrCopyClipboard extends LitElement {
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
           width: 100%;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+        }
+        textarea#input {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          width: 100%;
+          min-height: 100px;
+          resize: vertical;
           background-color: var(--view-background-color);
           color: var(--primary-text-color);
         }

@@ -52,6 +52,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -252,9 +253,12 @@ public class ReviewerRecommender {
     }
     Account account = accountState.account();
     if (account.isActive()) {
-      if (Strings.isNullOrEmpty(query)
-          || (account.fullName() != null && account.fullName().startsWith(query))
-          || (account.preferredEmail() != null && account.preferredEmail().startsWith(query))) {
+      String lowerCaseQuery = Strings.nullToEmpty(query).toLowerCase(Locale.US);
+      if (Strings.isNullOrEmpty(lowerCaseQuery)
+          || (account.fullName() != null
+              && account.fullName().toLowerCase(Locale.US).startsWith(lowerCaseQuery))
+          || (account.preferredEmail() != null
+              && account.preferredEmail().toLowerCase(Locale.US).startsWith(lowerCaseQuery))) {
         return true;
       }
     }

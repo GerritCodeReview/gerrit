@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7faf1ff7_4b8aaf62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ef0d22ad_b05c318f",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13b3198b_ac700d74",
@@ -161,6 +185,24 @@
       "side": 1,
       "message": "Yes, accounts don\u0027t have to have usernames. I only know of the case, when oauth is being used, but there might be other cases.",
       "parentUuid": "341407cf_8ef50ac2",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade5f3d7_6cc7254c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2cb42527_6d120426",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -418,6 +460,24 @@
       "side": 1,
       "message": "But the current version fits the existing naming better, like the `HashedPassword` class.",
       "parentUuid": "f12fa03f_39419133",
+      "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8721872_98b1ae35",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7662231a_ca547818",
       "revId": "4977def3cdd408945c73e62bb24c4c333b4d2ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

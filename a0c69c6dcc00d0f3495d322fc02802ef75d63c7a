@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bb125ee_69e475a7",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Git",
+      "range": {
+        "startLine": 264,
+        "startChar": 22,
+        "endLine": 264,
+        "endChar": 25
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ca5fa65_f3591965",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Git",
+      "range": {
+        "startLine": 267,
+        "startChar": 18,
+        "endLine": 267,
+        "endChar": 21
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89bcf0cb_ac1bd84c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "An existing HTTP password is still used as a fallback when no auth-token matches.",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d238057c_94685ca1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "With the fallback to the HTTP password?",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9079438_586ef495",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "What is a plain token? Why is this method not named `addToken`?",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "234ec8b2_8049cd80",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "The initialization at line 63 is unnecessary.",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9555af56_05ba6033",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Maybe invert the check and if `tokens` is non-empty return immediately. Then the rest of the code doesn\u0027t need to be indented.",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad7d65e_5671994b",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "```suggestion\n      Optional\u003cAuthToken\u003e legacyHttpPassword \u003d getLegacyHttpPassword(accountId);\n      if (legacyHttpPassword.isPresent()) {\n        return ImmutableList.of(legacyHttpPassword.get());\n      }\n```",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 35
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b4e264_1c74f00d",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "This is unnecessary because `tokens` is already initialized to an empty (immutable) list at the line 63.\nDon\u0027t mix the two ways of creating an immutable list (line 63 the standard Java way) and this line (Guava way).",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ad06e72_81f0ae68",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "```suggestion\n    return List.of();\n```",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d27679_071beff5",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "```suggestion\n// Copyright (C) 2025 The Android Open Source Project\n```",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa2f698_51891395",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "This line shall be inside the `else` block, it makes no sense after an empty `TokenInput` was created at 111.\n\nHowever, I would suggest to delete this line (avoid mutation of the input parameter) and instead use `isNullOrEmpty` at the line 120.",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012336dc_9c3f0510",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteToken.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Does this need to be public?",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fb655f7_0e98fab6",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "Based on the existing REST api classes naming conventions I think this should rather be named `ListTokens`",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f08b5ea_2d404297",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T12:40:55Z",
+      "side": 1,
+      "message": "`ADMINISTRATE_SERVER`?\n\nAlso relate to the same check in the `DeleteToken` class",
+      "range": {
+        "startLine": 67,
+        "startChar": 61,
+        "endLine": 67,
+        "endChar": 75
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

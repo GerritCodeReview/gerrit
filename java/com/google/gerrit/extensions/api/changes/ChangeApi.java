@@ -101,7 +101,7 @@ public interface ChangeApi {
   void abandon(AbandonInput in) throws RestApiException;
 
   default void restore() throws RestApiException {
-    restore(new RestoreInput());
+    restore();
   }
 
   void restore(RestoreInput in) throws RestApiException;

@@ -55,6 +55,9 @@
       "the name 'dom-module' has already been used with this registry at ..."
     ]
   },
+  "resolutions": {
+    "@polymer/polymer": "3.5.1"
+  },
   "license": "Apache-2.0",
   "private": true
 }

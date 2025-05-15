@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b486115a_b42d16d1",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T12:06:01Z",
+      "side": 1,
+      "message": "I added screenshot to commit message.\n\nIf it is @state variable you don\u0027t need willUpdate. We use this pattern in many places.",
+      "parentUuid": "82d4f1c6_e91c23b5",
+      "range": {
+        "startLine": 268,
+        "startChar": 14,
+        "endLine": 268,
+        "endChar": 54
+      },
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ba8201b_cb0f33e2",
@@ -71,6 +95,30 @@
           ]
         }
       ],
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca9a699_36382604",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T12:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ba8201b_cb0f33e2",
+      "range": {
+        "startLine": 483,
+        "startChar": 19,
+        "endLine": 483,
+        "endChar": 62
+      },
       "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -234,6 +282,30 @@
       "writtenOn": "2025-05-15T11:41:40Z",
       "side": 1,
       "message": "can you add a screenshot of this?\n\nThis looks fairly big for being the title. UX approval on this might help as well.",
+      "range": {
+        "startLine": 500,
+        "startChar": 4,
+        "endLine": 500,
+        "endChar": 61
+      },
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c5745f5_9546f107",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-15T12:06:01Z",
+      "side": 1,
+      "message": "This is current title. I used what we already are using.",
+      "parentUuid": "1b6f73c6_0baaa851",
       "range": {
         "startLine": 500,
         "startChar": 4,

@@ -21,10 +21,5 @@
   },
   "devDependencies": {},
   "license": "Apache-2.0",
-  "private": true,
-  "resolutions": {
-    "lodash": "4.17.21",
-    "wct-local": "2.1.6",
-    "launchpad": "git+https://github.com/418sec/launchpad.git#de5aca11dc16a8e530195281c77614bdbb08e7be"
-  }
+  "private": true
 }

@@ -2134,7 +2134,13 @@ suite('gr-repo-detail-list', () => {
       test('fires page-error', async () => {
         const response = {status: 404} as Response;
         stubRestApi('getRepoBranches').callsFake(
-          (_filter, _repo, _reposBranchesPerPage, _offset, errFn) => {
+          (
+            _filter: any,
+            _repo: any,
+            _reposBranchesPerPage: any,
+            _offset: any,
+            errFn: any
+          ) => {
             if (errFn !== undefined) {
               errFn(response);
             }
@@ -2331,7 +2337,13 @@ suite('gr-repo-detail-list', () => {
       test('fires page-error', async () => {
         const response = {status: 404} as Response;
         stubRestApi('getRepoTags').callsFake(
-          (_filter, _repo, _reposTagsPerPage, _offset, errFn) => {
+          (
+            _filter: any,
+            _repo: any,
+            _reposTagsPerPage: any,
+            _offset: any,
+            errFn: any
+          ) => {
             if (errFn !== undefined) {
               errFn(response);
             }

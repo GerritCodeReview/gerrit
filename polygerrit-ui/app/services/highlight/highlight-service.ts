@@ -48,10 +48,10 @@ export const highlightServiceToken =
  */
 export class HighlightService implements Finalizable {
   // visible for testing
-  poolIdle: Set<Worker> = new Set();
+  poolIdle: Set<Worker | undefined> = new Set();
 
   // visible for testing
-  poolBusy: Set<Worker> = new Set();
+  poolBusy: Set<Worker | undefined> = new Set();
 
   // visible for testing
   /** Queue for waiting that a worker becomes available. */
@@ -105,7 +105,7 @@ export class HighlightService implements Finalizable {
    * If there is worker in the idle pool, then return it. Otherwise wait for a
    * worker to become a available.
    */
-  private async requestWorker(): Promise<Worker> {
+  private async requestWorker(): Promise<Worker | undefined> {
     if (this.poolIdle.size > 0) {
       const worker = this.moveIdleToBusy();
       return Promise.resolve(worker);
@@ -138,6 +138,7 @@ export class HighlightService implements Finalizable {
     if (!language || !code) return [];
     if (code.length > CODE_MAX_LENGTH) return [];
     const worker = await this.requestWorker();
+    if (!worker) return [];
     const message: SyntaxWorkerRequest = {
       type: SyntaxWorkerMessageType.REQUEST,
       language,
@@ -152,11 +153,11 @@ export class HighlightService implements Finalizable {
 
   finalize() {
     for (const worker of this.poolIdle) {
-      worker.terminate();
+      worker?.terminate();
     }
     this.poolIdle.clear();
     for (const worker of this.poolBusy) {
-      worker.terminate();
+      worker?.terminate();
     }
     this.poolBusy.clear();
     this.queueForResult.clear();

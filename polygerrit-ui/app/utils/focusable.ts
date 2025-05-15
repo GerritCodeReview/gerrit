@@ -32,7 +32,7 @@ export function* getFocusableElements(
   for (const node of children.filter(
     node => node instanceof HTMLElement || node instanceof SVGElement
   )) {
-    yield* getFocusableElements(node as HTMLElement | SVGElement);
+    yield* getFocusableElements(node);
   }
 }
 
@@ -58,7 +58,7 @@ export function* getFocusableElementsReverse(
   for (const node of children
     .filter(node => node instanceof HTMLElement || node instanceof SVGElement)
     .reverse()) {
-    yield* getFocusableElementsReverse(node as HTMLElement | SVGElement);
+    yield* getFocusableElementsReverse(node);
   }
 
   if (el.matches(FOCUSABLE_QUERY)) {

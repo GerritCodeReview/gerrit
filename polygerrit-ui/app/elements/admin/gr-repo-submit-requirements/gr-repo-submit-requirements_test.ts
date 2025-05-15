@@ -114,7 +114,7 @@ suite('gr-repo-submit-requirements tests', () => {
 
     test('render as admin', async () => {
       await waitEventLoop();
-      element.isAdmin = true;
+      element.isProjectOwner = true;
       await element.updateComplete;
       assert.shadowDom.equal(
         element,
@@ -320,7 +320,7 @@ suite('gr-repo-submit-requirements tests', () => {
 
     test('open edit dialog', async () => {
       await waitEventLoop();
-      element.isAdmin = true;
+      element.isProjectOwner = true;
       await element.updateComplete;
 
       const editButton = queryAndAssert<GrButton>(element, '.editBtn');

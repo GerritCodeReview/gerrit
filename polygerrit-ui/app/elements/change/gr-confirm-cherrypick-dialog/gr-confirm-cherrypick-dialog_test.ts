@@ -82,7 +82,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
   let element: GrConfirmCherrypickDialog;
 
   setup(async () => {
-    stubRestApi('getRepoBranches').callsFake(input => {
+    stubRestApi('getRepoBranches').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve([
           {

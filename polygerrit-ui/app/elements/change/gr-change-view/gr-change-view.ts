@@ -1272,7 +1272,8 @@ export class GrChangeView extends LitElement {
         value: this.change.current_revision,
       });
     }
-    return html`<gr-copy-links .copyLinks=${links}> </gr-copy-links>`;
+    return html`<gr-copy-links .copyLinks=${links} .shortcutPrefix=${'l -'}>
+    </gr-copy-links>`;
   }
 
   private renderCommitActions() {

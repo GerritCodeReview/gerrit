@@ -124,7 +124,7 @@ suite('gr-repo-dashboards tests', () => {
   suite('404', () => {
     test('fires page-error', async () => {
       const response = {status: 404} as Response;
-      stubRestApi('getRepoDashboards').callsFake((_repo, errFn) => {
+      stubRestApi('getRepoDashboards').callsFake((_repo: any, errFn: any) => {
         errFn!(response);
         return Promise.resolve([]);
       });

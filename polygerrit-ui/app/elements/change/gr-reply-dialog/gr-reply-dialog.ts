@@ -1842,7 +1842,7 @@ export class GrReplyDialog extends LitElement {
     return [...this.newAttentionSet]
       .filter(id => !this.currentAttentionSet.has(id))
       .map(id => this.findAccountById(id))
-      .filter(account => !!account) as AccountInfo[];
+      .filter(account => !!account);
   }
 
   findAccountById(userId: UserId) {

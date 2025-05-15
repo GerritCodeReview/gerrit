@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a63c9b3_0489261a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T10:34:44Z",
+      "side": 1,
+      "message": "Why are tokens only used if they are cached? Token cache shall only have influence on performance but not on semantics.",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

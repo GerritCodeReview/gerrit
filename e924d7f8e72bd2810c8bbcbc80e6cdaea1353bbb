@@ -46,6 +46,30 @@
       },
       "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41016d56_a1c39d08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T10:52:02Z",
+      "side": 1,
+      "message": "OK. I think the commit message is imprecise here as it indicates that tokens are not used when the cache is not enabled, which might be true because cache is only enabled when `auth.gitBasicAuthPolicy` is `HTTP` or `HTTP_LDAP` but is still confusing for reading.",
+      "parentUuid": "251c8aad_ae6562c7",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

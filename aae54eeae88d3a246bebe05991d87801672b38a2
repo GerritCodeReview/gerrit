@@ -69,6 +69,24 @@
       "parentUuid": "d97ca01d_045e0492",
       "revId": "aae54eeae88d3a246bebe05991d87801672b38a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec35e7e7_42219043",
+        "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-15T06:53:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef2b8721_ab3669a5",
+      "revId": "aae54eeae88d3a246bebe05991d87801672b38a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

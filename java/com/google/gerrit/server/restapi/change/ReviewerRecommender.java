@@ -252,9 +252,12 @@ public class ReviewerRecommender {
     }
     Account account = accountState.account();
     if (account.isActive()) {
-      if (Strings.isNullOrEmpty(query)
-          || (account.fullName() != null && account.fullName().startsWith(query))
-          || (account.preferredEmail() != null && account.preferredEmail().startsWith(query))) {
+      String lowerCaseQuery = Strings.nullToEmpty(query).toLowerCase(); 
+      if (Strings.isNullOrEmpty(lowerCaseQuery)
+          || (account.fullName() != null 
+              && account.fullName().toLowerCase().startsWith(lowerCaseQuery))
+          || (account.preferredEmail() != null 
+              && account.preferredEmail().toLowerCase().startsWith(lowerCaseQuery))) {
         return true;
       }
     }

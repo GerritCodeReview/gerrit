@@ -324,6 +324,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(changeId, "first1 last2");
     assertThat(reviewers).isEmpty();
 
+    // Test case insensitive
+    reviewers = suggestReviewers(changeId, "john");
+    assertThat(
+            reviewers.stream()
+                .anyMatch(s -> s.account != null && s.account._accountId == user4.id().get()))
+        .named("user4 ('John Doe') should be found by query 'john'")
+        .isTrue();
+
     reviewers = suggestReviewers(changeId, name("user"));
     assertThat(reviewers).hasSize(6);
 

@@ -265,7 +265,8 @@ export class GrEditorView extends LitElement {
               ?disabled=${this.computeSaveDisabled()}
               primary=""
               link=""
-              title="Save and Close the file"
+              title=${this.computeButtonTitle('save')}
+
               @click=${this.handleSaveTap}
               >Save</gr-button
             >
@@ -273,7 +274,7 @@ export class GrEditorView extends LitElement {
               id="publish"
               link=""
               primary=""
-              title="Publish your edit. A new patchset will be created."
+              title=${this.computeButtonTitle('publish')}
               @click=${this.handlePublishTap}
               ?disabled=${this.computeSaveDisabled()}
               >Save & Publish</gr-button
@@ -476,6 +477,27 @@ export class GrEditorView extends LitElement {
 
     if (this.saving) return true;
     return this.content === this.newContent;
+  }
+
+  private computeButtonTitle(buttonType: 'save' | 'publish'): string {
+    const action = buttonType === 'save' ? 'Save' : 'Publish';
+    const disabledReasonPrefix = `${action} disabled:`;
+
+    if (this.saving) {
+      return `${disabledReasonPrefix} Saving in progress...`;
+    }
+
+    if (this.content === undefined || this.newContent === undefined) {
+      return `${disabledReasonPrefix} Editor is initializing`;
+    }
+    if (this.content === this.newContent) {
+      return `${disabledReasonPrefix} ${buttonType === 'save' ? 'No changes made' : 'No changes to publish'}`;
+    }
+
+    if (buttonType === 'save') {
+      return 'Save and Close the file';
+    }
+    return 'Publish your edit. A new patchset will be created.';
   }
 
   // private but used in test

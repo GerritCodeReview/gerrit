@@ -106,7 +106,7 @@ suite('gr-editor-view tests', () => {
                 primary=""
                 role="button"
                 tabindex="-1"
-                title="Save and Close the file"
+                title="Save disabled: Editor is initializing"
               >
                 Save
               </gr-button>
@@ -118,7 +118,7 @@ suite('gr-editor-view tests', () => {
                 primary=""
                 role="button"
                 tabindex="-1"
-                title="Publish your edit. A new patchset will be created."
+                title="Publish disabled: Editor is initializing"
               >
                 Save & Publish
               </gr-button>
@@ -598,6 +598,35 @@ suite('gr-editor-view tests', () => {
         editView: {path: 'test'},
       };
       assert.equal(element.storageKey, 'c1_ps1_test');
+    });
+  });
+
+  suite('save enabled/disabled', () => {
+    test('should be disabled when content is not modified', async () => {
+      element.content = 'initial content';
+      element.newContent = 'initial content';
+      element.saving = false;
+      await element.updateComplete;
+      const saveButton = query<GrButton>(element, '#save');
+      const publishButton = query<GrButton>(element, '#publish');
+      assert.isTrue(saveButton!.disabled, 'save button should be disabled');
+      assert.isTrue(
+        publishButton!.disabled,
+        'publish button should be disabled'
+      );
+    });
+    test('should be enabled when content is modified', async () => {
+      element.content = 'initial content';
+      element.newContent = 'modified content';
+      element.saving = false;
+      await element.updateComplete;
+      const saveButton = query<GrButton>(element, '#save');
+      const publishButton = query<GrButton>(element, '#publish');
+      assert.isFalse(saveButton!.disabled, 'save button should be enabled');
+      assert.isFalse(
+        publishButton!.disabled,
+        'publish button should be enabled'
+      );
     });
   });
 });

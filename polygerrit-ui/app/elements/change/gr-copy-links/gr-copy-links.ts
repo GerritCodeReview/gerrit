@@ -20,6 +20,7 @@ export interface CopyLink {
   label: string;
   shortcut: string;
   value: string;
+  multiline?: boolean;
 }
 
 const AWAIT_MAX_ITERS = 10;
@@ -31,6 +32,12 @@ export class GrCopyLinks extends LitElement {
 
   @property({type: Array})
   copyLinks: CopyLink[] = [];
+
+  @property({type: String})
+  horizontalAlign: 'left' | 'right' = 'left';
+
+  @property({type: String})
+  shortcutPrefix = 'l - ';
 
   @state() isDropdownOpen = false;
 
@@ -62,7 +69,7 @@ export class GrCopyLinks extends LitElement {
   override render() {
     if (!this.copyLinks) return nothing;
     return html`<iron-dropdown
-      .horizontalAlign=${'left'}
+      .horizontalAlign=${this.horizontalAlign}
       .verticalAlign=${'top'}
       .verticalOffset=${20}
       @keydown=${this.handleKeydown}
@@ -82,15 +89,16 @@ export class GrCopyLinks extends LitElement {
   }
 
   private renderCopyLinkRow(copyLink: CopyLink, index?: number) {
-    const {label, shortcut, value} = copyLink;
+    const {label, shortcut, value, multiline} = copyLink;
     const id = `${strToClassName(label, '')}-field`;
     return html`<div class="copy-link-row">
       <gr-copy-clipboard
         text=${value}
         label=${label}
-        shortcut=${`l - ${shortcut}`}
+        shortcut=${`${this.shortcutPrefix}${shortcut}`}
         id=${`${id}-copy-clipboard`}
         nowrap
+        ?multiline=${multiline}
         ${index === 0 && ref(this.copyClipboardRef)}
       ></gr-copy-clipboard>
     </div>`;

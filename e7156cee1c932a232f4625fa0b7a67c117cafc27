@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this is going to be race-free in a multi-primary setup, I for both online and offline reindexes. It does seem like a useful feature to have, but maybe it needs to be behind another flag?",
       "revId": "e7156cee1c932a232f4625fa0b7a67c117cafc27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52ae220_d3949004",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-15T07:36:40Z",
+      "side": 1,
+      "message": "Can you describe more precisely which race conditions do you expect and in which kind of multi-primary setup (like one shared index or each primary maintaining own index)?",
+      "parentUuid": "8e435111_d65fa3e8",
+      "revId": "e7156cee1c932a232f4625fa0b7a67c117cafc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

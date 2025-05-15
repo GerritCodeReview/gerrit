@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a250efbc_7693e7e6",
+        "filename": "polygerrit-ui/app/services/highlight/highlight-service.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-15T16:02:51Z",
+      "side": 1,
+      "message": "Returns the type `Worker | undefined`.\n\nWhich meant we had to add it everywhere and add a check for if it does return undefined.",
+      "revId": "8923dd02be953112ea2669899010d2df73a5d3fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

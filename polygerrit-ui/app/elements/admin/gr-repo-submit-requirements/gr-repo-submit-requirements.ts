@@ -19,9 +19,6 @@ import {when} from 'lit/directives/when.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {userModelToken} from '../../../models/user/user-model';
-import {resolve} from '../../../models/dependency';
-import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-list-view/gr-list-view';
 import {
   createRepoUrl,
@@ -53,7 +50,7 @@ export class GrRepoSubmitRequirements extends LitElement {
   @state()
   showCreateDialog = false;
 
-  @state() isAdmin = false;
+  @state() isProjectOwner = false;
 
   @state()
   newRequirement: SubmitRequirementInput = this.getEmptyRequirement();
@@ -75,8 +72,6 @@ export class GrRepoSubmitRequirements extends LitElement {
   isEditing = false;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly getUserModel = resolve(this, userModelToken);
 
   static override get styles() {
     return [
@@ -135,17 +130,26 @@ export class GrRepoSubmitRequirements extends LitElement {
 
   constructor() {
     super();
-    subscribe(
-      this,
-      () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
-    );
+    if (this.repo) {
+      this.checkProjectOwner();
+    }
+  }
+
+  private async checkProjectOwner() {
+    if (!this.repo) return;
+    try {
+      const access = await this.restApiService.getRepoAccessRights(this.repo);
+      this.isProjectOwner = !!access?.is_owner;
+    } catch (e) {
+      console.error('Failed to check project owner status:', e);
+      this.isProjectOwner = false;
+    }
   }
 
   override render() {
     return html`
       <gr-list-view
-        .createNew=${this.isAdmin}
+        .createNew=${this.isProjectOwner}
         .filter=${this.filter}
         .itemsPerPage=${this.itemsPerPage}
         .items=${this.submitRequirements}
@@ -171,7 +175,10 @@ export class GrRepoSubmitRequirements extends LitElement {
               >
                 Allow Override
               </th>
-              ${when(this.isAdmin, () => html`<th class="topHeader"></th>`)}
+              ${when(
+                this.isProjectOwner,
+                () => html`<th class="topHeader"></th>`
+              )}
             </tr>
           </tbody>
           <tbody id="submit-requirements">
@@ -199,7 +206,7 @@ export class GrRepoSubmitRequirements extends LitElement {
                         )}
                       </td>
                       ${when(
-                        this.isAdmin,
+                        this.isProjectOwner,
                         () => html`
                           <td class="actions">
                             <gr-button
@@ -234,6 +241,7 @@ export class GrRepoSubmitRequirements extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('repo')) {
       this.getSubmitRequirements();
+      this.checkProjectOwner();
     }
   }
 
@@ -364,7 +372,7 @@ export class GrRepoSubmitRequirements extends LitElement {
   }
 
   private renderCreateDialog() {
-    if (!this.isAdmin) return nothing;
+    if (!this.isProjectOwner) return nothing;
 
     return html`
       <dialog id="createDialog" tabindex="-1">
@@ -529,7 +537,7 @@ export class GrRepoSubmitRequirements extends LitElement {
   }
 
   private renderDeleteDialog() {
-    if (!this.isAdmin) return nothing;
+    if (!this.isProjectOwner) return nothing;
 
     return html`
       <dialog id="deleteDialog" tabindex="-1">

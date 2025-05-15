@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb339c56_809a4848",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-05-15T12:55:11Z",
+      "side": 1,
+      "message": "Let\u0027s wait for the final 3.12 cut-off next Monday (almost there 😊)",
+      "revId": "1aa2a51b5ec364177e77651c5e2f8504c275de30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -94,7 +94,7 @@ suite('gr-group-members tests', () => {
       },
     ];
 
-    stubRestApi('queryAccounts').callsFake(input => {
+    stubRestApi('queryAccounts').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve([
           {
@@ -120,7 +120,7 @@ suite('gr-group-members tests', () => {
         return Promise.resolve([]);
       }
     });
-    stubRestApi('getSuggestedGroups').callsFake(input => {
+    stubRestApi('getSuggestedGroups').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve({
           'test-admin': {
@@ -447,14 +447,16 @@ suite('gr-group-members tests', () => {
     const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
     const errorResponse = {...new Response(), status: 404, ok: false};
-    stubRestApi('saveIncludedGroup').callsFake((_, _non, errFn) => {
-      if (errFn !== undefined) {
-        errFn(errorResponse);
-      } else {
-        assert.fail('errFn is undefined');
+    stubRestApi('saveIncludedGroup').callsFake(
+      (_: any, _non: any, errFn: any) => {
+        if (errFn !== undefined) {
+          errFn(errorResponse);
+        } else {
+          assert.fail('errFn is undefined');
+        }
+        return Promise.resolve(undefined);
       }
-      return Promise.resolve(undefined);
-    });
+    );
 
     const groupMemberSearchInput = queryAndAssert<GrAutocomplete>(
       element,
@@ -590,7 +592,7 @@ suite('gr-group-members tests', () => {
     element.groupId = 'testId1' as GroupId;
 
     const response = {...new Response(), status: 404};
-    stubRestApi('getGroupConfig').callsFake((_, errFn) => {
+    stubRestApi('getGroupConfig').callsFake((_: any, errFn: any) => {
       if (errFn !== undefined) {
         errFn(response);
       }

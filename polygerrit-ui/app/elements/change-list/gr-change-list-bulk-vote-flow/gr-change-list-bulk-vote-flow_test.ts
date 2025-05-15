@@ -209,7 +209,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       state => state === LoadingState.LOADED
     );
     stubRestApi('saveChangeReview').callsFake(
-      (_changeNum, _patchNum, _review, errFn) =>
+      (_changeNum: any, _patchNum: any, _review: any, errFn: any) =>
         Promise.resolve(undefined).then(res => {
           errFn && errFn();
           return res;
@@ -446,7 +446,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       getChangesStub.returns(Promise.resolve(changes));
 
       stubRestApi('saveChangeReview').callsFake(
-        (_changeNum, _patchNum, _review, errFn) =>
+        (_changeNum: any, _patchNum: any, _review: any, errFn: any) =>
           Promise.resolve({}).then(res => {
             errFn && errFn();
             return res;
@@ -504,7 +504,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       getChangesStub.returns(Promise.resolve(changes));
 
       stubRestApi('saveChangeReview').callsFake(
-        (_changeNum, _patchNum, _review, errFn) =>
+        (_changeNum: any, _patchNum: any, _review: any, errFn: any) =>
           Promise.resolve(undefined).then(res => {
             errFn && errFn();
             return res;

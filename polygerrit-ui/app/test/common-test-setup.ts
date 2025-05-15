@@ -45,7 +45,6 @@ declare global {
   interface Window {
     sinon: typeof sinon;
   }
-  let sinon: typeof sinon;
 }
 
 window.sinon = sinon;

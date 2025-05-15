@@ -25,13 +25,13 @@
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-regex": "^1.10.0",
     "gts": "^6.0.2",
-    "lit-analyzer": "^1.2.1",
+    "lit-analyzer": "^2.0.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
     "rollup": "^4.40.0",
     "terser": "~5.39.0",
-    "ts-lit-plugin": "^1.2.1",
-    "typescript": "^4.9.5"
+    "ts-lit-plugin": "^2.0.2",
+    "typescript": "^5.8.3"
   },
   "resolutions": {
     "eslint": "^9.26.0",

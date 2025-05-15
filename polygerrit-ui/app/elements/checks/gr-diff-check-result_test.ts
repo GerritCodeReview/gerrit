@@ -29,7 +29,8 @@ suite('gr-diff-check-result tests', () => {
     sinon
       .stub(flagsService, 'isEnabled')
       .callsFake(
-        (id: KnownExperimentId) => id === KnownExperimentId.GET_AI_FIX
+        ((id: KnownExperimentId) =>
+          id === KnownExperimentId.GET_AI_FIX) as typeof flagsService.isEnabled
       );
 
     sinon

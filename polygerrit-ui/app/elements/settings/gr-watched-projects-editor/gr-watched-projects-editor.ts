@@ -272,7 +272,7 @@ export class GrWatchedProjectsEditor extends LitElement {
         (this.projects[i].project === name &&
           this.isFilterDefined(projectFilter) &&
           this.isFilterDefined(filter) &&
-          projectFilter! > filter!)
+          projectFilter > filter)
       ) {
         break;
       }

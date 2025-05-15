@@ -114,7 +114,6 @@ suite('admin links', () => {
   };
 
   suite('logged out', () => {
-    let account: AccountDetailInfo;
     let expected: any;
 
     setup(() => {
@@ -132,7 +131,7 @@ suite('admin links', () => {
         totalLength: 1,
         projectPageShown: false,
       });
-      await testAdminLinks(account, options, expected);
+      await testAdminLinks(undefined, options, expected);
     });
 
     test('with a repo', async () => {
@@ -141,7 +140,7 @@ suite('admin links', () => {
         totalLength: 1,
         projectPageShown: true,
       });
-      await testAdminLinks(account, options, expected);
+      await testAdminLinks(undefined, options, expected);
     });
 
     test('with plugin generated links', async () => {
@@ -156,7 +155,7 @@ suite('admin links', () => {
         projectPageShown: false,
         pluginGeneratedLinks: generatedLinks,
       });
-      await testAdminLinks(account, options, expected);
+      await testAdminLinks(undefined, options, expected);
     });
   });
 

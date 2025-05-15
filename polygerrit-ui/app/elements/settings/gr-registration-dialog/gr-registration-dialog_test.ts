@@ -36,15 +36,15 @@ suite('gr-registration-dialog tests', () => {
         ...account,
       })
     );
-    stubRestApi('setAccountName').callsFake(name => {
+    stubRestApi('setAccountName').callsFake((name: string) => {
       account.name = name;
       return Promise.resolve();
     });
-    stubRestApi('setAccountUsername').callsFake(username => {
+    stubRestApi('setAccountUsername').callsFake((username: string) => {
       account.username = username;
       return Promise.resolve();
     });
-    stubRestApi('setAccountDisplayName').callsFake(displayName => {
+    stubRestApi('setAccountDisplayName').callsFake((displayName: string) => {
       account.display_name = displayName;
       return Promise.resolve();
     });

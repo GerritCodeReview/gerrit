@@ -369,7 +369,7 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
 
     const response = {...new Response(), status: 404};
-    stubRestApi('getGroupConfig').callsFake((_, errFn) => {
+    stubRestApi('getGroupConfig').callsFake((_: any, errFn: any) => {
       if (errFn !== undefined) {
         errFn(response);
       } else {

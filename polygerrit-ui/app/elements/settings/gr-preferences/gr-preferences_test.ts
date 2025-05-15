@@ -440,10 +440,12 @@ suite('gr-preferences tests', () => {
 
     assert.isTrue(element.hasUnsavedChanges());
 
-    stubRestApi('savePreferences').callsFake(prefs => {
-      assert.equal(prefs.publish_comments_on_push, true);
-      return Promise.resolve(createDefaultPreferences());
-    });
+    stubRestApi('savePreferences').callsFake(
+      (prefs: Partial<PreferencesInfo>) => {
+        assert.equal(prefs.publish_comments_on_push, true);
+        return Promise.resolve(createDefaultPreferences());
+      }
+    );
 
     // Save the change.
     await element.save();
@@ -461,10 +463,12 @@ suite('gr-preferences tests', () => {
 
     assert.isTrue(element.hasUnsavedChanges());
 
-    stubRestApi('savePreferences').callsFake(prefs => {
-      assert.equal(prefs.work_in_progress_by_default, true);
-      return Promise.resolve(createDefaultPreferences());
-    });
+    stubRestApi('savePreferences').callsFake(
+      (prefs: Partial<PreferencesInfo>) => {
+        assert.equal(prefs.work_in_progress_by_default, true);
+        return Promise.resolve(createDefaultPreferences());
+      }
+    );
 
     // Save the change.
     await element.save();

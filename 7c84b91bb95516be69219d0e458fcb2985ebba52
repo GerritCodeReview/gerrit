@@ -314,6 +314,30 @@
       },
       "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdffc54_f0b50c5f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-15T12:11:03Z",
+      "side": 1,
+      "message": "Ahh title \u003d tooltip\n\nI thought the main text was changing. *facepalm*",
+      "parentUuid": "1c5745f5_9546f107",
+      "range": {
+        "startLine": 500,
+        "startChar": 4,
+        "endLine": 500,
+        "endChar": 61
+      },
+      "revId": "7c84b91bb95516be69219d0e458fcb2985ebba52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

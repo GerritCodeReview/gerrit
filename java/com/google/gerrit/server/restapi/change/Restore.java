@@ -102,6 +102,12 @@ public class Restore
         .orElseThrow(illegalState(rsrc.getProject()))
         .checkStatePermitsWrite();
 
+    if (input == null) {
+      // https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#restore-change
+      // input can be null if no review comments are set
+      input = new RestoreInput();
+    }
+
     Op op = new Op(input);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate u =

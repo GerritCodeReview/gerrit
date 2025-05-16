@@ -34,6 +34,24 @@
       "parentUuid": "8e435111_d65fa3e8",
       "revId": "e7156cee1c932a232f4625fa0b7a67c117cafc27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e2549f1_62f76f8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-16T22:02:04Z",
+      "side": 1,
+      "message": "Sorry, I think I had the order confused. IIUC the implementation correctly, the order is:\n\n1. query all changes in project\n2. index all changes found in notedb (notedb scan happens here)\n3. remove changes from index that were returned in the query but weren\u0027t indexed\n\nI think that\u0027s safe. I had thought there was a way the query could happen after the notedb scan, but I don\u0027t see how that could happen.",
+      "parentUuid": "b52ae220_d3949004",
+      "revId": "e7156cee1c932a232f4625fa0b7a67c117cafc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

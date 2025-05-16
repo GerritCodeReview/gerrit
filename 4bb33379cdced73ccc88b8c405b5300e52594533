@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0f3046_2098fa3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-16T16:17:28Z",
+      "side": 1,
+      "message": "If this will be submitted next week, don\u0027t forget https://gerrit-review.googlesource.com/c/gerrit/+/476822 (i\u0027m going to submit it next week but incase you get to this before i do).",
+      "revId": "4bb33379cdced73ccc88b8c405b5300e52594533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

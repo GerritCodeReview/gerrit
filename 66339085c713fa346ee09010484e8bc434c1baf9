@@ -34,6 +34,24 @@
       "parentUuid": "22c6aca5_4a5417cd",
       "revId": "66339085c713fa346ee09010484e8bc434c1baf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d630e1_a3207454",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-16T21:58:28Z",
+      "side": 1,
+      "message": "It should. At least i didn\u0027t see that with this fix. Although i didn\u0027t see that at all, even before. It wouldn\u0027t load the font at all as it was including the current path in it.\n\nUnless it\u0027s different in safari. I use a mix of chrome and safari. I primarily use the gerrit instances that i use that have a base url in safari and gerrit-review in chrome.",
+      "parentUuid": "fb5bdbe0_1968aa9d",
+      "revId": "66339085c713fa346ee09010484e8bc434c1baf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

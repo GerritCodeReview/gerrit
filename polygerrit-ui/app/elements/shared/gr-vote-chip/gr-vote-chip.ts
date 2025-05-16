@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-tooltip-content/gr-tooltip-content';
-import {LitElement, css, html} from 'lit';
+import {LitElement, TemplateResult, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,
@@ -127,7 +127,7 @@ export class GrVoteChip extends LitElement {
 
     return html`<gr-tooltip-content
       class="container ${this.more ? 'more' : ''}"
-      title=${this.computeTooltip()}
+      title=${this.computeTooltip(renderValue)}
       has-tooltip
     >
       <div class="vote-chip ${this.computeClass()}">${renderValue}</div>
@@ -173,12 +173,14 @@ export class GrVoteChip extends LitElement {
     }
   }
 
-  private computeTooltip() {
+  private computeTooltip(renderValue: string | TemplateResult<1>) {
     if (!this.label || !isDetailedLabelInfo(this.label)) {
       return '';
     }
     const voteDescription =
-      this.label.values?.[valueString(this.vote?.value)] ?? '';
+      typeof renderValue === 'string'
+        ? this.label.values?.[renderValue] ?? ''
+        : '';
 
     if (this.tooltipWithWhoVoted && this.vote) {
       return `${this.vote?.name}: ${voteDescription}`;

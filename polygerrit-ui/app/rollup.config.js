@@ -40,7 +40,7 @@ const importLocalFontMetaUrlResolver = function() {
     name: 'import-meta-url-resolver',
     resolveImportMeta(property, data) {
       if (property === 'url' && data.moduleId.endsWith('/@polymer/font-roboto-local/roboto.js')) {
-        return 'new URL("..", document.baseURI).href';
+        return `window.location.origin + getBaseUrl() + '/'`;
       }
       return null;
     },

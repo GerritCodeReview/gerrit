@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "661f34e8_72973ff7",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bb125ee_69e475a7",
+      "range": {
+        "startLine": 264,
+        "startChar": 22,
+        "endLine": 264,
+        "endChar": 25
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ca5fa65_f3591965",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "Git",
+      "range": {
+        "startLine": 267,
+        "startChar": 18,
+        "endLine": 267,
+        "endChar": 21
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e36cde_cf240f4a",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ca5fa65_f3591965",
       "range": {
         "startLine": 267,
         "startChar": 18,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "215db9e4_4cdccf4c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89bcf0cb_ac1bd84c",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d238057c_94685ca1",
@@ -77,6 +143,24 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "With the fallback to the HTTP password?",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a0f95a_6b7f3e22",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d238057c_94685ca1",
       "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -106,6 +190,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8d7d153_e8362a6e",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Plain means that it is not hashed yet. I agree that `addToken` at this point makes sense, since there is no method yet to add already hashed tokens. However, this method will come and changing the API then would be disruptive, so I would like to stay specific here.",
+      "parentUuid": "d9079438_586ef495",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "234ec8b2_8049cd80",
         "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
         "patchSetId": 25
@@ -117,6 +225,24 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "The initialization at line 63 is unnecessary.",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9dcc556_7f5539bd",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234ec8b2_8049cd80",
       "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -134,6 +260,24 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "Maybe invert the check and if `tokens` is non-empty return immediately. Then the rest of the code doesn\u0027t need to be indented.",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41cae2cd_cb6c12a9",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9555af56_05ba6033",
       "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -178,6 +322,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "997aeab3_2af2b45a",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c3b4e264_1c74f00d",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02189fb8_18139977",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5ad7d65e_5671994b",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 35
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ad06e72_81f0ae68",
@@ -191,6 +377,24 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "```suggestion\n    return List.of();\n```",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b930e8_737853bc",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1ad06e72_81f0ae68",
       "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -212,6 +416,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f459d84f_630ead17",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d27679_071beff5",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fa2f698_51891395",
@@ -229,6 +451,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8a6faf1_83e547f9",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fa2f698_51891395",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "012336dc_9c3f0510",
@@ -242,6 +482,24 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "Does this need to be public?",
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c09c41fc_fda63ac2",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteToken.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "012336dc_9c3f0510",
       "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -271,6 +529,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae486683_1e243dd7",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "No, not in the accounts REST API, e.g. `GetSshKeys`. There is not a single `List*` class in this package.",
+      "parentUuid": "1fb655f7_0e98fab6",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f08b5ea_2d404297",
         "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
         "patchSetId": 25
@@ -282,6 +564,30 @@
       "writtenOn": "2025-05-15T12:40:55Z",
       "side": 1,
       "message": "`ADMINISTRATE_SERVER`?\n\nAlso relate to the same check in the `DeleteToken` class",
+      "range": {
+        "startLine": 67,
+        "startChar": 61,
+        "endLine": 67,
+        "endChar": 75
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a912b3ef_a9ce654f",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-16T10:06:28Z",
+      "side": 1,
+      "message": "Actually the current implementation matches the behaviour for SSH keys and I believe that makes sense.",
+      "parentUuid": "8f08b5ea_2d404297",
       "range": {
         "startLine": 67,
         "startChar": 61,

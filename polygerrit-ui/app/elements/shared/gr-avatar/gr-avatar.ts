@@ -72,9 +72,10 @@ export class GrAvatar extends LitElement {
     this.hidden = false;
 
     const url = this.buildAvatarURL(this.account);
-    if (url) {
-      this.style.backgroundImage = `url("${url}")`;
-    }
+    // Fallback to empty string to make sure that the user,
+    // which doesn't have an avatar set, does not reuse
+    // someone elses.
+    this.style.backgroundImage = url ? `url("${url}")` : '';
   }
 
   private getAccounts(account: AccountInfo) {

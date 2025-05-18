@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72ad937d_5a2822ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-18T15:40:27Z",
+      "side": 1,
+      "message": "I just removed dependencies from package.json and re-added to regenerate the yarn file.",
+      "revId": "0c98f33d24ecc8961205d9ea80f3650fde62d805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

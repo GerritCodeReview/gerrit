@@ -282,6 +282,24 @@
       "parentUuid": "cf5ea074_34a8bf8c",
       "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b9d2be_9294adac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-19T14:50:26Z",
+      "side": 1,
+      "message": "I was confused by https://gerrit-review.googlesource.com/c/gerrit/+/389775/35/java/com/google/gerrit/acceptance/AbstractDaemonTest.java\n\nIt works for me. Thanks for the feature and guidance 😊!",
+      "parentUuid": "80052846_75a75a61",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

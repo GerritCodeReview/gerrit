@@ -30,7 +30,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.36.8",
     "@lezer/highlight": "^1.2.1",
-    "@gerritcodereview/typescript-api": "3.11.0",
+    "@gerritcodereview/typescript-api": "3.12.0",
     "@open-wc/testing": "^3.2.2",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "3.5.1",

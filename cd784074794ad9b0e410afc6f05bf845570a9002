@@ -1,0 +1,69 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d859c6_de65b601",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-05-19T15:05:19Z",
+      "side": 1,
+      "message": "Please use `ExternalIdFactory` instead of `ExternalIdFactoryNoteDbImpl`.",
+      "fixSuggestions": [
+        {
+          "fixId": "2afa4df0_bfc91ffe",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+              "range": {
+                "startLine": 72,
+                "startChar": 0,
+                "endLine": 72,
+                "endChar": 0
+              },
+              "replacement": "import com.google.gerrit.server.account.externalids.ExternalIdFactory;\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+              "range": {
+                "startLine": 74,
+                "startChar": 0,
+                "endLine": 75,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+              "range": {
+                "startLine": 123,
+                "startChar": 0,
+                "endLine": 124,
+                "endChar": 0
+              },
+              "replacement": "  @Inject protected ExternalIdFactory externalIdFactory;\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+              "range": {
+                "startLine": 607,
+                "startChar": 0,
+                "endLine": 609,
+                "endChar": 0
+              },
+              "replacement": "                    externalIdFactory.createWithEmail(\"x\", \"1\", accountId, nonMailToSecondaryEmail)));\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cd784074794ad9b0e410afc6f05bf845570a9002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69065ffe_c9491a3d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-05-19T14:55:59Z",
+      "side": 1,
+      "message": "Can you use ` getExternalIdFactory()` instead?",
+      "revId": "fb8041b0dc3f9598c798fe1a22688bc18c8f5745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

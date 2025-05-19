@@ -246,6 +246,24 @@
       "parentUuid": "676ef30a_dc4e5b6c",
       "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5ea074_34a8bf8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-19T14:39:44Z",
+      "side": 1,
+      "message": "Guess I misread it.\n\n```\n{\n  \"GerritBackendFeature__allow_fix_suggestions_in_comments\": {\n    \"enabled\": false\n  },\n  \"GerritBackendFeature__always_reject_implicit_merges_on_merge\": {\n    \"enabled\": false\n  },\n  \"GerritBackendFeature__attach_nonce_to_documentation\": {\n    \"enabled\": false\n  },\n  \"GerritBackendFeature__check_implicit_merges_on_merge\": {\n    \"enabled\": false\n  },\n  \"GerritBackendFeature__reject_implicit_merges_on_merge\": {\n    \"enabled\": false\n  }\n}\n```\n\nI\u0027ll enable and retry. Sorry for the noise.",
+      "parentUuid": "c507884a_4a4848ec",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

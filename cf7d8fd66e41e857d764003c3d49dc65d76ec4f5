@@ -264,6 +264,24 @@
       "parentUuid": "c507884a_4a4848ec",
       "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80052846_75a75a61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-19T14:42:48Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure, it\u0027s not enabled by default:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/389775/35/java/com/google/gerrit/server/submit/MergeOp.java#857\n\nI believe in upstream Gerrit experiments need to be enabled in the server config:\nhttps://gerrit-review.googlesource.com/Documentation/config-gerrit.html#experiments\n\nFWIW at Google we do not have the GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE experiment enabled since it caused an outage when we tried it (we didn\u0027t investigate the cause yet). So be careful with enabling this.",
+      "parentUuid": "cf5ea074_34a8bf8c",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

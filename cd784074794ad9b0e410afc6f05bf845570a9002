@@ -64,6 +64,24 @@
       ],
       "revId": "cd784074794ad9b0e410afc6f05bf845570a9002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca8e831e_1074d6c6",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-19T15:30:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d859c6_de65b601",
+      "revId": "cd784074794ad9b0e410afc6f05bf845570a9002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

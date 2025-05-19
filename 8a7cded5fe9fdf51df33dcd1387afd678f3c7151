@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b4715c_4e1121ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-19T18:31:00Z",
+      "side": 1,
+      "message": "I\u0027ve tried to move legacy to flatconfig but couldn\u0027t figure out how to get that to work properly (see https://gerrit-review.googlesource.com/c/gerrit/+/473065). So i found a way to support legacy whilst not using the legacy env. Someones going to have to move us to FlatConfig.",
+      "revId": "8a7cded5fe9fdf51df33dcd1387afd678f3c7151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

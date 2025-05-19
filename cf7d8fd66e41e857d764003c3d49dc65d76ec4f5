@@ -210,6 +210,24 @@
       "message": "Our most common case is not covered by this fix (at least I can still reproduce it with 3.12):\n\n```\ndev      o--o--o--o \u003c-- push this for dev, then move to master\n        /     /\nmaster o--o--o\n```\n\nCommands to reproduce:\n```\ngit push origin origin/master:refs/heads/dev\ngit checkout dev\ngit commit --allow-empty -m \u0027Dev 1\u0027\ngit push\ngit checkout master\ngit commit --allow-empty -m \u0027Master 1\u0027\ngit push\ngit checkout dev\ngit merge --no-edit origin/master\ngit push\ngit commit --allow-empty -m \u0027Dev 2\u0027\ngit push origin HEAD:refs/for/master # Rejected (implicit merges detected)\ngit push origin HEAD:refs/for/dev\n# Move + Submit -\u003e Works!\n```",
       "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "676ef30a_dc4e5b6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-19T14:35:03Z",
+      "side": 1,
+      "message": "This functionality is protected by an experiment flag. Did you enable the experiment?",
+      "parentUuid": "bb8b226d_7bc7ced0",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

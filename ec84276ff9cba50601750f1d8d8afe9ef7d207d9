@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba2c7ba_99cd9ee6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-19T08:01:26Z",
+      "side": 1,
+      "message": "Cool, I haven\u0027t noticed, but that would be annoying to see.",
+      "revId": "ec84276ff9cba50601750f1d8d8afe9ef7d207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

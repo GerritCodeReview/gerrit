@@ -1,11 +1,27 @@
 /**
  * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: Apache-2.0
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-// Do not add any bazel-specific properties in this file to keep it clean.
-// Please add such properties to the .eslintrc-bazel.js file
+/**
+ * This is a base template for TypeScript plugins.
+ *
+ * When extending this template you have to:
+ * - Set the __plugindir variable.
+ */
+
 const path = require('path');
 
 module.exports = {
@@ -77,11 +93,7 @@ module.exports = {
     // https://eslint.org/docs/rules/no-console
     'no-console': [
       'error',
-      {
-        allow: [
-          'warn', 'error', 'info', 'debug', 'assert', 'group', 'groupEnd',
-        ],
-      },
+      {allow: ['warn', 'error', 'info', 'assert', 'group', 'groupEnd']},
     ],
     // https://eslint.org/docs/rules/no-multiple-empty-lines
     'no-multiple-empty-lines': ['error', {max: 1}],
@@ -167,9 +179,7 @@ module.exports = {
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-syntax
     'jsdoc/check-syntax': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-tag-names
-    'jsdoc/check-tag-names': ['error', {
-      definedTags: ['attr', 'lit', 'mixinFunction', 'mixinClass', 'polymer'],
-    }],
+    'jsdoc/check-tag-names': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-types
     'jsdoc/check-types': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-implements-on-classes
@@ -225,18 +235,14 @@ module.exports = {
     'import/no-unused-modules': 2,
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md
     'import/no-default-export': 2,
-    'regex/invalid': [
-      'error', [{
-        // eslint-disable-next-line regex/invalid
-        regex: 'Licensed under',
-        message: 'Please use SPDX license headers.',
-      }],
-    ],
+    // Prevents certain identifiers being used.
+    // Prefer flush() over flushAsynchronousOperations().
+    'id-blacklist': ['error', 'flushAsynchronousOperations'],
   },
 
   overrides: [
     {
-      files: ['.eslintrc.js', '.eslintrc-bazel.js'],
+      files: ['eslint.config.js'],
       env: {
         browser: false,
         es6: true,
@@ -251,84 +257,38 @@ module.exports = {
         'jsdoc/require-param-type': 2,
         // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-type
         'jsdoc/require-returns-type': 2,
+        // The rule is required for .js files only, because typescript compiler
+        // always checks import.
+        'import/no-unresolved': 2,
         'import/named': 2,
-      },
-      globals: {
-        goog: 'readonly',
-      },
-    },
-    {
-      files: ['**/api/*.ts'],
-      rules: {
-        'regex/invalid': [
-          'error', [{
-            regex: 'export interface',
-            message: 'All interfaces in the api/ dir must have "declare"',
-            replacement: 'export declare interface',
-          }],
-        ],
       },
     },
     {
       files: ['**/*.ts'],
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
-        'no-constant-binary-expression': 'off',
-        'regex/invalid': [
-          'error', [{
-            regex: '\'lit/decorators\'',
-            message: 'use \'lit/decorators.js\' instead',
-            replacement: '\'lit/decorators.js\'',
-          }, {
-            regex: '\'lit/directives/([^.\']*)\'',
-            message: 'use \'lit/directives/foo.js\' instead',
-            replacement: {
-              function: 'return "\'lit/directives/" + $[1] + ".js\'"',
-            },
-          }],
-        ],
         'no-restricted-imports': ['error', {
-          name: 'lit-html/static',
-          message: 'Use lit instead',
-        }, {
-          name: '@lit/reactive-element',
-          message: 'Use lit instead',
-        }, {
           name: '@polymer/decorators/lib/decorators',
           message: 'Use @polymer/decorators instead',
         }],
-        '@typescript-eslint/no-empty-object-type': 'off',
-        '@typescript-eslint/no-floating-promises': 'off',
-        '@typescript-eslint/no-unsafe-function-type': 'off',
         '@typescript-eslint/no-explicit-any': 'error',
         // See https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
         '@typescript-eslint/ban-ts-comment': 'off',
         // The following rules is required to match internal google rules
         '@typescript-eslint/restrict-plus-operands': 'error',
-        '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-        'require-await': 'off',
-        '@typescript-eslint/require-await': 'error',
-        '@typescript-eslint/no-confusing-void-expression': [
-          'error',
-          {ignoreArrowShorthand: true},
-        ],
         '@typescript-eslint/no-unused-vars': [
           'error',
-          {argsIgnorePattern: '^_', caughtErrors: 'none'},
+          {argsIgnorePattern: '^_'},
         ],
-        '@typescript-eslint/no-unused-expressions': 'off',
-        '@typescript-eslint/no-unsafe-declaration-merging': 'off',
-        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-builtins.md
-        'n/no-unsupported-features/es-builtins': 'off',
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
-        'n/no-unsupported-features/node-builtins': 'off',
+        'node/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports
         // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
-        // At the same tigit llme, we are using typescript in a strict mode and
+        // At the same time, we are using typescript in a strict mode and
         // it catches almost all errors related to invalid usage of this.
         'no-invalid-this': 'off',
 
-        'n/no-extraneous-import': 'off',
+        'node/no-extraneous-import': 'off',
 
         // Typescript already checks for undef
         'no-undef': 'off',
@@ -336,94 +296,8 @@ module.exports = {
         'jsdoc/no-types': 2,
       },
       parserOptions: {
-        project: path.resolve(__dirname, './tsconfig_eslint.json'),
-      },
-    },
-    {
-      files: [
-        '*_test.ts',
-        'test-utils.ts',
-      ],
-      rules: {
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/require-await': 'off',
-      },
-    },
-    {
-      files: ['*.html', 'test.js', 'test-infra.js'],
-      rules: {
-        'jsdoc/require-file-overview': 'off',
-      },
-    },
-    {
-      files: [
-        '*.html',
-        '*_test.js',
-        'a11y-test-utils.js',
-      ],
-      // Additional global variables allowed in tests
-      globals: {
-        // Global variables from 3rd party test libraries/frameworks.
-        // You can extend this list if you want to use other global
-        // variables from these libraries and import is not possible
-        flush: 'readonly',
-        setup: 'readonly',
-        sinon: 'readonly',
-        stub: 'readonly',
-        suite: 'readonly',
-        suiteSetup: 'readonly',
-        suiteTeardown: 'readonly',
-        teardown: 'readonly',
-        test: 'readonly',
-      },
-    },
-    {
-      files: 'import-href.js',
-      globals: {
-        HTMLImports: 'readonly',
-      },
-    },
-    {
-      files: ['samples/**/*.js'],
-      globals: {
-        // Settings for samples. You can add globals here if you want to use it
-        Gerrit: 'readonly',
-        Polymer: 'readonly',
-      },
-    },
-    {
-      files: ['*_html.js', 'gr-icons.js', '*-theme.js', '*-styles.js'],
-      rules: {
-        'max-len': 'off',
-      },
-    },
-    {
-      files: ['*_html.js'],
-      rules: {
-        'prettier/prettier': ['error', {
-          bracketSpacing: false,
-          singleQuote: true,
-        }],
-      },
-    },
-    {
-      files: ['*.ts'],
-      excludedFiles: '*_html.ts',
-      rules: {
-        'lit/attribute-value-entities': 'error',
-        'lit/binding-positions': 'error',
-        'lit/no-duplicate-template-bindings': 'error',
-        'lit/no-invalid-escape-sequences': 'error',
-        'lit/no-invalid-html': 'error',
-        'lit/no-legacy-template-syntax': 'error',
-        'lit/no-legacy-imports': 'error',
-        'lit/no-private-properties': 'error',
-        'lit/no-property-change-update': 'error',
-        'lit/no-template-bind': 'error',
-        'lit/no-useless-template-literals': 'error',
-        'lit/no-value-attribute': 'error',
-        'lit/prefer-static-styles': 'error',
-        'lit/quoted-expressions': ['error', 'never'],
+        // The __plugindir variable has to be defined by the plugin config.
+        project: path.resolve(__dirname, __plugindir, 'tsconfig.json'),
       },
     },
   ],
@@ -431,21 +305,12 @@ module.exports = {
     'html',
     'jsdoc',
     'import',
-    'lit',
     'prettier',
-    'regex',
   ],
   settings: {
     'html/report-bad-indent': 'error',
     'import/resolver': {
       node: {},
-      [path.resolve(__dirname, './.eslint-ts-resolver.js')]: {},
-    },
-    'jsdoc': {
-      tagNamePreference: {
-        returns: 'return',
-        file: 'fileoverview',
-      },
     },
   },
 };

@@ -458,10 +458,10 @@
   dependencies:
     "@types/chai" "^4.2.12"
 
-"@gerritcodereview/typescript-api@3.11.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.11.0.tgz#4c3939d76cc0941334aa1975c4744546469251d0"
-  integrity sha512-JqwywqmVi6VoyXYEjQXiCXavfkCz2qWZ+TeunjkmvkBizoB7TD5AedV1AjEHC2/a87VyhP6RcGLw9q046RuO7g==
+"@gerritcodereview/typescript-api@^3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.12.0.tgz#c851217a30a665aae1af81c5a050f4ad854298bc"
+  integrity sha512-GjPj9gshoN6KhC63e7/oa9sq0OgWbaqY4vOWJzu9Ho0IwG74j/AsB4mXNMdUC26obYwUMrjgWsdWdaAFB09UpQ==
 
 "@hapi/bourne@^3.0.0":
   version "3.0.0"

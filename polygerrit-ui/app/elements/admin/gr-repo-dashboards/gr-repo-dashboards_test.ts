@@ -125,7 +125,6 @@ suite('gr-repo-dashboards tests', () => {
     test('fires page-error', async () => {
       const response = {status: 404} as Response;
       stubRestApi('getRepoDashboards').callsFake((_repo, errFn) => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         errFn!(response);
         return Promise.resolve([]);
       });

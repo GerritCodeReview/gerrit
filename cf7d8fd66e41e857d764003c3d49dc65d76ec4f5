@@ -228,6 +228,24 @@
       "parentUuid": "bb8b226d_7bc7ced0",
       "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c507884a_4a4848ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-05-19T14:36:05Z",
+      "side": 1,
+      "message": "If I read correctly, it is enabled by default, isn\u0027t it? Should I configure anything?",
+      "parentUuid": "676ef30a_dc4e5b6c",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

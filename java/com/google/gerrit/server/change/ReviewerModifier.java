@@ -57,6 +57,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.change.ReviewerModifier.FailureBehavior;
+import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -287,7 +291,15 @@ public class ReviewerModifier {
         reviewerUser =
             accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asUniqueUser();
       } else {
-        reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
+        // First search only active accounts to see if only one unique account is returned
+        AccountResolver.Result accountResolverResult = accountResolver.resolve(input.reviewer);
+
+        if (accountResolverResult.asList().isEmpty()) {
+          // Fallback to searching inactive account
+          accountResolverResult = accountResolver.resolveIncludeInactive(input.reviewer);
+        }
+
+        reviewerUser = accountResolverResult.asUniqueUser();
       }
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {

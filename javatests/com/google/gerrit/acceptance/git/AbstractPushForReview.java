@@ -107,6 +107,9 @@ import com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PluginPushOption;
+import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
@@ -119,6 +122,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -167,6 +171,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
 
   private static String NEW_CHANGE_INDICATOR = " [NEW]";
   private LabelType patchSetLock;
@@ -819,6 +824,46 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(reviewers.get(0)._accountId).isNull();
     assertThat(reviewers.get(1).email).isEqualTo("non.existing.2@example.com");
     assertThat(reviewers.get(1)._accountId).isNull();
+  }
+
+  @Test
+  public void pushForMasterWithReviewerByEmailWithOneAccountInactive() throws Exception {
+    ConfigInput conf = new ConfigInput();
+    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(conf);
+
+    TestAccount u1 = accountCreator.create("some.user", "some.user@example.com", "Some User", null);
+
+    // Delete the MailTo external ID from u1. We want to create u2 with the same externalId
+    // and without this, the account creation for u2 fails with
+    // com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException
+    ImmutableList<ExternalId> ids =
+        accounts.get(u1.id()).get().externalIds().stream()
+            .filter(id -> id.isScheme(ExternalId.SCHEME_MAILTO))
+            .collect(toImmutableList());
+    for (ExternalId externalId : ids) {
+      accountsUpdateProvider
+          .get()
+          .update("Delete External ID", u1.id(), u -> u.deleteExternalId(externalId));
+    }
+
+    TestAccount u2 =
+        accountCreator.create("some.user2", "some.user@example.com", "Some User2", null);
+
+    gApi.accounts().id(u1.id().get()).setActive(false);
+
+    PushOneCommit.Result r = pushTo("refs/for/master%r=some.user@example.com");
+    r.assertOkStatus();
+
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+    ImmutableList<AccountInfo> reviewers =
+        firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of())
+            .stream()
+            .sorted(comparing((AccountInfo a) -> a.email))
+            .collect(toImmutableList());
+
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.get(0)._accountId).isEqualTo(u2.id().get());
   }
 
   @Test

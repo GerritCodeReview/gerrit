@@ -11,8 +11,7 @@ load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 package(default_visibility = ["//visibility:public"])
 
 exports_files([
-    ".eslintrc.js",
-    ".eslintignore",
+    "eslint.config.js",
     ".prettierrc.js",
     "rollup.config.js",
     "tsconfig-plugins-base.json",

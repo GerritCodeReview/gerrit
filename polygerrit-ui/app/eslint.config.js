@@ -236,7 +236,7 @@ module.exports = {
 
   overrides: [
     {
-      files: ['.eslintrc.js', '.eslintrc-bazel.js'],
+      files: ['eslint.config.js', 'eslint-bazel.config.js'],
       env: {
         browser: false,
         es6: true,
@@ -439,7 +439,7 @@ module.exports = {
     'html/report-bad-indent': 'error',
     'import/resolver': {
       node: {},
-      [path.resolve(__dirname, './.eslint-ts-resolver.js')]: {},
+      [path.resolve(__dirname, './.eslint-ts-resolver.config.js')]: {},
     },
     'jsdoc': {
       tagNamePreference: {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-// eslint-disable-next-line import/named
+
 import {fixture, html, assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {EventHelperPluginApi} from '../../../api/event-helper';

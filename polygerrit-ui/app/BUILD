@@ -73,6 +73,8 @@ ts_project(
             "node_modules/**",
             "node_modules_licenses/**",
             "rollup.config.js",
+            "eslint-bazel.config.js",
+            "eslint.config.js",
         ],
     ),
     allow_js = True,
@@ -141,12 +143,12 @@ filegroup(
 eslint(
     name = "lint",
     srcs = [":eslint_src_code"],
-    config = ".eslintrc-bazel.js",
+    config = "eslint-bazel.config.js",
     data = [
-        # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
-        ".eslintrc.js",
+        # The eslint-bazel.config.js extends the eslint.config.js config, pass it as a dependency
+        "eslint.config.js",
         ".prettierrc.js",
-        ".eslint-ts-resolver.js",
+        ".eslint-ts-resolver.config.js",
         "tsconfig_eslint.json",
         # tsconfig_eslint.json extends tsconfig.json, pass it as a dependency
         "tsconfig.json",
@@ -157,7 +159,6 @@ eslint(
         ".js",
         ".ts",
     ],
-    ignore = ".eslintignore",
     plugins = [
         "@npm//@typescript-eslint/eslint-plugin",
         "@npm//eslint-config-google",

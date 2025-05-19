@@ -25,16 +25,15 @@ def plugin_eslint():
     eslint(
         name = "lint",
         srcs = native.glob(["**/*.ts"]),
-        config = ".eslintrc.js",
+        config = "eslint.config.js",
         data = [
             "tsconfig.json",
-            "//plugins:.eslintrc.js",
+            "//plugins:eslint.config.js",
             "//plugins:.prettierrc.js",
             "//plugins:tsconfig-plugins-base.json",
             "@npm//typescript",
         ],
         extensions = [".ts"],
-        ignore = "//plugins:.eslintignore",
         plugins = [
             "@npm//eslint-config-google",
             "@npm//eslint-plugin-html",
@@ -48,7 +47,7 @@ def plugin_eslint():
         ],
     )
 
-def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".js"], data = []):
+def eslint(name, plugins, srcs, config, size = "large", extensions = [".js"], data = []):
     """ Macro to define eslint rules for files.
 
     Args:
@@ -56,7 +55,6 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
         plugins: list of npm dependencies with plugins, for example "@npm//eslint-config-google"
         srcs: list of files to be checked (ignored in {name}_bin rule)
         config: eslint config file
-        ignore: eslint ignore file
         size: eslint test size, supported values are: small, medium, large and enormous,
             with implied timeout labels: short, moderate, long, and eternal
         extensions: list of file extensions to be checked. This is an additional filter for
@@ -75,24 +73,10 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
     """
     entry_point = "@npm//:node_modules/eslint/bin/eslint.js"
 
-    # There are custom eslint rules in eslint-rules directory. Eslint loads
-    # custom rules from a directory specified with the --rulesdir argument.
-    # When bazel runs eslint, it places the eslint-rules directory into
-    # some location in the filesystem, and the location is not known in advance.
-    # It is not possible to get the directory location in bazel directly.
-    # Instead, we can use dirname to get a directory for a file in the
-    # eslint-rules directory.
-    # README.md is the most "stable" file in the eslint-rules directory
-    # (i.e. it is unlikely will be removed), and we are using it to calculate
-    # exact directory path in bazel.
-    eslint_rules_toplevel_file = "//tools/js/eslint-rules:README.md"
     bin_data = [
         "@npm//eslint:eslint",
         config,
-        ignore,
-        "//tools/js/eslint-rules:eslint-rules-srcs",
         "//tools/js:eslint-chdir.js",
-        eslint_rules_toplevel_file,
     ] + plugins + data
     common_templated_args = [
         "--node_options=--require=$$(rlocation $(rootpath //tools/js:eslint-chdir.js))",
@@ -103,11 +87,6 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
         # See note and example here:
         # https://bazelbuild.github.io/rules_nodejs/Built-ins.html#nodejs_binary
         "$$(rlocation $(rootpath {}))".format(config),
-        "--ignore-path",
-        "$$(rlocation $(rootpath {}))".format(ignore),
-        # Load custom rules from eslint-rules directory
-        "--rulesdir",
-        "$$(dirname $$(rlocation $(rootpath {})))".format(eslint_rules_toplevel_file),
     ]
     nodejs_test(
         name = name + "_test",
@@ -120,14 +99,11 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
             "--ignore-pattern",
             "*_test_require_patch.js",
             "--ignore-pattern",
+            "*_test_require_patch.cjs",
+            "--ignore-pattern",
             "*_test_loader.js",
             "./",  # Relative to the config file location
         ],
-        # Needed for eslint 9+.
-        # Remove this when migrating the config to flat config.
-        env = {
-            "ESLINT_USE_FLAT_CONFIG": "false",
-        },
         # Should not run sandboxed.
         tags = [
             "local",
@@ -147,9 +123,8 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
             "--ignore-pattern",
             "*_bin_require_patch.js",
             "--ignore-pattern",
+            "*_bin_require_patch.cjs",
+            "--ignore-pattern",
             "*_bin_loader.js",
         ],
-        env = {
-            "ESLINT_USE_FLAT_CONFIG": "false",
-        },
     )

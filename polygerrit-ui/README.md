@@ -197,7 +197,7 @@ and IDEs.
 `eslint-config-google` is a port of the Google JS Style Guide to an ESLint
 config module, and `eslint-plugin-html` allows ESLint to lint scripts inside
 HTML.
-We have an .eslintrc.json config file in the polygerrit-ui/ directory configured
+We have an eslint-bazel.config.js config file in the polygerrit-ui/ directory configured
 to enforce the preferred style of the PolyGerrit project.
 After installing, you can use `eslint` on any new file you create.
 In addition, you can supply the `--fix` flag to apply some suggested fixes for

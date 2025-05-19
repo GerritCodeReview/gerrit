@@ -543,6 +543,52 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void recentReviewerBoostedByCaseInsensitiveMatchInRecommender() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+
+    // User B: Also matches the query "john", but is NOT a recent reviewer
+    TestAccount userB_StandardMatch =
+        accountCreator.create(
+            name("userB_Standard"),
+            name("userB_StandardEmail") + "@example.com",
+            "john junior",
+            null);
+    gApi.accounts().id(userB_StandardMatch.id().get()).setActive(true);
+
+    // User A: Will be a recent reviewer. Their name requires a case-insensitive match
+    // by ReviewerRecommender for the query "john".
+    TestAccount userA_RecentReviewer =
+        accountCreator.create(
+            name("userA_Recent"), name("userA_RecentEmail") + "@example.com", "John Senior", null);
+    gApi.accounts().id(userA_RecentReviewer.id().get()).setActive(true);
+
+    // Make userA_RecentReviewer a reviewer on a previous change by admin.
+    String previousChangeId = createChange().getChangeId();
+    ReviewerInput addReviewerAsAdminInput = new ReviewerInput();
+    addReviewerAsAdminInput.reviewer = userA_RecentReviewer.email();
+    gApi.changes().id(previousChangeId).addReviewer(addReviewerAsAdminInput);
+
+    String targetChangeId = createChange().getChangeId();
+
+    // Query for reviewers with "john" (lowercase).
+    List<SuggestedReviewerInfo> suggestions = suggestReviewers(targetChangeId, "john", 5);
+
+    List<Account.Id> suggestedAccountIds =
+        suggestions.stream()
+            .filter(s -> s.account != null)
+            .map(s -> Account.id(s.account._accountId))
+            .collect(toList());
+
+    assertThat(suggestedAccountIds)
+        .containsAtLeast(userA_RecentReviewer.id(), userB_StandardMatch.id());
+
+    int indexOfUserA = suggestedAccountIds.indexOf(userA_RecentReviewer.id());
+    int indexOfUserB = suggestedAccountIds.indexOf(userB_StandardMatch.id());
+
+    assertThat(indexOfUserA).isLessThan(indexOfUserB);
+  }
+
+  @Test
   public void suggestNoServiceAccounts() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     String changeIdReviewed = createChangeFromApi();

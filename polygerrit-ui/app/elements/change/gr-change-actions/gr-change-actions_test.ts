@@ -2765,7 +2765,6 @@ suite('gr-change-actions tests', () => {
             'executeChangeAction'
           ).callsFake(
             (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
-              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
               return Promise.resolve(new Response());
             }

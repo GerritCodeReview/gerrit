@@ -173,7 +173,6 @@ suite('gr-change-view tests', () => {
         {
           path: '/COMMIT_MSG',
           author: {
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             _account_id: 1000000 as AccountId,
             name: 'user',
             username: 'user',

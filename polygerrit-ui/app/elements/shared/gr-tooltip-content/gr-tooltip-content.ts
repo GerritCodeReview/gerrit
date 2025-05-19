@@ -54,7 +54,6 @@ export class GrTooltipContent extends LitElement {
 
   private readonly hideHandler: (e: Event) => void;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   constructor() {
     super();
     this.windowScrollHandler = () => this._handleWindowScroll();

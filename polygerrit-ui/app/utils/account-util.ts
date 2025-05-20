@@ -23,7 +23,7 @@ import {
   SuggestedReviewerGroupInfo,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
-import {assertNever, hasOwnProperty} from './common-util';
+import {assertNever, hasOwnProperty, uniqueBy} from './common-util';
 import {
   getAccountDisplayName,
   getDisplayName,
@@ -119,23 +119,18 @@ export function isAccountNewlyAdded(
 
 export function uniqueDefinedAvatar(
   account: AccountInfo,
-  index: number,
+  _index: number,
   accountArray: AccountInfo[]
 ) {
-  return (
-    index === accountArray.findIndex(other => hasSameAvatar(account, other))
-  );
+  return uniqueBy(accountArray, (a, b) => hasSameAvatar(a, b)).includes(account);
 }
 
 export function uniqueAccountId(
   account: AccountInfo,
-  index: number,
+  _index: number,
   accountArray: AccountInfo[]
 ) {
-  return (
-    index ===
-    accountArray.findIndex(other => account._account_id === other._account_id)
-  );
+  return uniqueBy(accountArray, (a, b) => a._account_id === b._account_id).includes(account);
 }
 
 export function isDetailedAccount(account?: AccountInfo) {

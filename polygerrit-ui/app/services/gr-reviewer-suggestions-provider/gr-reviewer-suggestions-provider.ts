@@ -29,6 +29,7 @@ import {
   ReviewerState,
 } from '../../api/rest-api';
 import {throwingErrorCallback} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {uniqueBy} from '../../utils/common-util';
 
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;
@@ -121,13 +122,7 @@ export class GrReviewerSuggestionsProvider
 }
 
 function uniqueSuggestions(suggestions: Suggestion[]): Suggestion[] {
-  return suggestions.filter(
-    (suggestion, index) =>
-      index ===
-      suggestions.findIndex(
-        other => suggestionKey(suggestion) === suggestionKey(other)
-      )
-  );
+  return uniqueBy(suggestions, (a, b) => suggestionKey(a) === suggestionKey(b));
 }
 
 function suggestionKey(suggestion: Suggestion) {

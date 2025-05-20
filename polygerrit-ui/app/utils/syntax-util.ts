@@ -8,6 +8,7 @@ import {
   SyntaxLayerRange,
   UNCLOSED,
 } from '../types/syntax-worker-api';
+import {uniqueBy} from './common-util';
 
 /**
  * Utilities related to working with the HighlightJS syntax highlighting lib.
@@ -38,13 +39,12 @@ export function unescapeHTML(value: string) {
     .replace(/&amp;/g, '&');
 }
 
-function equal(r: SyntaxLayerRange) {
-  return (s: SyntaxLayerRange) =>
-    r.start === s.start && r.length === s.length && r.className === s.className;
+function equal(a: SyntaxLayerRange, b: SyntaxLayerRange) {
+  return a.start === b.start && a.length === b.length && a.className === b.className;
 }
 
-function unique(r: SyntaxLayerRange, index: number, array: SyntaxLayerRange[]) {
-  return index === array.findIndex(equal(r));
+function unique(r: SyntaxLayerRange, _index: number, array: SyntaxLayerRange[]) {
+  return uniqueBy(array, equal).includes(r);
 }
 
 /**

@@ -133,8 +133,25 @@ export function toggle<T>(array: T[], item: T): T[] {
   }
 }
 
-export function unique<T>(item: T, index: number, array: T[]) {
-  return array.indexOf(item) === index;
+/**
+ * Returns a new array with duplicate elements removed based on a comparison function.
+ * @returns A new array with duplicates removed
+ */
+export function uniqueBy<T>(
+  array: T[],
+  compareFn: (a: T, b: T) => boolean
+): T[] {
+  return array.filter((item, index) => 
+    index === array.findIndex(other => compareFn(item, other))
+  );
+}
+
+/**
+ * Returns true if the item is the first occurrence in the array.
+ * Uses strict equality (===) for comparison.
+ */
+export function unique<T>(item: T, _index: number, array: T[]) {
+  return uniqueBy(array, (a, b) => a === b).includes(item);
 }
 
 /**

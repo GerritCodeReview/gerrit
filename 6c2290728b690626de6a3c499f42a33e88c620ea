@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19d0abe7_f057b04e",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-20T09:39:08Z",
+      "side": 1,
+      "message": "rename to switch",
+      "range": {
+        "startLine": 572,
+        "startChar": 8,
+        "endLine": 572,
+        "endChar": 17
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3d4962fd_dd8db404",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 572,
+                "startChar": 0,
+                "endLine": 573,
+                "endChar": 0
+              },
+              "replacement": "        switch (changeNum \u003d\u003e {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6c2290728b690626de6a3c499f42a33e88c620ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

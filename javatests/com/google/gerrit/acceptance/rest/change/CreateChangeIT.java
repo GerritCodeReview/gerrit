@@ -106,6 +106,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -1151,8 +1152,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createPatchApplyingChange_withParentCommit_success() throws Exception {
+    Ref previousHead = testRepo.getRepository().exactRef("HEAD");
     createBranch(BranchNameKey.create(project, "other"));
     Result baseChange = createChange("refs/heads/other");
+    /* Reset HEAD before creating change against master as to not create an implicit merge. */
+    testRepo.reset(previousHead.getObjectId());
     PushOneCommit.Result ignoredCommit = createChange();
     ignoredCommit.assertOkStatus();
     ChangeInput input = newPatchApplyingChangeInput("other", PATCH_INPUT);

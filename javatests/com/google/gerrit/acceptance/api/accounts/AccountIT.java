@@ -112,6 +112,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -181,6 +182,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.KeyPair;
@@ -201,6 +203,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -3540,6 +3543,26 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Clean up the test framework
     accountCreator.evict(deleted.id());
+  }
+
+  @Test
+  public void deleteAccount_removeUserFromGroups() throws Exception {
+    TestAccount userAccount = accountCreator.create("alvaro");
+    AccountGroup.UUID engineers1Group = groupOperations.newGroup().addMember(userAccount.id()).create();
+    AccountGroup.UUID engineers2Group = groupOperations.newGroup().addMember(userAccount.id()).create();
+
+    assertThat(groupOperations.group(engineers1Group).get().members()).containsExactly(userAccount.id());
+    assertThat(groupOperations.group(engineers2Group).get().members()).containsExactly(userAccount.id());
+
+    requestScopeOperations.setApiUser(userAccount.id());
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(groupOperations.group(engineers1Group).get().members()).isEmpty();
+    assertThat(groupOperations.group(engineers2Group).get().members()).isEmpty();
+
+    // Clean up the test framework
+    accountCreator.evict(userAccount.id());
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)

@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -268,6 +269,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void applyGerritBasedPatchWithMultipleFiles_success() throws Exception {
     PushOneCommit.Result commonBaseCommit =
         createChange("File for modification", MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);

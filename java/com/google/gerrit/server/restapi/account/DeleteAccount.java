@@ -15,9 +15,12 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
@@ -44,6 +47,8 @@ import com.google.gerrit.server.config.AccountConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.db.GroupDelta;
+import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -53,6 +58,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -69,6 +76,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class DeleteAccount implements RestModifyView<AccountResource, Input> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<CurrentUser> self;
   private final Provider<PersonIdent> serverIdent;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
@@ -83,12 +92,14 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
   private final PublicKeyStoreUtil publicKeyStoreUtil;
   private final AccountConfig accountConfig;
+  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
   public DeleteAccount(
       Provider<CurrentUser> self,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
       StarredChangesReader starredChangesReader,
@@ -114,6 +125,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.publicKeyStoreUtil = publicKeyStoreUtil;
     this.accountConfig = accountConfig;
+    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   @Override
@@ -136,6 +148,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       deleteChangeEdits(userId);
       deleteDraftCommentsUtil.deleteDraftComments(user, null);
       accountPatchReviewStore.run(a -> a.clearReviewedBy(userId));
+      removeUserFromGroups(user);
       accountsUpdateProvider
           .get()
           .delete("Deleting user through `DELETE /accounts/{ID}`", user.getAccountId());
@@ -143,6 +156,32 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       throw new AccountException("Could not delete account", e);
     }
     return Response.none();
+  }
+
+  private void removeUserFromGroups(IdentifiedUser user) {
+    Account.Id accountId = user.getAccountId();
+
+    GroupDelta groupDelta =
+        GroupDelta.builder()
+            .setMemberModification(memberIds -> Sets.difference(memberIds, Set.of(accountId)))
+            .build();
+
+    Set<AccountGroup.UUID> internalGroups =
+        user.getEffectiveGroups().getKnownGroups().stream()
+            .filter(g -> g.isInternalGroup())
+            .collect(Collectors.toSet());
+
+    internalGroups.forEach(
+        groupUuid -> {
+          try {
+            groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
+            logger.atInfo().log(
+                String.format("User: %s removed from Group: %s", accountId, groupUuid));
+          } catch (Exception e) {
+            logger.atWarning().withCause(e).log(
+                "User: %s could not be removed from Group: %s ", accountId, groupUuid);
+          }
+        });
   }
 
   private void deletePgpKeys(IdentifiedUser user) {

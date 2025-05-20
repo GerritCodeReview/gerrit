@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd3a922_2c40979f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-20T19:04:50Z",
+      "side": 1,
+      "message": "Nice change!!",
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4e9304_204e5600",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-20T19:04:50Z",
+      "side": 1,
+      "message": "add check for `false` before you set `quickLabelInfo.approved\u003d`?",
+      "range": {
+        "startLine": 993,
+        "startChar": 10,
+        "endLine": 993,
+        "endChar": 22
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd6acb16_79ae721d",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-20T19:04:50Z",
+      "side": 1,
+      "message": "maybe check it\u0027s false before `quickLabelInfo.rejected` is set in the previous line?\n\nSimilar for the other tests that are checking `true`(add case for false)?",
+      "range": {
+        "startLine": 1011,
+        "startChar": 6,
+        "endLine": 1011,
+        "endChar": 19
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77648a75_599bced2",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-20T19:04:50Z",
+      "side": 1,
+      "message": "add a false test for this as well?",
+      "range": {
+        "startLine": 1023,
+        "startChar": 4,
+        "endLine": 1023,
+        "endChar": 50
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07229533_5dcd1af5",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-20T19:04:50Z",
+      "side": 1,
+      "message": "you are assigning the same return value to all keys?\n\nmaybe assign something different to make the assertion stronger?",
+      "range": {
+        "startLine": 1037,
+        "startChar": 18,
+        "endLine": 1037,
+        "endChar": 53
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

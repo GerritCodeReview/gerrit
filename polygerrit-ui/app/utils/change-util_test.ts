@@ -11,6 +11,7 @@ import {
   createChange,
   createRevisions,
   createServiceUserWithId,
+  createChangeWithStatus,
 } from '../test/test-data-generators';
 import {
   AccountId,
@@ -56,12 +57,7 @@ suite('change-util tests', () => {
   });
 
   test('Open status', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      mergeable: true,
-    };
+    const change = createChangeWithStatus(ChangeStatus.NEW, true);
     let statuses = changeStatuses(change);
     assert.deepEqual(statuses, []);
 
@@ -88,35 +84,19 @@ suite('change-util tests', () => {
   });
 
   test('Merge conflict', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.NEW,
-      mergeable: false,
-    };
+    const change = createChangeWithStatus(ChangeStatus.NEW, false);
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
   });
 
   test('mergeable prop undefined', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.NEW,
-    };
+    const change = createChangeWithStatus(ChangeStatus.NEW);
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, []);
   });
 
   test('Merged status', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.MERGED,
-    };
+    const change = createChangeWithStatus(ChangeStatus.MERGED);
     assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
     change.is_private = true;
     assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
@@ -149,13 +129,7 @@ suite('change-util tests', () => {
   });
 
   test('Abandoned status', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.ABANDONED,
-      mergeable: false,
-    };
+    const change = createChangeWithStatus(ChangeStatus.ABANDONED, false);
     assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
     change.is_private = true;
     assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
@@ -267,39 +241,21 @@ suite('change-util tests', () => {
   });
 
   test('changeIsOpen', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.NEW,
-      mergeable: false,
-    };
+    const change = createChangeWithStatus(ChangeStatus.NEW, false);
     assert.isTrue(changeIsOpen(change));
     change.status = ChangeStatus.MERGED;
     assert.isFalse(changeIsOpen(change));
   });
 
   test('changeIsMerged', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.MERGED,
-      mergeable: false,
-    };
+    const change = createChangeWithStatus(ChangeStatus.MERGED, false);
     assert.isTrue(changeIsMerged(change));
     change.status = ChangeStatus.NEW;
     assert.isFalse(changeIsMerged(change));
   });
 
   test('changeIsAbandoned', () => {
-    const change = {
-      ...createChange(),
-      revisions: createRevisions(1),
-      current_revision: 'rev1' as CommitId,
-      status: ChangeStatus.ABANDONED,
-      mergeable: false,
-    };
+    const change = createChangeWithStatus(ChangeStatus.ABANDONED, false);
     assert.isTrue(changeIsAbandoned(change));
     change.status = ChangeStatus.NEW;
     assert.isFalse(changeIsAbandoned(change));

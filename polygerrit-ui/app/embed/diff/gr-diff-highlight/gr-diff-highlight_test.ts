@@ -26,7 +26,7 @@ import {DiffModel} from '../gr-diff-model/gr-diff-model';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places
-/* eslint-disable max-len, lit/prefer-static-styles */
+
 /* prettier-ignore */
 const diffTable = html`
   <table id="diffTable">
@@ -125,7 +125,6 @@ const diffTable = html`
     </tbody>
   </table>
 `;
-/* eslint-enable max-len */
 
 suite('gr-diff-highlight', () => {
   suite('comment events', () => {

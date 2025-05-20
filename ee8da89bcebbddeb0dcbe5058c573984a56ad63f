@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f6a601_00769cfc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-20T15:09:44Z",
+      "side": 1,
+      "message": "No idea why this doesn\u0027t work? Is default values explicitly configured in All-Projects?",
+      "range": {
+        "startLine": 1254,
+        "startChar": 0,
+        "endLine": 1259,
+        "endChar": 18
+      },
+      "revId": "ee8da89bcebbddeb0dcbe5058c573984a56ad63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

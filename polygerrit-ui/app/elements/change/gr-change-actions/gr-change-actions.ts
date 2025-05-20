@@ -121,9 +121,9 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
 import {ValidationOptionInfo} from '../../../api/rest-api';
 
-const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
-const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
-const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
+const ERR_BRANCH_EMPTY = 'The destination branch can`t be empty.';
+const ERR_COMMIT_EMPTY = 'The commit message can`t be empty.';
+const ERR_REVISION_ACTIONS = 'Couldn`t load revision actions.';
 
 export enum LabelStatus {
   /**
@@ -1033,12 +1033,7 @@ export class GrChangeActions
   }
 
   private indexOfActionButtonWithKey(key: string) {
-    for (let i = 0; i < this.additionalActions.length; i++) {
-      if (this.additionalActions[i].__key === key) {
-        return i;
-      }
-    }
-    return -1;
+    return this.additionalActions.findIndex(action => action.__key === key);
   }
 
   private actionsChanged() {

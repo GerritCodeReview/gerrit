@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t we keep the newer version here?",
       "revId": "c4438cae61f11a389e76d9dbce082b15ab02326c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "249877ef_4816b2f1",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-20T06:45:17Z",
+      "side": 0,
+      "message": "Yeh, thanks, done.",
+      "parentUuid": "05026b9c_593ec910",
+      "revId": "c4438cae61f11a389e76d9dbce082b15ab02326c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

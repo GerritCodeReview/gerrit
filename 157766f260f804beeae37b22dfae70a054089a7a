@@ -16,6 +16,24 @@
       "message": "Hmm, i can\u0027t get it to work with plugins, e.g. cm. I guess because it\u0027s still using .eslintrc.js although it extends plugins/.eslintrc.js which we\u0027re removing.",
       "revId": "157766f260f804beeae37b22dfae70a054089a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cba8ea3b_f8c51656",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-20T07:11:41Z",
+      "side": 1,
+      "message": "Oh think i\u0027ve figured it out.\n\nhttps://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/477462 works for me.",
+      "parentUuid": "87c04c2d_ce572b3a",
+      "revId": "157766f260f804beeae37b22dfae70a054089a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

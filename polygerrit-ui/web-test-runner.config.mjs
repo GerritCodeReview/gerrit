@@ -96,6 +96,12 @@ const config = {
     },
   },
 
+  coverageConfig: {
+    report: true,
+    reportDir: 'coverage',
+    reporters: ['lcov', 'text'],
+  },
+
   plugins: [
     esbuildPlugin({
       ts: true,

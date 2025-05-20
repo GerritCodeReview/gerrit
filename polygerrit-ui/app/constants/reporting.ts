@@ -27,6 +27,7 @@ export enum Execution {
   CHECKS_API_ERROR = 'checks-api error',
   USER_PREFERENCES_COLUMNS = 'user-preferences-columns',
   PREFER_MERGE_FIRST_PARENT = 'prefer-merge-first-parent',
+  PUBLISHED_DRAFTS_DEDUPLICATED = 'published-drafts-deduplicated',
 }
 
 export enum Timing {

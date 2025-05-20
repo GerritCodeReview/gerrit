@@ -29,6 +29,12 @@ import {
   extractLabelsWithCountFrom,
   orderSubmitRequirements,
   StandardLabels,
+  getDefaultValue,
+  hasApprovedVote,
+  hasRejectedVote,
+  canReviewerVote,
+  getCodeReviewLabel,
+  orderSubmitRequirementNames,
 } from './label-util';
 import {
   AccountId,
@@ -74,6 +80,19 @@ const VALUES_2 = {
   '+1': 'good',
   '+2': 'perfect',
 };
+
+function createDetailedLabelInfoWithValues(values = VALUES_2) {
+  return {
+    ...createDetailedLabelInfo(),
+    values,
+  };
+}
+
+function createApprovalWithValue(value: number, account?: AccountInfo) {
+  const approval = createApproval(account);
+  approval.value = value;
+  return approval;
+}
 
 suite('label-util', () => {
   test('getVotingRange -1 to +1', () => {
@@ -954,6 +973,94 @@ suite('label-util', () => {
       const ordered = orderSubmitRequirements(requirements);
 
       assert.deepEqual(ordered, requirements);
+    });
+  });
+
+  suite('getDefaultValue', () => {
+    test('returns default value when label exists and has default_value', () => {
+      const defaultValue = 1;
+      const labels = {
+        'Code-Review': {
+          ...createDetailedLabelInfo(),
+          default_value: defaultValue,
+        },
+      };
+      assert.equal(getDefaultValue(labels, 'Code-Review'), defaultValue);
+    });
+  });
+
+  suite('hasApprovedVote', () => {
+    test('returns true for quick label info with approved status', () => {
+      const quickLabelInfo = createQuickLabelInfo();
+      quickLabelInfo.approved = createAccountWithId();
+      assert.isTrue(hasApprovedVote(quickLabelInfo));
+    });
+
+    test('returns true for detailed label info with approved vote', () => {
+      const detailedLabelInfo = createDetailedLabelInfoWithValues();
+      const approval = createApprovalWithValue(2);
+      detailedLabelInfo.all = [approval];
+      assert.isTrue(hasApprovedVote(detailedLabelInfo));
+    });
+  });
+
+  suite('hasRejectedVote', () => {
+    test('returns true for quick label info with rejected status', () => {
+      const quickLabelInfo = createQuickLabelInfo();
+      quickLabelInfo.rejected = createAccountWithId();
+      assert.isTrue(hasRejectedVote(quickLabelInfo));
+    });
+
+    test('returns true for detailed label info with rejected vote', () => {
+      const detailedLabelInfo = createDetailedLabelInfoWithValues();
+      const approval = createApprovalWithValue(-2);
+      detailedLabelInfo.all = [approval];
+      assert.isTrue(hasRejectedVote(detailedLabelInfo));
+    });
+  });
+
+  suite('canReviewerVote', () => {
+    test('returns true when reviewer has permitted voting range with max > 0', () => {
+      const detailedLabelInfo = createDetailedLabelInfo();
+      const account = createAccountWithId();
+      const approval = createApproval(account);
+      approval.permitted_voting_range = {min: -1, max: 1};
+      detailedLabelInfo.all = [approval];
+      assert.isTrue(canReviewerVote(detailedLabelInfo, account));
+    });
+  });
+
+  suite('getCodeReviewLabel', () => {
+    test('returns Code-Review label from label map', () => {
+      const codeReviewLabel = createDetailedLabelInfoWithValues();
+      const labels = {
+        Verified: createDetailedLabelInfoWithValues(),
+        [StandardLabels.CODE_REVIEW]: codeReviewLabel,
+        'Custom-Label': createDetailedLabelInfoWithValues(),
+      };
+      assert.deepEqual(getCodeReviewLabel(labels), codeReviewLabel);
+    });
+  });
+
+  suite('orderSubmitRequirementNames', () => {
+    test('orders priority requirements first, then alphabetically', () => {
+      const names = [
+        'Custom-Label-2',
+        StandardLabels.PRESUBMIT_VERIFIED,
+        'Custom-Label-1',
+        StandardLabels.CODE_REVIEW,
+        'Custom-Label-3',
+        StandardLabels.CODE_OWNERS,
+      ];
+      const expected = [
+        StandardLabels.CODE_REVIEW,
+        StandardLabels.CODE_OWNERS,
+        StandardLabels.PRESUBMIT_VERIFIED,
+        'Custom-Label-1',
+        'Custom-Label-2',
+        'Custom-Label-3',
+      ];
+      assert.deepEqual(orderSubmitRequirementNames(names), expected);
     });
   });
 });

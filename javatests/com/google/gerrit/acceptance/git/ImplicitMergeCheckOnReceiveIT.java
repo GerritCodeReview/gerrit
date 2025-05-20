@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.git.ObjectIds;
 import java.util.Locale;
 import org.eclipse.jgit.lib.ObjectId;
@@ -53,6 +54,7 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void implicitMergeCheckOff() throws Exception {
     ObjectId base = repo().exactRef("HEAD").getObjectId();
     push("refs/heads/stable", "0", "f", "0");

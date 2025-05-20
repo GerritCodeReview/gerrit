@@ -1384,6 +1384,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void cherryPickToMergedChangeRevision() throws Exception {
     createBranch(BranchNameKey.create(project, "foo"));
 

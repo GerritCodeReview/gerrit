@@ -99,7 +99,8 @@ public class RepositoryConfig {
       }
     }
 
-    return configuredDefault.orElse(DefaultBooleanProjectConfig.Value.FALSE);
+    return configuredDefault.orElse(
+        DefaultBooleanProjectConfig.Value.fromBooleanProjectConfig(booleanProjectConfig));
   }
 
   public SubmitType getDefaultSubmitType(Project.NameKey project) {

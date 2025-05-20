@@ -432,6 +432,19 @@ export function createChange(partial: Partial<ChangeInfo> = {}): ChangeInfo {
   };
 }
 
+export function createChangeWithStatus(
+  status: ChangeStatus,
+  mergeable: boolean | undefined = undefined
+): ChangeInfo {
+  return {
+    ...createChange(),
+    revisions: createRevisions(1),
+    current_revision: 'rev1' as CommitId,
+    status,
+    mergeable,
+  };
+}
+
 export function createChangeViewChange(): ChangeViewChangeInfo {
   return {
     ...createChange(),

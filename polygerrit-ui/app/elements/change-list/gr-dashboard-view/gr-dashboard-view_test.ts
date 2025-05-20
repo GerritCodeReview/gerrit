@@ -13,6 +13,7 @@ import {ChangeStatus} from '../../../constants/constants';
 import {
   createAccountDetailWithId,
   createChange,
+  createChangeWithStatus,
 } from '../../../test/test-data-generators';
 import {
   addListenerForTest,
@@ -195,7 +196,7 @@ suite('gr-dashboard-view tests', () => {
       });
 
       test('no drafts on open changes', () => {
-        const openChange = {...createChange(), status: ChangeStatus.NEW};
+        const openChange = createChangeWithStatus(ChangeStatus.NEW);
         element.results = [
           {countLabel: '', name: '', query: 'has:draft', results: [openChange]},
         ];
@@ -210,7 +211,7 @@ suite('gr-dashboard-view tests', () => {
       });
 
       test('no drafts on not open changes', () => {
-        const notOpenChange = {...createChange(), status: '_' as ChangeStatus};
+        const notOpenChange = createChangeWithStatus('_' as ChangeStatus);
         element.results = [
           {
             name: '',

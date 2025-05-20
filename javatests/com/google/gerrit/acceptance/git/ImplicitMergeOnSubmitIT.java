@@ -19,6 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -69,12 +70,14 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void singleChangeImplicitMerge() throws Exception {
     PushOneCommit.Result implicitMerge = createApprovedChange("master", otherTip);
     assertSubmitRejectedWithImplicitMerge(implicitMerge.getChangeId());
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void chainOfChangesImplicitMerge() throws Exception {
     PushOneCommit.Result implicitMerge = createApprovedChange("master", otherTip);
     PushOneCommit.Result c1 = createApprovedChange("master", implicitMerge);
@@ -107,6 +110,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void chainOfChangesNotOnTopOfTargetBranchTipWithImplicitMerge() throws Exception {
     // Add one more commit to master branch.
     pushTo("refs/heads/master", ImmutableMap.of(), masterTip);
@@ -119,6 +123,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void chainOfChangesEndsWithExplicitMerge_onlyExplcitMergeCanBeSubmitted()
       throws Exception {
     PushOneCommit.Result implicitMerge = createApprovedChange("master", otherTip);
@@ -131,6 +136,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void twoChainOfChangesSameTopic_oneChainImplicitMerge_rejectedOnSubmit() throws Exception {
     cfg.setBoolean("change", null, "submitWholeTopic", true);
     PushOneCommit.Result c1 = createApprovedChange("master", masterTip);
@@ -206,6 +212,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void twoChainOfChangesEndsWithExplicitMergeSameTopicNotTipOfBranches_canBeSubmitted()
       throws Exception {
     cfg.setBoolean("change", null, "submitWholeTopic", true);
@@ -235,6 +242,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void twoChainOfChangesDifferentBranchesSameTopic_oneChainImplicitMerge_rejectedOnSubmit()
       throws Exception {
     cfg.setBoolean("change", null, "submitWholeTopic", true);
@@ -260,6 +268,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void explicitMergeOnTopOfChain_onlyTopSubmittable() throws Exception {
     PushOneCommit.Result implicitMerge = createApprovedChange("master", otherTip);
     PushOneCommit.Result im1 = createApprovedChange("master", implicitMerge);
@@ -273,6 +282,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void explicitMergeOnTopOfChainParentIsNotBranchTip_onlyTopSubmittable() throws Exception {
     // Add one more commit to master and other branches.
     pushTo("refs/heads/master", ImmutableMap.of(), masterTip);

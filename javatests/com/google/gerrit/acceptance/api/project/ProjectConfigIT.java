@@ -1239,23 +1239,23 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void falseIsTheDefaultForBooleanProjectConfigIfNoDefaultIsConfigured() throws Exception {
+  public void theDefaultForBooleanProjectConfigIsUsedIfNoDefaultIsConfigured() throws Exception {
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
-        .isFalse();
+                .is(BooleanProjectConfig.ENABLE_SIGNED_PUSH))
+        .isEqualTo(BooleanProjectConfig.ENABLE_SIGNED_PUSH.getDefaultValue());
   }
 
   @Test
-  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=true")
+  @GerritConfig(name = "repository.*.defaultConfig", value = "change.workInProgressByDefault=true")
   public void configureTrueAsDefaultForBooleanProjectConfig() throws Exception {
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+                .is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT))
         .isTrue();
 
     // true can be overridden in the project
@@ -1264,25 +1264,25 @@ public class ProjectConfigIT extends AbstractDaemonTest {
           .updateProject(
               b ->
                   b.setBooleanConfig(
-                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.FALSE));
+                      BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT, InheritableBoolean.FALSE));
       u.save();
     }
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+                .is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT))
         .isFalse();
   }
 
   @Test
-  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=forced")
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.enableSignedPush=forced")
   public void configureForcedAsDefaultForBooleanProjectConfig() throws Exception {
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+                .is(BooleanProjectConfig.ENABLE_SIGNED_PUSH))
         .isTrue();
 
     // forced cannot be overridden in the project
@@ -1291,14 +1291,14 @@ public class ProjectConfigIT extends AbstractDaemonTest {
           .updateProject(
               b ->
                   b.setBooleanConfig(
-                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.FALSE));
+                      BooleanProjectConfig.ENABLE_SIGNED_PUSH, InheritableBoolean.FALSE));
       u.save();
     }
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
+                .is(BooleanProjectConfig.ENABLE_SIGNED_PUSH))
         .isTrue();
   }
 
@@ -1330,42 +1330,45 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=invalid")
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.enableSignedPush=invalid")
   public void invalidDefaultForBooleanProjectConfigIsIgnored() throws Exception {
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
-        .isFalse();
-
+                .is(BooleanProjectConfig.ENABLE_SIGNED_PUSH))
+        .isEqualTo(BooleanProjectConfig.ENABLE_SIGNED_PUSH.getDefaultValue());
+    /* Set the boolean-config to !defaultValue. */
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateProject(
               b ->
                   b.setBooleanConfig(
-                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE));
+                      BooleanProjectConfig.ENABLE_SIGNED_PUSH,
+                      BooleanProjectConfig.ENABLE_SIGNED_PUSH.getDefaultValue()
+                          ? InheritableBoolean.FALSE
+                          : InheritableBoolean.TRUE));
       u.save();
     }
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
-                .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
-        .isTrue();
+                .is(BooleanProjectConfig.ENABLE_SIGNED_PUSH))
+        .isEqualTo(!BooleanProjectConfig.ENABLE_SIGNED_PUSH.getDefaultValue());
   }
 
   @Test
   @GerritConfig(
       name = "repository.*.defaultConfig",
-      values = {"receive.rejectImplicitMerges=true", "receive.rejectImplicitMerges=false"})
+      values = {"receive.rejectImplicitMerges=false", "receive.rejectImplicitMerges=true"})
   public void firstConfigureDefaultForBooleanProjectConfigApplies() throws Exception {
     assertThat(
             projectCache
                 .get(project)
                 .orElseThrow(illegalState(project))
                 .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
-        .isTrue();
+        .isFalse();
   }
 
   private void testChangingCopyCondition(

@@ -3564,6 +3564,36 @@ public class AccountIT extends AbstractDaemonTest {
     accountCreator.evict(deleted.id());
   }
 
+  @Test
+  public void deleteAccount_removeUserFromGroups() throws Exception {
+    TestAccount userAccount = accountCreator.create("user-remove-user-from-groups");
+    TestAccount userAccount2 = accountCreator.create("user-2");
+    AccountGroup.UUID engineers1Group =
+        groupOperations
+            .newGroup()
+            .addMember(userAccount.id())
+            .addMember(userAccount2.id())
+            .create();
+    AccountGroup.UUID engineers2Group =
+        groupOperations.newGroup().addMember(userAccount.id()).create();
+
+    assertThat(groupOperations.group(engineers1Group).get().members())
+        .containsExactly(userAccount.id(), userAccount2.id());
+    assertThat(groupOperations.group(engineers2Group).get().members())
+        .containsExactly(userAccount.id());
+
+    requestScopeOperations.setApiUser(userAccount.id());
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(groupOperations.group(engineers1Group).get().members())
+        .containsExactly(userAccount2.id());
+    assertThat(groupOperations.group(engineers2Group).get().members()).isEmpty();
+
+    // Clean up the test framework
+    accountCreator.evict(userAccount.id());
+  }
+
   @UsedAt(UsedAt.Project.GOOGLE)
   protected int getUsersWithDraftsCount(Change.Id changeId) throws Exception {
     // The getStarredChangesCount and getUsersWithDraftsCount should be 2 distinct methods,

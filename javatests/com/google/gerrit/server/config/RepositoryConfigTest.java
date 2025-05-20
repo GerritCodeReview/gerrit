@@ -104,17 +104,22 @@ public class RepositoryConfigTest {
             repoCfg.getDefault(
                 Project.nameKey("someProject"), BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
         .isEqualTo(DefaultBooleanProjectConfig.Value.FORCED);
+    // for non-matching project the default is read from the BooleanProjectConfig.
     assertThat(
             repoCfg.getDefault(
                 Project.nameKey("someOtherProject"), BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
-        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+        .isEqualTo(
+            DefaultBooleanProjectConfig.Value.fromBooleanProjectConfig(
+                BooleanProjectConfig.REJECT_IMPLICIT_MERGES));
 
-    // for another key the default is false
+    // for another key the default is read from the BooleanProjectConfig.
     assertThat(
             repoCfg.getDefault(
                 Project.nameKey("someProject"),
                 BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET))
-        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+        .isEqualTo(
+            DefaultBooleanProjectConfig.Value.fromBooleanProjectConfig(
+                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET));
   }
 
   @Test
@@ -145,12 +150,14 @@ public class RepositoryConfigTest {
                 BooleanProjectConfig.REJECT_IMPLICIT_MERGES))
         .isEqualTo(DefaultBooleanProjectConfig.Value.FORCED);
 
-    // for another key the default is false
+    // for another key the default is read from the BooleanProjectConfig.
     assertThat(
             repoCfg.getDefault(
                 Project.nameKey("someProject"),
                 BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET))
-        .isEqualTo(DefaultBooleanProjectConfig.Value.FALSE);
+        .isEqualTo(
+            DefaultBooleanProjectConfig.Value.fromBooleanProjectConfig(
+                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET));
   }
 
   private void configureDefaultConfig(

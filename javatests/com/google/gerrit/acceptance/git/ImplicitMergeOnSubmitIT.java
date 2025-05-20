@@ -19,6 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -273,6 +274,7 @@ public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   }
 
   @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void explicitMergeOnTopOfChainParentIsNotBranchTip_onlyTopSubmittable() throws Exception {
     // Add one more commit to master and other branches.
     pushTo("refs/heads/master", ImmutableMap.of(), masterTip);

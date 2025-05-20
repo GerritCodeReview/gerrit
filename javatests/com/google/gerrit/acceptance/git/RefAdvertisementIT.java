@@ -216,6 +216,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     psRef4 = cd4.currentPatchSet().id().toRefName();
     metaRef4 = RefNames.changeMetaRef(cd4.getId());
 
+    // Reset HEAD to origin/master
+    testRepo.reset("origin/master");
+
     try (Repository repo = repoManager.openRepository(project)) {
       //   rcMaster (c1 master master-tag) <-- rcBranch (c2 branch)
       //       \                                  \

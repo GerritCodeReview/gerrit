@@ -52,6 +52,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46d145cf_a2d619dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T09:08:37Z",
+      "side": 1,
+      "message": "Fix applied",
+      "parentUuid": "ec182c04_e4b411c7",
+      "range": {
+        "startLine": 1890,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 3
+      },
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57ae398a_acad8ef5",
@@ -65,6 +89,30 @@
       "writtenOn": "2025-05-21T08:21:16Z",
       "side": 1,
       "message": "Optional: Existing usage of expandedFiles in this file seems really inefficient. Could you file a bug to replace it with a Set and add a TODO?",
+      "range": {
+        "startLine": 1897,
+        "startChar": 28,
+        "endLine": 1897,
+        "endChar": 41
+      },
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ad7db6a_16a94ab2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1897,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T09:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57ae398a_acad8ef5",
       "range": {
         "startLine": 1897,
         "startChar": 28,
@@ -112,6 +160,30 @@
           ]
         }
       ],
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95e02ce9_e1666ebb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T09:08:37Z",
+      "side": 1,
+      "message": "Fix applied",
+      "parentUuid": "6ac77cb6_ec66f12d",
+      "range": {
+        "startLine": 308,
+        "startChar": 13,
+        "endLine": 308,
+        "endChar": 14
+      },
       "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

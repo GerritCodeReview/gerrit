@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e57e97a_33c7d192",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2089,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T09:06:58Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "82e60d9a_01af772f",
+      "range": {
+        "startLine": 2089,
+        "startChar": 25,
+        "endLine": 2089,
+        "endChar": 45
+      },
+      "revId": "445298554aeedcce3e15efdc23aec7c2e958d93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65bb4fcc_85d79193",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-21T09:00:30Z",
       "side": 1,
       "message": "Same here:\n\n\n```suggestion\n    ImmutableSet\u003cString\u003e getCcs() {\n```",
+      "range": {
+        "startLine": 2100,
+        "startChar": 25,
+        "endLine": 2100,
+        "endChar": 39
+      },
+      "revId": "445298554aeedcce3e15efdc23aec7c2e958d93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc7cb32_a3382494",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T09:06:58Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "65bb4fcc_85d79193",
       "range": {
         "startLine": 2100,
         "startChar": 25,

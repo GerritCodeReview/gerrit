@@ -1554,10 +1554,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
-    inputVal: string,
+    inputVal?: string,
     errFn?: ErrorCallback
   ) {
-    return this._getChangeSuggestedGroup(
+    return this.getChangeSuggestedGroup(
       ReviewerState.REVIEWER,
       changeNum,
       inputVal,
@@ -1567,10 +1567,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
-    inputVal: string,
+    inputVal?: string,
     errFn?: ErrorCallback
   ) {
-    return this._getChangeSuggestedGroup(
+    return this.getChangeSuggestedGroup(
       ReviewerState.CC,
       changeNum,
       inputVal,
@@ -1578,10 +1578,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  async _getChangeSuggestedGroup(
+  private async getChangeSuggestedGroup(
     reviewerState: ReviewerState,
     changeNum: NumericChangeId,
-    inputVal: string,
+    inputVal?: string, // If undefined, then default suggestions are returned
     errFn?: ErrorCallback
   ): Promise<SuggestedReviewerInfo[] | undefined> {
     // More suggestions may obscure content underneath in the reply dialog,

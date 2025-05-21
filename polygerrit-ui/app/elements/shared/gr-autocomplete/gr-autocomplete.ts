@@ -149,6 +149,14 @@ export class GrAutocomplete extends LitElement {
   showBlueFocusBorder = false;
 
   /**
+   * When true, the selection of the item will not trigger a commit.
+   * When used by GrSearchBar for example, we don't want the user to navigate to the results page after selecting an item.
+   */
+
+  @property({type: Boolean, attribute: 'skip-commit-on-item-select'})
+  skipCommitOnItemSelect = false;
+
+  /**
    * Invisible label for input element. This label is exposed to
    * screen readers by paper-input
    */
@@ -360,7 +368,7 @@ export class GrAutocomplete extends LitElement {
   private handleItemSelectEnter(
     e: CustomEvent<ItemSelectedEventDetail> | KeyboardEvent
   ) {
-    this.handleInputCommit();
+    this.handleInputCommit(this.skipCommitOnItemSelect);
     e.stopPropagation();
     e.preventDefault();
     this.focusWithoutDisplayingSuggestions();
@@ -369,7 +377,7 @@ export class GrAutocomplete extends LitElement {
   handleItemSelect(e: CustomEvent<ItemSelectedEventDetail>) {
     if (e.detail.trigger === 'click') {
       this.selected = e.detail.selected;
-      this._commit();
+      this.commit();
       e.stopPropagation();
       e.preventDefault();
       this.focusWithoutDisplayingSuggestions();
@@ -625,7 +633,7 @@ export class GrAutocomplete extends LitElement {
     }
 
     this.selected = this.suggestionsDropdown?.getCursorTarget() ?? null;
-    this._commit(_tabComplete);
+    this.commit(_tabComplete);
   }
 
   updateValue(
@@ -670,8 +678,10 @@ export class GrAutocomplete extends LitElement {
    * @param silent Allows for silent committing of an
    * autocomplete suggestion in order to handle cases like tab-to-complete
    * without firing the commit event.
+   *
+   * Private but used in tests.
    */
-  async _commit(silent?: boolean) {
+  async commit(silent?: boolean) {
     // Allow values that are not in suggestion list iff suggestions are empty.
     if (this.suggestions.length > 0) {
       this.updateValue(this.selected, this.suggestions);

@@ -149,6 +149,14 @@ export class GrAutocomplete extends LitElement {
   showBlueFocusBorder = false;
 
   /**
+   * When true, the selection of the item will not trigger a commit.
+   * When used by GrSearchBar for example, we don't want the user to navigate to the results page after selecting an item.
+   */
+
+  @property({type: Boolean, attribute: 'skip-commit-on-item-select'})
+  skipCommitOnItemSelect = false;
+
+  /**
    * Invisible label for input element. This label is exposed to
    * screen readers by paper-input
    */
@@ -360,7 +368,7 @@ export class GrAutocomplete extends LitElement {
   private handleItemSelectEnter(
     e: CustomEvent<ItemSelectedEventDetail> | KeyboardEvent
   ) {
-    this.handleInputCommit();
+    this.handleInputCommit(true);
     e.stopPropagation();
     e.preventDefault();
     this.focusWithoutDisplayingSuggestions();

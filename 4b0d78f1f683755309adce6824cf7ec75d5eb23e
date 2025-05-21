@@ -160,6 +160,24 @@
       "parentUuid": "9b1cdb6c_c24e07d9",
       "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c96d2cf_45b9ec56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-21T19:45:57Z",
+      "side": 1,
+      "message": "I went with bens idea. I found a script on github, modified and attributed.\n\nWe use https://github.com/googlefonts/emoji-metadata but convert it into a js file that we can import. And using value / match.",
+      "parentUuid": "1448f35c_2fc45cb4",
+      "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

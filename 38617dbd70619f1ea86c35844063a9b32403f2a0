@@ -68,6 +68,24 @@
       "parentUuid": "c124bb55_8d2724f2",
       "revId": "38617dbd70619f1ea86c35844063a9b32403f2a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a8e803e_85755d7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-21T12:53:57Z",
+      "side": 1,
+      "message": "Ah thanks, i was seeing duplicate drafts on gerrit-review but couldn\u0027t reproduce it locally.",
+      "parentUuid": "9c72ec59_e7b38fc0",
+      "revId": "38617dbd70619f1ea86c35844063a9b32403f2a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

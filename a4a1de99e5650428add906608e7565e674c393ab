@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b9bdfbb_3c870e9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T12:50:33Z",
+      "side": 1,
+      "message": "why is this component calling `fetch` directly?\n\nCreate a method in `rest-api` and use there? You can do the error handling there as well.",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 40
+      },
+      "revId": "a4a1de99e5650428add906608e7565e674c393ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e55b367e_56eff13f",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T12:50:33Z",
+      "side": 1,
+      "message": "why are we console logging this?\n\nShouldn\u0027t we show this error to the user?",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 286,
+        "endChar": 7
+      },
+      "revId": "a4a1de99e5650428add906608e7565e674c393ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "885eafa1_f9408385",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T12:50:33Z",
+      "side": 1,
+      "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"Clipbard\" -- should it be \"Clipboard\"?\nNote: a line containi...\n\nCommon typo found: \"Clipbard\" -- should it be \"Clipboard\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 288,
+        "startChar": 18,
+        "endLine": 288,
+        "endChar": 26
+      },
+      "revId": "a4a1de99e5650428add906608e7565e674c393ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7e2a17_e4c92dc5",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T12:50:33Z",
+      "side": 1,
+      "message": "why are we console logging this?\n\nShouldn\u0027t we show this error to the user?",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 64
+      },
+      "revId": "a4a1de99e5650428add906608e7565e674c393ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcfdd01a_8cb78712",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-21T12:50:33Z",
+      "side": 1,
+      "message": "add a test that checks the functionality?",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "a4a1de99e5650428add906608e7565e674c393ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

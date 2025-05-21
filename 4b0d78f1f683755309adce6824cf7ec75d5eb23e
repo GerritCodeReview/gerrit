@@ -124,6 +124,24 @@
       "parentUuid": "db0526cf_a19240b9",
       "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1cdb6c_c24e07d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-21T14:14:53Z",
+      "side": 1,
+      "message": "I suppose we could just import the .js files from https://github.com/Julien-Marcou/Unicode-Emoji/tree/main rather then using npm to load? If that\u0027s what you prefer and are ok with?",
+      "parentUuid": "9516220f_a392287e",
+      "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

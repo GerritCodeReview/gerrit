@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7431401f_89f04ade",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-21T14:47:08Z",
+      "side": 1,
+      "message": "For the Google\u0027s team view on the changes. We don\u0027t use usernames and passwords in the version of Gerrit hosted by us. We would need some work to get it imported once submitted, but I don\u0027t think there is any structural problem with your change or a way to make this simpler down the line. So we are not asking for any specific changes/anything being done differently.",
+      "revId": "b5878052e298c8cc3bf220081a7de3851c0b9fcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

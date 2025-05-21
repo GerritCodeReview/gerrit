@@ -302,12 +302,13 @@ export class GrAccountList extends LitElement {
       return false;
     }
     if (this.removableValues) {
-      for (let i = 0; i < this.removableValues.length; i++) {
-        if (getUserId(this.removableValues[i]) === getUserId(account)) {
-          return true;
-        }
-      }
-      return isAccountNewlyAdded(account, this.reviewerState, this.change);
+      const removable = this.removableValues.some(
+        value => getUserId(value) === getUserId(account)
+      );
+      return (
+        removable ||
+        isAccountNewlyAdded(account, this.reviewerState, this.change)
+      );
     }
     return true;
   }
@@ -322,14 +323,15 @@ export class GrAccountList extends LitElement {
     if (!toRemove || !this.computeRemovable(toRemove)) {
       return false;
     }
-    for (let i = 0; i < this.accounts.length; i++) {
-      if (getUserId(toRemove) === getUserId(this.accounts[i])) {
-        this.accounts.splice(i, 1);
-        this.reporting.reportInteraction(`Remove from ${this.id}`);
-        this.requestUpdate();
-        fire(this, 'accounts-changed', {value: this.accounts.slice()});
-        return true;
-      }
+    const index = this.accounts.findIndex(
+      account => getUserId(toRemove) === getUserId(account)
+    );
+    if (index !== -1) {
+      this.accounts.splice(index, 1);
+      this.reporting.reportInteraction(`Remove from ${this.id}`);
+      this.requestUpdate();
+      fire(this, 'accounts-changed', {value: this.accounts.slice()});
+      return true;
     }
     return false;
   }

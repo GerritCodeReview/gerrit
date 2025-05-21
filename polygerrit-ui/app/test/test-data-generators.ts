@@ -903,6 +903,7 @@ export function createComment(
 export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
+    id: 'draft-12345' as UrlEncodedCommentId,
     savingState: SavingState.OK,
     ...extra,
   };

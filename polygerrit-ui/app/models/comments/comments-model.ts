@@ -49,7 +49,7 @@ import {fire, fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
-import {Interaction, Timing} from '../../constants/reporting';
+import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {assert, assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
@@ -262,6 +262,34 @@ export function deleteDraft(
   drafts[draft.path] = [...drafts[draft.path]];
   drafts[draft.path].splice(index, 1);
   return setDiscardedDraft(nextState, discardedDraft);
+}
+
+/**
+ * Remove drafts that correspond to the existing published comments.
+ *
+ * Deletion of drafts is handled asynchronously by the server, because of that
+ * it's possible that after the draft is published the server still returns it
+ * as part of the drafts.
+ */
+export function filterOutPublishedDrafts(
+  drafts: {[path: string]: DraftInfo[]},
+  commentIds: Set<UrlEncodedCommentId>
+): {drafts: {[path: string]: DraftInfo[]}; removedCnt: number} {
+  let removedCnt = 0;
+  const filteredDrafts: {[path: string]: DraftInfo[]} = {};
+  for (const [path, pathDrafts] of Object.entries(drafts)) {
+    for (const draft of pathDrafts) {
+      if (draft.id && commentIds.has(draft.id)) {
+        ++removedCnt;
+        continue;
+      }
+      if (!(path in filteredDrafts)) {
+        filteredDrafts[path] = [];
+      }
+      filteredDrafts[path].push(draft);
+    }
+  }
+  return {drafts: filteredDrafts, removedCnt};
 }
 
 export const commentsModelToken = define<CommentsModel>('comments-model');
@@ -562,6 +590,35 @@ export class CommentsModel extends Model<CommentState> {
   // visible for testing
   modifyState(reducer: (state: CommentState) => CommentState) {
     this.setState(reducer({...this.getState()}));
+  }
+
+  override setState(state: CommentState): void {
+    const commentIds = new Set<UrlEncodedCommentId>();
+    if (state.comments) {
+      Object.values(state.comments)
+        .flatMap(x => x)
+        .forEach(c => commentIds.add(c.id));
+    }
+    if (state.drafts) {
+      const filterResult = filterOutPublishedDrafts(state.drafts, commentIds);
+      state.drafts = filterResult.drafts;
+      if (filterResult.removedCnt !== 0) {
+        this.reporting.reportExecution(
+          Execution.PUBLISHED_DRAFTS_DEDUPLICATED,
+          {
+            message: `Detected ${filterResult.removedCnt} drafts that are also published comments`,
+            count: filterResult.removedCnt,
+          }
+        );
+      }
+    }
+    if (state.portedDrafts) {
+      state.portedDrafts = filterOutPublishedDrafts(
+        state.portedDrafts,
+        commentIds
+      ).drafts;
+    }
+    super.setState(state);
   }
 
   private reportCommentStats(

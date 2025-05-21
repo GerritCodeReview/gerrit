@@ -142,6 +142,24 @@
       "parentUuid": "9516220f_a392287e",
       "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1448f35c_2fc45cb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T14:38:06Z",
+      "side": 1,
+      "message": "There are 3 concerns:\n - library is not in google3 and we don\u0027t plan to import emoji library to google. Maybe googlefonts would work as Ben mentioned\n - Performance - even with lazy loading - it\u0027s a new addition to resources needed for gerrit. We already have a big size.\n - emojis are not used much and in past we had some reports that some emojis are not work appropriate. For years we had plans to remove emojis - it just nobody took task yet.\n\nI don\u0027t think there is a way to invest more into emojis. I will be looking into options how to remove this (server config, or removing when importing gerrit to google). I don\u0027t want to block too long your contribution to gerrit.",
+      "parentUuid": "9b1cdb6c_c24e07d9",
+      "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

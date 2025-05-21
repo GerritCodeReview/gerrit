@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a3654a8_1cde9149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T05:43:07Z",
+      "side": 1,
+      "message": "Thanks for review - making tests even better",
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f4e9304_204e5600",
@@ -31,6 +48,30 @@
       "writtenOn": "2025-05-20T19:04:50Z",
       "side": 1,
       "message": "add check for `false` before you set `quickLabelInfo.approved\u003d`?",
+      "range": {
+        "startLine": 993,
+        "startChar": 10,
+        "endLine": 993,
+        "endChar": 22
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "403e831a_dbdc15ea",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f4e9304_204e5600",
       "range": {
         "startLine": 993,
         "startChar": 10,
@@ -64,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7679eb_0feb2220",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd6acb16_79ae721d",
+      "range": {
+        "startLine": 1011,
+        "startChar": 6,
+        "endLine": 1011,
+        "endChar": 19
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77648a75_599bced2",
@@ -87,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d3c4444_bbcda9e2",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77648a75_599bced2",
+      "range": {
+        "startLine": 1023,
+        "startChar": 4,
+        "endLine": 1023,
+        "endChar": 50
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07229533_5dcd1af5",
@@ -100,6 +189,30 @@
       "writtenOn": "2025-05-20T19:04:50Z",
       "side": 1,
       "message": "you are assigning the same return value to all keys?\n\nmaybe assign something different to make the assertion stronger?",
+      "range": {
+        "startLine": 1037,
+        "startChar": 18,
+        "endLine": 1037,
+        "endChar": 53
+      },
+      "revId": "c121b63783159747b0e5072d1c52e252d7d023c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f487f4cc_7d95f29a",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T05:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07229533_5dcd1af5",
       "range": {
         "startLine": 1037,
         "startChar": 18,

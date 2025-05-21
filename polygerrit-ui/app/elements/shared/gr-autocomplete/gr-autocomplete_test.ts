@@ -323,6 +323,51 @@ suite('gr-autocomplete tests', () => {
     });
   });
 
+  test.only('does not fire commit on item select when skipCommitOnItemSelect = false ', async () => {
+    const queryStub = sinon.spy((input: string) =>
+      Promise.resolve([
+        {name: input + ' 0', value: '0'},
+        {name: input + ' 1', value: '1'},
+        {name: input + ' 2', value: '2'},
+        {name: input + ' 3', value: '3'},
+        {name: input + ' 4', value: '4'},
+      ] as AutocompleteSuggestion[])
+    );
+    element.query = queryStub;
+    await element.updateComplete;
+    assert.isTrue(suggestionsEl().isHidden);
+    assert.equal(suggestionsEl().cursor.index, -1);
+    element.setFocus(true);
+
+    element.text = 'blah';
+    await element.updateComplete;
+
+    await element.latestSuggestionUpdateComplete;
+
+    await waitUntil(() => !suggestionsEl().isHidden);
+
+    const commitHandler = sinon.stub(element, 'commit');
+
+    assert.equal(suggestionsEl().cursor.index, 0);
+
+    pressKey(inputEl(), Key.ENTER);
+    await element.updateComplete;
+
+    assert.equal(element.value, '0');
+
+    assert.isTrue(commitHandler.called);
+    // called with silent=true
+    assert.equal(commitHandler.getCall(0).args[0], true);
+
+    // press ENTER again to actually trigger the "commit" event
+    pressKey(inputEl(), Key.ENTER);
+
+    await waitUntil(() => commitHandler.called);
+    assert.equal(commitHandler.getCall(0).args[0], false);
+    assert.isTrue(suggestionsEl().isHidden);
+    assert.isTrue(element.focused);
+  });
+
   test('clear-on-commit behavior (off)', async () => {
     let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
     const queryStub = sinon.spy(() => {
@@ -542,10 +587,10 @@ suite('gr-autocomplete tests', () => {
       ] as AutocompleteSuggestion[]);
 
     // commitHandler checks for the commit event, whereas commitSpy checks for
-    // the _commit function of the element.
+    // the commit function of the element.
     const commitHandler = sinon.spy();
     element.addEventListener('commit', commitHandler);
-    const commitSpy = sinon.spy(element, '_commit');
+    const commitSpy = sinon.spy(element, 'commit');
     element.setFocus(true);
     element.tabComplete = false;
     element.text = 'text1';
@@ -608,7 +653,7 @@ suite('gr-autocomplete tests', () => {
     'handleInputCommit with autocomplete hidden does nothing without' +
       ' allowNonSuggestedValues',
     () => {
-      const commitStub = sinon.stub(element, '_commit');
+      const commitStub = sinon.stub(element, 'commit');
       suggestionsEl().isHidden = true;
       element.handleInputCommit();
       assert.isFalse(commitStub.called);
@@ -619,7 +664,7 @@ suite('gr-autocomplete tests', () => {
     'handleInputCommit with query error does nothing without' +
       ' allowNonSuggestedValues',
     () => {
-      const commitStub = sinon.stub(element, '_commit');
+      const commitStub = sinon.stub(element, 'commit');
       element.queryStatus = {
         type: AutocompleteQueryStatusType.ERROR,
         message: 'Error',
@@ -634,7 +679,7 @@ suite('gr-autocomplete tests', () => {
     'handleInputCommit with autocomplete hidden with' +
       'allowNonSuggestedValues',
     () => {
-      const commitStub = sinon.stub(element, '_commit');
+      const commitStub = sinon.stub(element, 'commit');
       element.allowNonSuggestedValues = true;
       suggestionsEl().isHidden = true;
       element.handleInputCommit();
@@ -645,7 +690,7 @@ suite('gr-autocomplete tests', () => {
   test(
     'handleInputCommit with query error with' + 'allowNonSuggestedValues',
     () => {
-      const commitStub = sinon.stub(element, '_commit');
+      const commitStub = sinon.stub(element, 'commit');
       element.allowNonSuggestedValues = true;
       element.queryStatus = {
         type: AutocompleteQueryStatusType.ERROR,
@@ -658,7 +703,7 @@ suite('gr-autocomplete tests', () => {
   );
 
   test('handleInputCommit with autocomplete open calls commit', () => {
-    const commitStub = sinon.stub(element, '_commit');
+    const commitStub = sinon.stub(element, 'commit');
     suggestionsEl().isHidden = false;
     element.suggestions = [{name: 'first suggestion'}];
     element.handleInputCommit();
@@ -669,7 +714,7 @@ suite('gr-autocomplete tests', () => {
     'handleInputCommit with autocomplete open calls commit' +
       'with allowNonSuggestedValues',
     () => {
-      const commitStub = sinon.stub(element, '_commit');
+      const commitStub = sinon.stub(element, 'commit');
       element.allowNonSuggestedValues = true;
       suggestionsEl().isHidden = false;
       element.handleInputCommit();
@@ -917,7 +962,7 @@ suite('gr-autocomplete tests', () => {
     let focusSpy: sinon.SinonSpy;
 
     setup(() => {
-      commitSpy = sinon.spy(element, '_commit');
+      commitSpy = sinon.spy(element, 'commit');
     });
 
     test('enter in input does not re-render suggestions', async () => {

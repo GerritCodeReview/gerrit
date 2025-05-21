@@ -12,6 +12,11 @@ import {
   diffFilePaths,
   escapeAndWrapSearchOperatorValue,
   trimWithEllipsis,
+  charsOnly,
+  isCharacterLetter,
+  isUpperCase,
+  capitalizeFirstLetter,
+  levenshteinDistance,
 } from './string-util';
 
 suite('string-util tests', () => {
@@ -100,5 +105,48 @@ suite('string-util tests', () => {
       escapeAndWrapSearchOperatorValue('"value of \\: \\"something"'),
       '"\\"value of \\\\: \\\\\\"something\\""'
     );
+  });
+
+  test('charsOnly', () => {
+    assert.equal(charsOnly('Hello123'), 'Hello');
+    assert.equal(charsOnly('123Hello'), 'Hello');
+    assert.equal(charsOnly('Hello World!'), 'HelloWorld');
+    assert.equal(charsOnly('!@#$%^&*()'), '');
+    assert.equal(charsOnly(''), '');
+  });
+
+  test('isCharacterLetter', () => {
+    assert.isTrue(isCharacterLetter('a'));
+    assert.isTrue(isCharacterLetter('Z'));
+    assert.isFalse(isCharacterLetter('1'));
+    assert.isFalse(isCharacterLetter('!'));
+    assert.isFalse(isCharacterLetter(''));
+    assert.isFalse(isCharacterLetter('ab'));
+  });
+
+  test('isUpperCase', () => {
+    assert.isTrue(isUpperCase('A'));
+    assert.isTrue(isUpperCase('Z'));
+    assert.isFalse(isUpperCase('a'));
+    assert.isFalse(isUpperCase('z'));
+    assert.isTrue(isUpperCase('AB'));
+    assert.isTrue(isUpperCase('1'));
+  });
+
+  test('capitalizeFirstLetter', () => {
+    assert.equal(capitalizeFirstLetter('hello'), 'Hello');
+    assert.equal(capitalizeFirstLetter('Hello'), 'Hello');
+    assert.equal(capitalizeFirstLetter('HELLO'), 'HELLO');
+    assert.equal(capitalizeFirstLetter(''), '');
+    assert.equal(capitalizeFirstLetter('123hello'), '123hello');
+  });
+
+  test('levenshteinDistance', () => {
+    // kitten -> sitten -> sittin -> sitting
+    assert.equal(levenshteinDistance('kitten', 'sitting'), 3);
+    assert.equal(levenshteinDistance('', ''), 0);
+    assert.equal(levenshteinDistance('', 'abc'), 3);
+    assert.equal(levenshteinDistance('abc', ''), 3);
+    assert.equal(levenshteinDistance('same', 'same'), 0);
   });
 });

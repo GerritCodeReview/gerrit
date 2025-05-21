@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec182c04_e4b411c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1892,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-21T08:21:16Z",
+      "side": 1,
+      "message": "You can probably inline this",
+      "range": {
+        "startLine": 1890,
+        "startChar": 2,
+        "endLine": 1892,
+        "endChar": 3
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "790103be_2eb5c621",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1889,
+                "startChar": 0,
+                "endLine": 1893,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 2164,
+                "startChar": 0,
+                "endLine": 2165,
+                "endChar": 0
+              },
+              "replacement": "    this.diffs.forEach(diff \u003d\u003e {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57ae398a_acad8ef5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1897,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-21T08:21:16Z",
+      "side": 1,
+      "message": "Optional: Existing usage of expandedFiles in this file seems really inefficient. Could you file a bug to replace it with a Set and add a TODO?",
+      "range": {
+        "startLine": 1897,
+        "startChar": 28,
+        "endLine": 1897,
+        "endChar": 41
+      },
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ac77cb6_ec66f12d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-21T08:21:16Z",
+      "side": 1,
+      "message": "nit: You can omit the brackets",
+      "range": {
+        "startLine": 308,
+        "startChar": 13,
+        "endLine": 308,
+        "endChar": 14
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "41868421_28b79266",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+              "range": {
+                "startLine": 308,
+                "startChar": 0,
+                "endLine": 312,
+                "endChar": 0
+              },
+              "replacement": "      return removable ||\n        isAccountNewlyAdded(account, this.reviewerState, this.change);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

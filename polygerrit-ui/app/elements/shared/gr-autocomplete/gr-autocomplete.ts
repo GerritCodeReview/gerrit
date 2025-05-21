@@ -360,7 +360,7 @@ export class GrAutocomplete extends LitElement {
   private handleItemSelectEnter(
     e: CustomEvent<ItemSelectedEventDetail> | KeyboardEvent
   ) {
-    this.handleInputCommit();
+    this.handleInputCommit(true);
     e.stopPropagation();
     e.preventDefault();
     this.focusWithoutDisplayingSuggestions();

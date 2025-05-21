@@ -741,7 +741,11 @@ public abstract class AbstractDaemonTest {
 
   @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange() throws Exception {
-    return createChange("refs/for/master");
+    Ref previousHead = testRepo.getRepository().exactRef("HEAD");
+    testRepo.reset("origin/master");
+    Result result = createChange("refs/for/master");
+    testRepo.reset(previousHead.getObjectId());
+    return result;
   }
 
   @CanIgnoreReturnValue

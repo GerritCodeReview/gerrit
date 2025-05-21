@@ -130,11 +130,31 @@ suite('gr-download-dialog', () => {
         <div class="patchFiles">
           <label> Patch file </label>
           <div>
-            <a download="" href="" id="download"> </a>
-            <a download="" href=""> </a>
-            <a download="" href=""> </a>
-          </div>
-        </div>
+            <gr-button
+              aria-description="Click to copy patch to clipboard"
+              aria-disabled="false"
+              aria-label="copy"
+              class="copyToClipboard"
+              id="copy-clipboard-button"
+              link=""
+              role="button"
+              tabindex="0"
+              title="Copy Patch to clipboard"
+            >
+              <div>
+                <gr-icon
+                  icon="content_copy"
+                  id="icon"
+                  small=""
+                >
+                </gr-icon>
+              </div>
+            </gr-button>
+           <a download="" href="" id="download"> </a>
+           <a download="" href=""> </a>
+           <a download="" href=""> </a>
+         </div>
+       </div>
         <div class="archivesContainer">
           <label> Archive </label>
           <div class="archives" id="archives">

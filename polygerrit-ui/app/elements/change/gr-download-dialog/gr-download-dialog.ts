@@ -183,6 +183,19 @@ export class GrDownloadDialog extends LitElement {
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
+          <gr-button
+            id="copy-clipboard-button"
+            link=""
+            class="copyToClipboard"
+            title="Copy Patch to clipboard"
+            @click=${this.handleCopyPatch}
+            aria-label="copy"
+            aria-description="Click to copy patch to clipboard"
+          >
+            <div>
+              <gr-icon id="icon" icon="content_copy" small></gr-icon>
+            </div>
+          </gr-button>
           <a id="download" .href=${this.computeDownloadLink('raw')} download>
             ${this.computeDownloadFilename('raw')}
           </a>
@@ -255,6 +268,28 @@ export class GrDownloadDialog extends LitElement {
       `${commands[index].title} command`
     );
     fire(this, 'close', {});
+  }
+
+  private async handleCopyPatch(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = this.computeDownloadLink('raw');
+    if (!url) {
+      console.error('Could not compute raw patch download link.');
+      return;
+    }
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.error('Failed to fetch raw patch:', response.statusText);
+        return;
+      }
+      const patchContent = await response.text();
+      await copyToClipbard(patchContent, 'patch file content');
+      this.handleCloseTap(e);
+    } catch (error) {
+      console.error('Error copying patch to clipboard:', error);
+    }
   }
 
   override focus() {

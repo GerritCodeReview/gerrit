@@ -1887,24 +1887,12 @@ export class GrFileList extends LitElement {
     this.renderInOrder(this.expandedFiles, this.diffs);
   }
 
-  private forEachDiff(fn: (host: GrDiffHost) => void) {
-    const diffs = this.diffs;
-    for (let i = 0; i < diffs.length; i++) {
-      fn(diffs[i]);
-    }
-  }
-
   expandAllDiffs() {
-    // Find the list of paths that are in the file list, but not in the
-    // expanded list.
-    const newFiles: PatchSetFile[] = [];
-    let path: string;
-    for (let i = 0; i < this.numFilesShown; i++) {
-      path = this.files[i].__path;
-      if (!this.expandedFiles.some(f => f.path === path)) {
-        newFiles.push(this.computePatchSetFile(this.files[i]));
-      }
-    }
+    const newFiles = this.files
+      .slice(0, this.numFilesShown)
+      // TODO(b/419187980): Refactor expandedFiles to use a Set for efficiency.
+      .filter(file => !this.expandedFiles.some(f => f.path === file.__path))
+      .map(file => this.computePatchSetFile(file));
 
     this.reporting.reportInteraction(Interaction.FILE_LIST_ALL_DIFFS_EXPANDED);
     this.expandedFiles = newFiles.concat(this.expandedFiles);
@@ -2170,7 +2158,7 @@ export class GrFileList extends LitElement {
   }
 
   private handleToggleLeftPane() {
-    this.forEachDiff(diff => {
+    this.diffs.forEach(diff => {
       diff.toggleLeftDiff();
     });
   }
@@ -2510,12 +2498,7 @@ export class GrFileList extends LitElement {
    * In the given NodeList of diff elements, find the diff for the given path.
    */
   private findDiffByPath(path: string, diffElements: GrDiffHost[]) {
-    for (let i = 0; i < diffElements.length; i++) {
-      if (diffElements[i].path === path) {
-        return diffElements[i];
-      }
-    }
-    return undefined;
+    return diffElements.find(diff => diff.path === path);
   }
 
   /**

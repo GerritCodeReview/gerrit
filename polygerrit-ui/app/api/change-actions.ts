@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {HttpMethod} from './rest';
+import {HttpMethod} from './rest-api';
 
 export declare interface ActionInfo {
   method?: HttpMethod;

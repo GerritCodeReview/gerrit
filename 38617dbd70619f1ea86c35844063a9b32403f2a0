@@ -33,6 +33,23 @@
       "message": "Great commit message!",
       "revId": "38617dbd70619f1ea86c35844063a9b32403f2a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c124bb55_8d2724f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-21T12:40:47Z",
+      "side": 1,
+      "message": "Should this be backported to 3.12?",
+      "revId": "38617dbd70619f1ea86c35844063a9b32403f2a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

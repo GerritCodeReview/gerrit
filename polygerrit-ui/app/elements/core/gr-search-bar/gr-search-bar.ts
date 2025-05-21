@@ -227,6 +227,7 @@ export class GrSearchBar extends LitElement {
           .query=${this.query}
           allow-non-suggested-values
           multi
+          skip-commit-on-item-select
           .threshold=${this.threshold}
           tab-complete
           .verticalOffset=${30}

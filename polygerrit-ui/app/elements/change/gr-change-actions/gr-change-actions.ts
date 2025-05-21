@@ -1033,12 +1033,7 @@ export class GrChangeActions
   }
 
   private indexOfActionButtonWithKey(key: string) {
-    for (let i = 0; i < this.additionalActions.length; i++) {
-      if (this.additionalActions[i].__key === key) {
-        return i;
-      }
-    }
-    return -1;
+    return this.additionalActions.findIndex(action => action.__key === key);
   }
 
   private actionsChanged() {

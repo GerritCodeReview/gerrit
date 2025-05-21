@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0b2eff_e2ae641a",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-05-21T11:21:30Z",
+      "side": 1,
+      "message": "I moved the method before in order to have proper message in git commit as: \n\n```\ncommit fb6b83a519961924eb9688803b8233f50e12b156\nAuthor: Test \u003c1000002@ef9f6247-d728-4942-a209-4a9f2c7708f8\u003e\nDate:   Wed May 21 12:16:27 2025 +0100\n\n    Update group\n    \n    Remove: Test \u003c1000002@ef9f6247-d728-4942-a209-4a9f2c7708f8\u003e\n\ndiff --git a/members b/members\nindex 1ed3e01..c2473d6 100644\n--- a/members\n+++ b/members\n@@ -1,2 +1 @@\n-1000000\n-1000002\n\\ No newline at end of file\n+1000000\n\\ No newline at end of file\n   ```",
+      "revId": "31153de5a8fda2422ef7fc1ec787e679bb6bf8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

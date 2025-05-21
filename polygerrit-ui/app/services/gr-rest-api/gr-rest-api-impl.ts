@@ -3443,6 +3443,28 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<BlameInfo[] | undefined>;
   }
 
+  async getPatchContent(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<string | undefined> {
+    const baseUrl = await this._changeBaseURL(changeNum, patchNum);
+    const url = `${baseUrl}/patch?download&raw`;
+    const anonymizedUrl = `${ANONYMIZED_REVISION_BASE_URL}/patch?download&raw`;
+
+    const response = await this._restApiHelper.fetch({
+      url,
+      anonymizedUrl,
+      reportServerError: true,
+    });
+
+    if (!response.ok || response.status === 204) {
+      return undefined;
+    }
+
+    const patchContent = await response.text();
+    return patchContent;
+  }
+
   /**
    * Modify the given create draft request promise so that it fails and throws
    * an error if the response bears HTTP status 200 instead of HTTP 201.

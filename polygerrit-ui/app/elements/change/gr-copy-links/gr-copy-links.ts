@@ -11,7 +11,7 @@ import {Ref, createRef, ref} from 'lit/directives/ref.js';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {strToClassName} from '../../../utils/dom-util';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
-import {copyToClipbard, queryAndAssert} from '../../../utils/common-util';
+import {copyToClipboard, queryAndAssert} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {formStyles} from '../../../styles/form-styles';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
@@ -107,7 +107,7 @@ export class GrCopyLinks extends LitElement {
   private async handleKeydown(e: KeyboardEvent) {
     const copyLink = this.copyLinks?.find(link => link.shortcut === e.key);
     if (!copyLink) return;
-    await copyToClipbard(copyLink.value, copyLink.label);
+    await copyToClipboard(copyLink.value, copyLink.label);
     this.closeDropdown();
   }
 

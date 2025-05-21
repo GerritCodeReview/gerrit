@@ -55,7 +55,7 @@ import {
 import {
   assert,
   assertIsDefined,
-  copyToClipbard,
+  copyToClipboard,
   uuid,
 } from '../../../utils/common-util';
 import {fire, fireAlert} from '../../../utils/event-util';
@@ -857,7 +857,7 @@ export class GrCommentThread extends LitElement {
       });
     }
     assertIsDefined(url, 'url for comment');
-    copyToClipbard(generateAbsoluteUrl(url), 'Link');
+    copyToClipboard(generateAbsoluteUrl(url), 'Link');
   }
 
   private getDisplayPath() {

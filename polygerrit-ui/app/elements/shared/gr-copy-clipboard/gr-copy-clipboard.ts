@@ -9,7 +9,7 @@ import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {
   assertIsDefined,
-  copyToClipbard,
+  copyToClipboard,
   queryAndAssert,
 } from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map.js';
@@ -205,7 +205,7 @@ export class GrCopyClipboard extends LitElement {
     assertIsDefined(this.text, 'text');
     this.iconEl.icon = 'check';
     this.reporting.time(Timing.COPY_TO_CLIPBOARD);
-    copyToClipbard(this.text, this.copyTargetName ?? 'Link').finally(() => {
+    copyToClipboard(this.text, this.copyTargetName ?? 'Link').finally(() => {
       this.reporting.timeEnd(Timing.COPY_TO_CLIPBOARD, {
         copyTargetName: this.copyTargetName,
       });

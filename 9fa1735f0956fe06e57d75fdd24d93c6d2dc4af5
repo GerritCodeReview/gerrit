@@ -186,6 +186,30 @@
       },
       "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dee445af_d6f56b45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T09:23:23Z",
+      "side": 1,
+      "message": "Unfortunately linter is returning this bracket back (otherwise code style fails)",
+      "parentUuid": "95e02ce9_e1666ebb",
+      "range": {
+        "startLine": 308,
+        "startChar": 13,
+        "endLine": 308,
+        "endChar": 14
+      },
+      "revId": "9fa1735f0956fe06e57d75fdd24d93c6d2dc4af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

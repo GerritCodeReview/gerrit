@@ -69,6 +69,24 @@
       "parentUuid": "7574c352_4eb09ce9",
       "revId": "157766f260f804beeae37b22dfae70a054089a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90973915_3c1181a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-21T13:38:42Z",
+      "side": 1,
+      "message": "You probably want to enable eslint.useFlatConfig looking at https://marketplace.visualstudio.com/items?itemName\u003ddbaeumer.vscode-eslint. But i\u0027ve not used it. Although may be enabled because we use eslint \u003e\u003d9\n\nYou also want to change what config file it loads.\n\n```\n{\n  \"eslint.options\": { \"overrideConfigFile\": \"C:/mydirectory/.eslintrc.json\" }\n}\n```",
+      "parentUuid": "3ee01e50_c42b13af",
+      "revId": "157766f260f804beeae37b22dfae70a054089a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

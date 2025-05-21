@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e3d1fa_b723248b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 3180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-21T10:11:19Z",
+      "side": 0,
+      "message": "Remove this constant, as well?",
+      "revId": "b81614570426e56a195c30187f8109c34b4df7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

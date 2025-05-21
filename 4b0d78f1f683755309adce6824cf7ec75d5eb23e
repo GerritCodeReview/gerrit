@@ -88,6 +88,24 @@
       "parentUuid": "a2550e7a_0ace8b50",
       "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db0526cf_a19240b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T14:08:14Z",
+      "side": 1,
+      "message": "unicode-emoji is not in google3. I would recommend to disable emojis on google hosts in this case. It\u0027s not used much and it\u0027s not worth any slowdown.",
+      "parentUuid": "772358d1_7d3ddd2d",
+      "revId": "4b0d78f1f683755309adce6824cf7ec75d5eb23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

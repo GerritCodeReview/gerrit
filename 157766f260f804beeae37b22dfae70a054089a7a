@@ -51,6 +51,24 @@
       "message": "Thank you for looking into this. Eslint plugin on vscode stopped working for me since eslint update. Currently it sometimes work and sometimes it\u0027s broken.\n\nI spent 1 hour to fix it but I couldn\u0027t find root cause. But it works now sometimes and I can run eslintfix in terminal.",
       "revId": "157766f260f804beeae37b22dfae70a054089a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ee01e50_c42b13af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-21T13:33:59Z",
+      "side": 1,
+      "message": "Oh, i hadn\u0027t realise that. I only used yarn run lint/eslintfix. Never used VS to do anything.\n\nMake sure the eslint plugin uses eslint-bazel.config.js. Since that has the compatible layer to load the legacy eslint stuff.\n\neslint looks for eslint.config.js now which i used. But i kept all the legacy eslintrc stuff in it and has to be called with eslint-bazel.config.js. It contains compat.config which loads eslint.config.js and is able to translate.\n\nIf you want we can change things up i guess. Move eslint.config.js back to .eslintrc.js i dunno.",
+      "parentUuid": "7574c352_4eb09ce9",
+      "revId": "157766f260f804beeae37b22dfae70a054089a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

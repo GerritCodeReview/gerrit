@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4636db5f_d241bf95",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3562,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-05-21T07:53:07Z",
+      "side": 1,
+      "message": "Please add another user to one of the test groups to verify it is not removed.",
+      "fixSuggestions": [
+        {
+          "fixId": "e4b7f265_3e0e04b9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+              "range": {
+                "startLine": 3548,
+                "startChar": 0,
+                "endLine": 3548,
+                "endChar": 0
+              },
+              "replacement": "    TestAccount otherUserAccount \u003d accountCreator.create(\"other-user-remove-user-from-groups\");\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+              "range": {
+                "startLine": 3549,
+                "startChar": 0,
+                "endLine": 3550,
+                "endChar": 0
+              },
+              "replacement": "        groupOperations\n            .newGroup()\n            .addMember(userAccount.id())\n            .addMember(otherUserAccount.id())\n            .create();\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+              "range": {
+                "startLine": 3554,
+                "startChar": 0,
+                "endLine": 3555,
+                "endChar": 0
+              },
+              "replacement": "        .containsExactly(userAccount.id(), otherUserAccount.id());\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+              "range": {
+                "startLine": 3562,
+                "startChar": 0,
+                "endLine": 3563,
+                "endChar": 0
+              },
+              "replacement": "    assertThat(groupOperations.group(engineers1Group).get().members())\n        .containsExactly(otherUserAccount.id());\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+              "range": {
+                "startLine": 3567,
+                "startChar": 0,
+                "endLine": 3567,
+                "endChar": 0
+              },
+              "replacement": "    accountCreator.evict(otherUserAccount.id());\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3702ccf0dd10c0efe3accb6f68a6a56137bc46d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad2e175_76d3cd27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-21T15:19:00Z",
+      "side": 1,
+      "message": "I suspect this is a feature a lot of people have been missing and will gladly use (it came up [in Discord](https://discord.com/channels/775374026587373568/1019941974842806302/1371313192130576526) just over a week ago). I don\u0027t think there\u0027s any way to fix it now, but having a non-skip release notes footer would have been nice to ensure it didn\u0027t get missed in the 3.13 notes.\n\nBut overall, thank you for adding this feature. It\u0027s really going to be great 😊",
+      "revId": "e8f0e74f1d5cfdc220eaf832ae956a1b16863d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

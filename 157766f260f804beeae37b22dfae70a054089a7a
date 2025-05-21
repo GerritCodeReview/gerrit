@@ -34,6 +34,23 @@
       "parentUuid": "87c04c2d_ce572b3a",
       "revId": "157766f260f804beeae37b22dfae70a054089a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7574c352_4eb09ce9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-21T10:45:55Z",
+      "side": 1,
+      "message": "Thank you for looking into this. Eslint plugin on vscode stopped working for me since eslint update. Currently it sometimes work and sometimes it\u0027s broken.\n\nI spent 1 hour to fix it but I couldn\u0027t find root cause. But it works now sometimes and I can run eslintfix in terminal.",
+      "revId": "157766f260f804beeae37b22dfae70a054089a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

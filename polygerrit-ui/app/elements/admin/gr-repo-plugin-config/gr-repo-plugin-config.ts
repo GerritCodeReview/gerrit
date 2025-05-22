@@ -145,7 +145,8 @@ export class GrRepoPluginConfig extends LitElement {
           @change=${this._handleBooleanChange}
           data-option-key=${option._key}
           ?disabled=${this.disabled || !option.info.editable}
-          @click=${this._onTapPluginBoolean}
+          @click=${this.onTapPluginBoolean}
+          @tap=${this.onTapPluginBoolean}
         ></paper-toggle-button>
       `;
     } else if (option.info.type === ConfigParameterInfoType.LIST) {
@@ -261,7 +262,7 @@ export class GrRepoPluginConfig extends LitElement {
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapPluginBoolean(e: Event) {
+  private onTapPluginBoolean(e: Event) {
     e.preventDefault();
   }
 }

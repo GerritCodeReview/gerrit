@@ -51,7 +51,7 @@ export interface JsApiService extends Finalizable {
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
   handleViewChange(view?: string): void;
-  modifyEmojis(emojis: EmojiSuggestion[]): EmojiSuggestion[];
+  modifyEmojis(emojis?: EmojiSuggestion[]): EmojiSuggestion[] | undefined;
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,

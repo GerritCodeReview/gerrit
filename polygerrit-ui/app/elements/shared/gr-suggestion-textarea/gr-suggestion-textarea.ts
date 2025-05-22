@@ -633,13 +633,13 @@ export class GrSuggestionTextarea extends LitElement {
 
   // private but used in test
   computeEmojiSuggestions(suggestionsText?: string): EmojiSuggestion[] {
-    if (suggestionsText === undefined || !this.emojis) {
-      return [];
-    }
-
     const emojis = this.getPluginLoader().jsApiService.modifyEmojis(
       this.emojis
     );
+
+    if (suggestionsText === undefined || !emojis) {
+      return [];
+    }
 
     if (!suggestionsText.length) {
       return this.formatSuggestions(emojis.slice(0, MAX_ITEMS_DROPDOWN));

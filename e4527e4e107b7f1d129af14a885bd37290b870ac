@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb087d5_4a4e7e4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-22T12:34:20Z",
+      "side": 1,
+      "message": "The file size is reduced for gr-app. Although small at least an improvement.\n\nFrom 2371942 to 2297623.",
+      "revId": "e4527e4e107b7f1d129af14a885bd37290b870ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

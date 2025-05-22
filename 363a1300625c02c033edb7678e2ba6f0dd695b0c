@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf3ac1f_772a2187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-22T22:03:44Z",
+      "side": 1,
+      "message": "If onStop() is not being called on a cancel, then that is a bug in core and the test should not work around it?\n\nBut I don\u0027t see how cancelling would not call onStop() since it is in a finally here:\n```\ntry {\n  Thread.currentThread().setName(oldThreadName + \"[\" + this + \"]\");\n  executor.waitUntilReadyToStart(this); // Transitions to PARKED while not ready to start\n  runningState.set(State.STARTING);\n  executor.onStart(this);\n  runningState.set(State.RUNNING);\n  task.run();\n} finally {\n  Thread.currentThread().setName(oldThreadName);\n  runningState.set(State.STOPPING);\n  executor.onStop(this);\n  if (isPeriodic()) {\n    runningState.set(null);\n  } else {\n    runningState.set(State.DONE);\n    executor.remove(this);\n  }\n}\n```\nIf anything, it looks like it\u0027s possible for onStop() to be called if executor.waitUntilReadyToStart(); is interrupted, and that would be once too much?\n\nPerhaps this should be fixed with:\n```\nboolean isReady \u003d false;\ntry {\n  Thread.currentThread().setName(oldThreadName + \"[\" + this + \"]\");\n  executor.waitUntilReadyToStart(this); // Transitions to PARKED while not ready to start\n  isReady \u003d true;\n  runningState.set(State.STARTING);\n  executor.onStart(this);\n  runningState.set(State.RUNNING);\n  task.run();\n} finally {\n  Thread.currentThread().setName(oldThreadName);\n  runningState.set(State.STOPPING);\n  if (isReady) {\n    executor.onStop(this);\n  }\n  if (isPeriodic()) {\n    runningState.set(null);\n  } else {\n    runningState.set(State.DONE);\n    executor.remove(this);\n  }\n}\n```\n\nBut that makes me think there is a flaw in the API because it can now potentially have been ready and get interrupted in onStart()? If so, then calling onStop() would release resources called in both in isReadyToStart() and start(), where it should only be releasing resources from isReadyToStart()? I guess a plugin could keep track of which resources it actually grabbed and only release what is needed, but that might be a bit error prone?\n\nCancelling tasks sucks, can anyone ever really get it right?",
+      "revId": "363a1300625c02c033edb7678e2ba6f0dd695b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc0758e9_2d38ae8e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-22T22:03:44Z",
+      "side": 1,
+      "message": "This should also be releasing or removing?",
+      "revId": "363a1300625c02c033edb7678e2ba6f0dd695b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

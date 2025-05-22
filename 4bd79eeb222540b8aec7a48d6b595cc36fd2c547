@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd70e39e_f84558ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-22T22:13:11Z",
+      "side": 1,
+      "message": "It was only a bug on master for a couple weeks [1], so I doubt it\u0027s worth doing more to track it.\n\n[1] 452567: Use dedicated class representing the log section in gerrit.config | https://gerrit-review.googlesource.com/c/gerrit/+/452567",
+      "parentUuid": "fa67767f_973a9826",
+      "revId": "4bd79eeb222540b8aec7a48d6b595cc36fd2c547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "74975b81_7775e3da",

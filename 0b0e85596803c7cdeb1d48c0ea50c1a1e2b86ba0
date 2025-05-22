@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f31a1ef_30626aa1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-22T10:06:14Z",
+      "side": 1,
+      "message": "Thanks for changes and making it usable for google as well!",
+      "revId": "0b0e85596803c7cdeb1d48c0ea50c1a1e2b86ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

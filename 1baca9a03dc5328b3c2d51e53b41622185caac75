@@ -45,6 +45,23 @@
       },
       "revId": "1baca9a03dc5328b3c2d51e53b41622185caac75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7286d58_cd9c7fdd",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-22T22:07:56Z",
+      "side": 1,
+      "message": "While I agree that sandboxes are better off outside of refs/heads (mainly so that users don\u0027t clone them by default), I don\u0027t understand how invalidating the bitmap affects performance any worse than not having a bitmap in the first place (which putting them outside of refs/heads does)? What am I missing, is there a simple jgit fix needed to make invalid bitmaps not affect performance?",
+      "revId": "1baca9a03dc5328b3c2d51e53b41622185caac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -171,7 +171,7 @@ export function difference<T>(
   return a.filter(aVal => !b.some(bVal => compareBy(aVal, bVal)));
 }
 
-export async function copyToClipbard(text: string, copyTargetName?: string) {
+export async function copyToClipboard(text: string, copyTargetName?: string) {
   await navigator.clipboard.writeText(text);
   fireAlert(document, `${copyTargetName ?? text} was copied to clipboard`);
 }

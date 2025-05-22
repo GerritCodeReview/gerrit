@@ -8,7 +8,7 @@ import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
 import {DownloadInfo, PatchSetNum} from '../../../types/common';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {copyToClipbard, hasOwnProperty} from '../../../utils/common-util';
+import {copyToClipboard, hasOwnProperty} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -23,6 +23,8 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
 import {shorten} from '../../../utils/patch-set-util';
+import {getAppContext} from '../../../services/app-context';
+import {fireError} from '../../../utils/event-util';
 
 type DownloadKind = 'zip' | 'raw' | 'base64';
 
@@ -53,6 +55,8 @@ export class GrDownloadDialog extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
@@ -183,6 +187,19 @@ export class GrDownloadDialog extends LitElement {
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
+          <gr-button
+            id="copy-clipboard-button"
+            link=""
+            class="copyToClipboard"
+            title="Copy Patch to clipboard"
+            @click=${this.handleCopyPatch}
+            aria-label="copy"
+            aria-description="Click to copy patch to clipboard"
+          >
+            <div>
+              <gr-icon id="icon" icon="content_copy" small></gr-icon>
+            </div>
+          </gr-button>
           <a id="download" .href=${this.computeDownloadLink('raw')} download>
             ${this.computeDownloadFilename('raw')}
           </a>
@@ -250,11 +267,27 @@ export class GrDownloadDialog extends LitElement {
     const index = Number(e.key) - 1;
     const commands = this.computeDownloadCommands();
     if (index > commands.length) return;
-    await copyToClipbard(
+    await copyToClipboard(
       commands[index].command,
       `${commands[index].title} command`
     );
     fire(this, 'close', {});
+  }
+
+  private async handleCopyPatch(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!this.change || !this.patchNum) return;
+    const patchContent = await this.restApiService.getPatchContent(
+      this.change._number,
+      this.patchNum
+    );
+    if (!patchContent) {
+      fireError(this, 'Failed to get patch content');
+      return;
+    }
+    await copyToClipboard(patchContent, 'patch file content');
+    this.handleCloseTap(e);
   }
 
   override focus() {

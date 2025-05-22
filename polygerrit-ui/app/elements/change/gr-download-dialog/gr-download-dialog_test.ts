@@ -25,6 +25,7 @@ import {
   queryAll,
   queryAndAssert,
   waitUntil,
+  stubRestApi,
 } from '../../../test/test-utils';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -130,11 +131,31 @@ suite('gr-download-dialog', () => {
         <div class="patchFiles">
           <label> Patch file </label>
           <div>
-            <a download="" href="" id="download"> </a>
-            <a download="" href=""> </a>
-            <a download="" href=""> </a>
-          </div>
-        </div>
+            <gr-button
+              aria-description="Click to copy patch to clipboard"
+              aria-disabled="false"
+              aria-label="copy"
+              class="copyToClipboard"
+              id="copy-clipboard-button"
+              link=""
+              role="button"
+              tabindex="0"
+              title="Copy Patch to clipboard"
+            >
+              <div>
+                <gr-icon
+                  icon="content_copy"
+                  id="icon"
+                  small=""
+                >
+                </gr-icon>
+              </div>
+            </gr-button>
+           <a download="" href="" id="download"> </a>
+           <a download="" href=""> </a>
+           <a download="" href=""> </a>
+         </div>
+       </div>
         <div class="archivesContainer">
           <label> Archive </label>
           <div class="archives" id="archives">
@@ -292,5 +313,69 @@ suite('gr-download-dialog', () => {
       },
     };
     assert.isTrue(element.computeHidePatchFile());
+  });
+
+  suite('copy to clipboard functionality', () => {
+    let copyToClipboardStub: sinon.SinonStub;
+    let fireStub: sinon.SinonStub;
+    let getPatchContentStub: sinon.SinonStub;
+
+    setup(() => {
+      copyToClipboardStub = sinon.stub(navigator.clipboard, 'writeText');
+      fireStub = sinon.stub(element, 'dispatchEvent');
+      getPatchContentStub = stubRestApi('getPatchContent');
+      element.change = getChangeObject();
+      element.patchNum = 1 as PatchSetNum;
+    });
+
+    test('successfully copies patch content to clipboard', async () => {
+      const patchContent = 'test patch content';
+      getPatchContentStub.resolves(patchContent);
+
+      const copyButton = queryAndAssert<GrButton>(
+        element,
+        '#copy-clipboard-button'
+      );
+      copyButton.click();
+
+      await waitUntil(() => getPatchContentStub.called);
+      assert.isTrue(
+        getPatchContentStub.calledWith(
+          element.change!._number,
+          element.patchNum
+        )
+      );
+      assert.isTrue(copyToClipboardStub.calledWith(patchContent));
+      assert.isTrue(fireStub.calledWith(sinon.match({type: 'close'})));
+    });
+
+    test('handles failed patch content fetch', async () => {
+      getPatchContentStub.resolves(undefined);
+
+      const copyButton = queryAndAssert<GrButton>(
+        element,
+        '#copy-clipboard-button'
+      );
+      copyButton.click();
+
+      await waitUntil(() => getPatchContentStub.called);
+      assert.isFalse(copyToClipboardStub.called);
+      assert.isTrue(fireStub.called);
+    });
+
+    test('handles error during patch content fetch', async () => {
+      const error = new Error('Network error');
+      getPatchContentStub.rejects(error);
+
+      const copyButton = queryAndAssert<GrButton>(
+        element,
+        '#copy-clipboard-button'
+      );
+      copyButton.click();
+
+      await waitUntil(() => getPatchContentStub.called);
+      assert.isFalse(copyToClipboardStub.called);
+      assert.isFalse(fireStub.called);
+    });
   });
 });

@@ -211,6 +211,9 @@ export const grRestApiMock: RestApiService = {
   getBlame(): Promise<BlameInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getPatchContent(): Promise<string | undefined> {
+    return Promise.resolve(undefined);
+  },
   getCapabilities(): Promise<CapabilityInfoMap | undefined> {
     return Promise.resolve({});
   },

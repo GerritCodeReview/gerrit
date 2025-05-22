@@ -761,6 +761,11 @@ export interface RestApiService extends Finalizable {
     base?: boolean
   ): Promise<BlameInfo[] | undefined>;
 
+  getPatchContent(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<string | undefined>;
+
   getImagesForDiff(
     changeNum: NumericChangeId,
     diff: DiffInfo,

@@ -561,12 +561,12 @@ export class GrAutocomplete extends LitElement {
           const queryId = this.activeQueryId;
           this.latestSuggestionUpdateComplete?.then(() => {
             if (queryId === this.activeQueryId) {
-              this.handleInputCommit(/* _tabComplete=*/ true);
+              this.handleInputCommit(/* tabComplete= */ true);
             }
           });
         } else if (this.suggestions.length > 0 && this.tabComplete) {
           e.preventDefault();
-          this.handleInputCommit(/* _tabComplete=*/ true);
+          this.handleInputCommit(/* tabComplete= */ true);
           this.focus();
         } else {
           this.setFocus(false);
@@ -623,7 +623,7 @@ export class GrAutocomplete extends LitElement {
     }
   }
 
-  handleInputCommit(_tabComplete?: boolean) {
+  handleInputCommit(tabComplete?: boolean) {
     // Nothing to do if no suggestions.
     if (
       !this.allowNonSuggestedValues &&
@@ -633,7 +633,7 @@ export class GrAutocomplete extends LitElement {
     }
 
     this.selected = this.suggestionsDropdown?.getCursorTarget() ?? null;
-    this.commit(_tabComplete);
+    this.commit(tabComplete);
   }
 
   updateValue(

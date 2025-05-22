@@ -232,6 +232,7 @@ export class GrPermission extends LitElement {
                     ?disabled=${!this.editing}
                     @change=${this.handleValueChange}
                     @click=${this.onTapExclusiveToggle}
+                    @tap=${this.onTapExclusiveToggle}
                   ></paper-toggle-button
                   >${this.computeExclusiveLabel(this.permission?.value)}
                 `

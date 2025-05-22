@@ -70,6 +70,7 @@ suite('gr-search-bar tests', () => {
         <form>
           <gr-autocomplete
             allow-non-suggested-values=""
+            skip-commit-on-item-select=""
             id="searchInput"
             label="Search for changes"
             multi=""

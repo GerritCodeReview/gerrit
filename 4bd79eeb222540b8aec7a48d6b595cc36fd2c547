@@ -16,6 +16,23 @@
       "message": "Mention details of the runtime errors this is fixing ?\nOr put them in an issue and link it here.",
       "revId": "4bd79eeb222540b8aec7a48d6b595cc36fd2c547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74975b81_7775e3da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-22T21:40:31Z",
+      "side": 1,
+      "message": "Yay! Thanks for this fix. I was going to try to find time to see about fixing this today since it broke a lib module we have too.",
+      "revId": "4bd79eeb222540b8aec7a48d6b595cc36fd2c547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

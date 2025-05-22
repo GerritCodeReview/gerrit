@@ -174,7 +174,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
-  modifyEmojis(emojis: EmojiSuggestion[]) {
+  modifyEmojis(emojis?: EmojiSuggestion[]) {
     for (const cb of this._getEventCallbacks(EventType.CUSTOM_EMOJIS)) {
       try {
         emojis = cb(emojis);

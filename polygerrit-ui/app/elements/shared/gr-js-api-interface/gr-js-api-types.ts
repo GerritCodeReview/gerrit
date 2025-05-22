@@ -50,7 +50,15 @@ export interface JsApiService extends Finalizable {
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
+<<<<<<< HEAD   (b6b4f3 Add test for custom-emoji event)
   modifyEmojis(emojis: EmojiSuggestion[]): EmojiSuggestion[];
+||||||| BASE
+  handleViewChange(view?: string): void;
+  modifyEmojis(emojis: EmojiSuggestion[]): EmojiSuggestion[];
+=======
+  handleViewChange(view?: string): void;
+  modifyEmojis(emojis?: EmojiSuggestion[]): EmojiSuggestion[] | undefined;
+>>>>>>> CHANGE (69c22d Give users more control over emojis in gr-suggestion-textare)
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,

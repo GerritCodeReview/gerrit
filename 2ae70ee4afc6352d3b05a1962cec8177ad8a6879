@@ -22,6 +22,30 @@
       },
       "revId": "2ae70ee4afc6352d3b05a1962cec8177ad8a6879",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "741618b6_cb183f33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-22T11:59:51Z",
+      "side": 1,
+      "message": "This is a backport from master. I\u0027m also not sure how exactly to do that.",
+      "parentUuid": "30273061_16d4a003",
+      "range": {
+        "startLine": 611,
+        "startChar": 4,
+        "endLine": 613,
+        "endChar": 6
+      },
+      "revId": "2ae70ee4afc6352d3b05a1962cec8177ad8a6879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

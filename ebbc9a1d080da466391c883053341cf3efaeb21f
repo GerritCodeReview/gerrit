@@ -22,6 +22,30 @@
       },
       "revId": "ebbc9a1d080da466391c883053341cf3efaeb21f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0da604ee_f2f1ef29",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-22T09:06:25Z",
+      "side": 1,
+      "message": "Sorry, I missed one usage. I will just import it from rest-api, since other filed in app/api also use rest-api.",
+      "parentUuid": "da48839b_359719b3",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "ebbc9a1d080da466391c883053341cf3efaeb21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

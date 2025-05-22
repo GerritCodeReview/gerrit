@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da48839b_359719b3",
+        "filename": "polygerrit-ui/app/api/rest.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-22T09:02:18Z",
+      "side": 1,
+      "message": "You need re-export this, otherwise it will break existing usages",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "ebbc9a1d080da466391c883053341cf3efaeb21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

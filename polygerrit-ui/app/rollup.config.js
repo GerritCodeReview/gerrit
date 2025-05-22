@@ -59,8 +59,14 @@ export default {
   output: {
     format: 'iife',
     compact: true,
+    generatedCode: 'es2015',
     plugins: [
       terser({
+        ecma: 2021,
+        compress: {
+          // An extra pass can squeeze out an extra byte or two.
+          passes: 2,
+        },
         output: {
           comments: false,
         },

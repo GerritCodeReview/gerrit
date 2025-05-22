@@ -406,6 +406,7 @@ export class GrMessagesList extends LitElement {
               aria-labelledby="showAllEntriesLabel"
               role="switch"
               @click=${this.onTapShowAllActivityToggle}
+              @tap=${this.onTapShowAllActivityToggle}
             ></paper-toggle-button>
             <div id="showAllEntriesLabel" aria-hidden="true">
               <span>Show all entries</span>

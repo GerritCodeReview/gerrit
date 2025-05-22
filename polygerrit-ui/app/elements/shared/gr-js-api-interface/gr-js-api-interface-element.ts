@@ -24,6 +24,7 @@ import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {Provider} from '../../../models/dependency';
+import {EmojiSuggestion} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
@@ -182,6 +183,17 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         this.reportError(err, EventType.LABEL_CHANGE);
       }
     }
+  }
+
+  modifyEmojis(emojis: EmojiSuggestion[]) {
+    for (const cb of this._getEventCallbacks(EventType.CUSTOM_EMOJIS)) {
+      try {
+        emojis = cb(emojis);
+      } catch (err: unknown) {
+        this.reportError(err, EventType.CUSTOM_EMOJIS);
+      }
+    }
+    return emojis;
   }
 
   modifyRevertMsg(change: ChangeInfo, revertMsg: string, origMsg: string) {

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
-import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-change-table-editor/gr-change-table-editor';
 import '../../shared/gr-button/gr-button';

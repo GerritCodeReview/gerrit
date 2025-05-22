@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5912396c_fce784ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-22T21:39:31Z",
+      "side": 1,
+      "message": "This worked well for us in production yesterday on a restart. Normally we have serious blockage during a restart due to our very large H2 caches, this can last up to 15mins. Instead with this, the processing was still slow during those 15minutes, but it no longer seemed blocked by the filters being built. Any blockage now seems to be contention on the Guava compute() method (which we have complained about before, and will still try to fix separately), and this is less impactful blocking than the bloomfilter building.",
+      "revId": "6f8308fd2b609c1c322de13ab42e9e5212e6c341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

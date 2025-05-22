@@ -3,17 +3,16 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AccountDetailInfo, ProjectInfoWithName, ServerInfo} from './rest-api';
+import {
+  AccountDetailInfo,
+  ProjectInfoWithName,
+  HttpMethod,
+  ServerInfo,
+} from './rest-api';
+
+export {HttpMethod};
 
 export type RequestPayload = string | object;
-
-export enum HttpMethod {
-  HEAD = 'HEAD',
-  POST = 'POST',
-  GET = 'GET',
-  DELETE = 'DELETE',
-  PUT = 'PUT',
-}
 
 export type ErrorCallback = (
   response?: Response | null,

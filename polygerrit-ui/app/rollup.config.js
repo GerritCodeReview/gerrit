@@ -59,6 +59,7 @@ export default {
   output: {
     format: 'iife',
     compact: true,
+    generatedCode: 'es2015',
     plugins: [
       terser({
         output: {

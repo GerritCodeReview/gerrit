@@ -43,6 +43,7 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
 import {ReviewerState} from '../../../api/rest-api';
 import {repeat} from 'lit/directives/repeat.js';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
@@ -120,6 +121,11 @@ export class GrAccountList extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly restApiService: RestApiService =
+    getAppContext().restApiService;
+
+  private suggestedReviewers: SuggestedReviewerInfo[] = [];
+
   constructor() {
     super();
     this.querySuggestions = input => this.getSuggestions(input);
@@ -155,6 +161,30 @@ export class GrAccountList extends LitElement {
         }
       `,
     ];
+  }
+
+  override connectedCallback() {
+    this.fetchSuggestedReviewers();
+  }
+
+  async fetchSuggestedReviewers() {
+    if (!this.change) {
+      return;
+    }
+
+    if (this.reviewerState === ReviewerState.REVIEWER) {
+      this.suggestedReviewers =
+        (await this.restApiService.getChangeSuggestedReviewers(
+          this.change._number,
+          undefined
+        )) ?? [];
+    } else {
+      this.suggestedReviewers =
+        (await this.restApiService.getChangeSuggestedCCs(
+          this.change._number,
+          undefined
+        )) ?? [];
+    }
   }
 
   override render() {

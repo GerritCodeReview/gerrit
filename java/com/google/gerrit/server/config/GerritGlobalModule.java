@@ -339,7 +339,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(TransferConfig.class);
 
     bind(GcConfig.class);
-    bind(LogConfig.class);
     DynamicSet.setOf(binder(), GerritConfigListener.class);
 
     bind(ChangeCleanupConfig.class);

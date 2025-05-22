@@ -22,6 +22,30 @@
       },
       "revId": "ca75a2bb9215dbc73e0fed440a4bdfcb6b442e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dacc924_fc2416ba",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-22T16:34:39Z",
+      "side": 1,
+      "message": "I had idea to write comment why tap is needed so it\u0027s not removed in future, but I think blame is good enough to find reason for it.",
+      "parentUuid": "08a0b634_bb9134f2",
+      "range": {
+        "startLine": 235,
+        "startChar": 32,
+        "endLine": 235,
+        "endChar": 52
+      },
+      "revId": "ca75a2bb9215dbc73e0fed440a4bdfcb6b442e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

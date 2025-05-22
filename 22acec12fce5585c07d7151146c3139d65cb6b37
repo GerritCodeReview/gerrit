@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa33e36_e27e1117",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-05-22T21:34:54Z",
+      "side": 1,
+      "message": "I\u0027ll be honest, I don\u0027t think a stripped lock is a good fit for this. It is easy to think that it would be too expensive to have a lock for every change and see a stripped lock as a good fit. However, I think it makes more sense to realize that at most you need a lock for each change being submitted instead of for each change. A ConcurrentHashMap would likely work for this if you use the computeIfAbsent() method to insert a change being submitted into the map. If the insert fails, it is being submitted by another thread. My advice would be to use the ChangeNumber as the key, and the thread id as the value. Having the thread as the value allows a failed insert to verify if the thread claiming to be submitting is still alive or not. If it is no longer alive, you can remove the entry and try computeIfAbsent() again.",
+      "revId": "22acec12fce5585c07d7151146c3139d65cb6b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

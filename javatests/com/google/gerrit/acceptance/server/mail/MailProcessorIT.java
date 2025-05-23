@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -37,7 +36,6 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -501,7 +499,7 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "9")
+  @GerritConfig(name = "change.maxComments", value = "7")
   public void limitNumberOfComments() throws Exception {
     // This change has 2 change messages and 2 comments.
     String changeId = createChangeWithReview();
@@ -514,12 +512,9 @@ public class MailProcessorIT extends AbstractMailIT {
     commentInput.line = 1;
     commentInput.message = "foo";
     commentInput.path = FILE_NAME;
-    RobotCommentInput robotCommentInput =
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME);
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(commentInput));
-    reviewInput.robotComments = ImmutableMap.of(FILE_NAME, ImmutableList.of(robotCommentInput));
-    // Add 1 change message and another 2 comments. Total count is now 7, which is still OK.
+    // Add 1 change message and another comment. Total count is now 6, which is still OK.
     gApi.changes().id(changeId).current().review(reviewInput);
 
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
@@ -532,13 +527,13 @@ public class MailProcessorIT extends AbstractMailIT {
             "3) file comment");
     mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    ImmutableSet<CommentInfo> commentsBefore = getCommentsAndRobotComments(changeId);
-    // Should have 4 comments (and 3 change messages).
-    assertThat(commentsBefore).hasSize(4);
+    ImmutableSet<CommentInfo> commentsBefore = getComments(changeId);
+    // Should have 3 comments (and 2 change messages).
+    assertThat(commentsBefore).hasSize(3);
 
-    // The email adds 3 new comments (of which 1 is the change message).
+    // The email adds 2 new comments (of which 1 is the change message).
     mailProcessor.process(mailMessage.build());
-    ImmutableSet<CommentInfo> commentsAfter = getCommentsAndRobotComments(changeId);
+    ImmutableSet<CommentInfo> commentsAfter = getComments(changeId);
     assertThat(commentsAfter).isEqualTo(commentsBefore);
 
     assertNotifyTo(user);
@@ -602,11 +597,8 @@ public class MailProcessorIT extends AbstractMailIT {
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
   }
 
-  private ImmutableSet<CommentInfo> getCommentsAndRobotComments(String changeId)
-      throws RestApiException {
-    return Streams.concat(
-            gApi.changes().id(changeId).commentsRequest().get().values().stream(),
-            gApi.changes().id(changeId).robotComments().values().stream())
+  private ImmutableSet<CommentInfo> getComments(String changeId) throws RestApiException {
+    return gApi.changes().id(changeId).commentsRequest().get().values().stream()
         .flatMap(Collection::stream)
         .collect(toImmutableSet());
   }

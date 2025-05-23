@@ -47,10 +47,6 @@ public class RefNamesTest {
     assertThat(changeMetaRef).isEqualTo("refs/changes/73/67473/meta");
     assertThat(RefNames.isNoteDbMetaRef(changeMetaRef)).isTrue();
 
-    String robotCommentsRef = RefNames.robotCommentsRef(changeId);
-    assertThat(robotCommentsRef).isEqualTo("refs/changes/73/67473/robot-comments");
-    assertThat(RefNames.isNoteDbMetaRef(robotCommentsRef)).isTrue();
-
     String changeRefPrefix = RefNames.changeRefPrefix(changeId);
     assertThat(changeRefPrefix).isEqualTo("refs/changes/73/67473/");
   }

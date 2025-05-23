@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -100,15 +99,11 @@ public interface RevisionApi {
 
   Map<String, List<CommentInfo>> comments() throws RestApiException;
 
-  Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
-
   Map<String, List<CommentInfo>> drafts() throws RestApiException;
 
   List<CommentInfo> commentsAsList() throws RestApiException;
 
   List<CommentInfo> draftsAsList() throws RestApiException;
-
-  List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
 
   Map<String, List<CommentInfo>> portedComments() throws RestApiException;
 
@@ -147,8 +142,6 @@ public interface RevisionApi {
   DraftApi draft(String id) throws RestApiException;
 
   CommentApi comment(String id) throws RestApiException;
-
-  RobotCommentApi robotComment(String id) throws RestApiException;
 
   String etag() throws RestApiException;
 

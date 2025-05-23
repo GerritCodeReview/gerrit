@@ -95,7 +95,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final NoteDbUpdateExecutor noteDbUpdateExecutor;
   private final ChangeDraftUpdateExecutor.AbstractFactory draftUpdatesExecutorFactory;
-  private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> changesToDelete;
 
@@ -128,7 +127,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.currentUser = currentUser;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
-    robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     changesToDelete = new HashSet<>();
     batchUpdateListeners = ImmutableList.of();
@@ -204,7 +202,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private boolean isEmpty() {
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
-        && robotCommentUpdates.isEmpty()
         && rewriters.isEmpty()
         && changesToDelete.isEmpty()
         && !hasCommands(changeRepo)
@@ -238,10 +235,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     ChangeDraftUpdate du = update.getDraftUpdate();
     if (du != null) {
       draftUpdates.put(du.getStorageKey(), du);
-    }
-    RobotCommentUpdate rcu = update.getRobotCommentUpdate();
-    if (rcu != null) {
-      robotCommentUpdates.put(rcu.getRefName(), rcu);
     }
     DeleteCommentRewriter deleteCommentRewriter = update.getDeleteCommentRewriter();
     if (deleteCommentRewriter != null) {
@@ -379,9 +372,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     changeRepo.addUpdates(changeUpdates, Optional.of(maxUpdates), Optional.of(maxPatchSets));
     if (!draftUpdates.isEmpty()) {
       draftUpdatesExecutor.queueAllDraftUpdates(draftUpdates);
-    }
-    if (!robotCommentUpdates.isEmpty()) {
-      changeRepo.addUpdatesNoLimits(robotCommentUpdates);
     }
     if (!rewriters.isEmpty()) {
       addRewrites(rewriters, changeRepo);

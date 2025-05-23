@@ -16,10 +16,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import java.util.function.IntFunction;
 
-/**
- * Builder to simplify a position specification. Used by {@link TestCommentCreation} and {@link
- * TestRobotCommentCreation}.
- */
+/** Builder to simplify a position specification. Used by {@link TestCommentCreation}. */
 public class PositionBuilder<T> {
   private final IntFunction<T> nextStepProvider;
 

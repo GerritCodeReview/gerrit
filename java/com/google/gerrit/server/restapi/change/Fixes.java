@@ -57,8 +57,6 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
     List<Comment> allComments = new ArrayList<>();
     allComments.addAll(
         commentsUtil.publishedByPatchSet(changeNotes, revisionResource.getPatchSet().id()));
-    allComments.addAll(
-        commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().id()));
     for (Comment comment : allComments) {
       if (comment.fixSuggestions == null) {
         continue;

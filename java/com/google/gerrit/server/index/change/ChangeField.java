@@ -1133,7 +1133,7 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec COMMENT_SPEC =
       COMMENT_FIELD.fullText(ChangeQueryBuilder.FIELD_COMMENT);
 
-  /** Number of unresolved comment threads of the change, including robot comments. */
+  /** Number of unresolved comment threads of the change. */
   public static final IndexedField<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT_FIELD =
       IndexedField.<ChangeData>integerBuilder("UnresolvedCommentCount")
           .stored()
@@ -1145,7 +1145,7 @@ public class ChangeField {
       UNRESOLVED_COMMENT_COUNT_FIELD.integerRange(
           ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT);
 
-  /** Total number of published inline comments of the change, including robot comments. */
+  /** Total number of published inline comments of the change. */
   public static final IndexedField<ChangeData, Integer> TOTAL_COMMENT_COUNT_FIELD =
       IndexedField.<ChangeData>integerBuilder("TotalCommentCount")
           .stored()

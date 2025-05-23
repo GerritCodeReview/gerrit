@@ -164,11 +164,6 @@ public class RefNames {
     return shard(id.get(), r).append('/').toString();
   }
 
-  public static String robotCommentsRef(Change.Id id) {
-    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
-    return shard(id.get(), r).append(ROBOT_COMMENTS_SUFFIX).toString();
-  }
-
   public static boolean isNoteDbMetaRef(String ref) {
     if (ref.startsWith(REFS_CHANGES)
         && (ref.endsWith(META_SUFFIX) || ref.endsWith(ROBOT_COMMENTS_SUFFIX))) {

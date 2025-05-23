@@ -17,8 +17,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 import java.util.function.Function;
 
 /**
- * Builder for the file specification of line/range comments. Used by {@link TestCommentCreation}
- * and {@link TestRobotCommentCreation}.
+ * Builder for the file specification of line/range comments. Used by {@link TestCommentCreation}.
  */
 public class FileBuilder<T> {
   private final Function<String, T> nextStepProvider;

@@ -58,7 +58,6 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -94,7 +93,6 @@ import com.google.gerrit.server.restapi.change.GetValidationOptions;
 import com.google.gerrit.server.restapi.change.Index;
 import com.google.gerrit.server.restapi.change.ListChangeComments;
 import com.google.gerrit.server.restapi.change.ListChangeDrafts;
-import com.google.gerrit.server.restapi.change.ListChangeRobotComments;
 import com.google.gerrit.server.restapi.change.ListReviewers;
 import com.google.gerrit.server.restapi.change.Move;
 import com.google.gerrit.server.restapi.change.PostCustomKeyedValues;
@@ -166,7 +164,6 @@ class ChangeApiImpl implements ChangeApi {
   private final AttentionSetApiImpl.Factory attentionSetApi;
   private final AddToAttentionSet addToAttentionSet;
   private final Provider<ListChangeComments> listCommentsProvider;
-  private final ListChangeRobotComments listChangeRobotComments;
   private final Provider<ListChangeDrafts> listDraftsProvider;
   private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
@@ -220,7 +217,6 @@ class ChangeApiImpl implements ChangeApi {
       AttentionSetApiImpl.Factory attentionSetApi,
       AddToAttentionSet addToAttentionSet,
       Provider<ListChangeComments> listCommentsProvider,
-      ListChangeRobotComments listChangeRobotComments,
       Provider<ListChangeDrafts> listDraftsProvider,
       ChangeEditApiImpl.Factory changeEditApi,
       Check check,
@@ -272,7 +268,6 @@ class ChangeApiImpl implements ChangeApi {
     this.attentionSetApi = attentionSetApi;
     this.addToAttentionSet = addToAttentionSet;
     this.listCommentsProvider = listCommentsProvider;
-    this.listChangeRobotComments = listChangeRobotComments;
     this.listDraftsProvider = listDraftsProvider;
     this.changeEditApi = changeEditApi;
     this.check = check;
@@ -681,15 +676,6 @@ class ChangeApiImpl implements ChangeApi {
         }
       }
     };
-  }
-
-  @Override
-  public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
-    try {
-      return listChangeRobotComments.apply(change).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get robot comments", e);
-    }
   }
 
   @Override

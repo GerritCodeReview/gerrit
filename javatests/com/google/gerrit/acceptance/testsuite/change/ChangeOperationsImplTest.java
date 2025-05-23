@@ -1703,36 +1703,6 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     OptionalSubject.assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
   }
 
-  @Test
-  public void robotCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
-    String commentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-
-    TestRobotComment comment = changeOperations.change(changeId).robotComment(commentUuid).get();
-
-    assertThat(comment.uuid()).isEqualTo(commentUuid);
-  }
-
-  @Test
-  public void parentUuidOfRobotCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
-    String parentCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
-    String childCommentUuid =
-        changeOperations
-            .change(changeId)
-            .currentPatchset()
-            .newRobotComment()
-            .parentUuid(parentCommentUuid)
-            .create();
-
-    TestRobotComment comment =
-        changeOperations.change(changeId).robotComment(childCommentUuid).get();
-
-    OptionalSubject.assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
-  }
-
   private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {
     return gApi.changes().id(changeId.get()).get();
   }

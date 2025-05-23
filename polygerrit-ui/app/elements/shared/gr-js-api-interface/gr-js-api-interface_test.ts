@@ -34,6 +34,7 @@ import {
   createRevision,
 } from '../../../test/test-data-generators';
 import {EventCallback} from './gr-js-api-types';
+import {EmojiSuggestion} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 suite('GrJsApiInterface tests', () => {
   let element: GrJsApiInterface;
@@ -162,6 +163,25 @@ suite('GrJsApiInterface tests', () => {
 
     await waitEventLoop();
     assert.isTrue(showChangeStub.called);
+  });
+
+  test('custom-emoji event', async () => {
+    const customEmojisStub = stub();
+    const emojis: EmojiSuggestion[] = [
+      {
+        value: '😂',
+        match: 'noooooooo',
+      },
+    ];
+
+    plugin.on(EventType.CUSTOM_EMOJIS, throwErrFn);
+    plugin.on(EventType.CUSTOM_EMOJIS, customEmojisStub);
+    element.modifyEmojis(emojis);
+    await waitUntilCalled(customEmojisStub, 'customEmojisStub');
+
+    const [customEmojis] = customEmojisStub.firstCall.args;
+    assert.deepEqual(customEmojis, emojis);
+    assert.isTrue(errorStub.calledOnce);
   });
 
   test('revert event', () => {

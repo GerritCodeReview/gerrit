@@ -34,6 +34,24 @@
       "parentUuid": "7bb63c98_fde54154",
       "revId": "75a5a71e538274b8eab2ea74d6520ea5aa87a4e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8f9b7a_3a21c6f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-23T14:48:12Z",
+      "side": 1,
+      "message": "If we keep the behaviour of go/grev/478081 then we align with the internal bug tool and `Enter` on item selection never triggers a search.\n\nIf we revert that and also keep this CL, then `Enter` always does a search and we align with the internal script querying tool.\n\nCurrent state, we align with neither tool and create maximum confusion.",
+      "parentUuid": "fefe8cba_fabea9a4",
+      "revId": "75a5a71e538274b8eab2ea74d6520ea5aa87a4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

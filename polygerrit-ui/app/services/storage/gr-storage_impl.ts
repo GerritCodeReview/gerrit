@@ -113,7 +113,7 @@ export class GrStorageService implements StorageService, Finalizable {
       if (exc instanceof DOMException) {
         // Catch for QuotaExceededError and disable writes on local storage the
         // first time that it occurs.
-        if (exc.code === 22) {
+        if (exc.name === 'QuotaExceededError') {
           this.exceededQuota = true;
           console.warn('Local storage quota exceeded: disabling');
           return;

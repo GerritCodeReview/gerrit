@@ -11,11 +11,9 @@
       "updated": "2025-05-23T12:58:12Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "message": "uuid \"gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928\" has unknown language",
-      "started": "2020-07-16T18:34:21Z",
+      "state": "NOT_STARTED",
       "created": "2020-07-16T18:34:22Z",
-      "updated": "2020-07-16T18:34:22Z"
+      "updated": "2025-05-23T12:58:39Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "NOT_STARTED",

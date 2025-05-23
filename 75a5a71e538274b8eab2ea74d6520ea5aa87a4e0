@@ -16,6 +16,24 @@
       "message": "I think you can make reasons for both ways of it working. I think we should not mess with things, where user might have muscle memory, unless we have a quite compelling reason to",
       "revId": "75a5a71e538274b8eab2ea74d6520ea5aa87a4e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fefe8cba_fabea9a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-23T14:45:11Z",
+      "side": 1,
+      "message": "But it\u0027s inconsistent in how the operator is handled.\n\nAs mentioned in the commit message, adding an operator again does not trigger this behaviour.\n\nWhy are we keeping special handling for only one case?",
+      "parentUuid": "7bb63c98_fde54154",
+      "revId": "75a5a71e538274b8eab2ea74d6520ea5aa87a4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

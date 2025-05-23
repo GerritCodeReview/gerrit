@@ -172,6 +172,7 @@ export class GrDropdownList extends LitElement {
         }
         .topContent.deemphasized {
           color: var(--deemphasized-text-color);
+          font-style: italic;
         }
         gr-comments-summary {
           padding-left: var(--spacing-s);

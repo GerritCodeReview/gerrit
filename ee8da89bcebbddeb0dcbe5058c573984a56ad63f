@@ -22,6 +22,30 @@
       },
       "revId": "ee8da89bcebbddeb0dcbe5058c573984a56ad63f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0c87eb_7eacfdb6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-23T11:10:44Z",
+      "side": 1,
+      "message": "Now I know why, all my own doing.",
+      "parentUuid": "f5f6a601_00769cfc",
+      "range": {
+        "startLine": 1254,
+        "startChar": 0,
+        "endLine": 1259,
+        "endChar": 18
+      },
+      "revId": "ee8da89bcebbddeb0dcbe5058c573984a56ad63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

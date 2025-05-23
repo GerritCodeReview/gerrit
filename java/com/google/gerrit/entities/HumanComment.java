@@ -32,7 +32,7 @@ import java.util.Objects;
 @ConvertibleToProto
 public class HumanComment extends Comment {
 
-  public boolean unresolved;
+  public final boolean unresolved;
 
   public HumanComment(
       Key key,
@@ -54,7 +54,9 @@ public class HumanComment extends Comment {
         /* parentUuid= */ null,
         /* tag= */ null,
         /* fixSuggestions= */ null,
-        /* realAuthor= */ null);
+        /* realAuthor= */ null,
+        /* lineNbr= */ 0,
+        /* range= */ null);
   }
 
   public HumanComment(
@@ -69,7 +71,9 @@ public class HumanComment extends Comment {
       @Nullable String parentUuid,
       @Nullable String tag,
       @Nullable List<FixSuggestion> fixSuggestions,
-      @Nullable Account.Id realAuthor) {
+      @Nullable Account.Id realAuthor,
+      int lineNbr,
+      @Nullable Range range) {
     super(
         key,
         author,
@@ -81,12 +85,15 @@ public class HumanComment extends Comment {
         parentUuid,
         tag,
         fixSuggestions,
-        realAuthor);
+        realAuthor,
+        lineNbr,
+        range);
     this.unresolved = unresolved;
   }
 
   public HumanComment(HumanComment comment) {
     super(comment);
+    this.unresolved = comment.unresolved;
   }
 
   @Override

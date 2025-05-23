@@ -64,9 +64,9 @@ public abstract class Comment {
   }
 
   public static final class Key {
-    public String uuid;
-    public String filename;
-    public int patchSetId;
+    public final String uuid;
+    public final String filename;
+    public final int patchSetId;
 
     public Key(Key k) {
       this(k.uuid, k.filename, k.patchSetId);
@@ -105,7 +105,7 @@ public abstract class Comment {
   }
 
   public static final class Identity {
-    int id;
+    final int id;
 
     public Identity(Account.Id id) {
       this.id = id.get();
@@ -161,10 +161,10 @@ public abstract class Comment {
             .thenComparingInt(range -> range.endLine)
             .thenComparingInt(range -> range.endChar);
 
-    public int startLine; // 1-based
-    public int startChar; // 0-based
-    public int endLine; // 1-based
-    public int endChar; // 0-based
+    public final int startLine; // 1-based
+    public final int startChar; // 0-based
+    public final int endLine; // 1-based
+    public final int endChar; // 0-based
 
     public Range(Range r) {
       this(r.startLine, r.startChar, r.endLine, r.endChar);
@@ -214,24 +214,26 @@ public abstract class Comment {
     }
   }
 
-  public Key key;
+  public final Key key;
 
-  /** The line number (1-based) to which the comment refers, or 0 for a file comment. */
-  public int lineNbr;
-
-  public Identity author;
+  public final Identity author;
   public Identity realAuthor;
 
   // TODO(issue-15525): Migrate this field from Timestamp to Instant
   public Timestamp writtenOn;
 
-  public short side;
-  public String message;
-  public String parentUuid;
-  public Range range;
-  public String tag;
+  public final short side;
+  public final String message;
+  public final String parentUuid;
+  public final String tag;
 
-  @Nullable public List<FixSuggestion> fixSuggestions;
+  @Nullable public final List<FixSuggestion> fixSuggestions;
+
+  /** The line number (1-based) to which the comment refers, or 0 for a file comment. */
+  public int lineNbr;
+
+  /** The range to which the comment refers. */
+  @Nullable public Range range;
 
   /**
    * Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call
@@ -241,7 +243,7 @@ public abstract class Comment {
    */
   private String revId;
 
-  public String serverId;
+  public final String serverId;
 
   public Comment(Comment c) {
     this(
@@ -254,10 +256,10 @@ public abstract class Comment {
         c.revId,
         c.parentUuid,
         c.tag,
-        c.fixSuggestions,
-        c.realAuthor == null ? null : c.realAuthor.getId());
-    this.lineNbr = c.lineNbr;
-    this.range = c.range != null ? new Range(c.range) : null;
+        List.copyOf(c.fixSuggestions),
+        c.realAuthor == null ? null : c.realAuthor.getId(),
+        c.lineNbr,
+        c.range != null ? new Range(c.range) : null);
   }
 
   public Comment(
@@ -273,10 +275,12 @@ public abstract class Comment {
         /* parentUuid= */ null,
         /* tag= */ null,
         /* fixSuggestions= */ null,
-        /* realAuthor= */ null);
+        /* realAuthor= */ null,
+        /* lineNbr= */ 0,
+        /* range= */ null);
   }
 
-  public Comment(
+  protected Comment(
       Key key,
       Account.Id author,
       Instant writtenOn,
@@ -287,7 +291,9 @@ public abstract class Comment {
       @Nullable String parentUuid,
       @Nullable String tag,
       @Nullable List<FixSuggestion> fixSuggestions,
-      @Nullable Account.Id realAuthor) {
+      @Nullable Account.Id realAuthor,
+      int lineNbr,
+      @Nullable Range range) {
     this.key = key;
     this.author = new Comment.Identity(author);
     this.realAuthor = this.author;
@@ -300,6 +306,8 @@ public abstract class Comment {
     this.tag = tag;
     this.fixSuggestions = fixSuggestions;
     this.setRealAuthor(realAuthor);
+    this.lineNbr = lineNbr;
+    this.range = range;
   }
 
   public void setWrittenOn(Instant writtenOn) {

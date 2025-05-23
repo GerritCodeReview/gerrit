@@ -143,7 +143,9 @@ public enum HumanCommentProtoConverter
             proto.hasParentCommentUuid() ? proto.getParentCommentUuid() : null,
             proto.hasTag() ? proto.getTag() : null,
             fromFixSuggestionsProto(proto.getFixSuggestionsList()),
-            /* realAuthor= */ null);
+            /* realAuthor= */ null,
+            /* lineNbr= */ 0,
+            /* range= */ null);
 
     if (proto.hasRealAuthor()) {
       // Not setting real author from the constructor because if the proto has a value - we want to

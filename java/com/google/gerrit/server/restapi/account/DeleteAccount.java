@@ -175,8 +175,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
         groupUuid -> {
           try {
             groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
-            logger.atInfo().log(
-                String.format("User: %s removed from Group: %s", accountId, groupUuid));
+            logger.atInfo().log("User: %s removed from Group: %s", accountId, groupUuid);
           } catch (Exception e) {
             logger.atWarning().withCause(e).log(
                 "User: %s could not be removed from Group: %s ", accountId, groupUuid);

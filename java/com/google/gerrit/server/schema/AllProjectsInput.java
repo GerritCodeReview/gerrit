@@ -35,20 +35,15 @@ import java.util.Optional;
 @AutoValue
 public abstract class AllProjectsInput {
 
-  /** Default boolean configs set when initializing All-Projects. */
-  public static final ImmutableMap<BooleanProjectConfig, InheritableBoolean>
-      DEFAULT_BOOLEAN_PROJECT_CONFIGS =
-          ImmutableMap.of(
-              BooleanProjectConfig.REQUIRE_CHANGE_ID,
-              InheritableBoolean.TRUE,
-              BooleanProjectConfig.USE_CONTENT_MERGE,
-              InheritableBoolean.TRUE,
-              BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,
-              InheritableBoolean.FALSE,
-              BooleanProjectConfig.USE_SIGNED_OFF_BY,
-              InheritableBoolean.FALSE,
-              BooleanProjectConfig.ENABLE_SIGNED_PUSH,
-              InheritableBoolean.FALSE);
+  /** Default boolean configs list when initializing All-Projects. */
+  public static final ImmutableList<BooleanProjectConfig> DEFAULT_BOOLEAN_PROJECT_CONFIGS =
+      ImmutableList.of(
+          BooleanProjectConfig.REQUIRE_CHANGE_ID,
+          BooleanProjectConfig.USE_CONTENT_MERGE,
+          BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,
+          BooleanProjectConfig.USE_SIGNED_OFF_BY,
+          BooleanProjectConfig.ENABLE_SIGNED_PUSH,
+          BooleanProjectConfig.REJECT_IMPLICIT_MERGES);
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public static LabelType getDefaultCodeReviewLabel() {
@@ -171,9 +166,13 @@ public abstract class AllProjectsInput {
         booleanProjectConfigsBuilder();
 
     @CanIgnoreReturnValue
-    public Builder addBooleanProjectConfig(
-        BooleanProjectConfig booleanProjectConfig, InheritableBoolean inheritableBoolean) {
-      booleanProjectConfigsBuilder().put(booleanProjectConfig, inheritableBoolean);
+    public Builder addBooleanProjectConfig(BooleanProjectConfig booleanProjectConfig) {
+      booleanProjectConfigsBuilder()
+          .put(
+              booleanProjectConfig,
+              booleanProjectConfig.getDefaultValue()
+                  ? InheritableBoolean.TRUE
+                  : InheritableBoolean.FALSE);
       return this;
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "918160ed_b9c4f9fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-23T14:33:52Z",
+      "side": 1,
+      "message": "Polygerrit UI tests show up as passed on the change, but for some reason vote is missing. Override vote manually",
+      "revId": "bcc24ed0492f263d5b587aa3d48a1b5c082af2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

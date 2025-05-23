@@ -14,8 +14,14 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.gerrit.entities.BooleanProjectConfig;
+
 public enum InheritableBoolean {
   TRUE,
   FALSE,
-  INHERIT
+  INHERIT;
+
+  public static InheritableBoolean fromBooleanProjectConfig(BooleanProjectConfig bpc) {
+    return bpc.getDefaultValue() ? TRUE : FALSE;
+  }
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55212d45_e8d5358a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-23T13:02:42Z",
+      "side": 1,
+      "message": "No rush.\nThere\u0027s always the opportunity to use your DefaultBooleanConfig support to enable implicit merges. (lot of \"default\" in this change... :-) )",
+      "parentUuid": "597979e5_32aa4a97",
+      "revId": "143a7552930ec7dd9e2ec2f48a3689d97b605711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0606180_a31c612e",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89b97b33_a29109e3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-23T13:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0606180_a31c612e",
+      "range": {
+        "startLine": 1347,
+        "startChar": 43,
+        "endLine": 1347,
+        "endChar": 60
+      },
+      "revId": "143a7552930ec7dd9e2ec2f48a3689d97b605711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d1fb982_736dce4c",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-05-23T12:10:28Z",
       "side": 1,
       "message": "Should be ENABLE_SIGNED_PUSH",
+      "range": {
+        "startLine": 1354,
+        "startChar": 41,
+        "endLine": 1354,
+        "endChar": 58
+      },
+      "revId": "143a7552930ec7dd9e2ec2f48a3689d97b605711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ef8f3a8_604ee80c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-23T13:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d1fb982_736dce4c",
       "range": {
         "startLine": 1354,
         "startChar": 41,

@@ -270,6 +270,7 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com/asdf~');
       await checkLinking('https://www.google.com/asdf-');
       await checkLinking('https://www.google.com/asdf-');
+      await checkLinking('https://www.google.com/asdf)');
       // matches & part as well, even we first linkify and then htmlEscape
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'

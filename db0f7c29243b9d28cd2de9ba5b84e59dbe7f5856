@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ecf7a0b_fbf158b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-23T07:50:16Z",
+      "side": 1,
+      "message": "Great to finally get rid of all this code!",
+      "revId": "db0f7c29243b9d28cd2de9ba5b84e59dbe7f5856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba5ec8d1_6ee4cfff",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-23T07:50:16Z",
+      "side": 1,
+      "message": "nit: drop this",
+      "range": {
+        "startLine": 148,
+        "startChar": 39,
+        "endLine": 148,
+        "endChar": 43
+      },
+      "revId": "db0f7c29243b9d28cd2de9ba5b84e59dbe7f5856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -146,12 +146,12 @@ export interface RestApiService extends Finalizable {
 
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
-    input: string,
+    input?: string,
     errFn?: ErrorCallback
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
-    input: string,
+    input?: string,
     errFn?: ErrorCallback
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   /**

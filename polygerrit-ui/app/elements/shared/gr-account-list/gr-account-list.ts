@@ -43,6 +43,7 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
 import {ReviewerState} from '../../../api/rest-api';
 import {repeat} from 'lit/directives/repeat.js';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
@@ -69,6 +70,15 @@ export class GrAccountList extends LitElement {
 
   @property({type: Array})
   accounts: AccountInput[] = [];
+
+  /**
+   * A fixed set of accounts that can be shown as default suggestions.
+   * They are only shown if the user has not added any accounts.
+   * If the user starts typing, then they are considered rejected and
+   * are not shown again.
+   */
+  @property({type: Array})
+  defaultSuggestedAccounts: AccountInput[] = [];
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -120,12 +130,41 @@ export class GrAccountList extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly restApiService: RestApiService =
+    getAppContext().restApiService;
+
+  private suggestedReviewers: SuggestedReviewerInfo[] = [];
+
   constructor() {
     super();
     this.querySuggestions = input => this.getSuggestions(input);
     this.addEventListener('remove-account', e =>
       this.handleRemove(e as CustomEvent<{account: AccountInput}>)
     );
+  }
+
+  override connectedCallback() {
+    this.fetchSuggestedReviewers();
+  }
+
+  async fetchSuggestedReviewers() {
+    if (!this.change) {
+      return;
+    }
+
+    if (this.reviewerState === ReviewerState.REVIEWER) {
+      this.suggestedReviewers =
+        (await this.restApiService.getChangeSuggestedReviewers(
+          this.change._number,
+          undefined
+        )) ?? [];
+    } else {
+      this.suggestedReviewers =
+        (await this.restApiService.getChangeSuggestedCCs(
+          this.change._number,
+          undefined
+        )) ?? [];
+    }
   }
 
   static override get styles() {
@@ -158,29 +197,13 @@ export class GrAccountList extends LitElement {
   }
 
   override render() {
-    return html`<div class="list">
+    return html` <div class="list">
         ${repeat(
           this.accounts,
           account => getUserId(account),
-          account => html`
-            <gr-account-chip
-              .account=${account}
-              .change=${this.change}
-              class=${classMap({
-                group: isGroup(account),
-                newlyAdded: isAccountNewlyAdded(
-                  account,
-                  this.reviewerState,
-                  this.change
-                ),
-              })}
-              ?removable=${this.computeRemovable(account)}
-              @keydown=${this.handleChipKeydown}
-              tabindex="-1"
-            >
-            </gr-account-chip>
-          `
+          account => this.renderAccountChip(account)
         )}
+        ${this.renderDefaultSuggestions()}
       </div>
       <gr-account-entry
         borderless=""
@@ -194,6 +217,39 @@ export class GrAccountList extends LitElement {
       >
       </gr-account-entry>
       <slot></slot>`;
+  }
+
+  private renderDefaultSuggestions() {
+    // Some account is already present in the list
+    if (this.accounts.length > 0) {
+      return;
+    }
+    return html`${repeat(
+      this.defaultSuggestedAccounts,
+      account => getUserId(account),
+      account => this.renderAccountChip(account)
+    )}`;
+  }
+
+  private renderAccountChip(account: AccountInput) {
+    return html`
+      <gr-account-chip
+        .account=${account}
+        .change=${this.change}
+        class=${classMap({
+          group: isGroup(account),
+          newlyAdded: isAccountNewlyAdded(
+            account,
+            this.reviewerState,
+            this.change
+          ),
+        })}
+        ?removable=${this.computeRemovable(account)}
+        @keydown=${this.handleChipKeydown}
+        tabindex="-1"
+      >
+      </gr-account-chip>
+    `;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

@@ -1,3 +1,9 @@
+Google Git
+Switch user
+Sign out
+‪McCoy Stevens‬ <webmaster@samsungknox.co>
+gerrit / gerrit / 753b565a540c5335e3a03201da28baed3993b8c4 / . / .gitignore
+blob: 0bbcabacb44164bc8f03d8101eaac973bba3030f [file] [log] [blame]
 # Keep following lines sorted according to `LC_COLLATE=C sort`
 *.code-workspace
 *.eml
@@ -15,7 +21,6 @@ js-to-ts.sh
 /.classpath
 /.factorypath
 /.idea
-/.aswb
 /.ijwb
 /.metadata
 /.project

@@ -10,7 +10,7 @@ import {addListener} from '@polymer/polymer/lib/utils/gestures';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
-import {PaperButtonElement} from '@polymer/paper-button';
+import {MdTextButton} from '@material/web/button/text-button';
 import {Key, Modifier} from '../../../utils/dom-util';
 
 suite('gr-button tests', () => {
@@ -35,16 +35,13 @@ suite('gr-button tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <paper-button
-          animated=""
-          aria-disabled="false"
-          elevation="1"
-          part="paper-button"
-          raised=""
-          role="button"
+        <md-elevated-button
+          data-role="button"
+          part="md-elevated-button"
           tabindex="-1"
+          value=""
           ><slot></slot>
-        </paper-button>
+        </md-elevated-button>
       `
     );
   });
@@ -62,17 +59,17 @@ suite('gr-button tests', () => {
   });
 
   test('disabled is set by disabled', async () => {
-    const paperBtn = queryAndAssert<PaperButtonElement>(
+    const mdTextBtn = queryAndAssert<MdTextButton>(
       element,
-      'paper-button'
+      'md-elevated-button'
     );
-    assert.isFalse(paperBtn.disabled);
+    assert.isFalse(mdTextBtn.disabled);
     element.disabled = true;
     await element.updateComplete;
-    assert.isTrue(paperBtn.disabled);
+    assert.isTrue(mdTextBtn.disabled);
     element.disabled = false;
     await element.updateComplete;
-    assert.isFalse(paperBtn.disabled);
+    assert.isFalse(mdTextBtn.disabled);
   });
 
   test('loading set from listener', async () => {
@@ -82,18 +79,18 @@ suite('gr-button tests', () => {
       target.setAttribute('loading', 'true');
       resolve = () => target.removeAttribute('loading');
     });
-    const paperBtn = queryAndAssert<PaperButtonElement>(
+    const mdTextBtn = queryAndAssert<MdTextButton>(
       element,
-      'paper-button'
+      'md-elevated-button'
     );
-    assert.isFalse(paperBtn.disabled);
+    assert.isFalse(mdTextBtn.disabled);
     element.click();
     await element.updateComplete;
-    assert.isTrue(paperBtn.disabled);
+    assert.isTrue(mdTextBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
     resolve!();
     await element.updateComplete;
-    assert.isFalse(paperBtn.disabled);
+    assert.isFalse(mdTextBtn.disabled);
     assert.isFalse(element.hasAttribute('loading'));
   });
 

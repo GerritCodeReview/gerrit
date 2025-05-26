@@ -4,13 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/paper-button/paper-button';
-import '@polymer/paper-card/paper-card';
-import '@polymer/paper-checkbox/paper-checkbox';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
-import '@polymer/paper-fab/paper-fab';
-import '@polymer/paper-icon-button/paper-icon-button';
-import '@polymer/paper-item/paper-item';
-import '@polymer/paper-listbox/paper-listbox';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {of, EMPTY, Subject} from 'rxjs';
 import {switchMap, delay} from 'rxjs/operators';

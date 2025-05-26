@@ -177,6 +177,10 @@ export class GrDropdownList extends LitElement {
         gr-comments-summary {
           padding-left: var(--spacing-s);
         }
+        .copyClipboard {
+          display: inline-flex;
+          vertical-align: top;
+        }
         @media only screen and (max-width: 50em) {
           gr-select {
             display: var(--gr-select-style-display, inline-block);
@@ -216,6 +220,7 @@ export class GrDropdownList extends LitElement {
       >
         <span id="triggerText">${this.text}</span>
         <gr-copy-clipboard
+          class="copyClipboard"
           ?hidden=${!this.showCopyForTriggerText}
           hideInput
           .text=${this.text}

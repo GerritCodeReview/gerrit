@@ -13,6 +13,8 @@ import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {classMap} from 'lit/directives/class-map.js';
 import {Interaction} from '../../../constants/reporting';
+import '@material/web/button/filled-button';
+import '@material/web/button/text-button';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -113,7 +115,7 @@ export class GrButton extends LitElement {
         paper-button[elevation='5'] {
           box-shadow: var(--elevation-level-5);
         }
-        paper-button:hover {
+        paper-button:hover, md-filled-button:hover, md-text-button:hover {
           background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
             var(--background-color);
         }
@@ -161,25 +163,117 @@ export class GrButton extends LitElement {
           min-width: 3em;
           color: var(--vote-text-color);
         }
+
+      md-filled-button,
+      md-text-button {
+        font-family: var(--header-font-family);
+        font-weight: var(--font-weight-medium);
+        text-transform: none;
+        font-smoothing: initial;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin: var(--margin, 0);
+        min-width: var(--border, 0);
+        padding: var(--gr-button-padding, var(--spacing-s) var(--spacing-m));
+      }
+
+      /* Custom styling using Material's CSS vars */
+
+      md-filled-button {
+        --md-filled-button-container-color: var(--background-color);
+        --md-filled-button-label-text-color: var(--text-color);
+        --md-filled-button-hover-state-layer-color: rgba(0, 0, 0, 0.12);
+        --md-filled-button-hover-container-color: var(--background-color);
+      }
+
+      md-text-button {
+        --md-text-button-label-text-color: var(--text-color);
+        --md-text-button-hover-state-layer-color: rgba(0, 0, 0, 0.12);
+      }
+
+      /* Elevation mapping to box shadows, if you still need that styling */
+
+      :host([elevation='1']) md-filled-button {
+        box-shadow: var(--elevation-level-1);
+      }
+      :host([elevation='2']) md-filled-button {
+        box-shadow: var(--elevation-level-2);
+      }
+      :host([elevation='3']) md-filled-button {
+        box-shadow: var(--elevation-level-3);
+      }
+      :host([elevation='4']) md-filled-button {
+        box-shadow: var(--elevation-level-4);
+      }
+      :host([elevation='5']) md-filled-button {
+        box-shadow: var(--elevation-level-5);
+      }
+      md-filled-button {
+        /* Override shape via CSS variable */
+        --md-filled-button-container-shape: 0px;
+
+        /* Optional: prevent default large min-width */
+        min-width: auto;
+        border-radius: 0; /* optional backup */
+      }
+
+      md-text-button {
+        --md-text-button-container-shape: 0px;
+        min-width: auto;
+        border-radius: 0;
+      }
+:host md-filled-button {
+  --md-filled-button-label-font-family: var(--header-font-family);
+  --md-filled-button-label-font-weight: var(--font-weight-medium);
+  text-transform: none; /* applies on host */
+}
+
+:host md-text-button {
+  --md-text-button-label-font-family: var(--header-font-family);
+  --md-text-button-label-font-weight: var(--font-weight-medium);
+  text-transform: none;
+}
       `,
     ];
   }
 
   override render() {
-    return html`<paper-button
-      ?raised=${!this.link && !this.flatten}
-      ?disabled=${this.disabled || this.loading}
-      role="button"
-      tabindex="-1"
-      part="paper-button"
-      class=${classMap({
-        newVoteChip: this.voteChip,
-      })}
-    >
-      ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
-      <slot></slot>
-      ${this.renderArrowIcon()}
-    </paper-button>`;
+    const buttonClass = classMap({
+      newVoteChip: this.voteChip,
+    });
+
+    if (this.link || this.flatten) {
+      return html`
+        <md-text-button
+          class=${buttonClass}
+          ?disabled=${this.disabled || this.loading}
+          part="paper-button"
+          role="button"
+          tabindex="-1"
+        >
+          ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
+          <slot></slot>
+          ${this.renderArrowIcon()}
+        </md-text-button>
+      `;
+    }
+
+    return html`
+      <md-filled-button
+        class=${buttonClass}
+        ?disabled=${this.disabled || this.loading}
+        part="paper-button"
+        role="button"
+        tabindex="-1"
+      >
+        ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
+        <slot></slot>
+        ${this.renderArrowIcon()}
+      </md-filled-button>
+    `;
   }
 
   renderArrowIcon() {

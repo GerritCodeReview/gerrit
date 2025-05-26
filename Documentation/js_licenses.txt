@@ -623,9 +623,6 @@ Polymer-2015
 * @polymer/paper-behaviors
 * @polymer/paper-button
 * @polymer/paper-card
-* @polymer/paper-dialog
-* @polymer/paper-dialog-behavior
-* @polymer/paper-dialog-scrollable
 * @polymer/paper-dropdown-menu
 * @polymer/paper-fab
 * @polymer/paper-icon-button

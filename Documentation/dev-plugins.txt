@@ -3426,6 +3426,16 @@ link:rest-api-changes.html#get-diff[Get Diff] REST endpoint.
 Implementors can write logic to validate the diff before it's returned on the
 API.
 
+[[flow-service]]
+
+`com.google.gerrit.server.flow.FlowService` is an extension point to plug in a
+service to manage flows.
+
+A flow is an automation rule on a change that triggers actions on the change
+when the flow conditions become satisfied. For example, a flow can be an
+automation rule that adds a reviewer to the change when the change has been
+verified by the CI.
+
 == SEE ALSO
 
 * link:pg-plugin-dev.html[JavaScript Plugin API]

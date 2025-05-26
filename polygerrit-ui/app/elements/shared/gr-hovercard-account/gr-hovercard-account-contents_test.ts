@@ -225,6 +225,7 @@ suite('gr-hovercard-account-contents tests', () => {
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})
     );
+    await element.updateComplete;
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
     const button = queryAndAssert<GrButton>(element, '.removeReviewerOrCC');
@@ -250,6 +251,7 @@ suite('gr-hovercard-account-contents tests', () => {
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})
     );
+    await element.updateComplete;
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
 
@@ -278,6 +280,7 @@ suite('gr-hovercard-account-contents tests', () => {
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})
     );
+    await element.updateComplete;
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
 
@@ -303,6 +306,7 @@ suite('gr-hovercard-account-contents tests', () => {
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})
     );
+    await element.updateComplete;
     const reloadListener = sinon.spy();
     element.addEventListener('reload', reloadListener);
 

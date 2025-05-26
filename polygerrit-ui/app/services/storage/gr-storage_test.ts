@@ -31,11 +31,11 @@ suite('gr-storage tests', () => {
 
   setup(() => {
     grStorage = new GrStorageService();
-    grStorage.storage = mockStorage(false);
+    grStorage.storage = mockStorage(/* quotaExceeded=*/ false);
   });
 
   test('exceeded quota disables storage', () => {
-    grStorage.storage = mockStorage(true);
+    grStorage.storage = mockStorage(/* quotaExceeded=*/ true);
     assert.isFalse(grStorage.exceededQuota);
 
     const key = grStorage.getEditableContentKey('test-key');

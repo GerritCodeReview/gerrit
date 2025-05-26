@@ -1331,10 +1331,10 @@
   dependencies:
     "@web/test-runner-core" "^0.13.0"
 
-"@web/test-runner@^0.20.1":
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/@web/test-runner/-/test-runner-0.20.1.tgz#d130e11dd7939fb981d52a745e2124e6232a359a"
-  integrity sha512-MTN8D1WCeCdkUWJIeG9yauUbRkk9g0zGFnBbI5smtPE91NpXFMfRd8nShIvxQnHx9fNTmK+OCYKnOSlq5DLLVA==
+"@web/test-runner@^0.20.2":
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/@web/test-runner/-/test-runner-0.20.2.tgz#3045de8f14eb9f9b8aa51aa7fd9849dd95bb0a93"
+  integrity sha512-zfEGYEDnS0EI8qgoWFjmtkIXhqP15W40NW3dCaKtbxj5eU0a7E53f3GV/tZGD0GlZKF8d4Fyw+AFrwOJU9Z4GA==
   dependencies:
     "@web/browser-logs" "^0.4.0"
     "@web/config-loader" "^0.3.0"
@@ -2459,7 +2459,7 @@ lit-html@^3.3.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-"lit@^2.0.0 || ^3.0.0", lit@^3.2.1:
+"lit@^2.0.0 || ^3.0.0":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/lit/-/lit-3.2.1.tgz#d6dd15eac20db3a098e81e2c85f70a751ff55592"
   integrity sha512-1BBa1E/z0O9ye5fZprPtdqnc0BFzxIxTTOO/tQFmyC/hj1O3jL4TfmLBw0WEwjAokdLwpclkvGgDJwTIh0/22w==
@@ -2468,7 +2468,7 @@ lit-html@^3.3.0:
     lit-element "^4.1.0"
     lit-html "^3.2.0"
 
-lit@^3.0.0:
+lit@^3.0.0, lit@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/lit/-/lit-3.3.0.tgz#b3037ea94676fb89c3dde9951914efefd0441f17"
   integrity sha512-DGVsqsOIHBww2DqnuZzW7QsuCdahp50ojuDaBPC7jUDRpYoH0z7kHBBYZewRzer75FwtrkmkKk7iOAwSaWdBmw==

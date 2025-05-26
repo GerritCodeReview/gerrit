@@ -26,7 +26,7 @@
     "@polymer/paper-tabs": "^3.1.0",
     "@polymer/paper-toggle-button": "^3.0.1",
     "@polymer/paper-tooltip": "^3.0.1",
-    "@polymer/polymer": "3.5.1",
+    "@polymer/polymer": "3.5.2",
     "@types/resemblejs": "^4.1.3",
     "@types/resize-observer-browser": "^0.1.11",
     "@webcomponents/shadycss": "^1.11.2",
@@ -49,11 +49,12 @@
     "@polymer/polymer": [
       "There is a an issue with release 3.5.2. Tests are failing with:",
       "NotSupportedError: Failed to execute 'define' on 'CustomElementRegistry':",
-      "the name 'dom-module' has already been used with this registry at ..."
+      "the name 'dom-module' has already been used with this registry at ...",
+      "We fix this by forcing all packages that use polymer to use 3.5.2."
     ]
   },
   "resolutions": {
-    "@polymer/polymer": "3.5.1"
+    "@polymer/polymer": "3.5.2"
   },
   "license": "Apache-2.0",
   "private": true

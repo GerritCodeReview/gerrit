@@ -136,6 +136,7 @@ import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.flow.FlowService;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergedByPushOp;
@@ -479,6 +480,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ValidationOptionsListener.class);
     DynamicSet.setOf(binder(), RetryListener.class);
     DynamicSet.bind(binder(), RetryListener.class).to(LoggingRetryListener.class);
+    DynamicItem.itemOf(binder(), FlowService.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

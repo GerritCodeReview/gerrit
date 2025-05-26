@@ -93,6 +93,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -327,7 +328,7 @@ public class ReplaceOp implements BatchUpdateOp {
       reviewMessage = magicBranch.message;
       psDescription = magicBranch.message;
       approvals.putAll(magicBranch.labels);
-      Set<String> hashtags = magicBranch.hashtags;
+      Set<String> hashtags = new HashSet<>(magicBranch.hashtags);
       if (hashtags != null && !hashtags.isEmpty()) {
         hashtags.addAll(notes.getHashtags());
         update.setHashtags(hashtags);

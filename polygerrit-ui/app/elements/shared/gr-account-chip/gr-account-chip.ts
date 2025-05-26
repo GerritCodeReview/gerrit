@@ -140,9 +140,9 @@ export class GrAccountChip extends LitElement {
           --account-label-padding-right: 3px;
           --account-label-circle-padding-right: 3px;
         }
-        gr-button.remove::part(paper-button),
-        gr-button.remove:hover::part(paper-button),
-        gr-button.remove:focus::part(paper-button) {
+        gr-button.remove::part(md-text-button),
+        gr-button.remove:hover::part(md-text-button),
+        gr-button.remove:focus::part(md-text-button) {
           border-top-width: 0;
           border-right-width: 0;
           border-bottom-width: 0;

@@ -91,7 +91,7 @@ export class GrLabelScoreRow extends LitElement {
         gr-button.iron-selected {
           --vote-text-color: var(--vote-chip-selected-text-color);
         }
-        gr-button::part(paper-button) {
+        gr-button::part(md-text-button) {
           padding: 0 var(--spacing-m);
           background-color: var(
             --button-background-color,
@@ -99,7 +99,7 @@ export class GrLabelScoreRow extends LitElement {
           );
           border-color: var(--vote-chip-unselected-outline-color);
         }
-        gr-button.iron-selected::part(paper-button) {
+        gr-button.iron-selected::part(md-text-button) {
           border-color: transparent;
         }
         gr-button {

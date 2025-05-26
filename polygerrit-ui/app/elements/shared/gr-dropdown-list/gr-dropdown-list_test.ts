@@ -67,7 +67,8 @@ suite('gr-dropdown-list tests', () => {
           tabindex="0"
         >
           <span id="triggerText"> Button Text 2 </span>
-          <gr-copy-clipboard hidden="" hideinput=""> </gr-copy-clipboard>
+          <gr-copy-clipboard class="copyClipboard" hidden="" hideinput="">
+          </gr-copy-clipboard>
         </gr-button>
         <iron-dropdown
           aria-disabled="false"

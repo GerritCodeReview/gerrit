@@ -34,6 +34,24 @@
       "message": "An issue unrelated to this change is that the default values added in AllProjectsInput effectively disables the `DefaultBooleanProjectConfig` configuration.\nI.e. if you configure `repository.*.defaultConfig \u003d \"receive.requireChangeId\u003dfalse\"` it has no effect unless you first change the configuration in All-Projects to INHERIT.\nPerhaps this is already known...",
       "revId": "ba71988afa7f0efd4be3f5e3778159d24ca9fbfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3384d17_ce2673fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-26T14:23:07Z",
+      "side": 1,
+      "message": "Yes, this sounds like WAI. You can still configure `repository.*.defaultConfig \u003d \"receive.requireChangeId\u003dforced\"` though to enforce a setting (which is the main purpose of defining a defaultConfig).\n\nBut since https://gerrit-review.googlesource.com/c/gerrit/+/477742 already hard-codes the default, setting it again in All-Projects seems unneeded.",
+      "parentUuid": "7a25bb99_ea54afdc",
+      "revId": "ba71988afa7f0efd4be3f5e3778159d24ca9fbfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

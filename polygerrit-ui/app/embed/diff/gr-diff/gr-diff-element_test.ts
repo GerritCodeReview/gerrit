@@ -8,7 +8,6 @@ import {createDiff, createEmptyDiff} from '../../../test/test-data-generators';
 import './gr-diff-element';
 import {GrDiffElement} from './gr-diff-element';
 import {querySelectorAll} from '../../../utils/dom-util';
-import '@polymer/paper-button/paper-button';
 import {
   DiffContent,
   DiffInfo,

@@ -7,10 +7,13 @@ import './gr-checks-chip';
 import '../gr-comments-summary/gr-comments-summary';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
+import '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {getAppContext} from '../../../services/app-context';
 import {CheckRun, ErrorMessages} from '../../../models/checks/checks-model';
 import {Action, Category, CheckResult, RunStatus} from '../../../api/checks';
@@ -28,7 +31,6 @@ import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
 import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
-import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
@@ -39,6 +41,9 @@ import {roleDetails} from '../../../utils/change-util';
 import {when} from 'lit/directives/when.js';
 import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
+import {assertIsDefined} from '../../../utils/common-util';
+import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -94,6 +99,12 @@ export class GrChangeSummary extends LitElement {
   @state()
   draftCount = 0;
 
+  @query('#aiPromptModal')
+  aiPromptModal?: HTMLDialogElement;
+
+  @query('#aiPromptDialog')
+  aiPromptDialog?: GrAiPromptDialog;
+
   private readonly showAllChips = new Map<RunStatus | Category, boolean>();
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
@@ -103,6 +114,8 @@ export class GrChangeSummary extends LitElement {
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -184,6 +197,7 @@ export class GrChangeSummary extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      modalStyles,
       spinnerStyles,
       css`
         :host {
@@ -246,15 +260,24 @@ export class GrChangeSummary extends LitElement {
         .login gr-button {
           margin: -4px var(--spacing-s);
         }
+        table.info {
+          width: 100%;
+        }
         td.key {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-s);
           line-height: calc(var(--line-height-normal) + var(--spacing-s));
+          width: 70px;
         }
         td.value {
           padding-right: var(--spacing-l);
           padding-bottom: var(--spacing-s);
           line-height: calc(var(--line-height-normal) + var(--spacing-s));
+        }
+        .value-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
         /* The basics of .loadingSpin are defined in shared styles. */
         .loadingSpin {
@@ -531,26 +554,54 @@ export class GrChangeSummary extends LitElement {
     });
   }
 
+  private handleOpenAiPromptDialog() {
+    assertIsDefined(this.aiPromptModal, 'aiPromptModal');
+    this.aiPromptModal.showModal();
+  }
+
+  private handleAiPromptDialogClose() {
+    assertIsDefined(this.aiPromptModal, 'aiPromptModal');
+    this.aiPromptModal.close();
+  }
+
   override render() {
     return html`
       <div>
-        <table>
+        <table class="info">
           <tr>
             <td class="key">Comments</td>
             <td class="value">
-              <gr-comments-summary
-                .commentsLoading=${this.commentsLoading}
-                .commentThreads=${this.commentThreads}
-                .draftCount=${this.draftCount}
-                .mentionCount=${this.mentionCount}
-                showCommentCategoryName
-                clickableChips
-              ></gr-comments-summary>
+              <div class="value-content">
+                <gr-comments-summary
+                  .commentsLoading=${this.commentsLoading}
+                  .commentThreads=${this.commentThreads}
+                  .draftCount=${this.draftCount}
+                  .mentionCount=${this.mentionCount}
+                  showCommentCategoryName
+                  clickableChips
+                ></gr-comments-summary>
+                ${when(
+                  this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
+                  () =>
+                    html`<gr-button link @click=${this.handleOpenAiPromptDialog}
+                      >Help Me Review</gr-button
+                    >`
+                )}
+              </div>
             </td>
           </tr>
           ${this.renderChecksSummary()}
         </table>
       </div>
+      ${when(
+        this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
+        () => html` <dialog id="aiPromptModal" tabindex="-1">
+          <gr-ai-prompt-dialog
+            id="aiPromptDialog"
+            @close=${this.handleAiPromptDialogClose}
+          ></gr-ai-prompt-dialog>
+        </dialog>`
+      )}
     `;
   }
 

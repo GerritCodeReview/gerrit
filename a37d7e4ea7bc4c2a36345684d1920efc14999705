@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21983d49_729ce86f",
+        "filename": "java/com/google/gerrit/server/flow/FlowStage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-26T14:55:16Z",
+      "side": 1,
+      "message": "We can add this later, but I think we talked about a termination condition (a default could be a 2 week timeout). I am not sure whether it would be added to the stage of the flow. It would probably also require another status, e.g. \"TERMINATED\".",
+      "revId": "a37d7e4ea7bc4c2a36345684d1920efc14999705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876e29b6_1c65a9ac",
+        "filename": "java/com/google/gerrit/server/flow/FlowStage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-26T14:55:16Z",
+      "side": 1,
+      "message": "Maybe we also need a FAILED status?\n\nMaybe we also need an overall status for the flow? Maybe not, but I was wondering, if the `message` should go where the `status` is. So if the overall flow does not have a status, then maybe `message` should also move into the `FlowStage`?",
+      "revId": "a37d7e4ea7bc4c2a36345684d1920efc14999705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

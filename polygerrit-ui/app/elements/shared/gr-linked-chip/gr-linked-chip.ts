@@ -65,9 +65,9 @@ export class GrLinkedChip extends LitElement {
         gr-icon {
           font-size: 1.2rem;
         }
-        gr-button::part(paper-button),
-        gr-button.remove:hover::part(paper-button),
-        gr-button.remove:focus::part(paper-button) {
+        gr-button::part(md-text-button),
+        gr-button.remove:hover::part(md-text-button),
+        gr-button.remove:focus::part(md-text-button) {
           border-top-width: 0;
           border-right-width: 0;
           border-bottom-width: 0;

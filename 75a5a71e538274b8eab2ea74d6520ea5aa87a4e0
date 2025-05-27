@@ -88,6 +88,24 @@
       "parentUuid": "11c8f36f_3e7c6f70",
       "revId": "75a5a71e538274b8eab2ea74d6520ea5aa87a4e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf3489b1_e7944f35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-27T13:13:58Z",
+      "side": 1,
+      "message": "After go/grev/478081 this code is redundant I don\u0027t think we plan to revert this CL hence resolving this thread.",
+      "parentUuid": "e1342346_d04f97c1",
+      "revId": "75a5a71e538274b8eab2ea74d6520ea5aa87a4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

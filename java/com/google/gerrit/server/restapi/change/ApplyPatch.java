@@ -177,7 +177,8 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               oi,
               revWalk,
               applyResult.getTreeId(),
-              commitMessage);
+              commitMessage,
+              /* validationOptions= */ null);
       if (changeInfo.containsGitConflicts == null
           && applyResult.getErrors().stream().anyMatch(Error::isGitConflict)) {
         changeInfo.containsGitConflicts = true;

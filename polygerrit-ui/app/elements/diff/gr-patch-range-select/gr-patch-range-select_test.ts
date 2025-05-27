@@ -102,7 +102,7 @@ suite('gr-patch-range-select tests', () => {
     );
   });
 
-  test('enabled/disabled options', async () => {
+  test('valid/invalid options', async () => {
     element.sortedRevisions = [
       createRevision(3),
       createEditRevision(2),
@@ -112,20 +112,16 @@ suite('gr-patch-range-select tests', () => {
     await element.updateComplete;
 
     for (const patchNum of [1, 2, 3]) {
-      assert.isFalse(
-        element.computeRightDisabled(PARENT, patchNum as PatchSetNumber)
+      assert.isTrue(
+        element.isValidRightPatchNum(PARENT, patchNum as PatchSetNumber)
       );
     }
     for (const basePatchNum of [1, 2]) {
       const base = basePatchNum as PatchSetNum;
-      assert.isFalse(element.computeLeftDisabled(base, 3 as PatchSetNum));
+      assert.isTrue(element.isValidLeftPatchNum(base, 3 as PatchSetNum));
     }
-    assert.isTrue(
-      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
-    );
-
-    assert.isTrue(
-      element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
+    assert.isFalse(
+      element.isValidLeftPatchNum(3 as PatchSetNum, 3 as PatchSetNum)
     );
   });
 
@@ -145,39 +141,6 @@ suite('gr-patch-range-select tests', () => {
     element.revisionInfo = getInfo(element.sortedRevisions);
     const expectedResult: DropdownItem[] = [
       {
-        disabled: true,
-        triggerText: 'Patchset edit',
-        text: 'Patchset edit | 1',
-        mobileText: EDIT,
-        bottomText: '',
-        value: EDIT,
-        commentThreads: [],
-        deemphasizeReason: undefined,
-      },
-      {
-        disabled: true,
-        triggerText: 'Patchset 3',
-        text: 'Patchset 3 | 2',
-        mobileText: '3',
-        bottomText: '',
-        value: 3,
-        date: '2020-02-01 01:02:03.000000000' as Timestamp,
-        commentThreads: [],
-        deemphasizeReason: undefined,
-      } as DropdownItem,
-      {
-        disabled: true,
-        triggerText: 'Patchset 2',
-        text: 'Patchset 2 | 3',
-        mobileText: '2',
-        bottomText: '',
-        value: 2,
-        date: '2020-02-01 01:02:03.000000000' as Timestamp,
-        commentThreads: [],
-        deemphasizeReason: undefined,
-      } as DropdownItem,
-      {
-        disabled: true,
         triggerText: 'Patchset 1',
         text: 'Patchset 1 | 4',
         mobileText: '1',
@@ -194,7 +157,7 @@ suite('gr-patch-range-select tests', () => {
         bottomText: undefined,
       } as DropdownItem,
     ];
-    element.patchNum = 1 as PatchSetNumber;
+    element.patchNum = 2 as PatchSetNumber;
     element.basePatchNum = PARENT;
     await element.updateComplete;
 
@@ -295,7 +258,6 @@ suite('gr-patch-range-select tests', () => {
 
     const expectedResult: DropdownItem[] = [
       {
-        disabled: false,
         triggerText: EDIT,
         text: 'edit | 1',
         mobileText: EDIT,
@@ -305,7 +267,6 @@ suite('gr-patch-range-select tests', () => {
         deemphasizeReason: undefined,
       },
       {
-        disabled: false,
         triggerText: 'Patchset 3',
         text: 'Patchset 3 | 2',
         mobileText: '3',
@@ -316,23 +277,11 @@ suite('gr-patch-range-select tests', () => {
         deemphasizeReason: undefined,
       } as DropdownItem,
       {
-        disabled: false,
         triggerText: 'Patchset 2',
         text: 'Patchset 2 | 3',
         mobileText: '2 description',
         bottomText: 'description',
         value: 2,
-        date: '2020-02-01 01:02:03.000000000' as Timestamp,
-        commentThreads: [],
-        deemphasizeReason: undefined,
-      } as DropdownItem,
-      {
-        disabled: true,
-        triggerText: 'Patchset 1',
-        text: 'Patchset 1 | 4',
-        mobileText: '1',
-        bottomText: '',
-        value: 1,
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
         deemphasizeReason: undefined,
@@ -544,11 +493,13 @@ suite('gr-patch-range-select tests', () => {
 
   test('revisions without modification are deemphasized', async () => {
     element.availablePatches = [
+      {num: 4, sha: 'sha4'} as PatchSet,
       {num: 3, sha: 'sha3'} as PatchSet,
       {num: 2, sha: 'sha2'} as PatchSet,
       {num: 1, sha: 'sha1'} as PatchSet,
     ];
     element.sortedRevisions = [
+      createRevision(4),
       createRevision(3),
       createRevision(2),
       createRevision(1),
@@ -566,10 +517,14 @@ suite('gr-patch-range-select tests', () => {
         foo: RevisionFileUpdateStatus.UNKNOWN,
         bar: RevisionFileUpdateStatus.SAME,
       },
+      sha4: {
+        foo: RevisionFileUpdateStatus.SAME,
+        bar: RevisionFileUpdateStatus.SAME,
+      },
     };
     element.path = 'foo';
     element.revisionInfo = getInfo(element.sortedRevisions);
-    element.patchNum = 3 as PatchSetNumber;
+    element.patchNum = 4 as PatchSetNumber;
     element.basePatchNum = PARENT;
     await element.updateComplete;
 
@@ -581,7 +536,7 @@ suite('gr-patch-range-select tests', () => {
         },
         {
           triggerText: 'Patchset 2',
-          deemphasizeReason: 'unmodified',
+          deemphasizeReason: 'Unmodified',
         },
         {
           triggerText: 'Patchset 1',

@@ -274,19 +274,13 @@ export class GrPatchRangeSelect extends LitElement {
     const parentCount = this.revisionInfo.getParentCount(this.patchNum);
     const rev = getRevisionByPatchNum(this.sortedRevisions, this.patchNum);
 
-    const dropdownContent: DropdownItem[] = [];
-    for (const basePatch of this.availablePatches) {
-      const basePatchNum = basePatch.num;
-      const entry: DropdownItem = this.createDropdownEntry(
-        basePatchNum,
-        'Patchset ',
-        basePatch.sha
+    const dropdownContent: DropdownItem[] = this.availablePatches
+      .filter(basePatch =>
+        this.isValidLeftPatchNum(basePatch.num, this.patchNum!)
+      )
+      .map(basePatch =>
+        this.createDropdownEntry(basePatch.num, 'Patchset ', basePatch.sha)
       );
-      dropdownContent.push({
-        ...entry,
-        disabled: this.computeLeftDisabled(basePatch.num, this.patchNum),
-      });
-    }
 
     const showParentsData = this.flags.isEnabled(
       KnownExperimentId.REVISION_PARENTS_DATA
@@ -331,20 +325,15 @@ export class GrPatchRangeSelect extends LitElement {
       return [];
     }
 
-    const dropdownContent: DropdownItem[] = [];
-    for (const patch of this.availablePatches) {
-      const patchNum = patch.num;
-      const entry = this.createDropdownEntry(
-        patchNum,
-        patchNum === EDIT ? '' : 'Patchset ',
-        patch.sha
+    return this.availablePatches
+      .filter(p => this.isValidRightPatchNum(this.basePatchNum!, p.num))
+      .map(patch =>
+        this.createDropdownEntry(
+          patch.num,
+          patch.num === EDIT ? '' : 'Patchset ',
+          patch.sha
+        )
       );
-      dropdownContent.push({
-        ...entry,
-        disabled: this.computeRightDisabled(this.basePatchNum, patchNum),
-      });
-    }
-    return dropdownContent;
   }
 
   private computeText(patchNum: PatchSetNum, prefix: string, sha: string) {
@@ -383,7 +372,7 @@ export class GrPatchRangeSelect extends LitElement {
 
     return this.revisionUpdatedFiles[sha]?.[this.path] ===
       RevisionFileUpdateStatus.SAME
-      ? 'unmodified'
+      ? 'Unmodified'
       : undefined;
   }
 
@@ -397,12 +386,12 @@ export class GrPatchRangeSelect extends LitElement {
    * @param basePatchNum The possible base patch num.
    * @param patchNum The current selected patch num.
    */
-  computeLeftDisabled(
+  isValidLeftPatchNum(
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum
   ): boolean {
     return (
-      findSortedIndex(basePatchNum, this.sortedRevisions) <=
+      findSortedIndex(basePatchNum, this.sortedRevisions) >
       findSortedIndex(patchNum, this.sortedRevisions)
     );
   }
@@ -423,27 +412,27 @@ export class GrPatchRangeSelect extends LitElement {
    * @param basePatchNum The current selected base patch num.
    * @param patchNum The possible patch num.
    */
-  computeRightDisabled(
+  isValidRightPatchNum(
     basePatchNum: BasePatchSetNum,
     patchNum: RevisionPatchSetNum
   ): boolean {
     if (basePatchNum === PARENT) {
-      return false;
+      return true;
     }
 
     if (isMergeParent(basePatchNum)) {
       if (!this.revisionInfo) {
-        return true;
+        return false;
       }
       // Note: parent indices use 1-offset.
       return (
-        this.revisionInfo.getParentCount(patchNum) <
+        this.revisionInfo.getParentCount(patchNum) >=
         getParentIndex(basePatchNum)
       );
     }
 
     return (
-      findSortedIndex(basePatchNum, this.sortedRevisions) <=
+      findSortedIndex(basePatchNum, this.sortedRevisions) >
       findSortedIndex(patchNum, this.sortedRevisions)
     );
   }

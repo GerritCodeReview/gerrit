@@ -17,6 +17,7 @@ package com.google.gerrit.server.flow;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.LabelType.Builder;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -54,6 +55,9 @@ public abstract class Flow {
    *     hasn't been evaluated yet.
    */
   public abstract Optional<Instant> lastEvaluatedOn();
+
+  /** Creates a {@link Builder} for this flow instance. */
+  public abstract Builder toBuilder();
 
   /**
    * Creates a builder for building a flow.

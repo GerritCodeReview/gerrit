@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2249d243_4dd89c30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-27T12:27:07Z",
+      "side": 1,
+      "message": "Please add a few words about where is that going to be used in, why this is useful? As in the current change only null is being passed",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "7eac314999c0908966156657a7726923146fdb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "84e4b8ee_28d62cd5",
@@ -31,6 +54,47 @@
       "writtenOn": "2025-05-27T12:06:38Z",
       "side": 1,
       "message": "ok",
+      "revId": "7eac314999c0908966156657a7726923146fdb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a972080_23dec2f2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-27T12:27:07Z",
+      "side": 1,
+      "message": "Mark as @Nullable",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 61
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0128d1bb_6d225b03",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+              "range": {
+                "startLine": 97,
+                "startChar": 0,
+                "endLine": 98,
+                "endChar": 0
+              },
+              "replacement": "      @Nullable ImmutableListMultimap\u003cString, String\u003e validationOptions)\n"
+            }
+          ]
+        }
+      ],
       "revId": "7eac314999c0908966156657a7726923146fdb03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

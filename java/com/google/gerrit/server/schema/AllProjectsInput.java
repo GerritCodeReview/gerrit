@@ -18,37 +18,18 @@ import static com.google.gerrit.entities.LabelId.CODE_REVIEW;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.Sequences;
 import java.util.Optional;
 
 @AutoValue
 public abstract class AllProjectsInput {
-
-  /** Default boolean configs set when initializing All-Projects. */
-  public static final ImmutableMap<BooleanProjectConfig, InheritableBoolean>
-      DEFAULT_BOOLEAN_PROJECT_CONFIGS =
-          ImmutableMap.of(
-              BooleanProjectConfig.REQUIRE_CHANGE_ID,
-              InheritableBoolean.TRUE,
-              BooleanProjectConfig.USE_CONTENT_MERGE,
-              InheritableBoolean.TRUE,
-              BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,
-              InheritableBoolean.FALSE,
-              BooleanProjectConfig.USE_SIGNED_OFF_BY,
-              InheritableBoolean.FALSE,
-              BooleanProjectConfig.ENABLE_SIGNED_PUSH,
-              InheritableBoolean.FALSE);
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public static LabelType getDefaultCodeReviewLabel() {
@@ -113,9 +94,6 @@ public abstract class AllProjectsInput {
   /** Description for the All-Projects. */
   public abstract Optional<String> projectDescription();
 
-  /** Boolean project configs to be set in All-Projects. */
-  public abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs();
-
   /** Whether initializing default access sections in All-Projects. */
   public abstract boolean initDefaultAcls();
 
@@ -132,7 +110,6 @@ public abstract class AllProjectsInput {
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .initDefaultAcls(true)
             .initDefaultSubmitRequirements(true);
-    DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
 
     return builder;
   }
@@ -166,16 +143,6 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder projectDescription(String projectDescription);
-
-    public abstract ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean>
-        booleanProjectConfigsBuilder();
-
-    @CanIgnoreReturnValue
-    public Builder addBooleanProjectConfig(
-        BooleanProjectConfig booleanProjectConfig, InheritableBoolean inheritableBoolean) {
-      booleanProjectConfigsBuilder().put(booleanProjectConfig, inheritableBoolean);
-      return this;
-    }
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder initDefaultAcls(boolean initDefaultACLs);

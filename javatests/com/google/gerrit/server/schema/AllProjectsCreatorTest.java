@@ -134,23 +134,6 @@ public class AllProjectsCreatorTest {
   }
 
   @Test
-  public void createAllProjectsWithBooleanConfigs() throws Exception {
-    AllProjectsInput allProjectsInput =
-        AllProjectsInput.builderWithNoDefault()
-            .codeReviewLabel(getDefaultCodeReviewLabel())
-            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
-            .addBooleanProjectConfig(
-                BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)
-            .initDefaultAcls(true)
-            .initDefaultSubmitRequirements(true)
-            .build();
-    allProjectsCreator.create(allProjectsInput);
-
-    Config config = readAllProjectsConfig(repoManager, allProjectsName);
-    assertThat(config).booleanValue("submit", null, "rejectEmptyCommit", false).isTrue();
-  }
-
-  @Test
   public void createAllProjectsWithoutInitializingDefaultACLs() throws Exception {
     AllProjectsInput allProjectsInput = AllProjectsInput.builder().initDefaultAcls(false).build();
     allProjectsCreator.create(allProjectsInput);

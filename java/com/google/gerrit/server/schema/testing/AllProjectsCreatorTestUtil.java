@@ -35,15 +35,6 @@ import org.eclipse.jgit.lib.Repository;
 public class AllProjectsCreatorTestUtil {
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_PROJECT_SECTION =
       ImmutableList.of("[project]", "  description = Access inherited by all other projects.");
-  private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_RECEIVE_SECTION =
-      ImmutableList.of(
-          "[receive]",
-          "  requireContributorAgreement = false",
-          "  requireSignedOffBy = false",
-          "  requireChangeId = true",
-          "  enableSignedPush = false");
-  private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_SUBMIT_SECTION =
-      ImmutableList.of("[submit]", "  mergeContent = true");
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION =
       ImmutableList.of(
           "[capability]",
@@ -125,8 +116,6 @@ public class AllProjectsCreatorTestUtil {
     return Streams.stream(
             Iterables.concat(
                 DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
-                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
-                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION,
@@ -139,8 +128,6 @@ public class AllProjectsCreatorTestUtil {
     return Streams.stream(
             Iterables.concat(
                 DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
-                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
-                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION,
                 DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
@@ -151,8 +138,6 @@ public class AllProjectsCreatorTestUtil {
     return Streams.stream(
             Iterables.concat(
                 DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
-                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
-                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION,

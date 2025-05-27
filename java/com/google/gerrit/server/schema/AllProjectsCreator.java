@@ -128,8 +128,6 @@ public class AllProjectsCreator {
           p -> {
             p.setDescription(
                 input.projectDescription().orElse("Access inherited by all other projects."));
-            // init boolean project configs.
-            input.booleanProjectConfigs().forEach(p::setBooleanConfig);
           });
 
       // init labels.

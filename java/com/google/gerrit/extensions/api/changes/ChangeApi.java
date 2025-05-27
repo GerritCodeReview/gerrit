@@ -28,6 +28,8 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
+import com.google.gerrit.extensions.common.FlowInfo;
+import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RebaseChainInfo;
@@ -92,6 +94,13 @@ public interface ChangeApi {
    *     for this change.
    */
   ReviewerApi reviewer(String id) throws RestApiException;
+
+  /** Creates a new flow on the change. */
+  @CanIgnoreReturnValue
+  FlowInfo createFlow(FlowInput flowInput) throws RestApiException;
+
+  /** Look up a flow of a change by its UUID. */
+  FlowApi flow(String flowUuid) throws RestApiException;
 
   default void abandon() throws RestApiException {
     abandon(new AbandonInput());

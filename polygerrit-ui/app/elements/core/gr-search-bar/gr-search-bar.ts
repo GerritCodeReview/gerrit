@@ -293,12 +293,6 @@ export class GrSearchBar extends LitElement {
     if (!this.inputVal) return;
     const trimmedInput = this.inputVal.trim();
     if (trimmedInput) {
-      const predefinedOpOnlyQuery = [...this.searchOperators()].some(
-        op => op.endsWith(':') && op === trimmedInput
-      );
-      if (predefinedOpOnlyQuery) {
-        return;
-      }
       const detail: SearchBarHandleSearchDetail = {
         inputVal: this.inputVal,
       };

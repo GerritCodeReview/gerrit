@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultAcls;
@@ -25,11 +24,9 @@ import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUuid;
@@ -131,23 +128,6 @@ public class AllProjectsCreatorTest {
 
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
     assertThat(config).stringValue("project", null, "description").isEqualTo(testDescription);
-  }
-
-  @Test
-  public void createAllProjectsWithBooleanConfigs() throws Exception {
-    AllProjectsInput allProjectsInput =
-        AllProjectsInput.builderWithNoDefault()
-            .codeReviewLabel(getDefaultCodeReviewLabel())
-            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
-            .addBooleanProjectConfig(
-                BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)
-            .initDefaultAcls(true)
-            .initDefaultSubmitRequirements(true)
-            .build();
-    allProjectsCreator.create(allProjectsInput);
-
-    Config config = readAllProjectsConfig(repoManager, allProjectsName);
-    assertThat(config).booleanValue("submit", null, "rejectEmptyCommit", false).isTrue();
   }
 
   @Test

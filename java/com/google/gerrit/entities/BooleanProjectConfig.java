@@ -31,12 +31,12 @@ import com.google.gerrit.common.Nullable;
  * </ol>
  */
 public enum BooleanProjectConfig {
-  USE_CONTRIBUTOR_AGREEMENTS("receive", "requireContributorAgreement"),
-  USE_SIGNED_OFF_BY("receive", "requireSignedOffBy"),
-  USE_CONTENT_MERGE("submit", "mergeContent"),
-  REQUIRE_CHANGE_ID("receive", "requireChangeId"),
+  USE_CONTRIBUTOR_AGREEMENTS("receive", "requireContributorAgreement", false),
+  USE_SIGNED_OFF_BY("receive", "requireSignedOffBy", false),
+  USE_CONTENT_MERGE("submit", "mergeContent", true),
+  REQUIRE_CHANGE_ID("receive", "requireChangeId", true),
   CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET("receive", "createNewChangeForAllNotInTarget"),
-  ENABLE_SIGNED_PUSH("receive", "enableSignedPush"),
+  ENABLE_SIGNED_PUSH("receive", "enableSignedPush", false),
   REQUIRE_SIGNED_PUSH("receive", "requireSignedPush"),
   REJECT_IMPLICIT_MERGES("receive", "rejectImplicitMerges", true),
   PRIVATE_BY_DEFAULT("change", "privateByDefault"),

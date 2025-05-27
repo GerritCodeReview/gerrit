@@ -52,6 +52,9 @@ public abstract class FlowStage {
   /** A message for this stage, e.g. to inform about execution errors. */
   public abstract Optional<String> message();
 
+  /** Creates a {@link Builder} for this flow stage instance. */
+  public abstract Builder toBuilder();
+
   public static FlowStage.Builder builder() {
     return new AutoValue_FlowStage.Builder();
   }
@@ -67,6 +70,9 @@ public abstract class FlowStage {
 
     /** Set a message for this flow stage, e.g. to inform about execution errors. */
     public abstract Builder message(String message);
+
+    /** Set a message for this flow stage, e.g. to inform about execution errors. */
+    public abstract Builder message(Optional<String> message);
 
     /** Builds the {@link FlowStage}. */
     public abstract FlowStage build();

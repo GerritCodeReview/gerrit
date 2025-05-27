@@ -32,5 +32,6 @@ public class ChangesModule extends FactoryModule {
     factory(ChangeEditApiImpl.Factory.class);
     factory(ChangeMessageApiImpl.Factory.class);
     factory(AttentionSetApiImpl.Factory.class);
+    factory(FlowApiImpl.Factory.class);
   }
 }

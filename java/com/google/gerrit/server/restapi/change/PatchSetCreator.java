@@ -92,7 +92,8 @@ public class PatchSetCreator {
       ObjectInserter oi,
       CodeReviewRevWalk revWalk,
       ObjectId commitTree,
-      String commitMessage)
+      String commitMessage,
+      ImmutableListMultimap<String, String> validationOptions)
       throws IOException, RestApiException, UpdateException {
     requireNonNull(destChange);
     requireNonNull(latestPatchset);
@@ -123,7 +124,9 @@ public class PatchSetCreator {
     Change resultChange;
     try (BatchUpdate bu = batchUpdateFactory.create(project, ident.get(), TimeUtil.now())) {
       bu.setRepository(repo, revWalk, oi);
-      resultChange = insertPatchSet(bu, repo, patchSetInserterFactory, destChange.notes(), commit);
+      resultChange =
+          insertPatchSet(
+              bu, repo, patchSetInserterFactory, destChange.notes(), commit, validationOptions);
     } catch (NoSuchChangeException | RepositoryNotFoundException e) {
       throw new ResourceConflictException(e.getMessage());
     }
@@ -156,13 +159,15 @@ public class PatchSetCreator {
       Repository git,
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeNotes destNotes,
-      CodeReviewCommit commit)
+      CodeReviewCommit commit,
+      ImmutableListMultimap<String, String> validationOptions)
       throws IOException, UpdateException, RestApiException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       Change destChange = destNotes.getChange();
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
       PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, commit);
       inserter.setMessage(buildMessageForPatchSet(psId));
+      inserter.setValidationOptions(validationOptions);
       bu.addOp(destChange.getId(), inserter);
       bu.execute();
       return inserter.getChange();

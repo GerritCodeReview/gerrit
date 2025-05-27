@@ -52,6 +52,24 @@
       "parentUuid": "7a25bb99_ea54afdc",
       "revId": "ba71988afa7f0efd4be3f5e3778159d24ca9fbfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29f83532_b7c3eb42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-27T06:13:34Z",
+      "side": 1,
+      "message": "Yeah, maybe I should remove the boolean-configs handling from `AllProjects{Input|Creator}` all together instead?",
+      "parentUuid": "e3384d17_ce2673fe",
+      "revId": "ba71988afa7f0efd4be3f5e3778159d24ca9fbfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

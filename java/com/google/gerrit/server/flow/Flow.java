@@ -55,6 +55,9 @@ public abstract class Flow {
    */
   public abstract Optional<Instant> lastEvaluatedOn();
 
+  /** Creates a {@link Builder} for this flow instance. */
+  public abstract Builder toBuilder();
+
   /**
    * Creates a builder for building a flow.
    *

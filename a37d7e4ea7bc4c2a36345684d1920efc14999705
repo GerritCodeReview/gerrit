@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd48c9b_4e704934",
+        "filename": "java/com/google/gerrit/server/flow/FlowStage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-27T06:40:01Z",
+      "side": 1,
+      "message": "Good point, I added a \"TERMINATED\" state now. Let\u0027s keep it on the stage level for now. For example I think setting stages to \"TERMINATED\" also makes sense if a previous stage failed.",
+      "parentUuid": "21983d49_729ce86f",
+      "revId": "a37d7e4ea7bc4c2a36345684d1920efc14999705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "876e29b6_1c65a9ac",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-05-26T14:55:16Z",
       "side": 1,
       "message": "Maybe we also need a FAILED status?\n\nMaybe we also need an overall status for the flow? Maybe not, but I was wondering, if the `message` should go where the `status` is. So if the overall flow does not have a status, then maybe `message` should also move into the `FlowStage`?",
+      "revId": "a37d7e4ea7bc4c2a36345684d1920efc14999705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b416bf4a_27ca09e4",
+        "filename": "java/com/google/gerrit/server/flow/FlowStage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-05-27T06:40:01Z",
+      "side": 1,
+      "message": "Makes sense, I added the \"FAILED\" state and also moved the message into the stage.",
+      "parentUuid": "876e29b6_1c65a9ac",
       "revId": "a37d7e4ea7bc4c2a36345684d1920efc14999705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

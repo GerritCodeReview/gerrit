@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "76a442a2_2159a9a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-27T12:30:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2249d243_4dd89c30",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "7eac314999c0908966156657a7726923146fdb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "84e4b8ee_28d62cd5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -95,6 +119,30 @@
           ]
         }
       ],
+      "revId": "7eac314999c0908966156657a7726923146fdb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ad0bb3_1ef733ff",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-27T12:30:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3a972080_23dec2f2",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 61
+      },
       "revId": "7eac314999c0908966156657a7726923146fdb03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

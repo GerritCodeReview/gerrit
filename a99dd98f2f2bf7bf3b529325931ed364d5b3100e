@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e99e4378_8b509655",
+        "filename": "java/com/google/gerrit/extensions/common/TokenInfo.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-27T23:23:50Z",
+      "side": 1,
+      "message": "We do already have the `com.google.gerrit.extensions.auth` package. Maybe it should go there?",
+      "parentUuid": "02c201cd_349789e6",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8b2df94_5f163036",
         "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
         "patchSetId": 28
@@ -48,6 +66,24 @@
       "writtenOn": "2025-05-27T23:04:45Z",
       "side": 1,
       "message": "Most of these in this package feel a bit too generic too without an \u0027auth\u0027 package prefix. I know they are account related, but there are many things in an account which are not authentication related, so token cannot be assumed to be related to auth.",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da151a9_84052e3c",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-27T23:23:50Z",
+      "side": 1,
+      "message": "Yeah, we\u0027re not good at creating smaller packages and there\u0027s enough auth stuff that it would be nice to have a separate package for it. Maybe a natural split here would be based on the endpoints and you call it `account.token`? That would be nicer if the package names matched the plurals of the endpoint names (`accounts.tokens`), but that\u0027s a big breaking change to do everywhere.",
+      "parentUuid": "f8b2df94_5f163036",
       "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

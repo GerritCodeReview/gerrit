@@ -16,9 +16,11 @@ package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
+import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
 
 /** A Truth subject for {@link AccountInfo} instances. */
@@ -39,8 +41,12 @@ public class AccountInfoSubject extends Subject {
     this.accountInfo = accountInfo;
   }
 
-  public IntegerSubject id() {
-    return check("id").that(accountInfo()._accountId);
+  public IntegerSubject hasIdThat() {
+    return check("id()").that(accountInfo()._accountId);
+  }
+
+  public ComparableSubject<Account.Id> hasAccountIdThat() {
+    return check("accountId()").that(Account.id(accountInfo()._accountId));
   }
 
   private AccountInfo accountInfo() {

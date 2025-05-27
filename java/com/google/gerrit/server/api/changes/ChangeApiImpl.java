@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.api.changes.FlowApi;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.MoveInput;
@@ -52,6 +53,8 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
+import com.google.gerrit.extensions.common.FlowInfo;
+import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
@@ -112,6 +115,9 @@ import com.google.gerrit.server.restapi.change.SetReadyForReview;
 import com.google.gerrit.server.restapi.change.SetWorkInProgress;
 import com.google.gerrit.server.restapi.change.SubmittedTogether;
 import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
+import com.google.gerrit.server.restapi.flow.CreateFlow;
+import com.google.gerrit.server.restapi.flow.FlowCollection;
+import com.google.gerrit.server.restapi.flow.ListFlows;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -132,9 +138,11 @@ class ChangeApiImpl implements ChangeApi {
   private final Changes changeApi;
   private final Reviewers reviewers;
   private final Revisions revisions;
+  private final FlowCollection flowCollection;
   private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
   private final ChangeMessageApiImpl.Factory changeMessageApi;
+  private final FlowApiImpl.Factory flowApi;
   private final ChangeMessages changeMessages;
   private final SuggestChangeReviewers suggestReviewers;
   private final ListReviewers listReviewers;
@@ -176,6 +184,8 @@ class ChangeApiImpl implements ChangeApi {
   private final SetReadyForReview setReady;
   private final GetMessage getMessage;
   private final PutMessage putMessage;
+  private final CreateFlow createFlow;
+  private final ListFlows listFlows;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final DynamicOptionParser dynamicOptionParser;
   private final Injector injector;
@@ -186,9 +196,11 @@ class ChangeApiImpl implements ChangeApi {
       Changes changeApi,
       Reviewers reviewers,
       Revisions revisions,
+      FlowCollection flowCollection,
       ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
       ChangeMessageApiImpl.Factory changeMessageApi,
+      FlowApiImpl.Factory flowApi,
       ChangeMessages changeMessages,
       SuggestChangeReviewers suggestReviewers,
       ListReviewers listReviewers,
@@ -229,6 +241,8 @@ class ChangeApiImpl implements ChangeApi {
       SetReadyForReview setReady,
       GetMessage getMessage,
       PutMessage putMessage,
+      CreateFlow createFlow,
+      ListFlows listFlows,
       Provider<GetPureRevert> getPureRevertProvider,
       DynamicOptionParser dynamicOptionParser,
       @Assisted ChangeResource change,
@@ -239,9 +253,11 @@ class ChangeApiImpl implements ChangeApi {
     this.revertSubmission = revertSubmission;
     this.reviewers = reviewers;
     this.revisions = revisions;
+    this.flowCollection = flowCollection;
     this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
     this.changeMessageApi = changeMessageApi;
+    this.flowApi = flowApi;
     this.changeMessages = changeMessages;
     this.suggestReviewers = suggestReviewers;
     this.listReviewers = listReviewers;
@@ -280,6 +296,8 @@ class ChangeApiImpl implements ChangeApi {
     this.setReady = setReady;
     this.getMessage = getMessage;
     this.putMessage = putMessage;
+    this.createFlow = createFlow;
+    this.listFlows = listFlows;
     this.getPureRevertProvider = getPureRevertProvider;
     this.dynamicOptionParser = dynamicOptionParser;
     this.change = change;
@@ -307,6 +325,33 @@ class ChangeApiImpl implements ChangeApi {
       return reviewerApi.create(reviewers.parse(change, IdString.fromDecoded(id)));
     } catch (Exception e) {
       throw asRestApiException("Cannot parse reviewer", e);
+    }
+  }
+
+  @Override
+  public FlowInfo createFlow(FlowInput flowInput) throws RestApiException {
+    try {
+      return createFlow.apply(change, flowInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse reviewer", e);
+    }
+  }
+
+  @Override
+  public FlowApi flow(String flowUuid) throws RestApiException {
+    try {
+      return flowApi.create(flowCollection.parse(change, IdString.fromDecoded(flowUuid)));
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse flow", e);
+    }
+  }
+
+  @Override
+  public List<FlowInfo> flows() throws RestApiException {
+    try {
+      return listFlows.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list flows", e);
     }
   }
 

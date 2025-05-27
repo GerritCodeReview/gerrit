@@ -39,17 +39,19 @@ public interface FlowService {
    *
    * @param flowCreation parameters needed for the flow creation
    * @return the newly created flow
+   * @throws FlowPermissionDeniedException thrown if the caller is not allowed to create the flow
    * @throws InvalidFlowException thrown is the flow to be created is invalid
    * @throws StorageException thrown if storing the flow has failed
    */
   @CanIgnoreReturnValue
-  Flow createFlow(FlowCreation flowCreation) throws InvalidFlowException, StorageException;
+  Flow createFlow(FlowCreation flowCreation)
+      throws FlowPermissionDeniedException, InvalidFlowException, StorageException;
 
   /**
    * Retrieves a flow.
    *
    * @param flowKey the key of the flow
-   * @return the flow if it was found, otherwise {@link Optional#empty()}
+   * @return the flow if it was found and the user can see it, otherwise {@link Optional#empty()}
    * @throws StorageException thrown if accessing the flow storage has failed
    */
   Optional<Flow> getFlow(FlowKey flowKey) throws StorageException;
@@ -58,14 +60,19 @@ public interface FlowService {
    * Deletes a flow
    *
    * @param flowKey the key of the flow
-   * @return the deleted flow, {@link Optional#empty()} if no flow with the given key was found
+   * @return the deleted flow, {@link Optional#empty()} if no flow with the given key was found or
+   *     if the flow is not visible to the current user
+   * @throws FlowPermissionDeniedException thrown if the caller can see the flow and is not allowed
+   *     to delete it
    * @throws StorageException thrown if deleting the flow has failed
    */
   @CanIgnoreReturnValue
-  Optional<Flow> deleteFlow(FlowKey flowKey) throws StorageException;
+  Optional<Flow> deleteFlow(FlowKey flowKey) throws FlowPermissionDeniedException, StorageException;
 
   /**
    * Lists the flows for one change.
+   *
+   * <p>The order of the returned flows is stable, but depends on the flow service implementation.
    *
    * @param projectName The name of the project that contains the change.
    * @param changeId The ID of the change for which the flows should be listed.

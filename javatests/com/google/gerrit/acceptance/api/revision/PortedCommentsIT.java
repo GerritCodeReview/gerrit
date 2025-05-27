@@ -537,7 +537,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
-    assertThat(portedComment).author().id().isEqualTo(authorId.get());
+    assertThat(portedComment).author().hasIdThat().isEqualTo(authorId.get());
   }
 
   @Test

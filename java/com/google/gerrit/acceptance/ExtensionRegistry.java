@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.flow.FlowService;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.receive.PushOptionsValidator;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
@@ -126,6 +128,8 @@ public class ExtensionRegistry {
   private final DynamicMap<UserInOperandFactory> userInOperands;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestions;
 
+  private final DynamicItem<FlowService> flowService;
+
   @Inject
   ExtensionRegistry(
       DynamicSet<AccountIndexedListener> accountIndexedListeners,
@@ -175,7 +179,8 @@ public class ExtensionRegistry {
       DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners,
       DynamicSet<RetryListener> retryListeners,
       DynamicSet<PushOptionsValidator> pushOptionsValidator,
-      DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
+      DynamicMap<ReviewerSuggestion> reviewerSuggestions,
+      DynamicItem<FlowService> flowService) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -224,6 +229,7 @@ public class ExtensionRegistry {
     this.retryListeners = retryListeners;
     this.pushOptionsValidators = pushOptionsValidator;
     this.reviewerSuggestions = reviewerSuggestions;
+    this.flowService = flowService;
   }
 
   public Registration newRegistration() {
@@ -481,6 +487,11 @@ public class ExtensionRegistry {
       return add(reviewerSuggestions, reviewerSuggestion, exportName);
     }
 
+    @CanIgnoreReturnValue
+    public Registration set(FlowService flowService) {
+      return set(ExtensionRegistry.this.flowService, flowService);
+    }
+
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {
       return add(dynamicSet, extension, "gerrit");
     }
@@ -495,6 +506,12 @@ public class ExtensionRegistry {
       RegistrationHandle registrationHandle =
           ((PrivateInternals_DynamicMapImpl<T>) dynamicMap)
               .put(PLUGIN_NAME, exportName, Providers.of(extension));
+      registrationHandles.add(registrationHandle);
+      return this;
+    }
+
+    private <T> Registration set(DynamicItem<T> dynamicItem, T extension) {
+      RegistrationHandle registrationHandle = dynamicItem.set(extension, "gerrit");
       registrationHandles.add(registrationHandle);
       return this;
     }

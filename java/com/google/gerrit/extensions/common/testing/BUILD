@@ -8,6 +8,8 @@ java_library(
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/truth",
         "//lib:guava",
         "//lib:jgit",

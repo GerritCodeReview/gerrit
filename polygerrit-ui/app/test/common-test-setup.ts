@@ -59,6 +59,7 @@ installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
 });
 
 let testSetupTimestampMs = 0;
+let currentTestName = '';
 
 const injectedDependencies: Map<
   DependencyToken<unknown>,
@@ -93,8 +94,9 @@ function resolveDependency(evt: DependencyRequestEvent<unknown>) {
   evt.callback(() => testResolver(evt.dependency));
 }
 
-setup(() => {
+setup(function () {
   testSetupTimestampMs = new Date().getTime();
+  currentTestName = this.currentTest?.title || 'unknown test';
 
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
@@ -179,6 +181,9 @@ teardown(() => {
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {
-    console.warn(`ATTENTION! Test took longer than 1 second: ${elapsedMs} ms`);
+    console.warn(
+      `ATTENTION! Test "${currentTestName}" took longer than 1 second: ${elapsedMs} ms`
+    );
   }
+  currentTestName = '';
 });

@@ -99,6 +99,7 @@ suite('checks-model tests', () => {
   });
 
   test('register and fetch', async () => {
+    const clock = sinon.useFakeTimers();
     let change: ParsedChangeInfo | undefined = undefined;
     testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
@@ -114,6 +115,9 @@ suite('checks-model tests', () => {
     const testChange = updateRevisionsWithCommitShas(createParsedChange());
     testResolver(changeModelToken).updateStateChange(testChange);
     await waitUntil(() => deepEqual(change, testChange));
+
+    // Advance time by 600ms to trigger the throttled fetch
+    clock.tick(600);
     await waitUntilCalled(fetchSpy, 'fetch');
 
     assert.equal(
@@ -122,6 +126,8 @@ suite('checks-model tests', () => {
         ._number as PatchSetNumber
     );
     assert.equal(model.changeNum, testChange!._number);
+
+    clock.restore();
   });
 
   test('fetch throttle', async () => {

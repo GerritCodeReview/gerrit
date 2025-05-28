@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c670831_b9bbabc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T14:39:28Z",
+      "side": 1,
+      "message": "Well i plan on looking at migrating the other paper-* elements. But not all are available in material/web, for example paper-card replacement isn\u0027t available in it yet (there\u0027s a version being worked on under labs/*). But the repo is now in maintenance mode. We can migrate as much as possible.",
+      "parentUuid": "96108afa_30c29064",
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c4c71e_e8554107",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T14:39:28Z",
+      "side": 1,
+      "message": "An issue i have found is on the diff-view page where you can select from the top and it has a copy path button. Seems out of alignment. Seems it\u0027s gr-copy-clipboard but not sure how to fix that.\n\nI\u0027ll have a look at the font stuff after trying to fix that.",
+      "parentUuid": "9d673a15_94426b83",
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85175be7_07527150",
@@ -48,6 +84,30 @@
       "writtenOn": "2025-05-28T12:15:41Z",
       "side": 1,
       "message": "Nit: I am just curious, why also not leave color as in md-text-button.unelevated ?",
+      "range": {
+        "startLine": 268,
+        "startChar": 10,
+        "endLine": 268,
+        "endChar": 32
+      },
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7d4fee0_4445e9e3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T14:39:28Z",
+      "side": 1,
+      "message": "Oh i guess i missed that. You can\u0027t (from what it seems) change it using color, rather with a css variable.",
+      "parentUuid": "85175be7_07527150",
       "range": {
         "startLine": 268,
         "startChar": 10,

@@ -549,6 +549,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     });
 
     test('input text change triggers function', async () => {
+      const clock = sinon.useFakeTimers();
       const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
       pressKey(
         queryAndAssert(queryAndAssert(element, '#parentInput'), '#input'),
@@ -557,10 +558,19 @@ suite('gr-confirm-rebase-dialog tests', () => {
       await element.updateComplete;
       element.text = '1';
 
+      // Wait for debounce
+      clock.tick(200);
+      await clock.runAllAsync();
+      await element.updateComplete;
       await waitUntil(() => recentChangesSpy.calledOnce);
       element.text = '12';
 
+      // Wait for debounce
+      clock.tick(200);
+      await clock.runAllAsync();
+      await element.updateComplete;
       await waitUntil(() => recentChangesSpy.calledTwice);
+      clock.restore();
     });
   });
 });

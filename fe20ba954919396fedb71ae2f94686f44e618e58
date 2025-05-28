@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "822d66e2_af08707a",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T19:52:33Z",
+      "side": 1,
+      "message": "Revert this back to `() \u003d\u003e {`.",
+      "revId": "fe20ba954919396fedb71ae2f94686f44e618e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

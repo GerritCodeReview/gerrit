@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c597665_c28f2544",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T19:51:22Z",
+      "side": 1,
+      "message": "I think i\u0027ve fixed it. Are you able to confirm with the latest patchset?",
+      "parentUuid": "a74669e4_ea558834",
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85175be7_07527150",
@@ -126,6 +144,30 @@
       "side": 1,
       "message": "Oh i guess i missed that. You can\u0027t (from what it seems) change it using color, rather with a css variable.",
       "parentUuid": "85175be7_07527150",
+      "range": {
+        "startLine": 268,
+        "startChar": 10,
+        "endLine": 268,
+        "endChar": 32
+      },
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85813e59_85223ee4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T19:51:22Z",
+      "side": 1,
+      "message": "Fixed a bit of it after testing.",
+      "parentUuid": "a7d4fee0_4445e9e3",
       "range": {
         "startLine": 268,
         "startChar": 10,

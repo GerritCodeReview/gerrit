@@ -16,6 +16,24 @@
       "message": "Revert this back to `() \u003d\u003e {`.",
       "revId": "fe20ba954919396fedb71ae2f94686f44e618e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbaecf9d_d5a4207d",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-28T20:01:53Z",
+      "side": 1,
+      "message": "It\u0027s needed. I cannot use this.currentTest with arrow function I need setup scope, not arrow scope.",
+      "parentUuid": "822d66e2_af08707a",
+      "revId": "fe20ba954919396fedb71ae2f94686f44e618e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

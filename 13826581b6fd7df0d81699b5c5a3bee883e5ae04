@@ -16,6 +16,24 @@
       "message": "Could you write a test that fails without this patch to ensure that we are solving the issue?",
       "revId": "13826581b6fd7df0d81699b5c5a3bee883e5ae04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59a82d15_7a8ece1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-28T11:42:07Z",
+      "side": 1,
+      "message": "Unresolving for visibility.",
+      "parentUuid": "0328a74a_02baf906",
+      "revId": "13826581b6fd7df0d81699b5c5a3bee883e5ae04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

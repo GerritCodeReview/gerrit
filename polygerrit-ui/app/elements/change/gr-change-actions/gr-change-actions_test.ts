@@ -1255,11 +1255,9 @@ suite('gr-change-actions tests', () => {
             element,
             '#confirmCherrypick'
           );
-          const error = queryAndAssert<HTMLSpanElement>(
-            dialog,
-            '.error-message'
-          );
-          assert.equal(error.innerText, '');
+          await dialog.updateComplete;
+          assert.isNotOk(query(dialog, '.error-message'));
+
           dialog.updateChanges([
             {
               ...createChangeViewChange(),
@@ -1276,7 +1274,14 @@ suite('gr-change-actions tests', () => {
               project: 'A' as RepoName,
             },
           ]);
-          await element.updateComplete;
+
+          // Wait for the error message to be rendered
+          await waitUntil(() => !!query(dialog, '.error-message'));
+
+          const error = queryAndAssert<HTMLSpanElement>(
+            dialog,
+            '.error-message'
+          );
           assert.equal(
             error.innerText,
             'Two changes cannot be of the same' + ' project'

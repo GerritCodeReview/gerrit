@@ -90,4 +90,15 @@ suite('gr-change-list-copy-link-flow tests', () => {
       },
     ]);
   });
+
+  test('clicking copy link button opens dropdown', async () => {
+    await selectChange(change1);
+    const copyLinks = element.shadowRoot?.querySelector('gr-copy-links');
+    assert.exists(copyLinks);
+    const button = element.shadowRoot?.querySelector('gr-button');
+    assert.exists(button);
+    button?.click();
+    await element.updateComplete;
+    assert.isTrue((copyLinks as any).isDropdownOpen);
+  });
 });

@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f080e9a_0e3a0541",
+        "filename": "java/com/google/gerrit/extensions/common/TokenInfo.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-28T14:16:37Z",
+      "side": 1,
+      "message": "I agree and will change that.",
+      "parentUuid": "e99e4378_8b509655",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8b2df94_5f163036",
         "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
         "patchSetId": 28
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Yeah, we\u0027re not good at creating smaller packages and there\u0027s enough auth stuff that it would be nice to have a separate package for it. Maybe a natural split here would be based on the endpoints and you call it `account.token`? That would be nicer if the package names matched the plurals of the endpoint names (`accounts.tokens`), but that\u0027s a big breaking change to do everywhere.",
       "parentUuid": "f8b2df94_5f163036",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c05da85_2dd744da",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-28T14:16:37Z",
+      "side": 1,
+      "message": "While I agree that the package size gets out of hand and splitting the rest-packages would improve the structure of the code, I hesitate to add the new package in this change, since this would add inconsistency. The old HTTP password implementation is also present in this package and also auth related.\n\nI would in general suggest to reflect the REST API endpoint path in the package structure. As Nasser said doing that properly by using the account*s* plural is a breaking change, but at least I would suggest to have a subpackage per `child()` resource as defined in the respective `RestApiModule`.\n\nI would propose to do that change for all endpoints and in a separate change, which might either be merged before or after this series. I would be happy to prepare that. WDYT?",
+      "parentUuid": "4da151a9_84052e3c",
       "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

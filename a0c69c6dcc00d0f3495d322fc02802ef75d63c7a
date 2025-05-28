@@ -577,6 +577,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53bc0e8a_e329fc6d",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-05-28T14:16:37Z",
+      "side": 1,
+      "message": "Similar to my response to your other comment, I would like to stay as consistent as possible within the narrower scope of this new class, but agree that the overall consistency should be fixed. I also believe that although this would be a potentially breaking change, if plugins use those classes, it should be fine to do so on master. I would again be happy to prepare that change.",
+      "parentUuid": "9138fb9d_83268541",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f08b5ea_2d404297",
         "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
         "patchSetId": 25

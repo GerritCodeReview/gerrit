@@ -180,7 +180,7 @@ teardown(() => {
   }
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
-  if (elapsedMs > 1000) {
+  if (elapsedMs > 300) {
     console.warn(
       `ATTENTION! Test "${currentTestName}" took longer than 1 second: ${elapsedMs} ms`
     );

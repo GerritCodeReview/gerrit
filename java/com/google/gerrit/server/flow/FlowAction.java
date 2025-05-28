@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.flow;
 
-import autovalue.shaded.com.google.common.collect.ImmutableMap;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**

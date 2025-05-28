@@ -637,12 +637,29 @@ export class GrMainHeader extends LitElement {
             class="hideOnMobile"
             name="header-top-right"
           ></gr-endpoint-decorator>
+          <!--
+      Always render the fallback feedback button, but hide it with CSS if feedbackURL is empty.
+      We do this instead of using Lit's conditional rendering (e.g., ?hidden or if) inside
+      <gr-endpoint-decorator>, because the plugin system may replace or remove this content
+      outside of Lit's control. If Lit tries to update a node that was removed by the plugin
+      system, it will throw an error. By always rendering the node and only hiding it, we
+      avoid this issue and ensure plugin compatibility.
+      -->
           <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
-            ${this.renderFeedback()}
+            <a
+              href=${this.feedbackURL}
+              title="File a bug"
+              aria-label="File a bug"
+              target="_blank"
+              rel="noopener noreferrer"
+              role="button"
+              ?hidden=${!this.feedbackURL}
+            >
+              <gr-icon icon="bug_report" filled></gr-icon>
+            </a>
           </gr-endpoint-decorator>
-          </div>
-          ${this.renderAccount()}
         </div>
+        ${this.renderAccount()}
       </nav>
     `;
   }
@@ -789,23 +806,6 @@ export class GrMainHeader extends LitElement {
           >${link.name}</a
         >
       </li>
-    `;
-  }
-
-  private renderFeedback() {
-    if (!this.feedbackURL) return;
-
-    return html`
-      <a
-        href=${this.feedbackURL}
-        title="File a bug"
-        aria-label="File a bug"
-        target="_blank"
-        rel="noopener noreferrer"
-        role="button"
-      >
-        <gr-icon icon="bug_report" filled></gr-icon>
-      </a>
     `;
   }
 

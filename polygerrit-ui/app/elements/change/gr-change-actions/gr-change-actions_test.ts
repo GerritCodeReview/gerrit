@@ -2723,6 +2723,11 @@ suite('gr-change-actions tests', () => {
       });
 
       suite('failure modes', () => {
+        let clock: SinonFakeTimers;
+        setup(() => {
+          clock = sinon.useFakeTimers();
+        });
+
         test('non-latest', () => {
           stubRestApi('getChange').returns(
             Promise.resolve({
@@ -2843,7 +2848,7 @@ suite('gr-change-actions tests', () => {
             cleanup,
             {} as UIActionInfo
           );
-          await element.handleResponse(
+          const responsePromise = element.handleResponse(
             {
               __key: 'revert',
               __type: ActionType.CHANGE,
@@ -2851,6 +2856,15 @@ suite('gr-change-actions tests', () => {
             },
             response
           );
+
+          // Wait for all retry attempts
+          for (let i = 0; i < 5; i++) {
+            clock.tick(1000);
+            await clock.runAllAsync();
+            await element.updateComplete;
+          }
+
+          await responsePromise;
 
           assert.isTrue(errorFired);
           assert.isFalse(setUrlStub.called);

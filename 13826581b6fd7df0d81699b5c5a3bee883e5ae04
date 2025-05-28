@@ -34,6 +34,29 @@
       "parentUuid": "0328a74a_02baf906",
       "revId": "13826581b6fd7df0d81699b5c5a3bee883e5ae04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b6cb6e_0e725c1c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1609,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-05-28T12:02:01Z",
+      "side": 1,
+      "message": "```suggestion\n  }\n\n  @Test\n  public void pushNewChangeWithHashtagsWhileUpdatingExisting() throws Exception {\n\t  String hashtag1 \u003d \"tag1\";\n      String hashtag2 \u003d \"tag2\";\n      PushOneCommit.Result r1 \u003d pushTo(\"refs/for/master%hashtag\u003d\" + hashtag1);\n      testRepo\n      .amendRef(\"HEAD\")\n      .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT + \"2\")\n      .create();\n      PushOneCommit.Result r2 \u003d pushTo(\"refs/for/master%hashtag\u003d\" + hashtag2);\n      ImmutableSet\u003cString\u003e expected \u003d ImmutableSet.of(hashtag2);\n      Set\u003cString\u003e hashtags \u003d gApi.changes().id(r2.getChangeId()).getHashtags();\n      assertThat(hashtags).containsExactlyElementsIn(expected);\n  }\n\n  @Test\n```",
+      "range": {
+        "startLine": 1607,
+        "startChar": 0,
+        "endLine": 1609,
+        "endChar": 7
+      },
+      "revId": "13826581b6fd7df0d81699b5c5a3bee883e5ae04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

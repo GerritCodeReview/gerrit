@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09493cc3_2711c934",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T20:27:49Z",
+      "side": 1,
+      "message": "Remove whitespace please.",
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5b305d3_bab7fb01",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T20:27:49Z",
+      "side": 1,
+      "message": "You could do `?hidden\u003d${!this.feedbackURL}` or make this a class.",
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

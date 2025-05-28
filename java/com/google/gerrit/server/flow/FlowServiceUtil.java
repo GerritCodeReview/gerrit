@@ -16,6 +16,7 @@ package com.google.gerrit.server.flow;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class FlowServiceUtil {
   private final DynamicItem<FlowService> flowService;
 
+  @Inject
   FlowServiceUtil(DynamicItem<FlowService> flowService) {
     this.flowService = flowService;
   }

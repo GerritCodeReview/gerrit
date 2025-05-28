@@ -75,6 +75,17 @@ suite('gr-main-header tests', () => {
               class="feedbackButton"
               name="header-feedback"
             >
+              <a
+                aria-label="File a bug"
+                href=""
+                rel="noopener noreferrer"
+                role="button"
+                hidden=""
+                target="_blank"
+                title="File a bug"
+              >
+                <gr-icon filled="" icon="bug_report"> </gr-icon>
+              </a>
             </gr-endpoint-decorator>
           </div>
           <div class="accountContainer" id="accountContainer">
@@ -650,7 +661,12 @@ suite('gr-main-header tests', () => {
 
   test('shows feedback icon when URL provided', async () => {
     assert.isEmpty(element.feedbackURL);
-    assert.isNotOk(query(element, '.feedbackButton > a'));
+    const feedbackButton = query<HTMLAnchorElement>(
+      element,
+      '.feedbackButton > a'
+    );
+    assert.ok(feedbackButton);
+    assert.isTrue(isHidden(feedbackButton));
 
     const url = 'report_bug_url';
     const config: ServerInfo = {
@@ -664,7 +680,12 @@ suite('gr-main-header tests', () => {
     await element.updateComplete;
 
     assert.equal(element.feedbackURL, url);
-    assert.ok(query(element, '.feedbackButton > a'));
+    const updatedFeedbackButton = query<HTMLAnchorElement>(
+      element,
+      '.feedbackButton > a'
+    );
+    assert.ok(updatedFeedbackButton);
+    assert.equal(updatedFeedbackButton.style.display, '');
   });
 
   test('register URL', async () => {

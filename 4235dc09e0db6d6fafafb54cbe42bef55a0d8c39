@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a74669e4_ea558834",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-28T16:25:09Z",
+      "side": 1,
+      "message": "Found a fix for it.",
+      "parentUuid": "82c4c71e_e8554107",
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85175be7_07527150",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 6

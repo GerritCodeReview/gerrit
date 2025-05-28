@@ -133,6 +133,9 @@ export class GrConfirmCherrypickDialog
   private invalidBranch = false;
 
   @state()
+  private topicErrorMessage = '';
+
+  @state()
   emails: EmailInfo[] = [];
 
   @query('#branchInput')
@@ -382,8 +385,13 @@ export class GrConfirmCherrypickDialog
   }
 
   private renderCherrypickTopicTable() {
+    const topicError = this.computeTopicErrorMessage();
+    const errorMessage = this.topicErrorMessage || topicError;
     return html`
-      <span class="error-message">${this.computeTopicErrorMessage()}</span>
+      ${when(
+        errorMessage,
+        () => html`<span class="error-message">${errorMessage}</span>`
+      )}
       <span class="cherry-pick-topic-message">
         Commit Message will be auto generated
       </span>
@@ -600,10 +608,10 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     if (!changes.length) {
-      const errorSpan = this.shadowRoot?.querySelector('.error-message');
-      errorSpan!.innerHTML = 'No change selected';
+      this.topicErrorMessage = 'No change selected';
       return;
     }
+    this.topicErrorMessage = ''; // Clear any previous error message
     const topic = this.generateRandomCherryPickTopic(changes[0]);
     changes.forEach(change => {
       this.updateStatus(change, {status: ProgressStatus.RUNNING});

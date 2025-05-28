@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d673a15_94426b83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-28T12:15:41Z",
+      "side": 1,
+      "message": "Great, that will be great update. I am checking locally and buttons look little different:\n\nFor example Coder-Review +2 button:\npaper-button: \nfont-family: \"Open Sans\", Roboto, -apple-system, ...\nfont-weight: 500\nand\nmd-text-button:\nfont-family: Roboto, -apple-system, ...\nfont-weight: 400\n\ncan we make it change without any visual change?\n\n\nI will be testing later today more - links, menu in gerrit header etc.",
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85175be7_07527150",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-28T12:15:41Z",
+      "side": 1,
+      "message": "Nit: I am just curious, why also not leave color as in md-text-button.unelevated ?",
+      "range": {
+        "startLine": 268,
+        "startChar": 10,
+        "endLine": 268,
+        "endChar": 32
+      },
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -133,6 +133,10 @@ export class GrConfirmCherrypickDialog
   private invalidBranch = false;
 
   @state()
+  // Error message set when handleCherryPickTopic fails, for example when no changes are selected
+  private cherryPickTopicError = '';
+
+  @state()
   emails: EmailInfo[] = [];
 
   @query('#branchInput')
@@ -382,8 +386,12 @@ export class GrConfirmCherrypickDialog
   }
 
   private renderCherrypickTopicTable() {
+    const errorMessage = this.computeTopicErrorMessage();
     return html`
-      <span class="error-message">${this.computeTopicErrorMessage()}</span>
+      ${when(
+        errorMessage,
+        () => html`<span class="error-message">${errorMessage}</span>`
+      )}
       <span class="cherry-pick-topic-message">
         Commit Message will be auto generated
       </span>
@@ -487,7 +495,7 @@ export class GrConfirmCherrypickDialog
     if (this.duplicateProjectChanges) {
       return 'Two changes cannot be of the same project';
     }
-    return '';
+    return this.cherryPickTopicError;
   }
 
   updateStatus(change: ChangeInfo | ParsedChangeInfo, status: Status) {
@@ -600,10 +608,10 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     if (!changes.length) {
-      const errorSpan = this.shadowRoot?.querySelector('.error-message');
-      errorSpan!.innerHTML = 'No change selected';
+      this.cherryPickTopicError = 'No change selected';
       return;
     }
+    this.cherryPickTopicError = ''; // Clear any previous error message
     const topic = this.generateRandomCherryPickTopic(changes[0]);
     changes.forEach(change => {
       this.updateStatus(change, {status: ProgressStatus.RUNNING});

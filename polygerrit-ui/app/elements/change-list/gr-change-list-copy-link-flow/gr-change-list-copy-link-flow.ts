@@ -16,7 +16,7 @@ import {ChangeInfo} from '../../../api/rest-api';
 
 @customElement('gr-change-list-copy-link-flow')
 export class GrChangeListCopyLinkFlow extends LitElement {
-  @query('#copyLinkButton')
+  @query('gr-copy-links')
   private copyLinks?: GrCopyLinks;
 
   static override get styles() {

@@ -25,7 +25,6 @@ import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {define} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -84,7 +83,6 @@ export class PluginLoader implements Gerrit, Finalizable {
   public readonly styles = {
     font: fontStyles,
     form: grFormStyles,
-    icon: iconStyles,
     menuPage: menuPageStyles,
     spinner: spinnerStyles,
     subPage: subpageStyles,

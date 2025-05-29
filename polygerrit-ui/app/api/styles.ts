@@ -26,7 +26,6 @@ export declare interface Style {
 export declare interface Styles {
   font: Style;
   form: Style;
-  icon: Style;
   menuPage: Style;
   spinner: Style;
   subPage: Style;

@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure if we should instead add md-icon here as a replacement? But i couldn\u0027t find its use in anything but an external element.",
       "revId": "fe20ba954919396fedb71ae2f94686f44e618e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc866028_347ac030",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-29T12:28:17Z",
+      "side": 0,
+      "message": "Oh nvm, this is styles.",
+      "parentUuid": "b27d17b8_adc8de99",
+      "revId": "fe20ba954919396fedb71ae2f94686f44e618e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

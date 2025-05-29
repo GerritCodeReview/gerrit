@@ -59,7 +59,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {html, LitElement, PropertyValues} from 'lit';
 import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {provide} from '../../../models/dependency';
 import {
@@ -296,7 +295,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       grSyntaxTheme,
       grRangedCommentTheme,

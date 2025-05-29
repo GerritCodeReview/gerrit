@@ -16,6 +16,24 @@
       "message": "I guess this won\u0027t work with iron-icon, instead would have to be replaced.\n\nSee https://material-web.dev/components/fab/ (we only use gr-icons with gr-image-viewer it seems). We can use our own gr-icon (although maybe a different name? and copy https://github.com/chromium/chromium/blob/main/ui/webui/resources/cr_elements/cr_icon/cr_icon.ts",
       "revId": "0dc432e79c6db1cee209910b20e83e21a660e2b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e26ab4cc_61248f71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-29T14:17:14Z",
+      "side": 1,
+      "message": "This will have to be done at the same time as us replacing paper-fab",
+      "parentUuid": "3bc51d89_0f125728",
+      "revId": "0dc432e79c6db1cee209910b20e83e21a660e2b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

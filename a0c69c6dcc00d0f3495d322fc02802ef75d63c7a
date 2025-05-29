@@ -601,6 +601,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a654e92_6b8bb95d",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-29T18:59:02Z",
+      "side": 1,
+      "message": "I\u0027m good with deferring the subpackage usage and fixing the other account API classes into separate changes. I would prefer this change use `ListTokens` since I don\u0027t see a lot of benefit in continuing with the `Get*` naming when we plan to change it. If you\u0027d really rather rename all the classes at once, I won\u0027t block this change from using `Get*`.",
+      "parentUuid": "53bc0e8a_e329fc6d",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f08b5ea_2d404297",
         "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
         "patchSetId": 25

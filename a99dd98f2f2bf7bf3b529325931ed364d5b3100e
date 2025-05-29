@@ -122,6 +122,24 @@
       "parentUuid": "4da151a9_84052e3c",
       "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7cc9c93_312bd93d",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-05-29T18:59:02Z",
+      "side": 1,
+      "message": "\u003e I would in general suggest to reflect the REST API endpoint path in the package structure. As Nasser said doing that properly by using the account*s* plural is a breaking change, but at least I would suggest to have a subpackage per `child()` resource as defined in the respective `RestApiModule`.\n\n+1\n\n\u003e \n\u003e I would propose to do that change for all endpoints and in a separate change, which might either be merged before or after this series. I would be happy to prepare that. WDYT?\n\nIf you\u0027re willing to do that I think it would be great. @ekempin@google.com would adding these subpackages for REST APIs be a concern for you/Google?",
+      "parentUuid": "5c05da85_2dd744da",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

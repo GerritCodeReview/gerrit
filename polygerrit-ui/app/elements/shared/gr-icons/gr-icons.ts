@@ -3,10 +3,10 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-iconset-svg/iron-iconset-svg';
+import '../gr-iconset/gr-iconset';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
+$_documentContainer.innerHTML = `<gr-iconset name="gr-icons" size="24">
   <svg>
     <defs>
       <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=swap_horiz-->
@@ -17,6 +17,6 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="pause"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></g>
     </defs>
   </svg>
-</iron-iconset-svg>`;
+</gr-iconset>`;
 
 document.head.appendChild($_documentContainer.content);

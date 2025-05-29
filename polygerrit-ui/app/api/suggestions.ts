@@ -7,8 +7,8 @@
 import {
   ChangeInfo,
   CommentRange,
-  RevisionPatchSetNum,
   FixSuggestionInfo,
+  RevisionPatchSetNum,
 } from './rest-api';
 
 export declare interface SuggestionsPluginApi {

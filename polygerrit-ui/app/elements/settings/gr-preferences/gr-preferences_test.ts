@@ -16,15 +16,15 @@ import {GrPreferences} from './gr-preferences';
 import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
 import {
   AppTheme,
+  createDefaultPreferences,
   DateFormat,
   DefaultBase,
   DiffViewMode,
   EmailFormat,
   EmailStrategy,
   TimeFormat,
-  createDefaultPreferences,
 } from '../../../constants/constants';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {
   createAccountDetailWithId,

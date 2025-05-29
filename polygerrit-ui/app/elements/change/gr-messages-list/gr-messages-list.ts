@@ -19,15 +19,15 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PatchSetNum,
-  VotingRangeInfo,
   PatchSetNumber,
+  VotingRangeInfo,
 } from '../../../types/common';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {getVotingRange} from '../../../utils/label-util';
 import {
   FormattedReviewerUpdateInfo,
-  ParsedChangeInfo,
   isPatchSetNumber,
+  ParsedChangeInfo,
 } from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';

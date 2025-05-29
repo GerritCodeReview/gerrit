@@ -3,12 +3,12 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {directive, AsyncDirective} from 'lit/async-directive.js';
-import {DirectiveParameters, ChildPart} from 'lit/directive.js';
+import {AsyncDirective, directive} from 'lit/async-directive.js';
+import {ChildPart, DirectiveParameters} from 'lit/directive.js';
 import {
   insertPart,
-  setChildPartValue,
   removePart,
+  setChildPartValue,
 } from 'lit/directive-helpers.js';
 
 interface RepeatOptions<T> {

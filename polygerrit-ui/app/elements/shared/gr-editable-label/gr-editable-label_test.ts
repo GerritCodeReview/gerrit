@@ -10,7 +10,7 @@ import {GrEditableLabel} from './gr-editable-label';
 import {queryAndAssert} from '../../../utils/common-util';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
 import {
   AutocompleteSuggestion,

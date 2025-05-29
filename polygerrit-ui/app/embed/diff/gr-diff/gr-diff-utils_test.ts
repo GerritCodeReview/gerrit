@@ -6,16 +6,16 @@
 import {assert} from '@open-wc/testing';
 import '../../../test/common-test-setup';
 import {
-  getRange,
-  computeKeyLocations,
-  GrDiffCommentThread,
-  getDataFromCommentThreadEl,
   compareComments,
-  GrDiffThreadElement,
   computeContext,
+  computeKeyLocations,
+  computeLineLength,
   FULL_CONTEXT,
   FullContext,
-  computeLineLength,
+  getDataFromCommentThreadEl,
+  getRange,
+  GrDiffCommentThread,
+  GrDiffThreadElement,
 } from './gr-diff-utils';
 import {FILE, LOST, Side} from '../../../api/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';

@@ -11,14 +11,14 @@ import {
   createRevisions,
 } from '../../test/test-data-generators';
 import {
-  ChangeInfo,
-  NumericChangeId,
-  ChangeStatus,
-  HttpMethod,
   AccountInfo,
-  ReviewerState,
+  ChangeInfo,
+  ChangeStatus,
   GroupInfo,
   Hashtag,
+  HttpMethod,
+  NumericChangeId,
+  ReviewerState,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';

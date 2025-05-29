@@ -10,7 +10,7 @@ import {AccountDetailInfo, PreferencesInput} from '../../../types/common';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';

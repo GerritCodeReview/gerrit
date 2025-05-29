@@ -14,7 +14,7 @@ import {GrAccessSection} from './gr-access-section';
 import {GitRef} from '../../../types/common';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-access-section tests', () => {
   let element: GrAccessSection;

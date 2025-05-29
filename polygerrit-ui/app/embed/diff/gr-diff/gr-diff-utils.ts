@@ -11,8 +11,8 @@ import {
   DiffResponsiveMode,
   DisplayLine,
   FILE,
-  LOST,
   LineNumber,
+  LOST,
   RenderPreferences,
 } from '../../../api/diff';
 import {GrDiffGroup} from './gr-diff-group';

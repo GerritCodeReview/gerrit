@@ -15,12 +15,12 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   attemptChoiceLabel,
-  LATEST_ATTEMPT,
   AttemptDetail,
   compareByWorstCategory,
   headerForStatus,
   iconFor,
   iconForRun,
+  LATEST_ATTEMPT,
   PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
 } from '../../models/checks/checks-util';

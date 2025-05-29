@@ -8,12 +8,12 @@ import {classMap} from 'lit/directives/class-map.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
-  LitElement,
   css,
   html,
+  LitElement,
+  nothing,
   PropertyValues,
   TemplateResult,
-  nothing,
 } from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-action';
@@ -33,27 +33,27 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {CheckRun, RunResult, runResult} from '../../models/checks/checks-model';
 import {
   ALL_ATTEMPTS,
+  allResults,
   AttemptChoice,
   attemptChoiceLabel,
-  isAttemptChoice,
-  LATEST_ATTEMPT,
-  sortAttemptChoices,
-  stringToAttemptChoice,
-  allResults,
+  computeIsExpandable,
   createFixAction,
+  createGetAiFixAction,
   firstPrimaryLink,
   hasCompletedWithoutResults,
   iconFor,
   iconForLink,
+  isAttemptChoice,
   isCategory,
+  LATEST_ATTEMPT,
   otherPrimaryLinks,
-  secondaryLinks,
-  tooltipForLink,
-  computeIsExpandable,
   rectifyFix,
-  createGetAiFixAction,
+  secondaryLinks,
+  sortAttemptChoices,
+  stringToAttemptChoice,
+  tooltipForLink,
 } from '../../models/checks/checks-util';
-import {assertIsDefined, assert, unique} from '../../utils/common-util';
+import {assert, assertIsDefined, unique} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';

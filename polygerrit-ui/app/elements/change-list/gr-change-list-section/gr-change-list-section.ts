@@ -3,13 +3,13 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, html, css, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
 import {CLOSED, YOUR_TURN} from '../../../utils/dashboard-util';
 import {getAppContext} from '../../../services/app-context';
-import {ChangeInfo, AccountInfo} from '../../../api/rest-api';
+import {AccountInfo, ChangeInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -17,8 +17,8 @@ import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
 import {provide, resolve} from '../../../models/dependency';
 import {
-  bulkActionsModelToken,
   BulkActionsModel,
+  bulkActionsModelToken,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';

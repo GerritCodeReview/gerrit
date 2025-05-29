@@ -5,8 +5,8 @@
  */
 import {
   AccountDetailInfo,
-  ProjectInfoWithName,
   HttpMethod,
+  ProjectInfoWithName,
   ServerInfo,
 } from './rest-api';
 

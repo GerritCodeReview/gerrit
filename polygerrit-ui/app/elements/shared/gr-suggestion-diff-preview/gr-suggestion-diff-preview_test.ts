@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-suggestion-diff-preview';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {
   CommentModel,
   commentModelToken,

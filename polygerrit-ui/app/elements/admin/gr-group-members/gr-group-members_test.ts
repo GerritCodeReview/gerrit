@@ -27,7 +27,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PageErrorEvent} from '../../../types/events';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {createServerInfo} from '../../../test/test-data-generators';
 
 suite('gr-group-members tests', () => {

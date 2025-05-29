@@ -11,12 +11,12 @@ import {FilesExpandedState} from '../gr-file-list-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   mockPromise,
-  query,
-  stubRestApi,
-  waitUntil,
   pressKey,
+  query,
   stubElement,
+  stubRestApi,
   waitEventLoop,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -55,7 +55,7 @@ import {normalize} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {FileMode} from '../../../utils/file-util';

@@ -6,7 +6,7 @@
 import '../shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {GrSuggestionDiffPreview} from '../shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {BasePatchSetNum, RepoName} from '../../types/common';
 import {resolve} from '../../models/dependency';
 import {

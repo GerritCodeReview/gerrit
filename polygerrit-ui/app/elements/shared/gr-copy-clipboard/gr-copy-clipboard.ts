@@ -14,7 +14,7 @@ import {
 } from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 import {GrIcon} from '../gr-icon/gr-icon';

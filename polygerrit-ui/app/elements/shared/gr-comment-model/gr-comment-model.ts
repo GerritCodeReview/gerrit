@@ -11,7 +11,7 @@ import {isDefined} from '../../../types/types';
 import {select} from '../../../utils/observable-util';
 import {Comment} from '../../../types/common';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {NumericChangeId, isBase64FileContent} from '../../../api/rest-api';
+import {isBase64FileContent, NumericChangeId} from '../../../api/rest-api';
 import {assert, assertIsDefined} from '../../../utils/common-util';
 import {getContentInCommentRange} from '../../../utils/comment-util';
 import {SpecialFilePath} from '../../../constants/constants';

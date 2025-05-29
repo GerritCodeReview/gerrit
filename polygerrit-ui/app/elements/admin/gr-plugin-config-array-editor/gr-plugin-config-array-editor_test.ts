@@ -8,9 +8,9 @@ import {ConfigParameterInfoType} from '../../../constants/constants';
 import '../../../test/common-test-setup';
 import './gr-plugin-config-array-editor';
 import {GrPluginConfigArrayEditor} from './gr-plugin-config-array-editor';
-import {queryAll, queryAndAssert, pressKey} from '../../../test/test-utils';
+import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 
 suite('gr-plugin-config-array-editor tests', () => {

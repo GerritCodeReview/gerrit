@@ -8,7 +8,7 @@ import '../../shared/gr-button/gr-button';
 import {EditPreferencesInfo} from '../../../types/common';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';

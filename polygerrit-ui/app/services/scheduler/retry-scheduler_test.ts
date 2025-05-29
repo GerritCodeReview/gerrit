@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {assertFails, waitEventLoop} from '../../test/test-utils';
 import {Scheduler} from './scheduler';
-import {RetryScheduler, RetryError} from './retry-scheduler';
+import {RetryError, RetryScheduler} from './retry-scheduler';
 import {FakeScheduler} from './fake-scheduler';
 import {SinonFakeTimers} from 'sinon';
 import {assert} from '@open-wc/testing';

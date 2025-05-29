@@ -5,7 +5,7 @@
  */
 
 import '../../test/common-test-setup';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {FitController} from './fit-controller';
 import {LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';

@@ -9,10 +9,10 @@ import {define} from '../dependency';
 import {Model} from '../base/model';
 import {Route, ViewState} from './base';
 import {
-  RepoName,
-  GroupId,
-  AccountDetailInfo,
   AccountCapabilityInfo,
+  AccountDetailInfo,
+  GroupId,
+  RepoName,
 } from '../../types/common';
 import {hasOwnProperty} from '../../utils/common-util';
 import {MenuLink} from '../../api/admin';

@@ -12,7 +12,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {RepoName, BranchName, TopicName, ChangeInfo} from '../../api/rest-api';
+import {BranchName, ChangeInfo, RepoName, TopicName} from '../../api/rest-api';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';

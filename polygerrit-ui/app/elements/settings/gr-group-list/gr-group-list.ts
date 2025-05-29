@@ -3,11 +3,11 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GroupInfo, GroupId} from '../../../types/common';
+import {GroupId, GroupInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {createGroupUrl} from '../../../models/views/group';
 

@@ -9,7 +9,7 @@ import {GrPluginActionContext} from './gr-plugin-action-context';
 import {addListenerForTest, waitEventLoop} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
-import {SinonStub, stub, spy} from 'sinon';
+import {SinonStub, spy, stub} from 'sinon';
 import {PopupPluginApi} from '../../../api/popup';
 import {GrButton} from '../gr-button/gr-button';
 import {createChange, createRevision} from '../../../test/test-data-generators';

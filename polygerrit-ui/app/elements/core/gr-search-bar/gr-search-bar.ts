@@ -12,12 +12,12 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {
   customElement,
   property,
-  state,
   query as queryDec,
+  state,
 } from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {assertIsDefined} from '../../../utils/common-util';

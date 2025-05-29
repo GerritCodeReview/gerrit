@@ -9,37 +9,37 @@ import './gr-change-metadata';
 
 import {ChangeRole, GrChangeMetadata} from './gr-change-metadata';
 import {
-  createServerInfo,
-  createParsedChange,
+  createAccountDetailWithId,
   createAccountWithId,
+  createCommit,
   createCommitInfoWithRequiredCommit,
-  createWebLinkInfo,
+  createConfig,
   createGerritInfo,
   createGitPerson,
-  createCommit,
+  createParsedChange,
   createRevision,
-  createAccountDetailWithId,
-  createConfig,
+  createServerInfo,
+  createWebLinkInfo,
 } from '../../../test/test-data-generators';
 import {
   ChangeStatus,
-  SubmitType,
   GpgKeyInfoStatus,
   InheritedBooleanInfoConfiguredValue,
+  SubmitType,
 } from '../../../constants/constants';
 import {
-  EmailAddress,
   AccountId,
   CommitId,
-  ServerInfo,
-  RevisionInfo,
-  ParentCommitInfo,
-  TopicName,
-  RevisionPatchSetNum,
-  NumericChangeId,
-  LabelValueToDescriptionMap,
-  Hashtag,
   CommitInfo,
+  EmailAddress,
+  Hashtag,
+  LabelValueToDescriptionMap,
+  NumericChangeId,
+  ParentCommitInfo,
+  RevisionInfo,
+  RevisionPatchSetNum,
+  ServerInfo,
+  TopicName,
 } from '../../../types/common';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../../api/plugin';
@@ -53,7 +53,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {nothing} from 'lit';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 

@@ -8,14 +8,14 @@ import {singleDecodeURL} from '../../../utils/url-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {toSortedPermissionsArray} from '../../../utils/access-util';
 import {
-  RepoName,
-  ProjectInfo,
   CapabilityInfoMap,
+  GitRef,
   LabelNameToLabelTypeInfoMap,
   ProjectAccessInput,
-  GitRef,
-  UrlEncodedRepoName,
+  ProjectInfo,
   RepoAccessGroups,
+  RepoName,
+  UrlEncodedRepoName,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
@@ -26,17 +26,17 @@ import {
 import {
   EditableLocalAccessSectionInfo,
   PermissionAccessSection,
-  PropertyTreeNode,
   PrimitiveValue,
+  PropertyTreeNode,
 } from './gr-repo-access-interfaces';
-import {firePageError, fireAlert} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {

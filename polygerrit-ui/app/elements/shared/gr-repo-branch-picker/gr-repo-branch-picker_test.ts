@@ -9,7 +9,7 @@ import './gr-repo-branch-picker';
 import {GrRepoBranchPicker} from './gr-repo-branch-picker';
 import {stubRestApi} from '../../../test/test-utils';
 import {GitRef, ProjectInfoWithName, RepoName} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-repo-branch-picker tests', () => {
   let element: GrRepoBranchPicker;

@@ -16,7 +16,7 @@ import {
   getServiceWorkerState,
   putServiceWorkerState,
 } from './service-worker-indexdb';
-import {DashboardType, createDashboardUrl} from '../models/views/dashboard';
+import {createDashboardUrl, DashboardType} from '../models/views/dashboard';
 import {createChangeUrl} from '../models/views/change';
 import {noAwait} from '../utils/async-util';
 

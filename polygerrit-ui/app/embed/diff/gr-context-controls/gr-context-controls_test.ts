@@ -8,7 +8,7 @@ import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
 import {GrContextControls} from './gr-context-controls';
 import {SyntaxBlock} from '../../../api/diff';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 import {
   createContextGroup,

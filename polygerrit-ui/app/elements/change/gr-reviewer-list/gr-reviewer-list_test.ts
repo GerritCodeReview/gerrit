@@ -15,7 +15,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
 import './gr-reviewer-list';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {IdToAttentionSetMap} from '../../../api/rest-api';
 import {StandardLabels} from '../../../utils/label-util';
 

@@ -10,11 +10,11 @@ import {assertRouteFalse, assertRouteState} from '../../test/test-utils';
 import {GerritView} from '../../services/router/router-model';
 import {
   AdminChildView,
+  AdminNavLinksOption,
   AdminViewState,
   createAdminUrl,
-  PLUGIN_LIST_ROUTE,
-  AdminNavLinksOption,
   getAdminLinks,
+  PLUGIN_LIST_ROUTE,
 } from './admin';
 import {
   AccountDetailInfo,

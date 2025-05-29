@@ -35,15 +35,15 @@ import {
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
   AdminChildView,
+  AdminNavLinksOption,
   adminViewModelToken,
   AdminViewState,
-  AdminNavLinksOption,
   getAdminLinks,
   NavLink,
   SubsectionInterface,

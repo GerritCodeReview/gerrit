@@ -8,7 +8,7 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {ChangeInfo, ChangeStates, WebLinkInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {createSearchUrl} from '../../../models/views/search';
 

@@ -5,7 +5,7 @@
  */
 import '../gr-trigger-vote/gr-trigger-vote';
 import '../../checks/gr-checks-chip-for-label';
-import {LitElement, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeInfo, PatchSetNumber} from '../../../api/rest-api';
 import {

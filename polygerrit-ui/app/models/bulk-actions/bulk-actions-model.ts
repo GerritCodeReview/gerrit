@@ -4,24 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  ChangeInfo,
-  NumericChangeId,
-  ChangeStatus,
-  ReviewerState,
   AccountId,
   AccountInfo,
+  ChangeInfo,
+  ChangeStatus,
   GroupInfo,
   Hashtag,
+  NumericChangeId,
+  ReviewerState,
 } from '../../api/rest-api';
 import {Model} from '../base/model';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
 import {
-  ReviewInput,
-  ReviewerInput,
   AttentionSetInput,
   RelatedChangeAndCommitInfo,
+  ReviewerInput,
+  ReviewInput,
   ReviewResult,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';

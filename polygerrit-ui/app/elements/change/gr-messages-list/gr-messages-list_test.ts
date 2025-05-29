@@ -30,7 +30,7 @@ import {
 } from '../../../types/common';
 import {assertIsDefined, uuid} from '../../../utils/common-util';
 import {html} from 'lit';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
 import {testResolver} from '../../../test/common-test-setup';

@@ -5,7 +5,7 @@
  */
 
 /** Enum for all special shortcuts */
-import {ComboKey, Key, Modifier, Binding} from '../../utils/dom-util';
+import {Binding, ComboKey, Key, Modifier} from '../../utils/dom-util';
 
 export enum SPECIAL_SHORTCUT {
   DOC_ONLY = 'DOC_ONLY',

@@ -8,8 +8,8 @@ import '../../../test/common-test-setup';
 import './gr-change-list';
 import {
   ChangeListSection,
-  GrChangeList,
   computeRelativeIndex,
+  GrChangeList,
 } from './gr-change-list';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
@@ -34,7 +34,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import {testResolver} from '../../../test/common-test-setup';
 import {Timestamp} from '../../../api/rest-api';

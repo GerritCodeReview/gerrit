@@ -10,15 +10,15 @@ import {convertToString, pluralize} from '../../../utils/string-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeLatestPatchNum,
+  convertToPatchSetNum,
   findSortedIndex,
+  getParentCommit,
   getParentIndex,
+  getParentInfoString,
   getRevisionByPatchNum,
   isMergeParent,
   PatchSet,
-  convertToPatchSetNum,
-  getParentInfoString,
   shorten,
-  getParentCommit,
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
@@ -41,7 +41,7 @@ import {
 import {EditRevisionInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';

@@ -6,10 +6,10 @@
 import * as sinon from 'sinon';
 import {createChange} from '../../../test/test-data-generators';
 import {
-  NumericChangeId,
   ChangeInfo,
   ChangeStatus,
   HttpMethod,
+  NumericChangeId,
   PatchSetNum,
 } from '../../../api/rest-api';
 import {GrChangeListBulkAbandonFlow} from './gr-change-list-bulk-abandon-flow';
@@ -20,16 +20,16 @@ import {
   LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import './gr-change-list-bulk-abandon-flow';
-import {fixture, waitUntil, assert} from '@open-wc/testing';
+import {assert, fixture, waitUntil} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {html} from 'lit';
 import {getAppContext} from '../../../services/app-context';
 import {
-  waitUntilObserved,
-  stubRestApi,
-  queryAndAssert,
   mockPromise,
   query,
+  queryAndAssert,
+  stubRestApi,
+  waitUntilObserved,
 } from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ProgressStatus} from '../../../constants/constants';

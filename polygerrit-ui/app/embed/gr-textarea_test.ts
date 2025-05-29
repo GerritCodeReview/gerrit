@@ -5,7 +5,7 @@
  */
 import '../test/common-test-setup';
 import './gr-textarea';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {waitForEventOnce} from '../utils/event-util';
 import {AUTOCOMPLETE_HINT_CLASS, GrTextarea} from './gr-textarea';
 import {CursorPositionChangeEventDetail} from '../api/embed';

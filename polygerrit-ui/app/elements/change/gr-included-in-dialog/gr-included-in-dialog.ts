@@ -9,7 +9,7 @@ import {IncludedInInfo, NumericChangeId} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubble} from '../../../utils/event-util';

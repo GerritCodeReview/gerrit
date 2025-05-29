@@ -7,7 +7,7 @@
 /**
  * Tab names for primary tabs on change view page.
  */
-import {CopyInfoEventDetail, TextRange, DiffViewMode} from '../api/diff';
+import {CopyInfoEventDetail, DiffViewMode, TextRange} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {

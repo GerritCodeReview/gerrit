@@ -5,11 +5,11 @@
  */
 import '../gr-autocomplete/gr-autocomplete';
 import '../../../styles/shared-styles';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {
-  GrAutocomplete,
   AutocompleteQuery,
+  GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';

@@ -17,7 +17,7 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {PageErrorEvent} from '../../../types/events';
 import {RepoName} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-repo-commands tests', () => {
   let element: GrRepoCommands;

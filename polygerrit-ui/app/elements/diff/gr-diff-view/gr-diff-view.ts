@@ -23,7 +23,7 @@ import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import {getAppContext} from '../../../services/app-context';
-import {isMergeParent, getParentIndex} from '../../../utils/patch-set-util';
+import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
 import {
   computeDisplayPath,
   computeTruncatedPath,
@@ -39,6 +39,9 @@ import {CommentAnchorTapEventDetail} from '../../shared/gr-comment/gr-comment';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   BasePatchSetNum,
+  Comment,
+  CommentMap,
+  DropdownLink,
   EDIT,
   NumericChangeId,
   PARENT,
@@ -47,9 +50,6 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionPatchSetNum,
-  Comment,
-  CommentMap,
-  DropdownLink,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -61,12 +61,12 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
-import {fireAlert, fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
-import {filter, take, switchMap, map} from 'rxjs/operators';
+import {filter, map, switchMap, take} from 'rxjs/operators';
 import {combineLatest} from 'rxjs';
 import {
   Shortcut,

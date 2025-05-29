@@ -8,7 +8,7 @@ import '../../../test/common-test-setup';
 import './gr-selection-action-box';
 import {GrSelectionActionBox} from './gr-selection-action-box';
 import {queryAndAssert} from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-selection-action-box', () => {
   let container: HTMLDivElement;

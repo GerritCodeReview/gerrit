@@ -12,7 +12,7 @@ import '../../../styles/shared-styles';
 import {getBaseUrl} from '../../../utils/url-util';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
-import {property, customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {Key} from '../../../utils/dom-util';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';

@@ -15,7 +15,7 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
-import {onCLS, onLCP, Metric, onINP} from 'web-vitals';
+import {Metric, onCLS, onINP, onLCP} from 'web-vitals';
 import {getEventPath, isElementTarget} from '../../utils/dom-util';
 import {Finalizable} from '../../types/types';
 

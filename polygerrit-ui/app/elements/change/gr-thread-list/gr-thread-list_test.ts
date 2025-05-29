@@ -8,9 +8,9 @@ import './gr-thread-list';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {CommentTabState} from '../../../types/events';
 import {
+  __testOnly_SortDropdownState,
   compareThreads,
   GrThreadList,
-  __testOnly_SortDropdownState,
 } from './gr-thread-list';
 import {queryAll, stubFlags} from '../../../test/test-utils';
 import {getUserId} from '../../../utils/account-util';
@@ -29,16 +29,16 @@ import {
   Timestamp,
 } from '../../../api/rest-api';
 import {
-  UrlEncodedCommentId,
-  RevisionPatchSetNum,
   CommentThread,
   isDraft,
+  RevisionPatchSetNum,
   SavingState,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {FILE} from '../../../api/diff';
 

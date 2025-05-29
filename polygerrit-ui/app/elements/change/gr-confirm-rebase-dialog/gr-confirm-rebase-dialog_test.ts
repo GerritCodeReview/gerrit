@@ -15,17 +15,17 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {
-  NumericChangeId,
-  BranchName,
-  Timestamp,
   AccountId,
+  BranchName,
   EmailAddress,
+  NumericChangeId,
+  Timestamp,
 } from '../../../types/common';
 import {
   createAccountWithEmail,
   createChangeViewChange,
 } from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {testResolver} from '../../../test/common-test-setup';

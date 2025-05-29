@@ -5,8 +5,8 @@
  */
 import '@polymer/paper-button/paper-button';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {of, EMPTY, Subject} from 'rxjs';
-import {switchMap, delay} from 'rxjs/operators';
+import {EMPTY, of, Subject} from 'rxjs';
+import {delay, switchMap} from 'rxjs/operators';
 import '../../../elements/shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';

@@ -12,8 +12,8 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {combineLatest, of, from, Observable} from 'rxjs';
-import {switchMap, map} from 'rxjs/operators';
+import {combineLatest, from, Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {FileInfoStatus, SpecialFilePath} from '../../constants/constants';

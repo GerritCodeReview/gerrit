@@ -7,7 +7,7 @@ import '../../test/common-test-setup';
 import './gr-checks-runs';
 import {GrChecksRun, GrChecksRuns} from './gr-checks-runs';
 import {html} from 'lit';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';

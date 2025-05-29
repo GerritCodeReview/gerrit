@@ -12,9 +12,9 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {IronSelectorElement} from '@polymer/iron-selector/iron-selector';
 import {
+  DetailedLabelInfo,
   LabelNameToInfoMap,
   QuickLabelInfo,
-  DetailedLabelInfo,
 } from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {Label} from '../../../utils/label-util';

@@ -5,20 +5,20 @@
  */
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {
-  CommentInfo,
-  NumericChangeId,
-  RevisionId,
-  UrlEncodedCommentId,
   AccountInfo,
-  DraftInfo,
   Comment,
-  SavingState,
-  isSaving,
-  isError,
-  isDraft,
-  isNew,
-  PatchSetNumber,
+  CommentInfo,
   CommentThread,
+  DraftInfo,
+  isDraft,
+  isError,
+  isNew,
+  isSaving,
+  NumericChangeId,
+  PatchSetNumber,
+  RevisionId,
+  SavingState,
+  UrlEncodedCommentId,
 } from '../../types/common';
 import {
   addPath,

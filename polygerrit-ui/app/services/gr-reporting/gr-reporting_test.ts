@@ -6,8 +6,8 @@
 import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {
-  GrReporting,
   DEFAULT_STARTUP_TIMERS,
+  GrReporting,
   initErrorReporter,
   InteractionReporter,
 } from './gr-reporting_impl';

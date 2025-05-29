@@ -5,7 +5,7 @@
  */
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import {getAppContext} from '../../../services/app-context';
 import './gr-vote-chip';

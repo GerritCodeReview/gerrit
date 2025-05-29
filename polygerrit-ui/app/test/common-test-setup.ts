@@ -30,8 +30,8 @@ import {
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 import {
-  DependencyRequestEvent,
   DependencyError,
+  DependencyRequestEvent,
   DependencyToken,
   Provider,
 } from '../models/dependency';

@@ -8,7 +8,7 @@ import '../../settings/gr-edit-preferences/gr-edit-preferences';
 import {GrEditPreferences} from '../../settings/gr-edit-preferences/gr-edit-preferences';
 import {assertIsDefined} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {modalStyles} from '../../../styles/gr-modal-styles';

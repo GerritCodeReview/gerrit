@@ -8,7 +8,7 @@ import '../../../test/common-test-setup';
 import '../../change/gr-change-actions/gr-change-actions';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {
   ActionPriority,

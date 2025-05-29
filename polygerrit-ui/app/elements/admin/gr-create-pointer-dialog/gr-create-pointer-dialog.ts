@@ -10,11 +10,11 @@ import {BranchName, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ValueChangedEvent} from '../../../types/events';
-import {fireAlert, fire, fireReload} from '../../../utils/event-util';
+import {fire, fireAlert, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
 
 declare global {

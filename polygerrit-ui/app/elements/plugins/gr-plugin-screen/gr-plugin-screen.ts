@@ -5,7 +5,7 @@
  */
 import '../gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-endpoint-param/gr-endpoint-param';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {pluginViewModelToken} from '../../../models/views/plugin';

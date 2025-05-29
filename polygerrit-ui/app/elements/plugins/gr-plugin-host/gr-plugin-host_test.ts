@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-plugin-host';
 import {GrPluginHost} from './gr-plugin-host';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {

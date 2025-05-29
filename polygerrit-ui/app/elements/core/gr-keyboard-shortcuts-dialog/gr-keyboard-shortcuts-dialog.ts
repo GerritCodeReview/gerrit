@@ -7,11 +7,11 @@ import '../../shared/gr-button/gr-button';
 import '../gr-key-binding-display/gr-key-binding-display';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {
-  ShortcutSection,
   SectionView,
+  ShortcutSection,
   shortcutsServiceToken,
   ShortcutViewListener,
 } from '../../../services/shortcuts/shortcuts-service';

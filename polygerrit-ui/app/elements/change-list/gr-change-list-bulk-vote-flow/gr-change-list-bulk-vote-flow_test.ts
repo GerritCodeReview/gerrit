@@ -12,18 +12,18 @@ import {
   LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {
-  waitUntilObserved,
-  stubRestApi,
-  queryAndAssert,
-  query,
   mockPromise,
+  query,
   queryAll,
+  queryAndAssert,
   stubReporting,
+  stubRestApi,
   waitEventLoop,
+  waitUntilObserved,
 } from '../../../test/test-utils';
-import {ChangeInfo, NumericChangeId, LabelInfo} from '../../../api/rest-api';
+import {ChangeInfo, LabelInfo, NumericChangeId} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {fixture, waitUntil, assert} from '@open-wc/testing';
+import {assert, fixture, waitUntil} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {html} from 'lit';
 import {SinonStubbedMember} from 'sinon';

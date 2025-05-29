@@ -30,7 +30,7 @@ import {
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {ProgressStatus} from '../../../constants/constants';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
 const CHERRY_PICK_TYPES = {

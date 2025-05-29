@@ -8,7 +8,7 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {resolve} from '../../../models/dependency';

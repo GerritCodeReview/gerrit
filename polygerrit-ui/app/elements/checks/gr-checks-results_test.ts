@@ -11,7 +11,7 @@ import {
   GrResultRow,
 } from './gr-checks-results';
 import {html} from 'lit';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {checksModelToken, RunResult} from '../../models/checks/checks-model';
 import {
   fakeRun0,
@@ -20,7 +20,7 @@ import {
 } from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
-import {queryAndAssert, query, assertIsDefined} from '../../utils/common-util';
+import {assertIsDefined, query, queryAndAssert} from '../../utils/common-util';
 import {PatchSetNumber} from '../../api/rest-api';
 import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
 

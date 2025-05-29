@@ -5,7 +5,7 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {configModelToken} from '../../../models/config/config-model';

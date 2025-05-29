@@ -18,7 +18,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 
 suite('gr-autocomplete-dropdown', () => {

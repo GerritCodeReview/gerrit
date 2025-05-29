@@ -12,11 +12,11 @@ import {
 } from '../api/rest-api';
 import '../test/common-test-setup';
 import {
-  getDisplayName,
-  getUserName,
-  getGroupDisplayName,
-  getAccountDisplayName,
   _testOnly_accountEmail,
+  getAccountDisplayName,
+  getDisplayName,
+  getGroupDisplayName,
+  getUserName,
 } from './display-name-util';
 import {
   createAccountsConfig,

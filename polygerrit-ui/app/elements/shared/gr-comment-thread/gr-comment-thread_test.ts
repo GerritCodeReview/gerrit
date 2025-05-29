@@ -10,34 +10,34 @@ import {sortComments} from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {getAppContext} from '../../../services/app-context';
 import {
-  NumericChangeId,
-  UrlEncodedCommentId,
-  Timestamp,
   CommentInfo,
-  RepoName,
-  DraftInfo,
-  SavingState,
   CommentThread,
+  DraftInfo,
+  NumericChangeId,
+  RepoName,
   RevisionPatchSetNum,
+  SavingState,
+  Timestamp,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
+  MockPromise,
   mockPromise,
+  query,
   queryAndAssert,
   stubRestApi,
-  waitUntilCalled,
   waitUntil,
-  MockPromise,
-  query,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {
   createAccountDetailWithId,
-  createThread,
-  createNewDraft,
   createComment,
   createFixSuggestionInfo,
+  createNewDraft,
+  createThread,
 } from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {SpecialFilePath} from '../../../constants/constants';
 import {GrIcon} from '../gr-icon/gr-icon';

@@ -8,7 +8,7 @@ import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy, SinonStub} from 'sinon';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
-import {queryAndAssert, query} from '../utils/common-util';
+import {query, queryAndAssert} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier, whenVisible} from '../utils/dom-util';
 import {Observable} from 'rxjs';

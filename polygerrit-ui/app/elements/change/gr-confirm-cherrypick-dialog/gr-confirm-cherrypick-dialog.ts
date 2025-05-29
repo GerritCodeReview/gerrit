@@ -11,15 +11,15 @@ import '../../shared/gr-dialog/gr-dialog';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
-  ChangeInfo,
   BranchName,
-  RepoName,
-  CommitId,
-  ChangeInfoId,
-  TopicName,
   ChangeActionDialog,
+  ChangeInfo,
+  ChangeInfoId,
+  CommitId,
   EmailInfo,
   GitPersonInfo,
+  RepoName,
+  TopicName,
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
@@ -28,8 +28,8 @@ import {
   GrTypedAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
-  HttpMethod,
   ChangeStatus,
+  HttpMethod,
   ProgressStatus,
 } from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';

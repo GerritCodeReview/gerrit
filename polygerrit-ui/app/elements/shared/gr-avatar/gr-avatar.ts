@@ -6,7 +6,7 @@
 import {getBaseUrl} from '../../../utils/url-util';
 import {AccountInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {resolve} from '../../../models/dependency';

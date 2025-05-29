@@ -6,7 +6,7 @@
 import '../../shared/gr-button/gr-button';
 import {EmailInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';

@@ -13,8 +13,8 @@ import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager'
 import {
   AccountInfo,
   ChangeInfo,
-  ServerInfo,
   PreferencesInput,
+  ServerInfo,
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
@@ -27,7 +27,7 @@ import {assertIsDefined, unique} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {queryAll} from '../../../utils/common-util';

@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-create-file-edit-dialog';
 import {createChange} from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrCreateFileEditDialog} from './gr-create-file-edit-dialog';
 import {stubRestApi, waitUntilCalled} from '../../../test/test-utils';
 import {BranchName, RepoName} from '../../../api/rest-api';

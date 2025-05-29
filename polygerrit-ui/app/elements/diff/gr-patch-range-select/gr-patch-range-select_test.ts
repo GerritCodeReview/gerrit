@@ -13,15 +13,15 @@ import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {queryAll, stubReporting} from '../../../test/test-utils';
 import {
   BasePatchSetNum,
+  CommentInfo,
   EDIT,
-  RevisionPatchSetNum,
   PARENT,
   PatchSetNum,
   PatchSetNumber,
   RevisionInfo,
+  RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
-  CommentInfo,
 } from '../../../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {SpecialFilePath} from '../../../constants/constants';
@@ -39,7 +39,7 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {queryAndAssert} from '../../../test/test-utils';
 import {fire} from '../../../utils/event-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {changeViewModelToken} from '../../../models/views/change';
 import {

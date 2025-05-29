@@ -11,7 +11,7 @@ import {
 import './gr-change-status';
 import {GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {queryAndAssert} from '../../../test/test-utils';
 import {ChangeStates} from '../../../types/common';
 

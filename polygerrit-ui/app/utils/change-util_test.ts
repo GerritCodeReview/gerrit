@@ -9,9 +9,9 @@ import '../test/common-test-setup';
 import {
   createAccountWithId,
   createChange,
+  createChangeWithStatus,
   createRevisions,
   createServiceUserWithId,
-  createChangeWithStatus,
 } from '../test/test-data-generators';
 import {
   AccountId,
@@ -23,14 +23,14 @@ import {
 } from '../types/common';
 import {
   changeBaseURL,
-  changeIsOpen,
-  changeIsMerged,
   changeIsAbandoned,
+  changeIsMerged,
+  changeIsOpen,
   changePath,
   changeStatuses,
+  hasHumanReviewer,
   isRemovableReviewer,
   listChangesOptionsToHex,
-  hasHumanReviewer,
 } from './change-util';
 
 suite('change-util tests', () => {

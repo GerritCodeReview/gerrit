@@ -6,11 +6,11 @@
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import {
-  formatCommitMessageString,
+  CommitMessage,
   detectFormattingErrorsInString,
   ErrorType,
+  formatCommitMessageString,
   FormattingError,
-  CommitMessage,
   TEST_ONLY,
 } from './commit-message-formatter-util';
 

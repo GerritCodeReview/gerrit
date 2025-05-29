@@ -3,16 +3,16 @@
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, queryAsync} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
+  CursorPositionChangeEventDetail,
   GrTextarea as GrTextareaApi,
   HintAppliedEventDetail,
-  HintShownEventDetail,
   HintDismissedEventDetail,
-  CursorPositionChangeEventDetail,
+  HintShownEventDetail,
 } from '../api/embed';
 
 /**

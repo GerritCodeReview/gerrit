@@ -15,8 +15,8 @@ import {
 } from '../../../utils/access-util';
 import {
   EditablePermissionInfo,
-  PermissionAccessSection,
   EditableRepoAccessGroups,
+  PermissionAccessSection,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {
   CapabilityInfoMap,
@@ -29,7 +29,7 @@ import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';

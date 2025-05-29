@@ -7,12 +7,12 @@ import * as sinon from 'sinon';
 import '../test/common-test-setup';
 import './gr-app';
 import {getAppContext} from '../services/app-context';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {queryAndAssert, stubElement, stubRestApi} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {
-  createChangeViewState,
   createAppElementSearchViewParams,
+  createChangeViewState,
   createPreferences,
   createServerInfo,
 } from '../test/test-data-generators';

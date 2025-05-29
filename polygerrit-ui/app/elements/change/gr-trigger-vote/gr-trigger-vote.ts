@@ -6,7 +6,7 @@
 import '../../shared/gr-label-info/gr-label-info';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../gr-trigger-vote-hovercard/gr-trigger-vote-hovercard';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {ParsedChangeInfo} from '../../../types/types';
 import {

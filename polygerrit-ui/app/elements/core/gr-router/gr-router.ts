@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Page, PageOptions, PageContext, PageNextCallback} from './gr-page';
+import {Page, PageContext, PageNextCallback, PageOptions} from './gr-page';
 import {NavigationService} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -14,14 +14,14 @@ import {
 import {assert, assertIsDefined} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
+  BranchName,
   GroupId,
   NumericChangeId,
-  RevisionPatchSetNum,
-  RepoName,
-  UrlEncodedCommentId,
   PARENT,
   PatchSetNumber,
-  BranchName,
+  RepoName,
+  RevisionPatchSetNum,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';

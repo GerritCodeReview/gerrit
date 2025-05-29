@@ -10,7 +10,7 @@ import {GrDropdown} from './gr-dropdown';
 import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {DropdownLink} from '../../../types/common';
 
 suite('gr-dropdown tests', () => {

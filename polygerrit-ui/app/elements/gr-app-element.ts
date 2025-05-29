@@ -53,7 +53,7 @@ import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
 import {sharedStyles} from '../styles/shared-styles';
-import {LitElement, PropertyValues, html, css, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
@@ -69,7 +69,7 @@ import {
   SearchViewState,
 } from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
-import {DashboardType, createDashboardUrl} from '../models/views/dashboard';
+import {createDashboardUrl, DashboardType} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
 import {AdminChildView, createAdminUrl} from '../models/views/admin';

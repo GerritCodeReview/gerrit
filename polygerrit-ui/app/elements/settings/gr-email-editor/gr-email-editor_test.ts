@@ -8,7 +8,7 @@ import '../../../test/common-test-setup';
 import './gr-email-editor';
 import {GrEmailEditor} from './gr-email-editor';
 import {spyRestApi, stubRestApi} from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {EmailAddress} from '../../../api/rest-api';
 
 suite('gr-email-editor tests', () => {

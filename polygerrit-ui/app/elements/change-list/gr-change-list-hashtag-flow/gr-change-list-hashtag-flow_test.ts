@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import * as sinon from 'sinon';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
 import {SinonStubbedMember} from 'sinon';
 import {
@@ -29,7 +29,7 @@ import {
   waitUntilCalled,
   waitUntilObserved,
 } from '../../../test/test-utils';
-import {ChangeInfo, NumericChangeId, Hashtag} from '../../../types/common';
+import {ChangeInfo, Hashtag, NumericChangeId} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-hashtag-flow';

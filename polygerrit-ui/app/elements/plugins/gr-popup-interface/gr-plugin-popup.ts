@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, query} from 'lit/decorators.js';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 

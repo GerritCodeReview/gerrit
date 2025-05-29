@@ -19,8 +19,8 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeInfo,
-  ServerInfo,
   ReviewInput,
+  ServerInfo,
 } from '../../../types/common';
 import {
   canHaveAttention,
@@ -43,8 +43,8 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {
-  DashboardType,
   createDashboardUrl,
+  DashboardType,
 } from '../../../models/views/dashboard';
 import {fire, fireReload} from '../../../utils/event-util';
 import {userModelToken} from '../../../models/user/user-model';

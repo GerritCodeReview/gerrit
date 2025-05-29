@@ -8,7 +8,7 @@ import {query, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import './gr-limited-text';
 import {GrLimitedText} from './gr-limited-text';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-limited-text tests', () => {
   let element: GrLimitedText;

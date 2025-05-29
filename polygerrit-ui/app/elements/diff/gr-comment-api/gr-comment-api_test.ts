@@ -6,17 +6,17 @@
 import '../../../test/common-test-setup';
 import {ChangeComments} from './gr-comment-api';
 import {
-  isInRevisionOfPatchRange,
-  isInBaseOfPatchRange,
-  isDraftThread,
-  isUnresolved,
   createCommentThreads,
+  isDraftThread,
+  isInBaseOfPatchRange,
+  isInRevisionOfPatchRange,
+  isUnresolved,
 } from '../../../utils/comment-util';
 import {
-  createDraft,
-  createComment,
   createChangeComments,
+  createComment,
   createCommentThread,
+  createDraft,
   createFileInfo,
 } from '../../../test/test-data-generators';
 import {CommentSide, FileInfoStatus} from '../../../constants/constants';

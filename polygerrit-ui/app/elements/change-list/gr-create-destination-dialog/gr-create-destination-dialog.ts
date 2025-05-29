@@ -5,10 +5,10 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
-import {RepoName, BranchName} from '../../../types/common';
+import {BranchName, RepoName} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html} from 'lit';
-import {customElement, state, query} from 'lit/decorators.js';
+import {html, LitElement} from 'lit';
+import {customElement, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {modalStyles} from '../../../styles/gr-modal-styles';

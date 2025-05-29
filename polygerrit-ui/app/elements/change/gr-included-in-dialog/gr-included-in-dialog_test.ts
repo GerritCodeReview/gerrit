@@ -9,7 +9,7 @@ import {GrIncludedInDialog} from './gr-included-in-dialog';
 import {BranchName, IncludedInInfo, TagName} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
 import {queryAndAssert} from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-included-in-dialog', () => {
   let element: GrIncludedInDialog;

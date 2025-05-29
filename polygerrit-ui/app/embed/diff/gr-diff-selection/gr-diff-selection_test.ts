@@ -11,7 +11,7 @@ import '../../../elements/shared/gr-comment-thread/gr-comment-thread';
 import {GrDiffSelection} from './gr-diff-selection';
 import {createDiff} from '../../../test/test-data-generators';
 import {DiffInfo, Side} from '../../../api/diff';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {mouseDown} from '../../../test/test-utils';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {waitForEventOnce} from '../../../utils/event-util';

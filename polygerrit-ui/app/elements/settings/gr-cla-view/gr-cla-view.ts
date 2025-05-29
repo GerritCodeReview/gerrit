@@ -7,16 +7,16 @@ import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {getBaseUrl} from '../../../utils/url-util';
 import {
-  ServerInfo,
-  GroupInfo,
   ContributorAgreementInfo,
+  GroupInfo,
+  ServerInfo,
 } from '../../../types/common';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';

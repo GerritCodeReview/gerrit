@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-account-entry';
 import {GrAccountEntry} from './gr-account-entry';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';

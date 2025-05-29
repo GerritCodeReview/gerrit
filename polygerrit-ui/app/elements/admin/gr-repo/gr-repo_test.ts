@@ -50,7 +50,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrSuggestionTextarea} from '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeInfo} from '../../../api/rest-api';

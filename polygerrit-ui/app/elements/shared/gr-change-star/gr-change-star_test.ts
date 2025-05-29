@@ -8,7 +8,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {GrChangeStar} from './gr-change-star';
 import './gr-change-star';
 import {createChange} from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-change-star tests', () => {
   let element: GrChangeStar;

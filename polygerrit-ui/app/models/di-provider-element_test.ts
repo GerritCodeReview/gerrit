@@ -7,7 +7,7 @@ import {html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {define, resolve} from './dependency';
 import '../test/common-test-setup';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {DIProviderElement, wrapInProvider} from './di-provider-element';
 import {BehaviorSubject} from 'rxjs';
 import {waitUntilObserved} from '../test/test-utils';

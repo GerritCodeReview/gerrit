@@ -33,11 +33,11 @@ import {
 import {AbortStop} from '../../../api/core';
 import {GrDiff} from './gr-diff';
 import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {
-  GrAnnotationImpl,
   getStringLength,
+  GrAnnotationImpl,
 } from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from './gr-diff-line';
 import {testResolver} from '../../../test/common-test-setup';

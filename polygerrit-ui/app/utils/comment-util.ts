@@ -4,36 +4,36 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  CommentInfo,
-  PatchSetNum,
-  UrlEncodedCommentId,
-  PatchRange,
-  PARENT,
-  ContextLine,
-  BasePatchSetNum,
-  RevisionPatchSetNum,
-  AccountInfo,
   AccountDetailInfo,
-  VotingRangeInfo,
-  FixSuggestionInfo,
-  FixId,
-  PatchSetNumber,
-  CommentThread,
-  DraftInfo,
+  AccountInfo,
+  BasePatchSetNum,
   ChangeMessage,
-  isDraft,
   Comment,
   CommentIdToCommentThreadMap,
-  SavingState,
-  NewDraftInfo,
-  isNew,
+  CommentInfo,
   CommentInput,
   CommentRange,
+  CommentThread,
+  ContextLine,
+  DraftInfo,
+  FixId,
+  FixSuggestionInfo,
+  isDraft,
+  isNew,
+  NewDraftInfo,
+  PARENT,
+  PatchRange,
+  PatchSetNum,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+  SavingState,
+  UrlEncodedCommentId,
+  VotingRangeInfo,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
 import {specialFilePathCompare} from './path-list-util';
-import {isMergeParent, getParentIndex} from './patch-set-util';
+import {getParentIndex, isMergeParent} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';
 import {extractMentionedUsers} from './account-util';

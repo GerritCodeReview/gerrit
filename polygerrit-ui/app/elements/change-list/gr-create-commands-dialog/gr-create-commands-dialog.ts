@@ -6,7 +6,7 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-shell-command/gr-shell-command';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 

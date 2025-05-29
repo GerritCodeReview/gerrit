@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-range-header';
 import {GrRangeHeader} from './gr-range-header';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-range-header test', () => {
   let element: GrRangeHeader;

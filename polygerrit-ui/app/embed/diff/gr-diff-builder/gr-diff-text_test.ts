@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-diff-text';
 import {GrDiffText} from './gr-diff-text';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 const LINE_BREAK = '<span class="br"></span>';
 

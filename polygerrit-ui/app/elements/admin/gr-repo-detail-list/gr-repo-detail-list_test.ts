@@ -31,7 +31,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {PageErrorEvent} from '../../../types/events';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {RepoDetailView} from '../../../models/views/repo';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';

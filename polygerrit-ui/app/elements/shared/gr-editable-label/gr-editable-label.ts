@@ -15,7 +15,7 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {Key} from '../../../utils/dom-util';
 import {queryAndAssert} from '../../../utils/common-util';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';

@@ -12,7 +12,7 @@ import {
   waitEventLoop,
 } from '../../../test/test-utils';
 import {RepoName, SubmitRequirementInfo} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-repo-submit-requirements tests', () => {

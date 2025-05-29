@@ -20,7 +20,7 @@ import {
   createParsedChange,
 } from '../../../test/test-data-generators';
 import {ApprovalInfo, LabelInfo} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-label-info tests', () => {
   let element: GrLabelInfo;

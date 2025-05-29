@@ -10,7 +10,7 @@ import {GrChangeListView} from './gr-change-list-view';
 import {query, queryAndAssert} from '../../../test/test-utils';
 import {createChange} from '../../../test/test-data-generators';
 import {ChangeInfo} from '../../../api/rest-api';
-import {fixture, html, waitUntil, assert} from '@open-wc/testing';
+import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {GrChangeList} from '../gr-change-list/gr-change-list';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';

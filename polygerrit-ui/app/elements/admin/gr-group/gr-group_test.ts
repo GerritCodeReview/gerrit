@@ -20,7 +20,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-group tests', () => {
   let element: GrGroup;

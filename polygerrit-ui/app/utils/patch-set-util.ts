@@ -1,14 +1,14 @@
 import {
-  RevisionInfo,
+  BasePatchSetNum,
+  BranchName,
   ChangeInfo,
-  PatchSetNum,
+  CommitId,
   EDIT,
   PARENT,
+  PatchSetNum,
   PatchSetNumber,
-  BasePatchSetNum,
+  RevisionInfo,
   RevisionPatchSetNum,
-  BranchName,
-  CommitId,
 } from '../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {assert} from './common-util';

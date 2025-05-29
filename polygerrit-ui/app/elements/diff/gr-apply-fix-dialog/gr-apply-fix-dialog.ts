@@ -9,12 +9,12 @@ import '../../shared/gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  NumericChangeId,
-  EDIT,
-  FixSuggestionInfo,
-  PatchSetNum,
   BasePatchSetNum,
+  EDIT,
   FilePathToDiffInfoMap,
+  FixSuggestionInfo,
+  NumericChangeId,
+  PatchSetNum,
   PatchSetNumber,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';

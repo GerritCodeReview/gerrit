@@ -14,7 +14,7 @@ import {
 } from '../../../test/test-utils';
 
 import {GrReplyDialog} from './gr-reply-dialog';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {
   AccountId,
   NumericChangeId,

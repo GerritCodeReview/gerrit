@@ -9,8 +9,8 @@ import {assert} from '@open-wc/testing';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
-  LATEST_ATTEMPT,
   computeIsExpandable,
+  LATEST_ATTEMPT,
   rectifyFix,
   sortAttemptChoices,
   stringToAttemptChoice,

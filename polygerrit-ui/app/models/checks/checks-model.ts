@@ -29,21 +29,21 @@ import {
   take,
   takeUntil,
   takeWhile,
-  timeout,
   throttleTime,
+  timeout,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
   Action,
+  Category,
+  ChangeData,
   CheckResult as CheckResultApi,
   CheckRun as CheckRunApi,
-  Link,
-  ChangeData,
   ChecksApiConfig,
   ChecksProvider,
   FetchResponse,
+  Link,
   ResponseCode,
-  Category,
   RunStatus,
 } from '../../api/checks';
 import {ChangeModel} from '../change/change-model';
@@ -52,7 +52,7 @@ import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
-import {fireAlert, fire} from '../../utils/event-util';
+import {fire, fireAlert} from '../../utils/event-util';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 import {

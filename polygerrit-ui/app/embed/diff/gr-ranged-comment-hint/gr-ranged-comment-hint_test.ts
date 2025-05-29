@@ -9,7 +9,7 @@ import {CommentRange} from '../../../types/common';
 import {GrRangedCommentHint} from './gr-ranged-comment-hint';
 import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {GrRangeHeader} from '../gr-range-header/gr-range-header';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-ranged-comment-hint tests', () => {
   let element: GrRangedCommentHint;

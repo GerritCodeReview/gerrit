@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-diff-row';
 import {GrDiffRow} from './gr-diff-row';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';

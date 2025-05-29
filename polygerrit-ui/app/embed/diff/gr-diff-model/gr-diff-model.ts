@@ -3,7 +3,7 @@
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Observable, combineLatest} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {debounceTime, filter, map, withLatestFrom} from 'rxjs/operators';
 import {
   CreateCommentEventDetail,
@@ -25,13 +25,13 @@ import {define} from '../../../models/dependency';
 import {Model} from '../../../models/base/model';
 import {select} from '../../../utils/observable-util';
 import {
-  FullContext,
-  GrDiffCommentThread,
-  KeyLocations,
   computeContext,
   computeKeyLocations,
   computeLineLength,
+  FullContext,
   getResponsiveMode,
+  GrDiffCommentThread,
+  KeyLocations,
 } from '../gr-diff/gr-diff-utils';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {

@@ -10,7 +10,7 @@ import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
-import {GrDiffLineType, CommentRangeLayer} from '../../../api/diff';
+import {CommentRangeLayer, GrDiffLineType} from '../../../api/diff';
 import {rangeId} from '../../../utils/comment-util';
 
 /** Can be used for array functions like `some()`. */

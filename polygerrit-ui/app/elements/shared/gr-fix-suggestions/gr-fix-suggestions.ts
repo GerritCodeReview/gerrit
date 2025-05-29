@@ -8,7 +8,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, state, query, property} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {getDocUrl} from '../../../utils/url-util';
 import {subscribe} from '../../lit/subscription-controller';

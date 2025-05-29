@@ -19,7 +19,7 @@ import {
 import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {ImageInfo} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {wrapInProvider} from '../../../models/di-provider-element';

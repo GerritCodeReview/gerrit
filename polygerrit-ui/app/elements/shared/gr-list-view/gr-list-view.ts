@@ -10,7 +10,7 @@ import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {fire} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';

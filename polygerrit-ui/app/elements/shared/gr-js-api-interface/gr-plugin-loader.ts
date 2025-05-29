@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  PLUGIN_LOADING_TIMEOUT_MS,
   getPluginNameFromUrl,
   isThemeFile,
+  PLUGIN_LOADING_TIMEOUT_MS,
   THEME_JS,
 } from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';

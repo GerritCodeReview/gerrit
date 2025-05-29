@@ -14,7 +14,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {EditPreferencesInfo} from '../../../types/common';
 
 suite('gr-edit-preferences-dialog', () => {

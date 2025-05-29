@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Observable, combineLatest} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {define} from '../dependency';
 import {DiffViewMode} from '../../api/diff';
 import {UserModel} from '../user/user-model';

@@ -7,14 +7,14 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-diff-highlight';
 import {getTextOffset} from './gr-range-normalizer';
-import {fixture, fixtureCleanup, html, assert} from '@open-wc/testing';
-import {GrDiffHighlight, DiffBuilderInterface} from './gr-diff-highlight';
+import {assert, fixture, fixtureCleanup, html} from '@open-wc/testing';
+import {DiffBuilderInterface, GrDiffHighlight} from './gr-diff-highlight';
 import {Side} from '../../../api/diff';
 import {SinonStubbedMember} from 'sinon';
 import {queryAndAssert} from '../../../utils/common-util';
 import {
-  GrDiffThreadElement,
   getDataFromCommentThreadEl,
+  GrDiffThreadElement,
 } from '../gr-diff/gr-diff-utils';
 import {
   stubElement,

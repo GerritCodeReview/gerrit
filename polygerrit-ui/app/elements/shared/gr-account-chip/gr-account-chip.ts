@@ -13,7 +13,7 @@ import {
   LabelInfo,
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {ClassInfo, classMap} from 'lit/directives/class-map.js';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';

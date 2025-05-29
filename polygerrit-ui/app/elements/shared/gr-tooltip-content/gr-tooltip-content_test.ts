@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-tooltip-content';
 import {GrTooltipContent} from './gr-tooltip-content';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {query} from '../../../test/test-utils';
 

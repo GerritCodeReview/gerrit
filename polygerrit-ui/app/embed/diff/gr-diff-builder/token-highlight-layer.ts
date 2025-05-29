@@ -7,8 +7,8 @@ import {DiffLayer} from '../../../types/types';
 import {GrDiffLine, Side, TokenHighlightListener} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
-  GrAnnotationImpl,
   getStringLength,
+  GrAnnotationImpl,
 } from '../gr-diff-highlight/gr-annotation';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {getLineElByChild, getSideByLineEl} from '../gr-diff/gr-diff-utils';

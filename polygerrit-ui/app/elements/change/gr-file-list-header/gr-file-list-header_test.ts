@@ -25,7 +25,7 @@ import {
 } from '../../../types/common';
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 

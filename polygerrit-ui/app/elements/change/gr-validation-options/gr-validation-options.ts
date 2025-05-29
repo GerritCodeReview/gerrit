@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
-  ValidationOptionsInfo,
   ValidationOptionInfo,
+  ValidationOptionsInfo,
 } from '../../../api/rest-api';
 import {repeat} from 'lit/directives/repeat.js';
 import {capitalizeFirstLetter} from '../../../utils/string-util';

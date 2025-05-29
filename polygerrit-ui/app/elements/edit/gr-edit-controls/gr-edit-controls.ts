@@ -21,11 +21,11 @@ import {getAppContext} from '../../../services/app-context';
 import {fireAlert} from '../../../utils/event-util';
 import {
   assertIsDefined,
-  query as queryUtil,
   queryAll,
+  query as queryUtil,
 } from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {IronInputElement} from '@polymer/iron-input/iron-input';

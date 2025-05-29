@@ -17,7 +17,7 @@ import {createPreferences} from '../../../test/test-data-generators';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {createDefaultPreferences} from '../../../constants/constants';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {PaperTabElement} from '@polymer/paper-tabs/paper-tab';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {testResolver} from '../../../test/common-test-setup';

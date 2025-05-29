@@ -8,8 +8,8 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {
-  EDIT,
   BasePatchSetNum,
+  EDIT,
   PatchSetNumber,
   RepoName,
 } from '../../../types/common';

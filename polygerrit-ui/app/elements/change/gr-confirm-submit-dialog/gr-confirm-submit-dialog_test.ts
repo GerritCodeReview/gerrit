@@ -12,7 +12,7 @@ import {
 import {EDIT} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-confirm-submit-dialog tests', () => {
   let element: GrConfirmSubmitDialog;

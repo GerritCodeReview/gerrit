@@ -12,13 +12,13 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {
-  AccountInfo,
-  LabelInfo,
-  ApprovalInfo,
   AccountId,
+  AccountInfo,
+  ApprovalInfo,
   isDetailedLabelInfo,
+  LabelInfo,
 } from '../../../types/common';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 import {

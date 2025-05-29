@@ -45,14 +45,14 @@ import {
   WebLinkInfo,
 } from '../../../types/diff';
 import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
-import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
+import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
-  firePageError,
-  fireAlert,
-  fireServerError,
   fire,
+  fireAlert,
+  firePageError,
+  fireServerError,
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -88,8 +88,8 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
   debounceP,
-  DelayedPromise,
   DELAYED_CANCELLATION,
+  DelayedPromise,
   noAwait,
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';

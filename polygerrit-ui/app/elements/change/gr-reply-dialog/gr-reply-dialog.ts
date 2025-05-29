@@ -42,11 +42,13 @@ import {
   AccountInfo,
   AttentionSetInput,
   ChangeInfo,
+  ChangeViewChangeInfo,
   CommentThread,
   DraftInfo,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
+  isDraft,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
   ReviewerInput,
@@ -56,8 +58,6 @@ import {
   SuggestedReviewerGroupInfo,
   Suggestion,
   UserId,
-  isDraft,
-  ChangeViewChangeInfo,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -82,13 +82,13 @@ import {
 } from '../../../utils/label-util';
 import {pluralize} from '../../../utils/string-util';
 import {
+  fire,
   fireAlert,
   fireError,
-  fire,
-  fireNoBubble,
   fireIronAnnounce,
-  fireServerError,
+  fireNoBubble,
   fireReload,
+  fireServerError,
 } from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
 import {DelayedTask} from '../../../utils/async-util';
@@ -101,7 +101,7 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
-import {css, html, PropertyValues, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -110,7 +110,7 @@ import {
   RemoveReviewerEvent,
   ValueChangedEvent,
 } from '../../../types/events';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {hasHumanReviewer} from '../../../utils/change-util';

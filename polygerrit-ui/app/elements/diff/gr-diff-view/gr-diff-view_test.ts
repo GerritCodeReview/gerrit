@@ -8,9 +8,9 @@ import '../../../test/common-test-setup';
 import './gr-diff-view';
 import {
   ChangeStatus,
-  DiffViewMode,
   createDefaultDiffPrefs,
   createDefaultPreferences,
+  DiffViewMode,
 } from '../../../constants/constants';
 import {
   isVisible,
@@ -24,15 +24,15 @@ import {
 } from '../../../test/test-utils';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
-  createRevisions,
   createComment as createCommentGeneric,
-  createDiff,
-  createServerInfo,
   createConfig,
+  createDiff,
+  createDiffViewState,
+  createFileInfo,
   createParsedChange,
   createRevision,
-  createFileInfo,
-  createDiffViewState,
+  createRevisions,
+  createServerInfo,
   TEST_NUMERIC_CHANGE_ID,
 } from '../../../test/test-data-generators';
 import {
@@ -53,18 +53,18 @@ import {Files, GrDiffView} from './gr-diff-view';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {SinonFakeTimers, SinonStub, SinonStubbedMember} from 'sinon';
 import {
-  changeModelToken,
   ChangeModel,
+  changeModelToken,
 } from '../../../models/change/change-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {
-  commentsModelToken,
   CommentsModel,
+  commentsModelToken,
 } from '../../../models/comments/comments-model';
 import {
   BrowserModel,

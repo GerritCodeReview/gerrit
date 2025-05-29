@@ -11,8 +11,8 @@ import {
   ChecksModel,
   ChecksPatchset,
   ChecksProviderState,
-  RunResult,
   collectRunResults,
+  RunResult,
 } from './checks-model';
 import {
   Action,

@@ -13,7 +13,7 @@ import {ServerInfo} from '../../../types/common';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-identities tests', () => {
   let element: GrIdentities;

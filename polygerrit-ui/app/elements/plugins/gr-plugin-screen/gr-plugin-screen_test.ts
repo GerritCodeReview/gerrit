@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import '../../gr-app';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {queryAndAssert} from '../../../utils/common-util';
 import {screenName} from '../../../models/views/plugin';
 import {GrEndpointDecorator} from '../gr-endpoint-decorator/gr-endpoint-decorator';

@@ -12,21 +12,21 @@ import '../../shared/gr-icon/gr-icon';
 import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {property, customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   AccountInfo,
-  ChangeInfo,
-  PatchSetNum,
-  CommitInfo,
-  ServerInfo,
   BasePatchSetNum,
+  ChangeInfo,
+  CommitInfo,
+  PatchSetNum,
   PatchSetNumber,
+  ServerInfo,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fire, fireNoBubbleNoCompose} from '../../../utils/event-util';
-import {css, html, LitElement, nothing} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';

@@ -7,14 +7,14 @@ import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {IronSelectorElement} from '@polymer/iron-selector/iron-selector';
 import {
+  DetailedLabelInfo,
   LabelNameToInfoMap,
   QuickLabelInfo,
-  DetailedLabelInfo,
 } from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {Label} from '../../../utils/label-util';

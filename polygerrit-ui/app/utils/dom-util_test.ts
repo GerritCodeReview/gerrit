@@ -5,18 +5,18 @@
  */
 import '../test/common-test-setup';
 import {
+  Key,
+  Modifier,
   descendedFromClass,
   eventMatchesShortcut,
   getComputedStyleValue,
   getEventPath,
-  Key,
-  Modifier,
   querySelectorAll,
   shouldSuppress,
   strToClassName,
 } from './dom-util';
 import {mockPromise, pressKey, queryAndAssert} from '../test/test-utils';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 

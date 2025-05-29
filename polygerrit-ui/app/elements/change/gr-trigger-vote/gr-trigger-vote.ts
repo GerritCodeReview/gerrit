@@ -11,9 +11,9 @@ import {customElement, property} from 'lit/decorators.js';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
+  LabelInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
-  LabelInfo,
 } from '../../../api/rest-api';
 import {
   getAllUniqueApprovals,

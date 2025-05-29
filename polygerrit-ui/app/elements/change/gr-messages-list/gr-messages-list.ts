@@ -19,8 +19,8 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PatchSetNum,
-  VotingRangeInfo,
   PatchSetNumber,
+  VotingRangeInfo,
 } from '../../../types/common';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {getVotingRange} from '../../../utils/label-util';
@@ -33,7 +33,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
 import {query, queryAll} from '../../../utils/common-util';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {paperStyles} from '../../../styles/gr-paper-styles';

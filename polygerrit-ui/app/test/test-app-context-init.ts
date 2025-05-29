@@ -5,7 +5,7 @@
  */
 
 // Init app context before any other imports
-import {create, Registry} from '../services/registry';
+import {Registry, create} from '../services/registry';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
@@ -14,14 +14,14 @@ import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
-import {createAppDependencies, Creator} from '../services/app-context-init';
+import {Creator, createAppDependencies} from '../services/app-context-init';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
 import {storageServiceToken} from '../services/storage/gr-storage_impl';
 import {highlightServiceToken} from '../services/highlight/highlight-service';
 import {
-  diffModelToken,
   DiffModel,
+  diffModelToken,
 } from '../embed/diff/gr-diff-model/gr-diff-model';
 import {Finalizable} from '../types/types';
 import {suggestionsServiceToken} from '../services/suggestions/suggestions-service';

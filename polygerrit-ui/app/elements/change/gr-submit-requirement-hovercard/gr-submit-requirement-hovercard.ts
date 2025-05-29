@@ -22,7 +22,7 @@ import {
   iconForRequirement,
 } from '../../../utils/label-util';
 import {ParsedChangeInfo} from '../../../types/types';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {DraftsAction} from '../../../constants/constants';
@@ -32,9 +32,9 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fireReload} from '../../../utils/event-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {
-  atomizeExpression,
   SubmitRequirementExpressionAtomStatus,
   SubmitRequirementExpressionPart,
+  atomizeExpression,
 } from '../../../utils/submit-requirement-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.

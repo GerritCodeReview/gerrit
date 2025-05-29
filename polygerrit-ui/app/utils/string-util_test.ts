@@ -6,17 +6,17 @@
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import {
-  pluralize,
-  ordinal,
-  listForSentence,
+  capitalizeFirstLetter,
+  charsOnly,
   diffFilePaths,
   escapeAndWrapSearchOperatorValue,
-  trimWithEllipsis,
-  charsOnly,
   isCharacterLetter,
   isUpperCase,
-  capitalizeFirstLetter,
   levenshteinDistance,
+  listForSentence,
+  ordinal,
+  pluralize,
+  trimWithEllipsis,
 } from './string-util';
 
 suite('string-util tests', () => {

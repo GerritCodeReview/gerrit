@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {isSafari, findActiveElement} from './dom-util';
+import {findActiveElement, isSafari} from './dom-util';
 
 const SUPPORTS_SHADOW_SELECTION =
   typeof window.ShadowRoot.prototype.getSelection === 'function';

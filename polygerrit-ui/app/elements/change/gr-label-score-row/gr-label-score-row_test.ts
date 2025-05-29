@@ -9,7 +9,7 @@ import './gr-label-score-row';
 import {GrLabelScoreRow} from './gr-label-score-row';
 import {AccountId} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 
 suite('gr-label-row-score tests', () => {

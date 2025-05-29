@@ -8,14 +8,14 @@ import '../../../test/common-test-setup';
 import './gr-date-formatter';
 import {GrDateFormatter} from './gr-date-formatter';
 import {parseDate} from '../../../utils/date-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {query, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {Timestamp} from '../../../api/rest-api';
 import {
-  createDefaultPreferences,
   DateFormat,
   TimeFormat,
+  createDefaultPreferences,
 } from '../../../constants/constants';
 import {PreferencesInfo} from '../../../types/common';
 

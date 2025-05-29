@@ -5,17 +5,17 @@
  */
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
-  isReviewerAccountSuggestion,
-  isReviewerGroupSuggestion,
   NumericChangeId,
   ServerInfo,
   SuggestedReviewerAccountInfo,
   SuggestedReviewerInfo,
   Suggestion,
+  isReviewerAccountSuggestion,
+  isReviewerGroupSuggestion,
 } from '../../types/common';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 import {allSettled, isFulfilled} from '../../utils/async-util';
-import {isDefined, ParsedChangeInfo} from '../../types/types';
+import {ParsedChangeInfo, isDefined} from '../../types/types';
 import {
   accountKey,
   getSuggestedReviewerName,

@@ -12,10 +12,10 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {
-  AccountInfo,
-  LabelInfo,
-  ApprovalInfo,
   AccountId,
+  AccountInfo,
+  ApprovalInfo,
+  LabelInfo,
   isDetailedLabelInfo,
 } from '../../../types/common';
 import {LitElement, css, html} from 'lit';

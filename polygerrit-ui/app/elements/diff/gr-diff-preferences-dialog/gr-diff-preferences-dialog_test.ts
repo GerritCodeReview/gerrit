@@ -15,7 +15,7 @@ import {
 } from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../api/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-diff-preferences-dialog', () => {
   let element: GrDiffPreferencesDialog;

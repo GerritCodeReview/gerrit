@@ -16,7 +16,7 @@ import {
 import {GerritView} from '../../../services/router/router-model';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 
 function createGroup(name: string, counter: number) {

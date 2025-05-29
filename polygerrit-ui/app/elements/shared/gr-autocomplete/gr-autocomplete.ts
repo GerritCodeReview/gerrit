@@ -15,14 +15,14 @@ import {
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {fire} from '../../../utils/event-util';
 import {
-  debounce,
   DelayedTask,
   ResolvedDelayedTaskStatus,
+  debounce,
 } from '../../../utils/async-util';
 import {PropertyType} from '../../../types/common';
 import {modifierPressed} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';

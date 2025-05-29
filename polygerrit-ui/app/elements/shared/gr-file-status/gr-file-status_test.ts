@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-file-status';
 import {GrFileStatus} from './gr-file-status';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {FileInfoStatus} from '../../../api/rest-api';
 
 suite('gr-file-status tests', () => {

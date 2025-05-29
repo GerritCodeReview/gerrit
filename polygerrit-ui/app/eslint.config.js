@@ -232,6 +232,11 @@ module.exports = {
         message: 'Please use SPDX license headers.',
       }],
     ],
+    'sort-imports': [
+      'error', {
+        ignoreDeclarationSort: true,
+      },
+    ],
   },
 
   overrides: [

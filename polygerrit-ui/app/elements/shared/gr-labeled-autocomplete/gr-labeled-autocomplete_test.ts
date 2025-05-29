@@ -8,7 +8,7 @@ import '../../../test/common-test-setup';
 import './gr-labeled-autocomplete';
 import {GrLabeledAutocomplete} from './gr-labeled-autocomplete';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-labeled-autocomplete tests', () => {
   let element: GrLabeledAutocomplete;

@@ -9,7 +9,7 @@ import './gr-diff-mode-selector';
 import {GrDiffModeSelector} from './gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';
 import {queryAndAssert, waitUntilObserved} from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {
   BrowserModel,

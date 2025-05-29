@@ -14,7 +14,7 @@ import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import '../gr-diff-builder/gr-diff-builder-image';
 import '../gr-diff-builder/gr-diff-section';
 import '../gr-diff-builder/gr-diff-row';
-import {isResponsive, FullContext, FULL_CONTEXT} from './gr-diff-utils';
+import {FULL_CONTEXT, FullContext, isResponsive} from './gr-diff-utils';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
@@ -23,9 +23,9 @@ import {
   createDefaultDiffPrefs,
 } from '../../../constants/constants';
 import {fire} from '../../../utils/event-util';
-import {RenderPreferences, LOST, DiffResponsiveMode} from '../../../api/diff';
+import {DiffResponsiveMode, LOST, RenderPreferences} from '../../../api/diff';
 import {property, query, queryAll, state} from 'lit/decorators.js';
-import {html, LitElement, nothing} from 'lit';
+import {LitElement, html, nothing} from 'lit';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {expandFileMode} from '../../../utils/file-util';

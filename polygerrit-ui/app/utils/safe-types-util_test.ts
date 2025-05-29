@@ -5,7 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
-import {safeTypesBridge, _testOnly_SafeUrl} from './safe-types-util';
+import {_testOnly_SafeUrl, safeTypesBridge} from './safe-types-util';
 
 suite('safe-types-util tests', () => {
   test('SafeUrl accepts valid urls', () => {

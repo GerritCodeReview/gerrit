@@ -27,7 +27,7 @@ import {
   sortReviewers,
 } from './attention-set-util';
 import {DefaultDisplayNameConfig} from '../api/rest-api';
-import {AccountsVisibility, AccountTag} from '../constants/constants';
+import {AccountTag, AccountsVisibility} from '../constants/constants';
 import {assert} from '@open-wc/testing';
 
 const KERMIT: AccountInfo = {

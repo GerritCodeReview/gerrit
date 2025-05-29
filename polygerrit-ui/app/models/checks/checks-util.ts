@@ -15,12 +15,12 @@ import {
   RunStatus,
 } from '../../api/checks';
 import {
+  FixReplacementInfo,
   PatchSetNumber,
   RevisionPatchSetNum,
-  FixReplacementInfo,
 } from '../../api/rest-api';
 import {CommentSide} from '../../constants/constants';
-import {FixSuggestionInfo, DraftInfo} from '../../types/common';
+import {DraftInfo, FixSuggestionInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
 import {PROVIDED_FIX_ID, createNew} from '../../utils/comment-util';

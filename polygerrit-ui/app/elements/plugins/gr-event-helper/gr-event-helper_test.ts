@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {EventHelperPluginApi} from '../../../api/event-helper';
 

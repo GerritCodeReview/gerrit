@@ -18,7 +18,7 @@ import {durationString, fromNow} from '../../utils/date-util';
 import {RunStatus} from '../../api/checks';
 import {ordinal} from '../../utils/string-util';
 import {HovercardMixin} from '../../mixins/hovercard-mixin/hovercard-mixin';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {checksStyles} from './gr-checks-styles';
 import {when} from 'lit/directives/when.js';
 

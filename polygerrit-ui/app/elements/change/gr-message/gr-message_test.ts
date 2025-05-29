@@ -15,9 +15,9 @@ import {
   createChange,
   createChangeMessage,
   createComment,
-  createRevisions,
-  createLabelInfo,
   createCommentThread,
+  createLabelInfo,
+  createRevisions,
 } from '../../../test/test-data-generators';
 import {
   mockPromise,
@@ -31,18 +31,18 @@ import {
   ChangeMessageId,
   EmailAddress,
   NumericChangeId,
-  RevisionPatchSetNum,
   ReviewInputTag,
+  RevisionPatchSetNum,
+  SavingState,
   Timestamp,
   UrlEncodedCommentId,
-  SavingState,
 } from '../../../types/common';
 import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {CommentSide} from '../../../constants/constants';
 import {SinonStubbedMember} from 'sinon';
 import {html} from 'lit';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-message tests', () => {

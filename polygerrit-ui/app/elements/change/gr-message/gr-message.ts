@@ -10,27 +10,27 @@ import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../gr-message-scores/gr-message-scores';
-import {css, html, LitElement, nothing} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {MessageTag, SpecialFilePath} from '../../../constants/constants';
 import {customElement, property, state} from 'lit/decorators.js';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
-  ChangeInfo,
-  ServerInfo,
-  ReviewInputTag,
-  NumericChangeId,
-  ChangeMessageId,
-  RevisionPatchSetNum,
   AccountInfo,
   BasePatchSetNum,
-  LabelNameToInfoMap,
-  CommentThread,
+  ChangeInfo,
   ChangeMessage,
+  ChangeMessageId,
+  CommentThread,
+  LabelNameToInfoMap,
+  NumericChangeId,
+  ReviewInputTag,
+  RevisionPatchSetNum,
+  ServerInfo,
 } from '../../../types/common';
 import {
-  isFormattedReviewerUpdate,
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
+  isFormattedReviewerUpdate,
   isUnresolved,
 } from '../../../utils/comment-util';
 import {LABEL_TITLE_SCORE_PATTERN} from '../gr-message-scores/gr-message-scores';

@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  NumericChangeId,
-  RepoName,
-  RevisionPatchSetNum,
   BasePatchSetNum,
   ChangeInfo,
-  PatchSetNumber,
   EDIT,
+  NumericChangeId,
   PARENT,
+  PatchSetNumber,
+  RepoName,
+  RevisionPatchSetNum,
 } from '../../api/rest-api';
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';

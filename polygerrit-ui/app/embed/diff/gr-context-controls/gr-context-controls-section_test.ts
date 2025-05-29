@@ -15,7 +15,7 @@ import {
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import './gr-context-controls-section';
 import {GrContextControlsSection} from './gr-context-controls-section';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-context-controls-section test', () => {
   let element: GrContextControlsSection;

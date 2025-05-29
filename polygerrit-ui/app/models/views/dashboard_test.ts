@@ -10,10 +10,10 @@ import '../../test/common-test-setup';
 import {assertRouteFalse, assertRouteState} from '../../test/test-utils';
 import {DashboardId} from '../../types/common';
 import {
-  createDashboardUrl,
   DashboardType,
   DashboardViewState,
   PROJECT_DASHBOARD_ROUTE,
+  createDashboardUrl,
 } from './dashboard';
 
 suite('dashboard view state tests', () => {

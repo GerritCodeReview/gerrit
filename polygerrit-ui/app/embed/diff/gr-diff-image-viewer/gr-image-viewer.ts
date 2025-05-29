@@ -18,13 +18,13 @@ import '../../../elements/shared/gr-icons/gr-icons';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
 
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 
-import {Dimensions, fitToFrame, FrameConstrainer, Point, Rect} from './util';
+import {Dimensions, FrameConstrainer, Point, Rect, fitToFrame} from './util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {ImageDiffAction} from '../../../api/diff';

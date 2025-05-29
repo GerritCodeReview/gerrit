@@ -10,17 +10,17 @@ import {
   EmailAddress,
   GroupId,
   GroupInfo,
+  ReviewerInput,
+  ServerInfo,
+  SuggestedReviewerAccountInfo,
+  SuggestedReviewerGroupInfo,
+  Suggestion,
+  UserId,
   isAccount,
   isDetailedLabelInfo,
   isGroup,
-  ReviewerInput,
-  ServerInfo,
-  UserId,
-  Suggestion,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
-  SuggestedReviewerAccountInfo,
-  SuggestedReviewerGroupInfo,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';

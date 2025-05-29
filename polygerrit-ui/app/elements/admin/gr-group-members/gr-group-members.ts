@@ -9,13 +9,13 @@ import '../../shared/gr-button/gr-button';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {getBaseUrl} from '../../../utils/url-util';
 import {
-  GroupId,
   AccountId,
   AccountInfo,
+  GroupId,
   GroupInfo,
   GroupName,
-  ServerInfo,
   NumericChangeId,
+  ServerInfo,
 } from '../../../types/common';
 import {
   AutocompleteQuery,

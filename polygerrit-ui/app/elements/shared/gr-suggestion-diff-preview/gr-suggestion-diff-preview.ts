@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../embed/diff/gr-diff/gr-diff';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {
-  EDIT,
   BasePatchSetNum,
+  EDIT,
   PatchSetNumber,
   RepoName,
 } from '../../../types/common';

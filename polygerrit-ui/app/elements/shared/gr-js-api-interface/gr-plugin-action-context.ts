@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
+import {ChangeInfo, RequestPayload, RevisionInfo} from '../../../types/common';
 import {PluginApi} from '../../../api/plugin';
 import {UIActionInfo} from './gr-change-actions-js-api';
 import {windowLocationReload} from '../../../utils/dom-util';

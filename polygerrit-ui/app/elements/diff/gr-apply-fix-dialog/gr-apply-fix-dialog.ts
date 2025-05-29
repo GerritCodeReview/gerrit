@@ -9,12 +9,12 @@ import '../../shared/gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  NumericChangeId,
-  EDIT,
-  FixSuggestionInfo,
-  PatchSetNum,
   BasePatchSetNum,
+  EDIT,
   FilePathToDiffInfoMap,
+  FixSuggestionInfo,
+  NumericChangeId,
+  PatchSetNum,
   PatchSetNumber,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -24,7 +24,7 @@ import {getAppContext} from '../../../services/app-context';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {css, html, LitElement, nothing} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';

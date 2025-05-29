@@ -33,7 +33,7 @@ import {
 import {AbortStop} from '../../../api/core';
 import {GrDiff} from './gr-diff';
 import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {
   GrAnnotationImpl,

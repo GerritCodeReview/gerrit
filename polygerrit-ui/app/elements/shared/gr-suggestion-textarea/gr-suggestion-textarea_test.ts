@@ -17,7 +17,7 @@ import {
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
 

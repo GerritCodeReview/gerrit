@@ -41,8 +41,8 @@ import {
 import {getAppContext} from '../../services/app-context';
 import {
   ChangeState,
-  computeRevisionUpdatedFiles,
   RevisionFileUpdateStatus,
+  computeRevisionUpdatedFiles,
   updateChangeWithEdit,
   updateRevisionsWithCommitShas,
 } from './change-model';

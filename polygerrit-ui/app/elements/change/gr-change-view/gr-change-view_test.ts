@@ -12,8 +12,8 @@ import {
   ChangeStatus,
   CommentSide,
   DiffViewMode,
-  createDefaultPreferences,
   Tab,
+  createDefaultPreferences,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -29,32 +29,32 @@ import {
   waitUntilVisible,
 } from '../../../test/test-utils';
 import {
-  createChangeViewState,
+  TEST_NUMERIC_CHANGE_ID,
+  TEST_PROJECT_NAME,
+  createAccountDetailWithId,
   createChangeMessages,
+  createChangeViewChange,
+  createChangeViewState,
+  createParsedChange,
   createRevision,
   createRevisions,
   createServerInfo,
   createUserConfig,
-  TEST_NUMERIC_CHANGE_ID,
-  TEST_PROJECT_NAME,
-  createChangeViewChange,
-  createAccountDetailWithId,
-  createParsedChange,
 } from '../../../test/test-data-generators';
 import {GrChangeView} from './gr-change-view';
 import {
   AccountId,
   BasePatchSetNum,
+  CommentThread,
   CommitId,
   EDIT,
   NumericChangeId,
   PARENT,
+  RepoName,
   RevisionPatchSetNum,
+  SavingState,
   Timestamp,
   UrlEncodedCommentId,
-  RepoName,
-  CommentThread,
-  SavingState,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {SinonFakeTimers} from 'sinon';
@@ -68,7 +68,7 @@ import {FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {

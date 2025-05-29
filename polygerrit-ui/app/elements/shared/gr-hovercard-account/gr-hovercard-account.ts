@@ -10,7 +10,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {customElement, property} from 'lit/decorators.js';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
-import {html, LitElement} from 'lit';
+import {LitElement, html} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {when} from 'lit/directives/when.js';
 import './gr-hovercard-account-contents';

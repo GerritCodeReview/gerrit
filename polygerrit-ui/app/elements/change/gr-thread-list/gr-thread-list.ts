@@ -33,7 +33,7 @@ import {
 } from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, queryAll, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';

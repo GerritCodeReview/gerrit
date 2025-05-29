@@ -20,7 +20,7 @@ import {
   OpenPgpUserIds,
 } from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-gpg-editor tests', () => {
   let element: GrGpgEditor;

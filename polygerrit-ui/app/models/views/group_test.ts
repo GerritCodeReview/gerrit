@@ -7,7 +7,7 @@ import {assert} from '@open-wc/testing';
 import {GroupId} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
-import {createGroupUrl, GroupDetailView, GroupViewState} from './group';
+import {GroupDetailView, GroupViewState, createGroupUrl} from './group';
 
 suite('group view state tests', () => {
   test('createGroupUrl() info', () => {

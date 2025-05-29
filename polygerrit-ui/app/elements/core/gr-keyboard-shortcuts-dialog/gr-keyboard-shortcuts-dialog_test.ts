@@ -10,7 +10,7 @@ import {
   SectionView,
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-service';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 
 const x = ['x'];

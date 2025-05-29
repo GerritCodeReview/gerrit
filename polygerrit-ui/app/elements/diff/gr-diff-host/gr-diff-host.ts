@@ -45,14 +45,14 @@ import {
   WebLinkInfo,
 } from '../../../types/diff';
 import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
-import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
+import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
-  firePageError,
-  fireAlert,
-  fireServerError,
   fire,
+  fireAlert,
+  firePageError,
+  fireServerError,
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -65,16 +65,16 @@ import {
   DiffContextExpandedExternalDetail,
   DisplayLine,
   FILE,
+  LOST,
   LineNumber,
   LineSelectedEventDetail,
-  LOST,
   RangeSelectedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
+import {RunResult, checksModelToken} from '../../../models/checks/checks-model';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
@@ -83,13 +83,13 @@ import {
   CODE_MAX_LINES,
   highlightServiceToken,
 } from '../../../services/highlight/highlight-service';
-import {html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
-  debounceP,
-  DelayedPromise,
   DELAYED_CANCELLATION,
+  DelayedPromise,
+  debounceP,
   noAwait,
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';

@@ -5,7 +5,7 @@
  */
 import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {fireNoBubble} from '../../../utils/event-util';
 

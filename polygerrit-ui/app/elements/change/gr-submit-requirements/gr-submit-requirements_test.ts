@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-submit-requirements';
 import {GrSubmitRequirements} from './gr-submit-requirements';
 import {
   createAccountWithIdNameAndEmail,
   createApproval,
+  createCheckResult,
   createDetailedLabelInfo,
+  createNonApplicableSubmitRequirementResultInfo,
   createParsedChange,
+  createRun,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
-  createNonApplicableSubmitRequirementResultInfo,
-  createCheckResult,
-  createRun,
 } from '../../../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,

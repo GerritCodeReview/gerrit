@@ -17,8 +17,8 @@ import {
   toReviewInput,
 } from './account-util';
 import {
-  AccountsVisibility,
   AccountTag,
+  AccountsVisibility,
   DefaultDisplayNameConfig,
 } from '../constants/constants';
 import {

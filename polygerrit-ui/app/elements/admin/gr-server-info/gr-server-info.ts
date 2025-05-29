@@ -19,7 +19,7 @@ import '../../shared/gr-weblink/gr-weblink';
 import {MetadataInfo, ServerInfo, WebLinkInfo} from '../../../types/common';
 import {configModelToken} from '../../../models/config/config-model';
 import {customElement, state} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {fireTitleChange} from '../../../utils/event-util';
 import {map} from 'lit/directives/map.js';
 import {resolve} from '../../../models/dependency';

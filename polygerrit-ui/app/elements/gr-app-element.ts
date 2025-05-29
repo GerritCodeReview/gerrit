@@ -31,8 +31,8 @@ import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
 import {AccountDetailInfo, NumericChangeId, ServerInfo} from '../types/common';
 import {
-  constructServerErrorMsg,
   GrErrorManager,
+  constructServerErrorMsg,
 } from './core/gr-error-manager/gr-error-manager';
 import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registration-dialog';
 import {
@@ -53,7 +53,7 @@ import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
 import {sharedStyles} from '../styles/shared-styles';
-import {LitElement, PropertyValues, html, css, nothing} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
@@ -64,9 +64,9 @@ import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {
+  SearchViewState,
   createSearchUrl,
   searchViewModelToken,
-  SearchViewState,
 } from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
 import {DashboardType, createDashboardUrl} from '../models/views/dashboard';

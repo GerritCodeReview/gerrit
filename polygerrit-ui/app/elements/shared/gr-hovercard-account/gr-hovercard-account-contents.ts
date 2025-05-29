@@ -19,8 +19,8 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeInfo,
-  ServerInfo,
   ReviewInput,
+  ServerInfo,
 } from '../../../types/common';
 import {
   canHaveAttention,
@@ -36,7 +36,7 @@ import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement, nothing} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';

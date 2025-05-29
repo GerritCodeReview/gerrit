@@ -6,12 +6,12 @@
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
 import {
+  AccountInfo,
+  ChangeInfo,
+  ChangeStates,
   NumericChangeId,
   PatchSetNum,
-  ChangeInfo,
-  AccountInfo,
   RelatedChangeAndCommitInfo,
-  ChangeStates,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {getUserId, isServiceUser} from './account-util';

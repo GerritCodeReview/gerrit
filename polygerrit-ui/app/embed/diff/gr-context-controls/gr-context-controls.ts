@@ -5,19 +5,19 @@
  */
 import '@polymer/paper-button/paper-button';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {of, EMPTY, Subject} from 'rxjs';
-import {switchMap, delay} from 'rxjs/operators';
+import {EMPTY, Subject, of} from 'rxjs';
+import {delay, switchMap} from 'rxjs/operators';
 import '../../../elements/shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
-  css,
-  html,
   LitElement,
-  nothing,
   PropertyValues,
   TemplateResult,
+  css,
+  html,
+  nothing,
 } from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {subscribe} from '../../../elements/lit/subscription-controller';

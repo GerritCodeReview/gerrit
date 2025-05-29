@@ -6,7 +6,7 @@
 import {assert} from '@open-wc/testing';
 import {RepoName} from '../../api/rest-api';
 import '../../test/common-test-setup';
-import {createRepoUrl, RepoDetailView} from './repo';
+import {RepoDetailView, createRepoUrl} from './repo';
 
 suite('repo view state tests', () => {
   test('createRepoUrl', () => {

@@ -7,16 +7,16 @@ import {Constructor} from '../../utils/common-util';
 import {LitElement, PropertyValues} from 'lit';
 import {property, query} from 'lit/decorators.js';
 import {ShowAlertEventDetail} from '../../types/events';
-import {debounce, DelayedTask} from '../../utils/async-util';
+import {DelayedTask, debounce} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
 import {DependencyRequestEvent} from '../../models/dependency';
 import {
+  Key,
+  Modifier,
   addShortcut,
   findActiveElement,
   isElementTarget,
-  Key,
-  Modifier,
 } from '../../utils/dom-util';
 import {ShortcutController} from '../../elements/lit/shortcut-controller';
 import {

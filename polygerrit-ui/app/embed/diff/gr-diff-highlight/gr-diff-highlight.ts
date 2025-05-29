@@ -13,12 +13,12 @@ import {CommentRange} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
 import {
+  GrDiffCommentThread,
   getLineElByChild,
   getLineNumberByChild,
   getSideByLineEl,
-  GrDiffCommentThread,
 } from '../gr-diff/gr-diff-utils';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {DelayedTask, debounce} from '../../../utils/async-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {DiffModel} from '../gr-diff-model/gr-diff-model';
 

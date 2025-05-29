@@ -6,7 +6,7 @@
 import '../gr-commit-info/gr-commit-info';
 import '../../shared/gr-button/gr-button';
 import {customElement, state} from 'lit/decorators.js';
-import {css, html, HTMLTemplateResult, LitElement} from 'lit';
+import {HTMLTemplateResult, LitElement, css, html} from 'lit';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {changeModelToken} from '../../../models/change/change-model';

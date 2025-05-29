@@ -7,8 +7,8 @@ import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {
   COMBO_TIMEOUT_MS,
-  describeBinding,
   ShortcutsService,
+  describeBinding,
 } from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
 import {SinonFakeTimers, SinonSpy} from 'sinon';

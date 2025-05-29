@@ -9,9 +9,9 @@ import {SinonFakeTimers} from 'sinon';
 import '../test/common-test-setup';
 import {mockPromise, waitEventLoop, waitUntil} from '../test/test-utils';
 import {
+  DelayedTask,
   asyncForeach,
   debounceP,
-  DelayedTask,
   interactivePromise,
   timeoutPromise,
 } from './async-util';

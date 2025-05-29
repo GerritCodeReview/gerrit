@@ -14,7 +14,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ValueChangedEvent} from '../../../types/events';
-import {fireAlert, fire, fireReload} from '../../../utils/event-util';
+import {fire, fireAlert, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
 
 declare global {

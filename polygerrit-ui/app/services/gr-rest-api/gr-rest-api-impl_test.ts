@@ -6,16 +6,17 @@
 import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {
+  MockPromise,
   addListenerForTest,
   assertFails,
   makePrefixedJSON,
-  MockPromise,
   mockPromise,
   waitEventLoop,
 } from '../../test/test-utils';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {listChangesOptionsToHex} from '../../utils/change-util';
 import {
+  TEST_PROJECT_NAME,
   createAccountDetailWithId,
   createAccountWithId,
   createChange,
@@ -24,14 +25,13 @@ import {
   createFixReplacementInfo,
   createParsedChange,
   createServerInfo,
-  TEST_PROJECT_NAME,
 } from '../../test/test-data-generators';
 import {CURRENT} from '../../utils/patch-set-util';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl';
 import {
   CommentSide,
-  createDefaultEditPrefs,
   HttpMethod,
+  createDefaultEditPrefs,
 } from '../../constants/constants';
 import {
   AccountDetailInfo,

@@ -7,9 +7,9 @@ import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import './syntax-util';
 import {
+  SpanType,
   highlightedStringToRanges,
   removeFirstSpan,
-  SpanType,
 } from './syntax-util';
 
 suite('file syntax-util', () => {

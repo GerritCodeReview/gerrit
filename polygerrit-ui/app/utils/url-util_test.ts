@@ -6,17 +6,17 @@
 import {AuthType, BasePatchSetNum, RevisionPatchSetNum} from '../api/rest-api';
 import '../test/common-test-setup';
 import {
+  PatchRangeParams,
   encodeURL,
   getBaseUrl,
+  getDocUrl,
   getPatchRangeExpression,
   loginUrl,
-  PatchRangeParams,
+  sameOrigin,
   singleDecodeURL,
   toPath,
   toPathname,
   toSearchParams,
-  sameOrigin,
-  getDocUrl,
 } from './url-util';
 import {assert} from '@open-wc/testing';
 import {createAuth} from '../test/test-data-generators';

@@ -7,25 +7,25 @@ import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../gr-rule-editor/gr-rule-editor';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {
-  toSortedPermissionsArray,
-  PermissionArrayItem,
-  PermissionArray,
   AccessPermissionId,
+  PermissionArray,
+  PermissionArrayItem,
+  toSortedPermissionsArray,
 } from '../../../utils/access-util';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
+  GitRef,
+  GroupInfo,
   LabelNameToLabelTypeInfoMap,
   LabelTypeInfoValues,
-  GroupInfo,
-  GitRef,
   RepoName,
 } from '../../../types/common';
 import {
   AutocompleteQuery,
-  GrAutocomplete,
   AutocompleteSuggestion,
+  GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
   EditablePermissionInfo,

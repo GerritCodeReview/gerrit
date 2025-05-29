@@ -14,7 +14,7 @@ import {GrRepoList} from '../gr-repo-list/gr-repo-list';
 import {GroupId, GroupName, RepoName, Timestamp} from '../../../types/common';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {GroupDetailView} from '../../../models/views/group';
 import {RepoDetailView} from '../../../models/views/repo';

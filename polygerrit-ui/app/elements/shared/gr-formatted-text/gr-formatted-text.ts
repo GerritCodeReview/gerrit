@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   htmlEscape,
@@ -20,8 +20,8 @@ import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-user-suggestion-fix/gr-user-suggestion-fix';
 import {
-  getUserSuggestionFromString,
   USER_SUGGESTION_INFO_STRING,
+  getUserSuggestionFromString,
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 

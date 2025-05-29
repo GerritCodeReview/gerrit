@@ -5,11 +5,11 @@
  */
 import {PluginApi} from '../../../api/plugin';
 import {
-  ChecksApiConfig,
-  ChecksProvider,
-  ChecksPluginApi,
   CheckResult,
   CheckRun,
+  ChecksApiConfig,
+  ChecksPluginApi,
+  ChecksProvider,
 } from '../../../api/checks';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {PluginsModel} from '../../../models/plugins/plugins-model';

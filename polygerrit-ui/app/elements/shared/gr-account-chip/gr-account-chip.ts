@@ -16,7 +16,7 @@ import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {ClassInfo, classMap} from 'lit/directives/class-map.js';
-import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
+import {LabelStatus, getLabelStatus, hasVoted} from '../../../utils/label-util';
 import {fire} from '../../../utils/event-util';
 import {RemoveAccountEvent} from '../../../types/events';
 

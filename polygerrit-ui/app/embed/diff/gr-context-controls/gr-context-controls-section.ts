@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../elements/shared/gr-button/gr-button';
-import {html, LitElement} from 'lit';
+import {LitElement, html} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {DiffViewMode} from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
@@ -15,8 +15,8 @@ import {subscribe} from '../../../elements/lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
-  diffModelToken,
   NO_COLUMNS,
+  diffModelToken,
 } from '../gr-diff-model/gr-diff-model';
 
 /**

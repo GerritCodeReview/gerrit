@@ -13,8 +13,8 @@ import {
   pressKey,
   waitEventLoop,
 } from '../../test/test-utils';
-import {findActiveElement, Key} from '../../utils/dom-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {Key, findActiveElement} from '../../utils/dom-util';
+import {assert, fixture, html} from '@open-wc/testing';
 
 const base = HovercardMixin(LitElement);
 

@@ -8,9 +8,9 @@ import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
+  LATEST_ATTEMPT,
   getResultsOf,
   hasResultsOf,
-  LATEST_ATTEMPT,
 } from '../../models/checks/checks-util';
 import {fire} from '../../utils/event-util';
 

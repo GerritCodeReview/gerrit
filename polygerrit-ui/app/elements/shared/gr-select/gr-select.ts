@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';

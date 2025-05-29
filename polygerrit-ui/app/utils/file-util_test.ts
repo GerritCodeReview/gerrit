@@ -6,8 +6,8 @@
 import '../test/common-test-setup';
 import {assert} from '@open-wc/testing';
 import {
-  expandFileMode,
   FileMode,
+  expandFileMode,
   fileModeToString,
   formatBytes,
   getFileExtension,

@@ -8,9 +8,9 @@ import {LitElement, TemplateResult, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,
+  LabelInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
-  LabelInfo,
 } from '../../../api/rest-api';
 import {
   classForLabelStatus,

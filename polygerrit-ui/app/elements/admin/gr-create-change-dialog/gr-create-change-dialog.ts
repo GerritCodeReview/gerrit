@@ -12,10 +12,10 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  RepoName,
   BranchName,
   ChangeId,
   InheritedBooleanInfo,
+  RepoName,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';

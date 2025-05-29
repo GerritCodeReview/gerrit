@@ -6,7 +6,7 @@
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import {customElement, property} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LabelInfo} from '../../../api/rest-api';

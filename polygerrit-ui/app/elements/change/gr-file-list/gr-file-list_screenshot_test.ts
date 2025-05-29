@@ -13,7 +13,7 @@ import {FileInfo, PARENT, RevisionPatchSetNum} from '../../../api/rest-api';
 import {normalize} from '../../../models/change/files-model';
 import {PatchRange} from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../api/diff';
-import {NormalizedFileInfo, GrFileList} from './gr-file-list';
+import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import './gr-file-list';
 
 suite('gr-file-list screenshot tests', () => {

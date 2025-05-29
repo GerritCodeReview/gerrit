@@ -6,7 +6,7 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 

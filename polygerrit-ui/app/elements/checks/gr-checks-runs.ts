@@ -6,7 +6,7 @@
 import '../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
 import './gr-hovercard-run';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';
@@ -14,14 +14,14 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
-  attemptChoiceLabel,
-  LATEST_ATTEMPT,
   AttemptDetail,
+  LATEST_ATTEMPT,
+  PRIMARY_STATUS_ACTIONS,
+  attemptChoiceLabel,
   compareByWorstCategory,
   headerForStatus,
   iconFor,
   iconForRun,
-  PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
 } from '../../models/checks/checks-util';
 import {
@@ -43,7 +43,7 @@ import {
 } from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
-import {fireRunSelected, RunSelectedEvent} from './gr-checks-util';
+import {RunSelectedEvent, fireRunSelected} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {getAppContext} from '../../services/app-context';

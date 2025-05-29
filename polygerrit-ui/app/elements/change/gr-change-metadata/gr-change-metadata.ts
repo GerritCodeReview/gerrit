@@ -38,37 +38,37 @@ import {
   ConfigInfo,
   GpgKeyInfo,
   Hashtag,
-  isAccount,
-  isDetailedLabelInfo,
   LabelInfo,
   LabelNameToInfoMap,
   NumericChangeId,
   ParentCommitInfo,
-  RevisionPatchSetNum,
   RepoName,
   RevisionInfo,
+  RevisionPatchSetNum,
   ServerInfo,
   WebLinkInfo,
+  isAccount,
+  isDetailedLabelInfo,
 } from '../../../types/common';
 import {assertIsDefined, assertNever, unique} from '../../../utils/common-util';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {getAppContext} from '../../../services/app-context';
 import {
+  DisplayRules,
   Metadata,
   isSectionSet,
-  DisplayRules,
 } from '../../../utils/change-metadata-util';
 import {
-  fireAlert,
   fire,
-  fireReload,
+  fireAlert,
   fireError,
+  fireReload,
 } from '../../../utils/event-util';
 import {
   EditRevisionInfo,
-  isDefined,
   ParsedChangeInfo,
+  isDefined,
 } from '../../../types/types';
 import {
   AutocompleteQuery,
@@ -77,7 +77,7 @@ import {
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
-import {LitElement, css, html, nothing, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';

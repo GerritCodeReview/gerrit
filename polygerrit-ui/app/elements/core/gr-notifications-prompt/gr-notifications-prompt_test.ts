@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-notifications-prompt';
 import {GrNotificationsPrompt} from './gr-notifications-prompt';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
 import {testResolver} from '../../../test/common-test-setup';
 import {

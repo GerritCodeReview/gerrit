@@ -5,7 +5,7 @@
  */
 import {customElement} from 'lit/decorators.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);

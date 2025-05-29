@@ -6,28 +6,28 @@
 import {
   BasePatchSetNum,
   ChangeInfo,
-  EditInfo,
-  EDIT,
-  PARENT,
-  NumericChangeId,
-  PatchSetNum,
-  PreferencesInfo,
-  RevisionPatchSetNum,
-  PatchSetNumber,
-  CommitId,
-  RevisionInfo,
-  ListChangesOption,
   ChangeViewChangeInfo,
+  CommitId,
+  EDIT,
+  EditInfo,
   FileInfo,
+  ListChangesOption,
+  NumericChangeId,
+  PARENT,
+  PatchSetNum,
+  PatchSetNumber,
+  PreferencesInfo,
+  RevisionInfo,
+  RevisionPatchSetNum,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
+import {Observable, combineLatest, forkJoin, from, of} from 'rxjs';
 import {
-  map,
-  filter,
-  withLatestFrom,
-  switchMap,
   catchError,
+  filter,
+  map,
+  switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   computeAllPatchSets,
@@ -38,9 +38,9 @@ import {
 } from '../../utils/patch-set-util';
 import {
   EditRevisionInfo,
-  isDefined,
   LoadingStatus,
   ParsedChangeInfo,
+  isDefined,
 } from '../../types/types';
 import {fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';

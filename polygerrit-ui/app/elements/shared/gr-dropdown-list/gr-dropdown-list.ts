@@ -11,7 +11,7 @@ import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
 import '../gr-file-status/gr-file-status';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {CommentThread, Timestamp} from '../../../types/common';

@@ -5,20 +5,20 @@
  */
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {
-  CommentInfo,
-  NumericChangeId,
-  RevisionId,
-  UrlEncodedCommentId,
   AccountInfo,
-  DraftInfo,
   Comment,
-  SavingState,
-  isSaving,
-  isError,
-  isDraft,
-  isNew,
-  PatchSetNumber,
+  CommentInfo,
   CommentThread,
+  DraftInfo,
+  NumericChangeId,
+  PatchSetNumber,
+  RevisionId,
+  SavingState,
+  UrlEncodedCommentId,
+  isDraft,
+  isError,
+  isNew,
+  isSaving,
 } from '../../types/common';
 import {
   addPath,
@@ -39,10 +39,10 @@ import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
 import {
   BehaviorSubject,
+  Observable,
   combineLatest,
   forkJoin,
   from,
-  Observable,
   of,
 } from 'rxjs';
 import {fire, fireAlert} from '../../utils/event-util';
@@ -51,7 +51,7 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {assert, assertIsDefined} from '../../utils/common-util';
-import {debounce, DelayedTask} from '../../utils/async-util';
+import {DelayedTask, debounce} from '../../utils/async-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../base/model';
 import {Deduping} from '../../api/reporting';

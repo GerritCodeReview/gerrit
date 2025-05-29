@@ -5,11 +5,11 @@
  */
 import '../../shared/gr-account-label/gr-account-label';
 import {
-  GroupInfo,
   AccountInfo,
   EncodedGroupId,
   GroupAuditEventInfo,
   GroupAuditGroupEventInfo,
+  GroupInfo,
   isGroupAuditGroupEventInfo,
 } from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';

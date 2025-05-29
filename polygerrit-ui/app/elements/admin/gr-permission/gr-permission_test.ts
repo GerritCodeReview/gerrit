@@ -14,7 +14,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrRuleEditor} from '../gr-rule-editor/gr-rule-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
 import {AutocompleteCommitEventDetail} from '../../../types/events';
 

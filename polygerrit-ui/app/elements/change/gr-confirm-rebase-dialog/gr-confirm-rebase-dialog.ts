@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-account-chip/gr-account-chip';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {
@@ -13,8 +13,8 @@ import {
   BranchName,
   ChangeActionDialog,
   EmailInfo,
-  NumericChangeId,
   GitPersonInfo,
+  NumericChangeId,
   ValidationOptionsInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';

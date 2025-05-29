@@ -15,12 +15,12 @@ import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-acti
 import {AppContext, injectAppContext} from '../services/app-context';
 import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
 import {
-  initVisibilityReporter,
-  initPerformanceReporter,
-  initErrorReporter,
-  initWebVitals,
   initClickReporter,
+  initErrorReporter,
   initInteractionReporter,
+  initPerformanceReporter,
+  initVisibilityReporter,
+  initWebVitals,
 } from '../services/gr-reporting/gr-reporting_impl';
 import {Finalizable} from '../types/types';
 

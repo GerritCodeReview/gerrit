@@ -45,8 +45,6 @@ import {
   CommentThread,
   CommitId,
   InheritedBooleanInfo,
-  isDetailedLabelInfo,
-  isQuickLabelInfo,
   LabelInfo,
   ListChangesOption,
   NumericChangeId,
@@ -54,6 +52,8 @@ import {
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
+  isDetailedLabelInfo,
+  isQuickLabelInfo,
 } from '../../../types/common';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -83,9 +83,9 @@ import {
   fireNoBubbleNoCompose,
 } from '../../../utils/event-util';
 import {
+  StandardLabels,
   getApprovalInfo,
   getVotingRange,
-  StandardLabels,
 } from '../../../utils/label-util';
 import {
   ActionPriority,

@@ -9,7 +9,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocUrl} from '../../../utils/url-util';
-import {getAdminLinks, NavLink} from '../../../models/views/admin';
+import {NavLink, getAdminLinks} from '../../../models/views/admin';
 import {
   AccountDetailInfo,
   DropdownLink,
@@ -21,7 +21,7 @@ import {
 import {AuthType} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';

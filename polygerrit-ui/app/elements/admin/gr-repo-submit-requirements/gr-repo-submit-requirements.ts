@@ -13,17 +13,17 @@ import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, css, html, PropertyValues, nothing} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import '../../shared/gr-list-view/gr-list-view';
 import {
-  createRepoUrl,
   RepoDetailView,
   RepoViewState,
+  createRepoUrl,
 } from '../../../models/views/repo';
 import '@polymer/iron-input/iron-input';
 

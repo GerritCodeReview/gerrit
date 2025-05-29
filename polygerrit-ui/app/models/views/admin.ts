@@ -9,15 +9,15 @@ import {define} from '../dependency';
 import {Model} from '../base/model';
 import {Route, ViewState} from './base';
 import {
-  RepoName,
-  GroupId,
-  AccountDetailInfo,
   AccountCapabilityInfo,
+  AccountDetailInfo,
+  GroupId,
+  RepoName,
 } from '../../types/common';
 import {hasOwnProperty} from '../../utils/common-util';
 import {MenuLink} from '../../api/admin';
-import {createGroupUrl, GroupDetailView} from './group';
-import {createRepoUrl, RepoDetailView} from './repo';
+import {GroupDetailView, createGroupUrl} from './group';
+import {RepoDetailView, createRepoUrl} from './repo';
 
 export interface SubsectionInterface {
   name: string;

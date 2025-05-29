@@ -5,7 +5,7 @@
  */
 import {BLANK_LINE, GrDiffLine} from './gr-diff-line';
 import {GrDiffLineType, LineNumber, LineRange, Side} from '../../../api/diff';
-import {assertIsDefined, assert} from '../../../utils/common-util';
+import {assert, assertIsDefined} from '../../../utils/common-util';
 import {isDefined} from '../../../types/types';
 
 export enum GrDiffGroupType {

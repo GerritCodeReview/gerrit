@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import '../gr-tooltip-content/gr-tooltip-content';
 
 declare global {

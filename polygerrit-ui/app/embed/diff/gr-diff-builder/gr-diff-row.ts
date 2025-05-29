@@ -3,18 +3,18 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement, nothing, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, html, nothing} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {createRef, Ref, ref} from 'lit/directives/ref.js';
+import {Ref, createRef, ref} from 'lit/directives/ref.js';
 import {
-  DiffResponsiveMode,
-  Side,
-  LineNumber,
   DiffLayer,
+  DiffResponsiveMode,
+  FILE,
   GrDiffLineType,
   LOST,
-  FILE,
+  LineNumber,
+  Side,
 } from '../../../api/diff';
 import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -23,16 +23,16 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {otherSide} from '../../../utils/diff-util';
 import './gr-diff-text';
 import {
-  findBlame,
   GrDiffCommentThread,
+  findBlame,
   isLongCommentRange,
   isResponsive,
 } from '../gr-diff/gr-diff-utils';
 import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
-  diffModelToken,
   NO_COLUMNS,
+  diffModelToken,
 } from '../gr-diff-model/gr-diff-model';
 import {when} from 'lit/directives/when.js';
 import {isDefined} from '../../../types/types';

@@ -9,7 +9,7 @@ import '../gr-comment/gr-comment';
 import '../gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {css, html, nothing, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {
   customElement,
   property,
@@ -18,29 +18,29 @@ import {
   state,
 } from 'lit/decorators.js';
 import {
-  computeDiffFromContext,
-  getLastComment,
-  getFirstComment,
-  createNewReply,
   NEWLINE_PATTERN,
-  id,
+  computeDiffFromContext,
+  createNewReply,
+  getFirstComment,
+  getLastComment,
   hasUserSuggestion,
+  id,
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
-  createDefaultDiffPrefs,
   SpecialFilePath,
+  createDefaultDiffPrefs,
 } from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {
   AccountDetailInfo,
   Comment,
   CommentThread,
-  isDraft,
   NumericChangeId,
   RepoName,
   UrlEncodedCommentId,
+  isDraft,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
 import {GrButton} from '../gr-button/gr-button';
@@ -48,9 +48,9 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
   CommentRangeLayer,
   DiffLayer,
-  Side,
   FILE,
   RenderPreferences,
+  Side,
 } from '../../../api/diff';
 import {
   assert,

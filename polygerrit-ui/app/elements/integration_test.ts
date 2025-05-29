@@ -6,11 +6,11 @@
 import '../test/common-test-setup';
 import './gr-app-element';
 import {testResolver} from '../test/common-test-setup';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrRouter, routerToken} from './core/gr-router/gr-router';
 import {
-  queryAndAssert,
   queryAll,
+  queryAndAssert,
   stubRestApi,
   waitQueryAndAssert,
 } from '../test/test-utils';

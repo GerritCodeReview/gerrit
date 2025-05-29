@@ -4,22 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Subscription} from 'rxjs';
-import {map, distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {
-  createShortcutConfig,
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
+  createShortcutConfig,
 } from './shortcuts-config';
 import {
+  Binding,
   ComboKey,
-  eventMatchesShortcut,
-  isElementTarget,
   Key,
   Modifier,
-  Binding,
-  shouldSuppress,
   ShortcutOptions,
+  eventMatchesShortcut,
+  isElementTarget,
+  shouldSuppress,
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {UserModel} from '../../models/user/user-model';

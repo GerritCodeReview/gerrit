@@ -8,8 +8,8 @@ import {assert} from '@open-wc/testing';
 import {SubmitRequirementExpressionInfo} from '../api/rest-api';
 import '../test/common-test-setup';
 import {
-  atomizeExpression,
   SubmitRequirementExpressionAtomStatus,
+  atomizeExpression,
 } from './submit-requirement-util';
 
 suite('submit-requirement-util', () => {

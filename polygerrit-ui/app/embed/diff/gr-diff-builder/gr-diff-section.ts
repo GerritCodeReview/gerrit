@@ -3,16 +3,16 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement} from 'lit';
+import {LitElement, html} from 'lit';
 import {property, queryAll, state} from 'lit/decorators.js';
 import {
   DiffInfo,
   DiffLayer,
+  DiffPreferencesInfo,
   DiffViewMode,
+  LineNumber,
   RenderPreferences,
   Side,
-  LineNumber,
-  DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {getResponsiveMode} from '../gr-diff/gr-diff-utils';
@@ -26,8 +26,8 @@ import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
-  diffModelToken,
   NO_COLUMNS,
+  diffModelToken,
 } from '../gr-diff-model/gr-diff-model';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 

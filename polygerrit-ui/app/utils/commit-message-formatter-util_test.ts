@@ -6,12 +6,12 @@
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import {
-  formatCommitMessageString,
-  detectFormattingErrorsInString,
+  CommitMessage,
   ErrorType,
   FormattingError,
-  CommitMessage,
   TEST_ONLY,
+  detectFormattingErrorsInString,
+  formatCommitMessageString,
 } from './commit-message-formatter-util';
 
 const parseCommitMessageString = TEST_ONLY.parseCommitMessageString;

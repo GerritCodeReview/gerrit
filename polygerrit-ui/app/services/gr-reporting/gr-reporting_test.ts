@@ -6,10 +6,10 @@
 import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {
-  GrReporting,
   DEFAULT_STARTUP_TIMERS,
-  initErrorReporter,
+  GrReporting,
   InteractionReporter,
+  initErrorReporter,
 } from './gr-reporting_impl';
 import {getAppContext} from '../app-context';
 import {Deduping} from '../../api/reporting';

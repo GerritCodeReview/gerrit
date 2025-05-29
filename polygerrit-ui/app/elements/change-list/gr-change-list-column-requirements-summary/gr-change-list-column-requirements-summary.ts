@@ -6,14 +6,14 @@
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-icon/gr-icon';
-import {LitElement, css, html, TemplateResult} from 'lit';
+import {LitElement, TemplateResult, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeStatuses} from '../../../utils/change-util';
 import {
+  SubmitRequirementsIcon,
   getRequirements,
   iconForStatus,
-  SubmitRequirementsIcon,
 } from '../../../utils/label-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {pluralize} from '../../../utils/string-util';

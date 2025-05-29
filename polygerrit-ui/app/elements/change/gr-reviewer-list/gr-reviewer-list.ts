@@ -11,11 +11,11 @@ import {LitElement, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
 import {
+  AccountDetailInfo,
   AccountInfo,
   ApprovalInfo,
-  AccountDetailInfo,
-  isDetailedLabelInfo,
   LabelInfo,
+  isDetailedLabelInfo,
 } from '../../../types/common';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {

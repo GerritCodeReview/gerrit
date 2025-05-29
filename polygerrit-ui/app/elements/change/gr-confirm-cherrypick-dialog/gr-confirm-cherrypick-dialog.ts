@@ -11,15 +11,15 @@ import '../../shared/gr-dialog/gr-dialog';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
-  ChangeInfo,
   BranchName,
-  RepoName,
-  CommitId,
-  ChangeInfoId,
-  TopicName,
   ChangeActionDialog,
+  ChangeInfo,
+  ChangeInfoId,
+  CommitId,
   EmailInfo,
   GitPersonInfo,
+  RepoName,
+  TopicName,
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
@@ -28,14 +28,14 @@ import {
   GrTypedAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
-  HttpMethod,
   ChangeStatus,
+  HttpMethod,
   ProgressStatus,
 } from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {fire, fireNoBubble} from '../../../utils/event-util';
 import {trimWithEllipsis} from '../../../utils/string-util';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {choose} from 'lit/directives/choose.js';
 import {when} from 'lit/directives/when.js';

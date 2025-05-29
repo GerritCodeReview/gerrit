@@ -14,13 +14,13 @@ import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   ConfigInfo,
-  RepoName,
-  InheritedBooleanInfo,
-  SchemesInfoMap,
   ConfigInput,
+  DownloadSchemeInfo,
+  InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
-  DownloadSchemeInfo,
+  RepoName,
+  SchemesInfoMap,
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,

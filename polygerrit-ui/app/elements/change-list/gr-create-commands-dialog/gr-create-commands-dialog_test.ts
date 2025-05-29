@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import '../../../test/common-test-setup';
 import './gr-create-commands-dialog';
 import {GrCreateCommandsDialog} from './gr-create-commands-dialog';

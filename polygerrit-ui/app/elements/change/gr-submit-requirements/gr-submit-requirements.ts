@@ -11,16 +11,16 @@ import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../checks/gr-checks-chip-for-label';
-import {LitElement, css, html, TemplateResult, nothing} from 'lit';
+import {LitElement, TemplateResult, css, html, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
-  isDetailedLabelInfo,
-  isQuickLabelInfo,
   LabelNameToInfoMap,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
+  isDetailedLabelInfo,
+  isQuickLabelInfo,
 } from '../../../api/rest-api';
 import {
   extractAssociatedLabels,

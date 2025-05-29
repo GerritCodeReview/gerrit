@@ -5,20 +5,20 @@
  */
 import '../test/common-test-setup';
 import {
-  isUnresolved,
-  getPatchRangeForCommentUrl,
-  createCommentThreads,
-  sortComments,
-  USER_SUGGESTION_START_PATTERN,
-  hasUserSuggestion,
-  getUserSuggestion,
-  getContentInCommentRange,
-  createUserFixSuggestion,
   PROVIDED_FIX_ID,
-  getMentionedThreads,
-  isNewThread,
+  USER_SUGGESTION_START_PATTERN,
+  createCommentThreads,
   createNew,
+  createUserFixSuggestion,
+  getContentInCommentRange,
+  getMentionedThreads,
+  getPatchRangeForCommentUrl,
+  getUserSuggestion,
   getUserSuggestionFromString,
+  hasUserSuggestion,
+  isNewThread,
+  isUnresolved,
+  sortComments,
 } from './comment-util';
 import {
   createAccountWithEmail,
@@ -28,9 +28,9 @@ import {
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {
   Comment,
-  SavingState,
   PARENT,
   RevisionPatchSetNum,
+  SavingState,
   Timestamp,
   UrlEncodedCommentId,
 } from '../types/common';

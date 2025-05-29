@@ -8,7 +8,7 @@ import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {fire} from '../../../utils/event-util';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {DelayedTask, debounce} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';

@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ChangeActionDialog} from '../../../types/common';

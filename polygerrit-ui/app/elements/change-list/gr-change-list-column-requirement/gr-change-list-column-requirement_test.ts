@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-change-list-column-requirement';
 import {GrChangeListColumnRequirement} from './gr-change-list-column-requirement';
 import {
+  createChange,
+  createNonApplicableSubmitRequirementResultInfo,
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
-  createNonApplicableSubmitRequirementResultInfo,
-  createChange,
 } from '../../../test/test-data-generators';
 import {
   AccountId,

@@ -10,10 +10,10 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {
-  ShortcutSection,
   SectionView,
-  shortcutsServiceToken,
+  ShortcutSection,
   ShortcutViewListener,
+  shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
 import {fireNoBubble} from '../../../utils/event-util';

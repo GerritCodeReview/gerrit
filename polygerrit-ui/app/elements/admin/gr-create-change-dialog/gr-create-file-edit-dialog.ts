@@ -5,10 +5,10 @@
  */
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  RepoName,
   BranchName,
   ChangeInfo,
   PatchSetNumber,
+  RepoName,
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, html, nothing} from 'lit';

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {AppContext} from './app-context';
-import {create, Registry} from './registry';
+import {Registry, create} from './registry';
 import {DependencyToken} from '../models/dependency';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';

@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-endpoint-decorator';
 import '../gr-endpoint-param/gr-endpoint-param';
 import '../gr-endpoint-slot/gr-endpoint-slot';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrEndpointDecorator} from './gr-endpoint-decorator';
 import {PluginApi} from '../../../api/plugin';

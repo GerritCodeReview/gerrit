@@ -16,8 +16,8 @@ import '../scripts/bundled-polymer';
  * See https://github.com/Polymer/polymer/issues/5289
  */
 import {
-  setPassiveTouchGestures,
   setCancelSyntheticClickEvents,
+  setPassiveTouchGestures,
 } from '@polymer/polymer/lib/utils/settings';
 setCancelSyntheticClickEvents(false);
 setPassiveTouchGestures(true);
@@ -27,17 +27,17 @@ import './gr-app-element';
 import {
   DependencyError,
   DependencyToken,
-  provide,
   Provider,
+  provide,
 } from '../models/dependency';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
+  Creator,
   createAppContext,
   createAppDependencies,
-  Creator,
 } from '../services/app-context-init';
-import {html, LitElement} from 'lit';
+import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {
   ServiceWorkerInstaller,

@@ -9,13 +9,13 @@ import '../../shared/gr-button/gr-button';
 import {customElement, query, state} from 'lit/decorators.js';
 import {
   AutocompleteQuery,
-  GrAutocomplete,
   AutocompleteSuggestion,
+  GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ProjectWatchInfo, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';

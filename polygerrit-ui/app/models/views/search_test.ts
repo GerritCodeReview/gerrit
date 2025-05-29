@@ -22,9 +22,9 @@ import '../../test/common-test-setup';
 import {testResolver} from '../../test/common-test-setup';
 import {createChange} from '../../test/test-data-generators';
 import {
-  createSearchUrl,
   SearchUrlOptions,
   SearchViewModel,
+  createSearchUrl,
   searchViewModelToken,
 } from './search';
 

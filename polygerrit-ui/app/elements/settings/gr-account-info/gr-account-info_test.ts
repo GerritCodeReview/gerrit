@@ -24,7 +24,7 @@ import {IronInputElement} from '@polymer/iron-input';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {EditableAccountField} from '../../../api/rest-api';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 
 suite('gr-account-info tests', () => {

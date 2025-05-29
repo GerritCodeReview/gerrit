@@ -6,7 +6,7 @@
 
 import '@polymer/iron-dropdown/iron-dropdown';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import {LitElement, html, css, nothing} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {Ref, createRef, ref} from 'lit/directives/ref.js';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {strToClassName} from '../../../utils/dom-util';

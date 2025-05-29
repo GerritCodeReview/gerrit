@@ -8,7 +8,7 @@ import './gr-agreements-list';
 import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {GrAgreementsList} from './gr-agreements-list';
 import {ContributorAgreementInfo} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-agreements-list tests', () => {
   let element: GrAgreementsList;

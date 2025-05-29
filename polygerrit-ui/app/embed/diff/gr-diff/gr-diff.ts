@@ -16,16 +16,16 @@ import '../gr-diff-builder/gr-diff-section';
 import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
-  getLineNumber,
-  isThreadEl,
-  getResponsiveMode,
-  isResponsive,
-  getSideByLineEl,
+  DiffContextExpandedEventDetail,
+  FullContext,
+  GrDiffCommentThread,
   compareComments,
   getDataFromCommentThreadEl,
-  FullContext,
-  DiffContextExpandedEventDetail,
-  GrDiffCommentThread,
+  getLineNumber,
+  getResponsiveMode,
+  getSideByLineEl,
+  isResponsive,
+  isThreadEl,
 } from '../gr-diff/gr-diff-utils';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -40,23 +40,23 @@ import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {AbortStop} from '../../../api/core';
 import {
-  RenderPreferences,
-  GrDiff as GrDiffApi,
-  DisplayLine,
-  DiffRangesToFocus,
-  FileRangeSelection,
-  LineNumber,
-  ContentLoadNeededEventDetail,
-  DiffContextExpandedExternalDetail,
-  CopyInfoEventDetail,
   CommentRangeLayer,
+  ContentLoadNeededEventDetail,
+  CopyInfoEventDetail,
+  DiffContextExpandedExternalDetail,
+  DiffRangesToFocus,
+  DisplayLine,
+  FileRangeSelection,
+  GrDiff as GrDiffApi,
+  LineNumber,
+  RenderPreferences,
 } from '../../../api/diff';
 import {getShadowOrDocumentSelection} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, html} from 'lit';
 import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import {iconStyles} from '../../../styles/gr-icon-styles';

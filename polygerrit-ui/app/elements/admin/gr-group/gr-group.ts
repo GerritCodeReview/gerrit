@@ -9,8 +9,8 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {
-  AutocompleteSuggestion,
   AutocompleteQuery,
+  AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';

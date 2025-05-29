@@ -14,7 +14,7 @@ import {
 import {BranchName, GroupId, RepoName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-create-repo-dialog tests', () => {
   let element: GrCreateRepoDialog;

@@ -5,23 +5,23 @@
  */
 import {
   ChangeInfo,
-  isQuickLabelInfo,
-  SubmitRequirementResultInfo,
-  SubmitRequirementStatus,
   LabelNameToValuesMap,
   LabelValueToDescriptionMap,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+  isQuickLabelInfo,
 } from '../api/rest-api';
 import {
   AccountInfo,
   ApprovalInfo,
   DetailedLabelInfo,
-  isDetailedLabelInfo,
   LabelInfo,
   LabelNameToInfoMap,
   VotingRangeInfo,
+  isDetailedLabelInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
-import {assertNever, unique, hasOwnProperty} from './common-util';
+import {assertNever, hasOwnProperty, unique} from './common-util';
 
 export interface Label {
   name: string;

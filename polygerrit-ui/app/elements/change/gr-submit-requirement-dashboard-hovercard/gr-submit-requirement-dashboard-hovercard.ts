@@ -5,7 +5,7 @@
  */
 import '../gr-submit-requirements/gr-submit-requirements';
 import {customElement, property} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {ParsedChangeInfo} from '../../../types/types';
 

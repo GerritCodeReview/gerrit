@@ -9,16 +9,16 @@ import '../../shared/gr-weblink/gr-weblink';
 import {convertToString, pluralize} from '../../../utils/string-util';
 import {getAppContext} from '../../../services/app-context';
 import {
+  PatchSet,
   computeLatestPatchNum,
+  convertToPatchSetNum,
   findSortedIndex,
+  getParentCommit,
   getParentIndex,
+  getParentInfoString,
   getRevisionByPatchNum,
   isMergeParent,
-  PatchSet,
-  convertToPatchSetNum,
-  getParentInfoString,
   shorten,
-  getParentCommit,
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
@@ -48,9 +48,9 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {ValueChangedEvent} from '../../../types/events';
 import {
-  changeModelToken,
   RevisionFileUpdateStatus,
   RevisionUpdatedFiles,
+  changeModelToken,
 } from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';

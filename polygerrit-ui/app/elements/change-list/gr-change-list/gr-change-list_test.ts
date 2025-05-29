@@ -22,8 +22,8 @@ import {
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
 import {
-  createDefaultPreferences,
   TimeFormat,
+  createDefaultPreferences,
 } from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
 import {
@@ -34,7 +34,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import {testResolver} from '../../../test/common-test-setup';
 import {Timestamp} from '../../../api/rest-api';

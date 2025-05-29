@@ -13,7 +13,7 @@ import {
   queryAndAssert,
   waitEventLoop,
 } from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-dialog tests', () => {

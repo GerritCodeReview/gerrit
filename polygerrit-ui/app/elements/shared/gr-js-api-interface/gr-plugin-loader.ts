@@ -5,9 +5,9 @@
  */
 import {
   PLUGIN_LOADING_TIMEOUT_MS,
+  THEME_JS,
   getPluginNameFromUrl,
   isThemeFile,
-  THEME_JS,
 } from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';

@@ -6,7 +6,7 @@
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {fire} from '../../../utils/event-util';
-import {html, LitElement} from 'lit';
+import {LitElement, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 
 declare global {

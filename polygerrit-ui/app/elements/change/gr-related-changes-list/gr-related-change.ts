@@ -8,8 +8,8 @@ import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
-  RelatedChangeAndCommitInfo,
   CommitId,
+  RelatedChangeAndCommitInfo,
 } from '../../../types/common';
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';

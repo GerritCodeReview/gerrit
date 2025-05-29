@@ -17,31 +17,31 @@ import '../gr-account-label/gr-account-label';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import '../gr-fix-suggestions/gr-fix-suggestions';
 import {getAppContext} from '../../../services/app-context';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {provide, resolve} from '../../../models/dependency';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {
   AccountDetailInfo,
+  Comment,
+  CommentInput,
   DraftInfo,
   NumericChangeId,
   RepoName,
-  Comment,
-  isSaving,
-  isError,
   isDraft,
+  isError,
   isNew,
-  CommentInput,
+  isSaving,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
+  USER_SUGGESTION_START_PATTERN,
   convertToCommentInput,
   createUserFixSuggestion,
   getUserSuggestion,
   hasUserSuggestion,
   id,
   isFileLevelComment,
-  USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
@@ -49,7 +49,7 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {assertIsDefined, assert, uuid} from '../../../utils/common-util';
+import {assert, assertIsDefined, uuid} from '../../../utils/common-util';
 import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {sharedStyles} from '../../../styles/shared-styles';

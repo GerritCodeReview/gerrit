@@ -9,7 +9,7 @@ import '../../../test/common-test-setup';
 import {assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
 
-import {DiffRangesToFocus, Side, GrDiffLineType} from '../../../api/diff';
+import {DiffRangesToFocus, GrDiffLineType, Side} from '../../../api/diff';
 
 import {GrFocusLayer} from './gr-focus-layer';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';

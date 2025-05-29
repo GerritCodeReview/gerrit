@@ -11,11 +11,11 @@ import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,
   ChangeInfo,
-  isDetailedLabelInfo,
-  isQuickLabelInfo,
   LabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
+  isDetailedLabelInfo,
+  isQuickLabelInfo,
 } from '../../../api/rest-api';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {

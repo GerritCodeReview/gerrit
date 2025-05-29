@@ -9,7 +9,7 @@ import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fire} from '../../../utils/event-util';
 import {Key} from '../../../utils/dom-util';
 import {FitController} from '../../lit/fit-controller';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {repeat} from 'lit/directives/repeat.js';

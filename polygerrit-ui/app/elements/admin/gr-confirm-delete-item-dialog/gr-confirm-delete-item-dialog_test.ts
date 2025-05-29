@@ -9,7 +9,7 @@ import './gr-confirm-delete-item-dialog';
 import {GrConfirmDeleteItemDialog} from './gr-confirm-delete-item-dialog';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-confirm-delete-item-dialog tests', () => {
   let element: GrConfirmDeleteItemDialog;

@@ -16,7 +16,7 @@ import {
 } from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
 import {createServerInfo} from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-cla-view tests', () => {
   let element: GrClaView;

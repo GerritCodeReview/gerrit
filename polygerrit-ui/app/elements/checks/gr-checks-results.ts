@@ -9,10 +9,10 @@ import {repeat} from 'lit/directives/repeat.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   LitElement,
-  css,
-  html,
   PropertyValues,
   TemplateResult,
+  css,
+  html,
   nothing,
 } from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -34,26 +34,26 @@ import {CheckRun, RunResult, runResult} from '../../models/checks/checks-model';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
-  attemptChoiceLabel,
-  isAttemptChoice,
   LATEST_ATTEMPT,
-  sortAttemptChoices,
-  stringToAttemptChoice,
   allResults,
+  attemptChoiceLabel,
+  computeIsExpandable,
   createFixAction,
+  createGetAiFixAction,
   firstPrimaryLink,
   hasCompletedWithoutResults,
   iconFor,
   iconForLink,
+  isAttemptChoice,
   isCategory,
   otherPrimaryLinks,
-  secondaryLinks,
-  tooltipForLink,
-  computeIsExpandable,
   rectifyFix,
-  createGetAiFixAction,
+  secondaryLinks,
+  sortAttemptChoices,
+  stringToAttemptChoice,
+  tooltipForLink,
 } from '../../models/checks/checks-util';
-import {assertIsDefined, assert, unique} from '../../utils/common-util';
+import {assert, assertIsDefined, unique} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';

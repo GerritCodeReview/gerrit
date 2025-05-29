@@ -3,13 +3,13 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 import {ImageDiffAction} from '../../../api/diff';
 import {fire} from '../../../utils/event-util';
 
-import {Dimensions, fitToFrame, Point, Rect} from './util';
+import {Dimensions, Point, Rect, fitToFrame} from './util';
 
 /**
  * Displays a scaled-down version of an image with a draggable frame for

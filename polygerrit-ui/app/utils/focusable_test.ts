@@ -6,7 +6,7 @@
 import '../test/common-test-setup';
 import {getFocusableElements, getFocusableElementsReverse} from './focusable';
 import {html, render} from 'lit';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 
 async function createDom() {
   const container = await fixture<HTMLDivElement>(html`<div></div>`);

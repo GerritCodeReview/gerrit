@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-dialog/gr-dialog';
-import {css, html, LitElement} from 'lit';
-import {property, query, customElement} from 'lit/decorators.js';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {sharedStyles} from '../../../styles/shared-styles';

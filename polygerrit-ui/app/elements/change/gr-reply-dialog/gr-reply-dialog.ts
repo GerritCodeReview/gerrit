@@ -27,37 +27,37 @@ import {
   AccountInfoInput,
   AccountInput,
   AccountInputDetail,
-  getUserId,
   GroupInfoInput,
-  isAccountNewlyAdded,
   RawAccountInput,
+  getUserId,
+  isAccountNewlyAdded,
   removeServiceUsers,
   toReviewInput,
 } from '../../../utils/account-util';
 import {TargetElement} from '../../../api/plugin';
-import {isDefined, ParsedChangeInfo} from '../../../types/types';
+import {ParsedChangeInfo, isDefined} from '../../../types/types';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {
   AccountId,
   AccountInfo,
   AttentionSetInput,
   ChangeInfo,
+  ChangeViewChangeInfo,
   CommentThread,
   DraftInfo,
   GroupInfo,
-  isAccount,
-  isDetailedLabelInfo,
-  isReviewerAccountSuggestion,
-  isReviewerGroupSuggestion,
-  ReviewerInput,
   ReviewInput,
   ReviewResult,
+  ReviewerInput,
   ServerInfo,
   SuggestedReviewerGroupInfo,
   Suggestion,
   UserId,
+  isAccount,
+  isDetailedLabelInfo,
   isDraft,
-  ChangeViewChangeInfo,
+  isReviewerAccountSuggestion,
+  isReviewerGroupSuggestion,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -76,19 +76,19 @@ import {
 } from '../../../utils/comment-util';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {
+  StandardLabels,
   getApprovalInfo,
   getMaxAccounts,
-  StandardLabels,
 } from '../../../utils/label-util';
 import {pluralize} from '../../../utils/string-util';
 import {
+  fire,
   fireAlert,
   fireError,
-  fire,
-  fireNoBubble,
   fireIronAnnounce,
-  fireServerError,
+  fireNoBubble,
   fireReload,
+  fireServerError,
 } from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
 import {DelayedTask} from '../../../utils/async-util';
@@ -101,7 +101,7 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
-import {css, html, PropertyValues, LitElement, nothing} from 'lit';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -110,7 +110,7 @@ import {
   RemoveReviewerEvent,
   ValueChangedEvent,
 } from '../../../types/events';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {hasHumanReviewer} from '../../../utils/change-util';
@@ -132,8 +132,8 @@ import {formStyles} from '../../../styles/form-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDocUrl} from '../../../utils/url-util';
 import {
-  readJSONResponsePayload,
   ResponsePayload,
+  readJSONResponsePayload,
 } from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export enum FocusTarget {

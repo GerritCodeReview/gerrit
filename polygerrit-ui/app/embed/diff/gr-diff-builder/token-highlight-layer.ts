@@ -10,7 +10,7 @@ import {
   GrAnnotationImpl,
   getStringLength,
 } from '../gr-diff-highlight/gr-annotation';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {DelayedTask, debounce} from '../../../utils/async-util';
 import {getLineElByChild, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {
   getLineNumberByChild,

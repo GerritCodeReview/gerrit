@@ -9,7 +9,7 @@ import './gr-editable-content';
 import {GrEditableContent} from './gr-editable-content';
 import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrButton} from '../gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {StorageService} from '../../../services/storage/gr-storage';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {testResolver} from '../../../test/common-test-setup';

@@ -24,11 +24,11 @@ import {
   mockPromise,
   queryAll,
   queryAndAssert,
-  waitUntil,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
 function getChangeObject() {

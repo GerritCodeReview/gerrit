@@ -8,14 +8,14 @@ import {singleDecodeURL} from '../../../utils/url-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {toSortedPermissionsArray} from '../../../utils/access-util';
 import {
-  RepoName,
-  ProjectInfo,
   CapabilityInfoMap,
+  GitRef,
   LabelNameToLabelTypeInfoMap,
   ProjectAccessInput,
-  GitRef,
-  UrlEncodedRepoName,
+  ProjectInfo,
   RepoAccessGroups,
+  RepoName,
+  UrlEncodedRepoName,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
@@ -26,10 +26,10 @@ import {
 import {
   EditableLocalAccessSectionInfo,
   PermissionAccessSection,
-  PropertyTreeNode,
   PrimitiveValue,
+  PropertyTreeNode,
 } from './gr-repo-access-interfaces';
-import {firePageError, fireAlert} from '../../../utils/event-util';
+import {fireAlert, firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -46,7 +46,7 @@ import {
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {createRepoUrl, RepoDetailView} from '../../../models/views/repo';
+import {RepoDetailView, createRepoUrl} from '../../../models/views/repo';
 import '../../shared/gr-weblink/gr-weblink';
 
 const NOTHING_TO_SAVE = 'No changes to save.';

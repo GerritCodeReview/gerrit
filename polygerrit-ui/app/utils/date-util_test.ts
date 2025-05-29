@@ -7,12 +7,12 @@ import * as sinon from 'sinon';
 import {Timestamp} from '../types/common';
 import '../test/common-test-setup';
 import {
-  isValidDate,
-  parseDate,
+  formatDate,
   fromNow,
+  isValidDate,
   isWithinDay,
   isWithinHalfYear,
-  formatDate,
+  parseDate,
   wasYesterday,
 } from './date-util';
 import {assert} from '@open-wc/testing';

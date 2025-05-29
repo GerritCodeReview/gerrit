@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {GrDiffLine, BLANK_LINE} from './gr-diff-line';
+import {BLANK_LINE, GrDiffLine} from './gr-diff-line';
 import {
   GrDiffGroup,
   GrDiffGroupType,

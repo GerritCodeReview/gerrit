@@ -41,22 +41,22 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
   AdminChildView,
-  adminViewModelToken,
-  AdminViewState,
   AdminNavLinksOption,
-  getAdminLinks,
+  AdminViewState,
   NavLink,
   SubsectionInterface,
+  adminViewModelToken,
+  getAdminLinks,
 } from '../../../models/views/admin';
 import {
   GroupDetailView,
-  groupViewModelToken,
   GroupViewState,
+  groupViewModelToken,
 } from '../../../models/views/group';
 import {
   RepoDetailView,
-  repoViewModelToken,
   RepoViewState,
+  repoViewModelToken,
 } from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';

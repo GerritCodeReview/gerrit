@@ -13,8 +13,8 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
   ConfigInfo,
-  RevisionPatchSetNum,
   RepoName,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
 import {
@@ -29,7 +29,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {createEditUrl} from '../../../models/views/change';
 import {resolve} from '../../../models/dependency';

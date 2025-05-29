@@ -8,7 +8,7 @@ import './gr-change-table-editor';
 import {GrChangeTableEditor} from './gr-change-table-editor';
 import {queryAndAssert} from '../../../test/test-utils';
 import {createServerInfo} from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {ColumnNames} from '../../../constants/constants';
 
 suite('gr-change-table-editor tests', () => {

@@ -24,7 +24,7 @@ import {
   TimeFormat,
   createDefaultPreferences,
 } from '../../../constants/constants';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {
   createAccountDetailWithId,

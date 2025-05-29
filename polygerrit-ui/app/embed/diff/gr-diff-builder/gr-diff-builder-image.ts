@@ -6,7 +6,7 @@
 import {ImageInfo} from '../../../types/common';
 import {Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
-import {html, LitElement, nothing} from 'lit';
+import {LitElement, html, nothing} from 'lit';
 import {property, query, state} from 'lit/decorators.js';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain

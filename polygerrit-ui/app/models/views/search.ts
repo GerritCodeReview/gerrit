@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {combineLatest, fromEvent, Observable} from 'rxjs';
+import {Observable, combineLatest, fromEvent} from 'rxjs';
 import {
   filter,
   map,
@@ -12,7 +12,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {RepoName, BranchName, TopicName, ChangeInfo} from '../../api/rest-api';
+import {BranchName, ChangeInfo, RepoName, TopicName} from '../../api/rest-api';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';
@@ -20,7 +20,7 @@ import {accountKey} from '../../utils/account-util';
 import {select} from '../../utils/observable-util';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
-import {define, Provider} from '../dependency';
+import {Provider, define} from '../dependency';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {ViewState} from './base';

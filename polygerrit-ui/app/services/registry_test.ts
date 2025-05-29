@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {create, Registry} from './registry';
+import {Registry, create} from './registry';
 import '../test/common-test-setup';
 import {assert} from '@open-wc/testing';
 import {Finalizable} from '../types/types';

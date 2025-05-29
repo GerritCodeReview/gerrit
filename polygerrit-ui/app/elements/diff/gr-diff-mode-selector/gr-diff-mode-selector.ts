@@ -12,7 +12,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {resolve} from '../../../models/dependency';
-import {css, html, LitElement} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {userModelToken} from '../../../models/user/user-model';
 import {ironAnnouncerRequestAvailability} from '../../polymer-util';

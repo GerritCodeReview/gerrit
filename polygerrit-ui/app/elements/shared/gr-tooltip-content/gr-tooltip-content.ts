@@ -6,7 +6,7 @@
 import '../gr-icon/gr-icon';
 import '../gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
 const ARROW_HEIGHT = 7.2; // Height of the arrow in tooltip.

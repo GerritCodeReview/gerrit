@@ -12,7 +12,7 @@ import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants'
 import {createChange} from '../../../test/test-data-generators';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-create-change-dialog tests', () => {
   let element: GrCreateChangeDialog;

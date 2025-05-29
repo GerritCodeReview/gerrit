@@ -5,8 +5,8 @@
  */
 import {
   ActionInfo,
-  ChangeInfo,
   BasePatchSetNum,
+  ChangeInfo,
   PatchSetNum,
   ReviewInput,
   RevisionInfo,

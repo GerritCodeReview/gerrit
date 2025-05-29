@@ -7,7 +7,7 @@
 // This file adds some simple checks to match internal Google rules.
 // Internally at Google it has different a implementation.
 
-import {setLocationHref, locationReplace, locationAssign} from 'safevalues/dom';
+import {locationAssign, locationReplace, setLocationHref} from 'safevalues/dom';
 
 export function setHref(loc: Location, url: string) {
   setLocationHref(loc, url);

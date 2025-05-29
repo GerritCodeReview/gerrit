@@ -7,8 +7,8 @@ import {HighlightJS} from '../types/types';
 import {
   SyntaxWorkerMessage,
   SyntaxWorkerResult,
-  isRequest,
   isInit,
+  isRequest,
 } from '../types/syntax-worker-api';
 import {highlightedStringToRanges} from '../utils/syntax-util';
 import {importScript} from '../utils/worker-util';

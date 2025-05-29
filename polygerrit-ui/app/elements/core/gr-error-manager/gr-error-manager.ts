@@ -19,7 +19,7 @@ import {
   ShowErrorEvent,
 } from '../../../types/events';
 import {windowLocationReload} from '../../../utils/dom-util';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {DelayedTask, debounce} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {LitElement, html} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';

@@ -15,12 +15,12 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {DelayedTask, debounce} from '../../../utils/async-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Interaction} from '../../../constants/reporting';
 import {LitElement, html} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {PropertyValues} from 'lit';
@@ -46,10 +46,10 @@ import {formStyles} from '../../../styles/form-styles';
 import {changeViewModelToken} from '../../../models/views/change';
 import {SpecialFilePath} from '../../../constants/constants';
 import {
-  detectFormattingErrorsInString,
   ErrorType,
-  formatCommitMessageString,
   FormattingError,
+  detectFormattingErrorsInString,
+  formatCommitMessageString,
 } from '../../../utils/commit-message-formatter-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 

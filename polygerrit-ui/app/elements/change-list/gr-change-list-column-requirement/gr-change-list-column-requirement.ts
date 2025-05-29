@@ -6,7 +6,7 @@
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-icon/gr-icon';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,

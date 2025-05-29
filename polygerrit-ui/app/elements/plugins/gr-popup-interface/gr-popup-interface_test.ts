@@ -10,9 +10,9 @@ import {GrPopupInterface} from './gr-popup-interface';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 
 @customElement('gr-user-test-popup')
 class GrUserTestPopupElement extends LitElement {

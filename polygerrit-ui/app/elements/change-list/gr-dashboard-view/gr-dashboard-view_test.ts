@@ -17,12 +17,12 @@ import {
 } from '../../../test/test-data-generators';
 import {
   addListenerForTest,
+  mockPromise,
+  query,
+  queryAndAssert,
+  stubFlags,
   stubReporting,
   stubRestApi,
-  mockPromise,
-  queryAndAssert,
-  query,
-  stubFlags,
   waitUntil,
 } from '../../../test/test-utils';
 import {
@@ -34,7 +34,7 @@ import {
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateChangeHelp} from '../gr-create-change-help/gr-create-change-help';
 import {PageErrorEvent} from '../../../types/events';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';

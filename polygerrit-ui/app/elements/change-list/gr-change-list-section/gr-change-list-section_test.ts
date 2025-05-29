@@ -5,29 +5,29 @@
  */
 import * as sinon from 'sinon';
 import {
-  GrChangeListSection,
   computeLabelShortcut,
+  GrChangeListSection,
 } from './gr-change-list-section';
 import '../../../test/common-test-setup';
 import './gr-change-list-section';
 import '../gr-change-list-item/gr-change-list-item';
 import {
-  createChange,
   createAccountDetailWithId,
   createAccountWithEmail,
+  createChange,
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {ChangeInfoId, NumericChangeId, Timestamp} from '../../../api/rest-api';
 import {
-  queryAll,
   query,
+  queryAll,
   queryAndAssert,
   stubFlags,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {ColumnNames} from '../../../constants/constants';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';

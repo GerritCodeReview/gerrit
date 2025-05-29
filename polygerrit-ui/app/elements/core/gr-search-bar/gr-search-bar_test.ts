@@ -23,7 +23,7 @@ import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {changeModelToken} from '../../../models/change/change-model';

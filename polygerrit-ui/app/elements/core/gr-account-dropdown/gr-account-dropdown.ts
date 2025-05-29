@@ -10,7 +10,7 @@ import {AccountInfo, DropdownLink, ServerInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {DropdownContent} from '../../shared/gr-dropdown/gr-dropdown';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';

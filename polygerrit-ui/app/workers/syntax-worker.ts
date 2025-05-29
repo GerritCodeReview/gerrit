@@ -5,10 +5,10 @@
  */
 import {HighlightJS} from '../types/types';
 import {
+  isInit,
+  isRequest,
   SyntaxWorkerMessage,
   SyntaxWorkerResult,
-  isRequest,
-  isInit,
 } from '../types/syntax-worker-api';
 import {highlightedStringToRanges} from '../utils/syntax-util';
 import {importScript} from '../utils/worker-util';

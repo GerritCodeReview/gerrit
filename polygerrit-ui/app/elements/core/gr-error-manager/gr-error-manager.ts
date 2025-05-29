@@ -21,7 +21,7 @@ import {
 import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 import {resolve} from '../../../models/dependency';

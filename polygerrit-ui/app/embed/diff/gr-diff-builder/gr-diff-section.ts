@@ -8,11 +8,11 @@ import {property, queryAll, state} from 'lit/decorators.js';
 import {
   DiffInfo,
   DiffLayer,
+  DiffPreferencesInfo,
   DiffViewMode,
+  LineNumber,
   RenderPreferences,
   Side,
-  LineNumber,
-  DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {getResponsiveMode} from '../gr-diff/gr-diff-utils';

@@ -5,11 +5,11 @@
  */
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
-import {createServerInfo, createGerritInfo} from '../test/test-data-generators';
+import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
-  getCodeBrowserWeblink,
   getBrowseCommitWeblink,
   getChangeWeblinks,
+  getCodeBrowserWeblink,
 } from './weblink-util';
 
 suite('weblink util tests', () => {

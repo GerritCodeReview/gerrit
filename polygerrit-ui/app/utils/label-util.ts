@@ -6,10 +6,10 @@
 import {
   ChangeInfo,
   isQuickLabelInfo,
-  SubmitRequirementResultInfo,
-  SubmitRequirementStatus,
   LabelNameToValuesMap,
   LabelValueToDescriptionMap,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
 } from '../api/rest-api';
 import {
   AccountInfo,
@@ -21,7 +21,7 @@ import {
   VotingRangeInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
-import {assertNever, unique, hasOwnProperty} from './common-util';
+import {assertNever, hasOwnProperty, unique} from './common-util';
 
 export interface Label {
   name: string;

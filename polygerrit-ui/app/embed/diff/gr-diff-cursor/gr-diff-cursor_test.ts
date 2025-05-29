@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import '../gr-diff/gr-diff';
 import './gr-diff-cursor';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {
   mockPromise,
   queryAll,

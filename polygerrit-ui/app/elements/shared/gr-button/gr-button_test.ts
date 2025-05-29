@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';

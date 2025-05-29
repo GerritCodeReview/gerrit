@@ -61,7 +61,7 @@ import {
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
-import {fixture, html, waitUntil, assert} from '@open-wc/testing';
+import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';

@@ -8,7 +8,6 @@ import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup';
 import {
-  TEST_NUMERIC_CHANGE_ID,
   createChange,
   createChangeMessageInfo,
   createChangeViewState,
@@ -17,6 +16,7 @@ import {
   createMergeable,
   createParsedChange,
   createRevision,
+  TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {
   mockPromise,

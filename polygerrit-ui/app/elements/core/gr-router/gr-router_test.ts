@@ -8,12 +8,12 @@ import '../../../test/common-test-setup';
 import './gr-router';
 import {Page, PageContext} from './gr-page';
 import {
+  addListenerForTest,
+  MockPromise,
+  mockPromise,
   stubBaseUrl,
   stubRestApi,
-  addListenerForTest,
   waitUntilCalled,
-  mockPromise,
-  MockPromise,
 } from '../../../test/test-utils';
 import {GrRouter, routerToken} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';

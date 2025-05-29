@@ -14,13 +14,13 @@ import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   ConfigInfo,
-  RepoName,
-  InheritedBooleanInfo,
-  SchemesInfoMap,
   ConfigInput,
+  DownloadSchemeInfo,
+  InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
-  DownloadSchemeInfo,
+  RepoName,
+  SchemesInfoMap,
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,
@@ -38,7 +38,7 @@ import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/deep-util';
-import {LitElement, PropertyValues, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {createChangeUrl} from '../../../models/views/change';
 import {when} from 'lit/directives/when.js';

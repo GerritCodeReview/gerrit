@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-revision-parents';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrRevisionParents} from './gr-revision-parents';
 import {createRevision} from '../../../test/test-data-generators';
 import {

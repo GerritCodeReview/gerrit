@@ -11,8 +11,8 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-default-editor/gr-default-editor';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  EditPreferencesInfo,
   Base64FileContent,
+  EditPreferencesInfo,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -22,10 +22,10 @@ import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
+import {changeIsAbandoned, changeIsMerged} from '../../../utils/change-util';
 import {Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';

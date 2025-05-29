@@ -6,10 +6,10 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {
-  TEST_ONLY,
   annotateElement,
   annotateWithElement,
   getStringLength,
+  TEST_ONLY,
 } from './gr-annotation';
 import {
   getSanitizeDOMValue,

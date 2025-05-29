@@ -8,16 +8,16 @@ import '../gr-icon/gr-icon';
 import {singleDecodeURL} from '../../../utils/url-util';
 import {AutocompleteQuery} from '../gr-autocomplete/gr-autocomplete';
 import {
-  BranchName,
-  RepoName,
-  ProjectInfoWithName,
   BranchInfo,
+  BranchName,
+  ProjectInfoWithName,
+  RepoName,
 } from '../../../types/common';
 import {GrLabeledAutocomplete} from '../gr-labeled-autocomplete/gr-labeled-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';

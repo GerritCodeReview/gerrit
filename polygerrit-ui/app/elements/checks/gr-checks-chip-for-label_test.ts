@@ -11,7 +11,7 @@ import {queryAndAssert} from '../../utils/common-util';
 import {GrChecksChip} from '../change/gr-change-summary/gr-checks-chip';
 import './gr-checks-chip-for-label';
 import {GrChecksChipForLabel} from './gr-checks-chip-for-label';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 
 suite('gr-checks-chip-for-label test', () => {

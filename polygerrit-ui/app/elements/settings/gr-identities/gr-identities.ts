@@ -9,7 +9,7 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {AccountExternalIdInfo, ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {AuthType} from '../../../constants/constants';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';

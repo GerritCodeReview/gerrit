@@ -6,12 +6,12 @@
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {
-  PluginConfigOptionsChangedEventDetail,
   ArrayPluginOption,
+  PluginConfigOptionsChangedEventDetail,
 } from '../gr-repo-plugin-config/gr-repo-plugin-config-types';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';

@@ -29,8 +29,8 @@ import {
 } from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {
-  fireAlert,
   fire,
+  fireAlert,
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
@@ -38,8 +38,8 @@ import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css, nothing} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {css, html, LitElement, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {ShortcutController} from '../../lit/shortcut-controller';

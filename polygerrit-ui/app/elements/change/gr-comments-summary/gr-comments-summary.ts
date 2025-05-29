@@ -6,7 +6,7 @@
 import '../gr-change-summary/gr-summary-chip';
 import '../../shared/gr-avatar/gr-avatar-stack';
 import '../../shared/gr-icon/gr-icon';
-import {LitElement, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   getFirstComment,

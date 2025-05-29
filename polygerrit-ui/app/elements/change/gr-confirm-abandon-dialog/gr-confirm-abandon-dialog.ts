@@ -8,7 +8,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';

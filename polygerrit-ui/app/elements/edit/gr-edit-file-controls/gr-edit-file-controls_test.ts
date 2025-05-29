@@ -10,7 +10,7 @@ import {GrEditFileControls} from './gr-edit-file-controls';
 import {GrEditConstants} from '../gr-edit-constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-edit-file-controls tests', () => {
   let element: GrEditFileControls;

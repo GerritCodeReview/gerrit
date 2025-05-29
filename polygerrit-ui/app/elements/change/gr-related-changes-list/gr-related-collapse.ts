@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html, nothing, TemplateResult} from 'lit';
+import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import {customElement, property} from 'lit/decorators.js';

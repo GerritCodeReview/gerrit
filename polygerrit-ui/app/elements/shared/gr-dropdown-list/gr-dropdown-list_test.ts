@@ -16,7 +16,7 @@ import {
 import {PaperListboxElement} from '@polymer/paper-listbox';
 import {Timestamp} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-dropdown-list tests', () => {
   let element: GrDropdownList;

@@ -15,15 +15,15 @@ import {
   RunStatus,
 } from '../../api/checks';
 import {
+  FixReplacementInfo,
   PatchSetNumber,
   RevisionPatchSetNum,
-  FixReplacementInfo,
 } from '../../api/rest-api';
 import {CommentSide} from '../../constants/constants';
-import {FixSuggestionInfo, DraftInfo} from '../../types/common';
+import {DraftInfo, FixSuggestionInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {PROVIDED_FIX_ID, createNew} from '../../utils/comment-util';
+import {createNew, PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';

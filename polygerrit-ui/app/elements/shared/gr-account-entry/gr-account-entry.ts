@@ -9,7 +9,7 @@ import {
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   AddAccountEvent,

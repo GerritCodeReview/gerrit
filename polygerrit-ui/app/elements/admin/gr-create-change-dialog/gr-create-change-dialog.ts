@@ -12,16 +12,16 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  RepoName,
   BranchName,
   ChangeId,
   InheritedBooleanInfo,
+  RepoName,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';

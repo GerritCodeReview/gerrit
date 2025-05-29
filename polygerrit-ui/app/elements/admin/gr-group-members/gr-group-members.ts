@@ -9,13 +9,13 @@ import '../../shared/gr-button/gr-button';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {getBaseUrl} from '../../../utils/url-util';
 import {
-  GroupId,
   AccountId,
   AccountInfo,
+  GroupId,
   GroupInfo,
   GroupName,
-  ServerInfo,
   NumericChangeId,
+  ServerInfo,
 } from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -35,7 +35,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {subscribe} from '../../lit/subscription-controller';

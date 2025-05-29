@@ -9,15 +9,15 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {EventType} from '../../../api/plugin';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
 import {
-  stubRestApi,
   stubBaseUrl,
+  stubRestApi,
   waitEventLoop,
   waitUntilCalled,
 } from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {PluginLoader, pluginLoaderToken} from './gr-plugin-loader';
-import {useFakeTimers, stub, SinonFakeTimers, SinonStub} from 'sinon';
+import {SinonFakeTimers, SinonStub, stub, useFakeTimers} from 'sinon';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {Plugin} from './gr-public-js-api';
 import {

@@ -3,11 +3,11 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {customElement, state, query} from 'lit/decorators.js';
-import {LitElement, html, css} from 'lit';
+import {customElement, query, state} from 'lit/decorators.js';
+import {css, html, LitElement} from 'lit';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
-import {NumericChangeId, ChangeInfo, ChangeStatus} from '../../../api/rest-api';
+import {ChangeInfo, ChangeStatus, NumericChangeId} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {ProgressStatus} from '../../../constants/constants';
 import '../../shared/gr-dialog/gr-dialog';

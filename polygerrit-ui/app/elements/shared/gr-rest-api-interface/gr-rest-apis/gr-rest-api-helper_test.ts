@@ -6,14 +6,14 @@
 import * as sinon from 'sinon';
 import '../../../../test/common-test-setup';
 import {
-  SiteBasedCache,
   FetchPromisesCache,
+  getFetchOptions,
   GrRestApiHelper,
   JSON_PREFIX,
-  readJSONResponsePayload,
   parsePrefixedJSON,
-  getFetchOptions,
+  readJSONResponsePayload,
   REQUEST_ORIGIN_HEADER,
+  SiteBasedCache,
 } from './gr-rest-api-helper';
 import {
   addListenerForTest,

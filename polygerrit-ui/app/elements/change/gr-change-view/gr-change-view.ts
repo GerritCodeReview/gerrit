@@ -37,7 +37,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
 import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {ChangeStatus, Tab, DiffViewMode} from '../../../constants/constants';
+import {ChangeStatus, DiffViewMode, Tab} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -77,8 +77,8 @@ import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {
-  assertIsDefined,
   assert,
+  assertIsDefined,
   queryAll,
   queryAndAssert,
 } from '../../../utils/common-util';
@@ -103,7 +103,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-import {fireAlert, fire, fireReload} from '../../../utils/event-util';
+import {fire, fireAlert, fireReload} from '../../../utils/event-util';
 import {
   debounce,
   DelayedTask,

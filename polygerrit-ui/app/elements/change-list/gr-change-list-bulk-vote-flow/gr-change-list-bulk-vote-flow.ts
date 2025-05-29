@@ -4,27 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, query, state} from 'lit/decorators.js';
-import {LitElement, html, css, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {ChangeInfo, AccountInfo, NumericChangeId} from '../../../api/rest-api';
+import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../api/rest-api';
 import {
-  getTriggerVotes,
   computeLabels,
   computeOrderedLabelValues,
+  getTriggerVotes,
+  Label,
   mergeLabelInfoMaps,
   mergeLabelMaps,
-  Label,
   StandardLabels,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {queryAndAssert} from '../../../utils/common-util';
 import {
+  LabelNameToValueMap,
   LabelNameToValuesMap,
   ReviewInput,
-  LabelNameToValueMap,
 } from '../../../types/common';
 import {GrLabelScoreRow} from '../../change/gr-label-score-row/gr-label-score-row';
 import {ProgressStatus} from '../../../constants/constants';

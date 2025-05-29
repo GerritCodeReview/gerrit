@@ -6,11 +6,11 @@
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import {
-  hasOwnProperty,
   areSetsEqual,
   containsAll,
-  intersection,
   difference,
+  hasOwnProperty,
+  intersection,
   toggle,
 } from './common-util';
 

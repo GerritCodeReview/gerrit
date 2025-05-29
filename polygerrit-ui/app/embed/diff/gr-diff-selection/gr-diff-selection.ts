@@ -18,7 +18,7 @@ import {
   getSideByLineEl,
   isThreadEl,
 } from '../gr-diff/gr-diff-utils';
-import {getDiffLines, getContentFromDiff} from '../../../utils/diff-util';
+import {getContentFromDiff, getDiffLines} from '../../../utils/diff-util';
 import {fire} from '../../../utils/event-util';
 
 /**

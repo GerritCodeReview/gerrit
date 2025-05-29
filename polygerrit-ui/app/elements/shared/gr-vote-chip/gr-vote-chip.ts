@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-tooltip-content/gr-tooltip-content';
-import {LitElement, TemplateResult, css, html} from 'lit';
+import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,

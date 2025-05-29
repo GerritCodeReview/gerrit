@@ -11,7 +11,7 @@ import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {subscribe} from '../../lit/subscription-controller';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';

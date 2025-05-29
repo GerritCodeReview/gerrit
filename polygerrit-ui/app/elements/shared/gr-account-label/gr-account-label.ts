@@ -15,11 +15,11 @@ import {
   isSelf,
   isServiceUser,
 } from '../../../utils/account-util';
-import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
+import {AccountInfo, ChangeInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
-import {LitElement, css, html, TemplateResult} from 'lit';
+import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';

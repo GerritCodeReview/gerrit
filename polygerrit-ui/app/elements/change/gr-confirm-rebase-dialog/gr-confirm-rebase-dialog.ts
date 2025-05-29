@@ -13,8 +13,8 @@ import {
   BranchName,
   ChangeActionDialog,
   EmailInfo,
-  NumericChangeId,
   GitPersonInfo,
+  NumericChangeId,
   ValidationOptionsInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';

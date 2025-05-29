@@ -9,7 +9,7 @@ import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {state, customElement} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {deepEqual} from '../../../utils/deep-util';

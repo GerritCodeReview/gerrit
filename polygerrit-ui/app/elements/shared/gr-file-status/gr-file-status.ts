@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {FileInfoStatus} from '../../../constants/constants';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {assertNever} from '../../../utils/common-util';
 import '../gr-tooltip-content/gr-tooltip-content';

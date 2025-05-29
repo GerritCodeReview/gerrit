@@ -7,7 +7,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {FileActionTapEvent} from '../../../types/events';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {DropdownLink} from '../../../types/common';

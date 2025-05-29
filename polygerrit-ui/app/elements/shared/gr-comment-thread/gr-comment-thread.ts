@@ -9,7 +9,7 @@ import '../gr-comment/gr-comment';
 import '../gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {css, html, nothing, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {
   customElement,
   property,
@@ -19,12 +19,12 @@ import {
 } from 'lit/decorators.js';
 import {
   computeDiffFromContext,
-  getLastComment,
-  getFirstComment,
   createNewReply,
-  NEWLINE_PATTERN,
-  id,
+  getFirstComment,
+  getLastComment,
   hasUserSuggestion,
+  id,
+  NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
@@ -48,9 +48,9 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
   CommentRangeLayer,
   DiffLayer,
-  Side,
   FILE,
   RenderPreferences,
+  Side,
 } from '../../../api/diff';
 import {
   assert,

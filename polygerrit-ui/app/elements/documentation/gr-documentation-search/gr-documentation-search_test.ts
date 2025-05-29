@@ -9,7 +9,7 @@ import './gr-documentation-search';
 import {GrDocumentationSearch} from './gr-documentation-search';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 

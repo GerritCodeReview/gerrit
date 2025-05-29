@@ -49,7 +49,7 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {UIActionInfo} from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrConfirmCherrypickDialog} from '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 import {GrConfirmSubmitDialog} from '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';

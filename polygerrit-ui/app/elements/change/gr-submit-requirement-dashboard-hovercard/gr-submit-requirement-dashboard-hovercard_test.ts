@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-submit-requirement-dashboard-hovercard';
 import {GrSubmitRequirementDashboardHovercard} from './gr-submit-requirement-dashboard-hovercard';

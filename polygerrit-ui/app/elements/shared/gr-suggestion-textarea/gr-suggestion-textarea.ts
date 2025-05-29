@@ -16,7 +16,7 @@ import {
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {Key} from '../../../utils/dom-util';
 import {fire} from '../../../utils/event-util';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';

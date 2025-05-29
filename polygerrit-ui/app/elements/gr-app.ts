@@ -16,8 +16,8 @@ import '../scripts/bundled-polymer';
  * See https://github.com/Polymer/polymer/issues/5289
  */
 import {
-  setPassiveTouchGestures,
   setCancelSyntheticClickEvents,
+  setPassiveTouchGestures,
 } from '@polymer/polymer/lib/utils/settings';
 setCancelSyntheticClickEvents(false);
 setPassiveTouchGestures(true);

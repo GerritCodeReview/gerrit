@@ -20,8 +20,8 @@ import {DependencyToken} from '../models/dependency';
 import {storageServiceToken} from '../services/storage/gr-storage_impl';
 import {highlightServiceToken} from '../services/highlight/highlight-service';
 import {
-  diffModelToken,
   DiffModel,
+  diffModelToken,
 } from '../embed/diff/gr-diff-model/gr-diff-model';
 import {Finalizable} from '../types/types';
 import {suggestionsServiceToken} from '../services/suggestions/suggestions-service';

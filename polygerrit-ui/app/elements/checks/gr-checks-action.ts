@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {Action, NOT_USEFUL, USEFUL} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';

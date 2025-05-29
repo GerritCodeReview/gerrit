@@ -7,16 +7,16 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
-  parseDate,
+  formatDate,
   fromNow,
   isValidDate,
   isWithinDay,
   isWithinHalfYear,
-  formatDate,
+  parseDate,
   utcOffsetString,
   wasYesterday,
 } from '../../../utils/date-util';
-import {TimeFormat, DateFormat} from '../../../constants/constants';
+import {DateFormat, TimeFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
 import {PreferencesInfo, Timestamp} from '../../../types/common';
 import {resolve} from '../../../models/dependency';

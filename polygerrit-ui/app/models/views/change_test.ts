@@ -17,10 +17,10 @@ import {
   createEditViewState,
 } from '../../test/test-data-generators';
 import {
+  ChangeViewState,
   createChangeUrl,
   createDiffUrl,
   createEditUrl,
-  ChangeViewState,
 } from './change';
 
 suite('change view state tests', () => {

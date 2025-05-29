@@ -7,7 +7,7 @@ import './gr-checks-chip';
 import '../gr-comments-summary/gr-comments-summary';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
-import {LitElement, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';

@@ -7,14 +7,14 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-account-entry/gr-account-entry';
 import {getAppContext} from '../../../services/app-context';
 import {
-  ChangeInfo,
-  Suggestion,
   AccountInfo,
-  GroupInfo,
+  ChangeInfo,
   EmailAddress,
+  GroupInfo,
+  isGroup,
   SuggestedReviewerGroupInfo,
   SuggestedReviewerInfo,
-  isGroup,
+  Suggestion,
 } from '../../../types/common';
 import {ReviewerSuggestionsProvider} from '../../../services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
@@ -28,7 +28,7 @@ import {
   isSuggestedReviewerGroupInfo,
   RawAccountInput,
 } from '../../../utils/account-util';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {classMap} from 'lit/directives/class-map.js';

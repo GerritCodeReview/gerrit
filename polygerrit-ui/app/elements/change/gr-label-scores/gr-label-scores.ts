@@ -5,21 +5,21 @@
  */
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
-import {LitElement, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
-  ChangeInfo,
   AccountInfo,
+  ChangeInfo,
   LabelNameToValueMap,
 } from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {
-  getTriggerVotes,
   computeLabels,
-  Label,
   computeOrderedLabelValues,
-  getDefaultValue,
   getApplicableLabels,
+  getDefaultValue,
+  getTriggerVotes,
+  Label,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';

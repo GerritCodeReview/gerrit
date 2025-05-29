@@ -99,7 +99,7 @@ import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, css, html, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {assertIsDefined, queryAll, uuid} from '../../../utils/common-util';

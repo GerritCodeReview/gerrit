@@ -7,7 +7,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {fontStyles} from '../../../styles/gr-font-styles';
 

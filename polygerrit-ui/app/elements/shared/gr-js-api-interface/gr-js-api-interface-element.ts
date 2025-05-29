@@ -13,8 +13,8 @@ import {
 } from '../../../types/common';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {
-  JsApiService,
   EventCallback,
+  JsApiService,
   ShowChangeDetail,
   ShowDiffDetail,
   ShowRevisionActionsDetail,

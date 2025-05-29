@@ -8,7 +8,7 @@ import './gr-group-list';
 import {GrGroupList} from './gr-group-list';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-group-list tests', () => {
   let element: GrGroupList;

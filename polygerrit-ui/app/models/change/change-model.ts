@@ -6,28 +6,28 @@
 import {
   BasePatchSetNum,
   ChangeInfo,
-  EditInfo,
-  EDIT,
-  PARENT,
-  NumericChangeId,
-  PatchSetNum,
-  PreferencesInfo,
-  RevisionPatchSetNum,
-  PatchSetNumber,
-  CommitId,
-  RevisionInfo,
-  ListChangesOption,
   ChangeViewChangeInfo,
+  CommitId,
+  EDIT,
+  EditInfo,
   FileInfo,
+  ListChangesOption,
+  NumericChangeId,
+  PARENT,
+  PatchSetNum,
+  PatchSetNumber,
+  PreferencesInfo,
+  RevisionInfo,
+  RevisionPatchSetNum,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {
-  map,
-  filter,
-  withLatestFrom,
-  switchMap,
   catchError,
+  filter,
+  map,
+  switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   computeAllPatchSets,

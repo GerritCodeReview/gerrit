@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {from, of, Observable} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {filter, switchMap, tap} from 'rxjs/operators';
 import {
   DiffPreferencesInfo as DiffPreferencesInfoAPI,
@@ -18,11 +18,11 @@ import {
   TopMenuItemInfo,
 } from '../../types/common';
 import {
-  createDefaultPreferences,
-  createDefaultDiffPrefs,
-  createDefaultEditPrefs,
   AppTheme,
   ColumnNames,
+  createDefaultDiffPrefs,
+  createDefaultEditPrefs,
+  createDefaultPreferences,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';

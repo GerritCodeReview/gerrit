@@ -8,7 +8,7 @@ import '../../test/common-test-setup';
 import './gr-checks-results';
 import './gr-checks-fix-preview';
 import {html} from 'lit';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {createCheckFix} from '../../test/test-data-generators';
 import {GrChecksFixPreview} from './gr-checks-fix-preview';
 import {rectifyFix} from '../../models/checks/checks-util';

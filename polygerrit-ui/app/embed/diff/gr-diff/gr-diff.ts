@@ -16,16 +16,16 @@ import '../gr-diff-builder/gr-diff-section';
 import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
-  getLineNumber,
-  isThreadEl,
-  getResponsiveMode,
-  isResponsive,
-  getSideByLineEl,
   compareComments,
-  getDataFromCommentThreadEl,
-  FullContext,
   DiffContextExpandedEventDetail,
+  FullContext,
+  getDataFromCommentThreadEl,
+  getLineNumber,
+  getResponsiveMode,
+  getSideByLineEl,
   GrDiffCommentThread,
+  isResponsive,
+  isThreadEl,
 } from '../gr-diff/gr-diff-utils';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -40,16 +40,16 @@ import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {AbortStop} from '../../../api/core';
 import {
-  RenderPreferences,
-  GrDiff as GrDiffApi,
-  DisplayLine,
-  DiffRangesToFocus,
-  FileRangeSelection,
-  LineNumber,
-  ContentLoadNeededEventDetail,
-  DiffContextExpandedExternalDetail,
-  CopyInfoEventDetail,
   CommentRangeLayer,
+  ContentLoadNeededEventDetail,
+  CopyInfoEventDetail,
+  DiffContextExpandedExternalDetail,
+  DiffRangesToFocus,
+  DisplayLine,
+  FileRangeSelection,
+  GrDiff as GrDiffApi,
+  LineNumber,
+  RenderPreferences,
 } from '../../../api/diff';
 import {getShadowOrDocumentSelection} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -79,8 +79,8 @@ import {
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
 import {GrFocusLayer} from '../gr-focus-layer/gr-focus-layer';
 import {
-  GrAnnotationImpl,
   getStringLength,
+  GrAnnotationImpl,
 } from '../gr-diff-highlight/gr-annotation';
 import {
   GrDiffGroup,

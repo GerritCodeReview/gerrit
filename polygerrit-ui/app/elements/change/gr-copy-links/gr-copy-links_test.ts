@@ -5,7 +5,7 @@
  */
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import './gr-copy-links';
 import {GrCopyLinks} from './gr-copy-links';
 import {pressKey, queryAndAssert, waitUntil} from '../../../test/test-utils';

@@ -17,7 +17,7 @@ import {
 import {PluginInfo} from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {PageErrorEvent} from '../../../types/events';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 
 function pluginGenerator(counter: number) {

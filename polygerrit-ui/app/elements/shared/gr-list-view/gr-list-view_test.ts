@@ -9,7 +9,7 @@ import './gr-list-view';
 import {GrListView} from './gr-list-view';
 import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
 import {GrButton} from '../gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 

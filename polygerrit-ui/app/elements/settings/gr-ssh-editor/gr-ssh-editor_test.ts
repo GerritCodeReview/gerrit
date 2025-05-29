@@ -15,7 +15,7 @@ import {
 import {GrSshEditor} from './gr-ssh-editor';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-ssh-editor tests', () => {
   let element: GrSshEditor;

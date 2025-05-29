@@ -16,8 +16,8 @@ import {
   strToClassName,
 } from './dom-util';
 import {mockPromise, pressKey, queryAndAssert} from '../test/test-utils';
-import {fixture, assert} from '@open-wc/testing';
-import {LitElement, html} from 'lit';
+import {assert, fixture} from '@open-wc/testing';
+import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 
 /**

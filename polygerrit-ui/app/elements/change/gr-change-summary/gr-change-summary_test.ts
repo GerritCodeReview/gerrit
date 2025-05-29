@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrChangeSummary} from './gr-change-summary';
 import {queryAll, queryAndAssert} from '../../../utils/common-util';
 import {fakeRun0} from '../../../models/checks/checks-fakes';

@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-tooltip';
 import {GrTooltip} from './gr-tooltip';
 import {queryAndAssert} from '../../../test/test-utils';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-tooltip tests', () => {
   let element: GrTooltip;

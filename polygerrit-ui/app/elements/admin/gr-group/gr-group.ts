@@ -9,8 +9,8 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {
-  AutocompleteSuggestion,
   AutocompleteQuery,
+  AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
@@ -22,7 +22,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 

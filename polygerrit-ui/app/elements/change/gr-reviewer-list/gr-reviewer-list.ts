@@ -7,13 +7,13 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-vote-chip/gr-vote-chip';
-import {LitElement, html} from 'lit';
+import {html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
 import {
+  AccountDetailInfo,
   AccountInfo,
   ApprovalInfo,
-  AccountDetailInfo,
   isDetailedLabelInfo,
   LabelInfo,
 } from '../../../types/common';

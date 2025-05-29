@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../change/gr-change-summary/gr-checks-chip';
-import {LitElement, html, nothing} from 'lit';
+import {html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {Category, RunStatus} from '../../api/checks';
 import {Tab} from '../../constants/constants';

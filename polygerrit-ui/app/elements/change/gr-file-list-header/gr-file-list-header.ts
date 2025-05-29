@@ -12,15 +12,15 @@ import '../../shared/gr-icon/gr-icon';
 import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {property, customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   AccountInfo,
-  ChangeInfo,
-  PatchSetNum,
-  CommitInfo,
-  ServerInfo,
   BasePatchSetNum,
+  ChangeInfo,
+  CommitInfo,
+  PatchSetNum,
   PatchSetNumber,
+  ServerInfo,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';

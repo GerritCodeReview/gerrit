@@ -44,9 +44,9 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   ParentCommitInfo,
-  RevisionPatchSetNum,
   RepoName,
   RevisionInfo,
+  RevisionPatchSetNum,
   ServerInfo,
   WebLinkInfo,
 } from '../../../types/common';
@@ -55,15 +55,15 @@ import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label'
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {getAppContext} from '../../../services/app-context';
 import {
-  Metadata,
-  isSectionSet,
   DisplayRules,
+  isSectionSet,
+  Metadata,
 } from '../../../utils/change-metadata-util';
 import {
-  fireAlert,
   fire,
-  fireReload,
+  fireAlert,
   fireError,
+  fireReload,
 } from '../../../utils/event-util';
 import {
   EditRevisionInfo,
@@ -77,7 +77,7 @@ import {
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
-import {LitElement, css, html, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';

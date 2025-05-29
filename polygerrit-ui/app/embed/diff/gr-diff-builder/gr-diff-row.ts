@@ -8,13 +8,13 @@ import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
 import {
-  DiffResponsiveMode,
-  Side,
-  LineNumber,
   DiffLayer,
-  GrDiffLineType,
-  LOST,
+  DiffResponsiveMode,
   FILE,
+  GrDiffLineType,
+  LineNumber,
+  LOST,
+  Side,
 } from '../../../api/diff';
 import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';

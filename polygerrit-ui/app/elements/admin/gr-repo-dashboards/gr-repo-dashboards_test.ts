@@ -15,7 +15,7 @@ import {
 } from '../../../test/test-utils';
 import {DashboardInfo, RepoName} from '../../../types/common';
 import {PageErrorEvent} from '../../../types/events';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-repo-dashboards tests', () => {
   let element: GrRepoDashboards;

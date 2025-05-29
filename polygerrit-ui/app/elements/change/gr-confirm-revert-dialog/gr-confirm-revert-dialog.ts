@@ -7,7 +7,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-validation-options/gr-validation-options';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {LitElement, html, css, nothing} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {
   ChangeActionDialog,

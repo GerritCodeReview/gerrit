@@ -6,9 +6,9 @@
 import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import './gr-hovercard-run';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrHovercardRun} from './gr-hovercard-run';
-import {fakeRun4Att, fakeRun4_4} from '../../models/checks/checks-fakes';
+import {fakeRun4_4, fakeRun4Att} from '../../models/checks/checks-fakes';
 import {createAttemptMap} from '../../models/checks/checks-util';
 import {CheckRun} from '../../models/checks/checks-model';
 

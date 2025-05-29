@@ -19,7 +19,7 @@ import {
   GrAutocompleteDropdown,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {Key, Modifier} from '../../../utils/dom-util';
 
 suite('gr-autocomplete tests', () => {

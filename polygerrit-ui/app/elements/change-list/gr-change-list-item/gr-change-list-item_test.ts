@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import * as sinon from 'sinon';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import {
-  SubmitRequirementResultInfo,
   NumericChangeId,
+  SubmitRequirementResultInfo,
   Timestamp,
 } from '../../../api/rest-api';
 import '../../../test/common-test-setup';
@@ -16,10 +16,10 @@ import {
   createAccountWithEmail,
   createAccountWithId,
   createChange,
-  createSubmitRequirementExpressionInfo,
-  createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
   createServerInfo,
+  createSubmitRequirementExpressionInfo,
+  createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {
   query,
@@ -42,8 +42,8 @@ import {
   wrapInProvider,
 } from '../../../models/di-provider-element';
 import {
-  bulkActionsModelToken,
   BulkActionsModel,
+  bulkActionsModelToken,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {createTestAppContext} from '../../../test/test-app-context-init';

@@ -12,7 +12,7 @@ import {ProjectWatchInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 

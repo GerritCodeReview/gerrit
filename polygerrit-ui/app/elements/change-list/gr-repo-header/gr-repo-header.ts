@@ -9,7 +9,7 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {createRepoUrl} from '../../../models/views/repo';
 import '../../shared/gr-weblink/gr-weblink';

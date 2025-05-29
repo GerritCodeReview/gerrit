@@ -4,26 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  PatchRange,
-  PatchSetNum,
+  Comment,
+  CommentInfo,
+  CommentMap,
+  CommentThread,
+  DraftInfo,
   FileInfo,
   PARENT,
-  CommentThread,
-  Comment,
-  CommentMap,
-  DraftInfo,
-  CommentInfo,
+  PatchRange,
+  PatchSetNum,
 } from '../../../types/common';
 import {
-  isUnresolved,
-  createCommentThreads,
-  isInPatchRange,
-  isDraftThread,
-  isPatchsetLevel,
   addPath,
+  createCommentThreads,
   id,
+  isDraftThread,
+  isInPatchRange,
+  isPatchsetLevel,
+  isUnresolved,
 } from '../../../utils/comment-util';
-import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
+import {isPatchSetFile, PatchNumOnly, PatchSetFile} from '../../../types/types';
 import {CommentSide} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';

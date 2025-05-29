@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-page-nav';
 import {GrPageNav} from './gr-page-nav';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {queryAndAssert} from '../../../test/test-utils';
 
 suite('gr-page-nav tests', () => {

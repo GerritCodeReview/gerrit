@@ -7,7 +7,7 @@ import {define, provide, resolve} from './dependency';
 import {html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import '../test/common-test-setup';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 
 interface FooService {
   value: string;

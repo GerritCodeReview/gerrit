@@ -12,7 +12,7 @@ import {
 } from '../../../test/test-data-generators';
 import {queryAll, stubFlags} from '../../../test/test-utils';
 import {GrMessageScores} from './gr-message-scores';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {PatchSetNumber} from '../../../api/rest-api';
 
 suite('gr-message-score tests', () => {

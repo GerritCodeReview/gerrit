@@ -5,7 +5,7 @@
  */
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
-import {html, assert, fixture, waitUntil} from '@open-wc/testing';
+import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import './gr-router';
 import {Page, PageContext} from './gr-page';
 

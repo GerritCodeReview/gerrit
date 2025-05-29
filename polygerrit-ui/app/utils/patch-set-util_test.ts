@@ -13,13 +13,13 @@ import {
 import {
   BasePatchSetNum,
   ChangeInfo,
+  CommitId,
   EDIT,
+  PARENT,
   PatchSetNum,
   PatchSetNumber,
   ReviewInputTag,
-  PARENT,
   RevisionInfo,
-  CommitId,
 } from '../types/common';
 import {
   _testOnly_computeWipForPatchSets,

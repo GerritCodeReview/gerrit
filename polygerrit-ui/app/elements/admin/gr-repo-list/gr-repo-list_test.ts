@@ -13,15 +13,15 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {
-  UrlEncodedRepoName,
   ProjectInfoWithName,
   RepoName,
+  UrlEncodedRepoName,
 } from '../../../types/common';
 import {RepoState} from '../../../api/rest-api';
 import {GerritView} from '../../../services/router/router-model';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';

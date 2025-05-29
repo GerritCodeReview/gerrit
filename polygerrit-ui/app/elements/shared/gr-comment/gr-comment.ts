@@ -23,15 +23,15 @@ import {provide, resolve} from '../../../models/dependency';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {
   AccountDetailInfo,
+  Comment,
+  CommentInput,
   DraftInfo,
+  isDraft,
+  isError,
+  isNew,
+  isSaving,
   NumericChangeId,
   RepoName,
-  Comment,
-  isSaving,
-  isError,
-  isDraft,
-  isNew,
-  CommentInput,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
@@ -49,7 +49,7 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {assertIsDefined, assert, uuid} from '../../../utils/common-util';
+import {assert, assertIsDefined, uuid} from '../../../utils/common-util';
 import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {sharedStyles} from '../../../styles/shared-styles';

@@ -29,7 +29,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {GrPermission} from '../gr-permission/gr-permission';
 import {createChange} from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-repo-access tests', () => {

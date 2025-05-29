@@ -5,11 +5,11 @@
  */
 import {define} from '../../models/dependency';
 import {
-  SyntaxWorkerRequest,
-  SyntaxWorkerInit,
-  SyntaxWorkerResult,
-  SyntaxWorkerMessageType,
   SyntaxLayerLine,
+  SyntaxWorkerInit,
+  SyntaxWorkerMessageType,
+  SyntaxWorkerRequest,
+  SyntaxWorkerResult,
 } from '../../types/syntax-worker-api';
 import {Finalizable} from '../../types/types';
 import {prependOrigin} from '../../utils/url-util';

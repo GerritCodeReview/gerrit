@@ -6,7 +6,7 @@
 import './gr-avatar';
 import '../gr-hovercard-account/gr-hovercard-account';
 import {AccountInfo, ServerInfo} from '../../../types/common';
-import {LitElement, PropertyValues, css, html} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   isDetailedAccount,

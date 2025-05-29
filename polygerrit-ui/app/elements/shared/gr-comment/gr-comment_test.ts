@@ -8,27 +8,27 @@ import '../../../test/common-test-setup';
 import './gr-comment';
 import {AUTO_SAVE_DEBOUNCE_DELAY_MS, GrComment} from './gr-comment';
 import {
-  queryAndAssert,
-  stubRestApi,
-  query,
-  pressKey,
-  mockPromise,
-  waitUntilCalled,
   dispatch,
   MockPromise,
+  mockPromise,
+  pressKey,
+  query,
+  queryAndAssert,
   stubFlags,
+  stubRestApi,
   waitUntil,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {
   AccountId,
   DraftInfo,
-  SavingState,
   EmailAddress,
+  FixId,
   NumericChangeId,
   PatchSetNum,
+  SavingState,
   Timestamp,
   UrlEncodedCommentId,
-  FixId,
 } from '../../../types/common';
 import {
   createComment,
@@ -39,7 +39,7 @@ import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/
 import {assertIsDefined} from '../../../utils/common-util';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {SinonStub, SinonStubbedMember} from 'sinon';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {

@@ -18,11 +18,11 @@ import {
 } from '../../types/common';
 import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
 import {
-  createParsedChange,
-  createRelatedChangesInfo,
-  createRelatedChangeAndCommitInfo,
   createChange,
   createChangeMessage,
+  createParsedChange,
+  createRelatedChangeAndCommitInfo,
+  createRelatedChangesInfo,
 } from '../../test/test-data-generators';
 import {ChangeStatus, ReviewInputTag, TopicName} from '../../api/rest-api';
 import {MessageTag} from '../../constants/constants';

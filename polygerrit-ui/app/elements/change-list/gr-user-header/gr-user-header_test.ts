@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import './gr-user-header';
 import {GrUserHeader} from './gr-user-header';
 import {stubRestApi, waitEventLoop} from '../../../test/test-utils';

@@ -5,7 +5,7 @@
  */
 import '@polymer/paper-tooltip/paper-tooltip';
 import '../shared/gr-icon/gr-icon';
-import {LitElement, css, html, PropertyValues, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {RunResult} from '../../models/checks/checks-model';
 import {

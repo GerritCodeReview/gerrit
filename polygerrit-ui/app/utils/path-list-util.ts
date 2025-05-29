@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {SpecialFilePath, FileInfoStatus} from '../constants/constants';
+import {FileInfoStatus, SpecialFilePath} from '../constants/constants';
 import {FileInfo, FileNameToFileInfoMap} from '../types/common';
 import {hasOwnProperty} from './common-util';
 

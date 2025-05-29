@@ -6,11 +6,11 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
-import {ServerInfo, AccountDetailInfo} from '../../../types/common';
+import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {fire} from '../../../utils/event-util';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';

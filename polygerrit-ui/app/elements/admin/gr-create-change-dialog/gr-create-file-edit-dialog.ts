@@ -5,13 +5,13 @@
  */
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  RepoName,
   BranchName,
   ChangeInfo,
   PatchSetNumber,
+  RepoName,
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, html, nothing} from 'lit';
+import {html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {createEditUrl} from '../../../models/views/change';

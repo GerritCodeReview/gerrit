@@ -10,7 +10,7 @@ import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';

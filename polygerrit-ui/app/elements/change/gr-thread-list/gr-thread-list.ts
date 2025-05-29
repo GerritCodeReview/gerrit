@@ -11,9 +11,9 @@ import {
   AccountDetailInfo,
   AccountInfo,
   CommentThread,
+  isDraft,
   NumericChangeId,
   UrlEncodedCommentId,
-  isDraft,
 } from '../../../types/common';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {

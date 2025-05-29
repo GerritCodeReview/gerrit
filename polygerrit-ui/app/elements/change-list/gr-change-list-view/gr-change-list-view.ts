@@ -14,11 +14,11 @@ import {
   RepoName,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {fireAlert, fire, fireTitleChange} from '../../../utils/event-util';
+import {fire, fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css, nothing} from 'lit';
-import {customElement, state, query} from 'lit/decorators.js';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {customElement, query, state} from 'lit/decorators.js';
 import {
   createSearchUrl,
   searchViewModelToken,

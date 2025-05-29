@@ -11,7 +11,7 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {CommitId} from '../../../types/common';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 import {queryAndAssert} from '../../../utils/common-util';
 
 suite('gr-commit-info tests', () => {

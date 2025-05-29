@@ -20,16 +20,16 @@ import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {
-  ChangeInfo,
-  ServerInfo,
   AccountInfo,
-  Timestamp,
+  ChangeInfo,
   NumericChangeId,
+  ServerInfo,
+  Timestamp,
 } from '../../../types/common';
-import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
+import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';

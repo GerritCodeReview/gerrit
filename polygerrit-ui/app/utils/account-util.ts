@@ -13,14 +13,14 @@ import {
   isAccount,
   isDetailedLabelInfo,
   isGroup,
-  ReviewerInput,
-  ServerInfo,
-  UserId,
-  Suggestion,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
+  ReviewerInput,
+  ServerInfo,
   SuggestedReviewerAccountInfo,
   SuggestedReviewerGroupInfo,
+  Suggestion,
+  UserId,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';

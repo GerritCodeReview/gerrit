@@ -9,20 +9,20 @@ import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
 import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {
-  AuthInfo,
   AccountDetailInfo,
+  AuthInfo,
   EmailAddress,
   PreferencesInfo,
   ServerInfo,
   TopMenuItemInfo,
 } from '../../../types/common';
 import {
+  AppTheme,
   DateFormat,
   DefaultBase,
   DiffViewMode,
   EmailFormat,
   EmailStrategy,
-  AppTheme,
   TimeFormat,
 } from '../../../constants/constants';
 import {
@@ -30,7 +30,7 @@ import {
   createPreferences,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {fixture, html, assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-settings-view tests', () => {
   let element: GrSettingsView;

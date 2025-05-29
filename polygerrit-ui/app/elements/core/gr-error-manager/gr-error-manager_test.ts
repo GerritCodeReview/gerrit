@@ -7,9 +7,9 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-error-manager';
 import {
+  __testOnly_ErrorType,
   constructServerErrorMsg,
   GrErrorManager,
-  __testOnly_ErrorType,
 } from './gr-error-manager';
 import {
   stubReporting,
@@ -23,7 +23,7 @@ import {
 } from '../../../test/test-data-generators';
 import {AccountId} from '../../../types/common';
 import {waitUntil} from '../../../test/test-utils';
-import {fixture, assert} from '@open-wc/testing';
+import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import {testResolver} from '../../../test/common-test-setup';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';

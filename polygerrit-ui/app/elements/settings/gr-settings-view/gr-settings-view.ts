@@ -40,7 +40,7 @@ import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {fire, fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, queryAsync, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';

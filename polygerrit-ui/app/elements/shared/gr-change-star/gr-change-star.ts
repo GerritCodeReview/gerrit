@@ -10,7 +10,7 @@ import {
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-config';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';

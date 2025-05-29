@@ -3,17 +3,17 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
+import {DashboardId, DashboardInfo, RepoName} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
-  DashboardType,
   createDashboardUrl,
+  DashboardType,
 } from '../../../models/views/dashboard';
 import {when} from 'lit/directives/when.js';
 

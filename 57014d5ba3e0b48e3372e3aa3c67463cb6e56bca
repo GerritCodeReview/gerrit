@@ -22,6 +22,30 @@
       },
       "revId": "57014d5ba3e0b48e3372e3aa3c67463cb6e56bca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67f1d18_717ffb89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-30T08:02:57Z",
+      "side": 1,
+      "message": "Well ignoreDeclarationSort with false, seemed to want putting multiple imports above single imports (it wouldn\u0027t fix it automatically).\n\ne.g.\n\n```\nimport {test} from \u0027test\u0027;\nimport {gerrit, gerrit2} from \u0027gerrit\u0027;\n```\n\nSo it wanted multiple imports ontop of single imports.\n\nAlso seems to sort the imports by the name of the import as well but that\u0027s not fixed automatically and there\u0027s alot of errors.\n\nignoreCase is basically for example if you have `{PaperElement, html}` it would ignore the case and put html first. Otherwise it would put uppercase first and lowercase last. It would still sort but only amongst the selfs. So lowercase compared to lowercase, put at the end. Uppercase put at the start.\n\nSee https://eslint.org/docs/latest/rules/sort-imports",
+      "parentUuid": "a8928dce_2f5898c1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "57014d5ba3e0b48e3372e3aa3c67463cb6e56bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

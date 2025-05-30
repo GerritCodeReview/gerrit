@@ -36,6 +36,7 @@ suite('gr-autocomplete tests', () => {
 
   setup(async () => {
     element = await fixture(html`<gr-autocomplete></gr-autocomplete>`);
+    element.debounceWait = 10;
   });
 
   test('renders', () => {

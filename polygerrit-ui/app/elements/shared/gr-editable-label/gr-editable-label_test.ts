@@ -261,6 +261,7 @@ suite('gr-editable-label tests', () => {
       `);
 
       autocomplete = element.grAutocomplete!;
+      autocomplete.debounceWait = 10;
     });
 
     test('autocomplete suggestions shown esc closes suggestions', async () => {

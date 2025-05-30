@@ -413,6 +413,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         element,
         'gr-autocomplete'
       );
+      autocomplete.debounceWait = 10;
 
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
@@ -472,6 +473,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         element,
         'gr-autocomplete'
       );
+      autocomplete.debounceWait = 10;
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
@@ -538,6 +540,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         element,
         'gr-autocomplete'
       );
+      autocomplete.debounceWait = 10;
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;

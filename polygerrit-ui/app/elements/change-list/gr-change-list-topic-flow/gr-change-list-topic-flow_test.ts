@@ -613,6 +613,7 @@ suite('gr-change-list-topic-flow tests', () => {
         element,
         'gr-autocomplete'
       );
+      autocomplete.debounceWait = 10;
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
@@ -665,6 +666,7 @@ suite('gr-change-list-topic-flow tests', () => {
         element,
         'gr-autocomplete'
       );
+      autocomplete.debounceWait = 10;
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
@@ -707,7 +709,7 @@ suite('gr-change-list-topic-flow tests', () => {
         element,
         'gr-autocomplete'
       );
-
+      autocomplete.debounceWait = 10;
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;

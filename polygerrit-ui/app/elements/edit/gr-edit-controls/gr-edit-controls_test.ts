@@ -225,6 +225,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(queryStub.called);
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
+      openAutoComplete.debounceWait = 10;
       openAutoComplete.focused = true;
       openAutoComplete.text = 'src/test.cpp';
       // Focus happens after updateComplete, so we first wait for it explicitly.
@@ -281,6 +282,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(queryStub.called);
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
+      deleteAutocomplete.debounceWait = 10;
       deleteAutocomplete.focused = true;
       deleteAutocomplete.text = 'src/test.cpp';
       // Focus happens after updateComplete, so we first wait for it explicitly.
@@ -312,6 +314,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(queryStub.called);
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
+      deleteAutocomplete.debounceWait = 10;
       deleteAutocomplete.focused = true;
       deleteAutocomplete.text = 'src/test.cpp';
       // Focus happens after updateComplete, so we first wait for it explicitly.
@@ -411,6 +414,7 @@ suite('gr-edit-controls tests', () => {
       assert.isFalse(queryStub.called);
       // Setup focused manually - in headless mode Chrome sometimes doesn't
       // setup focus. waitEventLoop() doesn't help.
+      renameAutocomplete.debounceWait = 10;
       renameAutocomplete.focused = true;
       renameAutocomplete.text = 'src/test.cpp';
       // Focus happens after updateComplete, so we first wait for it explicitly.

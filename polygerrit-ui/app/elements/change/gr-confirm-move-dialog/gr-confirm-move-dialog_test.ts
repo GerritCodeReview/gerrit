@@ -75,6 +75,7 @@ suite('gr-confirm-move-dialog tests', () => {
       element,
       'gr-autocomplete'
     );
+    autoComplete.debounceWait = 10;
     const branches = await autoComplete.query!('nonexistent');
     assert.equal(branches.length, 0);
   });
@@ -84,6 +85,7 @@ suite('gr-confirm-move-dialog tests', () => {
       element,
       'gr-autocomplete'
     );
+    autoComplete.debounceWait = 10;
     const branches = await autoComplete.query!('test-branch');
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
@@ -94,6 +96,7 @@ suite('gr-confirm-move-dialog tests', () => {
       element,
       'gr-autocomplete'
     );
+    autoComplete.debounceWait = 10;
     const branches = await autoComplete.query!('');
     assert.equal(branches.length, 0);
   });

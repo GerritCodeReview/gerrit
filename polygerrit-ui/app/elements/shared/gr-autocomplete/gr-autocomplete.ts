@@ -157,6 +157,13 @@ export class GrAutocomplete extends LitElement {
   skipCommitOnItemSelect = false;
 
   /**
+   * Debounce wait time in milliseconds for updating suggestions.
+   * Default is 200ms.
+   */
+  @property({type: Number})
+  debounceWait = DEBOUNCE_WAIT_MS;
+
+  /**
    * Invisible label for input element. This label is exposed to
    * screen readers by paper-input
    */
@@ -462,7 +469,7 @@ export class GrAutocomplete extends LitElement {
     this.updateSuggestionsTask = debounce(
       this.updateSuggestionsTask,
       this.createUpdateTask(queryId, this.query, this.text),
-      DEBOUNCE_WAIT_MS
+      this.debounceWait
     );
   }
 

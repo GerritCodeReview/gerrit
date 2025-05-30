@@ -297,6 +297,7 @@ suite('gr-watched-projects-editor tests', () => {
     );
 
     repoInput.focus();
+    repoAutocomplete.debounceWait = 10;
     repoAutocomplete.text = 'the';
     await waitUntil(() => suggestionStub.called);
     await repoAutocomplete.updateComplete;

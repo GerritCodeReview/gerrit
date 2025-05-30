@@ -440,8 +440,13 @@ export class GrConfirmCherrypickDialog
     if (!this.computeDisableCherryPick()) {
       return 'Cherry pick changes';
     }
-    if (this.noChangesSelected())
+    if (this.noChangesSelected()) {
       return 'Disabled because no changes are selected';
+    }
+
+    if (!this.branch) {
+      return 'Disabled because no branch is selected';
+    }
 
     if (
       this.cherryPickType === CherryPickType.TOPIC &&

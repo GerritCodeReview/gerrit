@@ -109,7 +109,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
           confirm-label="Cherry Pick"
           disabled=""
           role="dialog"
-          title="Cherry pick button disabled"
+          title="Disabled because no branch is selected"
         >
           <div class="header title" slot="header">
             Cherry Pick Change to Another Branch

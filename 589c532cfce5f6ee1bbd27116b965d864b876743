@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4325a78_4a218b4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T07:32:17Z",
+      "side": 1,
+      "message": "remove this state and just compute it based on the conditions in `computeTopicErrorMessage`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 27
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5182733d_53a7e75d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T07:32:17Z",
+      "side": 1,
+      "message": "maybe move this inside the `computeTopicErrorMessage` method and then inline the variable?",
+      "range": {
+        "startLine": 389,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 62
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cea4493_6a37a664",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T07:32:17Z",
+      "side": 1,
+      "message": "I think this variable should just be removed and computed upon `render` so we don\u0027t have to worry about clearing it",
+      "range": {
+        "startLine": 614,
+        "startChar": 4,
+        "endLine": 614,
+        "endChar": 68
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "370174f1_f20490ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T12:40:07Z",
+      "side": 1,
+      "message": "Yeah, I put it in PS 3 and then removed it accidentally.\n\nUpdated.",
+      "parentUuid": "506126b3_02c0cb89",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 0
+      },
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1e3fb3f4_9f13c009",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f848c5bc_3859a862",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T12:40:07Z",
+      "side": 1,
+      "message": "State is not changed since we are adding to `selectedChangeIds` which unfortunately is not a method that triggers a re-render. \n\n:(",
+      "parentUuid": "b04fc9f6_50dbd326",
+      "range": {
+        "startLine": 514,
+        "startChar": 9,
+        "endLine": 514,
+        "endChar": 22
+      },
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0d2fd27_f9d57cea",
@@ -77,6 +125,30 @@
       "writtenOn": "2025-05-30T12:35:59Z",
       "side": 1,
       "message": "You should return if changes is empty. like before. If was not only about error message",
+      "range": {
+        "startLine": 636,
+        "startChar": 7,
+        "endLine": 637,
+        "endChar": 5
+      },
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20a57307_3e067d09",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T12:40:07Z",
+      "side": 1,
+      "message": "Yes, good point.\nUpdated.",
+      "parentUuid": "f0d2fd27_f9d57cea",
       "range": {
         "startLine": 636,
         "startChar": 7,

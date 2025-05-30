@@ -144,7 +144,8 @@ export class GrConfirmCherrypickDialog
   @state()
   latestCommitter?: GitPersonInfo;
 
-  private selectedChangeIds = new Set<ChangeInfoId>();
+  @state()
+  selectedChangeIds = new Set<ChangeInfoId>();
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -261,12 +262,8 @@ export class GrConfirmCherrypickDialog
       <gr-dialog
         confirm-label="Cherry Pick"
         .cancelLabel=${this.computeCancelLabel()}
-        ?disabled=${this.computeDisableCherryPick(
-          this.cherryPickType,
-          this.duplicateProjectChanges,
-          this.statuses,
-          this.branch
-        )}
+        ?disabled=${this.computeDisableCherryPick()}
+        title=${this.computeTitleForCherryPick()}
         @confirm=${this.handleConfirmTap}
         @cancel=${this.handleCancelTap}
       >
@@ -438,6 +435,23 @@ export class GrConfirmCherrypickDialog
     `;
   }
 
+  // private but compute in tests
+  computeTitleForCherryPick() {
+    if (!this.computeDisableCherryPick()) {
+      return 'Cherry pick changes';
+    }
+    if (this.noChangesSelected())
+      return 'Disabled because no changes are selected';
+
+    if (
+      this.cherryPickType === CherryPickType.TOPIC &&
+      this.duplicateProjectChanges
+    ) {
+      return 'Duplicate projects selected';
+    }
+    return 'Cherry pick button disabled';
+  }
+
   containsDuplicateProject(changes: (ChangeInfo | ParsedChangeInfo)[]) {
     const projects: {[projectName: string]: boolean} = {};
     for (let i = 0; i < changes.length; i++) {
@@ -481,6 +495,8 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     this.duplicateProjectChanges = this.containsDuplicateProject(changes);
+    // Explicitly trigger a re-render
+    this.selectedChangeIds = new Set(this.selectedChangeIds);
   }
 
   private computeTopicErrorMessage() {
@@ -533,18 +549,24 @@ export class GrConfirmCherrypickDialog
     return isRunningChange ? 'Close' : 'Cancel';
   }
 
-  private computeDisableCherryPick(
-    cherryPickType: CherryPickType,
-    duplicateProjectChanges: boolean,
-    statuses: Statuses,
-    branch: BranchName
-  ) {
-    if (!branch) return true;
+  private noChangesSelected() {
+    const changes = this.changes.filter(change =>
+      this.selectedChangeIds.has(change.id)
+    );
+    if (this.cherryPickType === CherryPickType.TOPIC && changes.length === 0)
+      return true;
+    return false;
+  }
+
+  private computeDisableCherryPick() {
+    if (!this.branch) return true;
+    if (this.noChangesSelected()) return true;
     const duplicateProject =
-      cherryPickType === CherryPickType.TOPIC && duplicateProjectChanges;
+      this.cherryPickType === CherryPickType.TOPIC &&
+      this.duplicateProjectChanges;
     if (duplicateProject) return true;
-    if (!statuses) return false;
-    const isRunningChange = Object.values(statuses).some(
+    if (!this.statuses) return false;
+    const isRunningChange = Object.values(this.statuses).some(
       v => v.status === ProgressStatus.RUNNING
     );
     return isRunningChange;
@@ -600,8 +622,6 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     if (!changes.length) {
-      const errorSpan = this.shadowRoot?.querySelector('.error-message');
-      errorSpan!.innerHTML = 'No change selected';
       return;
     }
     const topic = this.generateRandomCherryPickTopic(changes[0]);

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "226559ac_64693140",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T10:38:15Z",
+      "side": 1,
+      "message": "typo\n\n```suggestion\nUI: Replace @polymer/iron-iconset-svg with gr-iconset\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "0dc432e79c6db1cee209910b20e83e21a660e2b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3bc51d89_0f125728",

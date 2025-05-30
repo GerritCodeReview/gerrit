@@ -267,6 +267,7 @@ export class GrConfirmCherrypickDialog
           this.statuses,
           this.branch
         )}
+        title=${this.computeTitleForCherryPick()}
         @confirm=${this.handleConfirmTap}
         @cancel=${this.handleCancelTap}
       >
@@ -438,6 +439,35 @@ export class GrConfirmCherrypickDialog
     `;
   }
 
+  // private but compute in tests
+  computeTitleForCherryPick() {
+    const cherryPickType = this.cherryPickType;
+    if (
+      !this.computeDisableCherryPick(
+        cherryPickType,
+        this.duplicateProjectChanges,
+        this.statuses,
+        this.branch
+      )
+    ) {
+      return 'Cherry pick changes';
+    }
+
+    const changes = this.changes.filter(change =>
+      this.selectedChangeIds.has(change.id)
+    );
+    if (cherryPickType === CherryPickType.TOPIC && changes.length === 0)
+      return 'Disabled because no changes are selected';
+
+    if (
+      cherryPickType === CherryPickType.TOPIC &&
+      this.duplicateProjectChanges
+    ) {
+      return 'Duplicate projects selected';
+    }
+    return 'Cherry pick button disabled';
+  }
+
   containsDuplicateProject(changes: (ChangeInfo | ParsedChangeInfo)[]) {
     const projects: {[projectName: string]: boolean} = {};
     for (let i = 0; i < changes.length; i++) {
@@ -481,6 +511,7 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     this.duplicateProjectChanges = this.containsDuplicateProject(changes);
+    this.requestUpdate();
   }
 
   private computeTopicErrorMessage() {
@@ -540,6 +571,11 @@ export class GrConfirmCherrypickDialog
     branch: BranchName
   ) {
     if (!branch) return true;
+    const changes = this.changes.filter(change =>
+      this.selectedChangeIds.has(change.id)
+    );
+    if (cherryPickType === CherryPickType.TOPIC && changes.length === 0)
+      return true;
     const duplicateProject =
       cherryPickType === CherryPickType.TOPIC && duplicateProjectChanges;
     if (duplicateProject) return true;
@@ -599,11 +635,6 @@ export class GrConfirmCherrypickDialog
     const changes = this.changes.filter(change =>
       this.selectedChangeIds.has(change.id)
     );
-    if (!changes.length) {
-      const errorSpan = this.shadowRoot?.querySelector('.error-message');
-      errorSpan!.innerHTML = 'No change selected';
-      return;
-    }
     const topic = this.generateRandomCherryPickTopic(changes[0]);
     changes.forEach(change => {
       this.updateStatus(change, {status: ProgressStatus.RUNNING});

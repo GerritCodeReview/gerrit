@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b6e700_86e76c20",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-30T15:49:32Z",
+      "side": 1,
+      "message": "Nit: You still have two separate methods that could be combined.\n\nI was thinking that you could either so something like:\n```\ncomputeDisabled() {\n  return computeTitle() !\u003d\u003d undefined;\n}\n```\n\nOr you let `computeDisabled()` return an object like `{disabled: boolean, message: string}`.",
+      "revId": "a876c4dee7e17db42478d0477fecab576480cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf775671_8d50b9ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-30T15:49:32Z",
+      "side": 1,
+      "message": "Nit: You can remove this.\n\nIt cannot happen and even if, the result would be the same.",
+      "range": {
+        "startLine": 624,
+        "startChar": 4,
+        "endLine": 626,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b35c7d88_7913312d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+              "range": {
+                "startLine": 624,
+                "startChar": 0,
+                "endLine": 627,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "a876c4dee7e17db42478d0477fecab576480cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

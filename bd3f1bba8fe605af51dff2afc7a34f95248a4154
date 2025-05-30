@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4dbf39d_bf16358e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-05-30T09:50:17Z",
+      "side": 1,
+      "message": "This is a bit unclear to me. You\u0027re saying that the problem was that some plugins remove the element, which IIUC means that in a problematic case feedbackUrl was non-empty we rendered the \u003ca\u003e element in \"this.renderFeedback()\", but then the plugin removed it. I don\u0027t quite understand why in this solution the plugin can\u0027t remove the \u003ca\u003e element anymore? \n\nAm I misunderstanding the problematic case?",
+      "range": {
+        "startLine": 644,
+        "startChar": 67,
+        "endLine": 645,
+        "endChar": 12
+      },
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5b305d3_bab7fb01",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
         "patchSetId": 4

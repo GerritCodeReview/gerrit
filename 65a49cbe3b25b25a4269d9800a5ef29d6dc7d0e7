@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8df796dd_b2ed6a8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T08:56:25Z",
+      "side": 1,
+      "message": "What I mean is if you replace this line with\n\n```\n    const changes \u003d this.changes.filter(change \u003d\u003e\n      this.selectedChangeIds.has(change.id)\n    );\n    if (!changes.length) {\n      return\u0027No change selected\u0027;\n    }\n```\n\nWould this not do the same thing?\n\nI just checked locally and we do indeed disable the `Cherry-pick` button in this case.\n\nWhen is this error message shown?\n\nhttps://imgur.com/a/Eh5Zb7g\n\nCan you send a screenshot when this error is shown?",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 498,
+        "endChar": 37
+      },
+      "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

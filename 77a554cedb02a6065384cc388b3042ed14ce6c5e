@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91cdc6e8_28aa57fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T10:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73de2cd6_45821132",
+      "revId": "77a554cedb02a6065384cc388b3042ed14ce6c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3e7804f_00f09d11",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-05-30T10:18:26Z",
       "side": 1,
       "message": "Can you add reason why button is disabled to button tooltip",
+      "range": {
+        "startLine": 547,
+        "startChar": 4,
+        "endLine": 548,
+        "endChar": 18
+      },
+      "revId": "77a554cedb02a6065384cc388b3042ed14ce6c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a5ed1d_690e2a39",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T10:44:58Z",
+      "side": 1,
+      "message": "There was no button tooltip. Added now.\nThanks.",
+      "parentUuid": "e3e7804f_00f09d11",
       "range": {
         "startLine": 547,
         "startChar": 4,

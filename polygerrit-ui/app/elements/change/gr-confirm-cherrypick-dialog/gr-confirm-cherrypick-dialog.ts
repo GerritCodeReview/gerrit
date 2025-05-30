@@ -126,6 +126,9 @@ export class GrConfirmCherrypickDialog
   private duplicateProjectChanges = false;
 
   @state()
+  private hasChangesSelected = false;
+
+  @state()
   // Status of each change that is being cherry picked together
   private statuses: Statuses;
 
@@ -481,6 +484,7 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     this.duplicateProjectChanges = this.containsDuplicateProject(changes);
+    this.hasChangesSelected = changes.length > 0;
   }
 
   private computeTopicErrorMessage() {
@@ -540,6 +544,8 @@ export class GrConfirmCherrypickDialog
     branch: BranchName
   ) {
     if (!branch) return true;
+    if (cherryPickType === CherryPickType.TOPIC && !this.hasChangesSelected)
+      return true;
     const duplicateProject =
       cherryPickType === CherryPickType.TOPIC && duplicateProjectChanges;
     if (duplicateProject) return true;
@@ -599,11 +605,6 @@ export class GrConfirmCherrypickDialog
     const changes = this.changes.filter(change =>
       this.selectedChangeIds.has(change.id)
     );
-    if (!changes.length) {
-      const errorSpan = this.shadowRoot?.querySelector('.error-message');
-      errorSpan!.innerHTML = 'No change selected';
-      return;
-    }
     const topic = this.generateRandomCherryPickTopic(changes[0]);
     changes.forEach(change => {
       this.updateStatus(change, {status: ProgressStatus.RUNNING});

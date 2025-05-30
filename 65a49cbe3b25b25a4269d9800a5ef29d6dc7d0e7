@@ -22,6 +22,30 @@
       },
       "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f389ab89_e33aa1e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T09:02:31Z",
+      "side": 1,
+      "message": "\u003e I just checked locally and we do indeed disable the Cherry-pick button in this case.\n\nOops that was wrong. Yeah, we somehow let the user click the button even though no change is selected.\n\nInstead we should simply disable the button and remove this error text.\n\nNo point in letting the user click `Confirm` when we know it will instantly fail\n\n:)",
+      "parentUuid": "8df796dd_b2ed6a8e",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 498,
+        "endChar": 37
+      },
+      "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

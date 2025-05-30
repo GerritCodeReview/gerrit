@@ -46,6 +46,30 @@
       },
       "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a13de6c_f038f49e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T09:24:02Z",
+      "side": 1,
+      "message": "I can look more, my initial problem was that it was using innerhtml to set error which is not good idea in lit. I didn\u0027t plan to invest into logic, I wanted to implemented it as it is but with lit-way",
+      "parentUuid": "f389ab89_e33aa1e8",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 498,
+        "endChar": 37
+      },
+      "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

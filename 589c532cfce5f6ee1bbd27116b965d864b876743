@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c1e4012_2d9d3304",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T08:52:43Z",
+      "side": 1,
+      "message": "\u003e THis message is created when cherry pick fails and needs to be a state\n\nIt\u0027s only set when no changes are selected?\n\nWe can check that during render and disable the button then?\n\n\n```\n  private handleCherryPickTopic() {\n    const changes \u003d this.changes.filter(change \u003d\u003e\n      this.selectedChangeIds.has(change.id)\n    );\n    if (!changes.length) {\n      this.cherryPickTopicError \u003d \u0027No change selected\u0027;\n      return;\n    }\n```\n\nI am confused by the flow.\n\nThe user has not selected any change but they are cherry picking it still?",
+      "parentUuid": "d3c4059a_e44d0fce",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 27
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5182733d_53a7e75d",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 5

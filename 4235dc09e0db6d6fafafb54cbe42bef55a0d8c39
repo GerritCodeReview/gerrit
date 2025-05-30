@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aca5b3eb_1fa75153",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-30T18:12:59Z",
+      "side": 1,
+      "message": "@milutin@google.com / @brohlfs@google.com",
+      "parentUuid": "d8d4b8ee_a6c6149a",
+      "revId": "4235dc09e0db6d6fafafb54cbe42bef55a0d8c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85175be7_07527150",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 6

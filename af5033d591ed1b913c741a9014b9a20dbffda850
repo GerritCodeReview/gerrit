@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "941a3e4e_d6e84f9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T14:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4532165_9f160f46",
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdf04fca_1ee5e7ad",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5759f39_022a4456",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T14:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdf04fca_1ee5e7ad",
+      "range": {
+        "startLine": 265,
+        "startChar": 9,
+        "endLine": 268,
+        "endChar": 21
+      },
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7810c4d2_e3d8cb56",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-05-30T13:23:22Z",
       "side": 1,
       "message": "This duplicates the logic of computeDisableCherryPick(). Please consider refactoring to avoid this duplication.",
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19c3a40d_5458e214",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T14:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7810c4d2_e3d8cb56",
       "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -89,6 +149,24 @@
           ]
         }
       ],
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16590959_54b445cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T14:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d418c3c8_d79a76da",
       "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

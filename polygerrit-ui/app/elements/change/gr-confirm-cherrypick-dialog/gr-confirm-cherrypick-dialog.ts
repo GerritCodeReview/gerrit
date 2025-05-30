@@ -481,6 +481,7 @@ export class GrConfirmCherrypickDialog
       this.selectedChangeIds.has(change.id)
     );
     this.duplicateProjectChanges = this.containsDuplicateProject(changes);
+    this.requestUpdate();
   }
 
   private computeTopicErrorMessage() {
@@ -540,6 +541,11 @@ export class GrConfirmCherrypickDialog
     branch: BranchName
   ) {
     if (!branch) return true;
+    const changes = this.changes.filter(change =>
+      this.selectedChangeIds.has(change.id)
+    );
+    if (cherryPickType === CherryPickType.TOPIC && changes.length === 0)
+      return true;
     const duplicateProject =
       cherryPickType === CherryPickType.TOPIC && duplicateProjectChanges;
     if (duplicateProject) return true;
@@ -599,11 +605,6 @@ export class GrConfirmCherrypickDialog
     const changes = this.changes.filter(change =>
       this.selectedChangeIds.has(change.id)
     );
-    if (!changes.length) {
-      const errorSpan = this.shadowRoot?.querySelector('.error-message');
-      errorSpan!.innerHTML = 'No change selected';
-      return;
-    }
     const topic = this.generateRandomCherryPickTopic(changes[0]);
     changes.forEach(change => {
       this.updateStatus(change, {status: ProgressStatus.RUNNING});

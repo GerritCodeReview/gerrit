@@ -238,31 +238,27 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       assert.equal(checkboxes.length, 2);
       assert.isTrue(checkboxes[0].checked);
       checkboxes[0].click();
+      assert.isTrue(checkboxes[1].checked);
       queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
       await element.updateComplete;
       assert.equal(executeChangeActionStub.callCount, 1);
       assert.isTrue(duplicateChangesStub.called);
     });
 
-    test('deselecting all change shows error message', async () => {
+    test('deselecting all change disables the confirm button', async () => {
       element.branch = 'master' as BranchName;
       await element.updateComplete;
-      const executeChangeActionStub = stubRestApi(
-        'executeChangeAction'
-      ).resolves(new Response());
       const checkboxes = queryAll<HTMLInputElement>(
         element,
         'input[type="checkbox"]'
       );
       assert.equal(checkboxes.length, 2);
+      assert.equal(element.cherryPickType, CHERRY_PICK_TYPES.TOPIC);
       checkboxes[0].click();
       checkboxes[1].click();
-      queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
       await element.updateComplete;
-      assert.equal(executeChangeActionStub.callCount, 0);
-      assert.equal(
-        queryAndAssert<HTMLElement>(element, '.error-message').innerText,
-        'No change selected'
+      assert.isTrue(
+        queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton?.disabled
       );
     });
 

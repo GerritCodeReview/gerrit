@@ -73,6 +73,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "788955f8_c8e59ba4",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-30T10:01:56Z",
+      "side": 1,
+      "message": "With this code inside the try/catch block, the scope of the `tokens` can also be reduced to the try/catch block i.e. move the definition of the `tokens` from line 62 to line 64.\n\nAlternatively, move this block outside of the try/catch block where it was before.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c1c84f_8aa70a4a",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-30T10:01:56Z",
+      "side": 1,
+      "message": "When the `legacyHttpPassword` is an empty `Optional`, the `get()` method will throw a `NoSuchElementException` which will be then propagated back to the caller. IIUC, the intention here is to return an empty list in that case and not to throw an exception?\n\nFurther, adding a unit test would be beneficial here, also to clarify the behaviour of the `getTokens` method.",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 51
+      },
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e4312b7_31284b06",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-30T10:01:56Z",
+      "side": 1,
+      "message": "```suggestion\n    return getLegacyHttpPassword(accountId).stream().toList();\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8b2df94_5f163036",
         "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
         "patchSetId": 28

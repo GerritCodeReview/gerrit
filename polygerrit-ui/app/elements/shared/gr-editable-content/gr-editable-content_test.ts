@@ -317,8 +317,10 @@ suite('gr-editable-content tests', () => {
 
   suite('format button', () => {
     let element: GrEditableContent;
+    let clock: sinon.SinonFakeTimers;
 
     setup(async () => {
+      clock = sinon.useFakeTimers();
       element = await fixture(
         html`<gr-editable-content></gr-editable-content>`
       );
@@ -458,7 +460,11 @@ suite('gr-editable-content tests', () => {
       await element.updateComplete;
       element.updateFormatState(/* skipDebounce= */ false);
       await element.updateComplete;
+
+      // Advance past the debounce period (700ms)
+      clock.tick(700);
       await waitUntil(() => !formatButton?.disabled);
+      await element.updateComplete;
 
       // Format button should be enabled because other lines need formatting
       assert.isFalse(formatButton.disabled);

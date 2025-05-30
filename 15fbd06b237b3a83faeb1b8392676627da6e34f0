@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3610cd93_68ff74a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T06:51:47Z",
+      "side": 1,
+      "message": "Maybe mention the speedup in the commit message for documentation.",
+      "revId": "15fbd06b237b3a83faeb1b8392676627da6e34f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e2305c_b6930ade",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T06:51:47Z",
+      "side": 1,
+      "message": "why is only this test updated and not others?\n\nMention in the commit message how these tests were chosen and not the others?",
+      "range": {
+        "startLine": 551,
+        "startChar": 4,
+        "endLine": 551,
+        "endChar": 45
+      },
+      "revId": "15fbd06b237b3a83faeb1b8392676627da6e34f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da040805_1fbea307",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T06:51:47Z",
+      "side": 1,
+      "message": "why is this change required?\n\nThe message below should be updated as well then.",
+      "range": {
+        "startLine": 183,
+        "startChar": 2,
+        "endLine": 183,
+        "endChar": 24
+      },
+      "revId": "15fbd06b237b3a83faeb1b8392676627da6e34f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

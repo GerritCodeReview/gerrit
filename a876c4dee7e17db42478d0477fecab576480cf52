@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "332c0255_be051cf3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T15:51:28Z",
+      "side": 1,
+      "message": "Both of them feel like they\u0027re not improving readability that much and there are other instances in the codebase with two separate `isDisabled` `computeMessage` methods.\n\nI will proceed with the CL but if you feel strongly, I can send a follow up CL.",
+      "parentUuid": "b6b6e700_86e76c20",
+      "revId": "a876c4dee7e17db42478d0477fecab576480cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf775671_8d50b9ea",
@@ -55,6 +73,30 @@
           ]
         }
       ],
+      "revId": "a876c4dee7e17db42478d0477fecab576480cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb9d37d_f32263db",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-05-30T15:51:28Z",
+      "side": 1,
+      "message": "I thought so too but we do `    const topic \u003d this.generateRandomCherryPickTopic(changes[0]);` which we shouldn\u0027t do if `changes` is empty array.",
+      "parentUuid": "bf775671_8d50b9ea",
+      "range": {
+        "startLine": 624,
+        "startChar": 4,
+        "endLine": 626,
+        "endChar": 5
+      },
       "revId": "a876c4dee7e17db42478d0477fecab576480cf52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

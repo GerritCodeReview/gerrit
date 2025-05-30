@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4532165_9f160f46",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-30T13:23:22Z",
+      "side": 1,
+      "message": "Add @state() to clarify that rendering depends on this.",
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdf04fca_1ee5e7ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-30T13:23:22Z",
+      "side": 1,
+      "message": "While you are here, please remove the 4 parameters. The method has direct access to the fields.",
+      "range": {
+        "startLine": 265,
+        "startChar": 9,
+        "endLine": 268,
+        "endChar": 21
+      },
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7810c4d2_e3d8cb56",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-30T13:23:22Z",
+      "side": 1,
+      "message": "This duplicates the logic of computeDisableCherryPick(). Please consider refactoring to avoid this duplication.",
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d418c3c8_d79a76da",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-05-30T13:23:22Z",
+      "side": 1,
+      "message": "`requestUpdate()` calls should always have an explanation of why they are needed. You can either add a comment referring to `this.selectedChangeIds` as the state that is implicitly updated, or you can do\n\n`this.selectedChangeIds \u003d new Set(this.selectedChangeIds)`\n\nto make this explicit.",
+      "fixSuggestions": [
+        {
+          "fixId": "d35f7f42_109ee1e1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+              "range": {
+                "startLine": 514,
+                "startChar": 0,
+                "endLine": 514,
+                "endChar": 0
+              },
+              "replacement": "    // requestUpdate is needed because selectedChangeIds is not a @state property\n"
+            }
+          ]
+        }
+      ],
+      "revId": "af5033d591ed1b913c741a9014b9a20dbffda850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

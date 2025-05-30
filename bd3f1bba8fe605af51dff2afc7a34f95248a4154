@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cced31b_8a01f7ca",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T18:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09493cc3_2711c934",
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4dbf39d_bf16358e",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d902a5c8_9f15af2b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T18:03:08Z",
+      "side": 1,
+      "message": "So feedbackUrl is undefined in beginning,\nLit - renders nothing with lit placeholder\nplugin removes everything inside endpoint so also placeholder\nconfig sets feedbackUrl and lit is trying to find placeholder and it cannot find, \nso it throws error.\n\nSomehow it works with hidden?\u003d or style.",
+      "parentUuid": "a4dbf39d_bf16358e",
+      "range": {
+        "startLine": 644,
+        "startChar": 67,
+        "endLine": 645,
+        "endChar": 12
+      },
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5b305d3_bab7fb01",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-05-28T20:27:49Z",
       "side": 1,
       "message": "You could do `?hidden\u003d${!this.feedbackURL}` or make this a class.",
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa7e0f44_c4435a23",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T18:03:08Z",
+      "side": 1,
+      "message": "Good idea. I was not sure if it doesn\u0027t thrown error but this works",
+      "parentUuid": "d5b305d3_bab7fb01",
       "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

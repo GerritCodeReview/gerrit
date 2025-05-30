@@ -189,6 +189,10 @@ export class GrConfirmCherrypickDialog
       formStyles,
       sharedStyles,
       css`
+        gr-autocomplete {
+          display:block;
+          margin: var(--spacing-m) 0px;
+        }
         :host {
           display: block;
         }
@@ -222,10 +226,10 @@ export class GrConfirmCherrypickDialog
         }
         .cherryPickSingleChange,
         .cherryPickTopic {
-          margin-left: var(--spacing-m);
+          margin-bottom: var(--spacing-m);
         }
         .cherry-pick-topic-message {
-          margin-bottom: var(--spacing-m);
+          margin: var(--spacing-m) 0;
         }
         label[for='messageInput'],
         label[for='baseInput'] {
@@ -305,6 +309,7 @@ export class GrConfirmCherrypickDialog
             ])}
             <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
           </gr-endpoint-decorator>
+          <span class="error-message">${this.computeTopicErrorMessage()}</span>
         </div>
       </gr-dialog>
     `;
@@ -380,7 +385,6 @@ export class GrConfirmCherrypickDialog
 
   private renderCherrypickTopicTable() {
     return html`
-      <span class="error-message">${this.computeTopicErrorMessage()}</span>
       <span class="cherry-pick-topic-message">
         Commit Message will be auto generated
       </span>

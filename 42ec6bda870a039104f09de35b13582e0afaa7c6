@@ -22,6 +22,30 @@
       },
       "revId": "42ec6bda870a039104f09de35b13582e0afaa7c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a122ed9b_ca93d9eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-iconset/gr-iconset.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-05-30T10:53:17Z",
+      "side": 1,
+      "message": "Thanks! The code is from chromium which I copied as it’s not a package. But modified it for our use. I will have to do this change alongside elements that I replace that used iron-icon.",
+      "parentUuid": "e93545e6_054ea57d",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 40
+      },
+      "revId": "42ec6bda870a039104f09de35b13582e0afaa7c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dabc55f_d2b36137",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-05-30T13:33:58Z",
+      "side": 1,
+      "message": "What if we handle HTTP password in a dedicated `AuthTokenAccessor` implementation which doesn\u0027t cache it? It shall wrap an `AuthTokentAccessor` and provide fallback to the HTTP password. Assuming we name this implementation `HttpPasswordFallbackAuthTokenAccessor` the wrapping would be like this:\n```\n  HttpPasswordFallbackAuthTokenAccessor(\n    CachingAuthTokentAccessor(\n      DirectAuthTokenAccessor\n    )\n  )\n```\n\nThe Direct and Caching implementations would only provide the real auth-tokens with the design as already proposed: the cache remains private to the Caching implementation and uses Direct to load tokens from the cache loader.\n\nThe `HttpPasswordFallbackAuthTokenAccessor` provides fallback to the HTTP password when the set of auth-tokens from the wrapped accessor is empty.\n\nWith that design we have a clear separation of concerns. Further, once the fallback to the HTTP passwords is not needed we can simply delete that implementation and change one Guice binding.",
+      "parentUuid": "cc417831_3a1feeec",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10292665_8e8a871d",
         "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
         "patchSetId": 27

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "506126b3_02c0cb89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T12:35:59Z",
+      "side": 1,
+      "message": "Can you put more context to commit message?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 0
+      },
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3fb3f4_9f13c009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T12:35:59Z",
+      "side": 1,
+      "message": "Nice improvement!",
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b04fc9f6_50dbd326",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T12:35:59Z",
+      "side": 1,
+      "message": "Why do you need to requestUpdate here? When state is changed it should be automatically updated.",
+      "range": {
+        "startLine": 514,
+        "startChar": 9,
+        "endLine": 514,
+        "endChar": 22
+      },
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d2fd27_f9d57cea",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T12:35:59Z",
+      "side": 1,
+      "message": "You should return if changes is empty. like before. If was not only about error message",
+      "range": {
+        "startLine": 636,
+        "startChar": 7,
+        "endLine": 637,
+        "endChar": 5
+      },
+      "revId": "72eb67c2763d936bdde99a5ce18ecd9d0d80e2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

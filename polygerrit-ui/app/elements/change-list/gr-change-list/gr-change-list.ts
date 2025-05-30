@@ -461,7 +461,10 @@ export class GrChangeList extends LitElement {
 
   // Private but used in tests
   async sectionsChanged() {
-    this.cursor.stops = await this.getListItems();
+    // Ensure we have a valid array for cursor.stops even if getListItems() returns undefined
+    // This prevents TypeError when forEach is called on cursor.stops
+    const items = await this.getListItems();
+    this.cursor.stops = items ?? [];
     this.cursor.moveToStart();
     if (this.selectedIndex) this.cursor.setCursorAtIndex(this.selectedIndex);
   }

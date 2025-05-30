@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c4059a_e44d0fce",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T08:49:02Z",
+      "side": 1,
+      "message": "I added comment and rename it. THis message is created when cherry pick fails and needs to be a state",
+      "parentUuid": "e4325a78_4a218b4b",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 27
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5182733d_53a7e75d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a7a8106_ec66fbad",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T08:49:02Z",
+      "side": 1,
+      "message": "Good idea",
+      "parentUuid": "5182733d_53a7e75d",
+      "range": {
+        "startLine": 389,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 62
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cea4493_6a37a664",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-05-30T07:32:17Z",
       "side": 1,
       "message": "I think this variable should just be removed and computed upon `render` so we don\u0027t have to worry about clearing it",
+      "range": {
+        "startLine": 614,
+        "startChar": 4,
+        "endLine": 614,
+        "endChar": 68
+      },
+      "revId": "589c532cfce5f6ee1bbd27116b965d864b876743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1563f4fd_c4ce76e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T08:49:02Z",
+      "side": 1,
+      "message": "Good idea - I renamed. But we need it to do it when user clicks on button also clean up when we are sucessful",
+      "parentUuid": "2cea4493_6a37a664",
       "range": {
         "startLine": 614,
         "startChar": 4,

@@ -94,6 +94,30 @@
       },
       "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc4b64f2_fe0f3c5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-05-30T09:27:54Z",
+      "side": 1,
+      "message": "Yes, please send a CL and I will abandon this one. Or I can submit this one and you can do follow-up. What do you prefer?",
+      "parentUuid": "b8481c7b_661c76f2",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 498,
+        "endChar": 37
+      },
+      "revId": "65a49cbe3b25b25a4269d9800a5ef29d6dc7d0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

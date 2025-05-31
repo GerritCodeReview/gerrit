@@ -4298,8 +4298,9 @@ in the usual time-unit format like "1 s", "100 ms", etc...
 A timeout can be used to avoid blocking all of the SSH command start
 threads in case the LDAP server becomes slow.
 +
-By default there is no timeout and Gerrit will wait for the LDAP
-server to respond until the TCP connection times out.
+By default 1 minute.  If set to 0 there is no timeout and Gerrit
+will wait for the LDAP server to respond until the TCP connection
+times out.
 
 [[ldap.accountBase]]ldap.accountBase::
 +
@@ -4580,7 +4581,8 @@ _(Optional)_ Timeout period for establishment of an LDAP connection.
 The value is in the usual time-unit format like "1 s", "100 ms",
 etc...
 +
-By default there is no timeout and Gerrit will wait indefinitely.
+By default 10 seconds. If set to 0 there is no timeout and Gerrit will
+wait indefinitely.
 
 [[ldap-connection-pooling]]
 ==== LDAP Connection Pooling

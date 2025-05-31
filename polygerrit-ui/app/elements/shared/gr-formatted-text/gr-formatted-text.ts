@@ -11,7 +11,6 @@ import {
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
 import {unescapeHTML} from '../../../utils/syntax-util';
-import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -24,6 +23,7 @@ import {
   USER_SUGGESTION_INFO_STRING,
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
+import '../gr-marked-element/gr-marked-element';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -244,11 +244,11 @@ export class GrFormattedText extends LitElement {
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
 
-    // We are overriding some marked-element renderers for a few reasons:
+    // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
     // 2. Inline code blocks ("codespan") do not unescape HTML characters when
     //    rendering without <pre> and so we must do this manually.
-    //    <marked-element> is already escaping these internally. See test
+    //    <gr-marked-element> is already escaping these internally. See test
     //    covering this.
     // 3. Multiline code blocks ("code") is similarly handling escaped
     //    characters using <pre>. The convention is to only use <pre> for multi-
@@ -258,65 +258,76 @@ export class GrFormattedText extends LitElement {
     //    rewrites. Text within code blocks is not passed here.
     // 5. Open links in a new tab by rendering with target="_blank" attribute.
     // 6. Relative links without "/" prefix are assumed to be absolute links.
-    function customRenderer(renderer: {[type: string]: Function}) {
-      renderer['link'] = (href: string, title: string, text: string) => {
-        if (
-          !href.startsWith('https://') &&
-          !href.startsWith('mailto:') &&
-          !href.startsWith('http://') &&
-          !href.startsWith('/')
-        ) {
-          href = `https://${href}`;
-        }
-        /* HTML */
-        return `<a
-          href="${href}"
-          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
-          ${title ? `title="${title}"` : ''}
-          >${text}</a
-        >`;
+    function customRenderer() {
+      return {
+        link(href: string, title: string, text: string) {
+          if (
+            !href.startsWith('https://') &&
+            !href.startsWith('mailto:') &&
+            !href.startsWith('http://') &&
+            !href.startsWith('/')
+          ) {
+            href = `https://${href}`;
+          }
+          /* HTML */
+          return `<a
+            href="${href}"
+            ${
+              sameOrigin(href)
+                ? ''
+                : 'target="_blank" rel="noopener noreferrer"'
+            }
+            ${title ? `title="${title}"` : ''}
+            >${text}</a
+          >`;
+        },
+        image(href: string, title: string, text: string) {
+          // Check if this is a base64-encoded image
+          if (
+            allowMarkdownBase64ImagesInComments &&
+            IMAGE_MIME_PATTERN.test(href)
+          ) {
+            return `<img src="${href}" alt="${text}" ${
+              title ? `title="${title}"` : ''
+            } />`;
+          }
+          // For non-base64 images just return the markdown
+          return `![${text}](${href})`;
+        },
+        codespan(text: string) {
+          return `<code>${unescapeHTML(text)}</code>`;
+        },
+        code(text: string, infostring: string) {
+          if (infostring === USER_SUGGESTION_INFO_STRING) {
+            // default santizer in markedjs is very restrictive, we need to use
+            // existing html element to mark element. We cannot use css class for
+            // it. Therefore we pick mark - as not frequently used html element to
+            // represent unconverted gr-user-suggestion-fix.
+            // TODO(milutin): Find a way to override sanitizer to directly use
+            // gr-user-suggestion-fix
+            return `<mark>${text}</mark>`;
+          } else {
+            return `<pre><code>${text}</code></pre>`;
+          }
+        },
+        // <gr-marked-element> internals will be in charge of calling our custom
+        // renderer so we write these functions separately so that 'this' is
+        // preserved via closure.
+        paragraph(text: string) {
+          return boundRewriteAsterisks(text);
+        },
+        text(text: string) {
+          return boundRewriteText(text);
+        },
       };
-      renderer['image'] = (href: string, title: string, text: string) => {
-        // Check if this is a base64-encoded image
-        if (
-          allowMarkdownBase64ImagesInComments &&
-          IMAGE_MIME_PATTERN.test(href)
-        ) {
-          return `<img src="${href}" alt="${text}" ${
-            title ? `title="${title}"` : ''
-          } />`;
-        }
-        // For non-base64 images just return the markdown
-        return `![${text}](${href})`;
-      };
-      renderer['codespan'] = (text: string) =>
-        `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string, infostring: string) => {
-        if (infostring === USER_SUGGESTION_INFO_STRING) {
-          // default santizer in markedjs is very restrictive, we need to use
-          // existing html element to mark element. We cannot use css class for
-          // it. Therefore we pick mark - as not frequently used html element to
-          // represent unconverted gr-user-suggestion-fix.
-          // TODO(milutin): Find a way to override sanitizer to directly use
-          // gr-user-suggestion-fix
-          return `<mark>${text}</mark>`;
-        } else {
-          return `<pre><code>${text}</code></pre>`;
-        }
-      };
-      // <marked-element> internals will be in charge of calling our custom
-      // renderer so we write these functions separately so that 'this' is
-      // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
     }
 
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output
-    // HTML string before it is rendered by `<marked-element>` in case any
+    // HTML string before it is rendered by `<gr-marked-element>` in case any
     // rewrites have been abused to attempt an XSS attack.
     return html`
-      <marked-element
+      <gr-marked-element
         .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
@@ -324,7 +335,7 @@ export class GrFormattedText extends LitElement {
           sanitizeHtml(contents)}
       >
         <div class="markdown-html" slot="markdown-html"></div>
-      </marked-element>
+      </gr-marked-element>
     `;
   }
 
@@ -349,9 +360,14 @@ export class GrFormattedText extends LitElement {
   }
 
   override updated() {
-    // Look for @mentions and replace them with an account-label chip.
-    this.convertEmailsToAccountChips();
-    this.convertCodeToSuggestions();
+    // When masked-element was using Polymer, it was rendered synchronously,
+    // compared to the lit version of the element. updated() ran before the markdown
+    // was inserted into the slot.
+    this.addEventListener('marked-render-complete', () => {
+      // Look for @mentions and replace them with an account-label chip.
+      this.convertEmailsToAccountChips();
+      this.convertCodeToSuggestions();
+    });
   }
 
   private convertEmailsToAccountChips() {

@@ -307,11 +307,16 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>text</p>
                 <p>
                   text with plain link:
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  ></a>
                   <a
                     href="http://google.com"
                     rel="noopener noreferrer"
@@ -342,7 +347,7 @@ suite('gr-formatted-text tests', () => {
                   </a>
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -409,7 +414,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <h1>h1-heading</h1>
                 <h2>h2-heading</h2>
@@ -419,6 +424,11 @@ suite('gr-formatted-text tests', () => {
                 <h6>h6-heading</h6>
                 <h1>
                   heading with plain link:
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  ></a>
                   <a
                     href="http://google.com"
                     rel="noopener noreferrer"
@@ -438,7 +448,7 @@ suite('gr-formatted-text tests', () => {
                   </a>
                 </h1>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -454,7 +464,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>
                   <code>inline code</code>
@@ -466,7 +476,7 @@ suite('gr-formatted-text tests', () => {
                   <code>inline code with config link: LinkRewriteMe</code>
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -482,7 +492,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <pre>
               <code>multiline code</code>
@@ -494,7 +504,7 @@ suite('gr-formatted-text tests', () => {
               <code>multiline code with config link: LinkRewriteMe</code>
             </pre>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -508,11 +518,11 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>![img](google.com/img.png)</p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -526,13 +536,13 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>
                   <gr-account-chip></gr-account-chip>
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -554,7 +564,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>
                   <code>@</code>
@@ -567,7 +577,7 @@ suite('gr-formatted-text tests', () => {
                   </a>
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -588,7 +598,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>
                   <a
@@ -624,7 +634,7 @@ suite('gr-formatted-text tests', () => {
                   >
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -640,7 +650,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <blockquote>
                   <p>block quote</p>
@@ -648,6 +658,11 @@ suite('gr-formatted-text tests', () => {
                 <blockquote>
                   <p>
                     block quote with plain link:
+                    <a
+                      href="http://google.com"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    ></a>
                     <a
                       href="http://google.com"
                       rel="noopener noreferrer"
@@ -670,7 +685,7 @@ suite('gr-formatted-text tests', () => {
                   </p>
                 </blockquote>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -679,7 +694,7 @@ suite('gr-formatted-text tests', () => {
     test('never renders typed html', async () => {
       element.content = `plain text <div>foo</div>
         \n\`inline code <div>foo</div>\`
-        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
+        \n\`\`\`\nmultiline code <div>foo</div>\n\`\`\`
         \n> block quote <div>foo</div>
         \n[inline link <div>foo</div>](http://google.com)`;
       await element.updateComplete;
@@ -689,17 +704,15 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>plain text ${escapedDiv}</p>
                 <p>
                   <code>inline code ${escapedDiv}</code>
                 </p>
                 <pre>
-              <code>
-                multiline code ${escapedDiv}
-              </code>
-            </pre>
+                  <code> multiline code ${escapedDiv} </code>
+                </pre>
                 <blockquote>
                   <p>block quote ${escapedDiv}</p>
                 </blockquote>
@@ -712,7 +725,7 @@ suite('gr-formatted-text tests', () => {
                   >
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -726,7 +739,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <blockquote>
                   <blockquote>
@@ -736,7 +749,7 @@ suite('gr-formatted-text tests', () => {
                   </blockquote>
                 </blockquote>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -757,7 +770,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
-            <marked-element>
+            <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
                 <p>
                   I think
@@ -769,7 +782,7 @@ suite('gr-formatted-text tests', () => {
                   >
                 </p>
               </div>
-            </marked-element>
+            </gr-marked-element>
           </gr-endpoint-decorator>
         `
       );
@@ -829,18 +842,18 @@ suite('gr-formatted-text tests', () => {
       });
 
       test('renders', async () => {
-        element.content = '```suggestion\nHello World```';
+        element.content = '```suggestion\nHello World\n```';
         await element.updateComplete;
         assert.shadowDom.equal(
           element,
           /* HTML */
           `
             <gr-endpoint-decorator name="formatted-text-endpoint">
-              <marked-element>
+              <gr-marked-element>
                 <div class="markdown-html" slot="markdown-html">
                   <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
                 </div>
-              </marked-element>
+              </gr-marked-element>
             </gr-endpoint-decorator>
           `
         );

@@ -39,7 +39,7 @@ public class TransferConfig {
                 "transfer",
                 null,
                 "timeout", //
-                0,
+                60,
                 TimeUnit.SECONDS);
     maxObjectSizeLimit = cfg.getLong("receive", "maxObjectSizeLimit", 0);
     maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");

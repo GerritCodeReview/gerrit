@@ -3436,7 +3436,6 @@ Polymer-2015
 * @polymer/iron-resizable-behavior
 * @polymer/iron-selector
 * @polymer/iron-validatable-behavior
-* @polymer/marked-element
 * @polymer/neon-animation
 * @polymer/paper-behaviors
 * @polymer/paper-button

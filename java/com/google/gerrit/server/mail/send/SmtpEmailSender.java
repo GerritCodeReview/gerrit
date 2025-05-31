@@ -61,10 +61,10 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class SmtpEmailSender implements EmailSender {
   /** The socket's connect timeout (0 = infinite timeout) */
-  private static final int DEFAULT_CONNECT_TIMEOUT = 0;
+  private static final int DEFAULT_CONNECT_TIMEOUT = 10000;
 
   /** The socket's socket read timeout (0 = infinite timeout) */
-  private static final int DEFAULT_SOCKET_TIMEOUT = 0;
+  private static final int DEFAULT_SOCKET_TIMEOUT = 10000;
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

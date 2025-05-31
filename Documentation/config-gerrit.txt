@@ -5573,7 +5573,7 @@ Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
 If no unit is specified, milliseconds is assumed.
 +
-Default is 0. A timeout of zero is interpreted as an infinite
+Default is 10 seconds. A timeout of zero is interpreted as an infinite
 timeout. The connection will then block until established or
 an error occurs.
 
@@ -5586,7 +5586,7 @@ Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
 If no unit is specified, milliseconds is assumed.
 +
-Default is 0. A timeout of zero is interpreted as an infinite
+Default is 10 seconds. A timeout of zero is interpreted as an infinite
 timeout. With this config value set to a non-zero timeout,
 a read() call on the InputStream associated with this Socket
 will block for only this amount of time. Hence administrators

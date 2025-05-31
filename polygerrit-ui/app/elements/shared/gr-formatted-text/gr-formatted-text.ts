@@ -11,7 +11,6 @@ import {
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
 import {unescapeHTML} from '../../../utils/syntax-util';
-import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -24,6 +23,7 @@ import {
   USER_SUGGESTION_INFO_STRING,
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
+import '../gr-marked-element/gr-marked-element';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -244,11 +244,11 @@ export class GrFormattedText extends LitElement {
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
 
-    // We are overriding some marked-element renderers for a few reasons:
+    // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
     // 2. Inline code blocks ("codespan") do not unescape HTML characters when
     //    rendering without <pre> and so we must do this manually.
-    //    <marked-element> is already escaping these internally. See test
+    //    <gr-marked-element> is already escaping these internally. See test
     //    covering this.
     // 3. Multiline code blocks ("code") is similarly handling escaped
     //    characters using <pre>. The convention is to only use <pre> for multi-
@@ -304,7 +304,7 @@ export class GrFormattedText extends LitElement {
           return `<pre><code>${text}</code></pre>`;
         }
       };
-      // <marked-element> internals will be in charge of calling our custom
+      // <gr-marked-element> internals will be in charge of calling our custom
       // renderer so we write these functions separately so that 'this' is
       // preserved via closure.
       renderer['paragraph'] = boundRewriteAsterisks;
@@ -313,10 +313,10 @@ export class GrFormattedText extends LitElement {
 
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output
-    // HTML string before it is rendered by `<marked-element>` in case any
+    // HTML string before it is rendered by `<gr-marked-element>` in case any
     // rewrites have been abused to attempt an XSS attack.
     return html`
-      <marked-element
+      <gr-marked-element
         .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
@@ -324,7 +324,7 @@ export class GrFormattedText extends LitElement {
           sanitizeHtml(contents)}
       >
         <div class="markdown-html" slot="markdown-html"></div>
-      </marked-element>
+      </gr-marked-element>
     `;
   }
 
@@ -349,10 +349,21 @@ export class GrFormattedText extends LitElement {
   }
 
   override updated() {
+    this.removeEventListener(
+      'marked-render-complete',
+      this.markedRenderComplete
+    );
+    // When masked-element was using Polymer, it was rendered synchronously,
+    // compared to the lit version of the element. updated() ran before the markdown
+    // was inserted into the slot.
+    this.addEventListener('marked-render-complete', this.markedRenderComplete);
+  }
+
+  readonly markedRenderComplete = () => {
     // Look for @mentions and replace them with an account-label chip.
     this.convertEmailsToAccountChips();
     this.convertCodeToSuggestions();
-  }
+  };
 
   private convertEmailsToAccountChips() {
     for (const emailLink of this.renderRoot.querySelectorAll(

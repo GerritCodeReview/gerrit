@@ -4856,7 +4856,7 @@ If `true`, delta compression between objects is enabled.  This may
 result in a smaller overall transfer for the client, but requires
 more server memory and CPU time.
 +
-False (off) by default, matching Gerrit Code Review 2.1.4.
+False (off) by default.
 
 [[pack.threads]]pack.threads::
 +

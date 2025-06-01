@@ -5436,12 +5436,12 @@ task (e.g. GC), is not blocking the entire execution.
 
 [[execution.fanOutThreadPoolSize]]execution.fanOutThreadPoolSize::
 +
-Maximum size of thread pool to on which a serving thread can fan-out
-work to parallelize it.
+Maximum size of thread pool a serving thread can fan-out work on to
+parallelize it.
 +
-When set to 0, a direct executor will be used.
+When set to 0 the work happens directly in the caller thread.
 +
-By default, 25 which means that formatting happens in the caller thread.
+By default 25.
 
 [[performance]]
 === Section performance

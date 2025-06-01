@@ -33,6 +33,23 @@
       "message": "H",
       "revId": "99a00668cff1e5dcb88671a4ca76139be7116e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8dd9f1f_7eb9cde4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-01T18:05:24Z",
+      "side": 1,
+      "message": "should we also change the default of rules.allowNewRules to false ?",
+      "revId": "99a00668cff1e5dcb88671a4ca76139be7116e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

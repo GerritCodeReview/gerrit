@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9f28bf6_2d9e23bd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4301,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-01T09:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d7f3bb_4aee3b9a",
+      "range": {
+        "startLine": 4301,
+        "startChar": 11,
+        "endLine": 4301,
+        "endChar": 21
+      },
+      "revId": "335a7f3177bed8a9ad4d83c3f5ca703535d0b8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec1a11f0_845b5c7c",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-06-01T07:29:38Z",
       "side": 1,
       "message": "```suggestion\n          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 60000, TimeUnit.MILLISECONDS));\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 60,
+        "endLine": 112,
+        "endChar": 65
+      },
+      "revId": "335a7f3177bed8a9ad4d83c3f5ca703535d0b8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c55cd011_6b08038b",
+        "filename": "java/com/google/gerrit/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-01T09:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec1a11f0_845b5c7c",
       "range": {
         "startLine": 112,
         "startChar": 60,

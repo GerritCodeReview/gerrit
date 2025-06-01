@@ -115,7 +115,7 @@ By default, `true`.
 [[accounts.caseInsensitiveLocalPart]]accounts.caseInsensitiveLocalPart::
 +
 When querying by email, the case sensitivity of the email local part depends on the domains
-specified in the this list.
+specified in this list.
 +
 Users can register emails with mixed case, and if the email’s domain matches one in the configured
 list, the local part is treated as case-insensitive.

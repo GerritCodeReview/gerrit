@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d7f3bb_4aee3b9a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4301,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-06-01T07:29:38Z",
+      "side": 1,
+      "message": "This look like too small: when performing group lookups, I\u0027ve seen LDAP servers responding is a lot more than 10 seconds.\n\n\n\n```suggestion\nBy default 60 seconds.\n```",
+      "range": {
+        "startLine": 4301,
+        "startChar": 11,
+        "endLine": 4301,
+        "endChar": 21
+      },
+      "revId": "335a7f3177bed8a9ad4d83c3f5ca703535d0b8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec1a11f0_845b5c7c",
+        "filename": "java/com/google/gerrit/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-06-01T07:29:38Z",
+      "side": 1,
+      "message": "```suggestion\n          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 60000, TimeUnit.MILLISECONDS));\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 60,
+        "endLine": 112,
+        "endChar": 65
+      },
+      "revId": "335a7f3177bed8a9ad4d83c3f5ca703535d0b8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

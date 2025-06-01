@@ -4009,7 +4009,7 @@ If negative, `commitWithin` is disabled. Changes are flushed to disk when
 the in-memory buffer fills, but only committed and guaranteed to be synced
 to disk when the process finishes.
 +
-Defaults to 300000 ms (5 minutes).
+Defaults to 5 minutes.
 
 
 [[index.name.maxMergeCount]]index.name.maxMergeCount::

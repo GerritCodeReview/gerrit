@@ -18,7 +18,6 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -38,14 +37,11 @@ import org.eclipse.jgit.http.server.GitSmartHttpTools;
 public class XsrfCookieFilter implements Filter {
   private final Provider<CurrentUser> user;
   private final DynamicItem<WebSession> session;
-  private final AuthConfig authConfig;
 
   @Inject
-  XsrfCookieFilter(
-      Provider<CurrentUser> user, DynamicItem<WebSession> session, AuthConfig authConfig) {
+  XsrfCookieFilter(Provider<CurrentUser> user, DynamicItem<WebSession> session) {
     this.user = user;
     this.session = session;
-    this.authConfig = authConfig;
   }
 
   @Override
@@ -64,7 +60,7 @@ public class XsrfCookieFilter implements Filter {
     String v = session != null ? session.getXGerritAuth() : null;
     Cookie c = new Cookie(XsrfConstants.XSRF_COOKIE_NAME, nullToEmpty(v));
     c.setPath("/");
-    c.setSecure(authConfig.getCookieSecure() && isSecure(req));
+    c.setSecure(isSecure(req));
     c.setMaxAge(
         v != null
             ? -1 // Set the cookie for this browser session.

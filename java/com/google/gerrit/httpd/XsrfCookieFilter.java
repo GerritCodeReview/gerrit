@@ -64,7 +64,7 @@ public class XsrfCookieFilter implements Filter {
     String v = session != null ? session.getXGerritAuth() : null;
     Cookie c = new Cookie(XsrfConstants.XSRF_COOKIE_NAME, nullToEmpty(v));
     c.setPath("/");
-    c.setSecure(authConfig.getCookieSecure() && isSecure(req));
+    c.setSecure(isSecure(req));
     c.setMaxAge(
         v != null
             ? -1 // Set the cookie for this browser session.

@@ -549,13 +549,6 @@ Sets "domain" attribute of the authentication cookie.
 +
 If not set, HTTP request's domain is used.
 
-[[auth.cookieSecure]]auth.cookieSecure::
-+
-Sets "secure" flag of the authentication cookie.  If `true`, cookies
-will be transmitted only over HTTPS protocol.
-+
-By default, `false`.
-
 [[auth.cookieHttpOnly]]auth.cookieHttpOnly::
 +
 Sets "httpOnly" flag of the authentication cookie. If `true`, cookie

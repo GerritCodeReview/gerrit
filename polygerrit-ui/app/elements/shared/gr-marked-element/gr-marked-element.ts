@@ -6,14 +6,11 @@
 
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import './gr-marked-import';
+import {marked, Marked} from 'marked';
+import {markedHighlight} from 'marked-highlight';
+import {markedSmartypants} from 'marked-smartypants';
 
 declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    marked: any;
-  }
-
   interface HTMLElementTagNameMap {
     'gr-marked-element': GrMarkedElement;
   }
@@ -29,18 +26,9 @@ export class GrMarkedElement extends LitElement {
 
   @property({type: Function}) renderer: Function | null = null;
 
-  @property({type: Boolean}) sanitize = false;
-
-  @property({type: Function}) sanitizer: ((html: string) => string) | null =
-    null;
-
-  @property({type: Boolean}) disableRemoteSanitization = false;
-
   @property({type: Boolean}) smartypants = false;
 
-  @property({type: Function}) callback:
-    | ((err: unknown, html: string) => void)
-    | null = null;
+  @property({type: Function}) callback: Function | null = null;
 
   @state() xhr: XMLHttpRequest | null = null;
 
@@ -58,16 +46,16 @@ export class GrMarkedElement extends LitElement {
     `;
   }
 
-  private _attached = false;
+  private attached = false;
 
   override connectedCallback() {
     super.connectedCallback();
-    this._attached = true;
+    this.attached = true;
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
-    this._attached = false;
+    this.attached = false;
   }
 
   get outputElement(): HTMLElement | null {
@@ -111,8 +99,6 @@ export class GrMarkedElement extends LitElement {
       'breaks',
       'pedantic',
       'renderer',
-      'sanitize',
-      'sanitizer',
       'smartypants',
       'callback',
     ];
@@ -123,29 +109,48 @@ export class GrMarkedElement extends LitElement {
   }
 
   private renderMarkdown() {
-    if (!this.outputElement || !this._attached || !this.markdown) {
+    if (!this.outputElement || !this.attached || !this.markdown) {
       if (this.outputElement) this.outputElement.innerHTML = '';
       return;
     }
 
-    const renderer = new window.marked.Renderer();
+    const markedHtml = new Marked(
+      markedHighlight({
+        highlight: this.highlight.bind(this),
+      })
+    );
+
+    const renderer = new marked.Renderer();
     if (this.renderer) this.renderer(renderer);
 
-    const options = {
-      renderer,
-      highlight: this.highlight.bind(this),
-      breaks: this.breaks,
-      sanitize: this.sanitize,
-      sanitizer: this.sanitizer || undefined,
-      pedantic: this.pedantic,
-      smartypants: this.smartypants,
-    };
+    markedHtml.use({renderer});
 
-    this.outputElement.innerHTML = window.marked(
-      this.markdown,
-      options,
-      this.callback
-    );
+    if (this.smartypants) {
+      markedHtml.use(markedSmartypants());
+    }
+
+    markedHtml.setOptions({
+      // renderer,
+      breaks: this.breaks,
+      pedantic: this.pedantic,
+    });
+
+    try {
+      const html = markedHtml.parse(this.markdown, {async: false});
+
+      if (this.callback) {
+        this.callback(null, html);
+      }
+
+      this.outputElement.innerHTML = html;
+    } catch (err) {
+      console.error('Markdown rendering failed:', err);
+      if (this.callback) {
+        const html = this.callback(err, '');
+        this.outputElement.innerHTML = html;
+      }
+    }
+
     this.dispatchEvent(
       new CustomEvent('marked-render-complete', {bubbles: true, composed: true})
     );
@@ -177,7 +182,6 @@ export class GrMarkedElement extends LitElement {
     this.xhr.addEventListener('loadend', e => {
       const status = this.xhr?.status ?? 0;
       if (status === 0 || (status >= 200 && status < 300)) {
-        this.sanitize = !this.disableRemoteSanitization;
         this.markdown = this.xhr?.response ?? '';
       } else {
         this.handleError(e);

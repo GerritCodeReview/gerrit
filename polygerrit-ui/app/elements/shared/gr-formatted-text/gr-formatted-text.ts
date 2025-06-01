@@ -24,11 +24,105 @@ import {
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 import '../gr-marked-element/gr-marked-element';
+import {Renderer} from 'marked';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
 const IMAGE_MIME_PATTERN =
   /^data:image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp);base64,/;
+
+class CustomRenderer extends Renderer {
+  private allowMarkdownBase64ImagesInComments = false;
+
+  private boundRewriteText: (text: string) => string;
+
+  private boundRewriteAsterisks: (text: string) => string;
+
+  constructor(
+    allowMarkdownBase64ImagesInComments: boolean,
+    boundRewriteText: (text: string) => string,
+    boundRewriteAsterisks: (text: string) => string
+  ) {
+    super();
+    this.allowMarkdownBase64ImagesInComments =
+      allowMarkdownBase64ImagesInComments;
+    this.boundRewriteText = boundRewriteText;
+    this.boundRewriteAsterisks = boundRewriteAsterisks;
+  }
+
+  override link({
+    href,
+    title,
+    text,
+  }: {
+    href: string;
+    title?: string | null;
+    text: string;
+  }): string {
+    if (
+      !href.startsWith('https://') &&
+      !href.startsWith('mailto:') &&
+      !href.startsWith('http://') &&
+      !href.startsWith('/')
+    ) {
+      href = `https://${href}`;
+    }
+    /* HTML */
+    return `<a
+      href="${href}"
+      ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
+      ${title ? `title="${title}"` : ''}
+      >${text}</a
+    >`;
+  }
+
+  override image({
+    href,
+    title,
+    text,
+  }: {
+    href: string;
+    title: string | null;
+    text: string;
+  }): string {
+    // Check if this is a base64-encoded image
+    if (
+      this.allowMarkdownBase64ImagesInComments &&
+      IMAGE_MIME_PATTERN.test(href)
+    ) {
+      return `<img src="${href}" alt="${text}" ${
+        title ? `title="${title}"` : ''
+      } />`;
+    }
+    // For non-base64 images just return the markdown
+    return `![${text}](${href})`;
+  }
+
+  override codespan({text}: {text: string}): string {
+    return `<code>${unescapeHTML(text)}</code>`;
+  }
+
+  override code({
+    text,
+    infostring,
+  }: {
+    text: string;
+    infostring?: string;
+  }): string {
+    if (infostring === USER_SUGGESTION_INFO_STRING) {
+      return `<mark>${text}</mark>`;
+    }
+    return `<pre><code>${text}</code></pre>`;
+  }
+
+  override paragraph({text}: {text: string}): string {
+    return this.boundRewriteAsterisks(text);
+  }
+
+  override text({text}: {text: string}): string {
+    return this.boundRewriteText(text);
+  }
+}
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -258,57 +352,12 @@ export class GrFormattedText extends LitElement {
     //    rewrites. Text within code blocks is not passed here.
     // 5. Open links in a new tab by rendering with target="_blank" attribute.
     // 6. Relative links without "/" prefix are assumed to be absolute links.
-    function customRenderer(renderer: {[type: string]: Function}) {
-      renderer['link'] = (href: string, title: string, text: string) => {
-        if (
-          !href.startsWith('https://') &&
-          !href.startsWith('mailto:') &&
-          !href.startsWith('http://') &&
-          !href.startsWith('/')
-        ) {
-          href = `https://${href}`;
-        }
-        /* HTML */
-        return `<a
-          href="${href}"
-          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
-          ${title ? `title="${title}"` : ''}
-          >${text}</a
-        >`;
-      };
-      renderer['image'] = (href: string, title: string, text: string) => {
-        // Check if this is a base64-encoded image
-        if (
-          allowMarkdownBase64ImagesInComments &&
-          IMAGE_MIME_PATTERN.test(href)
-        ) {
-          return `<img src="${href}" alt="${text}" ${
-            title ? `title="${title}"` : ''
-          } />`;
-        }
-        // For non-base64 images just return the markdown
-        return `![${text}](${href})`;
-      };
-      renderer['codespan'] = (text: string) =>
-        `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string, infostring: string) => {
-        if (infostring === USER_SUGGESTION_INFO_STRING) {
-          // default santizer in markedjs is very restrictive, we need to use
-          // existing html element to mark element. We cannot use css class for
-          // it. Therefore we pick mark - as not frequently used html element to
-          // represent unconverted gr-user-suggestion-fix.
-          // TODO(milutin): Find a way to override sanitizer to directly use
-          // gr-user-suggestion-fix
-          return `<mark>${text}</mark>`;
-        } else {
-          return `<pre><code>${text}</code></pre>`;
-        }
-      };
-      // <gr-marked-element> internals will be in charge of calling our custom
-      // renderer so we write these functions separately so that 'this' is
-      // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
+    function customRenderer() {
+      return new CustomRenderer(
+        allowMarkdownBase64ImagesInComments,
+        boundRewriteText,
+        boundRewriteAsterisks
+      );
     }
 
     // The child with slot is optional but allows us control over the styling.
@@ -378,6 +427,7 @@ export class GrFormattedText extends LitElement {
         // Remove the trailing @ from the previous element.
         previous.textContent = previous.textContent.slice(0, -1);
         emailLink.parentNode?.replaceChild(accountChip, emailLink);
+        // console.log(emailLink)
       }
     }
   }

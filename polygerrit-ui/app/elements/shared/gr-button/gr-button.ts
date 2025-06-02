@@ -122,6 +122,9 @@ export class GrButton extends LitElement {
           /* Brings back the round corners we had with paper-button */
           --md-text-button-container-shape: 4px;
           --md-elevated-button-container-shape: 4px;
+          /* We have a variable for setting the text colour when it is disabled */
+          --md-elevated-button-disabled-label-text-color: var(--text-color);
+          --md-text-button-disabled-label-text-color: var(--text-color);
           align-items: center;
           background-color: var(--background-color);
           color: var(--text-color);

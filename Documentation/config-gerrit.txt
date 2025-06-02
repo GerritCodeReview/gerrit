@@ -5366,8 +5366,8 @@ submit requirements are being used instead.
 +
 Modification and deletion of existing rules are still allowed.
 +
-Default is `true`, to allow creation of prolog rules in projects
-not having any already.
+Default is `false`, disallowing creation of prolog rules in projects
+not having any already since prolog rules are now deprecated.
 
 [[rules.reductionLimit]]rules.reductionLimit::
 +

@@ -843,7 +843,6 @@ Polymer-2015
 * @polymer/paper-listbox
 * @polymer/paper-menu-button
 * @polymer/paper-tabs
-* @polymer/paper-toggle-button
 * @polymer/paper-tooltip
 
 [[Polymer-2015_license]]

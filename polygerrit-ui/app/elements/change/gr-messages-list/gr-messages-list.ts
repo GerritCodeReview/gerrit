@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/paper-toggle-button/paper-toggle-button';
+import '@material/web/switch/switch';
 import '../../shared/gr-button/gr-button';
 import '../gr-message/gr-message';
 import '../../../styles/gr-paper-styles';
@@ -46,6 +46,7 @@ import {
 } from '../../../services/shortcuts/shortcuts-service';
 import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
 import {waitUntil} from '../../../utils/async-util';
+import {MdSwitch} from '@material/web/switch/switch';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -389,15 +390,13 @@ export class GrMessagesList extends LitElement {
         ${when(
           this.combinedMessages.some(m => !m.isImportant),
           () => html`
-            <paper-toggle-button
+            <md-switch
               class="showAllActivityToggle"
-              ?checked=${this.showAllActivity}
+              ?selected=${this.showAllActivity}
               @change=${this.handleShowAllActivityChanged}
               aria-labelledby="showAllEntriesLabel"
               role="switch"
-              @click=${this.onTapShowAllActivityToggle}
-              @tap=${this.onTapShowAllActivityToggle}
-            ></paper-toggle-button>
+            ></md-switch>
             <div id="showAllEntriesLabel" aria-hidden="true">
               <span>Show all entries</span>
               <span class="hiddenEntries" ?hidden=${this.showAllActivity}>
@@ -453,7 +452,7 @@ export class GrMessagesList extends LitElement {
   }
 
   private handleShowAllActivityChanged(e: Event) {
-    this.showAllActivity = (e.target as HTMLInputElement).checked ?? false;
+    this.showAllActivity = (e.target as MdSwitch).selected ?? false;
   }
 
   private refreshMessages() {
@@ -553,13 +552,6 @@ export class GrMessagesList extends LitElement {
       }
     }
     return extremes;
-  }
-
-  /**
-   * Work around a issue on iOS when clicking turns into double tap
-   */
-  private onTapShowAllActivityToggle(e: Event) {
-    e.preventDefault();
   }
 }
 

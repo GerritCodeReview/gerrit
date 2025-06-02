@@ -6,6 +6,20 @@
 import {css} from 'lit';
 
 export const paperStyles = css`
+  md-switch {
+    --md-sys-color-surface-container-highest: var(
+      --switch-color-surface-container-highest
+    );
+    --md-sys-color-on-surface: var(--switch-color-on-surface);
+    --md-sys-color-on-surface-variant: var(--switch-color-on-surface-variant);
+    --md-sys-color-outline: var(--switch-color-outline);
+    --md-sys-color-primary: var(--switch-color-primary);
+    --md-sys-color-on-primary: var(--switch-color-on-primary);
+    --md-sys-color-primary-container: var(--switch-color-primary-container);
+
+    padding-right: 0.5em;
+  }
+
   paper-toggle-button {
     --paper-toggle-button-checked-bar-color: var(--link-color);
     --paper-toggle-button-checked-button-color: var(--link-color);

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
-import '@polymer/paper-toggle-button/paper-toggle-button';
+import '@material/web/switch/switch';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
@@ -18,7 +18,6 @@ import {
   ConfigParameterInfo,
   PluginParameterToConfigParameterInfoMap,
 } from '../../../types/common';
-import {PaperToggleButtonElement} from '@polymer/paper-toggle-button/paper-toggle-button';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {
   PluginConfigOptionsChangedEventDetail,
@@ -26,6 +25,7 @@ import {
 } from './gr-repo-plugin-config-types';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {fire} from '../../../utils/event-util';
+import {MdSwitch} from '@material/web/switch/switch';
 
 export interface ConfigChangeInfo {
   _key: string; // parameterName of PluginParameterToConfigParameterInfoMap
@@ -81,7 +81,7 @@ export class GrRepoPluginConfig extends LitElement {
   override render() {
     // Render can be called prior to pluginData being updated.
     const pluginConfigOptions = this.pluginData
-      ? this._computePluginConfigOptions(this.pluginData)
+      ? this.computePluginConfigOptions(this.pluginData)
       : [];
 
     return html`
@@ -133,27 +133,25 @@ export class GrRepoPluginConfig extends LitElement {
     if (option.info.type === ConfigParameterInfoType.ARRAY) {
       return html`
         <gr-plugin-config-array-editor
-          @plugin-config-option-changed=${this._handleArrayChange}
+          @plugin-config-option-changed=${this.handleArrayChange}
           .pluginOption=${option}
           ?disabled=${this.disabled || !option.info.editable}
         ></gr-plugin-config-array-editor>
       `;
     } else if (option.info.type === ConfigParameterInfoType.BOOLEAN) {
       return html`
-        <paper-toggle-button
-          ?checked=${this._computeChecked(option.info.value)}
-          @change=${this._handleBooleanChange}
+        <md-switch
+          ?selected=${this.computeChecked(option.info.value)}
+          @change=${this.handleBooleanChange}
           data-option-key=${option._key}
           ?disabled=${this.disabled || !option.info.editable}
-          @click=${this.onTapPluginBoolean}
-          @tap=${this.onTapPluginBoolean}
-        ></paper-toggle-button>
+        ></md-switch>
       `;
     } else if (option.info.type === ConfigParameterInfoType.LIST) {
       return html`
         <gr-select
           .bindValue=${option.info.value}
-          @change=${this._handleListChange}
+          @change=${this.handleListChange}
         >
           <select
             data-option-key=${option._key}
@@ -173,13 +171,13 @@ export class GrRepoPluginConfig extends LitElement {
       return html`
         <iron-input
           .bindValue=${option.info.value ?? ''}
-          @input=${this._handleStringChange}
+          @input=${this.handleStringChange}
           data-option-key=${option._key}
         >
           <input
             is="iron-input"
             .value=${option.info.value ?? ''}
-            @input=${this._handleStringChange}
+            @input=${this.handleStringChange}
             data-option-key=${option._key}
             ?disabled=${this.disabled || !option.info.editable}
           />
@@ -190,45 +188,47 @@ export class GrRepoPluginConfig extends LitElement {
     }
   }
 
-  _computePluginConfigOptions(pluginData: PluginData) {
+  // Private but used in test
+  computePluginConfigOptions(pluginData: PluginData) {
     const config = pluginData.config;
     return Object.keys(config).map(_key => {
       return {_key, info: config[_key]};
     });
   }
 
-  _computeChecked(value = 'false') {
+  private computeChecked(value = 'false') {
     return JSON.parse(value) as boolean;
   }
 
-  _handleStringChange(e: Event) {
+  private handleStringChange(e: Event) {
     const el = e.target as IronInputElement;
     // In the template, the data-option-key is assigned to each editor
     const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this._buildConfigChangeInfo(el.value, _key);
-    this._handleChange(configChangeInfo);
+    const configChangeInfo = this.buildConfigChangeInfo(el.value, _key);
+    this.handleChange(configChangeInfo);
   }
 
-  _handleListChange(e: Event) {
+  private handleListChange(e: Event) {
     const el = e.target as HTMLOptionElement;
     // In the template, the data-option-key is assigned to each editor
     const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this._buildConfigChangeInfo(el.value, _key);
-    this._handleChange(configChangeInfo);
+    const configChangeInfo = this.buildConfigChangeInfo(el.value, _key);
+    this.handleChange(configChangeInfo);
   }
 
-  _handleBooleanChange(e: Event) {
-    const el = e.target as PaperToggleButtonElement;
+  private handleBooleanChange(e: Event) {
+    const el = e.target as MdSwitch;
     // In the template, the data-option-key is assigned to each editor
-    const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this._buildConfigChangeInfo(
-      JSON.stringify(el.checked),
-      _key
+    const key = el.getAttribute('data-option-key')!;
+    const configChangeInfo = this.buildConfigChangeInfo(
+      JSON.stringify(el.selected),
+      key
     );
-    this._handleChange(configChangeInfo);
+    this.handleChange(configChangeInfo);
   }
 
-  _buildConfigChangeInfo(
+  // Private but used in test
+  buildConfigChangeInfo(
     value: string | null | undefined,
     _key: string
   ): ConfigChangeInfo {
@@ -242,11 +242,13 @@ export class GrRepoPluginConfig extends LitElement {
     };
   }
 
-  _handleArrayChange(e: CustomEvent<PluginConfigOptionsChangedEventDetail>) {
-    this._handleChange(e.detail);
+  // Private but used in test
+  handleArrayChange(e: CustomEvent<PluginConfigOptionsChangedEventDetail>) {
+    this.handleChange(e.detail);
   }
 
-  _handleChange({_key, info}: ConfigChangeInfo) {
+  // Private but used in test
+  handleChange({_key, info}: ConfigChangeInfo) {
     // If pluginData is not set, editors are not created and this method
     // can't be called
     const {name, config} = this.pluginData!;
@@ -257,13 +259,6 @@ export class GrRepoPluginConfig extends LitElement {
       config: {...config, [_key]: info},
     };
     fire(this, 'plugin-config-changed', detail);
-  }
-
-  /**
-   * Work around a issue on iOS when clicking turns into double tap
-   */
-  private onTapPluginBoolean(e: Event) {
-    e.preventDefault();
   }
 }
 

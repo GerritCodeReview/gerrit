@@ -209,6 +209,24 @@
       "parentUuid": "5c05da85_2dd744da",
       "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5001c9b0_a99fa5e6",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-02T07:07:23Z",
+      "side": 1,
+      "message": "Cleaning up the package structure sounds like a good idea.\n\nYeah, this will likely cause a bit of work for us when we import this, but adapting our code should be straight-forward as it\u0027s only updating package names and build files. So no concerns from my side.",
+      "parentUuid": "e7cc9c93_312bd93d",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

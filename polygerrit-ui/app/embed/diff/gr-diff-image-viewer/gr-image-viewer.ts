@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@material/web/button/text-button';
+import '@material/web/checkbox/checkbox.js';
 import '@polymer/paper-card/paper-card';
-import '@polymer/paper-checkbox/paper-checkbox';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
 import '@polymer/paper-fab/paper-fab';
 import '@polymer/paper-icon-button/paper-icon-button';
@@ -360,6 +360,11 @@ export class GrImageViewer extends LitElement {
           top: 0;
           left: 0;
         }
+        .highlight-changes,
+        .follow-mouse {
+          display: flex;
+          align-items: center;
+        }
       `,
     ];
   }
@@ -485,13 +490,16 @@ export class GrImageViewer extends LitElement {
 
     const highlightSwitcher = this.diffHighlightSrc
       ? html`
-          <paper-checkbox
-            id="highlight-changes"
-            ?checked=${this.showHighlight}
-            @change=${this.showHighlightChanged}
-          >
+          <label class="highlight-changes">
+            <md-checkbox
+              id="highlight-changes"
+              touch-target="wrapper"
+              ?checked=${this.showHighlight}
+              @change=${this.showHighlightChanged}
+            >
+            </md-checkbox>
             Highlight differences
-          </paper-checkbox>
+          </label>
         `
       : '';
 
@@ -532,13 +540,17 @@ export class GrImageViewer extends LitElement {
     `;
 
     const followMouse = html`
-      <paper-checkbox
-        id="follow-mouse"
-        ?checked=${this.followMouse}
-        @change=${this.followMouseChanged}
-      >
+      <label class="follow-mouse">
+        <md-checkbox
+          touch-target="wrapper"
+          id="follow-mouse"
+          ?checked=${this.followMouse}
+          @change=${this.followMouseChanged}
+        >
+          Magnifier follows mouse
+        </md-checkbox>
         Magnifier follows mouse
-      </paper-checkbox>
+      </label>
     `;
 
     const backgroundPicker = html`

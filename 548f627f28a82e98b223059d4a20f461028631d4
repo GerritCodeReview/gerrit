@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "135600af_385955b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-02T12:17:27Z",
+      "side": 1,
+      "message": "This seems to be causing intermittent issues.\n\nE.g.\n\n```\n13:15:47 Errors Reported in Tests:\n13:15:47 \n13:15:47 \n13:15:47  ❌ Tests were interrupted because the browser disconnected. \n13:15:47   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/bin/polygerrit-ui/web_test_runner.runfiles/gerrit/polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links_test.ts\n13:15:47 \n13:15:47  ❌ page.goto: net::ERR_ABORTED at http://localhost:9876/?wtr-session-id\u003dcuvnPv9jES9juxr4NIp5e\n13:15:47 Call log:\n13:15:47   - navigating to \"http://localhost:9876/?wtr-session-id\u003dcuvnPv9jES9juxr4NIp5e\", waiting until \"load\"\n13:15:47  \n13:15:47     page.goto: net::ERR_ABORTED at http://localhost:9876/?wtr-session-id\u003dcuvnPv9jES9juxr4NIp5e\n13:15:47     Call log:\n13:15:47       - navigating to \"http://localhost:9876/?wtr-session-id\u003dcuvnPv9jES9juxr4NIp5e\", waiting until \"load\"\n13:15:47     \n13:15:47         at PlaywrightLauncherPage.runSession (/home/jenkins/workspace/Gerrit-verifier-chrome-latest/gerrit/polygerrit-ui/node_modules/@web/test-runner-playwright/dist/PlaywrightLauncherPage.js:26:35)\n13:15:47         at async PlaywrightLauncher.startSession (/home/jenkins/workspace/Gerrit-verifier-chrome-latest/gerrit/polygerrit-ui/node_modules/@web/test-runner-playwright/dist/PlaywrightLauncher.js:45:9)\n13:15:47   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/bin/polygerrit-ui/web_test_runner.runfiles/gerrit/polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.ts\n```\n\n(At least this wasn\u0027t happening before until this change)",
+      "revId": "548f627f28a82e98b223059d4a20f461028631d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

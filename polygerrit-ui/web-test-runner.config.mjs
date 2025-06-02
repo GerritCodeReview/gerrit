@@ -2,6 +2,7 @@ import path from 'path';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { defaultReporter, summaryReporter } from '@web/test-runner';
 import { visualRegressionPlugin } from '@web/test-runner-visual-regression/plugin';
+import { playwrightLauncher } from '@web/test-runner-playwright';
 
 function testRunnerHtmlFactory() {
   return (testFramework) => `
@@ -54,9 +55,26 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
-  // TODO: https://g-issues.gerritcodereview.com/issues/365565157 - undo the
-  // change once the underlying issue is fixed.
-  concurrency: 1,
+
+  concurrency: 4,
+
+  // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
+  // Recent Chrome versions aggressively throttle inactive tabs, which interferes with
+  // parallel tests. These flags disable that behavior, ensuring tests that rely on
+  // visibility or timers run reliably.
+  // Some details: https://g-issues.gerritcodereview.com/issues/365565157
+  browsers: [
+    playwrightLauncher({
+      product: 'chromium',
+      launchOptions: {
+        args: [
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+        ],
+      },
+    }),
+  ],
 
   files: [
     testFiles,
@@ -75,7 +93,7 @@ const config = {
   testFramework: {
     config: {
       ui: 'tdd',
-      timeout: 5000,
+      timeout: 2000,
     },
   },
 

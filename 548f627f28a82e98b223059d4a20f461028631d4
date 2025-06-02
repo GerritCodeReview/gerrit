@@ -34,6 +34,24 @@
       "parentUuid": "135600af_385955b5",
       "revId": "548f627f28a82e98b223059d4a20f461028631d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c5949e_08f364d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-02T14:03:39Z",
+      "side": 1,
+      "message": "I haven\u0027t seen it locally yet i think. But i\u0027ve seen it on the CI whether it\u0027s on gerrit-ci or lucy.",
+      "parentUuid": "8bd82b01_c77cb4fd",
+      "revId": "548f627f28a82e98b223059d4a20f461028631d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

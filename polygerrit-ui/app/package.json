@@ -16,7 +16,6 @@
     "@polymer/iron-selector": "^3.0.1",
     "@polymer/marked-element": "^3.0.1",
     "@polymer/paper-card": "^3.0.1",
-    "@polymer/paper-checkbox": "^3.1.0",
     "@polymer/paper-dropdown-menu": "^3.2.0",
     "@polymer/paper-fab": "^3.0.1",
     "@polymer/paper-input": "^3.2.1",

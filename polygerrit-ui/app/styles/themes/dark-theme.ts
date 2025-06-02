@@ -287,6 +287,13 @@ const darkThemeCss = safeStyleSheet`
 
     /* rules applied to html */
     background-color: var(--view-background-color);
+
+    /* md-checkbox (colours from paper-checkbox but adapted using material/web theme selector) */
+    --checkbox-primary: #3f51b5;
+    --checkbox-on-primary: #08218a;
+    --checkbox-on-surface: #e3e1ea;
+    --checkbox-on-surface-variant: #c5c5d4;
+    --checkbox-primary: #bac3ff;
   }
 `;
 

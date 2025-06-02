@@ -535,6 +535,12 @@ const appThemeCss = safeStyleSheet`
     --paper-tooltip-background: var(--tooltip-background-color);
     --paper-tooltip-opacity: 1;
     --paper-tooltip-text-color: var(--tooltip-text-color);
+
+    /* md-checkbox (colours from paper-checkbox but adapted using material/web theme selector) */
+    --checkbox-primary: #273a9f;
+    --checkbox-on-primary: #ffffff;
+    --checkbox-on-surface: #1a1b22;
+    --checkbox-on-surface-variant: #3f4948;
   }
   @media screen and (max-width: 50em) {
     html {

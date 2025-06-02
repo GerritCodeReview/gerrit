@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4aed0cf_d24b04c1",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-02T07:59:08Z",
+      "side": 1,
+      "message": "This is automatically called after yarn install\nhttps://yarnpkg.com/advanced/lifecycle-scripts#postinstall",
+      "parentUuid": "af26b86b_32d2b56c",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9db41a8_338bd112",
@@ -54,6 +78,24 @@
       "writtenOn": "2025-06-02T07:39:42Z",
       "side": 1,
       "message": "Did you try more than 4? Maybe add a comment about why you chose 4.",
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b62ea579_9e1ce909",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-02T07:59:08Z",
+      "side": 1,
+      "message": "I will experiment with more than 4 today.",
+      "parentUuid": "a9db41a8_338bd112",
       "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -95,6 +137,30 @@
           ]
         }
       ],
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4582490_031f34db",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-02T07:59:08Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "87cc68a9_7c0d44a7",
+      "range": {
+        "startLine": 65,
+        "startChar": 73,
+        "endLine": 65,
+        "endChar": 90
+      },
       "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -287,6 +287,45 @@ const darkThemeCss = safeStyleSheet`
 
     /* rules applied to html */
     background-color: var(--view-background-color);
+
+    /* md-switch */
+  --switch-color-background: #101419;
+  --switch-color-on-background: #e0e2ea;
+  --switch-color-surface: #101419;
+  --switch-color-surface-dim: #101419;
+  --switch-color-surface-bright: #363940;
+  --switch-color-surface-container-lowest: #0b0e14;
+  --switch-color-surface-container-low: #181c22;
+  --switch-color-surface-container: #1c2026;
+  --switch-color-surface-container-high: #262a30;
+  --switch-color-surface-container-highest: #31353b;
+  --switch-color-on-surface: #e0e2ea;
+  --switch-color-surface-variant: #404752;
+  --switch-color-on-surface-variant: #c0c7d4;
+  --switch-color-inverse-surface: #e0e2ea;
+  --switch-color-inverse-on-surface: #2d3137;
+  --switch-color-outline: #8a919e;
+  --switch-color-outline-variant: #404752;
+  --switch-color-shadow: #000000;
+  --switch-color-scrim: #000000;
+  --switch-color-surface-tint: #a2c9ff;
+  --switch-color-primary: #a2c9ff;
+  --switch-color-on-primary: #00315b;
+  --switch-color-primary-container: #0077ce;
+  --switch-color-on-primary-container: #ffffff;
+  --switch-color-inverse-primary: #0060a8;
+  --switch-color-secondary: #acc8f2;
+  --switch-color-on-secondary: #113253;
+  --switch-color-secondary-container: #203e60;
+  --switch-color-on-secondary-container: #b6d2fc;
+  --switch-color-tertiary: #edb1ff;
+  --switch-color-on-tertiary: #530070;
+  --switch-color-tertiary-container: #9f56bb;
+  --switch-color-on-tertiary-container: #ffffff;
+  --switch-color-error: #ffb4ab;
+  --switch-color-on-error: #690005;
+  --switch-color-error-container: #93000a;
+  --switch-color-on-error-container: #ffdad6;
   }
 `;
 

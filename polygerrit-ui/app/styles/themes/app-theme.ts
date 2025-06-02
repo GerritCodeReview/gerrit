@@ -535,6 +535,45 @@ const appThemeCss = safeStyleSheet`
     --paper-tooltip-background: var(--tooltip-background-color);
     --paper-tooltip-opacity: 1;
     --paper-tooltip-text-color: var(--tooltip-text-color);
+
+    /* md-switch */
+    --switch-color-background: #f8f9ff;
+    --switch-color-on-background: #181c22;
+    --switch-color-surface: #f8f9ff;
+    --switch-color-surface-dim: #d7dae2;
+    --switch-color-surface-bright: #f8f9ff;
+    --switch-color-surface-container-lowest: #ffffff;
+    --switch-color-surface-container-low: #f1f3fc;
+    --switch-color-surface-container: #ebeef6;
+    --switch-color-surface-container-high: #e5e8f0;
+    --switch-color-surface-container-highest: #e0e2ea;
+    --switch-color-on-surface: #181c22;
+    --switch-color-surface-variant: #dce3f0;
+    --switch-color-on-surface-variant: #404752;
+    --switch-color-inverse-surface: #2d3137;
+    --switch-color-inverse-on-surface: #eef0f9;
+    --switch-color-outline: #707783;
+    --switch-color-outline-variant: #c0c7d4;
+    --switch-color-shadow: #000000;
+    --switch-color-scrim: #000000;
+    --switch-color-surface-tint: #0060a8;
+    --switch-color-primary: #005290;
+    --switch-color-on-primary: #ffffff;
+    --switch-color-primary-container: #0077ce;
+    --switch-color-on-primary-container: #ffffff;
+    --switch-color-inverse-primary: #a2c9ff;
+    --switch-color-secondary: #446084;
+    --switch-color-on-secondary: #ffffff;
+    --switch-color-secondary-container: #c1daff;
+    --switch-color-on-secondary-container: #264365;
+    --switch-color-tertiary: #772f93;
+    --switch-color-on-tertiary: #ffffff;
+    --switch-color-tertiary-container: #9f56bb;
+    --switch-color-on-tertiary-container: #ffffff;
+    --switch-color-error: #ba1a1a;
+    --switch-color-on-error: #ffffff;
+    --switch-color-error-container: #ffdad6;
+    --switch-color-on-error-container: #410002;
   }
   @media screen and (max-width: 50em) {
     html {

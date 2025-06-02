@@ -32,7 +32,7 @@ import {assertIsDefined, uuid} from '../../../utils/common-util';
 import {html} from 'lit';
 import {assert, fixture} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
+import {MdSwitch} from '@material/web/switch/switch';
 import {testResolver} from '../../../test/common-test-setup';
 import {TEST_PROJECT_NAME} from '../../../test/test-data-generators';
 import {
@@ -572,7 +572,7 @@ suite('gr-messages-list tests', () => {
     test('unimportant messages hidden after toggle', async () => {
       element.showAllActivity = true;
       await element.updateComplete;
-      const toggle = queryAndAssert<PaperToggleButtonElement>(
+      const toggle = queryAndAssert<MdSwitch>(
         element,
         '.showAllActivityToggle'
       );
@@ -586,7 +586,7 @@ suite('gr-messages-list tests', () => {
     test('unimportant messages shown after toggle', async () => {
       element.showAllActivity = false;
       await element.updateComplete;
-      const toggle = queryAndAssert<PaperToggleButtonElement>(
+      const toggle = queryAndAssert<MdSwitch>(
         element,
         '.showAllActivityToggle'
       );

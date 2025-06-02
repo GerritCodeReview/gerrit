@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9caddde2_d830e84c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-02T07:45:54Z",
+      "side": 1,
+      "message": "Awesome! Thank you for looking into this",
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af26b86b_32d2b56c",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-02T07:45:54Z",
+      "side": 1,
+      "message": "If this required for a setup. We should probably add information about it to the polygerrit-ui/README.md\n\nAnd/or to the setup script (https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:package.json;drc\u003d43bfcc1a012d835c476c0ddf55650e24dc6b3f2a;l\u003d42)",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9db41a8_338bd112",
@@ -14,6 +54,47 @@
       "writtenOn": "2025-06-02T07:39:42Z",
       "side": 1,
       "message": "Did you try more than 4? Maybe add a comment about why you chose 4.",
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87cc68a9_7c0d44a7",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-02T07:45:54Z",
+      "side": 1,
+      "message": "nit: You can remove the url params from the link",
+      "range": {
+        "startLine": 65,
+        "startChar": 73,
+        "endLine": 65,
+        "endChar": 90
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d49ec5b5_7cda7ddc",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/web-test-runner.config.mjs",
+              "range": {
+                "startLine": 65,
+                "startChar": 0,
+                "endLine": 66,
+                "endChar": 0
+              },
+              "replacement": "  // Some details: https://g-issues.gerritcodereview.com/issues/365565157\n"
+            }
+          ]
+        }
+      ],
       "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

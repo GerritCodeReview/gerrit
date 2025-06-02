@@ -185,7 +185,7 @@ export class GrAccountChip extends LitElement {
         ?hidden=${!this.removable}
         aria-label="Remove"
         class="remove"
-        @click=${this.handleRemoveTap}
+        @click=${(e: MouseEvent) => this.handleRemoveTap(e)}
       >
         <gr-icon icon="close"></gr-icon>
       </gr-button>

@@ -133,7 +133,7 @@ export class GrCopyClipboard extends LitElement {
         )}
         <iron-input
           class="copyText"
-          @click=${this._handleInputClick}
+          @click=${(e: MouseEvent) => this.handleInputClick(e)}
           .bindValue=${this.text ?? ''}
           part="text-container-wrapper-style"
         >
@@ -143,7 +143,7 @@ export class GrCopyClipboard extends LitElement {
               id="input"
               is="iron-input"
               class=${classMap({hideInput: this.hideInput})}
-              @click=${this._handleInputClick}
+              @click=${(e: MouseEvent) => this.handleInputClick(e)}
               readonly=""
               .value=${this.text ?? ''}
               part="text-container-style"
@@ -154,7 +154,7 @@ export class GrCopyClipboard extends LitElement {
               is="iron-input"
               class=${classMap({hideInput: this.hideInput})}
               type="text"
-              @click=${this._handleInputClick}
+              @click=${(e: MouseEvent) => this.handleInputClick(e)}
               readonly=""
               .value=${this.text ?? ''}
               part="text-container-style"
@@ -173,7 +173,7 @@ export class GrCopyClipboard extends LitElement {
             id="copy-clipboard-button"
             link=""
             class="copyToClipboard"
-            @click=${this._copyToClipboard}
+            @click=${(e: MouseEvent) => this.copyToClipboard(e)}
             aria-label="copy"
             aria-description="Click to copy to clipboard"
           >
@@ -190,13 +190,13 @@ export class GrCopyClipboard extends LitElement {
     queryAndAssert<GrButton>(this, '#copy-clipboard-button').focus();
   }
 
-  _handleInputClick(e: MouseEvent) {
+  private handleInputClick(e: MouseEvent) {
     e.preventDefault();
     const rootTarget = e.composedPath()[0];
     (rootTarget as HTMLInputElement).select();
   }
 
-  _copyToClipboard(e: MouseEvent) {
+  private copyToClipboard(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 

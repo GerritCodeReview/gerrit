@@ -216,7 +216,7 @@ export class GrDropdownList extends LitElement {
         link
         class="dropdown-trigger"
         slot="dropdown-trigger"
-        @click=${this.showDropdownTapHandler}
+        @click=${() => this.showDropdownTapHandler()}
       >
         <span id="triggerText">${this.text}</span>
         <gr-copy-clipboard

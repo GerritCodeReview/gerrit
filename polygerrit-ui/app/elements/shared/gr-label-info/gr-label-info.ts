@@ -195,7 +195,7 @@ export class GrLabelInfo extends LitElement {
       <gr-button
         link
         aria-label="Remove vote"
-        @click=${this.onDeleteVote}
+        @click=${(e: MouseEvent) => this.onDeleteVote(e)}
         data-account-id=${ifDefined(reviewer._account_id as number | undefined)}
         class="deleteBtn ${this.computeDeleteClass(
           reviewer,

@@ -113,7 +113,7 @@ suite('gr-copy-clipboard tests', () => {
     assert.deepEqual(activeElement, button);
   });
 
-  test('_handleInputClick', () => {
+  test('handleInputClick', () => {
     // iron-input as parent should never be hidden as copy won't work
     // on nested hidden elements
     const ironInputElement = queryAndAssert(element, 'iron-input');

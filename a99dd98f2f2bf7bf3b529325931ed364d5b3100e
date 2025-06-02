@@ -227,6 +227,24 @@
       "parentUuid": "e7cc9c93_312bd93d",
       "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc4e191_16627663",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-06-02T16:19:01Z",
+      "side": 1,
+      "message": "Awesome! Thanks for confirming.",
+      "parentUuid": "5001c9b0_a99fa5e6",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

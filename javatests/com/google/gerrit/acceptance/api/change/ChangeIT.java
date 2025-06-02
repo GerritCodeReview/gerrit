@@ -3797,6 +3797,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.allowNewRules", value = "true")
   public void uploadingRulesPlIsNotAllowed() throws Exception {
     GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
     testRepo.reset("config");

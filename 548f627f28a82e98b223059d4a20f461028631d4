@@ -88,6 +88,23 @@
       "parentUuid": "01db75dc_50cd878c",
       "revId": "548f627f28a82e98b223059d4a20f461028631d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fe9e908_8bf1bd25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-02T21:53:14Z",
+      "side": 1,
+      "message": "Idk if there\u0027s a bug with iron-dropdown but since switching gr-button to md-button, it\u0027s required focus be set in gr-change-list-topic-flow/gr-change-list-hashtag-flow shadowDom tests for iron-dropdown. It\u0027s weird and i\u0027m not sure why it happens. I did not touch iron-dropdown... This change seems to break it further? I\u0027m seeing https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/19982/console where it\u0027s saying it doesn\u0027t need it but in lucy it does. Locally it\u0027s also broken for me. Reverting this change fixes it for me. You can see https://gerrit-review.googlesource.com/c/gerrit/+/480722",
+      "revId": "548f627f28a82e98b223059d4a20f461028631d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

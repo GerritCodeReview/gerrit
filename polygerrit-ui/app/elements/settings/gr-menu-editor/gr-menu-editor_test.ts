@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-menu-editor';
 import {GrMenuEditor} from './gr-menu-editor';
 import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';
-import {PaperButtonElement} from '@polymer/paper-button';
+import {MdTextButton} from '@material/web/button/text-button';
 import {TopMenuItemInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -33,9 +33,9 @@ suite('gr-menu-editor tests', () => {
   function move(element: GrMenuEditor, index: number, direction: string) {
     const selector = `tr:nth-child(${index + 1}) .move${direction}Button`;
 
-    const button = query<PaperButtonElement>(
+    const button = query<MdTextButton>(
       query<HTMLElement>(query<HTMLTableElement>(element, 'tbody'), selector),
-      'paper-button'
+      'md-text-button'
     );
     button!.click();
   }
@@ -316,12 +316,14 @@ suite('gr-menu-editor tests', () => {
     assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
   });
 
-  test('move items up', () => {
+  test('move items up', async () => {
     assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
 
     // Move the last item up twice to be the first.
     move(element, 2, 'Up');
+    await element.updateComplete;
     move(element, 1, 'Up');
+    await element.updateComplete;
     assertMenuNamesEqual(element, ['third name', 'first name', 'second name']);
 
     // Moving the top item up is a no-op.
@@ -329,29 +331,31 @@ suite('gr-menu-editor tests', () => {
     assertMenuNamesEqual(element, ['third name', 'first name', 'second name']);
   });
 
-  test('remove item', () => {
+  test('remove item', async () => {
     assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
 
     // Tap the delete button for the middle item.
-    query<PaperButtonElement>(
+    query<MdTextButton>(
       query<HTMLElement>(
         query<HTMLTableElement>(element, 'tbody'),
         'tr:nth-child(2) .remove-button'
       ),
-      'paper-button'
+      'md-text-button'
     )!.click();
+    await element.updateComplete;
 
     assertMenuNamesEqual(element, ['first name', 'third name']);
 
     // Delete remaining items.
     for (let i = 0; i < 2; i++) {
-      query<PaperButtonElement>(
+      query<MdTextButton>(
         query<HTMLElement>(
           query<HTMLTableElement>(element, 'tbody'),
           'tr:first-child .remove-button'
         ),
-        'paper-button'
+        'md-text-button'
       )!.click();
+      await element.updateComplete;
     }
     assertMenuNamesEqual(element, []);
 

@@ -103,7 +103,7 @@ export class GrLabelInfo extends LitElement {
         gr-button {
           vertical-align: top;
         }
-        gr-button::part(paper-button) {
+        gr-button::part(md-text-button) {
           height: var(--line-height-normal);
           width: var(--line-height-normal);
           padding: 0;

@@ -12,7 +12,6 @@ import {
 } from '../../../test/test-data-generators';
 import './gr-diff';
 import {getComputedStyleValue} from '../../../utils/dom-util';
-import '@polymer/paper-button/paper-button';
 import {
   DiffContent,
   DiffLayer,

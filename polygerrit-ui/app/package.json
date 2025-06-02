@@ -3,6 +3,7 @@
   "description": "Gerrit Code Review - Polygerrit dependencies",
   "browser": true,
   "dependencies": {
+    "@material/web": "^2.3.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/font-roboto-local": "^3.0.2",
     "@polymer/iron-a11y-announcer": "^3.2.0",
@@ -14,7 +15,6 @@
     "@polymer/iron-input": "^3.0.1",
     "@polymer/iron-selector": "^3.0.1",
     "@polymer/marked-element": "^3.0.1",
-    "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-card": "^3.0.1",
     "@polymer/paper-checkbox": "^3.1.0",
     "@polymer/paper-dropdown-menu": "^3.2.0",

@@ -4,15 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-icon/gr-icon';
-import '@polymer/paper-button/paper-button';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
+import {getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {classMap} from 'lit/directives/class-map.js';
 import {Interaction} from '../../../constants/reporting';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import '@material/web/button/elevated-button';
+import '@material/web/button/text-button';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,12 +28,9 @@ declare global {
  */
 @customElement('gr-button')
 export class GrButton extends LitElement {
-  // Private but used in tests.
-  readonly reporting = getAppContext().reportingService;
-
   /**
    * Should this button be rendered as a vote chip? Then we are applying
-   * the .voteChip class (see gr-voting-styles) to the paper-button.
+   * the .voteChip class (see gr-voting-styles) to the md-text-button/md-elevated-button.
    */
   @property({type: Boolean, reflect: true})
   voteChip = false;
@@ -56,6 +55,11 @@ export class GrButton extends LitElement {
   @property({type: Boolean, reflect: true})
   disabled: boolean | null = null;
 
+  // Private but used in tests.
+  readonly reporting = getAppContext().reportingService;
+
+  private readonly shortcuts = new ShortcutController(this);
+
   static override get styles() {
     return [
       votingStyles,
@@ -77,43 +81,65 @@ export class GrButton extends LitElement {
         :host([hidden]) {
           display: none;
         }
-        :host paper-button {
+        :host md-text-button,
+        :host md-elevated-button {
+          --md-text-button-label-text-font: var(--header-font-family);
+          --md-text-button-label-text-weight: var(--font-weight-medium);
+          --md-elevated-button-label-text-font: var(--header-font-family);
+          --md-elevated-button-label-text-weight: var(--font-weight-medium);
           text-transform: none;
+          /* This is also set in the button-label-(font|weight) css vars above. We keep this incase it is also needed. */
           font-weight: var(--font-weight-medium);
           font-family: var(--header-font-family);
+          font: inherit;
+          color: var(--text-color);
+          --md-text-button-container-color: var(--text-color);
         }
-        paper-button {
-          /* paper-button sets this to anti-aliased, which appears different than
-            bold font elsewhere on macOS. */
-          -webkit-font-smoothing: initial;
+
+        md-text-button,
+        md-elevated-button {
+          --md-text-button-label-text-font: var(--font-family, inherit);
+          --md-text-button-label-text-weight: var(
+            --font-weight-normal,
+            inherit
+          );
+          --md-elevated-button-label-text-font: var(--font-family, inherit);
+          --md-elevated-button-label-text-weight: var(
+            --font-weight-normal,
+            inherit
+          );
+          --md-text-button-container-color: var(--background-color);
+          --md-text-button-hover-container-color: var(--background-color);
+          --md-elevated-button-container-color: var(--background-color);
+          --md-elevated-button-hover-container-color: var(--background-color);
+          --md-sys-color-primary: var(--text-color);
+          /* We set this to 0 which defaults to 12px under text-button.
+            This is because for some reason it makes the size of it bigger
+            which makes some of the buttons look wrong. E.g. attention set has
+            a bigger width and thus a lot of space. This fixes it. */
+          --md-text-button-leading-space: 0;
+          --md-text-button-trailing-space: 0;
+          /* Brings back the round corners we had with paper-button */
+          --md-text-button-container-shape: 4px;
+          --md-elevated-button-container-shape: 4px;
           align-items: center;
           background-color: var(--background-color);
           color: var(--text-color);
-          display: flex;
+          /* This is also set in the button-label-(font|weight) css vars above. We keep this incase it is also needed. */
           font-family: var(--font-family, inherit);
-          /** Without this '.keyboard-focus' buttons will get bolded. */
           font-weight: var(--font-weight-normal, inherit);
+          display: flex;
           justify-content: center;
           margin: var(--margin, 0);
           min-width: var(--border, 0);
           padding: var(--gr-button-padding, var(--spacing-s) var(--spacing-m));
+          /* Needed to resize properly */
+          min-height: auto;
+          height: auto;
+          cursor: pointer;
         }
-        paper-button[elevation='1'] {
-          box-shadow: var(--elevation-level-1);
-        }
-        paper-button[elevation='2'] {
-          box-shadow: var(--elevation-level-2);
-        }
-        paper-button[elevation='3'] {
-          box-shadow: var(--elevation-level-3);
-        }
-        paper-button[elevation='4'] {
-          box-shadow: var(--elevation-level-4);
-        }
-        paper-button[elevation='5'] {
-          box-shadow: var(--elevation-level-5);
-        }
-        paper-button:hover {
+        :host md-text-button:hover,
+        :host md-elevated-button:hover {
           background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
             var(--background-color);
         }
@@ -159,27 +185,46 @@ export class GrButton extends LitElement {
           box-shadow: none;
           box-sizing: border-box;
           min-width: 3em;
-          color: var(--vote-text-color);
+          --md-sys-color-primary: var(--vote-text-color);
         }
       `,
     ];
   }
 
   override render() {
-    return html`<paper-button
-      ?raised=${!this.link && !this.flatten}
-      ?disabled=${this.disabled || this.loading}
-      role="button"
-      tabindex="-1"
-      part="paper-button"
-      class=${classMap({
-        newVoteChip: this.voteChip,
-      })}
-    >
-      ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
-      <slot></slot>
-      ${this.renderArrowIcon()}
-    </paper-button>`;
+    const buttonClass = classMap({
+      newVoteChip: this.voteChip,
+    });
+
+    if (!this.link && !this.flatten) {
+      return html`
+        <md-elevated-button
+          class=${buttonClass}
+          ?disabled=${this.disabled || this.loading}
+          part="md-elevated-button"
+          role="button"
+          tabindex="-1"
+        >
+          ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
+          <slot></slot>
+          ${this.renderArrowIcon()}
+        </md-elevated-button>
+      `;
+    }
+
+    return html`
+      <md-text-button
+        class=${buttonClass}
+        ?disabled=${this.disabled || this.loading}
+        part="md-text-button"
+        role="button"
+        tabindex="-1"
+      >
+        ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
+        <slot></slot>
+        ${this.renderArrowIcon()}
+      </md-text-button>
+    `;
   }
 
   renderArrowIcon() {
@@ -190,9 +235,9 @@ export class GrButton extends LitElement {
   constructor() {
     super();
     this.initialTabindex = this.getAttribute('tabindex') || '0';
-    this.addEventListener('click', e => this._handleAction(e));
-    addShortcut(this, {key: Key.ENTER}, () => this.click());
-    addShortcut(this, {key: Key.SPACE}, () => this.click());
+    this.addEventListener('click', e => this.handleAction(e));
+    this.shortcuts.addLocal({key: Key.ENTER}, () => this.click());
+    this.shortcuts.addLocal({key: Key.SPACE}, () => this.click());
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -220,7 +265,7 @@ export class GrButton extends LitElement {
     }
   }
 
-  _handleAction(e: MouseEvent) {
+  private handleAction(e: MouseEvent) {
     if (this.disabled || this.loading) {
       e.preventDefault();
       e.stopPropagation();

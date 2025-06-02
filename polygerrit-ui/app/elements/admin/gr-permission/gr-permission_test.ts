@@ -15,7 +15,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {GrRuleEditor} from '../gr-rule-editor/gr-rule-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
-import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
+import {MdSwitch} from '@material/web/switch/switch';
 import {AutocompleteCommitEventDetail} from '../../../types/events';
 
 suite('gr-permission tests', () => {
@@ -324,17 +324,7 @@ suite('gr-permission tests', () => {
               <div class="header">
                 <span class="title"> Priority </span>
                 <div class="right">
-                  <paper-toggle-button
-                    aria-disabled="true"
-                    aria-pressed="false"
-                    disabled=""
-                    id="exclusiveToggle"
-                    role="button"
-                    style="pointer-events: none; touch-action: none;"
-                    tabindex="-1"
-                    toggles=""
-                  >
-                  </paper-toggle-button>
+                  <md-switch disabled="" id="exclusiveToggle"> </md-switch>
                   Not Exclusive
                   <gr-button
                     aria-disabled="false"
@@ -372,13 +362,7 @@ suite('gr-permission tests', () => {
               </gr-button>
             </div>
           </section>
-        `,
-        // touch-action varies on paper-toggle-button between local and CI
-        {
-          ignoreAttributes: [
-            {tags: ['paper-toggle-button'], attributes: ['style']},
-          ],
-        }
+        `
       );
     });
 
@@ -491,10 +475,7 @@ suite('gr-permission tests', () => {
 
       assert.isFalse(element.originalExclusiveValue);
       assert.isNotOk(element.permission!.value.modified);
-      queryAndAssert<PaperToggleButtonElement>(
-        element,
-        '#exclusiveToggle'
-      ).click();
+      queryAndAssert<MdSwitch>(element, '#exclusiveToggle').click();
       await element.updateComplete;
       assert.isTrue(element.permission!.value.exclusive);
       assert.isTrue(element.permission!.value.modified);
@@ -513,10 +494,7 @@ suite('gr-permission tests', () => {
       element.addEventListener('access-modified', modifiedHandler);
       await element.updateComplete;
       assert.isNotOk(element.permission.value.modified);
-      queryAndAssert<PaperToggleButtonElement>(
-        element,
-        '#exclusiveToggle'
-      ).click();
+      queryAndAssert<MdSwitch>(element, '#exclusiveToggle').click();
       await element.updateComplete;
       assert.isTrue(element.permission.value.modified);
       assert.isTrue(modifiedHandler.called);

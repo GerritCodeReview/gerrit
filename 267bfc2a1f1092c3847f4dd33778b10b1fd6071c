@@ -36,6 +36,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "653f471c_62e50427",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4111554
+      },
+      "writtenOn": "2025-06-02T04:27:09Z",
+      "side": 1,
+      "message": "contrib/smoketest/smoke-test.py",
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ac08298_571d62eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4111554
+      },
+      "writtenOn": "2025-06-02T04:27:09Z",
+      "side": 1,
+      "message": "\u003e \u003e I propose to use pytest to implement this test and add some assertions\n\u003e \n\u003e Looks reasonable, but I don\u0027t know anything about pytest really.",
+      "parentUuid": "edc79bac_354b9bba",
+      "revId": "267bfc2a1f1092c3847f4dd33778b10b1fd6071c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14df2c6a_3e8efc45",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60587f2d_dca22220",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-06-02T18:46:54Z",
+      "side": 1,
+      "message": "Automatically done already https://gerrit.googlesource.com/gerrit/+/05c34d62a9778880c757c7c587f6eaaece7736b4",
+      "revId": "cd13a56485bf43918ea034d1dc003a8de1733ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

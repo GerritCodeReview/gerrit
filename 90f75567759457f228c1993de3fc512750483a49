@@ -16,6 +16,24 @@
       "message": "I spotted an issue with the colour of the checkbox when ticked, trying to work out how to fix it.",
       "revId": "90f75567759457f228c1993de3fc512750483a49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f650450c_b756eeef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-02T14:02:17Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "973713e8_5a540597",
+      "revId": "90f75567759457f228c1993de3fc512750483a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

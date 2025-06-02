@@ -70,6 +70,24 @@
       "parentUuid": "99c5949e_08f364d4",
       "revId": "548f627f28a82e98b223059d4a20f461028631d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf08ac9d_166f1119",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-02T15:34:00Z",
+      "side": 1,
+      "message": "Happened to me here https://logs.chromium.org/logs/gerrit/buildbucket/cr-buildbucket/8713182302267236385/+/u/run_tests/stdout.\n\nI don\u0027t know where the gerrit-ci was now, having it re-run fixed it.",
+      "parentUuid": "01db75dc_50cd878c",
+      "revId": "548f627f28a82e98b223059d4a20f461028631d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

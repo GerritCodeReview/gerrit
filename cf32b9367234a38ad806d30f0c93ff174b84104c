@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9db41a8_338bd112",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-02T07:39:42Z",
+      "side": 1,
+      "message": "Did you try more than 4? Maybe add a comment about why you chose 4.",
+      "revId": "cf32b9367234a38ad806d30f0c93ff174b84104c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

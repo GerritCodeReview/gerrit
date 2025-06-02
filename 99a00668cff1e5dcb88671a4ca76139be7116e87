@@ -50,6 +50,24 @@
       "message": "should we also change the default of rules.allowNewRules to false ?",
       "revId": "99a00668cff1e5dcb88671a4ca76139be7116e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92684e3a_017c79ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-06-02T16:22:03Z",
+      "side": 1,
+      "message": "Yes. I\u0027m surprised that still defaults to true.",
+      "parentUuid": "a8dd9f1f_7eb9cde4",
+      "revId": "99a00668cff1e5dcb88671a4ca76139be7116e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

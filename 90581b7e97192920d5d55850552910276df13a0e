@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a5c037_eb6b8ff2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-03T14:49:09Z",
+      "side": 1,
+      "message": "I hope you have used AI for this change. Seems like a lot of boilerplate.",
+      "revId": "90581b7e97192920d5d55850552910276df13a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

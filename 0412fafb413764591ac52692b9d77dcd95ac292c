@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9dd12a6_524d29c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T10:15:30Z",
+      "side": 1,
+      "message": "This doesn’t use material/web @brohlfs@google.com. This is us copying in marked-element and replacing it to use lit.",
+      "parentUuid": "80e4dcda_1883da46",
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "dc13df06_341bebd3",

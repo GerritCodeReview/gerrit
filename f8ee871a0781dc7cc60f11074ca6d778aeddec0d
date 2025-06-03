@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa7579bd_ea725ce6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T10:10:47Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "27f83f9e_a605779f",
+      "revId": "f8ee871a0781dc7cc60f11074ca6d778aeddec0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59ca462d_9609332a",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 3
@@ -60,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b59c1779_dfbf98a8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T10:10:47Z",
+      "side": 1,
+      "message": "Well I used material/web colour thing to have it generate these css vars. But I did use paper-checkbox colour and put it in the colour picker.",
+      "parentUuid": "59ca462d_9609332a",
+      "range": {
+        "startLine": 368,
+        "startChar": 7,
+        "endLine": 372,
+        "endChar": 45
+      },
+      "revId": "f8ee871a0781dc7cc60f11074ca6d778aeddec0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e221f9e3_7ba68cca",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 3
@@ -71,6 +113,30 @@
       "writtenOn": "2025-06-03T06:46:00Z",
       "side": 1,
       "message": "You can have element inside label? I thought you can have just text inside label.",
+      "range": {
+        "startLine": 499,
+        "startChar": 10,
+        "endLine": 508,
+        "endChar": 18
+      },
+      "revId": "f8ee871a0781dc7cc60f11074ca6d778aeddec0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e0b10ea_714da989",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T10:10:47Z",
+      "side": 1,
+      "message": "That’s how it’s done in the example on material/web. I couldn’t get the text to show inside the element, seems it doesn’t use slot?",
+      "parentUuid": "e221f9e3_7ba68cca",
       "range": {
         "startLine": 499,
         "startChar": 10,

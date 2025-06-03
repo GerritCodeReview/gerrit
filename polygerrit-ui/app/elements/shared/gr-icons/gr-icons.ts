@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-iconset-svg/iron-iconset-svg';
 const $_documentContainer = document.createElement('template');
 

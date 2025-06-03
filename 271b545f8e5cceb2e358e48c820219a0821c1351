@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b380ab8d_991a4b92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T22:03:28Z",
+      "side": 1,
+      "message": "@milutin@google.com on a unrelated note to this change, thoughts on promoting the new image ui and getting rid of the old ui? It\u0027s been behind a experimental flag for a while?",
+      "revId": "271b545f8e5cceb2e358e48c820219a0821c1351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

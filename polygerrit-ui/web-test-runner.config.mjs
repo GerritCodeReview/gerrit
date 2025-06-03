@@ -55,8 +55,19 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
+  // Global concurrency for test files:
+  // Specifies the maximum number of test files to process/queue concurrently.
+  // Should be >= concurrentBrowsers to ensure browsers are not idle.
+  // Default is CPU cores / 2.
+  concurrency: 5,
 
-  concurrency: 4,
+  // Global concurrency for browser instances:
+  // Specifies the maximum number of total browser instances to run concurrently across all launchers.
+  // Default is 2.
+  // This should match the sum of concurrencies from individual launchers if multiple launchers are used,
+  // or the concurrency of a single launcher.
+  concurrentBrowsers: 4,
+
 
   // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
   // Recent Chrome versions aggressively throttle inactive tabs, which interferes with

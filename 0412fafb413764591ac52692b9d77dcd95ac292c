@@ -317,6 +317,30 @@
       },
       "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc99841_a892c079",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T13:52:58Z",
+      "side": 1,
+      "message": "That\u0027s the same problem as using unsafeHTML function. We use slots and use:\n\n```\n  get outputElement(): HTMLElement | null {\n    const slot \u003d this.renderRoot.querySelector\u003cHTMLSlotElement\u003e(\n      \u0027slot[name\u003d\"markdown-html\"]\u0027\n    );\n    const assigned \u003d slot?.assignedElements({flatten: true}) ?? [];\n    return (\n      (assigned[0] as HTMLElement) || this.renderRoot.querySelector(\u0027#content\u0027)\n    );\n  }\n```\n  \nwhich replaces the slot. We already sanitise the html here https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts#L324",
+      "parentUuid": "844e8f9d_47d52da8",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 148,
+        "endChar": 6
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

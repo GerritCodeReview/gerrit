@@ -123,6 +123,24 @@
       "parentUuid": "5fe9e908_8bf1bd25",
       "revId": "548f627f28a82e98b223059d4a20f461028631d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bda0596_ce1744bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T07:35:09Z",
+      "side": 1,
+      "message": "I will check what\u0027s going on. I would like to have tests in a way that we can have concurrency. If it\u0027s blocking you to submit we can revert this change.",
+      "parentUuid": "f6f96624_a0656d95",
+      "revId": "548f627f28a82e98b223059d4a20f461028631d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

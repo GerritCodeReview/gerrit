@@ -1,0 +1,108 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc902c94_119dc81c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:58:28Z",
+      "side": 1,
+      "message": "Great change! Thank you so much to do it",
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96df3d2b_ac3722b6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:58:28Z",
+      "side": 1,
+      "message": "Is this still case? If yes, can you please change name tag?",
+      "range": {
+        "startLine": 371,
+        "startChar": 34,
+        "endLine": 371,
+        "endChar": 53
+      },
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc84fe0_40e0be7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:58:28Z",
+      "side": 1,
+      "message": "Can this be just thishandleShowAllActivityChanged like in other places?",
+      "range": {
+        "startLine": 396,
+        "startChar": 14,
+        "endLine": 396,
+        "endChar": 75
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e123ee64_a45f3266",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+              "range": {
+                "startLine": 396,
+                "startChar": 0,
+                "endLine": 397,
+                "endChar": 0
+              },
+              "replacement": "              @change\u003d${this.handleShowAllActivityChanged}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1361f005_fee2d9ce",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:58:28Z",
+      "side": 1,
+      "message": "Can you please add how these colors were picked?",
+      "range": {
+        "startLine": 539,
+        "startChar": 5,
+        "endLine": 539,
+        "endChar": 17
+      },
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

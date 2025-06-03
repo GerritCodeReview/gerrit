@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c2e47ce_0a51b26b",
+        "filename": "java/com/google/gerrit/extensions/common/TokenInfo.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-03T07:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f080e9a_0e3a0541",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "788955f8_c8e59ba4",
@@ -84,6 +102,30 @@
       "writtenOn": "2025-05-30T10:01:56Z",
       "side": 1,
       "message": "With this code inside the try/catch block, the scope of the `tokens` can also be reduced to the try/catch block i.e. move the definition of the `tokens` from line 62 to line 64.\n\nAlternatively, move this block outside of the try/catch block where it was before.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f23d2768_e4a715c8",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-03T07:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "788955f8_c8e59ba4",
       "range": {
         "startLine": 65,
         "startChar": 0,
@@ -117,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9fd3162_f8745e37",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-03T07:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c1c84f_8aa70a4a",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 51
+      },
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e4312b7_31284b06",
@@ -130,6 +196,30 @@
       "writtenOn": "2025-05-30T10:01:56Z",
       "side": 1,
       "message": "```suggestion\n    return getLegacyHttpPassword(accountId).stream().toList();\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbce9854_369f24cb",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-03T07:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e4312b7_31284b06",
       "range": {
         "startLine": 72,
         "startChar": 0,

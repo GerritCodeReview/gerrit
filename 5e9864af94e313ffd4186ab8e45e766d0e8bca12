@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "172ecac4_0da800b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-06-03T07:15:29Z",
+      "side": 1,
+      "message": "Have you verified that the `secure` cookie attribute is set also when the Gerrit request is HTTP but the client request is HTTPS with a reverse proxy in between?",
+      "revId": "5e9864af94e313ffd4186ab8e45e766d0e8bca12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

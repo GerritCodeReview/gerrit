@@ -88,6 +88,24 @@
       "parentUuid": "351b7678_0b5d6597",
       "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "482a8514_b0d1f1d1",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenAccessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-03T07:53:44Z",
+      "side": 1,
+      "message": "\u003e For the Google\u0027s team view on the changes. We don\u0027t use usernames and passwords in the version of Gerrit hosted by us. We would need some work to get it imported once submitted, but I don\u0027t think there is any structural problem with your change or a way to make this simpler down the line. So we are not asking for any specific changes/anything being done differently.",
+      "parentUuid": "6fd1840c_a8b0ffde",
+      "revId": "e7f8068193b4a7455f17ac51390f1220c004d32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

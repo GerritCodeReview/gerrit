@@ -16,6 +16,158 @@
       "message": "Dunno if there\u0027s a better fix. queryAsync would have worked but.. we need to fetch all which this only does single.\n\nAny ideas?",
       "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57c77194_7e3d947e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:39:30Z",
+      "side": 1,
+      "message": "Is firstUpdated used because content doesn\u0027t change?\n\n\nOtherwise it looks ok.",
+      "parentUuid": "dc13df06_341bebd3",
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96bdb91c_8c452ac5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:39:30Z",
+      "side": 1,
+      "message": "Migration looks very good!",
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5160310_57e21896",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:39:30Z",
+      "side": 1,
+      "message": "Can you please add jsdoc that this is conversion from polymer/marked-element and some details?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ae5e304_018906a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:39:30Z",
+      "side": 1,
+      "message": "Nit: we don\u0027t use _",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "16262012_d8ad702e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 61,
+                "startChar": 0,
+                "endLine": 62,
+                "endChar": 0
+              },
+              "replacement": "  private isAttached \u003d false;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 65,
+                "startChar": 0,
+                "endLine": 66,
+                "endChar": 0
+              },
+              "replacement": "    this.isAttached \u003d true;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 70,
+                "startChar": 0,
+                "endLine": 71,
+                "endChar": 0
+              },
+              "replacement": "    this.isAttached \u003d false;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 126,
+                "startChar": 0,
+                "endLine": 127,
+                "endChar": 0
+              },
+              "replacement": "    if (!this.outputElement || !this.isAttached || !this.markdown) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fb80e8_ca672a0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T06:39:30Z",
+      "side": 1,
+      "message": "is it possible to do without modifying innerHTML? We need to mark it as safeHTML.",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 148,
+        "endChar": 6
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

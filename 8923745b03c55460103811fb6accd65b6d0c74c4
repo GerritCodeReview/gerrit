@@ -16,6 +16,24 @@
       "message": "Should this deprecate the `set-account --http-password` SSH API too?",
       "revId": "8923745b03c55460103811fb6accd65b6d0c74c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "671cec6c_6dc0bc0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-03T07:53:52Z",
+      "side": 1,
+      "message": "It actually indirectly does, since the SSH command uses the REST API class to apply the change. I adapted the commit message to clarify that.",
+      "parentUuid": "5bff8336_4dc5a90f",
+      "revId": "8923745b03c55460103811fb6accd65b6d0c74c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

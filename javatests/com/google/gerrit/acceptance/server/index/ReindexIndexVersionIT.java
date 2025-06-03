@@ -30,7 +30,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.config.IndexVersionResource;
-import com.google.gerrit.server.restapi.config.ReindexIndexVersion;
+import com.google.gerrit.server.restapi.config.indexes.versions.ReindexIndexVersion;
 import com.google.inject.Inject;
 import java.util.Collection;
 import javax.servlet.http.HttpServletResponse;

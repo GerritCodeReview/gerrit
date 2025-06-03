@@ -170,7 +170,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
-import com.google.gerrit.server.restapi.account.GetCapabilities;
+import com.google.gerrit.server.restapi.account.capabilities.GetCapabilities;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.util.time.TimeUtil;

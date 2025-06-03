@@ -34,7 +34,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AgreementSignup;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.restapi.group.AddMembers;
+import com.google.gerrit.server.restapi.group.members.AddMembers;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

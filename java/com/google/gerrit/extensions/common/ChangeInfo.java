@@ -97,9 +97,9 @@ public class ChangeInfo {
    * com.google.gerrit.server.restapi.change.ApplyPatch},{@link
    * com.google.gerrit.server.restapi.change.CreateChange}, {@link
    * com.google.gerrit.server.restapi.change.CreateMergePatchSet}, {@link
-   * com.google.gerrit.server.restapi.change.CherryPick}, {@link
+   * com.google.gerrit.server.restapi.change.revisions.CherryPick}, {@link
    * com.google.gerrit.server.restapi.change.CherryPickCommit}, {@link
-   * com.google.gerrit.server.restapi.change.Rebase}
+   * com.google.gerrit.server.restapi.change.revisions.Rebase}
    */
   public Boolean containsGitConflicts;
 

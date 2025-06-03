@@ -71,8 +71,8 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.junit.Test;
 
 /**
- * Tests for the {@link com.google.gerrit.server.restapi.change.Rebase} REST endpoint with the
- * {@link RebaseInput#onBehalfOfUploader} option being set.
+ * Tests for the {@link com.google.gerrit.server.restapi.change.revisions.Rebase} REST endpoint with
+ * the {@link RebaseInput#onBehalfOfUploader} option being set.
  *
  * <p>Rebasing a chain on behalf of the uploader is covered by {@link
  * RebaseChainOnBehalfOfUploaderIT}.

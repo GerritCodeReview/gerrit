@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.HumanCommentResource;
-import com.google.gerrit.server.restapi.change.DeleteComment;
-import com.google.gerrit.server.restapi.change.GetComment;
+import com.google.gerrit.server.restapi.change.revisions.comments.DeleteComment;
+import com.google.gerrit.server.restapi.change.revisions.comments.GetComment;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

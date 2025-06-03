@@ -51,7 +51,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Code-Review=MAX,user=non_uploader","label:Code-Review=MIN"],"atomExplanations":{"value":{"label:Code-Review=MAX,user=non_uploader":"","label:Code-Review=MIN":""}}}
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"],"atomExplanations":{"value":{"label:Code-Review=MAX,user=non_uploader":"","label:Code-Review=MIN":""}}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "cb0c3c82db2d1902facb5578cf22181cd64cd4af",
@@ -364,7 +364,7 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["footer:\"Want-Code-Review: all\"","label:Code-Review>=1,users=human_reviewers"],"atomExplanations":{"value":{"footer:\"Want-Code-Review: all\"":"","label:Code-Review>=1,users=human_reviewers":""}}}
+        "value": {"expression":{"expressionString":"footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["label:Code-Review>=1,users=human_reviewers"],"failingAtoms":["footer:\"Want-Code-Review: all\""],"atomExplanations":{"value":{"footer:\"Want-Code-Review: all\"":"","label:Code-Review>=1,users=human_reviewers":""}}}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"label:Code-Review>=1,users=human_reviewers"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}

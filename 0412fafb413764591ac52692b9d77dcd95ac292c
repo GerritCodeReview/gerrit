@@ -73,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a64e5873_79e1c8df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T12:08:12Z",
+      "side": 1,
+      "message": "No, i can switch it back to updated i guess. Thanks, done.",
+      "parentUuid": "57c77194_7e3d947e",
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "96bdb91c_8c452ac5",
         "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
         "patchSetId": 8
@@ -101,6 +119,30 @@
       "writtenOn": "2025-06-03T06:39:30Z",
       "side": 1,
       "message": "Can you please add jsdoc that this is conversion from polymer/marked-element and some details?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68094fb5_dcf2b4dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T12:08:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e5160310_57e21896",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -182,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d6537c_f609bd28",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T12:08:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "6ae5e304_018906a3",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95fb80e8_ca672a0d",
@@ -195,6 +261,30 @@
       "writtenOn": "2025-06-03T06:39:30Z",
       "side": 1,
       "message": "is it possible to do without modifying innerHTML? We need to mark it as safeHTML.",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 148,
+        "endChar": 6
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab279e67_e51aabdf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T12:08:12Z",
+      "side": 1,
+      "message": "Lit has unsafeHTML()? We already sanitise the html in the callback.\n\nAlthough doesn\u0027t seem we can use it because we use slots and use this.outputElement.innerHTML to replace. But the fact we sanitise the html in the callback makes it safe i think?\n\nIf you know of a way to do it without innerHTML please do let me know :). From what i can tell we can\u0027t since we use a slot and have it replaced. Otherwise we could have used unsafeHTML().",
+      "parentUuid": "95fb80e8_ca672a0d",
       "range": {
         "startLine": 144,
         "startChar": 5,

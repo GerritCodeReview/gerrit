@@ -115,7 +115,7 @@ By default, `true`.
 [[accounts.caseInsensitiveLocalPart]]accounts.caseInsensitiveLocalPart::
 +
 When querying by email, the case sensitivity of the email local part depends on the domains
-specified in the this list.
+specified in this list.
 +
 Users can register emails with mixed case, and if the email’s domain matches one in the configured
 list, the local part is treated as case-insensitive.
@@ -548,13 +548,6 @@ If not set, HTTP request's path is used.
 Sets "domain" attribute of the authentication cookie.
 +
 If not set, HTTP request's domain is used.
-
-[[auth.cookieSecure]]auth.cookieSecure::
-+
-Sets "secure" flag of the authentication cookie.  If `true`, cookies
-will be transmitted only over HTTPS protocol.
-+
-By default, `false`.
 
 [[auth.cookieHttpOnly]]auth.cookieHttpOnly::
 +
@@ -4009,7 +4002,7 @@ If negative, `commitWithin` is disabled. Changes are flushed to disk when
 the in-memory buffer fills, but only committed and guaranteed to be synced
 to disk when the process finishes.
 +
-Defaults to 300000 ms (5 minutes).
+Defaults to 5 minutes.
 
 
 [[index.name.maxMergeCount]]index.name.maxMergeCount::
@@ -4298,8 +4291,9 @@ in the usual time-unit format like "1 s", "100 ms", etc...
 A timeout can be used to avoid blocking all of the SSH command start
 threads in case the LDAP server becomes slow.
 +
-By default there is no timeout and Gerrit will wait for the LDAP
-server to respond until the TCP connection times out.
+By default 1 minute.  If set to 0 there is no timeout and Gerrit
+will wait for the LDAP server to respond until the TCP connection
+times out.
 
 [[ldap.accountBase]]ldap.accountBase::
 +
@@ -4580,7 +4574,8 @@ _(Optional)_ Timeout period for establishment of an LDAP connection.
 The value is in the usual time-unit format like "1 s", "100 ms",
 etc...
 +
-By default there is no timeout and Gerrit will wait indefinitely.
+By default 10 seconds. If set to 0 there is no timeout and Gerrit will
+wait indefinitely.
 
 [[ldap-connection-pooling]]
 ==== LDAP Connection Pooling
@@ -4854,7 +4849,7 @@ If `true`, delta compression between objects is enabled.  This may
 result in a smaller overall transfer for the client, but requires
 more server memory and CPU time.
 +
-False (off) by default, matching Gerrit Code Review 2.1.4.
+False (off) by default.
 
 [[pack.threads]]pack.threads::
 +
@@ -5371,8 +5366,8 @@ submit requirements are being used instead.
 +
 Modification and deletion of existing rules are still allowed.
 +
-Default is `true`, to allow creation of prolog rules in projects
-not having any already.
+Default is `false`, disallowing creation of prolog rules in projects
+not having any already since prolog rules are now deprecated.
 
 [[rules.reductionLimit]]rules.reductionLimit::
 +
@@ -5434,12 +5429,12 @@ task (e.g. GC), is not blocking the entire execution.
 
 [[execution.fanOutThreadPoolSize]]execution.fanOutThreadPoolSize::
 +
-Maximum size of thread pool to on which a serving thread can fan-out
-work to parallelize it.
+Maximum size of thread pool a serving thread can fan-out work on to
+parallelize it.
 +
-When set to 0, a direct executor will be used.
+When set to 0 the work happens directly in the caller thread.
 +
-By default, 25 which means that formatting happens in the caller thread.
+By default 25.
 
 [[performance]]
 === Section performance
@@ -5571,7 +5566,7 @@ Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
 If no unit is specified, milliseconds is assumed.
 +
-Default is 0. A timeout of zero is interpreted as an infinite
+Default is 10 seconds. A timeout of zero is interpreted as an infinite
 timeout. The connection will then block until established or
 an error occurs.
 
@@ -5584,7 +5579,7 @@ Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
 If no unit is specified, milliseconds is assumed.
 +
-Default is 0. A timeout of zero is interpreted as an infinite
+Default is 10 seconds. A timeout of zero is interpreted as an infinite
 timeout. With this config value set to a non-zero timeout,
 a read() call on the InputStream associated with this Socket
 will block for only this amount of time. Hence administrators
@@ -6499,7 +6494,8 @@ the other side.  1 second may be too small for larger projects,
 especially over a WAN link, while 10-30 seconds is a much more
 reasonable timeout value.
 +
-Defaults to 0 seconds, wait indefinitely.
+Defaults to 1 minute. If set to 0 there is no timeout and Gerrit
+will wait indefinitely.
 
 
 [[upload]]

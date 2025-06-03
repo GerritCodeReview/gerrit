@@ -47,7 +47,7 @@ public class PrologRulesWarningValidator implements CommitValidationListener {
 
   @Inject
   public PrologRulesWarningValidator(@GerritServerConfig Config cfg) {
-    this.allowNewRules = cfg.getBoolean("rules", "allowNewRules", true);
+    this.allowNewRules = cfg.getBoolean("rules", "allowNewRules", false);
   }
 
   @Override

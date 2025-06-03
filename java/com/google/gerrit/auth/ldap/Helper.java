@@ -109,14 +109,14 @@ class Helper {
     String readTimeout = LdapRealm.optional(config, "readTimeout");
     if (readTimeout != null) {
       readTimeoutMillis =
-          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 0, TimeUnit.MILLISECONDS));
+          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 60000, TimeUnit.MILLISECONDS));
     } else {
       readTimeoutMillis = null;
     }
     String connectTimeout = LdapRealm.optional(config, "connectTimeout");
     if (connectTimeout != null) {
       connectTimeoutMillis =
-          Long.toString(ConfigUtil.getTimeUnit(connectTimeout, 0, TimeUnit.MILLISECONDS));
+          Long.toString(ConfigUtil.getTimeUnit(connectTimeout, 10000, TimeUnit.MILLISECONDS));
     } else {
       connectTimeoutMillis = null;
     }

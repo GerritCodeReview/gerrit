@@ -55,9 +55,8 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
-
-  concurrency: 4,
-
+  // Default is CPU cores / 2. Use default
+  // concurrency: 5,
   // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
   // Recent Chrome versions aggressively throttle inactive tabs, which interferes with
   // parallel tests. These flags disable that behavior, ensuring tests that rely on

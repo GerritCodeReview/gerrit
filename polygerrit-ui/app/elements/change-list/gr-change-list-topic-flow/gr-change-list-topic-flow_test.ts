@@ -291,7 +291,9 @@ suite('gr-change-list-topic-flow tests', () => {
         `,
         {
           // iron-dropdown sizing seems to vary between local & CI
-          ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
+          ignoreAttributes: [
+            {tags: ['iron-dropdown'], attributes: ['style', 'focused']},
+          ],
         }
       );
     });
@@ -600,7 +602,9 @@ suite('gr-change-list-topic-flow tests', () => {
         `,
         {
           // iron-dropdown sizing seems to vary between local & CI
-          ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
+          ignoreAttributes: [
+            {tags: ['iron-dropdown'], attributes: ['style', 'focused']},
+          ],
         }
       );
     });

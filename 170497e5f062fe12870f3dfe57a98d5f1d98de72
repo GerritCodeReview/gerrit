@@ -16,6 +16,24 @@
       "message": "nit for easier release notes generation\n```suggestion\nRelease-Notes: Remove option auth.cookieSecure and set \"secure\" only based on protocol\n```",
       "revId": "170497e5f062fe12870f3dfe57a98d5f1d98de72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f86318e7_5877391d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-03T06:59:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530181bf_ba076f06",
+      "revId": "170497e5f062fe12870f3dfe57a98d5f1d98de72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

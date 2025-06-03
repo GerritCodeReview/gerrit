@@ -293,6 +293,30 @@
       },
       "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "844e8f9d_47d52da8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T12:19:24Z",
+      "side": 1,
+      "message": "I was wondering if you need to do - https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts;l\u003d212?q\u003dsanitizeHtml\u0026ss\u003dgerrit%2Fgerrit%2Fgerrit\n\nMaybe when we import to google it will be checked. We can try and resolve in future.",
+      "parentUuid": "ab279e67_e51aabdf",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 148,
+        "endChar": 6
+      },
+      "revId": "0412fafb413764591ac52692b9d77dcd95ac292c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

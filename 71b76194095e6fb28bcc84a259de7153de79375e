@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3227a8ca_db597879",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T13:50:12Z",
+      "side": 0,
+      "message": "Well there was a bug with iOS that required this workaround. It doesn\u0027t happen with md-switch (i tested and this workaround breaks md-switch, it won\u0027t do the switch with it. Not because of the click event but because of the preventDefault)",
+      "parentUuid": "84d226cb_c9acb644",
+      "range": {
+        "startLine": 234,
+        "startChar": 19,
+        "endLine": 234,
+        "endChar": 54
+      },
+      "revId": "71b76194095e6fb28bcc84a259de7153de79375e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e50caab8_bc407230",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
         "patchSetId": 3

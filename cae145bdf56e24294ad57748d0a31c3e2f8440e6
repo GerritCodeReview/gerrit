@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a21b5b_c9d6ea2e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T13:50:12Z",
+      "side": 1,
+      "message": "It seems this is no longer needed, thanks!",
+      "parentUuid": "96df3d2b_ac3722b6",
+      "range": {
+        "startLine": 371,
+        "startChar": 34,
+        "endLine": 371,
+        "endChar": 53
+      },
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dc84fe0_40e0be7f",
@@ -99,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "945d2942_af025336",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T13:50:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "2dc84fe0_40e0be7f",
+      "range": {
+        "startLine": 396,
+        "startChar": 14,
+        "endLine": 396,
+        "endChar": 75
+      },
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1361f005_fee2d9ce",
@@ -112,6 +160,30 @@
       "writtenOn": "2025-06-03T06:58:28Z",
       "side": 1,
       "message": "Can you please add how these colors were picked?",
+      "range": {
+        "startLine": 539,
+        "startChar": 5,
+        "endLine": 539,
+        "endChar": 17
+      },
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26fe0060_4dd96ab0",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-03T13:50:12Z",
+      "side": 1,
+      "message": "I used the colour in paper-toggle (although it used opacity hence why the circle was darker and the bar was lighter). But i entered the colour from paper-toggle into materal web website and it gave me the css vars. I generated it in light and dark mode.\n\nSeems it chucks out css vars that aren\u0027t related to that component. So i went through them one by one to see which one affected it and removed the uneeded css vars.",
+      "parentUuid": "1361f005_fee2d9ce",
       "range": {
         "startLine": 539,
         "startChar": 5,

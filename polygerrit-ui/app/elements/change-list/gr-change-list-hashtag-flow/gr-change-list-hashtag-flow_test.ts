@@ -247,7 +247,6 @@ suite('gr-change-list-hashtag-flow tests', () => {
           >
           <iron-dropdown
             aria-disabled="false"
-            focused=""
             vertical-align="auto"
             horizontal-align="auto"
           >

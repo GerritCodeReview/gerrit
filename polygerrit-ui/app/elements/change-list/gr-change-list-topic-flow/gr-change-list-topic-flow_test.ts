@@ -242,7 +242,6 @@ suite('gr-change-list-topic-flow tests', () => {
           >
           <iron-dropdown
             aria-disabled="false"
-            focused=""
             vertical-align="auto"
             horizontal-align="auto"
           >

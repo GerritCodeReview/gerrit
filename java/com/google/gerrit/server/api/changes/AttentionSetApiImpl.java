@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.api.changes.AttentionSetApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
-import com.google.gerrit.server.restapi.change.RemoveFromAttentionSet;
+import com.google.gerrit.server.restapi.change.attentionset.RemoveFromAttentionSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

@@ -121,7 +121,7 @@ public class GetChange
     }
   }
 
-  Response<ChangeInfo> apply(RevisionResource rsrc) {
+  public Response<ChangeInfo> apply(RevisionResource rsrc) {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 

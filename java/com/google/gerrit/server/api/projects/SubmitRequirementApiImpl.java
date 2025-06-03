@@ -27,11 +27,11 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.SubmitRequirementResource;
-import com.google.gerrit.server.restapi.project.CreateSubmitRequirement;
-import com.google.gerrit.server.restapi.project.DeleteSubmitRequirement;
-import com.google.gerrit.server.restapi.project.GetSubmitRequirement;
-import com.google.gerrit.server.restapi.project.SubmitRequirementsCollection;
-import com.google.gerrit.server.restapi.project.UpdateSubmitRequirement;
+import com.google.gerrit.server.restapi.project.submitrequirements.CreateSubmitRequirement;
+import com.google.gerrit.server.restapi.project.submitrequirements.DeleteSubmitRequirement;
+import com.google.gerrit.server.restapi.project.submitrequirements.GetSubmitRequirement;
+import com.google.gerrit.server.restapi.project.submitrequirements.SubmitRequirementsCollection;
+import com.google.gerrit.server.restapi.project.submitrequirements.UpdateSubmitRequirement;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

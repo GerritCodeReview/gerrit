@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.children.ListChildProjects;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

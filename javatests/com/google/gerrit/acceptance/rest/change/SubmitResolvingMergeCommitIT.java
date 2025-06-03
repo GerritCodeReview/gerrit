@@ -25,7 +25,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.change.Submit;
+import com.google.gerrit.server.restapi.change.revisions.Submit;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.gerrit.testing.ConfigSuite;

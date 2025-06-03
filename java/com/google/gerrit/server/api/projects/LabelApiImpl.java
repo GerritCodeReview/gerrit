@@ -28,11 +28,11 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.restapi.project.CreateLabel;
-import com.google.gerrit.server.restapi.project.DeleteLabel;
-import com.google.gerrit.server.restapi.project.GetLabel;
-import com.google.gerrit.server.restapi.project.LabelsCollection;
-import com.google.gerrit.server.restapi.project.SetLabel;
+import com.google.gerrit.server.restapi.project.labels.CreateLabel;
+import com.google.gerrit.server.restapi.project.labels.DeleteLabel;
+import com.google.gerrit.server.restapi.project.labels.GetLabel;
+import com.google.gerrit.server.restapi.project.labels.LabelsCollection;
+import com.google.gerrit.server.restapi.project.labels.SetLabel;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

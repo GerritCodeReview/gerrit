@@ -18,6 +18,7 @@ import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.restapi.change.revisions.Rebase;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

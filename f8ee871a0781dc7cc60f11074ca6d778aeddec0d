@@ -126,6 +126,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3a6372d_3045cfc9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-03T11:51:27Z",
+      "side": 1,
+      "message": "That\u0027s ok, but it would be best to know where these colors come from from comment above.",
+      "parentUuid": "8d674988_c70e3c78",
+      "range": {
+        "startLine": 368,
+        "startChar": 7,
+        "endLine": 372,
+        "endChar": 45
+      },
+      "revId": "f8ee871a0781dc7cc60f11074ca6d778aeddec0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e221f9e3_7ba68cca",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 3

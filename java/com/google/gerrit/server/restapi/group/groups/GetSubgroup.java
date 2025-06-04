@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.group;
+package com.google.gerrit.server.restapi.group.groups;
 
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.SubgroupResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.group.GroupJson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

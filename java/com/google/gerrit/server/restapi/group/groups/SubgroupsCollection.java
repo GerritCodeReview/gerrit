@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.group;
+package com.google.gerrit.server.restapi.group.groups;
 
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.SubgroupResource;
+import com.google.gerrit.server.restapi.group.GroupsCollection;
+import com.google.gerrit.server.restapi.group.NotInternalGroupException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

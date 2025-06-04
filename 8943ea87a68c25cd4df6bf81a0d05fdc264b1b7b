@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c306fe3_80741572",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4095417
+      },
+      "writtenOn": "2025-06-04T01:34:18Z",
+      "side": 1,
+      "message": "ในวันที่ อ. 3 มิ.ย. 2025 18:06 น. Saša Živkov (Gerrit) \u003cnoreply-gerritcodereview+T-2yQvsjD-BgewObk5hyDA\u003d\u003d@\u003e เขียนว่า: google.com",
+      "tag": "mailMessageId\u003d\u003cCAHO6n8W7EhowmWaAosKpraOtB3SMyq3SQmc3mgf2gtd8LbgF0A@mail.gmail.com\u003e",
+      "revId": "8943ea87a68c25cd4df6bf81a0d05fdc264b1b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

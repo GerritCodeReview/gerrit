@@ -346,7 +346,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
         changeOperations.change(changeId).currentPatchset().newComment().author(accountId).create();
 
     CommentInfo comment = getCommentFromServer(changeId, commentUuid);
-    assertThat(comment).author().id().isEqualTo(accountId.get());
+    assertThat(comment).author().hasIdThat().isEqualTo(accountId.get());
   }
 
   @Test

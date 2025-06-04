@@ -3679,6 +3679,251 @@ As response "`204 No Content`" is returned.
 ----
 
 
+[[flow-endpoints]]
+== Flow Endpoints
+
+[[list-flows]]
+=== List Flows
+--
+'GET /changes/link:#change-id[\{change-id\}]/flows/'
+--
+
+Lists the flows of a change that are visible to the caller.
+
+As result a list of link:#flow-info[FlowInfo] entries is returned.
+
+The order of the returned flows is stable, but depends on the flow service
+implementation.
+
+.Request
+----
+  GET /changes/myProject~65178/flows/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "uuid": "zgcFrmAM",
+      "owner" {
+        "_account_id": 1000600
+      },
+      "created": "2025-06-03 09:59:32.126000000",
+      "stages": [
+        {
+          "expression": {
+            "condition": "com.google.gerrit[change:65779 is:merged]",
+            "action": {
+              "name: "MarkAsReady"
+            }
+          },
+          "status": "DONE"
+        }
+      ],
+      "last_evaluated": "2025-06-03 10:32:12.083000000",
+    },
+    {
+      "uuid": "XvcXrmjM",
+      "owner" {
+        "_account_id": 1000600
+      },
+      "created": "2025-06-03 10:55:36.133000000",
+      "stages": [
+        {
+          "expression": {
+            "condition": "com.google.gerrit[change:65178 label:Verified+1]",
+            "action": {
+              "name: "AddReviewer",
+              "parameters": {
+                "user": "foo@example.com"
+              }
+            }
+          },
+          "status": "FAILED",
+          "message": "user foo@example.com not found"
+        },
+        {
+          "expression": {
+            "condition": "com.google.gerrit[change:65178 label:Code-Review+2]",
+            "action": {
+              "name: "Submit",
+              "parameters": {
+                "change": "65178"
+              }
+            }
+          },
+          "status": "TERMINATED",
+          "message": "stage 1 has failed"
+        }
+      ],
+      "last_evaluated": "2025-06-03 12:12:10.084000000",
+    }
+  ]
+----
+
+Flows that are not visible to the caller are omitted from the result. Which
+permissions are required to see a flow depends on the flow service
+implementation.
+
+
+If no flow service is bound (i.e. if no plugin that provides a flow service is
+installed) `405 Method Not Allowed` is returned.
+
+[[create-flow]]
+=== Create Flow
+--
+'POST /changes/link:#change-id[\{change-id\}]/flows/'
+--
+
+Creates a flow on the change.
+
+The flow input must be provided as a link:#flow-input[FlowInput] entity in the
+request body.
+
+.Request
+----
+  POST /changes/ HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "stage_expressions": [
+      {
+        "condition": "com.google.gerrit[change:65178 label:Verified+1]",
+        "action": {
+          "name: "AddReviewer",
+          "parameters": {
+            "user": "foo@example.com"
+          }
+        }
+      }
+    ]
+  }
+----
+
+The created flow is returned as a link:#flow-info[FlowInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "XvcXrmjM",
+    "owner" {
+      "_account_id": 1000600
+    },
+    "created": "2025-06-03 09:59:32.126000000",
+    "stages": [
+      {
+        "expression": {
+          "condition": "com.google.gerrit[change:65178 label:Verified+1]",
+          "action": {
+            "name: "AddReviewer",
+            "parameters": {
+              "user": "foo@example.com"
+            }
+          }
+        }
+        "status": "PENDING"
+      }
+    ]
+  }
+----
+
+If the caller is not allowed to create the flow `403 Forbidden` is returned.
+Which permissions are required for creating a flow depends on the flow service
+implementation.
+
+If no flow service is bound (i.e. if no plugin that provides a flow service is
+installed) `405 Method Not Allowed` is returned.
+
+[[get-flow]]
+=== Get Flow
+--
+'GET /changes/link:#change-id[\{change-id\}]/flows/link:#flow-id[\{flow-id\}]'
+--
+
+Gets a flow on the change.
+
+.Request
+----
+  GET /changes/myProject~65178/flow/XvcXrmjM HTTP/1.0
+----
+
+The flow is returned as a link:#flow-info[FlowInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "uuid": "XvcXrmjM",
+    "owner" {
+      "_account_id": 1000600
+    },
+    "created": "2025-06-03 09:59:32.126000000",
+    "stages": [
+      {
+        "expression": {
+          "condition": "com.google.gerrit[change:65178 label:Verified+1]",
+          "action": {
+            "name: "AddReviewer",
+            "parameters": {
+              "user": "foo@example.com"
+            }
+          }
+        }
+        "status": "PENDING"
+      }
+    ]
+  }
+----
+
+If the flow exists, but is not visible to the caller `404 Not Found` is
+returned. Which permissions are required to see a flow depends on the flow
+service implementation.
+
+If no flow service is bound (i.e. if no plugin that provides a flow service is
+installed) `405 Method Not Allowed` is returned.
+
+[[delete-flow]]
+=== Delete Flow
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/flows/link:#flow-id[\{flow-id\}]'
+--
+
+Delete a flow on the change.
+
+.Request
+----
+  DELETE /changes/myProject~65178/flow/XvcXrmjM HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If the flow exists, but is not visible to the caller `404 Not Found` is
+returned.
+
+If the caller can see the flow but is not allowed to delete it `403 Forbidden`
+is returned. Which permissions are required to delete a flow depends on the flow
+service implementation.
+
+If no flow service is bound (i.e. if no plugin that provides a flow service is
+installed) `405 Method Not Allowed` is returned.
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 
@@ -6756,6 +7001,10 @@ UUID of a published comment.
 === \{draft-id\}
 UUID of a draft comment.
 
+[[flow-id]]
+=== \{flow-id\}
+UUID of a flow.
+
 [[label-id]]
 === \{label-id\}
 The name of the label.
@@ -8099,6 +8348,91 @@ errors when the fix is applied.
 of the file should be replaced. Lines in the file are assumed to be separated
 by the line feed character.
 |`replacement`   |The content which should be used instead of the current one.
+|==========================
+
+[[flow-info]]
+=== FlowInfo
+The `FlowInfo` entity contains information about a flow. A flow is an automation
+rule on a change that triggers actions on the change when the flow conditions
+become satisfied. For example, a flow can be an automation rule that adds a
+reviewer to the change when the change has been verified by the CI.
+
+[options="header",cols="1,^1,5"]
+|==============================
+|Field Name       ||Description
+|`uuid`           ||The universally unique identifier that identifies the flow.
+|`owner`          ||The owner of the flow as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`created`        ||The link:rest-api.html#timestamp[timestamp] of when the flow
+was created.
+|`stages`         ||The stages of this flow as a list of
+link:#flow-stage-info[FlowStageInfo] entities (sorted by execution order).
+|`last_evaluated` |optional|The link:rest-api.html#timestamp[timestamp] of when
+the flow was last evaluated. Not set if the flow has not been evaluated yet.
+|==============================
+
+[[flow-action-info]]
+=== FlowActionInfo
+The `FlowActionInfo` entity contains information about a flow action. A flow
+action is an action that should be triggered when the condition of a
+link:#flow-expression-info[FlowExpressionInfo] becomes satisfied.
+
+[options="header",cols="1,6"]
+|=========================
+|Field Name   |Description
+|`name`       |The name of the action. Which actions are supported depends on
+the flow service implementation.
+|`parameters` |Parameters for the action as a key-value map. Which parameters
+are supported depends on the flow service implementation.
+|=========================
+
+[[flow-expression-info]]
+=== FlowExpressionInfo
+The `FlowExpressionInfo` entity contains information about a flow expression. A
+flow expression defines an action that should be triggered when a condition
+becomes satisfied.
+
+[options="header",cols="1,6"]
+|========================
+|Field Name  |Description
+|`condition` |The condition which must be satisfied for the action to be
+triggered. Can contain multiple conditions separated by comma. The syntax of the
+condition depends on the flow service implementation.
+|`action`    |The action that should be triggered when the condition is
+satisfied as a link:#flow-action-info[FlowActionInfo] entity.
+|========================
+
+[[flow-input]]
+=== FlowInput
+The `FlowInput` entity defines the properties for creating a new flow.
+
+[options="header",cols="1,6"]
+|================================
+|Field Name          |Description
+|`stage_expressions` |The expressions for the stages of the flow (sorted by
+execution order) as  a list of link:#flow-expression-info[FlowExpressionInfo]
+entities.
+|================================
+
+[[flow-stage-info]]
+=== FlowStageInfo
+The `FlowStageInfo` entity contains information about a stage in a flow. A flow
+stage consists out of a flow expression that defines an action that should be
+triggered when a condition becomes satisfied and a status.
+
+[options="header",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`expression` ||The expression defining the condition and the action of
+this stage as a link:#flow-expression-info[FlowExpressionInfo] entity.
+|`status`     ||The status for this stage. Can be `PENDING` (the condition of
+the stage is not satisfied yet or the action has not been executed yet), `DONE`
+(the condition of the stage is satisfied and the action has been executed),
+`FAILED` (the stage has a non-recoverable error, e.g. performing the action has
+failed) or `TERMINATED` (the stage has been terminated without having been
+executed, e.g. because a previous stage failed or because it wasn't done within
+a timeout).
+|`message`    |optional|Optional message for the stage.
 |==========================
 
 [[git-person-info]]

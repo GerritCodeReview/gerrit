@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
 import static java.util.Objects.requireNonNull;
@@ -24,11 +25,22 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.flow.Flow;
+import com.google.gerrit.server.flow.FlowCreation;
+import com.google.gerrit.server.flow.FlowExpression;
+import com.google.gerrit.server.flow.FlowKey;
+import com.google.gerrit.server.flow.FlowPermissionDeniedException;
+import com.google.gerrit.server.flow.FlowService;
+import com.google.gerrit.server.flow.FlowStage;
+import com.google.gerrit.server.flow.InvalidFlowException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
@@ -37,8 +49,12 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Class to host common test extension implementations.
@@ -148,6 +164,151 @@ public class TestExtensions {
         requireNonNull(actionName, "actionName");
         requireNonNull(cause, "cause");
       }
+    }
+  }
+
+  /** Test implementation of a {@link FlowService} to be used by the flow integration tests. */
+  public static class TestFlowService implements FlowService {
+    public static final String INVALID_CONDITION = "invalid";
+
+    private final Map<FlowKey, Flow> flows = new HashMap<>();
+
+    /**
+     * Whether any flow creation should be rejected with a {@link FlowPermissionDeniedException}.
+     */
+    private boolean rejectFlowCreation;
+
+    /**
+     * Whether any flow deletion should be rejected with a {@link FlowPermissionDeniedException}.
+     */
+    private boolean rejectFlowDeletion;
+
+    /** Makes the flow service reject all flow creations. */
+    public void rejectFlowCreation() {
+      this.rejectFlowCreation = true;
+    }
+
+    /** Makes the flow service reject all flow deletions. */
+    public void rejectFlowDeletion() {
+      this.rejectFlowDeletion = true;
+    }
+
+    @Override
+    public Flow createFlow(FlowCreation flowCreation)
+        throws FlowPermissionDeniedException, InvalidFlowException, StorageException {
+      if (rejectFlowCreation) {
+        throw new FlowPermissionDeniedException("not allowed to create flow");
+      }
+
+      if (flowCreation.stageExpressions().stream()
+          .map(FlowExpression::condition)
+          .anyMatch(condition -> condition.endsWith(INVALID_CONDITION))) {
+        throw new InvalidFlowException(String.format("invalid condition: %s", INVALID_CONDITION));
+      }
+
+      FlowKey flowKey =
+          FlowKey.builder()
+              .projectName(flowCreation.projectName())
+              .changeId(flowCreation.changeId())
+              .uuid(ChangeUtil.messageUuid())
+              .build();
+      Flow flow =
+          Flow.builder(flowKey)
+              .createdOn(Instant.now())
+              .ownerId(flowCreation.ownerId())
+              .stages(
+                  flowCreation.stageExpressions().stream()
+                      .map(
+                          stageExpression ->
+                              FlowStage.builder()
+                                  .expression(stageExpression)
+                                  .status(FlowStage.Status.PENDING)
+                                  .build())
+                      .collect(toImmutableList()))
+              .build();
+      flows.put(flowKey, flow);
+      return flow;
+    }
+
+    @Override
+    public Optional<Flow> getFlow(FlowKey flowKey) throws StorageException {
+      return Optional.ofNullable(flows.get(flowKey));
+    }
+
+    @Override
+    public Optional<Flow> deleteFlow(FlowKey flowKey)
+        throws FlowPermissionDeniedException, StorageException {
+      if (rejectFlowDeletion) {
+        throw new FlowPermissionDeniedException("not allowed to delete flow");
+      }
+
+      return Optional.ofNullable(flows.remove(flowKey));
+    }
+
+    @Override
+    public ImmutableList<Flow> listFlows(Project.NameKey projectName, Change.Id changeId)
+        throws StorageException {
+      return flows.entrySet().stream()
+          .filter(
+              e ->
+                  e.getKey().projectName().equals(projectName)
+                      && e.getKey().changeId().equals(changeId))
+          .map(Map.Entry::getValue)
+          .collect(toImmutableList());
+    }
+
+    /**
+     * Updates the specified flow.
+     *
+     * <p>Sets the {@code lastEvaluatedOn} timestamp in the flow and updates the statuses and
+     * messages of the stages.
+     *
+     * @param flowKey the key of the flow that should be updated
+     * @param stageStatuses statuses to be set for the stages
+     * @param stageMessages messages to be set for the stages
+     * @throws IllegalStateException thrown if the specified flow is not found, or if the number of
+     *     given statuses/messages doesn't match with the number of stages in the flow
+     * @return the updated flow
+     */
+    public Flow evaluate(
+        FlowKey flowKey,
+        ImmutableList<FlowStage.Status> stageStatuses,
+        ImmutableList<Optional<String>> stageMessages)
+        throws IllegalStateException {
+      Optional<Flow> flow = getFlow(flowKey);
+      if (flow.isEmpty()) {
+        throw new IllegalStateException(String.format("Flow %s not found.", flowKey));
+      }
+      if (stageStatuses.size() != flow.get().stages().size()) {
+        throw new IllegalStateException(
+            String.format(
+                "Invalid number of stage statuses: got %s, expected %s",
+                stageStatuses.size(), flow.get().stages().size()));
+      }
+      if (stageMessages.size() != flow.get().stages().size()) {
+        throw new IllegalStateException(
+            String.format(
+                "Invalid number of stage messages: got %s, expected %s",
+                stageMessages.size(), flow.get().stages().size()));
+      }
+
+      List<FlowStage> stages = new ArrayList<>(flow.get().stages());
+      for (int i = 0; i < flow.get().stages().size(); i++) {
+        FlowStage updatedStage =
+            stages.get(i).toBuilder()
+                .status(stageStatuses.get(i))
+                .message(stageMessages.get(i))
+                .build();
+        stages.set(i, updatedStage);
+      }
+
+      Flow updatedFlow =
+          flow.get().toBuilder()
+              .lastEvaluatedOn(Instant.now())
+              .stages(ImmutableList.copyOf(stages))
+              .build();
+      flows.put(flowKey, updatedFlow);
+      return updatedFlow;
     }
   }
 

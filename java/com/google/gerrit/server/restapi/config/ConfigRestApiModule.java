@@ -30,21 +30,29 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CONFIG_KIND);
 
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
+
+    post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
+    post(CONFIG_KIND, "cleanup.draft.comments").to(CleanupDraftComments.class);
+
     post(CONFIG_KIND, "deactivate.stale.accounts").to(AccountDeactivation.class);
+
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
 
     post(CONFIG_KIND, "index.changes").to(IndexChanges.class);
+
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
+
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
+
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(CONFIG_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(CONFIG_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
+
     post(CONFIG_KIND, "reload").to(ReloadConfig.class);
+
     post(CONFIG_KIND, "snapshot.indexes").to(SnapshotIndexes.class);
-    post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
-    post(CONFIG_KIND, "cleanup.draft.comments").to(CleanupDraftComments.class);
 
     get(CONFIG_KIND, "version").to(GetVersion.class);
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
-import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
@@ -23,16 +22,15 @@ import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.restapi.account.capabilities.AccountCapabilitiesRestApiModule;
 
 public class AccountRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(AccountsCollection.class).to(AccountsCollectionImpl.class);
-    bind(Capabilities.class);
     bind(StarredChanges.Create.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
-    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), EMAIL_KIND);
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
@@ -49,9 +47,6 @@ public class AccountRestApiModule extends RestApiModule {
     put(ACCOUNT_KIND, "agreements").to(PutAgreement.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
-
-    child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
-    get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
 
     put(ACCOUNT_KIND, "displayname").to(PutDisplayName.class);
     get(ACCOUNT_KIND, "detail").to(GetDetail.class);
@@ -101,5 +96,7 @@ public class AccountRestApiModule extends RestApiModule {
 
     // The gpgkeys REST endpoints are bound via GpgApiModule.
     // The oauthtoken REST endpoint is bound via OAuthRestModule.
+
+    install(new AccountCapabilitiesRestApiModule());
   }
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.account;
+package com.google.gerrit.server.restapi.account.capabilities;
 
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalOrPluginPermissionName;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermission;

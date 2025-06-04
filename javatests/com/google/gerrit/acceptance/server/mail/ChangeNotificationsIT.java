@@ -66,7 +66,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.server.restapi.change.PostReviewOp;
+import com.google.gerrit.server.restapi.change.revisions.PostReviewOp;
 import com.google.inject.Inject;
 import java.util.UUID;
 import org.eclipse.jgit.junit.TestRepository;

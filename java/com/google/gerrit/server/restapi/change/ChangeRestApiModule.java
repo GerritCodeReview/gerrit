@@ -19,7 +19,6 @@ import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.FixResource.FIX_KIND;
 import static com.google.gerrit.server.change.HumanCommentResource.COMMENT_KIND;
-import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
 import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
@@ -31,6 +30,7 @@ import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.restapi.change.attentionset.ChangeAttentionSetRestApiModule;
 import com.google.gerrit.server.restapi.change.edit.ChangeEditRestApiModule;
 import com.google.gerrit.server.restapi.change.messages.ChangeMessagesRestApiModule;
+import com.google.gerrit.server.restapi.change.reviewers.ChangeReviewersRestApiModule;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
@@ -40,7 +40,6 @@ public class ChangeRestApiModule extends RestApiModule {
     bind(DraftComments.class);
     bind(Files.class);
     bind(Fixes.class);
-    bind(Reviewers.class);
     bind(RevisionReviewers.class);
     bind(Revisions.class);
     bind(RobotComments.class);
@@ -52,7 +51,6 @@ public class ChangeRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), FIX_KIND);
     DynamicMap.mapOf(binder(), ROBOT_COMMENT_KIND);
-    DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
     DynamicMap.mapOf(binder(), VOTE_KIND);
 
@@ -92,13 +90,6 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "revert_submission").to(RevertSubmission.class);
-
-    child(CHANGE_KIND, "reviewers").to(Reviewers.class);
-    postOnCollection(REVIEWER_KIND).to(PostReviewers.class);
-    delete(REVIEWER_KIND).to(DeleteReviewer.class);
-    get(REVIEWER_KIND).to(GetReviewer.class);
-    post(REVIEWER_KIND, "delete").to(DeleteReviewer.class);
-    child(REVIEWER_KIND, "votes").to(Votes.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     get(REVISION_KIND, "actions").to(GetRevisionActions.class);
@@ -169,5 +160,6 @@ public class ChangeRestApiModule extends RestApiModule {
     install(new ChangeAttentionSetRestApiModule());
     install(new ChangeEditRestApiModule());
     install(new ChangeMessagesRestApiModule());
+    install(new ChangeReviewersRestApiModule());
   }
 }

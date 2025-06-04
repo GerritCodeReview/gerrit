@@ -59,15 +59,17 @@ suite('gr-change-summary test', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `<div>
-        <table>
+        <table class="info">
           <tbody>
             <tr>
               <td class="key">Comments</td>
               <td class="value">
-                <gr-comments-summary
-                  clickablechips=""
-                  showcommentcategoryname=""
-                ></gr-comments-summary>
+                <div class="value-content">
+                  <gr-comments-summary
+                    clickablechips=""
+                    showcommentcategoryname=""
+                  ></gr-comments-summary>
+                </div>
               </td>
             </tr>
           </tbody>

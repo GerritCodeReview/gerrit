@@ -38,13 +38,17 @@ public class ProjectRestApiModule extends RestApiModule {
     create(PROJECT_KIND).to(CreateProject.class);
     get(PROJECT_KIND).to(GetProject.class);
     put(PROJECT_KIND).to(PutProject.class);
+
     get(PROJECT_KIND, "access").to(GetAccess.class);
     post(PROJECT_KIND, "access").to(SetAccess.class);
     put(PROJECT_KIND, "access:review").to(CreateAccessChange.class);
+
     put(PROJECT_KIND, "ban").to(BanCommit.class);
 
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
+
     post(PROJECT_KIND, "check").to(Check.class);
+
     get(PROJECT_KIND, "check.access").to(CheckAccess.class);
 
     get(PROJECT_KIND, "commits:in").to(CommitsIncludedInRefs.class);
@@ -58,8 +62,10 @@ public class ProjectRestApiModule extends RestApiModule {
     get(PROJECT_KIND, "description").to(GetDescription.class);
     put(PROJECT_KIND, "description").to(PutDescription.class);
     delete(PROJECT_KIND, "description").to(PutDescription.class);
+
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);
+
     post(PROJECT_KIND, "index").to(Index.class);
 
     get(PROJECT_KIND, "parent").to(GetParent.class);

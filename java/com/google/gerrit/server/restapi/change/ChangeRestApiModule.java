@@ -37,47 +37,70 @@ public class ChangeRestApiModule extends RestApiModule {
     postOnCollection(CHANGE_KIND).to(CreateChange.class);
     delete(CHANGE_KIND).to(DeleteChange.class);
     get(CHANGE_KIND).to(GetChange.class);
+
     post(CHANGE_KIND, "abandon").to(Abandon.class);
 
     get(CHANGE_KIND, "check").to(Check.class);
     post(CHANGE_KIND, "check").to(Check.class);
     post(CHANGE_KIND, "check.submit_requirement").to(CheckSubmitRequirement.class);
+
     get(CHANGE_KIND, "comments").to(ListChangeComments.class);
+
     get(CHANGE_KIND, "custom_keyed_values").to(GetCustomKeyedValues.class);
     post(CHANGE_KIND, "custom_keyed_values").to(PostCustomKeyedValues.class);
+
     get(CHANGE_KIND, "detail").to(GetDetail.class);
+
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
 
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
     post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
+
     get(CHANGE_KIND, "in").to(ChangeIncludedIn.class);
+
     post(CHANGE_KIND, "index").to(Index.class);
-    get(CHANGE_KIND, "meta_diff").to(GetMetaDiff.class);
+
     post(CHANGE_KIND, "merge").to(CreateMergePatchSet.class);
-    get(CHANGE_KIND, "validation-options").to(GetValidationOptions.class);
+
     get(CHANGE_KIND, "message").to(GetMessage.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);
 
+    get(CHANGE_KIND, "meta_diff").to(GetMetaDiff.class);
+
     post(CHANGE_KIND, "move").to(Move.class);
+
     post(CHANGE_KIND, "patch:apply").to(ApplyPatch.class);
+
     post(CHANGE_KIND, "private").to(PostPrivate.class);
     post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
+
     get(CHANGE_KIND, "pure_revert").to(GetPureRevert.class);
+
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
+
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
     post(CHANGE_KIND, "rebase:chain").to(RebaseChain.class);
+
     post(CHANGE_KIND, "restore").to(Restore.class);
+
     post(CHANGE_KIND, "revert").to(Revert.class);
+
     post(CHANGE_KIND, "revert_submission").to(RevertSubmission.class);
 
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
+
+    post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
+
+    get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
+
+    get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
+
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
-    post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
-    get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
-    get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
+
+    get(CHANGE_KIND, "validation-options").to(GetValidationOptions.class);
 
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
 

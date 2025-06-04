@@ -31,42 +31,56 @@ public class AccountRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
 
     create(ACCOUNT_KIND).to(CreateAccount.class);
+    get(ACCOUNT_KIND).to(GetAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);
     delete(ACCOUNT_KIND).to(DeleteAccount.class);
-    get(ACCOUNT_KIND).to(GetAccount.class);
+
     get(ACCOUNT_KIND, "active").to(GetActive.class);
     put(ACCOUNT_KIND, "active").to(PutActive.class);
     delete(ACCOUNT_KIND, "active").to(DeleteActive.class);
+
     get(ACCOUNT_KIND, "agreements").to(GetAgreements.class);
     put(ACCOUNT_KIND, "agreements").to(PutAgreement.class);
+
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
 
-    put(ACCOUNT_KIND, "displayname").to(PutDisplayName.class);
     get(ACCOUNT_KIND, "detail").to(GetDetail.class);
+
+    put(ACCOUNT_KIND, "displayname").to(PutDisplayName.class);
+
     post(ACCOUNT_KIND, "drafts:delete").to(DeleteDraftComments.class);
 
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
     post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);
+
     get(ACCOUNT_KIND, "groups").to(GetGroups.class);
+
     post(ACCOUNT_KIND, "index").to(Index.class);
+
     get(ACCOUNT_KIND, "name").to(GetName.class);
     put(ACCOUNT_KIND, "name").to(PutName.class);
     delete(ACCOUNT_KIND, "name").to(PutName.class);
+
     put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+
     get(ACCOUNT_KIND, "preferences").to(GetPreferences.class);
     put(ACCOUNT_KIND, "preferences").to(SetPreferences.class);
+
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(ACCOUNT_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
 
     get(ACCOUNT_KIND, "state").to(GetState.class);
+
     get(ACCOUNT_KIND, "status").to(GetStatus.class);
     put(ACCOUNT_KIND, "status").to(PutStatus.class);
+
     get(ACCOUNT_KIND, "username").to(GetUsername.class);
     put(ACCOUNT_KIND, "username").to(PutUsername.class);
+
     get(ACCOUNT_KIND, "watched.projects").to(GetWatchedProjects.class);
     post(ACCOUNT_KIND, "watched.projects").to(PostWatchedProjects.class);
     post(ACCOUNT_KIND, "watched.projects:delete").to(DeleteWatchedProjects.class);

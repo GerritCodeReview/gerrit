@@ -33,18 +33,23 @@ public class GroupRestApiModule extends RestApiModule {
     delete(GROUP_KIND).to(DeleteGroup.class);
     get(GROUP_KIND).to(GetGroup.class);
     put(GROUP_KIND).to(PutGroup.class);
+
     get(GROUP_KIND, "description").to(GetDescription.class);
     put(GROUP_KIND, "description").to(PutDescription.class);
     delete(GROUP_KIND, "description").to(PutDescription.class);
+
     get(GROUP_KIND, "detail").to(GetDetail.class);
 
     post(GROUP_KIND, "index").to(Index.class);
+
     get(GROUP_KIND, "log.audit").to(GetAuditLog.class);
 
     get(GROUP_KIND, "name").to(GetName.class);
     put(GROUP_KIND, "name").to(PutName.class);
+
     get(GROUP_KIND, "options").to(GetOptions.class);
     put(GROUP_KIND, "options").to(PutOptions.class);
+
     get(GROUP_KIND, "owner").to(GetOwner.class);
     put(GROUP_KIND, "owner").to(PutOwner.class);
 

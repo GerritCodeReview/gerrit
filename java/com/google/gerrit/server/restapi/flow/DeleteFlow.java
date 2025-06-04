@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.flow;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -43,6 +44,7 @@ public class DeleteFlow implements RestModifyView<FlowResource, Input> {
     this.self = self;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Response<FlowInfo> apply(FlowResource flowResource, Input input)
       throws AuthException, MethodNotAllowedException {

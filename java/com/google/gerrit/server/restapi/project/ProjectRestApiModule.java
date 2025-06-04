@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
-import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_REQUIREMENT_KIND;
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -25,6 +24,7 @@ import com.google.gerrit.server.restapi.project.children.ProjectChildrenRestApiM
 import com.google.gerrit.server.restapi.project.commits.ProjectCommitsRestApiModule;
 import com.google.gerrit.server.restapi.project.dashboards.ProjectDashboardsRestApiModule;
 import com.google.gerrit.server.restapi.project.labels.ProjectLabelsRestApiModule;
+import com.google.gerrit.server.restapi.project.submitrequirements.ProjectSubmitRequirementsRestApiModule;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -34,7 +34,6 @@ public class ProjectRestApiModule extends RestApiModule {
     bind(ListProjects.class).to(ListProjectsImpl.class);
 
     DynamicMap.mapOf(binder(), PROJECT_KIND);
-    DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
 
     create(PROJECT_KIND).to(CreateProject.class);
@@ -67,14 +66,6 @@ public class ProjectRestApiModule extends RestApiModule {
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);
 
-    child(PROJECT_KIND, "submit_requirements").to(SubmitRequirementsCollection.class);
-    create(SUBMIT_REQUIREMENT_KIND).to(CreateSubmitRequirement.class);
-    put(SUBMIT_REQUIREMENT_KIND).to(UpdateSubmitRequirement.class);
-    get(SUBMIT_REQUIREMENT_KIND).to(GetSubmitRequirement.class);
-    delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
-    postOnCollection(SUBMIT_REQUIREMENT_KIND).to(PostSubmitRequirements.class);
-    post(PROJECT_KIND, "submit_requirements:review").to(PostSubmitRequirementsReview.class);
-
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
     create(TAG_KIND).to(CreateTag.class);
     get(TAG_KIND).to(GetTag.class);
@@ -88,6 +79,7 @@ public class ProjectRestApiModule extends RestApiModule {
     install(new ProjectCommitsRestApiModule());
     install(new ProjectDashboardsRestApiModule());
     install(new ProjectLabelsRestApiModule());
+    install(new ProjectSubmitRequirementsRestApiModule());
   }
 
   /** Separately bind batch functionality. */

@@ -12,22 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.branches;
 
 import com.google.gerrit.extensions.api.projects.BranchInfo;
-import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
-public class PutBranch implements RestModifyView<BranchResource, BranchInput> {
+public class GetBranch implements RestReadView<BranchResource> {
+  private final Provider<ListBranches> list;
+
+  @Inject
+  GetBranch(Provider<ListBranches> list) {
+    this.list = list;
+  }
 
   @Override
-  public Response<BranchInfo> apply(BranchResource rsrc, BranchInput input)
-      throws ResourceConflictException {
-    throw new ResourceConflictException("Branch \"" + rsrc.getRef() + "\" already exists");
+  public Response<BranchInfo> apply(BranchResource rsrc)
+      throws ResourceNotFoundException, IOException, PermissionBackendException {
+    return Response.ok(list.get().toBranchInfo(rsrc));
   }
 }

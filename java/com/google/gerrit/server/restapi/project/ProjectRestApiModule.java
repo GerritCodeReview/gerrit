@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
-import static com.google.gerrit.server.project.FileResource.FILE_KIND;
 import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_REQUIREMENT_KIND;
@@ -27,6 +25,7 @@ import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
+import com.google.gerrit.server.restapi.project.branches.ProjectBranchesRestApiModule;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -36,11 +35,9 @@ public class ProjectRestApiModule extends RestApiModule {
     bind(ListProjects.class).to(ListProjectsImpl.class);
     bind(DashboardsCollection.class);
 
-    DynamicMap.mapOf(binder(), BRANCH_KIND);
     DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
-    DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), LABEL_KIND);
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
@@ -53,20 +50,6 @@ public class ProjectRestApiModule extends RestApiModule {
     post(PROJECT_KIND, "access").to(SetAccess.class);
     put(PROJECT_KIND, "access:review").to(CreateAccessChange.class);
     put(PROJECT_KIND, "ban").to(BanCommit.class);
-
-    child(PROJECT_KIND, "branches").to(BranchesCollection.class);
-    create(BRANCH_KIND).to(CreateBranch.class);
-    put(BRANCH_KIND).to(PutBranch.class);
-    get(BRANCH_KIND).to(GetBranch.class);
-    delete(BRANCH_KIND).to(DeleteBranch.class);
-
-    child(BRANCH_KIND, "files").to(FilesCollection.class);
-    get(FILE_KIND, "content").to(GetContent.class);
-
-    get(BRANCH_KIND, "mergeable").to(CheckMergeability.class);
-    get(BRANCH_KIND, "reflog").to(GetReflog.class);
-    get(BRANCH_KIND, "suggest_reviewers").to(SuggestBranchReviewers.class);
-    get(BRANCH_KIND, "validation-options").to(GetBranchValidationOptions.class);
 
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
     post(PROJECT_KIND, "check").to(Check.class);
@@ -128,6 +111,8 @@ public class ProjectRestApiModule extends RestApiModule {
     delete(TAG_KIND).to(DeleteTag.class);
 
     post(PROJECT_KIND, "tags:delete").to(DeleteTags.class);
+
+    install(new ProjectBranchesRestApiModule());
   }
 
   /** Separately bind batch functionality. */

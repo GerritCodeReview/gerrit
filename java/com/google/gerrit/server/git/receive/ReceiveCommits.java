@@ -138,8 +138,6 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
@@ -149,7 +147,6 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentSizeValidator;
@@ -411,7 +408,6 @@ class ReceiveCommits {
   private final CreateRefControl createRefControl;
   private final DeadlineChecker.Factory deadlineCheckerFactory;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
-  private final ExperimentFeatures experimentFeatures;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<PushOptionsValidator> pushOptionsValidators;
   private final DynamicSet<PluginPushOption> pluginPushOptions;
@@ -513,7 +509,6 @@ class ReceiveCommits {
       CreateRefControl createRefControl,
       DeadlineChecker.Factory deadlineCheckerFactory,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
-      ExperimentFeatures experimentFeatures,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       DynamicSet<PushOptionsValidator> pushOptionsValidators,
       DynamicSet<PluginPushOption> pluginPushOptions,
@@ -571,7 +566,6 @@ class ReceiveCommits {
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.deadlineCheckerFactory = deadlineCheckerFactory;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
-    this.experimentFeatures = experimentFeatures;
     this.editUtil = editUtil;
     this.exceptionHooks = exceptionHooks;
     this.hashtagsFactory = hashtagsFactory;
@@ -1229,13 +1223,7 @@ class ReceiveCommits {
       // RefUpdateContext to do the direct submit.
       Optional<String> justification =
           pushOptions.get(DIRECT_PUSH_JUSTIFICATION_OPTION).stream().findFirst();
-      try (RefUpdateContext ctx =
-          experimentFeatures.isFeatureEnabled(
-                  ExperimentFeaturesConstants
-                      .GERRIT_BACKEND_FEATURE_USE_DIRECT_PUSH_CONTEXT_FOR_SUBMIT_ON_PUSH,
-                  project.getNameKey())
-              ? RefUpdateContext.openDirectPush(justification)
-              : RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (RefUpdateContext ctx = RefUpdateContext.openDirectPush(justification)) {
         try (TraceTimer traceTimer =
             newTimer(
                 "insertChangesAndPatchSets#submit",

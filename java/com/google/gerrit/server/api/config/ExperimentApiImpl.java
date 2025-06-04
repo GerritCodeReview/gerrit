@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.api.config.ExperimentApi;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ExperimentResource;
-import com.google.gerrit.server.restapi.config.GetExperiment;
+import com.google.gerrit.server.restapi.config.experiments.GetExperiment;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

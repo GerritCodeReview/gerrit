@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.labels;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.LabelFunction;
@@ -34,6 +34,7 @@ import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

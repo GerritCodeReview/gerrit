@@ -70,6 +70,30 @@
       },
       "revId": "42ec6bda870a039104f09de35b13582e0afaa7c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1955d93b_7f86c589",
+        "filename": "polygerrit-ui/app/elements/shared/gr-iconset/gr-iconset.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-04T05:58:07Z",
+      "side": 1,
+      "message": "I am still waiting for answer about BSD in our project",
+      "parentUuid": "e26a3015_6696826e",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 40
+      },
+      "revId": "42ec6bda870a039104f09de35b13582e0afaa7c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

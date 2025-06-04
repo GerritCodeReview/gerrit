@@ -227,6 +227,7 @@ export class GrContextControls extends LitElement {
           /* Needed to resize properly */
           min-height: auto;
           height: auto;
+          vertical-align: middle;
         }
 
         md-text-button:hover {

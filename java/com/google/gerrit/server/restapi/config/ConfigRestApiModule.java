@@ -15,8 +15,6 @@
 package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
-import static com.google.gerrit.server.config.IndexResource.INDEX_KIND;
-import static com.google.gerrit.server.config.IndexVersionResource.INDEX_VERSION_KIND;
 import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -24,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.TopMenuResource;
 import com.google.gerrit.server.restapi.config.capabilities.ConfigCapabilitiesRestApiModule;
 import com.google.gerrit.server.restapi.config.experiments.ConfigExperimentsRestApiModule;
+import com.google.gerrit.server.restapi.config.indexes.ConfigIndexesRestApiModule;
 
 public class ConfigRestApiModule extends RestApiModule {
   @Override
@@ -31,8 +30,6 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CONFIG_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
-    DynamicMap.mapOf(binder(), INDEX_KIND);
-    DynamicMap.mapOf(binder(), INDEX_VERSION_KIND);
 
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
     post(CONFIG_KIND, "deactivate.stale.accounts").to(AccountDeactivation.class);
@@ -58,17 +55,9 @@ public class ConfigRestApiModule extends RestApiModule {
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);
 
-    child(CONFIG_KIND, "indexes").to(IndexCollection.class);
-    post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
-    get(INDEX_KIND).to(GetIndex.class);
-
-    child(INDEX_KIND, "versions").to(IndexVersionsCollection.class);
-    get(INDEX_VERSION_KIND).to(GetIndexVersion.class);
-    post(INDEX_VERSION_KIND, "snapshot").to(SnapshotIndexVersion.class);
-    post(INDEX_VERSION_KIND, "reindex").to(ReindexIndexVersion.class);
-
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
     install(new ConfigCapabilitiesRestApiModule());
     install(new ConfigExperimentsRestApiModule());
+    install(new ConfigIndexesRestApiModule());
   }
 }

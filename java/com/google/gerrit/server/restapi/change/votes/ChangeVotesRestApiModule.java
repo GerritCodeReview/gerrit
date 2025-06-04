@@ -12,27 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change.reviewers;
+package com.google.gerrit.server.restapi.change.votes;
 
-import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
-import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
+import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.change.votes.Votes;
 
-public class ChangeReviewersRestApiModule extends RestApiModule {
+public class ChangeVotesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
-    bind(Reviewers.class);
+    bind(Votes.class);
 
-    DynamicMap.mapOf(binder(), REVIEWER_KIND);
+    DynamicMap.mapOf(binder(), VOTE_KIND);
 
-    child(CHANGE_KIND, "reviewers").to(Reviewers.class);
-    postOnCollection(REVIEWER_KIND).to(PostReviewers.class);
-    delete(REVIEWER_KIND).to(DeleteReviewer.class);
-    get(REVIEWER_KIND).to(GetReviewer.class);
-    post(REVIEWER_KIND, "delete").to(DeleteReviewer.class);
-    child(REVIEWER_KIND, "votes").to(Votes.class);
+    delete(VOTE_KIND).to(DeleteVote.class);
+    post(VOTE_KIND, "delete").to(DeleteVote.class);
   }
 }

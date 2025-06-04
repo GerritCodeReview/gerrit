@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
-import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -26,15 +25,14 @@ import com.google.gerrit.server.restapi.change.reviewers.ChangeReviewersRestApiM
 import com.google.gerrit.server.restapi.change.revisions.ChangeRevisionsRestApiModule;
 import com.google.gerrit.server.restapi.change.revisions.Rebase;
 import com.google.gerrit.server.restapi.change.revisions.Submit;
+import com.google.gerrit.server.restapi.change.votes.ChangeVotesRestApiModule;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(ChangesCollection.class);
-    bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
-    DynamicMap.mapOf(binder(), VOTE_KIND);
 
     postOnCollection(CHANGE_KIND).to(CreateChange.class);
     delete(CHANGE_KIND).to(DeleteChange.class);
@@ -81,9 +79,6 @@ public class ChangeRestApiModule extends RestApiModule {
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
 
-    delete(VOTE_KIND).to(DeleteVote.class);
-    post(VOTE_KIND, "delete").to(DeleteVote.class);
-
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
 
     install(new ChangeAttentionSetRestApiModule());
@@ -91,5 +86,6 @@ public class ChangeRestApiModule extends RestApiModule {
     install(new ChangeMessagesRestApiModule());
     install(new ChangeReviewersRestApiModule());
     install(new ChangeRevisionsRestApiModule());
+    install(new ChangeVotesRestApiModule());
   }
 }

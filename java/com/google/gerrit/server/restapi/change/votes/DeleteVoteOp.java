@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.restapi.change.votes;
 
 import static com.google.gerrit.server.mail.EmailFactories.VOTE_DELETED;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;

@@ -47,7 +47,7 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.restapi.change.revisions.PostReviewOp;
 import com.google.gerrit.server.restapi.change.revisions.fixes.PreviewFix;
-import com.google.gerrit.server.restapi.change.DeleteVoteOp;
+import com.google.gerrit.server.restapi.change.votes.DeleteVoteOp;
 import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.ProjectNode;
 import com.google.gerrit.server.restapi.project.SetParent;

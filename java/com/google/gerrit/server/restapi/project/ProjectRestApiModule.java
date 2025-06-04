@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
@@ -26,6 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 import com.google.gerrit.server.restapi.project.branches.ProjectBranchesRestApiModule;
+import com.google.gerrit.server.restapi.project.children.ProjectChildrenRestApiModule;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -35,7 +35,6 @@ public class ProjectRestApiModule extends RestApiModule {
     bind(ListProjects.class).to(ListProjectsImpl.class);
     bind(DashboardsCollection.class);
 
-    DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
     DynamicMap.mapOf(binder(), LABEL_KIND);
@@ -54,9 +53,6 @@ public class ProjectRestApiModule extends RestApiModule {
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
     post(PROJECT_KIND, "check").to(Check.class);
     get(PROJECT_KIND, "check.access").to(CheckAccess.class);
-
-    child(PROJECT_KIND, "children").to(ChildProjectsCollection.class);
-    get(CHILD_PROJECT_KIND).to(GetChildProject.class);
 
     child(PROJECT_KIND, "commits").to(CommitsCollection.class);
     get(COMMIT_KIND).to(GetCommit.class);
@@ -113,6 +109,7 @@ public class ProjectRestApiModule extends RestApiModule {
     post(PROJECT_KIND, "tags:delete").to(DeleteTags.class);
 
     install(new ProjectBranchesRestApiModule());
+    install(new ProjectChildrenRestApiModule());
   }
 
   /** Separately bind batch functionality. */

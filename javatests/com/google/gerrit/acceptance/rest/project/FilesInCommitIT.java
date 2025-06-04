@@ -23,7 +23,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.server.restapi.project.FilesInCommitCollection;
+import com.google.gerrit.server.restapi.project.commits.files.FilesInCommitCollection;
 import java.util.Map;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.ObjectId;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.commits.files;
 
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.FileResource;
+import com.google.gerrit.server.restapi.project.branches.files.FilesCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

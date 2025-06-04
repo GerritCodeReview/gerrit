@@ -38,7 +38,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.restapi.project.CommitsCollection;
+import com.google.gerrit.server.restapi.project.commits.CommitsCollection;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;

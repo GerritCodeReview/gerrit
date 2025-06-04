@@ -27,7 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.BranchResource;
-import com.google.gerrit.server.restapi.project.CommitsCollection;
+import com.google.gerrit.server.restapi.project.commits.CommitsCollection;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.NoMergeBaseException;

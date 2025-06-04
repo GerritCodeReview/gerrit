@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.restapi.account.DeleteSshKey;
+import com.google.gerrit.server.restapi.account.sshkeys.DeleteSshKey;
 import com.google.inject.Inject;
 import java.security.KeyPair;
 import java.util.List;

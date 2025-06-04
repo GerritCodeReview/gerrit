@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
-import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
@@ -23,6 +22,7 @@ import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.account.capabilities.AccountCapabilitiesRestApiModule;
+import com.google.gerrit.server.restapi.account.emails.AccountEmailsRestApiModule;
 
 public class AccountRestApiModule extends RestApiModule {
   @Override
@@ -31,7 +31,6 @@ public class AccountRestApiModule extends RestApiModule {
     bind(StarredChanges.Create.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
-    DynamicMap.mapOf(binder(), EMAIL_KIND);
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
@@ -51,13 +50,6 @@ public class AccountRestApiModule extends RestApiModule {
     put(ACCOUNT_KIND, "displayname").to(PutDisplayName.class);
     get(ACCOUNT_KIND, "detail").to(GetDetail.class);
     post(ACCOUNT_KIND, "drafts:delete").to(DeleteDraftComments.class);
-
-    child(ACCOUNT_KIND, "emails").to(EmailsCollection.class);
-    create(EMAIL_KIND).to(CreateEmail.class);
-    delete(EMAIL_KIND).to(DeleteEmail.class);
-    get(EMAIL_KIND).to(GetEmail.class);
-    put(EMAIL_KIND).to(PutEmail.class);
-    put(EMAIL_KIND, "preferred").to(PutPreferred.class);
 
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
     post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);
@@ -98,5 +90,6 @@ public class AccountRestApiModule extends RestApiModule {
     // The oauthtoken REST endpoint is bound via OAuthRestModule.
 
     install(new AccountCapabilitiesRestApiModule());
+    install(new AccountEmailsRestApiModule());
   }
 }

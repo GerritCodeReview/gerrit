@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.change.AttentionSetEntryResource.ATTENTION_SET_ENTRY_KIND;
 import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
@@ -31,6 +30,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
+import com.google.gerrit.server.restapi.change.attentionset.ChangeAttentionSetRestApiModule;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
@@ -46,7 +46,6 @@ public class ChangeRestApiModule extends RestApiModule {
     bind(RobotComments.class);
     bind(Votes.class);
 
-    DynamicMap.mapOf(binder(), ATTENTION_SET_ENTRY_KIND);
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
@@ -63,11 +62,6 @@ public class ChangeRestApiModule extends RestApiModule {
     delete(CHANGE_KIND).to(DeleteChange.class);
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
-
-    child(CHANGE_KIND, "attention").to(AttentionSet.class);
-    postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);
-    delete(ATTENTION_SET_ENTRY_KIND).to(RemoveFromAttentionSet.class);
-    post(ATTENTION_SET_ENTRY_KIND, "delete").to(RemoveFromAttentionSet.class);
 
     get(CHANGE_KIND, "check").to(Check.class);
     post(CHANGE_KIND, "check").to(Check.class);
@@ -193,5 +187,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(VOTE_KIND, "delete").to(DeleteVote.class);
 
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
+
+    install(new ChangeAttentionSetRestApiModule());
   }
 }

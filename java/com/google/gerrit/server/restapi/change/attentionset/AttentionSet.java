@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.restapi.change.attentionset;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.restapi.change.GetAttentionSet;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

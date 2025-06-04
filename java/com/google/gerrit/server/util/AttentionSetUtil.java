@@ -53,7 +53,7 @@ public class AttentionSetUtil {
   /**
    * Validates the input for AttentionSetInput. This must be called for all inputs that relate to
    * adding or removing attention set entries, except for {@link
-   * com.google.gerrit.server.restapi.change.RemoveFromAttentionSet}.
+   * com.google.gerrit.server.restapi.change.attentionset.RemoveFromAttentionSet}.
    */
   public static void validateInput(AttentionSetInput input) throws BadRequestException {
     input.user = Strings.nullToEmpty(input.user).trim();

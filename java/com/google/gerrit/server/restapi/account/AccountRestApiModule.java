@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
-import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -23,16 +22,15 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.account.capabilities.AccountCapabilitiesRestApiModule;
 import com.google.gerrit.server.restapi.account.emails.AccountEmailsRestApiModule;
 import com.google.gerrit.server.restapi.account.sshkeys.AccountSshKeysRestApiModule;
+import com.google.gerrit.server.restapi.account.starred.changes.AccountStarredChangesRestApiModule;
 
 public class AccountRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(AccountsCollection.class).to(AccountsCollectionImpl.class);
-    bind(StarredChanges.Create.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
-    DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
 
     create(ACCOUNT_KIND).to(CreateAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);
@@ -66,11 +64,6 @@ public class AccountRestApiModule extends RestApiModule {
     get(ACCOUNT_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
 
-    child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
-    create(STARRED_CHANGE_KIND).to(StarredChanges.Create.class);
-    put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
-    delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
-
     get(ACCOUNT_KIND, "state").to(GetState.class);
     get(ACCOUNT_KIND, "status").to(GetStatus.class);
     put(ACCOUNT_KIND, "status").to(PutStatus.class);
@@ -86,5 +79,6 @@ public class AccountRestApiModule extends RestApiModule {
     install(new AccountCapabilitiesRestApiModule());
     install(new AccountEmailsRestApiModule());
     install(new AccountSshKeysRestApiModule());
+    install(new AccountStarredChangesRestApiModule());
   }
 }

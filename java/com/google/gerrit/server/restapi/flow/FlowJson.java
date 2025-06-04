@@ -174,4 +174,11 @@ public class FlowJson {
 
     return flowActionBuilder.build();
   }
+
+  /**
+   * Private constructor to prevent instantiation of this class.
+   *
+   * <p>This class contains only static methods and hence never needs to be instantiated.
+   */
+  private FlowJson() {}
 }

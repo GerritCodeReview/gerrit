@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.group;
+package com.google.gerrit.server.restapi.group.groups;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -38,7 +38,9 @@ import com.google.gerrit.server.group.SubgroupResource;
 import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.group.AddSubgroups.Input;
+import com.google.gerrit.server.restapi.group.GroupJson;
+import com.google.gerrit.server.restapi.group.NotInternalGroupException;
+import com.google.gerrit.server.restapi.group.groups.AddSubgroups.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

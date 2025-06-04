@@ -16,16 +16,13 @@ package com.google.gerrit.server.restapi.group;
 
 import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
 import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
-import static com.google.gerrit.server.group.SubgroupResource.SUBGROUP_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.group.AddMembers.CreateMember;
 import com.google.gerrit.server.restapi.group.AddMembers.UpdateMember;
-import com.google.gerrit.server.restapi.group.AddSubgroups.CreateSubgroup;
-import com.google.gerrit.server.restapi.group.AddSubgroups.UpdateSubgroup;
 import com.google.gerrit.server.restapi.group.DeleteMembers.DeleteMember;
-import com.google.gerrit.server.restapi.group.DeleteSubgroups.DeleteSubgroup;
+import com.google.gerrit.server.restapi.group.groups.GroupGroupsRestApiModule;
 
 public class GroupRestApiModule extends RestApiModule {
 
@@ -35,7 +32,6 @@ public class GroupRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), GROUP_KIND);
     DynamicMap.mapOf(binder(), MEMBER_KIND);
-    DynamicMap.mapOf(binder(), SUBGROUP_KIND);
 
     create(GROUP_KIND).to(CreateGroup.class);
     delete(GROUP_KIND).to(DeleteGroup.class);
@@ -45,16 +41,7 @@ public class GroupRestApiModule extends RestApiModule {
     put(GROUP_KIND, "description").to(PutDescription.class);
     delete(GROUP_KIND, "description").to(PutDescription.class);
     get(GROUP_KIND, "detail").to(GetDetail.class);
-    post(GROUP_KIND, "groups").to(AddSubgroups.class);
 
-    child(GROUP_KIND, "groups").to(SubgroupsCollection.class);
-    create(SUBGROUP_KIND).to(CreateSubgroup.class);
-    delete(SUBGROUP_KIND).to(DeleteSubgroup.class);
-    get(SUBGROUP_KIND).to(GetSubgroup.class);
-    put(SUBGROUP_KIND).to(UpdateSubgroup.class);
-
-    post(GROUP_KIND, "groups.add").to(AddSubgroups.class);
-    post(GROUP_KIND, "groups.delete").to(DeleteSubgroups.class);
     post(GROUP_KIND, "index").to(Index.class);
     get(GROUP_KIND, "log.audit").to(GetAuditLog.class);
     post(GROUP_KIND, "members").to(AddMembers.class);
@@ -73,5 +60,7 @@ public class GroupRestApiModule extends RestApiModule {
     put(GROUP_KIND, "options").to(PutOptions.class);
     get(GROUP_KIND, "owner").to(GetOwner.class);
     put(GROUP_KIND, "owner").to(PutOwner.class);
+
+    install(new GroupGroupsRestApiModule());
   }
 }

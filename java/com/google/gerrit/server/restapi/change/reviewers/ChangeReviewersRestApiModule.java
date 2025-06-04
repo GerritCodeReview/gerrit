@@ -19,7 +19,7 @@ import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.change.Votes;
+import com.google.gerrit.server.restapi.change.reviewers.votes.ChangeReviewersVotesRestApiModule;
 
 public class ChangeReviewersRestApiModule extends RestApiModule {
   @Override
@@ -33,6 +33,8 @@ public class ChangeReviewersRestApiModule extends RestApiModule {
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
     get(REVIEWER_KIND).to(GetReviewer.class);
     post(REVIEWER_KIND, "delete").to(DeleteReviewer.class);
-    child(REVIEWER_KIND, "votes").to(Votes.class);
+
+    /** Module for {@code /changes/<account-id>/revisions/votes}. */
+    install(new ChangeReviewersVotesRestApiModule());
   }
 }

@@ -23,9 +23,9 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.DraftCommentResource;
-import com.google.gerrit.server.restapi.change.DeleteDraftComment;
-import com.google.gerrit.server.restapi.change.GetDraftComment;
-import com.google.gerrit.server.restapi.change.PutDraftComment;
+import com.google.gerrit.server.restapi.change.revisions.drafts.DeleteDraftComment;
+import com.google.gerrit.server.restapi.change.revisions.drafts.GetDraftComment;
+import com.google.gerrit.server.restapi.change.revisions.drafts.PutDraftComment;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

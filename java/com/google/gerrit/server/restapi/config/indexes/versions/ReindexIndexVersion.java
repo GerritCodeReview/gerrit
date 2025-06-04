@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.server.restapi.config.indexes.versions;
 
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.config.IndexVersionResource;
 import com.google.gerrit.server.index.IndexVersionReindexer;
-import com.google.gerrit.server.restapi.config.ReindexIndexVersion.Input;
+import com.google.gerrit.server.restapi.config.indexes.versions.ReindexIndexVersion.Input;
 import com.google.inject.Inject;
 
 public class ReindexIndexVersion implements RestModifyView<IndexVersionResource, Input> {

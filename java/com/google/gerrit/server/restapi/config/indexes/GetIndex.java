@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.server.restapi.config.indexes;
 
-import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.IndexResource;
-import java.util.Map;
 
-@RequiresCapability(MAINTAIN_SERVER)
-public class ListIndexVersions implements RestReadView<IndexResource> {
+public class GetIndex implements RestReadView<IndexResource> {
 
   @Override
-  public Response<Map<Integer, IndexInfo.IndexVersionInfo>> apply(IndexResource rsrc)
+  public Response<IndexInfo> apply(IndexResource rsrc)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
-    IndexInfo info = IndexInfo.fromIndexDefinition(rsrc.getIndexDefinition());
-    return Response.ok(info.getVersions());
+    return Response.ok(IndexInfo.fromIndexDefinition(rsrc.getIndexDefinition()));
   }
 }

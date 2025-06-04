@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.server.restapi.config.indexes.versions;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
@@ -22,7 +22,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.config.IndexVersionResource;
-import com.google.gerrit.server.restapi.config.SnapshotIndexVersion.Input;
+import com.google.gerrit.server.restapi.config.SnapshotInfo;
+import com.google.gerrit.server.restapi.config.indexes.versions.SnapshotIndexVersion.Input;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.LocalDateTime;

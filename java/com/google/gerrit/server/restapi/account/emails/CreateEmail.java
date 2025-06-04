@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.account;
+package com.google.gerrit.server.restapi.account.emails;
 
 import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
 import static com.google.gerrit.server.mail.EmailFactories.NEW_EMAIL_REGISTERED;

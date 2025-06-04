@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
+import static com.google.gerrit.server.restapi.project.dashboards.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.HEAD_MODIFICATION;
 import static java.util.stream.Collectors.toList;
@@ -79,7 +79,6 @@ import com.google.gerrit.server.restapi.project.GetHead;
 import com.google.gerrit.server.restapi.project.GetParent;
 import com.google.gerrit.server.restapi.project.Index;
 import com.google.gerrit.server.restapi.project.IndexChanges;
-import com.google.gerrit.server.restapi.project.ListDashboards;
 import com.google.gerrit.server.restapi.project.ListLabels;
 import com.google.gerrit.server.restapi.project.ListSubmitRequirements;
 import com.google.gerrit.server.restapi.project.ListTags;
@@ -97,6 +96,7 @@ import com.google.gerrit.server.restapi.project.SetParent;
 import com.google.gerrit.server.restapi.project.branches.ListBranches;
 import com.google.gerrit.server.restapi.project.children.ChildProjectsCollection;
 import com.google.gerrit.server.restapi.project.commits.CommitsCollection;
+import com.google.gerrit.server.restapi.project.dashboards.ListDashboards;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.submitrequirements;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.SubmitRequirementExpressionsValidator;
 import com.google.gerrit.server.project.SubmitRequirementJson;
 import com.google.gerrit.server.project.SubmitRequirementResource;
 import com.google.gerrit.server.project.SubmitRequirementsUtil;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.group;
+package com.google.gerrit.server.restapi.group.members;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -49,7 +49,8 @@ import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.group.AddMembers.Input;
+import com.google.gerrit.server.restapi.group.NotInternalGroupException;
+import com.google.gerrit.server.restapi.group.members.AddMembers.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -151,7 +152,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return Response.ok(toAccountInfoList(newMemberIds));
   }
 
-  Account findAccount(String nameOrEmailOrId)
+  public Account findAccount(String nameOrEmailOrId)
       throws UnprocessableEntityException, IOException, ConfigInvalidException {
     AccountResolver.Result result = accountResolver.resolve(nameOrEmailOrId);
     try {

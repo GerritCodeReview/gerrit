@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
-import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 
@@ -23,6 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.account.capabilities.AccountCapabilitiesRestApiModule;
 import com.google.gerrit.server.restapi.account.emails.AccountEmailsRestApiModule;
+import com.google.gerrit.server.restapi.account.sshkeys.AccountSshKeysRestApiModule;
 
 public class AccountRestApiModule extends RestApiModule {
   @Override
@@ -31,7 +31,6 @@ public class AccountRestApiModule extends RestApiModule {
     bind(StarredChanges.Create.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
-    DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
 
@@ -67,11 +66,6 @@ public class AccountRestApiModule extends RestApiModule {
     get(ACCOUNT_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
 
-    child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
-    postOnCollection(SSH_KEY_KIND).to(AddSshKey.class);
-    get(SSH_KEY_KIND).to(GetSshKey.class);
-    delete(SSH_KEY_KIND).to(DeleteSshKey.class);
-
     child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
     create(STARRED_CHANGE_KIND).to(StarredChanges.Create.class);
     put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
@@ -91,5 +85,6 @@ public class AccountRestApiModule extends RestApiModule {
 
     install(new AccountCapabilitiesRestApiModule());
     install(new AccountEmailsRestApiModule());
+    install(new AccountSshKeysRestApiModule());
   }
 }

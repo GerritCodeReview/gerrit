@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.account;
+package com.google.gerrit.server.restapi.account.sshkeys;
 
 import static com.google.gerrit.server.mail.EmailFactories.KEY_ADDED;
 import static java.nio.charset.StandardCharsets.UTF_8;

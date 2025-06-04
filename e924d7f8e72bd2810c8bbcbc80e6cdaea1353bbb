@@ -217,6 +217,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a08dce24_6bfce4bf",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-04T08:51:05Z",
+      "side": 1,
+      "message": "Yes. But that would complicate things a lot, I believe.",
+      "parentUuid": "45478a11_872c1277",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10292665_8e8a871d",
         "filename": "java/com/google/gerrit/server/account/CachingAuthTokenAccessor.java",
         "patchSetId": 27

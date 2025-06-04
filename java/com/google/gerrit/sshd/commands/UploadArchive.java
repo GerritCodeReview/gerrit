@@ -27,7 +27,7 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
-import com.google.gerrit.server.restapi.project.CommitsCollection;
+import com.google.gerrit.server.restapi.project.commits.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import java.io.IOException;

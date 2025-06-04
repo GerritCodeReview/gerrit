@@ -46,7 +46,7 @@ export class GrRepoHeader extends LitElement {
     ];
   }
 
-  _renderLinks(webLinks: WebLinkInfo[]) {
+  private renderLinks(webLinks: WebLinkInfo[]) {
     if (!webLinks) return;
     return html`<div>
       <span class="browse">Browse:</span>
@@ -63,17 +63,17 @@ export class GrRepoHeader extends LitElement {
       <div>
         <span>Detail:</span> <a href=${this._repoUrl!}>Repo settings</a>
       </div>
-      ${this._renderLinks(this._webLinks)}
+      ${this.renderLinks(this._webLinks)}
     </div>`;
   }
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('repo')) {
-      this._repoChanged();
+      this.repoChanged();
     }
   }
 
-  _repoChanged() {
+  private repoChanged() {
     const repo = this.repo;
     if (!repo) {
       this._repoUrl = null;

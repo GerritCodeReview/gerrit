@@ -466,7 +466,7 @@ export class GrContextControls extends LitElement {
     >
       <span class="showContext">${text}</span>
       ${tooltip}
-    </md-text-buttonn>`;
+    </md-text-button>`;
     return button;
   }
 

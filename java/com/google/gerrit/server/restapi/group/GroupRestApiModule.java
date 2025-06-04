@@ -15,14 +15,11 @@
 package com.google.gerrit.server.restapi.group;
 
 import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
-import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.group.AddMembers.CreateMember;
-import com.google.gerrit.server.restapi.group.AddMembers.UpdateMember;
-import com.google.gerrit.server.restapi.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.restapi.group.groups.GroupGroupsRestApiModule;
+import com.google.gerrit.server.restapi.group.members.GroupMembersRestApiModule;
 
 public class GroupRestApiModule extends RestApiModule {
 
@@ -31,7 +28,6 @@ public class GroupRestApiModule extends RestApiModule {
     bind(GroupsCollection.class);
 
     DynamicMap.mapOf(binder(), GROUP_KIND);
-    DynamicMap.mapOf(binder(), MEMBER_KIND);
 
     create(GROUP_KIND).to(CreateGroup.class);
     delete(GROUP_KIND).to(DeleteGroup.class);
@@ -44,16 +40,7 @@ public class GroupRestApiModule extends RestApiModule {
 
     post(GROUP_KIND, "index").to(Index.class);
     get(GROUP_KIND, "log.audit").to(GetAuditLog.class);
-    post(GROUP_KIND, "members").to(AddMembers.class);
 
-    child(GROUP_KIND, "members").to(MembersCollection.class);
-    create(MEMBER_KIND).to(CreateMember.class);
-    get(MEMBER_KIND).to(GetMember.class);
-    put(MEMBER_KIND).to(UpdateMember.class);
-    delete(MEMBER_KIND).to(DeleteMember.class);
-
-    post(GROUP_KIND, "members.add").to(AddMembers.class);
-    post(GROUP_KIND, "members.delete").to(DeleteMembers.class);
     get(GROUP_KIND, "name").to(GetName.class);
     put(GROUP_KIND, "name").to(PutName.class);
     get(GROUP_KIND, "options").to(GetOptions.class);
@@ -62,5 +49,6 @@ public class GroupRestApiModule extends RestApiModule {
     put(GROUP_KIND, "owner").to(PutOwner.class);
 
     install(new GroupGroupsRestApiModule());
+    install(new GroupMembersRestApiModule());
   }
 }

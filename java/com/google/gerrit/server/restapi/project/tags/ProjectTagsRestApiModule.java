@@ -26,10 +26,16 @@ public class ProjectTagsRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), TAG_KIND);
 
+    /** List tags in a project {@code GET /projects/<project-id>/tags}. */
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
+
+    /** Create tag in a project {@code PUT /projects/<project-id>/tags/<tag-id>}. */
     create(TAG_KIND).to(CreateTag.class);
+    /** Get tag in a project {@code GET /projects/<project-id>/tags/<tag-id>}. */
     get(TAG_KIND).to(GetTag.class);
+    /** Update tag in a project {@code PUT /projects/<project-id>/tags/<tag-id>}. */
     put(TAG_KIND).to(PutTag.class);
+    /** Delete tag in a project {@code DELETE /projects/<project-id>/tags/<tag-id>}. */
     delete(TAG_KIND).to(DeleteTag.class);
   }
 }

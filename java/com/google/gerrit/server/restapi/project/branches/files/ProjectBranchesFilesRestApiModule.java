@@ -26,7 +26,16 @@ public class ProjectBranchesFilesRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), FILE_KIND);
 
+    /**
+     * List files in a branch in project {@code GET
+     * /projects/<project-id>/branches/<branch-id>/files}.
+     */
     child(BRANCH_KIND, "files").to(FilesCollection.class);
+
+    /**
+     * Get file content of a file in a branch in project {@code GET
+     * /projects/<project-id>/branches/<branch-id>/files/<file-id>/content}.
+     */
     get(FILE_KIND, "content").to(GetContent.class);
   }
 }

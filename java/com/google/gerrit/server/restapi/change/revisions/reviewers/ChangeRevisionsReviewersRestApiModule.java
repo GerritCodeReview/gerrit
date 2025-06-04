@@ -18,11 +18,19 @@ import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /changes/<change-id>/revisions/<revision-id>/reviewers}.
+ */
 public class ChangeRevisionsReviewersRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(RevisionReviewers.class);
 
+    /**
+     * List reviewers for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/reviewers}.
+     */
     child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
   }
 }

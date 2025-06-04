@@ -20,11 +20,13 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.TopMenuResource;
 
+/** Guice module that binds all REST endpoints for {@code /config/server/top-menus}. */
 public class ConfigTopMenusRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
 
+    /** List top menus {@code GET /config/server/top-menus}. */
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
   }
 }

@@ -27,17 +27,40 @@ public class ProjectBranchesRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), BRANCH_KIND);
 
+    /** List branches in project {@code GET /projects/<project-id>/branches}. */
     child(PROJECT_KIND, "branches").to(BranchesCollection.class);
+
+    /** Create branch in project {@code PUT /projects/<project-id>/branches/<branch-id>}. */
     create(BRANCH_KIND).to(CreateBranch.class);
+    /** Update branch in project {@code PUT /projects/<project-id>/branches/<branch-id>}. */
     put(BRANCH_KIND).to(PutBranch.class);
+    /** Get branch in project {@code GET /projects/<project-id>/branches/<branch-id>}. */
     get(BRANCH_KIND).to(GetBranch.class);
+    /** Delete branch in project {@code DELETE /projects/<project-id>/branches/<branch-id>}. */
     delete(BRANCH_KIND).to(DeleteBranch.class);
 
+    /**
+     * Check mergeability of source into branch in project {@code GET
+     * /projects/<project-id>/branches/<branch-id>/mergeable}.
+     */
     get(BRANCH_KIND, "mergeable").to(CheckMergeability.class);
+    /**
+     * Get reflog of branch in project {@code GET
+     * /projects/<project-id>/branches/<branch-id>/reflog}.
+     */
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
+    /**
+     * Suggest reviewers for branch in project {@code GET
+     * /projects/<project-id>/branches/<branch-id>/suggest_reviewers}.
+     */
     get(BRANCH_KIND, "suggest_reviewers").to(SuggestBranchReviewers.class);
+    /**
+     * Get validation options of branch in project {@code GET
+     * /projects/<project-id>/branches/<branch-id>/validation-options}.
+     */
     get(BRANCH_KIND, "validation-options").to(GetBranchValidationOptions.class);
 
+    /** Module for {@code /projects/<project-id>/branches/<branch-id>/files}. */
     install(new ProjectBranchesFilesRestApiModule());
   }
 }

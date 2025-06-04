@@ -27,9 +27,19 @@ public class ProjectCommitsRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), COMMIT_KIND);
 
+    /** List commits in a project {@code GET /projects/<project-id>/commits}. */
     child(PROJECT_KIND, "commits").to(CommitsCollection.class);
+
+    /** Get commit in a project {@code GET /projects/<project-id>/commits/<commit-id>}. */
     get(COMMIT_KIND).to(GetCommit.class);
+    /**
+     * Cherrypick a commit in a project {@code POST
+     * /projects/<project-id>/commits/<commit-id>/cherrypick}.
+     */
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
+    /**
+     * Get refs a commit is included in {@code GET /projects/<project-id>/commits/<commit-id>/in}.
+     */
     get(COMMIT_KIND, "in").to(CommitIncludedIn.class);
   }
 }

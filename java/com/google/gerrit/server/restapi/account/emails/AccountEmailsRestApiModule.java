@@ -20,16 +20,28 @@ import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /accounts/<account-id>/emails}. */
 public class AccountEmailsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), EMAIL_KIND);
 
+    /** List account emails {@code GET /accounts/<account-id>/emails}. */
     child(ACCOUNT_KIND, "emails").to(EmailsCollection.class);
+
+    /** Register account email {@code PUT /accounts/<account-id>/emails/<email-id>}. */
     create(EMAIL_KIND).to(CreateEmail.class);
+    /** Delete account email {@code DELETE /accounts/<account-id>/emails/<email-id>}. */
     delete(EMAIL_KIND).to(DeleteEmail.class);
+    /** Get account email {@code GET /accounts/<account-id>/emails/<email-id>}. */
     get(EMAIL_KIND).to(GetEmail.class);
+    /** Update existing account email {@code PUT /accounts/<account-id>/emails/<email-id>}. */
     put(EMAIL_KIND).to(PutEmail.class);
+
+    /**
+     * Set preferred account email {@code DELETE
+     * /accounts/<account-id>/emails/<email-id>/preferred}.
+     */
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
   }
 }

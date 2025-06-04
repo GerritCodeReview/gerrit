@@ -20,14 +20,21 @@ import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /changes/<change-id>/messages}. */
 public class ChangeMessagesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
 
+    /** List messages of change {@code GET /changes/<change-id>/messages}. */
     child(CHANGE_KIND, "messages").to(ChangeMessages.class);
-    delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.DefaultDeleteChangeMessage.class);
+
+    /** Get message of change {@code GET /changes/<change-id>/messages/<message-id>}. */
     get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);
+    /** Delete message of change {@code DELETE /changes/<change-id>/messages/<message-id>}. */
+    delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.DefaultDeleteChangeMessage.class);
+
+    /** Delete message of change {@code POST /changes/<change-id>/messages/<message-id>/delete}. */
     post(CHANGE_MESSAGE_KIND, "delete").to(DeleteChangeMessage.class);
   }
 }

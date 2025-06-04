@@ -20,6 +20,10 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /changes/<change-id>/reviewers/<reviewer-id}/votes.
+ */
 public class ChangeReviewersVotesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -27,8 +31,22 @@ public class ChangeReviewersVotesRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), VOTE_KIND);
 
+    /**
+     * List votes of reviewer of change {@code GET
+     * /changes/<change-id>/reviewers/<reviewer-id>/votes}.
+     */
     child(REVIEWER_KIND, "votes").to(Votes.class);
+
+    /**
+     * Delete vote of reviewer of change {@code DELETE
+     * /changes/<change-id>/reviewers/<reviewer-id>/votes/<vote-id>}.
+     */
     delete(VOTE_KIND).to(DeleteVote.class);
+
+    /**
+     * Delete vote of reviewer of change {@code POST
+     * /changes/<change-id>/reviewers/<reviewer-id>/votes/<vote-id>/delete}.
+     */
     post(VOTE_KIND, "delete").to(DeleteVote.class);
   }
 }

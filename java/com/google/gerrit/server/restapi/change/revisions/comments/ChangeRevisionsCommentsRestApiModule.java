@@ -20,6 +20,10 @@ import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /changes/<change-id>/revisions/<revision-id>/comments}.
+ */
 public class ChangeRevisionsCommentsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -27,9 +31,27 @@ public class ChangeRevisionsCommentsRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), COMMENT_KIND);
 
+    /**
+     * List comments for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/comments}.
+     */
     child(REVISION_KIND, "comments").to(Comments.class);
-    delete(COMMENT_KIND).to(DeleteComment.class);
+
+    /**
+     * Get comment for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/comments/<comment-id>}.
+     */
     get(COMMENT_KIND).to(GetComment.class);
+    /**
+     * Delete comment for change revision {@code DELETE
+     * /changes/<change-id>/revisions/<revision-id>/comments/<comment-id>}.
+     */
+    delete(COMMENT_KIND).to(DeleteComment.class);
+
+    /**
+     * Delete comment for change revision {@code POST
+     * /changes/<change-id>/revisions/<revision-id>/comments/<comment-id>/delete}.
+     */
     post(COMMENT_KIND, "delete").to(DeleteComment.class);
   }
 }

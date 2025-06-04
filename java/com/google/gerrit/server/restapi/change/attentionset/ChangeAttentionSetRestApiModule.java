@@ -20,14 +20,23 @@ import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /changes/<change-id>/attention}. */
 public class ChangeAttentionSetRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), ATTENTION_SET_ENTRY_KIND);
 
+    /** Get attention set {@code GET /changes/<change-id>/attention}. */
     child(CHANGE_KIND, "attention").to(AttentionSet.class);
+    /** Add to attention set {@code POST /changes/<change-id>/attention}. */
     postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);
+
+    /** Remove from attention set {@code DELETE /changes/<change-id>/attention/<account-id>}. */
     delete(ATTENTION_SET_ENTRY_KIND).to(RemoveFromAttentionSet.class);
+
+    /**
+     * Remove from attention set {@code POST /changes/<change-id>/attention/<account-id>/delete}.
+     */
     post(ATTENTION_SET_ENTRY_KIND, "delete").to(RemoveFromAttentionSet.class);
   }
 }

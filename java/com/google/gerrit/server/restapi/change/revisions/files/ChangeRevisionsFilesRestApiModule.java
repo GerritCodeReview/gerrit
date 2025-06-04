@@ -22,6 +22,10 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.revisions.files.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.revisions.files.Reviewed.PutReviewed;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /changes/<change-id>/revisions/<revision-id>/files}.
+ */
 public class ChangeRevisionsFilesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -29,12 +33,45 @@ public class ChangeRevisionsFilesRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), FILE_KIND);
 
+    /**
+     * List files for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/files}.
+     */
     child(REVISION_KIND, "files").to(Files.class);
+
+    /**
+     * Get blame for file in change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/files/<file-id>/blame}.
+     */
     get(FILE_KIND, "blame").to(GetBlame.class);
+
+    /**
+     * Get content of file in change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/files/<file-id>/content}.
+     */
     get(FILE_KIND, "content").to(GetContent.class);
+
+    /**
+     * Get diff of file in change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/files/<file-id>/diff}.
+     */
     get(FILE_KIND, "diff").to(GetDiff.class);
+
+    /**
+     * Download file in change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/files/<file-id>/download}.
+     */
     get(FILE_KIND, "download").to(DownloadContent.class);
+
+    /**
+     * Mark file in change revision as reviewed {@code PUT
+     * /changes/<change-id>/revisions/<revision-id>/files/<file-id>/reviewed}.
+     */
     put(FILE_KIND, "reviewed").to(PutReviewed.class);
+    /**
+     * Unmark file in change revision as reviewed {@code DELETE
+     * /changes/<change-id>/revisions/<revision-id>/files/<file-id>/reviewed}.
+     */
     delete(FILE_KIND, "reviewed").to(DeleteReviewed.class);
   }
 }

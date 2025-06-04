@@ -23,20 +23,30 @@ import com.google.gerrit.server.restapi.group.members.AddMembers.CreateMember;
 import com.google.gerrit.server.restapi.group.members.AddMembers.UpdateMember;
 import com.google.gerrit.server.restapi.group.members.DeleteMembers.DeleteMember;
 
+/** Guice module that binds all REST endpoints for {@code /groups/<group-id>/members}. */
 public class GroupMembersRestApiModule extends RestApiModule {
 
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), MEMBER_KIND);
 
+    /** Add members to group {@code POST /groups/<group-id>/members}. */
     post(GROUP_KIND, "members").to(AddMembers.class);
+    /** Add members to group {@code POST /groups/<group-id>/members.add}. */
     post(GROUP_KIND, "members.add").to(AddMembers.class);
+    /** Remove members from group {@code POST /groups/<group-id>/members.delete}. */
     post(GROUP_KIND, "members.delete").to(DeleteMembers.class);
 
+    /** List members in group {@code GET /groups/<group-id>/members}. */
     child(GROUP_KIND, "members").to(MembersCollection.class);
+
+    /** Add member to group {@code PUT /groups/<group-id>/members/<member-id>}. */
     create(MEMBER_KIND).to(CreateMember.class);
+    /** Get member in group {@code GET /groups/<group-id>/members/<member-id>}. */
     get(MEMBER_KIND).to(GetMember.class);
+    /** Update member in group {@code PUT /groups/<group-id>/members/<member-id>}. */
     put(MEMBER_KIND).to(UpdateMember.class);
+    /** Remove member from group {@code DELETE /groups/<group-id>/members/<member-id>}. */
     delete(MEMBER_KIND).to(DeleteMember.class);
   }
 }

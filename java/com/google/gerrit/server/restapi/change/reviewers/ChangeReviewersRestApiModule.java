@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.reviewers.votes.ChangeReviewersVotesRestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /changes/<change-id>/reviewers}. */
 public class ChangeReviewersRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -28,10 +29,19 @@ public class ChangeReviewersRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
 
+    /** List reviewers of change {@code GET /changes/<changes-id>/reviewers}. */
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
+    /** Add reviewer to change {@code POST /changes/<changes-id>/reviewers}. */
     postOnCollection(REVIEWER_KIND).to(PostReviewers.class);
-    delete(REVIEWER_KIND).to(DeleteReviewer.class);
+
+    /** Get reviewer of change {@code GET /changes/<changes-id>/reviewers/<reviewer-id>}. */
     get(REVIEWER_KIND).to(GetReviewer.class);
+    /** Remove reviewer from change {@code DELETE /changes/<changes-id>/reviewers/<reviewer-id>}. */
+    delete(REVIEWER_KIND).to(DeleteReviewer.class);
+    /**
+     * Remove reviewer from change {@code POST
+     * /changes/<changes-id>/reviewers/<reviewer-id>/delete}.
+     */
     post(REVIEWER_KIND, "delete").to(DeleteReviewer.class);
 
     /** Module for {@code /changes/<account-id>/revisions/votes}. */

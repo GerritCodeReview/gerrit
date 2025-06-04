@@ -20,14 +20,31 @@ import static com.google.gerrit.server.config.IndexVersionResource.INDEX_VERSION
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /config/server/indexes/<index-version>/versions}.
+ */
 public class ConfigIndexesVersionsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), INDEX_VERSION_KIND);
 
+    /** List index versions {@code GET /config/server/indexes/<index-version>/versions}. */
     child(INDEX_KIND, "versions").to(IndexVersionsCollection.class);
+
+    /** Get index version {@code GET /config/server/indexes/<index-version>/versions/<version>}. */
     get(INDEX_VERSION_KIND).to(GetIndexVersion.class);
-    post(INDEX_VERSION_KIND, "snapshot").to(SnapshotIndexVersion.class);
+
+    /**
+     * Reindex index version {@code POST
+     * /config/server/indexes/<index-version>/versions/<version>/reindex}.
+     */
     post(INDEX_VERSION_KIND, "reindex").to(ReindexIndexVersion.class);
+
+    /**
+     * Create snapshot of index version {@code POST
+     * /config/server/indexes/<index-version>/versions/<version>/snapshot}.
+     */
+    post(INDEX_VERSION_KIND, "snapshot").to(SnapshotIndexVersion.class);
   }
 }

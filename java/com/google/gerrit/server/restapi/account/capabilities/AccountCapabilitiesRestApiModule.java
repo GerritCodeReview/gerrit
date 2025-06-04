@@ -20,13 +20,17 @@ import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /accounts/<account-id>/capabilities}. */
 public class AccountCapabilitiesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(Capabilities.class);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
+    /** List account capabilities {@code GET /accounts/<account-id>/capabilities}. */
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
+
+    /** Check account capability {@code GET /accounts/<account-id>/capabilities/<capability-id>}. */
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
   }
 }

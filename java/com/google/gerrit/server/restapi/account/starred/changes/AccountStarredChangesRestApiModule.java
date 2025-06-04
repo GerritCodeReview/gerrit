@@ -20,6 +20,9 @@ import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KI
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code /accounts/<account-id>/starred.changes}.
+ */
 public class AccountStarredChangesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -27,9 +30,16 @@ public class AccountStarredChangesRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
 
+    /** List changes starred by account {@code GET /accounts/<account-id>/starred.changes}. */
     child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
+
+    /** Put star on change {@code PUT /accounts/<account-id>/starred.changes/<change-id>}. */
     create(STARRED_CHANGE_KIND).to(StarredChanges.Create.class);
+    /** Update star on change {@code PUT /accounts/<account-id>/starred.changes/<change-id>}. */
     put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
+    /**
+     * Remove star from change {@code DELETE /accounts/<account-id>/starred.changes/<change-id>}.
+     */
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
   }
 }

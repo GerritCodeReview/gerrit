@@ -28,10 +28,23 @@ public class ProjectDashboardsRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
 
+    /** List dashboards in a project {@code GET /projects/<project-id>/dashboards}. */
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
+
+    /**
+     * Create dashboard in a project {@code PUT /projects/<project-id>/dashboards/<dashboard-id>}.
+     */
     create(DASHBOARD_KIND).to(CreateDashboard.class);
+    /**
+     * Delete dashboard in a project {@code DELETE
+     * /projects/<project-id>/dashboards/<dashboard-id>}.
+     */
     delete(DASHBOARD_KIND).to(DeleteDashboard.class);
+    /** Get dashboard in a project {@code GET /projects/<project-id>/dashboards/<dashboard-id>}. */
     get(DASHBOARD_KIND).to(GetDashboard.class);
+    /**
+     * Update dashboard in a project {@code PUT /projects/<project-id>/dashboards/<dashboard-id>}.
+     */
     put(DASHBOARD_KIND).to(SetDashboard.class);
   }
 }

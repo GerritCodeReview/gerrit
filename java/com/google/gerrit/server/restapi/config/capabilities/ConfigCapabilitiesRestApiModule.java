@@ -20,11 +20,13 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.CapabilityResource;
 
+/** Guice module that binds all REST endpoints for {@code /config/server/capabilities}. */
 public class ConfigCapabilitiesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
 
+    /** List available capabilities {@code GET /config/server/capabilities}. */
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
   }
 }

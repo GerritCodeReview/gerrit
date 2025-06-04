@@ -20,6 +20,10 @@ import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /changes/<change-id>/revisions/<revision-id>/drafts}.
+ */
 public class ChangeRevisionsDraftsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -27,10 +31,31 @@ public class ChangeRevisionsDraftsRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
 
-    child(REVISION_KIND, "drafts").to(DraftComments.class);
+    /**
+     * Create draft comment for change revision {@code PUT
+     * /changes/<change-id>/revisions/<revision-id>/drafts}.
+     */
     put(REVISION_KIND, "drafts").to(CreateDraftComment.class);
+    /**
+     * List draft comments for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/drafts}.
+     */
+    child(REVISION_KIND, "drafts").to(DraftComments.class);
+
+    /**
+     * Delete draft comment for change revision {@code DELETE
+     * /changes/<change-id>/revisions/<revision-id>/drafts/<draft-id>}.
+     */
     delete(DRAFT_COMMENT_KIND).to(DeleteDraftComment.class);
+    /**
+     * Get draft comment for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/drafts/<draft-id>}.
+     */
     get(DRAFT_COMMENT_KIND).to(GetDraftComment.class);
+    /**
+     * Update draft comment for change revision {@code PUT
+     * /changes/<change-id>/revisions/<revision-id>/drafts/<draft-id>}.
+     */
     put(DRAFT_COMMENT_KIND).to(PutDraftComment.class);
   }
 }

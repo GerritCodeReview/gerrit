@@ -20,14 +20,20 @@ import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /accounts/<account-id>/sshkeys}. */
 public class AccountSshKeysRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
 
+    /** List account SSH keys {@code GET /accounts/<account-id>/sshkeys}. */
     child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
+    /** Add account SSH key {@code POST /accounts/<account-id>/sshkeys}. */
     postOnCollection(SSH_KEY_KIND).to(AddSshKey.class);
+
+    /** Get account SSH key {@code GET /accounts/<account-id>/sshkeys/<ssh-key-id>}. */
     get(SSH_KEY_KIND).to(GetSshKey.class);
+    /** Delete account SSH key {@code DELETE /accounts/<account-id>/sshkeys/<ssh-key-id>}. */
     delete(SSH_KEY_KIND).to(DeleteSshKey.class);
   }
 }

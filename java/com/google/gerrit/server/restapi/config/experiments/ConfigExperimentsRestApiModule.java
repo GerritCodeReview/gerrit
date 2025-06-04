@@ -20,12 +20,16 @@ import static com.google.gerrit.server.config.ExperimentResource.EXPERIMENT_KIND
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /config/server/experiments}. */
 public class ConfigExperimentsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), EXPERIMENT_KIND);
 
+    /** List experiments {@code GET /config/server/experiments}. */
     child(CONFIG_KIND, "experiments").to(ExperimentsCollection.class);
+
+    /** Get experiment {@code GET /config/server/experiments/<experiment-id>}. */
     get(EXPERIMENT_KIND).to(GetExperiment.class);
   }
 }

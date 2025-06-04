@@ -26,12 +26,24 @@ public class ProjectLabelsRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), LABEL_KIND);
 
+    /** List labels in a project {@code GET /projects/<project-id>/labels}. */
     child(PROJECT_KIND, "labels").to(LabelsCollection.class);
-    create(LABEL_KIND).to(CreateLabel.class);
-    get(LABEL_KIND).to(GetLabel.class);
-    put(LABEL_KIND).to(SetLabel.class);
-    delete(LABEL_KIND).to(DeleteLabel.class);
+
+    /** Create labels in a project {@code PUT /projects/<project-id>/labels}. */
     postOnCollection(LABEL_KIND).to(PostLabels.class);
+    /** Create label in a project {@code PUT /projects/<project-id>/labels/<label-id>}. */
+    create(LABEL_KIND).to(CreateLabel.class);
+    /** Get label in a project {@code GET /projects/<project-id>/labels/<label-id>}. */
+    get(LABEL_KIND).to(GetLabel.class);
+    /** Update label in a project {@code PUT /projects/<project-id>/labels/<label-id>}. */
+    put(LABEL_KIND).to(SetLabel.class);
+    /** Delete label in a project {@code DELETE /projects/<project-id>/labels/<label-id>}. */
+    delete(LABEL_KIND).to(DeleteLabel.class);
+
+    /**
+     * Create label change for review in a project {@code POST
+     * /projects/<project-id>/labels:review}.
+     */
     post(PROJECT_KIND, "labels:review").to(PostLabelsReview.class);
   }
 }

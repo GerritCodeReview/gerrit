@@ -20,7 +20,7 @@ import static com.google.gerrit.server.restapi.change.flow.FlowResource.FLOW_KIN
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
-/** Guice module to bind the flow REST API. */
+/** Guice module that binds all REST endpoints for {@code /changes/<change-id>/flows}. */
 public class ChangeFlowsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -28,10 +28,14 @@ public class ChangeFlowsRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), FLOW_KIND);
 
+    /** List flows for change {@code GET /changes/<change-id>/flows}. */
     child(CHANGE_KIND, "flows").to(FlowCollection.class);
+    /** Create flow for change {@code POST /changes/<change-id>/flows}. */
     postOnCollection(FLOW_KIND).to(CreateFlow.class);
 
+    /** Get flow for change {@code GET /changes/<change-id>/flows/<flow-id>}. */
     get(FLOW_KIND).to(GetFlow.class);
+    /** Delete flow for change {@code DELETE /changes/<change-id>/flows/<flow-id>}. */
     delete(FLOW_KIND).to(DeleteFlow.class);
   }
 }

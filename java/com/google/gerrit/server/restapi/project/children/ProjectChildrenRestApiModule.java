@@ -26,7 +26,10 @@ public class ProjectChildrenRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
 
+    /** List child projects of a project {@code GET /projects/<project-id>/children}. */
     child(PROJECT_KIND, "children").to(ChildProjectsCollection.class);
+
+    /** Get a child project of a project {@code GET /projects/<project-id>/children/<child-id>}. */
     get(CHILD_PROJECT_KIND).to(GetChildProject.class);
   }
 }

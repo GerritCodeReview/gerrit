@@ -20,13 +20,18 @@ import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /config/server/tasks}. */
 public class ConfigTasksRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), TASK_KIND);
 
+    /** List tasks {@code GET /config/server/tasks}. */
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
+
+    /** Delete task {@code DELETE /config/server/tasks/<task-id>}. */
     delete(TASK_KIND).to(DeleteTask.class);
+    /** Get task {@code GET /config/server/tasks/<task-id>}. */
     get(TASK_KIND).to(GetTask.class);
   }
 }

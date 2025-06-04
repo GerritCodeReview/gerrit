@@ -20,6 +20,10 @@ import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
+/**
+ * Guice module that binds all REST endpoints for {@code
+ * /changes/<change-id>/revisions/<revision-id>/robotcomments}.
+ */
 public class ChangeRevisionsRobotCommentsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
@@ -27,7 +31,16 @@ public class ChangeRevisionsRobotCommentsRestApiModule extends RestApiModule {
 
     DynamicMap.mapOf(binder(), ROBOT_COMMENT_KIND);
 
+    /**
+     * List robot comments for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/robotcomments}.
+     */
     child(REVISION_KIND, "robotcomments").to(RobotComments.class);
+
+    /**
+     * Get robot comment for change revision {@code GET
+     * /changes/<change-id>/revisions/<revision-id>/robotcomments/<robot-comment-id>}.
+     */
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
   }
 }

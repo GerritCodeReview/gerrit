@@ -21,15 +21,22 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.config.indexes.versions.ConfigIndexesVersionsRestApiModule;
 
+/** Guice module that binds all REST endpoints for {@code /config/server/indexes}. */
 public class ConfigIndexesRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), INDEX_KIND);
 
+    /** List indexes {@code GET /config/server/indexes}. */
     child(CONFIG_KIND, "indexes").to(IndexCollection.class);
-    post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+
+    /** Get index {@code GET /config/server/indexes/<index-id>}. */
     get(INDEX_KIND).to(GetIndex.class);
 
+    /** Create a snapshot for the index {@code POST /config/server/indexes/<index-id>/snapshot}. */
+    post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+
+    /** Module for {@code/config/server/indexes/<index-id>/versions}. */
     install(new ConfigIndexesVersionsRestApiModule());
   }
 }

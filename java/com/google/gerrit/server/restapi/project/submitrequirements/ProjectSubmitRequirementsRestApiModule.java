@@ -26,12 +26,41 @@ public class ProjectSubmitRequirementsRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
 
+    /**
+     * List submit requirements in a project {@code GET /projects/<project-id>/submit_requirements}.
+     */
     child(PROJECT_KIND, "submit_requirements").to(SubmitRequirementsCollection.class);
-    create(SUBMIT_REQUIREMENT_KIND).to(CreateSubmitRequirement.class);
-    put(SUBMIT_REQUIREMENT_KIND).to(UpdateSubmitRequirement.class);
-    get(SUBMIT_REQUIREMENT_KIND).to(GetSubmitRequirement.class);
-    delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
+
+    /**
+     * Create submit requirements in a project {@code POST
+     * /projects/<project-id>/submit_requirements}.
+     */
     postOnCollection(SUBMIT_REQUIREMENT_KIND).to(PostSubmitRequirements.class);
+    /**
+     * Create submit requirement in a project {@code PUT
+     * /projects/<project-id>/submit_requirements/<submit_requirement-id>}.
+     */
+    create(SUBMIT_REQUIREMENT_KIND).to(CreateSubmitRequirement.class);
+    /**
+     * Update submit requirement in a project {@code PUT
+     * /projects/<project-id>/submit_requirements/<submit_requirement-id>}.
+     */
+    put(SUBMIT_REQUIREMENT_KIND).to(UpdateSubmitRequirement.class);
+    /**
+     * Get submit requirement in a project {@code GET
+     * /projects/<project-id>/submit_requirements/<submit_requirement-id>}.
+     */
+    get(SUBMIT_REQUIREMENT_KIND).to(GetSubmitRequirement.class);
+    /**
+     * Delete submit requirement in a project {@code DELETE
+     * /projects/<project-id>/submit_requirements/<submit_requirement-id>}.
+     */
+    delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
+
+    /**
+     * Create submit requirement change for review in a project {@code POST
+     * /projects/<project-id>/submit_requirements:review}.
+     */
     post(PROJECT_KIND, "submit_requirements:review").to(PostSubmitRequirementsReview.class);
   }
 }

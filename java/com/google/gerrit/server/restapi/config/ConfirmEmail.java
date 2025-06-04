@@ -38,11 +38,11 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * <p>This REST endpoint handles {@code PUT /config/server/email.confirm} requests.
  *
  * <p>When a user registers a new email address for their account (see {@link
- * com.google.gerrit.server.restapi.account.CreateEmail}) an email with a confirmation link is sent
- * to that address. When the receiver confirms the email by clicking on the confirmation link, this
- * REST endpoint is invoked and the email address is added to the account. Confirming an email
- * address for an account creates an external ID that links the email address to the account. An
- * email address can only be added to an account if it is not assigned to any other account yet.
+ * com.google.gerrit.server.restapi.account.emails.CreateEmail}) an email with a confirmation link
+ * is sent to that address. When the receiver confirms the email by clicking on the confirmation
+ * link, this REST endpoint is invoked and the email address is added to the account. Confirming an
+ * email address for an account creates an external ID that links the email address to the account.
+ * An email address can only be added to an account if it is not assigned to any other account yet.
  */
 @Singleton
 public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {

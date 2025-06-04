@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.account;
+package com.google.gerrit.server.restapi.account.emails;
 
 import static java.util.stream.Collectors.toSet;
 

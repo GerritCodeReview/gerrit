@@ -23,10 +23,10 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.restapi.account.DeleteEmail;
-import com.google.gerrit.server.restapi.account.EmailsCollection;
-import com.google.gerrit.server.restapi.account.GetEmail;
-import com.google.gerrit.server.restapi.account.PutPreferred;
+import com.google.gerrit.server.restapi.account.emails.DeleteEmail;
+import com.google.gerrit.server.restapi.account.emails.EmailsCollection;
+import com.google.gerrit.server.restapi.account.emails.GetEmail;
+import com.google.gerrit.server.restapi.account.emails.PutPreferred;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

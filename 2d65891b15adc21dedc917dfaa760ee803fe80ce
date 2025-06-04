@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0846ce4_88613217",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-04T05:54:36Z",
+      "side": 1,
+      "message": "I need to ask about BSD licence. Jgit using BSD but not gerrit",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 40
+      },
+      "revId": "2d65891b15adc21dedc917dfaa760ee803fe80ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

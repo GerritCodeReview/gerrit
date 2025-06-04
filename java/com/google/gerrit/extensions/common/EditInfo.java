@@ -31,7 +31,7 @@ public class EditInfo {
    * indicate the conflicts.
    *
    * <p>Only set if this edit info is returned in response to a request that rebases the change edit
-   * (see {@link com.google.gerrit.server.restapi.change.RebaseChangeEdit}) and conflicts are
+   * (see {@link com.google.gerrit.server.restapi.change.edit.RebaseChangeEdit}) and conflicts are
    * allowed.
    */
   public Boolean containsGitConflicts;

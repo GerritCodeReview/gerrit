@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
@@ -31,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.restapi.change.attentionset.ChangeAttentionSetRestApiModule;
+import com.google.gerrit.server.restapi.change.edit.ChangeEditRestApiModule;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
@@ -47,7 +47,6 @@ public class ChangeRestApiModule extends RestApiModule {
     bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
-    DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
     DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
@@ -72,21 +71,6 @@ public class ChangeRestApiModule extends RestApiModule {
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
 
-    child(CHANGE_KIND, "edit").to(ChangeEdits.class);
-    create(CHANGE_EDIT_KIND).to(ChangeEdits.Create.class);
-    delete(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteContent.class);
-    deleteOnCollection(CHANGE_EDIT_KIND).to(DeleteChangeEdit.class);
-    deleteMissing(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteFile.class);
-    postOnCollection(CHANGE_EDIT_KIND).to(ChangeEdits.Post.class);
-    get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
-    put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);
-    get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
-
-    put(CHANGE_KIND, "edit:identity").to(ChangeEdits.EditIdentity.class);
-    put(CHANGE_KIND, "edit:message").to(ChangeEdits.EditMessage.class);
-    get(CHANGE_KIND, "edit:message").to(ChangeEdits.GetMessage.class);
-    post(CHANGE_KIND, "edit:publish").to(PublishChangeEdit.class);
-    post(CHANGE_KIND, "edit:rebase").to(RebaseChangeEdit.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
     post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
     get(CHANGE_KIND, "in").to(ChangeIncludedIn.class);
@@ -189,5 +173,6 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
 
     install(new ChangeAttentionSetRestApiModule());
+    install(new ChangeEditRestApiModule());
   }
 }

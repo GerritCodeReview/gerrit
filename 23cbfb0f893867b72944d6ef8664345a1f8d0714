@@ -16,6 +16,23 @@
       "message": "Hmm tests now fail :/",
       "revId": "23cbfb0f893867b72944d6ef8664345a1f8d0714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a10b79_c4828e89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-04T20:56:21Z",
+      "side": 1,
+      "message": "Noting for the future:\n\n```\n    function customRenderer() {\n      return {\n        renderer: {\n          link(href: string, title: string, text: string) {\n            if (\n              !href.startsWith(\u0027https://\u0027) \u0026\u0026\n              !href.startsWith(\u0027mailto:\u0027) \u0026\u0026\n              !href.startsWith(\u0027http://\u0027) \u0026\u0026\n              !href.startsWith(\u0027/\u0027)\n            ) {\n              href \u003d `https://${href}`;\n            }\n            /* HTML */\n            return `\u003ca\n              href\u003d\"${href}\"\n              ${sameOrigin(href) ? \u0027\u0027 : \u0027target\u003d\"_blank\" rel\u003d\"noopener noreferrer\"\u0027}\n              ${title ? `title\u003d\"${title}\"` : \u0027\u0027}\n              \u003e${text}\u003c/a\n            \u003e`;\n          },\n          image(href: string, title: string, text: string) {\n            // Check if this is a base64-encoded image\n            if (\n              allowMarkdownBase64ImagesInComments \u0026\u0026\n              IMAGE_MIME_PATTERN.test(href)\n            ) {\n              return `\u003cimg src\u003d\"${href}\" alt\u003d\"${text}\" ${\n                title ? `title\u003d\"${title}\"` : \u0027\u0027\n              } /\u003e`;\n            }\n            // For non-base64 images just return the markdown\n            return `![${text}](${href})`;\n          },\n          codespan(text: string) {\n            return `\u003ccode\u003e${unescapeHTML(text)}\u003c/code\u003e`\n          },\n          code(text: string, infostring: string) {\n            if (infostring \u003d\u003d\u003d USER_SUGGESTION_INFO_STRING) {\n              // default santizer in markedjs is very restrictive, we need to use\n              // existing html element to mark element. We cannot use css class for\n              // it. Therefore we pick mark - as not frequently used html element to\n              // represent unconverted gr-user-suggestion-fix.\n              // TODO(milutin): Find a way to override sanitizer to directly use\n              // gr-user-suggestion-fix\n              return `\u003cmark\u003e${text}\u003c/mark\u003e`;\n            } else {\n              return `\u003cpre\u003e\u003ccode\u003e${text}\u003c/code\u003e\u003c/pre\u003e`;\n            }\n          },\n        // \u003cgr-marked-element\u003e internals will be in charge of calling our custom\n        // renderer so we write these functions separately so that \u0027this\u0027 is\n        // preserved via closure.\n          paragraph(text: string) { return boundRewriteAsterisks(text) },\n          text(text: string) { return boundRewriteText(text); }\n        }\n      };\n    }\n```\n\n```\n    if (this.renderer) {\n      const renderer \u003d this.renderer().renderer;\n      window.marked.use({renderer});\n    }\n```\n\nthis is required from marked version 1+",
+      "revId": "23cbfb0f893867b72944d6ef8664345a1f8d0714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

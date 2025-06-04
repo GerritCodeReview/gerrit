@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.branches;
 
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;

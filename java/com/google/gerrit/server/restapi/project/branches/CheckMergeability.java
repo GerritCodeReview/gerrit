@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.branches;
 
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.NoMergeBaseException;

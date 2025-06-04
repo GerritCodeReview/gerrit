@@ -139,7 +139,6 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
@@ -1229,13 +1228,7 @@ class ReceiveCommits {
       // RefUpdateContext to do the direct submit.
       Optional<String> justification =
           pushOptions.get(DIRECT_PUSH_JUSTIFICATION_OPTION).stream().findFirst();
-      try (RefUpdateContext ctx =
-          experimentFeatures.isFeatureEnabled(
-                  ExperimentFeaturesConstants
-                      .GERRIT_BACKEND_FEATURE_USE_DIRECT_PUSH_CONTEXT_FOR_SUBMIT_ON_PUSH,
-                  project.getNameKey())
-              ? RefUpdateContext.openDirectPush(justification)
-              : RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (RefUpdateContext ctx = RefUpdateContext.openDirectPush(justification)) {
         try (TraceTimer traceTimer =
             newTimer(
                 "insertChangesAndPatchSets#submit",

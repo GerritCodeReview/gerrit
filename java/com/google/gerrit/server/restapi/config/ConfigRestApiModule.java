@@ -22,13 +22,12 @@ import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.config.CapabilityResource;
 import com.google.gerrit.server.config.TopMenuResource;
+import com.google.gerrit.server.restapi.config.capabilities.ConfigCapabilitiesRestApiModule;
 
 public class ConfigRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
-    DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), CONFIG_KIND);
     DynamicMap.mapOf(binder(), EXPERIMENT_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
@@ -36,7 +35,6 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), INDEX_KIND);
     DynamicMap.mapOf(binder(), INDEX_VERSION_KIND);
 
-    child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
     post(CONFIG_KIND, "deactivate.stale.accounts").to(AccountDeactivation.class);
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
@@ -74,5 +72,6 @@ public class ConfigRestApiModule extends RestApiModule {
     post(INDEX_VERSION_KIND, "reindex").to(ReindexIndexVersion.class);
 
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
+    install(new ConfigCapabilitiesRestApiModule());
   }
 }

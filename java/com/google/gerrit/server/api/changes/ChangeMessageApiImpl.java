@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.ChangeMessageResource;
-import com.google.gerrit.server.restapi.change.DeleteChangeMessage;
-import com.google.gerrit.server.restapi.change.GetChangeMessage;
+import com.google.gerrit.server.restapi.change.messages.DeleteChangeMessage;
+import com.google.gerrit.server.restapi.change.messages.GetChangeMessage;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

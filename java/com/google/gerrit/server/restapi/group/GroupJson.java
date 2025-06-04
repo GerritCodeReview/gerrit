@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.group.groups.ListSubgroups;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Collection;

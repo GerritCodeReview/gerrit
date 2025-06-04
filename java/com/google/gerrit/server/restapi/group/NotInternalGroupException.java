@@ -16,10 +16,10 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 
-class NotInternalGroupException extends MethodNotAllowedException {
+public class NotInternalGroupException extends MethodNotAllowedException {
   private static final long serialVersionUID = 1L;
 
-  NotInternalGroupException() {
+  public NotInternalGroupException() {
     super("not a Gerrit internal group");
   }
 }

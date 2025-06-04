@@ -19,7 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.RefNames.REFS_DASHBOARDS;
-import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
+import static com.google.gerrit.server.restapi.project.dashboards.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;

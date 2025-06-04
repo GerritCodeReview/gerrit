@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.dashboards;
 
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.SetDashboardInput;
@@ -25,11 +25,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
+public class SetDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
   private final Provider<SetDefaultDashboard> defaultSetter;
 
   @Inject
-  DeleteDashboard(Provider<SetDefaultDashboard> defaultSetter) {
+  SetDashboard(Provider<SetDefaultDashboard> defaultSetter) {
     this.defaultSetter = defaultSetter;
   }
 
@@ -37,12 +37,10 @@ public class DeleteDashboard implements RestModifyView<DashboardResource, SetDas
   public Response<DashboardInfo> apply(DashboardResource resource, SetDashboardInput input)
       throws Exception {
     if (resource.isProjectDefault()) {
-      SetDashboardInput in = new SetDashboardInput();
-      in.commitMessage = input != null ? input.commitMessage : null;
-      return defaultSetter.get().apply(resource, in);
+      return defaultSetter.get().apply(resource, input);
     }
 
-    // TODO: Implement delete of dashboards by API.
-    throw new MethodNotAllowedException("cannot delete non-default dashboard");
+    // TODO: Implement update of dashboards by API.
+    throw new MethodNotAllowedException("cannot update non-default dashboard");
   }
 }

@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.dashboards;
 
 import static com.google.gerrit.entities.RefNames.REFS_DASHBOARDS;
-import static com.google.gerrit.server.restapi.project.DashboardsCollection.isDefaultDashboard;
+import static com.google.gerrit.server.restapi.project.dashboards.DashboardsCollection.isDefaultDashboard;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;

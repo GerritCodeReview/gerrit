@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_REQUIREMENT_KIND;
@@ -25,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.project.branches.ProjectBranchesRestApiModule;
 import com.google.gerrit.server.restapi.project.children.ProjectChildrenRestApiModule;
 import com.google.gerrit.server.restapi.project.commits.ProjectCommitsRestApiModule;
+import com.google.gerrit.server.restapi.project.dashboards.ProjectDashboardsRestApiModule;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -32,9 +32,7 @@ public class ProjectRestApiModule extends RestApiModule {
   protected void configure() {
     bind(ProjectsCollection.class);
     bind(ListProjects.class).to(ListProjectsImpl.class);
-    bind(DashboardsCollection.class);
 
-    DynamicMap.mapOf(binder(), DASHBOARD_KIND);
     DynamicMap.mapOf(binder(), LABEL_KIND);
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
@@ -59,12 +57,6 @@ public class ProjectRestApiModule extends RestApiModule {
     put(PROJECT_KIND, "config:review").to(PutConfigReview.class);
 
     post(PROJECT_KIND, "create.change").to(CreateChange.class);
-
-    child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
-    create(DASHBOARD_KIND).to(CreateDashboard.class);
-    delete(DASHBOARD_KIND).to(DeleteDashboard.class);
-    get(DASHBOARD_KIND).to(GetDashboard.class);
-    put(DASHBOARD_KIND).to(SetDashboard.class);
 
     get(PROJECT_KIND, "description").to(GetDescription.class);
     put(PROJECT_KIND, "description").to(PutDescription.class);
@@ -103,6 +95,7 @@ public class ProjectRestApiModule extends RestApiModule {
     install(new ProjectBranchesRestApiModule());
     install(new ProjectChildrenRestApiModule());
     install(new ProjectCommitsRestApiModule());
+    install(new ProjectDashboardsRestApiModule());
   }
 
   /** Separately bind batch functionality. */

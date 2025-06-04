@@ -16,6 +16,24 @@
       "message": "I hope you have used AI for this change. Seems like a lot of boilerplate.",
       "revId": "90581b7e97192920d5d55850552910276df13a0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aed1245_4d58b672",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-04T07:16:16Z",
+      "side": 1,
+      "message": "Nah, all hand-written :)",
+      "parentUuid": "f0a5c037_eb6b8ff2",
+      "revId": "90581b7e97192920d5d55850552910276df13a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

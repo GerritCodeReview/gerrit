@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.server.restapi.config.indexes;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
@@ -55,7 +55,7 @@ public abstract class IndexInfo {
 
   @AutoValue
   public abstract static class IndexVersionInfo {
-    static IndexVersionInfo create(boolean write, boolean search, int numDocs) {
+    public static IndexVersionInfo create(boolean write, boolean search, int numDocs) {
       return new AutoValue_IndexInfo_IndexVersionInfo(write, search, numDocs);
     }
 

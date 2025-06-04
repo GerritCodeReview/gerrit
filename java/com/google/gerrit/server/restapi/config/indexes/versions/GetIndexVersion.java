@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.server.restapi.config.indexes.versions;
 
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -20,7 +20,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.server.config.IndexVersionResource;
-import com.google.gerrit.server.restapi.config.IndexInfo.IndexVersionInfo;
+import com.google.gerrit.server.restapi.config.indexes.IndexInfo;
+import com.google.gerrit.server.restapi.config.indexes.IndexInfo.IndexVersionInfo;
 
 public class GetIndexVersion implements RestReadView<IndexVersionResource> {
 

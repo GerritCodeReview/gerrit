@@ -16,6 +16,24 @@
       "message": "Can you also explain why this makes sense for LDAP setups? It\u0027s not immediately obvious to me.",
       "revId": "9fc42d788d831a1d2b87dffe98639fdcd515b05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "159302cf_60ddac5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-06-04T08:24:47Z",
+      "side": 1,
+      "message": "Updated CM. PTAL",
+      "parentUuid": "e6c6f67e_72521d43",
+      "revId": "9fc42d788d831a1d2b87dffe98639fdcd515b05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

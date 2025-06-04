@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "904f95ba_15ef5800",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4095417
+      },
+      "writtenOn": "2025-06-04T01:35:25Z",
+      "side": 1,
+      "message": "ในวันที่ อ. 3 มิ.ย. 2025 16:44 น. GerritForge Ltd (Gerrit) \u003cnoreply-gerritcodereview+8oA7sDB8D6CPH3s1o13UKA\u003d\u003d@\u003e เขียนว่า:",
+      "tag": "mailMessageId\u003d\u003cCAHO6n8WjAeCCvuLTW69KFTfXwpSaR+xqAKUj-WixeBuHbE5ikQ@mail.gmail.com\u003e",
+      "revId": "be38633d11478c89056b2b11f04917d27799b69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

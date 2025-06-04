@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gerrit.server.restapi.change.Revisions;
+import com.google.gerrit.server.restapi.change.revisions.Revisions;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import java.nio.ByteBuffer;

@@ -78,7 +78,7 @@ import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.OnPostReview;
-import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.restapi.change.revisions.PostReview;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.testing.FakeEmailSender;

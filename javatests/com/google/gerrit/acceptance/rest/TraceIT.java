@@ -1048,7 +1048,7 @@ public class TraceIT extends AbstractDaemonTest {
 
       TestRetryListener.Retry retry = testRetryListener.getOnlyRetry();
       assertThat(retry.actionType()).isEqualTo(ActionType.REST_WRITE_REQUEST.name());
-      assertThat(retry.actionName()).isEqualTo("restapi.change.Submit.CurrentRevision");
+      assertThat(retry.actionName()).isEqualTo("restapi.change.revisions.Submit.CurrentRevision");
       assertThat(retry.nextAttempt()).isEqualTo(2);
       assertThat(retry.cause()).isEqualTo(TraceSubmitRule.FAILURE);
     }

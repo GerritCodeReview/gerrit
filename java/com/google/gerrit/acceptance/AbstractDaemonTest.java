@@ -141,7 +141,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.restapi.change.Revisions;
+import com.google.gerrit.server.restapi.change.revisions.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;

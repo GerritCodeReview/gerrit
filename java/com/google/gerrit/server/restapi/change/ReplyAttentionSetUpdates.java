@@ -53,6 +53,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.restapi.change.revisions.PostReviewOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;

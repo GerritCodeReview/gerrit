@@ -94,14 +94,14 @@ public class CherryPickChange {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @AutoValue
-  abstract static class Result {
+  public abstract static class Result {
     static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
       return new AutoValue_CherryPickChange_Result(changeId, filesWithGitConflicts);
     }
 
-    abstract Change.Id changeId();
+    public abstract Change.Id changeId();
 
-    abstract ImmutableSet<String> filesWithGitConflicts();
+    public abstract ImmutableSet<String> filesWithGitConflicts();
   }
 
   private final Sequences seq;

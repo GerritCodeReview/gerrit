@@ -97,7 +97,7 @@ import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.testing.TestLabels;
-import com.google.gerrit.server.restapi.change.Submit;
+import com.google.gerrit.server.restapi.change.revisions.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;

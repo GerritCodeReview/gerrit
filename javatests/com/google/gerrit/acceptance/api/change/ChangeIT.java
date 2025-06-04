@@ -185,7 +185,7 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
-import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.restapi.change.revisions.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;

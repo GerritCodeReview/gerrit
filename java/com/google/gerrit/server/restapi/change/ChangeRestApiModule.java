@@ -15,44 +15,23 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
-import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
-import static com.google.gerrit.server.change.FileResource.FILE_KIND;
-import static com.google.gerrit.server.change.FixResource.FIX_KIND;
-import static com.google.gerrit.server.change.HumanCommentResource.COMMENT_KIND;
-import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
-import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
-import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
-import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.restapi.change.attentionset.ChangeAttentionSetRestApiModule;
 import com.google.gerrit.server.restapi.change.edit.ChangeEditRestApiModule;
 import com.google.gerrit.server.restapi.change.messages.ChangeMessagesRestApiModule;
 import com.google.gerrit.server.restapi.change.reviewers.ChangeReviewersRestApiModule;
+import com.google.gerrit.server.restapi.change.revisions.ChangeRevisionsRestApiModule;
+import com.google.gerrit.server.restapi.change.revisions.Rebase;
+import com.google.gerrit.server.restapi.change.revisions.Submit;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(ChangesCollection.class);
-    bind(Comments.class);
-    bind(DraftComments.class);
-    bind(Files.class);
-    bind(Fixes.class);
-    bind(RevisionReviewers.class);
-    bind(Revisions.class);
-    bind(RobotComments.class);
-    bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
-    DynamicMap.mapOf(binder(), COMMENT_KIND);
-    DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
-    DynamicMap.mapOf(binder(), FILE_KIND);
-    DynamicMap.mapOf(binder(), FIX_KIND);
-    DynamicMap.mapOf(binder(), ROBOT_COMMENT_KIND);
-    DynamicMap.mapOf(binder(), REVISION_KIND);
-    DynamicMap.mapOf(binder(), VOTE_KIND);
 
     postOnCollection(CHANGE_KIND).to(CreateChange.class);
     delete(CHANGE_KIND).to(DeleteChange.class);
@@ -91,59 +70,6 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "revert_submission").to(RevertSubmission.class);
 
-    child(CHANGE_KIND, "revisions").to(Revisions.class);
-    get(REVISION_KIND, "actions").to(GetRevisionActions.class);
-    get(REVISION_KIND, "archive").to(GetArchive.class);
-    post(REVISION_KIND, "cherrypick").to(CherryPick.class);
-
-    child(REVISION_KIND, "comments").to(Comments.class);
-    delete(COMMENT_KIND).to(DeleteComment.class);
-    get(COMMENT_KIND).to(GetComment.class);
-    post(COMMENT_KIND, "delete").to(DeleteComment.class);
-
-    get(REVISION_KIND, "commit").to(GetCommit.class);
-    get(REVISION_KIND, "description").to(GetDescription.class);
-    put(REVISION_KIND, "description").to(PutDescription.class);
-
-    child(REVISION_KIND, "drafts").to(DraftComments.class);
-    put(REVISION_KIND, "drafts").to(CreateDraftComment.class);
-    delete(DRAFT_COMMENT_KIND).to(DeleteDraftComment.class);
-    get(DRAFT_COMMENT_KIND).to(GetDraftComment.class);
-    put(DRAFT_COMMENT_KIND).to(PutDraftComment.class);
-
-    child(REVISION_KIND, "files").to(Files.class);
-    get(FILE_KIND, "blame").to(GetBlame.class);
-    get(FILE_KIND, "content").to(GetContent.class);
-    get(FILE_KIND, "diff").to(GetDiff.class);
-    get(FILE_KIND, "download").to(DownloadContent.class);
-    put(FILE_KIND, "reviewed").to(PutReviewed.class);
-    delete(FILE_KIND, "reviewed").to(DeleteReviewed.class);
-
-    child(REVISION_KIND, "fixes").to(Fixes.class);
-    post(FIX_KIND, "apply").to(ApplyStoredFix.class);
-    get(FIX_KIND, "preview").to(PreviewFix.Stored.class);
-
-    post(REVISION_KIND, "fix:apply").to(ApplyProvidedFix.class);
-    post(REVISION_KIND, "fix:preview").to(PreviewFix.Provided.class);
-    get(REVISION_KIND, "mergeable").to(Mergeable.class);
-    get(REVISION_KIND, "mergelist").to(GetMergeList.class);
-    get(REVISION_KIND, "patch").to(GetPatch.class);
-    get(REVISION_KIND, "ported_comments").to(ListPortedComments.class);
-    get(REVISION_KIND, "ported_drafts").to(ListPortedDrafts.class);
-    post(REVISION_KIND, "rebase").to(Rebase.class);
-    get(REVISION_KIND, "related").to(GetRelated.class);
-    get(REVISION_KIND, "review").to(GetReview.class);
-    post(REVISION_KIND, "review").to(PostReview.class);
-    child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
-
-    child(REVISION_KIND, "robotcomments").to(RobotComments.class);
-    get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
-
-    post(REVISION_KIND, "submit").to(Submit.class);
-    get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
-    post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);
-    post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
-
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
@@ -152,14 +78,12 @@ public class ChangeRestApiModule extends RestApiModule {
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
 
-    delete(VOTE_KIND).to(DeleteVote.class);
-    post(VOTE_KIND, "delete").to(DeleteVote.class);
-
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
 
     install(new ChangeAttentionSetRestApiModule());
     install(new ChangeEditRestApiModule());
     install(new ChangeMessagesRestApiModule());
     install(new ChangeReviewersRestApiModule());
+    install(new ChangeRevisionsRestApiModule());
   }
 }

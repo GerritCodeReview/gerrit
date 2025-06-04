@@ -15,8 +15,8 @@
 package com.google.gerrit.extensions.client;
 
 /**
- * The {@link com.google.gerrit.server.restapi.change.GetArchive} REST endpoint allows to download
- * revisions as archive. This enum defines the supported archive formats.
+ * The {@link com.google.gerrit.server.restapi.change.revisions.GetArchive} REST endpoint allows to
+ * download revisions as archive. This enum defines the supported archive formats.
  */
 public enum ArchiveFormat {
   TGZ,

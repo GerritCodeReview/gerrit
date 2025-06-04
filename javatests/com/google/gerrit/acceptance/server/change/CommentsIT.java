@@ -68,7 +68,7 @@ import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.DeleteCommentRewriter;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.restapi.change.revisions.PostReview;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;

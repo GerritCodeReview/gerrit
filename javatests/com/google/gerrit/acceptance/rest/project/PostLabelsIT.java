@@ -36,7 +36,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.restapi.project.PostLabels;
+import com.google.gerrit.server.restapi.project.labels.PostLabels;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;

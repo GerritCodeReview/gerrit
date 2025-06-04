@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.labels;
 
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.BatchLabelInput;
@@ -23,6 +23,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.restapi.project.AbstractPostCollection;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.project;
+package com.google.gerrit.server.restapi.project.labels;
 
 import com.google.gerrit.extensions.common.InputWithCommitMessage;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

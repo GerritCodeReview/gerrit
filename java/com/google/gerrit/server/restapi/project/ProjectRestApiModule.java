@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_REQUIREMENT_KIND;
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
@@ -25,6 +24,7 @@ import com.google.gerrit.server.restapi.project.branches.ProjectBranchesRestApiM
 import com.google.gerrit.server.restapi.project.children.ProjectChildrenRestApiModule;
 import com.google.gerrit.server.restapi.project.commits.ProjectCommitsRestApiModule;
 import com.google.gerrit.server.restapi.project.dashboards.ProjectDashboardsRestApiModule;
+import com.google.gerrit.server.restapi.project.labels.ProjectLabelsRestApiModule;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -33,7 +33,6 @@ public class ProjectRestApiModule extends RestApiModule {
     bind(ProjectsCollection.class);
     bind(ListProjects.class).to(ListProjectsImpl.class);
 
-    DynamicMap.mapOf(binder(), LABEL_KIND);
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
@@ -65,14 +64,6 @@ public class ProjectRestApiModule extends RestApiModule {
     put(PROJECT_KIND, "HEAD").to(SetHead.class);
     post(PROJECT_KIND, "index").to(Index.class);
 
-    child(PROJECT_KIND, "labels").to(LabelsCollection.class);
-    create(LABEL_KIND).to(CreateLabel.class);
-    get(LABEL_KIND).to(GetLabel.class);
-    put(LABEL_KIND).to(SetLabel.class);
-    delete(LABEL_KIND).to(DeleteLabel.class);
-    postOnCollection(LABEL_KIND).to(PostLabels.class);
-    post(PROJECT_KIND, "labels:review").to(PostLabelsReview.class);
-
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);
 
@@ -96,6 +87,7 @@ public class ProjectRestApiModule extends RestApiModule {
     install(new ProjectChildrenRestApiModule());
     install(new ProjectCommitsRestApiModule());
     install(new ProjectDashboardsRestApiModule());
+    install(new ProjectLabelsRestApiModule());
   }
 
   /** Separately bind batch functionality. */

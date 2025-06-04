@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.change;
+package com.google.gerrit.server.restapi.change.messages;
 
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.restapi.change.ListChangeMessages;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;

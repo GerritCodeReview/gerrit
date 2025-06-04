@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
@@ -31,6 +30,7 @@ import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.restapi.change.attentionset.ChangeAttentionSetRestApiModule;
 import com.google.gerrit.server.restapi.change.edit.ChangeEditRestApiModule;
+import com.google.gerrit.server.restapi.change.messages.ChangeMessagesRestApiModule;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
@@ -47,7 +47,6 @@ public class ChangeRestApiModule extends RestApiModule {
     bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
-    DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
     DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
@@ -80,11 +79,6 @@ public class ChangeRestApiModule extends RestApiModule {
     get(CHANGE_KIND, "validation-options").to(GetValidationOptions.class);
     get(CHANGE_KIND, "message").to(GetMessage.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);
-
-    child(CHANGE_KIND, "messages").to(ChangeMessages.class);
-    delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.DefaultDeleteChangeMessage.class);
-    get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);
-    post(CHANGE_MESSAGE_KIND, "delete").to(DeleteChangeMessage.class);
 
     post(CHANGE_KIND, "move").to(Move.class);
     post(CHANGE_KIND, "patch:apply").to(ApplyPatch.class);
@@ -174,5 +168,6 @@ public class ChangeRestApiModule extends RestApiModule {
 
     install(new ChangeAttentionSetRestApiModule());
     install(new ChangeEditRestApiModule());
+    install(new ChangeMessagesRestApiModule());
   }
 }

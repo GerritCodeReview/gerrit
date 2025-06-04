@@ -335,6 +335,24 @@
       "parentUuid": "5001c9b0_a99fa5e6",
       "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "334e0c33_5814c940",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-04T08:48:01Z",
+      "side": 1,
+      "message": "Started here: https://gerrit-review.googlesource.com/c/gerrit/+/481303",
+      "parentUuid": "edc4e191_16627663",
+      "revId": "a99dd98f2f2bf7bf3b529325931ed364d5b3100e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.commits.CommitsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

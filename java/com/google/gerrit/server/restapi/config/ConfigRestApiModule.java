@@ -18,17 +18,16 @@ import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.config.TopMenuResource;
 import com.google.gerrit.server.restapi.config.capabilities.ConfigCapabilitiesRestApiModule;
 import com.google.gerrit.server.restapi.config.experiments.ConfigExperimentsRestApiModule;
 import com.google.gerrit.server.restapi.config.indexes.ConfigIndexesRestApiModule;
 import com.google.gerrit.server.restapi.config.tasks.ConfigTasksRestApiModule;
+import com.google.gerrit.server.restapi.config.topmenus.ConfigTopMenusRestApiModule;
 
 public class ConfigRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CONFIG_KIND);
-    DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
 
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
     post(CONFIG_KIND, "deactivate.stale.accounts").to(AccountDeactivation.class);
@@ -47,7 +46,6 @@ public class ConfigRestApiModule extends RestApiModule {
     post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
     post(CONFIG_KIND, "cleanup.draft.comments").to(CleanupDraftComments.class);
 
-    child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);
 
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
@@ -55,5 +53,6 @@ public class ConfigRestApiModule extends RestApiModule {
     install(new ConfigExperimentsRestApiModule());
     install(new ConfigIndexesRestApiModule());
     install(new ConfigTasksRestApiModule());
+    install(new ConfigTopMenusRestApiModule());
   }
 }

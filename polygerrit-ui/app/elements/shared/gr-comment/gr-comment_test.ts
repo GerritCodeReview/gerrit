@@ -46,6 +46,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 
 suite('gr-comment tests', () => {
@@ -891,6 +892,11 @@ suite('gr-comment tests', () => {
         },
       ],
     };
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
+        .returns(true);
+    });
 
     test('renders suggestions in comment', async () => {
       const comment = {

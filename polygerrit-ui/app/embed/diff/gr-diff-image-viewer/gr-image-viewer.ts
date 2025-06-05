@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@material/web/button/text-button';
+import '@polymer/paper-button/paper-button';
 import '@polymer/paper-card/paper-card';
 import '@polymer/paper-checkbox/paper-checkbox';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
@@ -250,20 +250,19 @@ export class GrImageViewer extends LitElement {
           margin: var(--spacing-m);
           padding-bottom: var(--spacing-xl);
         }
-        md-text-button {
+        paper-button {
           padding: var(--spacing-m);
           font: var(--image-diff-button-font);
           text-transform: var(--image-diff-button-text-transform, uppercase);
           outline: 1px solid transparent;
           border: 1px solid var(--primary-button-background-color);
-          --md-text-button-container-shape: 0;
         }
-        md-text-button.unelevated {
+        paper-button.unelevated {
+          color: var(--primary-button-text-color);
           background-color: var(--primary-button-background-color);
-          --md-sys-color-primary: var(--primary-button-text-color);
         }
-        md-text-button.outlined {
-          --md-sys-color-primary: var(--primary-button-background-color);
+        paper-button.outlined {
+          color: var(--primary-button-background-color);
         }
         #version-switcher {
           display: flex;
@@ -272,7 +271,7 @@ export class GrImageViewer extends LitElement {
           /* Start a stacking context to contain FAB below. */
           z-index: 0;
         }
-        #version-switcher md-text-button {
+        #version-switcher paper-button {
           flex-grow: 1;
           margin: 0;
           /*
@@ -455,12 +454,9 @@ export class GrImageViewer extends LitElement {
     };
     const versionToggle = html`
       <div id="version-switcher">
-        <md-text-button
-          class=${classMap(leftClasses)}
-          @click=${this.selectBase}
-        >
+        <paper-button class=${classMap(leftClasses)} @click=${this.selectBase}>
           Base
-        </md-text-button>
+        </paper-button>
         <paper-fab
           mini
           icon="gr-icons:swapHoriz"
@@ -470,12 +466,12 @@ export class GrImageViewer extends LitElement {
           @click=${this.manualBlink}
         >
         </paper-fab>
-        <md-text-button
+        <paper-button
           class=${classMap(rightClasses)}
           @click=${this.selectRevision}
         >
           Revision
-        </md-text-button>
+        </paper-button>
       </div>
     `;
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.flow;
+package com.google.gerrit.server.restapi.change.flow;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.FlowInfo;

@@ -41,7 +41,8 @@ import java.util.Optional;
 import org.junit.Test;
 
 /**
- * Integration tests for the {@link com.google.gerrit.server.restapi.flow.GetFlow} REST endpoint.
+ * Integration tests for the {@link com.google.gerrit.server.restapi.change.flow.GetFlow} REST
+ * endpoint.
  */
 public class GetFlowIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.attentionset.ChangeAttentionSetRestApiModule;
 import com.google.gerrit.server.restapi.change.edit.ChangeEditRestApiModule;
+import com.google.gerrit.server.restapi.change.flow.ChangeFlowsRestApiModule;
 import com.google.gerrit.server.restapi.change.messages.ChangeMessagesRestApiModule;
 import com.google.gerrit.server.restapi.change.reviewers.ChangeReviewersRestApiModule;
 import com.google.gerrit.server.restapi.change.revisions.ChangeRevisionsRestApiModule;
@@ -82,6 +83,7 @@ public class ChangeRestApiModule extends RestApiModule {
 
     install(new ChangeAttentionSetRestApiModule());
     install(new ChangeEditRestApiModule());
+    install(new ChangeFlowsRestApiModule());
     install(new ChangeMessagesRestApiModule());
     install(new ChangeReviewersRestApiModule());
     install(new ChangeRevisionsRestApiModule());

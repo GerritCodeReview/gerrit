@@ -46,6 +46,10 @@ export interface JsApiService extends Finalizable {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
+  handleBeforePublishEdit(
+    change: ChangeInfo,
+    revision?: RevisionInfo | null
+  ): Promise<boolean>;
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null): void;
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;

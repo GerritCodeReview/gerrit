@@ -46,6 +46,13 @@ export interface JsApiService extends Finalizable {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
+  /**
+   * This method is called before handling a change action.
+   * It allows plugins to conditionally block actions.
+   * @param key The change action key.
+   * @return A promise that resolves to true if the action should proceed.
+   */
+  handleBeforeChangeAction(key: string): Promise<boolean>;
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null): void;
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;

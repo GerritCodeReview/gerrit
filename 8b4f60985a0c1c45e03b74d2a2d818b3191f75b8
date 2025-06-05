@@ -16,6 +16,24 @@
       "message": "Do you know what the problem is / working on a solution?",
       "revId": "8b4f60985a0c1c45e03b74d2a2d818b3191f75b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43d0d07_40ca983a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T15:48:02Z",
+      "side": 1,
+      "message": "There is issue that the button introduces higher height than previously. We will figure it out and this is temporary to enable imports for this week.",
+      "parentUuid": "7c06f81c_9efdf64f",
+      "revId": "8b4f60985a0c1c45e03b74d2a2d818b3191f75b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -94,6 +94,7 @@ export enum Shortcut {
   TOGGLE_ALL_INLINE_DIFFS = 'TOGGLE_ALL_INLINE_DIFFS',
   TOGGLE_INLINE_DIFF = 'TOGGLE_INLINE_DIFF',
   TOGGLE_HIDE_ALL_COMMENT_THREADS_AND_CODE_POINTERS = 'TOGGLE_HIDE_ALL_COMMENT_THREADS_AND_CODE_POINTERS',
+  TOGGLE_HIDE_CHECK_CODE_POINTERS = 'TOGGLE_HIDE_CHECK_CODE_POINTERS',
   OPEN_FILE_LIST = 'OPEN_FILE_LIST',
 
   OPEN_FIRST_FILE = 'OPEN_FIRST_FILE',
@@ -389,6 +390,12 @@ export function createShortcutConfig() {
     ShortcutSection.DIFFS,
     'Hide/Display all comment threads and check code pointers',
     {key: 'h'}
+  );
+  describe(
+    Shortcut.TOGGLE_HIDE_CHECK_CODE_POINTERS,
+    ShortcutSection.DIFFS,
+    'Hide/Display all check code pointers',
+    {key: 'H'}
   );
   describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane', {
     key: Key.LEFT,

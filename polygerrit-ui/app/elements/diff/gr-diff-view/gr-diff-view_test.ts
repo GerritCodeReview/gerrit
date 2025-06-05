@@ -584,6 +584,130 @@ suite('gr-diff-view tests', () => {
       assert.isFalse(element.classList.contains('hideCheckCodePointers'));
     });
 
+    test('shift+h shortcut hides code-pointers only', async () => {
+      element.changeNum = 42 as NumericChangeId;
+      const comment: {[path: string]: CommentInfo[]} = {
+        'wheatley.md': [createComment('c2', 21, 10, 'wheatley.md')],
+      };
+      const checkResult: RunResult = {
+        ...createRunResult(),
+        codePointers: [{path: 'wheatley.md', range: createRange()}],
+      };
+      assertIsDefined(element.diffHost);
+      element.diffHost.checks = [checkResult];
+      element.changeComments = new ChangeComments(comment);
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
+      element.change = {
+        ...createParsedChange(),
+        _number: 42 as NumericChangeId,
+        revisions: {
+          a: createRevision(10),
+        },
+      };
+      element.files = getFilesFromFileList(['wheatley.md']);
+      element.path = 'wheatley.md';
+      element.loggedIn = true;
+      await element.updateComplete;
+      navToDiffStub.reset();
+
+      const handleToggleHideAllCommentsAndCodePointersSpy = sinon.spy(
+        element,
+        'handleToggleHideAllCommentsAndCodePointers'
+      );
+      const handleToggleHideCheckCodePointersSpy = sinon.spy(
+        element,
+        'handleToggleHideCheckCodePointers'
+      );
+      assert.isFalse(handleToggleHideAllCommentsAndCodePointersSpy.called);
+      assert.isFalse(handleToggleHideCheckCodePointersSpy.called);
+      assert.isFalse(element.classList.contains('hideComments'));
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
+
+      pressKey(element, 'H');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideCheckCodePointersSpy.calledOnce);
+      assert.isTrue(element.classList.contains('hideCheckCodePointers'));
+      assert.isFalse(handleToggleHideAllCommentsAndCodePointersSpy.called);
+      assert.isFalse(element.classList.contains('hideComments'));
+
+      pressKey(element, 'H');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideCheckCodePointersSpy.calledTwice);
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
+      assert.isFalse(handleToggleHideAllCommentsAndCodePointersSpy.called);
+      assert.isFalse(element.classList.contains('hideComments'));
+    });
+
+    test('h and shift+h shortcuts interleaved', async () => {
+      element.changeNum = 42 as NumericChangeId;
+      const comment: {[path: string]: CommentInfo[]} = {
+        'wheatley.md': [createComment('c2', 21, 10, 'wheatley.md')],
+      };
+      const checkResult: RunResult = {
+        ...createRunResult(),
+        codePointers: [{path: 'wheatley.md', range: createRange()}],
+      };
+      assertIsDefined(element.diffHost);
+      element.diffHost.checks = [checkResult];
+      element.changeComments = new ChangeComments(comment);
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
+      element.change = {
+        ...createParsedChange(),
+        _number: 42 as NumericChangeId,
+        revisions: {
+          a: createRevision(10),
+        },
+      };
+      element.files = getFilesFromFileList(['wheatley.md']);
+      element.path = 'wheatley.md';
+      element.loggedIn = true;
+      await element.updateComplete;
+      navToDiffStub.reset();
+
+      const handleToggleHideAllCommentsAndCodePointersSpy = sinon.spy(
+        element,
+        'handleToggleHideAllCommentsAndCodePointers'
+      );
+      const handleToggleHideCheckCodePointersSpy = sinon.spy(
+        element,
+        'handleToggleHideCheckCodePointers'
+      );
+      assert.isFalse(handleToggleHideAllCommentsAndCodePointersSpy.called);
+      assert.isFalse(handleToggleHideCheckCodePointersSpy.called);
+      assert.isFalse(element.classList.contains('hideComments'));
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
+
+      pressKey(element, 'H');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideCheckCodePointersSpy.calledOnce);
+      assert.isTrue(element.classList.contains('hideCheckCodePointers'));
+      assert.isFalse(handleToggleHideAllCommentsAndCodePointersSpy.called);
+      assert.isFalse(element.classList.contains('hideComments'));
+
+      pressKey(element, 'h');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideCheckCodePointersSpy.calledOnce);
+      assert.isTrue(element.classList.contains('hideCheckCodePointers'));
+      assert.isTrue(handleToggleHideAllCommentsAndCodePointersSpy.calledOnce);
+      assert.isTrue(element.classList.contains('hideComments'));
+
+      pressKey(element, 'H');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideCheckCodePointersSpy.calledTwice);
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
+      assert.isTrue(handleToggleHideAllCommentsAndCodePointersSpy.calledOnce);
+      assert.isTrue(element.classList.contains('hideComments'));
+
+      pressKey(element, 'h');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideCheckCodePointersSpy.calledTwice);
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
+      assert.isTrue(handleToggleHideAllCommentsAndCodePointersSpy.calledTwice);
+      assert.isFalse(element.classList.contains('hideComments'));
+    });
+
     test('shift+x shortcut toggles all diff context', async () => {
       assertIsDefined(element.diffHost);
       const toggleStub = sinon.stub(element.diffHost, 'toggleAllContext');

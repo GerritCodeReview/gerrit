@@ -719,6 +719,10 @@ export class GrFileList extends LitElement {
       _ => this.toggleHideAllCommentsAndCodePointers()
     );
     this.shortcutsController.addAbstract(
+      Shortcut.TOGGLE_HIDE_CHECK_CODE_POINTERS,
+      _ => this.toggleHideCheckCodePointers()
+    );
+    this.shortcutsController.addAbstract(
       Shortcut.CURSOR_NEXT_FILE,
       e => this.handleCursorNext(e),
       {preventDefault: false}
@@ -1843,6 +1847,10 @@ export class GrFileList extends LitElement {
     } else {
       this.classList.remove('hideCheckCodePointers');
     }
+  }
+
+  toggleHideCheckCodePointers() {
+    this.classList.toggle('hideCheckCodePointers');
   }
 
   // private but used in test

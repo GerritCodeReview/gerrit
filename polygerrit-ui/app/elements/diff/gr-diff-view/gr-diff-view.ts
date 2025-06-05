@@ -332,6 +332,9 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, _ =>
       this.handleToggleAllDiffContext()
     );
+    listen(Shortcut.TOGGLE_HIDE_CHECK_CODE_POINTERS, _ =>
+      this.handleToggleHideCheckCodePointers()
+    );
     listen(Shortcut.NEXT_UNREVIEWED_FILE, _ => this.handleNextUnreviewedFile());
     listen(Shortcut.TOGGLE_BLAME, _ => this.toggleBlame());
     listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS_AND_CODE_POINTERS, _ =>
@@ -1810,6 +1813,11 @@ export class GrDiffView extends LitElement {
     } else {
       this.classList.remove('hideCheckCodePointers');
     }
+  }
+
+  // Private but used in tests.
+  handleToggleHideCheckCodePointers() {
+    this.classList.toggle('hideCheckCodePointers');
   }
 
   private handleOpenFileList() {

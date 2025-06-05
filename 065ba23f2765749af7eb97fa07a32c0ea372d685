@@ -105,6 +105,24 @@
       "parentUuid": "47e94804_a498bd73",
       "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e8ef1c0_a668d79c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-05T08:22:07Z",
+      "side": 1,
+      "message": "\u003e It happens only rarely\n\nSGTM\n\nCan you document this in the commit message as well?\n\nThat explains why you couldn\u0027t add a screenshot with the fix.",
+      "parentUuid": "e6db36bf_5fd69aae",
+      "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

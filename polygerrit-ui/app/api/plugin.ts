@@ -38,6 +38,7 @@ export enum EventType {
   POST_REVERT = 'postrevert',
   ADMIN_MENU_LINKS = 'admin-menu-links',
   SHOW_DIFF = 'showdiff',
+  BEFORE_REPLY_SENT = 'before-reply-sent',
   REPLY_SENT = 'replysent',
   PUBLISH_EDIT = 'publish-edit',
 }

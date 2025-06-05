@@ -317,6 +317,30 @@
       },
       "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5325572b_35737ee8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T15:00:25Z",
+      "side": 1,
+      "message": "Closing as resolved as this is an issue for future upgrades.",
+      "parentUuid": "1c992fd7_863b3d0e",
+      "range": {
+        "startLine": 713,
+        "startChar": 15,
+        "endLine": 715,
+        "endChar": 20
+      },
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

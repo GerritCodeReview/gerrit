@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b7455e4_0661dad0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T15:00:25Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "e81627e5_e3d1bf6f",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f4ce549_f54e22cf",
@@ -101,6 +125,30 @@
           ]
         }
       ],
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3666890_1c2f81cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T15:00:25Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3f4ce549_f54e22cf",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 32
+      },
       "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -176,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0087c51_70390241",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T15:00:25Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "043467cb_225f69e4",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92533a80_4b29a72a",
@@ -189,6 +261,30 @@
       "writtenOn": "2025-06-05T14:10:06Z",
       "side": 1,
       "message": "I checked and in google we use 0.6.1? Could we use that. Sorry, I haven\u0027t checked that earlier.",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c03fafd3_c7b0f8fc",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T15:00:25Z",
+      "side": 1,
+      "message": "No, it introduced a bug so @ mentions no longer work (it seems fixed in later marked versions).\n\nhttps://github.com/markedjs/marked/commit/6c9a8999ddb8ca9c975120ac323cdad9a421db97 fixed it based on my testing.\n\nBut there\u0027s other output changes such as needing \\n. So we should stick with 0.5 that doesn\u0027t have any issues as far as testing is concerned.",
+      "parentUuid": "92533a80_4b29a72a",
       "range": {
         "startLine": 39,
         "startChar": 16,

@@ -40,7 +40,7 @@ def test_GCLockHandlingInitStep(repo):
     task.run(repo)
     assert os.path.exists(lock_file)
 
-    _mofify_last_modified(lock_file, timedelta(hours=13))
+    _modify_last_modified(lock_file, timedelta(hours=13))
 
     task.run(repo)
     assert not os.path.exists(lock_file)
@@ -107,7 +107,7 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     assert os.path.exists(delete_path)
     assert os.path.exists(keep_path)
 
-    _mofify_last_modified(delete_path, timedelta(hours=2))
+    _modify_last_modified(delete_path, timedelta(hours=2))
     task.run(repo)
     assert not os.path.exists(delete_path)
 
@@ -132,9 +132,9 @@ def test_DeleteStaleIncomingPacksCleanupStep(repo):
     assert os.path.exists(object_file)
     assert os.path.exists(incoming_pack_file)
 
-    _mofify_last_modified(pack_file, timedelta(days=2))
-    _mofify_last_modified(object_file, timedelta(days=2))
-    _mofify_last_modified(incoming_pack_file, timedelta(days=2))
+    _modify_last_modified(pack_file, timedelta(days=2))
+    _modify_last_modified(object_file, timedelta(days=2))
+    _modify_last_modified(incoming_pack_file, timedelta(days=2))
 
     task.run(repo)
 
@@ -185,7 +185,7 @@ def test_gc_executed(mock_subproc_run, repo):
     assert mock_subproc_run.call_count == 1
 
 
-def _mofify_last_modified(file, time_delta):
+def _modify_last_modified(file, time_delta):
     file_stat = os.stat(file)
     new_mod_timestamp = datetime.timestamp(
         datetime.fromtimestamp(file_stat.st_mtime) - time_delta

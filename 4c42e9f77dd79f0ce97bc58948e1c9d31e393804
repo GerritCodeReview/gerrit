@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f9b7a91_c2ed8664",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-06-05T21:37:17Z",
+      "side": 1,
+      "message": "Needs the jgit master-\u003eservlet-4 merge pushed to https://eclipse.gerrithub.io/a/eclipse-jgit/jgit and submitted",
+      "revId": "4c42e9f77dd79f0ce97bc58948e1c9d31e393804",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

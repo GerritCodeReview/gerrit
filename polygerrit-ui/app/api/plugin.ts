@@ -25,6 +25,7 @@ export enum TargetElement {
 
 // Note: for new events, naming convention should be: `a-b`
 export enum EventType {
+  BEFORE_CHANGE_ACTION = 'before-change-action',
   LABEL_CHANGE = 'labelchange',
   SHOW_CHANGE = 'showchange',
   SUBMIT_CHANGE = 'submitchange',

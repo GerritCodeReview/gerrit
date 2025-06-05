@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@material/web/button/text-button';
+import '@polymer/paper-button/paper-button';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {EMPTY, of, Subject} from 'rxjs';
 import {delay, switchMap} from 'rxjs/operators';
@@ -200,12 +200,10 @@ export class GrContextControls extends LitElement {
           font: var(--context-control-button-font, inherit);
         }
 
-        md-text-button {
+        paper-button {
           text-transform: none;
           align-items: center;
           background-color: var(--background-color);
-          --md-text-button-label-text-font: inherit;
-          /* This is also set in the button-label-font css var above. We keep this incase it is also needed. */
           font-family: inherit;
           margin: var(--margin, 0);
           min-width: var(--border, 0);
@@ -214,26 +212,13 @@ export class GrContextControls extends LitElement {
           border-width: 1px;
           border-radius: var(--border-radius);
           padding: var(--spacing-s) var(--spacing-l);
-          --md-text-button-container-color: var(--background-color);
-          --md-sys-color-primary: var(--diff-context-control-color);
-          /* We set this to 0 which defaults to 12px under text-button.
-            This is because for some reason it makes the size of it bigger
-            which makes some of the buttons look wrong. E.g. attention set has
-            a bigger width and thus a lot of space. This fixes it. */
-          --md-text-button-leading-space: 0;
-          --md-text-button-trailing-space: 0;
-          /* Brings back the round corners we had with paper-button */
-          --md-text-button-container-shape: 4px;
-          /* Needed to resize properly */
-          min-height: auto;
-          height: auto;
         }
 
-        md-text-button:hover {
+        paper-button:hover {
           /* same as defined in gr-button */
           background: rgba(0, 0, 0, 0.12);
         }
-        md-text-button:focus-visible {
+        paper-button:focus-visible {
           /* paper-button sets this to 0, thus preventing focus-based styling. */
           outline-width: 1px;
         }
@@ -457,7 +442,7 @@ export class GrContextControls extends LitElement {
       });
     };
 
-    const button = html` <md-text-button
+    const button = html` <paper-button
       class=${classes}
       aria-label=${ariaLabel}
       @click=${expandHandler}
@@ -466,7 +451,7 @@ export class GrContextControls extends LitElement {
     >
       <span class="showContext">${text}</span>
       ${tooltip}
-    </md-text-button>`;
+    </paper-button>`;
     return button;
   }
 

@@ -124,7 +124,7 @@ DEFAULT_INIT_STEPS = [GCLockHandlingInitStep(), PreservePacksInitStep()]
 class DeleteEmptyRefDirsCleanupStep(GCStep):
     def run(self, repo_dir):
         refs_path = os.path.join(repo_dir, "refs")
-        for dir in glob(os.path.join(refs_path, "*/*")):
+        for dir in glob(os.path.join(refs_path, "**/**"), recursive=True):
             if (
                 os.path.isdir(dir)
                 and len(os.listdir(dir)) == 0

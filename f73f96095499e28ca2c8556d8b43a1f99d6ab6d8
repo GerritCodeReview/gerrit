@@ -34,6 +34,24 @@
       "parentUuid": "ddb13abb_8e93c600",
       "revId": "f73f96095499e28ca2c8556d8b43a1f99d6ab6d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32ac164_107627b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:49:47Z",
+      "side": 1,
+      "message": "Md-text-button is already alive on gerrit host :)",
+      "parentUuid": "f8ddeee6_243be929",
+      "revId": "f73f96095499e28ca2c8556d8b43a1f99d6ab6d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

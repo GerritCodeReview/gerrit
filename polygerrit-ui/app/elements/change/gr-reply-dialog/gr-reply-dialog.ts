@@ -584,6 +584,18 @@ export class GrReplyDialog extends LitElement {
           margin-right: var(--spacing-m);
           color: var(--info-foreground);
         }
+        .rightActions {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
+        .rightActions a {
+          display: flex;
+          align-items: center;
+        }
+        .rightActions gr-icon {
+          margin: 0;
+        }
       `,
     ];
   }
@@ -1020,7 +1032,7 @@ export class GrReplyDialog extends LitElement {
               `
             )}
           </div>
-          <div>
+          <div class="rightActions">
             ${this.renderModifyAttentionSetButton()}
             <a
               href=${getDocUrl(this.docsBaseUrl, 'user-attention-set.html')}
@@ -1065,9 +1077,7 @@ export class GrReplyDialog extends LitElement {
           <div>
             <span>Modify attention to</span>
           </div>
-
-          <div></div>
-          <div>
+          <div class="rightActions">
             ${this.renderModifyAttentionSetButton()}
             <a
               href=${getDocUrl(this.docsBaseUrl, 'user-attention-set.html')}

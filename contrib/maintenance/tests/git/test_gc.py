@@ -40,7 +40,7 @@ def test_GCLockHandlingInitStep(repo):
     task.run(repo)
     assert os.path.exists(lock_file)
 
-    _mofify_last_modified(lock_file, timedelta(hours=13))
+    _modify_last_modified(lock_file, timedelta(hours=13))
 
     task.run(repo)
     assert not os.path.exists(lock_file)
@@ -97,6 +97,8 @@ def test_PreservePacksInitStep(repo):
 def test_DeleteEmptyRefDirsCleanupStep(repo):
     delete_path = os.path.join(repo, "refs", "heads", "delete")
     os.makedirs(delete_path)
+    delete_change_path = os.path.join(repo, "refs", "changes", "01", "101", "meta")
+    os.makedirs(delete_change_path)
     keep_path = os.path.join(repo, "refs", "heads", "keep")
     os.makedirs(keep_path)
     Path(os.path.join(keep_path, "abcd1234")).touch()
@@ -107,9 +109,13 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     assert os.path.exists(delete_path)
     assert os.path.exists(keep_path)
 
-    _mofify_last_modified(delete_path, timedelta(hours=2))
+    _modify_last_modified(keep_path, timedelta(hours=2))
+    _modify_last_modified(delete_path, timedelta(hours=2))
+    _modify_last_modified(delete_change_path, timedelta(hours=2))
     task.run(repo)
     assert not os.path.exists(delete_path)
+    assert not os.path.exists(delete_change_path)
+    assert not os.path.exists(Path(delete_change_path).parent)
 
 
 def test_DeleteStaleIncomingPacksCleanupStep(repo):
@@ -132,9 +138,9 @@ def test_DeleteStaleIncomingPacksCleanupStep(repo):
     assert os.path.exists(object_file)
     assert os.path.exists(incoming_pack_file)
 
-    _mofify_last_modified(pack_file, timedelta(days=2))
-    _mofify_last_modified(object_file, timedelta(days=2))
-    _mofify_last_modified(incoming_pack_file, timedelta(days=2))
+    _modify_last_modified(pack_file, timedelta(days=2))
+    _modify_last_modified(object_file, timedelta(days=2))
+    _modify_last_modified(incoming_pack_file, timedelta(days=2))
 
     task.run(repo)
 
@@ -185,7 +191,7 @@ def test_gc_executed(mock_subproc_run, repo):
     assert mock_subproc_run.call_count == 1
 
 
-def _mofify_last_modified(file, time_delta):
+def _modify_last_modified(file, time_delta):
     file_stat = os.stat(file)
     new_mod_timestamp = datetime.timestamp(
         datetime.fromtimestamp(file_stat.st_mtime) - time_delta

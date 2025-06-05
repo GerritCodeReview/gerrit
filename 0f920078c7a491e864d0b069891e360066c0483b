@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "211f9d33_3d47dbbb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-05T12:26:42Z",
+      "side": 1,
+      "message": "nit: This should be the opposite of the default value. \n\nShould this be `BooleanProjectConfig.ENABLE_SIGNED_PUSH.getDefaultValue() ? InheritableBoolean.FALSE : InheritableBoolean.TRUE`?",
+      "range": {
+        "startLine": 1347,
+        "startChar": 63,
+        "endLine": 1347,
+        "endChar": 86
+      },
+      "revId": "0f920078c7a491e864d0b069891e360066c0483b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "010532a6_d7f5a35f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-05T12:26:42Z",
+      "side": 1,
+      "message": "nit: should be `!BooleanProjectConfig.ENABLE_SIGNED_PUSH.getDefaultValue()`",
+      "range": {
+        "startLine": 1354,
+        "startChar": 20,
+        "endLine": 1354,
+        "endChar": 60
+      },
+      "revId": "0f920078c7a491e864d0b069891e360066c0483b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

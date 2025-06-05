@@ -63,5 +63,12 @@ export interface JsApiService extends Finalizable {
   canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;
   getReviewPostRevert(change?: ChangeInfo): ReviewInput;
   handleShowDiff(detail: ShowDiffDetail): void;
+  /**
+   * This method is called before a reply to a change is sent.
+   * It allows plugins to modify the review input or to block sending.
+   * @param reviewInput The review input that is about to be sent.
+   * @return A promise that resolves to true if the reply should be sent.
+   */
+  handleBeforeReplySent(reviewInput: ReviewInput): Promise<boolean>;
   handleReplySent(): Promise<void>;
 }

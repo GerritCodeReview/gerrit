@@ -1467,6 +1467,12 @@ export class GrReplyDialog extends LitElement {
     this.reportStartReview(reviewInput);
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforeReplySent(
+        reviewInput
+      ))
+    )
+      return;
     this.getNavigation().blockNavigation('sending review');
     return this.saveReview(reviewInput, errFn)
       .then(result => {

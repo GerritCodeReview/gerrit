@@ -139,6 +139,19 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
+  async handleBeforeReplySent(reviewInput: ReviewInput): Promise<boolean> {
+    await this.waitForPluginsToLoad();
+    let okay = true;
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_REPLY_SENT)) {
+      try {
+        okay = (await cb(reviewInput)) && okay;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_REPLY_SENT);
+      }
+    }
+    return okay;
+  }
+
   async handleReplySent() {
     await this.waitForPluginsToLoad();
     for (const cb of this._getEventCallbacks(EventType.REPLY_SENT)) {

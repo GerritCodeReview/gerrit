@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b484a7c_582ad4ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T16:14:46Z",
+      "side": 1,
+      "message": "Note that the colour is fixed with https://gerrit-review.googlesource.com/c/gerrit/+/480522",
+      "revId": "6f781775491be1e85b637eb719d25f2c375ba109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

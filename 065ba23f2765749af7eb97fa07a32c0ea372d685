@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa9038f8_bf7469bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-05T08:21:29Z",
+      "side": 1,
+      "message": "\u003e What was the problem before\n\nCan you document in the commit message?\n\n\u003e how does adding a unique key fix the issue?\n\nCan you document this as well.\n\nIt\u0027s fine if you don\u0027t know what the exact issue is and how the fix works but it should be part of the commit message.\n\n`fixing the rendering issue.` what is the rendering issue?",
+      "parentUuid": "fdbd2623_0d90bf42",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47e94804_a498bd73",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

@@ -66,6 +66,17 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     return !cancelSubmit;
   }
 
+  async handleBeforeChangeAction(key: string): Promise<boolean> {
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_CHANGE_ACTION)) {
+      try {
+        if (!(await cb(key))) return false;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_CHANGE_ACTION);
+      }
+    }
+    return true;
+  }
+
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null) {
     for (const cb of this._getEventCallbacks(EventType.PUBLISH_EDIT)) {
       try {

@@ -146,7 +146,7 @@ export class GrEditControls extends LitElement {
         }
         #dragDropArea:hover,
         .hover {
-          background-color: #f0f0f0;
+          background-color: var(--hover-background-color);
         }
         #dragDropArea > p {
           font-weight: var(--font-weight-medium);

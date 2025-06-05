@@ -337,6 +337,9 @@ export class GrDiffView extends LitElement {
     listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
       this.handleToggleHideAllCommentThreads()
     );
+    listen(Shortcut.TOGGLE_HIDE_CHECK_CODE_POINTERS, _ =>
+      this.handleToggleHideCheckCodePointers()
+    );
     listen(Shortcut.OPEN_FILE_LIST, _ => this.handleOpenFileList());
     listen(Shortcut.DIFF_AGAINST_BASE, _ => this.handleDiffAgainstBase());
     listen(Shortcut.DIFF_AGAINST_LATEST, _ => this.handleDiffAgainstLatest());
@@ -690,6 +693,9 @@ export class GrDiffView extends LitElement {
         }
         :host(.hideComments) {
           --gr-comment-thread-display: none;
+        }
+        :host(.hideCheckCodePointers) {
+          --gr-check-code-pointers-display: none;
         }
         .diffContainer.sidebarOpen {
           margin-left: var(--sidebar-width);
@@ -1279,6 +1285,7 @@ export class GrDiffView extends LitElement {
 
   private handleNewComment() {
     this.classList.remove('hideComments');
+    this.classList.remove('hideCheckCodePointers');
     this.cursor?.createCommentInPlace();
   }
 
@@ -1543,6 +1550,7 @@ export class GrDiffView extends LitElement {
     this.reInitCursor();
     this.diffHost?.initLayers();
     this.classList.remove('hideComments');
+    this.classList.remove('hideCheckCodePointers');
   }
 
   /**
@@ -1796,7 +1804,18 @@ export class GrDiffView extends LitElement {
   }
 
   private handleToggleHideAllCommentThreads() {
-    this.classList.toggle('hideComments');
+    const isHidingComments = this.classList.toggle('hideComments');
+    /* Allows hiding the check results along with the comments
+       when the user presses the keyboard shortcut 'h'. */
+    if (isHidingComments) {
+      this.classList.add('hideCheckCodePointers');
+    } else {
+      this.classList.remove('hideCheckCodePointers');
+    }
+  }
+
+  private handleToggleHideCheckCodePointers() {
+    this.classList.toggle('hideCheckCodePointers');
   }
 
   private handleOpenFileList() {

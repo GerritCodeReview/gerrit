@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07056d74_e6a7cf22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T08:27:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa9038f8_bf7469bd",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e94804_a498bd73",
@@ -121,6 +145,24 @@
       "side": 1,
       "message": "\u003e It happens only rarely\n\nSGTM\n\nCan you document this in the commit message as well?\n\nThat explains why you couldn\u0027t add a screenshot with the fix.",
       "parentUuid": "e6db36bf_5fd69aae",
+      "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6491e2a_95bc981e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T08:27:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e8ef1c0_a668d79c",
       "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

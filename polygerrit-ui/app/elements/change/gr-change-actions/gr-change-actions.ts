@@ -1348,6 +1348,16 @@ export class GrChangeActions
     );
   }
 
+  async sendBeforePublishEditEvent(): Promise<boolean> {
+    if (!this.change) return true;
+    const change = this.change as ChangeInfo;
+    const revision = this.getRevision(change, this.latestPatchNum);
+    return await this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+      change,
+      revision
+    );
+  }
+
   sendPublishEditEvent() {
     if (!this.change) return;
     const change = this.change as ChangeInfo;
@@ -1397,7 +1407,7 @@ export class GrChangeActions
     this.showActionDialog(this.confirmSubmitDialog);
   }
 
-  private handleActionTap(e: MouseEvent, key: string, type: string) {
+  private async handleActionTap(e: MouseEvent, key: string, type: string) {
     e.preventDefault();
     let el = e.target as Element;
     while (el.tagName.toLowerCase() !== 'gr-button') {
@@ -1420,10 +1430,10 @@ export class GrChangeActions
       );
       return;
     }
-    this.handleAction(type as ActionType, key);
+    await this.handleAction(type as ActionType, key);
   }
 
-  private handleOverflowItemTap(e: CustomEvent<MenuAction>) {
+  private async handleOverflowItemTap(e: CustomEvent<MenuAction>) {
     e.preventDefault();
     const el = e.target as Element;
     const key = e.detail.action.__key;
@@ -1440,18 +1450,18 @@ export class GrChangeActions
       );
       return;
     }
-    this.handleAction(e.detail.action.__type, e.detail.action.__key);
+    await this.handleAction(e.detail.action.__type, e.detail.action.__key);
   }
 
   // private but used in test
-  handleAction(type: ActionType, key: string) {
+  async handleAction(type: ActionType, key: string) {
     this.reporting.reportInteraction(`${type}-${key}`);
     switch (type) {
       case ActionType.REVISION:
         this.handleRevisionAction(key);
         break;
       case ActionType.CHANGE:
-        this.handleChangeAction(key);
+        await this.handleChangeAction(key);
         break;
       default:
         this.fireAction(
@@ -1463,7 +1473,7 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleChangeAction(key: string) {
+  async handleChangeAction(key: string) {
     switch (key) {
       case ChangeActions.REVERT:
         this.showRevertDialog();
@@ -1502,7 +1512,7 @@ export class GrChangeActions
         this.handleMoveTap();
         break;
       case ChangeActions.PUBLISH_EDIT:
-        this.handlePublishEditTap();
+        await this.handlePublishEditTap();
         break;
       case ChangeActions.REBASE_EDIT:
         this.handleRebaseEditTap();
@@ -1762,7 +1772,7 @@ export class GrChangeActions
     );
   }
 
-  private handlePublishEditConfirm() {
+  private async handlePublishEditConfirm() {
     this.hideAllDialogs();
 
     if (!this.actions.publishEdit) return;
@@ -1771,6 +1781,7 @@ export class GrChangeActions
     // edit are deleted.
     this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
 
+    if (!(await this.sendBeforePublishEditEvent())) return;
     this.fireAction(
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),
@@ -2132,7 +2143,7 @@ export class GrChangeActions
     this.fireAction('/wip', assertUIActionInfo(this.actions.wip), false);
   }
 
-  private handlePublishEditTap() {
+  private async handlePublishEditTap() {
     if (this.numberOfThreadsWithUnappliedSuggestions() > 0) {
       assertIsDefined(
         this.confirmPublishEditDialog,
@@ -2141,7 +2152,7 @@ export class GrChangeActions
       this.showActionDialog(this.confirmPublishEditDialog);
     } else {
       // Skip confirmation dialog and publish immediately.
-      this.handlePublishEditConfirm();
+      await this.handlePublishEditConfirm();
     }
   }
 

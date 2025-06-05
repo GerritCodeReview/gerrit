@@ -1397,7 +1397,7 @@ export class GrChangeActions
     this.showActionDialog(this.confirmSubmitDialog);
   }
 
-  private handleActionTap(e: MouseEvent, key: string, type: string) {
+  private async handleActionTap(e: MouseEvent, key: string, type: string) {
     e.preventDefault();
     let el = e.target as Element;
     while (el.tagName.toLowerCase() !== 'gr-button') {
@@ -1420,10 +1420,10 @@ export class GrChangeActions
       );
       return;
     }
-    this.handleAction(type as ActionType, key);
+    await this.handleAction(type as ActionType, key);
   }
 
-  private handleOverflowItemTap(e: CustomEvent<MenuAction>) {
+  private async handleOverflowItemTap(e: CustomEvent<MenuAction>) {
     e.preventDefault();
     const el = e.target as Element;
     const key = e.detail.action.__key;
@@ -1440,18 +1440,18 @@ export class GrChangeActions
       );
       return;
     }
-    this.handleAction(e.detail.action.__type, e.detail.action.__key);
+    await this.handleAction(e.detail.action.__type, e.detail.action.__key);
   }
 
   // private but used in test
-  handleAction(type: ActionType, key: string) {
+  async handleAction(type: ActionType, key: string) {
     this.reporting.reportInteraction(`${type}-${key}`);
     switch (type) {
       case ActionType.REVISION:
         this.handleRevisionAction(key);
         break;
       case ActionType.CHANGE:
-        this.handleChangeAction(key);
+        await this.handleChangeAction(key);
         break;
       default:
         this.fireAction(
@@ -1463,7 +1463,11 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleChangeAction(key: string) {
+  async handleChangeAction(key: string) {
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforeChangeAction(key))
+    )
+      return;
     switch (key) {
       case ChangeActions.REVERT:
         this.showRevertDialog();

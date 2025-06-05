@@ -124,13 +124,15 @@ export class GrPreferences extends LitElement {
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
-    subscribe(
-      this,
-      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
-      // We currently support results from only 1 provider.
-      suggestionsPlugins =>
-        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
-    );
+    if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)) {
+      subscribe(
+        this,
+        () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
+        // We currently support results from only 1 provider.
+        suggestionsPlugins =>
+          (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+      );
+    }
   }
 
   static override get styles() {

@@ -187,6 +187,9 @@ export class GrButton extends LitElement {
           min-width: 3em;
           --md-sys-color-primary: var(--vote-text-color);
         }
+        .loadingSpin {
+          display: inline-block;
+        }
       `,
     ];
   }

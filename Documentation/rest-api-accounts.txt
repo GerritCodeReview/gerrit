@@ -198,7 +198,7 @@ returned that describes the created account.
 --
 
 Deletes the given account if config `enableDelete` under
-link:#config-gerrit.html#accounts[accounts] section is enbaled.
+link:#config-gerrit.html#accounts[accounts] section is enabled.
 
 Currently only supporting self deletion (regardless of the way
 link:#account-id[\{account-id\}] is provided).

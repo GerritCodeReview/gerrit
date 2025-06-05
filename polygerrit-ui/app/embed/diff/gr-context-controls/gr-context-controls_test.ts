@@ -8,7 +8,7 @@ import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
 import {GrContextControls} from './gr-context-controls';
 import {SyntaxBlock} from '../../../api/diff';
-import {assert, fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 import {
   createContextGroup,
@@ -33,7 +33,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'md-text-button.showContext'
+      'paper-button.showContext'
     );
     assert.equal(buttons.length, 1);
     assert.equal(buttons[0].textContent!.trim(), '+10 common lines');
@@ -45,7 +45,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'md-text-button.showContext'
+      'paper-button.showContext'
     );
 
     assert.equal(buttons.length, 2);
@@ -62,7 +62,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'md-text-button.showContext'
+      'paper-button.showContext'
     );
 
     assert.equal(buttons.length, 3);
@@ -81,7 +81,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'md-text-button.showContext'
+      'paper-button.showContext'
     );
 
     assert.equal(buttons.length, 2);
@@ -104,13 +104,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion md-text-button'
+      '.fullExpansion paper-button'
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion md-text-button'
+      '.partialExpansion paper-button'
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
@@ -132,13 +132,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion md-text-button'
+      '.fullExpansion paper-button'
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion md-text-button'
+      '.partialExpansion paper-button'
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 2);
@@ -168,13 +168,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion md-text-button'
+      '.fullExpansion paper-button'
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion md-text-button'
+      '.partialExpansion paper-button'
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
@@ -207,7 +207,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     assert.equal(
       blockExpansionButtons[0]
@@ -258,7 +258,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     assert.equal(
       blockExpansionButtons[0]
@@ -302,7 +302,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     assert.equal(
       blockExpansionButtons[0]
@@ -319,7 +319,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion md-text-button'
+      '.blockExpansion paper-button'
     );
     const tooltipAbove =
       blockExpansionButtons[0].querySelector('paper-tooltip')!;
@@ -342,7 +342,7 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
-      'md-text-button.showContext'
+      'paper-button.showContext'
     );
     assert.equal(buttons.length, 1);
     assert.equal(buttons[0].textContent!.trim(), '+ Unrelated changes');

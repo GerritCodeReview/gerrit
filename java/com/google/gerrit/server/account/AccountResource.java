@@ -104,30 +104,4 @@ public class AccountResource implements RestResource {
       return change.getVirtualId();
     }
   }
-
-  public static class Star implements RestResource {
-    public static final TypeLiteral<RestView<Star>> STAR_KIND = new TypeLiteral<>() {};
-
-    private final IdentifiedUser user;
-    private final ChangeResource change;
-    private final Set<String> labels;
-
-    public Star(IdentifiedUser user, ChangeResource change, Set<String> labels) {
-      this.user = user;
-      this.change = change;
-      this.labels = labels;
-    }
-
-    public IdentifiedUser getUser() {
-      return user;
-    }
-
-    public Change getChange() {
-      return change.getChange();
-    }
-
-    public Set<String> getLabels() {
-      return labels;
-    }
-  }
 }

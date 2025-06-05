@@ -1469,6 +1469,7 @@ export class GrReplyDialog extends LitElement {
     const errFn = (r?: Response | null) => this.handle400Error(r);
     if (
       !(await this.getPluginLoader().jsApiService.handleBeforeReplySent(
+        this.change,
         reviewInput
       ))
     )

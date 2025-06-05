@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
-import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -30,7 +29,6 @@ public class AccountRestApiModule extends RestApiModule {
     bind(AccountsCollection.class).to(AccountsCollectionImpl.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
-    DynamicMap.mapOf(binder(), STAR_KIND);
 
     create(ACCOUNT_KIND).to(CreateAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);

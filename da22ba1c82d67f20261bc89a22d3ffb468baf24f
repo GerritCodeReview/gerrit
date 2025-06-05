@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d38afac_fde6eebb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T17:04:00Z",
+      "side": 1,
+      "message": "@brohlfs@google.com are you able to remove the -2 for this as well please? :)",
+      "revId": "da22ba1c82d67f20261bc89a22d3ffb468baf24f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

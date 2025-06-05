@@ -1465,7 +1465,9 @@ export class GrChangeActions
   // private but used in test
   async handleChangeAction(key: string) {
     if (
-      !(await this.getPluginLoader().jsApiService.handleBeforeChangeAction(key))
+      !(await this.getPluginLoader().jsApiService.handleBeforeChangeAction(
+        key, this.change
+      ))
     )
       return;
     switch (key) {

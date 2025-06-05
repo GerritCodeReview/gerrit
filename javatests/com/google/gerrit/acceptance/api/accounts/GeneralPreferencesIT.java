@@ -57,13 +57,13 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
     assertThat(o.my)
         .containsExactly(
-            new MenuItem("Dashboard", "#/dashboard/self", null),
-            new MenuItem("Draft Comments", "#/q/has:draft", null),
-            new MenuItem("Edits", "#/q/has:edit", null),
-            new MenuItem("Watched Changes", "#/q/is:watched+is:open", null),
-            new MenuItem("Starred Changes", "#/q/is:starred", null),
-            new MenuItem("All Visible Changes", "#/q/is:visible", null),
-            new MenuItem("Groups", "#/settings/#Groups", null));
+            new MenuItem("Dashboard", "/dashboard/self", null),
+            new MenuItem("Draft Comments", "/q/has:draft", null),
+            new MenuItem("Edits", "/q/has:edit", null),
+            new MenuItem("Watched Changes", "/q/is:watched+is:open", null),
+            new MenuItem("Starred Changes", "/q/is:starred", null),
+            new MenuItem("All Visible Changes", "/q/is:visible", null),
+            new MenuItem("Groups", "/settings/#Groups", null));
     assertThat(o.changeTable).isEmpty();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();

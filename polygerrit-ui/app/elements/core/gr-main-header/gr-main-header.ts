@@ -988,17 +988,9 @@ export class GrMainHeader extends LitElement {
 
   // private but used in test
   createHeaderLink(linkObj: TopMenuItemInfo): MainHeaderLink {
-    // Delete target property due to complications of
-    // https://issues.gerritcodereview.com/issues/40006107
-    //
-    // The server tries to guess whether URL is a view within the UI.
-    // If not, it sets target='_blank' on the menu item. The server
-    // makes assumptions that work for the GWT UI, but not PolyGerrit,
-    // so we'll just disable it altogether for now.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {target, ...headerLink} = {...linkObj};
+    const headerLink = {...linkObj};
 
-    // Normalize all urls to PolyGerrit style.
+    // Normalize all GWT style URLs to PolyGerrit style.
     if (headerLink.url.startsWith('#')) {
       headerLink.url = linkObj.url.slice(1);
     }

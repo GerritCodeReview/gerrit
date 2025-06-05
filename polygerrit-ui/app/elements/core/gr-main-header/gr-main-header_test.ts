@@ -309,11 +309,11 @@ suite('gr-main-header tests', () => {
     assert.deepEqual(
       [
         {url: 'https://awesometown.com/#hashyhash', name: '', target: ''},
-        {url: 'url', name: '', target: '_blank'},
+        {url: '#/q/is:nice', name: '', target: '_blank'},
       ].map(element.createHeaderLink),
       [
-        {url: 'https://awesometown.com/#hashyhash', name: ''},
-        {url: 'url', name: ''},
+        {url: 'https://awesometown.com/#hashyhash', name: '', target: ''},
+        {url: '/q/is:nice', name: '', target: '_blank'},
       ]
     );
   });
@@ -428,6 +428,7 @@ suite('gr-main-header tests', () => {
         links: [
           {
             name: 'Manage',
+            target: '_blank',
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
@@ -449,12 +450,10 @@ suite('gr-main-header tests', () => {
         items: [
           {
             name: 'Project Settings',
-            target: '_blank',
             url: '/plugins/myplugin/${projectName}',
           },
           {
             name: 'Project List',
-            target: '_blank',
             url: '/plugins/myplugin/index.html',
           },
         ],
@@ -493,7 +492,6 @@ suite('gr-main-header tests', () => {
         items: [
           {
             name: 'Manage',
-            target: '_blank',
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
@@ -503,7 +501,6 @@ suite('gr-main-header tests', () => {
         items: [
           {
             name: 'Create',
-            target: '_blank',
             url: 'https://gerrit/plugins/plugin-manager/static/create.html',
           },
         ],
@@ -550,7 +547,6 @@ suite('gr-main-header tests', () => {
         items: [
           {
             name: 'Manage',
-            target: '_blank',
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
@@ -589,7 +585,6 @@ suite('gr-main-header tests', () => {
         items: [
           {
             name: 'Manage',
-            target: '_blank',
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],
@@ -652,6 +647,7 @@ suite('gr-main-header tests', () => {
           adminLinks[0],
           {
             name: 'Manage',
+            target: '_blank',
             url: 'https://gerrit/plugins/plugin-manager/static/index.html',
           },
         ],

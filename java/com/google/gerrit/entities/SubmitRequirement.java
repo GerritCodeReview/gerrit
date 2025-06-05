@@ -77,9 +77,11 @@ public abstract class SubmitRequirement {
    */
   public abstract boolean allowOverrideInChildProjects();
 
-  public static SubmitRequirement.Builder builder() {
+  public static Builder builder() {
     return new AutoValue_SubmitRequirement.Builder();
   }
+
+  public abstract Builder toBuilder();
 
   public static TypeAdapter<SubmitRequirement> typeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirement.GsonTypeAdapter(gson);

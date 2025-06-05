@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "755ca619_33bf0354",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T10:04:22Z",
+      "side": 1,
+      "message": "I would be careful with this. Give me some time to test after fixing comments",
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "477209bf_5ed1279c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T10:04:22Z",
+      "side": 1,
+      "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"santizer\" -- should it be \"sanitizer\"?\nNote: a line containi...\n\nCommon typo found: \"santizer\" -- should it be \"sanitizer\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 302,
+        "startChar": 23,
+        "endLine": 302,
+        "endChar": 31
+      },
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db21b0a_6c3a7e1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T10:04:22Z",
+      "side": 1,
+      "message": "Isn\u0027t this leak? It might add on every render new listener. Can you check if listener already exists?\n\nMaybe it needs to be in firstUpdated.\nor put this conversts in callback for gr-marked-element\nor just variable to test listener if it was added.",
+      "range": {
+        "startLine": 366,
+        "startChar": 4,
+        "endLine": 370,
+        "endChar": 7
+      },
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d787d1c4_0d36f616",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T10:04:22Z",
+      "side": 1,
+      "message": "Why this is twice? Isn\u0027t it bug?",
+      "range": {
+        "startLine": 315,
+        "startChar": 2,
+        "endLine": 325,
+        "endChar": 33
+      },
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6663c7_3a0e36f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T10:04:22Z",
+      "side": 1,
+      "message": "Why is this not \u003cpre\u003e anymore?",
+      "range": {
+        "startLine": 713,
+        "startChar": 15,
+        "endLine": 715,
+        "endChar": 20
+      },
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

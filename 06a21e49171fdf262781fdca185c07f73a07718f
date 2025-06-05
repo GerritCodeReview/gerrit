@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b411c2f_0dfbae8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T12:53:53Z",
+      "side": 1,
+      "message": "I think that\u0027s great idea. We have so many chances in pipeline so I would prefer to go slowly for little while to catch all side effects/bugs before next steps. But thank you so much investigating this.",
+      "parentUuid": "5de79f3b_b9cfecec",
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "477209bf_5ed1279c",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 17

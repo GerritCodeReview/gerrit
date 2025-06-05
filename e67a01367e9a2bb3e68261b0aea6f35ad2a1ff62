@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c90f8860_59bc02c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-06-05T14:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1999ee28_93d9f770",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "e67a01367e9a2bb3e68261b0aea6f35ad2a1ff62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "160a576f_e60bf36e",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-06-05T12:52:32Z",
       "side": 1,
       "message": "This change looks desirable, but IIUC it does change the defaults for existing Gerrit sites that do not have submit.mergeContent and receive.requireChangeId set in All-Projects, e.g. sites that have been created before AllProjectsCreator set these configs. For these sites currently the default is \u0027false\u0027 and after this change it becomes \u0027true\u0027. \n\nAt Google we have such hosts and I\u0027m worried that this change will break some of them. I think the only safe way to to proceed with this change is to write a scheme migration that adds the current default to All-Projects if they are not present there. I\u0027m not sure when we\u0027ll have time to run such a migration.",
+      "revId": "e67a01367e9a2bb3e68261b0aea6f35ad2a1ff62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee8ece1_9ad28748",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-06-05T14:03:41Z",
+      "side": 1,
+      "message": "How many instances do you have?\nI\u0027m guessing it is only Google (and Gerritforge?) that runs ~master in production.\nIf you could manually set the default you desire in your instances we could handle the rest by writing a scheme migration or simply making a note in the release notes that \"... these configurations are set programmatically and if you don\u0027t have them set explicitly the default value will change for `receive.requireChangeId` and `submit.mergeContent` from `False` to `True`.\"?\n\nIf that\u0027s not an option for you I\u0027m guessing I might as well abandon this change, as it will never lose that CR-2.",
+      "parentUuid": "160a576f_e60bf36e",
       "revId": "e67a01367e9a2bb3e68261b0aea6f35ad2a1ff62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1348,6 +1348,16 @@ export class GrChangeActions
     );
   }
 
+  async sendBeforePublishEditEvent(): Promise<boolean> {
+    if (!this.change) return true;
+    const change = this.change as ChangeInfo;
+    const revision = this.getRevision(change, this.latestPatchNum);
+    return await this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+      change,
+      revision
+    );
+  }
+
   sendPublishEditEvent() {
     if (!this.change) return;
     const change = this.change as ChangeInfo;
@@ -1771,6 +1781,7 @@ export class GrChangeActions
     // edit are deleted.
     this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
 
+    if (!(await this.sendBeforePublishEditEvent())) return;
     this.fireAction(
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),

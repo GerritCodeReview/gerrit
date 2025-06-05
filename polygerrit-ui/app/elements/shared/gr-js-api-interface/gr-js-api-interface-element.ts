@@ -66,11 +66,14 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     return !cancelSubmit;
   }
 
-  async handleBeforeChangeAction(key: string): Promise<boolean> {
+  async handleBeforeChangeAction(
+    key: string,
+    change?: ParsedChangeInfo
+  ): Promise<boolean> {
     let okay = true;
     for (const cb of this._getEventCallbacks(EventType.BEFORE_CHANGE_ACTION)) {
       try {
-        okay = (await cb(key)) && okay;
+        okay = (await cb(key, change)) && okay;
       } catch (err: unknown) {
         this.reportError(err, EventType.BEFORE_CHANGE_ACTION);
       }
@@ -151,12 +154,15 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
-  async handleBeforeReplySent(reviewInput: ReviewInput): Promise<boolean> {
+  async handleBeforeReplySent(
+    change: ChangeInfo | ParsedChangeInfo,
+    reviewInput: ReviewInput
+  ): Promise<boolean> {
     await this.waitForPluginsToLoad();
     let okay = true;
     for (const cb of this._getEventCallbacks(EventType.BEFORE_REPLY_SENT)) {
       try {
-        okay = (await cb(reviewInput)) && okay;
+        okay = (await cb(change, reviewInput)) && okay;
       } catch (err: unknown) {
         this.reportError(err, EventType.BEFORE_REPLY_SENT);
       }

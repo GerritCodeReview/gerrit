@@ -50,9 +50,13 @@ export interface JsApiService extends Finalizable {
    * This method is called before handling a change action.
    * It allows plugins to conditionally block actions.
    * @param key The change action key.
+   * @param change The relevant change.
    * @return A promise that resolves to true if the action should proceed.
    */
-  handleBeforeChangeAction(key: string): Promise<boolean>;
+  handleBeforeChangeAction(
+    key: string,
+    change?: ParsedChangeInfo
+  ): Promise<boolean>;
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null): void;
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
@@ -73,9 +77,13 @@ export interface JsApiService extends Finalizable {
   /**
    * This method is called before a reply to a change is sent.
    * It allows plugins to modify the review input or to block sending.
+   * @param change The change the reply is on.
    * @param reviewInput The review input that is about to be sent.
    * @return A promise that resolves to true if the reply should be sent.
    */
-  handleBeforeReplySent(reviewInput: ReviewInput): Promise<boolean>;
+  handleBeforeReplySent(
+    change: ChangeInfo | ParsedChangeInfo,
+    reviewInput: ReviewInput
+  ): Promise<boolean>;
   handleReplySent(): Promise<void>;
 }

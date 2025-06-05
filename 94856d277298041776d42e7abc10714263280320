@@ -33,6 +33,24 @@
       "message": "I actually have a fix for this one, so you can remove this file from the change.",
       "revId": "94856d277298041776d42e7abc10714263280320",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8e117c_a133cf40",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T10:48:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15820374_e59ef1a3",
+      "revId": "94856d277298041776d42e7abc10714263280320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76e0a30_99647fe3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-05T08:21:58Z",
+      "side": 1,
+      "message": "I still don\u0027t quite get it. What is a \"lit placeholder\"\n\nBut it\u0027s not worse than it was. And if you say it works, then LGTM.",
+      "parentUuid": "d902a5c8_9f15af2b",
+      "range": {
+        "startLine": 644,
+        "startChar": 67,
+        "endLine": 645,
+        "endChar": 12
+      },
+      "revId": "bd3f1bba8fe605af51dff2afc7a34f95248a4154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5b305d3_bab7fb01",

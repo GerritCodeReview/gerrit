@@ -518,7 +518,7 @@ export interface TopMenuEntryInfo {
 export interface TopMenuItemInfo {
   url: string;
   name: string;
-  target: string;
+  target?: string;
   id?: string;
 }
 

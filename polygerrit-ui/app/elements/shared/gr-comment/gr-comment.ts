@@ -446,16 +446,18 @@ export class GrComment extends LitElement {
         this.autocompleteComment();
       }
     );
-    subscribe(
-      this,
-      () =>
-        this.generateSuggestionTrigger$.pipe(
-          debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
-        ),
-      () => {
-        this.generateSuggestEdit();
-      }
-    );
+    if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)) {
+      subscribe(
+        this,
+        () =>
+          this.generateSuggestionTrigger$.pipe(
+            debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
+          ),
+        () => {
+          this.generateSuggestEdit();
+        }
+      );
+    }
     subscribe(
       this,
       () => this.getUserModel().preferences$,
@@ -1119,6 +1121,7 @@ export class GrComment extends LitElement {
   // private but used in test
   showGeneratedSuggestion() {
     return (
+      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) &&
       this.getSuggestionsService().isGeneratedSuggestedFixEnabledForComment(
         this.comment
       ) &&
@@ -1226,6 +1229,7 @@ export class GrComment extends LitElement {
 
   private async generateSuggestEdit() {
     if (
+      !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
       !this.showGeneratedSuggestion() ||
       !this.generateSuggestion ||
       this.messageText.length === 0
@@ -1635,6 +1639,8 @@ export class GrComment extends LitElement {
   }
 
   getFixSuggestions(): FixSuggestionInfo[] | undefined {
+    if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2))
+      return undefined;
     if (!this.generateSuggestion) return undefined;
     if (!this.generatedFixSuggestion) return undefined;
     // Disable fix suggestions when the comment already has a user suggestion

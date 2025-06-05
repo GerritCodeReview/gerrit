@@ -3439,6 +3439,7 @@ Polymer-2015
 * @polymer/marked-element
 * @polymer/neon-animation
 * @polymer/paper-behaviors
+* @polymer/paper-button
 * @polymer/paper-card
 * @polymer/paper-dropdown-menu
 * @polymer/paper-fab

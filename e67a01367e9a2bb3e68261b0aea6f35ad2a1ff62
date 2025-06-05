@@ -81,6 +81,24 @@
       "parentUuid": "160a576f_e60bf36e",
       "revId": "e67a01367e9a2bb3e68261b0aea6f35ad2a1ff62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2162483f_eef82cf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-05T14:16:01Z",
+      "side": 1,
+      "message": "Unfortunately we have way too many sites to check and update them manually.\n\nIf there was a schema migration in upstream Gerrit we could reuse it for our internal migration, but even then it\u0027s quite some work for us.\n\nActually for both the parameters (submit.mergeContent, receive.requireChangeId) we would like to enable them by default on more sites (but we know that we need to allow exemptions [1]).\n\nWe don\u0027t have work scheduled for this and it\u0027s unclear if/when we can pick this up. But there is a chance that it will get done eventually. So yes, we can abandon this for now and maybe come back to it later.\n\n[1] e.g. last time we tryid to enforce `receive.requireChangeId` we had to revert it, see https://gerrit-review.git.corp.google.com/c/gerrit/+/232074",
+      "parentUuid": "7ee8ece1_9ad28748",
+      "revId": "e67a01367e9a2bb3e68261b0aea6f35ad2a1ff62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

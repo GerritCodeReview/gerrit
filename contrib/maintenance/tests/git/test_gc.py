@@ -97,6 +97,8 @@ def test_PreservePacksInitStep(repo):
 def test_DeleteEmptyRefDirsCleanupStep(repo):
     delete_path = os.path.join(repo, "refs", "heads", "delete")
     os.makedirs(delete_path)
+    delete_change_path = os.path.join(repo, "refs", "changes", "01", "101", "meta")
+    os.makedirs(delete_change_path)
     keep_path = os.path.join(repo, "refs", "heads", "keep")
     os.makedirs(keep_path)
     Path(os.path.join(keep_path, "abcd1234")).touch()
@@ -107,9 +109,13 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     assert os.path.exists(delete_path)
     assert os.path.exists(keep_path)
 
+    _modify_last_modified(keep_path, timedelta(hours=2))
     _modify_last_modified(delete_path, timedelta(hours=2))
+    _modify_last_modified(delete_change_path, timedelta(hours=2))
     task.run(repo)
     assert not os.path.exists(delete_path)
+    assert not os.path.exists(delete_change_path)
+    assert not os.path.exists(Path(delete_change_path).parent)
 
 
 def test_DeleteStaleIncomingPacksCleanupStep(repo):

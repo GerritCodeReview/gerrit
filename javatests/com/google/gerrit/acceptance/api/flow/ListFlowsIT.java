@@ -43,7 +43,8 @@ import java.util.function.Function;
 import org.junit.Test;
 
 /**
- * Integration tests for the {@link com.google.gerrit.server.restapi.flow.ListFlows} REST endpoint.
+ * Integration tests for the {@link com.google.gerrit.server.restapi.change.flow.ListFlows} REST
+ * endpoint.
  */
 public class ListFlowsIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;

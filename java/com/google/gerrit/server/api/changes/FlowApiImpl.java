@@ -20,9 +20,9 @@ import com.google.gerrit.extensions.api.changes.FlowApi;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.restapi.flow.DeleteFlow;
-import com.google.gerrit.server.restapi.flow.FlowResource;
-import com.google.gerrit.server.restapi.flow.GetFlow;
+import com.google.gerrit.server.restapi.change.flow.DeleteFlow;
+import com.google.gerrit.server.restapi.change.flow.FlowResource;
+import com.google.gerrit.server.restapi.change.flow.GetFlow;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

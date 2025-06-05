@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.flow;
+package com.google.gerrit.server.restapi.change.flow;
 
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
-import static com.google.gerrit.server.restapi.flow.FlowResource.FLOW_KIND;
+import static com.google.gerrit.server.restapi.change.flow.FlowResource.FLOW_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
 /** Guice module to bind the flow REST API. */
-public class FlowRestApiModule extends RestApiModule {
+public class ChangeFlowsRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(FlowCollection.class);

@@ -31,7 +31,7 @@ import com.google.gerrit.extensions.common.FlowStageInfo;
 import com.google.gerrit.extensions.common.FlowStageStatus;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowStage;
-import com.google.gerrit.server.restapi.flow.FlowJson;
+import com.google.gerrit.server.restapi.change.flow.FlowJson;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import java.sql.Timestamp;

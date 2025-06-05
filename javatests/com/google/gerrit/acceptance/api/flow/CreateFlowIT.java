@@ -45,7 +45,8 @@ import java.time.Instant;
 import org.junit.Test;
 
 /**
- * Integration tests for the {@link com.google.gerrit.server.restapi.flow.CreateFlow} REST endpoint.
+ * Integration tests for the {@link com.google.gerrit.server.restapi.change.flow.CreateFlow} REST
+ * endpoint.
  */
 public class CreateFlowIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;

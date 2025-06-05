@@ -34,7 +34,8 @@ import com.google.inject.Inject;
 import org.junit.Test;
 
 /**
- * Integration tests for the {@link com.google.gerrit.server.restapi.flow.DeleteFlow} REST endpoint.
+ * Integration tests for the {@link com.google.gerrit.server.restapi.change.flow.DeleteFlow} REST
+ * endpoint.
  */
 public class DeleteFlowIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;

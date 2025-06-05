@@ -21,7 +21,6 @@ import com.google.gerrit.server.restapi.account.AccountRestApiModule;
 import com.google.gerrit.server.restapi.change.ChangeRestApiModule;
 import com.google.gerrit.server.restapi.config.ConfigRestApiModule;
 import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
-import com.google.gerrit.server.restapi.flow.FlowRestApiModule;
 import com.google.gerrit.server.restapi.group.GroupRestApiModule;
 import com.google.gerrit.server.restapi.project.ProjectRestApiModule;
 import com.google.inject.AbstractModule;
@@ -41,7 +40,6 @@ public class RestApiModule extends AbstractModule {
     install(new ChangeRestApiModule());
     install(new ConfigRestApiModule());
     install(new RestCacheAdminModule());
-    install(new FlowRestApiModule());
     install(new GroupRestApiModule());
     install(new PluginRestApiModule());
     install(new ProjectRestApiModule());

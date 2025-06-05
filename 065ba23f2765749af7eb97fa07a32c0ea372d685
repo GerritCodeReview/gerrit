@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdbd2623_0d90bf42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T08:18:47Z",
+      "side": 1,
+      "message": "It\u0027s same fix as in \nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/373514\n\nYou used it as well in\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/449583/28/polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts\n\nWe use it on many places. \n\n\nWe already got 2 user reports like this. Repeat is better than map, especially when we get reports with rendering issues",
+      "parentUuid": "e4b756fa_66e3627e",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e94804_a498bd73",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-06-05T08:13:34Z",
       "side": 1,
       "message": "Maybe add a screenshot verifying the fix?",
+      "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6db36bf_5fd69aae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T08:18:47Z",
+      "side": 1,
+      "message": "I cannot reproduce it. It happens only rarely",
+      "parentUuid": "47e94804_a498bd73",
       "revId": "065ba23f2765749af7eb97fa07a32c0ea372d685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

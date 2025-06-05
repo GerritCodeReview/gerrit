@@ -293,6 +293,30 @@
       },
       "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c992fd7_863b3d0e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "I think we need pre because our css rules are expecting it.\nWe have rule like `:not(pre) \u003e code {` and `code`.\n\nBut maybe it\u0027s ok. We just need to test comments",
+      "parentUuid": "c6fd8265_3f10d42d",
+      "range": {
+        "startLine": 713,
+        "startChar": 15,
+        "endLine": 715,
+        "endChar": 20
+      },
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

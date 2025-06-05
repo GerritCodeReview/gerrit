@@ -1,0 +1,202 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7da89511_73d5e7c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "Btw. Since the original code was authored by Googlers or contributed to polymer under Google\u0027s Contributor License Agreement then it is fine to use Copyright 2024 Google LLC\n * SPDX-License-Identifier: Apache-2.0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fda039ae_d91bb8ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "Sorry for slow review - but after this comments there shouldn\u0027t be anything blocking this to be merged.",
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81627e5_e3d1bf6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "Can you please do one unit test for this element?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f4ce549_f54e22cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "The fallback \u003cdiv\u003e inside the slot is missing the necessary slot\u003d\"markdown-html\" attribute. Because the component uses @queryAssignedElements to find the rendering target, the query will return an empty array when this fallback content is active. As a result, if \u003cgr-marked-element\u003e is ever used without a child element, it will fail to render its markdown content.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 32
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "bb09cf43_dedb0eb6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 70,
+                "startChar": 0,
+                "endLine": 71,
+                "endChar": 0
+              },
+              "replacement": "        \u003cdiv id\u003d\"content\" slot\u003d\"markdown-html\"\u003e\u003c/div\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043467cb_225f69e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "I think this not need, you can use this.isConnected",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 29
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3002e909_8945c6fa",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 74,
+                "startChar": 0,
+                "endLine": 76,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 79,
+                "startChar": 0,
+                "endLine": 80,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 82,
+                "startChar": 0,
+                "endLine": 87,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-marked-element/gr-marked-element.ts",
+              "range": {
+                "startLine": 110,
+                "startChar": 0,
+                "endLine": 111,
+                "endChar": 0
+              },
+              "replacement": "    if (!this.isConnected || !this.outputElement.length) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92533a80_4b29a72a",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-05T14:10:06Z",
+      "side": 1,
+      "message": "I checked and in google we use 0.6.1? Could we use that. Sorry, I haven\u0027t checked that earlier.",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "5bc7c8933e1a8293451e253d05ad5f7b09893ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

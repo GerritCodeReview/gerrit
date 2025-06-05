@@ -75,6 +75,12 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
   }
 
   @CanIgnoreReturnValue
+  public final Q setNoLimit(boolean isNoLimit) {
+    queryProcessor.setNoLimit(isNoLimit);
+    return self();
+  }
+
+  @CanIgnoreReturnValue
   public final Q enforceVisibility(boolean enforce) {
     queryProcessor.enforceVisibility(enforce);
     return self();

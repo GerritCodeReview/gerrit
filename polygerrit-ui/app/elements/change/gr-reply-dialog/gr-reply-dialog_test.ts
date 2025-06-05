@@ -283,7 +283,7 @@ suite('gr-reply-dialog tests', () => {
                   <div>
                     <span> No changes to the attention set. </span>
                   </div>
-                  <div>
+                  <div class="rightActions">
                     <gr-button
                       aria-disabled="false"
                       class="edit-attention-button"

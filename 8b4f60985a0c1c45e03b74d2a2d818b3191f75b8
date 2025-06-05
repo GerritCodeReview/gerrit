@@ -34,6 +34,24 @@
       "parentUuid": "7c06f81c_9efdf64f",
       "revId": "8b4f60985a0c1c45e03b74d2a2d818b3191f75b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc69f6d0_96dcf6a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T23:31:45Z",
+      "side": 1,
+      "message": "This is interesting. It\u0027s supposed to be fixed by the min-heigh/height: auto\n\nBut i\u0027m not sure how to fix it as i can\u0027t reproduce it locally when i set those two. Maybe you\u0027ll come up with a better fix.",
+      "parentUuid": "f43d0d07_40ca983a",
+      "revId": "8b4f60985a0c1c45e03b74d2a2d818b3191f75b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

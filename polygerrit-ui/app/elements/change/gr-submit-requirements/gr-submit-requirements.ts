@@ -14,6 +14,7 @@ import '../../checks/gr-checks-chip-for-label';
 import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ParsedChangeInfo} from '../../../types/types';
+import {repeat} from 'lit/directives/repeat.js';
 import {
   AccountInfo,
   isDetailedLabelInfo,
@@ -153,6 +154,9 @@ export class GrSubmitRequirements extends LitElement {
       getRequirements(this.change)
     );
     if (submit_requirements.length === 0) return nothing;
+
+    const requirementKey = (req: SubmitRequirementResultInfo, index: number) =>
+      `${index}-${req.name}`;
     return html` <h3
         class="metadata-title heading-3"
         id="submit-requirements-caption"
@@ -168,7 +172,7 @@ export class GrSubmitRequirements extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${submit_requirements.map((requirement, index) =>
+          ${repeat(submit_requirements, requirementKey, (requirement, index) =>
             this.renderRequirement(requirement, index)
           )}
         </tbody>

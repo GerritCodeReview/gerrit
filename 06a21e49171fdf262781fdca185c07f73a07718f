@@ -20,6 +20,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5de79f3b_b9cfecec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T12:21:15Z",
+      "side": 1,
+      "message": "If you prefer i can always go back to the patch where i did the update to 0.5 which was probably the easiest  and then upgrade to a newer marked version in a later change?",
+      "parentUuid": "755ca619_33bf0354",
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67f3cf8_733691fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-05T12:21:15Z",
+      "side": 1,
+      "message": "```\n\u003c?php\n\necho \"\";\n````\n\nplain text \u003cdiv\u003efoo\u003c/div\u003e\n        \n`inline code \u003cdiv\u003efoo\u003c/div\u003e`\n        \n```\nmultiline code \u003cdiv\u003efoo\u003c/div\u003e```\n        \n\u003e block quote \u003cdiv\u003efoo\u003c/div\u003e\n        \n[inline link \u003cdiv\u003efoo\u003c/div\u003e](http://google.com)",
+      "revId": "06a21e49171fdf262781fdca185c07f73a07718f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "477209bf_5ed1279c",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 17

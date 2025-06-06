@@ -50,6 +50,47 @@
       "message": "+2",
       "revId": "e5d5aeea67d08b99c09f1cba9bc0df69077e366e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a91b32f_a2c62421",
+        "filename": "polygerrit-ui/app/styles/gr-paper-styles.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T11:24:15Z",
+      "side": 1,
+      "message": "Can we remove these, now?",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "4586fa33_7a39b5a6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/styles/gr-paper-styles.ts",
+              "range": {
+                "startLine": 23,
+                "startChar": 0,
+                "endLine": 27,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "e5d5aeea67d08b99c09f1cba9bc0df69077e366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

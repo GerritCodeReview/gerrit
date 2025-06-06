@@ -120,6 +120,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25f73e92_a5f03993",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T11:24:15Z",
+      "side": 1,
+      "message": "Nit: _key -\u003e key",
+      "range": {
+        "startLine": 214,
+        "startChar": 10,
+        "endLine": 214,
+        "endChar": 14
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6b55e43e_7bfe080c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+              "range": {
+                "startLine": 206,
+                "startChar": 0,
+                "endLine": 208,
+                "endChar": 0
+              },
+              "replacement": "    const key \u003d el.getAttribute(\u0027data-option-key\u0027)!;\n    const configChangeInfo \u003d this.buildConfigChangeInfo(el.value, key);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+              "range": {
+                "startLine": 214,
+                "startChar": 0,
+                "endLine": 216,
+                "endChar": 0
+              },
+              "replacement": "    const key \u003d el.getAttribute(\u0027data-option-key\u0027)!;\n    const configChangeInfo \u003d this.buildConfigChangeInfo(el.value, key);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2dc84fe0_40e0be7f",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
         "patchSetId": 3

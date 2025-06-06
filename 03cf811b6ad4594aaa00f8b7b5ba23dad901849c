@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a74078_b6adaed0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-06T17:10:28Z",
+      "side": 1,
+      "message": "This is really ugly. :-/\n\nCan we maybe check `contains(changeStar, eventTarget)` and `contains(changeLink, eventTarget)` using such a function?\n\n```\n/**\n * Checks if a node contains another node, traversing through shadow DOM boundaries.\n *\n * @param {Node | undefined | null} container The node to check within.\n * @param {Node | undefined | null} target The node to search for.\n * @returns {boolean} `true` if the container holds the target, otherwise `false`.\n */\nexport function deepContains(\n  container: Node | undefined | null,\n  target: Node | undefined | null\n): boolean {\n  if (!container || !target) {\n    return false;\n  }\n\n  // Check for direct containment in the light DOM\n  if (container.contains(target)) {\n    return true;\n  }\n\n  // If the container has a shadow root, recursively check within it\n  if (container instanceof Element \u0026\u0026 container.shadowRoot) {\n    if (deepContains(container.shadowRoot, target)) {\n      return true;\n    }\n  }\n\n  // Recursively check children, including those with shadow roots\n  let currentNode: Node | null \u003d target;\n  while (currentNode) {\n    if (currentNode \u003d\u003d\u003d container) {\n      return true;\n    }\n    \n    // Move up to the assigned slot if the current node is in a slot\n    if (currentNode instanceof HTMLSlotElement) {\n        currentNode \u003d currentNode.assignedSlot;\n    } \n    // If we reach a shadow root, check if its host is within the container\n    else if (currentNode instanceof ShadowRoot) {\n        currentNode \u003d currentNode.host;\n    } \n    // Otherwise, just move up the parent tree\n    else {\n        currentNode \u003d currentNode.parentNode;\n    }\n  }\n\n  return false;\n}\n```",
+      "revId": "03cf811b6ad4594aaa00f8b7b5ba23dad901849c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

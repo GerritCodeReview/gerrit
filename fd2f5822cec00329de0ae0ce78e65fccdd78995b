@@ -1,0 +1,102 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "053d1605_c7f1efb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-06T08:44:00Z",
+      "side": 1,
+      "message": "Please also address comments from https://gerrit-review.git.corp.google.com/c/gerrit/+/481058 in the same way here",
+      "revId": "fd2f5822cec00329de0ae0ce78e65fccdd78995b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "705101ec_78fb72f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-06T08:44:00Z",
+      "side": 1,
+      "message": "I don\u0027t it\u0027s necessary to await here. Same below, I think it should be fine to only have await in handleChangeAction. Since we don\u0027t care about waiting for the action to resolve before exiting this method.",
+      "range": {
+        "startLine": 1423,
+        "startChar": 4,
+        "endLine": 1423,
+        "endChar": 9
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cb62e20b_17bf850a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1423,
+                "startChar": 0,
+                "endLine": 1424,
+                "endChar": 0
+              },
+              "replacement": "    this.handleAction(type as ActionType, key);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1426,
+                "startChar": 0,
+                "endLine": 1427,
+                "endChar": 0
+              },
+              "replacement": "  private handleOverflowItemTap(e: CustomEvent\u003cMenuAction\u003e) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1443,
+                "startChar": 0,
+                "endLine": 1444,
+                "endChar": 0
+              },
+              "replacement": "    this.handleAction(e.detail.action.__type, e.detail.action.__key);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1447,
+                "startChar": 0,
+                "endLine": 1448,
+                "endChar": 0
+              },
+              "replacement": "  handleAction(type: ActionType, key: string) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1454,
+                "startChar": 0,
+                "endLine": 1455,
+                "endChar": 0
+              },
+              "replacement": "        this.handleChangeAction(key);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd2f5822cec00329de0ae0ce78e65fccdd78995b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

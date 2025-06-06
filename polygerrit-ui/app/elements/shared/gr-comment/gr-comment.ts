@@ -93,7 +93,7 @@ import {
   ReportSource,
   suggestionsServiceToken,
 } from '../../../services/suggestions/suggestions-service';
-import {SuggestionsProvider} from '../../../api/suggestions';
+import {ResponseCode, SuggestionsProvider} from '../../../api/suggestions';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 
 // visible for testing
@@ -1262,7 +1262,8 @@ export class GrComment extends LitElement {
     }
   }
 
-  private async autocompleteComment() {
+  // private but visible for testing
+  async autocompleteComment() {
     const enabled = this.flagsService.isEnabled(
       KnownExperimentId.COMMENT_AUTOCOMPLETION
     );
@@ -1280,6 +1281,8 @@ export class GrComment extends LitElement {
       Interaction.COMMENT_COMPLETION_SUGGESTION_FETCHED,
       {...context, hasDraftChanged: this.messageText !== commentText}
     );
+    if (!context.commentCompletion) return;
+    if (context.responseCode !== ResponseCode.OK) return;
     // Note that we are setting the cache value for `commentText` and getting the value
     // for `this.messageText`.
     this.autocompleteCache.set(context);

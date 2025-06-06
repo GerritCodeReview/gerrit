@@ -1,3 +1,5 @@
+import {ResponseCode} from '../api/suggestions';
+
 /**
  * @license
  * Copyright 2024 Google LLC
@@ -27,6 +29,7 @@ export interface AutocompletionContext {
   savedDraftLength?: number;
 
   hasDraftChanged?: boolean;
+  responseCode?: ResponseCode;
 }
 
 /**

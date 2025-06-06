@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Caches important (but small) account state to avoid database hits. */
@@ -35,18 +35,20 @@ public interface AccountCache {
   Optional<AccountState> get(Account.Id accountId);
 
   /**
-   * Returns a {@code Map} of {@code Account.Id} to {@code AccountState} for the given account IDs.
-   * If not cached yet the accounts are loaded. If an account can't be loaded (e.g. because it is
-   * missing), the entry will be missing from the result.
+   * Returns a {@code ImmutableMap} of {@code Account.Id} to {@code AccountState} for the given
+   * account IDs. If not cached yet the accounts are loaded. If an account can't be loaded (e.g.
+   * because it is missing), the entry will be missing from the result. The order of the provided
+   * account IDs is preserved in the result.
    *
    * <p>Loads accounts in parallel if applicable.
    *
    * @param accountIds IDs of the account that should be retrieved
    * @return {@code Map} of {@code Account.Id} to {@code AccountState} instances for the given
    *     account IDs, if an account can't be loaded (e.g. because it is missing), the entry will be
-   *     missing from the result
+   *     missing from the result. The order of the provided * account IDs is preserved in the
+   *     result.
    */
-  Map<Account.Id, AccountState> get(Set<Account.Id> accountIds);
+  ImmutableMap<Account.Id, AccountState> get(Collection<Account.Id> accountIds);
 
   /**
    * Returns an {@code AccountState} instance for the given account ID. If not cached yet the

@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -44,7 +45,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -108,7 +108,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     Set<FillOptions> fillOptionsWithoutSecondaryEmails =
         Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS));
     Set<Account.Id> ids = stream(in).map(a -> Account.id(a._accountId)).collect(toSet());
-    Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
+    ImmutableMap<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountInfo info : in) {
       Account.Id id = Account.id(info._accountId);
       AccountState state = accountStates.get(id);
@@ -131,7 +131,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   @Override
   public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in) {
     Set<Account.Id> ids = stream(in).map(a -> Account.id(a.accountId)).collect(toSet());
-    Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
+    ImmutableMap<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountAttribute accountAttribute : in) {
       Account.Id id = Account.id(accountAttribute.accountId);
       AccountState accountState = accountStates.get(id);

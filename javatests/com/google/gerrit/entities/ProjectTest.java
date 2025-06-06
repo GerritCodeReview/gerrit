@@ -26,6 +26,8 @@ public class ProjectTest {
     assertThat(Project.NameKey.parse("foo+bar")).isEqualTo(new Project.NameKey("foo bar"));
     assertThat(Project.NameKey.parse("foo%2fbar")).isEqualTo(new Project.NameKey("foo/bar"));
     assertThat(Project.NameKey.parse("foo%2Fbar")).isEqualTo(new Project.NameKey("foo/bar"));
+    assertThat(Project.NameKey.parse("foo/a_bar%2B%2B"))
+        .isEqualTo(new Project.NameKey("foo/a_bar++"));
   }
 
   @Test
@@ -35,5 +37,6 @@ public class ProjectTest {
     assertThat(Project.nameKey("foo/bar").toString()).isEqualTo("foo/bar");
     assertThat(Project.nameKey("foo^bar").toString()).isEqualTo("foo%5Ebar");
     assertThat(Project.nameKey("foo%bar").toString()).isEqualTo("foo%25bar");
+    assertThat(Project.nameKey("foo/a_bar++").toString()).isEqualTo("foo/a_bar%2B%2B");
   }
 }

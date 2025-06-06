@@ -112,10 +112,32 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     _modify_last_modified(keep_path, timedelta(hours=2))
     _modify_last_modified(delete_path, timedelta(hours=2))
     _modify_last_modified(delete_change_path, timedelta(hours=2))
+    delete_change_path_parent = Path(delete_change_path).parent
+    _modify_last_modified(delete_change_path_parent, timedelta(hours=2))
     task.run(repo)
     assert not os.path.exists(delete_path)
     assert not os.path.exists(delete_change_path)
-    assert not os.path.exists(Path(delete_change_path).parent)
+    assert not os.path.exists(delete_change_path_parent)
+
+
+def test_DeleteEmptyRefDirsCleanupStep_keeps_ref_dir(repo):
+    refs_path = os.path.join(repo, "refs")
+    heads_path = os.path.join(refs_path, "heads")
+    tags_path = os.path.join(refs_path, "tags")
+    delete_change_path = os.path.join(refs_path, "changes", "01", "101", "meta")
+    os.makedirs(delete_change_path)
+    _modify_last_modified(refs_path, timedelta(hours=2))
+    _modify_last_modified(heads_path, timedelta(hours=2))
+    _modify_last_modified(tags_path, timedelta(hours=2))
+    _modify_last_modified(delete_change_path, timedelta(hours=2))
+
+    task = DeleteEmptyRefDirsCleanupStep()
+    task.run(repo)
+
+    assert not os.path.exists(delete_change_path)
+    assert os.path.exists(refs_path)
+    assert os.path.exists(heads_path)
+    assert os.path.exists(tags_path)
 
 
 def test_DeleteStaleIncomingPacksCleanupStep(repo):

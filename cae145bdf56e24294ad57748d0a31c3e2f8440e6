@@ -169,6 +169,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "306627e1_7108de38",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T13:02:57Z",
+      "side": 1,
+      "message": "Thanks, done in https://gerrit-review.googlesource.com/c/gerrit/+/481961.",
+      "parentUuid": "25f73e92_a5f03993",
+      "range": {
+        "startLine": 214,
+        "startChar": 10,
+        "endLine": 214,
+        "endChar": 14
+      },
+      "revId": "cae145bdf56e24294ad57748d0a31c3e2f8440e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dc84fe0_40e0be7f",

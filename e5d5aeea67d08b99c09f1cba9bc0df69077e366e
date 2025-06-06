@@ -91,6 +91,30 @@
       ],
       "revId": "e5d5aeea67d08b99c09f1cba9bc0df69077e366e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8019e0db_5ff2bbcf",
+        "filename": "polygerrit-ui/app/styles/gr-paper-styles.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T13:02:57Z",
+      "side": 1,
+      "message": "Yes. Done in https://gerrit-review.googlesource.com/c/gerrit/+/481961 thanks!",
+      "parentUuid": "4a91b32f_a2c62421",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "e5d5aeea67d08b99c09f1cba9bc0df69077e366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

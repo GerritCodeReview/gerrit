@@ -76,8 +76,10 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
     LoggingContext loggingCtx = LoggingContext.getInstance();
 
     if (!loggingCtx.isEmpty()) {
-      logger.atWarning().log("Logging context is not empty: %s", loggingCtx);
+      logger.atWarning().log("Logging context is not empty before call(): %s", loggingCtx);
     }
+
+    T returnValue;
 
     // propagate logging context
     try {
@@ -87,10 +89,16 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
       loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
       loggingCtx.aclLogging(aclLogging);
       loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
-      return callable.call();
+      returnValue = callable.call();
     } finally {
       // Cleanup logging context. This is important if the thread is pooled and reused.
       loggingCtx.clear();
     }
+
+    if (!loggingCtx.isEmpty()) {
+      logger.atWarning().log("Logging context is not empty after call(): %s", loggingCtx);
+    }
+
+    return returnValue;
   }
 }

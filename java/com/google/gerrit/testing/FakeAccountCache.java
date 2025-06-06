@@ -20,10 +20,10 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Fake implementation of {@link AccountCache} for testing. */
@@ -53,7 +53,8 @@ public class FakeAccountCache implements AccountCache {
   }
 
   @Override
-  public synchronized Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
+  public synchronized ImmutableMap<Account.Id, AccountState> get(
+      Collection<Account.Id> accountIds) {
     return ImmutableMap.copyOf(Maps.filterKeys(byId, accountIds::contains));
   }
 

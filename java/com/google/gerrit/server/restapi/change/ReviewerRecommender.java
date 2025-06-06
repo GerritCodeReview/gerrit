@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -240,7 +241,7 @@ public class ReviewerRecommender {
   private ImmutableList<Account.Id> getMatchingReviewers(
       ImmutableList<ChangeData> changes, String query) {
     ImmutableList<Account.Id> reviewerIds = getReviewers(changes);
-    Map<Account.Id, AccountState> reviewerStates =
+    ImmutableMap<Account.Id, AccountState> reviewerStates =
         accountCache.get(ImmutableSet.copyOf(reviewerIds));
     return reviewerIds.stream()
         .filter(reviewerId -> accountMatchesQuery(reviewerStates.get(reviewerId), query))

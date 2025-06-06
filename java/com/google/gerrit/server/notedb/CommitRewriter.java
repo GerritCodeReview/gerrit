@@ -1178,7 +1178,7 @@ public class CommitRewriter {
       return Optional.of(AccountTemplateUtil.getAccountTemplate(account.get()));
     }
     // Retrieve reviewer accounts from cache and try to match by their name.
-    Map<Account.Id, AccountState> missingAccountStateReviewers =
+    ImmutableMap<Account.Id, AccountState> missingAccountStateReviewers =
         accountCache.get(
             changeFixProgress.parsedAccounts.entrySet().stream()
                 .filter(entry -> !entry.getValue().isPresent())

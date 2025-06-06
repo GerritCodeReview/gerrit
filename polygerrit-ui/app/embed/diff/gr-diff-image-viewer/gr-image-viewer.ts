@@ -457,6 +457,7 @@ export class GrImageViewer extends LitElement {
       <div id="version-switcher">
         <md-text-button
           class=${classMap(leftClasses)}
+          touch-target="none"
           @click=${this.selectBase}
         >
           Base
@@ -472,6 +473,7 @@ export class GrImageViewer extends LitElement {
         </paper-fab>
         <md-text-button
           class=${classMap(rightClasses)}
+          touch-target="none"
           @click=${this.selectRevision}
         >
           Revision

@@ -20,10 +20,6 @@ export const paperStyles = css`
     padding-right: 0.5em;
   }
 
-  paper-toggle-button {
-    --paper-toggle-button-checked-bar-color: var(--link-color);
-    --paper-toggle-button-checked-button-color: var(--link-color);
-  }
   /* prettier formatter removes semi-colons after css mixins. */
   /* prettier-ignore */
   paper-tabs {

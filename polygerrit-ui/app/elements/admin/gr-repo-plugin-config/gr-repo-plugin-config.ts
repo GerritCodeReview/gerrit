@@ -203,16 +203,16 @@ export class GrRepoPluginConfig extends LitElement {
   private handleStringChange(e: Event) {
     const el = e.target as IronInputElement;
     // In the template, the data-option-key is assigned to each editor
-    const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this.buildConfigChangeInfo(el.value, _key);
+    const key = el.getAttribute('data-option-key')!;
+    const configChangeInfo = this.buildConfigChangeInfo(el.value, key);
     this.handleChange(configChangeInfo);
   }
 
   private handleListChange(e: Event) {
     const el = e.target as HTMLOptionElement;
     // In the template, the data-option-key is assigned to each editor
-    const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this.buildConfigChangeInfo(el.value, _key);
+    const key = el.getAttribute('data-option-key')!;
+    const configChangeInfo = this.buildConfigChangeInfo(el.value, key);
     this.handleChange(configChangeInfo);
   }
 

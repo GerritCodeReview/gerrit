@@ -16,6 +16,23 @@
       "message": "Thanks ben!",
       "revId": "37ea687fa61110de734080cf357316fc05af8284",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c594ca1f_8ef05a94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-06T13:08:40Z",
+      "side": 1,
+      "message": "Thanks for the quick fix. I can confirm that deleting votes works with this change.",
+      "revId": "37ea687fa61110de734080cf357316fc05af8284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

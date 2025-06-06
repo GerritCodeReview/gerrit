@@ -37,6 +37,7 @@ java_library(
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/cache/mem",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",

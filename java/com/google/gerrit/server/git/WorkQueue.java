@@ -423,7 +423,7 @@ public class WorkQueue {
             public Thread newThread(Runnable task) {
               final Thread t = parent.newThread(task);
               t.setName(queueName + "-" + tid.getAndIncrement());
-              t.setUncaughtExceptionHandler(WorkQueue::logUncaughtException);
+              t.setUncaughtExceptionHandler(WorkQueue::handleUncaughtException);
               return t;
             }
           });
@@ -718,8 +718,14 @@ public class WorkQueue {
     }
   }
 
-  private static void logUncaughtException(Thread t, Throwable e) {
+  private static void handleUncaughtException(Thread t, Throwable e) {
     logger.atSevere().withCause(e).log("WorkQueue thread %s threw exception", t.getName());
+
+    // Clear the logging context to prevent that it leaks into other threads.
+    if (!LoggingContext.getInstance().isEmpty()) {
+      logger.atInfo().log("Clearing LoggingContext after uncaught exception");
+      LoggingContext.getInstance().clear();
+    }
   }
 
   /**

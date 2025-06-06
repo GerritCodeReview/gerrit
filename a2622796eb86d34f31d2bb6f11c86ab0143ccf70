@@ -160,6 +160,24 @@
       "parentUuid": "ec2bd61a_f138284e",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5033f9da_643232bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T14:08:06Z",
+      "side": 1,
+      "message": "Oh... seems the `font: inherit;` in md-text-button is correct and not in :host md-text-button. Just tested reverting my change and comparing (i checked out https://github.com/GerritCodeReview/gerrit/commit/0ea70e54d1b31c58c532f9cea3917154eff931e0 and deployed)\n\n@brohlfs@google.com can you re-review the change now that i\u0027ve changed the font bit please? Confirm it works for you?",
+      "parentUuid": "8282c46f_391c7efe",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

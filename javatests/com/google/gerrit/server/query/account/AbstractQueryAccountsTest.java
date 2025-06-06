@@ -898,7 +898,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     for (String email : emails) {
       accountManager.link(id, authRequestFactory.createForEmail(email));
     }
-    accountIndexer.index(id);
   }
 
   protected QueryRequest newQuery(Object query) throws RestApiException {

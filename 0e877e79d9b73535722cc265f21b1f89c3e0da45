@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0aaccde_82e2f434",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-06T08:55:15Z",
+      "side": 1,
+      "message": "Another issue with this code (unrelated to this change) is that the `glob` doesn\u0027t guarantee traversal order. What we need is a guaranteed depth-first traversal, which ensures that a parent directory is visited after all of its child directories are visited. This ensures removal of the parent dir if all child directories were empty. With a random traversal order this is not guaranteed.\nFor example, if we have the following all empty directories:\n```\nrefs/changes/45/12345/meta\nrefs/changes/45/12345/1\nrefs/changes/45/12345/2\n```\n\nthen `refs/changes/45/12345/` will only be detected as empty if all of its childred are processed first.\n\nTo achieve that we shall use `os.walk(root_path, topdown\u003dFalse)`. The `topdown\u003dFalse` guarantees depth-first traversal.",
+      "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b062e6_cacca6ba",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-06T08:55:15Z",
+      "side": 1,
+      "message": "I don\u0027t like a fixed set of exceptions here. IMHO we should keep it simple and skip deletion of all direct child directories under `refs/`.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 17
+      },
+      "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

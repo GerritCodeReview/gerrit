@@ -115,7 +115,33 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     task.run(repo)
     assert not os.path.exists(delete_path)
     assert not os.path.exists(delete_change_path)
-    assert not os.path.exists(Path(delete_change_path).parent)
+    parent = Path(delete_change_path).parent
+    # per round we only delete the deepest level of empty directories
+    # since deleting an empty directory changes last modified
+    # timestamp of its parent directory
+    _modify_last_modified(parent, timedelta(hours=2))
+    task.run(repo)
+    assert not os.path.exists(Path(parent))
+    grandparent = Path(parent).parent
+    _modify_last_modified(grandparent, timedelta(hours=2))
+    task.run(repo)
+    assert not os.path.exists(Path(grandparent))
+
+
+def test_DeleteEmptyRefDirsCleanupStep_keeps_ref_dir(repo):
+    refs_path = os.path.join(repo, "refs")
+    delete_change_path = os.path.join(refs_path, "changes", "01", "101", "meta")
+    os.makedirs(delete_change_path)
+    _modify_last_modified(refs_path, timedelta(hours=2))
+    _modify_last_modified(os.path.join(refs_path, "heads"), timedelta(hours=2))
+    _modify_last_modified(os.path.join(refs_path, "tags"), timedelta(hours=2))
+    _modify_last_modified(delete_change_path, timedelta(hours=2))
+
+    task = DeleteEmptyRefDirsCleanupStep()
+    task.run(repo)
+
+    assert not os.path.exists(delete_change_path)
+    assert os.path.exists(refs_path)
 
 
 def test_DeleteStaleIncomingPacksCleanupStep(repo):

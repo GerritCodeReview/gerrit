@@ -124,13 +124,23 @@ DEFAULT_INIT_STEPS = [GCLockHandlingInitStep(), PreservePacksInitStep()]
 class DeleteEmptyRefDirsCleanupStep(GCStep):
     def run(self, repo_dir):
         refs_path = os.path.join(repo_dir, "refs")
-        for dir in glob(os.path.join(refs_path, "**/**"), recursive=True):
-            if (
-                os.path.isdir(dir)
-                and len(os.listdir(dir)) == 0
-                and Util.is_file_stale(dir, MAX_AGE_EMPTY_REF_DIRS)
-            ):
-                os.removedirs(dir)
+        count = 0
+        LOG.debug("Starting to delete empty directories under %s", refs_path)
+        for dir, _, _ in os.walk(refs_path, topdown=False):
+            relative = os.path.relpath(dir, refs_path)
+            try:
+                depth = len(relative.split(os.sep))
+                if (
+                    not os.listdir(dir)
+                    and depth >= 2
+                    and Util.is_file_stale(dir, MAX_AGE_EMPTY_REF_DIRS)
+                ):
+                    os.rmdir(dir)
+                    LOG.debug("Deleted empty directory %s", dir)
+                    count += 1
+            except Exception:
+                logging.exception("Unexpected error while deleting %s", relative)
+        LOG.info("Deleted %s empty directories under %s", count, refs_path)
 
 
 class DeleteStaleIncomingPacksCleanupStep(GCStep):

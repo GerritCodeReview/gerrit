@@ -99,21 +99,25 @@ public class LoggingContextAwareRunnable implements Runnable {
     LoggingContext loggingCtx = LoggingContext.getInstance();
 
     if (!loggingCtx.isEmpty()) {
-      logger.atWarning().log("Logging context is not empty: %s", loggingCtx);
+      logger.atWarning().log("Logging context is not empty before run(): %s", loggingCtx);
     }
 
     // propagate logging context
-    loggingCtx.setTags(tags);
-    loggingCtx.forceLogging(forceLogging);
-    loggingCtx.performanceLogging(performanceLogging);
-    loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
-    loggingCtx.aclLogging(aclLogging);
-    loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
     try {
+      loggingCtx.setTags(tags);
+      loggingCtx.forceLogging(forceLogging);
+      loggingCtx.performanceLogging(performanceLogging);
+      loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
+      loggingCtx.aclLogging(aclLogging);
+      loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
       runnable.run();
     } finally {
       // Cleanup logging context. This is important if the thread is pooled and reused.
       loggingCtx.clear();
+    }
+
+    if (!loggingCtx.isEmpty()) {
+      logger.atWarning().log("Logging context is not empty after run(): %s", loggingCtx);
     }
   }
 }

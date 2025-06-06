@@ -34,6 +34,24 @@
       "parentUuid": "420500fc_bc32548f",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d04fec91_0980a1e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-06T09:48:17Z",
+      "side": 1,
+      "message": "What is the computed font-family (Open Sans or Roboto) and font-weight (400, 500, 700) before and after that change?",
+      "parentUuid": "86a8e87f_ac271b0a",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

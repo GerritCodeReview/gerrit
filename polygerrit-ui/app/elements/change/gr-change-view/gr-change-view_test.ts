@@ -321,7 +321,12 @@ suite('gr-change-view tests', () => {
                   role="button"
                   tabindex="0"
                   ><gr-change-star id="changeStar"> </gr-change-star>
-                  <a aria-label="Change undefined" class="changeNumber"> </a>
+                  <a
+                    aria-label="Change undefined"
+                    class="changeNumber"
+                    id="changeNumberLink"
+                  >
+                  </a>
                 </gr-button>
                 <div class="headerSubject"></div>
                 <gr-copy-clipboard

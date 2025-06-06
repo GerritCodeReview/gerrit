@@ -142,6 +142,24 @@
       "parentUuid": "1c22e298_219f59f6",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8282c46f_391c7efe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T13:53:01Z",
+      "side": 1,
+      "message": "Putting `font: inherit;` in md-test-button not :host md-test-button, i get:\n\nhttps://imgur.com/a/HwX8iQQ\n\nNot sure if it\u0027s expected? Rather should be bold?\n\nIf i remove font inherit entirely, i get: https://imgur.com/a/PRoIsQc. Seems even smaller?",
+      "parentUuid": "ec2bd61a_f138284e",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

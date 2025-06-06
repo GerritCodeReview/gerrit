@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9878926_8ff5c5bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-06T08:39:38Z",
+      "side": 1,
+      "message": "This should probably be after the handler call. If the handler fails or cancels, the navigation otherwise will stay blocked",
+      "range": {
+        "startLine": 1460,
+        "startChar": 4,
+        "endLine": 1460,
+        "endChar": 59
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0946e3e5_de105de9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1460,
+                "startChar": 0,
+                "endLine": 1461,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1464,
+                "startChar": 0,
+                "endLine": 1464,
+                "endChar": 0
+              },
+              "replacement": "    this.getNavigation().blockNavigation(\u0027sending review\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bef637397b7fe2b8f4777b8bae7c248cc792d176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce61cd7b_a16fbd77",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1463,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-06T08:39:38Z",
+      "side": 1,
+      "message": "I don\u0027t think creating local variable is particularly helps readability",
+      "range": {
+        "startLine": 1461,
+        "startChar": 4,
+        "endLine": 1463,
+        "endChar": 33
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8dee0dad_18f5fa34",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1461,
+                "startChar": 0,
+                "endLine": 1464,
+                "endChar": 0
+              },
+              "replacement": "    if (\n      !(await this.getPluginLoader().jsApiService.handleBeforeReplySent(\n        reviewInput\n      ))\n    ) {\n      return;\n    }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bef637397b7fe2b8f4777b8bae7c248cc792d176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a3176e_3a5bdc67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-06T08:39:38Z",
+      "side": 1,
+      "message": "I don\u0027t think early return is appropriate here, we should call callbacks from all plugins. Otherwise whether or not a certain plugin is called is dependant on order in which the plugins registered callbacks. (ie. inconsistent).",
+      "range": {
+        "startLine": 146,
+        "startChar": 38,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "95413bfc_f64b6f26",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 144,
+                "startChar": 0,
+                "endLine": 144,
+                "endChar": 0
+              },
+              "replacement": "    let shouldSend \u003d true;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 146,
+                "startChar": 0,
+                "endLine": 147,
+                "endChar": 0
+              },
+              "replacement": "        if (!(await cb(reviewInput))) {\n          shouldSend \u003d false;\n        }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 151,
+                "startChar": 0,
+                "endLine": 152,
+                "endChar": 0
+              },
+              "replacement": "    return shouldSend;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bef637397b7fe2b8f4777b8bae7c248cc792d176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9b4d3e_823b3932",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-06-06T08:39:38Z",
+      "side": 1,
+      "message": "Please add documentation about when the method is called, and what the boolean returns",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0ffc6491_4b03c44f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+              "range": {
+                "startLine": 66,
+                "startChar": 0,
+                "endLine": 66,
+                "endChar": 0
+              },
+              "replacement": "  /**\n   * This method is called before the reply is sent.\n   * It allows plugins to modify the review input or to cancel the reply.\n   * @param reviewInput The review input that is about to be sent.\n   * @returns A promise that resolves to true if the reply should be sent, or false if it should be cancelled.\n   */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bef637397b7fe2b8f4777b8bae7c248cc792d176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

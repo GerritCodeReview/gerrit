@@ -1,0 +1,85 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4873803_f6c0d13e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T12:23:36Z",
+      "side": 1,
+      "message": "Great change! Thank you for idea and implementation",
+      "revId": "e68c9aff502f3ab8e45dc05d4e60e28a0f4006c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "458a7c7d_cf6d50d3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T12:23:36Z",
+      "side": 1,
+      "message": "I think it would be good idea to have unit tests:\n\nunit test 1: - maybe already existing, just need to add check code pointers\npress(h) \ncheck(hides both comments and check code pointer)\npress(h)\ncheck(show both comments and check code pointer)\n\nunit test 2\npress(shift+h)\ncheck(hides check code pointer)\npress(h)\ncheck(hides both comments and check code pointer)\npress(shift+h)\ncheck(hides comments and show check code pointer)\npress(h)\ncheck(hides both comments and check code pointer)\npress(h)\nshow(sowh both comments and check code pointer)\n\n\nIs it actually behavior we expect? If yes, let\u0027s have unit test.",
+      "range": {
+        "startLine": 1806,
+        "startChar": 2,
+        "endLine": 1817,
+        "endChar": 3
+      },
+      "revId": "e68c9aff502f3ab8e45dc05d4e60e28a0f4006c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cfb9c26_02e22fb7",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T12:23:36Z",
+      "side": 1,
+      "message": "This now also hides check code pointers",
+      "range": {
+        "startLine": 391,
+        "startChar": 4,
+        "endLine": 391,
+        "endChar": 39
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a4637487_63a9622b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+              "range": {
+                "startLine": 391,
+                "startChar": 0,
+                "endLine": 392,
+                "endChar": 0
+              },
+              "replacement": "    \u0027Hide/Display all comment threads and check code pointers\u0027,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e68c9aff502f3ab8e45dc05d4e60e28a0f4006c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

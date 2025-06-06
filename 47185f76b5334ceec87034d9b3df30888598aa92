@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08f31bb2_798a5dd8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T12:23:36Z",
+      "side": 0,
+      "message": "I would leave comment and maybe even add comment for r-check-code-pointers-displa",
+      "range": {
+        "startLine": 58,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "47185f76b5334ceec87034d9b3df30888598aa92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ba35cbf_5bda202c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T12:23:36Z",
+      "side": 0,
+      "message": "I would guess we still need also this, for showing comment-thread-display when they are not hidden",
+      "range": {
+        "startLine": 60,
+        "startChar": 10,
+        "endLine": 60,
+        "endChar": 59
+      },
+      "revId": "47185f76b5334ceec87034d9b3df30888598aa92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

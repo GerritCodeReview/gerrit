@@ -99,6 +99,8 @@ import java.util.function.Consumer;
  * </pre>
  */
 public class TraceContext implements AutoCloseable {
+  private static final FluentLogger traceContextLogger = FluentLogger.forEnclosingClass();
+
   private static final String PLUGIN_TAG = "PLUGIN";
 
   public static TraceContext open() {
@@ -302,18 +304,23 @@ public class TraceContext implements AutoCloseable {
 
   @Override
   public void close() {
-    for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {
-      if (cell.getValue()) {
-        LoggingContext.getInstance().removeTag(cell.getRowKey(), cell.getColumnKey());
+    try {
+      for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {
+        if (cell.getValue()) {
+          LoggingContext.getInstance().removeTag(cell.getRowKey(), cell.getColumnKey());
+        }
       }
-    }
-    if (stopForceLoggingOnClose) {
-      LoggingContext.getInstance().forceLogging(false);
-    }
+      if (stopForceLoggingOnClose) {
+        LoggingContext.getInstance().forceLogging(false);
+      }
 
-    if (stopAclLoggingOnClose) {
-      LoggingContext.getInstance().aclLogging(oldAclLogging);
-      LoggingContext.getInstance().setAclLogRecords(oldAclLogRecords);
+      if (stopAclLoggingOnClose) {
+        LoggingContext.getInstance().aclLogging(oldAclLogging);
+        LoggingContext.getInstance().setAclLogRecords(oldAclLogRecords);
+      }
+    } catch (RuntimeException e) {
+      traceContextLogger.atSevere().withCause(e).log("Closing trace context failed");
+      throw e;
     }
   }
 }

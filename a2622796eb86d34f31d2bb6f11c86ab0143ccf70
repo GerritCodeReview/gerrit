@@ -16,6 +16,24 @@
       "message": "While you here fixing md-button issues, I think this line should be removed. AFAICT since your change the font of gr-button has changed from --header-font-family (Open Sans) to --font-family (Roboto). And I think this line is the culprit.",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86a8e87f_ac271b0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T09:45:46Z",
+      "side": 1,
+      "message": "Removing this seems to break the font. It causes it to stop being bold:\n\nhttps://imgur.com/a/bFgmLbA",
+      "parentUuid": "420500fc_bc32548f",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

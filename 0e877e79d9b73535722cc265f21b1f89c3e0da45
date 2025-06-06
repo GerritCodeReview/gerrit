@@ -62,6 +62,30 @@
       },
       "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fb36e6d_514c7f60",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-06T10:37:52Z",
+      "side": 1,
+      "message": "LGTM but it fails one of the tests:\n\n```\n$ pipenv run pytest\n...\nrepo \u003d \u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-1/repos8/test.git\u0027\n\n    def test_DeleteEmptyRefDirsCleanupStep(repo):\n        delete_path \u003d os.path.join(repo, \"refs\", \"heads\", \"delete\")\n        os.makedirs(delete_path)\n        delete_change_path \u003d os.path.join(repo, \"refs\", \"changes\", \"01\", \"101\", \"meta\")\n        os.makedirs(delete_change_path)\n        keep_path \u003d os.path.join(repo, \"refs\", \"heads\", \"keep\")\n        os.makedirs(keep_path)\n        Path(os.path.join(keep_path, \"abcd1234\")).touch()\n\n        task \u003d DeleteEmptyRefDirsCleanupStep()\n\n        task.run(repo)\n        assert os.path.exists(delete_path)\n        assert os.path.exists(keep_path)\n\n        _modify_last_modified(keep_path, timedelta(hours\u003d2))\n        _modify_last_modified(delete_path, timedelta(hours\u003d2))\n        _modify_last_modified(delete_change_path, timedelta(hours\u003d2))\n        task.run(repo)\n        assert not os.path.exists(delete_path)\n        assert not os.path.exists(delete_change_path)\n\u003e       assert not os.path.exists(Path(delete_change_path).parent)\nE       AssertionError: assert not True\nE        +  where True \u003d \u003cfunction exists at 0x10424bce0\u003e(PosixPath(\u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-1/repos8/test.git/refs/changes/01/101\u0027))\nE        +    where \u003cfunction exists at 0x10424bce0\u003e \u003d \u003cmodule \u0027posixpath\u0027 (frozen)\u003e.exists\nE        +      where \u003cmodule \u0027posixpath\u0027 (frozen)\u003e \u003d os.path\nE        +    and   PosixPath(\u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-1/repos8/test.git/refs/changes/01/101\u0027) \u003d PosixPath(\u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-1/repos8/test.git/refs/changes/01/101/meta\u0027).parent\nE        +      where PosixPath(\u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-1/repos8/test.git/refs/changes/01/101/meta\u0027) \u003d Path(\u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-1/repos8/test.git/refs/changes/01/101/meta\u0027)\n\ntests/git/test_gc.py:118: AssertionError\n```",
+      "parentUuid": "2da29f0c_65179645",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

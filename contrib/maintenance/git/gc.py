@@ -18,6 +18,7 @@ import os
 
 from datetime import datetime, timedelta
 from glob import glob
+from pathlib import Path
 
 from .config import GitConfigReader
 from . import repo
@@ -124,13 +125,31 @@ DEFAULT_INIT_STEPS = [GCLockHandlingInitStep(), PreservePacksInitStep()]
 class DeleteEmptyRefDirsCleanupStep(GCStep):
     def run(self, repo_dir):
         refs_path = os.path.join(repo_dir, "refs")
-        for dir in glob(os.path.join(refs_path, "**/**"), recursive=True):
+        self.to_delete = {}
+        for dir, dirnames, filenames in os.walk(refs_path, topdown=False):
+            relative = os.path.relpath(dir, refs_path)
+            depth = len(relative.split(os.sep))
             if (
-                os.path.isdir(dir)
-                and len(os.listdir(dir)) == 0
+                not self.listdir(dir)
+                and depth >= 2
                 and Util.is_file_stale(dir, MAX_AGE_EMPTY_REF_DIRS)
             ):
-                os.removedirs(dir)
+                LOG.info("Queuing empty ref directory for deletion: %s", dir)
+                self.to_delete[dir] = None
+
+        for d in self.to_delete:
+            LOG.info("Deleting %s", d)
+            self.rmdir(d)
+
+    def listdir(self, dir):
+        children = (str(e) for e in Path(dir).iterdir())
+        return set(children) - self.to_delete.keys()
+
+    def rmdir(self, dir):
+        try:
+            os.rmdir(dir)
+        except (FileNotFoundError, OSError) as e:
+            LOG.warning("Couldn't delete %s: %s", dir, e)
 
 
 class DeleteStaleIncomingPacksCleanupStep(GCStep):

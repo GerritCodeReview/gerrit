@@ -187,7 +187,6 @@ export class GrSuggestionsService implements SuggestionsService {
       comment,
       comments
     );
-    if (!response?.completion) return;
     return context;
   }
 
@@ -211,6 +210,7 @@ export class GrSuggestionsService implements SuggestionsService {
       draftInSyncWithSuggestionLength: 0,
       modelVersion: response.modelVersion ?? '',
       outcome: response.outcome,
+      responseCode: response.responseCode,
       requestDurationMs,
     };
   }

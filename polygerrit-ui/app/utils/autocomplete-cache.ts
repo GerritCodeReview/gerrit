@@ -27,6 +27,7 @@ export interface AutocompletionContext {
   savedDraftLength?: number;
 
   hasDraftChanged?: boolean;
+  responseCode?: string;
 }
 
 /**

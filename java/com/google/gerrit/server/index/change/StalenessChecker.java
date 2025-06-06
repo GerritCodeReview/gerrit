@@ -31,7 +31,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -170,7 +169,7 @@ public class StalenessChecker {
       String s = new String(b, UTF_8);
       List<String> parts = Splitter.on(':').splitToList(s);
       RefStatePattern.check(parts.size() == 2, s);
-      result.put(Project.nameKey(Url.decode(parts.get(0))), RefStatePattern.create(parts.get(1)));
+      result.put(Project.NameKey.parse(parts.get(0)), RefStatePattern.create(parts.get(1)));
     }
     return result;
   }

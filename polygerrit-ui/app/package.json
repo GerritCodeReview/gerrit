@@ -12,7 +12,14 @@
     "@polymer/iron-fit-behavior": "^3.1.0",
     "@polymer/iron-input": "^3.0.1",
     "@polymer/iron-selector": "^3.0.1",
+<<<<<<< PATCH SET (e273b7 Revert "Revert partial migration to md-text-button")
+    "@polymer/paper-card": "^3.0.1",
+||||||| BASE
     "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-card": "^3.0.1",
+=======
+    "@polymer/paper-button": "^3.0.1",
+>>>>>>> BASE      (b6e90d Merge "Add before change action event")
     "@polymer/paper-input": "^3.2.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",

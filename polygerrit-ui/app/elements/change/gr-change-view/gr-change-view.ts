@@ -210,6 +210,8 @@ export class GrChangeView extends LitElement {
 
   @query('#changeStar') changeStar?: GrChangeStar;
 
+  @query('#changeNumberLink') private changeNumberLink?: HTMLAnchorElement;
+
   @query('#actions') actions?: GrChangeActions;
 
   @query('#commitMessage') commitMessage?: HTMLDivElement;
@@ -1193,11 +1195,25 @@ export class GrChangeView extends LitElement {
         down-arrow
         class="showCopyLinkDialogButton"
         @click=${(e: MouseEvent) => {
-          // We don't want to handle clicks on the star or the <a> link.
-          // Calling `stopPropagation()` from the click handler of <a> is not an
-          // option, because then the click does not reach the top-level gr-page
-          // click handler and would result is a full page reload.
-          if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
+          if (this.changeStar && this.changeNumberLink) {
+            const PADDING = 4;
+            const linkRect = this.changeNumberLink.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+
+            const inLink =
+              x >= linkRect.left - PADDING &&
+              x <= linkRect.right + PADDING &&
+              y >= linkRect.top - PADDING &&
+              y <= linkRect.bottom + PADDING;
+
+            if (inLink) {
+              // trigger navigation
+              const href = this.changeNumberLink.getAttribute('href');
+              if (href) window.location.href = href;
+              return;
+            }
+          }
           this.copyLinksDropdown?.toggleDropdown();
         }}
         ><gr-change-star
@@ -1208,6 +1224,7 @@ export class GrChangeView extends LitElement {
           ?hidden=${!this.loggedIn}
         ></gr-change-star>
         <a
+          id="changeNumberLink"
           class="changeNumber"
           aria-label=${`Change ${this.change?._number}`}
           href=${ifDefined(this.computeChangeUrl(true))}

@@ -334,8 +334,8 @@ export class GrDiffView extends LitElement {
     );
     listen(Shortcut.NEXT_UNREVIEWED_FILE, _ => this.handleNextUnreviewedFile());
     listen(Shortcut.TOGGLE_BLAME, _ => this.toggleBlame());
-    listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
-      this.handleToggleHideAllCommentThreads()
+    listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS_AND_CODE_POINTERS, _ =>
+      this.handleToggleHideAllCommentsAndCodePointers()
     );
     listen(Shortcut.OPEN_FILE_LIST, _ => this.handleOpenFileList());
     listen(Shortcut.DIFF_AGAINST_BASE, _ => this.handleDiffAgainstBase());
@@ -690,6 +690,9 @@ export class GrDiffView extends LitElement {
         }
         :host(.hideComments) {
           --gr-comment-thread-display: none;
+        }
+        :host(.hideCheckCodePointers) {
+          --gr-check-code-pointers-display: none;
         }
         .diffContainer.sidebarOpen {
           margin-left: var(--sidebar-width);
@@ -1279,6 +1282,7 @@ export class GrDiffView extends LitElement {
 
   private handleNewComment() {
     this.classList.remove('hideComments');
+    this.classList.remove('hideCheckCodePointers');
     this.cursor?.createCommentInPlace();
   }
 
@@ -1543,6 +1547,7 @@ export class GrDiffView extends LitElement {
     this.reInitCursor();
     this.diffHost?.initLayers();
     this.classList.remove('hideComments');
+    this.classList.remove('hideCheckCodePointers');
   }
 
   /**
@@ -1795,8 +1800,16 @@ export class GrDiffView extends LitElement {
     }
   }
 
-  private handleToggleHideAllCommentThreads() {
-    this.classList.toggle('hideComments');
+  // Private but used in tests.
+  handleToggleHideAllCommentsAndCodePointers() {
+    const hideComments = this.classList.toggle('hideComments');
+    /* Hide the check results along with the comments
+       when the user presses the keyboard shortcut 'h'. */
+    if (hideComments) {
+      this.classList.add('hideCheckCodePointers');
+    } else {
+      this.classList.remove('hideCheckCodePointers');
+    }
   }
 
   private handleOpenFileList() {

@@ -33,6 +33,8 @@ import {
   createFileInfo,
   createDiffViewState,
   TEST_NUMERIC_CHANGE_ID,
+  createRunResult,
+  createRange,
 } from '../../../test/test-data-generators';
 import {
   BasePatchSetNum,
@@ -77,6 +79,7 @@ import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-mode
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {LoadingStatus} from '../../../types/types';
+import {RunResult} from '../../../models/checks/checks-model';
 
 function createComment(
   id: string,
@@ -531,6 +534,54 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
 
       assert.equal(navToChangeStub.callCount, 1);
+    });
+
+    test('h shortcut hides comments and code-pointers', async () => {
+      element.changeNum = 42 as NumericChangeId;
+      const comment: {[path: string]: CommentInfo[]} = {
+        'wheatley.md': [createComment('c2', 21, 10, 'wheatley.md')],
+      };
+      const checkResult: RunResult = {
+        ...createRunResult(),
+        codePointers: [{path: 'wheatley.md', range: createRange()}],
+      };
+      assertIsDefined(element.diffHost);
+      element.diffHost.checks = [checkResult];
+      element.changeComments = new ChangeComments(comment);
+      element.patchNum = 10 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
+      element.change = {
+        ...createParsedChange(),
+        _number: 42 as NumericChangeId,
+        revisions: {
+          a: createRevision(10),
+        },
+      };
+      element.files = getFilesFromFileList(['wheatley.md']);
+      element.path = 'wheatley.md';
+      element.loggedIn = true;
+      await element.updateComplete;
+      navToDiffStub.reset();
+
+      const handleToggleHideAllCommentsAndCodePointersSpy = sinon.spy(
+        element,
+        'handleToggleHideAllCommentsAndCodePointers'
+      );
+      assert.isFalse(handleToggleHideAllCommentsAndCodePointersSpy.called);
+      assert.isFalse(element.classList.contains('hideComments'));
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
+
+      pressKey(element, 'h');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideAllCommentsAndCodePointersSpy.calledOnce);
+      assert.isTrue(element.classList.contains('hideComments'));
+      assert.isTrue(element.classList.contains('hideCheckCodePointers'));
+
+      pressKey(element, 'h');
+      await element.updateComplete;
+      assert.isTrue(handleToggleHideAllCommentsAndCodePointersSpy.calledTwice);
+      assert.isFalse(element.classList.contains('hideComments'));
+      assert.isFalse(element.classList.contains('hideCheckCodePointers'));
     });
 
     test('shift+x shortcut toggles all diff context', async () => {

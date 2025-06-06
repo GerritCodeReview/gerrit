@@ -650,6 +650,9 @@ export class GrFileList extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        :host(.hideCheckCodePointers) {
+          --gr-check-code-pointers-display: none;
+        }
         .checkChip {
           display: inline-flex;
           align-items: center;
@@ -712,8 +715,8 @@ export class GrFileList extends LitElement {
       this.toggleInlineDiffs()
     );
     this.shortcutsController.addAbstract(
-      Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
-      _ => this.classList.toggle('hideComments')
+      Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS_AND_CODE_POINTERS,
+      _ => this.toggleHideAllCommentsAndCodePointers()
     );
     this.shortcutsController.addAbstract(
       Shortcut.CURSOR_NEXT_FILE,
@@ -1831,6 +1834,15 @@ export class GrFileList extends LitElement {
         total_size: acc.total_size + total_size,
       };
     }, createDefaultPatchChange());
+  }
+
+  private toggleHideAllCommentsAndCodePointers() {
+    const hideComments = this.classList.toggle('hideComments');
+    if (hideComments) {
+      this.classList.add('hideCheckCodePointers');
+    } else {
+      this.classList.remove('hideCheckCodePointers');
+    }
   }
 
   // private but used in test

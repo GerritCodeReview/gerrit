@@ -19,8 +19,7 @@ import {
   LabelInfo,
 } from '../../../types/common';
 import {css, html, LitElement} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-import {GrButton} from '../gr-button/gr-button';
+import {customElement, property, state} from 'lit/decorators.js';
 import {
   canReviewerVote,
   getApprovalInfo,
@@ -33,7 +32,6 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {fireReload} from '../../../utils/event-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 
@@ -73,12 +71,11 @@ export class GrLabelInfo extends LitElement {
   @property({type: Boolean})
   showAllReviewers = true;
 
+  @state() private deleteButtonDisabled = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
-
-  // TODO(TS): not used, remove later
-  _xhrPromise?: Promise<void>;
 
   static override get styles() {
     return [
@@ -191,17 +188,21 @@ export class GrLabelInfo extends LitElement {
   }
 
   private renderRemoveVote(reviewer: AccountInfo) {
+    const accountId = reviewer._account_id;
+    const canDeleteVote = this.canDeleteVote(
+      reviewer,
+      this.mutable,
+      this.change
+    );
+    if (!accountId || !canDeleteVote) return;
+
     return html`<gr-tooltip-content has-tooltip title="Remove vote">
       <gr-button
         link
         aria-label="Remove vote"
-        @click=${this.onDeleteVote}
-        data-account-id=${ifDefined(reviewer._account_id as number | undefined)}
-        class="deleteBtn ${this.computeDeleteClass(
-          reviewer,
-          this.mutable,
-          this.change
-        )}"
+        @click=${() => this.onDeleteVote(accountId)}
+        ?disabled=${this.deleteButtonDisabled}
+        class="deleteBtn"
       >
         <gr-icon icon="delete" filled></gr-icon>
       </gr-button>
@@ -254,71 +255,37 @@ export class GrLabelInfo extends LitElement {
    * A user is able to delete a vote iff the mutable property is true and the
    * reviewer that left the vote exists in the list of removable_reviewers
    * received from the backend.
-   *
-   * @param reviewer An object describing the reviewer that left the
-   *     vote.
    */
-  private computeDeleteClass(
+  private canDeleteVote(
     reviewer: ApprovalInfo,
     mutable: boolean,
     change?: ParsedChangeInfo
   ) {
     if (!mutable || !change || !change.removable_reviewers) {
-      return 'hidden';
+      return false;
     }
     const removable = change.removable_reviewers;
     if (removable.find(r => r._account_id === reviewer?._account_id)) {
-      return '';
+      return true;
     }
-    return 'hidden';
+    return false;
   }
 
-  /**
-   * Closure annotation for Polymer.prototype.splice is off.
-   * For now, suppressing annotations.
-   */
-  private onDeleteVote(e: MouseEvent) {
-    if (!this.change) return;
+  private async onDeleteVote(accountId: AccountId) {
+    if (!this.change || !accountId) return;
 
-    e.preventDefault();
-    let target = e.composedPath()[0] as GrButton;
-    while (!target.classList.contains('deleteBtn')) {
-      if (!target.parentElement) {
-        return;
-      }
-      target = target.parentElement as GrButton;
+    this.deleteButtonDisabled = true;
+    try {
+      const response = await this.restApiService.deleteVote(
+        this.change._number,
+        accountId,
+        this.label
+      );
+      if (response.ok && this.change) fireReload(this);
+    } catch (err) {
+      this.reporting.error('Delete vote', err as Error);
+    } finally {
+      this.deleteButtonDisabled = false;
     }
-
-    target.disabled = true;
-    const accountID = Number(
-      `${target.getAttribute('data-account-id')}`
-    ) as AccountId;
-    this._xhrPromise = this.restApiService
-      .deleteVote(this.change._number, accountID, this.label)
-      .then(response => {
-        target.disabled = false;
-        if (!response.ok) {
-          return;
-        }
-        if (this.change) {
-          fireReload(this);
-        }
-      })
-      .catch(err => {
-        this.reporting.error('Delete vote', err);
-        target.disabled = false;
-        return;
-      });
-  }
-
-  _computeValueTooltip(labelInfo: LabelInfo | undefined, score: string) {
-    if (
-      !labelInfo ||
-      !isDetailedLabelInfo(labelInfo) ||
-      !labelInfo.values?.[score]
-    ) {
-      return '';
-    }
-    return labelInfo.values[score];
   }
 }

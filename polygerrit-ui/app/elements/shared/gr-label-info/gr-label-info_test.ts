@@ -3,12 +3,11 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-label-info';
 import {
-  isHidden,
   mockPromise,
+  query,
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -58,19 +57,6 @@ suite('gr-label-info tests', () => {
           <gr-account-chip>
             <gr-vote-chip circle-shape="" slot="vote-chip"> </gr-vote-chip>
           </gr-account-chip>
-          <gr-tooltip-content has-tooltip="" title="Remove vote">
-            <gr-button
-              aria-disabled="false"
-              aria-label="Remove vote"
-              class="deleteBtn hidden"
-              data-account-id="5"
-              link=""
-              role="button"
-              tabindex="0"
-            >
-              <gr-icon icon="delete" filled></gr-icon>
-            </gr-button>
-          </gr-tooltip-content>
         </div>
       </div>`
     );
@@ -84,7 +70,6 @@ suite('gr-label-info tests', () => {
     };
 
     setup(async () => {
-      sinon.stub(element, '_computeValueTooltip').returns('');
       element.account = account;
       element.change = {
         ...createParsedChange(),
@@ -103,12 +88,12 @@ suite('gr-label-info tests', () => {
     test('_computeCanDeleteVote', async () => {
       element.mutable = false;
       await element.updateComplete;
-      const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
-      assert.isTrue(isHidden(removeButton));
+      assert.isUndefined(query<GrButton>(element, 'gr-button'));
+
       element.change!.removable_reviewers = [account];
       element.mutable = true;
       await element.updateComplete;
-      assert.isFalse(isHidden(removeButton));
+      assert.isDefined(query<GrButton>(element, 'gr-button'));
     });
 
     test('deletes votes', async () => {
@@ -121,12 +106,16 @@ suite('gr-label-info tests', () => {
         recommended: account,
       };
       element.mutable = true;
-      const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
+      await element.updateComplete;
 
+      const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
       removeButton.click();
+      await element.updateComplete;
+
       assert.isTrue(removeButton.disabled);
       mock.resolve();
       await deleteResponse;
+      await element.updateComplete;
 
       assert.isFalse(removeButton.disabled);
       assert.isTrue(
@@ -137,22 +126,6 @@ suite('gr-label-info tests', () => {
         )
       );
     });
-  });
-
-  test('_computeValueTooltip', () => {
-    // Existing label.
-    let labelInfo: LabelInfo = {values: {0: 'Baz'}};
-    let score = '0';
-    assert.equal(element._computeValueTooltip(labelInfo, score), 'Baz');
-
-    // Non-existent score.
-    score = '2';
-    assert.equal(element._computeValueTooltip(labelInfo, score), '');
-
-    // No values on label.
-    labelInfo = {values: {}};
-    score = '0';
-    assert.equal(element._computeValueTooltip(labelInfo, score), '');
   });
 
   suite('computeVoters', () => {

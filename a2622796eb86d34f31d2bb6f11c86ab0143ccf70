@@ -70,6 +70,24 @@
       "parentUuid": "d04fec91_0980a1e6",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a20b641_6afa7fe7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T10:00:54Z",
+      "side": 1,
+      "message": "I’ve gone mobile as had to go out shopping. So can’t check :/.\n\nAlso I compared it to Gerrit-review when I was doing it and it had it bold not thin like it. Maybe I did something wrong or missing something which requires me to set the font here?",
+      "parentUuid": "c5afd4c2_c448d117",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

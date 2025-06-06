@@ -136,9 +136,7 @@ export class GrButton extends LitElement {
           margin: var(--margin, 0);
           min-width: var(--border, 0);
           padding: var(--gr-button-padding, var(--spacing-s) var(--spacing-m));
-          /* Needed to resize properly */
-          min-height: auto;
-          height: auto;
+          --md-text-button-container-height: auto;
           cursor: pointer;
         }
         :host md-text-button:hover,

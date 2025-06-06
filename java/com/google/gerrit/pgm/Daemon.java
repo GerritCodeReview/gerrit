@@ -101,6 +101,7 @@ import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.scheduler.PeriodicIndexScheduler;
+import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
@@ -287,7 +288,15 @@ public class Daemon extends SiteProgram {
     }
     mustHaveValidSite();
     Thread.setDefaultUncaughtExceptionHandler(
-        (t, e) -> logger.atSevere().withCause(e).log("Thread %s threw exception", t.getName()));
+        (t, e) -> {
+          logger.atSevere().withCause(e).log("Thread %s threw exception", t.getName());
+
+          // Clear the logging context to prevent that it leaks into other threads.
+          if (!LoggingContext.getInstance().isEmpty()) {
+            logger.atInfo().log("Clearing LoggingContext after uncaught exception");
+            LoggingContext.getInstance().clear();
+          }
+        });
 
     if (runId != null) {
       runFile = getSitePath().resolve("logs").resolve("gerrit.run");

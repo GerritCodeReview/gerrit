@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/paper-toggle-button/paper-toggle-button';
+import '@material/web/switch/switch';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../gr-rule-editor/gr-rule-editor';
@@ -44,6 +44,7 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {MdSwitch} from '@material/web/switch/switch';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -226,14 +227,12 @@ export class GrPermission extends LitElement {
                   this.section
                 ),
                 () => html`
-                  <paper-toggle-button
+                  <md-switch
                     id="exclusiveToggle"
-                    ?checked=${this.permission?.value.exclusive}
+                    ?selected=${this.permission?.value.exclusive}
                     ?disabled=${!this.editing}
                     @change=${this.handleValueChange}
-                    @click=${this.onTapExclusiveToggle}
-                    @tap=${this.onTapExclusiveToggle}
-                  ></paper-toggle-button
+                  ></md-switch
                   >${this.computeExclusiveLabel(this.permission?.value)}
                 `
               )}
@@ -355,7 +354,7 @@ export class GrPermission extends LitElement {
       return;
     }
     this.permission.value.modified = true;
-    this.permission.value.exclusive = (e.target as HTMLInputElement).checked;
+    this.permission.value.exclusive = (e.target as MdSwitch).selected;
     // Allows overall access page to know a change has been made.
     fire(this, 'access-modified', {});
   }
@@ -552,13 +551,6 @@ export class GrPermission extends LitElement {
 
   private computeExclusiveLabel(permission?: EditablePermissionInfo) {
     return permission?.exclusive ? 'Exclusive' : 'Not Exclusive';
-  }
-
-  /**
-   * Work around a issue on iOS when clicking turns into double tap
-   */
-  private onTapExclusiveToggle(e: Event) {
-    e.preventDefault();
   }
 
   // TODO: Do not use generic `CustomEvent`.

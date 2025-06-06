@@ -3,6 +3,9 @@
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import {ResponseCode} from '../api/suggestions';
+
 export interface AutocompletionContext {
   draftContent: string;
   draftContentLength?: number;
@@ -27,6 +30,7 @@ export interface AutocompletionContext {
   savedDraftLength?: number;
 
   hasDraftChanged?: boolean;
+  responseCode?: ResponseCode;
 }
 
 /**

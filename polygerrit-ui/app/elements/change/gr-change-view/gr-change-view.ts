@@ -879,6 +879,7 @@ export class GrChangeView extends LitElement {
         }
         a.changeNumber {
           margin-left: var(--spacing-xs);
+          position: relative;
         }
         gr-reply-dialog {
           width: calc(min(60em, 90vw));

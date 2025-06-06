@@ -16,6 +16,24 @@
       "message": "@milutin@google.com does this work for you? I\u0027m not able to reproduce the issue or maybe i don\u0027t fully understand it? But i\u0027m coming in this blind and so guessing. But also when i used the dev-fe plugin, i couldn\u0027t reproduce it either (deployed this change, patchset 1)",
       "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2a3b965_e2515524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T15:41:08Z",
+      "side": 1,
+      "message": "Can we please wait little bit. There is already a few regressions with gr-button change. I also cannot work on this migration so much - Thank you for working on it, but it was not in my plan and it takes a lot of time. We will get there. \n\nI am currently trying to fix clicking on change number.",
+      "parentUuid": "8a2fe82b_88a6f1f3",
+      "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

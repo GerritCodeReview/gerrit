@@ -39,6 +39,29 @@
       },
       "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2da29f0c_65179645",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-06T10:24:30Z",
+      "side": 1,
+      "message": "This is my proposal (untested):\n```suggestion\n    def run(self, repo_dir):\n        refs_path \u003d os.path.join(repo_dir, \"refs\")\n        for dir, _, _ in os.walk(refs_path, topdown\u003dFalse):\n            relative \u003d os.path.relpath(dir, refs_path)\n            depth \u003d len(relative.split(os.sep))\n            if (\n                not os.listdir(dir)\n                and depth \u003e\u003d 2\n                and Util.is_file_stale(dir, MAX_AGE_EMPTY_REF_DIRS)\n            ):\n                os.rmdir(dir)\n\n```",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

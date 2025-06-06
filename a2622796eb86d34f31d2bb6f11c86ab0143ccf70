@@ -106,6 +106,24 @@
       "parentUuid": "1a20b641_6afa7fe7",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c22e298_219f59f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-06T13:01:22Z",
+      "side": 1,
+      "message": "You can use the FE Dev Helper and redirect to a version before your md-text-button change. I think this is the last version before your change: https://cdn.googlesource.com/polygerrit_ui/pg_20250527.00_p0/elements/gr-app.js\n\nhttps://imgur.com/a/lM5HWn7\n\nAnd this is what it was looking like: https://imgur.com/a/yHAA0Ku\n\nAFAICT that is Open Sans with font-weight 500.",
+      "parentUuid": "9f4ee628_ed3fb0c8",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

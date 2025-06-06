@@ -3438,7 +3438,6 @@ Polymer-2015
 * @polymer/iron-validatable-behavior
 * @polymer/neon-animation
 * @polymer/paper-behaviors
-* @polymer/paper-button
 * @polymer/paper-card
 * @polymer/paper-icon-button
 * @polymer/paper-input

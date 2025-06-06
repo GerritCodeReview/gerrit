@@ -88,6 +88,24 @@
       "parentUuid": "c5afd4c2_c448d117",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f4ee628_ed3fb0c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-06T10:05:25Z",
+      "side": 1,
+      "message": "Are you able to look please? :)\n\nI think when we used paper-button, we required to do :host paper-button to override the css set within the element? But I’m not 100% sure on that, just an observation that I made but could be wrong on.",
+      "parentUuid": "1a20b641_6afa7fe7",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

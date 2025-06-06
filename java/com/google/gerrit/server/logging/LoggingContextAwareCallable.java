@@ -80,13 +80,13 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
     }
 
     // propagate logging context
-    loggingCtx.setTags(tags);
-    loggingCtx.forceLogging(forceLogging);
-    loggingCtx.performanceLogging(performanceLogging);
-    loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
-    loggingCtx.aclLogging(aclLogging);
-    loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
     try {
+      loggingCtx.setTags(tags);
+      loggingCtx.forceLogging(forceLogging);
+      loggingCtx.performanceLogging(performanceLogging);
+      loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
+      loggingCtx.aclLogging(aclLogging);
+      loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
       return callable.call();
     } finally {
       // Cleanup logging context. This is important if the thread is pooled and reused.

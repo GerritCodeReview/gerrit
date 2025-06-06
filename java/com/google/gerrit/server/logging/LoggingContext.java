@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.flogger.context.Tags;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Provider;
@@ -97,12 +98,20 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   }
 
   public void clear() {
-    tags.remove();
-    forceLogging.remove();
-    performanceLogging.remove();
-    performanceLogRecords.remove();
-    aclLogging.remove();
-    aclLogRecords.remove();
+    try {
+      tags.remove();
+      forceLogging.remove();
+      performanceLogging.remove();
+      performanceLogRecords.remove();
+      aclLogging.remove();
+      aclLogRecords.remove();
+    } catch (RuntimeException e) {
+      FluentLogger.forEnclosingClass()
+          .atSevere()
+          .withCause(e)
+          .log("Clearing logging context failed: %s", this);
+      throw e;
+    }
   }
 
   @Override

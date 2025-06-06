@@ -33,6 +33,24 @@
       "message": "It seems adding `position: relative;` to this fixed it for me. I could click it. Which i guess is why gr-change-star worked.",
       "revId": "03cf811b6ad4594aaa00f8b7b5ba23dad901849c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203f3cc7_a761e0ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-06T18:20:15Z",
+      "side": 1,
+      "message": "That\u0027s better solution! I was thinking about z-index. Can you please create a new change and I will abandon this one? Thanks!",
+      "parentUuid": "dc57dc66_2f7ffb7d",
+      "revId": "03cf811b6ad4594aaa00f8b7b5ba23dad901849c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

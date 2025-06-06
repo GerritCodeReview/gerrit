@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a516eea_d87d5094",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2025-06-06T12:41:05Z",
+      "side": 1,
+      "message": "Sorry, I let this fall off my plate; thanks for the patch.",
+      "parentUuid": "59a82d15_7a8ece1b",
+      "revId": "13826581b6fd7df0d81699b5c5a3bee883e5ae04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87b6cb6e_0e725c1c",
@@ -96,6 +114,30 @@
       "side": 1,
       "message": "Sorry, that wasn\u0027t formatted correctly.",
       "parentUuid": "87b6cb6e_0e725c1c",
+      "range": {
+        "startLine": 1607,
+        "startChar": 0,
+        "endLine": 1609,
+        "endChar": 7
+      },
+      "revId": "13826581b6fd7df0d81699b5c5a3bee883e5ae04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3221f863_557f64f3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1609,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2025-06-06T12:41:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e53fd5e5_e68a37fa",
       "range": {
         "startLine": 1607,
         "startChar": 0,

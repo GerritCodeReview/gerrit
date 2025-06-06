@@ -2879,7 +2879,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 [[Polymer-2014]]
 Polymer-2014
 
-* @polymer/paper-ripple
 * @polymer/paper-styles
 
 [[Polymer-2014_license]]
@@ -2940,13 +2939,7 @@ Polymer-2015
 ** update-fonts.sh
 * @polymer/iron-a11y-keys-behavior
 * @polymer/iron-behaviors
-* @polymer/iron-checked-element-behavior
 * @polymer/iron-flex-layout
-* @polymer/iron-form-element-behavior
-* @polymer/iron-meta
-* @polymer/iron-validatable-behavior
-* @polymer/paper-behaviors
-* @polymer/paper-button
 * @polymer/paper-item
 
 [[Polymer-2015_license]]

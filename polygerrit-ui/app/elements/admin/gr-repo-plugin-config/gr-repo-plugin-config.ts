@@ -203,16 +203,16 @@ export class GrRepoPluginConfig extends LitElement {
   private handleStringChange(e: Event) {
     const el = e.target as IronInputElement;
     // In the template, the data-option-key is assigned to each editor
-    const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this.buildConfigChangeInfo(el.value, _key);
+    const key = el.getAttribute('data-option-key')!;
+    const configChangeInfo = this.buildConfigChangeInfo(el.value, key);
     this.handleChange(configChangeInfo);
   }
 
   private handleListChange(e: Event) {
     const el = e.target as HTMLOptionElement;
     // In the template, the data-option-key is assigned to each editor
-    const _key = el.getAttribute('data-option-key')!;
-    const configChangeInfo = this.buildConfigChangeInfo(el.value, _key);
+    const key = el.getAttribute('data-option-key')!;
+    const configChangeInfo = this.buildConfigChangeInfo(el.value, key);
     this.handleChange(configChangeInfo);
   }
 
@@ -230,14 +230,14 @@ export class GrRepoPluginConfig extends LitElement {
   // Private but used in test
   buildConfigChangeInfo(
     value: string | null | undefined,
-    _key: string
+    key: string
   ): ConfigChangeInfo {
     // If pluginData is not set, editors are not created and this method
     // can't be called
-    const info = this.pluginData!.config[_key];
+    const info = this.pluginData!.config[key];
     info.value = value !== null ? value : undefined;
     return {
-      _key,
+      key,
       info,
     };
   }

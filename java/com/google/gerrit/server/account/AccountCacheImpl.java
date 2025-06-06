@@ -44,6 +44,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -146,7 +147,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
+  public ImmutableMap<Account.Id, AccountState> get(Collection<Account.Id> accountIds) {
     try (TraceTimer ignored =
         TraceContext.newTimer(
             "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {

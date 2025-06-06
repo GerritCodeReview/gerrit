@@ -754,7 +754,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 [[Polymer-2014]]
 Polymer-2014
 
-* @polymer/paper-ripple
 * @polymer/paper-styles
 
 [[Polymer-2014_license]]
@@ -817,7 +816,6 @@ Polymer-2015
 * @polymer/iron-a11y-keys-behavior
 * @polymer/iron-autogrow-textarea
 * @polymer/iron-behaviors
-* @polymer/iron-checked-element-behavior
 * @polymer/iron-dropdown
 * @polymer/iron-fit-behavior
 * @polymer/iron-flex-layout
@@ -830,8 +828,6 @@ Polymer-2015
 * @polymer/iron-selector
 * @polymer/iron-validatable-behavior
 * @polymer/neon-animation
-* @polymer/paper-behaviors
-* @polymer/paper-button
 * @polymer/paper-input
 * @polymer/paper-item
 * @polymer/paper-listbox

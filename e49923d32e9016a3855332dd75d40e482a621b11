@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3b82b0_a6c63abf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-07T13:48:18Z",
+      "side": 1,
+      "message": "I don\u0027t see this used in gerrit. @brohlfs@google.com / @milutin@google.com can this dep be removed? Or is there still plans to use it?",
+      "revId": "e49923d32e9016a3855332dd75d40e482a621b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

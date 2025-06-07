@@ -119,43 +119,39 @@ suite('gr-image-viewer tests', () => {
             <div class="label">Background</div>
             <div class="options">
               <div class="color-picker-button selected">
-                <paper-icon-button
-                  aria-disabled="false"
+                <md-icon-button
                   class="checkerboard color"
-                  role="button"
-                  tabindex="0"
+                  touch-target="none"
+                  value=""
                 >
-                </paper-icon-button>
+                </md-icon-button>
               </div>
               <div class="color-picker-button">
-                <paper-icon-button
-                  aria-disabled="false"
+                <md-icon-button
                   class="color"
-                  role="button"
                   style="background-color:#fff;"
-                  tabindex="0"
+                  touch-target="none"
+                  value=""
                 >
-                </paper-icon-button>
+                </md-icon-button>
               </div>
               <div class="color-picker-button">
-                <paper-icon-button
-                  aria-disabled="false"
+                <md-icon-button
                   class="color"
-                  role="button"
                   style="background-color:#000;"
-                  tabindex="0"
+                  touch-target="none"
+                  value=""
                 >
-                </paper-icon-button>
+                </md-icon-button>
               </div>
               <div class="color-picker-button">
-                <paper-icon-button
-                  aria-disabled="false"
+                <md-icon-button
                   class="color"
-                  role="button"
                   style="background-color:#aaa;"
-                  tabindex="0"
+                  touch-target="none"
+                  value=""
                 >
-                </paper-icon-button>
+                </md-icon-button>
               </div>
             </div>
           </div>

@@ -7,13 +7,13 @@ import '@material/web/button/text-button';
 import '@material/web/checkbox/checkbox';
 import '@polymer/paper-card/paper-card';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
-import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
 import '@material/web/fab/fab';
 import '@material/web/icon/icon';
+import '@material/web/iconbutton/icon-button';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
 
@@ -355,6 +355,7 @@ export class GrImageViewer extends LitElement {
           border-color: var(--outline-color-focus);
         }
         .color-picker-button .color {
+          display: flex;
           border: 1px solid var(--border-color);
           border-radius: 50%;
           width: 100%;
@@ -396,11 +397,12 @@ export class GrImageViewer extends LitElement {
           selected,
         })}
       >
-        <paper-icon-button
+        <md-icon-button
           class="color"
+          touch-target="none"
           style=${styleMap({backgroundColor: color})}
           @click=${colorPicked}
-        ></paper-icon-button>
+        >
       </div>
     `;
   }
@@ -413,11 +415,11 @@ export class GrImageViewer extends LitElement {
           selected: this.checkerboardSelected,
         })}
       >
-        <paper-icon-button
-          class="color checkerboard"
-          @click=${this.pickCheckerboard}
-        >
-        </paper-icon-button>
+      <md-icon-button
+        class="color checkerboard"
+        touch-target="none"
+        @click=${this.pickCheckerboard}
+      >
       </div>
     `;
   }

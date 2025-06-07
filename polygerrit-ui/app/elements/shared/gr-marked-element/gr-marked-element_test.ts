@@ -8,7 +8,7 @@ import './gr-marked-element';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrMarkedElement} from './gr-marked-element';
 
-suite('gr-app-element tests', () => {
+suite('gr-marked-element tests', () => {
   let element: GrMarkedElement;
 
   setup(async () => {

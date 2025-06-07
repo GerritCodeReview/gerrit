@@ -7,14 +7,13 @@ import '@material/web/button/text-button';
 import '@material/web/checkbox/checkbox';
 import '@polymer/paper-card/paper-card';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
-import '@polymer/paper-fab/paper-fab';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
-import '../../../elements/shared/gr-icons/gr-icons';
-
+import '@material/web/fab/fab';
+import '@material/web/icon/icon';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
 
@@ -195,16 +194,20 @@ export class GrImageViewer extends LitElement {
         gr-zoomed-image.revision {
           border-color: var(--revision-image-border-color, rgb(170, 242, 170));
         }
+        md-icon[filled] {
+          font-variation-settings: 'FILL' 1;
+        }
         #automatic-blink-button {
           position: absolute;
           right: var(--spacing-xl);
           bottom: var(--spacing-xl);
           opacity: 0;
           transition: opacity 200ms ease;
-          --paper-fab-background: var(--primary-button-background-color);
-          --paper-fab-keyboard-focus-background: var(
+          --md-sys-color-primary-container: var(
             --primary-button-background-color
           );
+          --md-sys-color-on-primary-container: #ffffff;
+          --md-fab-container-shape: 50px;
         }
         #automatic-blink-button.show,
         #automatic-blink-button:focus-visible {
@@ -276,22 +279,28 @@ export class GrImageViewer extends LitElement {
           flex-grow: 1;
           margin: 0;
           /*
-        The floating action button below overlaps part of the version buttons.
-        This min-width ensures the button text still appears somewhat balanced.
-        */
+            The floating action button below overlaps part of the version buttons.
+            This min-width ensures the button text still appears somewhat balanced.
+          */
           min-width: 7rem;
         }
-        #version-switcher paper-fab {
+        #version-switcher md-fab {
           /* Round button overlaps Base and Revision buttons. */
           z-index: 1;
           margin: 0 -12px;
           /* Styled as an outlined button. */
           color: var(--primary-button-background-color);
           border: 1px solid var(--primary-button-background-color);
-          --paper-fab-background: var(--primary-background-color);
-          --paper-fab-keyboard-focus-background: var(
-            --primary-background-color
+          border-radius: 50%;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12);
+          --md-sys-color-primary-container: var(--primary-background-color);
+          --md-sys-color-on-primary-container: var(
+            --primary-button-background-color
           );
+          --md-fab-container-shape: 50px;
+          --md-fab-container-height: 40px;
+          --md-fab-container-width: 40px;
         }
         #version-explanation {
           color: var(--deemphasized-text-color);
@@ -470,21 +479,25 @@ export class GrImageViewer extends LitElement {
       <div id="version-switcher">
         <md-text-button
           class=${classMap(leftClasses)}
+          touch-target="none"
           @click=${this.selectBase}
         >
           Base
         </md-text-button>
-        <paper-fab
+        <md-fab
           mini
-          icon="gr-icons:swapHoriz"
           title=${this.baseSelected
             ? 'switch to Revision version'
             : 'switch to Base version'}
+          variant="primary"
+          touch-target="none"
           @click=${this.manualBlink}
         >
-        </paper-fab>
+          <md-icon slot="icon" filled>swap_horiz</md-icon>
+        </md-fab>
         <md-text-button
           class=${classMap(rightClasses)}
+          touch-target="none"
           @click=${this.selectRevision}
         >
           Revision
@@ -594,14 +607,18 @@ export class GrImageViewer extends LitElement {
     `;
 
     const automaticBlink = html`
-      <paper-fab
+      <md-fab
         id="automatic-blink-button"
         class=${classMap({show: this.automaticBlinkShown})}
         title="Automatic blink"
-        icon="gr-icons:${this.automaticBlink ? 'pause' : 'playArrow'}"
+        variant="primary"
+        touch-target="none"
         @click=${this.toggleAutomaticBlink}
       >
-      </paper-fab>
+        <md-icon slot="icon" filled
+          >${this.automaticBlink ? 'pause' : 'play_arrow'}</md-icon
+        >
+      </md-fab>
     `;
 
     // To pass CSS mixins for @apply to Polymer components, they need to appear

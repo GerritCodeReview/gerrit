@@ -836,7 +836,6 @@ Polymer-2015
 * @polymer/paper-button
 * @polymer/paper-card
 * @polymer/paper-dropdown-menu
-* @polymer/paper-fab
 * @polymer/paper-icon-button
 * @polymer/paper-input
 * @polymer/paper-item

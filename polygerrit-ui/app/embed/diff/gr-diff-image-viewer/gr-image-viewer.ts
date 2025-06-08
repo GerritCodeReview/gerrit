@@ -6,25 +6,21 @@
 import '@material/web/button/text-button';
 import '@material/web/checkbox/checkbox';
 import '@polymer/paper-card/paper-card';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
-import '@polymer/paper-item/paper-item';
-import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
 import '@material/web/fab/fab';
 import '@material/web/icon/icon';
 import '@material/web/iconbutton/icon-button';
+import '@material/web/select/filled-select';
+import '@material/web/select/select-option';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
-
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
-
 import {Dimensions, fitToFrame, FrameConstrainer, Point, Rect} from './util';
-import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {ImageDiffAction} from '../../../api/diff';
 
@@ -316,13 +312,23 @@ export class GrImageViewer extends LitElement {
           margin-top: var(--spacing-m);
         }
         #zoom-control {
-          margin: 0 var(--spacing-xl);
+          margin: var(--spacing-m) var(--spacing-xl) 0;
         }
-        paper-item {
+        md-filled-select::part(field) {
           cursor: pointer;
         }
-        paper-item:hover {
-          background-color: var(--hover-background-color);
+        md-filled-select {
+          --md-sys-color-surface-container: var(--select-surface-container);
+          --md-sys-color-surface-container-highest: var(
+            --select-surface-container-highest
+          );
+          --md-sys-color-on-surface: var(--select-on-surface);
+          --md-sys-color-on-surface-variant: var(--select-on-surface-variant);
+          --md-sys-color-primary: var(--select-primary);
+          --md-sys-color-secondary-container: var(--select-secondary-container);
+          --md-sys-color-on-secondary-container: var(
+            --select-on-secondary-container
+          );
         }
         #follow-mouse {
           margin: var(--spacing-m) var(--spacing-xl);
@@ -544,22 +550,24 @@ export class GrImageViewer extends LitElement {
     `;
 
     const zoomControl = html`
-      <paper-dropdown-menu id="zoom-control" label="Zoom">
-        <paper-listbox
-          slot="dropdown-content"
-          selected="fit"
-          .attrForSelected=${'value'}
-          @selected-changed=${this.zoomControlChanged}
-        >
-          ${this.zoomLevels.map(
-            zoomLevel => html`
-              <paper-item value=${zoomLevel}>
+      <md-filled-select
+        id="zoom-control"
+        label="Zoom"
+        @change=${this.zoomControlChanged}
+      >
+        ${this.zoomLevels.map(
+          zoomLevel => html`
+            <md-select-option
+              ?selected=${zoomLevel === 'fit'}
+              value=${zoomLevel}
+            >
+              <div slot="headline">
                 ${zoomLevel === 'fit' ? 'Fit' : `${zoomLevel * 100}%`}
-              </paper-item>
-            `
-          )}
-        </paper-listbox>
-      </paper-dropdown-menu>
+              </div>
+            </md-select-option>
+          `
+        )}
+      </md-filled-select>
     `;
 
     const followMouse = html`
@@ -623,31 +631,7 @@ export class GrImageViewer extends LitElement {
       </md-fab>
     `;
 
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        /* prettier formatter removes semi-colons after css mixins. */
-        /* prettier-ignore */
-        paper-item {
-          --paper-item-min-height: 48;
-          --paper-item: {
-            min-height: 48px;
-            padding: 0 var(--spacing-xl);
-          };
-          --paper-item-focused-before: {
-            background-color: var(--selection-background-color);
-          };
-          --paper-item-focused: {
-            background-color: var(--selection-background-color);
-          };
-        }
-      </style>
-    `;
-
     return html`
-      ${customStyle}
       <div
         class="imageArea"
         @mousemove=${this.mousemoveImageArea}
@@ -808,8 +792,8 @@ export class GrImageViewer extends LitElement {
     });
   }
 
-  zoomControlChanged(event: ValueChangedEvent<string>) {
-    const scaleString = event.detail.value;
+  zoomControlChanged(event: Event) {
+    const scaleString = (event.target as HTMLSelectElement).value;
     if (!scaleString) return;
     if (scaleString === 'fit') {
       this.scaledSelected = true;

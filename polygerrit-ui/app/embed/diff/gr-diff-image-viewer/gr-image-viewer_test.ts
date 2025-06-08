@@ -45,76 +45,32 @@ suite('gr-image-viewer tests', () => {
           <gr-overview-image>
             <img class="checkerboard" src="" style="background-color:;" />
           </gr-overview-image>
-          <paper-dropdown-menu
-            aria-disabled="false"
-            dir="null"
-            id="zoom-control"
-            label="Zoom"
-          >
-            <paper-listbox
-              aria-expanded="false"
-              role="listbox"
-              selected="fit"
-              slot="dropdown-content"
+          <md-filled-select id="zoom-control" label="Zoom">
+            <md-select-option
+              data-aria-selected="true"
+              md-menu-item=""
+              selected=""
               tabindex="0"
+              value="fit"
             >
-              <paper-item
-                aria-disabled="false"
-                aria-selected="true"
-                class="iron-selected"
-                role="option"
-                tabindex="0"
-                value="fit"
-              >
-                Fit
-              </paper-item>
-              <paper-item
-                aria-disabled="false"
-                aria-selected="false"
-                role="option"
-                tabindex="-1"
-                value="1"
-              >
-                100%
-              </paper-item>
-              <paper-item
-                aria-disabled="false"
-                aria-selected="false"
-                role="option"
-                tabindex="-1"
-                value="1.25"
-              >
-                125%
-              </paper-item>
-              <paper-item
-                aria-disabled="false"
-                aria-selected="false"
-                role="option"
-                tabindex="-1"
-                value="1.5"
-              >
-                150%
-              </paper-item>
-              <paper-item
-                aria-disabled="false"
-                aria-selected="false"
-                role="option"
-                tabindex="-1"
-                value="1.75"
-              >
-                175%
-              </paper-item>
-              <paper-item
-                aria-disabled="false"
-                aria-selected="false"
-                role="option"
-                tabindex="-1"
-                value="2"
-              >
-                200%
-              </paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
+              <div slot="headline">Fit</div>
+            </md-select-option>
+            <md-select-option md-menu-item="" tabindex="-1" value="1">
+              <div slot="headline">100%</div>
+            </md-select-option>
+            <md-select-option md-menu-item="" tabindex="-1" value="1.25">
+              <div slot="headline">125%</div>
+            </md-select-option>
+            <md-select-option md-menu-item="" tabindex="-1" value="1.5">
+              <div slot="headline">150%</div>
+            </md-select-option>
+            <md-select-option md-menu-item="" tabindex="-1" value="1.75">
+              <div slot="headline">175%</div>
+            </md-select-option>
+            <md-select-option md-menu-item="" tabindex="-1" value="2">
+              <div slot="headline">200%</div>
+            </md-select-option>
+          </md-filled-select>
           <div class="color-picker">
             <div class="label">Background</div>
             <div class="options">

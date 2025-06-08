@@ -288,6 +288,9 @@ const darkThemeCss = safeStyleSheet`
     /* rules applied to html */
     background-color: var(--view-background-color);
 
+    /* md-filled-card (colours originate from paper-card) */
+    --card-surface-container-highest: #2f3034;
+
     /* md-checkbox (colours from paper-checkbox but adapted using material/web theme selector) */
     --checkbox-primary: #bac3ff;
     --checkbox-on-primary: #08218a;

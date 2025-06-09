@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f894622_3f9e6b9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-06-09T05:35:22Z",
+      "side": 1,
+      "message": "```suggestion\nChange-Id: Ie4d54b145aff7000a7293e09038710a606650c0c\nRelease-Notes: Fix pass-by-reference bug when pushing a stack with hashtags\n```",
+      "revId": "cf6179768c1197a7c5f694a451522401696d9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

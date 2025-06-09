@@ -1651,6 +1651,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushNewChangeWithHashtagsWhileUpdatingExisting() throws Exception {
+    String hashtag1 = "tag1";
+    String hashtag2 = "tag2";
+
+    @SuppressWarnings("unused")
+    PushOneCommit.Result r1 = pushTo("refs/for/master%hashtag=" + hashtag1);
+    testRepo
+        .amendRef("HEAD")
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT + "2")
+        .create();
+    PushOneCommit.Result r2 = pushTo("refs/for/master%hashtag=" + hashtag2);
+    ImmutableSet<String> expected = ImmutableSet.of(hashtag2);
+    Set<String> hashtags = gApi.changes().id(r2.getChangeId()).getHashtags();
+    assertThat(hashtags).containsExactlyElementsIn(expected);
+  }
+
+  @Test
   public void pushCommitUsingSignedOffBy() throws Exception {
     PushOneCommit push =
         pushFactory.create(

@@ -16,6 +16,24 @@
       "message": "@milutin@google.com Thanks for the review. Also, I noticed that when the comment threads are hidden using this shortcut, the range highlights are not. It might be nice to hide those as well. I took a brief look at the relevant code but it does not seem straightforward especially with the introduction of the new shift+h shortcut. For now, I\u0027ll create a bug in our issue tracker.",
       "revId": "11da8604868c67c320b1acb83afcd274fb223433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba82744b_f523f5da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-06-09T19:58:32Z",
+      "side": 1,
+      "message": "Here\u0027s the bug: https://issues.gerritcodereview.com/issues/423663196",
+      "parentUuid": "f2f61738_8694f266",
+      "revId": "11da8604868c67c320b1acb83afcd274fb223433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

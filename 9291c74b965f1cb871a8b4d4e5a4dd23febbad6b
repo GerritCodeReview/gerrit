@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fedd237_959f9d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-06-09T13:53:20Z",
+      "side": 1,
+      "message": "@ekempin@google.com w.r.t. `Forward-Compatibility`, I don\u0027t know if I\u0027m suffering from confirmation bias but I cannot see that the BooleanProjectConfigs are written to Note DB.",
+      "revId": "9291c74b965f1cb871a8b4d4e5a4dd23febbad6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

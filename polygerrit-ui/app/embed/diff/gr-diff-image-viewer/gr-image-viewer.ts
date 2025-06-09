@@ -5,27 +5,22 @@
  */
 import '@material/web/button/text-button';
 import '@material/web/checkbox/checkbox';
-import '@polymer/paper-card/paper-card';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
-import '@polymer/paper-fab/paper-fab';
-import '@polymer/paper-icon-button/paper-icon-button';
-import '@polymer/paper-item/paper-item';
-import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
-import '../../../elements/shared/gr-icons/gr-icons';
-
+import '@material/web/labs/card/filled-card';
+import '@material/web/fab/fab';
+import '@material/web/icon/icon';
+import '@material/web/iconbutton/icon-button';
+import '@material/web/select/filled-select';
+import '@material/web/select/select-option';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
-
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
-
 import {Dimensions, fitToFrame, FrameConstrainer, Point, Rect} from './util';
-import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {ImageDiffAction} from '../../../api/diff';
 
@@ -195,16 +190,20 @@ export class GrImageViewer extends LitElement {
         gr-zoomed-image.revision {
           border-color: var(--revision-image-border-color, rgb(170, 242, 170));
         }
+        md-icon[filled] {
+          font-variation-settings: 'FILL' 1;
+        }
         #automatic-blink-button {
           position: absolute;
           right: var(--spacing-xl);
           bottom: var(--spacing-xl);
           opacity: 0;
           transition: opacity 200ms ease;
-          --paper-fab-background: var(--primary-button-background-color);
-          --paper-fab-keyboard-focus-background: var(
+          --md-sys-color-primary-container: var(
             --primary-button-background-color
           );
+          --md-sys-color-on-primary-container: #ffffff;
+          --md-fab-container-shape: 50px;
         }
         #automatic-blink-button.show,
         #automatic-blink-button:focus-visible {
@@ -242,6 +241,9 @@ export class GrImageViewer extends LitElement {
           padding: var(--spacing-xxs) var(--spacing-s);
         }
         .controls {
+          font-family: var(--header-font-family);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
           grid-column-start: 2;
           flex-grow: 0;
           display: flex;
@@ -249,6 +251,9 @@ export class GrImageViewer extends LitElement {
           align-self: flex-start;
           margin: var(--spacing-m);
           padding-bottom: var(--spacing-xl);
+          --md-sys-color-surface-container-highest: var(
+            --card-surface-container-highest
+          );
         }
         md-text-button {
           padding: var(--spacing-m);
@@ -276,22 +281,28 @@ export class GrImageViewer extends LitElement {
           flex-grow: 1;
           margin: 0;
           /*
-        The floating action button below overlaps part of the version buttons.
-        This min-width ensures the button text still appears somewhat balanced.
-        */
+            The floating action button below overlaps part of the version buttons.
+            This min-width ensures the button text still appears somewhat balanced.
+          */
           min-width: 7rem;
         }
-        #version-switcher paper-fab {
+        #version-switcher md-fab {
           /* Round button overlaps Base and Revision buttons. */
           z-index: 1;
           margin: 0 -12px;
           /* Styled as an outlined button. */
           color: var(--primary-button-background-color);
           border: 1px solid var(--primary-button-background-color);
-          --paper-fab-background: var(--primary-background-color);
-          --paper-fab-keyboard-focus-background: var(
-            --primary-background-color
+          border-radius: 50%;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12);
+          --md-sys-color-primary-container: var(--primary-background-color);
+          --md-sys-color-on-primary-container: var(
+            --primary-button-background-color
           );
+          --md-fab-container-shape: 50px;
+          --md-fab-container-height: 40px;
+          --md-fab-container-width: 40px;
         }
         #version-explanation {
           color: var(--deemphasized-text-color);
@@ -307,13 +318,23 @@ export class GrImageViewer extends LitElement {
           margin-top: var(--spacing-m);
         }
         #zoom-control {
-          margin: 0 var(--spacing-xl);
+          margin: var(--spacing-m) var(--spacing-xl) 0;
         }
-        paper-item {
+        md-filled-select::part(field) {
           cursor: pointer;
         }
-        paper-item:hover {
-          background-color: var(--hover-background-color);
+        md-filled-select {
+          --md-sys-color-surface-container: var(--select-surface-container);
+          --md-sys-color-surface-container-highest: var(
+            --select-surface-container-highest
+          );
+          --md-sys-color-on-surface: var(--select-on-surface);
+          --md-sys-color-on-surface-variant: var(--select-on-surface-variant);
+          --md-sys-color-primary: var(--select-primary);
+          --md-sys-color-secondary-container: var(--select-secondary-container);
+          --md-sys-color-on-secondary-container: var(
+            --select-on-secondary-container
+          );
         }
         #follow-mouse {
           margin: var(--spacing-m) var(--spacing-xl);
@@ -346,6 +367,7 @@ export class GrImageViewer extends LitElement {
           border-color: var(--outline-color-focus);
         }
         .color-picker-button .color {
+          display: flex;
           border: 1px solid var(--border-color);
           border-radius: 50%;
           width: 100%;
@@ -387,11 +409,12 @@ export class GrImageViewer extends LitElement {
           selected,
         })}
       >
-        <paper-icon-button
+        <md-icon-button
           class="color"
+          touch-target="none"
           style=${styleMap({backgroundColor: color})}
           @click=${colorPicked}
-        ></paper-icon-button>
+        >
       </div>
     `;
   }
@@ -404,11 +427,11 @@ export class GrImageViewer extends LitElement {
           selected: this.checkerboardSelected,
         })}
       >
-        <paper-icon-button
-          class="color checkerboard"
-          @click=${this.pickCheckerboard}
-        >
-        </paper-icon-button>
+      <md-icon-button
+        class="color checkerboard"
+        touch-target="none"
+        @click=${this.pickCheckerboard}
+      >
       </div>
     `;
   }
@@ -475,15 +498,17 @@ export class GrImageViewer extends LitElement {
         >
           Base
         </md-text-button>
-        <paper-fab
+        <md-fab
           mini
-          icon="gr-icons:swapHoriz"
           title=${this.baseSelected
             ? 'switch to Revision version'
             : 'switch to Base version'}
+          variant="primary"
+          touch-target="none"
           @click=${this.manualBlink}
         >
-        </paper-fab>
+          <md-icon slot="icon" filled>swap_horiz</md-icon>
+        </md-fab>
         <md-text-button
           class=${classMap(rightClasses)}
           touch-target="none"
@@ -531,22 +556,24 @@ export class GrImageViewer extends LitElement {
     `;
 
     const zoomControl = html`
-      <paper-dropdown-menu id="zoom-control" label="Zoom">
-        <paper-listbox
-          slot="dropdown-content"
-          selected="fit"
-          .attrForSelected=${'value'}
-          @selected-changed=${this.zoomControlChanged}
-        >
-          ${this.zoomLevels.map(
-            zoomLevel => html`
-              <paper-item value=${zoomLevel}>
+      <md-filled-select
+        id="zoom-control"
+        label="Zoom"
+        @change=${this.zoomControlChanged}
+      >
+        ${this.zoomLevels.map(
+          zoomLevel => html`
+            <md-select-option
+              ?selected=${zoomLevel === 'fit'}
+              value=${zoomLevel}
+            >
+              <div slot="headline">
                 ${zoomLevel === 'fit' ? 'Fit' : `${zoomLevel * 100}%`}
-              </paper-item>
-            `
-          )}
-        </paper-listbox>
-      </paper-dropdown-menu>
+              </div>
+            </md-select-option>
+          `
+        )}
+      </md-filled-select>
     `;
 
     const followMouse = html`
@@ -596,41 +623,21 @@ export class GrImageViewer extends LitElement {
     `;
 
     const automaticBlink = html`
-      <paper-fab
+      <md-fab
         id="automatic-blink-button"
         class=${classMap({show: this.automaticBlinkShown})}
         title="Automatic blink"
-        icon="gr-icons:${this.automaticBlink ? 'pause' : 'playArrow'}"
+        variant="primary"
+        touch-target="none"
         @click=${this.toggleAutomaticBlink}
       >
-      </paper-fab>
-    `;
-
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        /* prettier formatter removes semi-colons after css mixins. */
-        /* prettier-ignore */
-        paper-item {
-          --paper-item-min-height: 48;
-          --paper-item: {
-            min-height: 48px;
-            padding: 0 var(--spacing-xl);
-          };
-          --paper-item-focused-before: {
-            background-color: var(--selection-background-color);
-          };
-          --paper-item-focused: {
-            background-color: var(--selection-background-color);
-          };
-        }
-      </style>
+        <md-icon slot="icon" filled
+          >${this.automaticBlink ? 'pause' : 'play_arrow'}</md-icon
+        >
+      </md-fab>
     `;
 
     return html`
-      ${customStyle}
       <div
         class="imageArea"
         @mousemove=${this.mousemoveImageArea}
@@ -662,10 +669,10 @@ export class GrImageViewer extends LitElement {
         ${this.imageSize.width} x ${this.imageSize.height}
       </div>
 
-      <paper-card class="controls">
+      <md-filled-card class="controls">
         ${versionSwitcher} ${highlightSwitcher} ${overviewImage} ${zoomControl}
         ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
-      </paper-card>
+      </md-filled-card>
     `;
   }
 
@@ -791,8 +798,8 @@ export class GrImageViewer extends LitElement {
     });
   }
 
-  zoomControlChanged(event: ValueChangedEvent<string>) {
-    const scaleString = event.detail.value;
+  zoomControlChanged(event: Event) {
+    const scaleString = (event.target as HTMLSelectElement).value;
     if (!scaleString) return;
     if (scaleString === 'fit') {
       this.scaledSelected = true;

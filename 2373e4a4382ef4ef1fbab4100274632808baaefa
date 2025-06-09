@@ -34,6 +34,24 @@
       "parentUuid": "4f79645f_0ae36497",
       "revId": "2373e4a4382ef4ef1fbab4100274632808baaefa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876ffdb6_498ff16c",
+        "filename": "polygerrit-ui/app/utils/autocomplete-cache.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-09T09:43:32Z",
+      "side": 1,
+      "message": "Not done?",
+      "parentUuid": "0cd70ed4_db600ba9",
+      "revId": "2373e4a4382ef4ef1fbab4100274632808baaefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

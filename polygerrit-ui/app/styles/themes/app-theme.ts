@@ -561,7 +561,7 @@ const appThemeCss = safeStyleSheet`
     --switch-color-outline: #707783;
     --switch-color-primary: #005290;
     --switch-color-on-primary: #ffffff;
-    --switch-color-primary-container: #0077ce;
+    --switch-color-primary-container: #d7e2ff;
     --switch-color-on-primary-container: #ffffff;
   }
   @media screen and (max-width: 50em) {

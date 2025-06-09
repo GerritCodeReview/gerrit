@@ -196,6 +196,24 @@
       "parentUuid": "5033f9da_643232bc",
       "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "957770ec_d0f8f37f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-09T09:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9883befb_76585037",
+      "revId": "a2622796eb86d34f31d2bb6f11c86ab0143ccf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

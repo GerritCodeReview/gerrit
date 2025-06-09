@@ -39,6 +39,7 @@ suite('gr-button tests', () => {
           data-role="button"
           part="md-elevated-button"
           tabindex="-1"
+          touch-target="none"
           value=""
           ><slot></slot>
         </md-elevated-button>

@@ -91,7 +91,6 @@ export class GrButton extends LitElement {
           /* This is also set in the button-label-(font|weight) css vars above. We keep this incase it is also needed. */
           font-weight: var(--font-weight-medium);
           font-family: var(--header-font-family);
-          font: inherit;
           color: var(--text-color);
           --md-text-button-container-color: var(--text-color);
         }
@@ -128,6 +127,8 @@ export class GrButton extends LitElement {
           align-items: center;
           background-color: var(--background-color);
           color: var(--text-color);
+          /* paper-button set this but md-(elevated|text)-button does not. So we set it. */
+          font: inherit;
           /* This is also set in the button-label-(font|weight) css vars above. We keep this incase it is also needed. */
           font-family: var(--font-family, inherit);
           font-weight: var(--font-weight-normal, inherit);
@@ -137,8 +138,8 @@ export class GrButton extends LitElement {
           min-width: var(--border, 0);
           padding: var(--gr-button-padding, var(--spacing-s) var(--spacing-m));
           /* Needed to resize properly */
-          min-height: auto;
-          height: auto;
+          --md-elevated-button-container-height: none;
+          --md-text-button-container-height: none;
           cursor: pointer;
         }
         :host md-text-button:hover,
@@ -208,6 +209,7 @@ export class GrButton extends LitElement {
           class=${buttonClass}
           ?disabled=${this.disabled || this.loading}
           part="md-elevated-button"
+          touch-target="none"
           role="button"
           tabindex="-1"
         >
@@ -223,6 +225,7 @@ export class GrButton extends LitElement {
         class=${buttonClass}
         ?disabled=${this.disabled || this.loading}
         part="md-text-button"
+        touch-target="none"
         role="button"
         tabindex="-1"
       >

@@ -70,6 +70,30 @@
       },
       "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3d9f77_b9e135ca",
+        "filename": "contrib/gcng.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-06-09T13:37:15Z",
+      "side": 1,
+      "message": "Sorry for the laaaaate reply.\nI no longer remember what I was thinking, but I seem to have been incorrect.",
+      "parentUuid": "c646716a_2ba872ee",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 66
+      },
+      "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

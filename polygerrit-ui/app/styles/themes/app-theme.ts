@@ -534,6 +534,9 @@ const appThemeCss = safeStyleSheet`
     --paper-tooltip-opacity: 1;
     --paper-tooltip-text-color: var(--tooltip-text-color);
 
+    /* md-filled-card (colours originate from paper-card) */
+    --card-surface-container-highest: #f8f9fa;
+
     /* md-checkbox (colours from paper-checkbox but adapted using material/web theme selector) */
     --checkbox-primary: #273a9f;
     --checkbox-on-primary: #ffffff;

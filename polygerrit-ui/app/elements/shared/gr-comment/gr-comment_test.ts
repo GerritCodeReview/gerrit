@@ -48,6 +48,8 @@ import {
 } from '../../../models/comments/comments-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
+import {ResponseCode} from '../../../api/suggestions';
+import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
@@ -1087,6 +1089,54 @@ suite('gr-comment tests', () => {
 
         savePromise.resolve();
       });
+    });
+  });
+
+  suite('autocompleteComment', () => {
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.COMMENT_AUTOCOMPLETION)
+        .returns(true);
+      element.autocompleteEnabled = true;
+      element.comment = createDraft();
+      element.messageText = 'test message';
+    });
+
+    test('sets cache when response code is OK', async () => {
+      const setStub = sinon
+        .stub(element.autocompleteCache, 'set')
+        .callThrough();
+      const suggestionsService = testResolver(suggestionsServiceToken);
+      const ctx = {
+        draftContent: 'test message',
+        commentCompletion: 'suggested completion',
+        responseCode: ResponseCode.OK,
+      };
+      sinon.stub(suggestionsService, 'autocompleteComment').resolves(ctx);
+      element.messageText = 'test message';
+      await element.updateComplete;
+      await element.autocompleteComment();
+
+      assert.isTrue(setStub.calledWith(ctx));
+      assert.deepInclude(element.autocompleteHint, ctx);
+    });
+
+    test('does not set cache when response code is not OK', async () => {
+      const setStub = sinon
+        .stub(element.autocompleteCache, 'set')
+        .callThrough();
+      const suggestionsService = testResolver(suggestionsServiceToken);
+      const ctx = {
+        draftContent: 'test message',
+        commentCompletion: 'suggested completion',
+        responseCode: ResponseCode.OK_LOW_CONFIDENCE,
+      };
+      sinon.stub(suggestionsService, 'autocompleteComment').resolves(ctx);
+
+      await element.autocompleteComment();
+
+      assert.isFalse(setStub.called);
+      assert.isUndefined(element.autocompleteHint);
     });
   });
 });

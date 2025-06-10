@@ -2,7 +2,7 @@
  * @license
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
- */
+ */s
 
 import {fire} from '../../../utils/event-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -21,6 +21,9 @@ import {PatchSetNum} from '../../../types/common';
 import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
 import {when} from 'lit/directives/when.js';
 import {copyToClipboard} from '../../../utils/common-util';
+import { formStyles } from '../../../styles/form-styles';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 
 const PROMPT_TEMPLATES = {
   HELP_REVIEW: {
@@ -51,6 +54,8 @@ export class GrAiPromptDialog extends LitElement {
    */
 
   @query('#closeButton') protected closeButton?: GrButton;
+
+  @query('#promptTextarea') protected promptTextarea?: IronAutogrowTextareaElement;
 
   @state() change?: ParsedChangeInfo;
 
@@ -85,6 +90,7 @@ export class GrAiPromptDialog extends LitElement {
       fontStyles,
       sharedStyles,
       modalStyles,
+      formStyles,
       css`
         :host {
           display: block;
@@ -129,16 +135,13 @@ export class GrAiPromptDialog extends LitElement {
           align-items: center;
           gap: var(--spacing-s);
         }
-        textarea {
+        iron-autogrow-textarea {
           width: 550px;
           height: 300px;
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
-          padding: var(--spacing-s);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          resize: vertical;
+          --iron-autogrow-textarea_-_padding: var(--spacing-s);
         }
         .toolbar {
           display: flex;
@@ -183,11 +186,12 @@ export class GrAiPromptDialog extends LitElement {
                 )}
               </div>
             </div>
-            <textarea
-              .value=${this.getPromptContent()}
+            <iron-autogrow-textarea
+              id="promptTextarea"
+              .bindValue=${this.getPromptContent()}
               readonly
               placeholder="Patch content will appear here..."
-            ></textarea>
+            ></iron-autogrow-textarea>
             <div class="toolbar">
               <div class="info-text">
                 You can paste this prompt in an AI Model if your project code

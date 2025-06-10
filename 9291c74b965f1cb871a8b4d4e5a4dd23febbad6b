@@ -34,6 +34,24 @@
       "parentUuid": "4fedd237_959f9d8e",
       "revId": "9291c74b965f1cb871a8b4d4e5a4dd23febbad6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a906a6_9fbc188e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-06-10T06:13:10Z",
+      "side": 1,
+      "message": "Yes, but I couldn\u0027t see that the default value of a BooleanProjectConfig would ever be stored anywhere.\nThanks!",
+      "parentUuid": "c6030b59_9fe0fea8",
+      "revId": "9291c74b965f1cb871a8b4d4e5a4dd23febbad6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

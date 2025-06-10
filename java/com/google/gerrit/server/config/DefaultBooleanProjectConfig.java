@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -42,6 +43,12 @@ public abstract class DefaultBooleanProjectConfig {
      * level are ignored).
      */
     FORCED;
+
+    static Value fromBooleanProjectConfig(BooleanProjectConfig config) {
+      return config.getDefaultValue()
+          ? DefaultBooleanProjectConfig.Value.TRUE
+          : DefaultBooleanProjectConfig.Value.FALSE;
+    }
   }
 
   /** Name of the section in {@code project.config} that defines the boolean project config. */

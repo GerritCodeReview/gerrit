@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "781ba302_7d4df9fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "Can you please add more context - why is this needed? What is use case?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8443877f_8bc2bc5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "Add release note with short description of handleBeforeReplySent\n\n```\nRelease-Notes: add handleBeforeReplySent plugin API\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "637b0dd9_84edde15",
@@ -14,6 +60,176 @@
       "writtenOn": "2025-06-07T01:07:18Z",
       "side": 1,
       "message": "I will update the other one if this looks good",
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49ae7a87_b657720f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "Thank you for the change! Let me know if you need any help with anything.",
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98e4e2b0_d33d6c4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "Can you please add unit tests for this change?",
+      "range": {
+        "startLine": 1470,
+        "startChar": 2,
+        "endLine": 1473,
+        "endChar": 8
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f082025_422ecaf9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "Can you enhence API to provide reason for blocking? So we can show it to the user?",
+      "range": {
+        "startLine": 1470,
+        "startChar": 3,
+        "endLine": 1475,
+        "endChar": 13
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "857f14c1_7509a67e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "Nit: Maybe you can return early when false and return true by default",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 47
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f72db614_db2317fe",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 144,
+                "startChar": 0,
+                "endLine": 145,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 147,
+                "startChar": 0,
+                "endLine": 148,
+                "endChar": 0
+              },
+              "replacement": "        if (!(await cb(reviewInput))) {\n          return false;\n        }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 152,
+                "startChar": 0,
+                "endLine": 153,
+                "endChar": 0
+              },
+              "replacement": "    return true;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c38d57_89b1f516",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "This would be ideal text for commit message.",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 70
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f0ba85_3d2e5bc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-10T12:10:25Z",
+      "side": 1,
+      "message": "I really propose to use string with reason instead of boolean. Or both.\n```\n\u003c{ok: boolean, message?: string}\u003e\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 59,
+        "endLine": 72,
+        "endChar": 66
+      },
       "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

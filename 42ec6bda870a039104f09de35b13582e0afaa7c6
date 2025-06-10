@@ -94,6 +94,30 @@
       },
       "revId": "42ec6bda870a039104f09de35b13582e0afaa7c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bc47aac_df86b06d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-iconset/gr-iconset.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-10T08:54:50Z",
+      "side": 1,
+      "message": "@milutin@google.com did they ever get back to you? We\u0027d need to replace iron-selector etc with the chromium replacement. (There\u0027s no other alternative that i could find).",
+      "parentUuid": "1955d93b_7f86c589",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 40
+      },
+      "revId": "42ec6bda870a039104f09de35b13582e0afaa7c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5,9 +5,9 @@
  */
 import '@material/web/button/text-button';
 import '@material/web/checkbox/checkbox';
-import '@polymer/paper-card/paper-card';
 import './gr-overview-image';
 import './gr-zoomed-image';
+import '@material/web/labs/card/filled-card';
 import '@material/web/fab/fab';
 import '@material/web/icon/icon';
 import '@material/web/iconbutton/icon-button';
@@ -241,6 +241,9 @@ export class GrImageViewer extends LitElement {
           padding: var(--spacing-xxs) var(--spacing-s);
         }
         .controls {
+          font-family: var(--header-font-family);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
           grid-column-start: 2;
           flex-grow: 0;
           display: flex;
@@ -248,6 +251,9 @@ export class GrImageViewer extends LitElement {
           align-self: flex-start;
           margin: var(--spacing-m);
           padding-bottom: var(--spacing-xl);
+          --md-sys-color-surface-container-highest: var(
+            --card-surface-container-highest
+          );
         }
         md-text-button {
           padding: var(--spacing-m);
@@ -663,10 +669,10 @@ export class GrImageViewer extends LitElement {
         ${this.imageSize.width} x ${this.imageSize.height}
       </div>
 
-      <paper-card class="controls">
+      <md-filled-card class="controls">
         ${versionSwitcher} ${highlightSwitcher} ${overviewImage} ${zoomControl}
         ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
-      </paper-card>
+      </md-filled-card>
     `;
   }
 

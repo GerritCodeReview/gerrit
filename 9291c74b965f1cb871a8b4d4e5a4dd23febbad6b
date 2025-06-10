@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com w.r.t. `Forward-Compatibility`, I don\u0027t know if I\u0027m suffering from confirmation bias but I cannot see that the BooleanProjectConfigs are written to Note DB.",
       "revId": "9291c74b965f1cb871a8b4d4e5a4dd23febbad6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6030b59_9fe0fea8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-10T06:02:34Z",
+      "side": 1,
+      "message": "Just add \u0027Forward-Compatible: checked\u0027 to the commit message. This change looks safe.\n\nTechnically, refs/meta/config is the NoteDb way to store project metadata, and project.config does store BooleanProjectConfigs.",
+      "parentUuid": "4fedd237_959f9d8e",
+      "revId": "9291c74b965f1cb871a8b4d4e5a4dd23febbad6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

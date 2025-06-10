@@ -40,7 +40,7 @@ suite('gr-image-viewer tests', () => {
           <div id="spacer" style="width:0px;height:0px;"></div>
         </div>
         <div class="dimensions">0 x 0</div>
-        <md-filled-card class="controls">
+        <paper-card aria-label="" class="controls" elevation="1">
           <div id="version-explanation">This file is being deleted.</div>
           <gr-overview-image>
             <img class="checkerboard" src="" style="background-color:;" />
@@ -111,7 +111,7 @@ suite('gr-image-viewer tests', () => {
               </div>
             </div>
           </div>
-        </md-filled-card>
+        </paper-card>
       `
     );
   });

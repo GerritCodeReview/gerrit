@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c033e367_83a009e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-06-10T22:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "781ba302_7d4df9fe",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8443877f_8bc2bc5d",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-06-10T12:10:25Z",
       "side": 1,
       "message": "Add release note with short description of handleBeforeReplySent\n\n```\nRelease-Notes: add handleBeforeReplySent plugin API\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29630ee4_f80b0e12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-06-10T22:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8443877f_8bc2bc5d",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -106,6 +154,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb064af0_e1474e80",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-06-10T22:23:44Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any existing tests for plugin logic here (e.g., for the REPLY_SENT event).  I would love to add tests, and I would copy/adapt an existing test, but to be honest if there\u0027s no existing plugin test I could copy, it would be very time consuming for me to figure how how to do that.\n\nIf you could point me to an existing example I could copy, I\u0027ll add the test, but otherwise, I\u0027d like to use the excuse that there aren\u0027t any plugin tests currently and this logic is simple/straightforward.",
+      "parentUuid": "98e4e2b0_d33d6c4e",
+      "range": {
+        "startLine": 1470,
+        "startChar": 2,
+        "endLine": 1473,
+        "endChar": 8
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f082025_422ecaf9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 7
@@ -117,6 +189,30 @@
       "writtenOn": "2025-06-10T12:10:25Z",
       "side": 1,
       "message": "Can you enhence API to provide reason for blocking? So we can show it to the user?",
+      "range": {
+        "startLine": 1470,
+        "startChar": 3,
+        "endLine": 1475,
+        "endChar": 13
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e88a40_f78585c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-06-10T22:23:44Z",
+      "side": 1,
+      "message": "Based on a discussion (in the chat room I added you to), we assume the plugin is responsible for displaying a notification to the user, and we only need to block sending here.",
+      "parentUuid": "4f082025_422ecaf9",
       "range": {
         "startLine": 1470,
         "startChar": 3,
@@ -184,6 +280,30 @@
           ]
         }
       ],
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c09718_976e0004",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-06-10T22:23:44Z",
+      "side": 1,
+      "message": "kamil commented earlier that we don\u0027t want to make the plugin ordering significant here, so I actually changed the behavior away from what you\u0027re suggesting.",
+      "parentUuid": "857f14c1_7509a67e",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 47
+      },
       "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

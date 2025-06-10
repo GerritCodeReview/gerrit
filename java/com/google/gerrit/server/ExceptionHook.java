@@ -19,7 +19,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.project.CreateProjectArgs;
 import java.util.Optional;
 
 /**
@@ -147,6 +149,27 @@ public interface ExceptionHook {
    */
   default Optional<Status> getStatus(Throwable throwable) {
     return Optional.empty();
+  }
+
+  /**
+   * Whether {code com.google.gerrit.server.project.ProjectCreator} should try initializing the
+   * project even if creating the repository has failed.
+   *
+   * <p>The project initialization consists out of setting {@code HEAD}, creating the {@code
+   * project.config} file in {@code refs/meta/config} and creating initial branches with empty
+   * commits.
+   *
+   * <p>This is useful if the repository creation includes some optional steps after the actual
+   * repository creation. If any of the optional steps fails, this method can be used to make Gerrit
+   * still do the project initialization.
+   *
+   * @param projectName the name of the project to be created
+   * @param args the project creation args
+   * @param throwable throwable that was thrown while creating the repository
+   */
+  default boolean tryProjectInitializationOnRepoCreationFailure(
+      Project.NameKey projectName, CreateProjectArgs args, Throwable throwable) {
+    return false;
   }
 
   @AutoValue

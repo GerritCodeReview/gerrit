@@ -13,7 +13,6 @@
     "@polymer/iron-input": "^3.0.1",
     "@polymer/iron-selector": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
-    "@polymer/paper-card": "^3.0.1",
     "@polymer/paper-input": "^3.2.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",

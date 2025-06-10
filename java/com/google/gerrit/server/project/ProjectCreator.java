@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -76,6 +77,7 @@ public class ProjectCreator {
 
   private final GitRepositoryManager repoManager;
   private final PluginSetContext<NewProjectCreatedListener> createdListeners;
+  private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
   private final MetaDataUpdate.User metaDataUpdateFactory;
@@ -90,6 +92,7 @@ public class ProjectCreator {
   ProjectCreator(
       GitRepositoryManager repoManager,
       PluginSetContext<NewProjectCreatedListener> createdListeners,
+      PluginSetContext<ExceptionHook> exceptionHooks,
       ProjectCache projectCache,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
@@ -101,6 +104,7 @@ public class ProjectCreator {
       ProjectConfig.Factory projectConfigFactory) {
     this.repoManager = repoManager;
     this.createdListeners = createdListeners;
+    this.exceptionHooks = exceptionHooks;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -118,24 +122,12 @@ public class ProjectCreator {
     try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
       final Project.NameKey nameKey = args.getProject();
       try {
-        final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
         Status status = repoManager.getRepositoryStatus(nameKey);
         if (!status.equals(Status.NON_EXISTENT)) {
           throw new RepositoryExistsException(nameKey, "Repository status: " + status);
         }
         try (Repository repo = repoManager.createRepository(nameKey)) {
-          projectCache.evict(nameKey);
-
-          RefUpdate u = repo.updateRef(Constants.HEAD);
-          u.disableRefLog();
-          u.link(head);
-
-          createProjectConfig(args, head);
-
-          if (!args.permissionsOnly && args.createEmptyCommit) {
-            createEmptyCommits(repo, nameKey, args.branch);
-          }
-
+          initProject(nameKey, repo, args);
           return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
         }
       } catch (RepositoryExistsException e) {
@@ -146,7 +138,43 @@ public class ProjectCreator {
             e);
       } catch (RepositoryNotFoundException badName) {
         throw new BadRequestException("invalid project name: " + nameKey, badName);
+      } catch (RuntimeException e) {
+        if (exceptionHooks.stream()
+            .anyMatch(
+                exceptionHook ->
+                    exceptionHook.tryProjectInitializationOnRepoCreationFailure(
+                        nameKey, args, e))) {
+          logger.atFine().withCause(e).log(
+              "try initializing project %s after repo creation failure", nameKey);
+          try (Repository repo = repoManager.openRepository(nameKey)) {
+            initProject(nameKey, repo, args);
+          } catch (
+              @SuppressWarnings("UnusedException")
+              RuntimeException e2) {
+            logger.atWarning().withCause(e).log(
+                "initializing project %s after repo creation failure has failed", nameKey);
+            throw e;
+          }
+        }
+        throw e;
       }
+    }
+  }
+
+  private void initProject(Project.NameKey nameKey, Repository repo, CreateProjectArgs args)
+      throws IOException, ConfigInvalidException {
+    projectCache.evict(nameKey);
+
+    String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
+
+    RefUpdate u = repo.updateRef(Constants.HEAD);
+    u.disableRefLog();
+    u.link(head);
+
+    createProjectConfig(args, head);
+
+    if (!args.permissionsOnly && args.createEmptyCommit) {
+      createEmptyCommits(repo, nameKey, args.branch);
     }
   }
 

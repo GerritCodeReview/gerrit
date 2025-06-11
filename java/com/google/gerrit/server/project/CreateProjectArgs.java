@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.List;
@@ -40,6 +41,7 @@ public class CreateProjectArgs {
   public InheritableBoolean requireSignedPush;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
+  public boolean initOnly;
 
   public CreateProjectArgs() {
     contributorAgreements = InheritableBoolean.INHERIT;
@@ -68,5 +70,9 @@ public class CreateProjectArgs {
 
   public void setProjectName(Project.NameKey n) {
     projectName = n;
+  }
+
+  public String getHead() {
+    return permissionsOnly ? RefNames.REFS_CONFIG : branch.get(0);
   }
 }

@@ -14,17 +14,21 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Permission;
@@ -34,6 +38,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -53,6 +58,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -60,6 +66,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -118,9 +125,24 @@ public class ProjectCreator {
 
   @CanIgnoreReturnValue
   public ProjectState createProject(CreateProjectArgs args)
-      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
+      throws BadRequestException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          IOException,
+          ConfigInvalidException {
     try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
-      final Project.NameKey nameKey = args.getProject();
+      Project.NameKey nameKey = args.getProject();
+
+      if (args.initOnly) {
+        try (Repository repo = repoManager.openRepository(nameKey)) {
+          initProject(nameKey, repo, args);
+          return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+        } catch (RepositoryNotFoundException notFound) {
+          throw new ResourceNotFoundException(
+              String.format("repository %s not found", nameKey), notFound);
+        }
+      }
+
       try {
         Status status = repoManager.getRepositoryStatus(nameKey);
         if (!status.equals(Status.NON_EXISTENT)) {
@@ -162,24 +184,44 @@ public class ProjectCreator {
   }
 
   private void initProject(Project.NameKey nameKey, Repository repo, CreateProjectArgs args)
-      throws IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException, ResourceConflictException {
     projectCache.evict(nameKey);
-
-    String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
-
-    RefUpdate u = repo.updateRef(Constants.HEAD);
-    u.disableRefLog();
-    u.link(head);
-
-    createProjectConfig(args, head);
+    createHead(repo, args);
+    createProjectConfig(repo, args);
 
     if (!args.permissionsOnly && args.createEmptyCommit) {
       createEmptyCommits(repo, nameKey, args.branch);
     }
   }
 
-  private void createProjectConfig(CreateProjectArgs args, String head)
-      throws IOException, ConfigInvalidException {
+  private void createHead(Repository repo, CreateProjectArgs args)
+      throws IOException, ResourceConflictException {
+    Ref head = repo.exactRef(Constants.HEAD);
+    if (head != null) {
+      if (head.getTarget().getName().equals(args.getHead())) {
+        logger.atFine().log("Skip creation of HEAD because it already exists");
+        return;
+      }
+
+      throw new ResourceConflictException("conflicting HEAD already exists");
+    }
+
+    RefUpdate u = repo.updateRef(Constants.HEAD);
+    u.disableRefLog();
+    u.link(args.getHead());
+  }
+
+  private void createProjectConfig(Repository repo, CreateProjectArgs args)
+      throws IOException, ConfigInvalidException, ResourceConflictException {
+    Optional<CachedProjectConfig> currentConfig =
+        repo.exactRef("refs/meta/config") != null
+            ? Optional.of(
+                projectCache
+                    .get(args.getProject())
+                    .orElseThrow(illegalState(args.getProject()))
+                    .getConfig())
+            : Optional.empty();
+
     RevCommit configRevCommit = null;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = projectConfigFactory.read(md);
@@ -225,18 +267,38 @@ public class ProjectCreator {
             });
       }
 
+      if (currentConfig.isPresent()) {
+        if (currentConfig.get().equals(config.getCacheable())) {
+          logger.atFine().log("Skip creation of project config because it already exists");
+          return;
+        }
+        throw new ResourceConflictException("conflicting project config already exists");
+      }
+
       configRevCommit = config.commit(md, false);
       md.getRepository().setGitwebDescription(args.projectDescription);
     } finally {
       if (configRevCommit != null) {
-        fireEvents(args.getProject(), head, configRevCommit);
+        fireEvents(args.getProject(), args.getHead(), configRevCommit);
       }
     }
     projectCache.onCreateProject(args.getProject());
   }
 
   private void createEmptyCommits(Repository repo, Project.NameKey project, List<String> refs)
-      throws IOException {
+      throws IOException, ResourceConflictException {
+    List<Ref> existingRefs = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
+    if (!existingRefs.isEmpty()) {
+      if (Sets.symmetricDifference(
+              existingRefs.stream().map(Ref::getName).collect(toImmutableSet()),
+              ImmutableSet.copyOf(refs))
+          .isEmpty()) {
+        logger.atFine().log("Skip creation of branches since they already exist");
+        return;
+      }
+      throw new ResourceConflictException(String.format("conflicting branches already exists"));
+    }
+
     try (ObjectInserter oi = repo.newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));

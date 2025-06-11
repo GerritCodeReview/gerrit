@@ -320,7 +320,8 @@ suite('gr-change-view tests', () => {
                   flatten=""
                   role="button"
                   tabindex="0"
-                  ><gr-change-star id="changeStar"> </gr-change-star>
+                >
+                  <gr-change-star id="changeStar"> </gr-change-star>
                   <a aria-label="Change undefined" class="changeNumber"> </a>
                 </gr-button>
                 <div class="headerSubject"></div>
@@ -362,7 +363,7 @@ suite('gr-change-view tests', () => {
                         id="commitMessageEditor"
                         remove-zero-width-space=""
                       >
-                        <gr-formatted-text></gr-formatted-text>
+                        <gr-formatted-text> </gr-formatted-text>
                       </gr-editable-content>
                     </div>
                     <h3 class="assistive-tech-only">
@@ -375,7 +376,7 @@ suite('gr-change-view tests', () => {
                     </gr-endpoint-decorator>
                   </div>
                   <div class="relatedChanges">
-                    <gr-related-changes-list></gr-related-changes-list>
+                    <gr-related-changes-list> </gr-related-changes-list>
                   </div>
                   <div class="emptySpace"></div>
                 </div>
@@ -383,42 +384,38 @@ suite('gr-change-view tests', () => {
             </div>
           </section>
           <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-          <paper-tabs dir="null" id="tabs" role="tablist" tabindex="0">
-            <paper-tab
-              aria-disabled="false"
-              aria-selected="true"
-              class="iron-selected"
-              data-name="files"
-              role="tab"
-              tabindex="0"
-            >
-              <span> Files </span>
-            </paper-tab>
-            <paper-tab
-              aria-disabled="false"
-              aria-selected="false"
-              class="commentThreads"
-              data-name="comments"
-              role="tab"
-              tabindex="-1"
-            >
-              <gr-tooltip-content has-tooltip="" title="">
-                <span> Comments </span>
-              </gr-tooltip-content>
-            </paper-tab>
-            <paper-tab
-              aria-disabled="false"
-              aria-selected="false"
-              data-name="change-view-tab-header-url"
-              role="tab"
-              tabindex="-1"
-            >
-              <gr-endpoint-decorator name="change-view-tab-header-url">
-                <gr-endpoint-param name="change"> </gr-endpoint-param>
-                <gr-endpoint-param name="revision"> </gr-endpoint-param>
-              </gr-endpoint-decorator>
-            </paper-tab>
-          </paper-tabs>
+          <div class="tabs">
+            <md-tabs id="tabs">
+              <md-secondary-tab
+                active=""
+                data-name="files"
+                md-tab=""
+                tabindex="0"
+              >
+                <span> Files </span>
+              </md-secondary-tab>
+              <md-secondary-tab
+                class="commentThreads"
+                data-name="comments"
+                md-tab=""
+                tabindex="-1"
+              >
+                <gr-tooltip-content has-tooltip="" title="">
+                  <span> Comments </span>
+                </gr-tooltip-content>
+              </md-secondary-tab>
+              <md-secondary-tab
+                data-name="change-view-tab-header-url"
+                md-tab=""
+                tabindex="0"
+              >
+                <gr-endpoint-decorator name="change-view-tab-header-url">
+                  <gr-endpoint-param name="change"> </gr-endpoint-param>
+                  <gr-endpoint-param name="revision"> </gr-endpoint-param>
+                </gr-endpoint-decorator>
+              </md-secondary-tab>
+            </md-tabs>
+          </div>
           <section class="tabContent">
             <div>
               <gr-file-list-header id="fileListHeader"> </gr-file-list-header>
@@ -429,18 +426,19 @@ suite('gr-change-view tests', () => {
             <gr-endpoint-param name="change"> </gr-endpoint-param>
             <gr-endpoint-param name="revision"> </gr-endpoint-param>
           </gr-endpoint-decorator>
-          <paper-tabs dir="null" role="tablist" tabindex="0">
-            <paper-tab
-              aria-disabled="false"
-              aria-selected="false"
-              class="changeLog"
-              data-name="_changeLog"
-              role="tab"
-              tabindex="-1"
-            >
-              Change Log
-            </paper-tab>
-          </paper-tabs>
+          <div class="tabs">
+            <md-tabs>
+              <md-secondary-tab
+                active=""
+                class="changeLog"
+                data-name="_changeLog"
+                md-tab=""
+                tabindex="0"
+              >
+                Change Log
+              </md-secondary-tab>
+            </md-tabs>
+          </div>
           <section class="changeLog">
             <h2 class="assistive-tech-only">Change Log</h2>
             <gr-messages-list> </gr-messages-list>
@@ -568,12 +566,12 @@ suite('gr-change-view tests', () => {
         element.pluginTabsHeaderEndpoints.includes('change-view-tab-header-url')
       );
       const tabs = element.shadowRoot!.querySelector('#tabs')!;
-      const paperTabs = tabs.querySelectorAll<HTMLElement>('paper-tab');
+      const mdTabs = tabs.querySelectorAll<HTMLElement>('md-secondary-tab');
       // 4 Tabs are : Files, Comment Threads, Plugin
-      assert.equal(tabs.querySelectorAll('paper-tab').length, 3);
-      assert.equal(paperTabs[0].dataset.name, 'files');
-      assert.equal(paperTabs[1].dataset.name, 'comments');
-      assert.equal(paperTabs[2].dataset.name, 'change-view-tab-header-url');
+      assert.equal(tabs.querySelectorAll('md-secondary-tab').length, 3);
+      assert.equal(mdTabs[0].dataset.name, 'files');
+      assert.equal(mdTabs[1].dataset.name, 'comments');
+      assert.equal(mdTabs[2].dataset.name, 'change-view-tab-header-url');
     });
 
     test('setActiveTab switched tab correctly', async () => {
@@ -613,8 +611,9 @@ suite('gr-change-view tests', () => {
     });
 
     test('switching to plugin tab renders the plugin tab content', async () => {
-      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
-      paperTabs.querySelectorAll('paper-tab')[2].click();
+      const mdTabs = element.shadowRoot!.querySelector('#tabs')!;
+      mdTabs.querySelectorAll<HTMLElement>('md-secondary-tab')[2].click();
+      await element.updateComplete;
       await element.updateComplete;
       const tabContent = queryAndAssert(element, '.tabContent');
       const endpoint = queryAndAssert(tabContent, 'gr-endpoint-decorator');
@@ -874,8 +873,8 @@ suite('gr-change-view tests', () => {
       };
       element.commentThreads = THREADS;
       await element.updateComplete;
-      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
-      const tabs = paperTabs.querySelectorAll('paper-tab');
+      const mdTabs = element.shadowRoot!.querySelector('#tabs')!;
+      const tabs = mdTabs.querySelectorAll<HTMLElement>('md-secondary-tab');
       assert.isTrue(tabs.length > 1);
       assert.equal(tabs[1].dataset.name, 'comments');
       tabs[1].click();

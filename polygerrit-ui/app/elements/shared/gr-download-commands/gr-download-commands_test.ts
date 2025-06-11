@@ -16,11 +16,11 @@ import {
 import {createPreferences} from '../../../test/test-data-generators';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {createDefaultPreferences} from '../../../constants/constants';
-import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {assert, fixture, html} from '@open-wc/testing';
-import {PaperTabElement} from '@polymer/paper-tabs/paper-tab';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {testResolver} from '../../../test/common-test-setup';
+import {MdTabs} from '@material/web/tabs/tabs';
+import {MdSecondaryTab} from '@material/web/tabs/secondary-tab';
 
 suite('gr-download-commands', () => {
   let element: GrDownloadCommands;
@@ -67,41 +67,17 @@ suite('gr-download-commands', () => {
         element,
         /* HTML */ `
           <div class="schemes">
-            <paper-tabs
-              dir="null"
-              id="downloadTabs"
-              role="tablist"
-              tabindex="0"
-            >
-              <paper-tab
-                aria-disabled="false"
-                aria-selected="true"
-                class="iron-selected"
-                data-scheme="http"
-                role="tab"
-                tabindex="0"
-              >
+            <md-tabs id="downloadTabs">
+              <md-secondary-tab data-scheme="http" md-tab="" tabindex="0">
                 http
-              </paper-tab>
-              <paper-tab
-                aria-disabled="false"
-                aria-selected="false"
-                data-scheme="repo"
-                role="tab"
-                tabindex="-1"
-              >
+              </md-secondary-tab>
+              <md-secondary-tab data-scheme="repo" md-tab="" tabindex="-1">
                 repo
-              </paper-tab>
-              <paper-tab
-                aria-disabled="false"
-                aria-selected="false"
-                data-scheme="ssh"
-                role="tab"
-                tabindex="-1"
-              >
+              </md-secondary-tab>
+              <md-secondary-tab data-scheme="ssh" md-tab="" tabindex="-1">
                 ssh
-              </paper-tab>
-            </paper-tabs>
+              </md-secondary-tab>
+            </md-tabs>
           </div>
           <div class="commands"></div>
           <gr-shell-command class="_label_checkout"> </gr-shell-command>
@@ -122,31 +98,28 @@ suite('gr-download-commands', () => {
     });
 
     test('element visibility', async () => {
-      assert.isFalse(isHidden(queryAndAssert(element, 'paper-tabs')));
+      assert.isFalse(isHidden(queryAndAssert(element, 'md-tabs')));
       assert.isFalse(isHidden(queryAndAssert(element, '.commands')));
       assert.isTrue(Boolean(query(element, '#downloadTabs')));
 
       element.schemes = [];
       await element.updateComplete;
-      assert.isTrue(isHidden(queryAndAssert(element, 'paper-tabs')));
+      assert.isUndefined(query(element, 'md-tabs'));
       assert.isTrue(Boolean(query(element, '.commands')));
-      assert.isTrue(isHidden(queryAndAssert(element, '.commands')));
-      // Should still be present but hidden
-      assert.isTrue(Boolean(query(element, '#downloadTabs')));
-      assert.isTrue(isHidden(queryAndAssert(element, '#downloadTabs')));
+      assert.isFalse(Boolean(query(element, '#downloadTabs')));
     });
 
     test('tab selection', async () => {
       assert.equal(
-        queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
-        '0'
+        queryAndAssert<MdTabs>(element, '#downloadTabs').activeTabIndex,
+        0
       );
-      queryAndAssert<PaperTabElement>(element, '[data-scheme="ssh"]').click();
+      queryAndAssert<MdSecondaryTab>(element, '[data-scheme="ssh"]').click();
       await element.updateComplete;
       assert.equal(element.selectedScheme, 'ssh');
       assert.equal(
-        queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
-        '2'
+        queryAndAssert<MdTabs>(element, '#downloadTabs').activeTabIndex,
+        2
       );
     });
 
@@ -158,12 +131,14 @@ suite('gr-download-commands', () => {
 
       await element.updateComplete;
 
-      const repoTab = queryAndAssert<PaperTabElement>(
+      const repoTab = queryAndAssert<MdSecondaryTab>(
         element,
-        'paper-tab[data-scheme="repo"]'
+        'md-secondary-tab[data-scheme="repo"]'
       );
 
       repoTab.click();
+
+      await element.updateComplete;
 
       assert.isTrue(savePrefsStub.called);
       assert.equal(

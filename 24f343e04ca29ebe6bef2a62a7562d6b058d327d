@@ -176,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6ebf3ce_a48d66dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T16:26:59Z",
+      "side": 1,
+      "message": "You are right, we don\u0027t have good coverage for plugins. I will do it in different change. Thanks for looking into that",
+      "parentUuid": "bb064af0_e1474e80",
+      "range": {
+        "startLine": 1470,
+        "startChar": 2,
+        "endLine": 1473,
+        "endChar": 8
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f082025_422ecaf9",
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "Based on a discussion (in the chat room I added you to), we assume the plugin is responsible for displaying a notification to the user, and we only need to block sending here.",
       "parentUuid": "4f082025_422ecaf9",
+      "range": {
+        "startLine": 1470,
+        "startChar": 3,
+        "endLine": 1475,
+        "endChar": 13
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b7ecc61_a0549281",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T16:26:59Z",
+      "side": 1,
+      "message": "Ok. Let\u0027s test it and change it with user feedback. I was recently fixing similar way where we block create CL in cider and we wanted to show reason why button is disabled. But I don\u0027t want to block on this, since it was already discussed.",
+      "parentUuid": "96e88a40_f78585c9",
       "range": {
         "startLine": 1470,
         "startChar": 3,
@@ -310,6 +358,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "14db3779_3eed65dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T16:26:59Z",
+      "side": 1,
+      "message": "Sure, you want to call it for each plugin",
+      "parentUuid": "32c09718_976e0004",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 47
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "73c38d57_89b1f516",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
         "patchSetId": 7
@@ -344,6 +416,30 @@
       "writtenOn": "2025-06-10T12:10:25Z",
       "side": 1,
       "message": "I really propose to use string with reason instead of boolean. Or both.\n```\n\u003c{ok: boolean, message?: string}\u003e\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 59,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "24f343e04ca29ebe6bef2a62a7562d6b058d327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8169a443_48f3ee34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T16:26:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f0ba85_3d2e5bc3",
       "range": {
         "startLine": 72,
         "startChar": 59,

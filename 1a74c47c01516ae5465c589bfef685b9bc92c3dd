@@ -22,6 +22,30 @@
       },
       "revId": "1a74c47c01516ae5465c589bfef685b9bc92c3dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6ca782c_a9031199",
+        "filename": "contrib/maintenance/tests/git/test_gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T08:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4d38864_484b6cbb",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 39
+      },
+      "revId": "1a74c47c01516ae5465c589bfef685b9bc92c3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

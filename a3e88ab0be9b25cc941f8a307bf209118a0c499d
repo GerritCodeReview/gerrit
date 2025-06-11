@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f287c0_8dbb804a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T16:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b30578e_876545b5",
+      "revId": "a3e88ab0be9b25cc941f8a307bf209118a0c499d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5444205_dd68ab5d",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-06-11T12:20:22Z",
       "side": 1,
       "message": "I think we should guard this with a `try except` block to prevent a failing `rmdir()` caused by a race with another thread kicks us out of this loop",
+      "revId": "a3e88ab0be9b25cc941f8a307bf209118a0c499d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d80113_a9f0b477",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T16:05:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5444205_dd68ab5d",
       "revId": "a3e88ab0be9b25cc941f8a307bf209118a0c499d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

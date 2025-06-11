@@ -5,7 +5,6 @@
  */
 import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
-import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';
 import '../../../styles/shared-styles';
@@ -76,15 +75,9 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {
-  assert,
-  assertIsDefined,
-  queryAll,
-  queryAndAssert,
-} from '../../../utils/common-util';
+import {assert, assertIsDefined, queryAll} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {isUnresolved} from '../../../utils/comment-util';
-import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {
   EditRevisionInfo,
@@ -151,6 +144,9 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {assign} from '../../../utils/location-util';
+import '@material/web/tabs/secondary-tab';
+import '@material/web/tabs/tabs';
+import {MdTabs} from '@material/web/tabs/tabs';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -222,7 +218,7 @@ export class GrChangeView extends LitElement {
 
   @query('#replyBtn') replyBtn?: GrButton;
 
-  @query('#tabs') tabs?: PaperTabsElement;
+  @query('#tabs') tabs?: MdTabs;
 
   @query('gr-messages-list') messagesList?: GrMessagesList;
 
@@ -729,14 +725,6 @@ export class GrChangeView extends LitElement {
   override firstUpdated() {
     this.maybeScrollToMessage(window.location.hash);
     this.maybeShowRevertDialog();
-    // _onTabSizingChanged is called when iron-items-changed event is fired
-    // from iron-selectable but that is called before the element is present
-    // in view which whereas the method requires paper tabs already be visible
-    // as it relies on dom rect calculation.
-    // _onTabSizingChanged ensures the primary tab(Files/Comments/Checks) is
-    // underlined.
-    assertIsDefined(this.tabs, 'tabs');
-    whenVisible(this.tabs, () => this.tabs!._onTabSizingChanged());
   }
 
   /**
@@ -796,6 +784,9 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        .tabs {
+          display: flex;
+        }
         .container:not(.loading) {
           background-color: var(--background-color-tertiary);
         }
@@ -975,28 +966,17 @@ export class GrChangeView extends LitElement {
         gr-commit-info {
           display: inline-block;
         }
-        paper-tabs {
+        md-tabs {
           background-color: var(--background-color-tertiary);
           margin-top: var(--spacing-m);
           height: calc(var(--line-height-h3) + var(--spacing-m));
-          --paper-tabs-selection-bar-color: var(--link-color);
         }
-        paper-tab {
+        md-secondary-tab {
+          height: 100%;
+          display: inline-flex;
           box-sizing: border-box;
           max-width: 12em;
-          --paper-tab-ink: var(--link-color);
-          --paper-font-common-base_-_font-family: var(--header-font-family);
-          --paper-font-common-base_-_-webkit-font-smoothing: initial;
-          --paper-tab-content_-_margin-bottom: var(--spacing-s);
-          /* paper-tabs uses 700 here, which can look awkward */
-          --paper-tab-content-focused_-_font-weight: var(--font-weight-h3);
-          --paper-tab-content-focused_-_background: var(
-            --gray-background-focus
-          );
-          --paper-tab-content-unselected_-_opacity: 1;
-          --paper-tab-content-unselected_-_color: var(
-            --deemphasized-text-color
-          );
+          min-width: 12em;
         }
         gr-thread-list,
         gr-messages-list {
@@ -1363,46 +1343,52 @@ export class GrChangeView extends LitElement {
 
   private renderTabHeaders() {
     return html`
-      <paper-tabs
-        id="tabs"
-        @selected-changed=${this.onPaperTabSelectionChanged}
-      >
-        <paper-tab @click=${this.onPaperTabClick} data-name=${Tab.FILES}
-          ><span>Files</span></paper-tab
-        >
-        <paper-tab
-          @click=${this.onPaperTabClick}
-          data-name=${Tab.COMMENT_THREADS}
-          class="commentThreads"
-        >
-          <gr-tooltip-content
-            has-tooltip
-            title=${ifDefined(this.computeTotalCommentCounts())}
+      <div class="tabs">
+        <md-tabs id="tabs" @change=${this.onMdTabsChange}>
+          <md-secondary-tab
+            @click=${this.onMdSecondaryTabClick}
+            data-name=${Tab.FILES}
+            ><span>Files</span></md-secondary-tab
           >
-            <span>Comments</span></gr-tooltip-content
+          <md-secondary-tab
+            @click=${this.onMdSecondaryTabClick}
+            data-name=${Tab.COMMENT_THREADS}
+            class="commentThreads"
           >
-        </paper-tab>
-        ${when(
-          this.showChecksTab,
-          () => html`
-            <paper-tab data-name=${Tab.CHECKS} @click=${this.onPaperTabClick}
-              ><span>Checks</span></paper-tab
+            <gr-tooltip-content
+              has-tooltip
+              title=${ifDefined(this.computeTotalCommentCounts())}
             >
-          `
-        )}
-        ${this.pluginTabsHeaderEndpoints.map(
-          tabHeader => html`
-            <paper-tab data-name=${tabHeader} @click=${this.onPaperTabClick}>
-              <gr-endpoint-decorator name=${tabHeader}>
-                <gr-endpoint-param name="change" .value=${this.change}>
-                </gr-endpoint-param>
-                <gr-endpoint-param name="revision" .value=${this.revision}>
-                </gr-endpoint-param>
-              </gr-endpoint-decorator>
-            </paper-tab>
-          `
-        )}
-      </paper-tabs>
+              <span>Comments</span></gr-tooltip-content
+            >
+          </md-secondary-tab>
+          ${when(
+            this.showChecksTab,
+            () => html`
+              <md-secondary-tab
+                data-name=${Tab.CHECKS}
+                @click=${this.onMdSecondaryTabClick}
+                ><span>Checks</span></md-secondary-tab
+              >
+            `
+          )}
+          ${this.pluginTabsHeaderEndpoints.map(
+            tabHeader => html`
+              <md-secondary-tab
+                data-name=${tabHeader}
+                @click=${this.onMdSecondaryTabClick}
+              >
+                <gr-endpoint-decorator name=${tabHeader}>
+                  <gr-endpoint-param name="change" .value=${this.change}>
+                  </gr-endpoint-param>
+                  <gr-endpoint-param name="revision" .value=${this.revision}>
+                  </gr-endpoint-param>
+                </gr-endpoint-decorator>
+              </md-secondary-tab>
+            `
+          )}
+        </md-tabs>
+      </div>
     `;
   }
 
@@ -1505,11 +1491,13 @@ export class GrChangeView extends LitElement {
         </gr-endpoint-param>
       </gr-endpoint-decorator>
 
-      <paper-tabs>
-        <paper-tab data-name="_changeLog" class="changeLog">
-          Change Log
-        </paper-tab>
-      </paper-tabs>
+      <div class="tabs">
+        <md-tabs>
+          <md-secondary-tab data-name="_changeLog" class="changeLog">
+            Change Log
+          </md-secondary-tab>
+        </md-tabs>
+      </div>
       <section class="changeLog">
         <h2 class="assistive-tech-only">Change Log</h2>
         <gr-messages-list
@@ -1523,11 +1511,11 @@ export class GrChangeView extends LitElement {
   }
 
   override updated() {
-    const tabs = [...queryAll<HTMLElement>(this.tabs!, 'paper-tab')];
+    const tabs = [...queryAll<HTMLElement>(this.tabs!, 'md-secondary-tab')];
     const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
 
-    if (tabIndex !== -1 && this.tabs!.selected !== tabIndex) {
-      this.tabs!.selected = tabIndex;
+    if (tabIndex !== -1 && this.tabs!.activeTabIndex !== tabIndex) {
+      this.tabs!.activeTabIndex = tabIndex;
     }
     this.reportChangeDisplayed();
     this.reportFullyLoaded();
@@ -1558,12 +1546,13 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  onPaperTabSelectionChanged(e: ValueChangedEvent) {
+  onMdTabsChange(e: Event) {
     if (!this.tabs) return;
-    const tabs = [...queryAll<HTMLElement>(this.tabs, 'paper-tab')];
+    const tabs = [...queryAll<HTMLElement>(this.tabs, 'md-secondary-tab')];
     if (!tabs) return;
 
-    const tabIndex = Number(e.detail.value);
+    const activeTabIndex = (e.target as MdTabs).activeTabIndex;
+    const tabIndex = Number(activeTabIndex);
     assert(
       Number.isInteger(tabIndex) && 0 <= tabIndex && tabIndex < tabs.length,
       `${tabIndex} must be integer`
@@ -1587,7 +1576,7 @@ export class GrChangeView extends LitElement {
    * tab can also be opened via the url in which case the correct value to
    * unresolvedOnly is never assigned.
    */
-  private onPaperTabClick(e: MouseEvent) {
+  private onMdSecondaryTabClick(e: MouseEvent) {
     let target = e.target as HTMLElement | null;
     let tabName: string | undefined;
     // target can be slot child of papertab, so we search for tabName in parents
@@ -1608,7 +1597,7 @@ export class GrChangeView extends LitElement {
 
     this.reporting.reportInteraction(Interaction.SHOW_TAB, {
       tabName,
-      src: 'paper-tab-click',
+      src: 'md-secondary-tab-click',
     });
   }
 
@@ -1741,19 +1730,6 @@ export class GrChangeView extends LitElement {
       assertIsDefined(this.downloadModal);
       assertIsDefined(this.downloadDialog);
       this.downloadDialog.focus();
-      const downloadCommands = queryAndAssert(
-        this.downloadDialog,
-        'gr-download-commands'
-      );
-      const paperTabs = queryAndAssert<PaperTabsElement>(
-        downloadCommands,
-        'paper-tabs'
-      );
-      // Paper Tabs normally listen to 'iron-resize' event to call this method.
-      // After migrating to Dialog element, this event is no longer fired
-      // which means this method is not called which ends up styling the
-      // selected paper tab with an underline.
-      paperTabs._onTabSizingChanged();
     });
   }
 

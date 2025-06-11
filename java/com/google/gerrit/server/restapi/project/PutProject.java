@@ -14,18 +14,41 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
+@RequiresCapability(GlobalCapability.CREATE_PROJECT)
 @Singleton
 public class PutProject implements RestModifyView<ProjectResource, ProjectInput> {
+  private final CreateProject createProject;
+
+  @Inject
+  PutProject(CreateProject createProject) {
+    this.createProject = createProject;
+  }
+
   @Override
-  public Response<?> apply(ProjectResource resource, ProjectInput input)
-      throws ResourceConflictException {
-    throw new ResourceConflictException("Project \"" + resource.getName() + "\" already exists");
+  public Response<?> apply(ProjectResource projectResource, ProjectInput input)
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+    if (input.initOnly) {
+      return createProject.apply(
+          TopLevelResource.INSTANCE, IdString.fromDecoded(input.name), input);
+    }
+
+    throw new ResourceConflictException(
+        "Project \"" + projectResource.getName() + "\" already exists");
   }
 }

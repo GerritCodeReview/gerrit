@@ -446,8 +446,6 @@ const appThemeCss = safeStyleSheet`
 
     --diff-moved-in-background: var(--cyan-50);
     --diff-moved-in-label-color: var(--cyan-900);
-    --diff-moved-in-changed-background: var(--cyan-50);
-    --diff-moved-in-changed-label-color: var(--cyan-900);
     --diff-moved-out-background: var(--purple-50);
     --diff-moved-out-label-color: var(--purple-900);
 

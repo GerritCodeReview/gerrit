@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6d0891_f2f79f84",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-11T16:24:28Z",
+      "side": 1,
+      "message": "this still calls os.rmdir() and not your new function in line 148\n```suggestion\n            self.rmdir(d)\n```",
+      "revId": "57b27eac3dc7c9e67abdb7597c209d33abf7f57f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e62e384_a5251cd1",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-11T16:24:28Z",
+      "side": 1,
+      "message": "optional: this method could be static",
+      "revId": "57b27eac3dc7c9e67abdb7597c209d33abf7f57f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

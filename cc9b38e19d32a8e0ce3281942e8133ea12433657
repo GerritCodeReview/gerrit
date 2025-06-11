@@ -178,6 +178,24 @@
       "parentUuid": "2070ab66_22032636",
       "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d49d7720_c7f36d63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-11T16:15:18Z",
+      "side": 1,
+      "message": "I fixed an issue with the colouring, not sure if that fixes your issue. You may want to try setting:\n\n```\n--md-text-button-label-text-font: var(--font-family);\n--md-text-button-label-text-size: var(--font-size-normal);\n--md-text-button-label-text-weight: var(--font-weight-normal);\n```\n\nin .contextControlButton.\n\nAlthough that did nothing for me, it seemed the font: did stuff.",
+      "parentUuid": "41830117_d5b0d96d",
+      "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

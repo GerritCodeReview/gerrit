@@ -526,21 +526,6 @@ export const grDiffMoveStyles = css`
     background-color: var(--diff-moved-in-background);
   }
 
-  gr-diff-section tbody.dueToMove.changed gr-diff-row .sign.add,
-  gr-diff-section
-    tbody.dueToMove.changed
-    gr-diff-row
-    td.content.add
-    div.contentText,
-  gr-diff-section tbody.dueToMove.changed tr.moveControls.movedIn .sign.right,
-  gr-diff-section tbody.dueToMove.changed tr.moveControls.movedIn td.moveHeader,
-  gr-diff-section
-    tbody.delta.total.dueToMove.changed
-    td.content.add
-    div.contentText {
-    background-color: var(--diff-moved-in-changed-background);
-  }
-
   gr-diff-section tbody.dueToMove .sign.remove,
   gr-diff-section tbody.dueToMove td.content.remove div.contentText,
   gr-diff-section tbody.dueToMove tr.moveControls.movedOut td.moveHeader,
@@ -554,9 +539,6 @@ export const grDiffMoveStyles = css`
 
   gr-diff-section tbody.delta.dueToMove tr.movedIn td.moveHeader {
     --gr-range-header-color: var(--diff-moved-in-label-color);
-  }
-  gr-diff-section tbody.delta.dueToMove.changed tr.movedIn td.moveHeader {
-    --gr-range-header-color: var(--diff-moved-in-changed-label-color);
   }
   gr-diff-section tbody.delta.dueToMove tr.movedOut td.moveHeader {
     --gr-range-header-color: var(--diff-moved-out-label-color);

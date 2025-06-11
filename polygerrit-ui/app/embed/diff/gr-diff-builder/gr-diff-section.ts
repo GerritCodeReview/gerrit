@@ -132,7 +132,6 @@ export class GrDiffSection extends LitElement {
     if (this.group.isTotal()) extras.push('total');
     if (this.group.dueToRebase) extras.push('dueToRebase');
     if (this.group.moveDetails) extras.push('dueToMove');
-    if (this.group.moveDetails?.changed) extras.push('changed');
     if (this.group.ignoredWhitespaceOnly) extras.push('ignoredWhitespaceOnly');
 
     const pairs = this.getLinePairs();

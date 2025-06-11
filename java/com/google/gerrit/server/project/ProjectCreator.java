@@ -34,6 +34,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -118,9 +119,24 @@ public class ProjectCreator {
 
   @CanIgnoreReturnValue
   public ProjectState createProject(CreateProjectArgs args)
-      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
+      throws BadRequestException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          IOException,
+          ConfigInvalidException {
     try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
-      final Project.NameKey nameKey = args.getProject();
+      Project.NameKey nameKey = args.getProject();
+
+      if (args.initOnly) {
+        try (Repository repo = repoManager.openRepository(nameKey)) {
+          initProject(nameKey, repo, args);
+          return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+        } catch (RepositoryNotFoundException notFound) {
+          throw new ResourceNotFoundException(
+              String.format("repository %s not found", nameKey), notFound);
+        }
+      }
+
       try {
         Status status = repoManager.getRepositoryStatus(nameKey);
         if (!status.equals(Status.NON_EXISTENT)) {

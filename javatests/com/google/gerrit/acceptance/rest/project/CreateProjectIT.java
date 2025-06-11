@@ -21,8 +21,11 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProj
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -54,8 +57,12 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.restapi.project.DeleteRef;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.Collections;
@@ -72,6 +79,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -81,6 +89,7 @@ import org.junit.Test;
 public class CreateProjectIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private DeleteRef deleteRef;
 
   @Test
   public void createProjectHttp() throws Exception {
@@ -556,6 +565,192 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
     assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.CHERRY_PICK);
     assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_ALWAYS);
+  }
+
+  @Test
+  public void initOnly_noChange() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertHead(projectInput.name, "refs/heads/master");
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+    assertEmptyCommit(projectInput.name, "refs/heads/master", "refs/heads/stable");
+
+    // Test that rerunning the project init doesn't change anything.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = adminRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertOK();
+    assertHead(projectInput.name, "refs/heads/master");
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+    assertEmptyCommit(projectInput.name, "refs/heads/master", "refs/heads/stable");
+  }
+
+  @Test
+  public void initOnly_fixHead() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertHead(projectInput.name, "refs/heads/master");
+
+    // Set HEAD to another branch.
+    try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO);
+        Repository repo = repoManager.openRepository(Project.nameKey(projectInput.name))) {
+      RefUpdate u = repo.updateRef(Constants.HEAD);
+      u.disableRefLog();
+      u.link("refs/heads/stable");
+    }
+    assertHead(projectInput.name, "refs/heads/stable");
+
+    // Rerunning the project init fixes HEAD.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = adminRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertOK();
+    assertHead(projectInput.name, "refs/heads/master");
+  }
+
+  @Test
+  public void initOnly_createMissingRefsMetaConfig() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+
+    // Delete refs/meta/config.
+    try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+      deleteRef.deleteSingleRef(
+          projectCache.get(Project.nameKey(projectInput.name)).get(), "refs/meta/config", R_HEADS);
+    }
+
+    // Rerunning the project creates refs/meta/config.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = adminRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertOK();
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+  }
+
+  @Test
+  public void initOnly_resetsProjectConfig() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+
+    // Update project.config
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(Project.nameKey(projectInput.name))) {
+      ProjectConfig config = projectConfigFactory.read(md);
+      config.updateProject(p -> p.setParent(project));
+      config.commit(md, false);
+    }
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue(
+            String.format("[access]\n\tinheritFrom = %s\n[submit]\n\taction = inherit\n", project));
+
+    // Rerunning the project creates refs/meta/config.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = adminRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertOK();
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+  }
+
+  @Test
+  public void initOnly_createMissingBranch() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertEmptyCommit(projectInput.name, "refs/heads/master", "refs/heads/stable");
+
+    // Delete one of the branches.
+    try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
+      deleteRef.deleteSingleRef(
+          projectCache.get(Project.nameKey(projectInput.name)).get(), "refs/heads/stable", R_HEADS);
+    }
+
+    // Rerunning the project creates refs/meta/config.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = adminRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertOK();
+    assertEmptyCommit(projectInput.name, "refs/heads/master", "refs/heads/stable");
+  }
+
+  @Test
+  public void initOnly_requiresCreateProjectCapability() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertHead(projectInput.name, "refs/heads/master");
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+    assertEmptyCommit(projectInput.name, "refs/heads/master", "refs/heads/stable");
+
+    // Test that rerunning the project init is rejected for non-admin user.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = userRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertForbidden();
+  }
+
+  @Test
+  public void initOnly_forbiddenForNonOwner() throws Exception {
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = name("newProject");
+    projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("refs/heads/master", "refs/heads/stable");
+
+    gApi.projects().create(projectInput);
+    assertHead(projectInput.name, "refs/heads/master");
+    assertThat(readProjectConfig(projectInput.name))
+        .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
+    assertEmptyCommit(projectInput.name, "refs/heads/master", "refs/heads/stable");
+
+    // Grant 'Create Project' capability to all users.
+    projectOperations
+        .allProjectsForUpdate()
+        .add(
+            allowCapability(GlobalCapability.CREATE_PROJECT)
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    // Test that rerunning the project init is rejected for non-owner.
+    // We must make the create project request via REST since the gApi refuses to do the request if
+    // the project already exists.
+    projectInput.initOnly = true;
+    RestResponse r = userRestSession.put("/projects/" + projectInput.name, projectInput);
+    r.assertForbidden();
   }
 
   private void assertEmptyCommit(String projectName, String... refs) throws Exception {

@@ -38,4 +38,21 @@ public class ProjectInput {
   public InheritableBoolean requireSignedPush;
   public String maxObjectSizeLimit;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
+
+  /**
+   * If set, only the project initialization is being (re-)done and the repository creation is
+   * skipped.
+   *
+   * <p>The project initialization consists out of setting {@code HEAD}, creating the {@code
+   * project.config} file in {@code refs/meta/config} and creating initial branches with empty
+   * commits.
+   *
+   * <p>This is useful to retry the project initialization after a create project request has failed
+   * and as a result the repository was created but the project initialization was not done.
+   *
+   * <p>Note, that this overrides the existing project configuration.
+   *
+   * <p>Requires the caller to be an owner of the project.
+   */
+  public boolean initOnly;
 }

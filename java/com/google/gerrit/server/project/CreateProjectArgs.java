@@ -40,6 +40,7 @@ public class CreateProjectArgs {
   public InheritableBoolean requireSignedPush;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
+  public boolean initOnly;
 
   public CreateProjectArgs() {
     contributorAgreements = InheritableBoolean.INHERIT;

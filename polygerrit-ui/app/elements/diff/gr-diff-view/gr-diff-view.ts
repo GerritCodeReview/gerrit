@@ -62,7 +62,7 @@ import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {assertIsDefined} from '../../../utils/common-util';
 import {whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
@@ -97,7 +97,6 @@ import {
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrDiffPreferencesDialog} from '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import {
   FileNameToNormalizedFileInfoMap,
@@ -1411,19 +1410,6 @@ export class GrDiffView extends LitElement {
       assertIsDefined(this.downloadModal, 'downloadModal');
       assertIsDefined(this.downloadDialog, 'downloadDialog');
       this.downloadDialog.focus();
-      const downloadCommands = queryAndAssert(
-        this.downloadDialog,
-        'gr-download-commands'
-      );
-      const paperTabs = queryAndAssert<PaperTabsElement>(
-        downloadCommands,
-        'paper-tabs'
-      );
-      // Paper Tabs normally listen to 'iron-resize' event to call this method.
-      // After migrating to Dialog element, this event is no longer fired
-      // which means this method is not called which ends up styling the
-      // selected paper tab with an underline.
-      paperTabs._onTabSizingChanged();
     });
   }
 

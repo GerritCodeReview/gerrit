@@ -3,24 +3,24 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/paper-tabs/paper-tab';
-import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
+import '@material/web/tabs/secondary-tab';
+import '@material/web/tabs/tabs';
+import {MdTabs} from '@material/web/tabs/tabs';
 
 declare global {
   interface HTMLElementEventMap {
-    'selected-changed': CustomEvent<{value: number}>;
     'selected-scheme-changed': BindValueChangeEvent;
   }
   interface HTMLElementTagNameMap {
@@ -82,27 +82,13 @@ export class GrDownloadCommands extends LitElement {
       paperStyles,
       sharedStyles,
       css`
-        paper-tabs {
+        md-tabs {
           height: 3rem;
           margin-bottom: var(--spacing-m);
-          --paper-tabs-selection-bar-color: var(--link-color);
         }
-        paper-tab {
+        md-secondary-tab {
           max-width: 15rem;
           text-transform: uppercase;
-          --paper-tab-ink: var(--link-color);
-          --paper-font-common-base_-_font-family: var(--header-font-family);
-          --paper-font-common-base_-_-webkit-font-smoothing: initial;
-          --paper-tab-content_-_margin-bottom: var(--spacing-s);
-          /* paper-tabs uses 700 here, which can look awkward */
-          --paper-tab-content-focused_-_font-weight: var(--font-weight-h3);
-          --paper-tab-content-focused_-_background: var(
-            --gray-background-focus
-          );
-          --paper-tab-content-unselected_-_opacity: 1;
-          --paper-tab-content-unselected_-_color: var(
-            --deemphasized-text-color
-          );
         }
         label,
         input {
@@ -142,15 +128,18 @@ export class GrDownloadCommands extends LitElement {
   private renderDownloadTabs() {
     const selectedIndex =
       this.schemes.findIndex(scheme => scheme === this.selectedScheme) || 0;
+    // md-tabs won't work if the index is -1, which happens on initial
+    // page load and then corrects its self.
+    if (selectedIndex < 0) return nothing;
     return html`
-      <paper-tabs
+      <md-tabs
         id="downloadTabs"
         class=${this.computeShowTabs()}
-        .selected=${selectedIndex}
-        @selected-changed=${this.handleTabChange}
+        .activeTabIndex=${selectedIndex}
+        @change=${this.handleTabChange}
       >
-        ${this.schemes.map(scheme => this.renderPaperTab(scheme))}
-      </paper-tabs>
+        ${this.schemes.map(scheme => this.renderMdSecondaryTab(scheme))}
+      </md-tabs>
     `;
   }
 
@@ -159,8 +148,10 @@ export class GrDownloadCommands extends LitElement {
     return html`<div class="description">${this.description}</div>`;
   }
 
-  private renderPaperTab(scheme: string) {
-    return html` <paper-tab data-scheme=${scheme}>${scheme}</paper-tab> `;
+  private renderMdSecondaryTab(scheme: string) {
+    return html`
+      <md-secondary-tab data-scheme=${scheme}>${scheme}</md-secondary-tab>
+    `;
   }
 
   private renderCommands() {
@@ -192,8 +183,9 @@ export class GrDownloadCommands extends LitElement {
     ).focusOnCopy();
   }
 
-  private handleTabChange = (e: CustomEvent<{value: number}>) => {
-    const scheme = this.schemes[e.detail.value];
+  private handleTabChange(e: Event) {
+    const activeTabIndex = (e.target as MdTabs).activeTabIndex;
+    const scheme = this.schemes[activeTabIndex];
     if (scheme && scheme !== this.selectedScheme) {
       this.selectedScheme = scheme;
       fire(this, 'selected-scheme-changed', {value: scheme});
@@ -203,7 +195,7 @@ export class GrDownloadCommands extends LitElement {
         });
       }
     }
-  };
+  }
 
   private computeTooltip(index: number) {
     return index <= 8 && this.showKeyboardShortcutTooltips

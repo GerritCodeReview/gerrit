@@ -3,198 +3,214 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
-import '../../../test/common-test-setup';
-import './gr-download-commands';
-import {GrDownloadCommands} from './gr-download-commands';
-import {
-  isHidden,
-  query,
-  queryAndAssert,
-  stubRestApi,
-} from '../../../test/test-utils';
-import {createPreferences} from '../../../test/test-data-generators';
+import '../gr-shell-command/gr-shell-command';
+import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
-import {createDefaultPreferences} from '../../../constants/constants';
-import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-import {assert, fixture, html} from '@open-wc/testing';
-import {PaperTabElement} from '@polymer/paper-tabs/paper-tab';
-import {UserModel, userModelToken} from '../../../models/user/user-model';
-import {testResolver} from '../../../test/common-test-setup';
+import {paperStyles} from '../../../styles/gr-paper-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {css, html, LitElement, nothing} from 'lit';
+import {customElement, property, state} from 'lit/decorators.js';
+import {fire} from '../../../utils/event-util';
+import {BindValueChangeEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
+import '@material/web/tabs/secondary-tab';
+import '@material/web/tabs/tabs';
+import {MdTabs} from '@material/web/tabs/tabs';
 
-suite('gr-download-commands', () => {
-  let element: GrDownloadCommands;
+declare global {
+  interface HTMLElementEventMap {
+    'selected-changed': CustomEvent<{value: number}>;
+    'selected-scheme-changed': BindValueChangeEvent;
+  }
+  interface HTMLElementTagNameMap {
+    'gr-download-commands': GrDownloadCommands;
+  }
+}
 
-  const SCHEMES = ['http', 'repo', 'ssh'];
-  const COMMANDS = [
-    {
-      title: 'Checkout',
-      command: `git fetch http://andybons@localhost:8080/a/test-project
-        refs/changes/05/5/1 && git checkout FETCH_HEAD`,
-    },
-    {
-      title: 'Cherry Pick',
-      command: `git fetch http://andybons@localhost:8080/a/test-project
-        refs/changes/05/5/1 && git cherry-pick FETCH_HEAD`,
-    },
-    {
-      title: 'Format Patch',
-      command: `git fetch http://andybons@localhost:8080/a/test-project
-        refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD`,
-    },
-    {
-      title: 'Pull',
-      command: `git pull http://andybons@localhost:8080/a/test-project
-        refs/changes/05/5/1`,
-    },
-  ];
-  const SELECTED_SCHEME = 'http';
+export interface Command {
+  title: string;
+  command: string;
+}
 
-  suite('unauthenticated', () => {
-    setup(async () => {
-      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-      element = await fixture(
-        html`<gr-download-commands></gr-download-commands>`
-      );
-      element.schemes = SCHEMES;
-      element.commands = COMMANDS;
-      element.selectedScheme = SELECTED_SCHEME;
-      await element.updateComplete;
-    });
+@customElement('gr-download-commands')
+export class GrDownloadCommands extends LitElement {
+  @property({type: Array})
+  commands: Command[] = [];
 
-    test('render', () => {
-      assert.shadowDom.equal(
-        element,
-        /* HTML */ `
-          <div class="schemes">
-            <paper-tabs
-              dir="null"
-              id="downloadTabs"
-              role="tablist"
-              tabindex="0"
-            >
-              <paper-tab
-                aria-disabled="false"
-                aria-selected="true"
-                class="iron-selected"
-                data-scheme="http"
-                role="tab"
-                tabindex="0"
-              >
-                http
-              </paper-tab>
-              <paper-tab
-                aria-disabled="false"
-                aria-selected="false"
-                data-scheme="repo"
-                role="tab"
-                tabindex="-1"
-              >
-                repo
-              </paper-tab>
-              <paper-tab
-                aria-disabled="false"
-                aria-selected="false"
-                data-scheme="ssh"
-                role="tab"
-                tabindex="-1"
-              >
-                ssh
-              </paper-tab>
-            </paper-tabs>
-          </div>
-          <div class="commands"></div>
-          <gr-shell-command class="_label_checkout"> </gr-shell-command>
-          <gr-shell-command class="_label_cherrypick"> </gr-shell-command>
-          <gr-shell-command class="_label_formatpatch"> </gr-shell-command>
-          <gr-shell-command class="_label_pull"> </gr-shell-command>
-        `
-      );
-    });
+  // private but used in test
+  @state() loggedIn = false;
 
-    test('focusOnCopy', async () => {
-      const focusStub = sinon.stub(
-        queryAndAssert<GrShellCommand>(element, 'gr-shell-command'),
-        'focusOnCopy'
-      );
-      await element.focusOnCopy();
-      assert.isTrue(focusStub.called);
-    });
+  @property({type: Array})
+  schemes: string[] = [];
 
-    test('element visibility', async () => {
-      assert.isFalse(isHidden(queryAndAssert(element, 'paper-tabs')));
-      assert.isFalse(isHidden(queryAndAssert(element, '.commands')));
-      assert.isTrue(Boolean(query(element, '#downloadTabs')));
+  @property({type: String})
+  selectedScheme?: string;
 
-      element.schemes = [];
-      await element.updateComplete;
-      assert.isTrue(isHidden(queryAndAssert(element, 'paper-tabs')));
-      assert.isTrue(Boolean(query(element, '.commands')));
-      assert.isTrue(isHidden(queryAndAssert(element, '.commands')));
-      // Should still be present but hidden
-      assert.isTrue(Boolean(query(element, '#downloadTabs')));
-      assert.isTrue(isHidden(queryAndAssert(element, '#downloadTabs')));
-    });
+  // description of selected scheme
+  @property({type: String})
+  description?: string;
 
-    test('tab selection', async () => {
-      assert.equal(
-        queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
-        '0'
-      );
-      queryAndAssert<PaperTabElement>(element, '[data-scheme="ssh"]').click();
-      await element.updateComplete;
-      assert.equal(element.selectedScheme, 'ssh');
-      assert.equal(
-        queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
-        '2'
-      );
-    });
+  @property({type: Boolean, attribute: 'show-keyboard-shortcut-tooltips'})
+  showKeyboardShortcutTooltips = false;
 
-    test('saves scheme to preferences', async () => {
-      element.loggedIn = true;
-      const savePrefsStub = stubRestApi('savePreferences').returns(
-        Promise.resolve(createDefaultPreferences())
-      );
+  // Private but used in tests.
+  readonly getUserModel = resolve(this, userModelToken);
 
-      await element.updateComplete;
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      x => (this.loggedIn = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      prefs => {
+        if (prefs?.download_scheme) {
+          // Note (issue 5180): normalize the download scheme with lower-case.
+          this.selectedScheme = prefs.download_scheme.toLowerCase();
+          fire(this, 'selected-scheme-changed', {value: this.selectedScheme});
+        }
+      }
+    );
+  }
 
-      const repoTab = queryAndAssert<PaperTabElement>(
-        element,
-        'paper-tab[data-scheme="repo"]'
-      );
+  static override get styles() {
+    return [
+      paperStyles,
+      sharedStyles,
+      css`
+        md-tabs {
+          height: 3rem;
+          margin-bottom: var(--spacing-m);
+        }
+        md-secondary-tab {
+          max-width: 15rem;
+          text-transform: uppercase;
+        }
+        label,
+        input {
+          display: block;
+        }
+        label {
+          font-weight: var(--font-weight-medium);
+        }
+        .schemes {
+          display: flex;
+          justify-content: space-between;
+        }
+        .description {
+          margin-bottom: var(--spacing-m);
+        }
+        .commands {
+          display: flex;
+          flex-direction: column;
+        }
+        gr-shell-command {
+          margin-bottom: var(--spacing-m);
+        }
+        .hidden {
+          display: none;
+        }
+      `,
+    ];
+  }
 
-      repoTab.click();
+  override render() {
+    return html`
+      <div class="schemes">${this.renderDownloadTabs()}</div>
+      ${this.renderDescription()} ${this.renderCommands()}
+    `;
+  }
 
-      assert.isTrue(savePrefsStub.called);
-      assert.equal(
-        savePrefsStub.lastCall.args[0].download_scheme,
-        repoTab.getAttribute('data-scheme')
-      );
-    });
-  });
-  suite('authenticated', () => {
-    let element: GrDownloadCommands;
-    let userModel: UserModel;
-    setup(async () => {
-      userModel = testResolver(userModelToken);
-      element = await fixture(
-        html`<gr-download-commands></gr-download-commands>`
-      );
-    });
-    test('loads scheme from preferences', async () => {
-      userModel.setPreferences({
-        ...createPreferences(),
-        download_scheme: 'repo',
-      });
-      assert.equal(element.selectedScheme, 'repo');
-    });
+  private renderDownloadTabs() {
+    const selectedIndex =
+      this.schemes.findIndex(scheme => scheme === this.selectedScheme) || 0;
+    // md-tabs won't work if the index is -1, which happens on initial
+    // page load and then corrects its self.
+    if (selectedIndex < 0) return nothing;
+    return html`
+      <md-tabs
+        id="downloadTabs"
+        class=${this.computeShowTabs()}
+        .activeTabIndex=${selectedIndex >= 0 ? selectedIndex : 0}
+        @change=${this.handleTabChange}
+      >
+        ${this.schemes.map(scheme => this.renderMdSecondaryTab(scheme))}
+      </md-tabs>
+    `;
+  }
 
-    test('normalize scheme from preferences', async () => {
-      userModel.setPreferences({
-        ...createPreferences(),
-        download_scheme: 'REPO',
-      });
-      assert.equal(element.selectedScheme, 'repo');
-    });
-  });
-});
+  private renderDescription() {
+    if (!this.description) return;
+    return html`<div class="description">${this.description}</div>`;
+  }
+
+  private renderMdSecondaryTab(scheme: string) {
+    return html`
+      <md-secondary-tab data-scheme=${scheme}>${scheme}</md-secondary-tab>
+    `;
+  }
+
+  private renderCommands() {
+    return html`
+      <div class="commands" ?hidden=${!this.schemes.length}></div>
+        ${this.commands?.map((command, index) =>
+          this.renderShellCommand(command, index)
+        )}
+      </div>
+    `;
+  }
+
+  private renderShellCommand(command: Command, index: number) {
+    return html`
+      <gr-shell-command
+        class=${this.computeClass(command.title)}
+        .label=${command.title}
+        .command=${command.command}
+        .tooltip=${this.computeTooltip(index)}
+      ></gr-shell-command>
+    `;
+  }
+
+  async focusOnCopy() {
+    await this.updateComplete;
+    await queryAndAssert<GrShellCommand>(
+      this,
+      'gr-shell-command'
+    ).focusOnCopy();
+  }
+
+  private handleTabChange(e: CustomEvent<{value: number}>) {
+    const activeTabIndex = (e.target as MdTabs).activeTabIndex;
+    const scheme = this.schemes[activeTabIndex];
+    if (scheme && scheme !== this.selectedScheme) {
+      this.selectedScheme = scheme;
+      fire(this, 'selected-scheme-changed', {value: scheme});
+      if (this.loggedIn) {
+        this.getUserModel().updatePreferences({
+          download_scheme: this.selectedScheme,
+        });
+      }
+    }
+  }
+
+  private computeTooltip(index: number) {
+    return index <= 8 && this.showKeyboardShortcutTooltips
+      ? `Keyboard shortcut: ${index + 1}`
+      : '';
+  }
+
+  private computeShowTabs() {
+    return this.schemes.length > 1 ? '' : 'hidden';
+  }
+
+  // TODO: maybe unify with strToClassName from dom-util
+  private computeClass(title: string) {
+    // Only retain [a-z] chars, so "Cherry Pick" becomes "cherrypick".
+    return '_label_' + title.replace(/[^a-z]+/gi, '').toLowerCase();
+  }
+}

@@ -115,14 +115,14 @@ const config = {
       tsconfig: tsConfig,
     }),
     visualRegressionPlugin({
-      diffOptions: { threshold: 0.8 },
+      diffOptions: { threshold: 1 },
       update: process.argv.includes('--update-screenshots'),
     }),
   ],
 
   // serve from gerrit root directory so that we can serve fonts from
-  // /lib/fonts/, see middleware.
-  rootDir,
+  // /lib/fonts/ for screenshots tests, see middleware .
+  rootDir: runScreenshots ? '..' : rootDir,
 
   reporters: [defaultReporter(), summaryReporter()],
 

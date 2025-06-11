@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "875e0b44_b2c77157",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0aaccde_82e2f434",
+      "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93b062e6_cacca6ba",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "93b062e6_cacca6ba",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 17
+      },
+      "revId": "0e877e79d9b73535722cc265f21b1f89c3e0da45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c83508_02c3dc7a",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c68d372_a8b0672e",
       "range": {
         "startLine": 130,
         "startChar": 0,

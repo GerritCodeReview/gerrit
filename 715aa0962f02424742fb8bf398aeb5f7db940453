@@ -16,6 +16,24 @@
       "message": "also refs/heads/ and refs/tags/ must exist, add assertions for them as well ?",
       "revId": "715aa0962f02424742fb8bf398aeb5f7db940453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8dd012c_313438ab",
+        "filename": "contrib/maintenance/tests/git/test_gc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T16:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a93fa34f_fe2f8973",
+      "revId": "715aa0962f02424742fb8bf398aeb5f7db940453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

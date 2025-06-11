@@ -22,6 +22,30 @@
       },
       "revId": "2ec8ea8f7850e1302966fb73be933e081baafee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a13b3ac_85fa36d3",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-11T13:18:44Z",
+      "side": 0,
+      "message": "Yes, the check_license did this. It was depended on by paper-tabs and so there\u0027s no more dependence on it with paper-tabs being removed.",
+      "parentUuid": "adb2b828_92373bd0",
+      "range": {
+        "startLine": 825,
+        "startChar": 0,
+        "endLine": 826,
+        "endChar": 27
+      },
+      "revId": "2ec8ea8f7850e1302966fb73be933e081baafee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

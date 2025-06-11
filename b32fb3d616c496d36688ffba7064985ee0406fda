@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13d9caf5_68ae7990",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-11T13:18:44Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure. My issue was the tab was smaller when i used display flex with inline-flex rather then it being big.\n\nI\u0027m not sure how to do a better fix. My issue was without the flex, that comment would be on the right part of the screen, which flex fixed but seems to have other problems. Such as needed min-width since the tab is smaller.\n\nFor now this seems to work, see https://imgur.com/a/EskFhAN",
+      "parentUuid": "f2c248a0_3a12a622",
+      "range": {
+        "startLine": 979,
+        "startChar": 10,
+        "endLine": 979,
+        "endChar": 26
+      },
+      "revId": "b32fb3d616c496d36688ffba7064985ee0406fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "656641d8_432e4ca3",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-06-11T13:12:16Z",
       "side": 1,
       "message": "Do we need this also in gr-change-view?",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 42
+      },
+      "revId": "b32fb3d616c496d36688ffba7064985ee0406fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f5a1ba_33c6b932",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-11T13:18:44Z",
+      "side": 1,
+      "message": "No, we don\u0027t set activeTabIndex at least not inside the render function.\n\nI only had this issue in gr-download-commands and doing this fixed the problem.",
+      "parentUuid": "656641d8_432e4ca3",
       "range": {
         "startLine": 133,
         "startChar": 4,

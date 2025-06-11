@@ -6,9 +6,9 @@
 import '../../../test/common-test-setup';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import {fixture, html} from '@open-wc/testing';
-// Until https://github.com/modernweb-dev/web/issues/2804 is fixed, we have to load
-// visualDiff from browser/commands. Remove browser/commands once it is fixed.
-import {visualDiff} from '@web/test-runner-visual-regression/browser/commands';
+// Until https://github.com/modernweb-dev/web/issues/2804 is fixed
+// @ts-ignore
+import {visualDiff} from '@web/test-runner-visual-regression';
 import {FileInfo, PARENT, RevisionPatchSetNum} from '../../../api/rest-api';
 import {normalize} from '../../../models/change/files-model';
 import {PatchRange} from '../../../types/common';
@@ -42,7 +42,8 @@ suite('gr-file-list screenshot tests', () => {
     };
     element = await fixture(
       html`<gr-file-list
-        .patchRange=${patchRange}
+        .patchNum=${patchRange.patchNum}
+        .basePatchNum=${patchRange.basePatchNum}
         .diffPrefs=${diffPrefs}
       ></gr-file-list>`
     );

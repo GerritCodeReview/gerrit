@@ -572,6 +572,7 @@ public class RetryHelper {
   public String formatCause(Throwable t) {
     while ((t instanceof UpdateException
             || t instanceof StorageException
+            || t instanceof RetryException
             || t instanceof ExecutionException)
         && t.getCause() != null) {
       t = t.getCause();

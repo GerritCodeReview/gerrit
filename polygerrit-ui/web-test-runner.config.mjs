@@ -121,8 +121,8 @@ const config = {
   ],
 
   // serve from gerrit root directory so that we can serve fonts from
-  // /lib/fonts/, see middleware.
-  rootDir,
+  // /lib/fonts/ for screenshots tests, see middleware .
+  rootDir: runScreenshots ? '..' : rootDir,
 
   reporters: [defaultReporter(), summaryReporter()],
 

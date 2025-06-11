@@ -102,6 +102,11 @@ export class GrAiPromptDialog extends LitElement {
         .footer {
           justify-content: flex-end;
         }
+        .info-text {
+          font-size: var(--font-size-small);
+          color: var(--deactivated-text-color);
+          max-width: 420px;
+        }
         .closeButtonContainer {
           align-items: flex-end;
           display: flex;
@@ -125,7 +130,7 @@ export class GrAiPromptDialog extends LitElement {
           gap: var(--spacing-s);
         }
         textarea {
-          width: 500px;
+          width: 550px;
           height: 300px;
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
@@ -139,6 +144,8 @@ export class GrAiPromptDialog extends LitElement {
           display: flex;
           gap: var(--spacing-s);
           margin-top: var(--spacing-s);
+          justify-content: space-between;
+          align-items: center;
         }
       `,
     ];
@@ -182,6 +189,12 @@ export class GrAiPromptDialog extends LitElement {
               placeholder="Patch content will appear here..."
             ></textarea>
             <div class="toolbar">
+              <div class="info-text">
+                You can paste this prompt in an AI Model if your project code
+                can be shared with AI. We recommend a thinking model. You can
+                also use it for an AI Agent as context (a reference to a git
+                change).
+              </div>
               <gr-button @click=${this.handleCopyPatch}>
                 <gr-icon icon="content_copy" small></gr-icon>
                 Copy Prompt

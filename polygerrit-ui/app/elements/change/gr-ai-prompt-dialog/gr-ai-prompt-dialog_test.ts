@@ -60,6 +60,12 @@ suite('gr-ai-prompt-dialog test', () => {
             >
             </textarea>
             <div class="toolbar">
+              <div class="info-text">
+                You can paste this prompt in an AI Model if your project code
+                can be shared with AI. We recommend a thinking model. You can
+                also use it for an AI Agent as context (a reference to a git
+                change).
+              </div>
               <gr-button>
                 <gr-icon icon="content_copy" small=""> </gr-icon>
                 Copy Prompt

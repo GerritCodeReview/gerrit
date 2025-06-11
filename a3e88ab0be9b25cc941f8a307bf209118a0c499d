@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5444205_dd68ab5d",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-11T12:20:22Z",
+      "side": 1,
+      "message": "I think we should guard this with a `try except` block to prevent a failing `rmdir()` caused by a race with another thread kicks us out of this loop",
+      "revId": "a3e88ab0be9b25cc941f8a307bf209118a0c499d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

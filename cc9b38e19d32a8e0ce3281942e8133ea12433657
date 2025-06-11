@@ -160,6 +160,24 @@
       "parentUuid": "8289aea3_8d731050",
       "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41830117_d5b0d96d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-11T15:03:52Z",
+      "side": 1,
+      "message": "See https://imgur.com/a/njS5eOZ, i don\u0027t see the issue.",
+      "parentUuid": "2070ab66_22032636",
+      "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

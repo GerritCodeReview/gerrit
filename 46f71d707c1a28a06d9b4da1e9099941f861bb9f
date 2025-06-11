@@ -1,0 +1,99 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d60d7b9_9afb8b7c",
+        "filename": "polygerrit-ui/app/utils/event-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-11T08:35:04Z",
+      "side": 1,
+      "message": "Interesting, you can fire events on elements that have not yet been added to the DOM?? Maybe add it to the DOM, but then also make sure that you remove it when the test is done.",
+      "fixSuggestions": [
+        {
+          "fixId": "a7f05401_af25a070",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 24,
+                "startChar": 0,
+                "endLine": 24,
+                "endChar": 0
+              },
+              "replacement": "  let target: HTMLElement;\n\n  setup(() \u003d\u003e {\n    target \u003d document.createElement(\u0027div\u0027);\n    document.body.appendChild(target);\n  });\n\n  teardown(() \u003d\u003e {\n    document.body.removeChild(target);\n  });\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 25,
+                "startChar": 0,
+                "endLine": 26,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 41,
+                "startChar": 0,
+                "endLine": 42,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 57,
+                "startChar": 0,
+                "endLine": 58,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 73,
+                "startChar": 0,
+                "endLine": 74,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 90,
+                "startChar": 0,
+                "endLine": 91,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/utils/event-util_test.ts",
+              "range": {
+                "startLine": 104,
+                "startChar": 0,
+                "endLine": 105,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "46f71d707c1a28a06d9b4da1e9099941f861bb9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

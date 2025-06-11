@@ -49,7 +49,8 @@ function getArgValue(flag) {
 }
 
 const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
-const testFiles = getArgValue('--test-files') ?? `${pathPrefix}app/**/*_test.{ts,js}`;
+const testFiles = getArgValue('--test-files');
+const runScreenshots = process.argv.includes('--run-screenshots');
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
 const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
@@ -75,13 +76,18 @@ const config = {
     }),
   ],
 
-  files: [
-    testFiles,
-    `!${pathPrefix}**/node_modules/**/*`,
-    ...(process.argv.includes('--run-screenshots')
-      ? []
-      : [`!${pathPrefix}app/**/*_screenshot_test.{ts,js}`]),
-  ],
+  files: runScreenshots
+      ? [
+          // If --run-screenshots is set, ONLY run screenshot tests.
+          testFiles ?? `${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
+          `!${pathPrefix}**/node_modules/**/*`,
+        ]
+      : [
+          // Otherwise, run all tests EXCEPT screenshot tests
+          testFiles ?? `${pathPrefix}app/**/*_test.{ts,js}`,
+          `!${pathPrefix}**/node_modules/**/*`,
+          `!${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
+        ],
 
   port: 9876,
 

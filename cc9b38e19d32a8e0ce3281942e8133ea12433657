@@ -142,6 +142,24 @@
       "parentUuid": "a076c357_398fa58a",
       "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2070ab66_22032636",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-11T14:04:02Z",
+      "side": 1,
+      "message": "I guess i\u0027ll leave it to you to fix as i\u0027m not able to experence the issue. I had discovered the clickable surface was bigger outside the button but i fixed it. But i\u0027m unable to reproduce any other issues.",
+      "parentUuid": "8289aea3_8d731050",
+      "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

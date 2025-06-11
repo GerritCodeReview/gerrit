@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3db35a17_298a76ee",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T16:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f6d0891_f2f79f84",
+      "revId": "57b27eac3dc7c9e67abdb7597c209d33abf7f57f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e62e384_a5251cd1",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-06-11T16:24:28Z",
       "side": 1,
       "message": "optional: this method could be static",
+      "revId": "57b27eac3dc7c9e67abdb7597c209d33abf7f57f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77189d1e_f396ec75",
+        "filename": "contrib/maintenance/git/gc.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-06-11T16:36:19Z",
+      "side": 1,
+      "message": "I tried it and didn\u0027t like the result: the method invocation needs to be prefixed with the class name which results into less readable code:\n`DeleteEmptyRefDirsCleanupStep.rmdir(d)`",
+      "parentUuid": "3e62e384_a5251cd1",
       "revId": "57b27eac3dc7c9e67abdb7597c209d33abf7f57f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

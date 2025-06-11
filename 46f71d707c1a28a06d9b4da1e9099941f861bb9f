@@ -94,6 +94,24 @@
       ],
       "revId": "46f71d707c1a28a06d9b4da1e9099941f861bb9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55703101_86266595",
+        "filename": "polygerrit-ui/app/utils/event-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T08:35:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5d60d7b9_9afb8b7c",
+      "revId": "46f71d707c1a28a06d9b4da1e9099941f861bb9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

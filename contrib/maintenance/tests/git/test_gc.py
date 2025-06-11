@@ -20,6 +20,9 @@ import git.repo
 from datetime import datetime, timedelta
 from pathlib import Path
 from git.gc import (
+    MAX_AGE_EMPTY_REF_DIRS,
+    MAX_AGE_INCOMING_PACKS,
+    MAX_AGE_GC_LOCK,
     DeleteStaleIncomingPacksCleanupStep,
     DeleteEmptyRefDirsCleanupStep,
     GCLockHandlingInitStep,
@@ -28,6 +31,10 @@ from git.gc import (
     PreservePacksInitStep,
 )
 from git.config import GitConfigWriter
+
+DOUBLE_MAX_AGE_EMPTY_REF_DIRS = 2 * MAX_AGE_EMPTY_REF_DIRS
+DOUBLE_MAX_AGE_INCOMING_PACKS = 2 * MAX_AGE_INCOMING_PACKS
+DOUBLE_MAX_AGE_GC_LOCK = 2 * MAX_AGE_GC_LOCK
 
 
 def test_GCLockHandlingInitStep(repo):
@@ -40,7 +47,7 @@ def test_GCLockHandlingInitStep(repo):
     task.run(repo)
     assert os.path.exists(lock_file)
 
-    _modify_last_modified(lock_file, timedelta(hours=13))
+    _modify_last_modified(lock_file, DOUBLE_MAX_AGE_GC_LOCK)
 
     task.run(repo)
     assert not os.path.exists(lock_file)
@@ -109,13 +116,35 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     assert os.path.exists(delete_path)
     assert os.path.exists(keep_path)
 
-    _modify_last_modified(keep_path, timedelta(hours=2))
-    _modify_last_modified(delete_path, timedelta(hours=2))
-    _modify_last_modified(delete_change_path, timedelta(hours=2))
+    _modify_last_modified(keep_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+    _modify_last_modified(delete_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+    _modify_last_modified(delete_change_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+    delete_change_path_parent = Path(delete_change_path).parent
+    _modify_last_modified(delete_change_path_parent, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
     task.run(repo)
     assert not os.path.exists(delete_path)
     assert not os.path.exists(delete_change_path)
-    assert not os.path.exists(Path(delete_change_path).parent)
+    assert not os.path.exists(delete_change_path_parent)
+
+
+def test_DeleteEmptyRefDirsCleanupStep_keeps_ref_dir(repo):
+    refs_path = os.path.join(repo, "refs")
+    heads_path = os.path.join(refs_path, "heads")
+    tags_path = os.path.join(refs_path, "tags")
+    delete_change_path = os.path.join(refs_path, "changes", "01", "101", "meta")
+    os.makedirs(delete_change_path)
+    _modify_last_modified(refs_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+    _modify_last_modified(heads_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+    _modify_last_modified(tags_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+    _modify_last_modified(delete_change_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
+
+    task = DeleteEmptyRefDirsCleanupStep()
+    task.run(repo)
+
+    assert not os.path.exists(delete_change_path)
+    assert os.path.exists(refs_path)
+    assert os.path.exists(heads_path)
+    assert os.path.exists(tags_path)
 
 
 def test_DeleteStaleIncomingPacksCleanupStep(repo):
@@ -138,9 +167,9 @@ def test_DeleteStaleIncomingPacksCleanupStep(repo):
     assert os.path.exists(object_file)
     assert os.path.exists(incoming_pack_file)
 
-    _modify_last_modified(pack_file, timedelta(days=2))
-    _modify_last_modified(object_file, timedelta(days=2))
-    _modify_last_modified(incoming_pack_file, timedelta(days=2))
+    _modify_last_modified(pack_file, DOUBLE_MAX_AGE_INCOMING_PACKS)
+    _modify_last_modified(object_file, DOUBLE_MAX_AGE_INCOMING_PACKS)
+    _modify_last_modified(incoming_pack_file, DOUBLE_MAX_AGE_INCOMING_PACKS)
 
     task.run(repo)
 

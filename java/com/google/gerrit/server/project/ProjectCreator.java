@@ -248,6 +248,11 @@ public class ProjectCreator {
       oi.flush();
 
       for (String ref : refs) {
+        if (repo.exactRef(ref) != null) {
+          logger.atFine().log("Skip creation of branch %s because it already exists", ref);
+          continue;
+        }
+
         RefUpdate ru = repo.updateRef(ref);
         ru.setNewObjectId(id);
         Result result = ru.update();

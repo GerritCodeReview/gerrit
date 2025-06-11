@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb41c2f7_7dbd0284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T13:12:16Z",
+      "side": 1,
+      "message": "Looks good, thank you for this!",
+      "revId": "b32fb3d616c496d36688ffba7064985ee0406fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2c248a0_3a12a622",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T13:12:16Z",
+      "side": 1,
+      "message": "Can this be issue on smaller screens?",
+      "range": {
+        "startLine": 979,
+        "startChar": 10,
+        "endLine": 979,
+        "endChar": 26
+      },
+      "revId": "b32fb3d616c496d36688ffba7064985ee0406fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "656641d8_432e4ca3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-11T13:12:16Z",
+      "side": 1,
+      "message": "Do we need this also in gr-change-view?",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 42
+      },
+      "revId": "b32fb3d616c496d36688ffba7064985ee0406fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

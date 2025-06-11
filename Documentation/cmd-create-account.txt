@@ -7,9 +7,9 @@ gerrit create-account - Create a new user account.
 [verse]
 --
 _ssh_ -p <port> <host> _gerrit create-account_
-  [--group <GROUP>]
-  [--full-name <FULLNAME>]
-  [--email <EMAIL>]
+  [--group <owner>]
+  [--full-name <Andrean>]
+  [--email <andreanadr@pm.me>]
   [--ssh-key - | <KEY>]
   [--http-password <PASSWORD>]
   <USERNAME>

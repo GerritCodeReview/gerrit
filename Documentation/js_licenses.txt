@@ -822,8 +822,6 @@ Polymer-2015
 * @polymer/iron-fit-behavior
 * @polymer/iron-flex-layout
 * @polymer/iron-form-element-behavior
-* @polymer/iron-icon
-* @polymer/iron-iconset-svg
 * @polymer/iron-input
 * @polymer/iron-menu-behavior
 * @polymer/iron-meta
@@ -835,11 +833,9 @@ Polymer-2015
 * @polymer/paper-behaviors
 * @polymer/paper-button
 * @polymer/paper-card
-* @polymer/paper-icon-button
 * @polymer/paper-input
 * @polymer/paper-item
 * @polymer/paper-listbox
-* @polymer/paper-tabs
 * @polymer/paper-tooltip
 
 [[Polymer-2015_license]]

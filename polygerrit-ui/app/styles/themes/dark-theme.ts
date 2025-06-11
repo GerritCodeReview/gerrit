@@ -312,6 +312,9 @@ const darkThemeCss = safeStyleSheet`
     --switch-color-on-primary: #00315b;
     --switch-color-primary-container: #0077ce;
     --switch-color-on-primary-container: #ffffff;
+
+    /* md-tabs */
+    --tabs-color-on-surface: #e1e2e6;
   }
 `;
 

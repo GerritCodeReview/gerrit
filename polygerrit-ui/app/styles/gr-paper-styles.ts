@@ -22,31 +22,21 @@ export const paperStyles = css`
 
   /* prettier formatter removes semi-colons after css mixins. */
   /* prettier-ignore */
-  paper-tabs {
+  md-tabs {
     font-size: var(--font-size-h3);
     font-weight: var(--font-weight-h3);
     line-height: var(--line-height-h3);
-    --paper-font-common-base: {
-      font-family: var(--header-font-family);
-      -webkit-font-smoothing: initial;
-    };
-    --paper-tab-content: {
-      margin-bottom: var(--spacing-s);
-    };
-    --paper-tab-content-focused: {
-      /* paper-tabs uses 700 here, which can look awkward */
-      font-weight: var(--font-weight-h3);
-      background: var(--gray-background-focus);
-    };
-    --paper-tab-content-unselected: {
-      /* paper-tabs uses 0.8 here, but we want to control the color directly */
-      opacity: 1;
-      color: var(--deemphasized-text-color);
-    };
+    --md-sys-typescale-title-small-font: var(--header-font-family);
+    --md-sys-typescale-title-small-size: var(--font-size-h3);
+    --md-sys-typescale-title-small-line-height: var(--line-height-h3);
+    --md-sys-color-on-surface: var(--tabs-color-on-surface);
+    --md-secondary-tab-active-hover-state-layer-color: var(--deemphasized-text-color);
+    --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+    --md-sys-color-primary: var(--link-color);
+    --md-sys-color-surface: transparent;
   }
-  paper-tab:focus {
-    padding-left: 0px;
-    padding-right: 0px;
+  md-tabs::part(divider) {
+    display: none;
   }
 `;
 

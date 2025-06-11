@@ -551,6 +551,10 @@ describes the created project.
   }
 ----
 
+The response code is `201 Created`, unless `init_only` is set in the request
+input and an existing project is updated. In this case the response code is `200
+OK`.
+
 [[get-project-description]]
 === Get Project Description
 --
@@ -5009,6 +5013,16 @@ of parameter names to values.
 |`reject_empty_commit`       |optional|
 Whether empty commits should be rejected when a change is merged
 (`TRUE`, `FALSE`, `INHERIT`).
+|`init_only`                 |optional|
+If set, only the project initialization is being (re-)done and the repository
+creation is skipped. The project initialization consists out of setting `HEAD`,
+creating the `project.config` file in `refs/meta/config` and creating initial
+branches with empty commits. This is useful to retry the project initialization
+after a create project request has failed and as a result the repository was
+created but the project initialization was not done. Note, that this does not
+override any existing project configuration. If a conflicting configuration
+already exists the request is rejected with `409 Conflict`. The default is
+`false`.
 |=========================================
 
 [[project-parent-input]]

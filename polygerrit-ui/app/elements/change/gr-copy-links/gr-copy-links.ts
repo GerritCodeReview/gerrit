@@ -4,17 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@polymer/iron-dropdown/iron-dropdown';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, LitElement, nothing} from 'lit';
 import {createRef, ref, Ref} from 'lit/directives/ref.js';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {strToClassName} from '../../../utils/dom-util';
-import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {copyToClipboard, queryAndAssert} from '../../../utils/common-util';
-import {ValueChangedEvent} from '../../../types/events';
 import {formStyles} from '../../../styles/form-styles';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '@material/web/menu/menu';
+import {MdMenu} from '@material/web/menu/menu';
 
 export interface CopyLink {
   label: string;
@@ -39,23 +38,29 @@ export class GrCopyLinks extends LitElement {
   @property({type: String})
   shortcutPrefix = 'l - ';
 
+  @property({type: Number})
+  verticalOffset = 10;
+
   @state() isDropdownOpen = false;
 
   // private but used in screenshot tests
-  @query('iron-dropdown') dropdown?: IronDropdownElement;
+  @query('md-menu') dropdown?: MdMenu;
 
   static override get styles() {
     return [
       formStyles,
       css`
-        iron-dropdown {
-          box-shadow: var(--elevation-level-2);
-          width: min(90vw, 640px);
-          background-color: var(--dialog-background-color);
-          border-radius: var(--border-radius);
+        md-menu {
+          white-space: nowrap;
+          --md-menu-container-color: var(--dialog-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
         }
-        [slot='dropdown-content'] {
+        .dropdown-content {
           padding: var(--spacing-m) var(--spacing-l) var(--spacing-m);
+          width: min(90vw, 640px);
+          box-shadow: var(--elevation-level-2);
+          border-radius: var(--border-radius);
         }
         .copy-link-row {
           margin-bottom: var(--spacing-m);
@@ -69,20 +74,27 @@ export class GrCopyLinks extends LitElement {
 
   override render() {
     if (!this.copyLinks) return nothing;
-    return html`<iron-dropdown
-      .horizontalAlign=${this.horizontalAlign}
-      .verticalAlign=${'top'}
-      .verticalOffset=${20}
+    return html`<md-menu
+      tabindex="-1"
+      .menuCorner=${this.horizontalAlign === 'left'
+        ? 'start-start'
+        : 'end-start'}
+      .quick=${true}
+      .yOffset=${this.verticalOffset}
+      @opened=${() => {
+        this.isDropdownOpen = true;
+      }}
+      @closed=${() => {
+        this.isDropdownOpen = false;
+      }}
       @keydown=${this.handleKeydown}
-      @opened-changed=${(e: ValueChangedEvent<boolean>) =>
-        (this.isDropdownOpen = e.detail.value)}
     >
       ${this.renderCopyLinks()}
-    </iron-dropdown>`;
+    </md-menu> `;
   }
 
   private renderCopyLinks() {
-    return html`<div slot="dropdown-content">
+    return html`<div class="dropdown-content">
       ${this.copyLinks?.map((link, index) =>
         this.renderCopyLinkRow(link, index)
       )}
@@ -112,7 +124,10 @@ export class GrCopyLinks extends LitElement {
     this.closeDropdown();
   }
 
-  toggleDropdown() {
+  toggleDropdown(button?: HTMLElement) {
+    if (button) {
+      this.dropdown!.anchorElement = button;
+    }
     this.isDropdownOpen ? this.closeDropdown() : this.openDropdown();
   }
 
@@ -121,7 +136,7 @@ export class GrCopyLinks extends LitElement {
   }
 
   openDropdown() {
-    this.dropdown?.open();
+    this.dropdown?.show();
     this.awaitOpen(() => {
       if (!this.copyClipboardRef?.value) return;
       queryAndAssert<HTMLInputElement>(

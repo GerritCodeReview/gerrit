@@ -139,6 +139,30 @@
       },
       "revId": "fd2f5822cec00329de0ae0ce78e65fccdd78995b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb67859_c855ea11",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-12T14:46:43Z",
+      "side": 1,
+      "message": "I guess nothing is waiting for handleActionTap it\u0027s ok to run await and also ok to not run await. \n\nFYI: As far as I know in JS you await only if you need to wait for result. There is one typescript condition that if method is async it needs to have await.",
+      "parentUuid": "9445c884_5357ba56",
+      "range": {
+        "startLine": 1423,
+        "startChar": 4,
+        "endLine": 1423,
+        "endChar": 9
+      },
+      "revId": "fd2f5822cec00329de0ae0ce78e65fccdd78995b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

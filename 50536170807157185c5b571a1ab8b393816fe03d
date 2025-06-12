@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1893f49e_9ce7a817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-12T14:46:43Z",
+      "side": 1,
+      "message": "It\u0027s missing release notes",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "50536170807157185c5b571a1ab8b393816fe03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e60b72af_a6a598bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-12T14:46:43Z",
+      "side": 1,
+      "message": "Do you have follow-up changes where plugin is showing alert why actions are blocked?",
+      "revId": "50536170807157185c5b571a1ab8b393816fe03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8cb59f1_68a73c72",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-12T14:46:43Z",
+      "side": 1,
+      "message": "Are you sure you want to disable all actions? In commit message it should block only code approval actions.",
+      "range": {
+        "startLine": 1467,
+        "startChar": 4,
+        "endLine": 1470,
+        "endChar": 13
+      },
+      "revId": "50536170807157185c5b571a1ab8b393816fe03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6557b287_16e3295a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-12T14:46:43Z",
+      "side": 1,
+      "message": "It looks currently it can only block currently.",
+      "range": {
+        "startLine": 51,
+        "startChar": 46,
+        "endLine": 51,
+        "endChar": 50
+      },
+      "revId": "50536170807157185c5b571a1ab8b393816fe03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

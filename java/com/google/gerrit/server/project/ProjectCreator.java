@@ -209,20 +209,22 @@ public class ProjectCreator {
     createProjectConfig(repo, args);
 
     if (!args.permissionsOnly && args.createEmptyCommit) {
-      createEmptyCommits(repo, nameKey, args.branch);
+      createEmptyCommits(repo, args, nameKey);
     }
   }
 
   private void createHead(Repository repo, CreateProjectArgs args)
       throws IOException, ResourceConflictException {
-    Ref head = repo.exactRef(Constants.HEAD);
-    if (head != null) {
-      if (head.getTarget().getName().equals(args.getHead())) {
-        logger.atFine().log("Skip creation of HEAD because it already exists");
-        return;
-      }
+    if (args.initOnly) {
+      Ref head = repo.exactRef(Constants.HEAD);
+      if (head != null) {
+        if (head.getTarget().getName().equals(args.getHead())) {
+          logger.atFine().log("Skip creation of HEAD because it already exists");
+          return;
+        }
 
-      throw new ResourceConflictException("conflicting HEAD already exists");
+        throw new ResourceConflictException("conflicting HEAD already exists");
+      }
     }
 
     RefUpdate u = repo.updateRef(Constants.HEAD);
@@ -233,7 +235,7 @@ public class ProjectCreator {
   private void createProjectConfig(Repository repo, CreateProjectArgs args)
       throws IOException, ConfigInvalidException, ResourceConflictException {
     Optional<CachedProjectConfig> currentConfig =
-        repo.exactRef("refs/meta/config") != null
+        args.initOnly && repo.exactRef("refs/meta/config") != null
             ? Optional.of(
                 projectCache
                     .get(args.getProject())
@@ -304,18 +306,20 @@ public class ProjectCreator {
     projectCache.onCreateProject(args.getProject());
   }
 
-  private void createEmptyCommits(Repository repo, Project.NameKey project, List<String> refs)
+  private void createEmptyCommits(Repository repo, CreateProjectArgs args, Project.NameKey project)
       throws IOException, ResourceConflictException {
-    List<Ref> existingRefs = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
-    if (!existingRefs.isEmpty()) {
-      if (Sets.symmetricDifference(
-              existingRefs.stream().map(Ref::getName).collect(toImmutableSet()),
-              ImmutableSet.copyOf(refs))
-          .isEmpty()) {
-        logger.atFine().log("Skip creation of branches since they already exist");
-        return;
+    if (args.initOnly) {
+      List<Ref> existingRefs = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
+      if (!existingRefs.isEmpty()) {
+        if (Sets.symmetricDifference(
+                existingRefs.stream().map(Ref::getName).collect(toImmutableSet()),
+                ImmutableSet.copyOf(args.branch))
+            .isEmpty()) {
+          logger.atFine().log("Skip creation of branches since they already exist");
+          return;
+        }
+        throw new ResourceConflictException(String.format("conflicting branches already exists"));
       }
-      throw new ResourceConflictException(String.format("conflicting branches already exists"));
     }
 
     try (ObjectInserter oi = repo.newObjectInserter()) {
@@ -328,7 +332,7 @@ public class ProjectCreator {
       ObjectId id = oi.insert(cb);
       oi.flush();
 
-      for (String ref : refs) {
+      for (String ref : args.branch) {
         if (repo.exactRef(ref) != null) {
           logger.atFine().log("Skip creation of branch %s because it already exists", ref);
           continue;

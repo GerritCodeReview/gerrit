@@ -41,7 +41,8 @@ export class GrCopyLinks extends LitElement {
 
   @state() isDropdownOpen = false;
 
-  @query('iron-dropdown') private dropdown?: IronDropdownElement;
+  // private but used in screenshot tests
+  @query('iron-dropdown') dropdown?: IronDropdownElement;
 
   static override get styles() {
     return [

@@ -58,6 +58,7 @@ public class RetryableAction<T> {
     GROUP_UPDATE,
     INDEX_QUERY,
     PLUGIN_UPDATE,
+    REPO_CREATION,
     REST_READ_REQUEST,
     REST_WRITE_REQUEST,
     SEND_EMAIL,

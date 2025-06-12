@@ -28,6 +28,9 @@ export class GrChangeListCopyLinkFlow extends LitElement {
       gr-button {
         margin-right: var(--spacing-s);
       }
+      .copyLinkWrapper {
+        position: relative;
+      }
     `;
   }
 
@@ -81,20 +84,23 @@ export class GrChangeListCopyLinkFlow extends LitElement {
   override render() {
     if (this.selectedChangeNums.length === 0) return nothing;
     return html`
-      <gr-button
-        id="copyLinkButton"
-        link
-        @click=${() => {
-          this.copyLinks?.openDropdown();
-        }}
-      >
-        Copy Link
-      </gr-button>
-      <gr-copy-links
-        .copyLinks=${this.getCopyLinks()}
-        .horizontalAlign=${'right'}
-        .shortcutPrefix=${''}
-      ></gr-copy-links>
+      <div class="copyLinkWrapper">
+        <gr-button
+          id="copyLinkButton"
+          link
+          @click=${(e: Event) => {
+            this.copyLinks?.toggleDropdown(e.target as HTMLElement);
+          }}
+        >
+          Copy Link
+        </gr-button>
+        <gr-copy-links
+          .copyLinks=${this.getCopyLinks()}
+          .horizontalAlign=${'right'}
+          .verticalOffset=${30}
+          .shortcutPrefix=${''}
+        ></gr-copy-links>
+      </div>
     `;
   }
 }

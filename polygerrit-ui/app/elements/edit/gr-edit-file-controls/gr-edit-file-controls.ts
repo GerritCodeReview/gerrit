@@ -54,7 +54,6 @@ export class GrEditFileControls extends LitElement {
       id="actions"
       .items=${fileActions}
       down-arrow=""
-      vertical-offset="20"
       @tap-item=${this._handleActionTap}
       link=""
       >Actions</gr-dropdown

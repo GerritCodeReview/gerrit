@@ -576,7 +576,7 @@ suite('gr-edit-controls tests', () => {
 
   test('getDialogFromEvent', async () => {
     const spy = sinon.spy(element, 'getDialogFromEvent');
-    element.addEventListener('tap', element.getDialogFromEvent);
+    element.addEventListener('click', element.getDialogFromEvent);
 
     element.openDialog!.click();
     await element.updateComplete;

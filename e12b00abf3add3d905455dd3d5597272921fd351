@@ -34,6 +34,24 @@
       "parentUuid": "28d12647_319abc96",
       "revId": "e12b00abf3add3d905455dd3d5597272921fd351",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38e512d_f9c5773f",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-copy-links.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-12T11:46:02Z",
+      "side": 1,
+      "message": "Oh thanks! I\u0027ve not tested. I\u0027m currently working on getting md-menu to work.",
+      "parentUuid": "0bf0d7d3_9385c4e8",
+      "revId": "e12b00abf3add3d905455dd3d5597272921fd351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

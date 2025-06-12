@@ -679,6 +679,33 @@ suite('gr-comment tests', () => {
       assert.isTrue(saveStub.called);
     });
 
+    test('clicking resolved checkbox fills message text', async () => {
+      element.comment = {
+        ...createComment(),
+        savingState: SavingState.OK,
+        unresolved: false,
+      };
+      element.editing = true;
+      await element.updateComplete;
+
+      element.messageText = '';
+      await element.updateComplete;
+
+      let checkbox = queryAndAssert<HTMLInputElement>(
+        element,
+        '#resolvedCheckbox'
+      );
+      assert.isTrue(checkbox.checked);
+      assert.equal(element.messageText, '');
+
+      checkbox.click();
+      await element.updateComplete;
+
+      checkbox = queryAndAssert<HTMLInputElement>(element, '#resolvedCheckbox');
+      assert.isFalse(checkbox.checked);
+      assert.equal(element.messageText, 'Marked as unresolved.');
+    });
+
     test('saving empty text calls discard()', async () => {
       const saveStub = sinon.stub(commentsModel, 'saveDraft');
       const discardStub = sinon.stub(commentsModel, 'discardDraft');

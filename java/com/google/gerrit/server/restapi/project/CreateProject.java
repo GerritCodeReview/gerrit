@@ -166,6 +166,7 @@ public class CreateProject
     } catch (ConfigInvalidException e) {
       throw new BadRequestException(e.getMessage());
     }
+    args.initOnly = input.initOnly;
 
     Lock nameLock = lockManager.call(lockManager -> lockManager.getLock(args.getProject().get()));
     nameLock.lock();
@@ -190,7 +191,8 @@ public class CreateProject
         @SuppressWarnings("unused")
         var unused = putConfig.get().apply(projectState, in);
       }
-      return Response.created(json.format(projectState));
+      ProjectInfo projectInfo = json.format(projectState);
+      return input.initOnly ? Response.ok(projectInfo) : Response.created(projectInfo);
     } finally {
       nameLock.unlock();
     }

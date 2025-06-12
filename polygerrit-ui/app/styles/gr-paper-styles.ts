@@ -17,6 +17,18 @@ export const paperStyles = css`
     --md-sys-color-on-primary: var(--switch-color-on-primary);
     --md-sys-color-primary-container: var(--switch-color-primary-container);
 
+    --md-focus-ring-duration: 0s;
+    --md-switch-handle-height: 12px;
+    --md-switch-handle-width: 12px;
+    --md-switch-selected-handle-height: 12px;
+    --md-switch-selected-handle-width: 12px;
+    --md-switch-pressed-handle-height: 12px;
+    --md-switch-pressed-handle-width: 12px;
+    --md-switch-track-height: 16px;
+    --md-switch-track-outline-width: 0;
+    --md-switch-track-width: 32px;
+    --md-switch-state-layer-size: 32px;
+
     padding-right: 0.5em;
   }
 

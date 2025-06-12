@@ -16,6 +16,24 @@
       "message": "Can do:\n\n```\n  bazelisk test Documentation:check_licenses\n  cp bazel-bin/Documentation/licenses.gen.txt Documentation/licenses.txt\n  cp bazel-bin/Documentation/js_licenses.gen.txt Documentation/js_licenses.txt\n```",
       "revId": "8b0a94c937dd2f73b752926119e10b0685291940",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa7538f_5cc7a2fb",
+        "filename": "Documentation/js_licenses.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-12T11:31:18Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "757bbe52_e9384918",
+      "revId": "8b0a94c937dd2f73b752926119e10b0685291940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

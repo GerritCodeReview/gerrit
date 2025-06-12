@@ -50,6 +50,30 @@
       ],
       "revId": "59158b329c7323f93422eae5240eeed2efb122fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22353458_69fb5439",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-12T11:31:18Z",
+      "side": 1,
+      "message": "Not sure whether that is helpful.",
+      "parentUuid": "7d2fabd1_e1298f13",
+      "range": {
+        "startLine": 249,
+        "startChar": 9,
+        "endLine": 250,
+        "endChar": 79
+      },
+      "revId": "59158b329c7323f93422eae5240eeed2efb122fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -53,6 +55,8 @@ import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.git.RepositoryExistsException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -90,6 +94,7 @@ public class ProjectCreator {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final GitReferenceUpdated referenceUpdated;
   private final RepositoryConfig repositoryCfg;
+  private final RetryHelper retryHelper;
   private final Provider<PersonIdent> serverIdent;
   private final Provider<IdentifiedUser> identifiedUser;
   private final ProjectConfig.Factory projectConfigFactory;
@@ -105,6 +110,7 @@ public class ProjectCreator {
       MetaDataUpdate.User metaDataUpdateFactory,
       GitReferenceUpdated referenceUpdated,
       RepositoryConfig repositoryCfg,
+      RetryHelper retryHelper,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       @Nullable @GerritInstanceId String gerritInstanceId,
       Provider<IdentifiedUser> identifiedUser,
@@ -117,6 +123,7 @@ public class ProjectCreator {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.referenceUpdated = referenceUpdated;
     this.repositoryCfg = repositoryCfg;
+    this.retryHelper = retryHelper;
     this.serverIdent = serverIdent;
     this.gerritInstanceId = gerritInstanceId;
     this.identifiedUser = identifiedUser;
@@ -125,61 +132,73 @@ public class ProjectCreator {
 
   @CanIgnoreReturnValue
   public ProjectState createProject(CreateProjectArgs args)
-      throws BadRequestException,
-          ResourceConflictException,
-          ResourceNotFoundException,
-          IOException,
-          ConfigInvalidException {
-    try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
-      Project.NameKey nameKey = args.getProject();
+      throws RestApiException, IOException, ConfigInvalidException {
+    try {
+      return retryHelper
+          .action(
+              ActionType.REPO_CREATION,
+              "createProject",
+              () -> {
+                try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
+                  Project.NameKey nameKey = args.getProject();
 
-      if (args.initOnly) {
-        try (Repository repo = repoManager.openRepository(nameKey)) {
-          initProject(nameKey, repo, args);
-          return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
-        } catch (RepositoryNotFoundException notFound) {
-          throw new ResourceNotFoundException(
-              String.format("repository %s not found", nameKey), notFound);
-        }
-      }
+                  if (args.initOnly) {
+                    try (Repository repo = repoManager.openRepository(nameKey)) {
+                      initProject(nameKey, repo, args);
+                      return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+                    } catch (RepositoryNotFoundException notFound) {
+                      throw new ResourceNotFoundException(
+                          String.format("repository %s not found", nameKey), notFound);
+                    }
+                  }
 
-      try {
-        Status status = repoManager.getRepositoryStatus(nameKey);
-        if (!status.equals(Status.NON_EXISTENT)) {
-          throw new RepositoryExistsException(nameKey, "Repository status: " + status);
-        }
-        try (Repository repo = repoManager.createRepository(nameKey)) {
-          initProject(nameKey, repo, args);
-          return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
-        }
-      } catch (RepositoryExistsException e) {
-        throw new ResourceConflictException(
-            "Cannot create "
-                + nameKey.get()
-                + " because the name is already occupied by another project.",
-            e);
-      } catch (RepositoryNotFoundException badName) {
-        throw new BadRequestException("invalid project name: " + nameKey, badName);
-      } catch (RuntimeException e) {
-        if (exceptionHooks.stream()
-            .anyMatch(
-                exceptionHook ->
-                    exceptionHook.tryProjectInitializationOnRepoCreationFailure(
-                        nameKey, args, e))) {
-          logger.atFine().withCause(e).log(
-              "try initializing project %s after repo creation failure", nameKey);
-          try (Repository repo = repoManager.openRepository(nameKey)) {
-            initProject(nameKey, repo, args);
-          } catch (
-              @SuppressWarnings("UnusedException")
-              RuntimeException e2) {
-            logger.atWarning().withCause(e).log(
-                "initializing project %s after repo creation failure has failed", nameKey);
-            throw e;
-          }
-        }
-        throw e;
-      }
+                  try {
+                    Status status = repoManager.getRepositoryStatus(nameKey);
+                    if (!status.equals(Status.NON_EXISTENT)) {
+                      throw new RepositoryExistsException(nameKey, "Repository status: " + status);
+                    }
+                    try (Repository repo = repoManager.createRepository(nameKey)) {
+                      initProject(nameKey, repo, args);
+                      return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+                    }
+                  } catch (RepositoryExistsException e) {
+                    throw new ResourceConflictException(
+                        "Cannot create "
+                            + nameKey.get()
+                            + " because the name is already occupied by another project.",
+                        e);
+                  } catch (RepositoryNotFoundException badName) {
+                    throw new BadRequestException("invalid project name: " + nameKey, badName);
+                  } catch (RuntimeException e) {
+                    if (exceptionHooks.stream()
+                        .anyMatch(
+                            exceptionHook ->
+                                exceptionHook.tryProjectInitializationOnRepoCreationFailure(
+                                    nameKey, args, e))) {
+                      logger.atFine().withCause(e).log(
+                          "try initializing project %s after repo creation failure", nameKey);
+                      try (Repository repo = repoManager.openRepository(nameKey)) {
+                        initProject(nameKey, repo, args);
+                      } catch (
+                          @SuppressWarnings("UnusedException")
+                          RuntimeException e2) {
+                        logger.atWarning().withCause(e).log(
+                            "initializing project %s after repo creation failure has failed",
+                            nameKey);
+                        throw e;
+                      }
+                    }
+                    throw e;
+                  }
+                }
+              })
+          .call();
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
+      throw new IllegalStateException(e);
     }
   }
 

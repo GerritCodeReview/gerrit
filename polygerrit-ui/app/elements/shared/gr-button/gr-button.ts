@@ -194,6 +194,9 @@ export class GrButton extends LitElement {
         .loadingSpin {
           display: inline-block;
         }
+        .flex {
+          display: flex;
+        }
       `,
     ];
   }
@@ -230,8 +233,10 @@ export class GrButton extends LitElement {
         tabindex="-1"
       >
         ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
-        <slot></slot>
-        ${this.renderArrowIcon()}
+        <div class="flex">
+          <slot></slot>
+          ${this.renderArrowIcon()}
+        </div>
       </md-text-button>
     `;
   }

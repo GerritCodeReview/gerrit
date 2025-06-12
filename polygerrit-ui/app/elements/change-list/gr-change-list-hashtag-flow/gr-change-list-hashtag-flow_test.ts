@@ -5,7 +5,6 @@
  */
 import * as sinon from 'sinon';
 import {assert, fixture, html} from '@open-wc/testing';
-import {IronDropdownElement} from '@polymer/iron-dropdown';
 import {SinonStubbedMember} from 'sinon';
 import {
   BulkActionsModel,
@@ -35,6 +34,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-hashtag-flow';
 import {GrChangeListHashtagFlow} from './gr-change-list-hashtag-flow';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {MdMenu} from '@material/web/menu/menu';
 
 suite('gr-change-list-hashtag-flow tests', () => {
   let element: GrChangeListHashtagFlow;
@@ -91,33 +91,27 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-button
-            id="start-flow"
-            flatten=""
-            down-arrow=""
-            aria-disabled="false"
-            role="button"
-            tabindex="0"
-            >Hashtag</gr-button
-          >
-          <iron-dropdown
-            aria-disabled="false"
-            aria-hidden="true"
-            style="outline: none; display: none;"
-            vertical-align="auto"
-            horizontal-align="auto"
-          >
-          </iron-dropdown>
+          <div class="dropdown">
+            <gr-button
+              aria-disabled="false"
+              down-arrow=""
+              flatten=""
+              id="start-flow"
+              role="button"
+              tabindex="0"
+            >
+              Hashtag
+            </gr-button>
+            <md-menu anchor="start-flow" aria-hidden="true" tabindex="-1">
+            </md-menu>
+          </div>
         `
       );
     });
 
     test('dropdown hidden before flow button clicked', async () => {
-      const dropdown = queryAndAssert<IronDropdownElement>(
-        element,
-        'iron-dropdown'
-      );
-      assert.isFalse(dropdown.opened);
+      const dropdown = queryAndAssert<MdMenu>(element, 'md-menu');
+      assert.isFalse(dropdown.open);
     });
 
     test('flow button click shows dropdown', async () => {
@@ -126,25 +120,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       button.click();
       await element.updateComplete;
 
-      const dropdown = queryAndAssert<IronDropdownElement>(
-        element,
-        'iron-dropdown'
-      );
-      assert.isTrue(dropdown.opened);
+      const dropdown = queryAndAssert<MdMenu>(element, 'md-menu');
+      assert.isTrue(dropdown.open);
     });
 
     test('flow button click when open hides dropdown', async () => {
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await waitUntil(() =>
-        Boolean(
-          queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-        )
+        Boolean(queryAndAssert<MdMenu>(element, 'md-menu').open)
       );
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
-      await waitUntil(
-        () =>
-          !queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-      );
+      await waitUntil(() => !queryAndAssert<MdMenu>(element, 'md-menu').open);
     });
   });
 
@@ -236,65 +222,65 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-button
-            id="start-flow"
-            flatten=""
-            down-arrow=""
-            aria-disabled="false"
-            role="button"
-            tabindex="0"
-            >Hashtag</gr-button
-          >
-          <iron-dropdown
-            aria-disabled="false"
-            focused=""
-            vertical-align="auto"
-            horizontal-align="auto"
-          >
-            <div slot="dropdown-content">
-              <div class="chips">
-                <button
-                  role="listbox"
-                  aria-label="hashtag1 selection"
-                  class="chip"
-                >
-                  hashtag1
-                </button>
-                <button
-                  role="listbox"
-                  aria-label="sharedHashtag selection"
-                  class="chip"
-                >
-                  sharedHashtag
-                </button>
-                <button
-                  role="listbox"
-                  aria-label="hashtag2 selection"
-                  class="chip"
-                >
-                  hashtag2
-                </button>
-              </div>
-              <gr-autocomplete
-                placeholder="Type hashtag name to create or filter hashtags"
-                show-blue-focus-border=""
-              ></gr-autocomplete>
-              <div class="footer">
-                <div class="loadingOrError" role="progressbar"></div>
-                <div class="buttons">
-                  <gr-button
-                    id="add-hashtag-button"
-                    flatten=""
-                    aria-disabled="true"
-                    disabled=""
-                    role="button"
-                    tabindex="-1"
-                    >Add Hashtag</gr-button
+          <div class="dropdown">
+            <gr-button
+              aria-disabled="false"
+              down-arrow=""
+              flatten=""
+              id="start-flow"
+              role="button"
+              tabindex="0"
+            >
+              Hashtag
+            </gr-button>
+            <md-menu anchor="start-flow" open="" tabindex="-1">
+              <div class="dropdown-content">
+                <div class="chips">
+                  <button
+                    aria-label="hashtag1 selection"
+                    class="chip"
+                    role="listbox"
                   >
+                    hashtag1
+                  </button>
+                  <button
+                    aria-label="sharedHashtag selection"
+                    class="chip"
+                    role="listbox"
+                  >
+                    sharedHashtag
+                  </button>
+                  <button
+                    aria-label="hashtag2 selection"
+                    class="chip"
+                    role="listbox"
+                  >
+                    hashtag2
+                  </button>
+                </div>
+                <gr-autocomplete
+                  placeholder="Type hashtag name to create or filter hashtags"
+                  show-blue-focus-border=""
+                >
+                </gr-autocomplete>
+                <div class="footer">
+                  <div class="loadingOrError" role="progressbar"></div>
+                  <div class="buttons">
+                    <gr-button
+                      aria-disabled="true"
+                      disabled=""
+                      flatten=""
+                      id="add-hashtag-button"
+                      role="button"
+                      tabindex="-1"
+                    >
+                      Add Hashtag
+                    </gr-button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </iron-dropdown>
+            </md-menu>
+          </div>
         `,
         {
           // iron-dropdown sizing seems to vary between local & CI
@@ -349,9 +335,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         selectedChangeCount: 3,
         hashtagsApplied: 1,
       });
-      assert.isTrue(
-        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-      );
+      assert.isTrue(queryAndAssert<MdMenu>(element, 'md-menu').open);
     });
 
     test('add multiple hashtag from selected change', async () => {
@@ -460,9 +444,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         selectedChangeCount: 3,
         hashtagsApplied: 1,
       });
-      assert.isTrue(
-        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-      );
+      assert.isTrue(queryAndAssert<MdMenu>(element, 'md-menu').open);
     });
 
     test('add new hashtag', async () => {
@@ -526,9 +508,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         selectedChangeCount: 3,
         hashtagsApplied: 1,
       });
-      assert.isTrue(
-        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
-      );
+      assert.isTrue(queryAndAssert<MdMenu>(element, 'md-menu').open);
       assert.equal(
         queryAll<HTMLButtonElement>(element, 'button.chip')[2].innerText,
         'foo'

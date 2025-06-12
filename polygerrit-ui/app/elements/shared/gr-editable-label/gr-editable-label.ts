@@ -3,12 +3,10 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/paper-input/paper-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import '../../shared/gr-autocomplete/gr-autocomplete';
-import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {
   AutocompleteQuery,
   GrAutocomplete,
@@ -23,6 +21,8 @@ import {IronInputElement} from '@polymer/iron-input';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
+import '@material/web/menu/menu';
+import {MdMenu} from '@material/web/menu/menu';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -42,7 +42,7 @@ export class GrEditableLabel extends LitElement {
    */
 
   @query('#dropdown')
-  dropdown?: IronDropdownElement;
+  dropdown?: MdMenu;
 
   @property()
   labelText = '';
@@ -110,6 +110,9 @@ export class GrEditableLabel extends LitElement {
         }
         #dropdown {
           box-shadow: var(--elevation-level-2);
+          --md-menu-container-color: var(--dialog-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
         }
         .inputContainer {
           background-color: var(--dialog-background-color);
@@ -127,6 +130,8 @@ export class GrEditableLabel extends LitElement {
         /* prettier formatter removes semi-colons after css mixins. */
         /* prettier-ignore */
         paper-input {
+            min-width: 15em;
+            --paper-input-container_-min-width: 15em;
           --paper-input-container: {
             padding: 0;
             min-width: 15em;
@@ -135,6 +140,9 @@ export class GrEditableLabel extends LitElement {
             font-size: inherit;
           };
           --paper-input-container-focus-color: var(--link-color);
+        }
+        gr-autocomplete {
+          min-width: 15em;
         }
         gr-button gr-icon {
           color: inherit;
@@ -149,16 +157,19 @@ export class GrEditableLabel extends LitElement {
 
   override render() {
     this.setAttribute('title', this.computeLabel());
-    return html`${this.renderActivateButton()}
-      <iron-dropdown
+    return html`<div style="position: relative;">
+      ${this.renderActivateButton()}
+      <md-menu
         id="dropdown"
-        .verticalAlign=${'auto'}
-        .horizontalAlign=${'auto'}
-        .allowOutsideScroll=${true}
-        .noCancelOnEscKey=${true}
-        .noCancelOnOutsideClick=${true}
+        anchor="button"
+        tabindex="-1"
+        .menuCorner=${'end-start'}
+        .quick=${true}
+        @closing=${() => {
+          this.cancel();
+        }}
       >
-        <div class="dropdown-content" slot="dropdown-content">
+        <div class="dropdown-content">
           <div class="inputContainer" part="input-container">
             ${this.renderInputBox()}
             <div class="buttons">
@@ -169,12 +180,14 @@ export class GrEditableLabel extends LitElement {
             </div>
           </div>
         </div>
-      </iron-dropdown>`;
+      </md-menu>
+    </div>`;
   }
 
   private renderActivateButton() {
     if (this.showAsEditPencil) {
       return html`<gr-button
+        id="button"
         link=""
         class="pencil ${this.computeLabelClass()}"
         @click=${this.showDropdown}
@@ -186,6 +199,7 @@ export class GrEditableLabel extends LitElement {
       </gr-button>`;
     } else {
       return html`<label
+        id="button"
         class=${this.computeLabelClass()}
         title=${this.computeLabel()}
         aria-label=${this.computeLabel()}
@@ -267,7 +281,7 @@ export class GrEditableLabel extends LitElement {
   }
 
   private openDropdown() {
-    this.dropdown?.open();
+    this.dropdown?.show();
     this.inputText = this.value || '';
     this.editing = true;
 

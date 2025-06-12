@@ -3,14 +3,12 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-button/gr-button';
 import {GrButton} from '../gr-button/gr-button';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {getBaseUrl} from '../../../utils/url-util';
-import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Key} from '../../../utils/dom-util';
@@ -20,8 +18,11 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
-import {ShortcutController} from '../../lit/shortcut-controller';
 import {DropdownLink} from '../../../types/common';
+import '@material/web/divider/divider';
+import '@material/web/menu/menu';
+import '@material/web/menu/menu-item';
+import {MdMenu} from '@material/web/menu/menu';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -43,7 +44,7 @@ export interface DropdownContent {
 @customElement('gr-dropdown')
 export class GrDropdown extends LitElement {
   @query('#dropdown')
-  dropdown?: IronDropdownElement;
+  dropdown?: MdMenu;
 
   @query('#trigger')
   trigger?: GrButton;
@@ -55,15 +56,22 @@ export class GrDropdown extends LitElement {
         :host {
           display: inline-block;
         }
+        .container {
+          position: relative;
+        }
         .dropdown-trigger {
           text-decoration: none;
           width: 100%;
         }
         .dropdown-content {
-          background-color: var(--dropdown-background-color);
-          box-shadow: var(--elevation-level-2);
           min-width: 112px;
           max-width: 280px;
+        }
+        md-menu {
+          white-space: nowrap;
+          --md-menu-container-color: var(--dropdown-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
         }
         gr-button {
           vertical-align: top;
@@ -79,44 +87,6 @@ export class GrDropdown extends LitElement {
         ul {
           list-style: none;
         }
-        .topContent,
-        li {
-          border-bottom: 1px solid var(--border-color);
-        }
-        li:last-of-type {
-          border: none;
-        }
-        li .itemAction {
-          cursor: pointer;
-          display: block;
-          padding: var(--spacing-m) var(--spacing-l);
-        }
-        li .itemAction {
-          color: var(--gr-dropdown-item-color);
-          background-color: var(--gr-dropdown-item-background-color);
-          border: var(--gr-dropdown-item-border);
-          text-transform: var(--gr-dropdown-item-text-transform);
-        }
-        li .itemAction.disabled {
-          color: var(--deemphasized-text-color);
-          cursor: default;
-        }
-        li .itemAction:link,
-        li .itemAction:visited {
-          text-decoration: none;
-        }
-        li .itemAction:not(.disabled):hover {
-          background-color: var(--hover-background-color);
-        }
-        li:focus,
-        li.selected {
-          background-color: var(--selection-background-color);
-          outline: none;
-        }
-        li:focus .itemAction,
-        li.selected .itemAction {
-          background-color: transparent;
-        }
         .topContent {
           display: block;
           padding: var(--spacing-m) var(--spacing-l);
@@ -127,6 +97,34 @@ export class GrDropdown extends LitElement {
         }
         .bold-text {
           font-weight: var(--font-weight-medium);
+        }
+        md-divider {
+          margin: auto;
+          --md-divider-color: var(--border-color);
+        }
+        md-menu-item {
+          --md-sys-color-on-surface: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-color-on-secondary-container: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-typescale-body-large-font: inherit;
+          --md-menu-item-hover-state-layer-color: var(
+            --selection-background-color
+          );
+          --md-menu-item-hover-state-layer-opacity: 1;
+          --md-menu-item-selected-container-color: var(
+            --selection-background-color
+          );
+          --md-focus-ring-color: var(--gr-dropdown-focus-ring-color);
+          --md-menu-item-one-line-container-height: auto;
+        }
+        .itemAction:link,
+        .itemAction:visited {
+          text-decoration: none;
         }
       `,
     ];
@@ -163,7 +161,7 @@ export class GrDropdown extends LitElement {
   link = false;
 
   @property({type: Number, attribute: 'vertical-offset'})
-  verticalOffset = 40;
+  verticalOffset = 0;
 
   @state()
   private opened = false;
@@ -178,25 +176,17 @@ export class GrDropdown extends LitElement {
   // Used within the tests so needs to be non-private.
   cursor = new GrCursorManager();
 
-  private readonly shortcuts = new ShortcutController(this);
-
   constructor() {
     super();
-    this.cursor.cursorTargetClass = 'selected';
+    this.cursor.cursorTargetAttribute = 'selected';
     this.cursor.focusOnMove = true;
-    this.shortcuts.addLocal({key: Key.UP}, () => this.handleUp());
-    this.shortcuts.addLocal({key: Key.DOWN}, () => this.handleDown());
-    this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
-    this.shortcuts.addLocal({key: Key.SPACE}, () => this.handleEnter());
   }
 
   override connectedCallback() {
     super.connectedCallback();
-  }
-
-  override disconnectedCallback() {
-    this.cursor.unsetCursor();
-    super.disconnectedCallback();
+    if (this.opened) {
+      this.setUpGlobalEventListeners();
+    }
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -209,44 +199,94 @@ export class GrDropdown extends LitElement {
     if (changedProperties.has('items')) {
       this.resetCursorStops();
     }
-    if (changedProperties.has('opened') && this.opened) {
-      this.resetCursorStops();
-      this.cursor.setCursorAtIndex(0);
-      if (this.cursor.target !== null) this.cursor.target.focus();
+
+    if (changedProperties.has('opened')) {
+      if (this.opened) {
+        this.resetCursorStops();
+        this.cursor.setCursorAtIndex(0);
+        if (this.cursor.target !== null) {
+          this.cursor.target.focus();
+          this.handleAddSelected();
+        }
+        this.setUpGlobalEventListeners();
+      } else {
+        this.cleanUpGlobalEventListeners();
+      }
     }
   }
 
+  private setUpGlobalEventListeners() {
+    document.addEventListener('resize', this.onWindowResize, {passive: true});
+    window.addEventListener('resize', this.onWindowResize, {passive: true});
+    document.addEventListener('scroll', this.onWindowResize, {passive: true});
+    window.addEventListener('scroll', this.onWindowResize, {passive: true});
+  }
+
+  private cleanUpGlobalEventListeners() {
+    document.removeEventListener('resize', this.onWindowResize);
+    window.removeEventListener('resize', this.onWindowResize);
+    document.removeEventListener('scroll', this.onWindowResize);
+    window.removeEventListener('scroll', this.onWindowResize);
+  }
+
+  private readonly onWindowResize = () => {
+    this.dropdown?.reposition();
+  };
+
   override render() {
-    return html` <gr-button
+    return html`<div class="container">
+      <gr-button
+        id="trigger"
         ?link=${this.link}
         class="dropdown-trigger"
-        id="trigger"
         ?down-arrow=${this.downArrow}
         @click=${this.dropdownTriggerTapHandler}
+        @keydown=${(e: KeyboardEvent) => {
+          if (
+            (e.key === Key.DOWN || e.key === Key.UP) &&
+            !this.dropdown?.open
+          ) {
+            this.dropdown?.show();
+          }
+        }}
       >
         <slot></slot>
       </gr-button>
-      <iron-dropdown
+      <md-menu
+        default-focus="none"
         id="dropdown"
-        .verticalAlign=${'top'}
-        .verticalOffset=${this.verticalOffset}
-        allowOutsideScroll
-        .horizontalAlign=${this.horizontalAlign}
-        @click=${() => this.close()}
-        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
-          (this.opened = e.detail.value)}
+        anchor="trigger"
+        tabindex="-1"
+        .menuCorner=${this.horizontalAlign === 'left'
+          ? 'start-start'
+          : this.horizontalAlign === 'center'
+          ? 'start-end'
+          : 'end-start'}
+        .yOffset=${this.verticalOffset}
+        ?quick=${true}
+        @opened=${() => {
+          this.opened = true;
+        }}
+        @closed=${() => {
+          this.opened = false;
+          // This is an ugly hack but works.
+          this.cursor.target?.removeAttribute('selected');
+        }}
       >
         ${this.renderDropdownContent()}
-      </iron-dropdown>`;
+      </md-menu>
+    </div>`;
   }
 
   private renderDropdownContent() {
-    return html` <div class="dropdown-content" slot="dropdown-content">
-      <ul>
+    return html`
+      <div class="dropdown-content">
         ${this.renderTopContent()}
-        ${(this.items ?? []).map(link => this.renderDropdownLink(link))}
-      </ul>
-    </div>`;
+        ${(this.items ?? []).map((link, index) =>
+          this.renderDropdownLink(link, index)
+        )}
+      </div>
+    `;
   }
 
   private renderTopContent() {
@@ -255,6 +295,7 @@ export class GrDropdown extends LitElement {
       <div class="topContent">
         ${(this.topContent ?? []).map(item => this.renderTopContentItem(item))}
       </div>
+      <md-divider role="separator" tabindex="-1"></md-divider>
     `;
   }
 
@@ -266,22 +307,39 @@ export class GrDropdown extends LitElement {
     `;
   }
 
-  private renderDropdownLink(link: DropdownLink) {
-    const disabledClass = this.computeDisabledClass(link.id);
-    return html`
-      <li tabindex="-1">
-        <gr-tooltip-content
-          ?has-tooltip=${!!link.tooltip}
-          title=${ifDefined(link.tooltip)}
-        >
-          <span
-            class="itemAction ${disabledClass}"
-            data-id=${ifDefined(link.id)}
-            @click=${this.handleItemTap}
-            ?hidden=${!!link.url}
-            tabindex="-1"
-            >${link.name}</span
-          >
+  private renderDropdownLink(link: DropdownLink, index: number) {
+    const itemContent = html`
+      <md-menu-item
+        data-index=${index}
+        ?selected=${index === 0}
+        ?active=${index === 0}
+        ?disabled=${link.id && this.disabledIds.includes(link.id)}
+        data-id=${ifDefined(link.id)}
+        @click=${this.handleItemTap}
+        @keydown=${(e: KeyboardEvent) => {
+          if (e.key === Key.ENTER || e.key === Key.SPACE) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.handleEnter();
+          }
+          if (e.key === Key.UP) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.handleUp();
+          }
+          if (e.key === Key.DOWN) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.handleDown();
+          }
+        }}
+      >
+        ${link.name}
+      </md-menu-item>
+    `;
+
+    const linkWrapper = link.url
+      ? html`
           <a
             class="itemAction"
             href=${this.computeLinkURL(link)}
@@ -290,10 +348,28 @@ export class GrDropdown extends LitElement {
             target=${ifDefined(link.target ?? undefined)}
             ?hidden=${!link.url}
             tabindex="-1"
-            >${link.name}</a
           >
-        </gr-tooltip-content>
-      </li>
+            ${itemContent}
+          </a>
+        `
+      : html`<span
+          class="itemAction"
+          data-id=${ifDefined(link.id)}
+          @click=${this.handleItemTap}
+          ?hidden=${!!link.url}
+          tabindex="-1"
+          >${itemContent}</span
+        >`;
+    return html`
+      <gr-tooltip-content
+        ?has-tooltip=${!!link.tooltip}
+        title=${ifDefined(link.tooltip)}
+      >
+        ${linkWrapper}
+      </gr-tooltip-content>
+      ${index < this.items!.length - 1
+        ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
+        : nothing}
     `;
   }
 
@@ -301,75 +377,42 @@ export class GrDropdown extends LitElement {
    * Handle the up key.
    */
   private handleUp() {
-    assertIsDefined(this.dropdown);
-    if (this.dropdown.opened) {
-      this.cursor.previous();
-    } else {
-      this.open();
-    }
+    this.handleRemoveSelected();
+    this.cursor.previous();
+    this.handleAddSelected();
   }
 
   /**
    * Handle the down key.
    */
   private handleDown() {
-    assertIsDefined(this.dropdown);
-    if (this.dropdown.opened) {
-      this.cursor.next();
-    } else {
-      this.open();
-    }
+    this.handleRemoveSelected();
+    this.cursor.next();
+    this.handleAddSelected();
   }
 
   /**
    * Handle the enter key.
    */
   private handleEnter() {
-    assertIsDefined(this.dropdown);
-    if (this.dropdown.opened) {
-      // Since gr-tooltip-content click on shadow dom is not propagated down,
-      // we have to target `a` inside it.
-      if (this.cursor.target !== null) {
-        const el = this.cursor.target.querySelector(':not([hidden]) a');
-        if (el) {
-          (el as HTMLElement).click();
-        }
+    // Since gr-tooltip-content click on shadow dom is not propagated down,
+    // we have to target `a` inside it.
+    if (this.cursor.target !== null) {
+      const el = this.cursor.target.shadowRoot?.querySelector(':not([hidden])');
+      if (el) {
+        this.handleRemoveSelected();
+        (el as HTMLElement).click();
       }
-    } else {
-      this.open();
     }
   }
 
   /**
    * Handle a click on the button to open the dropdown.
    */
-  private dropdownTriggerTapHandler(e: MouseEvent) {
+  dropdownTriggerTapHandler() {
     assertIsDefined(this.dropdown);
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.dropdown.opened) {
-      this.close();
-    } else {
-      this.open();
-    }
-  }
 
-  /**
-   * Open the dropdown and initialize the cursor.
-   * Private but used in tests.
-   */
-  open() {
-    assertIsDefined(this.dropdown);
-    this.dropdown.open();
-  }
-
-  // Private but used in tests.
-  close() {
-    // async is needed so that that the click event is fired before the
-    // dropdown closes (This was a bug for touch devices).
-    setTimeout(() => {
-      this.dropdown?.close();
-    }, 1);
+    this.dropdown.open = !this.dropdown.open;
   }
 
   /**
@@ -388,9 +431,11 @@ export class GrDropdown extends LitElement {
    * Build a URL for the given host and path. The base URL will be only added,
    * if it is not already included in the path.
    *
+   * Private but used in tests.
+   *
    * @return The scheme-relative URL.
    */
-  _computeURLHelper(host: string, path: string) {
+  computeURLHelper(host: string, path: string) {
     const base = path.startsWith(getBaseUrl()) ? '' : getBaseUrl();
     return '//' + host + base + path;
   }
@@ -405,7 +450,7 @@ export class GrDropdown extends LitElement {
    */
   private computeRelativeURL(path: string) {
     const host = window.location.host;
-    return this._computeURLHelper(host, path);
+    return this.computeURLHelper(host, path);
   }
 
   /**
@@ -444,10 +489,10 @@ export class GrDropdown extends LitElement {
    * Handle a click on an item of the dropdown.
    */
   private handleItemTap(e: MouseEvent) {
-    if (e.target === null || !this.items) {
+    if (e.currentTarget === null || !this.items) {
       return;
     }
-    const id = (e.target as Element).getAttribute('data-id');
+    const id = (e.currentTarget as Element).getAttribute('data-id');
     const item = this.items.find(item => item.id === id);
     if (id && !this.disabledIds.includes(id)) {
       if (item) {
@@ -460,21 +505,36 @@ export class GrDropdown extends LitElement {
   /**
    * Recompute the stops for the dropdown item cursor.
    */
-  private resetCursorStops() {
+  resetCursorStops() {
     assertIsDefined(this.dropdown);
-    if (this.items && this.items.length > 0 && this.dropdown?.opened) {
+    if (this.items && this.items.length > 0 && this.dropdown.open) {
       this.cursor.stops = Array.from(
-        this.shadowRoot?.querySelectorAll('li') ?? []
+        this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
     }
   }
 
-  /**
-   * If a dropdown item is shown as a button, get the class for the button.
-   *
-   * @return The class for the item button.
-   */
-  private computeDisabledClass(id?: string) {
-    return id && this.disabledIds.includes(id) ? 'disabled' : '';
+  private handleRemoveSelected() {
+    // We workaround an issue to allow cursor to work.
+    // For some reason without this, it doesn't work half the time.
+    // E.g. you press enter or you close the dropdown, reopen it,
+    // you expect it to be focused with the first item selected.
+    // The below fixes it. It's an ugly hack but works for now.
+    const mdFocusRing = this.cursor.target?.shadowRoot
+      ?.querySelector('md-item')
+      ?.querySelector('md-focus-ring');
+    if (mdFocusRing) mdFocusRing.visible = false;
+  }
+
+  private handleAddSelected() {
+    // We workaround an issue to allow cursor to work.
+    // For some reason without this, it doesn't work half the time.
+    // E.g. you press enter or you close the dropdown, reopen it,
+    // you expect it to be focused with the first item selected.
+    // The below fixes it. It's an ugly hack but works for now.
+    const mdFocusRing = this.cursor.target?.shadowRoot
+      ?.querySelector('md-item')
+      ?.querySelector('md-focus-ring');
+    if (mdFocusRing) mdFocusRing.visible = true;
   }
 }

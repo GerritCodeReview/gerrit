@@ -5335,7 +5335,8 @@ not specified.
 +
 Total timeout for retrying operations of type `<operationType>` when one
 attempt fails. `<operationType>` can be `ACCOUNT_UPDATE`, `CHANGE_UPDATE`,
-`GROUP_UPDATE` and `INDEX_QUERY`.
+`GROUP_UPDATE`, `INDEX_QUERY`, `PLUGIN_UPDATE`, `REST_READ_REQUEST`,
+`REST_WRITE_REQUEST` and `SEND_EMAIL`.
 +
 Defaults to link:#retry.timeout[`retry.timeout`]; unit suffixes are supported,
 and assumes milliseconds if not specified.

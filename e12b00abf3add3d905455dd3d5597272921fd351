@@ -16,6 +16,24 @@
       "message": "How did you generate this? I’m trying to work on migrating iron-dropdown to md-menu.",
       "revId": "e12b00abf3add3d905455dd3d5597272921fd351",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bf0d7d3_9385c4e8",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-copy-links.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-12T11:31:54Z",
+      "side": 1,
+      "message": "I run yarn test:screenshot and move it from failed to baseline. Does it work for you?",
+      "parentUuid": "28d12647_319abc96",
+      "revId": "e12b00abf3add3d905455dd3d5597272921fd351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

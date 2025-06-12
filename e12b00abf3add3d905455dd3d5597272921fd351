@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28d12647_319abc96",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-copy-links.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-12T10:26:40Z",
+      "side": 1,
+      "message": "How did you generate this? I’m trying to work on migrating iron-dropdown to md-menu.",
+      "revId": "e12b00abf3add3d905455dd3d5597272921fd351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -818,23 +818,15 @@ Polymer-2015
 * @polymer/iron-autogrow-textarea
 * @polymer/iron-behaviors
 * @polymer/iron-checked-element-behavior
-* @polymer/iron-dropdown
-* @polymer/iron-fit-behavior
 * @polymer/iron-flex-layout
 * @polymer/iron-form-element-behavior
 * @polymer/iron-input
-* @polymer/iron-menu-behavior
 * @polymer/iron-meta
-* @polymer/iron-overlay-behavior
-* @polymer/iron-resizable-behavior
-* @polymer/iron-selector
 * @polymer/iron-validatable-behavior
-* @polymer/neon-animation
 * @polymer/paper-behaviors
 * @polymer/paper-button
 * @polymer/paper-input
 * @polymer/paper-item
-* @polymer/paper-listbox
 * @polymer/paper-tooltip
 
 [[Polymer-2015_license]]

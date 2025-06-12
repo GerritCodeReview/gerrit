@@ -10,8 +10,9 @@ import {GrDropdown} from './gr-dropdown';
 import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {assertIsDefined} from '../../../utils/common-util';
-import {assert, fixture, html} from '@open-wc/testing';
+import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {DropdownLink} from '../../../types/common';
+import {MdMenuItem} from '@material/web/menu/menu-item';
 
 suite('gr-dropdown tests', () => {
   let element: GrDropdown;
@@ -20,28 +21,79 @@ suite('gr-dropdown tests', () => {
     element = await fixture(html`<gr-dropdown></gr-dropdown>`);
   });
 
+  test('render', async () => {
+    element.items = [
+      {name: 'item one', id: 'foo', tooltip: 'hello'},
+      {name: 'item two', id: 'bar', url: 'http://bar'},
+    ];
+    element.disabledIds = [];
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ` <div class="container">
+        <gr-button
+          aria-disabled="false"
+          class="dropdown-trigger"
+          id="trigger"
+          role="button"
+          tabindex="0"
+        >
+          <slot> </slot>
+        </gr-button>
+        <md-menu
+          anchor="trigger"
+          aria-hidden="true"
+          default-focus="none"
+          id="dropdown"
+          quick=""
+          tabindex="-1"
+        >
+          <div class="dropdown-content">
+            <gr-tooltip-content has-tooltip="" title="hello">
+              <span class="itemAction" data-id="foo" tabindex="-1">
+                <md-menu-item
+                  active=""
+                  data-id="foo"
+                  data-index="0"
+                  md-menu-item=""
+                  selected=""
+                >
+                  item one
+                </md-menu-item>
+              </span>
+            </gr-tooltip-content>
+            <md-divider role="separator" tabindex="-1"> </md-divider>
+            <gr-tooltip-content>
+              <a class="itemAction" href="http://bar" tabindex="-1">
+                <md-menu-item data-id="bar" data-index="1" md-menu-item="">
+                  item two
+                </md-menu-item>
+              </a>
+            </gr-tooltip-content>
+          </div>
+        </md-menu>
+      </div>`
+    );
+  });
+
   test('tap on trigger opens menu, then closes', () => {
-    sinon.stub(element, 'open').callsFake(() => {
+    sinon.stub(element, 'dropdownTriggerTapHandler').callsFake(() => {
       assertIsDefined(element.dropdown);
-      element.dropdown.open();
-    });
-    sinon.stub(element, 'close').callsFake(() => {
-      assertIsDefined(element.dropdown);
-      element.dropdown.close();
+      element.dropdown.open = !element.dropdown.open;
     });
     assertIsDefined(element.dropdown);
     assertIsDefined(element.trigger);
-    assert.isFalse(element.dropdown.opened);
+    assert.isFalse(element.dropdown.open);
     element.trigger.click();
-    assert.isTrue(element.dropdown.opened);
+    assert.isTrue(element.dropdown.open);
     element.trigger.click();
-    assert.isFalse(element.dropdown.opened);
+    assert.isFalse(element.dropdown.open);
   });
 
-  test('_computeURLHelper', () => {
+  test('computeURLHelper', () => {
     const path = '/test';
     const host = 'http://www.testsite.com';
-    const computedPath = element._computeURLHelper(host, path);
+    const computedPath = element.computeURLHelper(host, path);
     assert.equal(computedPath, '//http://www.testsite.com/test');
   });
 
@@ -103,7 +155,7 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
     await element.updateComplete;
-    queryAndAssert<HTMLSpanElement>(element, '.itemAction').click();
+    queryAndAssert<MdMenuItem>(element, '.itemAction').click();
     assert.isTrue(fooTapped.called);
     assert.isTrue(tapped.called);
     assert.deepEqual(tapped.lastCall.args[0].detail, item0);
@@ -118,7 +170,7 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
     await element.updateComplete;
-    queryAndAssert<HTMLSpanElement>(element, '.itemAction').click();
+    queryAndAssert<MdMenuItem>(element, '.itemAction').click();
     assert.isFalse(stub.called);
     assert.isFalse(tapped.called);
   });
@@ -132,93 +184,12 @@ suite('gr-dropdown tests', () => {
     await element.updateComplete;
     const tooltipContents = queryAll<GrTooltipContent>(
       element,
-      'iron-dropdown li gr-tooltip-content'
+      'md-menu gr-tooltip-content'
     );
     assert.equal(tooltipContents.length, 2);
     assert.isTrue(tooltipContents[0].hasTooltip);
     assert.equal(tooltipContents[0].getAttribute('title'), 'hello');
     assert.isFalse(tooltipContents[1].hasTooltip);
-  });
-
-  test('render', async () => {
-    element.items = [
-      {name: 'item one', id: 'foo', tooltip: 'hello'},
-      {name: 'item two', id: 'bar', url: 'http://bar'},
-    ];
-    element.disabledIds = [];
-    await element.updateComplete;
-    assert.shadowDom.equal(
-      element,
-      /* HTML */ `
-      <gr-button
-        aria-disabled="false"
-        class="dropdown-trigger"
-        id="trigger"
-        role="button"
-        tabindex="0"
-      >
-        <slot>
-        </slot>
-      </gr-button>
-      <iron-dropdown
-        allowoutsidescroll=""
-        aria-disabled="false"
-        aria-hidden="true"
-        horizontal-align="left"
-        id="dropdown"
-        style="outline: none; display: none;"
-        vertical-align="top"
-      >
-        <div
-          class="dropdown-content"
-          slot="dropdown-content"
-        >
-          <ul>
-            <li tabindex="-1">
-              <gr-tooltip-content
-                has-tooltip=""
-                title="hello"
-              >
-                <span
-                  class="itemAction"
-                  data-id="foo"
-                  tabindex="-1"
-                >
-                  item one
-                </span>
-                <a
-                  class="itemAction"
-                  hidden=""
-                  href=""
-                  tabindex="-1"
-                >
-                  item one
-                </a>
-              </gr-tooltip-content>
-            </li>
-            <li tabindex="-1">
-              <gr-tooltip-content>
-                <span
-                  class="itemAction"
-                  data-id="bar"
-                  hidden=""
-                  tabindex="-1"
-                >
-                  item two
-                </span>
-                <a
-                  class="itemAction"
-                  href="http://bar"
-                  tabindex="-1"
-                >
-                  item two
-                </a>
-              </gr-tooltip-content>
-            </li>
-        </div>
-          </ul>
-      </iron-dropdown>`
-    );
   });
 
   suite('keyboard navigation', () => {
@@ -230,23 +201,33 @@ suite('gr-dropdown tests', () => {
       await element.updateComplete;
     });
 
-    test('down', () => {
+    test('down', async () => {
       const stub = sinon.stub(element.cursor, 'next');
       assertIsDefined(element.dropdown);
-      assert.isFalse(element.dropdown.opened);
-      pressKey(element, 'ArrowDown');
-      assert.isTrue(element.dropdown.opened);
-      pressKey(element, 'ArrowDown');
+      assert.isFalse(element.dropdown.open);
+      pressKey(element!.shadowRoot!.querySelector('#trigger')!, 'ArrowDown');
+      await element.updateComplete;
+      assert.isTrue(element.dropdown.open);
+      pressKey(
+        element!.shadowRoot!.querySelectorAll('md-menu-item')[0],
+        'ArrowDown'
+      );
+      await element.updateComplete;
       assert.isTrue(stub.called);
     });
 
-    test('up', () => {
+    test('up', async () => {
       assertIsDefined(element.dropdown);
       const stub = sinon.stub(element.cursor, 'previous');
-      assert.isFalse(element.dropdown.opened);
-      pressKey(element, 'ArrowUp');
-      assert.isTrue(element.dropdown.opened);
-      pressKey(element, 'ArrowUp');
+      assert.isFalse(element.dropdown.open);
+      pressKey(element!.shadowRoot!.querySelector('#trigger')!, 'ArrowUp');
+      await element.updateComplete;
+      assert.isTrue(element.dropdown.open);
+      pressKey(
+        element!.shadowRoot!.querySelectorAll('md-menu-item')[0],
+        'ArrowUp'
+      );
+      await element.updateComplete;
       assert.isTrue(stub.called);
     });
 
@@ -254,17 +235,21 @@ suite('gr-dropdown tests', () => {
       assertIsDefined(element.dropdown);
       // Because enter and space are handled by the same fn, we need only to
       // test one.
-      assert.isFalse(element.dropdown.opened);
-      pressKey(element, ' ');
+      assert.isFalse(element.dropdown.open);
+      pressKey(element!.shadowRoot!.querySelector('#trigger')!, ' ');
       await element.updateComplete;
-      assert.isTrue(element.dropdown.opened);
-
+      assert.isTrue(element.dropdown.open);
+      await element.updateComplete;
+      await waitUntil(() =>
+        element.shadowRoot?.querySelectorAll('md-menu-item')
+      );
       const el = queryAndAssert<HTMLAnchorElement>(
         element.cursor.target as HTMLElement,
-        ':not([hidden]) a'
+        ':not([hidden])'
       );
       const stub = sinon.stub(el, 'click');
-      pressKey(element, ' ');
+      pressKey(element!.shadowRoot!.querySelectorAll('md-menu-item')[0], ' ');
+      await element.updateComplete;
       assert.isTrue(stub.called);
     });
   });

@@ -3,7 +3,7 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {assert, fixture, html} from '@open-wc/testing';
+import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
@@ -57,16 +57,18 @@ suite('gr-change-list-copy-link-flow tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-button
-          id="copyLinkButton"
-          link=""
-          role="button"
-          tabindex="0"
-          aria-disabled="false"
-        >
-          Copy Link
-        </gr-button>
-        <gr-copy-links></gr-copy-links>
+        <div class="copyLinkWrapper">
+          <gr-button
+            id="copyLinkButton"
+            link=""
+            role="button"
+            tabindex="0"
+            aria-disabled="false"
+          >
+            Copy Link
+          </gr-button>
+          <gr-copy-links></gr-copy-links>
+        </div>
       `
     );
   });
@@ -99,6 +101,7 @@ suite('gr-change-list-copy-link-flow tests', () => {
     assert.exists(button);
     button?.click();
     await element.updateComplete;
+    await waitUntil(() => element.shadowRoot?.querySelector('gr-copy-links'));
     assert.isTrue((copyLinks as any).isDropdownOpen);
   });
 });

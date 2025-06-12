@@ -25,12 +25,12 @@ export interface CopyLink {
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 
-@customElement('gr-copy-links')
-export class GrCopyLinks extends LitElement {
-  copyClipboardRef: Ref<GrCopyClipboard> = createRef();
+@customElement('gr-md-menu')
+export class GrMdMenu extends LitElement {
+  adjustWidth: Ref<GrCopyClipboard> = createRef();
 
   @property({type: Array})
-  copyLinks: CopyLink[] = [];
+  adjustWidth: CopyLink[] = [];
 
   @property({type: String})
   horizontalAlign: 'left' | 'right' = 'left';
@@ -51,13 +51,14 @@ export class GrCopyLinks extends LitElement {
       formStyles,
       css`
         md-menu {
+        //width: min(90vw, 640px);
           white-space: nowrap;
           --md-menu-container-color: var(--dialog-background-color);
           --md-menu-top-space: 0px;
           --md-menu-bottom-space: 0px;
         }
         .dropdown-content {
-          width: min(90vw, 640px);
+          //width: min(90vw, 640px);
           padding: var(--spacing-m) var(--spacing-l) var(--spacing-m);
           box-shadow: var(--elevation-level-2);
           border-radius: var(--border-radius);
@@ -67,6 +68,9 @@ export class GrCopyLinks extends LitElement {
         }
         gr-copy-clipboard::part(text-container-wrapper-style) {
           flex: 1 1 420px;
+        }
+        md-menu::part(menu) {
+          width: min(90vw, 640px);
         }
       `,
     ];
@@ -82,6 +86,15 @@ export class GrCopyLinks extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('isDropdownOpen')) {
       if (this.isDropdownOpen) {
+        console.log(this.dropdown?.getClientRects())
+        console.log(this.dropdown?.getBoundingClientRect())
+        const menu = this.shadowRoot?.querySelector('md-menu');
+        const style = getComputedStyle(menu!);
+        console.log(style.width);
+        console.log(menu)
+        console.log(menu!.shadowRoot);
+      (menu!.querySelector('.dropdown-content') as MdMenu)!.style.width = `${this.dropdown!.getBoundingClientRect().width!}px`;
+        console.log()
         this.setUpGlobalEventListeners();
       } else {
         this.cleanUpGlobalEventListeners();
@@ -110,6 +123,7 @@ export class GrCopyLinks extends LitElement {
   override render() {
     if (!this.copyLinks) return nothing;
     return html`<md-menu
+    positioning="fixed"
       tabindex="-1"
       .menuCorner=${this.horizontalAlign === 'left'
         ? 'start-start'

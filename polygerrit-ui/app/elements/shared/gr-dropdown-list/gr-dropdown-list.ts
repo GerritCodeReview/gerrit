@@ -3,17 +3,12 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-dropdown/iron-dropdown';
-import '@polymer/paper-item/paper-item';
-import '@polymer/paper-listbox/paper-listbox';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
-import '../gr-select/gr-select';
 import '../gr-file-status/gr-file-status';
-import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query} from 'lit/decorators.js';
-import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {CommentThread, Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {GrButton} from '../gr-button/gr-button';
@@ -25,6 +20,12 @@ import {when} from 'lit/directives/when.js';
 import {isMagicPath} from '../../../utils/path-list-util';
 import {fireNoBubble} from '../../../utils/event-util';
 import {classMap} from 'lit/directives/class-map.js';
+import '@material/web/divider/divider';
+import '@material/web/menu/menu';
+import '@material/web/menu/menu-item';
+import {MdMenu} from '@material/web/menu/menu';
+import {Key} from '../../../utils/dom-util';
+import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -56,7 +57,7 @@ declare global {
 @customElement('gr-dropdown-list')
 export class GrDropdownList extends LitElement {
   @query('#dropdown')
-  dropdown?: IronDropdownElement;
+  dropdown?: MdMenu;
 
   @query('#trigger')
   trigger?: GrButton;
@@ -87,6 +88,19 @@ export class GrDropdownList extends LitElement {
   @property({type: Boolean, attribute: 'show-copy-for-trigger-text'})
   showCopyForTriggerText = false;
 
+  @state()
+  selectedIndex = 0;
+
+  @state()
+  private opened = false;
+
+  cursor = new GrCursorManager();
+
+  constructor() {
+    super();
+    this.cursor.focusOnMove = true;
+  }
+
   static override get styles() {
     return [
       sharedStyles,
@@ -104,17 +118,41 @@ export class GrDropdownList extends LitElement {
           cursor: pointer;
           padding: 0;
         }
-        .dropdown-content {
-          background-color: var(--dropdown-background-color);
-          box-shadow: var(--elevation-level-2);
+        md-menu {
+          white-space: nowrap;
+          --md-menu-container-color: var(--dropdown-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
+        }
+        md-menu-item {
           max-height: 70vh;
           min-width: 266px;
         }
-        paper-item:hover {
-          background-color: var(--hover-background-color);
+        md-divider {
+          margin: auto;
+          --md-divider-color: var(--border-color);
         }
-        paper-item:not(:last-of-type) {
-          border-bottom: 1px solid var(--border-color);
+        md-menu-item {
+          --md-sys-color-on-surface: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-color-on-secondary-container: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-typescale-body-large-font: inherit;
+          --md-menu-item-hover-state-layer-color: var(
+            --selection-background-color
+          );
+          --md-menu-item-hover-state-layer-opacity: 1;
+          --md-menu-item-selected-container-color: var(
+            --selection-background-color
+          );
+          --md-focus-ring-color: var(--gr-dropdown-focus-ring-color);
+        }
+        .dropdown {
+          position: relative;
         }
         .bottomContent {
           color: var(--deemphasized-text-color);
@@ -136,40 +174,6 @@ export class GrDropdownList extends LitElement {
           margin-left: var(--spacing-xxl);
           white-space: nowrap;
         }
-        gr-select {
-          display: none;
-        }
-        /* Because the iron dropdown 'area' includes the trigger, and the entire
-          width of the dropdown, we want to treat tapping the area above the
-          dropdown content as if it is tapping whatever content is underneath
-          it. The next two styles allow this to happen. */
-        iron-dropdown {
-          max-width: none;
-          pointer-events: none;
-          z-index: 120;
-        }
-        paper-listbox {
-          pointer-events: auto;
-          --paper-listbox_-_padding: 0;
-        }
-        paper-item {
-          cursor: pointer;
-          flex-direction: column;
-          font-size: inherit;
-          /* This variable was introduced in Dec 2019. We keep both min-height
-            * rules around, because --paper-item-min-height is not yet
-            * upstreamed.
-            */
-          --paper-item-min-height: 0;
-          --paper-item_-_min-height: 0;
-          --paper-item_-_padding: 10px 16px;
-          --paper-item-focused-before_-_background-color: var(
-            --selection-background-color
-          );
-          --paper-item-focused_-_background-color: var(
-            --selection-background-color
-          );
-        }
         .topContent.deemphasized {
           color: var(--deemphasized-text-color);
           font-style: italic;
@@ -181,21 +185,39 @@ export class GrDropdownList extends LitElement {
           display: inline-flex;
           vertical-align: top;
         }
-        @media only screen and (max-width: 50em) {
-          gr-select {
-            display: var(--gr-select-style-display, inline-block);
-            width: var(--gr-select-style-width);
-          }
-          gr-button,
-          iron-dropdown {
-            display: none;
-          }
-          select {
-            width: var(--native-select-style-width);
-          }
-        }
       `,
     ];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    // We need to use capture to be able to use our own keydown as
+    // md-menu has its own. E.g. enter and it also prevents using space
+    // as enter.
+    this.addEventListener('keydown', this.keydown, {capture: true});
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener('keydown', this.keydown);
+  }
+
+  keydown(e: KeyboardEvent) {
+    if (e.key === Key.ENTER || e.key === Key.SPACE) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.handleEnter();
+    }
+    if (e.key === Key.UP) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.handleUp();
+    }
+    if (e.key === Key.DOWN) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.handleDown();
+    }
   }
 
   protected override willUpdate(changedProperties: PropertyValues): void {
@@ -207,8 +229,27 @@ export class GrDropdownList extends LitElement {
     }
   }
 
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('items')) {
+      this.resetCursorStops();
+    }
+
+    if (changedProperties.has('opened') && this.opened) {
+      this.resetCursorStops();
+      this.cursor.setCursorAtIndex(this.selectedIndex);
+      if (this.cursor.target !== null) {
+        this.cursor.target.focus();
+        this.cursor.target?.setAttribute('selected', '');
+        const focusRing = this.cursor.target.shadowRoot
+          ?.querySelector('md-item')
+          ?.querySelector('md-focus-ring');
+        if (focusRing) focusRing.visible = true;
+      }
+    }
+  }
+
   override render() {
-    return html`
+    return html`<div class="dropdown">
       <gr-button
         id="trigger"
         ?disabled=${this.disabled}
@@ -226,49 +267,71 @@ export class GrDropdownList extends LitElement {
           .text=${this.text}
         ></gr-copy-clipboard>
       </gr-button>
-      <iron-dropdown
+      <md-menu
         id="dropdown"
-        .verticalAlign=${'top'}
-        .horizontalAlign=${'left'}
-        .dynamicAlign=${true}
-        .noOverlap=${true}
-        .allowOutsideScroll=${true}
+        anchor="trigger"
+        tabindex="-1"
+        .menuCorner=${'start-start'}
+        ?quick=${true}
         @click=${this.handleDropdownClick}
+        @opened=${(e: Event) => {
+          this.opened = true;
+          this.scrollToSelected(e);
+        }}
+        @closed=${() => {
+          this.opened = false;
+          // This is an ugly hack but works.
+          this.cursor.target?.removeAttribute('selected');
+        }}
+        @keydown=${(e: KeyboardEvent) => {
+          // We need to surpress the internal md-menu keydown, so we can use
+          // our custom version.
+          if (
+            e.key === Key.ENTER ||
+            e.key === Key.SPACE ||
+            e.key === Key.UP ||
+            e.key === Key.DOWN
+          ) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+          }
+        }}
       >
-        <paper-listbox
-          class="dropdown-content"
-          slot="dropdown-content"
-          .attrForSelected=${'data-value'}
-          .selected=${this.value}
-          @selected-changed=${this.selectedChanged}
-        >
-          ${incrementalRepeat({
-            values: this.items ?? [],
-            initialCount: this.initialCount,
-            mapFn: item => this.renderPaperItem(item as DropdownItem),
-          })}
-        </paper-listbox>
-      </iron-dropdown>
-      <gr-select
-        .bindValue=${this.value}
-        @bind-value-changed=${this.selectedChanged}
-      >
-        <select>
-          ${this.items?.map(
-            item => html`
-              <option ?disabled=${item.disabled} value=${`${item.value}`}>
-                ${this.computeMobileText(item)}
-              </option>
-            `
-          )}
-        </select>
-      </gr-select>
-    `;
+        ${incrementalRepeat({
+          values: this.items ?? [],
+          initialCount: this.initialCount,
+          mapFn: (item, index) =>
+            this.renderMdMenuItem(item as DropdownItem, index),
+        })}
+      </md-menu>
+    </div> `;
   }
 
-  private renderPaperItem(item: DropdownItem) {
+  private renderMdMenuItem(item: DropdownItem, index: number) {
+    if (this.value === String(item.value)) {
+      this.selectedIndex = index;
+    }
     return html`
-      <paper-item ?disabled=${item.disabled} data-value=${item.value}>
+      <md-menu-item
+        ?selected=${this.value === String(item.value)}
+        ?active=${this.value === String(item.value)}
+        ?disabled=${item.disabled}
+        @click=${() => {
+          this.value = String(item.value);
+        }}
+        @keydown=${(e: KeyboardEvent) => {
+          // We need to surpress the internal md-menu keydown, so we can use
+          // our custom version. For some reason clicking enter does not trigger click,
+          // rather it goes either into the diff screen or somewhere that isn't the drop down.
+          // We fix this by doing click ourselfs.
+          if (e.key === Key.ENTER || e.key === Key.SPACE) {
+            const target = e.target as HTMLElement;
+            target?.click();
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }}
+      >
         <div
           class=${classMap({
             topContent: true,
@@ -311,24 +374,108 @@ export class GrDropdownList extends LitElement {
             </div>
           `
         )}
-      </paper-item>
+      </md-menu-item>
+      ${index < this.items!.length - 1
+        ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
+        : nothing}
     `;
   }
 
-  private selectedChanged(e: ValueChangedEvent<string>) {
-    this.value = e.detail.value;
+  /**
+   * Handle the up key.
+   */
+  private handleUp() {
+    assertIsDefined(this.dropdown);
+
+    if (!this.dropdown.open) {
+      this.dropdown.open = true;
+      return;
+    }
+
+    // We workaround an issue to allow cursor to work.
+    // For some reason without this, it doesn't work half the time.
+    // E.g. you press enter or you close the dropdown, reopen it,
+    // you expect it to be focused with the first item selected.
+    // The below fixes it. It's an ugly hack but works for now.
+    this.cursor.target?.removeAttribute('selected');
+    let mdFocusRing = this.cursor.target?.shadowRoot
+      ?.querySelector('md-item')
+      ?.querySelector('md-focus-ring');
+    if (mdFocusRing) mdFocusRing.visible = false;
+    this.cursor.previous();
+    this.cursor.target?.setAttribute('selected', '');
+    mdFocusRing = this.cursor.target?.shadowRoot
+      ?.querySelector('md-item')
+      ?.querySelector('md-focus-ring');
+    if (mdFocusRing) mdFocusRing.visible = true;
   }
 
   /**
-   * Handle a click on the iron-dropdown element.
+   * Handle the down key.
+   */
+  private handleDown() {
+    assertIsDefined(this.dropdown);
+
+    if (!this.dropdown.open) {
+      this.dropdown.open = true;
+      return;
+    }
+
+    // We workaround an issue to allow cursor to work.
+    // For some reason without this, it doesn't work half the time.
+    // E.g. you press enter or you close the dropdown, reopen it,
+    // you expect it to be focused with the first item selected.
+    // The below fixes it. It's an ugly hack but works for now.
+    this.cursor.target?.removeAttribute('selected');
+    let mdFocusRing = this.cursor.target?.shadowRoot
+      ?.querySelector('md-item')
+      ?.querySelector('md-focus-ring');
+    if (mdFocusRing) mdFocusRing.visible = false;
+    this.cursor.next();
+    this.cursor.target?.setAttribute('selected', '');
+    mdFocusRing = this.cursor.target?.shadowRoot
+      ?.querySelector('md-item')
+      ?.querySelector('md-focus-ring');
+    if (mdFocusRing) mdFocusRing.visible = true;
+  }
+
+  /**
+   * Handle the enter key.
+   */
+  private handleEnter() {
+    assertIsDefined(this.dropdown);
+
+    if (!this.dropdown.open) {
+      this.dropdown.open = true;
+      return;
+    }
+
+    // Since gr-tooltip-content click on shadow dom is not propagated down,
+    // we have to target `a` inside it.
+    if (this.cursor.target !== null) {
+      // We workaround an issue to allow cursor to work.
+      // For some reason without this, it doesn't work half the time.
+      // E.g. you press enter or you close the dropdown, reopen it,
+      // you expect it to be focused with the first item selected.
+      // The below fixes it. It's an ugly hack but works for now.
+      const el = this.cursor.target.shadowRoot?.querySelector(':not([hidden])');
+      if (el) {
+        this.cursor.target?.removeAttribute('selected');
+        const mdFocusRing = this.cursor.target?.shadowRoot
+          ?.querySelector('md-item')
+          ?.querySelector('md-focus-ring');
+        if (mdFocusRing) mdFocusRing.visible = false;
+        (el as HTMLElement).click();
+      }
+    }
+  }
+
+  /**
+   * Handle a click on the md-menu element.
    */
   private handleDropdownClick() {
-    // async is needed so that that the click event is fired before the
-    // dropdown closes (This was a bug for touch devices).
-    setTimeout(() => {
-      assertIsDefined(this.dropdown);
-      this.dropdown.close();
-    }, 1);
+    assertIsDefined(this.dropdown);
+    this.dropdown.close();
   }
 
   private updateText() {
@@ -347,7 +494,9 @@ export class GrDropdownList extends LitElement {
   /**
    * Handle a click on the button to open the dropdown.
    */
-  private showDropdownTapHandler() {
+  private showDropdownTapHandler(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
     this.open();
   }
 
@@ -356,12 +505,31 @@ export class GrDropdownList extends LitElement {
    */
   open() {
     assertIsDefined(this.dropdown);
-    this.dropdown.open();
+    this.dropdown.open = !this.dropdown.open;
+    this.dropdown.focus();
   }
 
   // Private but used in tests.
   computeMobileText(item: DropdownItem) {
     return item.mobileText ? item.mobileText : item.text;
+  }
+
+  private scrollToSelected(e: Event) {
+    const target = e.target as HTMLElement;
+    const selected = target.querySelector<MdMenu>('md-menu-item[selected]');
+    selected?.scrollIntoView({block: 'nearest'});
+  }
+
+  /**
+   * Recompute the stops for the dropdown item cursor.
+   */
+  resetCursorStops() {
+    assertIsDefined(this.dropdown);
+    if (this.items && this.items.length > 0 && this.dropdown.open) {
+      this.cursor.stops = Array.from(
+        this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
+      );
+    }
   }
 }
 

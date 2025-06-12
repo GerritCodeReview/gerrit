@@ -1650,10 +1650,10 @@ suite('gr-diff-view tests', () => {
     test('f open file dropdown', async () => {
       assertIsDefined(element.dropdown);
       assertIsDefined(element.dropdown.dropdown);
-      assert.isFalse(element.dropdown.dropdown.opened);
+      assert.isFalse(element.dropdown.dropdown.open);
       pressKey(element, 'f');
       await element.updateComplete;
-      assert.isTrue(element.dropdown.dropdown.opened);
+      assert.isTrue(element.dropdown.dropdown.open);
     });
 
     suite('blame', () => {

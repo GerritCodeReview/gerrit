@@ -385,7 +385,6 @@ export class GrMainHeader extends LitElement {
           align-items: center;
           display: flex;
           margin: 0 calc(0 - var(--spacing-m)) 0 var(--spacing-m);
-          overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
@@ -703,7 +702,8 @@ export class GrMainHeader extends LitElement {
               class="moreMenu"
               link=""
               .items=${moreMenu}
-              .horizontalAlign=${'center'}
+              .horizontalAlign=${'right'}
+              .verticalOffset=${40}
               @click=${() => {
                 if (this.hamburgerClose) {
                   this.handleSidebar();

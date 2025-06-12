@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "293cf10b_1bce9a6b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1666,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-12T17:00:27Z",
+      "side": 1,
+      "message": "consider adding a unit test?",
+      "range": {
+        "startLine": 1659,
+        "startChar": 4,
+        "endLine": 1666,
+        "endChar": 12
+      },
+      "revId": "922fd1d1a1534c7f1d6b913a139f52acff205004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

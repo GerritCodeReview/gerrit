@@ -112,6 +112,7 @@ export class GrAccountDropdown extends LitElement {
       .topContent=${this.topContent}
       @tap-item-shortcuts=${this.handleShortcutsTap}
       .horizontalAlign=${'right'}
+      .verticalOffset=${40}
     >
       ${this.showMobile && !this.hasAvatars
         ? html`<gr-icon icon="account_circle" filled></gr-icon>`

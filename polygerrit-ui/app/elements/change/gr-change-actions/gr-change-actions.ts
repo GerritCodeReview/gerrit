@@ -699,8 +699,6 @@ export class GrChangeActions
         <gr-dropdown
           id="moreActions"
           link
-          .verticalOffset=${32}
-          .horizontalAlign=${'right'}
           @tap-item=${this.handleOverflowItemTap}
           ?hidden=${this.isLoading() ||
           !this.menuActions ||

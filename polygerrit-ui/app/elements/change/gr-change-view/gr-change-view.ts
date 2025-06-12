@@ -1169,33 +1169,36 @@ export class GrChangeView extends LitElement {
           ></gr-change-status>`
         )}
       </div>
-      ${this.renderCopyLinksDropdown()}
-      <gr-button
-        flatten
-        down-arrow
-        class="showCopyLinkDialogButton"
-        @click=${(e: MouseEvent) => {
-          // We don't want to handle clicks on the star or the <a> link.
-          // Calling `stopPropagation()` from the click handler of <a> is not an
-          // option, because then the click does not reach the top-level gr-page
-          // click handler and would result is a full page reload.
-          if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
-          this.copyLinksDropdown?.toggleDropdown();
-        }}
-        ><gr-change-star
-          id="changeStar"
-          .change=${this.change}
-          @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
-            this.handleToggleStar(e)}
-          ?hidden=${!this.loggedIn}
-        ></gr-change-star>
-        <a
-          class="changeNumber"
-          aria-label=${`Change ${this.change?._number}`}
-          href=${ifDefined(this.computeChangeUrl(true))}
-          >${this.change?._number}</a
-        >
-      </gr-button>
+      <div style="position:relative;">
+        ${this.renderCopyLinksDropdown()}
+        <gr-button
+          id="copyLinkDialogButton"
+          flatten
+          down-arrow
+          class="showCopyLinkDialogButton"
+          @click=${(e: MouseEvent) => {
+            // We don't want to handle clicks on the star or the <a> link.
+            // Calling `stopPropagation()` from the click handler of <a> is not an
+            // option, because then the click does not reach the top-level gr-page
+            // click handler and would result is a full page reload.
+            if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
+            this.copyLinksDropdown?.toggleDropdown(e.target as HTMLElement);
+          }}
+          ><gr-change-star
+            id="changeStar"
+            .change=${this.change}
+            @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
+              this.handleToggleStar(e)}
+            ?hidden=${!this.loggedIn}
+          ></gr-change-star>
+          <a
+            class="changeNumber"
+            aria-label=${`Change ${this.change?._number}`}
+            href=${ifDefined(this.computeChangeUrl(true))}
+            >${this.change?._number}</a
+          >
+        </gr-button>
+      </div>
       <div class="headerSubject">
         ${trimWithEllipsis(this.change?.subject, 80)}
       </div>

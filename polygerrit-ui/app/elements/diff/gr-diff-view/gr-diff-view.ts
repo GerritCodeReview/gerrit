@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
@@ -664,9 +663,6 @@ export class GrDiffView extends LitElement {
             width: 100%;
             word-wrap: break-word;
           }
-          .reviewed {
-            vertical-align: -1px;
-          }
           .mobileNavLink {
             color: var(--primary-text-color);
             font-family: var(--header-font-family);
@@ -677,11 +673,6 @@ export class GrDiffView extends LitElement {
           }
           .mobileNavLink:not([href]) {
             color: var(--deemphasized-text-color);
-          }
-          .jumpToFileContainer {
-            display: block;
-            width: 100%;
-            word-break: break-all;
           }
           /* prettier formatter removes semi-colons after css mixins. */
           /* prettier-ignore */

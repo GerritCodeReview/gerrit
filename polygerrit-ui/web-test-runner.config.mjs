@@ -115,7 +115,10 @@ const config = {
       tsconfig: tsConfig,
     }),
     visualRegressionPlugin({
-      diffOptions: { threshold: 0.8 },
+      // TODO(milutin): Tweak these values - diffOptions threshold is for color change
+      // and failureThreshold is for pixel change. We need to find a balance to allow
+      // CI to pass, but also catch regressions.
+      diffOptions: { threshold: 0.6 },
       failureThreshold: 1,
       failureThresholdType: 'percent',
       update: process.argv.includes('--update-screenshots'),

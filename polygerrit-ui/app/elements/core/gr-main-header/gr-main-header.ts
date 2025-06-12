@@ -395,7 +395,6 @@ export class GrMainHeader extends LitElement {
           align-items: center;
           display: flex;
           margin: 0 calc(0 - var(--spacing-m)) 0 var(--spacing-m);
-          overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }

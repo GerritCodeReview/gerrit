@@ -12,8 +12,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-autocomplete/gr-autocomplete';
-import '@polymer/iron-dropdown/iron-dropdown';
-import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {isDefined} from '../../../types/types';
 import {unique} from '../../../utils/common-util';
@@ -29,6 +27,8 @@ import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {Interaction} from '../../../constants/reporting';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import '@material/web/menu/menu';
+import {MdMenu} from '@material/web/menu/menu';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -47,7 +47,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   @state() private overallProgress: ProgressStatus = ProgressStatus.NOT_STARTED;
 
-  @query('iron-dropdown') private dropdown?: IronDropdownElement;
+  @query('md-menu') private dropdown?: MdMenu;
 
   private selectedExistingTopics: Set<TopicName> = new Set();
 
@@ -61,13 +61,15 @@ export class GrChangeListTopicFlow extends LitElement {
     return [
       spinnerStyles,
       css`
-        iron-dropdown {
+        md-menu {
+          --md-menu-container-color: var(--dialog-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
+        }
+        .dropdown-content {
           box-shadow: var(--elevation-level-2);
           width: 400px;
-          background-color: var(--dialog-background-color);
           border-radius: 4px;
-        }
-        [slot='dropdown-content'] {
           padding: var(--spacing-xl) var(--spacing-l) var(--spacing-l);
         }
         gr-autocomplete {
@@ -129,6 +131,10 @@ export class GrChangeListTopicFlow extends LitElement {
           position: relative;
           top: 7px;
         }
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
       `,
     ];
   }
@@ -146,7 +152,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   override render() {
     const isFlowDisabled = this.selectedChanges.length === 0;
-    return html`
+    return html`<div class="dropdown">
       <gr-button
         id="start-flow"
         flatten
@@ -155,17 +161,17 @@ export class GrChangeListTopicFlow extends LitElement {
         ?disabled=${isFlowDisabled}
         >Topic</gr-button
       >
-      <iron-dropdown
-        .horizontalAlign=${'auto'}
-        .verticalAlign=${'auto'}
-        .verticalOffset=${24}
-        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
-          (this.isDropdownOpen = e.detail.value)}
+      <md-menu
+        anchor="start-flow"
+        tabindex="-1"
+        .quick=${true}
+        @opening=${() => (this.isDropdownOpen = true)}
+        @closing=${() => (this.isDropdownOpen = false)}
       >
         ${when(
           this.isDropdownOpen,
           () => html`
-            <div slot="dropdown-content">
+            <div class="dropdown-content">
               ${when(
                 this.selectedChanges.some(change => change.topic),
                 () => this.renderExistingTopicsMode(),
@@ -174,8 +180,8 @@ export class GrChangeListTopicFlow extends LitElement {
             </div>
           `
         )}
-      </iron-dropdown>
-    `;
+      </md-menu>
+    </div> `;
   }
 
   private disableApplyToAllButton() {
@@ -337,7 +343,7 @@ export class GrChangeListTopicFlow extends LitElement {
   private openDropdown() {
     this.reset();
     this.isDropdownOpen = true;
-    this.dropdown?.open();
+    this.dropdown?.show();
   }
 
   private async getTopicSuggestions(

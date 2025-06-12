@@ -30,9 +30,7 @@ suite('gr-edit-file-controls tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-dropdown down-arrow="" id="actions" link="" vertical-offset="20">
-          Actions
-        </gr-dropdown>
+        <gr-dropdown down-arrow="" id="actions" link=""> Actions </gr-dropdown>
       `
     );
   });
@@ -40,10 +38,10 @@ suite('gr-edit-file-controls tests', () => {
   test('open tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions.open();
+    actions.dropdownTriggerTapHandler();
     await actions.updateComplete;
 
-    const row = queryAndAssert<HTMLSpanElement>(actions, 'li [data-id="open"]');
+    const row = queryAndAssert<HTMLSpanElement>(actions, '[data-id="open"]');
     row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
@@ -55,13 +53,10 @@ suite('gr-edit-file-controls tests', () => {
   test('delete tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions.open();
+    actions.dropdownTriggerTapHandler();
     await actions.updateComplete;
 
-    const row = queryAndAssert<HTMLSpanElement>(
-      actions,
-      'li [data-id="delete"]'
-    );
+    const row = queryAndAssert<HTMLSpanElement>(actions, '[data-id="delete"]');
     row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
@@ -73,13 +68,10 @@ suite('gr-edit-file-controls tests', () => {
   test('restore tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions.open();
+    actions.dropdownTriggerTapHandler();
     await actions.updateComplete;
 
-    const row = queryAndAssert<HTMLSpanElement>(
-      actions,
-      'li [data-id="restore"]'
-    );
+    const row = queryAndAssert<HTMLSpanElement>(actions, '[data-id="restore"]');
     row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
@@ -91,13 +83,10 @@ suite('gr-edit-file-controls tests', () => {
   test('rename tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions.open();
+    actions.dropdownTriggerTapHandler();
     await actions.updateComplete;
 
-    const row = queryAndAssert<HTMLSpanElement>(
-      actions,
-      'li [data-id="rename"]'
-    );
+    const row = queryAndAssert<HTMLSpanElement>(actions, '[data-id="rename"]');
     row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {

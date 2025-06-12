@@ -266,7 +266,7 @@ suite('gr-main-header tests', () => {
               >
                 <gr-icon filled="" icon="search"> </gr-icon>
               </a>
-              <gr-dropdown class="moreMenu" horizontal-align="center" link="">
+              <gr-dropdown class="moreMenu" link="">
                 <span class="linksTitle">
                   <gr-icon filled="" icon="more_horiz"> </gr-icon>
                 </span>

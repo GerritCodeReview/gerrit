@@ -9,9 +9,9 @@ import {assert, fixture, html} from '@open-wc/testing';
 import './gr-copy-links';
 import {GrCopyLinks} from './gr-copy-links';
 import {pressKey, queryAndAssert, waitUntil} from '../../../test/test-utils';
-import {IronDropdownElement} from '@polymer/iron-dropdown';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import {MdMenu} from '@material/web/menu/menu';
 
 suite('gr-copy-links tests', () => {
   let element: GrCopyLinks;
@@ -27,6 +27,12 @@ suite('gr-copy-links tests', () => {
       html`<gr-copy-links .copyLinks=${links}></gr-copy-links>`
     );
     await element.updateComplete;
+    // md-menu requires anchor to be set
+    // so we create a dummy element to allow
+    // us to open it.
+    const button = document.createElement('button');
+    const mdMenu = element.shadowRoot?.querySelector('md-menu');
+    mdMenu!.anchorElement = button;
     element.openDropdown();
     await waitUntil(() => element.isDropdownOpen);
     await element.updateComplete;
@@ -35,22 +41,20 @@ suite('gr-copy-links tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ `<iron-dropdown
-        aria-disabled="false"
-        horizontal-align="left"
-        vertical-align="top"
-      >
-      <div slot="dropdown-content">
+      /* HTML */ `<md-menu default-focus="none" open="" quick="" tabindex="-1">
+        <div class="dropdown-content">
           <div class="copy-link-row">
-            <gr-copy-clipboard label="Change ID" nowrap="" shortcut="l - d"
-                text="123456" id="Change_ID-field-copy-clipboard">
+            <gr-copy-clipboard
+              id="Change_ID-field-copy-clipboard"
+              label="Change ID"
+              nowrap=""
+              shortcut="l - d"
+              text="123456"
+            >
             </gr-copy-clipboard>
           </div>
-      </iron-dropdown>`,
-      {
-        // iron-dropdown sizing seems to vary between local & CI
-        ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
-      }
+        </div>
+      </md-menu>`
     );
   });
 
@@ -68,11 +72,8 @@ suite('gr-copy-links tests', () => {
 
   test('shorcuts writes to clipboard', () => {
     const clipboardStub = sinon.stub(window.navigator.clipboard, 'writeText');
-    const ironDropdown = queryAndAssert<IronDropdownElement>(
-      element,
-      'iron-dropdown'
-    );
-    pressKey(ironDropdown, 'd');
+    const mdMenu = queryAndAssert<MdMenu>(element, 'md-menu');
+    pressKey(mdMenu, 'd');
     assert.isTrue(clipboardStub.called);
     assert.isTrue(clipboardStub.calledWith('123456'));
   });

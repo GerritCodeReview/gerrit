@@ -1904,7 +1904,7 @@ suite('gr-change-actions tests', () => {
         assert.isOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private-change"]'
+            '[data-id="private-change"]'
           )
         );
         element.setActionOverflow(ActionType.CHANGE, 'private', false);
@@ -1913,7 +1913,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private-change"]'
+            '[data-id="private-change"]'
           )
         );
       });
@@ -1958,7 +1958,7 @@ suite('gr-change-actions tests', () => {
         assert.isOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private.delete-change"]'
+            '[data-id="private.delete-change"]'
           )
         );
         element.setActionOverflow(ActionType.CHANGE, 'private.delete', false);
@@ -1967,7 +1967,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(
           query(
             queryAndAssert<GrDropdown>(element, '#moreActions'),
-            'span[data-id="private.delete-change"]'
+            '[data-id="private.delete-change"]'
           )
         );
       });

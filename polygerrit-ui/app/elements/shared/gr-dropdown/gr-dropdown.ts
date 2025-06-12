@@ -10,7 +10,6 @@ import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {getBaseUrl} from '../../../utils/url-util';
-import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Key} from '../../../utils/dom-util';
@@ -22,6 +21,10 @@ import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {DropdownLink} from '../../../types/common';
+import '@material/web/divider/divider';
+import '@material/web/menu/menu';
+import '@material/web/menu/menu-item';
+import {MdMenu} from '@material/web/menu/menu';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -43,7 +46,7 @@ export interface DropdownContent {
 @customElement('gr-dropdown')
 export class GrDropdown extends LitElement {
   @query('#dropdown')
-  dropdown?: IronDropdownElement;
+  dropdown?: MdMenu;
 
   @query('#trigger')
   trigger?: GrButton;
@@ -60,10 +63,14 @@ export class GrDropdown extends LitElement {
           width: 100%;
         }
         .dropdown-content {
-          background-color: var(--dropdown-background-color);
-          box-shadow: var(--elevation-level-2);
+          //background-color: var(--dropdown-background-color);
+          //box-shadow: var(--elevation-level-2);
           min-width: 112px;
           max-width: 280px;
+        }
+        md-menu {
+          white-space: nowrap;
+          --md-menu-container-color: var(--dropdown-background-color);
         }
         gr-button {
           vertical-align: top;
@@ -79,44 +86,6 @@ export class GrDropdown extends LitElement {
         ul {
           list-style: none;
         }
-        .topContent,
-        li {
-          border-bottom: 1px solid var(--border-color);
-        }
-        li:last-of-type {
-          border: none;
-        }
-        li .itemAction {
-          cursor: pointer;
-          display: block;
-          padding: var(--spacing-m) var(--spacing-l);
-        }
-        li .itemAction {
-          color: var(--gr-dropdown-item-color);
-          background-color: var(--gr-dropdown-item-background-color);
-          border: var(--gr-dropdown-item-border);
-          text-transform: var(--gr-dropdown-item-text-transform);
-        }
-        li .itemAction.disabled {
-          color: var(--deemphasized-text-color);
-          cursor: default;
-        }
-        li .itemAction:link,
-        li .itemAction:visited {
-          text-decoration: none;
-        }
-        li .itemAction:not(.disabled):hover {
-          background-color: var(--hover-background-color);
-        }
-        li:focus,
-        li.selected {
-          background-color: var(--selection-background-color);
-          outline: none;
-        }
-        li:focus .itemAction,
-        li.selected .itemAction {
-          background-color: transparent;
-        }
         .topContent {
           display: block;
           padding: var(--spacing-m) var(--spacing-l);
@@ -127,6 +96,20 @@ export class GrDropdown extends LitElement {
         }
         .bold-text {
           font-weight: var(--font-weight-medium);
+        }
+        md-divider {
+          margin: auto;
+        }
+        md-menu-item {
+          --md-sys-color-on-surface: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-typescale-body-large-font: inherit;
+          --md-menu-item-hover-state-layer-color: var(
+            --selection-background-color
+          );
+          --md-menu-item-hover-state-layer-opacity: 1;
         }
       `,
     ];
@@ -163,7 +146,7 @@ export class GrDropdown extends LitElement {
   link = false;
 
   @property({type: Number, attribute: 'vertical-offset'})
-  verticalOffset = 40;
+  verticalOffset = 0;
 
   @state()
   private opened = false;
@@ -217,36 +200,46 @@ export class GrDropdown extends LitElement {
   }
 
   override render() {
-    return html` <gr-button
+    return html`<div style="position: relative;">
+      <gr-button
+        id="trigger"
         ?link=${this.link}
         class="dropdown-trigger"
-        id="trigger"
         ?down-arrow=${this.downArrow}
         @click=${this.dropdownTriggerTapHandler}
       >
         <slot></slot>
       </gr-button>
-      <iron-dropdown
+      <md-menu
         id="dropdown"
-        .verticalAlign=${'top'}
-        .verticalOffset=${this.verticalOffset}
-        allowOutsideScroll
-        .horizontalAlign=${this.horizontalAlign}
-        @click=${() => this.close()}
-        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
-          (this.opened = e.detail.value)}
+        anchor="trigger"
+        tabindex="-1"
+        .menuCorner=${this.horizontalAlign === 'left'
+          ? 'start-start'
+          : this.horizontalAlign === 'center'
+          ? 'start-end'
+          : 'end-start'}
+        .yOffset=${this.verticalOffset}
+        .quick=${true}
+        @opening="${() => (this.opened = true)}}"
+        @closed=${() => (this.opened = false)}
       >
         ${this.renderDropdownContent()}
-      </iron-dropdown>`;
+      </md-menu>
+    </div>`;
   }
 
   private renderDropdownContent() {
-    return html` <div class="dropdown-content" slot="dropdown-content">
-      <ul>
-        ${this.renderTopContent()}
-        ${(this.items ?? []).map(link => this.renderDropdownLink(link))}
-      </ul>
-    </div>`;
+    return html`
+      <div class="dropdown-content">
+        <ul>
+          ${this.renderTopContent()}
+          ${(this.items ?? []).map((link, index) =>
+            this.renderDropdownLink(link, index)
+          )}
+        </ul>
+      </div>
+    `;
   }
 
   private renderTopContent() {
@@ -255,6 +248,7 @@ export class GrDropdown extends LitElement {
       <div class="topContent">
         ${(this.topContent ?? []).map(item => this.renderTopContentItem(item))}
       </div>
+      <md-divider role="separator" tabindex="-1"></md-divider>
     `;
   }
 
@@ -266,34 +260,26 @@ export class GrDropdown extends LitElement {
     `;
   }
 
-  private renderDropdownLink(link: DropdownLink) {
-    const disabledClass = this.computeDisabledClass(link.id);
+  private renderDropdownLink(link: DropdownLink, index: number) {
     return html`
-      <li tabindex="-1">
+      <md-menu-item
+        .href=${this.computeLinkURL(link)}
+        ?disabled=${link.id && this.disabledIds.includes(link.id)}
+        @pointerdown=${(e: Event) =>
+          this.handleAdditionalLinkAttributes(e, link)}
+        data-id=${ifDefined(link.id)}
+        @click=${(e: MouseEvent) => this.handleItemTap(e, link)}
+      >
         <gr-tooltip-content
           ?has-tooltip=${!!link.tooltip}
           title=${ifDefined(link.tooltip)}
         >
-          <span
-            class="itemAction ${disabledClass}"
-            data-id=${ifDefined(link.id)}
-            @click=${this.handleItemTap}
-            ?hidden=${!!link.url}
-            tabindex="-1"
-            >${link.name}</span
-          >
-          <a
-            class="itemAction"
-            href=${this.computeLinkURL(link)}
-            ?download=${!!link.download}
-            rel=${ifDefined(this.computeLinkRel(link) ?? undefined)}
-            target=${ifDefined(link.target ?? undefined)}
-            ?hidden=${!link.url}
-            tabindex="-1"
-            >${link.name}</a
-          >
+          ${link.name}
         </gr-tooltip-content>
-      </li>
+      </md-menu-item>
+      ${index < this.items!.length - 1
+        ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
+        : nothing}
     `;
   }
 
@@ -302,10 +288,10 @@ export class GrDropdown extends LitElement {
    */
   private handleUp() {
     assertIsDefined(this.dropdown);
-    if (this.dropdown.opened) {
+    if (this.dropdown.open) {
       this.cursor.previous();
     } else {
-      this.open();
+      this.dropdown.open = !this.dropdown.open;
     }
   }
 
@@ -314,10 +300,10 @@ export class GrDropdown extends LitElement {
    */
   private handleDown() {
     assertIsDefined(this.dropdown);
-    if (this.dropdown.opened) {
+    if (this.dropdown.open) {
       this.cursor.next();
     } else {
-      this.open();
+      this.dropdown.open = !this.dropdown.open;
     }
   }
 
@@ -326,7 +312,7 @@ export class GrDropdown extends LitElement {
    */
   private handleEnter() {
     assertIsDefined(this.dropdown);
-    if (this.dropdown.opened) {
+    if (this.dropdown.open) {
       // Since gr-tooltip-content click on shadow dom is not propagated down,
       // we have to target `a` inside it.
       if (this.cursor.target !== null) {
@@ -336,40 +322,17 @@ export class GrDropdown extends LitElement {
         }
       }
     } else {
-      this.open();
+      this.dropdown.open = !this.dropdown.open;
     }
   }
 
   /**
    * Handle a click on the button to open the dropdown.
    */
-  private dropdownTriggerTapHandler(e: MouseEvent) {
+  private dropdownTriggerTapHandler() {
     assertIsDefined(this.dropdown);
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.dropdown.opened) {
-      this.close();
-    } else {
-      this.open();
-    }
-  }
 
-  /**
-   * Open the dropdown and initialize the cursor.
-   * Private but used in tests.
-   */
-  open() {
-    assertIsDefined(this.dropdown);
-    this.dropdown.open();
-  }
-
-  // Private but used in tests.
-  close() {
-    // async is needed so that that the click event is fired before the
-    // dropdown closes (This was a bug for touch devices).
-    setTimeout(() => {
-      this.dropdown?.close();
-    }, 1);
+    this.dropdown.open = !this.dropdown.open;
   }
 
   /**
@@ -443,11 +406,11 @@ export class GrDropdown extends LitElement {
   /**
    * Handle a click on an item of the dropdown.
    */
-  private handleItemTap(e: MouseEvent) {
-    if (e.target === null || !this.items) {
+  private handleItemTap(e: MouseEvent, link: DropdownLink) {
+    if (link.url || e.target === null || !this.items) {
       return;
     }
-    const id = (e.target as Element).getAttribute('data-id');
+    const id = (e.currentTarget as Element).getAttribute('data-id');
     const item = this.items.find(item => item.id === id);
     if (id && !this.disabledIds.includes(id)) {
       if (item) {
@@ -462,7 +425,7 @@ export class GrDropdown extends LitElement {
    */
   private resetCursorStops() {
     assertIsDefined(this.dropdown);
-    if (this.items && this.items.length > 0 && this.dropdown?.opened) {
+    if (this.items && this.items.length > 0 && this.dropdown?.open) {
       this.cursor.stops = Array.from(
         this.shadowRoot?.querySelectorAll('li') ?? []
       );
@@ -474,7 +437,34 @@ export class GrDropdown extends LitElement {
    *
    * @return The class for the item button.
    */
-  private computeDisabledClass(id?: string) {
+  /* private computeDisabledClass(id?: string) {
     return id && this.disabledIds.includes(id) ? 'disabled' : '';
+  }*/
+
+  private handleAdditionalLinkAttributes(e: Event, link: DropdownLink) {
+    const path = e.composedPath();
+    const menuItem = path.find(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement && el.tagName.toLowerCase() === 'md-menu-item'
+    );
+    if (menuItem) {
+      const shadowRoot = menuItem.shadowRoot;
+      const anchor = shadowRoot?.querySelector('a');
+
+      if (anchor) {
+        if (link.download) {
+          anchor.setAttribute('download', '');
+        }
+
+        const rel = this.computeLinkRel(link);
+        if (rel) {
+          anchor.setAttribute('rel', rel);
+        }
+
+        if (link.target) {
+          anchor.setAttribute('target', link.target);
+        }
+      }
+    }
   }
 }

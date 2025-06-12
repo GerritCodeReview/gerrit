@@ -11,7 +11,6 @@ import {queryAndAssert} from '../../../utils/common-util';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
-import {IronDropdownElement} from '@polymer/iron-dropdown';
 import {
   AutocompleteSuggestion,
   GrAutocomplete,
@@ -19,6 +18,7 @@ import {
 import {Key} from '../../../utils/dom-util';
 import {pressKey, waitEventLoop, waitUntil} from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
+import {MdMenu} from '@material/web/menu/menu';
 
 suite('gr-editable-label tests', () => {
   let element: GrEditableLabel;
@@ -46,65 +46,70 @@ suite('gr-editable-label tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      `<label
-      aria-label="value text"
-      class="editable"
-      part="label"
-      title="value text"
-    >
-      value text
-    </label>
-    <iron-dropdown
-      aria-disabled="false"
-      aria-hidden="true"
-      horizontal-align="auto"
-      id="dropdown"
-      style="outline: none; display: none;"
-      vertical-align="auto"
-    >
-      <div class="dropdown-content" slot="dropdown-content">
-        <div class="inputContainer" part="input-container">
-          <paper-input
-            aria-disabled="false"
-            id="input"
-            tabindex="0"
-          ></paper-input>
-          <div class="buttons">
-          <gr-button
-              aria-disabled="false"
-              id="saveBtn"
-              primary
-              role="button"
-              tabindex="0"
+      `<div style="position: relative;">
+        <label
+          aria-label="value text"
+          class="editable"
+          id="button"
+          part="label"
+          title="value text"
+        >
+          value text
+        </label>
+        <md-menu
+          anchor="button"
+          aria-hidden="true"
+          id="dropdown"
+          tabindex="-1"
+        >
+          <div class="dropdown-content">
+            <div
+              class="inputContainer"
+              part="input-container"
             >
-              Save
-            </gr-button>
-            <gr-button
-              aria-disabled="false"
-              id="cancelBtn"
-              role="button"
-              tabindex="0"
-            >
-              Cancel
-            </gr-button>
+              <paper-input
+                aria-disabled="false"
+                id="input"
+                tabindex="0"
+              >
+              </paper-input>
+              <div class="buttons">
+                <gr-button
+                  aria-disabled="false"
+                  id="saveBtn"
+                  primary=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Save
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  id="cancelBtn"
+                  role="button"
+                  tabindex="0"
+                >
+                  Cancel
+                </gr-button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </iron-dropdown>`
+        </md-menu>
+      </div>`
     );
   });
 
   test('element render', async () => {
     // The dropdown is closed and the label is visible:
-    const dropdown = queryAndAssert<IronDropdownElement>(element, '#dropdown');
-    assert.isFalse(dropdown.opened);
+    const dropdown = queryAndAssert<MdMenu>(element, '#dropdown');
+    assert.isFalse(dropdown.open);
     assert.isTrue(label.classList.contains('editable'));
     assert.equal(label.textContent, 'value text');
 
     label.click();
     await element.updateComplete;
     // The dropdown is open (which covers up the label):
-    assert.isTrue(dropdown.opened);
+    assert.isTrue(dropdown.open);
     assert.equal(input.value, 'value text');
   });
 
@@ -224,17 +229,14 @@ suite('gr-editable-label tests', () => {
 
     test('disallows edit when read-only', async () => {
       // The dropdown is closed.
-      const dropdown = queryAndAssert<IronDropdownElement>(
-        element,
-        '#dropdown'
-      );
-      assert.isFalse(dropdown.opened);
+      const dropdown = queryAndAssert<MdMenu>(element, '#dropdown');
+      assert.isFalse(dropdown.open);
       label.click();
 
       await element.updateComplete;
 
       // The dropdown is still closed.
-      assert.isFalse(dropdown.opened);
+      assert.isFalse(dropdown.open);
     });
 
     test('label is not marked as editable', () => {
@@ -273,7 +275,7 @@ suite('gr-editable-label tests', () => {
       pressKey(autocomplete.input!, Key.ESC);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
-      assert.isTrue(element.dropdown?.opened);
+      assert.isTrue(element.dropdown?.open);
     });
 
     test('autocomplete suggestions closed esc closes dialogue', async () => {
@@ -289,7 +291,7 @@ suite('gr-editable-label tests', () => {
       await element.updateComplete;
       // Dialogue is closed, save not triggered.
       assert.isTrue(autocomplete.suggestionsDropdown?.isHidden);
-      assert.isFalse(element.dropdown?.opened);
+      assert.isFalse(element.dropdown?.open);
       assert.isFalse(labelSaved);
     });
 
@@ -310,7 +312,7 @@ suite('gr-editable-label tests', () => {
       // is shown, save has not been triggered.
       assert.strictEqual(element.inputText, 'value text 1');
       assert.isTrue(autocomplete.suggestionsDropdown?.isHidden);
-      assert.isTrue(element.dropdown?.opened);
+      assert.isTrue(element.dropdown?.open);
       assert.isFalse(labelSaved);
     });
 
@@ -332,7 +334,7 @@ suite('gr-editable-label tests', () => {
       await element.updateComplete;
       // Dialogue is closed, save triggered.
       assert.isTrue(autocomplete.suggestionsDropdown?.isHidden);
-      assert.isFalse(element.dropdown?.opened);
+      assert.isFalse(element.dropdown?.open);
       assert.isTrue(labelSaved);
     });
   });

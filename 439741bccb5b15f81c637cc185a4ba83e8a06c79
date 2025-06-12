@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6219e986_f0c973b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links_screenshot_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-12T08:43:12Z",
+      "side": 1,
+      "message": "make this multiline since you have it set to true below?",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "439741bccb5b15f81c637cc185a4ba83e8a06c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -7,7 +7,6 @@ import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, RevisionPatchSetNum} from '../../../types/common';
@@ -190,7 +189,7 @@ export class GrEditControls extends LitElement {
         id=${action.id}
         class=${this.computeIsInvisible(action.id)}
         link=""
-        @click=${this.handleTap}
+        @click=${this.handleClick}
         >${action.label}</gr-button
       >
     `;
@@ -350,7 +349,7 @@ export class GrEditControls extends LitElement {
     `;
   }
 
-  private readonly handleTap = (e: Event) => {
+  private readonly handleClick = (e: Event) => {
     e.preventDefault();
     const target = e.target as Element;
     const action = target.id;

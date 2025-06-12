@@ -33,6 +33,23 @@
       "message": "Γειά σου Γιώργο μου 86 Υ θίξω τήξη φ γιε δω Βρυξέλλες με τη η υφή το γ δε την Ελλάδα",
       "revId": "7b32ac273f4d259b3a8d11df6c8d91b9a74f814a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "162ccb55_60aff5e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4117248
+      },
+      "writtenOn": "2025-06-12T20:04:27Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "7b32ac273f4d259b3a8d11df6c8d91b9a74f814a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e46698_a132ee31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4117248
+      },
+      "writtenOn": "2025-06-12T20:04:27Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9731f00_be690eb5",
@@ -95,6 +112,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0e3fc08_f64417cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4117248
+      },
+      "writtenOn": "2025-06-12T20:04:27Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "parentUuid": "98ad7a6a_6575c7b2",
+      "range": {
+        "startLine": 9,
+        "startChar": 70,
+        "endLine": 9,
+        "endChar": 139
+      },
+      "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "515be7f8_b3e434c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4117248
+      },
+      "writtenOn": "2025-06-12T20:04:27Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "parentUuid": "b6097ac6_e47952cc",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37200047_05bf91db",
@@ -132,6 +197,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "37200047_05bf91db",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1773873b_310d1afd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4117248
+      },
+      "writtenOn": "2025-06-12T20:04:27Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "parentUuid": "8b1a9930_4f0f094f",
       "range": {
         "startLine": 21,
         "startChar": 0,

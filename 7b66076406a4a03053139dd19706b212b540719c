@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1d5eef5_49ac60cf",
+        "filename": "java/com/google/gerrit/entities/LabelType.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4117248
+      },
+      "writtenOn": "2025-06-12T20:04:27Z",
+      "side": 0,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "7b66076406a4a03053139dd19706b212b540719c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

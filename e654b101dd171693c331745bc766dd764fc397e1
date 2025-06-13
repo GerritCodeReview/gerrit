@@ -16,6 +16,82 @@
       "message": "I\u0027m pretty sure this is a better option than parsing the URL for the change ID and using the changes REST API to get the change info from the plugin handler.",
       "revId": "e654b101dd171693c331745bc766dd764fc397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c45992c0_3aa5826c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-13T17:26:08Z",
+      "side": 1,
+      "message": "LGTM!",
+      "revId": "e654b101dd171693c331745bc766dd764fc397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9fe6255_df1859e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-13T17:26:08Z",
+      "side": 1,
+      "message": "Yes, definitely!",
+      "parentUuid": "9d8c248a_b8c2f41c",
+      "revId": "e654b101dd171693c331745bc766dd764fc397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c12ec95_874cca0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-13T17:26:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be change: ChangeInfo | ParsedChangeInfo \nfor consistency?",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 23
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a7dd0e62_0e8fde0d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+              "range": {
+                "startLine": 158,
+                "startChar": 0,
+                "endLine": 159,
+                "endChar": 0
+              },
+              "replacement": "    change: ChangeInfo | ParsedChangeInfo,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e654b101dd171693c331745bc766dd764fc397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
@@ -39,6 +38,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -149,6 +149,69 @@ public class RebaseIT {
 
       // Rebasing the second change again should fail
       verifyChangeIsUpToDate(r2);
+    }
+
+    @Test
+    public void rebaseChangeOntoTargetBranchWhenParentChangeDeletedHasBeenDeleted()
+        throws Exception {
+      // Create a chain with 2 changes
+      Change.Id changeId1 =
+          changeOperations.newChange().project(project).file("a.txt").content("A content").create();
+      Change.Id changeId2 =
+          changeOperations
+              .newChange()
+              .project(project)
+              .childOf()
+              .change(changeId1)
+              .file("b.txt")
+              .content("B content")
+              .create();
+
+      // Delete the first change
+      gApi.changes().id(project.get(), changeId1.get()).delete();
+
+      String newBase = projectOperations.project(project).getHead("refs/heads/master").name();
+      String commitThatIsBeingRebased =
+          gApi.changes().id(project.get(), changeId2.get()).get().currentRevision;
+
+      rebaseCall.call(changeId2.toString());
+
+      verifyRebaseForChange(
+          changeId2, commitThatIsBeingRebased, newBase, /* shouldHaveApproval= */ false, 2);
+    }
+
+    @Test
+    public void rebaseChangeOntoOtherChangeWhenParentChangeDeletedHasBeenDeleted()
+        throws Exception {
+      // Create a chain with 2 changes
+      Change.Id changeId1 =
+          changeOperations.newChange().project(project).file("a.txt").content("A content").create();
+      Change.Id changeId2 =
+          changeOperations
+              .newChange()
+              .project(project)
+              .childOf()
+              .change(changeId1)
+              .file("b.txt")
+              .content("B content")
+              .create();
+
+      // Delete the first change
+      gApi.changes().id(project.get(), changeId1.get()).delete();
+
+      Change.Id changeIdOther =
+          changeOperations.newChange().project(project).file("c.txt").content("C content").create();
+
+      String newBase = gApi.changes().id(project.get(), changeIdOther.get()).get().currentRevision;
+      String commitThatIsBeingRebased =
+          gApi.changes().id(project.get(), changeId2.get()).get().currentRevision;
+
+      RebaseInput rebaseInput = new RebaseInput();
+      rebaseInput.base = changeIdOther.toString();
+      rebaseCallWithInput.call(changeId2.toString(), rebaseInput);
+
+      verifyRebaseForChange(
+          changeId2, commitThatIsBeingRebased, newBase, /* shouldHaveApproval= */ false, 2);
     }
 
     @Test

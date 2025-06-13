@@ -143,8 +143,6 @@ public interface RevisionApi {
 
   CommentApi comment(String id) throws RestApiException;
 
-  String etag() throws RestApiException;
-
   /** Returns patch of revision. */
   BinaryResult patch() throws RestApiException;
 

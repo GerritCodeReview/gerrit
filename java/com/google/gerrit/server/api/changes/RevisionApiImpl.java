@@ -55,7 +55,6 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
@@ -679,10 +678,5 @@ class RevisionApiImpl implements RevisionApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot get archive", e);
     }
-  }
-
-  @Override
-  public String etag() throws RestApiException {
-    throw new NotImplementedException();
   }
 }

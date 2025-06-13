@@ -105,6 +105,24 @@
       "parentUuid": "90973915_3c1181a5",
       "revId": "157766f260f804beeae37b22dfae70a054089a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd2f109_aee6dfeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-13T17:00:08Z",
+      "side": 1,
+      "message": "Ok, now it works with\n```\n    \"eslint.options\": {\n        \"overrideConfigFile\": \"/mypath/app/eslint-bazel.config.js\"\n    },\n```",
+      "parentUuid": "45c966f5_87461e70",
+      "revId": "157766f260f804beeae37b22dfae70a054089a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

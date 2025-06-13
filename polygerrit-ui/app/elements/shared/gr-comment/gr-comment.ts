@@ -1656,7 +1656,14 @@ export class GrComment extends LitElement {
 
   private handleToggleResolved() {
     this.unresolved = !this.unresolved;
-    if (!this.editing) {
+    if (this.editing) {
+      if (this.messageText.trimEnd() === '') {
+        this.messageText = this.unresolved
+          ? 'Marked as unresolved.'
+          : 'Marked as resolved.';
+        this.autoSaveTrigger$.next();
+      }
+    } else {
       // messageText is only assigned a value if the comment reaches editing
       // state, however it is possible that the user toggles the resolved state
       // without editing the comment in which case we assign the correct value

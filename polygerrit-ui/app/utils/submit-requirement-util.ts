@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {SubmitRequirementExpressionInfo} from '../api/rest-api';
-
+1
 export enum SubmitRequirementExpressionAtomStatus {
   UNKNOWN = 'UNKNOWN',
   PASSING = 'PASSING',

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "455d13f0_06f0859f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-15T21:16:09Z",
+      "side": 1,
+      "message": "On one of our servers setting no limit using this change reduced the duration of online reindexing (reusing existing documents enabled) 5 million changes from 3:46 hours to 35 minutes.",
+      "revId": "15444cbf46cb095aa1b2e8665a97ec7b1e2360c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

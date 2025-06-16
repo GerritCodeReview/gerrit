@@ -1473,7 +1473,7 @@ export class GrChangeActions
       return;
     switch (key) {
       case ChangeActions.REVERT:
-        this.showRevertDialog();
+        void this.showRevertDialog();
         break;
       case ChangeActions.ABANDON:
         assertIsDefined(this.confirmAbandonDialog, 'confirmAbandonDialog');

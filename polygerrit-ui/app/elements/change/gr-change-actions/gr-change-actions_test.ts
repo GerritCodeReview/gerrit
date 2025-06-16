@@ -2639,7 +2639,7 @@ suite('gr-change-actions tests', () => {
             confirmRevertDialog,
             'populate'
           );
-          element.showRevertDialog();
+          await element.showRevertDialog();
           await waitUntil(() => !!populateRevertDialogStub.called);
           assert.deepEqual(populateRevertDialogStub.lastCall.args[1], {
             validation_options: [{name: 'o1', description: 'option 1'}],

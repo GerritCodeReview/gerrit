@@ -529,6 +529,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       private Set<Change.Id> queryChangesInIndex(Project.NameKey project) {
         InternalChangeQuery query = queryProvider.get();
         query.setRequestedFields(ChangeField.CHANGE_ID_SPEC);
+        query.setNoLimit(true);
         return new HashSet<>(query.byProject(project).stream().map(ChangeData::getId).toList());
       }
     }

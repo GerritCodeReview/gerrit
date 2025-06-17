@@ -348,13 +348,11 @@ export class GrApplyFixDialog extends LitElement {
     }
     let res: FilePathToDiffInfoMap | undefined;
     try {
-      if (fixSuggestion.fix_id === PROVIDED_FIX_ID) {
-        res = await this.restApiService.getFixPreview(
-          this.changeNum,
-          this.patchNum,
-          fixSuggestion.replacements
-        );
-      }
+      res = await this.restApiService.getFixPreview(
+        this.changeNum,
+        this.patchNum,
+        fixSuggestion.replacements
+      );
       if (res) {
         this.currentPreviews = Object.keys(res).map(key => {
           return {filepath: key, preview: res![key]};

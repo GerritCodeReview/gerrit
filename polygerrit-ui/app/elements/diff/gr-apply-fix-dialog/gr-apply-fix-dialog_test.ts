@@ -116,7 +116,7 @@ suite('gr-apply-fix-dialog tests', () => {
       element,
       /* HTML */ `
         <dialog id="applyFixModal" tabindex="-1" open="">
-          <gr-dialog id="applyFixDialog" role="dialog">
+          <gr-dialog id="applyFixDialog" role="dialog" loading="">
             <div slot="header">Fix fix_1</div>
             <div slot="main"></div>
             <div class="fix-picker" slot="footer">

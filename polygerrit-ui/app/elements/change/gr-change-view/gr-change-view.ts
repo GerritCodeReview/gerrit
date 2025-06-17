@@ -1347,11 +1347,13 @@ export class GrChangeView extends LitElement {
         <md-tabs id="tabs" @change=${this.onMdTabsChange}>
           <md-secondary-tab
             @click=${this.onMdSecondaryTabClick}
+            @keydown=${this.onMdSecondaryTabKeydown}
             data-name=${Tab.FILES}
             ><span>Files</span></md-secondary-tab
           >
           <md-secondary-tab
             @click=${this.onMdSecondaryTabClick}
+            @keydown=${this.onMdSecondaryTabKeydown}
             data-name=${Tab.COMMENT_THREADS}
             class="commentThreads"
           >
@@ -1368,6 +1370,7 @@ export class GrChangeView extends LitElement {
               <md-secondary-tab
                 data-name=${Tab.CHECKS}
                 @click=${this.onMdSecondaryTabClick}
+                @keydown=${this.onMdSecondaryTabKeydown}
                 ><span>Checks</span></md-secondary-tab
               >
             `
@@ -1377,6 +1380,7 @@ export class GrChangeView extends LitElement {
               <md-secondary-tab
                 data-name=${tabHeader}
                 @click=${this.onMdSecondaryTabClick}
+                @keydown=${this.onMdSecondaryTabKeydown}
               >
                 <gr-endpoint-decorator name=${tabHeader}>
                   <gr-endpoint-param name="change" .value=${this.change}>
@@ -1599,6 +1603,18 @@ export class GrChangeView extends LitElement {
       tabName,
       src: 'md-secondary-tab-click',
     });
+  }
+
+  /**
+   * Handles keydown on the tab to emulate a click on Enter.
+   * This is needed for a11y since the underlying component does not do this.
+   */
+  private onMdSecondaryTabKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      (e.currentTarget as HTMLElement).click();
+    }
   }
 
   private handleEditingChanged(e: ValueChangedEvent<boolean>) {

@@ -799,8 +799,10 @@ export class GrChecksRuns extends LitElement {
     links: Link[] = [],
     summaryMessage: string | undefined = undefined
   ) {
+    const checksModel = this.getChecksModel();
+    checksModel.updateStateSetProvider(plugin, ChecksPatchset.LATEST);
     const newRuns = this.runs.includes(runs[0]) ? [] : runs;
-    this.getChecksModel().updateStateSetResults(
+    checksModel.updateStateSetResults(
       plugin,
       newRuns,
       actions,
@@ -903,7 +905,7 @@ export class GrChecksRuns extends LitElement {
         <gr-button link @click=${() => this.toggle('f3', [fakeRun3])}
           >3</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f4', fakeRun4Att)}}"
+        <gr-button link @click=${() => this.toggle('f4', fakeRun4Att)}
           >4</gr-button
         >
         <gr-button link @click=${() => this.toggle('f5', [fakeRun5])}

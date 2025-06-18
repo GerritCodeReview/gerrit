@@ -10,6 +10,7 @@ import {fixture, html} from '@open-wc/testing';
 // @ts-ignore
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrLabelScoreRow} from './gr-label-score-row';
+import {visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-label-score-row screenshot tests', () => {
   let element: GrLabelScoreRow;
@@ -49,6 +50,7 @@ suite('gr-label-score-row screenshot tests', () => {
     document.body.appendChild(container);
 
     await visualDiff(container, 'gr-label-score-row');
+    await visualDiffDarkTheme(container, 'gr-label-score-row');
 
     document.body.removeChild(container);
   });

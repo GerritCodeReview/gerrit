@@ -18,6 +18,14 @@ import {Route, ViewState} from '../models/views/base';
 import {PageContext} from '../elements/core/gr-router/gr-page';
 import {waitUntil} from '../utils/async-util';
 import {JSON_PREFIX} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {
+  applyTheme as applyDarkTheme,
+  removeTheme as removeDarkTheme,
+} from '../styles/themes/dark-theme';
+// Until https://github.com/modernweb-dev/web/issues/2804 is fixed
+// @ts-ignore
+import {visualDiff} from '@web/test-runner-visual-regression';
+import {LitElement} from 'lit';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 export {mockPromise, waitUntil} from '../utils/async-util';
 export type {MockPromise} from '../utils/async-util';
@@ -315,4 +323,15 @@ export function assertRouteFalse<T extends ViewState>(
 
 export function makePrefixedJSON(obj: any) {
   return JSON_PREFIX + JSON.stringify(obj);
+}
+
+export async function visualDiffDarkTheme(
+  element: LitElement | HTMLElement,
+  name: string
+) {
+  applyDarkTheme();
+  document.documentElement.classList.add('darkTheme');
+  await visualDiff(element, `${name}-dark`);
+  removeDarkTheme();
+  document.documentElement.classList.remove('darkTheme');
 }

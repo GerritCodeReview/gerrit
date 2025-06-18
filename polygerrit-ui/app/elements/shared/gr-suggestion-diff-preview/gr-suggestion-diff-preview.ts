@@ -170,6 +170,36 @@ export class GrSuggestionDiffPreview extends LitElement {
         .diff-container {
           border: 1px solid var(--border-color);
           border-top: none;
+          max-height: 70vh;
+          overflow-y: auto;
+        }
+        /*
+         * On some operating systems (e.g. macOS), scrollbars are hidden by
+         * default and only appear when scrolling. The following rules force
+         * the scrollbar to be visible when the content overflows.
+         *
+         * This is only enabled for devices with a mouse, because it would be
+         * obtrusive on touch devices.
+         */
+        @media (pointer: fine) {
+          .diff-container::-webkit-scrollbar,
+          .diff-container::-webkit-scrollbar-corner {
+            background: transparent;
+            height: 12px;
+            width: 12px;
+          }
+          .diff-container::-webkit-scrollbar-button {
+            height: 0;
+            width: 0;
+          }
+          .diff-container::-webkit-scrollbar-thumb {
+            background: content-box currentColor;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: var(--deemphasized-text-color);
+            min-height: 48px;
+            min-width: 48px;
+          }
         }
         code {
           max-width: var(--gr-formatted-text-prose-max-width, none);

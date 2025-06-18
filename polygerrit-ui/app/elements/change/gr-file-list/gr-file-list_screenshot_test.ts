@@ -15,6 +15,7 @@ import {PatchRange} from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../api/diff';
 import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import './gr-file-list';
+import {visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-file-list screenshot tests', () => {
   let element: GrFileList;
@@ -57,5 +58,6 @@ suite('gr-file-list screenshot tests', () => {
     await element.updateComplete;
 
     await visualDiff(element, 'gr-file-list');
+    await visualDiffDarkTheme(element, 'gr-file-list');
   });
 });

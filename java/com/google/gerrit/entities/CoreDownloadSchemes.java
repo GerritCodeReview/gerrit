@@ -21,6 +21,7 @@ public class CoreDownloadSchemes {
   public static final String HTTP = "http";
   public static final String SSH = "ssh";
   public static final String REPO = "repo";
+  public static final String DEPOT_TOOLS = "depot_tools";
 
   private CoreDownloadSchemes() {}
 }

@@ -19,6 +19,7 @@ import {
 } from '../../../test/test-data-generators';
 import {stubRestApi} from '../../../test/test-utils';
 import {EditableAccountField} from '../../../api/rest-api';
+import {visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-account-info screenshot tests', () => {
   let element: GrAccountInfo;
@@ -51,5 +52,6 @@ suite('gr-account-info screenshot tests', () => {
 
   test('screenshot', async () => {
     await visualDiff(element, 'gr-account-info');
+    await visualDiffDarkTheme(element, 'gr-account-info');
   });
 });

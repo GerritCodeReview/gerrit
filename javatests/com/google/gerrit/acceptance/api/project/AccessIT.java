@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -521,6 +522,34 @@ public class AccessIT extends AbstractDaemonTest {
     // Now it works again.
     requestScopeOperations.setApiUser(user.id());
     unused = pApi().branch("refs/heads/master").get();
+  }
+
+  @Test
+  public void adminCanCreateAccessChangeEvenIfReadAccessToRefsMetaConfigIsBlocked()
+      throws Exception {
+    projectOperations
+        .project(newProjectName)
+        .forUpdate()
+        .add(block(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    @SuppressWarnings("unused")
+    var unused = pApi().branch("refs/heads/master").get();
+
+    ProjectAccessInput accessInput = newProjectAccessInput();
+
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+
+    PermissionInfo read = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    read.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSection.permissions.put(Permission.READ, read);
+    accessInput.add.put(REFS_HEADS, accessSection);
+
+    // This shouldn't fail with AuthException saying "refs/meta/config not visible error".
+    pApi().accessChange(accessInput);
   }
 
   @Test

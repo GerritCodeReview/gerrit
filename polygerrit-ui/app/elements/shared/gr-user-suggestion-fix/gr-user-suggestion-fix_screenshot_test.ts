@@ -18,7 +18,7 @@ import {wrapInProvider} from '../../../models/di-provider-element';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {CommentModel} from '../gr-comment-model/gr-comment-model';
 import {getAppContext} from '../../../services/app-context';
-import {stubFlags} from '../../../test/test-utils';
+import {stubFlags, visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-user-suggestion-fix screenshot tests', () => {
   let element: GrUserSuggestionsFix;
@@ -84,5 +84,6 @@ suite('gr-user-suggestion-fix screenshot tests', () => {
       },
     };
     await visualDiff(element, 'gr-user-suggestion-fix');
+    await visualDiffDarkTheme(element, 'gr-user-suggestion-fix');
   });
 });

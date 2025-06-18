@@ -557,6 +557,7 @@ export class GrChangeSummary extends LitElement {
   private handleOpenAiPromptDialog() {
     assertIsDefined(this.aiPromptModal, 'aiPromptModal');
     this.aiPromptModal.showModal();
+    this.aiPromptDialog?.open();
   }
 
   private handleAiPromptDialogClose() {

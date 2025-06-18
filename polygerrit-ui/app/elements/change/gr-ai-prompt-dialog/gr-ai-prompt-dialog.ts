@@ -62,6 +62,8 @@ export class GrAiPromptDialog extends LitElement {
 
   @state() selectedTemplate: PromptTemplateId = 'HELP_REVIEW';
 
+  @state() private promptContent = '';
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -184,7 +186,7 @@ export class GrAiPromptDialog extends LitElement {
               </div>
             </div>
             <textarea
-              .value=${this.getPromptContent()}
+              .value=${this.promptContent}
               readonly
               placeholder="Patch content will appear here..."
             ></textarea>
@@ -224,9 +226,16 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('change') || changedProperties.has('patchNum')) {
-      this.loadPatchContent();
+    if (
+      changedProperties.has('patchContent') ||
+      changedProperties.has('selectedTemplate')
+    ) {
+      this.updatePromptContent();
     }
+  }
+
+  open() {
+    this.loadPatchContent();
   }
 
   private async loadPatchContent() {
@@ -244,17 +253,23 @@ export class GrAiPromptDialog extends LitElement {
     this.patchContent = content;
   }
 
-  private getPromptContent(): string {
-    if (!this.patchContent) return '';
+  private updatePromptContent() {
+    if (!this.patchContent) {
+      this.promptContent = '';
+      return;
+    }
     const template = PROMPT_TEMPLATES[this.selectedTemplate];
-    return template.prompt.replace('{{patch}}', this.patchContent);
+    this.promptContent = template.prompt.replace(
+      '{{patch}}',
+      this.patchContent
+    );
   }
 
   private async handleCopyPatch(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    if (!this.patchContent) return;
-    await copyToClipboard(this.getPromptContent(), 'AI Prompt');
+    if (!this.promptContent) return;
+    await copyToClipboard(this.promptContent, 'AI Prompt');
   }
 
   private handleCloseTap(e: Event) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a6699fe_599590ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-18T21:16:31Z",
+      "side": 1,
+      "message": "@brohlfs@google.com / @milutin@google.com i had to do some hacks for the cursor as there appears to be a bug. E.g. it works once but when i go to another page it looses it and won\u0027t work until a page refresh. I\u0027d love suggestions on how to get this to work better! I don\u0027t know how to do this better then the hack i made (i spent ages trying to figure out).\n\nPlease give it a test and i\u0027d love feedback (with suggestions on fixes)!\n\nAlso this makes it so on mobile gr-dropdown-list uses md-menu-item on mobile and no longer gr-select. I\u0027ve tested it in the iOS simulator and works!",
+      "revId": "84b9ad12f3282012b62ff50cfe19c94722ef117f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

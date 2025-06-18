@@ -468,7 +468,8 @@ public class ProjectControl {
         case RUN_RECEIVE_PACK -> canRunReceivePack();
         case RUN_UPLOAD_PACK -> canRunUploadPack();
         case PUSH_AT_LEAST_ONE_REF -> canPushToAtLeastOneRef();
-        case READ_CONFIG -> controlForRef(RefNames.REFS_CONFIG).hasReadPermissionOnRef(false);
+        case READ_CONFIG ->
+            isOwner() || controlForRef(RefNames.REFS_CONFIG).hasReadPermissionOnRef(false);
         case BAN_COMMIT, READ_REFLOG, WRITE_CONFIG -> isOwner();
         case UPDATE_CONFIG_WITHOUT_CREATING_CHANGE -> canUpdateConfigWithoutCreatingChange();
       };

@@ -48,6 +48,7 @@ public interface ProjectApi {
   @CanIgnoreReturnValue
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
 
+  @CanIgnoreReturnValue
   ChangeInfo accessChange(ProjectAccessInput p) throws RestApiException;
 
   AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException;

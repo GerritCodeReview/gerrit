@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure if this change is why pressing on links under my \"your\" is causing it to be open in a separate tab.",
       "revId": "d7f39db658076c2d9cf80a0870552d9189b9955b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0990def9_25ecb348",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-19T14:15:07Z",
+      "side": 1,
+      "message": "Yeh this change broke it i think. I see under my test install that .target isn\u0027t in the rest api... but if i add stuff to \"my\" then i see \"target\". Is this able to be fixed because it\u0027s annoying everytime i click on Your -\u003e Changes, it opens a seperate tab.",
+      "parentUuid": "04aef390_e69c5264",
+      "revId": "d7f39db658076c2d9cf80a0870552d9189b9955b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -21,6 +21,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
 import {CheckRun} from '../../../models/checks/checks-model';
+import {visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-change-summary screenshot tests', () => {
   let element: GrChangeSummary;
@@ -75,5 +76,6 @@ suite('gr-change-summary screenshot tests', () => {
 
   test('screenshot with chips', async () => {
     await visualDiff(element, 'gr-change-summary-with-chips');
+    await visualDiffDarkTheme(element, 'gr-change-summary-with-chips');
   });
 });

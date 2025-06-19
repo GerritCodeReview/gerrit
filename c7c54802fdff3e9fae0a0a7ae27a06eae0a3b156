@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3acdac8b_46ae146a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-19T22:34:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this include loadingSpin so that the spinner is to the left and not ontop? Previous behaviour was the spinner would be to the right (e.g. submitting)",
+      "revId": "c7c54802fdff3e9fae0a0a7ae27a06eae0a3b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

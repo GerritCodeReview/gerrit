@@ -70,6 +70,24 @@
       "parentUuid": "ff3eba07_4fb88b02",
       "revId": "d7f39db658076c2d9cf80a0870552d9189b9955b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a7eccea_4cecbdfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-20T09:17:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.git.corp.google.com/c/gerrit/+/484363",
+      "parentUuid": "56779d54_caa854ad",
+      "revId": "d7f39db658076c2d9cf80a0870552d9189b9955b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

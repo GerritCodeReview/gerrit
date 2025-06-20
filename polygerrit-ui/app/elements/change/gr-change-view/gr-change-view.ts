@@ -969,7 +969,6 @@ export class GrChangeView extends LitElement {
         md-tabs {
           background-color: var(--background-color-tertiary);
           margin-top: var(--spacing-m);
-          height: calc(var(--line-height-h3) + var(--spacing-m));
         }
         md-secondary-tab {
           height: 100%;

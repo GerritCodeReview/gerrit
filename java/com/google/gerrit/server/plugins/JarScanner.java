@@ -193,7 +193,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
     Collection<String> exports;
 
     private ClassData(Collection<String> exports) {
-      super(Opcodes.ASM7);
+      super(Opcodes.ASM9);
       this.exports = exports;
     }
 
@@ -262,7 +262,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
 
   private abstract static class AbstractAnnotationVisitor extends AnnotationVisitor {
     AbstractAnnotationVisitor() {
-      super(Opcodes.ASM7);
+      super(Opcodes.ASM9);
     }
 
     @Override

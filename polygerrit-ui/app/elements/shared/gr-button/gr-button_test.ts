@@ -41,7 +41,10 @@ suite('gr-button tests', () => {
           tabindex="-1"
           touch-target="none"
           value=""
-          ><slot></slot>
+        >
+          <div class="flex">
+            <slot></slot>
+          </div>
         </md-elevated-button>
       `
     );

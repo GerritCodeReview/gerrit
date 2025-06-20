@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7914d9b8_b75d1c7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-20T07:18:08Z",
+      "side": 1,
+      "message": "Please add the following footers to make the Forward-Compatibility and Release-Notes submit requirements pass:\n\n```\nForward-Compatibility: ok\nRelease-Notes: Added \u0027depot_tools\u0027 to the list of download schemes\n```",
+      "revId": "4a00f2c767f0d65a5c9a2dfaf20038a39b5426d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

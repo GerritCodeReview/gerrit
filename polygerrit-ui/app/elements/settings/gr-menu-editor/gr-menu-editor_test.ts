@@ -46,7 +46,7 @@ suite('gr-menu-editor tests', () => {
     );
     menu = [
       {url: '/first/url', name: 'first name', target: '_blank'},
-      {url: '/second/url', name: 'second name', target: '_blank'},
+      {url: '/second/url', name: 'second name'},
       {url: '/third/url', name: 'third name', target: '_blank'},
     ];
     element.originalPrefs = {...createDefaultPreferences(), my: menu};
@@ -66,12 +66,19 @@ suite('gr-menu-editor tests', () => {
                 <tr>
                   <th>Name</th>
                   <th>URL</th>
+                  <th>New Tab</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>first name</td>
                   <td class="urlCell">/first/url</td>
+                  <td>
+                    <input type="checkbox" disabled checked />
+                  </td>
                   <td class="buttonColumn">
                     <gr-button
                       aria-disabled="false"
@@ -112,6 +119,9 @@ suite('gr-menu-editor tests', () => {
                 <tr>
                   <td>second name</td>
                   <td class="urlCell">/second/url</td>
+                  <td>
+                    <input type="checkbox" disabled />
+                  </td>
                   <td class="buttonColumn">
                     <gr-button
                       aria-disabled="false"
@@ -152,6 +162,9 @@ suite('gr-menu-editor tests', () => {
                 <tr>
                   <td>third name</td>
                   <td class="urlCell">/third/url</td>
+                  <td>
+                    <input type="checkbox" disabled checked />
+                  </td>
                   <td class="buttonColumn">
                     <gr-button
                       aria-disabled="false"
@@ -201,6 +214,9 @@ suite('gr-menu-editor tests', () => {
                     <iron-input>
                       <input class="newUrlInput" placeholder="New URL" />
                     </iron-input>
+                  </th>
+                  <th>
+                    <input type="checkbox" />
                   </th>
                   <th></th>
                   <th></th>

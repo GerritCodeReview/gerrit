@@ -34,6 +34,24 @@
       "parentUuid": "04aef390_e69c5264",
       "revId": "d7f39db658076c2d9cf80a0870552d9189b9955b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff3eba07_4fb88b02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-20T08:53:38Z",
+      "side": 1,
+      "message": "\u003cgr-menu-editor\u003e explicitly saves all user configured menu entries with `target: \u0027_blank\u0027`, so it seems odd to simply ignore that. I think the best course of action would be to change \u003cgr-menu-editor\u003e and simply add a column \"New Tab\" that has a checkbox. Then every user can configure this to their liking. WDYT?",
+      "parentUuid": "0990def9_25ecb348",
+      "revId": "d7f39db658076c2d9cf80a0870552d9189b9955b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

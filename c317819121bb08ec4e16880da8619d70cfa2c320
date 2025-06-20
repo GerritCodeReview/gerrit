@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d1ec9e_3331e00e",
+        "filename": "java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-20T11:08:55Z",
+      "side": 1,
+      "message": "Don\u0027t we require ASM9 since the minimum Java version is now 21 which is supported since ASM 9.5 ? See [ASM release notes](https://asm.ow2.io/versions.html).\n\nCurrently gerrit master uses ASM 9.7 which supports up to Java 23.\nLatest ASM version is 9.8 supporting up to Java 25.",
+      "revId": "c317819121bb08ec4e16880da8619d70cfa2c320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

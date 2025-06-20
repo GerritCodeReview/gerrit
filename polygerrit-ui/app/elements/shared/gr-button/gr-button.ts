@@ -196,6 +196,7 @@ export class GrButton extends LitElement {
         }
         .flex {
           display: flex;
+          align-items: center;
         }
       `,
     ];
@@ -216,9 +217,11 @@ export class GrButton extends LitElement {
           role="button"
           tabindex="-1"
         >
-          ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
-          <slot></slot>
-          ${this.renderArrowIcon()}
+          <div class="flex">
+            ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
+            <slot></slot>
+            ${this.renderArrowIcon()}
+          </div>
         </md-elevated-button>
       `;
     }
@@ -232,8 +235,8 @@ export class GrButton extends LitElement {
         role="button"
         tabindex="-1"
       >
-        ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
         <div class="flex">
+          ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
           <slot></slot>
           ${this.renderArrowIcon()}
         </div>

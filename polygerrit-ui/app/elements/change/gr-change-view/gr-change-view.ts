@@ -969,14 +969,15 @@ export class GrChangeView extends LitElement {
         md-tabs {
           background-color: var(--background-color-tertiary);
           margin-top: var(--spacing-m);
-          height: calc(var(--line-height-h3) + var(--spacing-m));
         }
         md-secondary-tab {
-          height: 100%;
           display: inline-flex;
           box-sizing: border-box;
           max-width: 12em;
           min-width: 12em;
+          --md-secondary-tab-container-height: calc(
+            var(--line-height-h3) + var(--spacing-m)
+          );
         }
         gr-thread-list,
         gr-messages-list {

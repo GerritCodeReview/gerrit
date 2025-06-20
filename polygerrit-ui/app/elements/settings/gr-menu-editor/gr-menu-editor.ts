@@ -34,6 +34,9 @@ export class GrMenuEditor extends LitElement {
   @state()
   newUrl = '';
 
+  @state()
+  newTarget = false;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
@@ -72,6 +75,9 @@ export class GrMenuEditor extends LitElement {
         .newUrlInput {
           min-width: 23em;
         }
+        th {
+          white-space: nowrap;
+        }
       `,
     ];
   }
@@ -91,6 +97,10 @@ export class GrMenuEditor extends LitElement {
               <tr>
                 <th>Name</th>
                 <th>URL</th>
+                <th>New Tab</th>
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -118,6 +128,13 @@ export class GrMenuEditor extends LitElement {
       <tr>
         <td>${item.name}</td>
         <td class="urlCell">${item.url}</td>
+        <td>
+          <input
+            type="checkbox"
+            disabled
+            ?checked=${item.target === '_blank'}
+          />
+        </td>
         <td class="buttonColumn">
           <gr-button
             link
@@ -183,6 +200,13 @@ export class GrMenuEditor extends LitElement {
             />
           </iron-input>
         </th>
+        <th>
+          <input
+            type="checkbox"
+            @change=${() => (this.newTarget = !this.newTarget)}
+            ?checked=${this.newTarget}
+          />
+        </th>
         <th></th>
         <th></th>
         <th>
@@ -226,7 +250,7 @@ export class GrMenuEditor extends LitElement {
     this.menuItems.push({
       name: this.newName,
       url: this.newUrl,
-      target: '_blank',
+      target: this.newTarget ? '_blank' : '',
     });
     this.newName = '';
     this.newUrl = '';

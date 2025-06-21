@@ -329,17 +329,18 @@ export class GrMainHeader extends LitElement {
         .mobileRightItems {
           align-items: center;
           justify-content: flex-end;
-
-          display: inline-block;
+          display: inline-flex;
           vertical-align: middle;
-          cursor: pointer;
           position: relative;
           top: 0px;
           right: 0px;
           margin-right: 0;
           margin-left: auto;
           min-height: 50px;
-          padding-top: 12px;
+        }
+
+        .mobileRightItems .searchButton {
+          cursor: pointer;
         }
 
         .rightItems gr-endpoint-decorator:not(:empty),

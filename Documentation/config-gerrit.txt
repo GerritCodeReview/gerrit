@@ -890,6 +890,7 @@ amount of RAM (in bytes) the administrator can dedicate to the cache.
 Default is 1024 for most caches, except:
 +
 * `"adv_bases"`: default is `4096`
+* `"change_notes"`: default is `10m` (10 MiB of memory)
 * `"git_modified_files"`: default is `10m` (10 MiB of memory)
 * `"modified_files"`: default is `10m` (10 MiB of memory)
 * `"git_file_diff"`: default is `10m` (10 MiB of memory)
@@ -996,6 +997,22 @@ cache `"default_preferences"`::
 Caches the server's default general, edit and diff preferences.
 +
 Default value is 1 to hold only the most current version in-memory.
+
+cache `"change_notes"`::
++
+Each item caches the parsed ChangeNotes for a single change with an immutable
+key (using the SHA-1 of the change meta ref the notes were parsed from). The
+sizing is an estimate in bytes of each ChangeNotes object, which varies based
+on the contents of the change (# of patch sets, # of reviewers, # of comments,
+etc).
++
+The `memoryLimit` of this cache should be set large enough to at least fit all
+changes being accessed (via web UI, SSH/REST APIs, and git) concurrently. That
+will help ensure there are no scenarios where a cache entry is loaded and then
+evicted before a single request is completed.
++
+The disk cache is disabled by default, but it can be enabled to help with cases
+where other recently loaded entries are accessed again.
 
 cache `"changes"`::
 +

@@ -151,7 +151,9 @@ public class ChangeOperationsImpl implements ChangeOperations {
         inserter.setApprovals(changeCreation.approvals());
         inserter.setValidationOptions(changeCreation.validationOptions());
 
-        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
+        try (BatchUpdate batchUpdate =
+            batchUpdateFactory.create(
+                project, changeOwner, changeCreation.createdOn().orElse(now))) {
           batchUpdate.setRepository(repository, revWalk, objectInserter);
           batchUpdate.insertChange(inserter);
           batchUpdate.execute();

@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.edit.tree.TreeModification;
+import java.time.Instant;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -41,6 +42,8 @@ public abstract class TestChangeCreation {
   public abstract Optional<Project.NameKey> project();
 
   public abstract String branch();
+
+  public abstract Optional<Instant> createdOn();
 
   public abstract Optional<Account.Id> owner();
 
@@ -92,6 +95,9 @@ public abstract class TestChangeCreation {
      * Target branch of the change. Neither needs to exist nor needs to point to an actual commit.
      */
     public abstract Builder branch(String branch);
+
+    /** Creation timestamp of the change. */
+    public abstract Builder createdOn(Instant createdOn);
 
     /**
      * The change owner.

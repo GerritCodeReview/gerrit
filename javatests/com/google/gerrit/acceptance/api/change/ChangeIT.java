@@ -200,6 +200,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -263,11 +264,13 @@ public class ChangeIT extends AbstractDaemonTest {
       name = "experiments.enabled",
       value = "GerritBackendFeature__return_new_change_info_id")
   public void get() throws Exception {
+    Instant creationTimestamp = Instant.now();
     Change.Id changeId =
         changeOperations
             .newChange()
             .project(project)
             .branch("master")
+            .createdOn(creationTimestamp)
             .owner(admin.id())
             .commitMessage(
                 "test commit\n\n"
@@ -285,9 +288,13 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(c.mergeable).isNull();
     assertThat(c.changeId).isEqualTo("I0123456789012345678901234567890123456789");
-    assertThat(c.created).isEqualTo(c.updated);
     assertThat(c._number).isEqualTo(changeId.get());
     assertThat(c.currentRevisionNumber).isEqualTo(1);
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(c.created)
+        .isEqualTo(Timestamp.from(creationTimestamp.truncatedTo(ChronoUnit.SECONDS)));
+    assertThat(c.created).isEqualTo(c.updated);
 
     assertThat(c.owner._accountId).isEqualTo(admin.id().get());
     assertThat(c.owner.name).isNull();

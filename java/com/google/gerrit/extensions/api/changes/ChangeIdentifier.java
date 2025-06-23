@@ -31,7 +31,7 @@ public abstract class ChangeIdentifier {
   public abstract String id();
 
   @Override
-  public String toString() {
+  public final String toString() {
     return id();
   }
 

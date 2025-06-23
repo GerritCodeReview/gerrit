@@ -38,6 +38,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -984,6 +985,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     BinaryResult fileContent2 =
         gApi.changes().id(changeId.get()).current().file("path/to/file2.txt").content();
     assertThat(fileContent2).asString().isEqualTo("Line one");
+  }
+
+  @Test
+  public void createV2() {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    TestChange change = changeOperations.change(changeIdentifier).get();
+    assertThat(changeIdentifier.id())
+        .startsWith(change.project().get() + "~" + change.numericChangeId());
   }
 
   @Test

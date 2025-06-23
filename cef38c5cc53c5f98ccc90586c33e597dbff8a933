@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c57d60c_a3cb8a2b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-23T11:00:16Z",
+      "side": 1,
+      "message": "I found a better fix although still not great.",
+      "parentUuid": "cd70ba67_4c4fa1f8",
+      "range": {
+        "startLine": 602,
+        "startChar": 11,
+        "endLine": 618,
+        "endChar": 16
+      },
+      "revId": "cef38c5cc53c5f98ccc90586c33e597dbff8a933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbb4b09b_412d5024",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "We can’t do download on it I think? We have to do a workaround. Since it won’t pass it down to \u003ca\u003e as it’s not a property on this element. Let me know if there’s a better alternative way. I dislike having to use the click hack but it works.",
       "parentUuid": "dbb4b09b_412d5024",
+      "range": {
+        "startLine": 1048,
+        "startChar": 2,
+        "endLine": 1072,
+        "endChar": 5
+      },
+      "revId": "cef38c5cc53c5f98ccc90586c33e597dbff8a933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a6ff25_cd5bd88d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-23T11:00:16Z",
+      "side": 1,
+      "message": "I found a better fix although still not great.",
+      "parentUuid": "fa25bb5b_9fbed9e9",
       "range": {
         "startLine": 1048,
         "startChar": 2,

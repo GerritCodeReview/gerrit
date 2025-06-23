@@ -115,6 +115,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -238,7 +239,6 @@ import org.junit.Test;
 @UseTimezone(timezone = "US/Eastern")
 @VerifyNoPiiInChangeNotes(true)
 public class ChangeIT extends AbstractDaemonTest {
-
   @Inject private AccountOperations accountOperations;
   @Inject private ChangeIndexCollection changeIndexCollection;
   @Inject private GroupOperations groupOperations;
@@ -264,105 +264,114 @@ public class ChangeIT extends AbstractDaemonTest {
   public void get() throws Exception {
     TestChange change = changeOperations.newChange().createAndGet();
 
-    ChangeInfo c = gApi.changes().id(change.id()).info();
+    ChangeInfo changeInfo = gApi.changes().id(change.id()).info();
 
-    assertThat(c.id).isEqualTo(change.project() + "~" + change.numericChangeId());
-    assertThat(c.project).isEqualTo(change.project().get());
-    assertThat(c.branch).isEqualTo(change.dest().shortName());
-    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(c.subject).isEqualTo(change.subject());
-    assertThat(c.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
-    assertThat(c.mergeable).isNull();
-    assertThat(c.changeId).isEqualTo(change.changeId());
-    assertThat(c._number).isEqualTo(change.numericChangeId().get());
-    assertThat(c.currentRevisionNumber)
+    assertThat(changeInfo.id).isEqualTo(change.project() + "~" + change.numericChangeId());
+    assertThat(changeInfo.project).isEqualTo(change.project().get());
+    assertThat(changeInfo.branch).isEqualTo(change.dest().shortName());
+    assertThat(changeInfo.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(changeInfo.subject).isEqualTo(change.subject());
+    assertThat(changeInfo.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(changeInfo.mergeable).isNull();
+    assertThat(changeInfo.changeId).isEqualTo(change.changeId());
+    assertThat(changeInfo._number).isEqualTo(change.numericChangeId().get());
+    assertThat(changeInfo.currentRevisionNumber)
         .isEqualTo(changeOperations.change(change.id()).currentPatchset().get().patchsetId().get());
 
     // With NoteDb timestamps are rounded to seconds.
-    assertThat(c.created)
+    assertThat(changeInfo.created)
         .isEqualTo(Timestamp.from(change.createdOn().truncatedTo(ChronoUnit.SECONDS)));
-    assertThat(c.created).isEqualTo(c.updated);
+    assertThat(changeInfo.created).isEqualTo(changeInfo.updated);
 
-    assertThat(c.owner._accountId).isEqualTo(change.owner().get());
-    assertThat(c.owner.name).isNull();
-    assertThat(c.owner.email).isNull();
-    assertThat(c.owner.username).isNull();
-    assertThat(c.owner.avatars).isNull();
-    assertThat(c.submissionId).isNull();
+    assertThat(changeInfo.owner._accountId).isEqualTo(change.owner().get());
+    assertThat(changeInfo.owner.name).isNull();
+    assertThat(changeInfo.owner.email).isNull();
+    assertThat(changeInfo.owner.username).isNull();
+    assertThat(changeInfo.owner.avatars).isNull();
+    assertThat(changeInfo.submissionId).isNull();
   }
 
   @Test
   public void cannotGetInvisibleChange() throws Exception {
-    PushOneCommit.Result r = createChange();
+    TestChange change = changeOperations.newChange().createAndGet();
 
     // Remove read access
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
         .add(block(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
 
     requestScopeOperations.setApiUser(user.id());
     ResourceNotFoundException thrown =
-        assertThrows(
-            ResourceNotFoundException.class,
-            () -> gApi.changes().id(project.get(), r.getChange().getId().get()).get());
+        assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(change.id()).get());
     assertThat(thrown)
         .hasMessageThat()
-        .isEqualTo(String.format("Not found: %s~%d", project.get(), r.getChange().getId().get()));
+        .isEqualTo(
+            String.format(
+                "Not found: %s~%d", change.project().get(), change.numericChangeId().get()));
   }
 
   @Test
   public void adminCanGetChangeWithoutExplicitReadPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
+    TestChange change = changeOperations.newChange().createAndGet();
 
     // Remove read access
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
         .add(block(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
 
     requestScopeOperations.setApiUser(admin.id());
-    ChangeInfo changeInfo = gApi.changes().id(project.get(), r.getChange().getId().get()).get();
+    ChangeInfo changeInfo = gApi.changes().id(change.id()).get();
     assertThat(changeInfo.id)
-        .isEqualTo(String.format("%s~%d", project.get(), r.getChange().getId().get()));
+        .isEqualTo(String.format("%s~%d", change.project().get(), change.numericChangeId().get()));
   }
 
   @Test
   public void diffStatShouldComputeInsertionsAndDeletions() throws Exception {
-    String fileName = "a_new_file.txt";
-    String fileContent = "First line\nSecond line\n";
-    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    String triplet = project.get() + "~master~" + result.getChangeId();
-    ChangeInfo change = gApi.changes().id(triplet).get();
-    assertThat(change.insertions).isNotNull();
-    assertThat(change.deletions).isNotNull();
+    ChangeIdentifier changeIdentifier =
+        changeOperations
+            .newChange()
+            .file("a_new_file.txt")
+            .content("First line\nSecond line\n")
+            .createV2();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+    assertThat(changeInfo.insertions).isEqualTo(2);
+    assertThat(changeInfo.deletions).isEqualTo(0);
   }
 
   @Test
   public void diffStatShouldSkipInsertionsAndDeletions() throws Exception {
-    String fileName = "a_new_file.txt";
-    String fileContent = "First line\nSecond line\n";
-    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    String triplet = project.get() + "~master~" + result.getChangeId();
-    ChangeInfo change =
-        gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
-    assertThat(change.insertions).isNull();
-    assertThat(change.deletions).isNull();
+    ChangeIdentifier changeIdentifier =
+        changeOperations
+            .newChange()
+            .file("a_new_file.txt")
+            .content("First line\nSecond line\n")
+            .createV2();
+    ChangeInfo changeInfo =
+        gApi.changes().id(changeIdentifier).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+    assertThat(changeInfo.insertions).isNull();
+    assertThat(changeInfo.deletions).isNull();
   }
 
   @Test
   public void skipDiffstatOptionAvoidsAllDiffComputations() throws Exception {
-    String fileName = "a_new_file.txt";
-    String fileContent = "First line\nSecond line\n";
-    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
-    String triplet = project.get() + "~master~" + result.getChangeId();
+    ChangeIdentifier changeIdentifier =
+        changeOperations
+            .newChange()
+            .file("a_new_file.txt")
+            .content("First line\nSecond line\n")
+            .createV2();
+
     CacheStats startIntra = cloneStats(intraCache.stats());
     CacheStats startSummary = cloneStats(diffSummaryCache.stats());
 
     @SuppressWarnings("unused")
-    var unused = gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+    var unused =
+        gApi.changes().id(changeIdentifier).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
 
     assertThat(intraCache.stats()).since(startIntra).hasMissCount(0);
     assertThat(intraCache.stats()).since(startIntra).hasHitCount(0);
@@ -373,57 +382,57 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "NEVER")
   public void excludeMergeableInChangeInfo() throws Exception {
-    PushOneCommit.Result r = createChange();
-    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+
+    ChangeInfo c = gApi.changes().id(changeIdentifier).get();
     assertThat(c.mergeable).isNull();
   }
 
   @Test
   public void getSubmissionId() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
 
-    merge(changeResult);
-    assertThat(gApi.changes().id(changeId).get().submissionId).isNotNull();
+    assertThat(gApi.changes().id(changeIdentifier).get().submissionId).isNull();
+
+    gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
+    gApi.changes().id(changeIdentifier).current().submit();
+
+    assertThat(gApi.changes().id(changeIdentifier).get().submissionId).isNotNull();
   }
 
   @Test
   public void setWorkInProgressNotAllowedWithoutPermission() throws Exception {
-    PushOneCommit.Result rwip = createChange();
-    String changeId = rwip.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
-        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).setWorkInProgress());
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(changeIdentifier).setWorkInProgress());
     assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
   public void setWorkInProgressAllowedAsAdmin() throws Exception {
-    requestScopeOperations.setApiUser(user.id());
-    String changeId =
-        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(changeId).setWorkInProgress();
-    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
+    assertThat(gApi.changes().id(changeIdentifier).get().workInProgress).isTrue();
   }
 
   @Test
   public void setWorkInProgressAllowedAsProjectOwner() throws Exception {
-    requestScopeOperations.setApiUser(user.id());
-    String changeId =
-        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+    TestChange change = changeOperations.newChange().owner(user.id()).createAndGet();
 
     com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
         .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
         .update();
     requestScopeOperations.setApiUser(user2.id());
-    gApi.changes().id(changeId).setWorkInProgress();
-    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+    gApi.changes().id(change.id()).setWorkInProgress();
+    assertThat(gApi.changes().id(change.id()).get().workInProgress).isTrue();
   }
 
   @Test
@@ -438,54 +447,52 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
-    PushOneCommit.Result rready = createChange();
-    String changeId = rready.getChangeId();
-    gApi.changes().id(changeId).setWorkInProgress();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
-        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).setReadyForReview());
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(changeIdentifier).setReadyForReview());
     assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
   public void setReadyForReviewAllowedAsAdmin() throws Exception {
-    requestScopeOperations.setApiUser(user.id());
-    String changeId =
-        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
-    gApi.changes().id(changeId).setWorkInProgress();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(changeId).setReadyForReview();
-    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+    gApi.changes().id(changeIdentifier).setReadyForReview();
+    assertThat(gApi.changes().id(changeIdentifier).get().workInProgress).isNull();
   }
 
   @Test
   public void setReadyForReviewAllowedAsProjectOwner() throws Exception {
-    requestScopeOperations.setApiUser(user.id());
-    String changeId =
-        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
-    gApi.changes().id(changeId).setWorkInProgress();
+    TestChange change = changeOperations.newChange().owner(user.id()).createAndGet();
 
-    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(change.id()).setWorkInProgress();
+
+    TestAccount user2 = accountCreator.user2();
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
         .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
         .update();
     requestScopeOperations.setApiUser(user2.id());
-    gApi.changes().id(changeId).setReadyForReview();
-    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+    gApi.changes().id(change.id()).setReadyForReview();
+    assertThat(gApi.changes().id(change.id()).get().workInProgress).isNull();
   }
 
   @Test
   public void setReadyForReviewSendsNotificationsForRevertChange() throws Exception {
-    PushOneCommit.Result r = createChange();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
+    gApi.changes().id(changeIdentifier).current().submit();
     RevertInput in = new RevertInput();
     in.workInProgress = true;
-    String changeId = gApi.changes().id(r.getChangeId()).revert(in).get().changeId;
+    String changeId = gApi.changes().id(changeIdentifier).revert(in).get().changeId;
     requestScopeOperations.setApiUser(admin.id());
 
     gApi.changes().id(changeId).setReadyForReview();
@@ -497,7 +504,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // 3. Change has been successfully merged by Administrator
     // 4. Patch Set 1: Reverted
     List<ChangeMessageInfo> sourceMessages =
-        new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
+        new ArrayList<>(gApi.changes().id(changeIdentifier).get().messages);
     assertThat(sourceMessages).hasSize(4);
     String expectedMessage = String.format("Created a revert of this change as %s", changeId);
     assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
@@ -521,9 +528,9 @@ public class ChangeIT extends AbstractDaemonTest {
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
 
-    PushOneCommit.Result r = createWorkInProgressChange();
-    String changeId = r.getChangeId();
-    assertThat(gApi.changes().id(changeId).get().pendingReviewers).isEmpty();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
+    assertThat(gApi.changes().id(changeIdentifier).get().pendingReviewers).isEmpty();
 
     // Add some pending reviewers.
     String email1 = name("user1") + "@example.com";
@@ -564,10 +571,10 @@ public class ChangeIT extends AbstractDaemonTest {
             .reviewer("byemail2@example.com")
             .reviewer("byemail3@example.com", CC, false)
             .reviewer("byemail4@example.com", CC, false);
-    ReviewResult result = gApi.changes().id(changeId).current().review(in);
+    ReviewResult result = gApi.changes().id(changeIdentifier).current().review(in);
     assertThat(result.changeInfo).isNotNull();
     assertThat(result.reviewers).isNotEmpty();
-    ChangeInfo info = gApi.changes().id(changeId).get();
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     Function<Collection<AccountInfo>, Collection<String>> toEmails =
         ais -> ais.stream().map(ai -> ai.email).collect(toSet());
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
@@ -577,11 +584,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.pendingReviewers.get(REMOVED)).isNull();
 
     // Stage some pending reviewer removals.
-    gApi.changes().id(changeId).reviewer(email1).remove();
-    gApi.changes().id(changeId).reviewer(email3).remove();
-    gApi.changes().id(changeId).reviewer("byemail1@example.com").remove();
-    gApi.changes().id(changeId).reviewer("byemail3@example.com").remove();
-    info = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeIdentifier).reviewer(email1).remove();
+    gApi.changes().id(changeIdentifier).reviewer(email3).remove();
+    gApi.changes().id(changeIdentifier).reviewer("byemail1@example.com").remove();
+    gApi.changes().id(changeIdentifier).reviewer("byemail3@example.com").remove();
+    info = gApi.changes().id(changeIdentifier).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
         .containsExactly(email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
@@ -591,8 +598,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // "Undo" a removal.
     in = ReviewInput.noScore().reviewer(email1);
-    gApi.changes().id(changeId).current().review(in);
-    info = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeIdentifier).current().review(in);
+    info = gApi.changes().id(changeIdentifier).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
         .containsExactly(email1, email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
@@ -601,8 +608,8 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(email3, "byemail1@example.com", "byemail3@example.com");
 
     // "Commit" by moving out of WIP.
-    gApi.changes().id(changeId).setReadyForReview();
-    info = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeIdentifier).setReadyForReview();
+    info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.pendingReviewers).isEmpty();
     assertThat(toEmails.apply(info.reviewers.get(REVIEWER)))
         .containsExactly(email1, email2, "byemail2@example.com");
@@ -613,37 +620,36 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void toggleWorkInProgressState() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
 
     // With message
-    gApi.changes().id(changeId).setWorkInProgress("Needs some refactoring");
+    gApi.changes().id(changeIdentifier).setWorkInProgress("Needs some refactoring");
 
-    ChangeInfo info = gApi.changes().id(changeId).get();
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
 
     assertThat(info.workInProgress).isTrue();
     assertThat(Iterables.getLast(info.messages).message).contains("Needs some refactoring");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
 
-    gApi.changes().id(changeId).setReadyForReview("PTAL");
+    gApi.changes().id(changeIdentifier).setReadyForReview("PTAL");
 
-    info = gApi.changes().id(changeId).get();
+    info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isNull();
     assertThat(Iterables.getLast(info.messages).message).contains("PTAL");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
 
     // No message
-    gApi.changes().id(changeId).setWorkInProgress();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
 
-    info = gApi.changes().id(changeId).get();
+    info = gApi.changes().id(changeIdentifier).get();
 
     assertThat(info.workInProgress).isTrue();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set Work In Progress");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
 
-    gApi.changes().id(changeId).setReadyForReview();
+    gApi.changes().id(changeIdentifier).setReadyForReview();
 
-    info = gApi.changes().id(changeId).get();
+    info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isNull();
     assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set Ready For Review");
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
@@ -651,13 +657,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void toggleWorkInProgressStateByNonOwnerWithPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
+    TestChange change = changeOperations.newChange().createAndGet();
     String refactor = "Needs some refactoring";
     String ptal = "PTAL";
 
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
         .add(
             allow(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
@@ -666,17 +671,17 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId).setWorkInProgress(refactor);
+    gApi.changes().id(change.id()).setWorkInProgress(refactor);
 
-    ChangeInfo info = gApi.changes().id(changeId).get();
+    ChangeInfo info = gApi.changes().id(change.id()).get();
 
     assertThat(info.workInProgress).isTrue();
     assertThat(Iterables.getLast(info.messages).message).contains(refactor);
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_WIP);
 
-    gApi.changes().id(changeId).setReadyForReview(ptal);
+    gApi.changes().id(change.id()).setReadyForReview(ptal);
 
-    info = gApi.changes().id(changeId).get();
+    info = gApi.changes().id(change.id()).get();
     assertThat(info.workInProgress).isNull();
     assertThat(Iterables.getLast(info.messages).message).contains(ptal);
     assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_READY);
@@ -684,44 +689,41 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndStartReview() throws Exception {
-    PushOneCommit.Result r = createWorkInProgressChange();
-    r.assertOkStatus();
-    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(false);
-    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
+    ReviewResult result = gApi.changes().id(changeIdentifier).current().review(in);
     assertThat(result.ready).isTrue();
 
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isNull();
   }
 
   @Test
   public void reviewAndMoveToWorkInProgress() throws Exception {
-    PushOneCommit.Result r = createChange();
-    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
+    ReviewResult result = gApi.changes().id(changeIdentifier).current().review(in);
     assertThat(result.ready).isNull();
 
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isTrue();
   }
 
   @Test
   public void reviewAndSetWorkInProgressAndAddReviewerAndVote() throws Exception {
-    PushOneCommit.Result r = createChange();
-    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
 
     ReviewInput in =
         ReviewInput.approve()
             .reviewer(user.email())
             .label(LabelId.CODE_REVIEW, 1)
             .setWorkInProgress(true);
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    gApi.changes().id(changeIdentifier).current().review(in);
 
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isTrue();
     assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
         .containsExactly(admin.id().get(), user.id().get());
@@ -731,24 +733,24 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewRemoveInactiveReviewer() throws Exception {
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
     ReviewInput in = ReviewInput.approve().reviewer(user.email());
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    gApi.changes().id(changeIdentifier).current().review(in);
 
     accountOperations.account(user.id()).forUpdate().inactive().update();
     in = ReviewInput.noScore().reviewer(Integer.toString(user.id().get()), REMOVED, false);
 
-    gApi.changes().id(r.getChangeId()).current().review(in);
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    gApi.changes().id(changeIdentifier).current().review(in);
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
         .containsExactly(admin.id().get());
   }
 
   @Test
   public void removeReviewerWithoutPermissionsOnChangePostReview_allowed() throws Exception {
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
     ReviewInput in = ReviewInput.approve().reviewer(user.email());
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    gApi.changes().id(changeIdentifier).current().review(in);
     AccountGroup.UUID restrictedGroup =
         groupOperations.newGroup().name("restricted-group").addMember(user.id()).create();
 
@@ -762,18 +764,17 @@ public class ChangeIT extends AbstractDaemonTest {
     in = ReviewInput.noScore().reviewer(Integer.toString(user.id().get()), REMOVED, false);
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(r.getChangeId()).current().review(in);
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    gApi.changes().id(changeIdentifier).current().review(in);
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
         .containsExactly(admin.id().get());
   }
 
   @Test
   public void removeReviewerWithoutPermissionsOnChange_allowed() throws Exception {
-
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
     ReviewInput in = ReviewInput.approve().reviewer(user.email());
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    gApi.changes().id(changeIdentifier).current().review(in);
     AccountGroup.UUID restrictedGroup =
         groupOperations.newGroup().name("restricted-group").addMember(user.id()).create();
 
@@ -785,69 +786,61 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).remove();
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    gApi.changes().id(changeIdentifier).reviewer(user.id().toString()).remove();
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
         .containsExactly(admin.id().get());
   }
 
   @Test
   public void reviewWithWorkInProgressAndReadyReturnsError() throws Exception {
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
     ReviewInput in = ReviewInput.noScore();
     in.ready = true;
     in.workInProgress = true;
-    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
+    ReviewResult result = gApi.changes().id(changeIdentifier).current().review(in);
     assertThat(result.error).isEqualTo(PostReview.ERROR_WIP_READY_MUTUALLY_EXCLUSIVE);
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user1")
   public void reviewWithWorkInProgressChangeOwner() throws Exception {
-    PushOneCommit push = pushFactory.create(user.newIdent(), testRepo);
-    PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertOkStatus();
-    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id());
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
 
     requestScopeOperations.setApiUser(user.id());
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    gApi.changes().id(r.getChangeId()).current().review(in);
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    gApi.changes().id(changeIdentifier).current().review(in);
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isTrue();
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user1")
   public void reviewWithWithWorkInProgressAdmin() throws Exception {
-    PushOneCommit push = pushFactory.create(user.newIdent(), testRepo);
-    PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertOkStatus();
-    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id());
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
 
     requestScopeOperations.setApiUser(admin.id());
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    gApi.changes().id(r.getChangeId()).current().review(in);
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    gApi.changes().id(changeIdentifier).current().review(in);
+    ChangeInfo info = gApi.changes().id(changeIdentifier).get();
     assertThat(info.workInProgress).isTrue();
   }
 
   @Test
   public void reviewWithWorkInProgressByNonOwnerReturnsError() throws Exception {
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(
-            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
+            AuthException.class, () -> gApi.changes().id(changeIdentifier).current().review(in));
     assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
   public void reviewWithWorkInProgressByNonOwnerWithPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
+    TestChange change = changeOperations.newChange().owner(admin.id()).createAndGet();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
         .add(
             allow(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
@@ -855,50 +848,49 @@ public class ChangeIT extends AbstractDaemonTest {
                 .group(REGISTERED_USERS))
         .update();
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).current().review(in);
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    gApi.changes().id(change.id()).current().review(in);
+    ChangeInfo info = gApi.changes().id(change.id()).get();
     assertThat(info.workInProgress).isTrue();
   }
 
   @Test
   public void reviewWithReadyByNonOwnerReturnsError() throws Exception {
-    PushOneCommit.Result r = createChange();
-    change(r).setWorkInProgress();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     ReviewInput in = ReviewInput.noScore().setReady(true);
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(
-            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
+            AuthException.class, () -> gApi.changes().id(changeIdentifier).current().review(in));
     assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
   public void getAmbiguous() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-    String changeId = r1.getChangeId();
+    TestChange change =
+        changeOperations.newChange().project(project).branch("master").createAndGet();
 
     @SuppressWarnings("unused")
-    var unused = gApi.changes().id(changeId).get();
+    var unused = gApi.changes().id(change.id()).get();
 
     BranchInput b = new BranchInput();
     b.revision = repo().exactRef("HEAD").getObjectId().name();
     gApi.projects().name(project.get()).branch("other").create(b);
 
-    PushOneCommit push2 =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME,
-            PushOneCommit.FILE_CONTENT,
-            changeId);
-    PushOneCommit.Result r2 = push2.to("refs/for/other");
-    assertThat(r2.getChangeId()).isEqualTo(changeId);
+    TestChange otherChange =
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("other")
+            .commitMessage("Summary line\n\nChange-Id: " + change.changeId())
+            .createAndGet();
+    assertThat(otherChange.changeId()).isEqualTo(change.changeId());
 
     ResourceNotFoundException thrown =
-        assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(changeId).get());
-    assertThat(thrown).hasMessageThat().contains("Multiple changes found for " + changeId);
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.changes().id(change.changeId()).get());
+    assertThat(thrown).hasMessageThat().contains("Multiple changes found for " + change.changeId());
   }
 
   @Test
@@ -907,15 +899,12 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user1")
   public void deleteNewChangeAsNormalUser() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    String changeId = changeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
-        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).delete());
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeIdentifier).delete());
     assertThat(thrown).hasMessageThat().contains("delete not permitted");
   }
 
@@ -926,7 +915,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.DELETE_CHANGES).ref("refs/*").group(REGISTERED_USERS))
         .update();
-    deleteChangeAsUser(admin, user);
+    deleteChangeAsUser(project, admin, user);
   }
 
   @Test
@@ -958,7 +947,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.DELETE_OWN_CHANGES).ref("refs/*").group(REGISTERED_USERS))
         .update();
-    deleteChangeAsUser(user, user);
+    deleteChangeAsUser(project, user, user);
   }
 
   @Test
@@ -968,7 +957,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.DELETE_OWN_CHANGES).ref("refs/*").group(CHANGE_OWNER))
         .update();
-    deleteChangeAsUser(user, user);
+    deleteChangeAsUser(project, user, user);
   }
 
   private void deleteChangeAsUser(
@@ -989,26 +978,24 @@ public class ChangeIT extends AbstractDaemonTest {
           .forUpdate()
           .add(allow(Permission.VIEW_PRIVATE_CHANGES).ref("refs/*").group(ANONYMOUS_USERS))
           .update();
+      TestChange change =
+          changeOperations.newChange().project(projectName).owner(owner.id()).createAndGet();
       requestScopeOperations.setApiUser(owner.id());
-      ChangeInput in = new ChangeInput();
-      in.project = projectName.get();
-      in.branch = "refs/heads/master";
-      in.subject = "test";
-      ChangeInfo changeInfo = gApi.changes().create(in).get();
-      String changeId = changeInfo.changeId;
-      int id = changeInfo._number;
-      String commit = changeInfo.currentRevision;
 
-      assertThat(gApi.changes().id(changeId).info().owner._accountId).isEqualTo(owner.id().get());
+      String commit =
+          changeOperations.change(change.id()).currentPatchset().get().commitId().getName();
+
+      assertThat(gApi.changes().id(change.id()).info().owner._accountId)
+          .isEqualTo(owner.id().get());
 
       requestScopeOperations.setApiUser(deleteAs.id());
-      gApi.changes().id(changeId).delete();
+      gApi.changes().id(change.id()).delete();
 
-      assertThat(query(changeId)).isEmpty();
+      assertThat(query(change.id().id())).isEmpty();
 
-      String ref = Change.id(id).toRefPrefix() + "1";
+      String ref = change.numericChangeId().toRefPrefix() + "1";
       eventRecorder.assertRefUpdatedEvents(projectName.get(), ref, null, commit, commit, null);
-      eventRecorder.assertChangeDeletedEvents(changeId, deleteAs.email());
+      eventRecorder.assertChangeDeletedEvents(change.changeId(), deleteAs.email());
     } finally {
       projectOperations
           .project(project)
@@ -1033,12 +1020,11 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     try {
-      PushOneCommit.Result changeResult = createChange();
-      String changeId = changeResult.getChangeId();
+      ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
 
       requestScopeOperations.setApiUser(user.id());
       AuthException thrown =
-          assertThrows(AuthException.class, () -> gApi.changes().id(changeId).delete());
+          assertThrows(AuthException.class, () -> gApi.changes().id(changeIdentifier).delete());
       assertThat(thrown).hasMessageThat().contains("delete not permitted");
     } finally {
       projectOperations
@@ -1052,57 +1038,50 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void deleteNewChangeForBranchWithoutCommits() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
 
-    gApi.changes().id(changeId).delete();
+    gApi.changes().id(changeIdentifier).delete();
 
-    assertThat(query(changeId)).isEmpty();
+    assertThat(query(changeIdentifier.id())).isEmpty();
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user1")
   public void deleteAbandonedChangeAsNormalUser() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    String changeId = changeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId).abandon();
+    gApi.changes().id(changeIdentifier).abandon();
 
     AuthException thrown =
-        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).delete());
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeIdentifier).delete());
     assertThat(thrown).hasMessageThat().contains("delete not permitted");
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user1")
   public void deleteAbandonedChangeOfAnotherUserAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-    String changeId = changeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
 
-    gApi.changes().id(changeId).abandon();
+    gApi.changes().id(changeIdentifier).abandon();
 
-    gApi.changes().id(changeId).delete();
+    gApi.changes().id(changeIdentifier).delete();
 
-    assertThat(query(changeId)).isEmpty();
+    assertThat(query(changeIdentifier.id())).isEmpty();
   }
 
   @Test
   public void deleteMergedChange() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
 
-    merge(changeResult);
+    gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
+    gApi.changes().id(changeIdentifier).current().submit();
 
     MethodNotAllowedException thrown =
-        assertThrows(MethodNotAllowedException.class, () -> gApi.changes().id(changeId).delete());
+        assertThrows(
+            MethodNotAllowedException.class, () -> gApi.changes().id(changeIdentifier).delete());
     assertThat(thrown).hasMessageThat().contains("delete not permitted");
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user1")
   public void deleteMergedChangeWithDeleteOwnChangesPermission() throws Exception {
     projectOperations
         .project(project)
@@ -1111,15 +1090,15 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     try {
-      PushOneCommit.Result changeResult =
-          pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
-      String changeId = changeResult.getChangeId();
+      ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
 
-      merge(changeResult);
+      gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
+      gApi.changes().id(changeIdentifier).current().submit();
 
       requestScopeOperations.setApiUser(user.id());
       MethodNotAllowedException thrown =
-          assertThrows(MethodNotAllowedException.class, () -> gApi.changes().id(changeId).delete());
+          assertThrows(
+              MethodNotAllowedException.class, () -> gApi.changes().id(changeIdentifier).delete());
       assertThat(thrown).hasMessageThat().contains("delete not permitted");
     } finally {
       projectOperations
@@ -1132,40 +1111,47 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNewChangeWithMergedPatchSet() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
+    TestChange change = changeOperations.newChange().project(project).createAndGet();
 
-    merge(changeResult);
-    setChangeStatus(id, Change.Status.NEW);
+    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id()).current().submit();
+
+    setChangeStatus(change.numericChangeId(), Change.Status.NEW);
 
     ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).delete());
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(change.id()).delete());
     assertThat(thrown)
         .hasMessageThat()
-        .contains(String.format("Cannot delete change %s: patch set 1 is already merged", id));
+        .contains(
+            String.format(
+                "Cannot delete change %s: patch set 1 is already merged",
+                change.numericChangeId()));
   }
 
   @Test
   public void deleteChangeUpdatesIndex() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
+    TestChange change = changeOperations.newChange().project(project).createAndGet();
 
     ChangeIndex idx = changeIndexCollection.getSearchIndex();
 
     Optional<ChangeData> result =
-        idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
+        idx.get(
+            change.numericChangeId(),
+            IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
 
     assertThat(result).isPresent();
-    gApi.changes().id(changeId).delete();
-    result = idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
+    gApi.changes().id(change.id()).delete();
+    result =
+        idx.get(
+            change.numericChangeId(),
+            IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
     assertThat(result).isEmpty();
   }
 
   @Test
   public void deleteChangeRemovesDraftComment() throws Exception {
-    PushOneCommit.Result r = createChange();
+    TestChange change = changeOperations.newChange().createAndGet();
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -1174,15 +1160,14 @@ public class ChangeIT extends AbstractDaemonTest {
     dri.path = "a.txt";
     dri.line = 1;
 
-    gApi.changes().id(r.getChangeId()).current().createDraft(dri);
-    Change.Id num = r.getChange().getId();
+    gApi.changes().id(change.id()).current().createDraft(dri);
 
-    assertThat(getDraftsCountForChange(num, user.id())).isGreaterThan(0);
+    assertThat(getDraftsCountForChange(change.numericChangeId(), user.id())).isGreaterThan(0);
 
     requestScopeOperations.setApiUser(admin.id());
 
-    gApi.changes().id(r.getChangeId()).delete();
-    assertThat(getDraftsCountForChange(num, user.id())).isEqualTo(0);
+    gApi.changes().id(change.id()).delete();
+    assertThat(getDraftsCountForChange(change.numericChangeId(), user.id())).isEqualTo(0);
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
@@ -1196,56 +1181,54 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteChangeRemovesItsChangeEdit() throws Exception {
-    PushOneCommit.Result result = createChange();
+    TestChange change = changeOperations.newChange().createAndGet();
 
     requestScopeOperations.setApiUser(user.id());
-    String changeId = result.getChangeId();
-    gApi.changes().id(changeId).edit().create();
+    gApi.changes().id(change.id()).edit().create();
     gApi.changes()
-        .id(changeId)
+        .id(change.id())
         .edit()
         .modifyFile(FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
 
     requestScopeOperations.setApiUser(admin.id());
-    String expected = RefNames.refsUsers(user.id()) + "/edit-" + result.getChange().getId() + "/1";
-    try (Repository repo = repoManager.openRepository(project)) {
+    String expected = RefNames.refsUsers(user.id()) + "/edit-" + change.numericChangeId() + "/1";
+    try (Repository repo = repoManager.openRepository(change.project())) {
       assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isNotEmpty();
-      gApi.changes().id(changeId).delete();
+      gApi.changes().id(change.id()).delete();
     }
     // On google infra, repo should be reopened for getting updated refs.
-    try (Repository repo = repoManager.openRepository(project)) {
+    try (Repository repo = repoManager.openRepository(change.project())) {
       assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isEmpty();
     }
   }
 
   @Test
   public void deleteChangeDoesntRemoveOtherChangeEdits() throws Exception {
-    PushOneCommit.Result result = createChange();
-    PushOneCommit.Result irrelevantChangeResult = createChange();
-    requestScopeOperations.setApiUser(admin.id());
-    String changeId = result.getChangeId();
-    String irrelevantChangeId = irrelevantChangeResult.getChangeId();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier irrelevanetChangeIdentifier = changeOperations.newChange().createV2();
 
-    gApi.changes().id(irrelevantChangeId).edit().create();
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.changes().id(irrelevanetChangeIdentifier).edit().create();
     gApi.changes()
-        .id(irrelevantChangeId)
+        .id(irrelevanetChangeIdentifier)
         .edit()
         .modifyFile(FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
 
-    gApi.changes().id(changeId).delete();
+    gApi.changes().id(changeIdentifier).delete();
 
-    assertThat(gApi.changes().id(irrelevantChangeId).edit().get()).isPresent();
+    assertThat(gApi.changes().id(irrelevanetChangeIdentifier).edit().get()).isPresent();
   }
 
   @Test
   public void attentionSetListener_firesOnChange() throws Exception {
-    PushOneCommit.Result r1 = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
     TestAttentionSetListener attentionSetListener = new TestAttentionSetListener();
 
     try (Registration registration =
         extensionRegistry.newRegistration().add(attentionSetListener)) {
 
-      gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
+      gApi.changes().id(changeIdentifier).addReviewer(user.email());
       assertThat(attentionSetListener.firedCount).isEqualTo(1);
       assertThat(attentionSetListener.lastEvent.usersAdded().size()).isEqualTo(1);
       attentionSetListener
@@ -1255,12 +1238,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
       // Adding the user with the same reason doesn't fire an event.
       AttentionSetInput addUser = new AttentionSetInput(user.email(), "Reviewer was added");
-      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+      gApi.changes().id(changeIdentifier).addToAttentionSet(addUser);
       assertThat(attentionSetListener.firedCount).isEqualTo(1);
 
       // Adding the user with a different reason fires an event.
       addUser = new AttentionSetInput(user.email(), "some reason");
-      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+      gApi.changes().id(changeIdentifier).addToAttentionSet(addUser);
       assertThat(attentionSetListener.firedCount).isEqualTo(2);
       assertThat(attentionSetListener.lastEvent.usersAdded().size()).isEqualTo(1);
       attentionSetListener
@@ -1269,7 +1252,7 @@ public class ChangeIT extends AbstractDaemonTest {
           .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
 
       // Removing the user fires an event.
-      gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
+      gApi.changes().id(changeIdentifier).attention(user.username()).remove(addUser);
       assertThat(attentionSetListener.firedCount).isEqualTo(3);
       assertThat(attentionSetListener.lastEvent.usersAdded()).isEmpty();
       assertThat(attentionSetListener.lastEvent.usersRemoved().size()).isEqualTo(1);
@@ -1402,21 +1385,18 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     // create change
-    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
+    ChangeIdentifier changeIdentifier =
+        changeOperations.newChange().project(p).owner(admin.id()).createV2();
 
     // check the user cannot see the change
     requestScopeOperations.setApiUser(user.id());
-    assertThrows(
-        ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()).get());
+    assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(changeIdentifier).get());
 
     // try to add user as reviewer
     requestScopeOperations.setApiUser(admin.id());
     ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
-    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(changeIdentifier).addReviewer(in);
 
     assertThat(r.input).isEqualTo(user.email());
     assertThat(r.error).contains("does not have permission to see this change");
@@ -1425,14 +1405,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveByUsername() throws Exception {
-    PushOneCommit.Result result = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
 
     String username = name("new-user");
     Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
-    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(changeIdentifier).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
     assertThat(r.error).isNull();
@@ -1446,14 +1426,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveById() throws Exception {
-    PushOneCommit.Result result = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
 
     String username = name("new-user");
     Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = Integer.toString(id.get());
-    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(changeIdentifier).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
     assertThat(r.error).isNull();
@@ -1470,14 +1450,14 @@ public class ChangeIT extends AbstractDaemonTest {
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
-    PushOneCommit.Result result = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
     String email = "user@domain.com";
     Account.Id id = accountOperations.newAccount().preferredEmail(email).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = email;
     in.state = ReviewerState.CC;
-    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(changeIdentifier).addReviewer(in);
 
     assertThat(r.input).isEqualTo(email);
     assertThat(r.error).isNull();
@@ -1491,10 +1471,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @UseClockStep
   public void addReviewer() throws Exception {
     testAddReviewerViaPostReview(
-        (changeId, reviewer) -> {
+        (changeIdentifier, reviewer) -> {
           ReviewerInput in = new ReviewerInput();
           in.reviewer = reviewer;
-          gApi.changes().id(changeId).addReviewer(in);
+          gApi.changes().id(changeIdentifier).addReviewer(in);
         });
   }
 
@@ -1502,21 +1482,25 @@ public class ChangeIT extends AbstractDaemonTest {
   @UseClockStep
   public void addReviewerViaPostReview() throws Exception {
     testAddReviewerViaPostReview(
-        (changeId, reviewer) -> {
+        (changeIdentifier, reviewer) -> {
           ReviewerInput reviewerInput = new ReviewerInput();
           reviewerInput.reviewer = reviewer;
           ReviewInput reviewInput = new ReviewInput();
           reviewInput.reviewers = ImmutableList.of(reviewerInput);
-          gApi.changes().id(changeId).current().review(reviewInput);
+          gApi.changes().id(changeIdentifier).current().review(reviewInput);
         });
   }
 
   private void testAddReviewerViaPostReview(AddReviewerCaller addReviewer) throws Exception {
-    PushOneCommit.Result r = createChange();
-    ChangeResource rsrc = parseResource(r);
-    Instant oldTs = rsrc.getChange().getLastUpdatedOn();
+    TestChange change =
+        changeOperations
+            .newChange()
+            .owner(admin.id())
+            .commitMessage(PushOneCommit.SUBJECT)
+            .createAndGet();
+    Instant oldTs = change.lastUpdatedOn();
 
-    addReviewer.call(r.getChangeId(), user.email());
+    addReviewer.call(change.id(), user.email());
 
     ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
@@ -1526,7 +1510,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertMailReplyTo(m, admin.email());
-    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    ChangeInfo c = gApi.changes().id(change.id()).get();
 
     // Adding a reviewer records that user as reviewer.
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
@@ -1538,30 +1522,31 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.reviewers.get(CC)).isNull();
 
     // Ensure lastUpdatedOn is updated.
-    rsrc = parseResource(r);
-    assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+    assertThat(changeOperations.change(change.id()).get().lastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
   @Test
   public void postingMessageOnOwnChangeDoesntAddCallerAsReviewer() throws Exception {
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
 
+    requestScopeOperations.setApiUser(admin.id());
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.message = "Foo Bar";
-    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    gApi.changes().id(changeIdentifier).current().review(reviewInput);
 
-    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    ChangeInfo c = gApi.changes().id(changeIdentifier).get();
     assertThat(c.reviewers.get(REVIEWER)).isNull();
     assertThat(c.reviewers.get(CC)).isNull();
   }
 
   @Test
   public void listReviewers() throws Exception {
-    PushOneCommit.Result r = createChange();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+
     ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
-    assertThat(gApi.changes().id(r.getChangeId()).reviewers()).hasSize(1);
+    gApi.changes().id(changeIdentifier).addReviewer(in);
+    assertThat(gApi.changes().id(changeIdentifier).reviewers()).hasSize(1);
 
     String username1 = name("user1");
     String email1 = username1 + "@example.com";
@@ -1574,12 +1559,12 @@ public class ChangeIT extends AbstractDaemonTest {
             .create();
     in.reviewer = email1;
     in.state = ReviewerState.CC;
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    gApi.changes().id(changeIdentifier).addReviewer(in);
     if (server.isUsernameSupported()) {
-      assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a.username))
+      assertThat(gApi.changes().id(changeIdentifier).reviewers().stream().map(a -> a.username))
           .containsExactly(user.username(), username1);
     }
-    assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a._accountId))
+    assertThat(gApi.changes().id(changeIdentifier).reviewers().stream().map(a -> a._accountId))
         .containsExactly(user.id().get(), user1Id.get());
   }
 
@@ -5010,7 +4995,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @FunctionalInterface
   private interface AddReviewerCaller {
-    void call(String changeId, String reviewer) throws RestApiException;
+    void call(ChangeIdentifier changeIdentifier, String reviewer) throws RestApiException;
   }
 
   public static class TestAttentionSetListenerModule extends AbstractModule {

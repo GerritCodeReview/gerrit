@@ -449,7 +449,8 @@ public class QueryChangesIT extends AbstractDaemonTest {
         accountOperations.newAccount().preferredEmail(reviewerEmail).create();
 
     // Create the change.
-    Change.Id changeId = changeOperations.newChange().owner(nonVisibleOwner).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).owner(nonVisibleOwner).create();
 
     // Add a review.
     requestScopeOperations.setApiUser(nonVisibleReviewer);

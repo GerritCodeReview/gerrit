@@ -413,7 +413,12 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             .create();
 
     Change.Id changeId =
-        changeOperations.newChange().author(authorId).committer(committerId).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .author(authorId)
+            .committer(committerId)
+            .create();
     ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
     assertAuthor(changeInfo, "authoremail@example.com");
 
@@ -442,7 +447,12 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             .create();
 
     Change.Id changeId =
-        changeOperations.newChange().author(authorId).committer(committerId).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .author(authorId)
+            .committer(committerId)
+            .create();
     ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
     assertCommitter(changeInfo, "committeremail@example.com");
 

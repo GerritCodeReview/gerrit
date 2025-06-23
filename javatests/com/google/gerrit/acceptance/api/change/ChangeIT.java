@@ -265,12 +265,11 @@ public class ChangeIT extends AbstractDaemonTest {
       name = "experiments.enabled",
       value = "GerritBackendFeature__return_new_change_info_id")
   public void get() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-    TestChange change = changeOperations.change(changeId).get();
+    TestChange change = changeOperations.newChange().createAndGet();
 
-    ChangeInfo c = gApi.changes().id(change.project().get(), changeId.get()).info();
+    ChangeInfo c = gApi.changes().id(change.project().get(), change.numericChangeId().get()).info();
 
-    assertThat(c.id).isEqualTo(change.project() + "~" + changeId);
+    assertThat(c.id).isEqualTo(change.project() + "~" + change.numericChangeId());
     assertThat(c.project).isEqualTo(change.project().get());
     assertThat(c.branch).isEqualTo(change.dest().shortName());
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
@@ -280,7 +279,13 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.changeId).isEqualTo(change.changeId());
     assertThat(c._number).isEqualTo(change.numericChangeId().get());
     assertThat(c.currentRevisionNumber)
-        .isEqualTo(changeOperations.change(changeId).currentPatchset().get().patchsetId().get());
+        .isEqualTo(
+            changeOperations
+                .change(change.numericChangeId())
+                .currentPatchset()
+                .get()
+                .patchsetId()
+                .get());
 
     // With NoteDb timestamps are rounded to seconds.
     assertThat(c.created)

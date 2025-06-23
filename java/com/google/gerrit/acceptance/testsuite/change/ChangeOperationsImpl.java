@@ -126,7 +126,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
   @Override
   public TestChangeCreation.Builder newChange() {
-    return TestChangeCreation.builder(this::createChange);
+    return TestChangeCreation.builder(this::createChange, changeId -> this.change(changeId).get());
   }
 
   private Change.Id createChange(TestChangeCreation changeCreation) throws Exception {

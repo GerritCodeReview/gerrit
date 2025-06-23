@@ -71,9 +71,14 @@ public abstract class TestChangeCreation {
 
   abstract ThrowingFunction<TestChangeCreation, Change.Id> changeCreator();
 
-  public static Builder builder(ThrowingFunction<TestChangeCreation, Change.Id> changeCreator) {
+  abstract ThrowingFunction<Change.Id, TestChange> changeGetter();
+
+  public static Builder builder(
+      ThrowingFunction<TestChangeCreation, Change.Id> changeCreator,
+      ThrowingFunction<Change.Id, TestChange> changeGetter) {
     return new AutoValue_TestChangeCreation.Builder()
         .changeCreator(changeCreator)
+        .changeGetter(changeGetter)
         .branch(Constants.R_HEADS + Constants.MASTER)
         .commitMessage("A test change")
         // Which value we choose here doesn't matter. All relevant code paths set the desired value.
@@ -244,6 +249,8 @@ public abstract class TestChangeCreation {
 
     abstract Builder changeCreator(ThrowingFunction<TestChangeCreation, Change.Id> changeCreator);
 
+    abstract Builder changeGetter(ThrowingFunction<Change.Id, TestChange> changeGetter);
+
     abstract TestChangeCreation autoBuild();
 
     public TestChangeCreation build() {
@@ -265,6 +272,12 @@ public abstract class TestChangeCreation {
     public Change.Id create() {
       TestChangeCreation changeUpdate = build();
       return changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
+    }
+
+    public TestChange createAndGet() {
+      TestChangeCreation changeUpdate = build();
+      Change.Id changeId = changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
+      return changeUpdate.changeGetter().applyAndThrowSilently(changeId);
     }
   }
 }

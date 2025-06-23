@@ -987,6 +987,32 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void createAndGet() {
+    Instant creationTimestamp = Instant.now();
+    TestChange change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .owner(admin.id())
+            .createdOn(creationTimestamp)
+            .commitMessage("Summary line\n\nChange-Id: I0123456789012345678901234567890123456789")
+            .createAndGet();
+
+    assertThat(change.numericChangeId()).isNotNull();
+    assertThat(change.changeId()).isEqualTo("I0123456789012345678901234567890123456789");
+    assertThat(change.project()).isEqualTo(project);
+    assertThat(change.dest()).isEqualTo(BranchNameKey.create(project, "master"));
+    assertThat(change.project()).isEqualTo(project);
+    assertThat(change.owner()).isEqualTo(admin.id());
+    assertThat(change.subject()).isEqualTo("Summary line");
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.createdOn()).isEqualTo(creationTimestamp.truncatedTo(ChronoUnit.SECONDS));
+    assertThat(change.lastUpdatedOn()).isEqualTo(change.createdOn());
+  }
+
+  @Test
   public void existingChangeCanBeCheckedForExistence() {
     Change.Id changeId = changeOperations.newChange().create();
 

@@ -210,11 +210,12 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnSecondParentCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -236,8 +237,9 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnNonExistingSecondParentCommit() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().create();
-    Change.Id changeId = changeOperations.newChange().childOf().change(parentChangeId).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
 
     String commentUuid =
         changeOperations
@@ -257,11 +259,12 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnAutoMergeCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -578,11 +581,12 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnSecondParentCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -604,8 +608,9 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnNonExistingSecondParentCommit() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().create();
-    Change.Id changeId = changeOperations.newChange().childOf().change(parentChangeId).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
 
     String commentUuid =
         changeOperations
@@ -625,11 +630,12 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnAutoMergeCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()

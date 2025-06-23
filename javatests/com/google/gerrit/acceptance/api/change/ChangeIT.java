@@ -263,8 +263,19 @@ public class ChangeIT extends AbstractDaemonTest {
       name = "experiments.enabled",
       value = "GerritBackendFeature__return_new_change_info_id")
   public void get() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String id = project.get() + "~" + r.getChange().getId().get();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .owner(admin.id())
+            .commitMessage(
+                "test commit\n\n"
+                    + "some descripton\n\n"
+                    + "Change-Id: I0123456789012345678901234567890123456789")
+            .create();
+
+    String id = project.get() + "~" + changeId.get();
     ChangeInfo c = info(id);
     assertThat(c.id).isEqualTo(id);
     assertThat(c.project).isEqualTo(project.get());
@@ -273,10 +284,10 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.subject).isEqualTo("test commit");
     assertThat(c.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(c.mergeable).isNull();
-    assertThat(c.changeId).isEqualTo(r.getChangeId());
+    assertThat(c.changeId).isEqualTo("I0123456789012345678901234567890123456789");
     assertThat(c.created).isEqualTo(c.updated);
-    assertThat(c._number).isEqualTo(r.getChange().getId().get());
-    assertThat(c.currentRevisionNumber).isEqualTo(r.getPatchSetId().get());
+    assertThat(c._number).isEqualTo(changeId.get());
+    assertThat(c.currentRevisionNumber).isEqualTo(1);
 
     assertThat(c.owner._accountId).isEqualTo(admin.id().get());
     assertThat(c.owner.name).isNull();

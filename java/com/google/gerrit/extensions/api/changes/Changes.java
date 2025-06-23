@@ -76,6 +76,18 @@ public interface Changes {
    */
   ChangeApi id(String project, int id) throws RestApiException;
 
+  /**
+   * Look up a change by the given change identifier.
+   *
+   * @see #id(String)
+   * @param changeIdentifier identifier that identifies a change
+   * @return API for accessing the change.
+   * @throws RestApiException if an error occurred.
+   */
+  default ChangeApi id(ChangeIdentifier changeIdentifier) throws RestApiException {
+    return id(changeIdentifier.id());
+  }
+
   @CanIgnoreReturnValue
   ChangeApi create(ChangeInput in) throws RestApiException;
 

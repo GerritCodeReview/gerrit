@@ -264,7 +264,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void get() throws Exception {
     TestChange change = changeOperations.newChange().createAndGet();
 
-    ChangeInfo c = gApi.changes().id(change.project().get(), change.numericChangeId().get()).info();
+    ChangeInfo c = gApi.changes().id(change.id()).info();
 
     assertThat(c.id).isEqualTo(change.project() + "~" + change.numericChangeId());
     assertThat(c.project).isEqualTo(change.project().get());
@@ -278,7 +278,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.currentRevisionNumber)
         .isEqualTo(
             changeOperations
-                .change(change.numericChangeId())
+                .change(change.id())
                 .currentPatchset()
                 .get()
                 .patchsetId()

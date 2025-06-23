@@ -19,12 +19,12 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import java.time.Instant;
 
 /** Representation of a change used for testing purposes. */
 @AutoValue
 public abstract class TestChange {
-
   /**
    * The numeric change ID, sometimes also called change number or legacy change ID. Unique per
    * host.
@@ -54,6 +54,15 @@ public abstract class TestChange {
 
   /** The last updated timestamp of the change. */
   public abstract Instant lastUpdatedOn();
+
+  /**
+   * Get change identifier to be used in the {@link
+   * com.google.gerrit.extensions.api.changes.Changes} API to get the {@link
+   * com.google.gerrit.extensions.api.changes.ChangeApi}.
+   */
+  public ChangeIdentifier id() {
+    return ChangeIdentifier.byProjectAndNumericChangeId(project().get(), numericChangeId().get());
+  }
 
   static Builder builder() {
     return new AutoValue_TestChange.Builder();

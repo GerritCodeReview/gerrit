@@ -351,9 +351,10 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeUsesSpecifiedChangeAsParent() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
 
-    Change.Id changeId = changeOperations.newChange().childOf().change(parentChangeId).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -377,11 +378,16 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeUsesSpecifiedPatchsetAsParent() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
     TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
 
     Change.Id changeId =
-        changeOperations.newChange().childOf().patchset(parentPatchset.patchsetId()).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .patchset(parentPatchset.patchsetId())
+            .create();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -425,11 +431,12 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeUsesSpecifiedCommitAsParent() throws Exception {
     // Currently, the easiest way to create a commit is by creating another change.
-    Change.Id anotherChangeId = changeOperations.newChange().create();
+    Change.Id anotherChangeId = changeOperations.newChange().project(project).create();
     ObjectId parentCommitId =
         changeOperations.change(anotherChangeId).currentPatchset().get().commitId();
 
-    Change.Id changeId = changeOperations.newChange().childOf().commit(parentCommitId).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().commit(parentCommitId).create();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -456,12 +463,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeUsesSpecifiedChangesInGivenOrderAsParents() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -484,13 +492,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeUsesMergedParentsAsBaseCommit() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Line 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Line 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Some other content").create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file2")
+            .content("Some other content")
+            .create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -507,9 +521,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void mergeConflictsOfParentsAreReported() {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file1").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 2").create();
 
     IllegalStateException exception =
         assertThrows(
@@ -517,6 +531,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             () ->
                 changeOperations
                     .newChange()
+                    .project(project)
                     .mergeOf()
                     .change(parent1ChangeId)
                     .and()
@@ -529,13 +544,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void mergeConflictsCanBeAvoidedByUsingTheFirstParentAsBase() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file1").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 2").create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOfButBaseOnFirst()
             .change(parent1ChangeId)
             .and()
@@ -549,12 +565,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeHasAllParentsEvenWhenBasedOnFirst() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOfButBaseOnFirst()
             .change(parent1ChangeId)
             .and()
@@ -603,15 +620,16 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeCanHaveMoreThanTwoParentsWhenBasedOnFirst() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file2").content("Content 2").create();
     Change.Id parent3ChangeId =
-        changeOperations.newChange().file("file3").content("Content 3").create();
+        changeOperations.newChange().project(project).file("file3").content("Content 3").create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOfButBaseOnFirst()
             .change(parent1ChangeId)
             .followedBy()
@@ -640,6 +658,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id parentChangeId =
         changeOperations
             .newChange()
+            .project(project)
             .file("file1")
             .content("Content 1")
             .file("file2")
@@ -649,6 +668,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .childOf()
             .change(parentChangeId)
             .file("file1")
@@ -665,13 +685,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void changeFromMergedParentsMayHaveAdditionalFileModifications() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file2").content("Content 2").create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -691,12 +712,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void changeBasedOnFirstOfMultipleParentsMayHaveAdditionalFileModifications()
       throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
 
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOfButBaseOnFirst()
             .change(parent1ChangeId)
             .and()
@@ -1605,14 +1627,24 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveADifferentParent() throws Exception {
-    Change.Id originalParentChange = changeOperations.newChange().create();
-    Change.Id changeId =
-        changeOperations.newChange().childOf().change(originalParentChange).create();
-    Change.Id newParentChange = changeOperations.newChange().create();
+    Change.Id originalParentChange = changeOperations.newChange().project(project).create();
+    Change.Id changeIdentifier =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(originalParentChange)
+            .create();
+    Change.Id newParentChange = changeOperations.newChange().project(project).create();
 
-    changeOperations.change(changeId).newPatchset().parent().change(newParentChange).create();
+    changeOperations
+        .change(changeIdentifier)
+        .newPatchset()
+        .parent()
+        .change(newParentChange)
+        .create();
 
-    ChangeInfo change = getChangeFromServer(changeId);
+    ChangeInfo change = getChangeFromServer(changeIdentifier);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
     ObjectId newParentCommitId =
         changeOperations.change(newParentChange).currentPatchset().get().commitId();
@@ -1625,18 +1657,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveDifferentParents() throws Exception {
-    Change.Id originalParent1Change = changeOperations.newChange().create();
-    Change.Id originalParent2Change = changeOperations.newChange().create();
+    Change.Id originalParent1Change = changeOperations.newChange().project(project).create();
+    Change.Id originalParent2Change = changeOperations.newChange().project(project).create();
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(originalParent1Change)
             .and()
             .change(originalParent2Change)
             .create();
-    Change.Id newParent1Change = changeOperations.newChange().create();
-    Change.Id newParent2Change = changeOperations.newChange().create();
+    Change.Id newParent1Change = changeOperations.newChange().project(project).create();
+    Change.Id newParent2Change = changeOperations.newChange().project(project).create();
 
     changeOperations
         .change(changeId)
@@ -1661,11 +1694,16 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveADifferentNumberOfParents() throws Exception {
-    Change.Id originalParentChange = changeOperations.newChange().create();
+    Change.Id originalParentChange = changeOperations.newChange().project(project).create();
     Change.Id changeId =
-        changeOperations.newChange().childOf().change(originalParentChange).create();
-    Change.Id newParent1Change = changeOperations.newChange().create();
-    Change.Id newParent2Change = changeOperations.newChange().create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(originalParentChange)
+            .create();
+    Change.Id newParent1Change = changeOperations.newChange().project(project).create();
+    Change.Id newParent2Change = changeOperations.newChange().project(project).create();
 
     changeOperations
         .change(changeId)

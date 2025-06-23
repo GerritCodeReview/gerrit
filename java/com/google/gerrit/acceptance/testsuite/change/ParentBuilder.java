@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -40,9 +41,20 @@ public class ParentBuilder<T> {
     return parentToBuilderAdder.apply(TestCommitIdentifier.ofBranch(branchName));
   }
 
-  /** Use the current patchset commit of the indicated change. */
+  /**
+   * Use the current patchset commit of the indicated change.
+   *
+   * @deprecated Use {@link #change(ChangeIdentifier)} instead
+   */
+  // TODO Drop this method when all callers have been migrated to change(ChangeIdentifier)
+  @Deprecated
   public T change(Change.Id changeId) {
     return parentToBuilderAdder.apply(TestCommitIdentifier.ofChangeId(changeId));
+  }
+
+  /** Use the current patchset commit of the indicated change. */
+  public T change(ChangeIdentifier changeIdentifier) {
+    return parentToBuilderAdder.apply(TestCommitIdentifier.ofChangeIdentifier(changeIdentifier));
   }
 
   /** Use the commit identified by the specified patchset. */

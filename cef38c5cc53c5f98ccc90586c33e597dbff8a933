@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc045164_ec5b0af8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-23T08:58:03Z",
+      "side": 1,
+      "message": "Looks very nice",
+      "revId": "cef38c5cc53c5f98ccc90586c33e597dbff8a933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb4b09b_412d5024",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-06-23T08:58:03Z",
+      "side": 1,
+      "message": "Can we instead of this do something like:\n```\n  \u003cmd-list-item\n      type\u003d\"link\"\n      href\u003d${this.computeLinkURL(link)}\n      target\u003d${ifDefined(link.target)}\n      ?download\u003d${link.download}\n      .rel\u003d${ifDefined(this.computeLinkRel(link))}\n      @click\u003d${() \u003d\u003e this.handleSidebar()}\n    \u003e\n      ${link.name}\n    \u003c/md-list-item\u003e\n```",
+      "range": {
+        "startLine": 1048,
+        "startChar": 2,
+        "endLine": 1072,
+        "endChar": 5
+      },
+      "revId": "cef38c5cc53c5f98ccc90586c33e597dbff8a933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -91,6 +91,7 @@ import com.google.gerrit.acceptance.server.change.CommentsUtil;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -200,6 +201,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -259,26 +261,35 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ChangeNumberVirtualIdAlgorithm changeNumberVirtualIdAlgorithm;
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = "GerritBackendFeature__return_new_change_info_id")
   public void get() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String id = project.get() + "~" + r.getChange().getId().get();
-    ChangeInfo c = info(id);
-    assertThat(c.id).isEqualTo(id);
-    assertThat(c.project).isEqualTo(project.get());
-    assertThat(c.branch).isEqualTo("master");
+    TestChange change = changeOperations.newChange().createAndGet();
+
+    ChangeInfo c = gApi.changes().id(change.project().get(), change.numericChangeId().get()).info();
+
+    assertThat(c.id).isEqualTo(change.project() + "~" + change.numericChangeId());
+    assertThat(c.project).isEqualTo(change.project().get());
+    assertThat(c.branch).isEqualTo(change.dest().shortName());
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(c.subject).isEqualTo("test commit");
+    assertThat(c.subject).isEqualTo(change.subject());
     assertThat(c.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(c.mergeable).isNull();
-    assertThat(c.changeId).isEqualTo(r.getChangeId());
-    assertThat(c.created).isEqualTo(c.updated);
-    assertThat(c._number).isEqualTo(r.getChange().getId().get());
-    assertThat(c.currentRevisionNumber).isEqualTo(r.getPatchSetId().get());
+    assertThat(c.changeId).isEqualTo(change.changeId());
+    assertThat(c._number).isEqualTo(change.numericChangeId().get());
+    assertThat(c.currentRevisionNumber)
+        .isEqualTo(
+            changeOperations
+                .change(change.numericChangeId())
+                .currentPatchset()
+                .get()
+                .patchsetId()
+                .get());
 
-    assertThat(c.owner._accountId).isEqualTo(admin.id().get());
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(c.created)
+        .isEqualTo(Timestamp.from(change.createdOn().truncatedTo(ChronoUnit.SECONDS)));
+    assertThat(c.created).isEqualTo(c.updated);
+
+    assertThat(c.owner._accountId).isEqualTo(change.owner().get());
     assertThat(c.owner.name).isNull();
     assertThat(c.owner.email).isNull();
     assertThat(c.owner.username).isNull();

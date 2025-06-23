@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.edit.tree.TreeModification;
+import java.time.Instant;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -41,6 +42,8 @@ public abstract class TestChangeCreation {
   public abstract Optional<Project.NameKey> project();
 
   public abstract String branch();
+
+  public abstract Optional<Instant> createdOn();
 
   public abstract Optional<Account.Id> owner();
 
@@ -68,9 +71,14 @@ public abstract class TestChangeCreation {
 
   abstract ThrowingFunction<TestChangeCreation, Change.Id> changeCreator();
 
-  public static Builder builder(ThrowingFunction<TestChangeCreation, Change.Id> changeCreator) {
+  abstract ThrowingFunction<Change.Id, TestChange> changeGetter();
+
+  public static Builder builder(
+      ThrowingFunction<TestChangeCreation, Change.Id> changeCreator,
+      ThrowingFunction<Change.Id, TestChange> changeGetter) {
     return new AutoValue_TestChangeCreation.Builder()
         .changeCreator(changeCreator)
+        .changeGetter(changeGetter)
         .branch(Constants.R_HEADS + Constants.MASTER)
         .commitMessage("A test change")
         // Which value we choose here doesn't matter. All relevant code paths set the desired value.
@@ -92,6 +100,9 @@ public abstract class TestChangeCreation {
      * Target branch of the change. Neither needs to exist nor needs to point to an actual commit.
      */
     public abstract Builder branch(String branch);
+
+    /** Creation timestamp of the change. */
+    public abstract Builder createdOn(Instant createdOn);
 
     /**
      * The change owner.
@@ -238,6 +249,8 @@ public abstract class TestChangeCreation {
 
     abstract Builder changeCreator(ThrowingFunction<TestChangeCreation, Change.Id> changeCreator);
 
+    abstract Builder changeGetter(ThrowingFunction<Change.Id, TestChange> changeGetter);
+
     abstract TestChangeCreation autoBuild();
 
     public TestChangeCreation build() {
@@ -259,6 +272,12 @@ public abstract class TestChangeCreation {
     public Change.Id create() {
       TestChangeCreation changeUpdate = build();
       return changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
+    }
+
+    public TestChange createAndGet() {
+      TestChangeCreation changeUpdate = build();
+      Change.Id changeId = changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
+      return changeUpdate.changeGetter().applyAndThrowSilently(changeId);
     }
   }
 }

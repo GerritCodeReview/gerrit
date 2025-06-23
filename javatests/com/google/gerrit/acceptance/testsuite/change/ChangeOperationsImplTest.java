@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
@@ -50,6 +51,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -146,6 +150,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.branch).isEqualTo("test-branch");
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedCreationTimestamp() throws Exception {
+    Instant creationTimestamp = Instant.now();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).createdOn(creationTimestamp).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.created)
+        .isEqualTo(Timestamp.from(creationTimestamp.truncatedTo(ChronoUnit.SECONDS)));
   }
 
   @Test
@@ -970,6 +987,32 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void createAndGet() {
+    Instant creationTimestamp = Instant.now();
+    TestChange change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .owner(admin.id())
+            .createdOn(creationTimestamp)
+            .commitMessage("Summary line\n\nChange-Id: I0123456789012345678901234567890123456789")
+            .createAndGet();
+
+    assertThat(change.numericChangeId()).isNotNull();
+    assertThat(change.changeId()).isEqualTo("I0123456789012345678901234567890123456789");
+    assertThat(change.project()).isEqualTo(project);
+    assertThat(change.dest()).isEqualTo(BranchNameKey.create(project, "master"));
+    assertThat(change.project()).isEqualTo(project);
+    assertThat(change.owner()).isEqualTo(admin.id());
+    assertThat(change.subject()).isEqualTo("Summary line");
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.createdOn()).isEqualTo(creationTimestamp.truncatedTo(ChronoUnit.SECONDS));
+    assertThat(change.lastUpdatedOn()).isEqualTo(change.createdOn());
+  }
+
+  @Test
   public void existingChangeCanBeCheckedForExistence() {
     Change.Id changeId = changeOperations.newChange().create();
 
@@ -1011,6 +1054,62 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.changeId()).isEqualTo("I0123456789012345678901234567890123456789");
+  }
+
+  @Test
+  public void projectOfExistingChangeCanBeRetrieved() {
+    Project.NameKey project = projectOperations.newProject().create();
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.project()).isEqualTo(project);
+  }
+
+  @Test
+  public void destOfExistingChangeCanBeRetrieved() {
+    Project.NameKey project = projectOperations.newProject().branches("foo").create();
+    Change.Id changeId = changeOperations.newChange().project(project).branch("foo").create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.dest()).isEqualTo(BranchNameKey.create(project, "foo"));
+  }
+
+  @Test
+  public void subjectOfExistingChangeCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().commitMessage("Foo\n\nBar Baz").create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.subject()).isEqualTo("Foo");
+  }
+
+  @Test
+  public void ownerOfExistingChangeCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().owner(admin.id()).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.owner()).isEqualTo(admin.id());
+  }
+
+  @Test
+  public void createdOnOfExistingChangeCanBeRetrieved() {
+    Instant creationTimestamp = Instant.now();
+    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.createdOn()).isEqualTo(creationTimestamp.truncatedTo(ChronoUnit.SECONDS));
+  }
+
+  @Test
+  public void lastUpdatedOfExistingChangeCanBeRetrieved() {
+    Instant creationTimestamp = Instant.now();
+    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.lastUpdatedOn()).isEqualTo(creationTimestamp.truncatedTo(ChronoUnit.SECONDS));
   }
 
   @Test

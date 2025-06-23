@@ -62,7 +62,9 @@ public interface ChangeOperations {
    *     .createV2();
    * </pre>
    *
-   * <p><strong>Note:</strong> There must be at least one existing user and repository.
+   * <p><strong>Note:</strong> There must be at least one existing user.
+   *
+   * <p><strong>Note:</strong> If a project is not specified the change is created in a new project.
    *
    * @return a builder to create the new change
    */

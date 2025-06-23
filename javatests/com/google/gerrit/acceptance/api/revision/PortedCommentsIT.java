@@ -1560,10 +1560,12 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentOnParentIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
-    Change.Id parentChangeId = changeOps.newChange().file("myFile").content("Line 1\n").create();
+    Change.Id parentChangeId =
+        changeOps.newChange().project(project).file("myFile").content("Line 1\n").create();
     Change.Id childChangeId =
         changeOps
             .newChange()
+            .project(project)
             .childOf()
             .change(parentChangeId)
             .file("myFile")
@@ -1592,11 +1594,14 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentOnFirstParentIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
-    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
-    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id parent1ChangeId =
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId =
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
     Change.Id childChangeId =
         changeOps
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -1634,11 +1639,14 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentOnSecondParentIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
-    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
-    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id parent1ChangeId =
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId =
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
     Change.Id childChangeId =
         changeOps
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -1677,11 +1685,14 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnAutoMergeCommitIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets. Use the same file so that there's a meaningful auto-merge
     // commit/diff.
-    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
-    Change.Id parent2ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent1ChangeId =
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId =
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
     Change.Id childChangeId =
         changeOps
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -1729,11 +1740,14 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnFirstParentIsPortedToSingleParentWhenPatchsetChangedToNonMergeCommit()
       throws Exception {
     // Set up change and patchsets.
-    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
-    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id parent1ChangeId =
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId =
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
     Change.Id childChangeId =
         changeOps
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()
@@ -1770,11 +1784,14 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnSecondParentBecomesPatchsetLevelCommentWhenPatchsetChangedToNonMergeCommit()
       throws Exception {
     // Set up change and patchsets.
-    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
-    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id parent1ChangeId =
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId =
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
     Change.Id childChangeId =
         changeOps
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()

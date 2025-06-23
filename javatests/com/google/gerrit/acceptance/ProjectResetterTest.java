@@ -290,6 +290,24 @@ public class ProjectResetterTest {
     verifyNoMoreInteractions(cache, indexer, includeCache);
   }
 
+  @Test
+  public void newCreateProjectsAreDeleted() throws Exception {
+    Project.NameKey project2 = Project.nameKey("bar");
+
+    ProjectCache projectCache = mock(ProjectCache.class);
+
+    try (ProjectResetter resetProject =
+        builder(null, null, null, null, null, null, projectCache)
+            .build(new ProjectResetter.Config.Builder().deleteNewProjects().build())) {
+      Repository repo2 = repoManager.createRepository(project2);
+      createRef("refs/heads/master");
+      createRef(repo2, RefNames.REFS_CONFIG);
+    }
+
+    assertThat(repoManager.list()).doesNotContain(project2);
+    verify(projectCache, only()).evictAndReindex(project2);
+  }
+
   @CanIgnoreReturnValue
   private Ref createRef(String ref) throws IOException {
     return createRef(repo, ref);

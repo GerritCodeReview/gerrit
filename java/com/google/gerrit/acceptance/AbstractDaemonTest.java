@@ -409,6 +409,7 @@ public abstract class AbstractDaemonTest {
             RefNames.REFS_GROUPS + "*",
             RefNames.REFS_STARRED_CHANGES + "*",
             RefNames.REFS_DRAFT_COMMENTS + "*")
+        .deleteNewProjects()
         .build();
   }
 

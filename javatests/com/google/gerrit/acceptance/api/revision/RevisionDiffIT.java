@@ -3068,6 +3068,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     Change.Id changeId1 =
         changeOperations
             .newChange()
+            .project(project)
             .file(imageFileName)
             .content(new String(imageBytes, UTF_8))
             .create();
@@ -3076,6 +3077,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     Change.Id changeId2 =
         changeOperations
             .newChange()
+            .project(project)
             .childOf()
             .change(changeId1)
             .file(imageFileName)
@@ -3106,6 +3108,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     Change.Id changeId1 =
         changeOperations
             .newChange()
+            .project(project)
             .file(imageFileName)
             .content(new String(imageBytes, UTF_8))
             .create();
@@ -3113,6 +3116,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     Change.Id changeId2 =
         changeOperations
             .newChange()
+            .project(project)
             .childOf()
             .change(changeId1)
             .file(imageFileName)
@@ -3142,13 +3146,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     byte[] imageBytes1 = createRgbImage(255, 0, 0);
     String imageContent1 = new String(imageBytes1, UTF_8);
     Change.Id changeId1 =
-        changeOperations.newChange().file(imageFileName1).content(imageContent1).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(imageFileName1)
+            .content(imageContent1)
+            .create();
 
     String imageFileName2 = "another_image.png";
     byte[] imageBytes2 = createRgbImage(0, 255, 0);
     Change.Id changeId2 =
         changeOperations
             .newChange()
+            .project(project)
             .childOf()
             .change(changeId1)
             .file(imageFileName2)

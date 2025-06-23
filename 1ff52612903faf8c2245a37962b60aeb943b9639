@@ -16,6 +16,24 @@
       "message": "Needs Release-Notes footer",
       "revId": "1ff52612903faf8c2245a37962b60aeb943b9639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b71c2ed3_5f1e3ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-06-23T07:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21074bb1_096a13a6",
+      "revId": "1ff52612903faf8c2245a37962b60aeb943b9639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

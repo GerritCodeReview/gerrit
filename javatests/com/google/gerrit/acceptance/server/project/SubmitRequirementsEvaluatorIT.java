@@ -576,10 +576,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_deletedContent_matching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 2\n", ""))
             .childOf()
@@ -596,10 +598,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_deletedContent_nonMatching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 1\n", ""))
             .childOf()
@@ -616,10 +620,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_addedContent_matching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT + "line 4\n")
             .childOf()
@@ -636,10 +642,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_addedContent_nonMatching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT + "line 4\n")
             .childOf()
@@ -656,10 +664,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_addedFile_matching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file("new_file.txt")
             .content("content of the new file")
             .childOf()
@@ -677,10 +687,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_addedFile_nonMatching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file("new_file.txt")
             .content("content of the new file")
             .childOf()
@@ -698,10 +710,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_modifiedContent_matching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
@@ -718,10 +732,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_modifiedContent_nonMatching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
@@ -738,10 +754,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_modifiedContentPattern_matching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
@@ -759,10 +777,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_exactMatchingWithFilePath_matching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
@@ -780,10 +800,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_exactMatchingWithFilePath_nonMatching() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
@@ -801,10 +823,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_notMatchingWithFilePath() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
@@ -823,10 +847,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_escapeSingleQuotes() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line 'three' is modified\n"))
             .childOf()
@@ -844,10 +870,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_doubleEscapeSingleQuote() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             // This will be written to the file as: line \'three\' is modified.
             .content(CONTENT.replace("line 3\n", "line \\'three\\' is modified\n"))
@@ -867,10 +895,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_escapeDoubleQuotes() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line \"three\" is modified\n"))
             .childOf()
@@ -888,10 +918,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Test
   public void byFileEdits_invalidSyntax() throws Exception {
-    Change.Id parent = changeOperations.newChange().file(FILE_NAME).content(CONTENT).create();
+    Change.Id parent =
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
     Change.Id childId =
         changeOperations
             .newChange()
+            .project(project)
             .file(FILE_NAME)
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()

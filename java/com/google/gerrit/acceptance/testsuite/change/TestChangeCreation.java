@@ -26,6 +26,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import java.time.Instant;
 import java.util.Optional;
@@ -267,11 +268,20 @@ public abstract class TestChangeCreation {
      * Creates the change.
      *
      * @return the {@code Change.Id} of the created change
+     * @deprecated use {@link #createV2()} instead
      */
     @CanIgnoreReturnValue
+    @Deprecated
     public Change.Id create() {
       TestChangeCreation changeUpdate = build();
       return changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
+    }
+
+    // TODO: Remove the create() method and then renamed this method to 'create'.
+    public ChangeIdentifier createV2() {
+      // TODO: Update changeCreator to type ThrowingFunction<TestChangeCreation, ChangeIdentifier>
+      // and then change this to 'changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate)'.
+      return createAndGet().id();
     }
 
     public TestChange createAndGet() {

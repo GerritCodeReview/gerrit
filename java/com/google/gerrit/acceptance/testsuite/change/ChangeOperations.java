@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 
 /**
  * An aggregation of operations on changes for test purposes.
@@ -32,13 +33,24 @@ public interface ChangeOperations {
    * PerChangeOperations} for details on possible operations.
    *
    * @return an aggregation of operations on a specific change
+   * @deprecated use {@link #change(ChangeIdentifier)} instead
    */
+  // TODO: Drop this method once all callers have been migrated to change(ChangeIdentifier).
+  @Deprecated
   PerChangeOperations change(Change.Id changeId);
+
+  /**
+   * Starts the fluent chain for querying or modifying a change. Please see the methods of {@link
+   * PerChangeOperations} for details on possible operations.
+   *
+   * @return an aggregation of operations on a specific change
+   */
+  PerChangeOperations change(ChangeIdentifier changeIdentifier);
 
   /**
    * Starts the fluent chain to create a change. The returned builder can be used to specify the
    * attributes of the new change. To create the change for real, {@link
-   * TestChangeCreation.Builder#create()} must be called.
+   * TestChangeCreation.Builder#createV2()} must be called.
    *
    * <p>Example:
    *
@@ -47,7 +59,7 @@ public interface ChangeOperations {
    *     .newChange()
    *     .file("file1")
    *     .content("Line 1\nLine2\n")
-   *     .create();
+   *     .createV2();
    * </pre>
    *
    * <p><strong>Note:</strong> There must be at least one existing user and repository.

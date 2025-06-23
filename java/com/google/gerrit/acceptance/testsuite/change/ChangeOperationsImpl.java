@@ -137,10 +137,10 @@ public class ChangeOperationsImpl implements ChangeOperations {
       try (Repository repository = repositoryManager.openRepository(project);
           ObjectInserter objectInserter = repository.newObjectInserter();
           RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
-        Instant now = TimeUtil.now();
+        Instant creationTimestamp = changeCreation.createdOn().orElse(TimeUtil.now());
         IdentifiedUser changeOwner = getChangeOwner(changeCreation);
-        PersonIdent author = getAuthorIdent(now, changeCreation);
-        PersonIdent committer = getCommitterIdent(now, changeCreation);
+        PersonIdent author = getAuthorIdent(creationTimestamp, changeCreation);
+        PersonIdent committer = getCommitterIdent(creationTimestamp, changeCreation);
         ObjectId commitId =
             createCommit(repository, revWalk, objectInserter, changeCreation, author, committer);
 
@@ -151,7 +151,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
         inserter.setApprovals(changeCreation.approvals());
         inserter.setValidationOptions(changeCreation.validationOptions());
 
-        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
+        try (BatchUpdate batchUpdate =
+            batchUpdateFactory.create(project, changeOwner, creationTimestamp)) {
           batchUpdate.setRepository(repository, revWalk, objectInserter);
           batchUpdate.insertChange(inserter);
           batchUpdate.execute();

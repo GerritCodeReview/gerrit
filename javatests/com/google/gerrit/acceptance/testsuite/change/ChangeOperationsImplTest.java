@@ -50,6 +50,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -146,6 +149,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.branch).isEqualTo("test-branch");
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedCreationTimestamp() throws Exception {
+    Instant creationTimestamp = Instant.now();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).createdOn(creationTimestamp).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.created)
+        .isEqualTo(Timestamp.from(creationTimestamp.truncatedTo(ChronoUnit.SECONDS)));
   }
 
   @Test

@@ -261,9 +261,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ChangeNumberVirtualIdAlgorithm changeNumberVirtualIdAlgorithm;
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = "GerritBackendFeature__return_new_change_info_id")
   public void get() throws Exception {
     TestChange change = changeOperations.newChange().createAndGet();
 

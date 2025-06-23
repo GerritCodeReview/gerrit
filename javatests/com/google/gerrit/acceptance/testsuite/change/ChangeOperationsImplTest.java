@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
@@ -1027,6 +1028,62 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.changeId()).isEqualTo("I0123456789012345678901234567890123456789");
+  }
+
+  @Test
+  public void projectOfExistingChangeCanBeRetrieved() {
+    Project.NameKey project = projectOperations.newProject().create();
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.project()).isEqualTo(project);
+  }
+
+  @Test
+  public void destOfExistingChangeCanBeRetrieved() {
+    Project.NameKey project = projectOperations.newProject().branches("foo").create();
+    Change.Id changeId = changeOperations.newChange().project(project).branch("foo").create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.dest()).isEqualTo(BranchNameKey.create(project, "foo"));
+  }
+
+  @Test
+  public void subjectOfExistingChangeCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().commitMessage("Foo\n\nBar Baz").create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.subject()).isEqualTo("Foo");
+  }
+
+  @Test
+  public void ownerOfExistingChangeCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().owner(admin.id()).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+    assertThat(change.owner()).isEqualTo(admin.id());
+  }
+
+  @Test
+  public void createdOnOfExistingChangeCanBeRetrieved() {
+    Instant creationTimestamp = Instant.now();
+    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.createdOn()).isEqualTo(creationTimestamp.truncatedTo(ChronoUnit.SECONDS));
+  }
+
+  @Test
+  public void lastUpdatedOfExistingChangeCanBeRetrieved() {
+    Instant creationTimestamp = Instant.now();
+    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).create();
+
+    TestChange change = changeOperations.change(changeId).get();
+
+    // With NoteDb timestamps are rounded to seconds.
+    assertThat(change.lastUpdatedOn()).isEqualTo(creationTimestamp.truncatedTo(ChronoUnit.SECONDS));
   }
 
   @Test

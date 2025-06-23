@@ -501,6 +501,12 @@ public class ChangeOperationsImpl implements ChangeOperations {
       return TestChange.builder()
           .numericChangeId(change.getId())
           .changeId(change.getKey().get())
+          .project(change.getProject())
+          .dest(change.getDest())
+          .subject(change.getSubject())
+          .owner(change.getOwner())
+          .createdOn(change.getCreatedOn())
+          .lastUpdatedOn(change.getLastUpdatedOn())
           .build();
     }
 

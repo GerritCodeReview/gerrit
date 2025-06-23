@@ -27,6 +27,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
@@ -121,7 +122,12 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
   @Override
   public PerChangeOperations change(Change.Id changeId) {
-    return new PerChangeOperationsImpl(changeId);
+    return new PerChangeOperationsImpl(ChangeIdentifier.byNumericChangeId(changeId.get()));
+  }
+
+  @Override
+  public PerChangeOperations change(ChangeIdentifier changeIdentifier) {
+    return new PerChangeOperationsImpl(changeIdentifier);
   }
 
   @Override
@@ -260,12 +266,31 @@ public class ChangeOperationsImpl implements ChangeOperations {
     return switch (parentCommit.getKind()) {
       case BRANCH -> ImmutableList.of();
       case CHANGE_ID -> getGroupsFromChange(parentCommit.changeId());
+      case CHANGE_IDENTIFIER -> getGroupsFromChange(parentCommit.changeIdentifier());
       case COMMIT_SHA_1 -> ImmutableList.of();
       case PATCHSET_ID -> getGroupsFromPatchset(parentCommit.patchsetId());
       default ->
           throw new IllegalStateException(
               String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
     };
+  }
+
+  private ImmutableList<String> getGroupsFromChange(ChangeIdentifier changeIdentifier) {
+    Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeIdentifier.id());
+
+    if (changeNotes.isPresent() && changeNotes.get().getChange().isClosed()) {
+      return ImmutableList.of();
+    }
+
+    return changeNotes
+        .map(ChangeNotes::getCurrentPatchSet)
+        .map(PatchSet::groups)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Change %s not found and hence can't be used as parent.",
+                        changeIdentifier)));
   }
 
   private ImmutableList<String> getGroupsFromChange(Change.Id changeId) {
@@ -323,6 +348,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
     return switch (parentCommit.getKind()) {
       case BRANCH -> resolveBranchTip(repository, parentCommit.branch());
       case CHANGE_ID -> resolveChange(parentCommit.changeId());
+      case CHANGE_IDENTIFIER -> resolveChange(parentCommit.changeIdentifier());
       case COMMIT_SHA_1 -> resolveCommitFromSha1(revWalk, parentCommit.commitSha1());
       case PATCHSET_ID -> resolvePatchset(parentCommit.patchsetId());
       default ->
@@ -348,6 +374,19 @@ public class ChangeOperationsImpl implements ChangeOperations {
     } catch (IOException e) {
       throw new StorageException(e);
     }
+  }
+
+  private ObjectId resolveChange(ChangeIdentifier changeIdentifier) {
+    Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeIdentifier.id());
+    return changeNotes
+        .map(ChangeNotes::getCurrentPatchSet)
+        .map(PatchSet::commitId)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Change %s not found and hence can't be used as parent.",
+                        changeIdentifier)));
   }
 
   private ObjectId resolveChange(Change.Id changeId) {
@@ -475,15 +514,15 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
   private class PerChangeOperationsImpl implements PerChangeOperations {
 
-    private final Change.Id changeId;
+    private final ChangeIdentifier changeIdentifier;
 
-    public PerChangeOperationsImpl(Change.Id changeId) {
-      this.changeId = changeId;
+    public PerChangeOperationsImpl(ChangeIdentifier changeIdentifier) {
+      this.changeIdentifier = changeIdentifier;
     }
 
     @Override
     public boolean exists() {
-      return changeFinder.findOne(changeId).isPresent();
+      return changeFinder.findOne(changeIdentifier.id()).isPresent();
     }
 
     @Override
@@ -492,7 +531,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
     }
 
     private ChangeNotes getChangeNotes() {
-      Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeId);
+      Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeIdentifier.id());
       checkState(changeNotes.isPresent(), "Tried to get non-existing test change.");
       return changeNotes.get();
     }
@@ -547,7 +586,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
           IdentifiedUser uploader = userFactory.create(uploaderId);
           try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, uploader, now)) {
             batchUpdate.setRepository(repository, revWalk, objectInserter);
-            batchUpdate.addOp(changeId, patchSetInserter);
+            batchUpdate.addOp(changeNotes.getChangeId(), patchSetInserter);
             batchUpdate.execute();
           }
           return patchsetId;

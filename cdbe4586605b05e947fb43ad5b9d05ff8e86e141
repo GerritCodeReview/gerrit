@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f468f7f_42aa421e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-24T15:05:40Z",
+      "side": 1,
+      "message": "There\u0027s a loader now, improving performance and only loading bits that are demanded. But i didn\u0027t think we should do this in this change. Not sure if we want it or if it\u0027ll work for us.",
+      "revId": "cdbe4586605b05e947fb43ad5b9d05ff8e86e141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

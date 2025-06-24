@@ -99,12 +99,6 @@ def java_dependencies():
     )
 
     maven_jar(
-        name = "juniversalchardet",
-        artifact = "com.github.albfernandez:juniversalchardet:2.0.0",
-        sha1 = "28c59f58f5adcc307604602e2aa89e2aca14c554",
-    )
-
-    maven_jar(
         name = "json-smart",
         artifact = "net.minidev:json-smart:1.1.1",
         sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",

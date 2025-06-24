@@ -141,9 +141,9 @@
   {/if}
   <link rel="preload" as="style" href="{$staticResourcePath}/styles/main.css">{\n}
 
-  <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-bundle.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-loader.js"></script>{\n}
 
-  // Content between webcomponents-bundle and the load of the main app element
+  // Content between webcomponents-loader and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
   // Contact your local security engineer if you have any questions, and
   // CC them on any changes that load content before gr-app.js.

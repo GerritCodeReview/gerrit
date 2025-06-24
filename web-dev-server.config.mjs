@@ -25,9 +25,14 @@ export default {
     // polygerrit-ui/app/rules.bzl
     async (context, next) => {
 
-      if ( context.url.includes("/bower_components/webcomponentsjs/webcomponents-bundle.js") ) {
-        context.response.redirect("/node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js");
-
+      if ( context.url.includes("/bower_components/webcomponentsjs/webcomponents-loader.js") ) {
+        context.response.redirect("/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js");
+      } else if (context.url.includes("/bower_components/webcomponentsjs/bundles/")) {
+        const bundlePath = context.url.replace(
+          "/bower_components/webcomponentsjs/bundles/",
+          "/node_modules/@webcomponents/webcomponentsjs/bundles/"
+        );
+        context.response.redirect(bundlePath);
       } else if ( context.url.startsWith( "/fonts/" ) ) {
         const fontFile = path.join( "lib/fonts", path.basename(context.url) );
         context.body = fs.createReadStream( fontFile );

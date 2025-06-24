@@ -18,6 +18,8 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
+import com.ibm.icu.text.CharsetDetector;
+import com.ibm.icu.text.CharsetMatch;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -30,7 +32,6 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.mozilla.universalchardet.UniversalDetector;
 
 public class Text extends RawText {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -57,26 +58,31 @@ public class Text extends RawText {
   }
 
   private static Charset charset(byte[] content, String encoding) {
-    if (encoding == null) {
-      UniversalDetector d = new UniversalDetector(null);
-      d.handleData(content, 0, content.length);
-      d.dataEnd();
-      encoding = d.getDetectedCharset();
+    // 1) Prefer using the external hint first.
+    if (encoding != null) {
+      try {
+        return Charset.forName(encoding);
+      } catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
+        logger.atWarning().log(
+            "Unsupported hint encoding '%s', will detect dynamically: %s",
+            encoding, e.getMessage());
+      }
     }
-    if (encoding == null) {
-      return ISO_8859_1;
-    }
+    // 2) Use ICU4J to detect encoding.
     try {
-      return Charset.forName(encoding);
-
-    } catch (IllegalCharsetNameException err) {
-      logger.atSevere().log("Invalid detected charset name '%s': %s", encoding, err.getMessage());
-      return ISO_8859_1;
-
-    } catch (UnsupportedCharsetException err) {
-      logger.atSevere().log("Detected charset '%s' not supported: %s", encoding, err.getMessage());
-      return ISO_8859_1;
+      CharsetDetector detector = new CharsetDetector();
+      detector.setText(content);
+      CharsetMatch match = detector.detect();
+      if (match != null) {
+        encoding = match.getName();
+        // logger.atFine().log("Detected charset: %s", encoding);
+        return Charset.forName(encoding);
+      }
+    } catch (Exception e) {
+      logger.atWarning().log("ICU4J detection error: %s", e.getMessage());
     }
+    // 3) Fallback to ISO-8859-1.
+    return ISO_8859_1;
   }
 
   private Charset charset;

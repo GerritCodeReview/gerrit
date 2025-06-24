@@ -155,13 +155,6 @@ java_library(
 )
 
 java_library(
-    name = "juniversalchardet",
-    data = ["//lib:LICENSE-MPL1.1"],
-    visibility = ["//visibility:public"],
-    exports = ["@juniversalchardet//jar"],
-)
-
-java_library(
     name = "args4j",
     data = ["//lib:LICENSE-args4j"],
     visibility = ["//visibility:public"],

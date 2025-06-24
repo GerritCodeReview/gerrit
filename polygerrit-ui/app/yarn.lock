@@ -212,8 +212,6 @@
     "@polymer/paper-behaviors" "^3.0.0-pre.27"
     "@polymer/paper-styles" "^3.0.0-pre.26"
     "@polymer/polymer" "^3.0.0"
-    "@polymer/paper-styles" "^3.0.0-pre.26"
-    "@polymer/polymer" "^3.0.0"
 
 "@polymer/paper-input@^3.2.1":
   version "3.2.1"
@@ -300,12 +298,7 @@
   resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.11.2.tgz#7539b0ad29598aa2eafee8b341059e20ac9e1006"
   integrity sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw==
 
-"@webcomponents/webcomponentsjs@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-1.3.3.tgz#5bb82a0d3210c836bd4623e13a4a93145cb9dc27"
-  integrity sha512-eLH04VBMpuZGzBIhOnUjECcQPEPcmfhWEijW9u1B5I+2PPYdWf3vWUExdDxu4Y3GljRSTCOlWnGtS9tpzmXMyQ==
-
-"@webcomponents/webcomponentsjs@^2.0.3":
+"@webcomponents/webcomponentsjs@^2.0.3", "@webcomponents/webcomponentsjs@^2.8.0":
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.8.0.tgz#ab21f027594fa827c1889e8b646da7be27c7908a"
   integrity sha512-loGD63sacRzOzSJgQnB9ZAhaQGkN7wl2Zuw7tsphI5Isa0irijrRo6EnJii/GgjGefIFO8AIO7UivzRhFaEk9w==

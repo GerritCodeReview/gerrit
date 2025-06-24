@@ -61,7 +61,7 @@ export enum Timing {
   STARTUP_DIFF_VIEW_DISPLAYED = 'StartupDiffViewDisplayed',
   // Time from startup to showing initial content of the file list.
   STARTUP_FILE_LIST_DISPLAYED = 'StartupFileListDisplayed',
-  // Time from startup to when the webcomponentsready event is fired. If the event is fired from the webcomponents-lite polyfill, this may be arbitrarily long after the app has started.
+  // Time from startup to when the webcomponentsready event is fired. If the event is fired from the webcomponents-bundle polyfill, this may be arbitrarily long after the app has started.
   WEB_COMPONENTS_READY = 'WebComponentsReady',
   // Time to received all data for change view
   CHANGE_DATA = 'ChangeDataLoaded',

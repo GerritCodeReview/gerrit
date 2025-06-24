@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -84,9 +83,6 @@ public class DirectPushRefUpdateContextIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"GerritBackendFeature__use_direct_push_context_for_submit_on_push"})
   public void submitOnPushWithoutJustification_emptyJustification() throws Exception {
     projectOperations
         .project(project)
@@ -122,9 +118,6 @@ public class DirectPushRefUpdateContextIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"GerritBackendFeature__use_direct_push_context_for_submit_on_push"})
   public void submitOnPushWithJustification_justificationStoredInContext() throws Exception {
     projectOperations
         .project(project)

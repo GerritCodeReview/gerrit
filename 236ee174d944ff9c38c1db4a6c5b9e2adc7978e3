@@ -70,6 +70,30 @@
       },
       "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdbb95b7_8cffdf80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-25T08:08:16Z",
+      "side": 1,
+      "message": "\u003e How would that work? \n\nJust remove the @Deprecated annotation from the method. The Javadoc of this method already says that the change number is not guaranteed to unambiguously identify a change.\n\n\u003e Overall I am not sure why this CL is needed. If we can continue to use\n\nEither the method is deprecated, then we should stop using it. Or it is not deprecated then we can continue using it. \n\nContinuing using deprecated methods is bad because it results in warnings in the IDE, and then we have that many false warning, so that we can no longer see real warnings.",
+      "parentUuid": "0889717a_0ffa5255",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

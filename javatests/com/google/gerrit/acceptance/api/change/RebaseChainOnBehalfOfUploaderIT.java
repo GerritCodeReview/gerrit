@@ -86,7 +86,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void cannotRebaseOnBehalfOfUploaderWithAllowConflicts() throws Exception {
     Account.Id uploader = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(uploader).create();
+    Change.Id changeId = changeOperations.newChange().owner(uploader).createV1();
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
     rebaseInput.allowConflicts = true;
@@ -102,7 +102,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void cannotRebaseOnBehalfOfUploaderWithCommitterEmail() throws Exception {
     Account.Id uploader = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(uploader).create();
+    Change.Id changeId = changeOperations.newChange().owner(uploader).createV1();
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
     rebaseInput.committerEmail = "admin@example.com";
@@ -140,13 +140,13 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         groupOperations.newGroup().name("cannot-upload").addMember(rebaser).create();
     blockPermission(Permission.PUSH, cannotUploadGroup);
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     // Create a chain of changes for being rebased, each change with a different uploader.
     Account.Id uploader1 =
         accountOperations.newAccount().preferredEmail("uploader1@example.com").create();
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader1).create();
+        changeOperations.newChange().project(project).owner(uploader1).createV1();
 
     Account.Id uploader2 =
         accountOperations.newAccount().preferredEmail("uploader2@example.com").create();
@@ -157,7 +157,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .childOf()
             .change(changeToBeRebased1)
             .owner(uploader2)
-            .create();
+            .createV1();
 
     Account.Id uploader3 =
         accountOperations.newAccount().preferredEmail("uploader3@example.com").create();
@@ -168,7 +168,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .childOf()
             .change(changeToBeRebased2)
             .owner(uploader3)
-            .create();
+            .createV1();
 
     Account.Id uploader4 =
         accountOperations.newAccount().preferredEmail("uploader4@example.com").create();
@@ -179,7 +179,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .childOf()
             .change(changeToBeRebased3)
             .owner(uploader4)
-            .create();
+            .createV1();
 
     // Block rebase and submit permission for the uploaders. For rebase on behalf of the uploader
     // only
@@ -231,7 +231,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     String uploaderEmailOne = "uploader1@example.com";
     Account.Id uploader = accountOperations.newAccount().preferredEmail(uploaderEmailOne).create();
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     Change.Id changeToBeRebased2 =
         changeOperations
@@ -240,7 +240,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .childOf()
             .change(changeToBeRebased1)
             .owner(uploader)
-            .create();
+            .createV1();
 
     Change.Id changeToBeRebased3 =
         changeOperations
@@ -249,7 +249,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .childOf()
             .change(changeToBeRebased2)
             .owner(uploader)
-            .create();
+            .createV1();
 
     // Change preferred email for the uploader
     String uploaderEmailTwo = "uploader2@example.com";
@@ -257,7 +257,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Create, approve and submit the change that will be the new base for the chain that will be
     // rebased
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
     gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
 
@@ -301,13 +301,13 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     // Create a chain of changes for being rebased, each change with a different uploader.
     Account.Id uploader1 =
         accountOperations.newAccount().preferredEmail("uploader1@example.com").create();
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader1).create();
+        changeOperations.newChange().project(project).owner(uploader1).createV1();
 
     Account.Id uploader2 =
         accountOperations.newAccount().preferredEmail("uploader2@example.com").create();
@@ -318,7 +318,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .childOf()
             .change(changeToBeRebased1)
             .owner(uploader2)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -336,7 +336,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Create and submit another change so that we can rebase the chain once again.
     requestScopeOperations.setApiUser(approver);
-    Change.Id changeToBeTheNewBase2 = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase2 = changeOperations.newChange().project(project).createV1();
     gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
 
@@ -351,9 +351,14 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void nonChangeOwnerWithoutSubmitAndRebasePermissionCannotRebaseChainOnBehalfOfUploader()
       throws Exception {
-    Change.Id changeToBeRebased1 = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeRebased1 = changeOperations.newChange().project(project).createV1();
     Change.Id changeToBeRebased2 =
-        changeOperations.newChange().project(project).childOf().change(changeToBeRebased1).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(changeToBeRebased1)
+            .createV1();
 
     blockPermissionForAllUsers(Permission.REBASE);
     blockPermissionForAllUsers(Permission.SUBMIT);
@@ -402,10 +407,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -413,7 +418,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -447,10 +452,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         accountOperations.newAccount().preferredEmail("uploader@example.com").create();
     Account.Id approver = admin.id();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -458,7 +463,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -483,10 +488,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         accountOperations.newAccount().preferredEmail("uploader@example.com").create();
     Account.Id approver = admin.id();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -494,7 +499,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -533,10 +538,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -544,7 +549,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(changeOwner)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Create a second patch set for the second change in the chain that will be rebased so that the
     // uploader is different to the change owner.
@@ -592,10 +597,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -603,7 +608,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(changeOwner)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Create a second patch set for the second change in the chain that will be rebased so that the
     // uploader is different to the change owner.
@@ -655,10 +660,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).author(author).create();
+        changeOperations.newChange().project(project).owner(uploader).author(author).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -667,7 +672,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .author(author)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -714,10 +719,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).author(author).create();
+        changeOperations.newChange().project(project).owner(uploader).author(author).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -726,7 +731,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .author(author)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -769,10 +774,15 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).committer(committer).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .owner(uploader)
+            .committer(committer)
+            .createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -781,7 +791,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .committer(committer)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -819,7 +829,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
         changeOperations
@@ -827,7 +837,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .project(project)
             .owner(uploader)
             .authorIdent(serverIdent.get())
-            .create();
+            .createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -836,7 +846,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .authorIdent(serverIdent.get())
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -889,7 +899,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
         changeOperations
@@ -897,7 +907,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .project(project)
             .owner(uploader)
             .authorIdent(serverIdent.get())
-            .create();
+            .createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -906,7 +916,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .authorIdent(serverIdent.get())
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -959,10 +969,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         groupOperations.newGroup().name("cannot-upload").addMember(rebaser).create();
     blockPermission(Permission.PUSH, cannotUploadGroup);
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -970,7 +980,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain so that the chain is
     // rebasable.
@@ -994,10 +1004,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id changeOwner = accountOperations.newAccount().create();
     Account.Id approver = admin.id();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -1005,7 +1015,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(changeOwner)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1035,10 +1045,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     Change.Id changeToBeRebased2 =
         changeOperations
@@ -1047,7 +1057,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1094,11 +1104,11 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Account.Id uploader1 = accountOperations.newAccount().create();
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader1).create();
+        changeOperations.newChange().project(project).owner(uploader1).createV1();
 
     Account.Id uploader2 = accountOperations.newAccount().create();
     Change.Id changeToBeRebased2 =
@@ -1108,7 +1118,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader2)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1173,10 +1183,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id rebaser = accountOperations.newAccount().create();
 
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().owner(uploader).project(project).create();
+        changeOperations.newChange().owner(uploader).project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -1184,7 +1194,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1210,7 +1220,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create and submit another change so that we can rebase the chain once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
 
@@ -1251,10 +1261,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id rebaser = accountOperations.newAccount().create();
 
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().owner(uploader).project(project).create();
+        changeOperations.newChange().owner(uploader).project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -1262,7 +1272,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1299,10 +1309,10 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     Account.Id approver = admin.id();
     Account.Id rebaser = accountOperations.newAccount().create();
 
-    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeToBeRebased1 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased2 =
         changeOperations
             .newChange()
@@ -1310,7 +1320,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
             .owner(uploader)
             .childOf()
             .change(changeToBeRebased1)
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the chain that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1332,7 +1342,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create and submit another change so that we can rebase the change once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
 

@@ -220,8 +220,8 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
 
   protected void getChangesByCommitMessageWithPluginDefinedBulkAttribute(
       BulkPluginInfoGetter getter) throws Exception {
-    Change.Id changeWithNoInfo = changeOperations.newChange().commitMessage("no-info").create();
-    Change.Id changeWithInfo = changeOperations.newChange().commitMessage("info").create();
+    Change.Id changeWithNoInfo = changeOperations.newChange().commitMessage("no-info").createV1();
+    Change.Id changeWithInfo = changeOperations.newChange().commitMessage("info").createV1();
 
     Map<Change.Id, List<PluginDefinedInfo>> pluginInfos = getter.call();
     assertThat(pluginInfos.get(changeWithNoInfo)).isNull();

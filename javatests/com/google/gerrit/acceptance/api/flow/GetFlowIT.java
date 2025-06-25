@@ -49,7 +49,7 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getFlowIfNoFlowServiceIsBound_methodNotAllowed() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     MethodNotAllowedException exception =
         assertThrows(
             MethodNotAllowedException.class,
@@ -59,7 +59,7 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getNonExistingFlow_notFound() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       ResourceNotFoundException exception =
@@ -73,7 +73,7 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getFlowWithSingleStage_notYetEvaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation =
         createTestFlowCreationWithOneStage(accountCreator, project, changeId);
@@ -87,7 +87,7 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getFlowWithSingleStage_evaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation =
         createTestFlowCreationWithOneStage(accountCreator, project, changeId);
@@ -106,7 +106,7 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getFlowWithMultipleStages_notYetEvaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation =
         createTestFlowCreationWithMultipleStages(accountCreator, project, changeId);
@@ -120,7 +120,7 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getFlowWithMultipleStages_evaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation = createTestFlowCreation(accountCreator, project, changeId, 3);
     Flow flow = testFlowService.createFlow(flowCreation);

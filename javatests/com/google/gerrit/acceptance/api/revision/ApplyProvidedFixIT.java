@@ -116,7 +116,7 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
             .file(FILE_NAME)
             .content(FILE_CONTENT)
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";

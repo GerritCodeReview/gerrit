@@ -179,7 +179,7 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     createBranch(BranchNameKey.create(project, branch));
 
     // Create a change for master branch
-    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).createV1();
 
     // Push a commit to dev branch
     createChange("refs/heads/dev");

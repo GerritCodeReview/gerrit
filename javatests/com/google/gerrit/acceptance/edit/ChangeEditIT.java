@@ -395,7 +395,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
 
     // Create change to edit
-    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
@@ -483,7 +483,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             .file(FILE_NAME)
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
@@ -842,7 +842,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
 
     // Create change to edit
-    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
@@ -1018,7 +1018,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             .file(FILE_NAME)
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
@@ -1053,7 +1053,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             .file(FILE_NAME)
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
@@ -1115,7 +1115,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             .file(FILE_NAME)
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";

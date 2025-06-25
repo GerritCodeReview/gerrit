@@ -357,7 +357,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -387,11 +387,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             .project(project)
             .file(existingFile)
             .content("content")
-            .create();
+            .createV1();
     vote(admin, prep.toString(), 2, 1);
     gApi.changes().id(prep.get()).current().submit();
 
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -415,7 +415,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -433,7 +433,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -488,7 +488,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -508,7 +508,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -532,7 +532,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -549,7 +549,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
@@ -601,9 +601,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   public void stickyIfFilesUnchanged_magicFilesAreIgnored() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id dummyParentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id dummyParentChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
@@ -612,7 +612,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     // The change is for a merge commit. It doesn't touch any files, but contains /COMMIT_MSG and
     // /MERGE_LIST as magic files.

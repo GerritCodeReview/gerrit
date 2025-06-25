@@ -1537,7 +1537,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void reviewAddsAllUsersInCommentThreadEvenOfDifferentChildBranch() throws Exception {
     Account.Id changeOwner = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).createV1();
     Account.Id user1 = accountOperations.newAccount().create();
     Account.Id user2 = accountOperations.newAccount().create();
     Account.Id user3 = accountOperations.newAccount().create();

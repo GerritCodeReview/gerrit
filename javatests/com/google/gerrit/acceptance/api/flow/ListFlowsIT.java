@@ -51,7 +51,7 @@ public class ListFlowsIT extends AbstractDaemonTest {
 
   @Test
   public void listFlowsIfNoFlowServiceIsBound_methodNotAllowed() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     MethodNotAllowedException exception =
         assertThrows(
             MethodNotAllowedException.class,
@@ -61,7 +61,7 @@ public class ListFlowsIT extends AbstractDaemonTest {
 
   @Test
   public void listFlow_noFlowsExist() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       List<FlowInfo> flows = gApi.changes().id(project.get(), changeId.get()).flows();
@@ -71,7 +71,7 @@ public class ListFlowsIT extends AbstractDaemonTest {
 
   @Test
   public void listFlows() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     Flow flow1 =
         testFlowService.createFlow(

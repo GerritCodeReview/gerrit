@@ -995,7 +995,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void putDraft_humanInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
 
@@ -1054,7 +1054,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void putDraft_invalidInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     DraftInput draft = CommentsUtil.newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
     draft.inReplyTo = "invalid";
     BadRequestException exception =
@@ -1077,7 +1077,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void putDraft_updateInvalidInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
@@ -1092,7 +1092,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void putDraft_updateHumanInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
     DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
@@ -1107,7 +1107,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void putDraft_updateTag() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
@@ -1122,7 +1122,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void updatedDraftStillPointsToParentComment() throws Exception {
     Account.Id accountId = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     String parentCommentUuid =
         changeOperations.change(changeId).patchset(patchsetId).newComment().create();
@@ -2095,7 +2095,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void canCreateHumanCommentWithHumanCommentAsParent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
 
@@ -2113,7 +2113,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void cannotCreateCommentWithInvalidInReplyTo() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     CommentInput comment = CommentsUtil.newComment(COMMIT_MSG, "comment 1 reply");
     comment.inReplyTo = "invalid";

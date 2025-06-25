@@ -134,7 +134,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
             .file("file")
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";

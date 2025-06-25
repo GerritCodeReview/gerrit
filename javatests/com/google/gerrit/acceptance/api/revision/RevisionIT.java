@@ -391,7 +391,7 @@ public class RevisionIT extends AbstractDaemonTest {
             .file("file")
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
@@ -616,7 +616,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void restoreOldPatchSetByCherryPickToSameBranch() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("a.txt").content("aContent").create();
+        changeOperations.newChange().project(project).file("a.txt").content("aContent").createV1();
     ChangeApi change = gApi.changes().id(project.get(), changeId.get());
 
     // Amend the change, deleting file a.txt and adding file b.txt.

@@ -48,7 +48,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
     List<CommentInfo> comments = getCommentsFromServer(changeId);
@@ -57,7 +57,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnOlderPatchset() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     PatchSet.Id previousPatchsetId =
         changeOperations.change(changeId).currentPatchset().get().patchsetId();
     changeOperations.change(changeId).newPatchset().create();
@@ -71,7 +71,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentIsCreatedWithSpecifiedMessage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -87,7 +87,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedWithEmptyMessage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().noMessage().create();
@@ -98,7 +98,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void patchsetLevelCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().onPatchsetLevel().create();
@@ -109,7 +109,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void fileCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").createV1();
 
     String commentUuid =
         changeOperations
@@ -132,7 +132,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .newChange()
             .file("file1")
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -155,7 +155,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .newChange()
             .file("file1")
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -180,7 +180,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnPatchsetCommit() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -198,7 +198,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnParentCommit() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().onParentCommit().create();
@@ -210,8 +210,8 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnSecondParentCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
@@ -220,7 +220,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -237,9 +237,9 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnNonExistingSecondParentCommit() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).createV1();
 
     String commentUuid =
         changeOperations
@@ -259,8 +259,8 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnAutoMergeCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
@@ -269,7 +269,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -286,7 +286,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedAsResolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().resolved().create();
@@ -297,7 +297,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedAsUnresolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().unresolved().create();
@@ -308,7 +308,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void replyToCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
 
@@ -326,7 +326,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void tagCanBeAttachedToAComment() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -342,7 +342,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentIsCreatedWithSpecifiedAuthor() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     Account.Id accountId = accountOperations.newAccount().create();
 
     String commentUuid =
@@ -354,7 +354,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentIsCreatedWithSpecifiedCreationTime() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     // Don't use nanos. NoteDb supports only second precision.
     Instant creationTime =
@@ -374,7 +374,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void zoneOfCreationDateCanBeOmitted() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     // As we don't care about the exact time zone internally used as a default, do a relative test
     // so that we don't need to assert on exact instants in time. For a relative test, we need two
@@ -407,7 +407,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newDraftComment().create();
@@ -418,7 +418,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnOlderPatchset() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     PatchSet.Id previousPatchsetId =
         changeOperations.change(changeId).currentPatchset().get().patchsetId();
     changeOperations.change(changeId).newPatchset().create();
@@ -432,7 +432,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentIsCreatedWithSpecifiedMessage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -448,7 +448,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedWithEmptyMessage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newDraftComment().noMessage().create();
@@ -459,7 +459,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftPatchsetLevelCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -475,7 +475,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftFileCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").createV1();
 
     String commentUuid =
         changeOperations
@@ -498,7 +498,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .newChange()
             .file("file1")
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -521,7 +521,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .newChange()
             .file("file1")
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -546,7 +546,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnPatchsetCommit() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -564,7 +564,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnParentCommit() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -581,8 +581,8 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnSecondParentCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
@@ -591,7 +591,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -608,9 +608,9 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnNonExistingSecondParentCommit() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).createV1();
 
     String commentUuid =
         changeOperations
@@ -630,8 +630,8 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnAutoMergeCommit() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
@@ -640,7 +640,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     String commentUuid =
         changeOperations
@@ -657,7 +657,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedAsResolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newDraftComment().resolved().create();
@@ -668,7 +668,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedAsUnresolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newDraftComment().unresolved().create();
@@ -679,7 +679,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftReplyToDraftCommentCanBeCreated() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newDraftComment().create();
 
@@ -696,7 +696,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftReplyToPublishedCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
 
@@ -714,7 +714,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void tagCanBeAttachedToADraftComment() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String commentUuid =
         changeOperations
@@ -730,7 +730,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentIsCreatedWithSpecifiedAuthor() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     Account.Id accountId = accountOperations.newAccount().create();
 
     String commentUuid =
@@ -752,7 +752,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentIsCreatedWithSpecifiedCreationTime() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     // Don't use nanos. NoteDb supports only second precision.
     Instant creationTime =
@@ -772,7 +772,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void zoneOfCreationDateOfDraftCommentCanBeOmitted() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     // As we don't care about the exact time zone internally used as a default, do a relative test
     // so that we don't need to assert on exact instants in time. For a relative test, we need two
@@ -805,7 +805,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void noDraftCommentsAreCreatedOnCreationOfPublishedComment() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     changeOperations.change(changeId).currentPatchset().newComment().create();
 
@@ -815,7 +815,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void noPublishedCommentsAreCreatedOnCreationOfDraftComment() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     changeOperations.change(changeId).currentPatchset().newDraftComment().create();
 

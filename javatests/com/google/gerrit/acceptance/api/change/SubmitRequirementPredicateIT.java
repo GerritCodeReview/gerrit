@@ -136,7 +136,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             .newChange()
             .commitMessage("Hello Earth, from planet Mars")
             .project(project)
-            .create();
+            .createV1();
     // The punctuation and capitalisation is ignored.
     assertMatching("message:\"earth from planet\"", c1);
     // The punctuation and capitalisation is ignored.
@@ -145,7 +145,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_sameUserVotesOnDifferentLabels_fails() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(admin.id());
     approve(c1.toString());
     assertNotMatching("distinctvoters:\"[Code-Review,Custom-Label],value=MAX,count>1\"", c1);
@@ -160,7 +160,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_distinctUsersOnDifferentLabels_passes() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(admin.id());
     approve(c1.toString());
     requestScopeOperations.setApiUser(user.id());
@@ -173,7 +173,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_onlyMaxVotesRespected() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes()
         .id(c1.toString())
@@ -189,7 +189,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_onlyMinVotesRespected() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes()
         .id(c1.toString())
@@ -205,7 +205,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_onlyExactValueRespected() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes()
         .id(c1.toString())
@@ -221,7 +221,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_valueIsOptional() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes()
         .id(c1.toString())
@@ -235,7 +235,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_moreThanTwoLabels() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes()
         .id(c1.toString())
@@ -249,7 +249,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Test
   public void distinctVoters_moreThanTwoLabels_moreThanTwoUsers() throws Exception {
-    Change.Id c1 = changeOperations.newChange().project(project).create();
+    Change.Id c1 = changeOperations.newChange().project(project).createV1();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes()
         .id(c1.toString())
@@ -344,15 +344,15 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
   public void hasSubmoduleUpdate_withWrongArgs_throws() {
     assertError(
         "has:submodule-update,base=xyz",
-        changeOperations.newChange().project(project).create(),
+        changeOperations.newChange().project(project).createV1(),
         "failed to parse the parent number xyz: For input string: \"xyz\"");
     assertError(
         "has:submodule-update,base=1,arg=foo",
-        changeOperations.newChange().project(project).create(),
+        changeOperations.newChange().project(project).createV1(),
         "wrong number of arguments for the has:submodule-update operator");
     assertError(
         "has:submodule-update,base",
-        changeOperations.newChange().project(project).create(),
+        changeOperations.newChange().project(project).createV1(),
         "unexpected base value format");
   }
 
@@ -418,7 +418,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             .project(project)
             .author(authorId)
             .committer(committerId)
-            .create();
+            .createV1();
     ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
     assertAuthor(changeInfo, "authoremail@example.com");
 
@@ -452,7 +452,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             .project(project)
             .author(authorId)
             .committer(committerId)
-            .create();
+            .createV1();
     ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
     assertCommitter(changeInfo, "committeremail@example.com");
 
@@ -515,7 +515,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     gApi.groups().id(ServiceUserClassifier.SERVICE_USERS).addMembers(serviceUser.toString());
 
     Change.Id changeApprovedByAllReviewers =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(project, changeApprovedByAllReviewers, reviewer1, reviewer2, reviewer3);
     addReviews(
         project,
@@ -526,12 +526,12 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         reviewer3);
 
     Change.Id changeApprovedBySomeReviewers =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(project, changeApprovedBySomeReviewers, reviewer1, reviewer2, reviewer3);
     addReviews(project, changeApprovedBySomeReviewers, ReviewInput.approve(), reviewer1, reviewer2);
 
     Change.Id changeRecommendedByAllReviewers =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(project, changeRecommendedByAllReviewers, reviewer1, reviewer2, reviewer3);
     addReviews(
         project,
@@ -542,17 +542,17 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         reviewer3);
 
     Change.Id changeRecommendedBySomeReviewers =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(project, changeRecommendedBySomeReviewers, reviewer1, reviewer2, reviewer3);
     addReviews(
         project, changeRecommendedBySomeReviewers, ReviewInput.recommend(), reviewer1, reviewer2);
 
     Change.Id changeNoVotesByReviewers =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(project, changeNoVotesByReviewers, reviewer1, reviewer2, reviewer3);
 
     Change.Id changeWithoutReviewers =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -691,7 +691,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     }
     projectCache.evictAndReindex(project);
     Change.Id changeRecommendedByAllReviewersWithReviewersByEmail =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(
         project,
         changeRecommendedByAllReviewersWithReviewersByEmail,
@@ -710,7 +710,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         changeRecommendedByAllReviewersWithReviewersByEmail,
         "email-without-account@example.com");
     Change.Id changeNoVotesByReviewersWithReviewersByEmail =
-        changeOperations.newChange().project(project).owner(owner).create();
+        changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(
         project, changeNoVotesByReviewersWithReviewersByEmail, reviewer1, reviewer2, reviewer3);
     addReviewer(

@@ -115,7 +115,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   @Test
   public void getChangeRef() throws Exception {
     // create a change
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     // a user without the 'Access Database' capability can see the change ref
     requestScopeOperations.setApiUser(user.id());
@@ -127,7 +127,8 @@ public class GetBranchIT extends AbstractDaemonTest {
   public void getChangeRefOfNonVisibleChange() throws Exception {
     // create a change
     String branchName = "master";
-    Change.Id changeId = changeOperations.newChange().project(project).branch(branchName).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).branch(branchName).createV1();
 
     // block read access to the branch
     projectOperations
@@ -150,7 +151,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     TestAccount user2 = accountCreator.user2();
 
     // create a change
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     // create a change edit by 'user'
     requestScopeOperations.setApiUser(user.id());
@@ -173,7 +174,8 @@ public class GetBranchIT extends AbstractDaemonTest {
   public void cannotGetChangeEditRefOfNonVisibleChange() throws Exception {
     // create a change
     String branchName = "master";
-    Change.Id changeId = changeOperations.newChange().project(project).branch(branchName).create();
+    Change.Id changeId =
+        changeOperations.newChange().project(project).branch(branchName).createV1();
 
     // create a change edit by 'user'
     requestScopeOperations.setApiUser(user.id());
@@ -197,7 +199,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   @Test
   public void getChangeMetaRef() throws Exception {
     // create a change
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     // A user without the 'Access Database' capability can see the change meta ref.
     // This may be surprising, as 'Access Database' guards access to meta refs and the change meta
@@ -509,7 +511,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .branch("master")
             .file(file)
             .content("base content")
-            .create();
+            .createV1();
     approve(Integer.toString(baseChange.get()));
     gApi.changes().id(baseChange.get()).current().submit();
 
@@ -527,7 +529,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .branch("master")
             .file(file)
             .content("master content")
-            .create();
+            .createV1();
     approve(Integer.toString(changeInMaster.get()));
     gApi.changes().id(changeInMaster.get()).current().submit();
 
@@ -539,7 +541,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .branch(branchName)
             .file(file)
             .content("other content")
-            .create();
+            .createV1();
     approve(Integer.toString(changeInOtherBranch.get()));
     gApi.changes().id(changeInOtherBranch.get()).current().submit();
 
@@ -555,7 +557,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .tipOfBranch(branchName)
             .file(file)
             .content("merged content")
-            .create();
+            .createV1();
 
     String mergeRevision =
         changeOperations.change(mergeChange).currentPatchset().get().commitId().name();

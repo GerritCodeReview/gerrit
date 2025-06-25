@@ -54,7 +54,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowIfNoFlowServiceIsBound_methodNotAllowed() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     MethodNotAllowedException exception =
         assertThrows(
             MethodNotAllowedException.class,
@@ -67,7 +67,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithoutStages_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
@@ -89,7 +89,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithoutConditionInStageExpression_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
@@ -111,7 +111,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithoutActionInStageExpression_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
@@ -126,7 +126,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithoutNameInAction_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
@@ -148,7 +148,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithSingleStage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
@@ -161,7 +161,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithMultipleStage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
@@ -174,7 +174,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithoutParametersInAction() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
@@ -193,7 +193,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowWithInvalidCondtition_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       FlowInput flowInput = createTestFlowInputWithInvalidCondition(accountCreator, changeId);
@@ -206,7 +206,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
   @Test
   public void createFlow_authenticationRequired() throws Exception {
     requestScopeOperations.setApiUserAnonymous();
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     testFlowService.rejectFlowCreation();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
@@ -221,7 +221,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlow_permissionDenied() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     testFlowService.rejectFlowCreation();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {

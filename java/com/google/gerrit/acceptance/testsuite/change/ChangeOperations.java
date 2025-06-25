@@ -50,7 +50,7 @@ public interface ChangeOperations {
   /**
    * Starts the fluent chain to create a change. The returned builder can be used to specify the
    * attributes of the new change. To create the change for real, {@link
-   * TestChangeCreation.Builder#createV2()} must be called.
+   * TestChangeCreation.Builder#create()} must be called.
    *
    * <p>Example:
    *

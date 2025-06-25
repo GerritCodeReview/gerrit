@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882a208c_b3b72ac9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-25T07:52:51Z",
+      "side": 1,
+      "message": "That mentions\n\n```\nbecause the potential\nincompatibility with changes imported from other servers\n```\n\nWhat does this mean? Which other changes are we importing from other servers?\n\nFWIW I am quite surprised that we cannot get a change using `Change.Id changeId` :(",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

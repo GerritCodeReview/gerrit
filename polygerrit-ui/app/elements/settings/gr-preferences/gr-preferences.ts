@@ -124,7 +124,10 @@ export class GrPreferences extends LitElement {
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
-    if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)) {
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
+      this.flagsService.isEnabled(KnownExperimentId.COMMENT_AUTOCOMPLETION)
+    ) {
       subscribe(
         this,
         () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
@@ -479,7 +482,11 @@ export class GrPreferences extends LitElement {
   // When the experiment is over, move this back to render(),
   // removing this function.
   private renderGenerateSuggestionWhenCommenting() {
-    if (!this.suggestionsProvider) return nothing;
+    if (
+      !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
+      !this.suggestionsProvider
+    )
+      return nothing;
     return html`
       <section id="allowSuggestCodeWhileCommentingSection">
         <div class="title">

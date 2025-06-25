@@ -94,6 +94,30 @@
       },
       "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd5fa68f_c1d6783b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-25T08:11:24Z",
+      "side": 1,
+      "message": "\u003e Either the method is deprecated, then we should stop using it\n\nYeah this is the part I am struggling with. It\u0027s not deprecated for us but it\u0027s deprecated for the OS community.\n\nI guess that means it\u0027s overall deprecated *sigh*\n\nLGTM on this change then.",
+      "parentUuid": "cdbb95b7_8cffdf80",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

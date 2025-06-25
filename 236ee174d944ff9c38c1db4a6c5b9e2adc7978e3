@@ -22,6 +22,30 @@
       },
       "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e63967bb_124fe942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-25T07:58:22Z",
+      "side": 1,
+      "message": "This is a feature in upstream Gerrit that we are not using at Google.\nI don\u0027t know details about it, only that it\u0027s the reason why this method has been marked as deprecated, see commit message of that change [1]. We can still use `Change.Id changeId` and it works while it uniquely identifies a change (which is true as long as no other change with the same ID has been imported from another server). Alternatively we could remove the method deprecation.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/394440",
+      "parentUuid": "882a208c_b3b72ac9",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

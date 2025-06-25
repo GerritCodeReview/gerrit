@@ -178,9 +178,9 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
   public void defaultRefFilter_changeVisibilityIsAgnosticOfProvidedGroups() throws Exception {
     ExternalUser user = createUserInGroup("1", "it-department");
 
-    Change.Id changeOnMaster = changeOperations.newChange().project(project).create();
+    Change.Id changeOnMaster = changeOperations.newChange().project(project).createV1();
     Change.Id changeOnRefsMetaConfig =
-        changeOperations.newChange().project(project).branch("refs/meta/config").create();
+        changeOperations.newChange().project(project).branch("refs/meta/config").createV1();
     // Check that only the change on the default branch is visible
     assertThat(getVisibleRefNames(user))
         .containsExactly(
@@ -226,7 +226,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
   public void changeVisibility_changeOnInvisibleBranchNotVisible() throws Exception {
     // Create a change that is not visible to members of 'externalGroup'
     Change.Id invisibleChange =
-        changeOperations.newChange().project(project).branch("refs/meta/config").create();
+        changeOperations.newChange().project(project).branch("refs/meta/config").createV1();
     ExternalUser user = createUserInGroup("1", "it-department");
     AuthException thrown =
         assertThrows(
@@ -241,7 +241,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
 
   @Test
   public void changeVisibility_changeOnBranchVisibleToAnonymousIsVisible() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     ExternalUser user = createUserInGroup("1", "it-department");
     permissionBackend
         .user(user)
@@ -251,7 +251,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
 
   @Test
   public void changeVisibility_changeOnBranchVisibleToRegisteredUsersIsVisible() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     ExternalUser user = createUserInGroup("1", "it-department");
     blockAnonymousRead();
     permissionBackend

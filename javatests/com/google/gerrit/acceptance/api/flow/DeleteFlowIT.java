@@ -43,7 +43,7 @@ public class DeleteFlowIT extends AbstractDaemonTest {
 
   @Test
   public void deleteFlow() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation =
         createTestFlowCreationWithOneStage(accountCreator, project, changeId);
@@ -57,7 +57,7 @@ public class DeleteFlowIT extends AbstractDaemonTest {
   @Test
   public void deleteFlow_authenticationRequired() throws Exception {
     requestScopeOperations.setApiUserAnonymous();
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation =
         createTestFlowCreationWithOneStage(accountCreator, project, changeId);
@@ -77,7 +77,7 @@ public class DeleteFlowIT extends AbstractDaemonTest {
 
   @Test
   public void deleteFlow_permissionDenied() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     FlowCreation flowCreation =
         createTestFlowCreationWithOneStage(accountCreator, project, changeId);

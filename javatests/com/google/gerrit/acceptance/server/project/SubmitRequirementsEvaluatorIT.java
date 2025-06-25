@@ -577,7 +577,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_deletedContent_matching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -586,7 +586,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 2\n", ""))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 2'\"");
@@ -599,7 +599,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_deletedContent_nonMatching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -608,7 +608,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 1\n", ""))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 2'\"");
@@ -621,7 +621,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_addedContent_matching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -630,7 +630,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT + "line 4\n")
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 4'\"");
@@ -643,7 +643,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_addedContent_nonMatching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -652,7 +652,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT + "line 4\n")
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='line 5'\"");
@@ -665,7 +665,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_addedFile_matching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -674,7 +674,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content("content of the new file")
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -688,7 +688,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_addedFile_nonMatching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -697,7 +697,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content("content of the new file")
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -711,7 +711,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_modifiedContent_matching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -720,7 +720,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='three'\"");
@@ -733,7 +733,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_modifiedContent_nonMatching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -742,7 +742,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create("file:\"'^.*\\.txt',withDiffContaining='ten'\"");
@@ -755,7 +755,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_modifiedContentPattern_matching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -764,7 +764,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -778,7 +778,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_exactMatchingWithFilePath_matching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -787,7 +787,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -801,7 +801,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_exactMatchingWithFilePath_nonMatching() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -810,7 +810,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -824,7 +824,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_notMatchingWithFilePath() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -833,7 +833,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     // commit edit only matches with files ending with ".java". Since our modified file name ends
     // with ".txt", the applicability expression will not match.
@@ -848,7 +848,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_escapeSingleQuotes() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -857,7 +857,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line 'three' is modified\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -871,7 +871,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_doubleEscapeSingleQuote() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -881,7 +881,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line \\'three\\' is modified\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     // Users can still provide back-slashes in regexes by escaping them.
     SubmitRequirementExpression exp =
@@ -896,7 +896,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_escapeDoubleQuotes() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -905,7 +905,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line \"three\" is modified\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(
@@ -919,7 +919,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byFileEdits_invalidSyntax() throws Exception {
     Change.Id parent =
-        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).create();
+        changeOperations.newChange().project(project).file(FILE_NAME).content(CONTENT).createV1();
     Change.Id childId =
         changeOperations
             .newChange()
@@ -928,7 +928,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             .content(CONTENT.replace("line 3\n", "line three\n"))
             .childOf()
             .change(parent)
-            .create();
+            .createV1();
 
     SubmitRequirementExpression exp =
         SubmitRequirementExpression.create(

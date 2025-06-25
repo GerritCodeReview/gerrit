@@ -89,7 +89,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void cannotRebaseOnBehalfOfUploaderWithAllowConflicts() throws Exception {
     Account.Id uploader = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(uploader).create();
+    Change.Id changeId = changeOperations.newChange().owner(uploader).createV1();
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
     rebaseInput.allowConflicts = true;
@@ -124,9 +124,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -170,9 +170,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -201,7 +201,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void cannotRebaseNonCurrentPatchSetOnBehalfOfUploader() throws Exception {
     Account.Id uploader = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(uploader).create();
+    Change.Id changeId = changeOperations.newChange().owner(uploader).createV1();
     changeOperations.change(changeId).newPatchset().create();
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
@@ -275,9 +275,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(changeOwner);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
 
     // Create a second patch set for the change that will be rebased so that the uploader is
     // different to the change owner. This is to verify that being change owner doesn't matter for
@@ -360,9 +360,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Create two changes both with the same parent
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
@@ -399,9 +399,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -425,7 +425,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create and submit another change so that we can rebase the change once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
 
@@ -444,7 +444,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create and submit another change so that we can rebase the change once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase3 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     gApi.changes().id(changeToBeTheNewBase3.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase3.get()).current().submit();
 
@@ -465,7 +465,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void nonChangeOwnerWithoutSubmitAndRebasePermissionCannotRebaseOnBehalfOfUploader()
       throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     blockPermissionForAllUsers(Permission.REBASE);
     blockPermissionForAllUsers(Permission.SUBMIT);
@@ -516,9 +516,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -556,9 +556,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -591,9 +591,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -636,9 +636,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(changeOwner);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
 
     // Create a second patch set for the change that will be rebased so that the uploader is
     // different to the change owner.
@@ -694,9 +694,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(changeOwner);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
 
     // Create a second patch set for the change that will be rebased so that the uploader is
     // different to the change owner.
@@ -752,9 +752,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).author(author).create();
+        changeOperations.newChange().project(project).owner(uploader).author(author).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -798,9 +798,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).author(author).create();
+        changeOperations.newChange().project(project).owner(uploader).author(author).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -847,9 +847,14 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).committer(committer).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .owner(uploader)
+            .committer(committer)
+            .createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -884,14 +889,14 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // change that will be rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
         changeOperations
             .newChange()
             .project(project)
             .owner(uploader)
             .authorIdent(serverIdent.get())
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -940,14 +945,14 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // change that will be rebased.
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
         changeOperations
             .newChange()
             .project(project)
             .owner(uploader)
             .authorIdent(serverIdent.get())
-            .create();
+            .createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1003,9 +1008,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1032,9 +1037,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(changeOwner);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(changeOwner).create();
+        changeOperations.newChange().project(project).owner(changeOwner).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1067,9 +1072,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1126,9 +1131,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1152,7 +1157,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create and submit another change so that we can rebase the change once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
 
@@ -1207,9 +1212,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1283,9 +1288,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1332,9 +1337,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create two changes both with the same parent
     requestScopeOperations.setApiUser(uploader);
     Change.Id changeToBeTheNewBase =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     Change.Id changeToBeRebased =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
@@ -1356,7 +1361,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Create and submit another change so that we can rebase the change once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
-        changeOperations.newChange().project(project).owner(uploader).create();
+        changeOperations.newChange().project(project).owner(uploader).createV1();
     gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
     gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
 

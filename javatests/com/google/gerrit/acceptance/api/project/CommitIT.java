@@ -261,7 +261,7 @@ public class CommitIT extends AbstractDaemonTest {
             .file("file")
             .content("content")
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";

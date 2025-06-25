@@ -35,7 +35,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void modifyMultipleFilesInOneChangeEdit() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     RestResponse response =
         adminRestSession.putRaw(
             String.format("/changes/%s/edit/%s", changeId, FILE_NAME),

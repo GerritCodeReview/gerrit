@@ -156,7 +156,12 @@ public class RebaseIT {
         throws Exception {
       // Create a chain with 2 changes
       Change.Id changeId1 =
-          changeOperations.newChange().project(project).file("a.txt").content("A content").create();
+          changeOperations
+              .newChange()
+              .project(project)
+              .file("a.txt")
+              .content("A content")
+              .createV1();
       Change.Id changeId2 =
           changeOperations
               .newChange()
@@ -165,7 +170,7 @@ public class RebaseIT {
               .change(changeId1)
               .file("b.txt")
               .content("B content")
-              .create();
+              .createV1();
 
       // Delete the first change
       gApi.changes().id(project.get(), changeId1.get()).delete();
@@ -185,7 +190,12 @@ public class RebaseIT {
         throws Exception {
       // Create a chain with 2 changes
       Change.Id changeId1 =
-          changeOperations.newChange().project(project).file("a.txt").content("A content").create();
+          changeOperations
+              .newChange()
+              .project(project)
+              .file("a.txt")
+              .content("A content")
+              .createV1();
       Change.Id changeId2 =
           changeOperations
               .newChange()
@@ -194,13 +204,18 @@ public class RebaseIT {
               .change(changeId1)
               .file("b.txt")
               .content("B content")
-              .create();
+              .createV1();
 
       // Delete the first change
       gApi.changes().id(project.get(), changeId1.get()).delete();
 
       Change.Id changeIdOther =
-          changeOperations.newChange().project(project).file("c.txt").content("C content").create();
+          changeOperations
+              .newChange()
+              .project(project)
+              .file("c.txt")
+              .content("C content")
+              .createV1();
 
       String newBase = gApi.changes().id(project.get(), changeIdOther.get()).get().currentRevision;
       String commitThatIsBeingRebased =
@@ -247,7 +262,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("base content")
-              .create();
+              .createV1();
       approveAndSubmit(initialChange);
 
       // Create another branch
@@ -265,7 +280,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("master content")
-              .create();
+              .createV1();
       approveAndSubmit(baseChangeInMaster);
 
       // Create a change in the other branch and that touches file1 and creates file2.
@@ -278,7 +293,7 @@ public class RebaseIT {
               .content("other content")
               .file(file2)
               .content("content")
-              .create();
+              .createV1();
       approveAndSubmit(changeInOtherBranch);
 
       // Create a merge change with a conflict resolution for file1. file2 has the same content as
@@ -296,7 +311,7 @@ public class RebaseIT {
               .content("merged content")
               .file(file2)
               .content("content")
-              .create();
+              .createV1();
       String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
 
       // Create a change in master onto which the merge change can be rebased. This change touches
@@ -308,7 +323,7 @@ public class RebaseIT {
               .branch("master")
               .file(file3)
               .content("other content")
-              .create();
+              .createV1();
       approveAndSubmit(newBaseChangeInMaster);
 
       // Add an approval whose score should be copied on rebase.
@@ -348,7 +363,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("base content")
-              .create();
+              .createV1();
       approveAndSubmit(initialChange);
 
       // Create another branch
@@ -366,7 +381,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("master content")
-              .create();
+              .createV1();
       approveAndSubmit(baseChangeInMaster);
 
       // Create a change in the other branch and that touches file1 and creates file2.
@@ -379,7 +394,7 @@ public class RebaseIT {
               .content("other content")
               .file(file2)
               .content("content")
-              .create();
+              .createV1();
       approveAndSubmit(changeInOtherBranch);
 
       // Create a merge change with a conflict resolution for file1. file2 has the same content as
@@ -397,7 +412,7 @@ public class RebaseIT {
               .content("merged content")
               .file(file2)
               .content("content")
-              .create();
+              .createV1();
 
       // Create a change in master onto which the merge change can be rebased. This change touches
       // file1 again so that there is a conflict on rebase.
@@ -408,7 +423,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("conflicting content")
-              .create();
+              .createV1();
       approveAndSubmit(newBaseChangeInMaster);
 
       // Try to rebase the merge change
@@ -457,7 +472,7 @@ public class RebaseIT {
               .branch("master")
               .file(file)
               .content("base content")
-              .create();
+              .createV1();
       approveAndSubmit(initialChange);
 
       // Create another branch
@@ -475,7 +490,7 @@ public class RebaseIT {
               .branch("master")
               .file(file)
               .content("master content")
-              .create();
+              .createV1();
       approveAndSubmit(baseChangeInMaster);
 
       // Create a change in the other branch and that also touches the file.
@@ -486,7 +501,7 @@ public class RebaseIT {
               .branch(branchName)
               .file(file)
               .content("other content")
-              .create();
+              .createV1();
       approveAndSubmit(changeInOtherBranch);
 
       // Create a merge change with a conflict resolution.
@@ -504,7 +519,7 @@ public class RebaseIT {
               .tipOfBranch(branchName)
               .file(file)
               .content(mergeContent)
-              .create();
+              .createV1();
       String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
       String mergeSha1 = abbreviateName(ObjectId.fromString(commitThatIsBeingRebased), 6);
 
@@ -520,7 +535,7 @@ public class RebaseIT {
               .commitMessage(newBaseCommitMessage)
               .file(file)
               .content(newBaseContent)
-              .create();
+              .createV1();
       approveAndSubmit(newBaseChangeInMaster);
 
       // Add an approval whose score should NOT be copied on rebase (since there is a conflict the
@@ -608,7 +623,7 @@ public class RebaseIT {
               .branch("master")
               .file(file)
               .content("base content")
-              .create();
+              .createV1();
       approveAndSubmit(initialChange);
 
       // Create another branch
@@ -626,7 +641,7 @@ public class RebaseIT {
               .branch("master")
               .file(file)
               .content("master content")
-              .create();
+              .createV1();
       approveAndSubmit(baseChangeInMaster);
 
       // Create a change in the other branch and that also touches the file.
@@ -637,7 +652,7 @@ public class RebaseIT {
               .branch(branchName)
               .file(file)
               .content("other content")
-              .create();
+              .createV1();
       approveAndSubmit(changeInOtherBranch);
 
       // Create a merge change with a conflict resolution for the file.
@@ -653,7 +668,7 @@ public class RebaseIT {
               .tipOfBranch(branchName)
               .file(file)
               .content(mergeContent)
-              .create();
+              .createV1();
       String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
 
       // Create a change in master onto which the merge change can be rebased.  This change touches
@@ -666,7 +681,7 @@ public class RebaseIT {
               .branch("master")
               .file(file)
               .content(newBaseContent)
-              .create();
+              .createV1();
       approveAndSubmit(newBaseChangeInMaster);
 
       // Rebase the merge change with setting a merge strategy
@@ -846,8 +861,8 @@ public class RebaseIT {
       Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
 
       // Create two changes both with the same parent
-      Change.Id c1 = changeOperations.newChange().project(project).owner(testUser).create();
-      Change.Id c2 = changeOperations.newChange().project(project).owner(testUser).create();
+      Change.Id c1 = changeOperations.newChange().project(project).owner(testUser).createV1();
+      Change.Id c2 = changeOperations.newChange().project(project).owner(testUser).createV1();
 
       // Approve and submit the first change
       gApi.changes().id(c1.get()).current().review(ReviewInput.approve());
@@ -1753,8 +1768,8 @@ public class RebaseIT {
 
     @Test
     public void rebaseActionEnabledIfChangeCanBeRebased() throws Exception {
-      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
-      Change.Id changeToBeRebased = changeOperations.newChange().project(project).create();
+      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
+      Change.Id changeToBeRebased = changeOperations.newChange().project(project).createV1();
 
       // Change cannot be rebased since its parent commit is the same commit as the HEAD of the
       // destination branch.
@@ -1779,9 +1794,9 @@ public class RebaseIT {
 
     @Test
     public void rebaseActionEnabledIfChangeHasAParentChange() throws Exception {
-      Change.Id change1 = changeOperations.newChange().project(project).create();
+      Change.Id change1 = changeOperations.newChange().project(project).createV1();
       Change.Id change2 =
-          changeOperations.newChange().project(project).childOf().change(change1).create();
+          changeOperations.newChange().project(project).childOf().change(change1).createV1();
 
       // change1 cannot be rebased since its parent commit is the same commit as the HEAD of the
       // destination branch.
@@ -2034,7 +2049,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("base content")
-              .create();
+              .createV1();
       approveAndSubmit(initialChange);
 
       // Create another branch
@@ -2052,7 +2067,7 @@ public class RebaseIT {
               .branch("master")
               .file(file1)
               .content("master content")
-              .create();
+              .createV1();
       approveAndSubmit(baseChangeInMaster);
 
       // Create a change in the other branch and that also touches file1.
@@ -2063,7 +2078,7 @@ public class RebaseIT {
               .branch(branchName)
               .file(file1)
               .content("other content")
-              .create();
+              .createV1();
       approveAndSubmit(changeInOtherBranch);
 
       // Create a merge change with a conflict resolution.
@@ -2078,7 +2093,7 @@ public class RebaseIT {
               .tipOfBranch(branchName)
               .file(file1)
               .content("merged content")
-              .create();
+              .createV1();
       String mergeCommitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
 
       // Create a follow up change.
@@ -2091,7 +2106,7 @@ public class RebaseIT {
               .change(mergeChangeId)
               .file(file1)
               .content("modified content")
-              .create();
+              .createV1();
       String followUpCommitThatIsBeingRebased = getCurrentRevision(followUpChangeId);
 
       // Create another change in the other branch so that we can create another merge
@@ -2102,7 +2117,7 @@ public class RebaseIT {
               .branch(branchName)
               .file(file1)
               .content("yet another content")
-              .create();
+              .createV1();
       approveAndSubmit(anotherChangeInOtherBranch);
 
       // Create a second merge change with a conflict resolution.
@@ -2119,7 +2134,7 @@ public class RebaseIT {
               .tipOfBranch(branchName)
               .file(file1)
               .content("another merged content")
-              .create();
+              .createV1();
       String followUpMergeCommitThatIsBeingRebased = getCurrentRevision(followUpMergeChangeId);
 
       // Create a change in master onto which the chain can be rebased. This change touches an
@@ -2131,7 +2146,7 @@ public class RebaseIT {
               .branch("master")
               .file(file2)
               .content("other content")
-              .create();
+              .createV1();
       approveAndSubmit(newBaseChangeInMaster);
 
       // Rebase the chain
@@ -2471,16 +2486,16 @@ public class RebaseIT {
 
     @Test
     public void rebaseChainActionEnabled() throws Exception {
-      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+      Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).createV1();
 
-      Change.Id changeToBeRebased1 = changeOperations.newChange().project(project).create();
+      Change.Id changeToBeRebased1 = changeOperations.newChange().project(project).createV1();
       Change.Id changeToBeRebased2 =
           changeOperations
               .newChange()
               .project(project)
               .childOf()
               .change(changeToBeRebased1)
-              .create();
+              .createV1();
 
       // Approve and submit the change that will be the new base for the chain so that the chain is
       // rebasable.

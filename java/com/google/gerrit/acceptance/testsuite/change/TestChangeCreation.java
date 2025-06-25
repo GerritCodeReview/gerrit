@@ -268,17 +268,17 @@ public abstract class TestChangeCreation {
      * Creates the change.
      *
      * @return the {@code Change.Id} of the created change
-     * @deprecated use {@link #createV2()} instead
+     * @deprecated use {@link #create()} instead
      */
     @CanIgnoreReturnValue
     @Deprecated
-    public Change.Id create() {
+    // TODO: Remove this method once all caller have been migrated to the new create() method
+    public Change.Id createV1() {
       TestChangeCreation changeUpdate = build();
       return changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);
     }
 
-    // TODO: Remove the create() method and then renamed this method to 'create'.
-    public ChangeIdentifier createV2() {
+    public ChangeIdentifier create() {
       // TODO: Update changeCreator to type ThrowingFunction<TestChangeCreation, ChangeIdentifier>
       // and then change this to 'changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate)'.
       return createAndGet().id();

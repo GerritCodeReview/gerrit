@@ -68,7 +68,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void onlyCommentsBeforeTargetPatchsetArePorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     PatchSet.Id patchset3Id = changeOps.change(changeId).newPatchset().create();
@@ -85,7 +85,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentsOnAnyPatchsetBeforeTargetPatchsetArePorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     changeOps.change(changeId).newPatchset().create();
     PatchSet.Id patchset3Id = changeOps.change(changeId).newPatchset().create();
@@ -104,7 +104,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void severalCommentsFromEarlierPatchsetArePorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -121,7 +121,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void completeCommentThreadIsPorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -139,7 +139,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void onlyUnresolvedPublishedCommentsArePorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -188,7 +188,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void resolvedAndUnresolvedDraftCommentsArePorted() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -206,7 +206,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void unresolvedStateOfLastCommentInThreadMatters() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -226,7 +226,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void unresolvedStateOfLastCommentByDateMattersForBranchedThreads() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments. Comments should be more than 1 second apart as NoteDb only supports second
@@ -257,7 +257,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void unresolvedStateOfDraftCommentsIsIgnoredForPublishedComments() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -281,7 +281,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void draftCommentsAreNotPortedViaApiForPublishedComments() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add draft comment.
@@ -298,7 +298,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void publishedCommentsAreNotPortedViaApiForDraftComments() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -314,7 +314,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void draftCommentCanBePorted() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add draft comment.
@@ -331,7 +331,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     Account.Id userId = accountOps.newAccount().create();
     Account.Id otherUserId = accountOps.newAccount().create();
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add draft comment.
@@ -346,7 +346,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void publishedCommentsOfAllTypesArePorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").create();
+    Change.Id changeId =
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -377,7 +378,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentOnParentCommitIsPorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -391,7 +392,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentOnInvalidParentIsPorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -405,7 +406,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentsOnInvalidPositionArePorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\n").create();
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -422,7 +423,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void commentsOnInvalidPositionKeepTheirInvalidPosition() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -436,7 +437,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentHasOriginalUuid() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -450,7 +451,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentHasOriginalPatchset() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -465,7 +466,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedDraftCommentHasPatchsetFilled() throws Exception {
     // Set up change and patchsets.
     Account.Id authorId = accountOps.newAccount().create();
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -484,7 +485,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentHasOriginalPatchsetCommitId() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -498,7 +499,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentHasOriginalMessage() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -512,7 +513,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedReplyStillRefersToParentComment() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
@@ -529,7 +530,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedPublishedCommentHasOriginalAuthor() throws Exception {
     // Set up change and patchsets.
     Account.Id authorId = accountOps.newAccount().create();
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -542,7 +543,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void anonymousUsersGetAuthExceptionForPortedDrafts() throws Exception {
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchsetId = changeOps.change(changeId).currentPatchset().get().patchsetId();
 
     requestScopeOps.setApiUserAnonymous();
@@ -563,7 +564,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedDraftCommentHasNoAuthor() throws Exception {
     // Set up change and patchsets.
     Account.Id authorId = accountOps.newAccount().create();
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -580,7 +581,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentHasOriginalTag() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -594,7 +595,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentHasUpdatedTimestamp() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -608,7 +609,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void portedCommentDoesNotHaveChangeMessageId() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -625,7 +626,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void pathOfPortedCommentIsOnlyIndicatedInMap() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1").create();
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -642,7 +643,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentCanHandleAddedLines() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -673,7 +674,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentCanHandleDeletedLines() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -704,7 +705,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentCanHandlePureRename() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
@@ -732,7 +733,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentCanHandleRenameWithLineShift() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -767,7 +768,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentAdditionallyAppearsOnCopyAtIndependentPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     // Gerrit currently only identifies a copy if a rename also happens at the same time. Modify the
     // renamed file slightly different than the copied file so that the end location of the comment
@@ -814,7 +815,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void lineOfPortedRangeCommentFollowsContract() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -843,7 +844,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentBecomesFileCommentOnConflict() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -874,7 +875,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentEndingOnLineJustBeforeModificationCanBePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -905,7 +906,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentEndingAtStartOfModifiedLineCanBePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -936,7 +937,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentEndingWithinModifiedLineBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -965,7 +966,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentWithinModifiedLineBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -995,7 +996,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
       throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1024,7 +1025,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentStartingOnLineJustAfterModificationCanBePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1061,7 +1062,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
       throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1090,7 +1091,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedRangeCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").delete().create();
@@ -1114,7 +1115,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void overlappingRangeCommentsArePortedToNewPosition() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").create();
+    Change.Id changeId =
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1151,7 +1153,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentCanHandleAddedLines() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1172,7 +1174,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentCanHandleDeletedLines() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1193,7 +1195,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentCanHandlePureRename() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
@@ -1211,7 +1213,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentCanHandleRenameWithLineShift() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     changeOps
         .change(changeId)
@@ -1235,7 +1237,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentAdditionallyAppearsOnCopyAtIndependentPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     // Gerrit currently only identifies a copy if a rename also happens at the same time. Modify the
     // renamed file slightly different than the copied file so that the end location of the comment
@@ -1269,7 +1271,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentBecomesFileCommentOnConflict() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1292,7 +1294,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentOnLineJustBeforeModificationCanBePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1313,7 +1315,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentOnStartLineOfModificationBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1334,7 +1336,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentOnLastLineOfModificationBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1355,7 +1357,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentOnLineJustAfterModificationCanBePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1376,7 +1378,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedLineCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").delete().create();
@@ -1393,7 +1395,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void overlappingLineCommentsArePortedToNewPosition() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").create();
+    Change.Id changeId =
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1416,7 +1419,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedFileCommentIsObliviousToAdjustedFileContent() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1437,7 +1440,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedFileCommentCanHandleRename() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
@@ -1455,7 +1458,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedFileCommentAdditionallyAppearsOnCopy() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1480,7 +1483,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedFileCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").delete().create();
@@ -1498,7 +1501,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedPatchsetLevelCommentIsObliviousToAdjustedFileContent() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1519,7 +1522,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void portedPatchsetLevelCommentIsObliviousToRename() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
@@ -1535,7 +1538,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnCommitMessageIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
-        changeOps.newChange().commitMessage("Summary line\n\nText 1\nText 2").create();
+        changeOps.newChange().commitMessage("Summary line\n\nText 1\nText 2").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps
@@ -1561,7 +1564,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnParentIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id parentChangeId =
-        changeOps.newChange().project(project).file("myFile").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("myFile").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1570,7 +1573,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parentChangeId)
             .file("myFile")
             .content("Line one\n")
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id parentPatchset2Id =
@@ -1595,9 +1598,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnFirstParentIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id parent1ChangeId =
-        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").createV1();
     Change.Id parent2ChangeId =
-        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1608,7 +1611,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parent2ChangeId)
             .file("file1")
             .content("Line one\n")
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id parent1Patchset2Id =
@@ -1640,9 +1643,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   public void commentOnSecondParentIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id parent1ChangeId =
-        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").createV1();
     Change.Id parent2ChangeId =
-        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1653,7 +1656,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parent2ChangeId)
             .file("file2")
             .content("Line one\n")
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id parent2Patchset2Id =
@@ -1686,9 +1689,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // Set up change and patchsets. Use the same file so that there's a meaningful auto-merge
     // commit/diff.
     Change.Id parent1ChangeId =
-        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").createV1();
     Change.Id parent2ChangeId =
-        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1697,7 +1700,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id parent1Patchset2Id =
@@ -1741,9 +1744,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
       throws Exception {
     // Set up change and patchsets.
     Change.Id parent1ChangeId =
-        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").createV1();
     Change.Id parent2ChangeId =
-        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1752,7 +1755,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id parent1PatchsetId2 =
@@ -1785,9 +1788,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
       throws Exception {
     // Set up change and patchsets.
     Change.Id parent1ChangeId =
-        changeOps.newChange().project(project).file("file1").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file1").content("Line 1\n").createV1();
     Change.Id parent2ChangeId =
-        changeOps.newChange().project(project).file("file2").content("Line 1\n").create();
+        changeOps.newChange().project(project).file("file2").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1796,7 +1799,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id childPatchset2Id =
@@ -1821,8 +1824,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
       commentOnAutoMergeCommitBecomesPatchsetLevelCommentWhenPatchsetChangedToNonMergeCommit()
           throws Exception {
     // Set up change and patchsets.
-    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
-    Change.Id parent2ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").createV1();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file1").content("Line 1\n").createV1();
     Change.Id childChangeId =
         changeOps
             .newChange()
@@ -1830,7 +1833,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
     PatchSet.Id childPatchset1Id =
         changeOps.change(childChangeId).currentPatchset().get().patchsetId();
     PatchSet.Id childPatchset2Id =
@@ -1850,7 +1853,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void whitespaceOnlyModificationsAreAlsoConsideredWhenPorting() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\n").create();
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\n").createV1();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").content("\nLine 1\n").create();
@@ -1865,7 +1868,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void deletedCommentContentIsNotPorted() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchsetId1 = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchsetId2 = changeOps.change(changeId).newPatchset().create();
     // Add comment.
@@ -1885,7 +1888,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   @Test
   public void setOfPortedCommentsCanChangeOnRepeatedCalls() throws Exception {
     // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
+    Change.Id changeId = changeOps.newChange().createV1();
     PatchSet.Id patchsetId1 = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchsetId2 = changeOps.change(changeId).newPatchset().create();
     // Add comment.

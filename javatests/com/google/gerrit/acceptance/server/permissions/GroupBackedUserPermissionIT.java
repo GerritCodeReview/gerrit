@@ -85,9 +85,9 @@ public class GroupBackedUserPermissionIT extends AbstractDaemonTest {
   public void defaultRefFilter_changeVisibilityIsAgnosticOfProvidedGroups() throws Exception {
     GroupBackedUser user =
         new GroupBackedUser(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS, externalGroup));
-    Change.Id changeOnMaster = changeOperations.newChange().project(project).create();
+    Change.Id changeOnMaster = changeOperations.newChange().project(project).createV1();
     Change.Id changeOnRefsMetaConfig =
-        changeOperations.newChange().project(project).branch("refs/meta/config").create();
+        changeOperations.newChange().project(project).branch("refs/meta/config").createV1();
     // Check that only the change on the default branch is visible
     assertThat(getVisibleRefNames(user))
         .containsExactly(
@@ -134,7 +134,7 @@ public class GroupBackedUserPermissionIT extends AbstractDaemonTest {
   public void changeVisibility_changeOnInvisibleBranchNotVisible() throws Exception {
     // Create a change that is not visible to members of 'externalGroup'
     Change.Id invisibleChange =
-        changeOperations.newChange().project(project).branch("refs/meta/config").create();
+        changeOperations.newChange().project(project).branch("refs/meta/config").createV1();
     GroupBackedUser user =
         new GroupBackedUser(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS, externalGroup));
     AuthException thrown =
@@ -150,7 +150,7 @@ public class GroupBackedUserPermissionIT extends AbstractDaemonTest {
 
   @Test
   public void changeVisibility_changeOnBranchVisibleToAnonymousIsVisible() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     GroupBackedUser user =
         new GroupBackedUser(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS, externalGroup));
     permissionBackend
@@ -161,7 +161,7 @@ public class GroupBackedUserPermissionIT extends AbstractDaemonTest {
 
   @Test
   public void changeVisibility_changeOnBranchVisibleToRegisteredUsersIsVisible() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     GroupBackedUser user =
         new GroupBackedUser(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS, externalGroup));
     blockAnonymousRead();

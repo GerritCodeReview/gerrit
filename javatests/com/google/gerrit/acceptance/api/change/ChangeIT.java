@@ -336,7 +336,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .newChange()
             .file("a_new_file.txt")
             .content("First line\nSecond line\n")
-            .createV2();
+            .create();
 
     ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
     assertThat(changeInfo.insertions).isEqualTo(2);
@@ -350,7 +350,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .newChange()
             .file("a_new_file.txt")
             .content("First line\nSecond line\n")
-            .createV2();
+            .create();
     ChangeInfo changeInfo =
         gApi.changes().id(changeIdentifier).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
     assertThat(changeInfo.insertions).isNull();
@@ -364,7 +364,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .newChange()
             .file("a_new_file.txt")
             .content("First line\nSecond line\n")
-            .createV2();
+            .create();
 
     CacheStats startIntra = cloneStats(intraCache.stats());
     CacheStats startSummary = cloneStats(diffSummaryCache.stats());
@@ -382,7 +382,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.mergeabilityComputationBehavior", value = "NEVER")
   public void excludeMergeableInChangeInfo() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     ChangeInfo c = gApi.changes().id(changeIdentifier).get();
     assertThat(c.mergeable).isNull();
@@ -390,7 +390,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void getSubmissionId() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     assertThat(gApi.changes().id(changeIdentifier).get().submissionId).isNull();
 
@@ -402,7 +402,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setWorkInProgressNotAllowedWithoutPermission() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
@@ -413,7 +413,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setWorkInProgressAllowedAsAdmin() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(changeIdentifier).setWorkInProgress();
@@ -447,7 +447,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     requestScopeOperations.setApiUser(user.id());
@@ -459,7 +459,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setReadyForReviewAllowedAsAdmin() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
     gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     requestScopeOperations.setApiUser(admin.id());
@@ -487,7 +487,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void setReadyForReviewSendsNotificationsForRevertChange() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
     gApi.changes().id(changeIdentifier).current().submit();
     RevertInput in = new RevertInput();
@@ -528,7 +528,7 @@ public class ChangeIT extends AbstractDaemonTest {
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
 
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
     gApi.changes().id(changeIdentifier).setWorkInProgress();
     assertThat(gApi.changes().id(changeIdentifier).get().pendingReviewers).isEmpty();
 
@@ -620,7 +620,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void toggleWorkInProgressState() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     // With message
     gApi.changes().id(changeIdentifier).setWorkInProgress("Needs some refactoring");
@@ -689,7 +689,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndStartReview() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(false);
@@ -702,7 +702,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndMoveToWorkInProgress() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     ReviewResult result = gApi.changes().id(changeIdentifier).current().review(in);
@@ -714,7 +714,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndSetWorkInProgressAndAddReviewerAndVote() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     ReviewInput in =
         ReviewInput.approve()
@@ -733,7 +733,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewRemoveInactiveReviewer() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     ReviewInput in = ReviewInput.approve().reviewer(user.email());
     gApi.changes().id(changeIdentifier).current().review(in);
 
@@ -748,7 +748,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void removeReviewerWithoutPermissionsOnChangePostReview_allowed() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     ReviewInput in = ReviewInput.approve().reviewer(user.email());
     gApi.changes().id(changeIdentifier).current().review(in);
     AccountGroup.UUID restrictedGroup =
@@ -772,7 +772,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void removeReviewerWithoutPermissionsOnChange_allowed() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     ReviewInput in = ReviewInput.approve().reviewer(user.email());
     gApi.changes().id(changeIdentifier).current().review(in);
     AccountGroup.UUID restrictedGroup =
@@ -794,7 +794,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewWithWorkInProgressAndReadyReturnsError() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     ReviewInput in = ReviewInput.noScore();
     in.ready = true;
     in.workInProgress = true;
@@ -804,7 +804,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewWithWorkInProgressChangeOwner() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
 
     requestScopeOperations.setApiUser(user.id());
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
@@ -815,7 +815,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewWithWithWorkInProgressAdmin() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
 
     requestScopeOperations.setApiUser(admin.id());
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
@@ -826,7 +826,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewWithWorkInProgressByNonOwnerReturnsError() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
@@ -855,7 +855,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void reviewWithReadyByNonOwnerReturnsError() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
     gApi.changes().id(changeIdentifier).setWorkInProgress();
 
     ReviewInput in = ReviewInput.noScore().setReady(true);
@@ -900,7 +900,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNewChangeAsNormalUser() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
@@ -1020,7 +1020,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     try {
-      ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
+      ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
 
       requestScopeOperations.setApiUser(user.id());
       AuthException thrown =
@@ -1038,7 +1038,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void deleteNewChangeForBranchWithoutCommits() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
 
     gApi.changes().id(changeIdentifier).delete();
 
@@ -1047,7 +1047,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAbandonedChangeAsNormalUser() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
 
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeIdentifier).abandon();
@@ -1059,7 +1059,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAbandonedChangeOfAnotherUserAsAdmin() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(user.id()).create();
 
     gApi.changes().id(changeIdentifier).abandon();
 
@@ -1070,7 +1070,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteMergedChange() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
     gApi.changes().id(changeIdentifier).current().submit();
@@ -1090,7 +1090,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
 
     try {
-      ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
+      ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
 
       gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
       gApi.changes().id(changeIdentifier).current().submit();
@@ -1204,8 +1204,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteChangeDoesntRemoveOtherChangeEdits() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
-    ChangeIdentifier irrelevanetChangeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    ChangeIdentifier irrelevanetChangeIdentifier = changeOperations.newChange().create();
 
     requestScopeOperations.setApiUser(admin.id());
 
@@ -1222,7 +1222,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void attentionSetListener_firesOnChange() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestAttentionSetListener attentionSetListener = new TestAttentionSetListener();
 
     try (Registration registration =
@@ -1386,7 +1386,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // create change
     ChangeIdentifier changeIdentifier =
-        changeOperations.newChange().project(p).owner(admin.id()).createV2();
+        changeOperations.newChange().project(p).owner(admin.id()).create();
 
     // check the user cannot see the change
     requestScopeOperations.setApiUser(user.id());
@@ -1405,7 +1405,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveByUsername() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
 
     String username = name("new-user");
     Account.Id id = accountOperations.newAccount().username(username).inactive().create();
@@ -1426,7 +1426,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveById() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
 
     String username = name("new-user");
     Account.Id id = accountOperations.newAccount().username(username).inactive().create();
@@ -1450,7 +1450,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
     String email = "user@domain.com";
     Account.Id id = accountOperations.newAccount().preferredEmail(email).inactive().create();
 
@@ -1527,7 +1527,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void postingMessageOnOwnChangeDoesntAddCallerAsReviewer() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
 
     requestScopeOperations.setApiUser(admin.id());
     ReviewInput reviewInput = new ReviewInput();
@@ -1541,7 +1541,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void listReviewers() throws Exception {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
@@ -4031,7 +4031,7 @@ public class ChangeIT extends AbstractDaemonTest {
         String.format(
             "%s\n\nFirst Paragraph.\n\nSecond Paragraph\n\nFoo: Bar\nChange-Id: %s\n",
             subject, changeId);
-    changeOperations.newChange().project(project).commitMessage(commitMessage).create();
+    changeOperations.newChange().project(project).commitMessage(commitMessage).createV1();
 
     CommitMessageInfo commitMessageInfo = gApi.changes().id(changeId).getMessage();
     assertThat(commitMessageInfo.subject).isEqualTo(subject);
@@ -4047,7 +4047,7 @@ public class ChangeIT extends AbstractDaemonTest {
         String.format(
             "%s\n\nFirst Paragraph.\n\nSecond Paragraph\n\nFoo: Bar\nFoo: Baz\nChange-Id: %s\n",
             subject, changeId);
-    changeOperations.newChange().project(project).commitMessage(commitMessage).create();
+    changeOperations.newChange().project(project).commitMessage(commitMessage).createV1();
 
     CommitMessageInfo commitMessageInfo = gApi.changes().id(changeId).getMessage();
     assertThat(commitMessageInfo.subject).isEqualTo(subject);
@@ -4101,7 +4101,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
 
     // Create change
-    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";

@@ -382,7 +382,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
         accountOperations.newAccount().preferredEmail(reviewerEmail).create();
 
     // Create the change.
-    Change.Id changeId = changeOperations.newChange().owner(nonVisibleOwner).create();
+    Change.Id changeId = changeOperations.newChange().owner(nonVisibleOwner).createV1();
 
     // Add a review.
     requestScopeOperations.setApiUser(nonVisibleReviewer);
@@ -450,7 +450,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Create the change.
     Change.Id changeId =
-        changeOperations.newChange().project(project).owner(nonVisibleOwner).create();
+        changeOperations.newChange().project(project).owner(nonVisibleOwner).createV1();
 
     // Add a review.
     requestScopeOperations.setApiUser(nonVisibleReviewer);
@@ -504,7 +504,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
             .create();
 
     // Create the change.
-    Change.Id changeId = changeOperations.newChange().owner(owner).create();
+    Change.Id changeId = changeOperations.newChange().owner(owner).createV1();
 
     // Add a review.
     requestScopeOperations.setApiUser(reviewer);
@@ -568,7 +568,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
             .create();
 
     // Create the change.
-    Change.Id changeId = changeOperations.newChange().owner(owner).create();
+    Change.Id changeId = changeOperations.newChange().owner(owner).createV1();
 
     // Add a review.
     requestScopeOperations.setApiUser(reviewer);
@@ -623,7 +623,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
             .create();
 
     // Create the change.
-    Change.Id changeId = changeOperations.newChange().owner(owner).create();
+    Change.Id changeId = changeOperations.newChange().owner(owner).createV1();
 
     // Add a review.
     requestScopeOperations.setApiUser(reviewer);

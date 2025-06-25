@@ -501,7 +501,7 @@ public class CommentWithFixIT extends AbstractDaemonTest {
             .file(FILE_NAME)
             .content(FILE_CONTENT)
             .owner(testUser)
-            .create();
+            .createV1();
 
     // Add comment to the change
     fixReplacementInfo.path = FILE_NAME;

@@ -69,7 +69,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void changeCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
-    Change.Id numericChangeId = changeOperations.newChange().create();
+    Change.Id numericChangeId = changeOperations.newChange().createV1();
 
     ChangeInfo change = getChangeFromServer(numericChangeId);
     assertThat(change._number).isEqualTo(numericChangeId.get());
@@ -81,7 +81,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Account.Id user = accountOperations.newAccount().create();
 
     requestScopeOperations.setApiUser(user);
-    Change.Id numericChangeId = changeOperations.newChange().create();
+    Change.Id numericChangeId = changeOperations.newChange().createV1();
 
     ChangeInfo change = getChangeFromServer(numericChangeId);
     assertThat(change._number).isEqualTo(numericChangeId.get());
@@ -89,8 +89,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void twoChangesWithoutAnyParametersDoNotClash() {
-    Change.Id changeId1 = changeOperations.newChange().create();
-    Change.Id changeId2 = changeOperations.newChange().create();
+    Change.Id changeId1 = changeOperations.newChange().createV1();
+    Change.Id changeId2 = changeOperations.newChange().createV1();
 
     TestChange change1 = changeOperations.change(changeId1).get();
     TestChange change2 = changeOperations.change(changeId2).get();
@@ -100,8 +100,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void twoSubsequentlyCreatedChangesDoNotDependOnEachOther() throws Exception {
-    Change.Id changeId1 = changeOperations.newChange().create();
-    Change.Id changeId2 = changeOperations.newChange().create();
+    Change.Id changeId1 = changeOperations.newChange().createV1();
+    Change.Id changeId2 = changeOperations.newChange().createV1();
 
     ChangeInfo change1 = getChangeFromServer(changeId1);
     ChangeInfo change2 = getChangeFromServer(changeId2);
@@ -119,7 +119,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeHasAtLeastOnePatchset() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThatMap(change.revisions).size().isAtLeast(1);
@@ -128,7 +128,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeIsInSpecifiedProject() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.project).isEqualTo(project.get());
@@ -137,7 +137,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void changeCanBeCreatedInEmptyRepository() throws Exception {
     Project.NameKey project = projectOperations.newProject().noEmptyCommit().create();
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.project).isEqualTo(project.get());
@@ -147,7 +147,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasSpecifiedTargetBranch() throws Exception {
     Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
     Change.Id changeId =
-        changeOperations.newChange().project(project).branch("test-branch").create();
+        changeOperations.newChange().project(project).branch("test-branch").createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.branch).isEqualTo("test-branch");
@@ -157,7 +157,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasSpecifiedCreationTimestamp() throws Exception {
     Instant creationTimestamp = Instant.now();
     Change.Id changeId =
-        changeOperations.newChange().project(project).createdOn(creationTimestamp).create();
+        changeOperations.newChange().project(project).createdOn(creationTimestamp).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
 
@@ -170,7 +170,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasDefaultGroupsByDefault() throws Exception {
     Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
     Change.Id changeId =
-        changeOperations.newChange().project(project).branch("test-branch").create();
+        changeOperations.newChange().project(project).branch("test-branch").createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
@@ -186,7 +186,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .project(project)
             .childOf()
             .tipOfBranch("refs/heads/test-branch")
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
@@ -196,14 +196,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasSameGroupsAsOpenParentChange() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
 
     ChangeInfo parentChange = getChangeFromServer(parentChangeId);
     ImmutableList<String> parentGroups = getGroups(project, parentChangeId);
     assertThat(parentGroups).containsExactly(parentChange.currentRevision);
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).createV1();
 
     assertThat(getGroups(project, changeId)).isEqualTo(parentGroups);
   }
@@ -212,12 +212,12 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasDefaultGroupsIfClosedChangeIsSpecifiedAsParent() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
     gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
     gApi.changes().id(parentChangeId.get()).current().submit();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
@@ -227,7 +227,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasSameGroupsAsPatchSetOfOpenParentChange() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
     TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
     changeOperations.change(parentChangeId).newPatchset().create();
 
@@ -240,7 +240,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .project(project)
             .childOf()
             .patchset(parentPatchset.patchsetId())
-            .create();
+            .createV1();
 
     assertThat(getGroups(project, changeId)).isEqualTo(parentGroups);
   }
@@ -250,7 +250,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
       throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
     TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
     changeOperations.change(parentChangeId).newPatchset().create();
     gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
@@ -262,7 +262,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .project(project)
             .childOf()
             .patchset(parentPatchset.patchsetId())
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
@@ -273,12 +273,12 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey project = projectOperations.newProject().create();
 
     // Currently, the easiest way to create a commit is by creating another change.
-    Change.Id anotherChangeId = changeOperations.newChange().project(project).create();
+    Change.Id anotherChangeId = changeOperations.newChange().project(project).createV1();
     ObjectId parentCommitId =
         changeOperations.change(anotherChangeId).currentPatchset().get().commitId();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().commit(parentCommitId).create();
+        changeOperations.newChange().project(project).childOf().commit(parentCommitId).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
@@ -289,7 +289,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
     ObjectId parentCommitId = projectOperations.project(project).getHead("test-branch").getId();
     Change.Id changeId =
-        changeOperations.newChange().project(project).branch("test-branch").create();
+        changeOperations.newChange().project(project).branch("test-branch").createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -310,7 +310,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .project(project)
             .childOf()
             .tipOfBranch("refs/heads/test-branch")
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -327,7 +327,12 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().tipOfBranch("test-branch").create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .tipOfBranch("test-branch")
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -345,16 +350,20 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         assertThrows(
             IllegalStateException.class,
             () ->
-                changeOperations.newChange().childOf().tipOfBranch("not-existing-branch").create());
+                changeOperations
+                    .newChange()
+                    .childOf()
+                    .tipOfBranch("not-existing-branch")
+                    .createV1());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
 
   @Test
   public void createdChangeUsesSpecifiedChangeAsParent() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations.newChange().project(project).childOf().change(parentChangeId).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -372,13 +381,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     IllegalStateException exception =
         assertThrows(
             IllegalStateException.class,
-            () -> changeOperations.newChange().childOf().change(Change.id(987654321)).create());
+            () -> changeOperations.newChange().childOf().change(Change.id(987654321)).createV1());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
 
   @Test
   public void createdChangeUsesSpecifiedPatchsetAsParent() throws Exception {
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId = changeOperations.newChange().project(project).createV1();
     TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
 
     Change.Id changeId =
@@ -387,7 +396,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .project(project)
             .childOf()
             .patchset(parentPatchset.patchsetId())
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -408,13 +417,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                     .newChange()
                     .childOf()
                     .patchset(PatchSet.id(Change.id(987654321), 1))
-                    .create());
+                    .createV1());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
 
   @Test
   public void specifiedParentPatchsetMustExist() {
-    Change.Id parentChangeId = changeOperations.newChange().create();
+    Change.Id parentChangeId = changeOperations.newChange().createV1();
 
     IllegalStateException exception =
         assertThrows(
@@ -424,19 +433,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                     .newChange()
                     .childOf()
                     .patchset(PatchSet.id(parentChangeId, 1000))
-                    .create());
+                    .createV1());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
 
   @Test
   public void createdChangeUsesSpecifiedCommitAsParent() throws Exception {
     // Currently, the easiest way to create a commit is by creating another change.
-    Change.Id anotherChangeId = changeOperations.newChange().project(project).create();
+    Change.Id anotherChangeId = changeOperations.newChange().project(project).createV1();
     ObjectId parentCommitId =
         changeOperations.change(anotherChangeId).currentPatchset().get().commitId();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().commit(parentCommitId).create();
+        changeOperations.newChange().project(project).childOf().commit(parentCommitId).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -457,14 +466,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                     .newChange()
                     .childOf()
                     .commit(ObjectId.fromString("0123456789012345678901234567890123456789"))
-                    .create());
+                    .createV1());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
 
   @Test
   public void createdChangeUsesSpecifiedChangesInGivenOrderAsParents() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeId =
         changeOperations
@@ -474,7 +483,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -492,14 +501,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeUsesMergedParentsAsBaseCommit() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Line 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Line 1").createV1();
     Change.Id parent2ChangeId =
         changeOperations
             .newChange()
             .project(project)
             .file("file2")
             .content("Some other content")
-            .create();
+            .createV1();
 
     Change.Id changeId =
         changeOperations
@@ -509,7 +518,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
@@ -521,9 +530,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void mergeConflictsOfParentsAreReported() {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").createV1();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 2").createV1();
 
     IllegalStateException exception =
         assertThrows(
@@ -536,7 +545,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                     .change(parent1ChangeId)
                     .and()
                     .change(parent2ChangeId)
-                    .create());
+                    .createV1());
 
     assertThat(exception).hasMessageThat().ignoringCase().contains("conflict");
   }
@@ -544,9 +553,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void mergeConflictsCanBeAvoidedByUsingTheFirstParentAsBase() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").createV1();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 2").createV1();
 
     Change.Id changeId =
         changeOperations
@@ -556,7 +565,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
@@ -565,8 +574,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeHasAllParentsEvenWhenBasedOnFirst() throws Exception {
-    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeId =
         changeOperations
@@ -576,7 +585,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -594,11 +603,11 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void automaticMergeOfMoreThanTwoParentsIsNotPossible() {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1").content("Content 1").createV1();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Content 2").create();
+        changeOperations.newChange().file("file2").content("Content 2").createV1();
     Change.Id parent3ChangeId =
-        changeOperations.newChange().file("file3").content("Content 3").create();
+        changeOperations.newChange().file("file3").content("Content 3").createV1();
 
     IllegalStateException exception =
         assertThrows(
@@ -612,7 +621,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                     .change(parent2ChangeId)
                     .and()
                     .change(parent3ChangeId)
-                    .create());
+                    .createV1());
 
     assertThat(exception).hasMessageThat().ignoringCase().contains("conflict");
   }
@@ -620,11 +629,11 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeCanHaveMoreThanTwoParentsWhenBasedOnFirst() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").createV1();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().project(project).file("file2").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file2").content("Content 2").createV1();
     Change.Id parent3ChangeId =
-        changeOperations.newChange().project(project).file("file3").content("Content 3").create();
+        changeOperations.newChange().project(project).file("file3").content("Content 3").createV1();
 
     Change.Id changeId =
         changeOperations
@@ -636,7 +645,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent2ChangeId)
             .and()
             .change(parent3ChangeId)
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -663,7 +672,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Content 1")
             .file("file2")
             .content("Content 2")
-            .create();
+            .createV1();
 
     Change.Id changeId =
         changeOperations
@@ -673,7 +682,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parentChangeId)
             .file("file1")
             .content("Different content")
-            .create();
+            .createV1();
 
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
@@ -685,9 +694,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void changeFromMergedParentsMayHaveAdditionalFileModifications() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").createV1();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().project(project).file("file2").content("Content 2").create();
+        changeOperations.newChange().project(project).file("file2").content("Content 2").createV1();
 
     Change.Id changeId =
         changeOperations
@@ -699,7 +708,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent2ChangeId)
             .file("file1")
             .content("Different content")
-            .create();
+            .createV1();
 
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
@@ -712,8 +721,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void changeBasedOnFirstOfMultipleParentsMayHaveAdditionalFileModifications()
       throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().project(project).file("file1").content("Content 1").create();
-    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+        changeOperations.newChange().project(project).file("file1").content("Content 1").createV1();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).createV1();
 
     Change.Id changeId =
         changeOperations
@@ -725,7 +734,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent2ChangeId)
             .file("file1")
             .content("Different content")
-            .create();
+            .createV1();
 
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
@@ -735,7 +744,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeHasSpecifiedOwner() throws Exception {
     Account.Id changeOwner = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
@@ -766,7 +775,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .owner(changeOwner)
             .branch("test-branch")
             .project(project)
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
@@ -774,7 +783,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeHasOwnerAsAuthor() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     TestAccount changeOwner = accountOperations.account(Account.id(change.owner._accountId)).get();
@@ -793,7 +802,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .fullname(changeOwnerName)
             .preferredEmail(changeOwnerEmail)
             .create();
-    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
@@ -808,7 +817,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     String authorEmail = "author@example.com";
     Account.Id author =
         accountOperations.newAccount().fullname(authorName).preferredEmail(authorEmail).create();
-    Change.Id changeId = changeOperations.newChange().author(author).create();
+    Change.Id changeId = changeOperations.newChange().author(author).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isNotEqualTo(author.get());
@@ -820,7 +829,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeHasSpecifiedAuthorIdent() throws Exception {
     PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
-    Change.Id changeId = changeOperations.newChange().authorIdent(authorIdent).create();
+    Change.Id changeId = changeOperations.newChange().authorIdent(authorIdent).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     RevisionInfo revision = change.revisions.get(change.currentRevision);
@@ -836,7 +845,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     IllegalStateException exception =
         assertThrows(
             IllegalStateException.class,
-            () -> changeOperations.newChange().author(author).authorIdent(authorIdent).create());
+            () -> changeOperations.newChange().author(author).authorIdent(authorIdent).createV1());
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo("author and authorIdent cannot be set together");
@@ -844,7 +853,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeHasOwnerAsCommitter() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     TestAccount changeOwner = accountOperations.account(Account.id(change.owner._accountId)).get();
@@ -863,7 +872,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .fullname(changeOwnerName)
             .preferredEmail(changeOwnerEmail)
             .create();
-    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
@@ -882,7 +891,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .fullname(committerName)
             .preferredEmail(committerEmail)
             .create();
-    Change.Id changeId = changeOperations.newChange().committer(committer).create();
+    Change.Id changeId = changeOperations.newChange().committer(committer).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isNotEqualTo(committer.get());
@@ -894,7 +903,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeHasSpecifiedCommitterIdent() throws Exception {
     PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
-    Change.Id changeId = changeOperations.newChange().committerIdent(committerIdent).create();
+    Change.Id changeId = changeOperations.newChange().committerIdent(committerIdent).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     RevisionInfo revision = change.revisions.get(change.currentRevision);
@@ -915,7 +924,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                     .newChange()
                     .committer(committer)
                     .committerIdent(committerIdent)
-                    .create());
+                    .createV1());
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo("committer and committerIdent cannot be set together");
@@ -923,7 +932,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdChangeHasSpecifiedTopic() throws Exception {
-    Change.Id changeId = changeOperations.newChange().topic("test-topic").create();
+    Change.Id changeId = changeOperations.newChange().topic("test-topic").createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.topic).isEqualTo("test-topic");
@@ -932,7 +941,10 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeHasSpecifiedApprovals() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().approvals(ImmutableMap.of("Code-Review", (short) 1)).create();
+        changeOperations
+            .newChange()
+            .approvals(ImmutableMap.of("Code-Review", (short) 1))
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.labels).hasSize(1);
@@ -946,7 +958,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .commitMessage("Summary line\n\nDetailed description.")
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -956,7 +968,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void changeCannotBeCreatedWithoutCommitMessage() {
     assertThrows(
-        IllegalStateException.class, () -> changeOperations.newChange().commitMessage("").create());
+        IllegalStateException.class,
+        () -> changeOperations.newChange().commitMessage("").createV1());
   }
 
   @Test
@@ -965,7 +978,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .commitMessage("Summary line\n\nDetailed description.")
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -978,7 +991,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .commitMessage("Summary line\n\nChange-Id: I0123456789012345678901234567890123456789")
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
@@ -997,7 +1010,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Line 1")
             .file("path/to/file2.txt")
             .content("Line one")
-            .create();
+            .createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
@@ -1011,7 +1024,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createV2() {
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().createV2();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestChange change = changeOperations.change(changeIdentifier).get();
     assertThat(changeIdentifier.id())
         .startsWith(change.project().get() + "~" + change.numericChangeId());
@@ -1045,7 +1058,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void existingChangeCanBeCheckedForExistence() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     boolean exists = changeOperations.change(changeId).exists();
 
@@ -1069,7 +1082,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void numericChangeIdOfExistingChangeCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.numericChangeId()).isEqualTo(changeId);
@@ -1081,7 +1094,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .commitMessage("Summary line\n\nChange-Id: I0123456789012345678901234567890123456789")
-            .create();
+            .createV1();
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.changeId()).isEqualTo("I0123456789012345678901234567890123456789");
@@ -1090,7 +1103,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void projectOfExistingChangeCanBeRetrieved() {
     Project.NameKey project = projectOperations.newProject().create();
-    Change.Id changeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId = changeOperations.newChange().project(project).createV1();
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.project()).isEqualTo(project);
@@ -1099,7 +1112,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void destOfExistingChangeCanBeRetrieved() {
     Project.NameKey project = projectOperations.newProject().branches("foo").create();
-    Change.Id changeId = changeOperations.newChange().project(project).branch("foo").create();
+    Change.Id changeId = changeOperations.newChange().project(project).branch("foo").createV1();
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.dest()).isEqualTo(BranchNameKey.create(project, "foo"));
@@ -1107,7 +1120,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void subjectOfExistingChangeCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().commitMessage("Foo\n\nBar Baz").create();
+    Change.Id changeId = changeOperations.newChange().commitMessage("Foo\n\nBar Baz").createV1();
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.subject()).isEqualTo("Foo");
@@ -1115,7 +1128,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void ownerOfExistingChangeCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().owner(admin.id()).create();
+    Change.Id changeId = changeOperations.newChange().owner(admin.id()).createV1();
 
     TestChange change = changeOperations.change(changeId).get();
     assertThat(change.owner()).isEqualTo(admin.id());
@@ -1124,7 +1137,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdOnOfExistingChangeCanBeRetrieved() {
     Instant creationTimestamp = Instant.now();
-    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).create();
+    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).createV1();
 
     TestChange change = changeOperations.change(changeId).get();
 
@@ -1135,7 +1148,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void lastUpdatedOfExistingChangeCanBeRetrieved() {
     Instant creationTimestamp = Instant.now();
-    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).create();
+    Change.Id changeId = changeOperations.newChange().createdOn(creationTimestamp).createV1();
 
     TestChange change = changeOperations.change(changeId).get();
 
@@ -1145,7 +1158,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void currentPatchsetOfExistingChangeCanBeRetrieved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     TestPatchset patchset = changeOperations.change(changeId).currentPatchset().get();
 
@@ -1158,7 +1171,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void earlierPatchsetOfExistingChangeCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     PatchSet.Id earlierPatchsetId =
         changeOperations.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id currentPatchsetId = changeOperations.change(changeId).newPatchset().create();
@@ -1172,7 +1185,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     ChangeInfo unmodifiedChange = getChangeFromServer(changeId);
     int originalPatchsetCount = unmodifiedChange.revisions.size();
 
@@ -1186,7 +1199,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetIsCopyOfPreviousPatchsetByDefault() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     PatchSet.Id patchsetId = changeOperations.change(changeId).newPatchset().create();
 
@@ -1198,7 +1211,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void newPatchsetCanHaveDifferentUploader() throws Exception {
     Account.Id changeOwner = accountOperations.newAccount().create();
-    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).createV1();
 
     ChangeInfo change = getChangeFromServer(changeId);
     RevisionInfo currentPatchsetRevision = change.revisions.get(change.currentRevision);
@@ -1218,7 +1231,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     String authorEmail = "author@example.com";
     Account.Id author =
         accountOperations.newAccount().fullname(authorName).preferredEmail(authorEmail).create();
-    Change.Id changeId = changeOperations.newChange().author(author).create();
+    Change.Id changeId = changeOperations.newChange().author(author).createV1();
     ChangeInfo change = getChangeFromServer(changeId);
     RevisionInfo revision = change.revisions.get(change.currentRevision);
     assertThat(revision.commit.author.name).isEqualTo(authorName);
@@ -1233,7 +1246,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdPatchsetHasSpecifiedAuthor() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String authorName = "Author";
     String authorEmail = "author@example.com";
@@ -1250,7 +1263,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdPatchsetHasSpecifiedAuthorIdent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
     changeOperations.change(changeId).newPatchset().authorIdent(authorIdent).create();
@@ -1263,7 +1276,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void patchsetCannotBeCreatedWithAuthorAndAuthorIdent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     Account.Id author = accountOperations.newAccount().create();
     PersonIdent authorIdent = new PersonIdent("Author", "author@example.com");
@@ -1293,7 +1306,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .fullname(committerName)
             .preferredEmail(committerEmail)
             .create();
-    Change.Id changeId = changeOperations.newChange().committer(committer).create();
+    Change.Id changeId = changeOperations.newChange().committer(committer).createV1();
     ChangeInfo change = getChangeFromServer(changeId);
     RevisionInfo revision = change.revisions.get(change.currentRevision);
     assertThat(revision.commit.committer.name).isEqualTo(committerName);
@@ -1308,7 +1321,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdPatchsetHasSpecifiedCommitter() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     String committerName = "Committer";
     String committerEmail = "committer@example.com";
@@ -1329,7 +1342,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void createdPatchsetHasSpecifiedCommitterIdent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
     changeOperations.change(changeId).newPatchset().committerIdent(committerIdent).create();
@@ -1342,7 +1355,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void patchsetCannotBeCreatedWithCommitterAndCommitterIdent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
 
     Account.Id committer = accountOperations.newAccount().create();
     PersonIdent committerIdent = new PersonIdent("Committer", "committer@example.com");
@@ -1364,7 +1377,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveUpdatedCommitMessage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().commitMessage("Old message").create();
+    Change.Id changeId = changeOperations.newChange().commitMessage("Old message").createV1();
 
     changeOperations.change(changeId).newPatchset().commitMessage("New message").create();
 
@@ -1375,7 +1388,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void updatedCommitMessageOfNewPatchsetAutomaticallyKeepsChangeId() throws Exception {
-    Change.Id numericChangeId = changeOperations.newChange().commitMessage("Old message").create();
+    Change.Id numericChangeId =
+        changeOperations.newChange().commitMessage("Old message").createV1();
     String changeId = changeOperations.change(numericChangeId).get().changeId();
 
     changeOperations.change(numericChangeId).newPatchset().commitMessage("New message").create();
@@ -1391,7 +1405,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .commitMessage("Old message\n\nChange-Id: I1111111111111111111111111111111111111111")
-            .create();
+            .createV1();
 
     // Specifying another change-id is not an officially supported behavior of Gerrit but we might
     // need this for some test scenarios and hence we support it in the test API.
@@ -1416,7 +1430,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveReplacedFileContent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").createV1();
 
     PatchSet.Id patchsetId =
         changeOperations
@@ -1435,7 +1449,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveAdditionalFile() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").createV1();
 
     PatchSet.Id patchsetId =
         changeOperations
@@ -1461,7 +1475,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Line 1")
             .file("file2")
             .content("Line one")
-            .create();
+            .createV1();
 
     changeOperations.change(changeId).newPatchset().file("file2").delete().create();
 
@@ -1479,7 +1493,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Line 1")
             .file("file2")
             .content("Line one")
-            .create();
+            .createV1();
 
     PatchSet.Id patchsetId =
         changeOperations
@@ -1507,7 +1521,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Some content")
             .file("file2")
             .content("Line 1\nLine 2\nLine 3\n")
-            .create();
+            .createV1();
     PatchSet.Id patchset1Id =
         changeOperations.change(changeId).currentPatchset().get().patchsetId();
 
@@ -1546,7 +1560,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Some content")
             .file("file2")
             .content("Line 1")
-            .create();
+            .createV1();
     PatchSet.Id patchset1Id =
         changeOperations.change(changeId).currentPatchset().get().patchsetId();
 
@@ -1591,7 +1605,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .content("Some content")
             .file("file2")
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
-            .create();
+            .createV1();
     PatchSet.Id patchset1Id =
         changeOperations.change(changeId).currentPatchset().get().patchsetId();
 
@@ -1627,15 +1641,15 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveADifferentParent() throws Exception {
-    Change.Id originalParentChange = changeOperations.newChange().project(project).create();
+    Change.Id originalParentChange = changeOperations.newChange().project(project).createV1();
     Change.Id changeIdentifier =
         changeOperations
             .newChange()
             .project(project)
             .childOf()
             .change(originalParentChange)
-            .create();
-    Change.Id newParentChange = changeOperations.newChange().project(project).create();
+            .createV1();
+    Change.Id newParentChange = changeOperations.newChange().project(project).createV1();
 
     changeOperations
         .change(changeIdentifier)
@@ -1657,8 +1671,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveDifferentParents() throws Exception {
-    Change.Id originalParent1Change = changeOperations.newChange().project(project).create();
-    Change.Id originalParent2Change = changeOperations.newChange().project(project).create();
+    Change.Id originalParent1Change = changeOperations.newChange().project(project).createV1();
+    Change.Id originalParent2Change = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
@@ -1667,9 +1681,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(originalParent1Change)
             .and()
             .change(originalParent2Change)
-            .create();
-    Change.Id newParent1Change = changeOperations.newChange().project(project).create();
-    Change.Id newParent2Change = changeOperations.newChange().project(project).create();
+            .createV1();
+    Change.Id newParent1Change = changeOperations.newChange().project(project).createV1();
+    Change.Id newParent2Change = changeOperations.newChange().project(project).createV1();
 
     changeOperations
         .change(changeId)
@@ -1694,16 +1708,16 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveADifferentNumberOfParents() throws Exception {
-    Change.Id originalParentChange = changeOperations.newChange().project(project).create();
+    Change.Id originalParentChange = changeOperations.newChange().project(project).createV1();
     Change.Id changeId =
         changeOperations
             .newChange()
             .project(project)
             .childOf()
             .change(originalParentChange)
-            .create();
-    Change.Id newParent1Change = changeOperations.newChange().project(project).create();
-    Change.Id newParent2Change = changeOperations.newChange().project(project).create();
+            .createV1();
+    Change.Id newParent1Change = changeOperations.newChange().project(project).createV1();
+    Change.Id newParent2Change = changeOperations.newChange().project(project).createV1();
 
     changeOperations
         .change(changeId)
@@ -1729,9 +1743,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void newPatchsetKeepsFileContentsWithDifferentParent() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().file("file1").content("Actual change content").create();
+        changeOperations.newChange().file("file1").content("Actual change content").createV1();
     Change.Id newParentChange =
-        changeOperations.newChange().file("file1").content("Parent content").create();
+        changeOperations.newChange().file("file1").content("Parent content").createV1();
 
     changeOperations.change(changeId).newPatchset().parent().change(newParentChange).create();
 
@@ -1742,7 +1756,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void publishedCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
 
     TestHumanComment comment = changeOperations.change(changeId).comment(commentUuid).get();
@@ -1752,7 +1766,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void retrievingDraftCommentAsPublishedCommentFails() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String commentUuid =
         changeOperations.change(changeId).currentPatchset().newDraftComment().create();
 
@@ -1762,7 +1776,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void parentUuidOfPublishedCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
     String childCommentUuid =
@@ -1780,7 +1794,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void tagOfPublishedCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String childCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().tag("tag").create();
 
@@ -1791,7 +1805,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void unresolvedOfUnresolvedPublishedCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String childCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().unresolved().create();
 
@@ -1802,7 +1816,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void unresolvedOfResolvedPublishedCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String childCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().resolved().create();
 
@@ -1813,7 +1827,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
 
     TestHumanComment comment = changeOperations.change(changeId).comment(commentUuid).get();
@@ -1823,7 +1837,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void retrievingPublishedCommentAsDraftCommentFails() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
 
     assertThrows(
@@ -1832,7 +1846,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void parentUuidOfDraftCommentCanBeRetrieved() {
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
         changeOperations.change(changeId).currentPatchset().newComment().create();
     String childCommentUuid =

@@ -115,7 +115,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
 
     // Create change
-    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).createV1();
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";

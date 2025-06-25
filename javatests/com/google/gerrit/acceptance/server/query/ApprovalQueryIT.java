@@ -263,7 +263,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   @Test
   public void hasChangedFilesPredicate() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file").content("content").createV1();
     changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
 
     // can copy approval from patch-set 1 -> 2

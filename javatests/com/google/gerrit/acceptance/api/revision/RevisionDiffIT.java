@@ -3049,7 +3049,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .newChange()
             .file(imageFileName)
             .content(new String(imageBytes, UTF_8))
-            .create();
+            .createV1();
 
     DiffInfo diffInfo = gApi.changes().id(changeId.get()).current().file(imageFileName).diff();
 
@@ -3071,7 +3071,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .project(project)
             .file(imageFileName)
             .content(new String(imageBytes, UTF_8))
-            .create();
+            .createV1();
 
     byte[] newImageBytes = createRgbImage(0, 255, 0);
     Change.Id changeId2 =
@@ -3082,7 +3082,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .change(changeId1)
             .file(imageFileName)
             .content(new String(newImageBytes, UTF_8))
-            .create();
+            .createV1();
 
     DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName).diff();
 
@@ -3111,7 +3111,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .project(project)
             .file(imageFileName)
             .content(new String(imageBytes, UTF_8))
-            .create();
+            .createV1();
 
     Change.Id changeId2 =
         changeOperations
@@ -3121,7 +3121,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .change(changeId1)
             .file(imageFileName)
             .delete()
-            .create();
+            .createV1();
 
     DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName).diff();
 
@@ -3151,7 +3151,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .project(project)
             .file(imageFileName1)
             .content(imageContent1)
-            .create();
+            .createV1();
 
     String imageFileName2 = "another_image.png";
     byte[] imageBytes2 = createRgbImage(0, 255, 0);
@@ -3163,7 +3163,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .change(changeId1)
             .file(imageFileName2)
             .content(new String(imageBytes2, UTF_8))
-            .create();
+            .createV1();
 
     // Since file imageFileName1 was not touched in the second change, trying to get the diff for it
     // should probably fail with '404 Not Found'.

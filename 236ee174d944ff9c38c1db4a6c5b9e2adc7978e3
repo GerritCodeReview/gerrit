@@ -46,6 +46,30 @@
       },
       "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0889717a_0ffa5255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-06-25T08:03:15Z",
+      "side": 1,
+      "message": "\u003e Alternatively we could remove the method deprecation\n\nHow would that work? I thought they deprecated the method due to some non Google related stuff?\n\nOr would we remove the deprecation only for us?\n\nOverall I am not sure why this CL is needed. If we can continue to use \n\n```\n  Change.Id changeId \u003d changeOperations.newChange().create();\n  ChangeApi changeApi \u003d gApi.changes().id(changeId.get());\n```\n\nnothing goes wrong for us, then do we need this CL?",
+      "parentUuid": "e63967bb_124fe942",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

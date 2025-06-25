@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e12611_269d859b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-06-25T10:47:16Z",
+      "side": 1,
+      "message": "We would also have to adapt our internal BUILD for this, and I do see a certain risk of this not working as expected. So I would like to understand the impact and risk better.\n\nAre we planning to get rid of Polymer by end of year? And if so, will this change be obsolete then?",
+      "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

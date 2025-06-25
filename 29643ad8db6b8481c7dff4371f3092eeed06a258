@@ -16,6 +16,24 @@
       "message": "We would also have to adapt our internal BUILD for this, and I do see a certain risk of this not working as expected. So I would like to understand the impact and risk better.\n\nAre we planning to get rid of Polymer by end of year? And if so, will this change be obsolete then?",
       "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbe7a21d_d2281b31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-25T11:37:44Z",
+      "side": 1,
+      "message": "This change could be obsolete yeh also yeh i\u0027m looking at getting rid of Polymer by end of year but there\u0027s no guarantees. It all depends on if i don\u0027t hit a road block etc.",
+      "parentUuid": "63e12611_269d859b",
+      "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

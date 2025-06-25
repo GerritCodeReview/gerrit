@@ -118,6 +118,30 @@
       },
       "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f9df9c_d2d69758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-06-25T08:19:55Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s a bit troublesome to update all our tests and I\u0027m wondering if it\u0027s worth it. But well, at least also for us using \"\u003cproject\u003e\\~\u003cchange-number\u003e\" is the preferred change identifier as documented at [1]. It has the advantage over using \"\u003cchange-number\u003e\" that we do not need to do an index lookup to find the project for the change. So performance-wise using \"\u003cproject\u003e\\~\u003cchange-number\u003e\" is better than \"\u003cchange-number\u003e\" (which could be enough reason to deprecate \"\u003cchange-number\u003e\"). But I don\u0027t think it matters much for the tests. I\u0027m just annoyed by all those warnings... :(\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-id",
+      "parentUuid": "cd5fa68f_c1d6783b",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "236ee174d944ff9c38c1db4a6c5b9e2adc7978e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 import com.google.auto.value.AutoOneOf;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Attributes, each one uniquely identifying a commit. */
@@ -26,6 +27,7 @@ public abstract class TestCommitIdentifier {
     COMMIT_SHA_1,
     BRANCH,
     CHANGE_ID,
+    CHANGE_IDENTIFIER,
     PATCHSET_ID
   }
 
@@ -40,6 +42,9 @@ public abstract class TestCommitIdentifier {
   /** Numeric ID of the change whose current patchset points to the desired commit. */
   public abstract Change.Id changeId();
 
+  /** Identifier of the change whose current patchset points to the desired commit. */
+  public abstract ChangeIdentifier changeIdentifier();
+
   /** ID of the patchset representing the desired commit. */
   public abstract PatchSet.Id patchsetId();
 
@@ -53,6 +58,10 @@ public abstract class TestCommitIdentifier {
 
   public static TestCommitIdentifier ofChangeId(Change.Id changeId) {
     return AutoOneOf_TestCommitIdentifier.changeId(changeId);
+  }
+
+  public static TestCommitIdentifier ofChangeIdentifier(ChangeIdentifier changeIdentifier) {
+    return AutoOneOf_TestCommitIdentifier.changeIdentifier(changeIdentifier);
   }
 
   public static TestCommitIdentifier ofPatchsetId(PatchSet.Id patchsetId) {

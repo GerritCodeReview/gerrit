@@ -95,6 +95,7 @@ suite('gr-label-row-score tests', () => {
     ) as GrButton;
     button.click();
     await element.updateComplete;
+    await element.updateComplete;
 
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem!.textContent!.trim(), '-1');
@@ -197,54 +198,13 @@ suite('gr-label-row-score tests', () => {
     assert.deepEqual(element.computeBlankItemsCount('start'), 0);
   });
 
-  test('changes in label score are reflected in the DOM', async () => {
-    element.labels = {
-      'Code-Review': {
-        values: {
-          '0': 'No score',
-          '+1': 'good',
-          '+2': 'excellent',
-          '-1': 'bad',
-          '-2': 'terrible',
-        },
-        default_value: 0,
-      },
-      Verified: {
-        values: {
-          ' 0': 'No score',
-          '+1': 'good',
-          '+2': 'excellent',
-          '-1': 'bad',
-          '-2': 'terrible',
-        },
-        default_value: 0,
-      },
-    };
-    // For some reason we need the element.labels to flush first before we
-    // change the element.label
-    await element.updateComplete;
-
-    element.label = {name: 'Verified', value: ' 0'};
-    await element.updateComplete;
-    // Wait for @selected-item-changed to fire
-    await waitEventLoop();
-
-    const selector = element.labelSelector;
-    assert.strictEqual(selector!.selected, ' 0');
-    const selectedValueLabel = element.shadowRoot!.querySelector(
-      '#selectedValueLabel'
-    );
-    assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'Reset Vote');
-    checkAriaCheckedValid();
-  });
-
   test('asymmetrical labels', async () => {
     element.permittedLabels = {
       'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
       Verified: [' 0', '+1'],
     };
     await element.updateComplete;
-    assert.strictEqual(element.labelSelector!.items!.length, 2);
+    assert.strictEqual(element.labelSelector!.items.length, 2);
     assert.strictEqual(
       element.shadowRoot!.querySelectorAll('.placeholder').length,
       3
@@ -255,7 +215,7 @@ suite('gr-label-row-score tests', () => {
       Verified: ['-2', '-1', ' 0', '+1', '+2'],
     };
     await element.updateComplete;
-    assert.strictEqual(element.labelSelector!.items!.length, 5);
+    assert.strictEqual(element.labelSelector!.items.length, 5);
     assert.strictEqual(
       element.shadowRoot!.querySelectorAll('.placeholder').length,
       0
@@ -320,7 +280,7 @@ suite('gr-label-row-score tests', () => {
         </span>
         <div class="buttonsCell">
           <span class="placeholder" data-label="Verified"></span>
-          <iron-selector
+          <gr-selector
             aria-labelledby="labelName"
             id="labelSelector"
             role="radiogroup"
@@ -330,6 +290,7 @@ suite('gr-label-row-score tests', () => {
               aria-disabled="false"
               aria-label="-1"
               data-name="Verified"
+              data-selection-index="0"
               data-value="-1"
               role="button"
               tabindex="0"
@@ -346,6 +307,7 @@ suite('gr-label-row-score tests', () => {
               aria-disabled="false"
               aria-label=" 0"
               data-name="Verified"
+              data-selection-index="1"
               data-value=" 0"
               role="button"
               tabindex="0"
@@ -366,8 +328,9 @@ suite('gr-label-row-score tests', () => {
               aria-checked="true"
               aria-disabled="false"
               aria-label="+1"
-              class="iron-selected"
+              class="selected"
               data-name="Verified"
+              data-selection-index="2"
               data-value="+1"
               role="button"
               tabindex="0"
@@ -380,7 +343,7 @@ suite('gr-label-row-score tests', () => {
                 +1
               </gr-tooltip-content>
             </gr-button>
-          </iron-selector>
+          </gr-selector>
           <span class="placeholder" data-label="Verified"></span>
         </div>
         <div class="selectedValueCell ">

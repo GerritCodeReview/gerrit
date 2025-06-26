@@ -16,6 +16,24 @@
       "message": "I added this configuration to maintain safety, but I\u0027m concerned it might be too restrictive, and affects discoverability.\n\nWhat do you say?",
       "revId": "32d65717fd61c11a5a185593f045565ee639a286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c883cc1_f7fd92d0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-06-26T15:53:56Z",
+      "side": 1,
+      "message": "I agree it seems extra restrictive. Given your use case, maybe instead this should be a new Bulk Move API that\u0027s 1) only enabled if `change.move\u003dtrue` and 2) requires Project Owner or Admin capability? Maybe you even make that a \"Branch Rename\" API? It still seems pretty niche and maybe something you\u0027d just want to implement in a plugin (similar to delete-project, rename-project, etc).",
+      "parentUuid": "dcc3583e_782edf73",
+      "revId": "32d65717fd61c11a5a185593f045565ee639a286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

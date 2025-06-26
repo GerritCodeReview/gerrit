@@ -2776,6 +2776,7 @@ suite('gr-reply-dialog tests', () => {
     );
     el.setSelectedValue('-1');
     await element.updateComplete;
+    await element.updateComplete;
 
     queryAndAssert<GrButton>(element, '.send').click();
     await element.updateComplete;
@@ -2817,6 +2818,7 @@ suite('gr-reply-dialog tests', () => {
       'gr-label-score-row[name="Verified"]'
     );
     el.setSelectedValue('-1');
+    await element.updateComplete;
     await element.updateComplete;
 
     queryAndAssert<GrButton>(element, '.send').click();

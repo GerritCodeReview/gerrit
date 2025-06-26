@@ -147,7 +147,7 @@ suite('gr-reply-dialog-it tests', () => {
     );
     const selectedBtn = queryAndAssert(
       labelScoreRows,
-      'gr-button[data-value="+1"].iron-selected'
+      'gr-button[data-value="+1"].selected'
     );
     assert.isOk(selectedBtn);
   });

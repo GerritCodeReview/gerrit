@@ -1647,6 +1647,16 @@ link:https://issues.gerritcodereview.com/issues/40009784[issue 40009784]).
 +
 By default `true`.
 
+[[change.moveClosed]]change.moveClosed::
++
+Whether the link:rest-api-changes.html#move-change[Move Change] REST
+endpoint can be used on closed changes.
++
+This can be useful, for example, when a branch has been renamed and
+closed changes need to be moved to the new branch name.
++
+By default `false`.
+
 [[change.allowMarkdownBase64ImagesInComments]]change.allowMarkdownBase64ImagesInComments::
 +
 Allows Base64 encoded images, embedded via Markdown, to be rendered in Gerrit comments.

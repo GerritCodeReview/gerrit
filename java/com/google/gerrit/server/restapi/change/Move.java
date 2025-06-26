@@ -85,6 +85,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
   private final ApprovalsUtil approvalsUtil;
   private final ProjectCache projectCache;
   private final boolean moveEnabled;
+  private final boolean moveClosedEnabled;
 
   @Inject
   Move(
@@ -108,6 +109,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
     this.moveEnabled = gerritConfig.getBoolean("change", null, "move", true);
+    this.moveClosedEnabled = gerritConfig.getBoolean("change", null, "moveClosed", false);
   }
 
   @Override
@@ -127,7 +129,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     }
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
 
-    if (!change.isNew()) {
+    if (!this.moveClosedEnabled && !change.isNew()) {
       throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
     }
 
@@ -143,7 +145,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     // discussion in
     // https://gerrit-review.googlesource.com/c/gerrit/+/129171
     // Only administrators are allowed to keep all labels at their own risk.
-    if (input.keepAllVotes
+    if (change.isNew() && input.keepAllVotes
         && !permissionBackend.user(caller).test(GlobalPermission.ADMINISTRATE_SERVER)) {
       throw new AuthException("move is not permitted with keepAllVotes option");
     }
@@ -185,9 +187,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     @Override
     public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, IOException {
       change = ctx.getChange();
-      if (!change.isNew()) {
-        throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
-      }
 
       Project.NameKey projectKey = change.getProject();
       newDestKey = BranchNameKey.create(projectKey, input.destinationBranch);
@@ -197,21 +196,23 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       }
 
       final PatchSet.Id patchSetId = change.currentPatchSetId();
-      try (Repository repo = repoManager.openRepository(projectKey);
-          RevWalk revWalk = new RevWalk(repo)) {
-        RevCommit currPatchsetRevCommit =
-            revWalk.parseCommit(psUtil.current(ctx.getNotes()).commitId());
+      if (change.isNew()) {
+        try (Repository repo = repoManager.openRepository(projectKey);
+            RevWalk revWalk = new RevWalk(repo)) {
+          RevCommit currPatchsetRevCommit =
+              revWalk.parseCommit(psUtil.current(ctx.getNotes()).commitId());
 
-        ObjectId refId = repo.resolve(input.destinationBranch);
-        // Check if destination ref exists in project repo
-        if (refId == null) {
-          throw new ResourceConflictException(
-              "Destination " + input.destinationBranch + " not found in the project");
-        }
-        RevCommit refCommit = revWalk.parseCommit(refId);
-        if (revWalk.isMergedInto(currPatchsetRevCommit, refCommit)) {
-          throw new ResourceConflictException(
-              "Current patchset revision is reachable from tip of " + input.destinationBranch);
+          ObjectId refId = repo.resolve(input.destinationBranch);
+          // Check if destination ref exists in project repo
+          if (refId == null) {
+            throw new ResourceConflictException(
+                "Destination " + input.destinationBranch + " not found in the project");
+          }
+          RevCommit refCommit = revWalk.parseCommit(refId);
+          if (revWalk.isMergedInto(currPatchsetRevCommit, refCommit)) {
+            throw new ResourceConflictException(
+                "Current patchset revision is reachable from tip of " + input.destinationBranch);
+          }
         }
       }
 
@@ -234,7 +235,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       update.setBranch(newDestKey.branch());
       change.setDest(newDestKey);
 
-      if (!input.keepAllVotes) {
+      if (change.isNew() && !input.keepAllVotes) {
         updateApprovals(ctx, update, psId, projectKey);
       }
 

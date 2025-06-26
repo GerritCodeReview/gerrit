@@ -156,6 +156,22 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.moveClosed", value = "true")
+  public void moveClsedChangeAllowed() throws Exception {
+    // Move a change which is not open
+    PushOneCommit.Result r = createChange();
+    BranchNameKey origBranch = r.getChange().change().getDest();
+    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
+    createBranch(newBranch);
+    merge(r);
+    move(r.getChangeId(), newBranch.branch());
+    assertThat(r.getChange().change().getDest()).isEqualTo(newBranch);
+    // Move back
+    move(r.getChangeId(), origBranch.branch());
+    assertThat(r.getChange().change().getDest()).isEqualTo(origBranch);
+  }
+
+  @Test
   public void moveMergeCommitChange() throws Exception {
     // Move a change which has a merge commit as the current PS
     // Create a merge commit and push for review

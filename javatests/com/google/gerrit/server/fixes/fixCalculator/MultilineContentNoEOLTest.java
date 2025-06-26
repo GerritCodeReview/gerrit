@@ -276,6 +276,30 @@ public class MultilineContentNoEOLTest {
   }
 
   @Test
+  public void replaceLastLine() throws Exception {
+    FixResult fixResult =
+        FixCalculatorVariousTest.calculateFixSingleReplacement(
+            "First line\nSecond line\nThird line", 3, 0, 3, 10, "Abc\ndef");
+    assertThat(fixResult).text().isEqualTo("First line\nSecond line\nAbc\ndef");
+    assertThat(fixResult).edits().hasSize(1);
+    Edit edit = fixResult.edits.get(0);
+    assertThat(edit).isReplace(2, 1, 2, 2);
+    assertThat(edit).internalEdits().onlyElement().isReplace(0, 10, 0, 7);
+  }
+
+  @Test
+  public void replaceLastLineEndLineNotExists() throws Exception {
+    FixResult fixResult =
+        FixCalculatorVariousTest.calculateFixSingleReplacement(
+            "First line\nSecond line\nThird line", 3, 0, 4, 0, "Abc\ndef");
+    assertThat(fixResult).text().isEqualTo("First line\nSecond line\nAbc\ndef");
+    assertThat(fixResult).edits().hasSize(1);
+    Edit edit = fixResult.edits.get(0);
+    assertThat(edit).isReplace(2, 1, 2, 2);
+    assertThat(edit).internalEdits().onlyElement().isReplace(0, 10, 0, 7);
+  }
+
+  @Test
   public void replaceWholeContent() throws Exception {
     FixResult fixResult =
         FixCalculatorVariousTest.calculateFixSingleReplacement(

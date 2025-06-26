@@ -95,6 +95,7 @@ suite('gr-label-row-score tests', () => {
     ) as GrButton;
     button.click();
     await element.updateComplete;
+    await element.updateComplete;
 
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem!.textContent!.trim(), '-1');
@@ -244,7 +245,7 @@ suite('gr-label-row-score tests', () => {
       Verified: [' 0', '+1'],
     };
     await element.updateComplete;
-    assert.strictEqual(element.labelSelector!.items!.length, 2);
+    assert.strictEqual(element.labelSelector!.items.length, 2);
     assert.strictEqual(
       element.shadowRoot!.querySelectorAll('.placeholder').length,
       3
@@ -255,7 +256,7 @@ suite('gr-label-row-score tests', () => {
       Verified: ['-2', '-1', ' 0', '+1', '+2'],
     };
     await element.updateComplete;
-    assert.strictEqual(element.labelSelector!.items!.length, 5);
+    assert.strictEqual(element.labelSelector!.items.length, 5);
     assert.strictEqual(
       element.shadowRoot!.querySelectorAll('.placeholder').length,
       0
@@ -320,7 +321,7 @@ suite('gr-label-row-score tests', () => {
         </span>
         <div class="buttonsCell">
           <span class="placeholder" data-label="Verified"></span>
-          <iron-selector
+          <gr-selector
             aria-labelledby="labelName"
             id="labelSelector"
             role="radiogroup"
@@ -330,6 +331,7 @@ suite('gr-label-row-score tests', () => {
               aria-disabled="false"
               aria-label="-1"
               data-name="Verified"
+              data-selection-index="0"
               data-value="-1"
               role="button"
               tabindex="0"
@@ -346,6 +348,7 @@ suite('gr-label-row-score tests', () => {
               aria-disabled="false"
               aria-label=" 0"
               data-name="Verified"
+              data-selection-index="1"
               data-value=" 0"
               role="button"
               tabindex="0"
@@ -366,8 +369,9 @@ suite('gr-label-row-score tests', () => {
               aria-checked="true"
               aria-disabled="false"
               aria-label="+1"
-              class="iron-selected"
+              class="selected"
               data-name="Verified"
+              data-selection-index="2"
               data-value="+1"
               role="button"
               tabindex="0"
@@ -380,7 +384,7 @@ suite('gr-label-row-score tests', () => {
                 +1
               </gr-tooltip-content>
             </gr-button>
-          </iron-selector>
+          </gr-selector>
           <span class="placeholder" data-label="Verified"></span>
         </div>
         <div class="selectedValueCell ">

@@ -34,6 +34,24 @@
       "parentUuid": "dcc3583e_782edf73",
       "revId": "32d65717fd61c11a5a185593f045565ee639a286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccb54203_af197a98",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-06-26T18:06:50Z",
+      "side": 1,
+      "message": "I\u0027ll consider implementing it in a plugin. Thanks for the idea.",
+      "parentUuid": "4c883cc1_f7fd92d0",
+      "revId": "32d65717fd61c11a5a185593f045565ee639a286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

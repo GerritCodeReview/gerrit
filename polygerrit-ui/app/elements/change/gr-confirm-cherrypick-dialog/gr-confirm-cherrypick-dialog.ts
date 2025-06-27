@@ -369,7 +369,7 @@ export class GrConfirmCherrypickDialog
         () => html`<div id="cherryPickEmailDropdown">Cherry Pick Committer Email
             <gr-dropdown-list
                 .items=${this.getEmailDropdownItems()}
-                .value=${this.committerEmail}
+                .value=${this.committerEmail ?? ''}
                 @value-change=${this.setCommitterEmail}
             >
             </gr-dropdown-list>

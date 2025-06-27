@@ -159,7 +159,7 @@ export class GrLabelInfo extends LitElement {
         .account=${reviewer}
         .change=${this.change}
         .vote=${approvalInfo}
-        .label=${labelInfo}
+        .label=${labelInfo ?? ''}
       >
         <gr-vote-chip
           slot="vote-chip"

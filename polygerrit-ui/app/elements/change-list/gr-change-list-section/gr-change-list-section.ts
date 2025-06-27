@@ -205,7 +205,7 @@ export class GrChangeListSection extends LitElement {
         <td class="leftPadding" aria-hidden="true"></td>
         <td
           class="star"
-          ?aria-hidden=${!this.isLoggedIn}
+          aria-hidden=${!this.isLoggedIn}
           ?hidden=${!this.isLoggedIn}
         ></td>
         <td class="cell" colspan=${colSpan}>
@@ -337,7 +337,7 @@ export class GrChangeListSection extends LitElement {
         .change=${change}
         .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
-        .showNumber=${this.showNumber}
+        .showNumber=${this.showNumber ?? false}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
         .globalIndex=${this.startIndex + index}

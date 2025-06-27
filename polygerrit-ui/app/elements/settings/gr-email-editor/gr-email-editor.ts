@@ -107,7 +107,7 @@ export class GrEmailEditor extends LitElement {
           type="radio"
           name="preferred"
           .value=${email.email}
-          .checked=${email.preferred}
+          .checked=${email.preferred ?? false}
           @change=${this.handlePreferredChange}
         />
       </td>

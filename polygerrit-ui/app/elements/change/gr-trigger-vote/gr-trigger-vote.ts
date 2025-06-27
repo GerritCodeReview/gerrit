@@ -100,8 +100,8 @@ export class GrTriggerVote extends LitElement {
         slot="label-info"
         .change=${this.change}
         .account=${this.account}
-        .mutable=${this.mutable}
-        .label=${this.label}
+        .mutable=${this.mutable ?? false}
+        .label=${this.label ?? ''}
         .labelInfo=${this.labelInfo}
         .showAllReviewers=${false}
       ></gr-label-info>

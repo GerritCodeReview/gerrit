@@ -417,7 +417,7 @@ export class GrImageViewer extends LitElement {
           touch-target="none"
           style=${styleMap({backgroundColor: color})}
           @click=${colorPicked}
-        >
+        ></md-icon-button>
       </div>
     `;
   }
@@ -430,11 +430,11 @@ export class GrImageViewer extends LitElement {
           selected: this.checkerboardSelected,
         })}
       >
-      <md-icon-button
-        class="color checkerboard"
-        touch-target="none"
-        @click=${this.pickCheckerboard}
-      >
+        <md-icon-button
+          class="color checkerboard"
+          touch-target="none"
+          @click=${this.pickCheckerboard}
+        ></md-icon-button>
       </div>
     `;
   }

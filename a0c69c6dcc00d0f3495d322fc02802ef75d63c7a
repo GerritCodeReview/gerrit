@@ -647,6 +647,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ea7b9d_27999a36",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-27T12:17:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8135b04c_ded9b7a1",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f08b5ea_2d404297",
@@ -708,6 +732,30 @@
       "side": 1,
       "message": "Modify account makes sense to me.",
       "parentUuid": "a912b3ef_a9ce654f",
+      "range": {
+        "startLine": 67,
+        "startChar": 61,
+        "endLine": 67,
+        "endChar": 75
+      },
+      "revId": "a0c69c6dcc00d0f3495d322fc02802ef75d63c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26abc67f_67f1cffb",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetTokens.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-27T12:17:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "800b99ec_cdbec9d0",
       "range": {
         "startLine": 67,
         "startChar": 61,

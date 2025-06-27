@@ -295,13 +295,6 @@ export class GrAppElement extends LitElement {
             --header-background,
             var(--header-background-color, #eee)
           );
-          padding: var(--header-padding);
-          border-bottom: var(--header-border-bottom);
-          border-image: var(--header-border-image);
-          border-right: 0;
-          border-left: 0;
-          border-top: 0;
-          box-shadow: var(--header-box-shadow);
           /* Make sure the header is above the main content, to preserve
             box-shadow visibility. We need 111 here 1, because dropdowns in the
             header should be shown on top of the sticky diff header, which has a

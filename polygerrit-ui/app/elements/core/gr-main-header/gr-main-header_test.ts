@@ -53,9 +53,7 @@ suite('gr-main-header tests', () => {
             </li>
             <li>
               <gr-dropdown down-arrow="" horizontal-align="left" link="">
-                <span class="linksTitle" id="Documentation">
-                  Documentation
-                </span>
+                <span class="linksTitle" id="Documentation">Documentation</span>
               </gr-dropdown>
             </li>
             <li>
@@ -77,160 +75,203 @@ suite('gr-main-header tests', () => {
               class="feedbackButton"
               name="header-feedback"
             >
-              <md-icon-button
-                data-aria-label="File a bug"
-                hidden=""
+              <a
+                aria-label="File a bug"
                 href=""
+                rel="noopener noreferrer"
+                role="button"
+                hidden=""
                 target="_blank"
                 title="File a bug"
-                touch-target="none"
-                value=""
               >
-                <md-icon aria-hidden="true" filled=""> bug_report </md-icon>
-              </md-icon-button>
+                <gr-icon filled="" icon="bug_report"> </gr-icon>
+              </a>
             </gr-endpoint-decorator>
           </div>
           <div class="accountContainer" id="accountContainer">
+            <div>
+              <gr-icon
+                aria-label="Hide Searchbar"
+                icon="search"
+                id="mobileSearch"
+                role="button"
+              >
+              </gr-icon>
+            </div>
             <gr-endpoint-decorator name="auth-link">
               <a class="loginButton" href="/login"> Sign in </a>
             </gr-endpoint-decorator>
-            <md-icon-button
+            <a
+              aria-label="Settings"
               class="settingsButton"
-              data-aria-label="Settings"
               href="/settings/"
+              role="button"
               title="Settings"
-              touch-target="none"
-              value=""
             >
-              <md-icon aria-hidden="true" filled=""> settings </md-icon>
-            </md-icon-button>
+              <gr-icon icon="settings" filled></gr-icon>
+            </a>
           </div>
         </nav>
         <nav class="hideOnDesktop">
+          <div class="nav-sidebar">
+            <ul class="menu">
+              <li class="has-collapsible">
+                <a class="main" data-title="Changes" href="">
+                  Changes
+                  <gr-icon class="arrow-down" icon="arrow_drop_down"> </gr-icon>
+                </a>
+                <ul class="dropdown">
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Open </span>
+                    <a
+                      class="itemAction"
+                      href="//localhost:9876/q/status:open+-is:wip"
+                      tabindex="-1"
+                    >
+                      Open
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Merged </span>
+                    <a
+                      class="itemAction"
+                      href="//localhost:9876/q/status:merged"
+                      tabindex="-1"
+                    >
+                      Merged
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Abandoned </span>
+                    <a
+                      class="itemAction"
+                      href="//localhost:9876/q/status:abandoned"
+                      tabindex="-1"
+                    >
+                      Abandoned
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-collapsible">
+                <a class="main" data-title="Documentation" href="">
+                  Documentation
+                  <gr-icon class="arrow-down" icon="arrow_drop_down"> </gr-icon>
+                </a>
+                <ul class="dropdown">
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Table of Contents </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/index.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Table of Contents
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Searching </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/user-search.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Searching
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Uploading </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/user-upload.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Uploading
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Access Control </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/access-control.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Access Control
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> REST API </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/rest-api.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      REST API
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Project Owner Guide </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/intro-project-owner.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Project Owner Guide
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-collapsible">
+                <a class="main" data-title="Browse" href="">
+                  Browse
+                  <gr-icon class="arrow-down" icon="arrow_drop_down"> </gr-icon>
+                </a>
+                <ul class="dropdown"></ul>
+              </li>
+            </ul>
+          </div>
           <div class="nav-header">
-            <md-icon-button
-              data-aria-label="Open hamburger"
-              touch-target="none"
-              value=""
+            <a
+              aria-label="Open hamburger"
+              class="hamburger"
+              href=""
+              role="button"
+              title="Hamburger"
             >
-              <md-icon aria-hidden="true" filled=""> menu </md-icon>
-            </md-icon-button>
+              <gr-icon filled="" icon="menu"> </gr-icon>
+            </a>
             <a class="bigTitle mobileTitle" href="//localhost:9876/">
               <gr-endpoint-decorator name="header-mobile-title">
                 <div class="mobileTitleText"></div>
               </gr-endpoint-decorator>
             </a>
             <div class="mobileRightItems">
-              <md-icon-button
-                data-aria-label="Hide Searchbar"
+              <a
+                aria-label="Hide Searchbar"
+                class="searchButton"
+                role="button"
                 title="Search"
-                touch-target="none"
-                value=""
               >
-                <md-icon aria-hidden="true" filled=""> search </md-icon>
-              </md-icon-button>
-              <gr-dropdown class="moreMenu" link="">
+                <gr-icon filled="" icon="search"> </gr-icon>
+              </a>
+              <gr-dropdown class="moreMenu" horizontal-align="center" link="">
                 <span class="linksTitle">
-                  <md-icon aria-hidden="true" filled=""> more_horiz </md-icon>
+                  <gr-icon filled="" icon="more_horiz"> </gr-icon>
                 </span>
               </gr-dropdown>
             </div>
-          </div>
-          <div class="nav-sidebar">
-            <md-list aria-label="menu links">
-              <md-item>
-                <div slot="headline">Changes</div>
-              </md-item>
-              <md-list-item
-                data-index="0-0"
-                href="//localhost:9876/q/status:open+-is:wip"
-                md-list-item=""
-                tabindex="0"
-                type="link"
-              >
-                Open
-              </md-list-item>
-              <md-list-item
-                data-index="0-1"
-                href="//localhost:9876/q/status:merged"
-                md-list-item=""
-                tabindex="-1"
-                type="link"
-              >
-                Merged
-              </md-list-item>
-              <md-list-item
-                data-index="0-2"
-                href="//localhost:9876/q/status:abandoned"
-                md-list-item=""
-                tabindex="-1"
-                type="link"
-              >
-                Abandoned
-              </md-list-item>
-              <md-divider role="separator" tabindex="-1"> </md-divider>
-              <md-item>
-                <div slot="headline">Documentation</div>
-              </md-item>
-              <md-list-item
-                data-index="1-0"
-                href="https://gerrit-review.googlesource.com/Documentation/index.html"
-                md-list-item=""
-                target="_blank"
-                type="link"
-              >
-                Table of Contents
-              </md-list-item>
-              <md-list-item
-                data-index="1-1"
-                href="https://gerrit-review.googlesource.com/Documentation/user-search.html"
-                md-list-item=""
-                target="_blank"
-                type="link"
-              >
-                Searching
-              </md-list-item>
-              <md-list-item
-                data-index="1-2"
-                href="https://gerrit-review.googlesource.com/Documentation/user-upload.html"
-                md-list-item=""
-                target="_blank"
-                type="link"
-              >
-                Uploading
-              </md-list-item>
-              <md-list-item
-                data-index="1-3"
-                href="https://gerrit-review.googlesource.com/Documentation/access-control.html"
-                md-list-item=""
-                target="_blank"
-                type="link"
-              >
-                Access Control
-              </md-list-item>
-              <md-list-item
-                data-index="1-4"
-                href="https://gerrit-review.googlesource.com/Documentation/rest-api.html"
-                md-list-item=""
-                target="_blank"
-                type="link"
-              >
-                REST API
-              </md-list-item>
-              <md-list-item
-                data-index="1-5"
-                href="https://gerrit-review.googlesource.com/Documentation/intro-project-owner.html"
-                md-list-item=""
-                target="_blank"
-                type="link"
-              >
-                Project Owner Guide
-              </md-list-item>
-              <md-divider role="separator" tabindex="-1"> </md-divider>
-              <md-item>
-                <div slot="headline">Browse</div>
-              </md-item>
-            </md-list>
           </div>
         </nav>
         <div class="modelBackground"></div>
@@ -618,7 +659,7 @@ suite('gr-main-header tests', () => {
     assert.isEmpty(element.feedbackURL);
     const feedbackButton = query<HTMLAnchorElement>(
       element,
-      '.feedbackButton > md-icon-button'
+      '.feedbackButton > a'
     );
     assert.ok(feedbackButton);
     assert.isTrue(isHidden(feedbackButton));
@@ -637,7 +678,7 @@ suite('gr-main-header tests', () => {
     assert.equal(element.feedbackURL, url);
     const updatedFeedbackButton = query<HTMLAnchorElement>(
       element,
-      '.feedbackButton > md-icon-button'
+      '.feedbackButton > a'
     );
     assert.ok(updatedFeedbackButton);
     assert.equal(updatedFeedbackButton.style.display, '');

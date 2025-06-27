@@ -31,6 +31,12 @@ declare global {
     'gr-copy-clipboard': GrCopyClipboard;
   }
 }
+
+/**
+ * A copy-to-clipboard element.
+ *
+ * @attr {Boolean} nowrap - If true, the text will not wrap.
+ */
 @customElement('gr-copy-clipboard')
 export class GrCopyClipboard extends LitElement {
   @property({type: String})
@@ -57,6 +63,9 @@ export class GrCopyClipboard extends LitElement {
 
   @property({type: Boolean})
   multiline = false;
+
+  @property({type: Boolean, reflect: true})
+  nowrap = false;
 
   @query('#icon')
   iconEl!: GrIcon;

@@ -34,6 +34,24 @@
       "parentUuid": "37a82552_e71fb706",
       "revId": "0a888a751341a094fafe069432b0d555ca88de80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d634c80e_ffd6203b",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-27T20:20:18Z",
+      "side": 0,
+      "message": "I think it\u0027s possibly `this.getSlot().addEventListener(\u0027slotchange\u0027, () \u003d\u003e this.itemsChanged());`? Seems like it is. Which case this is expected then?\n\nI\u0027m gonna close this as resolved the comment, but do still comment if i\u0027m wrong or you know how to get the test to work with the new lit module :)",
+      "parentUuid": "d7bcc697_f3a36a60",
+      "revId": "0a888a751341a094fafe069432b0d555ca88de80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

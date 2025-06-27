@@ -15,7 +15,6 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
-import '@material/web/icon/icon';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -102,9 +101,6 @@ export class GrAccountDropdown extends LitElement {
           width: 2em;
           vertical-align: middle;
         }
-        md-icon[filled] {
-          font-variation-settings: 'FILL' 1;
-        }
       `,
     ];
   }
@@ -118,7 +114,7 @@ export class GrAccountDropdown extends LitElement {
       .horizontalAlign=${'right'}
     >
       ${this.showMobile && !this.hasAvatars
-        ? html`<md-icon filled>account_circle</md-icon>`
+        ? html`<gr-icon icon="account_circle" filled></gr-icon>`
         : html`<span ?hidden=${this.hasAvatars}
             >${this.accountName(this.account)}</span
           >`}

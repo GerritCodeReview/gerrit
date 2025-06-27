@@ -5,6 +5,7 @@
  */
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocUrl} from '../../../utils/url-util';
@@ -20,7 +21,7 @@ import {
 import {AuthType} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
@@ -29,12 +30,6 @@ import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {subscribe} from '../../lit/subscription-controller';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import '@material/web/divider/divider';
-import '@material/web/list/list';
-import '@material/web/list/list-item';
-import '@material/web/labs/item/item';
-import '@material/web/icon/icon';
-import '@material/web/iconbutton/icon-button';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -164,6 +159,9 @@ export class GrMainHeader extends LitElement {
 
   @query('.modelBackground') modelBackground?: HTMLDivElement;
 
+  @query('.has-collapsible.active')
+  hasCollapsibleActive?: HTMLLIElement;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
@@ -220,6 +218,7 @@ export class GrMainHeader extends LitElement {
         .hideOnDesktop {
           display: none;
         }
+
         nav.hideOnMobile {
           align-items: center;
           display: flex;
@@ -234,9 +233,11 @@ export class GrMainHeader extends LitElement {
           padding: 0;
           position: relative;
         }
+
         .mobileTitle {
           display: none;
         }
+
         .bigTitle {
           color: var(--header-text-color);
           font-size: var(--header-title-font-size);
@@ -337,6 +338,11 @@ export class GrMainHeader extends LitElement {
           margin-left: auto;
           min-height: 50px;
         }
+
+        .mobileRightItems .searchButton {
+          cursor: pointer;
+        }
+
         .rightItems gr-endpoint-decorator:not(:empty),
         .mobileRightItems gr-endpoint-decorator:not(:empty) {
           margin-left: var(--spacing-s);
@@ -354,6 +360,12 @@ export class GrMainHeader extends LitElement {
         gr-dropdown {
           --gr-dropdown-item-color: var(--primary-text-color);
         }
+        .settingsButton {
+          margin-left: var(--spacing-m);
+        }
+        .feedbackButton {
+          margin-left: var(--spacing-s);
+        }
         .browse {
           color: var(--header-text-color);
           /* Same as gr-button */
@@ -361,8 +373,8 @@ export class GrMainHeader extends LitElement {
           text-decoration: none;
         }
         .invisible,
-        gr-account-dropdown,
-        .settingsButton {
+        .settingsButton,
+        gr-account-dropdown {
           display: none;
         }
         :host([loading]) .accountContainer,
@@ -371,9 +383,7 @@ export class GrMainHeader extends LitElement {
         :host([loggedIn]) .moreMenu {
           display: none;
         }
-        :host([loggedIn]) .settingsButton {
-          display: flex;
-        }
+        :host([loggedIn]) .settingsButton,
         :host([loggedIn]) gr-account-dropdown {
           display: inline;
         }
@@ -401,13 +411,14 @@ export class GrMainHeader extends LitElement {
           box-shadow: var(--elevation-level-2);
         }
         /*
-          * We are not using :host to do this, because :host has a lowest css priority
-          * compared to others. This means that using :host to do this would break styles.
-          */
+           * We are not using :host to do this, because :host has a lowest css priority
+           * compared to others. This means that using :host to do this would break styles.
+           */
         .linksTitle,
         .bigTitle,
         .loginButton,
         .registerButton,
+        gr-icon,
         gr-dropdown,
         gr-account-dropdown {
           --gr-button-text-color: var(--header-text-color);
@@ -417,18 +428,8 @@ export class GrMainHeader extends LitElement {
           --gr-button-text-color: var(--primary-text-color);
           color: var(--primary-text-color);
         }
-        md-icon-button {
-          --md-sys-color-on-surface-variant: var(--header-text-color);
-        }
-        md-icon[filled] {
-          font-variation-settings: 'FILL' 1;
-        }
-        nav.hideOnMobile,
-        nav .nav-header {
-          border-bottom: var(--header-border-bottom);
-          border-image: var(--header-border-image);
-          box-shadow: var(--header-box-shadow);
-          padding: var(--header-padding);
+        #mobileSearch {
+          display: none;
         }
         @media screen and (max-width: 50em) {
           .bigTitle {
@@ -443,6 +444,9 @@ export class GrMainHeader extends LitElement {
           .links > li.hideOnMobile {
             display: none;
           }
+          #mobileSearch {
+            display: inline-flex;
+          }
           .accountContainer {
             margin-left: var(--spacing-m) !important;
           }
@@ -454,25 +458,30 @@ export class GrMainHeader extends LitElement {
             width: 200px;
             height: 100%;
             display: block;
-            position: absolute;
+            position: fixed;
             left: -200px;
+            top: 0px;
             transition: left 0.25s ease;
+            margin: 0;
+            border: 0;
             overflow-y: auto;
             overflow-x: hidden;
+            height: 100%;
+            margin-bottom: 15px 0;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+            border-radius: 3px;
             z-index: 2;
-            padding-bottom: 56px;
           }
           .nav-sidebar.visible {
             left: 0px;
             transition: left 0.25s ease;
-            width: 50%;
+            width: 80%;
             z-index: 200;
-            box-shadow: var(--header-box-shadow);
           }
           .mobileTitle {
             position: relative;
             display: block;
+            top: 10px;
             font-size: 20px;
             left: 100px;
             right: 100px;
@@ -483,7 +492,6 @@ export class GrMainHeader extends LitElement {
           }
           .nav-header {
             display: flex;
-            align-items: center;
           }
           .hamburger {
             display: inline-block;
@@ -497,14 +505,32 @@ export class GrMainHeader extends LitElement {
             padding: 12px;
             z-index: 200;
           }
+          .nav-sidebar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+            padding-top: 50px;
+          }
+          .nav-sidebar li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: relative;
+            font-size: 14;
+            color: var(--primary-text-color);
+            display: block;
+          }
           .cover {
             background: rgba(0, 0, 0, 0.5);
-            position: absolute;
-            height: 100%;
-            inset: 0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             overflow: none;
             z-index: 199;
-            margin-top: 53px;
           }
           .hideOnDesktop {
             display: block;
@@ -512,49 +538,71 @@ export class GrMainHeader extends LitElement {
           nav.hideOnMobile {
             display: none;
           }
-          md-list {
-            --md-list-container-color: transparent;
+          .nav-sidebar .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
             display: block;
-            margin-inline: 12px;
-            min-width: unset;
-            --md-sys-typescale-body-large-size: inherit;
-            --md-sys-color-on-surface: var(--primary-text-color);
+            padding-top: 50px;
           }
-          md-list-item {
-            font-size: 16px;
-            --md-list-item-label-text-font: inherit;
-          }
-          md-list md-list-item::part(focus-ring) {
-            --md-focus-ring-shape: 28px;
-          }
-          md-list md-list-item[href] {
-            margin-block: 12px;
+          .nav-sidebar .menu li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: relative;
+            font-size: 14;
+            color: var(--primary-text-color);
             display: block;
-            --md-focus-ring-shape: 28px;
-            border-radius: 28px;
           }
-          md-list md-item [slot='headline'] {
-            /* shadow root slot has overflow:hidden, it's cutting some text off */
-            padding-block: 2px;
+          .nav-sidebar .menu li a {
+            padding: 15px 20px;
+            font-size: 14;
+            outline: 0;
+            display: block;
+            color: var(--primary-text-color);
+            font-weight: 600;
           }
-          md-list md-item:first-of-type {
-            padding-block: 0;
+          .nav-sidebar .menu li.active ul.dropdown {
+            display: block;
           }
-          md-list md-item {
-            font-size: 24px;
-            padding-block-end: 0;
+          .nav-sidebar .menu li ul.dropdown {
+            position: absolute;
+            display: none;
+            width: 100%;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+            padding-top: 0;
+            position: relative;
           }
-          md-list md-item + md-list-item[href] {
-            margin-block-start: 0;
+          .nav-sidebar .menu li ul.dropdown li {
+            display: block;
+            list-style-type: none;
           }
-          @media (forced-colors: active) {
-            md-list md-list-item[href][selected] {
-              border: 4px double CanvasText;
-            }
-            md-list md-list-item[href] {
-              border-radius: 28px;
-              border: 1px solid CanvasText;
-            }
+          .nav-sidebar .menu li ul.dropdown li a {
+            padding: 15px 20px;
+            font-size: 15px;
+            display: block;
+            font-weight: 400;
+            border-bottom: none;
+            padding: 10px 10px 10px 30px;
+          }
+          .nav-sidebar .menu li ul.dropdown li:last-child a {
+            border-bottom: none;
+          }
+          .nav-sidebar .menu a {
+            text-decoration: none;
+          }
+          .nav-sidebar .menu li.active:first-child a {
+            border-radius: 3px 0 0 3px;
+            border-radius: 0;
+          }
+          .nav-sidebar .menu li ul.dropdown li.active:first-child a {
+            border-radius: 0;
+          }
+          .arrow-down {
+            position: absolute;
+            top: 10px;
+            right: 10px;
           }
         }
       `,
@@ -591,34 +639,25 @@ export class GrMainHeader extends LitElement {
             name="header-top-right"
           ></gr-endpoint-decorator>
           <!--
-          Always render the fallback feedback button, but hide it with CSS if feedbackURL is empty.
-          We do this instead of using Lit's conditional rendering (e.g., ?hidden or if) inside
-          <gr-endpoint-decorator>, because the plugin system may replace or remove this content
-          outside of Lit's control. If Lit tries to update a node that was removed by the plugin
-          system, it will throw an error. By always rendering the node and only hiding it, we
-          avoid this issue and ensure plugin compatibility.
-          -->
+      Always render the fallback feedback button, but hide it with CSS if feedbackURL is empty.
+      We do this instead of using Lit's conditional rendering (e.g., ?hidden or if) inside
+      <gr-endpoint-decorator>, because the plugin system may replace or remove this content
+      outside of Lit's control. If Lit tries to update a node that was removed by the plugin
+      system, it will throw an error. By always rendering the node and only hiding it, we
+      avoid this issue and ensure plugin compatibility.
+      -->
           <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
-            <md-icon-button
-              touch-target="none"
+            <a
               href=${this.feedbackURL}
               title="File a bug"
               aria-label="File a bug"
               target="_blank"
+              rel="noopener noreferrer"
+              role="button"
               ?hidden=${!this.feedbackURL}
-              @click=${(e: Event) => {
-                const path = e.composedPath();
-                const iconButton = path.find(
-                  (el): el is HTMLElement =>
-                    el instanceof HTMLElement &&
-                    el.tagName.toLowerCase() === 'md-icon-button'
-                );
-                const anchor = iconButton?.shadowRoot?.querySelector('a');
-                anchor?.setAttribute('rel', 'noopener noreferrer');
-              }}
             >
-              <md-icon filled>bug_report</md-icon>
-            </md-icon-button>
+              <gr-icon icon="bug_report" filled></gr-icon>
+            </a>
           </gr-endpoint-decorator>
         </div>
         ${this.renderAccount()}
@@ -649,80 +688,70 @@ export class GrMainHeader extends LitElement {
       });
     }
 
-    const linkGroups = this.computeLinks(
-      this.userLinks,
-      this.adminLinks,
-      this.topMenus
-    );
-
     return html`
       <nav class="hideOnDesktop">
+        <div class="nav-sidebar">
+          <ul class="menu">
+            ${this.computeLinks(
+              this.userLinks,
+              this.adminLinks,
+              this.topMenus
+            ).map(linkGroup => this.renderLinkGroupMobile(linkGroup))}
+          </ul>
+        </div>
         <div class="nav-header">
-          <md-icon-button
-            touch-target="none"
+          <a
+            class="hamburger"
+            href=""
+            title="Hamburger"
             aria-label="${!this.hamburgerClose ? 'Open' : 'Close'} hamburger"
+            role="button"
             @click=${() => {
               this.handleSidebar();
             }}
           >
-            <md-icon filled
-              >${!this.hamburgerClose ? 'menu' : 'menu_open'}</md-icon
-            >
-          </md-icon-button>
+            ${!this.hamburgerClose
+              ? html`<gr-icon icon="menu" filled></gr-icon>`
+              : html`<gr-icon
+                  class="hamburger-open"
+                  icon="menu_open"
+                  filled
+                ></gr-icon>`}
+          </a>
           <a
             href=${`//${window.location.host}${getBaseUrl()}/`}
             class="mobileTitle bigTitle"
-            @click=${() => {
-              if (this.hamburgerClose) {
-                this.handleSidebar();
-              }
-            }}
           >
             <gr-endpoint-decorator name="header-mobile-title">
               <div class="mobileTitleText"></div>
             </gr-endpoint-decorator>
           </a>
           <div class="mobileRightItems">
-            <md-icon-button
-              touch-target="none"
+            <a
+              class="searchButton"
               title="Search"
+              @click=${(e: Event) => {
+                this.onMobileSearchTap(e);
+              }}
+              role="button"
               aria-label=${this.mobileSearchHidden
                 ? 'Show Searchbar'
                 : 'Hide Searchbar'}
-              @click=${(e: Event) => {
-                this.onMobileSearchTap(e);
-
-                if (this.hamburgerClose) {
-                  this.handleSidebar();
-                }
-              }}
             >
-              <md-icon filled>search</md-icon>
-            </md-icon-button>
+              <gr-icon icon="search" filled></gr-icon>
+            </a>
             <gr-dropdown
               class="moreMenu"
               link=""
               .items=${moreMenu}
-              .horizontalAlign=${'center'}
-              @click=${() => {
-                if (this.hamburgerClose) {
-                  this.handleSidebar();
-                }
-              }}
+              horizontal-align="center"
             >
               <span class="linksTitle">
-                <md-icon filled>more_horiz</md-icon>
+                <gr-icon icon="more_horiz" filled></gr-icon>
               </span>
             </gr-dropdown>
             ${this.renderAccountDropdown(true)}
           </div>
-        </div>
-        <div class="nav-sidebar">
-          <md-list aria-label="menu links">
-            ${linkGroups.map((linkGroup, index) =>
-              this.renderLinkGroupMobile(linkGroup, index, linkGroups.length)
-            )}
-          </md-list>
         </div>
       </nav>
       <div class="modelBackground" @click=${() => this.handleSidebar()}></div>
@@ -746,56 +775,70 @@ export class GrMainHeader extends LitElement {
     `;
   }
 
-  private renderLinkGroupMobile(
-    linkGroup: MainHeaderLinkGroup,
-    groupsIndex: number,
-    totalGroups: number
-  ) {
+  private renderLinkGroupMobile(linkGroup: MainHeaderLinkGroup) {
     return html`
-      <md-item><div slot="headline">${linkGroup.title}</div></md-item>
-      ${linkGroup.links.map((link, index) =>
-        this.renderLinkMobile(link, index, groupsIndex)
-      )}
-      ${groupsIndex < totalGroups - 1
-        ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
-        : nothing}
+      <li class="has-collapsible" @click=${this.handleCollapsible}>
+        <a class="main" href="" data-title=${linkGroup.title}
+          >${linkGroup.title}<gr-icon
+            icon="arrow_drop_down"
+            class="arrow-down"
+          ></gr-icon
+        ></a>
+        <ul class="dropdown">
+          ${linkGroup.links.map(link => this.renderLinkMobile(link))}
+        </ul>
+      </li>
     `;
   }
 
-  private renderLinkMobile(
-    link: DropdownLink,
-    index: number,
-    groupsIndex: number
-  ) {
-    this.handleAdditionalLinkAttributes(link, index, groupsIndex);
+  private renderLinkMobile(link: DropdownLink) {
     return html`
-      <md-list-item
-        data-index="${groupsIndex}-${index}"
-        href=${ifDefined(this.computeLinkURL(link))}
-        target=${ifDefined(link.target ?? undefined)}
-        @click=${() => this.handleSidebar()}
-      >
-        ${link.name}
-      </md-list-item>
+      <li tabindex="-1">
+        <span ?hidden=${!!link.url} tabindex="-1">${link.name}</span>
+        <a
+          class="itemAction"
+          href=${this.computeLinkURL(link)}
+          ?download=${!!link.download}
+          rel=${ifDefined(this.computeLinkRel(link) ?? undefined)}
+          target=${ifDefined(link.target ?? undefined)}
+          ?hidden=${!link.url}
+          tabindex="-1"
+          @click=${() => this.handleSidebar()}
+          >${link.name}</a
+        >
+      </li>
     `;
   }
 
   private renderAccount() {
     return html`
       <div class="accountContainer" id="accountContainer">
+        <div>
+          <gr-icon
+            id="mobileSearch"
+            icon="search"
+            @click=${(e: Event) => {
+              this.onMobileSearchTap(e);
+            }}
+            role="button"
+            aria-label=${this.mobileSearchHidden
+              ? 'Show Searchbar'
+              : 'Hide Searchbar'}
+          ></gr-icon>
+        </div>
         ${this.renderRegister()}
         <gr-endpoint-decorator name="auth-link">
           <a class="loginButton" href=${this.loginUrl}>${this.loginText}</a>
         </gr-endpoint-decorator>
-        <md-icon-button
+        <a
           class="settingsButton"
-          touch-target="none"
           href="${getBaseUrl()}/settings/"
           title="Settings"
           aria-label="Settings"
+          role="button"
         >
-          <md-icon filled>settings</md-icon>
-        </md-icon-button>
+          <gr-icon icon="settings" filled></gr-icon>
+        </a>
         ${this.renderAccountDropdown()}
       </div>
     `;
@@ -820,11 +863,6 @@ export class GrMainHeader extends LitElement {
       <gr-account-dropdown
         .account=${this.account}
         ?showMobile=${showOnMobile}
-        @click=${() => {
-          if (this.hamburgerClose) {
-            this.handleSidebar();
-          }
-        }}
       ></gr-account-dropdown>
     `;
   }
@@ -1002,7 +1040,7 @@ export class GrMainHeader extends LitElement {
    */
   private computeLinkURL(link: DropdownLink) {
     if (typeof link.url === 'undefined') {
-      return undefined;
+      return '';
     }
     if (link.target || !link.url.startsWith('/')) {
       return link.url;
@@ -1029,6 +1067,20 @@ export class GrMainHeader extends LitElement {
     return null;
   }
 
+  private handleCollapsible(e: MouseEvent) {
+    const target = e.target as HTMLSpanElement;
+    if (target.hasAttribute('data-title')) {
+      if (target.parentElement?.classList.contains('active')) {
+        target.parentElement.classList.remove('active');
+      } else {
+        if (this.hasCollapsibleActive) {
+          this.hasCollapsibleActive.classList.remove('active');
+        }
+        target.parentElement?.classList.toggle('active');
+      }
+    }
+  }
+
   private handleSidebar() {
     this.navSidebar?.classList.toggle('visible');
     if (!this.modelBackground?.classList.contains('cover')) {
@@ -1041,34 +1093,7 @@ export class GrMainHeader extends LitElement {
       }
     }
     this.modelBackground?.classList.toggle('cover');
+    this.hasCollapsibleActive?.classList.remove('active');
     this.hamburgerClose = !this.hamburgerClose;
-  }
-
-  /**
-   * Because <a> is added internally in md-list-item, we have to do a workaround to add the
-   * attributes we want.
-   * @param e Event
-   * @param link DropdownLink
-   */
-  private handleAdditionalLinkAttributes(
-    link: DropdownLink,
-    index: number,
-    groupsIndex: number
-  ) {
-    const anchor = this.shadowRoot
-      ?.querySelector(`md-list-item[data-index="${groupsIndex}-${index}"]`)
-      ?.shadowRoot?.querySelector('a');
-    if (anchor) {
-      if (link.download) {
-        anchor.setAttribute('download', '');
-      }
-      const rel = this.computeLinkRel(link);
-      if (rel) {
-        anchor.setAttribute('rel', rel);
-      }
-      if (link.target) {
-        anchor.setAttribute('target', link.target);
-      }
-    }
   }
 }

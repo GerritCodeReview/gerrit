@@ -16,6 +16,24 @@
       "message": "@brohlfs@google.com / @milutin@google.com i\u0027m not sure how to fix this. \u0027Reset Vote\u0027 fails with \u0027No score\u0027. I\u0027m not sure if it\u0027s expected the change acts immediately because iron-selector is switched out for a lit alternative. I tested locally and the reset label shows when i press +1, submit and re-open the dialog and hover over 0.",
       "revId": "0a888a751341a094fafe069432b0d555ca88de80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7bcc697_f3a36a60",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-27T14:56:27Z",
+      "side": 0,
+      "message": "I see \"good\" above this but \"no score\" after setting the below.",
+      "parentUuid": "37a82552_e71fb706",
+      "revId": "0a888a751341a094fafe069432b0d555ca88de80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

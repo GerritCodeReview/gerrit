@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb736c9d_bbe394b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-06-27T08:41:03Z",
+      "side": 1,
+      "message": "@milutin@google.com can i leave this for you to submit? Or can this be submitted now that you\u0027ve imported it?",
+      "revId": "9999617c98499402b855ff2b944806f4031efbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -29,6 +29,7 @@ import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {define} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {Finalizable} from '../../../types/types';
+import {ChangeModel} from '../../../models/change/change-model';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -110,7 +111,8 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   constructor(
     private readonly reportingService: ReportingService,
-    private readonly restApiService: RestApiService
+    private readonly restApiService: RestApiService,
+    private readonly changeModel: ChangeModel
   ) {
     this.jsApiService = new GrJsApiInterface(
       () => this.awaitPluginsLoaded(),
@@ -223,7 +225,8 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.reportingService,
         this.restApiService,
         this.pluginsModel,
-        this.pluginEndPoints
+        this.pluginEndPoints,
+        this.changeModel
       );
     }
     try {

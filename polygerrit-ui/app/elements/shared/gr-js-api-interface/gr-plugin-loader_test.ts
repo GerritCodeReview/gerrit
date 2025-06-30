@@ -14,6 +14,8 @@ import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
 import {assert} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {changeModelToken} from '../../../models/change/change-model';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;
@@ -34,7 +36,8 @@ suite('gr-plugin-loader tests', () => {
     );
     pluginLoader = new PluginLoader(
       getAppContext().reportingService,
-      getAppContext().restApiService
+      getAppContext().restApiService,
+      testResolver(changeModelToken)
     );
     bodyStub = sinon.stub(document.body, 'appendChild');
     url = window.location.origin;

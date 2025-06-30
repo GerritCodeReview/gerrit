@@ -36,6 +36,7 @@ import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
 import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
+import {ChangeModel} from '../../../models/change/change-model';
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
 
@@ -54,7 +55,8 @@ export class Plugin implements PluginApi {
     private readonly report: ReportingService,
     private readonly restApiService: RestApiService,
     private readonly pluginsModel: PluginsModel,
-    private readonly pluginEndpoints: GrPluginEndpoints
+    private readonly pluginEndpoints: GrPluginEndpoints,
+    private readonly changeModel: ChangeModel
   ) {
     this.domHooks = new GrDomHooksManager(this);
 
@@ -131,6 +133,10 @@ export class Plugin implements PluginApi {
       dynamicEndpoint,
     });
     return domHook;
+  }
+
+  getChangeNumber(): number | undefined {
+    return this.changeModel.getChange()?._number;
   }
 
   /**

@@ -70,6 +70,11 @@ export declare interface PluginApi {
   suggestions(): SuggestionsPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;
   getPluginName(): string;
+  /**
+   * Return change number if change page is open.
+   * Return undefined if some non-change page(dashboard, repo settings) is opened.
+   */
+  getChangeNumber(): number | undefined;
   hook<T extends PluginElement>(
     endpointName: string,
     opt_options?: RegisterOptions

@@ -1099,6 +1099,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_USER);
       assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_GROUP);
 
+      // Using "user=" or "group=" args is not supported.
+      assertDisjunctive(lblArgs, ARG_ID_USER, ARG_ID_GROUP);
+
       for (Map.Entry<String, ValOp> pair : lblArgs.keyValue.entrySet()) {
         String key = pair.getKey();
         String value = pair.getValue().value();

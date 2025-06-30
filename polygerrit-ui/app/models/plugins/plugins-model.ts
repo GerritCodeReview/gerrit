@@ -54,6 +54,11 @@ interface PluginsState {
    */
   coveragePlugins: CoveragePlugin[];
   /**
+   * List of plugins that have called changeUpdates().register().
+   */
+  changeUpdatesPlugins: ChecksPlugin[];
+
+  /**
    * List of plugins that have called checks().register().
    */
   checksPlugins: ChecksPlugin[];
@@ -89,6 +94,11 @@ export class PluginsModel extends Model<PluginsState> {
 
   public coveragePlugins$ = select(this.state$, state => state.coveragePlugins);
 
+  public changeUpdatesPlugins$ = select(
+    this.state$,
+    state => state.changeUpdatesPlugins
+  );
+
   public suggestionsPlugins$ = select(
     this.state$,
     state => state.suggestionsPlugins
@@ -100,6 +110,7 @@ export class PluginsModel extends Model<PluginsState> {
     super({
       pluginsLoaded: false,
       coveragePlugins: [],
+      changeUpdatesPlugins: [],
       checksPlugins: [],
       suggestionsPlugins: [],
       tokenHighlightPlugins: [],
@@ -119,6 +130,22 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.coveragePlugins.push(plugin);
+    this.setState(nextState);
+  }
+
+  changeUpdatesRegister(plugin: ChecksPlugin) {
+    const nextState = {...this.getState()};
+    nextState.changeUpdatesPlugins = [...nextState.changeUpdatesPlugins];
+    const alreadyRegistered = nextState.changeUpdatesPlugins.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a checks provider. Ignored.`
+      );
+      return;
+    }
+    nextState.changeUpdatesPlugins.push(plugin);
     this.setState(nextState);
   }
 

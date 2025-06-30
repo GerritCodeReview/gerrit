@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d616dfa_66e2ac7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-06-30T19:36:32Z",
+      "side": 1,
+      "message": "I have cherry-picked this to stable-3.9: https://gerrit-review.googlesource.com/c/gerrit/+/487821",
+      "revId": "efada89dddd9a4e26828efdfa833f030c8f4d44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

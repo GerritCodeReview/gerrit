@@ -1537,13 +1537,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review>=+1,count=2", reviewTwoPlus1Change);
 
     // "count" and "user" args cannot be used simultaneously.
-    assertThrows(
-        BadRequestException.class,
-        () -> assertQuery("label:Code-Review=+1,user=non_uploader,count=2"));
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1,user=non_uploader,count=2"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'user' argument");
 
     // "count" and "group" args cannot be used simultaneously.
-    assertThrows(
-        BadRequestException.class, () -> assertQuery("label:Code-Review=+1,group=gerrit,count=2"));
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1,group=gerrit,count=2"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'group' argument");
 
     // "non_contributor arg for the label operator is not allowed in change queries
     thrown =

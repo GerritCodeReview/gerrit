@@ -36,6 +36,7 @@ import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
 import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
+import {GrChangeUpdatesApi} from '../../plugins/gr-change-updates-api/gr-change-updates-api';
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
 
@@ -202,6 +203,10 @@ export class Plugin implements PluginApi {
 
   checks(): GrChecksApi {
     return new GrChecksApi(this.report, this.pluginsModel, this);
+  }
+
+  changeUpdates(): GrChangeUpdatesApi {
+    return new GrChangeUpdatesApi(this.pluginsModel, this);
   }
 
   suggestions(): GrSuggestionsApi {

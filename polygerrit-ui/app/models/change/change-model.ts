@@ -24,6 +24,7 @@ import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {
   catchError,
+  debounceTime,
   filter,
   map,
   switchMap,
@@ -42,7 +43,7 @@ import {
   LoadingStatus,
   ParsedChangeInfo,
 } from '../../types/types';
-import {fireAlert, fireTitleChange} from '../../utils/event-util';
+import {fire, fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -511,6 +512,21 @@ export class ChangeModel extends Model<ChangeState> {
     this.latestRevisionWithEdit$ = this.selectRevision(
       this.latestPatchNumWithEdit$
     );
+    this.change$.subscribe(change => {
+      const changeUpdatesPlugins =
+        this.pluginLoader.pluginsModel.getChangeUpdatesPlugins();
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.publisher.unsubscribe();
+      }
+      if (!change) return;
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.publisher
+          .pipe(debounceTime(1000))
+          .subscribe(change.project, change._number, () =>
+            this.showRefreshChangeNotification()
+          );
+      }
+    });
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
       ([change, account]) => isOwner(change, account)
@@ -707,6 +723,18 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  private showRefreshChangeNotification() {
+    // TODO(dhruvsri): Align this logic with the message in GrChangeView
+    fire(document, 'show-alert', {
+      message: 'There are new updates on the change',
+      // Persist this alert.
+      dismissOnNavigation: true,
+      showDismiss: true,
+      action: 'Reload',
+      callback: () => this.navigateToChangeResetReload(),
+    });
   }
 
   private loadChange() {

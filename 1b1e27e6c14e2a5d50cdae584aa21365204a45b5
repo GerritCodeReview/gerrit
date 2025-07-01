@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb0c0afb_5b8ab341",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T13:08:51Z",
+      "side": 1,
+      "message": "\u003e doesn\u0027t explain well the purpose of the API for future plugin developers.\n\nI have tried to elaborate the comment.\n\nI have used both `Gerrit` and `plugin` to specify the roles of each.\n\n\u003e Similarly it\u0027s not clear what is meant by \"Clients\"\n\nIn the subscriber flow, `client` is a well understood term. One system informs of changes and the `client` listens to those changes.\n\nI have replaced it with `Gerrit` now. Hopefully that\u0027s clear.\n\n```\n The plugin controls it, so you don\u0027t know when it\u0027s going to be called. This being part of plugin api, should explain clearly how the plugins are meant to use it.\n ```\n \n Yes, this is exactly how a subscriber system works. The client doesn\u0027t know when the callback will be called, it just registers it.\n \n \u003e Provider \u003d\u003e rename to something like ChangeOutdatedSignal\n \n Provider is already used in `checks` + `suggestions`.\n \n I think changing the name here would break alignment with existing code and hurt readability.\n \n \u003e Rename callback to \"onChangeOutdated\"\n \n As mentioned already, the `callback` could be for anything. Given the provider doesn\u0027t care what the client uses it for, we should not change the name to anything specific.",
+      "parentUuid": "60a5e4c2_6141aa02",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c701d16_425b7ee9",

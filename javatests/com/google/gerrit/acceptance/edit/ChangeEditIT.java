@@ -89,6 +89,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -1275,6 +1276,46 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeEditCreateGitLink() throws Exception {
+    String gitlinkFileName = "foo/bar";
+    byte[] gitlinkContent = "7bcbf0ae382f9a20f96563b6af2c0e6fff20a22f".getBytes(UTF_8);
+
+    FileContentInput in = new FileContentInput();
+    in.binary_content =
+        "data:text/plain;base64," + Base64.getEncoder().encodeToString(gitlinkContent);
+    in.fileMode = FileMode.GITLINK.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(gitlinkFileName, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, gitlinkFileName), gitlinkContent);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode =
+        gApi.changes().id(changeId).get().getCurrentRevision().files.get(gitlinkFileName).newMode;
+    assertThat(mode).isEqualTo(FileMode.GITLINK.getMode());
+  }
+
+  @Test
+  public void changeEditCreateGitLink_invalidContentIsRejected() throws Exception {
+    String gitlinkFileName = "foo/bar";
+    byte[] invalidGitlinkContent = "not a SHA1".getBytes(UTF_8);
+
+    FileContentInput in = new FileContentInput();
+    in.binary_content =
+        "data:text/plain;base64," + Base64.getEncoder().encodeToString(invalidGitlinkContent);
+    in.fileMode = FileMode.GITLINK.getModeAsOctal();
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).edit().modifyFile(gitlinkFileName, in));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format("The content for gitlink '%s' must be a valid SHA1.", gitlinkFileName));
+  }
+
+  @Test
   public void changeEditModifyFileMode_invalidFileModeIsRejected() throws Exception {
     FileContentInput in = new FileContentInput();
     in.binary_content = CONTENT_BINARY_ENCODED_NEW;
@@ -1287,8 +1328,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "file_mode (%s) was invalid: supported values are 100644 (regular file) or 100755"
-                    + " (executable file).",
+                "file_mode (%s) was invalid: supported values are 100644 (regular file), 100755"
+                    + " (executable file) or 160000 (gitlink).",
                 in.fileMode));
   }
 

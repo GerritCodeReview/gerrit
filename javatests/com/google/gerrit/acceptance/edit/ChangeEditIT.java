@@ -1216,6 +1216,46 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeEditNewFileIsCreatedAsRegularFileIfFileModeIsNotSet() throws Exception {
+    String fileName = "new.txt";
+
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
+    gApi.changes().id(changeId).edit().modifyFile(fileName, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, fileName), CONTENT_BINARY_DECODED_NEW);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(fileName).newMode;
+    assertThat(mode).isEqualTo(FileMode.REGULAR_FILE.getMode());
+  }
+
+  @Test
+  public void changeEditModifyingFileDoesNotUpdateFileModeIfFileModeIsNotSet() throws Exception {
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
+    in.fileMode = FileMode.EXECUTABLE_FILE.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
+
+    // Update the file content without setting the file mode:
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW2;
+    in.fileMode = null;
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW2);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
+    assertThat(mode).isEqualTo(FileMode.EXECUTABLE_FILE.getMode());
+  }
+
+  @Test
   public void changeEditModifyFileMode() throws Exception {
     int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
     assertThat(mode).isEqualTo(FileMode.REGULAR_FILE.getMode());

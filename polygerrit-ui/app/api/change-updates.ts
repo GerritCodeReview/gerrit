@@ -28,7 +28,14 @@ export declare interface ChangeUpdatesPublisher {
    */
   subscribe(repo: string, change: number, callback: () => void): void;
   /**
-   * Remove existing callbacks.
+   * Remove existing callbacks. Does nothing if no subscriber was added.
    */
+<<<<<<< PATCH SET (dde3b1 Refetch change if update signal is received)
+  unsubcribe(): void;
+||||||| BASE
+
+  unsubcribe(repo: string, change: number): void;
+=======
   unsubscribe(repo: string, change: number): void;
+>>>>>>> BASE      (c8c682 Add publisher for change updates)
 }

@@ -29,7 +29,7 @@ export declare interface ChangeUpdatesPublisher {
    */
   subscribe(repo: string, change: number, callback: () => void): void;
   /**
-   * Remove existing callbacks.
+   * Remove existing callbacks. Does nothing if no subscriber was added.
    */
-  unsubscribe(repo: string, change: number): void;
+  unsubscribe(): void;
 }

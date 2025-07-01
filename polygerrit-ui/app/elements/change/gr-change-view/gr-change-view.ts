@@ -2177,32 +2177,25 @@ export class GrChangeView extends LitElement {
     const delay = this.serverConfig?.change?.update_delay ?? 0;
     if (delay <= MIN_CHECK_INTERVAL_SECS) return;
 
-    this.updateCheckTimerHandle = window.setTimeout(async () => {
+    this.updateCheckTimerHandle = window.setTimeout(() => {
       if (!this.isViewCurrent || !this.change) {
         this.startUpdateCheckTimer();
         return;
       }
       const change = this.change;
-      const toastMessage =
-        await this.getChangeModel().getChangeUpdateToastMessage(change);
 
       // We have to make sure that the update is still relevant for the user.
       // Since starting to fetch the change update the user may have sent a
       // reply, or the change might have been reloaded, or it could be in the
       // process of being reloaded.
       const changeWasReloaded = change !== this.change;
-      if (
-        !toastMessage ||
-        this.loading ||
-        changeWasReloaded ||
-        !this.isViewCurrent
-      ) {
+      if (this.loading || changeWasReloaded || !this.isViewCurrent) {
         this.startUpdateCheckTimer();
         return;
       }
 
       this.cancelUpdateCheckTimer();
-      this.getChangeModel().showRefreshChangeNotification(toastMessage);
+      this.getChangeModel().showRefreshChangeNotification(change);
     }, delay * 1000);
   }
 

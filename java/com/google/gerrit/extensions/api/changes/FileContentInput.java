@@ -34,8 +34,8 @@ public class FileContentInput {
   /**
    * The file mode in octal format.
    *
-   * <p>Supported values are {@code 100644} (regular file), {@code 100755} (executable file) and
-   * {@code 160000} (gitlink).
+   * <p>Supported values are {@code 100644} (regular file), {@code 100755} (executable file), {@code
+   * 120000} (symlink) and {@code 160000} (gitlink).
    *
    * <p>If unset, new files are created with file mode {@code 100644} (regular file) and for
    * existing files the existing file mode is kept.

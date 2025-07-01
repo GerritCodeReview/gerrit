@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUp
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -42,7 +43,6 @@ import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -52,7 +52,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -84,11 +83,11 @@ public class ChangeOperationsImpl implements ChangeOperations {
   private final IdentifiedUser.GenericFactory userFactory;
   private final PersonIdent serverIdent;
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final ProjectCache projectCache;
   private final ChangeFinder changeFinder;
   private final PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory;
   private final PerCommentOperationsImpl.Factory perCommentOperationsFactory;
   private final PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory;
+  private final ProjectOperations projectOperations;
 
   @Inject
   public ChangeOperationsImpl(
@@ -100,11 +99,11 @@ public class ChangeOperationsImpl implements ChangeOperations {
       IdentifiedUser.GenericFactory userFactory,
       @GerritPersonIdent PersonIdent serverIdent,
       BatchUpdate.Factory batchUpdateFactory,
-      ProjectCache projectCache,
       ChangeFinder changeFinder,
       PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory,
       PerCommentOperationsImpl.Factory perCommentOperationsFactory,
-      PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory) {
+      PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory,
+      ProjectOperations projectOperations) {
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
     this.patchsetInserterFactory = patchsetInserterFactory;
@@ -113,11 +112,11 @@ public class ChangeOperationsImpl implements ChangeOperations {
     this.userFactory = userFactory;
     this.serverIdent = serverIdent;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.projectCache = projectCache;
     this.changeFinder = changeFinder;
     this.perPatchsetOperationsFactory = perPatchsetOperationsFactory;
     this.perCommentOperationsFactory = perCommentOperationsFactory;
     this.perDraftCommentOperationsFactory = perDraftCommentOperationsFactory;
+    this.projectOperations = projectOperations;
   }
 
   @Override
@@ -173,22 +172,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
       return changeCreation.project().get();
     }
 
-    return getArbitraryProject();
-  }
-
-  private Project.NameKey getArbitraryProject() {
-    Project.NameKey allProjectsName = projectCache.getAllProjects().getNameKey();
-    Project.NameKey allUsersName = projectCache.getAllUsers().getNameKey();
-    Optional<Project.NameKey> arbitraryProject =
-        projectCache.all().stream()
-            .filter(
-                name ->
-                    !Objects.equals(name, allProjectsName) && !Objects.equals(name, allUsersName))
-            .findFirst();
-    checkState(
-        arbitraryProject.isPresent(),
-        "At least one repository must be available on the Gerrit server");
-    return arbitraryProject.get();
+    return projectOperations.newProject().create();
   }
 
   private IdentifiedUser getChangeOwner(TestChangeCreation changeCreation)

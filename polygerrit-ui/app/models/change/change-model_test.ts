@@ -21,6 +21,7 @@ import {
 import {
   mockPromise,
   stubRestApi,
+  waitUntil,
   waitUntilObserved,
 } from '../../test/test-utils';
 import {
@@ -351,6 +352,48 @@ suite('change model tests', () => {
       );
       assert.isTrue(getMergeableStub.calledOnce);
     });
+  });
+
+  test('subscribes to change updates provider and shows notification to refetch the change', async () => {
+    await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const unsubscribeStub = sinon.stub();
+    const callbacks: (() => void)[] = [];
+    let subscribeCallCount = 0;
+    const subscribeStub = (
+      _repo: string,
+      _changeNum: number,
+      callback: () => void
+    ) => {
+      subscribeCallCount++;
+      callbacks.push(callback);
+    };
+    stubRestApi('getChangeDetail').returns(
+      Promise.resolve(createParsedChange())
+    );
+    sinon.stub(pluginLoader.pluginsModel, 'getChangeUpdatesPlugins').returns([
+      {
+        pluginName: 'plugin',
+        publisher: {
+          unsubscribe: unsubscribeStub,
+          subscribe: subscribeStub,
+        },
+      },
+    ]);
+
+    changeModel.updateStateChange(createParsedChange());
+    assert.isTrue(unsubscribeStub.calledOnce);
+    assert.equal(subscribeCallCount, 1);
+
+    const showRefreshChangeNotificationStub = sinon.stub(
+      changeModel,
+      'showRefreshChangeNotification'
+    );
+
+    for (const callback of callbacks) {
+      callback();
+    }
+    await waitUntil(() => showRefreshChangeNotificationStub.callCount === 1);
   });
 
   test('fireShowChange from overview', async () => {

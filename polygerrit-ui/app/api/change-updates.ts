@@ -17,5 +17,5 @@ export declare interface ChangeUpdatesPluginApi {
  */
 export declare interface ChangeUpdatesProvider {
   subscribe(repo: string, change: number, callback: () => void): void;
-  unsubcribe(repo: string, change: number): void;
+  unsubscribe(): void;
 }

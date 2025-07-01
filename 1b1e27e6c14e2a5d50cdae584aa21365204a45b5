@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60a5e4c2_6141aa02",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T12:34:45Z",
+      "side": 1,
+      "message": "I am sorry, but the current wording is just very ambiguous and doesn\u0027t explain well the purpose of the API for future plugin developers.\n\nIf I read this documentation without knowing the feature that you\u0027re implementing. I can\u0027t tell, if this is meant to be:\n- A way for a plugin to be notified that the change state updated\n- A way for a plugin to notify that they changed something in the change state\n- A way for a plugin to notify that something changed in a change externally and UI should update/refetch\n\nSimilarly it\u0027s not clear what is meant by \"Clients\": Code that subscribes to provider or code that implements the plugin?\n\n\u003e Use this method to add a callback that will be triggered when updates to the change happen.\n\nHere you don\u0027t control when the callback is called. The plugin controls it, so you don\u0027t know when it\u0027s going to be called. This being part of plugin api, should explain clearly how the plugins are meant to use it.\n\nThis is how I would rephrase all the wording:\n- Provider \u003d\u003e rename to something like ChangeOutdatedSignal\n- And/or description \u003d\u003e Provider should invoke the callback to indicate to the subscribers that SoT for the change has been modified (and probably needs to be refetched)\n- Rename callback to \"onChangeOutdated\"",
+      "parentUuid": "47099e06_373d768a",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c701d16_425b7ee9",
         "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
         "patchSetId": 10
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Change updates are updates to the change object.\n\nI think the name is clear enough.\n\nHow it\u0027s meant to be used was already explained, `Clients can use these signals to refresh the change state.`.\n\nI think this explains it well enough.\n\nIf it\u0027s still unclear, please suggest an improvement.",
       "parentUuid": "9c701d16_425b7ee9",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 33
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89317ffa_5092c160",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T12:34:45Z",
+      "side": 1,
+      "message": "I will keep one open thread to explain why this is confusing wording. See the message in change-updates.ts",
+      "parentUuid": "d66bbd28_f59afc50",
       "range": {
         "startLine": 19,
         "startChar": 3,
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "Taken from existing providers.\n\nNot fully clear to me why this is.\n\nhttps://cs.opensource.google/search?q\u003d%22Plugins%20normally%20just%20call%20register%22\u0026sq\u003d",
       "parentUuid": "4dcb4abb_4b2ded81",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0afdbe0_7815e031",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T12:34:45Z",
+      "side": 1,
+      "message": "\"created/returned\" from checks api is a better wording. \n\nSomething like \"new instance is returned to the plugin whenever they request API\" is even better.",
+      "parentUuid": "08147291_6055441c",
       "range": {
         "startLine": 21,
         "startChar": 1,

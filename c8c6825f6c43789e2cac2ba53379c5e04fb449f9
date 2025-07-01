@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21647ede_a9790d35",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T13:39:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "ea0a5059_d6011c16",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 3
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cb86a03_ea1b2c40",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-01T13:35:36Z",
       "side": 1,
       "message": "```suggestion\n   * @param repo Repository containing the change.\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 17,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f704ba2_8bf7f1a7",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T13:39:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3cb86a03_ea1b2c40",
       "range": {
         "startLine": 25,
         "startChar": 17,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dfdcd01_220bb905",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T13:39:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22579afc_b5869dd4",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02eb095b_68d97d16",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f66fbea_208456d9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T13:39:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "02eb095b_68d97d16",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 79
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "832ba78f_bd0224b4",
@@ -106,6 +202,30 @@
       "writtenOn": "2025-07-01T13:35:36Z",
       "side": 1,
       "message": "```suggestion\n   * List of plugins that have registered a publisher for change updated events.\n```",
+      "range": {
+        "startLine": 63,
+        "startChar": 31,
+        "endLine": 63,
+        "endChar": 65
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c2160de_e4106785",
+        "filename": "polygerrit-ui/app/models/plugins/plugins-model.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T13:39:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "832ba78f_bd0224b4",
       "range": {
         "startLine": 63,
         "startChar": 31,

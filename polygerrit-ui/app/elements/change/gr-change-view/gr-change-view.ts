@@ -2195,7 +2195,13 @@ export class GrChangeView extends LitElement {
       }
 
       this.cancelUpdateCheckTimer();
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+      this.getChangeModel().showRefreshChangeNotification(change);
+||||||| BASE
+      this.getChangeModel().showRefreshChangeNotification(toastMessage);
+=======
       this.getChangeModel().throttledShowUpdateChangeNotification(change);
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
     }, delay * 1000);
   }
 

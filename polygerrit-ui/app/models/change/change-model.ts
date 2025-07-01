@@ -458,7 +458,12 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly revertingChangeIds$;
 
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+  private throttledShowUpdateChangeNotification;
+||||||| BASE
+=======
   public throttledShowUpdateChangeNotification;
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
 
   constructor(
     private readonly navigation: NavigationService,
@@ -522,6 +527,19 @@ export class ChangeModel extends Model<ChangeState> {
     this.latestRevisionWithEdit$ = this.selectRevision(
       this.latestPatchNumWithEdit$
     );
+    this.change$.subscribe(change => {
+      const changeUpdatesPlugins =
+        this.pluginLoader.pluginsModel.getChangeUpdatesPlugins();
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.publisher.unsubscribe();
+      }
+      if (!change) return;
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.publisher.subscribe(change.project, change._number, () =>
+          this.throttledShowUpdateChangeNotification(change)
+        );
+      }
+    });
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
       ([change, account]) => isOwner(change, account)
@@ -555,8 +573,13 @@ export class ChangeModel extends Model<ChangeState> {
       ),
     ];
     this.throttledShowUpdateChangeNotification = throttleWrap(
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+      (change: ParsedChangeInfo) => this.showRefreshChangeNotification(change)
+||||||| BASE
+=======
       (change: ParsedChangeInfo) => this.showRefreshChangeNotification(change),
       60 * 1000
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
     );
   }
 
@@ -871,9 +894,24 @@ export class ChangeModel extends Model<ChangeState> {
     this.navigation.setUrl(url);
   }
 
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+  async showRefreshChangeNotification(change: ParsedChangeInfo) {
+    const toastMessage =
+      (await this.getChangeUpdateToastMessage(change)) ??
+      'There are updates on the change';
+||||||| BASE
+  showRefreshChangeNotification(toastMessage: string) {
+    this.showRefreshChangeNotificationTask = debounce(
+      this.showRefreshChangeNotificationTask,
+      () => {
+        fire(document, 'show-alert', {
+          message: toastMessage,
+          // Persist this alert.
+=======
   private async showRefreshChangeNotification(change: ParsedChangeInfo) {
     const toastMessage = await this.getChangeUpdateToastMessage(change);
     if (!toastMessage) return;
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
     fire(document, 'show-alert', {
       message: toastMessage,
       // Persist this alert.

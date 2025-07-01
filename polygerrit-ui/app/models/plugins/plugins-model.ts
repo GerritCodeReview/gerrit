@@ -139,6 +139,10 @@ export class PluginsModel extends Model<PluginsState> {
     this.setState(nextState);
   }
 
+  getChangeUpdatesPlugins() {
+    return this.getState().changeUpdatesPlugins;
+  }
+
   changeUpdatesRegister(plugin: ChangeUpdatesPlugin) {
     const nextState = {...this.getState()};
     nextState.changeUpdatesPlugins = [...nextState.changeUpdatesPlugins];

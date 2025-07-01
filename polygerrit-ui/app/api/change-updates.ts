@@ -24,9 +24,15 @@ export declare interface ChangeUpdatesProvider {
    * @param callback The callback to be called when the change is updated.
    */
   subscribe(repo: string, change: number, callback: () => void): void;
+<<<<<<< PATCH SET (5b0c7b Refetch change if update signal is received)
+  unsubscribe(): void;
+||||||| BASE
+  unsubcribe(repo: string, change: number): void;
+=======
   /**
    * Remove existing callbacks.
    */
 
   unsubcribe(repo: string, change: number): void;
+>>>>>>> BASE      (be22ff Add provider for change updates)
 }

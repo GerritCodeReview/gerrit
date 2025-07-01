@@ -1247,7 +1247,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "file_mode (%s) was invalid: supported values are 100644 or 100755.", in.fileMode));
+                "file_mode (%s) was invalid: supported values are 100644 (regular file) or 100755"
+                    + " (executable file).",
+                in.fileMode));
   }
 
   @Test

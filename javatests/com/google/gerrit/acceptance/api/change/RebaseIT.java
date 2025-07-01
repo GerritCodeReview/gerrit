@@ -23,7 +23,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISION
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
@@ -506,7 +505,6 @@ public class RebaseIT {
               .content(mergeContent)
               .create();
       String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
-      String mergeSha1 = abbreviateName(ObjectId.fromString(commitThatIsBeingRebased), 6);
 
       // Create a change in master onto which the merge change can be rebased. This change touches
       // the file again so that there is a conflict on rebase.
@@ -549,11 +547,10 @@ public class RebaseIT {
           /* expectedNumRevisions= */ 2);
 
       // Verify the file contents.
-      String baseSha1 = abbreviateName(ObjectId.fromString(baseCommit), 6);
       assertThat(getFileContent(mergeChangeId, file))
           .isEqualTo(
               "<<<<<<< PATCH SET ("
-                  + mergeSha1
+                  + commitThatIsBeingRebased
                   + " "
                   + mergeCommitMessage
                   + ")\n"
@@ -563,7 +560,7 @@ public class RebaseIT {
                   + newBaseContent
                   + "\n"
                   + ">>>>>>> BASE      ("
-                  + baseSha1
+                  + baseCommit
                   + " "
                   + newBaseCommitMessage
                   + ")\n");
@@ -1584,12 +1581,10 @@ public class RebaseIT {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       bin.writeTo(os);
       String fileContent = new String(os.toByteArray(), UTF_8);
-      String patchSetSha1 = abbreviateName(patchSet, 6);
-      String baseSha1 = abbreviateName(base, 6);
       assertThat(fileContent)
           .isEqualTo(
               "<<<<<<< PATCH SET ("
-                  + patchSetSha1
+                  + patchSet.getName()
                   + " "
                   + patchSetSubject
                   + ")\n"
@@ -1599,7 +1594,7 @@ public class RebaseIT {
                   + baseContent
                   + "\n"
                   + ">>>>>>> BASE      ("
-                  + baseSha1
+                  + base.getName()
                   + " "
                   + baseSubject
                   + ")\n");
@@ -2411,12 +2406,10 @@ public class RebaseIT {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       bin.writeTo(os);
       String fileContent = new String(os.toByteArray(), UTF_8);
-      String patchSetSha1 = abbreviateName(parentPatchSet, 6);
-      String baseSha1 = abbreviateName(base, 6);
       assertThat(fileContent)
           .isEqualTo(
               "<<<<<<< PATCH SET ("
-                  + patchSetSha1
+                  + parentPatchSet.getName()
                   + " "
                   + patchSetSubject
                   + ")\n"
@@ -2426,7 +2419,7 @@ public class RebaseIT {
                   + baseContent
                   + "\n"
                   + ">>>>>>> BASE      ("
-                  + baseSha1
+                  + base.getName()
                   + " "
                   + baseSubject
                   + ")\n");

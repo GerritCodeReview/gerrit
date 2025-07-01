@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.joining;
@@ -120,13 +119,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 @AutoFactory
 public class MergeUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /**
-   * Length of abbreviated hex SHA-1s in merged filenames.
-   *
-   * <p>This is a constant so output is stable over time even if the SHA-1 prefix becomes ambiguous.
-   */
-  private static final int NAME_ABBREV_LEN = 6;
 
   private static final String R_HEADS_MASTER = Constants.R_HEADS + Constants.MASTER;
 
@@ -360,13 +352,13 @@ public class MergeUtil {
         String.format(
             "%-" + nameLength + "s (%s %s)",
             oursName,
-            abbreviateName(ours, NAME_ABBREV_LEN),
+            ours.getName(),
             oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
     String theirsNameFormatted =
         String.format(
             "%-" + nameLength + "s (%s %s)",
             theirsName,
-            abbreviateName(theirs, NAME_ABBREV_LEN),
+            theirs.getName(),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
     MergeFormatter fmt = new MergeFormatter();

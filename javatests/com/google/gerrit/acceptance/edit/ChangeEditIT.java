@@ -77,7 +77,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits;
@@ -338,11 +337,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
                     + "=======\n"
                     + "%s\n"
                     + ">>>>>>> EDIT      (%s %s)\n",
-                ObjectIds.abbreviateName(currentPatchSet.commitId(), 6),
+                currentPatchSet.commitId().getName(),
                 gApi.changes().id(changeId).get().subject,
                 CONTENT_NEW2_STR,
                 CONTENT_NEW_STR,
-                ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
+                originalEdit.get().commit.commit,
                 originalEdit.get().commit.subject)
             .getBytes(UTF_8));
     assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());
@@ -383,12 +382,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
                     + "=======\n"
                     + "%s\n"
                     + ">>>>>>> EDIT      (%s %s)\n",
-                ObjectIds.abbreviateName(currentPatchSet.commitId(), 6),
+                currentPatchSet.commitId().getName(),
                 gApi.changes().id(changeId).get().subject,
                 CONTENT_NEW2_STR,
                 CONTENT_OLD_STR,
                 CONTENT_NEW_STR,
-                ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
+                originalEdit.get().commit.commit,
                 originalEdit.get().commit.subject)
             .getBytes(UTF_8));
     assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());

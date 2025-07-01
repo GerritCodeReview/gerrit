@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea0a5059_d6011c16",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T13:35:36Z",
+      "side": 1,
+      "message": "```suggestion\n/**\n * Publisher that notifies subscribers whenever the change updates.\n *\n * This update could be change being submitted, new patchset being uploaded etc.\n * Plugins are expected to use the ChangeUpdatesPluginApi to register a publisher.\n * Gerrit will use the \"subscribe\" method to register a callback to this publisher.\n * One use case is updating the ChangeModel state whenever the change is updated.\n */\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 3
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb86a03_ea1b2c40",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T13:35:36Z",
+      "side": 1,
+      "message": "```suggestion\n   * @param repo Repository containing the change.\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 17,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22579afc_b5869dd4",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T13:35:36Z",
+      "side": 1,
+      "message": "```suggestion\n   * @param change The change number of the change for which update events are published\n```",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02eb095b_68d97d16",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T13:35:36Z",
+      "side": 1,
+      "message": "```suggestion\n * Instance of this type created and returned to plugins that want to provide change updates data.\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 79
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "832ba78f_bd0224b4",
+        "filename": "polygerrit-ui/app/models/plugins/plugins-model.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T13:35:36Z",
+      "side": 1,
+      "message": "```suggestion\n   * List of plugins that have registered a publisher for change updated events.\n```",
+      "range": {
+        "startLine": 63,
+        "startChar": 31,
+        "endLine": 63,
+        "endChar": 65
+      },
+      "revId": "c8c6825f6c43789e2cac2ba53379c5e04fb449f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

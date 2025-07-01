@@ -44,6 +44,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
+import com.google.gerrit.server.edit.tree.InvalidGitLinkException;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
 import com.google.gerrit.server.edit.tree.RestoreFileModification;
 import com.google.gerrit.server.edit.tree.TreeCreator;
@@ -597,6 +598,8 @@ public class ChangeEditModifier {
       treeCreator.addTreeModifications(treeModifications);
       newTreeId = treeCreator.createNewTreeAndGetId(repository);
     } catch (InvalidPathException e) {
+      throw new BadRequestException(e.getMessage());
+    } catch (InvalidGitLinkException e) {
       throw new BadRequestException(e.getMessage());
     }
 

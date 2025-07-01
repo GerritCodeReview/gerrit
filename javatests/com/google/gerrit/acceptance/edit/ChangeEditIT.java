@@ -1216,7 +1216,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void changeEditModifyFileModeRest() throws Exception {
+  public void changeEditModifyFileMode() throws Exception {
     createEmptyEditFor(changeId);
 
     int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
@@ -1225,7 +1225,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     FileContentInput in = new FileContentInput();
     in.binary_content = CONTENT_BINARY_ENCODED_NEW;
     in.fileMode = FileMode.EXECUTABLE_FILE.getModeAsOctal();
-    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in);
 
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
 

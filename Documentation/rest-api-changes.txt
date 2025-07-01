@@ -8265,9 +8265,9 @@ in a change edit.
 |`binary_content` |optional|The file content as a base-64 encoded data URI. If
 no content is provided, an empty is created or if an existing file is updated
 the file content is removed so that the file becomes empty.
-|`file_mode`      |optional|The file mode in octal format. Supported values are
-`100644` (regular file) and `100755` (executable file). If unset, new files are
-created with file mode `100644` (regular file) and for existing files the
+|`file_mode`      |optional|The file mode in decimal format. Supported values
+are `100644` (regular file) and `100755` (executable file). If unset, new files
+are created with file mode `100644` (regular file) and for existing files the
 existing file mode is kept.
 |==============================
 

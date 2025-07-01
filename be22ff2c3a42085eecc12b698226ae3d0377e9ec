@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef843881_8735adfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1124821
+      },
+      "writtenOn": "2025-07-01T13:00:47Z",
+      "side": 1,
+      "message": "git clone \"https://gerrit.googlesource.com/plugins/code-owners\"",
+      "revId": "be22ff2c3a42085eecc12b698226ae3d0377e9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f2b99f_66826af5",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T11:47:28Z",
+      "side": 1,
+      "message": "The implementation implies, that this should be able to be called, even if subscribe has not been called before. This should be documented.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "5b0c7bc9882475f5d73389a45484fc72462c9a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e393a8f4_b5d738d9",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T11:47:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t work afaict. loadChange returns a subscriber. It\u0027s not the method that actually loads the change.\n\nTake a look at reload/forceReload in the ChangeViewModel",
+      "range": {
+        "startLine": 523,
+        "startChar": 15,
+        "endLine": 523,
+        "endChar": 25
+      },
+      "revId": "5b0c7bc9882475f5d73389a45484fc72462c9a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc4b431b_f344601d",
+        "filename": "polygerrit-ui/app/models/change/change-model_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-01T11:47:28Z",
+      "side": 1,
+      "message": "The test should check that updateStateChange is called. loadChange is not the method that loads the change, it\u0027s the method that returns a subscriber.",
+      "range": {
+        "startLine": 356,
+        "startChar": 2,
+        "endLine": 356,
+        "endChar": 86
+      },
+      "revId": "5b0c7bc9882475f5d73389a45484fc72462c9a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

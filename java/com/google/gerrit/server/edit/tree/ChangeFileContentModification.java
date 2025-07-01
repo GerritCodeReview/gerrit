@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit.tree;
 import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
 import static com.google.gerrit.entities.Patch.FileMode.GITLINK;
 import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
+import static com.google.gerrit.entities.Patch.FileMode.SYMLINK;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -96,7 +97,8 @@ public class ChangeFileContentModification implements TreeModification {
     private boolean isValidGitFileMode(int gitFileMode) {
       return gitFileMode == EXECUTABLE_FILE.getMode()
           || gitFileMode == REGULAR_FILE.getMode()
-          || gitFileMode == GITLINK.getMode();
+          || gitFileMode == GITLINK.getMode()
+          || gitFileMode == SYMLINK.getMode();
     }
 
     @Override

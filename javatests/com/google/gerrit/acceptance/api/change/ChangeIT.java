@@ -528,7 +528,8 @@ public class ChangeIT extends AbstractDaemonTest {
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
 
-    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).createV2();
+    ChangeIdentifier changeIdentifier =
+        changeOperations.newChange().project(project).owner(admin.id()).createV2();
     gApi.changes().id(changeIdentifier).setWorkInProgress();
     assertThat(gApi.changes().id(changeIdentifier).get().pendingReviewers).isEmpty();
 

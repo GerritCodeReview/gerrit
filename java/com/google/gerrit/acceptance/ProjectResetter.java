@@ -40,6 +40,7 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RefPatternMatcher;
+import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Arrays;
@@ -49,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -134,28 +136,35 @@ public class ProjectResetter implements AutoCloseable {
           groupIncludeCache,
           groupIndexer,
           projectCache,
-          input.refsByProject);
+          input.refsByProject,
+          input.deleteNewProjects);
     }
   }
 
   public static class Config {
     private final ImmutableMultimap<Project.NameKey, String> refsByProject;
+    private final boolean deleteNewProjects;
 
-    private Config(ImmutableMultimap<Project.NameKey, String> refsByProject) {
+    private Config(
+        ImmutableMultimap<Project.NameKey, String> refsByProject, boolean deleteNewProjects) {
       this.refsByProject = refsByProject;
+      this.deleteNewProjects = deleteNewProjects;
     }
 
     public Builder toBuilder() {
       Builder builder = new Builder();
       builder.refsByProject.putAll(refsByProject);
+      builder.deleteNewProjects.set(deleteNewProjects);
       return builder;
     }
 
     public static class Builder {
       private final ListMultimap<Project.NameKey, String> refsByProject;
+      private final AtomicBoolean deleteNewProjects;
 
       public Builder() {
         this.refsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
+        this.deleteNewProjects = new AtomicBoolean(false);
       }
 
       public Builder reset(Project.NameKey project, String... refPatterns) {
@@ -167,8 +176,13 @@ public class ProjectResetter implements AutoCloseable {
         return this;
       }
 
+      public Builder deleteNewProjects() {
+        deleteNewProjects.set(true);
+        return this;
+      }
+
       public Config build() {
-        return new Config(ImmutableMultimap.copyOf(refsByProject));
+        return new Config(ImmutableMultimap.copyOf(refsByProject), deleteNewProjects.get());
       }
     }
   }
@@ -184,9 +198,11 @@ public class ProjectResetter implements AutoCloseable {
   @Inject @Nullable private ProjectCache projectCache;
 
   private final Multimap<Project.NameKey, String> refsPatternByProject;
+  private final boolean deleteNewProjects;
 
   // State to which to reset to.
   private final ListMultimap<Project.NameKey, RefState> savedRefStatesByProject;
+  private final Set<Project.NameKey> savedProjectSet;
 
   // Results of the resetting
   private ListMultimap<Project.NameKey, String> keptRefsByProject;
@@ -203,7 +219,8 @@ public class ProjectResetter implements AutoCloseable {
       @Nullable GroupIncludeCache groupIncludeCache,
       @Nullable GroupIndexer groupIndexer,
       @Nullable ProjectCache projectCache,
-      Multimap<Project.NameKey, String> refPatternByProject)
+      Multimap<Project.NameKey, String> refPatternByProject,
+      boolean deleteNewProjects)
       throws IOException {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -215,7 +232,10 @@ public class ProjectResetter implements AutoCloseable {
     this.groupIncludeCache = groupIncludeCache;
     this.projectCache = projectCache;
     this.refsPatternByProject = refPatternByProject;
+    this.deleteNewProjects = deleteNewProjects;
     this.savedRefStatesByProject = readRefStates();
+    this.savedProjectSet =
+        repoManager instanceof InMemoryRepositoryManager ? repoManager.list() : projectCache.all();
   }
 
   @Override
@@ -227,6 +247,7 @@ public class ProjectResetter implements AutoCloseable {
         () -> {
           restoreRefs();
           deleteNewlyCreatedRefs();
+          deleteNewlyCreatedProjects();
           evictCachesAndReindex();
         });
   }
@@ -309,6 +330,18 @@ public class ProjectResetter implements AutoCloseable {
           }
         }
       }
+    }
+  }
+
+  private void deleteNewlyCreatedProjects() {
+    if (deleteNewProjects && repoManager instanceof InMemoryRepositoryManager) {
+      InMemoryRepositoryManager inMemoryRepoManager = (InMemoryRepositoryManager) repoManager;
+      Sets.difference(inMemoryRepoManager.list(), savedProjectSet)
+          .forEach(
+              project -> {
+                inMemoryRepoManager.deleteRepository(project);
+                projectCache.evictAndReindex(project);
+              });
     }
   }
 

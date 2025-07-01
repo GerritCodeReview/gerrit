@@ -66,6 +66,7 @@ import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {PluginsModel} from '../plugins/plugins-model';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -455,7 +456,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly pluginsModel: PluginsModel
   ) {
     super(initialState);
     this.patchNum$ = select(
@@ -511,6 +513,18 @@ export class ChangeModel extends Model<ChangeState> {
     this.latestRevisionWithEdit$ = this.selectRevision(
       this.latestPatchNumWithEdit$
     );
+    this.change$.subscribe(change => {
+      const changeUpdatesPlugins = this.pluginsModel.getChangeUpdatesPlugins();
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.provider.unsubcribe();
+      }
+      if (!change) return;
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.provider.subscribe(change.project, change._number, () =>
+          this.loadChange()
+        );
+      }
+    });
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
       ([change, account]) => isOwner(change, account)

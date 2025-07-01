@@ -352,7 +352,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
 
       throw new BadRequestException(
-          "file_mode (" + inputMode + ") was invalid: supported values are 100644 or 100755.");
+          "file_mode ("
+              + inputMode
+              + ") was invalid: supported values are 100644 (regular file) or 100755 (executable"
+              + " file).");
     }
 
     public Response<Object> apply(

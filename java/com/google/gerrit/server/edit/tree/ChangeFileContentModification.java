@@ -15,7 +15,9 @@
 package com.google.gerrit.server.edit.tree;
 
 import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
+import static com.google.gerrit.entities.Patch.FileMode.GITLINK;
 import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -74,7 +76,7 @@ public class ChangeFileContentModification implements TreeModification {
 
   /** A {@code PathEdit} which changes the contents of a file. */
   private static class ChangeContent extends DirCacheEditor.PathEdit {
-
+    private final String filePath;
     private final RawInput newContent;
     private final Repository repository;
     private final Integer newGitFileMode;
@@ -85,13 +87,16 @@ public class ChangeFileContentModification implements TreeModification {
         Repository repository,
         @Nullable Integer newGitFileMode) {
       super(filePath);
+      this.filePath = filePath;
       this.newContent = newContent;
       this.repository = repository;
       this.newGitFileMode = newGitFileMode;
     }
 
     private boolean isValidGitFileMode(int gitFileMode) {
-      return (gitFileMode == EXECUTABLE_FILE.getMode()) || (gitFileMode == REGULAR_FILE.getMode());
+      return gitFileMode == EXECUTABLE_FILE.getMode()
+          || gitFileMode == REGULAR_FILE.getMode()
+          || gitFileMode == GITLINK.getMode();
     }
 
     @Override
@@ -101,7 +106,16 @@ public class ChangeFileContentModification implements TreeModification {
           if (!isValidGitFileMode(newGitFileMode)) {
             throw new IllegalStateException("GitFileMode " + newGitFileMode + " is invalid");
           }
-          dirCacheEntry.setFileMode(FileMode.fromBits(newGitFileMode));
+
+          FileMode fileMode = FileMode.fromBits(newGitFileMode);
+          if (FileMode.GITLINK.equals(fileMode)) {
+            if (!ObjectId.isId(new String(getNewContentBytes(), UTF_8))) {
+              throw new InvalidGitLinkException(
+                  String.format("The content for gitlink '%s' must be a valid SHA1.", filePath));
+            }
+          }
+
+          dirCacheEntry.setFileMode(fileMode);
         }
         if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
           dirCacheEntry.setLength(0);

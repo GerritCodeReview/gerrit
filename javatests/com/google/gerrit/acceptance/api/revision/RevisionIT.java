@@ -31,7 +31,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISION
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -825,12 +824,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
-    String destSha1 = abbreviateName(projectOperations.project(project).getHead(destBranch), 6);
-    String changeSha1 = abbreviateName(r.getCommit(), 6);
     assertThat(fileContent)
         .isEqualTo(
             "<<<<<<< HEAD   ("
-                + destSha1
+                + projectOperations.project(project).getHead(destBranch).getName()
                 + " test commit)\n"
                 + destContent
                 + "\n"
@@ -838,7 +835,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 + changeContent
                 + "\n"
                 + ">>>>>>> CHANGE ("
-                + changeSha1
+                + r.getCommit().getName()
                 + " test commit)\n");
 
     // Get details of cherry-pick change.

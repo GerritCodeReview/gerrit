@@ -28,7 +28,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISION
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.common.testing.GitPersonSubject.assertThat;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
@@ -806,12 +805,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
-    String sourceSha1 = abbreviateName(projectOperations.project(project).getHead(sourceBranch), 6);
-    String targetSha1 = abbreviateName(projectOperations.project(project).getHead(targetBranch), 6);
     assertThat(fileContent)
         .isEqualTo(
             "<<<<<<< TARGET BRANCH ("
-                + targetSha1
+                + projectOperations.project(project).getHead(targetBranch).getName()
                 + " "
                 + targetSubject
                 + ")\n"
@@ -821,7 +818,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 + sourceContent
                 + "\n"
                 + ">>>>>>> SOURCE BRANCH ("
-                + sourceSha1
+                + projectOperations.project(project).getHead(sourceBranch).getName()
                 + " "
                 + sourceSubject
                 + ")\n");

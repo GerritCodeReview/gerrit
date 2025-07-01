@@ -21,7 +21,6 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -305,12 +304,10 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
-    String sourceSha1 = abbreviateName(changeA.getCommit(), 6);
-    String targetSha1 = abbreviateName(currentMaster.getCommit(), 6);
     assertThat(fileContent)
         .isEqualTo(
             "<<<<<<< TARGET BRANCH ("
-                + targetSha1
+                + currentMaster.getCommit().getName()
                 + " "
                 + targetSubject
                 + ")\n"
@@ -320,7 +317,7 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
                 + sourceContent
                 + "\n"
                 + ">>>>>>> SOURCE BRANCH ("
-                + sourceSha1
+                + changeA.getCommit().getName()
                 + " "
                 + sourceSubject
                 + ")\n");

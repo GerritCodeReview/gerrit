@@ -20,6 +20,22 @@ import com.google.gerrit.extensions.restapi.RawInput;
 /** Content to be added to a file (new or existing) via change edit. */
 public class FileContentInput {
   @DefaultInput public RawInput content;
+
+  /**
+   * The file content as a base-64 encoded data URI.
+   *
+   * <p>If no content is provided, an empty is created or if an existing file is updated the file
+   * content is removed so that the file becomes empty.
+   */
   public String binary_content;
+
+  /**
+   * The file mode in octal format.
+   *
+   * <p>Supported values are {@code 100644} (regular file) and {@code 100755} (executable file).
+   *
+   * <p>If unset, new files are created with file mode {@code 100644} (regular file) and for
+   * existing files the existing file mode is kept.
+   */
   public Integer fileMode;
 }

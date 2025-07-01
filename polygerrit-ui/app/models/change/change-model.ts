@@ -511,6 +511,19 @@ export class ChangeModel extends Model<ChangeState> {
     this.latestRevisionWithEdit$ = this.selectRevision(
       this.latestPatchNumWithEdit$
     );
+    this.change$.subscribe(change => {
+      const changeUpdatesPlugins =
+        this.pluginLoader.pluginsModel.getChangeUpdatesPlugins();
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.provider.unsubscribe();
+      }
+      if (!change) return;
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.provider.subscribe(change.project, change._number, () =>
+          this.loadChange()
+        );
+      }
+    });
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
       ([change, account]) => isOwner(change, account)
@@ -709,7 +722,8 @@ export class ChangeModel extends Model<ChangeState> {
       .subscribe(mergeable => this.updateState({mergeable}));
   }
 
-  private loadChange() {
+  // private but used in tests
+  loadChange() {
     return this.viewModel.changeNum$
       .pipe(
         switchMap(changeNum => {

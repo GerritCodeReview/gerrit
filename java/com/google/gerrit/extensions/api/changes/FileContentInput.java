@@ -29,7 +29,7 @@ public class FileContentInput {
    *
    * <p>The content must be a SHA1 if the file mode is {@code 160000} (gitlink).
    */
-  public String binary_content;
+  public String binaryContent;
 
   /**
    * The file mode in octal format.

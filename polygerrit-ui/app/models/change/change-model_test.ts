@@ -353,6 +353,44 @@ suite('change model tests', () => {
     });
   });
 
+  test('subscribes to change updates provider and refetches the change', async () => {
+    await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const unsubscribeStub = sinon.stub();
+    const callbacks: (() => void)[] = [];
+    let subscribeCallCount = 0;
+    const subscribeStub = (
+      repo: string,
+      changeNum: number,
+      callback: () => void
+    ) => {
+      subscribeCallCount++;
+      callbacks.push(callback);
+    };
+    sinon.stub(pluginLoader.pluginsModel, 'getChangeUpdatesPlugins').returns([
+      {
+        pluginName: 'plugin',
+        provider: {
+          unsubscribe: unsubscribeStub,
+          subscribe: subscribeStub,
+        },
+      },
+    ]);
+
+    const loadChangeStub = sinon.stub(changeModel, 'loadChange');
+
+    changeModel.updateStateChange(createParsedChange());
+    assert.isTrue(unsubscribeStub.calledOnce);
+    assert.equal(subscribeCallCount, 1);
+
+    assert.equal(loadChangeStub.callCount, 0);
+
+    for (const callback of callbacks) {
+      callback();
+    }
+    assert.equal(loadChangeStub.callCount, 1);
+  });
+
   test('fireShowChange from overview', async () => {
     await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
     const pluginLoader = testResolver(pluginLoaderToken);

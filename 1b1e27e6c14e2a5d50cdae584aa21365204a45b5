@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47099e06_373d768a",
+        "filename": "polygerrit-ui/app/api/change-updates.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T11:56:30Z",
+      "side": 1,
+      "message": "\u003e If I understand correctly, you have a very specific callback in mind. Namely it will be method that triggers changeModel reload\n\nThis is not how the plugin API is meant to be used.\n\nThe provider simply sends the signal. What the clients choose to do with it is not part of the `subscribe` method. Hence the name `callback` is correct, it can be anything.\n\n`Clients can use these signals to refresh the change state.` This is already present in the interface doc.\n\nWhat exactly is missing?",
+      "parentUuid": "4be22b48_f77fe502",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c701d16_425b7ee9",
         "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
         "patchSetId": 10
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-01T11:47:34Z",
       "side": 1,
       "message": "It\u0027s not very clear what do change updates mean in this case. It should explain what it is and how it\u0027s meant to be used.",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 33
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d66bbd28_f59afc50",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T11:56:30Z",
+      "side": 1,
+      "message": "Change updates are updates to the change object.\n\nI think the name is clear enough.\n\nHow it\u0027s meant to be used was already explained, `Clients can use these signals to refresh the change state.`.\n\nI think this explains it well enough.\n\nIf it\u0027s still unclear, please suggest an improvement.",
+      "parentUuid": "9c701d16_425b7ee9",
       "range": {
         "startLine": 19,
         "startChar": 3,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08147291_6055441c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T11:56:30Z",
+      "side": 1,
+      "message": "Taken from existing providers.\n\nNot fully clear to me why this is.\n\nhttps://cs.opensource.google/search?q\u003d%22Plugins%20normally%20just%20call%20register%22\u0026sq\u003d",
+      "parentUuid": "4dcb4abb_4b2ded81",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e6e4c06_84910c73",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-07-01T11:47:34Z",
       "side": 1,
       "message": "Why?",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 34,
+        "endChar": 70
+      },
+      "revId": "1b1e27e6c14e2a5d50cdae584aa21365204a45b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a31e12c_05f212a1",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-updates-api/gr-change-updates-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-01T11:56:30Z",
+      "side": 1,
+      "message": "Following existing code.\n\nhttps://cs.opensource.google/search?q\u003d%22Only%20one%20provider%20can%20be%20registered%20per%20plugin%22\n\nIn this case, we only plan to have one provider so works fine for me.",
+      "parentUuid": "1e6e4c06_84910c73",
       "range": {
         "startLine": 34,
         "startChar": 23,

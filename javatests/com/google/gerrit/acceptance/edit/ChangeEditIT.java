@@ -1217,8 +1217,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void changeEditModifyFileMode() throws Exception {
-    createEmptyEditFor(changeId);
-
     int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
     assertThat(mode).isEqualTo(FileMode.REGULAR_FILE.getMode());
 

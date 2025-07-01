@@ -66,7 +66,7 @@ import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {debounce, DelayedTask} from '../../utils/async-util';
+import {throttleWrap} from '../../utils/async-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -442,8 +442,6 @@ export class ChangeModel extends Model<ChangeState> {
     );
   }
 
-  private showRefreshChangeNotificationTask?: DelayedTask;
-
   public readonly revision$;
 
   public readonly baseRevision$;
@@ -459,6 +457,8 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly messages$;
 
   public readonly revertingChangeIds$;
+
+  private throttledShowUpdateChangeNotification;
 
   constructor(
     private readonly navigation: NavigationService,
@@ -522,6 +522,19 @@ export class ChangeModel extends Model<ChangeState> {
     this.latestRevisionWithEdit$ = this.selectRevision(
       this.latestPatchNumWithEdit$
     );
+    this.change$.subscribe(change => {
+      const changeUpdatesPlugins =
+        this.pluginLoader.pluginsModel.getChangeUpdatesPlugins();
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.publisher.unsubscribe();
+      }
+      if (!change) return;
+      for (const plugin of changeUpdatesPlugins) {
+        plugin.publisher.subscribe(change.project, change._number, () =>
+          this.throttledShowUpdateChangeNotification(change)
+        );
+      }
+    });
     this.isOwner$ = select(
       combineLatest([this.change$, this.userModel.account$]),
       ([change, account]) => isOwner(change, account)
@@ -554,6 +567,9 @@ export class ChangeModel extends Model<ChangeState> {
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
     ];
+    this.throttledShowUpdateChangeNotification = throttleWrap(
+      (change: ParsedChangeInfo) => this.showRefreshChangeNotification(change)
+    );
   }
 
   private reportChangeReload() {
@@ -867,21 +883,18 @@ export class ChangeModel extends Model<ChangeState> {
     this.navigation.setUrl(url);
   }
 
-  showRefreshChangeNotification(toastMessage: string) {
-    this.showRefreshChangeNotificationTask = debounce(
-      this.showRefreshChangeNotificationTask,
-      () => {
-        fire(document, 'show-alert', {
-          message: toastMessage,
-          // Persist this alert.
-          dismissOnNavigation: true,
-          showDismiss: true,
-          action: 'Reload',
-          callback: () => this.navigateToChangeResetReload(),
-        });
-      },
-      60 * 1000
-    );
+  async showRefreshChangeNotification(change: ParsedChangeInfo) {
+    const toastMessage =
+      (await this.getChangeUpdateToastMessage(change)) ??
+      'There are updates on the change';
+    fire(document, 'show-alert', {
+      message: toastMessage,
+      // Persist this alert.
+      dismissOnNavigation: true,
+      showDismiss: true,
+      action: 'Reload',
+      callback: () => this.navigateToChangeResetReload(),
+    });
   }
 
   async getChangeUpdateToastMessage(change: ParsedChangeInfo) {

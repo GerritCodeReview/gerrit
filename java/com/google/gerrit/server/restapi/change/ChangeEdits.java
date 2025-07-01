@@ -370,13 +370,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
             IOException,
             PermissionBackendException {
 
-      if (fileContentInput.content == null && fileContentInput.binary_content == null) {
+      if (fileContentInput.content == null && fileContentInput.binaryContent == null) {
         throw new BadRequestException("either content or binary_content is required");
       }
 
       RawInput newContent;
-      if (fileContentInput.binary_content != null) {
-        Matcher m = BINARY_DATA_PATTERN.matcher(fileContentInput.binary_content);
+      if (fileContentInput.binaryContent != null) {
+        Matcher m = BINARY_DATA_PATTERN.matcher(fileContentInput.binaryContent);
         if (m.matches() && BASE64.equals(m.group(2))) {
           newContent = RawInputUtil.create(Base64.decode(m.group(3)));
         } else {
@@ -386,7 +386,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         newContent = fileContentInput.content;
       }
 
-      if (Patch.COMMIT_MSG.equals(path) && fileContentInput.binary_content == null) {
+      if (Patch.COMMIT_MSG.equals(path) && fileContentInput.binaryContent == null) {
         EditMessage.Input editMessageInput = new EditMessage.Input();
         editMessageInput.message =
             new String(ByteStreams.toByteArray(newContent.getInputStream()), UTF_8);

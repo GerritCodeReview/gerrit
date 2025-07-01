@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92306002_508af5da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-01T13:39:41Z",
+      "side": 1,
+      "message": "Blocking the submission as this will require work on import into Google.",
+      "revId": "3bfeed7ff7f5b660a80501eebf55800a48d1f5db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

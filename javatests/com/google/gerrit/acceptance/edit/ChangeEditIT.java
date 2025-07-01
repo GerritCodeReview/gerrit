@@ -1235,6 +1235,22 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeEditModifyFileMode_invalidFileModeIsRejected() throws Exception {
+    FileContentInput in = new FileContentInput();
+    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
+    in.fileMode = 1;
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "file_mode (%s) was invalid: supported values are 100644 or 100755.", in.fileMode));
+  }
+
+  @Test
   public void changeEditModifyFileSetEmptyContentModeRest() throws Exception {
     createEmptyEditFor(changeId);
     FileContentInput in = new FileContentInput();

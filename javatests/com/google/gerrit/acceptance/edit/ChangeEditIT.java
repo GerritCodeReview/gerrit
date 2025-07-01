@@ -1297,6 +1297,27 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeEditCreateSymLink() throws Exception {
+    String symlinkFileName = "foo/bar";
+    byte[] symlinkContent = "path/to/target".getBytes(UTF_8);
+
+    FileContentInput in = new FileContentInput();
+    in.binaryContent =
+        "data:text/plain;base64," + Base64.getEncoder().encodeToString(symlinkContent);
+    in.fileMode = FileMode.SYMLINK.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(symlinkFileName, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, symlinkFileName), symlinkContent);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode =
+        gApi.changes().id(changeId).get().getCurrentRevision().files.get(symlinkFileName).newMode;
+    assertThat(mode).isEqualTo(FileMode.SYMLINK.getMode());
+  }
+
+  @Test
   public void changeEditCreateGitLink_invalidContentIsRejected() throws Exception {
     String gitlinkFileName = "foo/bar";
     byte[] invalidGitlinkContent = "not a SHA1".getBytes(UTF_8);
@@ -1329,7 +1350,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(
             String.format(
                 "file_mode (%s) was invalid: supported values are 100644 (regular file), 100755"
-                    + " (executable file) or 160000 (gitlink).",
+                    + " (executable file), 120000 (symlink) or 160000 (gitlink).",
                 in.fileMode));
   }
 

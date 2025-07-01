@@ -234,10 +234,25 @@ export function debounceP<T>(
  * Ensure only one call is made within THROTTLE_INTERVAL_MS and any call within
  * this interval is ignored
  */
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+export function throttleWrap<T>(fn: (e: T) => void, intervalMs = 500) {
+||||||| BASE
+export function throttleWrap<T>(fn: (e: T) => void) {
+=======
 export function throttleWrap<T>(fn: (e: T) => void, throttleInterval = 500) {
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
   let lastCall: number | undefined;
   return (e: T) => {
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+    if (lastCall !== undefined && Date.now() - lastCall < intervalMs) {
+||||||| BASE
+    if (
+      lastCall !== undefined &&
+      Date.now() - lastCall < THROTTLE_INTERVAL_MS
+    ) {
+=======
     if (lastCall !== undefined && Date.now() - lastCall < throttleInterval) {
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
       return;
     }
     lastCall = Date.now();

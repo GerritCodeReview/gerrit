@@ -2182,7 +2182,45 @@ export class GrChangeView extends LitElement {
         this.startUpdateCheckTimer();
         return;
       }
+<<<<<<< PATCH SET (d9afcb82b250f9131558e9341f260f2f10a077f5 Refetch change if update signal is received)
+      const change = this.change;
+
+      // We have to make sure that the update is still relevant for the user.
+      // Since starting to fetch the change update the user may have sent a
+      // reply, or the change might have been reloaded, or it could be in the
+      // process of being reloaded.
+      const changeWasReloaded = change !== this.change;
+      if (this.loading || changeWasReloaded || !this.isViewCurrent) {
+        this.startUpdateCheckTimer();
+        return;
+      }
+
+      this.cancelUpdateCheckTimer();
+<<<<<<< PATCH SET (acd03417fdba9408467927a52d1e0d108cfd8aa5 Refetch change if update signal is received)
+      this.getChangeModel().showRefreshChangeNotification(change);
+||||||| BASE
+      this.getChangeModel().showRefreshChangeNotification(toastMessage);
+=======
+      this.getChangeModel().throttledShowUpdateChangeNotification(change);
+>>>>>>> BASE      (e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f Move refresh change notification into change model)
+||||||| BASE
+      const change = this.change;
+
+      // We have to make sure that the update is still relevant for the user.
+      // Since starting to fetch the change update the user may have sent a
+      // reply, or the change might have been reloaded, or it could be in the
+      // process of being reloaded.
+      const changeWasReloaded = change !== this.change;
+      if (this.loading || changeWasReloaded || !this.isViewCurrent) {
+        this.startUpdateCheckTimer();
+        return;
+      }
+
+      this.cancelUpdateCheckTimer();
+      this.getChangeModel().throttledShowUpdateChangeNotification(change);
+=======
       this.getChangeModel().throttledShowUpdateChangeNotification({});
+>>>>>>> BASE      (dc3e31fa5974c0b5143a4d7bc86cd0ee2e00358f Merge "Move refresh change notification into change model")
     }, delay * 1000);
   }
 

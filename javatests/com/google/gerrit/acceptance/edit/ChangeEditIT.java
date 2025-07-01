@@ -1231,7 +1231,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
     FileContentInput in = new FileContentInput();
     in.binary_content = CONTENT_BINARY_ENCODED_EMPTY;
-    in.fileMode = FileMode.REGULAR_FILE.getModeAsDecimal();
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), "".getBytes(UTF_8));
   }

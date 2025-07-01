@@ -1,0 +1,49 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fdff92_88eba3a6",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-07-01T14:04:19Z",
+      "side": 1,
+      "message": "Maybe you want to debounce that somehow? Just to make sure that we don\u0027t update the change more often than once every x seconds.",
+      "fixSuggestions": [
+        {
+          "fixId": "0a310a76_c20c5df7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 30,
+                "startChar": 0,
+                "endLine": 30,
+                "endChar": 0
+              },
+              "replacement": "  debounceTime,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 522,
+                "startChar": 0,
+                "endLine": 524,
+                "endChar": 0
+              },
+              "replacement": "        plugin.publisher.pipe(debounceTime(1000)).subscribe(\n          change.project,\n          change._number,\n          () \u003d\u003e this.refreshChange()\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cb24752715e8fa196b4252c6e2377a56de0d016a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

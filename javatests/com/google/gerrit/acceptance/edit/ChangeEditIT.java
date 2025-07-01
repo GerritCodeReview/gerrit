@@ -48,6 +48,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -108,7 +109,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME2 = "foo2";
   private static final String FILE_NAME3 = "foo3";
   private static final String FILE_NAME4 = "foo4";
-  private static final int FILE_MODE = 100644;
   private static final String CONTENT_OLD_STR = "bar";
   private static final byte[] CONTENT_OLD = CONTENT_OLD_STR.getBytes(UTF_8);
   private static final String CONTENT_NEW_STR = "baz";
@@ -1220,7 +1220,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
     FileContentInput in = new FileContentInput();
     in.binary_content = CONTENT_BINARY_ENCODED_NEW;
-    in.fileMode = FILE_MODE;
+    in.fileMode = FileMode.REGULAR_FILE.getModeAsOctal();
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
   }
@@ -1230,7 +1230,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
     FileContentInput in = new FileContentInput();
     in.binary_content = CONTENT_BINARY_ENCODED_EMPTY;
-    in.fileMode = FILE_MODE;
+    in.fileMode = FileMode.REGULAR_FILE.getModeAsOctal();
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), "".getBytes(UTF_8));
   }

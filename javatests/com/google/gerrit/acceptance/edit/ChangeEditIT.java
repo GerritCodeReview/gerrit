@@ -1340,7 +1340,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void changeEditModifyFileMode_invalidFileModeIsRejected() throws Exception {
     FileContentInput in = new FileContentInput();
     in.binaryContent = CONTENT_BINARY_ENCODED_NEW;
-    in.fileMode = 1;
+    in.fileMode = 16;
     BadRequestException exception =
         assertThrows(
             BadRequestException.class,
@@ -1349,8 +1349,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "file_mode (%s) was invalid: supported values are 100644 (regular file), 100755"
-                    + " (executable file), 120000 (symlink) or 160000 (gitlink).",
+                "file mode %s is invalid: supported values are 100644 (regular file), 100755"
+                    + " (executable file), 120000 (symlink) and 160000 (gitlink)",
                 in.fileMode));
   }
 

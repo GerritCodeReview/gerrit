@@ -44,6 +44,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
+import com.google.gerrit.server.edit.tree.InvalidFileModeException;
 import com.google.gerrit.server.edit.tree.InvalidGitLinkException;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
 import com.google.gerrit.server.edit.tree.RestoreFileModification;
@@ -599,6 +600,12 @@ public class ChangeEditModifier {
       newTreeId = treeCreator.createNewTreeAndGetId(repository);
     } catch (InvalidPathException e) {
       throw new BadRequestException(e.getMessage());
+    } catch (InvalidFileModeException e) {
+      throw new BadRequestException(
+          String.format(
+              "file mode %s is invalid: supported values are 100644 (regular file), 100755"
+                  + " (executable file), 120000 (symlink) and 160000 (gitlink)",
+              Integer.toOctalString(e.getInvalidFileMode())));
     } catch (InvalidGitLinkException e) {
       throw new BadRequestException(e.getMessage());
     }

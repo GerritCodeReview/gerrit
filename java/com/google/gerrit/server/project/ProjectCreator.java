@@ -157,9 +157,17 @@ public class ProjectCreator {
                     if (!status.equals(Status.NON_EXISTENT)) {
                       throw new RepositoryExistsException(nameKey, "Repository status: " + status);
                     }
+                    boolean repoCreated = false;
+                    boolean projectInitialized = false;
                     try (Repository repo = repoManager.createRepository(nameKey)) {
+                      repoCreated = true;
                       initProject(nameKey, repo, args);
+                      projectInitialized = true;
                       return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+                    } finally {
+                      if (repoCreated && !projectInitialized) {
+                        repoManager.deleteRepository(nameKey);
+                      }
                     }
                   } catch (RepositoryExistsException e) {
                     throw new ResourceConflictException(

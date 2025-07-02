@@ -339,7 +339,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Nullable
-    private Integer decimalAsOctal(Integer inputMode) throws BadRequestException {
+    private Integer octalAsDecimal(Integer inputMode) throws BadRequestException {
       if (inputMode == null) {
         return null;
       }
@@ -407,7 +407,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
             rsrc.getNotes(),
             path,
             newContent,
-            decimalAsOctal(fileContentInput.fileMode));
+            octalAsDecimal(fileContentInput.fileMode));
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

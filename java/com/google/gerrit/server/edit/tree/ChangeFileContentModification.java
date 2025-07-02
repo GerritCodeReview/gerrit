@@ -106,7 +106,8 @@ public class ChangeFileContentModification implements TreeModification {
       try {
         if (newGitFileMode != null && newGitFileMode != 0) {
           if (!isValidGitFileMode(newGitFileMode)) {
-            throw new IllegalStateException("GitFileMode " + newGitFileMode + " is invalid");
+            throw new InvalidFileModeException(
+                String.format("GitFileMode %s is invalid", newGitFileMode), newGitFileMode);
           }
 
           FileMode fileMode = FileMode.fromBits(newGitFileMode);

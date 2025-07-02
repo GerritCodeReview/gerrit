@@ -14,10 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
-import static com.google.gerrit.entities.Patch.FileMode.GITLINK;
-import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
-import static com.google.gerrit.entities.Patch.FileMode.SYMLINK;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -339,31 +335,12 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Nullable
-    private Integer octalAsDecimal(Integer inputMode) throws BadRequestException {
+    private Integer octalAsDecimal(Integer inputMode) {
       if (inputMode == null) {
         return null;
       }
 
-      switch (inputMode) {
-        case 100644 -> {
-          return REGULAR_FILE.getMode();
-        }
-        case 100755 -> {
-          return EXECUTABLE_FILE.getMode();
-        }
-        case 120000 -> {
-          return SYMLINK.getMode();
-        }
-        case 160000 -> {
-          return GITLINK.getMode();
-        }
-      }
-
-      throw new BadRequestException(
-          "file_mode ("
-              + inputMode
-              + ") was invalid: supported values are 100644 (regular file), 100755 (executable"
-              + " file), 120000 (symlink) or 160000 (gitlink).");
+      return Integer.parseInt(Integer.toString(inputMode), 8);
     }
 
     public Response<Object> apply(

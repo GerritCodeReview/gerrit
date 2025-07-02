@@ -83,6 +83,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>This creates the repository, the underlying configuration in {@code refs/meta/config} and
  * initializes a first commit if necessary.
  */
+@SuppressWarnings("unused")
 public class ProjectCreator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -157,9 +158,17 @@ public class ProjectCreator {
                     if (!status.equals(Status.NON_EXISTENT)) {
                       throw new RepositoryExistsException(nameKey, "Repository status: " + status);
                     }
+                    boolean repoCreated = false;
+                    boolean projectInitialized = false;
                     try (Repository repo = repoManager.createRepository(nameKey)) {
+                      repoCreated = true;
                       initProject(nameKey, repo, args);
+                      projectInitialized = true;
                       return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
+                    } finally {
+                      if (repoCreated && !projectInitialized) {
+                        repoManager.deleteRepository(nameKey);
+                      }
                     }
                   } catch (RepositoryExistsException e) {
                     throw new ResourceConflictException(
@@ -234,76 +243,78 @@ public class ProjectCreator {
 
   private void createProjectConfig(Repository repo, CreateProjectArgs args)
       throws IOException, ConfigInvalidException, ResourceConflictException {
-    Optional<CachedProjectConfig> currentConfig =
-        args.initOnly && repo.exactRef("refs/meta/config") != null
-            ? Optional.of(
-                projectCache
-                    .get(args.getProject())
-                    .orElseThrow(illegalState(args.getProject()))
-                    .getConfig())
-            : Optional.empty();
 
-    RevCommit configRevCommit = null;
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
-      ProjectConfig config = projectConfigFactory.read(md);
-
-      config.updateProject(
-          newProject -> {
-            newProject.setDescription(Strings.nullToEmpty(args.projectDescription));
-            newProject.setSubmitType(
-                MoreObjects.firstNonNull(
-                    args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
-            newProject.setBooleanConfig(
-                BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, args.contributorAgreements);
-            newProject.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, args.signedOffBy);
-            newProject.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, args.contentMerge);
-            newProject.setBooleanConfig(
-                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-                args.newChangeForAllNotInTarget);
-            newProject.setBooleanConfig(
-                BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
-            newProject.setBooleanConfig(
-                BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
-            newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
-            newProject.setBooleanConfig(
-                BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
-            newProject.setBooleanConfig(
-                BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
-            if (args.newParent != null) {
-              newProject.setParent(args.newParent);
-            }
-          });
-
-      if (!args.ownerIds.isEmpty()) {
-        config.upsertAccessSection(
-            AccessSection.ALL,
-            all -> {
-              for (AccountGroup.UUID ownerId : args.ownerIds) {
-                GroupDescription.Basic g = groupBackend.get(ownerId);
-                if (g != null) {
-                  GroupReference group = config.resolve(GroupReference.forGroup(g));
-                  all.upsertPermission(Permission.OWNER).add(PermissionRule.builder(group));
-                }
-              }
-            });
-      }
-
-      if (currentConfig.isPresent()) {
-        if (currentConfig.get().equals(config.getCacheable())) {
-          logger.atFine().log("Skip creation of project config because it already exists");
-          return;
-        }
-        throw new ResourceConflictException("conflicting project config already exists");
-      }
-
-      configRevCommit = config.commit(md, false);
-      md.getRepository().setGitwebDescription(args.projectDescription);
-    } finally {
-      if (configRevCommit != null) {
-        fireEvents(args.getProject(), args.getHead(), configRevCommit);
-      }
-    }
-    projectCache.onCreateProject(args.getProject());
+    throw new IOException("Test exception");
+//    Optional<CachedProjectConfig> currentConfig =
+//        args.initOnly && repo.exactRef("refs/meta/config") != null
+//            ? Optional.of(
+//                projectCache
+//                    .get(args.getProject())
+//                    .orElseThrow(illegalState(args.getProject()))
+//                    .getConfig())
+//            : Optional.empty();
+//
+//    RevCommit configRevCommit = null;
+//    try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
+//      ProjectConfig config = projectConfigFactory.read(md);
+//
+//      config.updateProject(
+//          newProject -> {
+//            newProject.setDescription(Strings.nullToEmpty(args.projectDescription));
+//            newProject.setSubmitType(
+//                MoreObjects.firstNonNull(
+//                    args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
+//            newProject.setBooleanConfig(
+//                BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, args.contributorAgreements);
+//            newProject.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, args.signedOffBy);
+//            newProject.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, args.contentMerge);
+//            newProject.setBooleanConfig(
+//                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+//                args.newChangeForAllNotInTarget);
+//            newProject.setBooleanConfig(
+//                BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
+//            newProject.setBooleanConfig(
+//                BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
+//            newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
+//            newProject.setBooleanConfig(
+//                BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
+//            newProject.setBooleanConfig(
+//                BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
+//            if (args.newParent != null) {
+//              newProject.setParent(args.newParent);
+//            }
+//          });
+//
+//      if (!args.ownerIds.isEmpty()) {
+//        config.upsertAccessSection(
+//            AccessSection.ALL,
+//            all -> {
+//              for (AccountGroup.UUID ownerId : args.ownerIds) {
+//                GroupDescription.Basic g = groupBackend.get(ownerId);
+//                if (g != null) {
+//                  GroupReference group = config.resolve(GroupReference.forGroup(g));
+//                  all.upsertPermission(Permission.OWNER).add(PermissionRule.builder(group));
+//                }
+//              }
+//            });
+//      }
+//
+//      if (currentConfig.isPresent()) {
+//        if (currentConfig.get().equals(config.getCacheable())) {
+//          logger.atFine().log("Skip creation of project config because it already exists");
+//          return;
+//        }
+//        throw new ResourceConflictException("conflicting project config already exists");
+//      }
+//
+//      configRevCommit = config.commit(md, false);
+//      md.getRepository().setGitwebDescription(args.projectDescription);
+//    } finally {
+//      if (configRevCommit != null) {
+//        fireEvents(args.getProject(), args.getHead(), configRevCommit);
+//      }
+//    }
+//    projectCache.onCreateProject(args.getProject());
   }
 
   private void createEmptyCommits(Repository repo, CreateProjectArgs args, Project.NameKey project)

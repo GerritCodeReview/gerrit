@@ -915,6 +915,64 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateCommitMessageOfMergeChangeWithConflicts() throws Exception {
+    // Create a change with a merge commit that contains conflicts
+    String sourceBranch = "source";
+    String targetBranch = "target";
+    ImmutableMap<String, Result> results =
+        changeInTwoBranches(
+            sourceBranch,
+            "source change",
+            "shared.txt",
+            "source content",
+            targetBranch,
+            "target change",
+            "shared.txt",
+            "target content");
+    ChangeInput in =
+        newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
+    in.subject = "Merge " + sourceBranch + " to " + targetBranch;
+    ChangeInfo change = assertCreateSucceedsWithConflicts(in);
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision._number).isEqualTo(1);
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+
+    // Update the commit message
+    gApi.changes()
+        .id(change.id)
+        .setMessage(
+            "Merge "
+                + sourceBranch
+                + " branch into "
+                + targetBranch
+                + " branch\n\nChange-Id: "
+                + change.changeId);
+
+    // Verify that the conflicts information has been copied
+    currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision._number).isEqualTo(2);
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+  }
+
+  @Test
   public void invalidSource() throws Exception {
     changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
     ChangeInput in = newMergeChangeInput("branchA", "invalid", "");

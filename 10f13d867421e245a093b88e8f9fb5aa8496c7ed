@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0767c909_c14745b8",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-02T11:23:11Z",
+      "side": 1,
+      "message": "IIUC, debounce will make it so, the alert will be shown after 60s after the update is detected. I think for such a long delay, we want the opposite: show immediately, but schedule next one to be later, if there was a recent one already.\n\nI think throttleWrap in the async-utils does something similar. Or alternatively the debounce interval should be much smaller.",
+      "range": {
+        "startLine": 871,
+        "startChar": 45,
+        "endLine": 871,
+        "endChar": 53
+      },
+      "revId": "10f13d867421e245a093b88e8f9fb5aa8496c7ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

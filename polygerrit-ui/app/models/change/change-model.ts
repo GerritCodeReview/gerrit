@@ -21,7 +21,14 @@ import {
   RevisionPatchSetNum,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -673,7 +680,7 @@ export class ChangeModel extends Model<ChangeState> {
       });
   }
 
-  private loadReviewedFiles() {
+  private loadReviewedFiles(): Subscription {
     return combineLatest([
       this.patchNum$,
       this.changeNum$,
@@ -691,7 +698,7 @@ export class ChangeModel extends Model<ChangeState> {
       .subscribe();
   }
 
-  private loadMergeable() {
+  private loadMergeable(): Subscription {
     return this.change$
       .pipe(
         switchMap(change => {
@@ -709,7 +716,7 @@ export class ChangeModel extends Model<ChangeState> {
       .subscribe(mergeable => this.updateState({mergeable}));
   }
 
-  private loadChange() {
+  private loadChange(): Subscription {
     return this.viewModel.changeNum$
       .pipe(
         switchMap(changeNum => {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc74c952_f58dfa89",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-02T11:35:14Z",
+      "side": 1,
+      "message": "This wouldn\u0027t work. By moving the call above, this check will always be true. So we are no longer protecting against state changing in the meantime.",
+      "range": {
+        "startLine": 2191,
+        "startChar": 6,
+        "endLine": 2191,
+        "endChar": 55
+      },
+      "revId": "f3178a2127e4d7bcb85a77ab832581c673bf956e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

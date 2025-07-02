@@ -22,6 +22,30 @@
       },
       "revId": "dd8b34776aa50969cbc9b18815c21492bdeec12b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76dcd8b0_0d644bb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-02T13:42:28Z",
+      "side": 1,
+      "message": "Sorry for the confusion. This is a typo here, it should say \"without setting a file mode\"...",
+      "parentUuid": "96a86ccf_8475300b",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "dd8b34776aa50969cbc9b18815c21492bdeec12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

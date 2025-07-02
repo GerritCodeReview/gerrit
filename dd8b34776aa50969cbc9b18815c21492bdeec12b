@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a86ccf_8475300b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-02T13:38:54Z",
+      "side": 1,
+      "message": "so this simply fails?\n\nFile F has mode A and we try to set it to mode B\n\n`existing file mode is kept unchanged` the mode doesn\u0027t change?",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "dd8b34776aa50969cbc9b18815c21492bdeec12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

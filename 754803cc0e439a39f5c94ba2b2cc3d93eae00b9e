@@ -22,6 +22,30 @@
       },
       "revId": "754803cc0e439a39f5c94ba2b2cc3d93eae00b9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3599e9f_dcc4e713",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-02T11:19:50Z",
+      "side": 1,
+      "message": "Yeah good point.\nExisting UX shows a notification so I updated to show the same notification.",
+      "parentUuid": "5cdb2623_20281a3f",
+      "range": {
+        "startLine": 728,
+        "startChar": 2,
+        "endLine": 734,
+        "endChar": 3
+      },
+      "revId": "754803cc0e439a39f5c94ba2b2cc3d93eae00b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

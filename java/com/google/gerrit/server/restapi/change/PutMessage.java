@@ -152,6 +152,11 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
           inserter.setMessage(
               String.format("Patch Set %s: Commit message was updated.", psId.getId()));
           inserter.setDescription("Edit commit message");
+
+          // Copy the conflicts information if present. Amending the commit to set a new commit
+          // message doesn't change anything about the conflicts.
+          ps.conflicts().ifPresent(conflicts -> inserter.setConflicts(conflicts));
+
           bu.setNotify(resolveNotify(input, resource));
           bu.addOp(resource.getChange().getId(), inserter);
           bu.execute();

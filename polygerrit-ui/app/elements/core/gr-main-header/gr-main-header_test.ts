@@ -115,11 +115,13 @@ suite('gr-main-header tests', () => {
             >
               <md-icon aria-hidden="true" filled=""> menu </md-icon>
             </md-icon-button>
-            <a class="bigTitle mobileTitle" href="//localhost:9876/">
-              <gr-endpoint-decorator name="header-mobile-title">
-                <div class="mobileTitleText"></div>
-              </gr-endpoint-decorator>
-            </a>
+            <div class="mobileTitleWrapper">
+              <a class="bigTitle" href="//localhost:9876/">
+                <gr-endpoint-decorator name="header-mobile-title">
+                  <div class="titleText"></div>
+                </gr-endpoint-decorator>
+              </a>
+            </div>
             <div class="mobileRightItems">
               <md-icon-button
                 data-aria-label="Hide Searchbar"

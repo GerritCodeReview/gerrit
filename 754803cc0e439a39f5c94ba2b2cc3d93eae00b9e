@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdb2623_20281a3f",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-02T08:42:47Z",
+      "side": 1,
+      "message": "I think this will cause race conditions. On a long request, you can navigate to a different change, by the time the getChangeDetail finishes.",
+      "range": {
+        "startLine": 728,
+        "startChar": 2,
+        "endLine": 734,
+        "endChar": 3
+      },
+      "revId": "754803cc0e439a39f5c94ba2b2cc3d93eae00b9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

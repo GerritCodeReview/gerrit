@@ -242,15 +242,30 @@ export class GrMainHeader extends LitElement {
           font-size: var(--header-title-font-size);
           line-height: calc(var(--header-title-font-size) * 1.2);
           text-decoration: none;
+          display: block;
+          flex: 1 1 auto;
+          flex-grow: 0;
+          justify-content: center;
+          overflow: hidden;
+          max-width: 30%;
+          text-decoration: none;
         }
         .bigTitle:hover {
           text-decoration: underline;
         }
-        .titleText,
-        .mobileTitleText {
-          /* Vertical alignment of icons and text with just block/inline display is too troublesome. */
+        .mobileTitleWrapper {
+          position: absolute;
+          left: 100px;
+          right: 100px;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+        }
+        .titleText {
           display: flex;
           align-items: center;
+          min-width: 0;
+          overflow: hidden;
         }
         .titleText::before {
           --icon-width: var(--header-icon-width, var(--header-icon-size, 0));
@@ -260,34 +275,7 @@ export class GrMainHeader extends LitElement {
           background-repeat: no-repeat;
           content: '';
           /* Any direct child of a flex element implicitly has 'display: block', but let's make that explicit here. */
-          display: block;
-          width: var(--icon-width);
-          height: var(--icon-height);
-          /* If size or height are set, then use 'spacing-m', 0px otherwise. */
-          margin-right: clamp(0px, var(--icon-height), var(--spacing-m));
-        }
-        .titleText::after {
-          /* The height will be determined by the line-height of the .bigTitle element. */
-          content: var(--header-title-content);
-          white-space: nowrap;
-        }
-
-        .mobileTitleText::before {
-          --icon-width: var(
-            --header-icon-width,
-            var(--header-mobile-icon-size, var(--header-icon-size, 0))
-          );
-          --icon-height: var(
-            --header-icon-height,
-            var(--header-mobile-icon-size, var(--header-icon-size, 0))
-          );
-          background-image: var(--header-mobile-icon, var(--header-icon));
-          background-size: var(--mobile-icon-width, var(--icon-width))
-            var(--mobile-icon-height, var(--icon-height));
-          background-repeat: no-repeat;
-          content: '';
-          /* Any direct child of a flex element implicitly has 'display: block', but let's make that explicit here. */
-          display: block;
+          display: inline-block;
           width: var(--mobile-icon-width, var(--icon-width));
           height: var(--mobile-icon-height, var(--icon-height));
           /* If size or height are set, then use 'spacing-m', 0px otherwise. */
@@ -296,17 +284,15 @@ export class GrMainHeader extends LitElement {
             var(--mobile-icon-height, var(--icon-height)),
             var(--spacing-m)
           );
+          flex-shrink: 0;
         }
-        .mobileTitleText::after {
+        .titleText::after {
           /* The height will be determined by the line-height of the .bigTitle element. */
-          content: var(
-            --header-mobile-title-content,
-            var(--header-title-content)
-          );
+          content: var(--header-title-content);
           white-space: nowrap;
+          overflow: hidden;
           text-overflow: ellipsis;
           flex: 1;
-          overflow: hidden;
           min-width: 0;
         }
 
@@ -385,7 +371,6 @@ export class GrMainHeader extends LitElement {
           align-items: center;
           display: flex;
           margin: 0 calc(0 - var(--spacing-m)) 0 var(--spacing-m);
-          overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
@@ -433,9 +418,33 @@ export class GrMainHeader extends LitElement {
         @media screen and (max-width: 50em) {
           .bigTitle {
             font-family: var(--header-font-family);
-            font-size: var(--font-size-h3);
+            font-size: 20px;
             font-weight: var(--font-weight-h3);
             line-height: var(--line-height-h3);
+            min-width: 0;
+            max-width: unset;
+          }
+          .titleText::before {
+            --icon-width: var(
+              --header-icon-width,
+              var(--header-mobile-icon-size, var(--header-icon-size, 0))
+            );
+            --icon-height: var(
+              --header-icon-height,
+              var(--header-mobile-icon-size, var(--header-icon-size, 0))
+            );
+            background-image: var(--header-mobile-icon, var(--header-icon));
+            background-size: var(--mobile-icon-width, var(--icon-width))
+              var(--mobile-icon-height, var(--icon-height));
+            width: var(--mobile-icon-width, var(--icon-width));
+            height: var(--mobile-icon-height, var(--icon-height));
+          }
+          .titleText::after {
+            /* The height will be determined by the line-height of the .bigTitle element. */
+            content: var(
+              --header-mobile-title-content,
+              var(--header-title-content)
+            );
           }
           gr-smart-search,
           .browse,
@@ -469,17 +478,6 @@ export class GrMainHeader extends LitElement {
             width: 50%;
             z-index: 200;
             box-shadow: var(--header-box-shadow);
-          }
-          .mobileTitle {
-            position: relative;
-            display: block;
-            font-size: 20px;
-            left: 100px;
-            right: 100px;
-            text-align: center;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            width: 50%;
           }
           .nav-header {
             display: flex;
@@ -669,19 +667,21 @@ export class GrMainHeader extends LitElement {
               >${!this.hamburgerClose ? 'menu' : 'menu_open'}</md-icon
             >
           </md-icon-button>
-          <a
-            href=${`//${window.location.host}${getBaseUrl()}/`}
-            class="mobileTitle bigTitle"
-            @click=${() => {
-              if (this.hamburgerClose) {
-                this.handleSidebar();
-              }
-            }}
-          >
-            <gr-endpoint-decorator name="header-mobile-title">
-              <div class="mobileTitleText"></div>
-            </gr-endpoint-decorator>
-          </a>
+          <div class="mobileTitleWrapper">
+            <a
+              href=${`//${window.location.host}${getBaseUrl()}/`}
+              class="bigTitle"
+              @click=${() => {
+                if (this.hamburgerClose) {
+                  this.handleSidebar();
+                }
+              }}
+            >
+              <gr-endpoint-decorator name="header-mobile-title">
+                <div class="titleText"></div>
+              </gr-endpoint-decorator>
+            </a>
+          </div>
           <div class="mobileRightItems">
             <md-icon-button
               touch-target="none"

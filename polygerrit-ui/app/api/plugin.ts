@@ -17,6 +17,7 @@ import {RestPluginApi} from './rest';
 import {HookApi, RegisterOptions} from './hook';
 import {StylePluginApi} from './styles';
 import {SuggestionsPluginApi} from './suggestions';
+import {ChangeUpdatesPluginApi} from './change-updates';
 
 export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -66,6 +67,7 @@ export declare interface PluginApi {
   attributeHelper(element: Element): AttributeHelperPluginApi;
   changeActions(): ChangeActionsPluginApi;
   changeReply(): ChangeReplyPluginApi;
+  changeUpdates(): ChangeUpdatesPluginApi;
   checks(): ChecksPluginApi;
   suggestions(): SuggestionsPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;

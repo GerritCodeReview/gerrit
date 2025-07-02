@@ -159,15 +159,6 @@ const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
-
-const ReloadToastMessage = {
-  NEWER_REVISION: 'A newer patch set has been uploaded',
-  RESTORED: 'This change has been restored',
-  ABANDONED: 'This change has been abandoned',
-  MERGED: 'This change has been merged',
-  NEW_MESSAGE: 'There are new messages on this change',
-};
-
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
   /**
@@ -2191,51 +2182,7 @@ export class GrChangeView extends LitElement {
         this.startUpdateCheckTimer();
         return;
       }
-      const change = this.change;
-      this.getChangeModel()
-        .fetchChangeUpdates(change, /* includeExtraOptions = */ true)
-        .then(result => {
-          let toastMessage = null;
-          if (!result.isLatest) {
-            toastMessage = ReloadToastMessage.NEWER_REVISION;
-          } else if (result.newStatus === ChangeStatus.MERGED) {
-            toastMessage = ReloadToastMessage.MERGED;
-          } else if (result.newStatus === ChangeStatus.ABANDONED) {
-            toastMessage = ReloadToastMessage.ABANDONED;
-          } else if (result.newStatus === ChangeStatus.NEW) {
-            toastMessage = ReloadToastMessage.RESTORED;
-          } else if (result.newMessages) {
-            toastMessage = ReloadToastMessage.NEW_MESSAGE;
-            if (result.newMessages.author?.name) {
-              toastMessage += ` from ${result.newMessages.author.name}`;
-            }
-          }
-
-          // We have to make sure that the update is still relevant for the user.
-          // Since starting to fetch the change update the user may have sent a
-          // reply, or the change might have been reloaded, or it could be in the
-          // process of being reloaded.
-          const changeWasReloaded = change !== this.change;
-          if (
-            !toastMessage ||
-            this.loading ||
-            changeWasReloaded ||
-            !this.isViewCurrent
-          ) {
-            this.startUpdateCheckTimer();
-            return;
-          }
-
-          this.cancelUpdateCheckTimer();
-          fire(this, 'show-alert', {
-            message: toastMessage,
-            // Persist this alert.
-            dismissOnNavigation: true,
-            showDismiss: true,
-            action: 'Reload',
-            callback: () => this.getChangeModel().navigateToChangeResetReload(),
-          });
-        });
+      this.getChangeModel().throttledShowUpdateChangeNotification({});
     }, delay * 1000);
   }
 

@@ -42,7 +42,7 @@ import {
   LoadingStatus,
   ParsedChangeInfo,
 } from '../../types/types';
-import {fireAlert, fireTitleChange} from '../../utils/event-util';
+import {fire, fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -66,8 +66,17 @@ import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {throttleWrap} from '../../utils/async-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
+
+const ReloadToastMessage = {
+  NEWER_REVISION: 'A newer patch set has been uploaded',
+  RESTORED: 'This change has been restored',
+  ABANDONED: 'This change has been abandoned',
+  MERGED: 'This change has been merged',
+  NEW_MESSAGE: 'There are new messages on this change',
+};
 
 export interface ChangeState {
   /**
@@ -449,6 +458,10 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly revertingChangeIds$;
 
+  public throttledShowUpdateChangeNotification: (e: unknown) => void;
+
+  private isViewCurrent: boolean = false;
+
   constructor(
     private readonly navigation: NavigationService,
     private readonly viewModel: ChangeViewModel,
@@ -542,7 +555,14 @@ export class ChangeModel extends Model<ChangeState> {
       this.latestPatchNum$.subscribe(
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
+      this.viewModel.childView$.subscribe(childView => {
+        this.isViewCurrent = childView === ChangeChildView.OVERVIEW;
+      }),
     ];
+    this.throttledShowUpdateChangeNotification = throttleWrap(
+      (_: unknown) => this.showRefreshChangeNotification(),
+      60 * 1000
+    );
   }
 
   private reportChangeReload() {
@@ -854,6 +874,48 @@ export class ChangeModel extends Model<ChangeState> {
     const url = this.viewModel.editUrl({editView, patchNum: this.patchNum});
     if (!url) return;
     this.navigation.setUrl(url);
+  }
+
+  private async showRefreshChangeNotification() {
+    const change = this.change;
+    if (!change) return;
+    const toastMessage = await this.getChangeUpdateToastMessage(change);
+    if (!toastMessage) return;
+    // We have to make sure that the update is still relevant for the user.
+    // Since starting to fetch the change update the user may have sent a
+    // reply, or the change might have been reloaded, or it could be in the
+    // process of being reloaded.
+    if (change !== this.change || !this.isViewCurrent) {
+      return;
+    }
+    fire(document, 'show-alert', {
+      message: toastMessage,
+      // Persist this alert.
+      dismissOnNavigation: true,
+      showDismiss: true,
+      action: 'Reload',
+      callback: () => this.navigateToChangeResetReload(),
+    });
+  }
+
+  async getChangeUpdateToastMessage(change: ParsedChangeInfo) {
+    const result = await this.fetchChangeUpdates(change);
+    let toastMessage = null;
+    if (!result.isLatest) {
+      toastMessage = ReloadToastMessage.NEWER_REVISION;
+    } else if (result.newStatus === ChangeStatus.MERGED) {
+      toastMessage = ReloadToastMessage.MERGED;
+    } else if (result.newStatus === ChangeStatus.ABANDONED) {
+      toastMessage = ReloadToastMessage.ABANDONED;
+    } else if (result.newStatus === ChangeStatus.NEW) {
+      toastMessage = ReloadToastMessage.RESTORED;
+    } else if (result.newMessages) {
+      toastMessage = ReloadToastMessage.NEW_MESSAGE;
+      if (result.newMessages.author?.name) {
+        toastMessage += ` from ${result.newMessages.author.name}`;
+      }
+    }
+    return toastMessage;
   }
 
   /**

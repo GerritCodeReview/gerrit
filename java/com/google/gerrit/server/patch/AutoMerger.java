@@ -36,6 +36,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -180,11 +181,22 @@ public class AutoMerger {
       return Optional.empty();
     }
 
-    return Optional.of(
-        new ReceiveCommand(
-            ObjectId.zeroId(),
-            createAutoMergeCommit(repoView, ins, maybeMergeCommit),
-            automergeRef));
+    try {
+      return Optional.of(
+          new ReceiveCommand(
+              ObjectId.zeroId(),
+              createAutoMergeCommit(repoView, ins, maybeMergeCommit),
+              automergeRef));
+    } catch (IOException e) {
+      if (e.getCause() instanceof NoMergeBaseException) {
+        logger.atWarning().log(
+            "Cannot create auto-merge commit for merge commit %s due to complex merge history: %s. "
+                + "Auto-merge commit creation will be skipped.",
+            maybeMergeCommit.name(), e.getCause().getMessage());
+        return Optional.empty();
+      }
+      throw e;
+    }
   }
 
   /**
@@ -243,7 +255,14 @@ public class AutoMerger {
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
 
-    boolean couldMerge = m.merge(merge.getParents());
+    boolean couldMerge;
+    try {
+      couldMerge = m.merge(merge.getParents());
+    } catch (NoMergeBaseException e) {
+      logger.atWarning().log(
+          "Cannot create auto-merge commit for merge commit %s: %s", merge.name(), e.getMessage());
+      throw new IOException("Cannot create auto-merge commit: " + e.getMessage(), e);
+    }
 
     ObjectId treeId;
     if (couldMerge) {

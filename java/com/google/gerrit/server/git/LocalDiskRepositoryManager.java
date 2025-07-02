@@ -15,6 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.MoreFiles;
+import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
@@ -242,6 +244,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot create repository " + name, e);
     }
+  }
+
+  @Override
+  public void deleteRepository(NameKey name) throws IOException {
+    File dir = getBasePath(name).resolve(name.get() + ".git").toFile();
+    MoreFiles.deleteRecursively(dir.toPath(), RecursiveDeleteOption.ALLOW_INSECURE);
   }
 
   @Override

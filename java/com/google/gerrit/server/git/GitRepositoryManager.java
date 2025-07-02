@@ -91,4 +91,7 @@ public interface GitRepositoryManager {
    * @param name – the repository name, relative to the base directory.
    */
   default void repositoryDeleted(Project.NameKey name) {}
+
+  /** Delete the underlying repository by name. */
+  default void deleteRepository(Project.NameKey nameKey) throws IOException {}
 }

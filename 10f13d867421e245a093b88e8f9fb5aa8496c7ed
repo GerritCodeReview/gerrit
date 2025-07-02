@@ -22,6 +22,30 @@
       },
       "revId": "10f13d867421e245a093b88e8f9fb5aa8496c7ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b2ba47f_9d6d8a12",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-02T11:42:09Z",
+      "side": 1,
+      "message": "Using `throttleWrap`.\n\nReducing interval is not possible since the users find the notification annoying that it keeps showing up.",
+      "parentUuid": "0767c909_c14745b8",
+      "range": {
+        "startLine": 871,
+        "startChar": 45,
+        "endLine": 871,
+        "endChar": 53
+      },
+      "revId": "10f13d867421e245a093b88e8f9fb5aa8496c7ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

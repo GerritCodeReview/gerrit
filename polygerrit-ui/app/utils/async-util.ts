@@ -229,19 +229,15 @@ export function debounceP<T>(
   if (existingPromise) existingPromise.delegate(promise);
   return promise;
 }
-const THROTTLE_INTERVAL_MS = 500;
 
 /**
  * Ensure only one call is made within THROTTLE_INTERVAL_MS and any call within
  * this interval is ignored
  */
-export function throttleWrap<T>(fn: (e: T) => void) {
+export function throttleWrap<T>(fn: (e: T) => void, throttleInterval = 500) {
   let lastCall: number | undefined;
   return (e: T) => {
-    if (
-      lastCall !== undefined &&
-      Date.now() - lastCall < THROTTLE_INTERVAL_MS
-    ) {
+    if (lastCall !== undefined && Date.now() - lastCall < throttleInterval) {
       return;
     }
     lastCall = Date.now();

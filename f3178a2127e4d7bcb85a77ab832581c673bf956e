@@ -22,6 +22,30 @@
       },
       "revId": "f3178a2127e4d7bcb85a77ab832581c673bf956e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0660cf70_9e941d58",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-02T12:49:55Z",
+      "side": 1,
+      "message": "This issue was present in the parent CL as well.\n\nResolved in the parent CL.",
+      "parentUuid": "dc74c952_f58dfa89",
+      "range": {
+        "startLine": 2191,
+        "startChar": 6,
+        "endLine": 2191,
+        "endChar": 55
+      },
+      "revId": "f3178a2127e4d7bcb85a77ab832581c673bf956e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

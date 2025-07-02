@@ -2182,7 +2182,7 @@ export class GrChangeView extends LitElement {
         this.startUpdateCheckTimer();
         return;
       }
-      this.getChangeModel().throttledShowUpdateChangeNotification({});
+      this.getChangeModel().throttledShowUpdateChangeNotification();
     }, delay * 1000);
   }
 

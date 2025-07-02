@@ -458,7 +458,7 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly revertingChangeIds$;
 
-  public throttledShowUpdateChangeNotification: (e: unknown) => void;
+  public throttledShowUpdateChangeNotification: () => void;
 
   private isViewCurrent: boolean = false;
 
@@ -560,7 +560,7 @@ export class ChangeModel extends Model<ChangeState> {
       }),
     ];
     this.throttledShowUpdateChangeNotification = throttleWrap(
-      (_: unknown) => this.showRefreshChangeNotification(),
+      () => this.showRefreshChangeNotification(),
       60 * 1000
     );
   }

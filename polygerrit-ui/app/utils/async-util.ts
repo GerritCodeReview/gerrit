@@ -234,9 +234,9 @@ export function debounceP<T>(
  * Ensure only one call is made within THROTTLE_INTERVAL_MS and any call within
  * this interval is ignored
  */
-export function throttleWrap<T>(fn: (e: T) => void, throttleInterval = 500) {
+export function throttleWrap<T>(fn: (e?: T) => void, throttleInterval = 500) {
   let lastCall: number | undefined;
-  return (e: T) => {
+  return (e?: T) => {
     if (lastCall !== undefined && Date.now() - lastCall < throttleInterval) {
       return;
     }

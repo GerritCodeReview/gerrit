@@ -22,6 +22,30 @@
       },
       "revId": "355e2967dd3ef30b670f4b3bcaf4224d0e4d5b2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c102e3b3_61d8273c",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-02T13:40:39Z",
+      "side": 1,
+      "message": "This exception is only added in a later change, and that change converts it to a BadRequestException here [1], so it stays a BadRequestException in this test.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/488322/3/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+      "parentUuid": "bd797bdb_8c3c21bd",
+      "range": {
+        "startLine": 1242,
+        "startChar": 4,
+        "endLine": 1242,
+        "endChar": 23
+      },
+      "revId": "355e2967dd3ef30b670f4b3bcaf4224d0e4d5b2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

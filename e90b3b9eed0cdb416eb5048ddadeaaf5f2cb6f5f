@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9896868d_a9fd4fed",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-02T11:49:17Z",
+      "side": 1,
+      "message": "nit: add a type to show that this a function call",
+      "range": {
+        "startLine": 461,
+        "startChar": 2,
+        "endLine": 461,
+        "endChar": 47
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "96b51753_d469bf11",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 461,
+                "startChar": 0,
+                "endLine": 462,
+                "endChar": 0
+              },
+              "replacement": "  public throttledShowUpdateChangeNotification: (\n    change: ParsedChangeInfo\n  ) \u003d\u003e void;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e90b3b9eed0cdb416eb5048ddadeaaf5f2cb6f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

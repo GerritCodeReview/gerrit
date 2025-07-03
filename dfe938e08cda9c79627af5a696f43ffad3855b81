@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b76c05_f6f6d7c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-03T07:24:02Z",
+      "side": 1,
+      "message": "To make the \"Release-Notes\" submit requirement pass, please add a \"Release-Notes: skip\" footer to the commit message.",
+      "revId": "dfe938e08cda9c79627af5a696f43ffad3855b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

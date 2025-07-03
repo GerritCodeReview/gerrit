@@ -175,10 +175,10 @@ public class RepoSequenceTest {
   }
 
   @Test
-  public void storeNewFailsWithoutInit() {
+  public void storeNewSucceedsWhenRefDoesNotExist() {
     RepoSequence s = newSequence("id", 10);
-    IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> s.storeNew(10));
-    assertThat(thrown).hasMessageThat().contains("Expected refs/sequences/id to exist");
+    s.storeNew(1);
+    assertThat(s.next()).isEqualTo(1);
   }
 
   @Test
@@ -369,6 +369,50 @@ public class RepoSequenceTest {
     assertThat(s2.next(2)).containsExactly(6, 7);
     assertThat(s2.last()).isEqualTo(7);
     assertThat(s2.acquireCount).isEqualTo(1);
+  }
+
+  @Test
+  public void failOnNonIncrementingSequence() throws Exception {
+    RepoSequence s = newSequence("id", 10, 1);
+    assertThat(s.next()).isEqualTo(10);
+    writeBlob("id", "5");
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new value 6 to be greater than last stored value 11");
+
+    // Verify that the sequence ref is deleted
+    assertThat(assertThrows(IllegalStateException.class, s::current))
+        .hasMessageThat()
+        .contains("Expected refs/sequences/id to exist");
+  }
+
+  @Test
+  public void failOnNonIncrementingSequenceWithReadAfterRef() throws Exception {
+    writeBlob("id", "10");
+    AtomicBoolean doUpdate = new AtomicBoolean(false);
+    Runnable bgUpdate =
+        () -> {
+          if (doUpdate.get()) {
+            writeBlob("id", "5");
+            doUpdate.set(false);
+          }
+        };
+
+    RepoSequence s = newSequence("id", 10, 1, bgUpdate, RETRYER);
+    assertThat(s.next()).isEqualTo(10);
+    doUpdate.set(true);
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new value 6 to be greater than last stored value 11");
+
+    // Verify that the sequence ref is deleted
+    assertThat(assertThrows(IllegalStateException.class, s::current))
+        .hasMessageThat()
+        .contains("Expected refs/sequences/id to exist");
   }
 
   private RepoSequence newSequence(String name, int batchSize) {

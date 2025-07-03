@@ -49,6 +49,7 @@ import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +76,14 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class RepoSequence implements Sequence {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static class NonIncrementingSequenceException extends IllegalStateException {
+    @Serial private static final long serialVersionUID = 1L;
+
+    NonIncrementingSequenceException(String msg) {
+      super(msg);
+    }
+  }
 
   public static class RepoSequenceModule extends FactoryModule {
     public static final String SECTION_NOTE_DB = "noteDb";
@@ -163,7 +172,8 @@ public class RepoSequence implements Sequence {
         .retryIfException(
             t ->
                 t instanceof StorageException
-                    && ((StorageException) t).getCause() instanceof LockFailureException)
+                    && (t.getCause() instanceof LockFailureException
+                        || t.getCause() instanceof NonIncrementingSequenceException))
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
@@ -187,6 +197,7 @@ public class RepoSequence implements Sequence {
 
   private int limit;
   private int counter;
+  private volatile Integer lastStoredSequence;
 
   @VisibleForTesting int acquireCount;
 
@@ -308,6 +319,11 @@ public class RepoSequence implements Sequence {
           });
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
+        if (Throwables.getRootCause(e) instanceof NonIncrementingSequenceException) {
+          logger.atWarning().log(
+              "Sequence %s will be deleted as it contains a non-incrementing value", refName);
+          deleteSequenceRef();
+        }
         Throwables.throwIfInstanceOf(e.getCause(), StorageException.class);
       }
       throw new StorageException(e);
@@ -341,13 +357,14 @@ public class RepoSequence implements Sequence {
           next = blob.get().value();
         }
         next = Math.max(floor, next);
-        RefUpdate refUpdate =
-            IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
-        RefUpdateUtil.checkResult(refUpdate);
+
+        checkIsIncremental(next + count);
+        store(repo, rw, oldId, next + count);
+
         counter = next;
         limit = counter + count;
         acquireCount++;
-      } catch (IOException e) {
+      } catch (IOException | NonIncrementingSequenceException e) {
         throw new StorageException(e);
       }
     }
@@ -356,26 +373,28 @@ public class RepoSequence implements Sequence {
   @Override
   public void storeNew(int value) {
     counterLock.lock();
-    try (Repository repo = repoManager.openRepository(projectName);
-        RevWalk rw = new RevWalk(repo)) {
-      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
-      afterReadRef.run();
-      ObjectId oldId;
-      if (blob.isEmpty()) {
-        throw new IllegalStateException("Expected " + refName + " to exist");
-      } else {
-        oldId = blob.get().id();
+    try (RefUpdateContext ctx = RefUpdateContext.open(REPO_SEQ)) {
+      try (Repository repo = repoManager.openRepository(projectName);
+          RevWalk rw = new RevWalk(repo)) {
+        Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+        afterReadRef.run();
+        ObjectId oldId;
+        if (blob.isEmpty()) {
+          oldId = ObjectId.zeroId();
+        } else {
+          oldId = blob.get().id();
+        }
+
+        store(repo, rw, oldId, value + batchSize);
+
+        counter = value;
+        limit = counter + batchSize;
+        acquireCount++;
+      } catch (IOException e) {
+        throw new StorageException(e);
+      } finally {
+        counterLock.unlock();
       }
-      RefUpdate refUpdate =
-          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value + batchSize, gitRefUpdated);
-      RefUpdateUtil.checkResult(refUpdate);
-      counter = value;
-      limit = counter + batchSize;
-      acquireCount++;
-    } catch (IOException e) {
-      throw new StorageException(e);
-    } finally {
-      counterLock.unlock();
     }
   }
 
@@ -420,14 +439,43 @@ public class RepoSequence implements Sequence {
           RevWalk rw = new RevWalk(repo)) {
         Ref ref = repo.exactRef(refName);
         if (ref == null) {
-          RefUpdate refUpdate =
-              IntBlob.tryStore(
-                  repo, rw, projectName, refName, ObjectId.zeroId(), seed, gitRefUpdated);
-          RefUpdateUtil.checkResult(refUpdate);
+          store(repo, rw, ObjectId.zeroId(), seed);
         }
       } catch (IOException e) {
         throw new StorageException(e);
       }
     }
+  }
+
+  private void store(Repository repo, RevWalk rw, ObjectId oldId, int value) throws IOException {
+    RefUpdate refUpdate =
+        IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
+    RefUpdateUtil.checkResult(refUpdate);
+    lastStoredSequence = value;
+  }
+
+  private void checkIsIncremental(int value) {
+    if (lastStoredSequence != null && value <= lastStoredSequence) {
+      String msg =
+          String.format(
+              "For %s, expected new value %d to be greater than last stored value %d",
+              refName, value, lastStoredSequence);
+      logger.atWarning().log(msg);
+      throw new NonIncrementingSequenceException(msg);
+    }
+  }
+
+  private void deleteSequenceRef() {
+    try (RefUpdateContext ctx = RefUpdateContext.open(REPO_SEQ)) {
+      try (Repository repo = repoManager.openRepository(projectName)) {
+        RefUpdateUtil.deleteChecked(repo, refName);
+      } catch (IOException ex) {
+        throw new StorageException(ex);
+      }
+    }
+    logger.atWarning().log(
+        "Sequence %s has been deleted as it contains a non-incrementing value. It can be recreated"
+            + " by setting the sequence to an appropriate value using the sequence set command",
+        refName);
   }
 }

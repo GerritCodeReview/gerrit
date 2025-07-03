@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1698f04a_072fceb1",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-03T15:34:21Z",
+      "side": 1,
+      "message": "Is this going to be a duplicate message with the new log added on L262? If yes, you can add a comment here noting it\u0027s already been logged.\n```suggestion\n        // Already logged in createAutoMergeCommit()\n```",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 64
+      },
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84e4ab05_fc46e636",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-03T15:34:21Z",
+      "side": 1,
+      "message": "Does the message from JGit indicate the \"complex merge history\" you mention in your commit message?",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -751,6 +751,16 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickConflictWithAllowConflicts() throws Exception {
+    testCherryPickConflictWithAllowConflicts(/* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void cherryPickConflictWithAllowConflictsUsingDiff3() throws Exception {
+    testCherryPickConflictWithAllowConflicts(/* useDiff3= */ true);
+  }
+
+  private void testCherryPickConflictWithAllowConflicts(boolean useDiff3) throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
     // Create a branch and push a commit to it (by-passing review)
@@ -831,6 +841,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 + " test commit)\n"
                 + destContent
                 + "\n"
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + changeContent
                 + "\n"

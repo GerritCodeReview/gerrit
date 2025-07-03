@@ -310,49 +310,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void rebaseEditWithConflictsAllowed() throws Exception {
-    // Create change where FILE_NAME has OLD_CONTENT
-    String changeId = newChange(admin.newIdent());
-
-    PatchSet previousPatchSet = getCurrentPatchSet(changeId);
-    createEmptyEditFor(changeId);
-    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-
-    // add new patch set that touches the same file as the edit
-    addNewPatchSetWithModifiedFile(changeId, FILE_NAME, new String(CONTENT_NEW2, UTF_8));
-    PatchSet currentPatchSet = getCurrentPatchSet(changeId);
-
-    Optional<EditInfo> originalEdit = getEdit(changeId);
-    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
-
-    Timestamp beforeRebase = originalEdit.get().commit.committer.date;
-
-    RebaseChangeEditInput input = new RebaseChangeEditInput();
-    input.allowConflicts = true;
-    EditInfo rebasedEdit = gApi.changes().id(changeId).edit().rebase(input);
-
-    ensureSameBytes(
-        getFileContentOfEdit(changeId, FILE_NAME),
-        String.format(
-                "<<<<<<< PATCH SET (%s %s)\n"
-                    + "%s\n"
-                    + "=======\n"
-                    + "%s\n"
-                    + ">>>>>>> EDIT      (%s %s)\n",
-                currentPatchSet.commitId().getName(),
-                gApi.changes().id(changeId).get().subject,
-                CONTENT_NEW2_STR,
-                CONTENT_NEW_STR,
-                originalEdit.get().commit.commit,
-                originalEdit.get().commit.subject)
-            .getBytes(UTF_8));
-    assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());
-    assertThat(rebasedEdit).commit().committer().date().isNotEqualTo(beforeRebase);
-    assertThat(rebasedEdit).containsGitConflicts().isTrue();
+    testRebaseEditWithConflictsAllowed(/* useDiff3= */ false);
   }
 
   @Test
   @GerritConfig(name = "change.diff3ConflictView", value = "true")
   public void rebaseEditWithConflictsAllowedUsingDiff3() throws Exception {
+    testRebaseEditWithConflictsAllowed(/* useDiff3= */ true);
+  }
+
+  private void testRebaseEditWithConflictsAllowed(boolean useDiff3) throws Exception {
     // Create change where FILE_NAME has OLD_CONTENT
     String changeId = newChange(admin.newIdent());
 
@@ -378,15 +345,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
         String.format(
                 "<<<<<<< PATCH SET (%s %s)\n"
                     + "%s\n"
-                    + "||||||| BASE\n"
-                    + "%s\n"
+                    + (useDiff3 ? String.format("||||||| BASE\n%s\n", CONTENT_OLD_STR) : "")
                     + "=======\n"
                     + "%s\n"
                     + ">>>>>>> EDIT      (%s %s)\n",
                 currentPatchSet.commitId().getName(),
                 gApi.changes().id(changeId).get().subject,
                 CONTENT_NEW2_STR,
-                CONTENT_OLD_STR,
                 CONTENT_NEW_STR,
                 originalEdit.get().commit.commit,
                 originalEdit.get().commit.subject)

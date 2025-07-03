@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -315,6 +316,16 @@ public class CommitIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickWithAllowConflicts() throws Exception {
+    testCherryPickWithAllowConflicts(/* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void cherryPickWithAllowConflictsUsingDiff3() throws Exception {
+    testCherryPickWithAllowConflicts(/* useDiff3= */ true);
+  }
+
+  private void testCherryPickWithAllowConflicts(boolean useDiff3) throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
     // Create a branch and push a commit to it (by-passing review)
@@ -403,6 +414,7 @@ public class CommitIT extends AbstractDaemonTest {
                 + " test commit)\n"
                 + destContent
                 + "\n"
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + changeContent
                 + "\n"
@@ -413,6 +425,16 @@ public class CommitIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickToExistingChangeWithAllowConflicts() throws Exception {
+    testCherryPickToExistingChangeWithAllowConflicts(/* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void cherryPickToExistingChangeWithAllowConflictsUsingDiff3() throws Exception {
+    testCherryPickToExistingChangeWithAllowConflicts(/* useDiff3= */ true);
+  }
+
+  private void testCherryPickToExistingChangeWithAllowConflicts(boolean useDiff3) throws Exception {
     String tip = testRepo.getRepository().exactRef("HEAD").getObjectId().name();
 
     String destBranch = "foo";
@@ -492,6 +514,7 @@ public class CommitIT extends AbstractDaemonTest {
                 + " test commit)\n"
                 + destContent
                 + "\n"
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + changeContent
                 + "\n"

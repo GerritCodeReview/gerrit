@@ -426,7 +426,18 @@ public class RebaseIT {
     }
 
     @Test
-    public void rebaseMergeWithConflict_conflictsAllowed() throws Exception {
+    public void rebaseMergeWithConflictWithConflictsAllowed() throws Exception {
+      testRebaseMergeWithConflictWithConflictsAllowed(/* useDiff3= */ false);
+    }
+
+    @Test
+    @GerritConfig(name = "change.diff3ConflictView", value = "true")
+    public void rebaseMergeWithConflictWithConflictsAllowedUsingDiff3() throws Exception {
+      testRebaseMergeWithConflictWithConflictsAllowed(/* useDiff3= */ true);
+    }
+
+    private void testRebaseMergeWithConflictWithConflictsAllowed(boolean useDiff3)
+        throws Exception {
       // Create a new project for this test so that we can configure a copy condition without
       // affecting any other tests. Copy Code-Review approvals if change kind is
       // MERGE_FIRST_PARENT_UPDATE. MERGE_FIRST_PARENT_UPDATE is the change kind when a merge commit
@@ -467,13 +478,14 @@ public class RebaseIT {
       gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
 
       // Create a change in master that touches the file.
+      String baseChangeBaseContent = "base content";
       Change.Id baseChangeInMaster =
           changeOperations
               .newChange()
               .project(project)
               .branch("master")
               .file(file)
-              .content("master content")
+              .content(baseChangeBaseContent)
               .create();
       approveAndSubmit(baseChangeInMaster);
 
@@ -556,6 +568,7 @@ public class RebaseIT {
                   + ")\n"
                   + mergeContent
                   + "\n"
+                  + (useDiff3 ? String.format("||||||| BASE\n%s\n", baseChangeBaseContent) : "")
                   + "=======\n"
                   + newBaseContent
                   + "\n"
@@ -1515,7 +1528,17 @@ public class RebaseIT {
     }
 
     @Test
-    public void rebaseWithConflict_conflictsAllowed() throws Exception {
+    public void rebaseWithConflictWithCnflictsAllowed() throws Exception {
+      testRebaseWithConflictWithConflictsAllowed(/* useDiff3= */ false);
+    }
+
+    @Test
+    @GerritConfig(name = "change.diff3ConflictView", value = "true")
+    public void rebaseWithConflictWithConflictsAllowedUsingDiff3() throws Exception {
+      testRebaseWithConflictWithConflictsAllowed(/* useDiff3= */ true);
+    }
+
+    private void testRebaseWithConflictWithConflictsAllowed(boolean useDiff3) throws Exception {
       String patchSetSubject = "patch set change";
       String patchSetContent = "patch set content";
       String baseSubject = "base change";
@@ -1590,6 +1613,7 @@ public class RebaseIT {
                   + ")\n"
                   + patchSetContent
                   + "\n"
+                  + (useDiff3 ? "||||||| BASE\n" : "")
                   + "=======\n"
                   + baseContent
                   + "\n"
@@ -2319,7 +2343,17 @@ public class RebaseIT {
     }
 
     @Test
-    public void rebaseChainWithConflicts_conflictsAllowed() throws Exception {
+    public void rebaseChainWithConflictsConflictsAllowed() throws Exception {
+      testRebaseChainWithConflictsConflictsAllowed(/* useDiff3= */ false);
+    }
+
+    @Test
+    @GerritConfig(name = "change.diff3ConflictView", value = "true")
+    public void rebaseChainWithConflictsConflictsAllowedUsingDiff3() throws Exception {
+      testRebaseChainWithConflictsConflictsAllowed(/* useDiff3= */ true);
+    }
+
+    private void testRebaseChainWithConflictsConflictsAllowed(boolean useDiff3) throws Exception {
       String patchSetSubject = "patch set change";
       String patchSetContent = "patch set content";
       String baseSubject = "base change";
@@ -2415,6 +2449,7 @@ public class RebaseIT {
                   + ")\n"
                   + patchSetContent
                   + "\n"
+                  + (useDiff3 ? "||||||| BASE\n" : "")
                   + "=======\n"
                   + baseContent
                   + "\n"

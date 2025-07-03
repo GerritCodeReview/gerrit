@@ -765,7 +765,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createMergeChange_ConflictsAllowed() throws Exception {
+  public void createMergeChangeWithConflictsAllowed() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergeChangeWithConflictsAllowedUsingDiff3() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* useDiff3= */ true);
+  }
+
+  private void testCreateMergeChangeConflictsAllowed(boolean useDiff3) throws Exception {
     String fileName = "shared.txt";
     String sourceBranch = "sourceBranch";
     String sourceSubject = "source change";
@@ -814,6 +824,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 + ")\n"
                 + targetContent
                 + "\n"
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + sourceContent
                 + "\n"

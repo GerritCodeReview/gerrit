@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -234,7 +235,17 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createMergePatchSet_ConflictAllowed() throws Exception {
+  public void createMergePatchSetWithConflictAllowed() throws Exception {
+    testCreateMergePatchSetWithConflictAllowed(/* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergePatchSetWithConflictAllowedDiff3() throws Exception {
+    testCreateMergePatchSetWithConflictAllowed(/* useDiff3= */ true);
+  }
+
+  private void testCreateMergePatchSetWithConflictAllowed(boolean useDiff3) throws Exception {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
     createBranch(BranchNameKey.create(project, "dev"));
 
@@ -313,6 +324,7 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
                 + ")\n"
                 + targetContent
                 + "\n"
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + sourceContent
                 + "\n"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e0fef3d_4bb8e3e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-03T16:47:55Z",
+      "side": 1,
+      "message": "Note: ICU4J in the tree is still at 57.1, which is several years old (latest is 77.1).  \nI wasn’t sure what the policy is for bumping third-party dependencies in Gerrit, so I left the version unchanged in this patch.",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

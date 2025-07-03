@@ -327,14 +327,13 @@ export declare interface AuthInfo {
 }
 
 /**
- * The AvartarInfo entity contains information about an avatar image ofan
+ * The AvatarInfo entity contains information about an avatar image of an
  * account.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#avatar-info
  */
 export declare interface AvatarInfo {
   url: string;
   height: number;
-  width: number;
 }
 
 // The refs/heads/ prefix is omitted in Branch name

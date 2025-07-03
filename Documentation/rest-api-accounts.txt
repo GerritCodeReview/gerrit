@@ -2397,7 +2397,6 @@ an account.
 |Field Name|Description
 |`url`     |The URL to the avatar image.
 |`height`  |The height of the avatar image in pixels.
-|`width`   |The width of the avatar image in pixels.
 |======================
 
 [[capability-info]]

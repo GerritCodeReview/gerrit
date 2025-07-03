@@ -40,6 +40,9 @@ public enum ConflictsProtoConverter
   @Override
   public PatchSet.Conflicts fromProto(Entities.Conflicts proto) {
     return PatchSet.Conflicts.create(
+        proto.hasBase()
+            ? Optional.of(objectIdConverter.fromProto(proto.getBase()))
+            : Optional.empty(),
         proto.hasOurs()
             ? Optional.of(objectIdConverter.fromProto(proto.getOurs()))
             : Optional.empty(),

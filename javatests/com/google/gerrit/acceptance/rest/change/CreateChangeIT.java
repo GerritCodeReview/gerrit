@@ -227,6 +227,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
         gApi.changes().id(info.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+    assertThat(currentRevision.conflicts.base).isNull();
     assertThat(currentRevision.conflicts.ours).isNull();
     assertThat(currentRevision.conflicts.theirs).isNull();
   }
@@ -698,6 +699,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String targetBranch = "targetBranch";
     ImmutableMap<String, Result> results =
         changeInTwoBranches(sourceBranch, "a.txt", targetBranch, "b.txt");
+    RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "");
     ChangeInfo change = assertCreateSucceeds(in);
 
@@ -712,6 +714,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
@@ -748,6 +751,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String targetBranch = "targetBranch";
     ImmutableMap<String, Result> results =
         changeInTwoBranches(sourceBranch, "shared.txt", targetBranch, "shared.txt");
+    RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "ours");
     ChangeInfo change = assertCreateSucceeds(in);
 
@@ -757,6 +761,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
@@ -805,6 +810,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)

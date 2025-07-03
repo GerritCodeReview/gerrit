@@ -294,6 +294,20 @@ public abstract class PatchSet {
   @ConvertibleToProto
   public abstract static class Conflicts {
     /**
+     * The SHA1 of the commit that was used as the base commit for the Git merge that created the
+     * revision.
+     *
+     * <p>Not set for revisions that have been created before Gerrit started to compute and store
+     * the base for conflicts.
+     *
+     * <p>For patch sets that have been created after Gerrit started to compute and store the base
+     * for conflicts the base is guaranteed to be set if {@link #containsConflicts()} is {@code
+     * true}. If {@link #containsConflicts()} is {@code false}, the base is only set if the revision
+     * was created by Gerrit as a result of performing a Git merge.
+     */
+    public abstract Optional<ObjectId> base();
+
+    /**
      * The SHA1 of the commit that was used as {@code ours} for the Git merge that created the
      * revision.
      *
@@ -327,8 +341,11 @@ public abstract class PatchSet {
     public abstract boolean containsConflicts();
 
     public static Conflicts create(
-        Optional<ObjectId> ours, Optional<ObjectId> theirs, boolean containsConflicts) {
-      return new AutoValue_PatchSet_Conflicts(ours, theirs, containsConflicts);
+        Optional<ObjectId> base,
+        Optional<ObjectId> ours,
+        Optional<ObjectId> theirs,
+        boolean containsConflicts) {
+      return new AutoValue_PatchSet_Conflicts(base, ours, theirs, containsConflicts);
     }
   }
 }

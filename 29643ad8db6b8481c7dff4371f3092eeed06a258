@@ -52,6 +52,41 @@
       "parentUuid": "cbe7a21d_d2281b31",
       "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f579ef_d38e7304",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-03T10:19:50Z",
+      "side": 1,
+      "message": "In google3 we only have lite and loader. I recommend to do loader- it\u0027s already deployed - https://cdn.googlesource.com/polygerrit_ui/pg_20250702.00_p0/bower_components/webcomponentsjs/webcomponents-loader.js\n\nbut bundle doesn\u0027t work.",
+      "parentUuid": "9f0ad08e_5f68d660",
+      "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c05e721_827c56d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-03T10:19:50Z",
+      "side": 1,
+      "message": "Please submit this change to fix our build.",
+      "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

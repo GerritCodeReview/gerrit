@@ -46,6 +46,30 @@
       },
       "revId": "7d3f12d3f7d4fe070164ad296493d11bc9fa6ec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e7feca_94b87f27",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 8268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-03T09:14:02Z",
+      "side": 1,
+      "message": "Maybe we can actually throw the InvalidGitLinkException there. Let me have a look.",
+      "parentUuid": "f14d31bd_402e253f",
+      "range": {
+        "startLine": 8267,
+        "startChar": 60,
+        "endLine": 8268,
+        "endChar": 46
+      },
+      "revId": "7d3f12d3f7d4fe070164ad296493d11bc9fa6ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

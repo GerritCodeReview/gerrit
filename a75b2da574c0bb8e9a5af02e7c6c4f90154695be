@@ -34,6 +34,24 @@
       "parentUuid": "6f38f498_5c216796",
       "revId": "a75b2da574c0bb8e9a5af02e7c6c4f90154695be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63ecfc72_90974fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-03T16:30:17Z",
+      "side": 1,
+      "message": "I\u0027ll remove juniversalchardet from the other BUILD files and from tools/deps.bzl as Nasser said. The only usage was in Text.java",
+      "parentUuid": "302295e6_71f1a125",
+      "revId": "a75b2da574c0bb8e9a5af02e7c6c4f90154695be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

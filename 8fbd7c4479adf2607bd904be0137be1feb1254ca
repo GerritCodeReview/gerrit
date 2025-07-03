@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84964007_a8e53c0a",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-03T15:53:12Z",
+      "side": 0,
+      "message": "If this is the only usage of this lib, can you remove it from the other BUILD files and from `tools/deps.bzl`? I think that will address Dani\u0027s comment too.",
+      "revId": "8fbd7c4479adf2607bd904be0137be1feb1254ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

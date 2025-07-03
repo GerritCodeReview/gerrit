@@ -52,6 +52,8 @@ public class PatchSetProtoConverterTest {
                 Optional.of(
                     PatchSet.Conflicts.create(
                         Optional.of(
+                            ObjectId.fromString("76ce7b5cb6f176fb64d9e4406f83fe5d658e1136")),
+                        Optional.of(
                             ObjectId.fromString("fc5fcbe1cf0b3e4c203ff4cb77c3912208174695")),
                         Optional.of(
                             ObjectId.fromString("f72b99f6898debf8d1ceeffb92faa66bb5cb7a9f")),
@@ -77,6 +79,9 @@ public class PatchSetProtoConverterTest {
             .setBranch("refs/heads/master")
             .setConflicts(
                 Entities.Conflicts.newBuilder()
+                    .setBase(
+                        Entities.ObjectId.newBuilder()
+                            .setName("76ce7b5cb6f176fb64d9e4406f83fe5d658e1136"))
                     .setOurs(
                         Entities.ObjectId.newBuilder()
                             .setName("fc5fcbe1cf0b3e4c203ff4cb77c3912208174695"))
@@ -133,6 +138,8 @@ public class PatchSetProtoConverterTest {
             .conflicts(
                 Optional.of(
                     PatchSet.Conflicts.create(
+                        Optional.of(
+                            ObjectId.fromString("76ce7b5cb6f176fb64d9e4406f83fe5d658e1136")),
                         Optional.of(
                             ObjectId.fromString("fc5fcbe1cf0b3e4c203ff4cb77c3912208174695")),
                         Optional.of(

@@ -208,6 +208,7 @@ public class RevertIT extends AbstractDaemonTest {
 
     assertThat(revertChange.getCurrentRevision().conflicts).isNotNull();
     assertThat(revertChange.getCurrentRevision().conflicts.containsConflicts).isFalse();
+    assertThat(revertChange.getCurrentRevision().conflicts.base).isNull();
     assertThat(revertChange.getCurrentRevision().conflicts.ours).isNull();
     assertThat(revertChange.getCurrentRevision().conflicts.theirs).isNull();
   }
@@ -1016,6 +1017,7 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts).isNotNull();
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.containsConflicts)
         .isFalse();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.base).isNull();
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.ours).isNull();
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.theirs).isNull();
   }

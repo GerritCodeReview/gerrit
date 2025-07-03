@@ -328,7 +328,7 @@ public class MergeUtil {
     cherryPickCommit.setMessage(commitMsg);
     matchAuthorToCommitterDate(project, cherryPickCommit);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
-    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
+    commit.setConflicts(baseCommit, mergeTip, originalCommit, filesWithGitConflicts);
     logger.atFine().log("CherryPick commitId=%s", commit.name());
     return commit;
   }
@@ -484,7 +484,18 @@ public class MergeUtil {
 
     ObjectId tree;
     ImmutableSet<String> filesWithGitConflicts;
+    ObjectId baseCommitId;
     if (m.merge(false, mergeTip, originalCommit)) {
+      baseCommitId = m.getBaseCommitId();
+      if (baseCommitId == null) {
+        // baseCommitId is null if a two-way-merge strategy such as StrategyOneSided to accept
+        // theirs or ours has been used, to compute the base commit in this case redo the merge
+        // using a three-way-merge strategy that computes the base commit.
+        Merger threeWayMerger = newMerger(inserter, repoConfig, MergeStrategy.RESOLVE.getName());
+        threeWayMerger.merge(false, mergeTip, originalCommit);
+        baseCommitId = threeWayMerger.getBaseCommitId();
+      }
+
       filesWithGitConflicts = null;
       tree = m.getResultTreeId();
     } else {
@@ -528,6 +539,8 @@ public class MergeUtil {
       Map<String, MergeResult<? extends Sequence>> mergeResults =
           ((ResolveMerger) m).getMergeResults();
 
+      baseCommitId = m.getBaseCommitId();
+
       filesWithGitConflicts =
           mergeResults.entrySet().stream()
               .filter(e -> e.getValue().containsConflicts())
@@ -542,7 +555,7 @@ public class MergeUtil {
               "BASE",
               // base commit is null if the merged commits do not have a common predecessor
               // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
-              m.getBaseCommitId() != null ? rw.parseCommit(m.getBaseCommitId()) : null,
+              baseCommitId != null ? rw.parseCommit(baseCommitId) : null,
               "TARGET BRANCH",
               mergeTip,
               "SOURCE BRANCH",
@@ -558,7 +571,7 @@ public class MergeUtil {
     mergeCommit.setCommitter(committerIdent);
     mergeCommit.setMessage(commitMsg);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
-    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
+    commit.setConflicts(baseCommitId, mergeTip, originalCommit, filesWithGitConflicts);
     return commit;
   }
 

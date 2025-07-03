@@ -235,6 +235,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fa2722d_3fe4ca2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-03T14:15:24Z",
+      "side": 1,
+      "message": "Sorry, we didn\u0027t plan any work on this for Q3.",
+      "parentUuid": "309c63b7_6512d76d",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "acc92e95_1cf66119",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
         "patchSetId": 4

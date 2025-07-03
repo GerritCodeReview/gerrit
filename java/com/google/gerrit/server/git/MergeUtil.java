@@ -231,7 +231,8 @@ public class MergeUtil {
           InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
-    m.setBase(originalCommit.getParent(parentIndex));
+    RevCommit baseCommit = originalCommit.getParent(parentIndex);
+    m.setBase(baseCommit);
 
     DirCache dc = DirCache.newInCore();
     if (allowConflicts && m instanceof ResolveMerger) {
@@ -307,6 +308,8 @@ public class MergeUtil {
               rw,
               inserter,
               dc,
+              "BASE",
+              baseCommit,
               "HEAD",
               mergeTip,
               "CHANGE",
@@ -335,6 +338,8 @@ public class MergeUtil {
       RevWalk rw,
       ObjectInserter ins,
       DirCache dc,
+      String baseName,
+      @Nullable RevCommit base,
       String oursName,
       RevCommit ours,
       String theirsName,
@@ -347,7 +352,7 @@ public class MergeUtil {
     String oursMsg = ours.getShortMessage();
     String theirsMsg = theirs.getShortMessage();
 
-    int nameLength = Math.max(oursName.length(), theirsName.length());
+    int nameLength = Math.max(Math.max(oursName.length(), theirsName.length()), baseName.length());
     String oursNameFormatted =
         String.format(
             "%-" + nameLength + "s (%s %s)",
@@ -361,6 +366,18 @@ public class MergeUtil {
             theirs.getName(),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
+    String baseNameFormatted = String.format("%-" + nameLength + "s (no base available)", baseName);
+    if (base != null) {
+      rw.parseBody(base);
+      String baseMsg = base.getShortMessage();
+      baseNameFormatted =
+          String.format(
+              "%-" + nameLength + "s (%s %s)",
+              baseName,
+              base.getName(),
+              baseMsg.substring(0, Math.min(baseMsg.length(), 60)));
+    }
+
     MergeFormatter fmt = new MergeFormatter();
     Map<String, ObjectId> resolved = new HashMap<>();
     for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
@@ -370,9 +387,10 @@ public class MergeUtil {
         // TODO(dborowitz): Respect inCoreLimit here.
         buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
         if (diff3Format) {
-          fmt.formatMergeDiff3(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+          fmt.formatMergeDiff3(
+              buf, p, baseNameFormatted, oursNameFormatted, theirsNameFormatted, UTF_8);
         } else {
-          fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+          fmt.formatMerge(buf, p, baseNameFormatted, oursNameFormatted, theirsNameFormatted, UTF_8);
         }
         buf.close(); // Flush file and close for writes, but leave available for reading.
 
@@ -521,6 +539,10 @@ public class MergeUtil {
               rw,
               inserter,
               dc,
+              "BASE",
+              // base commit is null if the merged commits do not have a common predecessor
+              // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
+              m.getBaseCommitId() != null ? rw.parseCommit(m.getBaseCommitId()) : null,
               "TARGET BRANCH",
               mergeTip,
               "SOURCE BRANCH",

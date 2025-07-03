@@ -281,6 +281,10 @@ public class AutoMerger {
               rw,
               nonFlushingInserter,
               dc,
+              "BASE",
+              // base commit is null if the merged commits do not have a common predecessor
+              // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
+              m.getBaseCommitId() != null ? rw.parseCommit(m.getBaseCommitId()) : null,
               "HEAD",
               merge.getParent(0),
               "BRANCH",

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationInfoListener;
 import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import static com.google.gerrit.acceptance.TestExtensions.TestValidationOptionsListener;
@@ -54,6 +55,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -101,6 +103,8 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -110,7 +114,9 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Before;
 import org.junit.Test;
@@ -783,6 +789,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String targetBranch = "targetBranch";
     String targetSubject = "target change";
     String targetContent = "target content";
+
     ImmutableMap<String, Result> results =
         changeInTwoBranches(
             sourceBranch,
@@ -793,6 +800,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
             targetSubject,
             fileName,
             targetContent);
+    RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in =
         newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
     ChangeInfo change = assertCreateSucceedsWithConflicts(in);
@@ -824,7 +832,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 + ")\n"
                 + targetContent
                 + "\n"
-                + (useDiff3 ? "||||||| BASE\n" : "")
+                + (useDiff3
+                    ? String.format(
+                        "||||||| BASE          (%s %s)\n",
+                        baseCommit.getName(), baseCommit.getShortMessage())
+                    : "")
                 + "=======\n"
                 + sourceContent
                 + "\n"
@@ -836,6 +848,125 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    assertThat(messages).hasSize(1);
+    assertThat(Iterables.getOnlyElement(messages).message)
+        .isEqualTo(
+            "Uploaded patch set 1.\n\n"
+                + "The following files contain Git conflicts:\n"
+                + "* "
+                + fileName
+                + "\n");
+  }
+
+  @Test
+  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowed() throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(/* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingDiff3()
+      throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(/* useDiff3= */ true);
+  }
+
+  private void testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(boolean useDiff3)
+      throws Exception {
+    String fileName = "shared.txt";
+    String sourceBranch = "sourceBranch";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetBranch = "targetBranch";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+
+    Project.NameKey projectWithoutInitialCommit =
+        projectOperations.newProject().createEmptyCommit(false).create();
+
+    TestRepository<InMemoryRepository> testRepo =
+        cloneProject(projectWithoutInitialCommit, getCloneAsAccount(configRule.description()));
+
+    RevCommit initialCommitSource =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message(sourceSubject)
+                .insertChangeId()
+                .add(fileName, sourceContent)
+                .create());
+    testRepo.reset(initialCommitSource);
+    PushResult r = pushHead(testRepo, "refs/heads/" + sourceBranch);
+    assertThat(r.getRemoteUpdate("refs/heads/" + sourceBranch).getStatus()).isEqualTo(Status.OK);
+
+    RevCommit initialCommitTarget =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message(targetSubject)
+                .insertChangeId()
+                .add(fileName, targetContent)
+                .create());
+    testRepo.reset(initialCommitTarget);
+    r = pushHead(testRepo, "refs/heads/" + targetBranch);
+    assertThat(r.getRemoteUpdate("refs/heads/" + targetBranch).getStatus()).isEqualTo(Status.OK);
+
+    ChangeInput in =
+        newMergeChangeInput(
+            projectWithoutInitialCommit,
+            targetBranch,
+            sourceBranch,
+            "",
+            /* allowConflicts= */ true);
+    ChangeInfo change = assertCreateSucceedsWithConflicts(in);
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(initialCommitTarget.name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(initialCommitTarget.name());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(initialCommitSource.name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+
+    // Verify that the file content in the created change is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin =
+        gApi.changes()
+            .id(projectWithoutInitialCommit.get(), change._number)
+            .current()
+            .file(fileName)
+            .content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    assertThat(fileContent)
+        .isEqualTo(
+            "<<<<<<< TARGET BRANCH ("
+                + projectOperations
+                    .project(projectWithoutInitialCommit)
+                    .getHead(targetBranch)
+                    .getName()
+                + " "
+                + targetSubject
+                + ")\n"
+                + targetContent
+                + "\n"
+                + (useDiff3 ? "||||||| BASE          (no base available)\n" : "")
+                + "=======\n"
+                + sourceContent
+                + "\n"
+                + ">>>>>>> SOURCE BRANCH ("
+                + projectOperations
+                    .project(projectWithoutInitialCommit)
+                    .getHead(sourceBranch)
+                    .getName()
+                + " "
+                + sourceSubject
+                + ")\n");
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages =
+        gApi.changes().id(projectWithoutInitialCommit.get(), change._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message)
         .isEqualTo(
@@ -1677,14 +1808,24 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef, String strategy) {
-    return newMergeChangeInput(targetBranch, sourceRef, strategy, /* allowConflicts= */ false);
+    return newMergeChangeInput(
+        project, targetBranch, sourceRef, strategy, /* allowConflicts= */ false);
   }
 
   private ChangeInput newMergeChangeInput(
       String targetBranch, String sourceRef, String strategy, boolean allowConflicts) {
+    return newMergeChangeInput(project, targetBranch, sourceRef, strategy, allowConflicts);
+  }
+
+  private ChangeInput newMergeChangeInput(
+      Project.NameKey projectName,
+      String targetBranch,
+      String sourceRef,
+      String strategy,
+      boolean allowConflicts) {
     // create a merge change from branchA to master in gerrit
     ChangeInput in = new ChangeInput();
-    in.project = project.get();
+    in.project = projectName.get();
     in.branch = targetBranch;
     in.subject = "merge " + sourceRef + " to " + targetBranch;
     in.status = ChangeStatus.NEW;

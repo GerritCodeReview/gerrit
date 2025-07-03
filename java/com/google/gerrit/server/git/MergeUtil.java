@@ -231,7 +231,8 @@ public class MergeUtil {
           InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
-    m.setBase(originalCommit.getParent(parentIndex));
+    RevCommit baseCommit = originalCommit.getParent(parentIndex);
+    m.setBase(baseCommit);
 
     DirCache dc = DirCache.newInCore();
     if (allowConflicts && m instanceof ResolveMerger) {
@@ -307,6 +308,8 @@ public class MergeUtil {
               rw,
               inserter,
               dc,
+              "BASE",
+              baseCommit,
               "HEAD",
               mergeTip,
               "CHANGE",
@@ -335,6 +338,8 @@ public class MergeUtil {
       RevWalk rw,
       ObjectInserter ins,
       DirCache dc,
+      String baseName,
+      RevCommit base,
       String oursName,
       RevCommit ours,
       String theirsName,
@@ -342,12 +347,20 @@ public class MergeUtil {
       Map<String, MergeResult<? extends Sequence>> mergeResults,
       boolean diff3Format)
       throws IOException {
+    rw.parseBody(base);
     rw.parseBody(ours);
     rw.parseBody(theirs);
+    String baseMsg = base.getShortMessage();
     String oursMsg = ours.getShortMessage();
     String theirsMsg = theirs.getShortMessage();
 
-    int nameLength = Math.max(oursName.length(), theirsName.length());
+    int nameLength = Math.max(Math.max(oursName.length(), theirsName.length()), baseName.length());
+    String baseNameFormatted =
+        String.format(
+            "%-" + nameLength + "s (%s %s)",
+            baseName,
+            base.getName(),
+            baseMsg.substring(0, Math.min(baseMsg.length(), 60)));
     String oursNameFormatted =
         String.format(
             "%-" + nameLength + "s (%s %s)",
@@ -370,9 +383,10 @@ public class MergeUtil {
         // TODO(dborowitz): Respect inCoreLimit here.
         buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
         if (diff3Format) {
-          fmt.formatMergeDiff3(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+          fmt.formatMergeDiff3(
+              buf, p, baseNameFormatted, oursNameFormatted, theirsNameFormatted, UTF_8);
         } else {
-          fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+          fmt.formatMerge(buf, p, baseNameFormatted, oursNameFormatted, theirsNameFormatted, UTF_8);
         }
         buf.close(); // Flush file and close for writes, but leave available for reading.
 
@@ -521,6 +535,8 @@ public class MergeUtil {
               rw,
               inserter,
               dc,
+              "BASE",
+              rw.parseCommit(m.getBaseCommitId()),
               "TARGET BRANCH",
               mergeTip,
               "SOURCE BRANCH",

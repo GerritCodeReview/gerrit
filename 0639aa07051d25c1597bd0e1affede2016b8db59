@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0118d837_d70c8368",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-03T11:27:09Z",
+      "side": 1,
+      "message": "Plugins can decode this from the GerritInfo.gerrit_instance_id",
+      "revId": "0639aa07051d25c1597bd0e1affede2016b8db59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

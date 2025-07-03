@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f38f498_5c216796",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-07-03T15:45:52Z",
+      "side": 1,
+      "message": "What has the licence removal got to do with anything?",
+      "revId": "a75b2da574c0bb8e9a5af02e7c6c4f90154695be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

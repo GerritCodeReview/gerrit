@@ -177,6 +177,8 @@ public class CommitIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickWithoutConflicts() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
     String destBranch = "foo";
     createBranch(BranchNameKey.create(project, destBranch));
 
@@ -203,6 +205,7 @@ public class CommitIT extends AbstractDaemonTest {
             .getCurrentRevision();
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
@@ -391,6 +394,7 @@ public class CommitIT extends AbstractDaemonTest {
             .getCurrentRevision();
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
@@ -495,6 +499,7 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.name());
     assertThat(currentRevision.conflicts.ours).isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(srcChange.getCommit().name());
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();

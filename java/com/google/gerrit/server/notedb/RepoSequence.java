@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static autovalue.shaded.com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS;
 import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
@@ -187,6 +188,7 @@ public class RepoSequence implements Sequence {
 
   private int limit;
   private int counter;
+  private Integer lastStoredSequence;
 
   @VisibleForTesting int acquireCount;
 
@@ -341,9 +343,10 @@ public class RepoSequence implements Sequence {
           next = blob.get().value();
         }
         next = Math.max(floor, next);
-        RefUpdate refUpdate =
-            IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
-        RefUpdateUtil.checkResult(refUpdate);
+
+        checkIsIncremental(next + count);
+        store(repo, rw, oldId, next + count);
+
         counter = next;
         limit = counter + count;
         acquireCount++;
@@ -355,6 +358,7 @@ public class RepoSequence implements Sequence {
 
   @Override
   public void storeNew(int value) {
+    checkIsIncremental(value);
     counterLock.lock();
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
@@ -366,9 +370,9 @@ public class RepoSequence implements Sequence {
       } else {
         oldId = blob.get().id();
       }
-      RefUpdate refUpdate =
-          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value + batchSize, gitRefUpdated);
-      RefUpdateUtil.checkResult(refUpdate);
+
+      store(repo, rw, oldId, value + batchSize);
+
       counter = value;
       limit = counter + batchSize;
       acquireCount++;
@@ -428,6 +432,24 @@ public class RepoSequence implements Sequence {
       } catch (IOException e) {
         throw new StorageException(e);
       }
+    }
+  }
+
+  private void store(Repository repo, RevWalk rw, ObjectId oldId, int value) throws IOException {
+    RefUpdate refUpdate =
+        IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
+    RefUpdateUtil.checkResult(refUpdate);
+    lastStoredSequence = value;
+  }
+
+  private void checkIsIncremental(int value) {
+    if (lastStoredSequence != null) {
+      checkState(
+          value > lastStoredSequence,
+          String.format(
+              "For %s, expected new sequence value %d to be greater than previously stored value"
+                  + " %d",
+              refName, value, lastStoredSequence));
     }
   }
 }

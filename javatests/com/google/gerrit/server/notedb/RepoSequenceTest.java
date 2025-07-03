@@ -358,6 +358,42 @@ public class RepoSequenceTest {
     assertThat(s2.acquireCount).isEqualTo(1);
   }
 
+  @Test
+  public void failOnNonIncrementingSequence() throws Exception {
+    RepoSequence s = newSequence("id", 10, 1);
+    assertThat(s.next()).isEqualTo(10);
+    writeBlob("id", "5");
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new sequence value 6 to be greater than previously"
+                + " stored value 11");
+  }
+
+  @Test
+  public void failOnNonIncrementingSequenceWithReadAfterRef() throws Exception {
+    writeBlob("id", "10");
+    AtomicBoolean doUpdate = new AtomicBoolean(false);
+    Runnable bgUpdate =
+        () -> {
+          if (doUpdate.get()) {
+            writeBlob("id", "5");
+            doUpdate.set(false);
+          }
+        };
+
+    RepoSequence s = newSequence("id", 10, 1, bgUpdate, RETRYER);
+    assertThat(s.next()).isEqualTo(10);
+    doUpdate.set(true);
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new sequence value 6 to be greater than previously"
+                + " stored value 11");
+  }
+
   private RepoSequence newSequence(String name, int start, int batchSize) {
     return newSequence(name, start, batchSize, Runnables.doNothing(), RETRYER);
   }

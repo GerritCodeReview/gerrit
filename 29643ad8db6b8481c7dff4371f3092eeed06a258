@@ -87,6 +87,24 @@
       "message": "Please submit this change to fix our build.",
       "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "923d2d9e_4c6e91fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-03T10:23:50Z",
+      "side": 1,
+      "message": "I’ve reopened the change.",
+      "parentUuid": "3c05e721_827c56d2",
+      "revId": "29643ad8db6b8481c7dff4371f3092eeed06a258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

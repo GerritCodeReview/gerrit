@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2047adda_924c9be7",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-03T10:23:50Z",
+      "side": 1,
+      "message": "@milutin@google.com I’m not sure if I’ve done this correctly (the bit by bundles).",
+      "revId": "cba6234536d104534a0bbc457b43e09f92d46580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

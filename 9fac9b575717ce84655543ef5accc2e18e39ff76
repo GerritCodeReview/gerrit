@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0926debb_fa69ddcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-03T12:23:19Z",
+      "side": 1,
+      "message": "Bump @milutin@google.com :). It should have fixed your issue. If not could you take a pic?",
+      "revId": "9fac9b575717ce84655543ef5accc2e18e39ff76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,22 +38,17 @@ public class AvatarInfo {
   /** The height of the avatar image in pixels. */
   public Integer height;
 
-  /** The width of the avatar image in pixels. */
-  public Integer width;
-
   @Override
   public boolean equals(Object o) {
     if (o instanceof AvatarInfo) {
       AvatarInfo avatarInfo = (AvatarInfo) o;
-      return Objects.equals(url, avatarInfo.url)
-          && Objects.equals(height, avatarInfo.height)
-          && Objects.equals(width, avatarInfo.width);
+      return Objects.equals(url, avatarInfo.url) && Objects.equals(height, avatarInfo.height);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(url, height, width);
+    return Objects.hash(url, height);
   }
 }

@@ -33,7 +33,6 @@ suite('gr-avatar tests', () => {
             {
               url: `https://a.b.c/photo${i}.jpg`,
               height: 32,
-              width: 32,
             },
           ],
         });
@@ -45,7 +44,6 @@ suite('gr-avatar tests', () => {
             // Account with duplicate avatar will be skipped.
             url: 'https://a.b.c/photo1.jpg',
             height: 32,
-            width: 32,
           },
         ],
       });
@@ -92,7 +90,6 @@ suite('gr-avatar tests', () => {
             {
               url: `https://a.b.c/photo${i}.jpg`,
               height: 32,
-              width: 32,
             },
           ],
         });
@@ -104,7 +101,6 @@ suite('gr-avatar tests', () => {
             // Account with duplicate avatar will be skipped.
             url: 'https://a.b.c/photo1.jpg',
             height: 32,
-            width: 32,
           },
         ],
       });
@@ -152,7 +148,6 @@ suite('gr-avatar tests', () => {
           {
             url: 'https://a.b.c/photo0.jpg',
             height: 32,
-            width: 32,
           },
         ],
         registered_on: '1234' as Timestamp,
@@ -217,7 +212,6 @@ suite('gr-avatar tests', () => {
             {
               url: `https://a.b.c/photo${i}.jpg`,
               height: 32,
-              width: 32,
             },
           ],
         });

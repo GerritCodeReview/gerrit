@@ -21,7 +21,6 @@ suite('gr-avatar tests', () => {
     {
       url: 'https://cdn.example.com/s12-p/photo.jpg',
       height: 12,
-      width: 0,
     },
   ];
 
@@ -149,17 +148,14 @@ suite('gr-avatar tests', () => {
           {
             url: 'https://cdn.example.com/s12-p/photo.jpg',
             height: 12,
-            width: 0,
           },
           {
             url: 'https://cdn.example.com/s16-p/photo.jpg',
             height: 16,
-            width: 0,
           },
           {
             url: 'https://cdn.example.com/s100-p/photo.jpg',
             height: 100,
-            width: 0,
           },
         ],
       };
@@ -181,7 +177,6 @@ suite('gr-avatar tests', () => {
           {
             url: 'https://cdn.example.com/s95-p/photo.jpg',
             height: 95,
-            width: 0,
           },
         ],
       };

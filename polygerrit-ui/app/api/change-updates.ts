@@ -23,11 +23,12 @@ export declare interface ChangeUpdatesPublisher {
   /**
    * Subcribers can use this method to add a callback that will be triggered when updates to the change happen.
    *
+   * @param host Host containing the change
    * @param repo Repository containing the change.
    * @param change The change number of the change for which update events are published.
    * @param callback The callback to be called when the change is updated.
    */
-  subscribe(repo: string, change: number, callback: () => void): void;
+  subscribe(host: string, repo: string, change: number, callback: () => void): void;
   /**
    * Remove existing callbacks. Does nothing if no subscriber was added.
    */

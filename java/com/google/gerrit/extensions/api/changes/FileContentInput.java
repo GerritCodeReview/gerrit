@@ -20,6 +20,25 @@ import com.google.gerrit.extensions.restapi.RawInput;
 /** Content to be added to a file (new or existing) via change edit. */
 public class FileContentInput {
   @DefaultInput public RawInput content;
-  public String binary_content;
+
+  /**
+   * The file content as a base-64 encoded data URI.
+   *
+   * <p>If no content is provided, an empty is created or if an existing file is updated the file
+   * content is removed so that the file becomes empty.
+   *
+   * <p>The content must be a SHA1 if the file mode is {@code 160000} (gitlink).
+   */
+  public String binaryContent;
+
+  /**
+   * The file mode in octal format.
+   *
+   * <p>Supported values are {@code 100644} (regular file), {@code 100755} (executable file), {@code
+   * 120000} (symlink) and {@code 160000} (gitlink).
+   *
+   * <p>If unset, new files are created with file mode {@code 100644} (regular file) and for
+   * existing files the existing file mode is kept.
+   */
   public Integer fileMode;
 }

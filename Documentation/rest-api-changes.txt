@@ -3270,7 +3270,8 @@ new change edit commit; otherwise, the user's preferred email will be used.
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
 ----
 
-To upload a file as binary data in the request body:
+To upload a file as binary data a link:#file-content-input[FileContentInput]
+entity can be specified in the request body:
 
 .Request
 ----
@@ -3283,17 +3284,10 @@ To upload a file as binary data in the request body:
   }
 ----
 
-Note that it must be base-64 encoded data uri.
+When a change edit doesn't exist for this change yet it is created
+automatically.
 
-The "file_mode" field is optional, and if provided must be in octal format. The field
-indicates whether the file is executable or not and has a value of either 100755
-(executable) or 100644 (not executable). If it's unset, this indicates no change
-has been made. New files default to not being executable if this parameter is not
-provided
-
-When change edit doesn't exist for this change yet it is created. When file
-content isn't provided, it is wiped out for that file. As response
-"`204 No Content`" is returned.
+As response "`204 No Content`" is returned:
 
 .Response
 ----
@@ -8259,6 +8253,24 @@ The download commands for this patch set as a map that maps the command
 names to the commands. +
 Only set if link:#download-commands[download commands] are requested.
 |==========================
+
+[[file-content-input]]
+=== FileContentInput
+The `FileContentInput` entity contains information for creating/updating a file
+in a change edit.
+
+[options="header",cols="1,^1,5"]
+|==============================
+|Field Name       ||Description
+|`binary_content` |optional|The file content as a base-64 encoded data URI. If
+no content is provided, an empty is created or if an existing file is updated
+the file content is removed so that the file becomes empty. The content must be
+a SHA1 if the file mode is `160000` (gitlink).
+|`file_mode`      |optional|The file mode in octal format. Supported values are
+`100644` (regular file), `100755` (executable file), `120000` (symlink) and
+`160000` (gitlink).  If unset, new files are created with file mode `100644`
+(regular file) and for existing files the existing file mode is kept.
+|==============================
 
 [[file-info]]
 === FileInfo

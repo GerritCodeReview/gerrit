@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
-import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -337,22 +335,12 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Nullable
-    private Integer decimalAsOctal(Integer inputMode) throws BadRequestException {
+    private Integer octalAsDecimal(Integer inputMode) {
       if (inputMode == null) {
         return null;
       }
 
-      switch (inputMode) {
-        case 100755 -> {
-          return EXECUTABLE_FILE.getMode();
-        }
-        case 100644 -> {
-          return REGULAR_FILE.getMode();
-        }
-      }
-
-      throw new BadRequestException(
-          "file_mode (" + inputMode + ") was invalid: supported values are 100644 or 100755.");
+      return Integer.parseInt(Integer.toString(inputMode), 8);
     }
 
     public Response<Object> apply(
@@ -363,13 +351,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
             IOException,
             PermissionBackendException {
 
-      if (fileContentInput.content == null && fileContentInput.binary_content == null) {
+      if (fileContentInput.content == null && fileContentInput.binaryContent == null) {
         throw new BadRequestException("either content or binary_content is required");
       }
 
       RawInput newContent;
-      if (fileContentInput.binary_content != null) {
-        Matcher m = BINARY_DATA_PATTERN.matcher(fileContentInput.binary_content);
+      if (fileContentInput.binaryContent != null) {
+        Matcher m = BINARY_DATA_PATTERN.matcher(fileContentInput.binaryContent);
         if (m.matches() && BASE64.equals(m.group(2))) {
           newContent = RawInputUtil.create(Base64.decode(m.group(3)));
         } else {
@@ -379,7 +367,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         newContent = fileContentInput.content;
       }
 
-      if (Patch.COMMIT_MSG.equals(path) && fileContentInput.binary_content == null) {
+      if (Patch.COMMIT_MSG.equals(path) && fileContentInput.binaryContent == null) {
         EditMessage.Input editMessageInput = new EditMessage.Input();
         editMessageInput.message =
             new String(ByteStreams.toByteArray(newContent.getInputStream()), UTF_8);
@@ -396,7 +384,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
             rsrc.getNotes(),
             path,
             newContent,
-            decimalAsOctal(fileContentInput.fileMode));
+            octalAsDecimal(fileContentInput.fileMode));
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

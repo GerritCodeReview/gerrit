@@ -15,7 +15,9 @@
 package com.google.gerrit.server.edit.tree;
 
 import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
+import static com.google.gerrit.entities.Patch.FileMode.GITLINK;
 import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
+import static com.google.gerrit.entities.Patch.FileMode.SYMLINK;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -31,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -74,7 +77,7 @@ public class ChangeFileContentModification implements TreeModification {
 
   /** A {@code PathEdit} which changes the contents of a file. */
   private static class ChangeContent extends DirCacheEditor.PathEdit {
-
+    private final String filePath;
     private final RawInput newContent;
     private final Repository repository;
     private final Integer newGitFileMode;
@@ -85,13 +88,17 @@ public class ChangeFileContentModification implements TreeModification {
         Repository repository,
         @Nullable Integer newGitFileMode) {
       super(filePath);
+      this.filePath = filePath;
       this.newContent = newContent;
       this.repository = repository;
       this.newGitFileMode = newGitFileMode;
     }
 
     private boolean isValidGitFileMode(int gitFileMode) {
-      return (gitFileMode == EXECUTABLE_FILE.getMode()) || (gitFileMode == REGULAR_FILE.getMode());
+      return gitFileMode == EXECUTABLE_FILE.getMode()
+          || gitFileMode == REGULAR_FILE.getMode()
+          || gitFileMode == GITLINK.getMode()
+          || gitFileMode == SYMLINK.getMode();
     }
 
     @Override
@@ -99,15 +106,24 @@ public class ChangeFileContentModification implements TreeModification {
       try {
         if (newGitFileMode != null && newGitFileMode != 0) {
           if (!isValidGitFileMode(newGitFileMode)) {
-            throw new IllegalStateException("GitFileMode " + newGitFileMode + " is invalid");
+            throw new InvalidFileModeException(
+                String.format("GitFileMode %s is invalid", newGitFileMode), newGitFileMode);
           }
-          dirCacheEntry.setFileMode(FileMode.fromBits(newGitFileMode));
+
+          FileMode fileMode = FileMode.fromBits(newGitFileMode);
+          dirCacheEntry.setFileMode(fileMode);
         }
         if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
           dirCacheEntry.setLength(0);
           dirCacheEntry.setLastModified(Instant.EPOCH);
-          ObjectId newObjectId = ObjectId.fromString(getNewContentBytes(), 0);
-          dirCacheEntry.setObjectId(newObjectId);
+
+          try {
+            ObjectId newObjectId = ObjectId.fromString(getNewContentBytes(), 0);
+            dirCacheEntry.setObjectId(newObjectId);
+          } catch (InvalidObjectIdException e) {
+            throw new InvalidGitLinkException(
+                String.format("The content for gitlink '%s' must be a valid SHA1.", filePath), e);
+          }
         } else {
           if (dirCacheEntry.getRawMode() == 0) {
             dirCacheEntry.setFileMode(FileMode.REGULAR_FILE);

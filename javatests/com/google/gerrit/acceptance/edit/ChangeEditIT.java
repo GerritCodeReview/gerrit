@@ -48,6 +48,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -88,6 +89,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -108,7 +110,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME2 = "foo2";
   private static final String FILE_NAME3 = "foo3";
   private static final String FILE_NAME4 = "foo4";
-  private static final int FILE_MODE = 100644;
   private static final String CONTENT_OLD_STR = "bar";
   private static final byte[] CONTENT_OLD = CONTENT_OLD_STR.getBytes(UTF_8);
   private static final String CONTENT_NEW_STR = "baz";
@@ -1216,21 +1217,148 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void changeEditModifyFileModeRest() throws Exception {
-    createEmptyEditFor(changeId);
+  public void changeEditNewFileIsCreatedAsRegularFileIfFileModeIsNotSet() throws Exception {
+    String fileName = "new.txt";
+
     FileContentInput in = new FileContentInput();
-    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
-    in.fileMode = FILE_MODE;
-    adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW;
+    gApi.changes().id(changeId).edit().modifyFile(fileName, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, fileName), CONTENT_BINARY_DECODED_NEW);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(fileName).newMode;
+    assertThat(mode).isEqualTo(FileMode.REGULAR_FILE.getMode());
+  }
+
+  @Test
+  public void changeEditModifyingFileDoesNotUpdateFileModeIfFileModeIsNotSet() throws Exception {
+    FileContentInput in = new FileContentInput();
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW;
+    in.fileMode = FileMode.EXECUTABLE_FILE.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in);
+
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
+
+    // Update the file content without setting the file mode:
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW2;
+    in.fileMode = null;
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW2);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
+    assertThat(mode).isEqualTo(FileMode.EXECUTABLE_FILE.getMode());
+  }
+
+  @Test
+  public void changeEditModifyFileMode() throws Exception {
+    int mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
+    assertThat(mode).isEqualTo(FileMode.REGULAR_FILE.getMode());
+
+    FileContentInput in = new FileContentInput();
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW;
+    in.fileMode = FileMode.EXECUTABLE_FILE.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
+
+    // Publish the change edit so that we can assert the new file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    mode = gApi.changes().id(changeId).get().getCurrentRevision().files.get(FILE_NAME).newMode;
+    assertThat(mode).isEqualTo(FileMode.EXECUTABLE_FILE.getMode());
+  }
+
+  @Test
+  public void changeEditCreateGitLink() throws Exception {
+    String gitlinkFileName = "foo/bar";
+    byte[] gitlinkContent = "7bcbf0ae382f9a20f96563b6af2c0e6fff20a22f".getBytes(UTF_8);
+
+    FileContentInput in = new FileContentInput();
+    in.binaryContent =
+        "data:text/plain;base64," + Base64.getEncoder().encodeToString(gitlinkContent);
+    in.fileMode = FileMode.GITLINK.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(gitlinkFileName, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, gitlinkFileName), gitlinkContent);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode =
+        gApi.changes().id(changeId).get().getCurrentRevision().files.get(gitlinkFileName).newMode;
+    assertThat(mode).isEqualTo(FileMode.GITLINK.getMode());
+  }
+
+  @Test
+  public void changeEditCreateSymLink() throws Exception {
+    String symlinkFileName = "foo/bar";
+    byte[] symlinkContent = "path/to/target".getBytes(UTF_8);
+
+    FileContentInput in = new FileContentInput();
+    in.binaryContent =
+        "data:text/plain;base64," + Base64.getEncoder().encodeToString(symlinkContent);
+    in.fileMode = FileMode.SYMLINK.getModeAsOctal();
+    gApi.changes().id(changeId).edit().modifyFile(symlinkFileName, in);
+
+    ensureSameBytes(getFileContentOfEdit(changeId, symlinkFileName), symlinkContent);
+
+    // Publish the change edit so that we can assert the file mode.
+    gApi.changes().id(changeId).edit().publish(new PublishChangeEditInput());
+
+    int mode =
+        gApi.changes().id(changeId).get().getCurrentRevision().files.get(symlinkFileName).newMode;
+    assertThat(mode).isEqualTo(FileMode.SYMLINK.getMode());
+  }
+
+  @Test
+  public void changeEditCreateGitLink_invalidContentIsRejected() throws Exception {
+    String gitlinkFileName = "foo/bar";
+    byte[] invalidGitlinkContent = "not a SHA1".getBytes(UTF_8);
+
+    FileContentInput in = new FileContentInput();
+    in.binaryContent =
+        "data:text/plain;base64," + Base64.getEncoder().encodeToString(invalidGitlinkContent);
+    in.fileMode = FileMode.GITLINK.getModeAsOctal();
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).edit().modifyFile(gitlinkFileName, in));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format("The content for gitlink '%s' must be a valid SHA1.", gitlinkFileName));
+  }
+
+  @Test
+  public void changeEditModifyFileMode_invalidFileModeIsRejected() throws Exception {
+    FileContentInput in = new FileContentInput();
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW;
+    in.fileMode = 16;
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, in));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "file mode %s is invalid: supported values are 100644 (regular file), 100755"
+                    + " (executable file), 120000 (symlink) and 160000 (gitlink)",
+                in.fileMode));
   }
 
   @Test
   public void changeEditModifyFileSetEmptyContentModeRest() throws Exception {
     createEmptyEditFor(changeId);
     FileContentInput in = new FileContentInput();
-    in.binary_content = CONTENT_BINARY_ENCODED_EMPTY;
-    in.fileMode = FILE_MODE;
+    in.binaryContent = CONTENT_BINARY_ENCODED_EMPTY;
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), "".getBytes(UTF_8));
   }
@@ -1238,10 +1366,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void createAndUploadBinaryInChangeEditOneRequestRest() throws Exception {
     FileContentInput in = new FileContentInput();
-    in.binary_content = CONTENT_BINARY_ENCODED_NEW;
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW;
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW);
-    in.binary_content = CONTENT_BINARY_ENCODED_NEW2;
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW2;
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_BINARY_DECODED_NEW2);
   }
@@ -1249,7 +1377,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void invalidBase64UploadBinaryInChangeEditOneRequestRest() throws Exception {
     FileContentInput in = new FileContentInput();
-    in.binary_content = CONTENT_BINARY_ENCODED_NEW3;
+    in.binaryContent = CONTENT_BINARY_ENCODED_NEW3;
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertBadRequest();
   }
 
@@ -1258,7 +1386,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
 
     FileContentInput in = new FileContentInput();
-    in.binary_content = null;
+    in.binaryContent = null;
     adminRestSession.put(urlEditFile(changeId, FILE_NAME), in).assertBadRequest();
   }
 

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "717acc66_8de35e57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-04T06:40:41Z",
+      "side": 1,
+      "message": "Do we already have tests that check that getting the change info of changes with merge commits works if the auto merge is missing? What\u0027s the behaviour in the UI when there is no auto merger (does it mean that the comparison against the Auto-Merge is not present but everything else works)?",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1698f04a_072fceb1",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 1

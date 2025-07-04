@@ -108,6 +108,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc523bc_e49c7b1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-04T12:06:19Z",
+      "side": 1,
+      "message": "Interesting... With stable-3.11 it works as expected, both in push and when comparing against Auto Merge. I\u0027ll try to bisect.",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1698f04a_072fceb1",

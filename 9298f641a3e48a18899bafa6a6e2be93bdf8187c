@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9c1bff8_4236c94c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-04T08:03:48Z",
+      "side": 1,
+      "message": "I agree. I\u0027ll try to suppress the message, at least when comparing against the specified parents. I\u0027ll first need to reproduce it locally.\n\nAs for the branch - I do need it in 3.10, but I\u0027m fine maintaining it as a patch for the time being.\n\nThat said, I think a \"bad UI experience\" is still much better than an \"internal server error\" on push.",
+      "parentUuid": "0d71f85b_bc6493a2",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1698f04a_072fceb1",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 1

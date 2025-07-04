@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1424e6a3_c49cc048",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:23:29Z",
+      "side": 1,
+      "message": "```suggestion\ndirectly in notedb. However, note that the tokens will\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "82804859d1a4016ba44d677ce0e507a7506cc7a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

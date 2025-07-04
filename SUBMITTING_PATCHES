@@ -53,6 +53,12 @@ In order to contribute to Gerrit a Contributor License Agreement (CLA)
 must be completed before contributions are accepted, see
 https://gerrit-review.googlesource.com/Documentation/dev-cla.html.
 
+All submissions to Google Open Source projects need to follow Google’s
+Contributor License Agreement (CLA), in which contributors agree that
+their contribution is an original work of authorship. This doesn’t
+prohibit the use of coding assistance tools, but what’s submitted does
+need to be a contributor’s original creation.
+
 
 (3) Sending your patches.
 

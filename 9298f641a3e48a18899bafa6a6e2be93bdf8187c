@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5616e46b_6541da8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-04T11:52:34Z",
+      "side": 1,
+      "message": "Ok, I\u0027m able to reproduce now.\n\nThere are several missing parts when pushing such a change. Showing the change list yields a (handled but extensively logged) exception on the server, and opening the change shows a popup.\n\nI\u0027ll try to improve it, but I\u0027m no longer sure it will fit for the stable branch.\n\nNot sure if I\u0027ll complete it today.",
+      "parentUuid": "c885119b_89b0a8c1",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1698f04a_072fceb1",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 1
@@ -115,6 +133,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c38dc121_3ce2c8fd",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-04T11:52:34Z",
+      "side": 1,
+      "message": "You\u0027re right:\n\n```\n[2025-07-04T11:41:15.873+03:00] [ReceiveCommits-1[receive-commits]-for-HTTP POST /review/a/Project/git-receive-pack (orgads from 10.33.5.130)] WARN  com.google.gerrit.server.patch.AutoMerger : Cannot create auto-merge commit for merge commit 8d1b81d3a9e55aa907d379190eb01b5226b9442e: No merge base could be determined. Reason\u003dCONFLICTS_DURING_MERGE_BASE_CALCULATION. Multiple common ancestors were found and merging them resulted in a conflict: 48899fbba4f49da6d8453014ab7a802f55c4dd22, 1281c421c1871cadf46fb864aa47e22367ddf2f6 [CONTEXT RECEIVE_ID\u003d\"Project-1751618464074-8ba842e3\" project\u003d\"Project\" request\u003d\"GIT_RECEIVE\" ]\n[2025-07-04T11:41:15.873+03:00] [ReceiveCommits-1[receive-commits]-for-HTTP POST /review/a/Project/git-receive-pack (orgads from 10.33.5.130)] WARN  com.google.gerrit.server.patch.AutoMerger : Cannot create auto-merge commit for merge commit 8d1b81d3a9e55aa907d379190eb01b5226b9442e due to complex merge history: No merge base could be determined. Reason\u003dCONFLICTS_DURING_MERGE_BASE_CALCULATION. Multiple common ancestors were found and merging them resulted in a conflict: 48899fbba4f49da6d8453014ab7a802f55c4dd22, 1281c421c1871cadf46fb864aa47e22367ddf2f6. Auto-merge commit creation will be skipped. [CONTEXT RECEIVE_ID\u003d\"Project-1751618464074-8ba842e3\" project\u003d\"Project\" request\u003d\"GIT_RECEIVE\" ]\n```",
+      "parentUuid": "1698f04a_072fceb1",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 64
+      },
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84e4ab05_fc46e636",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 1
@@ -126,6 +168,24 @@
       "writtenOn": "2025-07-03T15:34:21Z",
       "side": 1,
       "message": "Does the message from JGit indicate the \"complex merge history\" you mention in your commit message?",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08e6c081_d476cef8",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-04T11:52:34Z",
+      "side": 1,
+      "message": "Yes, see above.",
+      "parentUuid": "84e4ab05_fc46e636",
       "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

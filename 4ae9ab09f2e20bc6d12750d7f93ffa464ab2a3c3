@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e7e44ce_98ff5f9f",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "```suggestion\nThese authentication tokens are stored in the user branch in the `tokens.config` file.\n```",
+      "range": {
+        "startLine": 266,
+        "startChar": 65,
+        "endLine": 266,
+        "endChar": 80
+      },
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86878482_776c1efc",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "```suggestion\nThe token is never stored in plain text. Only the serialized hash of the token will\nbe stored which can be used to verify the token during authentication.\n```",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 74
+      },
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ad06c1_63e15348",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "```suggestion\nWhen a token is deleted, the respective subsection is removed from the\n```",
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b58bde7_f8472a49",
+        "filename": "Documentation/dev-rest-api.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "```suggestion\nIn both cases, the password should be one of the user\u0027s link:user-upload.html#http[authentication tokens].\n```",
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dfb883c_2b4dd4ca",
+        "filename": "java/com/google/gerrit/server/account/AuthToken.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "document which characters can be used for token-ids ?",
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34123c4f_bc7eeda9",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "```suggestion\n   * @return whether there is a token hash stored for the account that matches the provided token.\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 32,
+        "endLine": 39,
+        "endChar": 37
+      },
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14377e1a_57ac980c",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "the file is named `tokens.config`",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 10
+      },
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c373927f_b56f40f7",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "```suggestion\n * \u003cp\u003eThe `tokens\u0027 files store authentication tokens of the user. The file uses the git config\n```",
+      "range": {
+        "startLine": 41,
+        "startChar": 25,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1182d2f3_60b6ded7",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateToken.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-04T15:19:46Z",
+      "side": 1,
+      "message": "Why SHA1PRNG ?\nWhy don\u0027t you use [SecureRandom.getInstanceStrong()](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/SecureRandom.html#getInstanceStrong()) ?",
+      "range": {
+        "startLine": 70,
+        "startChar": 38,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "4ae9ab09f2e20bc6d12750d7f93ffa464ab2a3c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

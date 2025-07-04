@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f7cf842_b595b700",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-04T07:56:47Z",
+      "side": 1,
+      "message": "The UI pops an error message:\n```\nError 409 (Conflict): Cannot create auto merge commit: Failed to evaluate the parent/base commit for commit AnyObjectId[35a5d5...]\n```\n\nIt pops it even when I choose Parent 1 or Parent 2 as base (but the files are shown correctly).\n\nWhen Auto Merge is selected, the file list is empty.\n\nApart from that, it works as expected. The change can be approved and submitted.\n\nI\u0027m trying to reproduce it on my test server, so it will be easier to answer your questions and have quick iterations.",
+      "parentUuid": "717acc66_8de35e57",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1698f04a_072fceb1",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 1

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d71f85b_bc6493a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-04T07:58:59Z",
+      "side": 1,
+      "message": "Thanks much for checking.\n\nThis doesn\u0027t sounds like a nice user experience. If we want to support criss-cross merges I think we need to handle this better.\n\nMaybe this means that this is not something that should be done in a stable branch?",
+      "parentUuid": "0f7cf842_b595b700",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1698f04a_072fceb1",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 1

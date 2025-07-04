@@ -49,6 +49,10 @@ changes under the license covering each file *prior* to submitting
 your patch.  It is virtually impossible to remove a patch once it
 has been applied and pushed out.
 
+In order to contribute to Gerrit a Contributor License Agreement (CLA)
+must be completed before contributions are accepted, see
+https://gerrit-review.googlesource.com/Documentation/dev-cla.html.
+
 
 (3) Sending your patches.
 

@@ -495,14 +495,13 @@ export class GrMainHeader extends LitElement {
             padding: 12px;
             z-index: 200;
           }
-          .cover {
+          .modelBackground {
             background: rgba(0, 0, 0, 0.5);
             position: absolute;
             height: 100%;
-            inset: 0;
             overflow: none;
             z-index: 199;
-            margin-top: 53px;
+            width: 100%;
           }
           .hideOnDesktop {
             display: block;
@@ -725,7 +724,12 @@ export class GrMainHeader extends LitElement {
           </md-list>
         </div>
       </nav>
-      <div class="modelBackground" @click=${() => this.handleSidebar()}></div>
+      ${this.hamburgerClose
+        ? html`<div
+            class="modelBackground"
+            @click=${() => this.handleSidebar()}
+          ></div>`
+        : nothing}
     `;
   }
 
@@ -1031,7 +1035,7 @@ export class GrMainHeader extends LitElement {
 
   private handleSidebar() {
     this.navSidebar?.classList.toggle('visible');
-    if (!this.modelBackground?.classList.contains('cover')) {
+    if (!this.modelBackground) {
       if (document.getElementsByTagName('html')) {
         document.getElementsByTagName('html')[0].style.overflow = 'hidden';
       }
@@ -1040,7 +1044,6 @@ export class GrMainHeader extends LitElement {
         document.getElementsByTagName('html')[0].style.overflow = '';
       }
     }
-    this.modelBackground?.classList.toggle('cover');
     this.hamburgerClose = !this.hamburgerClose;
   }
 

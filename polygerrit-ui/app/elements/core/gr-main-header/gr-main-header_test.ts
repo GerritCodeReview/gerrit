@@ -143,91 +143,103 @@ suite('gr-main-header tests', () => {
               <md-item>
                 <div slot="headline">Changes</div>
               </md-item>
-              <md-list-item
-                data-index="0-0"
+              <a
+                class="itemAction"
                 href="//localhost:9876/q/status:open+-is:wip"
-                md-list-item=""
-                tabindex="0"
-                type="link"
+                tabindex="-1"
               >
-                Open
-              </md-list-item>
-              <md-list-item
-                data-index="0-1"
+                <md-list-item md-list-item="" type="button">
+                  Open
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="//localhost:9876/q/status:merged"
-                md-list-item=""
                 tabindex="-1"
-                type="link"
               >
-                Merged
-              </md-list-item>
-              <md-list-item
-                data-index="0-2"
+                <md-list-item md-list-item="" type="button">
+                  Merged
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="//localhost:9876/q/status:abandoned"
-                md-list-item=""
                 tabindex="-1"
-                type="link"
               >
-                Abandoned
-              </md-list-item>
+                <md-list-item md-list-item="" type="button">
+                  Abandoned
+                </md-list-item>
+              </a>
               <md-divider role="separator" tabindex="-1"> </md-divider>
               <md-item>
                 <div slot="headline">Documentation</div>
               </md-item>
-              <md-list-item
-                data-index="1-0"
+              <a
+                class="itemAction"
                 href="https://gerrit-review.googlesource.com/Documentation/index.html"
-                md-list-item=""
+                rel="noopener"
+                tabindex="-1"
                 target="_blank"
-                type="link"
               >
-                Table of Contents
-              </md-list-item>
-              <md-list-item
-                data-index="1-1"
+                <md-list-item md-list-item="" type="button">
+                  Table of Contents
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="https://gerrit-review.googlesource.com/Documentation/user-search.html"
-                md-list-item=""
+                rel="noopener"
+                tabindex="-1"
                 target="_blank"
-                type="link"
               >
-                Searching
-              </md-list-item>
-              <md-list-item
-                data-index="1-2"
+                <md-list-item md-list-item="" type="button">
+                  Searching
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="https://gerrit-review.googlesource.com/Documentation/user-upload.html"
-                md-list-item=""
+                rel="noopener"
+                tabindex="-1"
                 target="_blank"
-                type="link"
               >
-                Uploading
-              </md-list-item>
-              <md-list-item
-                data-index="1-3"
+                <md-list-item md-list-item="" type="button">
+                  Uploading
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="https://gerrit-review.googlesource.com/Documentation/access-control.html"
-                md-list-item=""
+                rel="noopener"
+                tabindex="-1"
                 target="_blank"
-                type="link"
               >
-                Access Control
-              </md-list-item>
-              <md-list-item
-                data-index="1-4"
+                <md-list-item md-list-item="" type="button">
+                  Access Control
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="https://gerrit-review.googlesource.com/Documentation/rest-api.html"
-                md-list-item=""
+                rel="noopener"
+                tabindex="-1"
                 target="_blank"
-                type="link"
               >
-                REST API
-              </md-list-item>
-              <md-list-item
-                data-index="1-5"
+                <md-list-item md-list-item="" type="button">
+                  REST API
+                </md-list-item>
+              </a>
+              <a
+                class="itemAction"
                 href="https://gerrit-review.googlesource.com/Documentation/intro-project-owner.html"
-                md-list-item=""
+                rel="noopener"
+                tabindex="-1"
                 target="_blank"
-                type="link"
               >
-                Project Owner Guide
-              </md-list-item>
+                <md-list-item md-list-item="" type="button">
+                  Project Owner Guide
+                </md-list-item>
+              </a>
               <md-divider role="separator" tabindex="-1"> </md-divider>
               <md-item>
                 <div slot="headline">Browse</div>

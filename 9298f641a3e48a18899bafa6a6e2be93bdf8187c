@@ -125,6 +125,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ed0d51c_ebeb221b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-07-06T04:13:33Z",
+      "side": 1,
+      "message": "I bisected and my previous test was wrong. It is fixed in 3.12, not 3.11.\n\nThe first good commit is JGit upgrade:\n```\ncommit 31958fc9d4efdfce9212360104bab3d1942e30b2\nAuthor: Matthias Sohn \u003cmatthias.sohn@sap.com\u003e\nDate:   Thu Feb 20 22:04:02 2025 +0100\n\n    Update jgit to 2d8777536 (servlet-4 branch)\n```\n\nI suppose updating it in 3.10 is no-go though :/\n\n@ekempin@google.com @matthias.sohn@gmail.com",
+      "parentUuid": "0fc523bc_e49c7b1e",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1698f04a_072fceb1",

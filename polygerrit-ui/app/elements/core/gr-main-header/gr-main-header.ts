@@ -521,10 +521,10 @@ export class GrMainHeader extends LitElement {
             font-size: 16px;
             --md-list-item-label-text-font: inherit;
           }
-          md-list md-list-item::part(focus-ring) {
+          md-list a md-list-item::part(focus-ring) {
             --md-focus-ring-shape: 28px;
           }
-          md-list md-list-item[href] {
+          md-list a md-list-item {
             margin-block: 12px;
             display: block;
             --md-focus-ring-shape: 28px;
@@ -541,14 +541,18 @@ export class GrMainHeader extends LitElement {
             font-size: 24px;
             padding-block-end: 0;
           }
-          md-list md-item + md-list-item[href] {
+          md-list md-item + a md-list-item {
             margin-block-start: 0;
           }
+          .itemAction:link,
+          .itemAction:visited {
+            text-decoration: none;
+          }
           @media (forced-colors: active) {
-            md-list md-list-item[href][selected] {
+            md-list a md-list-item[selected] {
               border: 4px double CanvasText;
             }
-            md-list md-list-item[href] {
+            md-list a md-list-item {
               border-radius: 28px;
               border: 1px solid CanvasText;
             }
@@ -757,30 +761,27 @@ export class GrMainHeader extends LitElement {
   ) {
     return html`
       <md-item><div slot="headline">${linkGroup.title}</div></md-item>
-      ${linkGroup.links.map((link, index) =>
-        this.renderLinkMobile(link, index, groupsIndex)
-      )}
+      ${linkGroup.links.map(link => this.renderLinkMobile(link))}
       ${groupsIndex < totalGroups - 1
         ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
         : nothing}
     `;
   }
 
-  private renderLinkMobile(
-    link: DropdownLink,
-    index: number,
-    groupsIndex: number
-  ) {
-    this.handleAdditionalLinkAttributes(link, index, groupsIndex);
+  private renderLinkMobile(link: DropdownLink) {
     return html`
-      <md-list-item
-        data-index="${groupsIndex}-${index}"
+      <a
+        class="itemAction"
         href=${ifDefined(this.computeLinkURL(link))}
+        ?download=${!!link.download}
+        rel=${ifDefined(this.computeLinkRel(link) ?? undefined)}
         target=${ifDefined(link.target ?? undefined)}
-        @click=${() => this.handleSidebar()}
+        tabindex="-1"
       >
-        ${link.name}
-      </md-list-item>
+        <md-list-item type="button" @click=${() => this.handleSidebar()}>
+          ${link.name}
+        </md-list-item></a
+      >
     `;
   }
 
@@ -1045,33 +1046,5 @@ export class GrMainHeader extends LitElement {
       }
     }
     this.hamburgerClose = !this.hamburgerClose;
-  }
-
-  /**
-   * Because <a> is added internally in md-list-item, we have to do a workaround to add the
-   * attributes we want.
-   * @param e Event
-   * @param link DropdownLink
-   */
-  private handleAdditionalLinkAttributes(
-    link: DropdownLink,
-    index: number,
-    groupsIndex: number
-  ) {
-    const anchor = this.shadowRoot
-      ?.querySelector(`md-list-item[data-index="${groupsIndex}-${index}"]`)
-      ?.shadowRoot?.querySelector('a');
-    if (anchor) {
-      if (link.download) {
-        anchor.setAttribute('download', '');
-      }
-      const rel = this.computeLinkRel(link);
-      if (rel) {
-        anchor.setAttribute('rel', rel);
-      }
-      if (link.target) {
-        anchor.setAttribute('target', link.target);
-      }
-    }
   }
 }

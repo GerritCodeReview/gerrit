@@ -235,7 +235,6 @@ suite('gr-main-header tests', () => {
             </md-list>
           </div>
         </nav>
-        <div class="modelBackground"></div>
       `
     );
   });

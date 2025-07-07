@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ed075d9_733c088c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T07:55:50Z",
+      "side": 1,
+      "message": "Yeah, I can add this to the commit message.",
+      "parentUuid": "b80f3af6_af1c844a",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f0df5566_2932d4b8",
         "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
         "patchSetId": 2

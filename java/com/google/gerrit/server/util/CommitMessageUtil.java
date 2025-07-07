@@ -104,4 +104,18 @@ public class CommitMessageUtil {
     }
     return Optional.empty();
   }
+
+  /**
+   * Drops all comment lines from the given commit message.
+   *
+   * @param commitMessage the commit message
+   * @return the commit message with comment lines removed, {@code null} if the input was {@code
+   *     null}
+   */
+  public static String dropComments(String commitMessage) {
+    if (commitMessage == null) {
+      return null;
+    }
+    return commitMessage.replaceAll("(?m)^#.*$\n?", "");
+  }
 }

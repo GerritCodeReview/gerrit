@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41e3f5c2_2a1b2c61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-07T19:37:26Z",
+      "side": 1,
+      "message": "Needs the `Release-Notes` footer\n\n```suggestion\nChange-Id: Id6abb5b1fdd0d40ea577cfce1dbef17d71810534\nRelease-Notes: skip\n```",
+      "revId": "349605d633b684503f001c4791acbcd53c4f4dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

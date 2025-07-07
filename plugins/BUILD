@@ -74,6 +74,7 @@ EXPORTS = [
     "//lib/commons:compress",
     "//lib/commons:dbcp",
     "//lib/commons:lang3",
+    "//lib/commons:io",
     "//lib/dropwizard:dropwizard-core",
     "//lib/flogger:api",
     "//lib/guice:guice",

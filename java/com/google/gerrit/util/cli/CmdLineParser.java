@@ -438,7 +438,7 @@ public class CmdLineParser {
 
     private Map<String, QueuedOption> queuedOptionsByName = new LinkedHashMap<>();
 
-    private class QueuedOption {
+    private static class QueuedOption {
       public final Option option;
 
       @SuppressWarnings("rawtypes")

@@ -1,6 +1,6 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
-common --noenable_bzlmod
+common --enable_bzlmod
 common --incompatible_enable_proto_toolchain_resolution
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"

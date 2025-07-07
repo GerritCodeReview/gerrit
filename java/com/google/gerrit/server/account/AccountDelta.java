@@ -543,6 +543,7 @@ public abstract class AccountDelta {
      * return value is replaced with the wrapper instance so that all chained calls go through the
      * wrapper.
      */
+    @SuppressWarnings("ExtendsAutoValue")
     private static class WrapperThatConvertsNullStringArgsToEmptyStrings extends Builder {
       private final Builder delegate;
 

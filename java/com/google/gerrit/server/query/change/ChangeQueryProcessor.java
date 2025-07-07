@@ -145,7 +145,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   }
 
   public PluginDefinedInfosFactory getInfosFactory() {
-    return this::createPluginDefinedInfos;
+    return this;
   }
 
   @Override

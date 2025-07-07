@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';

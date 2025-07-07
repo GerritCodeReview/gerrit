@@ -1,0 +1,65 @@
+# Dependencies that are exempted from requiring a Library-Compliance approval
+# from a Googler.
+
+[versions]
+autoCommon = "1.2.2"
+autoFactory = "1.0.1"
+autoValue= "1.11.0"
+flogger = "0.8"
+# Also update the GUAVA version in java/com/google/gerrit/extensions/BUILD
+# to keep Bazel and extension dependencies in sync.
+guava = "33.5.0-jre"
+guice = "6.0.0"
+lucene = "10.2.2"
+slf4j = "2.0.17"
+sshd = "2.17.1"
+truth = "1.4.4"
+
+[libraries]
+auto-common = { module = "com.google.auto:auto-common", version.ref = "autoCommon" }
+auto-factory = { module = "com.google.auto.factory:auto-factory", version.ref = "autoFactory" }
+auto-service-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoFactory" }
+auto-value = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
+auto-value-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
+commons-io = { module = "commons-io:commons-io", version = "2.21.0" }
+dropwizard-core = { module = "io.dropwizard.metrics:metrics-core", version = "4.2.37" }
+error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.46.0" }
+flogger = { module = "com.google.flogger:flogger", version.ref = "flogger" }
+flogger-google-extensions = { module = "com.google.flogger:google-extensions", version.ref = "flogger" }
+flogger-log4j-backend = { module = "com.google.flogger:flogger-log4j-backend", version.ref = "flogger" }
+flogger-system-backend = { module = "com.google.flogger:flogger-system-backend", version.ref = "flogger" }
+gson = { module = "com.google.code.gson:gson", version = "2.13.2" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+guava-testlib = { module = "com.google.guava:guava-testlib", version.ref = "guava" }
+guice-assistedinject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }
+guice-library = { module = "com.google.inject:guice", version.ref = "guice" }
+guice-servlet = { module = "com.google.inject.extensions:guice-servlet", version.ref = "guice" }
+h2 = { module = "com.h2database:h2", version = "2.4.240" }
+hamcrest = { module = "org.hamcrest:hamcrest", version = "3.0" }
+impl-log4j = { module = "org.slf4j:slf4j-reload4j", version.ref = "slf4j" }
+j2objc = { module = "com.google.j2objc:j2objc-annotations", version = "1.1" }
+jcl-over-slf4j = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
+jimfs = { module = "com.google.jimfs:jimfs", version = "1.2" }
+jruby = { module = "org.jruby:jruby-complete", version = "9.1.17.0" }
+log-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+log-ext = { module = "org.slf4j:slf4j-ext", version.ref = "slf4j" }
+log4j = { module = "ch.qos.reload4j:reload4j", version = "1.2.26" }
+lucene-analyzers-common = { module = "org.apache.lucene:lucene-analysis-common", version.ref = "lucene" }
+lucene-backward-codecs = { module = "org.apache.lucene:lucene-backward-codecs", version.ref = "lucene" }
+lucene-core = { module = "org.apache.lucene:lucene-core", version.ref = "lucene" }
+lucene-misc = { module = "org.apache.lucene:lucene-misc", version.ref = "lucene" }
+lucene-queryparser = { module = "org.apache.lucene:lucene-queryparser", version.ref = "lucene" }
+mina-core = { module = "org.apache.mina:mina-core", version = "2.2.4" }
+nekohtml = { module = "net.sourceforge.nekohtml:nekohtml", version = "1.9.10" }
+openid-consumer = { module = "org.openid4java:openid4java", version = "1.0.0" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version = "4.33.2" }
+soy = { module = "com.google.template:soy", version = "2024-01-30" }
+sshd-mina = { module = "org.apache.sshd:sshd-mina", version.ref = "sshd" }
+sshd-osgi = { module = "org.apache.sshd:sshd-osgi", version.ref = "sshd" }
+sshd-sftp = { module = "org.apache.sshd:sshd-sftp", version.ref = "sshd" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+truth-java8-extension = { module = "com.google.truth.extensions:truth-java8-extension", version.ref = "truth" }
+truth-liteproto-extension = { module = "com.google.truth.extensions:truth-liteproto-extension", version.ref = "truth" }
+truth-proto-extension = { module = "com.google.truth.extensions:truth-proto-extension", version.ref = "truth" }
+tukaani-xz = { module = "org.tukaani:xz", version = "1.11" }
+xerces = { module = "xerces:xercesImpl", version = "2.12.2" }

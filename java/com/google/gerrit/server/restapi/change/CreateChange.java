@@ -307,7 +307,7 @@ public class CreateChange
     }
 
     String subject = Strings.nullToEmpty(input.subject);
-    subject = subject.replaceAll("(?m)^#.*$\n?", "").trim();
+    subject = CommitMessageUtil.dropComments(subject).trim();
     if (subject.isEmpty()) {
       throw new BadRequestException("commit message must be non-empty");
     }

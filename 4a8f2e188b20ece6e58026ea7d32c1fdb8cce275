@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d03202_0cbfbca4",
+        "filename": "java/com/google/gerrit/server/account/AccountDelta.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-07T20:02:56Z",
+      "side": 1,
+      "message": "Maybe @ekempin@google.com has different thoughts about this wrapper than when he first added it, but assuming the reasoning on L528-531 is still valid, I think we can keep this warning suppressed.\n\nI don\u0027t see a better way to do this with AutoValue unless you can use the [normalization pattern](https://github.com/google/auto/blob/main/value/userguide/builders-howto.md#normalize) with a Nullable annotation in the builder and without having Nullable on the underlying AutoValue class.",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6493c2c_0a756a0b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-07T20:02:56Z",
+      "side": 1,
+      "message": "This should fix it.\n\n```suggestion\n  public PluginDefinedInfosFactory getInfosFactory() {\n    return this;\n  }\n```",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2de0235_10da55b7",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-07T20:02:56Z",
+      "side": 1,
+      "message": "I think we\u0027ll need to keep this suppression unless someone is going to do a much bigger refactor.",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd48594_39a27d75",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-07T20:02:56Z",
+      "side": 1,
+      "message": "This looks like a duplicate of L172, so I think you can remove it and then remove the suppression.",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

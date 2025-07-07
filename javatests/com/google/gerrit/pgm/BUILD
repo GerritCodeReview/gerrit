@@ -14,11 +14,11 @@ junit_tests(
         "//lib:jgit",
         "//lib:jgit-junit",
         "//lib:junit",
+        "//lib:servlet-api",
         "//lib/guice",
+        "//lib/jetty:server",
         "//lib/mockito",
         "//lib/truth",
-        "@jetty-server//jar",
-        "@servlet-api//jar",
     ],
 )
 

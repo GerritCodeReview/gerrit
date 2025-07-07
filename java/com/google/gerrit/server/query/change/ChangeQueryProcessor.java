@@ -144,6 +144,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return dynamicBeans.get(plugin);
   }
 
+  @SuppressWarnings("UnnecessaryMethodReference")
   public PluginDefinedInfosFactory getInfosFactory() {
     return this::createPluginDefinedInfos;
   }

@@ -165,6 +165,7 @@ final class SetAccountCommand extends SshCommand {
 
   private AccountResource rsrc;
 
+  @SuppressWarnings("UnnecessaryAssignment")
   @Override
   public void run() throws Exception {
     enableGracefulStop();
@@ -230,6 +231,7 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
+  @SuppressWarnings("UnnecessaryAssignment")
   private void setAccount() throws Failure {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user.asIdentifiedUser());

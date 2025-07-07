@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80f3af6_af1c844a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-07T07:54:35Z",
+      "side": 1,
+      "message": "```\nFix this by creating the project with an initial empty\ncommit so that the commits being merged have this commit as a common predecessor.\n```\n\nMakes sense. I think this would have resolved my confusion.",
+      "parentUuid": "f0d28d73_cdd6b7ec",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0df5566_2932d4b8",

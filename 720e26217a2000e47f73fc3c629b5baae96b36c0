@@ -16,6 +16,23 @@
       "message": "Still WIP, but maybe a half-migration let us upgrade jgit and bazel.",
       "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b28d8809_9a3aeb64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-07T21:45:36Z",
+      "side": 1,
+      "message": "cherry-picking https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1218051 to the jgit servlet-4 branch and demoting the errorprone rules\n- EmptyCatch\n- UnnecessaryAssignment\n- UnusedMethod\n\nthe gerrit bazel build and tests are succeeding.\n\nIt looks like errorprone handling works differently with hybrid bazel modules",
+      "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

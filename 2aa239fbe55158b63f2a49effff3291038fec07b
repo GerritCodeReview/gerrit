@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e0bdfad_ac517440",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4212812
+      },
+      "writtenOn": "2025-07-07T08:22:10Z",
+      "side": 1,
+      "message": "Don’t use any of those tokens on my account",
+      "revId": "2aa239fbe55158b63f2a49effff3291038fec07b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

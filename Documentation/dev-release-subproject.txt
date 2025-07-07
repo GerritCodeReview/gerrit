@@ -32,8 +32,8 @@ Configuration for Subprojects in `pom.xml`]
   mvn deploy
 ----
 
-* Change the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
-for the subproject in `/WORKSPACE` to the `SNAPSHOT` version.
+* Change the version of the subproject in either `tools/deps.toml` or
+`tools/nongoogle.toml` to the `SNAPSHOT` version.
 +
 When Gerrit gets released, a release of the subproject has to be done
 and Gerrit has to reference the released subproject version.

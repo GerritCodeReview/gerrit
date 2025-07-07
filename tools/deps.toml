@@ -1,0 +1,98 @@
+[versions]
+antlr = "3.5.2"
+autoValueGson = "1.3.1"
+bouncyCastle = "1.83"
+byteBuddy = "1.18.4"
+caffeine = "2.9.2"
+commonmark = "0.24.0"
+gitiles = "1.6.0"
+greenmail = "1.5.5"
+httpcomp = "4.5.14"
+jetty = "9.4.57.v20241219"
+mail = "1.6.0"
+mime4j = "0.8.1"
+ow2 = "9.9.1"
+prolog = "1.4.4"
+roaringBitmap = "0.9.44"
+
+[libraries]
+activation = { module = "javax.activation:activation", version = "1.1.1" }
+antlr = { module = "org.antlr:antlr", version.ref = "antlr" }
+antlr-runtime = { module = "org.antlr:antlr-runtime", version.ref = "antlr" }
+antlr27 = { module = "antlr:antlr", version = "2.7.7" }
+aopalliance = { module = "aopalliance:aopalliance", version = "1.0" }
+apache-mime4j-core = { module = "org.apache.james:apache-mime4j-core", version.ref = "mime4j" }
+apache-mime4j-dom = { module = "org.apache.james:apache-mime4j-dom", version.ref = "mime4j" }
+args4j = { module = "args4j:args4j", version = "2.33" }
+asciidoctorj = { module = "org.asciidoctor:asciidoctorj", version = "1.5.8.1" }
+asm = { module = "org.ow2.asm:asm", version.ref = "ow2" }
+asm-analysis = { module = "org.ow2.asm:asm-analysis", version.ref = "ow2" }
+asm-commons = { module = "org.ow2.asm:asm-commons", version.ref = "ow2" }
+asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "ow2" }
+asm-util = { module = "org.ow2.asm:asm-util", version.ref = "ow2" }
+auto-value-gson-extension = { module = "com.ryanharter.auto.value:auto-value-gson-extension", version.ref = "autoValueGson" }
+auto-value-gson-factory = { module = "com.ryanharter.auto.value:auto-value-gson-factory", version.ref = "autoValueGson" }
+auto-value-gson-runtime = { module = "com.ryanharter.auto.value:auto-value-gson-runtime", version.ref = "autoValueGson" }
+autolink = { module = "org.nibor.autolink:autolink", version = "0.11.0" }
+automaton = { module = "dk.brics:automaton", version = "1.12-1" }
+autotransient = { module = "io.sweers.autotransient:autotransient", version = "1.0.0" }
+bcpg-jdk18on = { module = "org.bouncycastle:bcpg-jdk18on", version.ref = "bouncyCastle" }
+bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncyCastle" }
+bcprov-jdk18on = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncyCastle" }
+bcutil-jdk18on = { module = "org.bouncycastle:bcutil-jdk18on", version.ref = "bouncyCastle" }
+blame-cache = { module = "com.google.gitiles:blame-cache", version.ref = "gitiles" }
+byte-buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byteBuddy" }
+byte-buddy-agent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "byteBuddy" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+commonmark = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
+commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
+commonmark-ext-gfm-strikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
+commonmark-ext-gfm-tables = { module = "org.commonmark:commonmark-ext-gfm-tables", version.ref = "commonmark" }
+commons-codec = { module = "commons-codec:commons-codec", version = "1.18.0" }
+commons-compress = { module = "org.apache.commons:commons-compress", version = "1.28.0" }
+commons-dbcp = { module = "commons-dbcp:commons-dbcp", version = "1.4" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.18.0" }
+commons-net = { module = "commons-net:commons-net", version = "3.6" }
+commons-pool = { module = "commons-pool:commons-pool", version = "1.5.5" }
+commons-text = { module = "org.apache.commons:commons-text", version = "1.15.0" }
+commons-validator = { module = "commons-validator:commons-validator", version = "1.6" }
+diffutils = { module = "io.github.java-diff-utils:java-diff-utils", version = "4.16" }
+failureaccess = { module = "com.google.guava:failureaccess", version = "1.0.3" }
+flexmark-all = { module = "com.vladsch.flexmark:flexmark-all", version = "0.64.0:lib" }
+fluent-hc = { module = "org.apache.httpcomponents:fluent-hc", version.ref = "httpcomp" }
+gitiles-servlet = { module = "com.google.gitiles:gitiles-servlet", version.ref = "gitiles" }
+greenmail = { module = "com.icegreen:greenmail", version.ref = "greenmail" }
+guava = { module = "com.github.ben-manes.caffeine:guava", version.ref = "caffeine" }
+guava-retrying = { module = "com.github.rholder:guava-retrying", version = "2.0.0" }
+httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "httpcomp" }
+httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }
+icu4j = { module = "com.ibm.icu:icu4j", version = "78.2" }
+jakarta-inject-api = { module = "jakarta.inject:jakarta.inject-api", version = "2.0.1" }
+JavaEWAH = { module = "com.googlecode.javaewah:JavaEWAH", version = "1.1.12" }
+javapoet = { module = "com.squareup:javapoet", version = "1.13.0" }
+javax-inject = { module = "javax.inject:javax.inject", version = "1" }
+javax-mail = { module = "com.sun.mail:javax.mail", version.ref = "mail" }
+javax-servlet-api = { module = "javax.servlet:javax.servlet-api", version = "4.0.1" }
+jetty-http = { module = "org.eclipse.jetty:jetty-http", version.ref = "jetty" }
+jetty-io = { module = "org.eclipse.jetty:jetty-io", version.ref = "jetty" }
+jetty-jmx = { module = "org.eclipse.jetty:jetty-jmx", version.ref = "jetty" }
+jetty-security = { module = "org.eclipse.jetty:jetty-security", version.ref = "jetty" }
+jetty-server = { module = "org.eclipse.jetty:jetty-server", version.ref = "jetty" }
+jetty-servlet = { module = "org.eclipse.jetty:jetty-servlet", version.ref = "jetty" }
+jetty-util = { module = "org.eclipse.jetty:jetty-util", version.ref = "jetty" }
+jetty-util-ajax = { module = "org.eclipse.jetty:jetty-util-ajax", version.ref = "jetty" }
+json-smart = { module = "net.minidev:json-smart", version = "1.1.1" }
+jsoup = { module = "org.jsoup:jsoup", version = "1.14.3" }
+jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.1" }
+junit = { module = "junit:junit", version = "4.13.2" }
+mime-util = { module = "eu.medsea.mimeutil:mime-util", version = "2.1.3" }
+mockito-core = { module = "org.mockito:mockito-core", version = "5.21.0" }
+objenesis = { module = "org.objenesis:objenesis", version = "3.4" }
+prolog-cafeteria = { module = "com.googlecode.prolog-cafe:prolog-cafeteria", version.ref = "prolog" }
+prolog-compiler = { module = "com.googlecode.prolog-cafe:prolog-compiler", version.ref = "prolog" }
+prolog-io = { module = "com.googlecode.prolog-cafe:prolog-io", version.ref = "prolog" }
+prolog-runtime = { module = "com.googlecode.prolog-cafe:prolog-runtime", version.ref = "prolog" }
+RoaringBitmap = { module = "org.roaringbitmap:RoaringBitmap", version.ref = "roaringBitmap" }
+shims = { module = "org.roaringbitmap:shims", version.ref = "roaringBitmap" }
+stringtemplate = { module = "org.antlr:stringtemplate", version = "4.0.2" }
+types = { module = "com.google.common.html.types:types", version = "1.0.8" }

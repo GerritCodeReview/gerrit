@@ -28,7 +28,6 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
-        "//lib:jgit-archive",
         "//lib:jgit-ssh-apache",
         "//lib:servlet-api",
         "//lib/auto:auto-value",

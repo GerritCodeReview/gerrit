@@ -34,6 +34,24 @@
       "parentUuid": "41e3f5c2_2a1b2c61",
       "revId": "349605d633b684503f001c4791acbcd53c4f4dcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a7de8b_81cd67bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-07T20:05:13Z",
+      "side": 1,
+      "message": "Hmm, should there be a PS2 with that fix applied?",
+      "parentUuid": "9f502f27_5e8a401e",
+      "revId": "349605d633b684503f001c4791acbcd53c4f4dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

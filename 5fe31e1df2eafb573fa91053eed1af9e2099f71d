@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2293e610_c26fdd86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-07T07:43:46Z",
+      "side": 1,
+      "message": "```suggestion\nwith unrelated histories are being merged. In this case we can\u0027t include\nany SHA1 and commit subject into base conflict marker message.\n```",
+      "range": {
+        "startLine": 29,
+        "startChar": 56,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee4a05ae_4d1fbaba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-07T07:43:46Z",
+      "side": 1,
+      "message": "first sentence mentions `initial commits` which seems like it should not be the case.\n\n`Fix this by creating the project with an initial empty\ncommit.`\n\nThe fix is then also creating an initial empty commit?\n\nWhat is `initial commit` in this case?",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0df5566_2932d4b8",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-07T07:43:46Z",
+      "side": 1,
+      "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"...\n\nCommon typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 114,
+        "startChar": 34,
+        "endLine": 114,
+        "endChar": 40
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b70828_0587b10c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-07T07:43:46Z",
+      "side": 1,
+      "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"...\n\nCommon typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 118,
+        "startChar": 35,
+        "endLine": 118,
+        "endChar": 41
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2797de7_0036ce2a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-07T07:43:46Z",
+      "side": 1,
+      "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"...\n\nCommon typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 149,
+        "startChar": 41,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

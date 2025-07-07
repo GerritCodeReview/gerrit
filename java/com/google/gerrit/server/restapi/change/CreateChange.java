@@ -106,7 +106,6 @@ import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -313,7 +312,7 @@ public class CreateChange
     }
     input.subject = subject;
 
-    Optional<String> changeId = getChangeIdFromMessage(input.subject);
+    Optional<String> changeId = CommitMessageUtil.getChangeIdFromCommitMessageFooter(input.subject);
     if (changeId.isPresent()) {
       if (!queryProvider
           .get()
@@ -661,17 +660,6 @@ public class CreateChange
     }
 
     return parentCommit;
-  }
-
-  private Optional<String> getChangeIdFromMessage(String subject) {
-    int indexOfChangeId = ChangeIdUtil.indexOfChangeId(subject, "\n");
-    if (indexOfChangeId == -1) {
-      return Optional.empty();
-    }
-    return Optional.of(
-        subject.substring(
-            indexOfChangeId + 11 /* "Change-Id: "*/,
-            indexOfChangeId + 12 /* "Change-Id: I" */ + Constants.OBJECT_ID_STRING_LENGTH));
   }
 
   private String getCommitMessage(String subject, IdentifiedUser me) {

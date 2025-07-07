@@ -1,10 +1,13 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//tools:nongoogle.bzl", "GUAVA_DOC_URL")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 _DOC_VERS = "6.1.0.202203080745-r"
 
 JGIT_DOC_URL = "https://archive.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
+
+GUAVA_VERSION = "33.5.0-jre"
+
+GUAVA_DOC_URL = "https://guava.dev/releases/" + GUAVA_VERSION + "/api/docs/"
 
 java_binary(
     name = "extension-api",

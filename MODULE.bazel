@@ -1,2 +1,12 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
+
+bazel_dep(name = "rules_java", version = "8.13.0")
+bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "toolchains_protoc", version = "0.4.3")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "jgit", version = "7.2.0")
+
+local_path_override(
+    module_name = "jgit",
+    path = "./modules/jgit")

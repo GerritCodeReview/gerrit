@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0d28d73_cdd6b7ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T07:51:50Z",
+      "side": 1,
+      "message": "An initial commit is a commit without any parent commit. Every branch must have at least one initial commit.\n\nThe test unintentionally created a merge between 2\ninitial commits (that don\u0027t have a common predecessor commit):\n\n```\n     (M)\n    /  \\\n   /    \\\n (I1)  (I2)\n```\n \nNow that we create the project with an initial commit, the commits that are created by the test are successors of that initial commit (rather than being initial commits), so the merge is done between 2 regular commits:\n\n```\n     (M)\n    /  \\\n   /    \\\n (C1)  (C2)\n   \\    /\n    \\  /\n    (I)\n```",
+      "parentUuid": "ee4a05ae_4d1fbaba",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f0df5566_2932d4b8",
         "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
         "patchSetId": 2

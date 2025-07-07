@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "155bf7a6_db1fa530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-07T19:33:34Z",
+      "side": 1,
+      "message": "Still WIP, but maybe a half-migration let us upgrade jgit and bazel.",
+      "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

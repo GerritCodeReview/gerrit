@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d1e608_3a888450",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-07T19:35:36Z",
+      "side": 1,
+      "message": "@brohlfs@google.com / @milutin@google.com unrelated to this change, but when going to chromium review i\u0027m getting `Plugin install error: https://chromium-review.googlesource.com/plugins/raptcheck/static/raptcheck.js load error from https://chromium-review.googlesource.com/plugins/raptcheck/static/raptcheck.js`.",
+      "revId": "f892e4723c28dce0b7153dd3dcbba2b9fd94cf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

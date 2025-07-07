@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3af0d82_2ef840ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Addressed the comments, added another test for merging initial commits and slightly improve the base conflict marker message when no base is available.",
+      "revId": "6161485521396c192acb65ff87407f8240d44ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

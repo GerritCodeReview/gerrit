@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0bb7d2d_4cec16aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2293e610_c26fdd86",
+      "range": {
+        "startLine": 29,
+        "startChar": 56,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee4a05ae_4d1fbaba",
@@ -119,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f205b602_987e85dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ed075d9_733c088c",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0df5566_2932d4b8",
@@ -132,6 +180,30 @@
       "writtenOn": "2025-07-07T07:43:46Z",
       "side": 1,
       "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"...\n\nCommon typo found: \"Inital\" -- should it be \"Initial\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 114,
+        "startChar": 34,
+        "endLine": 114,
+        "endChar": 40
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5553cf1_27e1e837",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0df5566_2932d4b8",
       "range": {
         "startLine": 114,
         "startChar": 34,
@@ -165,6 +237,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7394009f_8afe49bc",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37b70828_0587b10c",
+      "range": {
+        "startLine": 118,
+        "startChar": 35,
+        "endLine": 118,
+        "endChar": 41
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2797de7_0036ce2a",
@@ -188,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a6fa233_3e0dbbbe",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2797de7_0036ce2a",
+      "range": {
+        "startLine": 149,
+        "startChar": 41,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fef6b68_88980fe6",
@@ -201,6 +321,30 @@
       "writtenOn": "2025-07-07T07:44:37Z",
       "side": 1,
       "message": "nit: formatting?",
+      "range": {
+        "startLine": 2482,
+        "startChar": 0,
+        "endLine": 2485,
+        "endChar": 0
+      },
+      "revId": "5fe31e1df2eafb573fa91053eed1af9e2099f71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6d82c0_fbf466f8",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2485,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-07T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fef6b68_88980fe6",
       "range": {
         "startLine": 2482,
         "startChar": 0,

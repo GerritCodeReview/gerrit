@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3881ec4_c3886a9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-08T20:19:53Z",
+      "side": 1,
+      "message": "This should have a real release note",
+      "revId": "c09814ef63c031f129043ea55e50d304e818651b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c1fcd2c_a6fecca9",
         "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
         "patchSetId": 1

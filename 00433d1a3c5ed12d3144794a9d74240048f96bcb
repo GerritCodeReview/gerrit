@@ -16,6 +16,24 @@
       "message": "```suggestion\nRelease-Notes: skip\nChange-Id: If85eb8328ef6d92fbef4a78a09facca085e36636\n```",
       "revId": "00433d1a3c5ed12d3144794a9d74240048f96bcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a989037_2202a99b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-08T06:35:16Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7e39f734_800cef79",
+      "revId": "00433d1a3c5ed12d3144794a9d74240048f96bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

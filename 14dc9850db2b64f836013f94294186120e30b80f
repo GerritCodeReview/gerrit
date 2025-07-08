@@ -16,6 +16,23 @@
       "message": "iam SK Gulam hassain please find the attached file is correct and document is correct 💯 me iam very satisfied",
       "revId": "14dc9850db2b64f836013f94294186120e30b80f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7eec12a_b745e4b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4201566
+      },
+      "writtenOn": "2025-07-08T14:13:18Z",
+      "side": 1,
+      "message": "[acceso a \"refs/heads/*\"]\n    crear \u003d grupo Administradores\n    eliminar \u003d grupo Administradores\n    deleteChanges \u003d grupo Administradores\n    etiqueta-Revisión-De-Código \u003d -2..+2 grupo Mantenedores\n    etiqueta-Código-Revisión \u003d -1..+1 grupo Usuarios Registrados\n    etiqueta-Verificado \u003d -1..+1 grupo Usuarios Registrados\n    push \u003d bloquear usuarios registrados\n    enviar \u003d grupo Mantenedores\n    ExclusiveGroupPermissions \u003d deleteChanges enviar\n  [acceso \"^refs/tags/rel-.*\"]\n    createTag \u003d grupo Mantenedores\n    createSignedTag \u003d grupo Mantenedores\nSección branchOrder",
+      "revId": "14dc9850db2b64f836013f94294186120e30b80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

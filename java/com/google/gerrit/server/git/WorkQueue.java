@@ -371,7 +371,7 @@ public class WorkQueue {
       }
     }
 
-    private class CancellableCountDownLatch extends CountDownLatch {
+    private static class CancellableCountDownLatch extends CountDownLatch {
       protected volatile boolean cancelled = false;
 
       public CancellableCountDownLatch(int count) {

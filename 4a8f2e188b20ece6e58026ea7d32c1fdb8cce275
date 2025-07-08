@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63641b82_049290e7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-08T07:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6493c2c_0a756a0b",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2de0235_10da55b7",
@@ -76,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f5242e0_ab8b63ec",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-08T07:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2de0235_10da55b7",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bd48594_39a27d75",
@@ -89,6 +131,24 @@
       "writtenOn": "2025-07-07T20:02:56Z",
       "side": 1,
       "message": "This looks like a duplicate of L172, so I think you can remove it and then remove the suppression.",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1fc51c4_560984ad",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-08T07:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bd48594_39a27d75",
       "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

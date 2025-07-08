@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ba3993_3317ed01",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-08T11:58:10Z",
+      "side": 1,
+      "message": "This will commit for each loop iteration i.e. for each `extId`.\n\nCan we rather commit in batches? Asking because it is not obvious how `ExternalIdNotes.commit` and `MetaDataUpdate` work together.\n\nFurther, this will also commit when `migratePasswordToToken` returns without doing anything.",
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69f30e9c_2fa1c28b",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-08T11:58:10Z",
+      "side": 1,
+      "message": "This check seems unnecessary as the `null` condition is impossible because of the `filter` at the line 112 where password is checked to be non-null.\n\nThis is offline migration tool: no race conditions here.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 5
+      },
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9dca84a_a1c35348",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-08T11:58:10Z",
+      "side": 1,
+      "message": "Does this code remove the http password form the username scheme of that user?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 44
+      },
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

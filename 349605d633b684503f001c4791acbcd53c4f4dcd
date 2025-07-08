@@ -52,6 +52,24 @@
       "parentUuid": "9f502f27_5e8a401e",
       "revId": "349605d633b684503f001c4791acbcd53c4f4dcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6738d23e_b59e4c7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-08T06:34:28Z",
+      "side": 1,
+      "message": "I applied the fix directly in gerrit but didn\u0027t see the \"upload edit\". Now.",
+      "parentUuid": "a1a7de8b_81cd67bf",
+      "revId": "349605d633b684503f001c4791acbcd53c4f4dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

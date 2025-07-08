@@ -287,6 +287,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de80f00d_784348e5",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-08T12:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6265751e_a33087fd",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "e924d7f8e72bd2810c8bbcbc80e6cdaea1353bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10292665_8e8a871d",

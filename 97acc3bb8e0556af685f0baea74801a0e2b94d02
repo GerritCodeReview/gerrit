@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1122a9d2_54bd00a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-selector/gr-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-08T21:13:33Z",
+      "side": 1,
+      "message": "The code is from https://github.com/chromium/chromium/blob/main/ui/webui/resources/cr_elements/cr_selectable_mixin.ts but modified.\n\nBut thanks, done.",
+      "parentUuid": "731b8728_14dc6074",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1624ad75_97e5f483",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "658238d2_559d2539",
+        "filename": "polygerrit-ui/app/elements/shared/gr-selector/gr-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-08T21:13:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1624ad75_97e5f483",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a088275_25a7b5c0",
@@ -77,6 +125,30 @@
       "writtenOn": "2025-07-08T16:16:46Z",
       "side": 1,
       "message": "Nit: We use fire from event-utils, maybe other event should use it?",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 12
+      },
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9008a0e_fb9a0764",
+        "filename": "polygerrit-ui/app/elements/shared/gr-selector/gr-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-08T21:13:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6a088275_25a7b5c0",
       "range": {
         "startLine": 189,
         "startChar": 8,

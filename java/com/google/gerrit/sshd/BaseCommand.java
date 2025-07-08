@@ -467,11 +467,22 @@ public abstract class BaseCommand implements Command {
     private final AccessPath accessPath;
 
     private Project.NameKey projectName;
+    private DynamicOptions pluginOptions;
 
     private TaskThunk(final CommandRunnable thunk, AccessPath accessPath) {
       this.thunk = thunk;
       this.taskName = getTaskName();
       this.accessPath = accessPath;
+
+      if (thunk instanceof ProjectCommandRunnable) {
+        try {
+          pluginOptions = new DynamicOptions(injector, dynamicBeans);
+          ((ProjectCommandRunnable) thunk).executeParseCommand(pluginOptions);
+          projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
 
     @Override
@@ -499,19 +510,15 @@ public abstract class BaseCommand implements Command {
           thisThread.setName("SSH " + taskName);
 
           try {
-            if (thunk instanceof ProjectCommandRunnable) {
-              try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
-                ((ProjectCommandRunnable) thunk).executeParseCommand(pluginOptions);
-                projectName = ((ProjectCommandRunnable) thunk).getProjectName();
-                thunk.run();
-              }
-            } else {
-              thunk.run();
-            }
+            thunk.run();
           } catch (NoSuchProjectException e) {
             throw new UnloggedFailure(1, e.getMessage());
           } catch (NoSuchChangeException e) {
             throw new UnloggedFailure(1, e.getMessage() + " no such change");
+          } finally {
+            if (pluginOptions != null) {
+              pluginOptions.close();
+            }
           }
 
           flushIgnoreSCCE(out);

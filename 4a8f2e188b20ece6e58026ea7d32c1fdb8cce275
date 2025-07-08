@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2abb75ee_f11f34d3",
+        "filename": "java/com/google/gerrit/server/account/AccountDelta.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-08T07:36:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "97d03202_0cbfbca4",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6493c2c_0a756a0b",
@@ -70,6 +88,30 @@
         "id": 1003935
       },
       "writtenOn": "2025-07-08T07:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6493c2c_0a756a0b",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cebef177_8ee2e9a7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-08T07:36:55Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "f6493c2c_0a756a0b",
@@ -118,6 +160,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34d0ffd3_ce4ef9d3",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-08T07:36:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a2de0235_10da55b7",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bd48594_39a27d75",
@@ -146,6 +206,24 @@
         "id": 1003935
       },
       "writtenOn": "2025-07-08T07:27:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bd48594_39a27d75",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efef6b1e_19869f70",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-08T07:36:55Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "3bd48594_39a27d75",

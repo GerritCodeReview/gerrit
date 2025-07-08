@@ -27,6 +27,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gitiles.blame.cache.BlameCache;
@@ -127,17 +129,28 @@ public class GetBlame implements RestReadView<FileResource> {
     ListMultimap<BlameInfo, RangeInfo> ranges =
         MultimapBuilder.hashKeys().arrayListValues().build();
     List<BlameInfo> result = new ArrayList<>();
-    if (blameCache.findLastCommit(repository, id, path) == null) {
-      return result;
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer("blameCache.findLastCommit", Metadata.empty())) {
+      if (blameCache.findLastCommit(repository, id, path) == null) {
+        return result;
+      }
     }
 
-    List<Region> blameRegions = blameCache.get(repository, id, path);
+    List<Region> blameRegions;
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer("blameCache.get", Metadata.empty())) {
+      blameRegions = blameCache.get(repository, id, path);
+    }
+
     int from = 1;
     for (Region region : blameRegions) {
-      RevCommit commit = revWalk.parseCommit(region.getSourceCommit());
-      BlameInfo blameInfo = toBlameInfo(commit, region.getSourceAuthor());
-      ranges.put(blameInfo, new RangeInfo(from, from + region.getCount() - 1));
-      from += region.getCount();
+      try (TraceContext.TraceTimer ignored =
+          TraceContext.newTimer("process blame region", Metadata.empty())) {
+        RevCommit commit = revWalk.parseCommit(region.getSourceCommit());
+        BlameInfo blameInfo = toBlameInfo(commit, region.getSourceAuthor());
+        ranges.put(blameInfo, new RangeInfo(from, from + region.getCount() - 1));
+        from += region.getCount();
+      }
     }
 
     for (BlameInfo key : ranges.keySet()) {

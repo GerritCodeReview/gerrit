@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1035ccaa_63d289bf",
+        "filename": "Documentation/cmd-create-account.txt",
+        "patchSetId": 33
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-08T12:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea41d92d_643ad263",
+      "revId": "5ad34381826cb68cd1d96f867977a656122e8b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0115fbd_fafee7ec",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "520c07ae_e650eb83",
+        "filename": "java/com/google/gerrit/extensions/auth/AuthTokenInput.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-08T12:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0115fbd_fafee7ec",
+      "revId": "5ad34381826cb68cd1d96f867977a656122e8b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4464ef3_470b7cb6",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-07-08T10:37:13Z",
       "side": 1,
       "message": "This is redundant because of the follow-up `instanceof` check. By definition `null instanceof SomeClass` is always `false`.",
+      "revId": "5ad34381826cb68cd1d96f867977a656122e8b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76679b27_10cbf3cf",
+        "filename": "java/com/google/gerrit/extensions/auth/AuthTokenInput.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-08T12:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4464ef3_470b7cb6",
       "revId": "5ad34381826cb68cd1d96f867977a656122e8b47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

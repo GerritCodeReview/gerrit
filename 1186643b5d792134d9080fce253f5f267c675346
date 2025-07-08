@@ -22,6 +22,30 @@
       },
       "revId": "1186643b5d792134d9080fce253f5f267c675346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd3ed978_6d5740e6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-08T21:19:24Z",
+      "side": 0,
+      "message": "It broke the dropdown (i mean broke with md-menu). I\u0027m not sure if it\u0027s needed anymore anyways. But anyways works without it.",
+      "parentUuid": "e1b2ffde_c43c9c52",
+      "range": {
+        "startLine": 388,
+        "startChar": 11,
+        "endLine": 388,
+        "endChar": 27
+      },
+      "revId": "1186643b5d792134d9080fce253f5f267c675346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34939ce_80c3d71a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:32:52Z",
+      "side": 1,
+      "message": "Thank you it looks very good. It\u0027s hard to review with so many changes, but it looks from video that it works.",
+      "revId": "a315edec3159af0e830c5a6157dfa7fc81aee153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27562c02_bebe9484",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:32:52Z",
+      "side": 1,
+      "message": "Move to css",
+      "range": {
+        "startLine": 1172,
+        "startChar": 10,
+        "endLine": 1172,
+        "endChar": 37
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e21a269f_6c2a9cad",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1003,
+                "startChar": 0,
+                "endLine": 1003,
+                "endChar": 0
+              },
+              "replacement": "        .changeStarContainer {\n          position: relative;\n        }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1172,
+                "startChar": 0,
+                "endLine": 1173,
+                "endChar": 0
+              },
+              "replacement": "      \u003cdiv class\u003d\"changeStarContainer\"\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a315edec3159af0e830c5a6157dfa7fc81aee153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfd77abf_e36e2929",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:32:52Z",
+      "side": 1,
+      "message": "Please move this to css?",
+      "range": {
+        "startLine": 203,
+        "startChar": 21,
+        "endLine": 203,
+        "endChar": 48
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "183ebcf5_cb63557a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+              "range": {
+                "startLine": 59,
+                "startChar": 0,
+                "endLine": 59,
+                "endChar": 0
+              },
+              "replacement": "        .container {\n          position: relative;\n        }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+              "range": {
+                "startLine": 203,
+                "startChar": 0,
+                "endLine": 204,
+                "endChar": 0
+              },
+              "replacement": "    return html`\u003cdiv class\u003d\"container\"\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a315edec3159af0e830c5a6157dfa7fc81aee153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

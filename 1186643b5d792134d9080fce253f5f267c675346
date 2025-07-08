@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b2ffde_c43c9c52",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:32:52Z",
+      "side": 0,
+      "message": "Why is this removed? Isn\u0027t it needed fro text-overflow?",
+      "range": {
+        "startLine": 388,
+        "startChar": 11,
+        "endLine": 388,
+        "endChar": 27
+      },
+      "revId": "1186643b5d792134d9080fce253f5f267c675346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

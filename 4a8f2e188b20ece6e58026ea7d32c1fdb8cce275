@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71f96ef_b0392184",
+        "filename": "java/com/google/gerrit/server/account/AccountDelta.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-08T07:26:21Z",
+      "side": 1,
+      "message": "Having the warning suppressed here looks good to me.\n\nI agree that having a closer look to see if we could rewrite this with using the normalization pattern sounds like a good idea, but I don\u0027t think it needs immediate action.",
+      "parentUuid": "97d03202_0cbfbca4",
+      "revId": "4a8f2e188b20ece6e58026ea7d32c1fdb8cce275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6493c2c_0a756a0b",

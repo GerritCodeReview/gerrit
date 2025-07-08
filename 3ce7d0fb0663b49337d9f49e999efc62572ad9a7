@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5710725_91f2e52c",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-08T13:31:53Z",
+      "side": 1,
+      "message": "\u003e This will commit for each loop iteration i.e. for each extId.\n\n\u003e Can we rather commit in batches? Asking because it is not obvious how ExternalIdNotes.commit and MetaDataUpdate work together.\n\nWill it do that in a loop? All external IDs are stored in a single ref and while we update each external ID in a loop, we only commit them all together.\n\n\u003e Further, this will also commit when migratePasswordToToken returns without doing anything.\n\nDone.",
+      "parentUuid": "62ba3993_3317ed01",
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69f30e9c_2fa1c28b",
         "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
         "patchSetId": 33
@@ -31,6 +49,30 @@
       "writtenOn": "2025-07-08T11:58:10Z",
       "side": 1,
       "message": "This check seems unnecessary as the `null` condition is impossible because of the `filter` at the line 112 where password is checked to be non-null.\n\nThis is offline migration tool: no race conditions here.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 5
+      },
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0393f92c_8ac42b80",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-08T13:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69f30e9c_2fa1c28b",
       "range": {
         "startLine": 138,
         "startChar": 0,
@@ -54,6 +96,30 @@
       "writtenOn": "2025-07-08T11:58:10Z",
       "side": 1,
       "message": "Does this code remove the http password form the username scheme of that user?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 44
+      },
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f4d605_ed460f22",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-08T13:31:53Z",
+      "side": 1,
+      "message": "Yes. Basically it recreates the ExternalId without the password and stages it in the ExternalIdNotes object to be committed later.",
+      "parentUuid": "c9dca84a_a1c35348",
       "range": {
         "startLine": 151,
         "startChar": 0,

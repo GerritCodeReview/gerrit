@@ -26,7 +26,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
-import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.ImmutableMap;
@@ -178,6 +177,8 @@ public class CommitIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPickWithoutConflicts() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
     String destBranch = "foo";
     createBranch(BranchNameKey.create(project, destBranch));
 
@@ -204,6 +205,7 @@ public class CommitIT extends AbstractDaemonTest {
             .getCurrentRevision();
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
@@ -326,7 +328,7 @@ public class CommitIT extends AbstractDaemonTest {
   }
 
   private void testCherryPickWithAllowConflicts(boolean useDiff3) throws Exception {
-    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     // Create a branch and push a commit to it (by-passing review)
     String destBranch = "foo";
@@ -341,7 +343,7 @@ public class CommitIT extends AbstractDaemonTest {
     push.to("refs/heads/" + destBranch);
 
     // Create a change on master with a commit that conflicts with the commit on the other branch.
-    testRepo.reset(initial);
+    testRepo.reset(initialHead);
     String changeContent = "another content";
     push =
         pushFactory.create(
@@ -392,6 +394,7 @@ public class CommitIT extends AbstractDaemonTest {
             .getCurrentRevision();
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
@@ -414,7 +417,11 @@ public class CommitIT extends AbstractDaemonTest {
                 + " test commit)\n"
                 + destContent
                 + "\n"
-                + (useDiff3 ? "||||||| BASE\n" : "")
+                + (useDiff3
+                    ? String.format(
+                        "||||||| BASE   (%s %s)\n",
+                        initialHead.getName(), initialHead.getShortMessage())
+                    : "")
                 + "=======\n"
                 + changeContent
                 + "\n"
@@ -435,7 +442,7 @@ public class CommitIT extends AbstractDaemonTest {
   }
 
   private void testCherryPickToExistingChangeWithAllowConflicts(boolean useDiff3) throws Exception {
-    String tip = testRepo.getRepository().exactRef("HEAD").getObjectId().name();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     String destBranch = "foo";
     createBranch(BranchNameKey.create(project, destBranch));
@@ -443,7 +450,7 @@ public class CommitIT extends AbstractDaemonTest {
     PushOneCommit.Result existingChange =
         createChange(testRepo, destBranch, SUBJECT, FILE_NAME, destContent, null);
 
-    testRepo.reset(tip);
+    testRepo.reset(initialHead);
     String changeContent = "another content";
     PushOneCommit.Result srcChange =
         createChange(testRepo, "master", SUBJECT, FILE_NAME, changeContent, null);
@@ -492,6 +499,7 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.name());
     assertThat(currentRevision.conflicts.ours).isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(srcChange.getCommit().name());
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
@@ -514,7 +522,11 @@ public class CommitIT extends AbstractDaemonTest {
                 + " test commit)\n"
                 + destContent
                 + "\n"
-                + (useDiff3 ? "||||||| BASE\n" : "")
+                + (useDiff3
+                    ? String.format(
+                        "||||||| BASE   (%s %s)\n",
+                        initialHead.getName(), initialHead.getShortMessage())
+                    : "")
                 + "=======\n"
                 + changeContent
                 + "\n"

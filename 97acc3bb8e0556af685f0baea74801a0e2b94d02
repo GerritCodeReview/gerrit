@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f58ef2_29047827",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:16:46Z",
+      "side": 1,
+      "message": "Let\u0027s try this one. Nice work!",
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "731b8728_14dc6074",
+        "filename": "polygerrit-ui/app/elements/shared/gr-selector/gr-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:16:46Z",
+      "side": 1,
+      "message": "Can you please add jsdoc about this being iron-selector replacement. Is this migration from https://github.com/PolymerElements/iron-selector/blob/master/iron-selectable.js ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1624ad75_97e5f483",
+        "filename": "polygerrit-ui/app/elements/shared/gr-selector/gr-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:16:46Z",
+      "side": 1,
+      "message": "Can you implement unit test for render",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a088275_25a7b5c0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-selector/gr-selector.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-08T16:16:46Z",
+      "side": 1,
+      "message": "Nit: We use fire from event-utils, maybe other event should use it?",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 12
+      },
+      "revId": "97acc3bb8e0556af685f0baea74801a0e2b94d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

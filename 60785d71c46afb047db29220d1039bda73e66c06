@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d4883c_049defb6",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:35:04Z",
+      "side": 1,
+      "message": "For readability, when exploring directly with Git, we could use a UTC timestamp with the same format like in the REST API.\nUnless, we already use unix epoch format in other places in accounts noteDb.",
+      "range": {
+        "startLine": 281,
+        "startChar": 42,
+        "endLine": 282,
+        "endChar": 16
+      },
+      "revId": "60785d71c46afb047db29220d1039bda73e66c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

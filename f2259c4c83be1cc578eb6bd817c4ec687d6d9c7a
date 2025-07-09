@@ -52,6 +52,24 @@
       "parentUuid": "2150cdfc_c7f8fb7e",
       "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebfad860_02693292",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-09T22:10:21Z",
+      "side": 1,
+      "message": "Ah. Thanks, done. There\u0027s not the same 1 to 1 behaviour with md-menu vs iron-dropdown. But i\u0027ve done the best i can. Also the gr-copy-links on mobile, the box overflows (has scrollbars). I can\u0027t figure out a fix to bring back the old behaviour but for now it\u0027s the best i can do. I looked all day but can\u0027t really find a good fix for it, other then the one i have right now.\n\nAnyways fixed items being too big and also fixed the scrollbar issue (i think).",
+      "parentUuid": "41387b4d_e2aedfeb",
+      "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

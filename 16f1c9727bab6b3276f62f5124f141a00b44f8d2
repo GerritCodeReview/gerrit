@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c62e4c8_281068ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-09T15:22:42Z",
+      "side": 1,
+      "message": "shadowDom.equal is having problems with these texts. Do you need help? I usually try to match it with failing test.",
+      "range": {
+        "startLine": 68,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "16f1c9727bab6b3276f62f5124f141a00b44f8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

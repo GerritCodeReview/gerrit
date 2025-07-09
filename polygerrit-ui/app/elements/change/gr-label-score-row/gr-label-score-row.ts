@@ -3,14 +3,12 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {IronSelectorElement} from '@polymer/iron-selector/iron-selector';
 import {
   DetailedLabelInfo,
   LabelNameToInfoMap,
@@ -21,7 +19,8 @@ import {Label} from '../../../utils/label-util';
 import {LabelNameToValuesMap} from '../../../api/rest-api';
 import {fire} from '../../../utils/event-util';
 import {LabelsChangedDetail} from '../../../api/change-reply';
-
+import '../../shared/gr-selector/gr-selector';
+import {GrSelector} from '../../shared/gr-selector/gr-selector';
 declare global {
   interface HTMLElementTagNameMap {
     'gr-label-score-row': GrLabelScoreRow;
@@ -34,7 +33,7 @@ declare global {
 @customElement('gr-label-score-row')
 export class GrLabelScoreRow extends LitElement {
   @query('#labelSelector')
-  labelSelector?: IronSelectorElement;
+  labelSelector?: GrSelector;
 
   @property({type: Object})
   label: Label | undefined | null;
@@ -88,7 +87,7 @@ export class GrLabelScoreRow extends LitElement {
           box-sizing: border-box;
           --vote-text-color: var(--vote-chip-unselected-text-color);
         }
-        gr-button.iron-selected {
+        gr-button.selected {
           --vote-text-color: var(--vote-chip-selected-text-color);
         }
         gr-button::part(md-text-button) {
@@ -99,25 +98,25 @@ export class GrLabelScoreRow extends LitElement {
           );
           border-color: var(--vote-chip-unselected-outline-color);
         }
-        gr-button.iron-selected::part(md-text-button) {
+        gr-button.selected::part(md-text-button) {
           border-color: transparent;
         }
         gr-button {
           --button-background-color: var(--vote-chip-unselected-color);
         }
-        gr-button[data-vote='max'].iron-selected {
+        gr-button[data-vote='max'].selected {
           --button-background-color: var(--vote-chip-selected-positive-color);
         }
-        gr-button[data-vote='positive'].iron-selected {
+        gr-button[data-vote='positive'].selected {
           --button-background-color: var(--vote-chip-selected-positive-color);
         }
-        gr-button[data-vote='neutral'].iron-selected {
+        gr-button[data-vote='neutral'].selected {
           --button-background-color: var(--vote-chip-selected-neutral-color);
         }
-        gr-button[data-vote='negative'].iron-selected {
+        gr-button[data-vote='negative'].selected {
           --button-background-color: var(--vote-chip-selected-negative-color);
         }
-        gr-button[data-vote='min'].iron-selected {
+        gr-button[data-vote='min'].selected {
           --button-background-color: var(--vote-chip-selected-negative-color);
         }
         gr-button > gr-tooltip-content {
@@ -181,16 +180,16 @@ export class GrLabelScoreRow extends LitElement {
 
   private renderLabelSelector() {
     return html`
-      <iron-selector
+      <gr-selector
         id="labelSelector"
         .attrForSelected=${'data-value'}
         selected=${ifDefined(this._computeLabelValue())}
-        @selected-item-changed=${this.setSelectedValueText}
+        @select=${this.setSelectedValueText}
         role="radiogroup"
         aria-labelledby="labelName"
       >
         ${this.renderPermittedLabels()}
-      </iron-selector>
+      </gr-selector>
     `;
   }
 
@@ -232,11 +231,11 @@ export class GrLabelScoreRow extends LitElement {
     `;
   }
 
-  get selectedItem(): IronSelectorElement | undefined {
+  get selectedItem(): GrSelector | undefined {
     if (!this.labelSelector) {
       return undefined;
     }
-    return this.labelSelector.selectedItem as IronSelectorElement;
+    return this.labelSelector.selectedItem as GrSelector;
   }
 
   get selectedValue() {
@@ -306,8 +305,8 @@ export class GrLabelScoreRow extends LitElement {
    * Private but used in tests.
    * Maps the label value to exactly one of: min, max, positive, negative,
    * neutral. Used for the 'data-vote' attribute, because we don't want to
-   * interfere with <iron-selector> using the 'class' attribute for setting
-   * 'iron-selected'.
+   * interfere with <gr-selector> using the 'class' attribute for setting
+   * 'selected'.
    */
   _computeVoteAttribute(value: number, index: number, totalItems: number) {
     if (value < 0 && index === 0) {
@@ -347,8 +346,7 @@ export class GrLabelScoreRow extends LitElement {
   private setSelectedValueText = (e: Event) => {
     // Needed because when the selected item changes, it first changes to
     // nothing and then to the new item.
-    const selectedItem = (e.target as IronSelectorElement)
-      .selectedItem as HTMLElement;
+    const selectedItem = (e.target as GrSelector).selectedItem as HTMLElement;
     if (!selectedItem) {
       return;
     }

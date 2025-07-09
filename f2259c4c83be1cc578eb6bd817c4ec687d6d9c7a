@@ -16,6 +16,24 @@
       "message": "I just checked this and it looks like this on my machine - https://imgur.com/a/NYGDpLk\n\nCan we have smaller items and not used scrollbar?",
       "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2150cdfc_c7f8fb7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-09T09:41:16Z",
+      "side": 1,
+      "message": "I’m not sure what you mean by smaller items? Do you mean the black border around an item? That’s the focus ring. I can have a look if we can remove the scroll bars. I presume you mean you just want all the items to show and there to be no fixed height or something? I’m not entirely sure if this is an intentional feature of md-menu or if you can change it.",
+      "parentUuid": "3f62f987_a3da0fb1",
+      "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

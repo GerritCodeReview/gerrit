@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f62f987_a3da0fb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-09T07:43:56Z",
+      "side": 1,
+      "message": "I just checked this and it looks like this on my machine - https://imgur.com/a/NYGDpLk\n\nCan we have smaller items and not used scrollbar?",
+      "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

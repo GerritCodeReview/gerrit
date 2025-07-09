@@ -34,6 +34,24 @@
       "parentUuid": "3f62f987_a3da0fb1",
       "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41387b4d_e2aedfeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-09T17:02:54Z",
+      "side": 1,
+      "message": "I mean currently each item is much smaller https://imgur.com/a/NcCcGVy \nCurrently it has just 250 px and doesn\u0027t need scrollbar",
+      "parentUuid": "2150cdfc_c7f8fb7e",
+      "revId": "f2259c4c83be1cc578eb6bd817c4ec687d6d9c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d9343e_d4474bb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-09T15:00:39Z",
+      "side": 1,
+      "message": "also added a breaking change note to the 3.12 release notes in https://gerrit-review.googlesource.com/c/homepage/+/489341",
+      "revId": "a4194163ebd570bbde7e31ce6b55288e413dc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

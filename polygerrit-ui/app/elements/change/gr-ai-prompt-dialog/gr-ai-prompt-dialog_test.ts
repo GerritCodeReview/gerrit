@@ -8,7 +8,7 @@ import './gr-ai-prompt-dialog';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrAiPromptDialog} from './gr-ai-prompt-dialog';
 import {createParsedChange} from '../../../test/test-data-generators';
-import {PatchSetNum} from '../../../api/rest-api';
+import {CommitId, PatchSetNum} from '../../../api/rest-api';
 import {stubRestApi} from '../../../test/test-utils';
 
 suite('gr-ai-prompt-dialog test', () => {
@@ -17,6 +17,12 @@ suite('gr-ai-prompt-dialog test', () => {
     stubRestApi('getPatchContent').returns(Promise.resolve('<patch>'));
     element = await fixture(html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`);
     element.change = createParsedChange();
+    element.change.revisions['abc'].commit!.parents = [
+      {
+        commit: 'def' as CommitId,
+        subject: 'Parent commit subject',
+      },
+    ];
     element.patchNum = 1 as PatchSetNum;
     await element.updateComplete;
   });
@@ -24,7 +30,7 @@ suite('gr-ai-prompt-dialog test', () => {
   test('renders', async () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ` <section>
+      ` <section>
           <h3 class="heading-3">Create AI Prompt (experimental)</h3>
         </section>
         <section class="flexContainer">
@@ -61,10 +67,10 @@ suite('gr-ai-prompt-dialog test', () => {
             </textarea>
             <div class="toolbar">
               <div class="info-text">
-                You can paste this prompt in an AI Model if your project code
-                can be shared with AI. We recommend a thinking model. You can
-                also use it for an AI Agent as context (a reference to a git
-                change).
+                    You can paste this prompt in an AI Model if your project
+                    code can be shared with AI. We recommend a thinking model.
+                    You can also use it for an AI Agent as context (a reference
+                    to a git change).
               </div>
               <gr-button>
                 <gr-icon icon="content_copy" small=""> </gr-icon>

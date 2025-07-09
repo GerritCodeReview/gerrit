@@ -326,7 +326,7 @@ The prolog environment running the `submit_rule` is loaded with state describing
 the change that is being evaluated. The easiest way to load this state is to
 test your `submit_rule` against a real change on a running gerrit instance. The
 command link:cmd-test-submit-rule.html[test-submit rule] loads a specific change
-and executes the `submit_rule`. It optionally reads the rule from from `stdin`
+and executes the `submit_rule`. It optionally reads the rule from `stdin`
 to facilitate easy testing.
 
 ----

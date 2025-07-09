@@ -81,7 +81,7 @@ image::images/cross-repository-changes-submitted-together.png[width=600]
     used in Gerrit's search bar to find all the submitted changes for the
     submission. This ID is relevant when <<reverting,reverting a submission>>.
 
-To better underestand this behavior, consider this following example.
+To better understand this behavior, consider this following example.
 
 [[example_submission]]
 === Example Submission
@@ -104,7 +104,7 @@ submittable.
 |===
 | Important point: B1 can unexpectedly block the submission of A2!
 This kind of situation is hard to immediately grok: B1 isn't in the topic you're
-trying to submit, and it isn't a depnedent change of A2. If your topic isn’t
+trying to submit, and it isn't a dependent change of A2. If your topic isn’t
 submittable and you can’t figure out why, this might be a reason.
 |===
 
@@ -245,7 +245,7 @@ process.
 
 In the Gerrit search bar, you can search for changes attached to a specific
 topic using the `topic` operator e.g. `topic:MY_TOPIC_NAME`. The `intopic`
-operator works similary but supports free-text and regular expression search.
+operator works similarly but supports free-text and regular expression search.
 
 You can also search for a submission using the `submissionid` operator. Topic
 submission IDs are "<id>-<topic>" where id is the change number of the change

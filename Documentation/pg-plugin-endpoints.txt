@@ -201,7 +201,7 @@ In addition to default parameters, the following are available:
 
 * `change`
 +
-The change beinng potentially submitted, an instance of
+The change being potentially submitted, an instance of
 link:rest-api-changes.html#change-info[ChangeInfo]
 
 * `action`

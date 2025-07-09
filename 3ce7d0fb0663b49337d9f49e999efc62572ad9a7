@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36f70f17_6f4432fc",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:26:35Z",
+      "side": 1,
+      "message": "Acknowledged\n\nSorry, I didn\u0027t properly read the code: the commit is indeed outside of the loop",
+      "parentUuid": "c5710725_91f2e52c",
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69f30e9c_2fa1c28b",
@@ -120,6 +138,30 @@
       "side": 1,
       "message": "Yes. Basically it recreates the ExternalId without the password and stages it in the ExternalIdNotes object to be committed later.",
       "parentUuid": "c9dca84a_a1c35348",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 44
+      },
+      "revId": "3ce7d0fb0663b49337d9f49e999efc62572ad9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2563ec44_3d906c41",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:26:35Z",
+      "side": 1,
+      "message": "[optional] For clarity it could be put into a method whose name says what the code does, or add a comment on this block of code.",
+      "parentUuid": "a4f4d605_ed460f22",
       "range": {
         "startLine": 151,
         "startChar": 0,

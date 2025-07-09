@@ -16,6 +16,24 @@
       "message": "Since we are not going to freely inject this cache into other classes I propose to keep this private to the caching accessor class and its module.",
       "revId": "454dc2acbf82a619da267e578fc5e02e0f951c87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "199edde6_419f5192",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-09T06:31:42Z",
+      "side": 1,
+      "message": "Do you mean making this package private or make this a nested class of the accessor?",
+      "parentUuid": "0b68f51e_72e61604",
+      "revId": "454dc2acbf82a619da267e578fc5e02e0f951c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

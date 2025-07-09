@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca39bad_4674d352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:44:37Z",
+      "side": 1,
+      "message": "append: globally",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c690509e_391993bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:44:37Z",
+      "side": 1,
+      "message": "Describe here also what happens with the existing tokens whose lifetime already exceeded the max lifetime set by an admin. For example:\n* create a token T with lifetime 30 days\n* admin sets max lifetime to 10 days\n* Is T still valid?\n\nIOW: is the validation against the global max lifetime done at the token creation time or at the usage time?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a450eb_460eb548",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:44:37Z",
+      "side": 1,
+      "message": "OK, this answers my previous question. Nevertheless, it would be good to add a sentence to the commit message.",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d157b113_b3d3de5d",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:44:37Z",
+      "side": 1,
+      "message": "Or, instead of throwing exception, set the globally defined max lifetime? This might be more user friendly behaviour for users who want to set a max possible lifetime but do not know the server config.",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c7b6b6_ce092604",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T09:44:37Z",
+      "side": 1,
+      "message": "Instead of encoding the absence of the config as zero duration, use `Optional\u003cDuration\u003e` as the type of `this.maxAuthTokenLifeTime`. Set it to `Optional.empty()` if the config is unset.",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

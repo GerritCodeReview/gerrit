@@ -33,6 +33,23 @@
       "message": "Gentle reminder - can we get a license check on this, please?",
       "revId": "8c011f9f441e66e76658894f9dbbc439f5480ed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c91b4c80_bc8d76c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3503399
+      },
+      "writtenOn": "2025-07-09T06:56:58Z",
+      "side": 1,
+      "message": "Hello all,\n\nThis change introduced a regression tracked here: https://issues.gerritcodereview.com/issues/430338406\n\nI\u0027m writing in case the issue tracker doesn\u0027t send a proper notification to the relevant parties.",
+      "revId": "8c011f9f441e66e76658894f9dbbc439f5480ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

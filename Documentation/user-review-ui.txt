@@ -670,7 +670,7 @@ image::images/user-review-ui-side-by-side-diff-normal-edits.png[width=800, link=
 
 When comparing two patch-sets against each other, and if both patch-sets have
 different bases (parents), Gerrit also identifies parts of the diff that were
-modified due to rebase. Those are called “rebase edits” and are highlighted with
+modified due to rebase. Those are called "rebase edits" and are highlighted with
 different colors.
 
 image::images/user-review-ui-side-by-side-diff-rebase-edits.png[width=800, link="images/user-review-ui-side-by-side-diff-rebase-edits.png"]
@@ -684,7 +684,7 @@ some of them if they were identified as rebase edits.
 image::images/user-review-ui-side-by-side-diff-rebase.png[width=400, link="images/user-review-ui-side-by-side-diff-rebase.png"]
 
 If all edits in a file were due to rebase, the file is skipped and is not shown
-among the list of files in the ‘files tab’.
+among the list of files in the 'files tab'.
 
 [[hazardous-rebases]]
 === Hazardous Rebases

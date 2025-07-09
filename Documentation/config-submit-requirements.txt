@@ -592,7 +592,7 @@ Cannot be used since it will result in recursive evaluation of expressions.
 === Require Code-Review approval from a non-uploader
 
 To define a submit requirement for code-review that requires a maximum vote for
-the “Code-Review” label from a non-uploader without a maximum negative vote:
+the "Code-Review" label from a non-uploader without a maximum negative vote:
 
 ----
 [submit-requirement "Code-Review"]

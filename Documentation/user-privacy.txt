@@ -34,7 +34,7 @@ the link:rest-api-accounts.html#account-endpoints[Account REST endpoints]. If
 you can see a user, you have read access to most of the
 link:rest-api-accounts.html#account-info[AccountInfo] for that user, including
 name and email address. Additional information, including secondary emails, is
-included in AccountInfo if the caller has “Modify Account” permissions.
+included in AccountInfo if the caller has "Modify Account" permissions.
 
 Additionally, all users on a change (author, cc’d, reviewer) can see each other,
 irrespective of the  account visibility settings. For example: Say you are a

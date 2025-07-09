@@ -4,7 +4,7 @@ Comments in Gerrit are associated with a patchset. When a new patchset is upload
 
 image::images/user-porting-comments-original-comment.png["Comment left on Patchset 15", align="center"]
 
-To solve this issue, Gerrit now has “Ported Comments”. These are comments that were left on an older patchset displayed on all the newer patchsets uploaded. For example, a comment left on Patchset 6 will be ported over to Patchset 7, 8 and all subsequent patchsets that are uploaded, not just the latest patchset.
+To solve this issue, Gerrit now has "Ported Comments". These are comments that were left on an older patchset displayed on all the newer patchsets uploaded. For example, a comment left on Patchset 6 will be ported over to Patchset 7, 8 and all subsequent patchsets that are uploaded, not just the latest patchset.
 
 Ported comments are not copies of the comment but the comment simply shown in another place.
 

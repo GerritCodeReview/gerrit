@@ -425,6 +425,32 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createNewChange_projectConfigRequiresSignedOffByFooter() throws Exception {
+    ConfigInput configInput = new ConfigInput();
+    configInput.useSignedOffBy = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(configInput);
+
+    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    String message = info.revisions.get(info.currentRevision).commit.message;
+    assertThat(message)
+        .contains(
+            String.format(
+                "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.newIdent().getEmailAddress()));
+  }
+
+  @Test
+  public void createNewChange_projectConfigDoesNotRequireSignedOffByFooter() throws Exception {
+
+    ConfigInput configInput = new ConfigInput();
+    configInput.useSignedOffBy = InheritableBoolean.FALSE;
+    gApi.projects().name(project.get()).config(configInput);
+
+    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    String message = info.revisions.get(info.currentRevision).commit.message;
+    assertThat(message).doesNotContain(SIGNED_OFF_BY_TAG);
+  }
+
+  @Test
   public void createNewChangeSignedOffByFooterWithChangeId() throws Exception {
     setSignedOffByFooter(true);
     try {

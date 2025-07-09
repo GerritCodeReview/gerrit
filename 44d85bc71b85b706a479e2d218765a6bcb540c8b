@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cda7eaf_82916413",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-09T14:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28a4de3c_f20e5cd8",
+      "range": {
+        "startLine": 672,
+        "startChar": 43,
+        "endLine": 672,
+        "endChar": 75
+      },
+      "revId": "44d85bc71b85b706a479e2d218765a6bcb540c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4500babe_681c600e",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e60d560_8d130de3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-09T14:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4500babe_681c600e",
+      "range": {
+        "startLine": 440,
+        "startChar": 4,
+        "endLine": 443,
+        "endChar": 5
+      },
+      "revId": "44d85bc71b85b706a479e2d218765a6bcb540c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80466eb9_0b20552b",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-07-09T09:14:33Z",
       "side": 1,
       "message": "Is setting this needed, I would think it\u0027s false by default?\n\nIf it\u0027s needed, it should also be added to the other test to rule out that it passes because the user has this preference.",
+      "revId": "44d85bc71b85b706a479e2d218765a6bcb540c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fbedf19_5bf1b1ac",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-09T14:49:22Z",
+      "side": 1,
+      "message": "Not needed.\nRemoved.",
+      "parentUuid": "80466eb9_0b20552b",
       "revId": "44d85bc71b85b706a479e2d218765a6bcb540c8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

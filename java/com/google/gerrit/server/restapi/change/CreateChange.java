@@ -84,6 +84,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.change.CreateChange.CommitTreeSupplier;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -115,6 +116,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.patch.PatchApplier;
 import org.eclipse.jgit.patch.PatchApplier.Result.Error;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -457,7 +460,7 @@ public class CreateChange
                 ? committer
                 : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
 
-        String commitMessage = getCommitMessage(input.subject, me);
+        String commitMessage = getCommitMessage(projectState, input.subject, me);
 
         CodeReviewCommit c;
         boolean hasGitConflicts = false;
@@ -490,6 +493,7 @@ public class CreateChange
           logger.atFine().log("tree ID after applying patch: %s", treeId.name());
           String appliedPatchCommitMessage =
               getCommitMessage(
+                  projectState,
                   ApplyPatchUtil.buildCommitMessage(
                       input.subject,
                       ImmutableList.of(),
@@ -662,7 +666,30 @@ public class CreateChange
     return parentCommit;
   }
 
-  private String getCommitMessage(String subject, IdentifiedUser me) {
+  private Optional<String> getChangeIdFromMessage(String subject) {
+    int indexOfChangeId = ChangeIdUtil.indexOfChangeId(subject, "\n");
+    if (indexOfChangeId == -1) {
+      return Optional.empty();
+    }
+    return Optional.of(
+        subject.substring(
+            indexOfChangeId + 11 /* "Change-Id: "*/,
+            indexOfChangeId + 12 /* "Change-Id: I" */ + Constants.OBJECT_ID_STRING_LENGTH));
+  }
+
+  private boolean shouldAddSignedOffByTag(
+      ProjectState projectState, IdentifiedUser me, String commitMessage) {
+    if (FooterLine.fromMessage(commitMessage).stream()
+        .anyMatch(footer -> footer.matches(new FooterKey(SIGNED_OFF_BY_TAG)))) {
+      return false;
+    }
+    if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
+      return true;
+    }
+    return Boolean.TRUE.equals(me.state().generalPreferences().signedOffBy);
+  }
+
+  private String getCommitMessage(ProjectState projectState, String subject, IdentifiedUser me) {
     // Add a Change-Id line if there isn't already one
     String commitMessage = subject;
     if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
@@ -670,7 +697,7 @@ public class CreateChange
       commitMessage = ChangeIdUtil.insertId(commitMessage, id);
     }
 
-    if (Boolean.TRUE.equals(me.state().generalPreferences().signedOffBy)) {
+    if (this.shouldAddSignedOffByTag(projectState, me, commitMessage)) {
       commitMessage =
           Joiner.on("\n")
               .join(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c31425ef_f91371e7",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-09T10:05:18Z",
+      "side": 1,
+      "message": "already reached",
+      "range": {
+        "startLine": 184,
+        "startChar": 55,
+        "endLine": 184,
+        "endChar": 63
+      },
+      "revId": "1158b449ee0103f8630101b871d28e4c285180f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

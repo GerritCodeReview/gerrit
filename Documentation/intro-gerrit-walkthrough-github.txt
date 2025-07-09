@@ -108,7 +108,7 @@ to the Web UI and create a pull request. In Gerrit, you need to push your commit
 (or the series of changes/commits) to the remote first, since you usually
 develop in a local branch only. While you can often just use git push with
 GitHub, you need to do a slightly different thing for Gerrit. Gerrit uses a
-“magic” branch that tells the server that this code is supposed to be reviewed.
+"magic" branch that tells the server that this code is supposed to be reviewed.
 To send the changes you made on your local branch to review and being eventually
 merged into the remote’s master branch, you use
 `git push origin HEAD:refs/for/master`. There are also link:user-upload.html#_git_push[a number of Gerrit change
@@ -135,11 +135,11 @@ creator of the change) adds reviewers to get the review process started.
 
 Switching perspectives briefly, reviewing a change is fairly similar between
 GitHub and Gerrit. You, as a reviewer, will be notified of a change you have
-been added to via email or see an “incoming” change on your Gerrit dashboard.
+been added to via email or see an "incoming" change on your Gerrit dashboard.
 The dashboard is the central overview of changes going on within a Gerrit
 instance. By default, the dashboard shows changes that you are involved in, in
 any way. You can also see all changes on a Gerrit server by using the top menu
-(“Changes” -> “Open”). This view is more similar to what you see on Github, when
+("Changes” -> “Open"). This view is more similar to what you see on Github, when
 you navigate to the Pull Requests tab of the project/repository you are working
 on. Note, however, that a single Gerrit instance can host multiple projects
 (also referred to as repositories; a list can be found, for example, https://gerrit-review.googlesource.com/admin/repos[here,role=external,window=_blank]). Your
@@ -149,12 +149,12 @@ projects/repositories by default.
 Back to your dashboard, you can click on the change you want to review. You can
 also access this from the email you received. You will see the same view that
 you saw as an author. In the middle of the change page, you can find the list of
-files that have been modified, just like what you find in the “Files changed”
+files that have been modified, just like what you find in the "Files changed"
 tab of GitHub. Also similarly, you can leave comments by highlighting a piece of
-the code and pressing ‘c’. All comments you make are in a draft state and thus
+the code and pressing 'c'. All comments you make are in a draft state and thus
 only visible to you, like on GitHub. When you are done with your review, you
-need to click the “Reply” button at the top of the change page to send your
-assessment to the change owner alongside a “change message” summarizing your
+need to click the "Reply" button at the top of the change page to send your
+assessment to the change owner alongside a "change message" summarizing your
 findings and/or adding higher level comments. Replying to a change makes your
 draft comments and the change message visible on the change page for everyone
 that has view access to this change. This again is fairly similar to GitHub,
@@ -193,11 +193,11 @@ on. To do that, you might have to checkout the respective commit first if it is
 not at the tip of your local branch, for example if you stacked multiple changes
 on top of each other. Another common use case is to not have a local branch but
 to work in the so-called https://www.git-tower.com/learn/git/faq/detached-head-when-checkout-commit["detached HEAD",role=external,window=_blank] mode. In that case you can use the
-“Download” button on the files tab to copy a command that fetches and checks out
+"Download" button on the files tab to copy a command that fetches and checks out
 the commit underlying your change. Make sure to select the latest patchset,
 though!
 
-image::images/user-review-ui-change-page-download.png[Using the “Download” button to copy a command that checks out a given patchset for a change.]
+image::images/user-review-ui-change-page-download.png[Using the "Download" button to copy a command that checks out a given patchset for a change.]
 
 After checking out the commit, you then make the changes as usual. When you
 think you are done, you can commit with the `--amend` flag to change the commit
@@ -227,10 +227,10 @@ the Web UI as well as from the special branch mentioned above.
 
 Finally, it is time to submit your change. As mentioned above, the precondition
 for this in Gerrit is usually at least a +2 vote on the Code-Review label. With
-GitHub, an authorized person must have given an “Approve” vote. Once this
+GitHub, an authorized person must have given an "Approve" vote. Once this
 precondition has been met, anyone with submit permission can submit the change
-in Gerrit. To do that, you click the “Submit” button in the Gerrit Web UI just
-as you would click the “Merge Pull Request” button in GitHub. Both, Gerrit and
+in Gerrit. To do that, you click the "Submit" button in the Gerrit Web UI just
+as you would click the "Merge Pull Request" button in GitHub. Both, Gerrit and
 GitHub, allow different merge strategies, that can be enabled by project
 administrators. In Gerrit, a merge strategy is configured for each project and
 cannot be changed at submit time while this may be possible with GitHub,

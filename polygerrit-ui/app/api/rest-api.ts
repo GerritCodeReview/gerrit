@@ -846,7 +846,7 @@ export declare interface LabelTypeInfo {
 
 export type LabelTypeInfoValues = {[value: string]: string};
 
-// The map maps the values (“-2”, “-1”, " `0`", “+1”, “+2”) to the value descriptions.
+// The map maps the values ("-2", "-1", " `0`", "+1", "+2") to the value descriptions.
 export type LabelValueToDescriptionMap = {[labelValue: string]: string};
 
 /**
@@ -972,7 +972,7 @@ export declare interface QuickLabelInfo extends LabelCommonInfo {
   recommended?: AccountInfo;
   disliked?: AccountInfo;
   blocking?: boolean; // not set if false
-  value?: number; // The voting value of the user who recommended/disliked this label on the change if it is not “+1”/“-1”.
+  value?: number; // The voting value of the user who recommended/disliked this label on the change if it is not "+1"/"-1".
   default_value?: number;
 }
 

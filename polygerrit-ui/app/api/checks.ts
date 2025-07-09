@@ -364,7 +364,7 @@ export declare interface CheckResult {
    *          without fixing the problem. Errors will be visualized very
    *          prominently to the user.
    *
-   * The ‘tags’ field below can be used for further categorization, e.g. for
+   * The 'tags' field below can be used for further categorization, e.g. for
    * distinguishing FAILED vs TIMED_OUT.
    */
   category: Category;

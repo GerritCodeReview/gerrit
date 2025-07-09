@@ -56,7 +56,7 @@ there is a chance for collisions and inadvertently grouping changes together
 that weren’t meant to be grouped. This could even happen with changes you can’t
 see, leading to more confusion e.g. (change not submittable, but you can't see
 why it's not submittable.). We suggest prefixing topic strings with the author’s
-username e.g. “username-” to help avoid this.
+username e.g. "username-" to help avoid this.
 
 You can view the assigned topic from the change screen in Gerrit:
 
@@ -193,7 +193,7 @@ submitted at that time. When reverting the submission described in
 reverted.
 
 |===
-| NOTE: We say “reverting a submission” instead of “reverting a submitted
+| NOTE: We say "reverting a submission" instead of “reverting a submitted
   topic” because submissions are defined by submission id, not by the topic
   string. So even though topics names could be reused, this doesn't effect
   reverting. For example:
@@ -214,7 +214,7 @@ updated with the same change (e.g. you're porting a security fix across
 branches). Gerrit provides a mechanism to create these changes.
 
 From the overflow menu (3 dot icon) in the top right of the Change Screen,
-select “Cherry pick.” In the screenshot below, we’re showing this on a
+select "Cherry pick." In the screenshot below, we’re showing this on a
 submitted change, but this option is available if the change is pending as
 well.
 
@@ -227,7 +227,7 @@ image::images/cross-repository-changes-cp-modal.png[width=600]
 
 Enter the branch name that you want to target for these repositories. The
 branch must already exist on all of the repositories. After clicking
-“CHERRY PICK,” Gerrit will create new changes all targeting the entered
+"CHERRY PICK," Gerrit will create new changes all targeting the entered
 branch in their respective repositories, and these new changes will all be
 associated with a new, uniquely-generated topic name.
 
@@ -237,7 +237,7 @@ process.
 |===
 | NOTE: You cannot cherry pick two or more changes that all target the same
  repository from the Gerrit UI at this time; you’ll get an error message saying
- “changes cannot be of the same repository.” To accomplish this, you’d
+ "changes cannot be of the same repository." To accomplish this, you’d
  need to do the cherry-pick locally.
 |===
 

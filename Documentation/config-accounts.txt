@@ -425,8 +425,8 @@ star labels.
 == Reviewed Flags
 
 When reviewing a patch set in the Gerrit UI, the reviewer can mark
-files in the patch set as reviewed. These markers are called ‘Reviewed
-Flags’ and are private to the user. A reviewed flag is a tuple of patch
+files in the patch set as reviewed. These markers are called 'Reviewed
+Flags' and are private to the user. A reviewed flag is a tuple of patch
 set ID, file and account ID.
 
 Each user can have many thousands of reviewed flags and over time the

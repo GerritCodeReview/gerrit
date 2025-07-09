@@ -8,7 +8,7 @@ import './gr-ai-prompt-dialog';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrAiPromptDialog} from './gr-ai-prompt-dialog';
 import {createParsedChange} from '../../../test/test-data-generators';
-import {PatchSetNum} from '../../../api/rest-api';
+import {CommitId, PatchSetNum} from '../../../api/rest-api';
 import {stubRestApi} from '../../../test/test-utils';
 
 suite('gr-ai-prompt-dialog test', () => {
@@ -17,6 +17,12 @@ suite('gr-ai-prompt-dialog test', () => {
     stubRestApi('getPatchContent').returns(Promise.resolve('<patch>'));
     element = await fixture(html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`);
     element.change = createParsedChange();
+    element.change.revisions['abc'].commit!.parents = [
+      {
+        commit: 'def' as CommitId,
+        subject: 'Parent commit subject',
+      },
+    ];
     element.patchNum = 1 as PatchSetNum;
     await element.updateComplete;
   });

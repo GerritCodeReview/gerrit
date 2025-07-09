@@ -241,6 +241,7 @@ public class ChangeEditUtil {
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
 
+<<<<<<< HEAD   (a12f21c06c17f55f8674cc0768db3898ebadd35f Improve error message for a failed submission for FAST_FORWA)
   private static void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
     String refName = edit.getRefName();
     RefUpdate ru = repo.updateRef(refName, true);
@@ -264,6 +265,68 @@ public class ChangeEditUtil {
       case REJECTED_OTHER_REASON:
       default:
         throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
+||||||| BASE   (f109226ce4ab299086a54f8c5186ef56da3a1d04 Update git submodules)
+  private void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      String refName = edit.getRefName();
+      RefUpdate ru = repo.updateRef(refName, true);
+      ru.setExpectedOldObjectId(edit.getEditCommitId());
+      ru.setForceUpdate(true);
+      RefUpdate.Result result = ru.delete();
+      switch (result) {
+        case FORCED:
+        case NEW:
+        case NO_CHANGE:
+          break;
+        case LOCK_FAILURE:
+          throw new LockFailureException(String.format("Failed to delete ref %s", refName), ru);
+        case FAST_FORWARD:
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
+      }
+      gitReferenceUpdated.fire(
+          edit.getChange().getProject(),
+          ru,
+          /* updater= */ userProvider.get().asIdentifiedUser().state());
+=======
+  private void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      String refName = edit.getRefName();
+      RefUpdate ru = repo.updateRef(refName, true);
+      ru.setExpectedOldObjectId(edit.getEditCommitId());
+      ru.setNewObjectId(ObjectId.zeroId());
+      ru.setForceUpdate(true);
+      RefUpdate.Result result = ru.delete();
+      switch (result) {
+        case FORCED:
+        case NEW:
+        case NO_CHANGE:
+          break;
+        case LOCK_FAILURE:
+          throw new LockFailureException(String.format("Failed to delete ref %s", refName), ru);
+        case FAST_FORWARD:
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
+      }
+      gitReferenceUpdated.fire(
+          edit.getChange().getProject(),
+          ru,
+          /* updater= */ userProvider.get().asIdentifiedUser().state());
+>>>>>>> CHANGE (9469ddfdfaf00c707a9e4854a91b3c39a7df5d65 Align delete refs to the rest of Gerrit)
     }
   }
 

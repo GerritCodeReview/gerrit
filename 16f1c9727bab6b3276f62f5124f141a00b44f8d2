@@ -22,6 +22,30 @@
       },
       "revId": "16f1c9727bab6b3276f62f5124f141a00b44f8d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "703f36f2_c9eb20c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T06:21:23Z",
+      "side": 1,
+      "message": "I also did that locally and it worked. There seem to be differences depending on where you run the test, which is unfortunate. For now, let me adapt it to match the expectation on the CI.",
+      "parentUuid": "4c62e4c8_281068ca",
+      "range": {
+        "startLine": 68,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "16f1c9727bab6b3276f62f5124f141a00b44f8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

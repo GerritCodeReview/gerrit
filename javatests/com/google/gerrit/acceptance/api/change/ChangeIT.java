@@ -2099,6 +2099,39 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeSelfFromCCPossibleWithoutRemoveReviewerPermission() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+
+    // Add a cc
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = CC;
+    reviewerInput.reviewer = user.id().toString();
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    assertThat(gApi.changes().id(changeId).get().reviewers).isNotEmpty();
+
+    // Try removing the cc as that user should work since users can always remove themselves
+    requestScopeOperations.setApiUser(user.id());
+
+    // a) via the Delete Reviewer endpoint:
+    gApi.changes().id(changeId).reviewer(user.id().toString()).remove();
+    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
+
+    // Add the user back to cc
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    assertThat(gApi.changes().id(changeId).get().reviewers).isNotEmpty();
+
+    // b) via the Post Review endpoint:
+    reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.id().toString();
+    reviewerInput.state = ReviewerState.REMOVED;
+    ReviewInput input = new ReviewInput();
+    input.reviewers = ImmutableList.of(reviewerInput);
+    gApi.changes().id(changeId).current().review(input);
+    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
+  }
+
+  @Test
   public void removeReviewer() throws Exception {
     testRemoveReviewer(true);
   }

@@ -16,6 +16,24 @@
       "message": "Log a warning or info about the reason for immediate exit?",
       "revId": "230dffe9a1dfc592ac51c7167938d8242dd4b224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef4d0aef_45739690",
+        "filename": "java/com/google/gerrit/server/account/PasswordMigrator.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:22:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "810b14ec_8ca57bf4",
+      "revId": "230dffe9a1dfc592ac51c7167938d8242dd4b224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

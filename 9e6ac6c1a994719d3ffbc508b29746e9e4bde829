@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "015a3325_9711756a",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteToken.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-10T13:57:40Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7936fc97_7e7cedde",
+      "revId": "9e6ac6c1a994719d3ffbc508b29746e9e4bde829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb3ddbe8_dbd22662",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "No we don\u0027t, but that was always the case. I wouldn\u0027t put too much work into that, since this is deprecated and only still exists for backwards compatibility.",
       "parentUuid": "bb3ddbe8_dbd22662",
+      "revId": "9e6ac6c1a994719d3ffbc508b29746e9e4bde829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9be8a5dc_9b66f0a8",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-10T13:57:40Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "488cbf06_90739dc4",
       "revId": "9e6ac6c1a994719d3ffbc508b29746e9e4bde829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

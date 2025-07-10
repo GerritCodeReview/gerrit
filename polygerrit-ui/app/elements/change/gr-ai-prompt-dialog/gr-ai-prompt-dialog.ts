@@ -163,45 +163,54 @@ export class GrAiPromptDialog extends LitElement {
         () => html` <div class="loading">Loading patch ...</div>`,
         () => html` <section class="flexContainer">
           <div class="content">
-            <div class="template-selector">
-              <div class="template-options">
-                ${Object.entries(PROMPT_TEMPLATES).map(
-                  ([key, template]) => html`
-                    <label class="template-option">
-                      <input
-                        type="radio"
-                        name="template"
-                        .value=${key}
-                        ?checked=${this.selectedTemplate === key}
-                        @change=${(e: Event) => {
-                          const input = e.target as HTMLInputElement;
-                          this.selectedTemplate =
-                            input.value as PromptTemplateId;
-                        }}
-                      />
-                      ${template.label}
-                    </label>
-                  `
-                )}
-              </div>
-            </div>
-            <textarea
-              .value=${this.promptContent}
-              readonly
-              placeholder="Patch content will appear here..."
-            ></textarea>
-            <div class="toolbar">
-              <div class="info-text">
-                You can paste this prompt in an AI Model if your project code
-                can be shared with AI. We recommend a thinking model. You can
-                also use it for an AI Agent as context (a reference to a git
-                change).
-              </div>
-              <gr-button @click=${this.handleCopyPatch}>
-                <gr-icon icon="content_copy" small></gr-icon>
-                Copy Prompt
-              </gr-button>
-            </div>
+            ${when(
+              this.getNumParents() === 1,
+              () => html`<div class="template-selector">
+                  <div class="template-options">
+                    ${Object.entries(PROMPT_TEMPLATES).map(
+                      ([key, template]) => html`
+                        <label class="template-option">
+                          <input
+                            type="radio"
+                            name="template"
+                            .value=${key}
+                            ?checked=${this.selectedTemplate === key}
+                            @change=${(e: Event) => {
+                              const input = e.target as HTMLInputElement;
+                              this.selectedTemplate =
+                                input.value as PromptTemplateId;
+                            }}
+                          />
+                          ${template.label}
+                        </label>
+                      `
+                    )}
+                  </div>
+                </div>
+                <textarea
+                  .value=${this.promptContent}
+                  readonly
+                  placeholder="Patch content will appear here..."
+                ></textarea>
+                <div class="toolbar">
+                  <div class="info-text">
+                    You can paste this prompt in an AI Model if your project
+                    code can be shared with AI. We recommend a thinking model.
+                    You can also use it for an AI Agent as context (a reference
+                    to a git change).
+                  </div>
+                  <gr-button @click=${this.handleCopyPatch}>
+                    <gr-icon icon="content_copy" small></gr-icon>
+                    Copy Prompt
+                  </gr-button>
+                </div>`,
+              () => html`
+                <div class="info-text">
+                  This change has multiple parents. Currently, the "Help me
+                  review" feature does not support multiple parents.
+                </div>
+              `
+            )}
           </div>
         </section>`
       )}
@@ -235,7 +244,14 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   open() {
-    this.loadPatchContent();
+    if (this.getNumParents() === 1) {
+      this.loadPatchContent();
+    }
+  }
+
+  private getNumParents() {
+    return this.change?.revisions[this.change.current_revision].commit?.parents
+      .length;
   }
 
   private async loadPatchContent() {

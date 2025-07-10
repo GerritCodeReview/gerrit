@@ -34,12 +34,21 @@ suite('gr-copy-links screenshot tests', () => {
       html`<gr-copy-links .copyLinks=${links}></gr-copy-links>`
     );
     await element.updateComplete;
+    // md-menu requires anchor to be set
+    // so we create a dummy element to allow
+    // us to open it.
+    const button = document.createElement('button');
+    const mdMenu = element.shadowRoot?.querySelector('md-menu');
+    mdMenu!.anchorElement = button;
     element.openDropdown();
     await waitUntil(() => element.isDropdownOpen);
     await element.updateComplete;
   });
 
   test('dropdown screenshot', async () => {
-    await visualDiff(element.dropdown, 'gr-copy-links');
+    await visualDiff(
+      element.shadowRoot?.querySelector('.dropdown-content'),
+      'gr-copy-links'
+    );
   });
 });

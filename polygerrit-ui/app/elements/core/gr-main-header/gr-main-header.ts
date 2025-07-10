@@ -706,7 +706,8 @@ export class GrMainHeader extends LitElement {
               class="moreMenu"
               link=""
               .items=${moreMenu}
-              .horizontalAlign=${'center'}
+              .horizontalAlign=${'right'}
+              .verticalOffset=${40}
               @click=${() => {
                 if (this.hamburgerClose) {
                   this.handleSidebar();

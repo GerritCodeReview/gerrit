@@ -45,6 +45,11 @@ export class GrCursorManager {
   cursorTargetClass: string | null = null;
 
   /**
+   * The attribute to apply to the current target. Use null for no attribute.
+   */
+  cursorTargetAttribute: string | null = null;
+
+  /**
    * The scroll behavior for the cursor. Values are 'never' and
    * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
    * the viewport.
@@ -350,11 +355,19 @@ export class GrCursorManager {
     if (this.target && this.cursorTargetClass) {
       this.target.classList.add(this.cursorTargetClass);
     }
+
+    if (this.target && this.cursorTargetAttribute) {
+      this.target.setAttribute(this.cursorTargetAttribute, '');
+    }
   }
 
   _unDecorateTarget() {
     if (this.target && this.cursorTargetClass) {
       this.target.classList.remove(this.cursorTargetClass);
+    }
+
+    if (this.target && this.cursorTargetAttribute) {
+      this.target.removeAttribute(this.cursorTargetAttribute);
     }
   }
 

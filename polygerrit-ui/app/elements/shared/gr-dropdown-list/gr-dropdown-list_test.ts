@@ -13,7 +13,6 @@ import {
   queryAndAssert,
   waitEventLoop,
 } from '../../../test/test-utils';
-import {PaperListboxElement} from '@polymer/paper-listbox';
 import {Timestamp} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -56,86 +55,61 @@ suite('gr-dropdown-list tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-button
-          aria-disabled="false"
-          class="dropdown-trigger"
-          down-arrow=""
-          id="trigger"
-          link=""
-          role="button"
-          slot="dropdown-trigger"
-          tabindex="0"
-        >
-          <span id="triggerText"> Button Text 2 </span>
-          <gr-copy-clipboard class="copyClipboard" hidden="" hideinput="">
-          </gr-copy-clipboard>
-        </gr-button>
-        <iron-dropdown
-          aria-disabled="false"
-          aria-hidden="true"
-          horizontal-align="left"
-          id="dropdown"
-          style="outline: none; display: none;"
-          vertical-align="top"
-        >
-          <paper-listbox
-            class="dropdown-content"
-            role="listbox"
-            slot="dropdown-content"
+        <div class="dropdown">
+          <gr-button
+            aria-disabled="false"
+            class="dropdown-trigger"
+            down-arrow=""
+            id="trigger"
+            link=""
+            role="button"
+            slot="dropdown-trigger"
             tabindex="0"
           >
-            <paper-item
-              aria-disabled="false"
-              aria-selected="false"
-              data-value="1"
-              role="option"
-              tabindex="-1"
-            >
+            <span id="triggerText"> Button Text 2 </span>
+            <gr-copy-clipboard class="copyClipboard" hidden="" hideinput="">
+            </gr-copy-clipboard>
+          </gr-button>
+          <md-menu
+            anchor="trigger"
+            default-focus="none"
+            aria-hidden="true"
+            id="dropdown"
+            quick=""
+            tabindex="-1"
+          >
+            <md-menu-item md-menu-item="" tabindex="0">
               <div class="topContent">
-                <div><span>Top Text 1</span></div>
+                <div>
+                  <span> Top Text 1 </span>
+                </div>
               </div>
-            </paper-item>
-            <paper-item
-              aria-disabled="false"
-              aria-selected="true"
-              class="iron-selected"
-              data-value="2"
-              role="option"
-              tabindex="0"
-            >
+            </md-menu-item>
+            <md-divider role="separator" tabindex="-1"> </md-divider>
+            <md-menu-item active="" md-menu-item="" selected="" tabindex="-1">
               <div class="topContent">
-                <div><span>Top Text 2</span></div>
+                <div>
+                  <span> Top Text 2 </span>
+                </div>
               </div>
               <div class="bottomContent">
                 <div>Bottom Text 2</div>
               </div>
-            </paper-item>
-            <paper-item
-              aria-disabled="true"
-              aria-selected="false"
-              data-value="3"
-              disabled=""
-              role="option"
-              style="pointer-events: none;"
-              tabindex="-1"
-            >
+            </md-menu-item>
+            <md-divider role="separator" tabindex="-1"> </md-divider>
+            <md-menu-item disabled="" md-menu-item="" tabindex="-1">
               <div class="topContent">
-                <div><span>Top Text 3</span></div>
+                <div>
+                  <span> Top Text 3 </span>
+                </div>
                 <gr-date-formatter> </gr-date-formatter>
               </div>
               <div class="bottomContent">
                 <div>Bottom Text 3</div>
               </div>
-            </paper-item>
-          </paper-listbox>
-        </iron-dropdown>
-        <gr-select>
-          <select>
-            <option value="1">Top Text 1</option>
-            <option value="2">Mobile Text 2</option>
-            <option disabled="" value="3">Mobile Text 3</option>
-          </select>
-        </gr-select>
+            </md-menu-item>
+          </md-menu>
+        </div>
       `
     );
   });
@@ -163,13 +137,13 @@ suite('gr-dropdown-list tests', () => {
   test('tap on trigger opens menu', () => {
     sinon.stub(element, 'open').callsFake(() => {
       assertIsDefined(element.dropdown);
-      element.dropdown.open();
+      element.dropdown.show();
     });
     assertIsDefined(element.dropdown);
-    assert.isFalse(element.dropdown.opened);
+    assert.isFalse(element.dropdown.open);
     assertIsDefined(element.trigger);
     element.trigger.click();
-    assert.isTrue(element.dropdown.opened);
+    assert.isTrue(element.dropdown.open);
   });
 
   test('computeMobileText', () => {
@@ -209,89 +183,51 @@ suite('gr-dropdown-list tests', () => {
     await element.updateComplete;
     await waitEventLoop();
 
-    assert.equal(
-      queryAndAssert<PaperListboxElement>(element, 'paper-listbox').selected,
-      element.value
-    );
-    assert.equal(element.text, 'Button Text 2');
+    const menu = queryAndAssert<HTMLElement>(element, 'md-menu');
+    const items = queryAll<HTMLElement>(menu, 'md-menu-item');
 
-    const items = queryAll<HTMLInputElement>(element, 'paper-item');
-    const mobileItems = queryAll<HTMLOptionElement>(element, 'option');
     assert.equal(items.length, 3);
-    assert.equal(mobileItems.length, 3);
 
-    // First Item
-    // The first item should be disabled, has no bottom text, and no date.
-    assert.isFalse(!!items[0].disabled);
-    assert.isFalse(mobileItems[0].disabled);
-    assert.isFalse(items[0].classList.contains('iron-selected'));
-    assert.isFalse(mobileItems[0].selected);
-
+    // Item 0 (First)
+    assert.isFalse(items[0].hasAttribute('disabled'));
+    assert.isFalse(items[0].hasAttribute('selected'));
     assert.isNotOk(items[0].querySelector('gr-date-formatter'));
     assert.isNotOk(items[0].querySelector('.bottomContent'));
-    assert.equal(items[0].dataset.value, element.items[0].value as any);
-    assert.equal(mobileItems[0].value, element.items[0].value);
     assert.equal(
-      queryAndAssert<HTMLDivElement>(items[0], '.topContent div span')
+      queryAndAssert<HTMLSpanElement>(items[0], '.topContent div span')
         .innerText,
       element.items[0].text
     );
 
-    // Since no mobile specific text, it should fall back to text.
-    assert.equal(mobileItems[0].text, element.items[0].text);
-
-    // Second Item
-    // The second item should have top text, bottom text, and no date.
-    assert.isFalse(!!items[1].disabled);
-    assert.isFalse(mobileItems[1].disabled);
-    assert.isTrue(items[1].classList.contains('iron-selected'));
-    assert.isTrue(mobileItems[1].selected);
-
+    // Item 1 (Second)
+    assert.isFalse(items[1].hasAttribute('disabled'));
+    assert.isTrue(items[1].hasAttribute('selected'));
     assert.isNotOk(items[1].querySelector('gr-date-formatter'));
     assert.isOk(items[1].querySelector('.bottomContent'));
-    assert.equal(items[1].dataset.value, element.items[1].value as any);
-    assert.equal(mobileItems[1].value, element.items[1].value);
     assert.equal(
-      queryAndAssert<HTMLDivElement>(items[1], '.topContent div span')
+      queryAndAssert<HTMLSpanElement>(items[1], '.topContent div span')
         .textContent,
       element.items[1].text
     );
-
-    // Since there is mobile specific text, it should that.
-    assert.equal(mobileItems[1].text, element.items[1].mobileText);
-
-    // Since this item is selected, and it has triggerText defined, that
-    // should be used.
     assert.equal(element.text, element.items[1].triggerText);
 
-    // Third item
-    // The third item should be disabled, and have a date, and bottom content.
-    assert.isTrue(!!items[2].disabled);
-    assert.isTrue(mobileItems[2].disabled);
-    assert.isFalse(items[2].classList.contains('iron-selected'));
-    assert.isFalse(mobileItems[2].selected);
-
+    // Item 2 (Third)
+    assert.isTrue(items[2].hasAttribute('disabled'));
+    assert.isFalse(items[2].hasAttribute('selected'));
     assert.isOk(items[2].querySelector('gr-date-formatter'));
     assert.isOk(items[2].querySelector('.bottomContent'));
-    assert.equal(items[2].dataset.value, element.items[2].value as any);
-    assert.equal(mobileItems[2].value, element.items[2].value);
     assert.equal(
-      queryAndAssert<HTMLDivElement>(items[2], '.topContent div span')
+      queryAndAssert<HTMLSpanElement>(items[2], '.topContent div span')
         .innerText,
       element.items[2].text
     );
 
-    // Since there is mobile specific text, it should that.
-    assert.equal(mobileItems[2].text, element.items[2].mobileText);
-
-    // Select a new item.
+    // Select first item
     items[0].click();
     await element.updateComplete;
-    assert.equal(element.value, '1');
-    assert.isTrue(items[0].classList.contains('iron-selected'));
-    assert.isTrue(mobileItems[0].selected);
 
-    // Since no triggerText, the fallback is used.
+    assert.equal(element.value, '1');
+    assert.isTrue(items[0].hasAttribute('selected'));
     assert.equal(element.text, element.items[0].text);
   });
 });

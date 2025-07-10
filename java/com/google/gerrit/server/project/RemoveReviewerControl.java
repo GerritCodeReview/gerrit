@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -32,6 +33,8 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class RemoveReviewerControl {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
 
@@ -117,11 +120,39 @@ public class RemoveReviewerControl {
     // owner and site admin can remove anyone
     PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
     PermissionBackend.ForProject forProject = withUser.project(notes.getProjectName());
-    if (forProject.ref(notes.getChange().getDest().branch()).test(RefPermission.WRITE_CONFIG)
-        || withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
+    if (forProject.ref(notes.getChange().getDest().branch()).test(RefPermission.WRITE_CONFIG)) {
+      logger.atFine().log(
+          "%s can remove reviewer %s from change %s since they are an owner of the destination"
+              + " branch %s",
+          currentUser.getLoggableName(),
+          reviewer,
+          notes.getChangeId(),
+          notes.getChange().getDest().branch());
       return;
     }
-    permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
+    if (withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      logger.atFine().log(
+          "%s can remove reviewer %s from change %s since they are an administrator",
+          currentUser.getLoggableName(), reviewer, notes.getChangeId());
+      return;
+    }
+    try {
+      permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
+      logger.atFine().log(
+          "%s can remove reviewer %s from change %s since they have the %s permission",
+          currentUser.getLoggableName(),
+          reviewer,
+          notes.getChangeId(),
+          ChangePermission.REMOVE_REVIEWER.name());
+    } catch (AuthException e) {
+      logger.atFine().log(
+          "%s cannot remove reviewer %s from change %s since they don't have the %s permission",
+          currentUser.getLoggableName(),
+          reviewer,
+          notes.getChangeId(),
+          ChangePermission.REMOVE_REVIEWER.name());
+      throw e;
+    }
   }
 
   public static boolean canRemoveReviewerWithoutPermissionCheck(
@@ -129,12 +160,24 @@ public class RemoveReviewerControl {
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {
-        return true; // A user can always remove themselves.
+        // A user can always remove themselves.
+        logger.atFine().log(
+            "%s can remove reviewer %s from change %s since they can always remove themselves",
+            currentUser.getLoggableName(), reviewer, change.getId());
+        return true;
       } else if (aId.equals(change.getOwner()) && 0 <= value) {
-        return true; // The change owner may remove any zero or positive score.
+        // The change owner may remove any zero or positive score.
+        logger.atFine().log(
+            "%s can remove reviewer %s from change %s since they own the change and the reviewer"
+                + " scored with zero or a positive score",
+            currentUser.getLoggableName(), reviewer, change.getId());
+        return true;
       }
     }
 
+    logger.atFine().log(
+        "%s cannot remove reviewer %s from change %s without permission check",
+        currentUser.getLoggableName(), reviewer, change.getId());
     return false;
   }
 }

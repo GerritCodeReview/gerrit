@@ -51,6 +51,24 @@
       "parentUuid": "b28d8809_9a3aeb64",
       "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bc84db9_317d57f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-10T08:47:58Z",
+      "side": 1,
+      "message": "I am working on updating this change to update the submodule link to the tip of the servlet-4 branch in jgit",
+      "parentUuid": "2b06ab2a_1527dbe6",
+      "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

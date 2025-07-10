@@ -34,6 +34,24 @@
       "parentUuid": "0b68f51e_72e61604",
       "revId": "454dc2acbf82a619da267e578fc5e02e0f951c87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e395f3b5_535b5e50",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-10T13:55:31Z",
+      "side": 1,
+      "message": "I meant that we don\u0027t need this class as a wrapper around the (guava) cache. We can instead inject the `@Named(CACHE_NAME) LoadingCache\u003cAccount.Id, List\u003cAuthToken\u003e\u003e cache` directly into the caching accessor class the same way like we inject it into this class. The module declaring the cache and the loader class can be moved to the caching accessor class.\n\nWe can do all of this later after we submit the series.",
+      "parentUuid": "199edde6_419f5192",
+      "revId": "454dc2acbf82a619da267e578fc5e02e0f951c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

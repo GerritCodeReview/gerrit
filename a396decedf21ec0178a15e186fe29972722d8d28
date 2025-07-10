@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c667d84_ce814639",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ca39bad_4674d352",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c690509e_391993bd",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-07-09T09:44:37Z",
       "side": 1,
       "message": "Describe here also what happens with the existing tokens whose lifetime already exceeded the max lifetime set by an admin. For example:\n* create a token T with lifetime 30 days\n* admin sets max lifetime to 10 days\n* Is T still valid?\n\nIOW: is the validation against the global max lifetime done at the token creation time or at the usage time?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c5d8b87_e90c0fbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c690509e_391993bd",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb1751d4_54688cbe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:07:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "63a450eb_460eb548",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d157b113_b3d3de5d",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a52093b9_eada9ec4",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthTokens.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:07:09Z",
+      "side": 1,
+      "message": "Done\nI have left this check in place as an additional guard.",
+      "parentUuid": "d157b113_b3d3de5d",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c7b6b6_ce092604",
@@ -88,6 +166,24 @@
       "writtenOn": "2025-07-09T09:44:37Z",
       "side": 1,
       "message": "Instead of encoding the absence of the config as zero duration, use `Optional\u003cDuration\u003e` as the type of `this.maxAuthTokenLifeTime`. Set it to `Optional.empty()` if the config is unset.",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a01a7871_d0444aaa",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:07:09Z",
+      "side": 1,
+      "message": "It is not only the encoding of the absence, but theoretical users might configure a negative time or 0 and that would be accepted by the parser. Thus, we will have to check this.",
+      "parentUuid": "e0c7b6b6_ce092604",
       "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d8c8c1f_3ac20c76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-10T14:41:16Z",
+      "side": 1,
+      "message": "- updated jgit to current tip of servlet-4 branch\n- updated jgit bzlmod version to 7.4.0\n- updated MODULE.bazel.lock\n- added Release-Notes footer\n\nStill need to mute or better fix the additional errorprone errors this is now raising.",
+      "revId": "0493a09093c0c6badca09cac2d9bde6332da219f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

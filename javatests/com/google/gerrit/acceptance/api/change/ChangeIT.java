@@ -2132,6 +2132,44 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotRemoveSelfFromCCTogetherWithOtherCCWithoutRemoveReviewerPermission()
+      throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+
+    // Add a cc
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = CC;
+    reviewerInput.reviewer = user.id().toString();
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    assertThat(gApi.changes().id(changeId).get().reviewers.get(CC)).hasSize(1);
+
+    // Add another cc
+    TestAccount otherCC = accountCreator.create();
+    reviewerInput = new ReviewerInput();
+    reviewerInput.state = CC;
+    reviewerInput.reviewer = otherCC.id().toString();
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    assertThat(gApi.changes().id(changeId).get().reviewers.get(CC)).hasSize(2);
+
+    // Trying to remove themselves as cc and other ccs should not work since the user cannot remove
+    // other users from cc.
+    requestScopeOperations.setApiUser(user.id());
+    ReviewerInput reviewerInputRemoveSelfCC = new ReviewerInput();
+    reviewerInputRemoveSelfCC.reviewer = user.id().toString();
+    reviewerInputRemoveSelfCC.state = ReviewerState.REMOVED;
+    ReviewerInput reviewerInputRemoveOtherCC = new ReviewerInput();
+    reviewerInputRemoveOtherCC.reviewer = otherCC.id().toString();
+    reviewerInputRemoveOtherCC.state = ReviewerState.REMOVED;
+    ReviewInput input = new ReviewInput();
+    input.reviewers = ImmutableList.of(reviewerInputRemoveSelfCC, reviewerInputRemoveOtherCC);
+    AuthException exception =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(changeId).current().review(input));
+    assertThat(exception).hasMessageThat().isEqualTo("remove reviewer not permitted");
+  }
+
+  @Test
   public void removeReviewer() throws Exception {
     testRemoveReviewer(true);
   }

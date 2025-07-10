@@ -46,6 +46,30 @@
       },
       "revId": "16f1c9727bab6b3276f62f5124f141a00b44f8d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae68a6de_9659f40b",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T06:28:03Z",
+      "side": 1,
+      "message": "It also seems like the renderer and eslint do not agree on the format of the text block :-(",
+      "parentUuid": "703f36f2_c9eb20c8",
+      "range": {
+        "startLine": 68,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "16f1c9727bab6b3276f62f5124f141a00b44f8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

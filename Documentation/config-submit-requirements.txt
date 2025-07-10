@@ -501,7 +501,7 @@ The 'users' arg cannot be combined with other arguments ('count',
 'user', 'group').
 +
 'label:Code-Review=MAX,users=human_reviewers' can be used to
-implement "Want-Code-Review-From-All" functionaly, see
+implement "Want-Code-Review-From-All" functionality, see
 link#require-code-review-approvals-from-all-human-reviewers-example[examples
 below].
 

@@ -245,7 +245,7 @@ Review.
 The plugin's maintainer puts a deprecation notice in the README.md of the
 plugin and pushes it for review. If nobody is willing to bring the code
 forward, the change gets merged, and the master branch is removed from the list
-of branches to be built on the GerritFoge CI.
+of branches to be built on the GerritForge CI.
 
 GERRIT
 ------

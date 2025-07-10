@@ -154,7 +154,7 @@ Log format:
 * `level`: log level (ERROR, WARN, INFO, DEBUG).
 * `logger`: name of the logger.
 * `message`: log message.
-* `stacktrace`: Java stacktrace when an execption was caught, usually spans multiple lines.
+* `stacktrace`: Java stacktrace when an exception was caught, usually spans multiple lines.
 
 === GC Log
 

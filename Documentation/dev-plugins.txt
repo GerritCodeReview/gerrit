@@ -3160,7 +3160,7 @@ public class MyPluginModule extends AbstractModule {
 ----
 
 Plugin authors should also consider binding their SubmitRule using a `Gerrit-BatchModule`.
-See link:dev-plugins.html[Batch runtime] for more informations.
+See link:dev-plugins.html[Batch runtime] for more information.
 
 
 The SubmitRule extension point allows you to write complex rules, but writing
@@ -3215,7 +3215,7 @@ avoid unneeded recomputations of ChangeInfos may see outdated plugin attributes
 and/or outdated submittable information, because a ChangeInfo is only reloaded
 if the change ETag changes.
 
-By implementating the `com.google.gerrit.server.change.ChangeETagComputation`
+By implementing the `com.google.gerrit.server.change.ChangeETagComputation`
 interface plugins can contribute to the ETag computation and thus ensure that
 the change ETag changes when the plugin data was changed. This way it can be
 ensured that callers do not see outdated ChangeInfos.

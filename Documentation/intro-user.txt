@@ -475,7 +475,7 @@ later they are needed again.
 [[cherrypickof]]
 == Cherry-Pick changes of a Change
 
-When a change is created/updated using the 'cherry-pick' functionalty,
+When a change is created/updated using the 'cherry-pick' functionality,
 the original change and patchset details are recorded in the Change's
 cherrypick field. This field cannot be set or updated by the user in
 any way. It is set automatically after the cherry-pick operation completes

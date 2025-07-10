@@ -21,7 +21,7 @@ The suexec command permits executing any other command as any other
 registered user account.
 
 suexec can only be invoked by the magic user `Gerrit Code Review`,
-or any user granted granted the link:access-control.html#capability_runAs[Run As]
+or any user granted the link:access-control.html#capability_runAs[Run As]
 capability. The run as capability is permitted to be used only if
 link:config-gerrit.html[auth.enableRunAs] is true.
 

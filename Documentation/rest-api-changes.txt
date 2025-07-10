@@ -7961,7 +7961,7 @@ Guaranteed to be set if `contains_conflicts` is `true`. If `contains_conflicts` 
 set if the revision was created by Gerrit as a result of performing a Git merge.
 |`theirs`             |optional|
 The SHA1 of the commit that was used as "theirs" for the Git merge that created the revision. +
-- For merge commits that are created by the the link:#create-change[Create Change] and the
+- For merge commits that are created by the link:#create-change[Create Change] and the
 link:#create-merge-patch-set-for-change[Create Merge Patch Set For Change] REST endpoints "theirs"
 is the SHA1 of the source branch (the branch that is specified as `source` in the
 link:#merge-input[MergeInput]). +

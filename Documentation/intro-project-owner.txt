@@ -601,7 +601,7 @@ global capability is required for using the `stream-events` command.
 - REST API:
 +
 Gerrit provides a rich link:rest-api.html[REST API] that other tools
-can use to query information from Gerrit and and to trigger actions in
+can use to query information from Gerrit and to trigger actions in
 Gerrit.
 
 - Gerrit Plugins:

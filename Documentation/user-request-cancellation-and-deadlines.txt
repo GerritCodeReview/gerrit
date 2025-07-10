@@ -36,7 +36,7 @@ request fails due to an exceeded server-side deadline, the client may repeat the
 request with a higher deadline or no deadline (deadline = 0) to get unblocked.
 
 Server-side deadlines are meant to protect the Gerrit service against resource
-exhaustion due to performence issues with a particular request. E.g. imagine a
+exhaustion due to performance issues with a particular request. E.g. imagine a
 situation where requests for a certain REST endpoint are very slow. If more and
 more of such requests get stuck and are not being aborted, the Gerrit service
 may run out of threads, causing an outage for the entire Gerrit service.
@@ -48,7 +48,7 @@ as it's better to tell the user that there is a performance issue, that prevents
 the execution of the request, than letting them wait indefinitely.
 
 Finally server-side deadlines can help ops engineers to detect performance
-issues more reliably and more quicky. For this alerts may be setup that are
+issues more reliably and more quickly. For this alerts may be setup that are
 based on the link:metrics.html#cancellations[cancellation metrics].
 
 [[receive-timeout]]
@@ -88,7 +88,7 @@ clients to get unblocked if a request has previously failed due to an exceeded
 deadline.
 
 [NOTE]
-It is stronly discouraged for clients to permanently override
+It is strongly discouraged for clients to permanently override
 link:#server-side-deadlines[server-side deadlines] with a higher deadline or to
 permanently disable them by always setting the deadline to `0`. If this becomes
 necessary the caller should get in touch with the Gerrit administrators to
@@ -103,7 +103,7 @@ timeout] that is enforced on git push.
 == FAQs
 
 [[deadline-exceeded-what-to-do]]
-=== My request failed due to an execeeded deadline, what can I do?
+=== My request failed due to an exceeded deadline, what can I do?
 
 To get unblocked, you may repeat the request with deadlines disabled. To do this
 set the deadline to `0` on the request as explained

@@ -1626,7 +1626,7 @@ link:cmd-show-queue.html[look at the Gerrit task queue via ssh].
 Allows viewing secondary emails of other accounts.
 
 Users with the link:#capability_modifyAccount[Modify Account] capability have
-this capbility implicitly.
+this capability implicitly.
 
 
 [[reference]]

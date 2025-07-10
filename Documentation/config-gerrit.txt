@@ -568,7 +568,7 @@ Values should use common unit suffixes to express their setting:
 +
 + Setting this to `0` disables memoization.
 +
-**Note** during the memoization time exterenal-ids modification are not visible by Gerrit.
+**Note** during the memoization time external-ids modification are not visible by Gerrit.
 +
 By default `0`.
 
@@ -2778,7 +2778,7 @@ Available values:
 If link:#gerrit.canLoadInIFrame is set to `false` this option is ignored and the
 `X-Frame-Options` header is always set to `DENY`.
 Setting this option to `ALLOW` will cause the `X-Frame-Options` header to be omitted
-the the page can be displayed in a frame.
+the page can be displayed in a frame.
 +
 By default SAMEORIGIN.
 
@@ -2831,7 +2831,7 @@ of the following steps:
 2. Set the first master unhealthy
 3. Shutdown the first master and [upgrade](install.html#init) to the next version
 4. Startup the first master, wait for the online reindex to complete (where applicable)
-5. Verify the the first master upgrade is successful and online reindex is complete
+5. Verify the first master upgrade is successful and online reindex is complete
 6. Set the first master healthy
 7. Repeat steps 2. to 6. for all the other Gerrit nodes
 +
@@ -2974,7 +2974,7 @@ patch set.
 [[gitweb.filehistory]]gitweb.filehistory::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at the history of a file in a specific branch when when `gitweb.type`
+at the history of a file in a specific branch when `gitweb.type`
 is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit,
@@ -3256,7 +3256,7 @@ link:https://httpd.apache.org/docs/2.4/mod/mod_proxy.html#x-headers[mod_proxy,ro
 +
 [NOTE]
 --
-For secruity reasons, make sure to only allow connections from a
+For security reasons, make sure to only allow connections from a
 trusted reverse proxy in your network, as clients could otherwise
 easily spoof these headers and thus spoof their originating IP
 address effectively. If the reverse proxy is running on the same
@@ -5138,9 +5138,9 @@ After the timeout is exceeded the task processing the receive gets a
 cancellation signal that allows the task to finish gracefully.
 link:#receive.cancellationTimeout[receive.cancellationTimeout]
 defines how much time the task has to react to the cancellation signal
-before it is focefully cancelled.
+before it is forcefully cancelled.
 +
-The receive timeout cannot be overriden by setting a higher
+The receive timeout cannot be overridden by setting a higher
 link:user-upload.html#deadline[deadline] on the git push request.
 +
 Default is 4 minutes. If no unit is specified, milliseconds
@@ -5707,7 +5707,7 @@ By default, unset, permitting delivery to any email address.
 +
 If `true`, new change emails and merged change emails from Gerrit
 will include the complete unified diff of the change.
-Variable maxmimumDiffSize places an upper limit on how large the
+Variable maximumDiffSize places an upper limit on how large the
 email can get when this option is enabled.
 +
 By default, `false`.
@@ -6204,9 +6204,9 @@ By default 0.
 +
 When suggesting reviewers, we go over recent changes of the user, and
 give priority to users that are present as reviewers in any of those
-changes. The number of changes we go over is `sugggest.relevantChanges`.
+changes. The number of changes we go over is `suggest.relevantChanges`.
 +
-This nubmer is a tradeoff between speed and accuracy.
+This number is a tradeoff between speed and accuracy.
 A high number would be accurate but slow, and a low number would be
 fast but inaccurate.
 +

@@ -724,7 +724,7 @@ opens a draft comment box, but also sets the URL fragment.
 Clicking on the `Reply` button opens an editor to type the reply.
 
 Previous comment can be quoted using "Quote" button. A new draft would be open
-on the same comment thread with the text of the previoused comment quoted using
+on the same comment thread with the text of the previous comment quoted using
 markdown syntax.
 
 image::images/user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-inline-comments.png"]

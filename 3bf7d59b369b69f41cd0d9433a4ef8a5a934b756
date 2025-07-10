@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd33973_6c0e8314",
+        "filename": "java/com/google/gerrit/server/account/HttpPasswordFallbackAuthTokenAccessor.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-10T14:19:16Z",
+      "side": 1,
+      "message": "Is this a mistake? Shouldn\u0027t it delegate to the same named method of the wrapped accessor?",
+      "range": {
+        "startLine": 74,
+        "startChar": 20,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "3bf7d59b369b69f41cd0d9433a4ef8a5a934b756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -40,6 +40,30 @@
       ],
       "revId": "59dfe329cb68622b25417fb46d368ce778863679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd24fa5_5d0dc100",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-10T09:25:02Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "1af888ed_ebde0920",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 16
+      },
+      "revId": "59dfe329cb68622b25417fb46d368ce778863679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

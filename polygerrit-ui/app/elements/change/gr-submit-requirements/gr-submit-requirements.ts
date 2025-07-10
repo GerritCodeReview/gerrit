@@ -410,7 +410,6 @@ export class GrSubmitRequirements extends LitElement {
 
     if (errorRunsCount <= 0 && runningRunsCount <= 0) return undefined;
     return html`<gr-checks-chip-for-label
-      .requirement=${requirement}
       .labels=${targetLabels}
       .showRunning=${true}
     ></gr-checks-chip-for-label>`;

@@ -210,7 +210,9 @@ nodejs_test(
         # would be possible, if we would run the lit-analyzer as a ts plugin.
         # In tsconfig.json there is an option `globalAttributes` that we could
         # use. But that is not available when running lit-analyzer as cli.
-        "--rules.no-unknown-attribute warn",
+        "--rules.no-unknown-attribute off",
+        # TODO: enable once we migrate from iron elements to material-web
+        "--rules.no-unknown-tag-name off",
     ],
 )
 

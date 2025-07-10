@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2cb4711_6f1ca3d2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2147,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-10T08:44:42Z",
+      "side": 1,
+      "message": "Nit: maybe remove extra a",
+      "range": {
+        "startLine": 2147,
+        "startChar": 11,
+        "endLine": 2147,
+        "endChar": 12
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5bd998e8_2526cf2d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+              "range": {
+                "startLine": 2147,
+                "startChar": 0,
+                "endLine": 2148,
+                "endChar": 0
+              },
+              "replacement": "    // Add another cc\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+              "range": {
+                "startLine": 2156,
+                "startChar": 0,
+                "endLine": 2157,
+                "endChar": 0
+              },
+              "replacement": "    // reviewers (other users).\n"
+            }
+          ]
+        }
+      ],
+      "revId": "795fe2a3ce64aeba34f5266afd8144ddb479909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

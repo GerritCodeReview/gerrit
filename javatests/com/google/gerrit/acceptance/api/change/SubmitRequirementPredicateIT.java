@@ -40,7 +40,6 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Project;
@@ -48,11 +47,8 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.account.ServiceUserClassifier;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -680,16 +676,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             changeNoVotesByReviewers));
 
     // when reviewers by email are present changes do not match, unless the expected value is 0
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig cfg = projectConfigFactory.create(project);
-      cfg.load(md);
-      cfg.updateProject(
-          update ->
-              update.setBooleanConfig(
-                  BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE));
-      cfg.commit(md);
-    }
-    projectCache.evictAndReindex(project);
+    projectOperations.project(project).forUpdate().enableReviewerByEmail().update();
     Change.Id changeRecommendedByAllReviewersWithReviewersByEmail =
         changeOperations.newChange().project(project).owner(owner).createV1();
     addReviewers(

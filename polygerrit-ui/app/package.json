@@ -13,7 +13,6 @@
     "@polymer/paper-input": "^3.2.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-styles": "^3.0.1",
-    "@polymer/paper-tooltip": "^3.0.1",
     "@polymer/polymer": "3.5.2",
     "@types/resemblejs": "^4.1.3",
     "@types/resize-observer-browser": "^0.1.11",

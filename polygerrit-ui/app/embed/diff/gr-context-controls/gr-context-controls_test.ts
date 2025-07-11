@@ -14,6 +14,7 @@ import {
   createContextGroup,
   createContextGroupWithDelta,
 } from '../../../test/test-data-generators';
+import {GrTooltipContent} from '../../../elements/shared/gr-tooltip-content/gr-tooltip-content';
 
 suite('gr-context-control tests', () => {
   let element: GrContextControls;
@@ -206,21 +207,12 @@ suite('gr-context-control tests', () => {
 
     await waitEventLoop();
 
-    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
-    );
-    assert.equal(
-      blockExpansionButtons[0]
-        .querySelector('.breadcrumbTooltip')!
-        .textContent?.trim(),
-      'aSpecificFunction'
-    );
-    assert.equal(
-      blockExpansionButtons[1]
-        .querySelector('.breadcrumbTooltip')!
-        .textContent?.trim(),
-      'anotherFunction'
-    );
+    const blockExpansionButtons =
+      element.shadowRoot!.querySelectorAll<GrTooltipContent>(
+        '.blockExpansion .breadcrumbTooltip'
+      );
+    assert.equal(blockExpansionButtons[0].title?.trim(), 'aSpecificFunction');
+    assert.equal(blockExpansionButtons[1].title?.trim(), 'anotherFunction');
   });
 
   test('+Block tooltip shows nested syntax blocks as breadcrumbs', async () => {
@@ -257,13 +249,12 @@ suite('gr-context-control tests', () => {
 
     await waitEventLoop();
 
-    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
-    );
+    const blockExpansionButtons =
+      element.shadowRoot!.querySelectorAll<GrTooltipContent>(
+        '.blockExpansion .breadcrumbTooltip'
+      );
     assert.equal(
-      blockExpansionButtons[0]
-        .querySelector('.breadcrumbTooltip')!
-        .textContent?.trim(),
+      blockExpansionButtons[0].title?.trim(),
       'aSpecificNamespace > MyClass > aMethod'
     );
   });
@@ -301,13 +292,12 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 10, count: 20});
     await waitEventLoop();
 
-    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
-    );
+    const blockExpansionButtons =
+      element.shadowRoot!.querySelectorAll<GrTooltipContent>(
+        '.blockExpansion .breadcrumbTooltip'
+      );
     assert.equal(
-      blockExpansionButtons[0]
-        .querySelector('.breadcrumbTooltip')!
-        .textContent?.trim(),
+      blockExpansionButtons[0].title?.trim(),
       'aSpecificNamespace > (anonymous) > aMethod'
     );
   });
@@ -318,23 +308,15 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 10, count: 20});
     await waitEventLoop();
 
-    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+    const tooltip = element.shadowRoot!.querySelectorAll<GrTooltipContent>(
+      '.blockExpansion .breadcrumbTooltip'
     );
-    const tooltipAbove =
-      blockExpansionButtons[0].querySelector('paper-tooltip')!;
-    const tooltipBelow =
-      blockExpansionButtons[1].querySelector('paper-tooltip')!;
-    assert.equal(
-      tooltipAbove.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
-      '20 common lines'
-    );
-    assert.equal(
-      tooltipBelow.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
-      '20 common lines'
-    );
-    assert.equal(tooltipAbove.getAttribute('position'), 'top');
-    assert.equal(tooltipBelow.getAttribute('position'), 'bottom');
+    const tooltipAbove = tooltip[0];
+    const tooltipBelow = tooltip[1];
+    assert.equal(tooltipAbove.title?.trim(), '20 common lines');
+    assert.equal(tooltipBelow.title?.trim(), '20 common lines');
+    assert.isNotOk(tooltipAbove.getAttribute('position-below'));
+    assert.equal(tooltipBelow.getAttribute('position-below'), '');
   });
 
   test('context control with delta group', async () => {

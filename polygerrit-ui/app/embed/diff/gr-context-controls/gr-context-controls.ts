@@ -4,21 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/paper-button/paper-button';
-import '@polymer/paper-tooltip/paper-tooltip';
+import '../../../elements/shared/gr-tooltip-content/gr-tooltip-content';
 import {EMPTY, of, Subject} from 'rxjs';
 import {delay, switchMap} from 'rxjs/operators';
 import '../../../elements/shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {
-  css,
-  html,
-  LitElement,
-  nothing,
-  PropertyValues,
-  TemplateResult,
-} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {
@@ -122,6 +115,11 @@ export function showBelow(group?: GrDiffGroup, lineCountLeft = 0) {
     !!group.contextGroups[group.contextGroups.length - 1].skip;
 
   return leftEnd < lineCountLeft && !lastGroupIsSkipped;
+}
+
+interface ContextButtonTooltip {
+  title: string;
+  positionBelow: boolean;
 }
 
 /**
@@ -364,7 +362,7 @@ export class GrContextControls extends LitElement {
   private createContextButton(
     type: ContextButtonType,
     linesToExpand: number,
-    tooltip?: TemplateResult
+    tooltip?: ContextButtonTooltip
   ) {
     if (!this.group) return;
     let text = '';
@@ -442,7 +440,7 @@ export class GrContextControls extends LitElement {
       });
     };
 
-    const button = html` <paper-button
+    let button = html` <paper-button
       class=${classes}
       aria-label=${ariaLabel}
       @click=${expandHandler}
@@ -450,8 +448,17 @@ export class GrContextControls extends LitElement {
       @mouseleave=${() => mouseHandler('leave')}
     >
       <span class="showContext">${text}</span>
-      ${tooltip}
     </paper-button>`;
+    if (tooltip) {
+      button = html`<gr-tooltip-content
+        class="breadcrumbTooltip"
+        has-tooltip
+        title=${tooltip.title}
+        ?position-below=${tooltip.positionBelow}
+      >
+        ${button}
+      </gr-tooltip-content>`;
+    }
     return button;
   }
 
@@ -563,10 +570,11 @@ export class GrContextControls extends LitElement {
       : `${linesToExpand} common lines`;
 
     const position =
-      buttonType === ContextButtonType.BLOCK_ABOVE ? 'top' : 'bottom';
-    return html`<paper-tooltip offset="10" position=${position}
-      ><div class="breadcrumbTooltip">${tooltipText}</div></paper-tooltip
-    >`;
+      buttonType === ContextButtonType.BLOCK_ABOVE ? false : true;
+    return {
+      title: tooltipText,
+      positionBelow: position,
+    };
   }
 
   /**

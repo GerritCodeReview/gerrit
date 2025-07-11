@@ -186,6 +186,24 @@
       "parentUuid": "e0c7b6b6_ce092604",
       "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62470ad0_ea11e105",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-11T11:17:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a01a7871_d0444aaa",
+      "revId": "a396decedf21ec0178a15e186fe29972722d8d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

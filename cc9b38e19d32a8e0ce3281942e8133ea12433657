@@ -232,6 +232,24 @@
       "parentUuid": "1691b474_8386287c",
       "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5c8d178_2c599cf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-11T19:52:49Z",
+      "side": 1,
+      "message": "Ah hmm, do you know what it’s failing with / have a screenshot for that? As I had compared the polymer and the lit one and there’s no difference to me visually.",
+      "parentUuid": "2c028da4_7e5150ba",
+      "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

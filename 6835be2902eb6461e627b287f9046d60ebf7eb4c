@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c3b626b_822f26a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-11T15:27:01Z",
+      "side": 1,
+      "message": "@brohlfs@google.com / @milutin@google.com can we get rid of the paper-item dep? We don\u0027t really use it and had to re-add it because you had a internal test failure and couldn\u0027t figure out what was using it. (Not sure if you fixed it).",
+      "revId": "6835be2902eb6461e627b287f9046d60ebf7eb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

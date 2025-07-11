@@ -87,6 +87,24 @@
       "parentUuid": "f2759743_846a4c99",
       "revId": "c09814ef63c031f129043ea55e50d304e818651b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb4cf90_3fadb3dd",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-11T22:41:03Z",
+      "side": 1,
+      "message": "Hmm, done. I had to make sure the `writeBlob` runs only once in `bgUpdate`. I missed that in my previous attempt.",
+      "parentUuid": "fa109684_deed730f",
+      "revId": "c09814ef63c031f129043ea55e50d304e818651b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

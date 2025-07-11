@@ -306,6 +306,7 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
       RefUpdate u = repo.updateRef(refName);
       u.setForceUpdate(true);
       u.setExpectedOldObjectId(oldObjectId);
+      u.setNewObjectId(ObjectId.zeroId());
       u.setRefLogIdent(serverIdent.get());
       u.setRefLogMessage("Unstar change", true);
       try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {

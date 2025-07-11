@@ -16,6 +16,24 @@
       "message": "@brohlfs@google.com / @milutin@google.com can we get rid of the paper-item dep? We don\u0027t really use it and had to re-add it because you had a internal test failure and couldn\u0027t figure out what was using it. (Not sure if you fixed it).",
       "revId": "6835be2902eb6461e627b287f9046d60ebf7eb4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc01cee2_58fa41f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-11T19:48:57Z",
+      "side": 1,
+      "message": "I will check - https://gerrit-review.git.corp.google.com/c/gerrit/+/482581\n\nbut it will me take some time, sorry :(",
+      "parentUuid": "1c3b626b_822f26a9",
+      "revId": "6835be2902eb6461e627b287f9046d60ebf7eb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

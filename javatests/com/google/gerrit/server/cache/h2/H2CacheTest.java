@@ -55,7 +55,10 @@ public class H2CacheTest {
 
   private static H2CacheImpl<String, String> newH2CacheImpl(
       SqlStore<String, String> store, Cache<String, ValueHolder<String>> mem) {
-    return new H2CacheImpl<>(MoreExecutors.directExecutor(), store, KEY_TYPE, mem);
+    H2CacheImpl<String, String> impl =
+        new H2CacheImpl<>(MoreExecutors.directExecutor(), store, KEY_TYPE, mem);
+    impl.start();
+    return impl;
   }
 
   private static SqlStore<String, String> newStore(

@@ -69,6 +69,24 @@
       "parentUuid": "6c1fcd2c_a6fecca9",
       "revId": "c09814ef63c031f129043ea55e50d304e818651b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa109684_deed730f",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-11T19:23:20Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we can do that, as the `writeBlob` runnable is called after the sequence ref is read (via `afterReadRef.run()`).\n\nYes, but then we should get a lock failure and then retry and re-read the value, correct?",
+      "parentUuid": "f2759743_846a4c99",
+      "revId": "c09814ef63c031f129043ea55e50d304e818651b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

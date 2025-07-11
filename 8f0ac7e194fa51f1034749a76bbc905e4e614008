@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "467e0343_1a414b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-11T19:23:20Z",
+      "side": 1,
+      "message": "You need the `Forward-Compatible: checked` footer too.\n\n```suggestion\nRelease-Notes: changes, groups, accounts sequence can only be ascending\nForward-Compatible: checked\n```",
+      "revId": "8f0ac7e194fa51f1034749a76bbc905e4e614008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

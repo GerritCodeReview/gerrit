@@ -10,3 +10,77 @@ bazel_dep(name = "jgit", version = "7.2.0")
 local_path_override(
     module_name = "jgit",
     path = "./modules/jgit")
+
+LUCENE_VERS = "10.1.0"
+TRUTH_VERS = "1.4.4"
+SLF4J_VERS = "1.7.36"
+SSHD_VERS = "2.15.0"
+AUTO_COMMON_VERSION = "1.2.2"
+AUTO_FACTORY_VERSION = "1.0.1"
+AUTO_VALUE_VERSION = "1.11.0"
+FLOGGER_VERS = "0.8"
+GUAVA_VERSION = "33.4.0-jre"
+GUICE_VERS = "6.0.0"
+nongoogle_artifacts = ["org.hamcrest:hamcrest:2.2",
+                        "org.apache.lucene:lucene-core:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-analysis-common:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
+                        "com.h2database:h2:2.3.232",
+                        "ch.qos.reload4j:reload4j:1.2.26",
+                        "org.slf4j:slf4j-api:" + SLF4J_VERS,
+                        "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+                        "org.slf4j:slf4j-reload4j:" + SLF4J_VERS,
+                        "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
+                        "com.google.j2objc:j2objc-annotations:1.1",
+                        "org.tukaani:xz:1.10",
+                        "io.dropwizard.metrics:metrics-core:4.2.30",
+                        "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
+                        "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
+                        "org.apache.mina:mina-core:2.0.27",
+                        "org.apache.sshd:sshd-mina:" + SSHD_VERS,
+                        "org.openid4java:openid4java:1.0.0",
+                        "net.sourceforge.nekohtml:nekohtml:1.9.10",
+                        "xerces:xercesImpl:2.8.1",
+                        "org.jruby:jruby-complete:9.1.17.0",
+                        "commons-io:commons-io:2.18.0",
+                        "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
+                        "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
+                        "com.google.auto.service:auto-service-annotations:" + AUTO_FACTORY_VERSION,
+                        "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
+                        "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+                        "com.google.errorprone:error_prone_annotations:2.36.0",
+                        "com.google.flogger:flogger:" + FLOGGER_VERS,
+                        "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
+                        "com.google.flogger:google-extensions:" + FLOGGER_VERS,
+                        "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
+                        "com.google.guava:guava:" + GUAVA_VERSION,
+                        "com.google.guava:guava-testlib:" + GUAVA_VERSION,
+                        "com.google.inject:guice:" + GUICE_VERS,
+                        "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
+                        "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
+                        "com.google.template:soy:2024-01-30",
+                        "com.google.code.gson:gson:2.12.1",
+                        "com.google.protobuf:protobuf-java:3.25.3",
+                        "cglib:cglib-nodep:3.2.6",
+                        "org.objenesis:objenesis:1.3",
+                        "com.google.jimfs:jimfs:1.2",
+                        "com.google.truth:truth:" + TRUTH_VERS,
+                        "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
+                        "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
+                        "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS]
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    name = "nongoogle_deps",
+    artifacts = nongoogle_artifacts,
+    duplicate_version_warning = "error",
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    strict_visibility = True,
+)
+use_repo(maven, "nongoogle_deps")

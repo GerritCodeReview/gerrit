@@ -55,5 +55,5 @@ java_library(
 java_library(
     name = "io",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons-io//jar"],
+    exports = ["@nongoogle_deps//:commons_io_commons_io"],
 )

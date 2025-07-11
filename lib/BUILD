@@ -32,7 +32,7 @@ java_library(
     name = "gson",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gson//jar"],
+    exports = ["@nongoogle_deps//:com_google_code_gson_gson"],
 )
 
 java_library(
@@ -92,7 +92,7 @@ java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],
-    exports = ["@protobuf-java//jar"],
+    exports = ["@nongoogle_deps//:com_google_protobuf_protobuf_java"],
 )
 
 java_library(
@@ -106,7 +106,7 @@ java_library(
     name = "j2objc",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@j2objc//jar"],
+    exports = ["@nongoogle_deps//:com_google_j2objc_j2objc_annotations"],
 )
 
 java_library(
@@ -116,7 +116,7 @@ java_library(
     exports = [
         ":guava-failureaccess",
         ":j2objc",
-        "@guava//jar",
+        "@nongoogle_deps//:com_google_guava_guava",
     ],
 )
 
@@ -125,7 +125,7 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@guava-testlib//jar",
+        "@nongoogle_deps//:com_google_guava_guava_testlib",
     ],
 )
 
@@ -193,7 +193,7 @@ java_library(
     name = "tukaani-xz",
     data = ["//lib:LICENSE-xz"],
     visibility = ["//visibility:public"],
-    exports = ["@tukaani-xz//jar"],
+    exports = ["@nongoogle_deps//:org_tukaani_xz"],
 )
 
 java_library(
@@ -229,14 +229,14 @@ java_library(
     name = "h2",
     data = ["//lib:LICENSE-h2"],
     visibility = ["//visibility:public"],
-    exports = ["@h2//jar"],
+    exports = ["@nongoogle_deps//:com_h2database_h2"],
 )
 
 java_library(
     name = "jimfs",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@jimfs//jar"],
+    exports = ["@nongoogle_deps//:com_google_jimfs_jimfs"],
     runtime_deps = [":guava"],
 )
 
@@ -255,14 +255,14 @@ java_library(
     name = "hamcrest",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest//jar"],
+    exports = ["@nongoogle_deps//:org_hamcrest_hamcrest"],
 )
 
 java_library(
     name = "soy",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@soy//jar"],
+    exports = ["@nongoogle_deps//:com_google_template_soy"],
     runtime_deps = [
         ":args4j",
         ":gson",

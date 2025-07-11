@@ -8,6 +8,6 @@ junit_tests(
         "//lib:junit",
         "//lib:servlet-api-without-neverlink",
         "//lib/truth",
-        "@guava//jar",
+        "@nongoogle_deps//:com_google_guava_guava",
     ],
 )

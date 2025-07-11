@@ -14,6 +14,6 @@ java_library(
         "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/prolog:runtime",
-        "@guava//jar",
+        "@nongoogle_deps//:com_google_guava_guava",
     ],
 )

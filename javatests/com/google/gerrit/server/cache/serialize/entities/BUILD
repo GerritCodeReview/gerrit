@@ -16,6 +16,6 @@ junit_tests(
         "//lib/truth:truth-proto-extension",
         "//proto:cache_java_proto",
         "//proto/testing:test_java_proto",
-        "@gson//jar",
+        "@nongoogle_deps//:com_google_code_gson_gson",
     ],
 )

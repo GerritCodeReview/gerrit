@@ -20,6 +20,6 @@ java_library(
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
-        "@guava//jar",
+        "@nongoogle_deps//:com_google_guava_guava",
     ],
 )

@@ -525,15 +525,6 @@ const appThemeCss = safeStyleSheet`
     --border-radius: 4px;
     --line-length-indicator-color: #681da8;
 
-    /* paper component overrides */
-    --paper-tooltip-delay-in: 200ms;
-    --paper-tooltip-delay-out: 0;
-    --paper-tooltip-duration-in: 0;
-    --paper-tooltip-duration-out: 0;
-    --paper-tooltip-background: var(--tooltip-background-color);
-    --paper-tooltip-opacity: 1;
-    --paper-tooltip-text-color: var(--tooltip-text-color);
-
     /* md-filled-card (colours originate from paper-card) */
     --card-surface-container-highest: #f8f9fa;
 

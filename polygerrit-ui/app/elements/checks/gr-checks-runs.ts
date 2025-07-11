@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../shared/gr-icon/gr-icon';
+import '../shared/gr-tooltip-content/gr-tooltip-content';
 import {classMap} from 'lit/directives/class-map.js';
 import './gr-hovercard-run';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
@@ -354,18 +355,23 @@ export class GrChecksRun extends LitElement {
     const link = this.run.statusLink;
     if (!link) return;
     return html`
-      <a
-        href=${link}
-        target="_blank"
-        rel="noopener noreferrer"
-        @click=${this.onLinkClick}
-        ><gr-icon
-          icon="open_in_new"
-          class="statusLinkIcon"
-          aria-label="external link to run status details"
-        ></gr-icon>
-        <paper-tooltip offset="5">Link to run status details</paper-tooltip>
-      </a>
+      <gr-tooltip-content
+        has-tooltip
+        ?position-below=${true}
+        title="Link to run status details"
+      >
+        <a
+          href=${link}
+          target="_blank"
+          rel="noopener noreferrer"
+          @click=${this.onLinkClick}
+          ><gr-icon
+            icon="open_in_new"
+            class="statusLinkIcon"
+            aria-label="external link to run status details"
+          ></gr-icon>
+        </a>
+      </gr-tooltip-content>
     `;
   }
 

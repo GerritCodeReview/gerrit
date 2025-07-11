@@ -3,12 +3,14 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../shared/gr-tooltip-content/gr-tooltip-content';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {Action, NOT_USEFUL, USEFUL} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
+
 @customElement('gr-checks-action')
 export class GrChecksAction extends LitElement {
   @property({type: Object})
@@ -48,11 +50,10 @@ export class GrChecksAction extends LitElement {
         gr-button {
           --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
-        paper-tooltip {
+        gr-tooltip-content {
           text-transform: none;
           text-align: center;
           white-space: normal;
-          max-width: 200px;
         }
       `,
     ];
@@ -69,16 +70,19 @@ export class GrChecksAction extends LitElement {
   }
 
   override render() {
+    if (!this.action.tooltip) {
+      return this.renderButton();
+    }
+
     return html`
-      <gr-button
-        link
-        ?disabled=${this.action.disabled}
-        class="action"
-        @click=${(e: Event) => this.handleClick(e)}
+      <gr-tooltip-content
+        has-tooltip
+        ?position-below=${true}
+        .maxWidth=${'200px'}
+        title=${this.action.tooltip}
       >
-        ${this.renderName()}
-      </gr-button>
-      ${this.renderTooltip()}
+        ${this.renderButton()}
+      </gr-tooltip-content>
     `;
   }
 
@@ -89,12 +93,16 @@ export class GrChecksAction extends LitElement {
     `;
   }
 
-  private renderTooltip() {
-    if (!this.action.tooltip) return;
+  private renderButton() {
     return html`
-      <paper-tooltip offset="5" ?fitToVisibleBounds=${true}>
-        ${this.action.tooltip}
-      </paper-tooltip>
+      <gr-button
+        link
+        ?disabled=${this.action.disabled}
+        class="action"
+        @click=${(e: Event) => this.handleClick(e)}
+      >
+        ${this.renderName()}
+      </gr-button>
     `;
   }
 

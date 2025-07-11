@@ -827,7 +827,6 @@ Polymer-2015
 * @polymer/paper-button
 * @polymer/paper-input
 * @polymer/paper-item
-* @polymer/paper-tooltip
 
 [[Polymer-2015_license]]
 ----

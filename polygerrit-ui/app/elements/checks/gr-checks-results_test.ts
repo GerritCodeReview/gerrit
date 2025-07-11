@@ -53,9 +53,6 @@ suite('gr-result-row test', () => {
       /* HTML */ `
         <div class="approved label">
           <span> test-label +1 </span>
-          <paper-tooltip offset="5" role="tooltip" tabindex="-1">
-            The check result has (probably) influenced this label vote.
-          </paper-tooltip>
         </div>
       `
     );
@@ -66,27 +63,33 @@ suite('gr-result-row test', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-      <div class="flex">
-        <gr-hovercard-run> </gr-hovercard-run>
-        <div class="name" role="button" tabindex="0">
-          FAKE Error Finder Finder Finder Finder Finder Finder Finder
+        <div class="flex">
+          <gr-hovercard-run> </gr-hovercard-run>
+          <div class="name" role="button" tabindex="0">
+            FAKE Error Finder Finder Finder Finder Finder Finder Finder
+          </div>
+          <div class="space"></div>
         </div>
-        <div class="space"></div>
-      </div>
         <div class="summary-cell">
-          <a class="link"
-             href="https://www.google.com"
-             target="_blank"
-             rel="noopener noreferrer">
-            <gr-icon
-              icon="open_in_new"
-              aria-label="external link to details"
+          <gr-tooltip-content
+            has-tooltip=""
+            position-below=""
+            title="Link to details"
+          >
+            <a
               class="link"
-            ></gr-icon>
-            <paper-tooltip offset="5" role="tooltip" tabindex="-1">
-              Link to details
-            </paper-tooltip>
-          </a>
+              href="https://www.google.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <gr-icon
+                aria-label="external link to details"
+                class="link"
+                icon="open_in_new"
+              >
+              </gr-icon>
+            </a>
+          </gr-tooltip-content>
           <div
             class="summary"
             title="I would like to point out this error: 1 is not equal to 2!"
@@ -95,40 +98,37 @@ suite('gr-result-row test', () => {
           </div>
           <div class="message"></div>
           <div class="tags">
-            <button class="tag">
-              <span> OBSOLETE </span>
-              <paper-tooltip
-                offset="5"
-                role="tooltip"
-                tabindex="-1"
-              >
-                A category tag for this check result. Click to filter.
-              </paper-tooltip>
-            </button>
-            <button class="tag">
-              <span> E2E </span>
-              <paper-tooltip
-                offset="5"
-                role="tooltip"
-                tabindex="-1"
-              >
-                A category tag for this check result. Click to filter.
-              </paper-tooltip>
-            </button>
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="A category tag for this check result. Click to filter."
+            >
+              <button class="tag">
+                <span> OBSOLETE </span>
+              </button>
+            </gr-tooltip-content>
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="A category tag for this check result. Click to filter."
+            >
+              <button class="tag">
+                <span> E2E </span>
+              </button>
+            </gr-tooltip-content>
           </div>
         </div>
         <div
           aria-checked="false"
           aria-label="Expand result row"
           class="show-hide"
-          hidden
+          hidden=""
           role="switch"
           tabindex="0"
         >
-          <gr-icon icon="expand_more"></gr-icon>
+          <gr-icon icon="expand_more"> </gr-icon>
         </div>
-      </div>
-    `
+      `
     );
   });
 
@@ -352,53 +352,76 @@ suite('gr-checks-results test', () => {
               </div>
             </div>
             <div class="right">
-              <a
-                href="https://www.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Fake Bug Report 1"
               >
-                <gr-icon
-                  icon="bug_report"
-                  filled
-                  aria-label="Fake Bug Report 1"
-                  class="link"
-                ></gr-icon>
-                <paper-tooltip offset="5"> </paper-tooltip>
-              </a>
-              <a
-                href="https://www.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                <a
+                  href="https://www.google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <gr-icon
+                    aria-label="Fake Bug Report 1"
+                    class="link"
+                    filled=""
+                    icon="bug_report"
+                  >
+                  </gr-icon>
+                </a>
+              </gr-tooltip-content>
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Fake Link 1"
               >
-                <gr-icon
-                  icon="open_in_new"
-                  aria-label="Fake Link 1"
-                  class="link"
-                ></gr-icon>
-                <paper-tooltip offset="5"> </paper-tooltip>
-              </a>
-              <a
-                href="https://www.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                <a
+                  href="https://www.google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <gr-icon
+                    aria-label="Fake Link 1"
+                    class="link"
+                    icon="open_in_new"
+                  >
+                  </gr-icon>
+                </a>
+              </gr-tooltip-content>
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Fake Code Link"
               >
-                <gr-icon icon="code" aria-label="Fake Code Link" class="link">
-                </gr-icon>
-                <paper-tooltip offset="5"> </paper-tooltip>
-              </a>
-              <a
-                href="https://www.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                <a
+                  href="https://www.google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <gr-icon aria-label="Fake Code Link" class="link" icon="code">
+                  </gr-icon>
+                </a>
+              </gr-tooltip-content>
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Fake Image Link"
               >
-                <gr-icon
-                  icon="image"
-                  filled
-                  aria-label="Fake Image Link"
-                  class="link"
-                ></gr-icon>
-                <paper-tooltip offset="5"> </paper-tooltip>
-              </a>
+                <a
+                  href="https://www.google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <gr-icon
+                    aria-label="Fake Image Link"
+                    class="link"
+                    filled=""
+                    icon="image"
+                  >
+                  </gr-icon>
+                </a>
+              </gr-tooltip-content>
               <div class="space"></div>
               <gr-checks-action context="results"> </gr-checks-action>
               <gr-dropdown
@@ -407,10 +430,8 @@ suite('gr-checks-results test', () => {
                 link=""
                 vertical-offset="32"
               >
-                <gr-icon
-                  icon="more_vert"
-                  aria-labelledby="moreMessage"
-                ></gr-icon>
+                <gr-icon aria-labelledby="moreMessage" icon="more_vert">
+                </gr-icon>
                 <span id="moreMessage"> More </span>
               </gr-dropdown>
             </div>
@@ -419,18 +440,20 @@ suite('gr-checks-results test', () => {
         <div class="body">
           <div class="error expanded">
             <div class="categoryHeader error">
-              <h3 class="left heading-3">
-                <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
-                <div class="statusIconWrapper">
-                  <gr-icon
-                    icon="error"
-                    filled
-                    class="error statusIcon"
-                  ></gr-icon>
-                  <span class="title"> error </span>
-                  <span class="count"> (3) </span>
-                  <paper-tooltip offset="5"> </paper-tooltip>
-                </div>
+              <h3 class="heading-3 left">
+                <gr-icon class="expandIcon" icon="expand_less"> </gr-icon>
+                <gr-tooltip-content
+                  has-tooltip=""
+                  position-below=""
+                  title="Must be fixed and is blocking submit"
+                >
+                  <div class="statusIconWrapper">
+                    <gr-icon class="error statusIcon" filled="" icon="error">
+                    </gr-icon>
+                    <span class="title"> error </span>
+                    <span class="count"> (3) </span>
+                  </div>
+                </gr-tooltip-content>
               </h3>
               <div class="right">
                 <gr-button link=""> Expand All </gr-button>
@@ -441,11 +464,12 @@ suite('gr-checks-results test', () => {
             >
             </gr-result-row>
             <gr-result-row
-              isexpandable
               class="FAKEErrorFinderFinderFinderFinderFinderFinderFinder"
+              isexpandable=""
             >
             </gr-result-row>
-            <gr-result-row isexpandable class="FAKESuperCheck"> </gr-result-row>
+            <gr-result-row class="FAKESuperCheck" isexpandable="">
+            </gr-result-row>
             <table class="resultsTable">
               <thead>
                 <tr class="headerRow">
@@ -459,21 +483,31 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="expanded warning">
             <div class="categoryHeader warning">
-              <h3 class="left heading-3">
-                <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
-                <div class="statusIconWrapper">
-                  <gr-icon icon="warning" filled class="warning statusIcon">
-                  </gr-icon>
-                  <span class="title"> warning </span>
-                  <span class="count"> (1) </span>
-                  <paper-tooltip offset="5"> </paper-tooltip>
-                </div>
+              <h3 class="heading-3 left">
+                <gr-icon class="expandIcon" icon="expand_less"> </gr-icon>
+                <gr-tooltip-content
+                  has-tooltip=""
+                  position-below=""
+                  title="Should be checked but is not blocking submit"
+                >
+                  <div class="statusIconWrapper">
+                    <gr-icon
+                      class="statusIcon warning"
+                      filled=""
+                      icon="warning"
+                    >
+                    </gr-icon>
+                    <span class="title"> warning </span>
+                    <span class="count"> (1) </span>
+                  </div>
+                </gr-tooltip-content>
               </h3>
               <div class="right">
                 <gr-button link=""> Expand All </gr-button>
               </div>
             </div>
-            <gr-result-row class="FAKESuperCheck" isexpandable> </gr-result-row>
+            <gr-result-row class="FAKESuperCheck" isexpandable="">
+            </gr-result-row>
             <table class="resultsTable">
               <thead>
                 <tr class="headerRow">
@@ -487,14 +521,19 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed info">
             <div class="categoryHeader info">
-              <h3 class="left heading-3">
-                <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
-                <div class="statusIconWrapper">
-                  <gr-icon icon="info" class="info statusIcon"></gr-icon>
-                  <span class="title"> info </span>
-                  <span class="count"> (3) </span>
-                  <paper-tooltip offset="5"> </paper-tooltip>
-                </div>
+              <h3 class="heading-3 left">
+                <gr-icon class="expandIcon" icon="expand_more"> </gr-icon>
+                <gr-tooltip-content
+                  has-tooltip=""
+                  position-below=""
+                  title="Does not have to be checked, for your information only"
+                >
+                  <div class="statusIconWrapper">
+                    <gr-icon class="info statusIcon" icon="info"> </gr-icon>
+                    <span class="title"> info </span>
+                    <span class="count"> (3) </span>
+                  </div>
+                </gr-tooltip-content>
               </h3>
               <div class="right">
                 <gr-button hidden="" link=""> Expand All </gr-button>
@@ -503,15 +542,20 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed success">
             <div class="categoryHeader empty success">
-              <h3 class="left heading-3">
-                <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
-                <div class="statusIconWrapper">
-                  <gr-icon icon="check_circle" class="statusIcon success">
-                  </gr-icon>
-                  <span class="title"> success </span>
-                  <span class="count"> (0) </span>
-                  <paper-tooltip offset="5"> </paper-tooltip>
-                </div>
+              <h3 class="heading-3 left">
+                <gr-icon class="expandIcon" icon="expand_more"> </gr-icon>
+                <gr-tooltip-content
+                  has-tooltip=""
+                  position-below=""
+                  title="Successful runs without results and individual successful results"
+                >
+                  <div class="statusIconWrapper">
+                    <gr-icon class="statusIcon success" icon="check_circle">
+                    </gr-icon>
+                    <span class="title"> success </span>
+                    <span class="count"> (0) </span>
+                  </div>
+                </gr-tooltip-content>
               </h3>
               <div class="right">
                 <gr-button hidden="" link=""> Expand All </gr-button>
@@ -521,7 +565,6 @@ suite('gr-checks-results test', () => {
         </div>
       `,
       {
-        ignoreChildren: ['paper-tooltip'],
         ignoreAttributes: ['tabindex', 'aria-disabled', 'role'],
       }
     );

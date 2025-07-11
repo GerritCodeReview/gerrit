@@ -50,7 +50,8 @@ def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
     # post process the XML into our favorite format.
     native.genrule(
         name = "gen_license_txt_" + name,
-        cmd = "python3 $(location //tools/bzl:license-map.py) %s %s %s > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
+        # Use sed 's/\\r$$//' to remove non-Unix line endings.
+        cmd = "python3 $(location //tools/bzl:license-map.py) %s %s %s | sed 's/\\r$$//' > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
         outs = [name + ".gen.txt"],
         tools = tools,
         **kwargs

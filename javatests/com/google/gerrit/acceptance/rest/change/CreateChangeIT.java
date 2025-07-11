@@ -66,10 +66,8 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -426,9 +424,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChange_projectConfigRequiresSignedOffByFooter() throws Exception {
-    ConfigInput configInput = new ConfigInput();
-    configInput.useSignedOffBy = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(configInput);
+    projectOperations.project(project).forUpdate().useSignedOffBy().update();
 
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;
@@ -440,10 +436,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChange_projectConfigDoesNotRequireSignedOffByFooter() throws Exception {
-
-    ConfigInput configInput = new ConfigInput();
-    configInput.useSignedOffBy = InheritableBoolean.FALSE;
-    gApi.projects().name(project.get()).config(configInput);
+    projectOperations.project(project).forUpdate().useSignedOffBy().update();
 
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;
@@ -594,9 +587,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createAuthorNotAddedAsCcWithAvoidAddingOriginalAuthorAsReviewer() throws Exception {
-    ConfigInput config = new ConfigInput();
-    config.skipAddingAuthorAndCommitterAsReviewers = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(config);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .skipAddingAuthorAndCommitterAsReviewers()
+        .update();
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.author = new AccountInput();
     input.author.email = user.email();

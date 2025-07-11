@@ -149,6 +149,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
           addPermissions(projectConfig, projectUpdate.addedPermissions());
           addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
           setExclusiveGroupPermissions(projectConfig, projectUpdate.exclusiveGroupPermissions());
+          projectConfig.updateProject(
+              update ->
+                  projectUpdate
+                      .booleanProjectConfigs()
+                      .forEach((name, value) -> update.setBooleanConfig(name, value)));
           projectConfig.commit(metaDataUpdate);
         }
         projectCache.evictAndReindex(nameKey);

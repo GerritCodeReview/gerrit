@@ -27,9 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.inject.Inject;
@@ -206,9 +204,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   }
 
   private void setWorkInProgressByDefaultForProject(Project.NameKey p) throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.workInProgressByDefault = InheritableBoolean.TRUE;
-    gApi.projects().name(p.get()).config(input);
+    projectOperations.project(p).forUpdate().workInProgressByDefault().update();
   }
 
   private void setWorkInProgressByDefaultForUser() throws Exception {

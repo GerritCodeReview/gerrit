@@ -26,13 +26,13 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -48,13 +48,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() throws Exception {
-    ConfigInput conf = new ConfigInput();
-    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    projectOperations.project(project).forUpdate().enableReviewerByEmail().update();
   }
 
   @Test
@@ -350,9 +349,11 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void rejectWhenFeatureIsDisabled() throws Exception {
-    ConfigInput conf = new ConfigInput();
-    conf.enableReviewerByEmail = InheritableBoolean.FALSE;
-    gApi.projects().name(project.get()).config(conf);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .enableReviewerByEmail(InheritableBoolean.FALSE)
+        .update();
 
     PushOneCommit.Result r = createChange();
 

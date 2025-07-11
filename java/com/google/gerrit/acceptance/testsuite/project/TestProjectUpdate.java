@@ -25,11 +25,13 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
@@ -351,6 +353,150 @@ public abstract class TestProjectUpdate {
 
     abstract Builder removeAllAccessSections(boolean value);
 
+    abstract ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean>
+        booleanProjectConfigsBuilder();
+
+    public Builder useContributorAgreements(InheritableBoolean useContributorAgreements) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, useContributorAgreements);
+      return this;
+    }
+
+    public Builder useContributorAgreements() {
+      return useContributorAgreements(InheritableBoolean.TRUE);
+    }
+
+    public Builder useSignedOffBy(InheritableBoolean useSignedOffBy) {
+      booleanProjectConfigsBuilder().put(BooleanProjectConfig.USE_SIGNED_OFF_BY, useSignedOffBy);
+      return this;
+    }
+
+    public Builder useSignedOffBy() {
+      return useSignedOffBy(InheritableBoolean.TRUE);
+    }
+
+    public Builder useContentMerge(InheritableBoolean useContentMerge) {
+      booleanProjectConfigsBuilder().put(BooleanProjectConfig.USE_CONTENT_MERGE, useContentMerge);
+      return this;
+    }
+
+    public Builder useContentMerge() {
+      return useContentMerge(InheritableBoolean.TRUE);
+    }
+
+    public Builder requireChangeId(InheritableBoolean requireChangeId) {
+      booleanProjectConfigsBuilder().put(BooleanProjectConfig.REQUIRE_CHANGE_ID, requireChangeId);
+      return this;
+    }
+
+    public Builder requireChangeId() {
+      return requireChangeId(InheritableBoolean.TRUE);
+    }
+
+    public Builder createNewChangeForAllNotInTarget(
+        InheritableBoolean createNewChangeForAllNotInTarget) {
+      booleanProjectConfigsBuilder()
+          .put(
+              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+              createNewChangeForAllNotInTarget);
+      return this;
+    }
+
+    public Builder createNewChangeForAllNotInTarget() {
+      return createNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    }
+
+    public Builder enableSignedPush(InheritableBoolean enableSignedPush) {
+      booleanProjectConfigsBuilder().put(BooleanProjectConfig.ENABLE_SIGNED_PUSH, enableSignedPush);
+      return this;
+    }
+
+    public Builder enableSignedPush() {
+      return enableSignedPush(InheritableBoolean.TRUE);
+    }
+
+    public Builder requireSignedPush(InheritableBoolean requireSignedPush) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.REQUIRE_SIGNED_PUSH, requireSignedPush);
+      return this;
+    }
+
+    public Builder requireSignedPush() {
+      return requireSignedPush(InheritableBoolean.TRUE);
+    }
+
+    public Builder rejectImplicitMerges(InheritableBoolean rejectImplicitMerges) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.REJECT_IMPLICIT_MERGES, rejectImplicitMerges);
+      return this;
+    }
+
+    public Builder rejectImplicitMerges() {
+      return rejectImplicitMerges(InheritableBoolean.TRUE);
+    }
+
+    public Builder privateByDefault(InheritableBoolean privateByDefault) {
+      booleanProjectConfigsBuilder().put(BooleanProjectConfig.PRIVATE_BY_DEFAULT, privateByDefault);
+      return this;
+    }
+
+    public Builder privateByDefault() {
+      return privateByDefault(InheritableBoolean.TRUE);
+    }
+
+    public Builder enableReviewerByEmail(InheritableBoolean enableReviewerByEmail) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, enableReviewerByEmail);
+      return this;
+    }
+
+    public Builder enableReviewerByEmail() {
+      return enableReviewerByEmail(InheritableBoolean.TRUE);
+    }
+
+    public Builder matchAuthorToCommitterDate(InheritableBoolean matchAuthorToCommitterDate) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE, matchAuthorToCommitterDate);
+      return this;
+    }
+
+    public Builder matchAuthorToCommitterDate() {
+      return matchAuthorToCommitterDate(InheritableBoolean.TRUE);
+    }
+
+    public Builder rejectEmptyCommit(InheritableBoolean rejectEmptyCommit) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.REJECT_EMPTY_COMMIT, rejectEmptyCommit);
+      return this;
+    }
+
+    public Builder rejectEmptyCommit() {
+      return rejectEmptyCommit(InheritableBoolean.TRUE);
+    }
+
+    public Builder workInProgressByDefault(InheritableBoolean workInProgressByDefault) {
+      booleanProjectConfigsBuilder()
+          .put(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT, workInProgressByDefault);
+      return this;
+    }
+
+    public Builder workInProgressByDefault() {
+      return workInProgressByDefault(InheritableBoolean.TRUE);
+    }
+
+    public Builder skipAddingAuthorAndCommitterAsReviewers(
+        InheritableBoolean skipAddingAuthorAndCommitterAsReviewers) {
+      booleanProjectConfigsBuilder()
+          .put(
+              BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS,
+              skipAddingAuthorAndCommitterAsReviewers);
+      return this;
+    }
+
+    public Builder skipAddingAuthorAndCommitterAsReviewers() {
+      return skipAddingAuthorAndCommitterAsReviewers(InheritableBoolean.TRUE);
+    }
+
     /**
      * Removes all access sections. Useful when testing against a specific set of access sections or
      * permissions.
@@ -475,6 +621,8 @@ public abstract class TestProjectUpdate {
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
 
   abstract boolean removeAllAccessSections();
+
+  abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanProjectConfigs();
 
   boolean hasCapabilityUpdates() {
     return !addedCapabilities().isEmpty()

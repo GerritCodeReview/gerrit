@@ -32,7 +32,6 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
@@ -53,8 +52,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.List;
@@ -71,13 +68,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
 
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig config = projectConfigFactory.read(md);
-      config.updateProject(
-          p -> p.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value));
-      config.commit(md);
-      projectCache.evictAndReindex(config.getProject());
-    }
+    projectOperations.project(project).forUpdate().useContributorAgreements(value).update();
   }
 
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)

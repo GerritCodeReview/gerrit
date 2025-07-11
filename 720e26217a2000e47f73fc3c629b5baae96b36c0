@@ -69,6 +69,24 @@
       "parentUuid": "2b06ab2a_1527dbe6",
       "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6b62fa6_4e38fb70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-11T06:20:59Z",
+      "side": 1,
+      "message": "I have been trying to migrate more of the WORKSPACE to the bazel modules, but it always ends up in a big mess touching too many things. The build is much more complicated than depending on some libraries!\n\nI found out, for example, that @build_bazel_rules_nodejs is deprecated for @aspect_rules_js. Maybe upgrading that first helps but it is tricky because gerrit has different node_modules directories in the tree.\n\nI don\u0027t know how much more time I can put on this. Maybe it is easier for somebody more familiar with the project structure? If updating only jgit to bazel modules doesn\u0027t work, we should consider reverting the jgit change, as moving everything else will take some work.",
+      "parentUuid": "4bc84db9_317d57f0",
+      "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

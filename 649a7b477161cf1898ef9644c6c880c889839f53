@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a054525_12374075",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-11T09:52:38Z",
+      "side": 1,
+      "message": "Issue in https://critique.corp.google.com/cl/781854073/analysis",
+      "revId": "649a7b477161cf1898ef9644c6c880c889839f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

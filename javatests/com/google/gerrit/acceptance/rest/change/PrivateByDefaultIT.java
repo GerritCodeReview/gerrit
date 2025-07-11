@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -127,9 +126,7 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
 
   private void setPrivateByDefault(Project.NameKey proj, InheritableBoolean value)
       throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.privateByDefault = value;
-    gApi.projects().name(proj.get()).config(input);
+    projectOperations.project(proj).forUpdate().privateByDefault(value).update();
   }
 
   private PushOneCommit.Result createChange(Project.NameKey proj) throws Exception {

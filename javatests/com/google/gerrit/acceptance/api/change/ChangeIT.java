@@ -101,7 +101,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
@@ -134,7 +133,6 @@ import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -437,9 +435,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createWipChangeWithWorkInProgressByDefaultForProject() throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.workInProgressByDefault = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(input);
+    projectOperations.project(project).forUpdate().workInProgressByDefault().update();
+
     String changeId =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
     assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
@@ -524,9 +521,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void pendingReviewers() throws Exception {
-    ConfigInput conf = new ConfigInput();
-    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    projectOperations.project(project).forUpdate().enableReviewerByEmail().update();
 
     ChangeIdentifier changeIdentifier =
         changeOperations.newChange().project(project).owner(admin.id()).create();
@@ -1448,9 +1443,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewerThatIsInactiveByEmail() throws Exception {
-    ConfigInput conf = new ConfigInput();
-    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    projectOperations.project(project).forUpdate().enableReviewerByEmail().update();
+
     ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
     String email = "user@domain.com";
     Account.Id id = accountOperations.newAccount().preferredEmail(email).inactive().create();
@@ -4247,9 +4241,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
-    ConfigInput configInput = new ConfigInput();
-    configInput.requireChangeId = InheritableBoolean.FALSE;
-    gApi.projects().name(project.get()).config(configInput);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .requireChangeId(InheritableBoolean.FALSE)
+        .update();
 
     PushOneCommit.Result r = createChange();
     r.assertOkStatus();
@@ -4811,14 +4807,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void ccNonExistentAccountByEmailThenRemoveByDelete() throws Exception {
     // Create a project that allows reviewers by email.
     Project.NameKey project = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              b ->
-                  b.setBooleanConfig(
-                      BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE));
-      u.save();
-    }
+    projectOperations.project(project).forUpdate().enableReviewerByEmail().update();
 
     // Create a change
     TestRepository<?> testRepo = cloneProject(project, admin);
@@ -4857,14 +4846,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void ccNonExistentAccountByEmailThenRemoveByPostReview() throws Exception {
     // Create a project that allows reviewers by email.
     Project.NameKey project = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              b ->
-                  b.setBooleanConfig(
-                      BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE));
-      u.save();
-    }
+    projectOperations.project(project).forUpdate().enableReviewerByEmail().update();
 
     // Create a change
     TestRepository<?> testRepo = cloneProject(project, admin);

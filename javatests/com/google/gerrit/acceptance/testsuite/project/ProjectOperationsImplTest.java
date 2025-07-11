@@ -49,6 +49,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
@@ -697,6 +698,54 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("access")
         .isEmpty();
+  }
+
+  @Test
+  public void setBooleanProjectConfigToTrue() {
+    projectOperations
+        .allProjectsForUpdate()
+        .useContributorAgreements(InheritableBoolean.TRUE)
+        .update();
+
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .stringValue("receive", /* subsection= */ null, "requireContributorAgreement")
+        .ignoringCase()
+        .isEqualTo(InheritableBoolean.TRUE.name());
+  }
+
+  @Test
+  public void setBooleanProjectConfigToFalse() {
+    projectOperations
+        .allProjectsForUpdate()
+        .useContributorAgreements(InheritableBoolean.FALSE)
+        .update();
+
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .stringValue("receive", /* subsection= */ null, "requireContributorAgreement")
+        .ignoringCase()
+        .isEqualTo(InheritableBoolean.FALSE.name());
+  }
+
+  @Test
+  public void setBooleanProjectConfigToInherit() {
+    projectOperations
+        .allProjectsForUpdate()
+        .useContributorAgreements(InheritableBoolean.INHERIT)
+        .update();
+
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .stringValue("receive", /* subsection= */ null, "requireContributorAgreement")
+        .isNull();
+  }
+
+  @Test
+  public void booleanProjectConfig() {
+    projectOperations.allProjectsForUpdate().useContributorAgreements().update();
+
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .stringValue("receive", /* subsection= */ null, "requireContributorAgreement")
+        .ignoringCase()
+        .isEqualTo(InheritableBoolean.TRUE.name());
   }
 
   @Test

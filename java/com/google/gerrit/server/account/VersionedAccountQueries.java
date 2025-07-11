@@ -74,7 +74,8 @@ public class VersionedAccountQueries extends VersionedMetaData {
             readUTF8(QueryList.FILE_NAME),
             error ->
                 logger.atSevere().log(
-                    "Error parsing file %s: %s", QueryList.FILE_NAME, error.getMessage()));
+                    "Error parsing file %s from ref %s: %s",
+                    QueryList.FILE_NAME, ref, error.getMessage()));
   }
 
   @Override

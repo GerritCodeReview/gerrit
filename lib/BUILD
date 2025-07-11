@@ -229,7 +229,7 @@ java_library(
     name = "h2",
     data = ["//lib:LICENSE-h2"],
     visibility = ["//visibility:public"],
-    exports = ["@h2//jar"],
+    exports = ["@nongoogle_deps//:com_h2database_h2"],
 )
 
 java_library(
@@ -255,7 +255,7 @@ java_library(
     name = "hamcrest",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest//jar"],
+    exports = ["@nongoogle_deps//:org_hamcrest_hamcrest"],
 )
 
 java_library(

@@ -10,3 +10,26 @@ bazel_dep(name = "jgit", version = "7.2.0")
 local_path_override(
     module_name = "jgit",
     path = "./modules/jgit")
+
+LUCENE_VERS = "10.1.0"
+nongoogle_artifacts =  ["org.hamcrest:hamcrest:2.2",
+                        "org.apache.lucene:lucene-core:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-analysis-common:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
+                        "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
+                        "com.h2database:h2:2.3.232"]
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    name = "nongoogle_deps",
+    artifacts = nongoogle_artifacts,
+    duplicate_version_warning = "error",
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    strict_visibility = True,
+)
+use_repo(maven, "nongoogle_deps")

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a8ab43b_686c02ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-12T22:19:53Z",
+      "side": 1,
+      "message": "Are you able to fix this @brohlfs@google.com please or can we use @material/web as it has a textarea version?\n\n(I\u0027ve tried looking into a fix but not coming up with a sufficient fix that keeps the use of div and contenteditable with a placeholder)\n\nSeems it is caused by:\n\n```\n          \u0026:empty::before {\n            content: attr(data-placeholder);\n            color: var(--text-secondary, lightgrey);\n            display: inline;\n            pointer-events: none;\n          }\n```\n\nReproduced it both chrome and safari.",
+      "parentUuid": "61f0822a_9e88c57c",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8a54ae0_65245c67",
         "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
         "patchSetId": 8

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f0822a_9e88c57c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-12T19:37:20Z",
+      "side": 1,
+      "message": "Oh and it adds \\n onto a value when you do a new line and press the delete button.",
+      "parentUuid": "fe9e3166_d4ea71ef",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8a54ae0_65245c67",

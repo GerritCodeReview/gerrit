@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9e3166_d4ea71ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-12T19:33:20Z",
+      "side": 1,
+      "message": "There seems to be a bug in gr-textarea. E.g. when you go onto a new line and back, the placeholder isn\u0027t shown. Although pressing delete again shows it. Now if you do a new line, put some content and then delete all and go back, placeholder isn\u0027t shown even when pressing delete again. It seems \u003cbr\u003e is created but is never deleted. See https://imgur.com/a/Jyv3mhW.",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8a54ae0_65245c67",

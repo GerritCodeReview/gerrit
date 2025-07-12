@@ -16,6 +16,24 @@
       "message": "Can you explain why div and not textarea? How do i do like rows/maxRows like you can with iron-autogrow-textarea?",
       "revId": "e8654b389909257a537e715036277203bf0a0da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c145a01_cd5e95c1",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-12T13:20:38Z",
+      "side": 1,
+      "message": "Oh you could do something like for just rows (without maxRows):\n\n```\ngr-textarea {\n--gr-textarea-max-height: 0;\n--gr-textarea-min-height: calc(1.5em * \u003crows\u003e);\n}\n```\n\nor with maxRows:\n\n```\ngr-textarea {\n--gr-textarea-max-height: calc(1.5em * \u003cmaxRows\u003e);\n--gr-textarea-min-height: calc(1.5em * \u003crows\u003e);\n}\n```",
+      "parentUuid": "c8a54ae0_65245c67",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

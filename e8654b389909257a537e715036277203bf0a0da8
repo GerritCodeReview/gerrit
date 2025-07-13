@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce13d1ce_2792e537",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-13T12:04:57Z",
+      "side": 1,
+      "message": "Actually it doesn\u0027t seem to be caused by the css. Not sure exactly what\u0027s causing it.",
+      "parentUuid": "9a8ab43b_686c02ff",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8a54ae0_65245c67",
         "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
         "patchSetId": 8

@@ -3154,6 +3154,46 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "\n");
   }
 
+  /**
+   * See https://phabricator.wikimedia.org/T399241
+   * See https://discord.com/channels/775374026587373568/1394284959929208863
+   */
+  @Test
+  public void pushForReviewWhenParentChangeGotUpdated() throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+
+    PushOneCommit.Result rParent = pushTo("refs/for/master");
+    rParent.assertOkStatus();
+    ObjectId idParent = rParent.getCommit();
+
+    PushOneCommit.Result rChild = pushTo("refs/for/master");
+    ObjectId childCommit = rChild.getCommit();
+
+    // Amend parent locally and update its change
+    RevCommit amendedParentCommit = testRepo.amend(idParent).create();
+    assertThat(amendedParentCommit).isNotEqualTo(idParent);
+    testRepo.reset(amendedParentCommit);
+    assertPushOk(pushHead(testRepo, "refs/for/master"), "refs/for/master");
+
+    // Amend child, but keep it based on original parent
+    testRepo.reset(childCommit);
+    RevCommit amendedChildCommit = testRepo.amend(childCommit).create();
+    assertThat(amendedChildCommit).isNotEqualTo(childCommit);
+    testRepo.reset(amendedChildCommit);
+
+    // The child (based on the original parent) get rejected because the parent
+    // has since been updated and createNewChangeForAllNotInTarget rejects it
+    assertPushRejected(
+        pushHead(testRepo, "refs/for/master"),
+        "refs/for/master",
+        String.format(
+            "commit %s already exists in change %s",
+            idParent.name().substring(0, 10), rParent.getChange().getId()));
+
+    // This erroneously fails :)
+    assertPushOk(pushHead(testRepo, "refs/for/master"), "refs/for/master");
+  }
+
   @Test
   public void cannotPushTheSameCommitTwiceForReviewToTheSameBranch() throws Exception {
     testCannotPushTheSameCommitTwiceForReviewToTheSameBranch();

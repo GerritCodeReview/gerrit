@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbc3b208_1f11d821",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-13T18:43:10Z",
+      "side": 1,
+      "message": "I think maybe we should go with @material/web textarea and get rid of gr-textarea. WDYT @brohlfs@google.com? Unless this can be fixed? Although preferably maybe it\u0027ll be better to just go with @material/web textarea?",
+      "parentUuid": "ce13d1ce_2792e537",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8a54ae0_65245c67",
         "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
         "patchSetId": 8

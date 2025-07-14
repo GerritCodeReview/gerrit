@@ -469,6 +469,14 @@ export class GrComment extends LitElement {
         ) {
           this.generateSuggestion = !!prefs.allow_suggest_code_while_commenting;
         }
+        if (
+          this.flagsService.isEnabled(
+            KnownExperimentId.ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT
+          ) &&
+          this.generateSuggestion
+        ) {
+          this.generateSuggestion = false;
+        }
       }
     );
     subscribe(

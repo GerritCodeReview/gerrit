@@ -80,7 +80,14 @@ public class RequireSslFilter implements Filter {
       if (isLocalHost(req)) {
         url = getLocalHostUrl(req);
       } else {
-        url = urlProvider.get() + req.getServletPath();
+        // Build the redirect URL safely, avoiding duplicated slashes
+        String baseUrl = urlProvider.get();
+        String servletPath = req.getServletPath();
+
+        if (baseUrl.endsWith("/") && servletPath.startsWith("/")) {
+          servletPath = servletPath.substring(1); // remove one leading slash
+        }
+        url = baseUrl + servletPath;
       }
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", url);

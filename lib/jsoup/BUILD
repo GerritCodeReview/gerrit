@@ -4,5 +4,5 @@ java_library(
     name = "jsoup",
     data = ["//lib:LICENSE-jsoup"],
     visibility = ["//visibility:public"],
-    exports = ["@jsoup//jar"],
+    exports = ["@gerrit_deps//:org_jsoup_jsoup"],
 )

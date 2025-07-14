@@ -16,9 +16,9 @@ junit_tests(
         "//lib:junit",
         "//lib/guice",
         "//lib/mockito",
+        "//lib:servlet-api",
+        "//lib/jetty:server",
         "//lib/truth",
-        "@jetty-server//jar",
-        "@servlet-api//jar",
     ],
 )
 

@@ -4,11 +4,11 @@
 
 set -eux
 
-bzl=$(pwd)/tools/nongoogle.bzl
+toml=$(pwd)/tools/nongoogle.toml
 
 TMP=$(mktemp -d || mktemp -d -t /tmp/tmp.XXXXXX)
 
-grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
+grep 'module =' ${toml} | cut -d' ' -f1 | sort > $TMP/names
 
 cat << EOF > $TMP/want
 auto-common

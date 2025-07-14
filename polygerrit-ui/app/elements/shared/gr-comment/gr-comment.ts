@@ -1657,7 +1657,10 @@ export class GrComment extends LitElement {
   private handleToggleResolved() {
     this.unresolved = !this.unresolved;
     if (this.editing) {
-      if (this.messageText.trimEnd() === '') {
+      if (
+        this.messageText.trimEnd() === '' &&
+        this.comment?.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+      ) {
         this.messageText = this.unresolved
           ? 'Marked as unresolved.'
           : 'Marked as resolved.';

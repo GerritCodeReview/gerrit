@@ -324,7 +324,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     String changeId = newChange(admin.newIdent());
 
     PatchSet previousPatchSet = getCurrentPatchSet(changeId);
-    String subjectPreviousPatchSet = gApi.changes().id(changeId).get().subject;
     createEmptyEditFor(changeId);
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
 
@@ -346,13 +345,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         String.format(
                 "<<<<<<< PATCH SET (%s %s)\n"
                     + "%s\n"
-                    + (useDiff3
-                        ? String.format(
-                            "||||||| BASE      (%s %s)\n%s\n",
-                            previousPatchSet.commitId().name(),
-                            subjectPreviousPatchSet,
-                            CONTENT_OLD_STR)
-                        : "")
+                    + (useDiff3 ? String.format("||||||| BASE\n%s\n", CONTENT_OLD_STR) : "")
                     + "=======\n"
                     + "%s\n"
                     + ">>>>>>> EDIT      (%s %s)\n",

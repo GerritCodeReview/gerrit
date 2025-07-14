@@ -493,19 +493,15 @@ public class RebaseIT {
       gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
 
       // Create a change in master that touches the file.
-      String baseChangeSubject = "base change";
       String baseChangeBaseContent = "base content";
       Change.Id baseChangeInMaster =
           changeOperations
               .newChange()
               .project(project)
               .branch("master")
-              .commitMessage(baseChangeSubject)
               .file(file)
               .content(baseChangeBaseContent)
               .createV1();
-      ObjectId baseChangeCommit =
-          changeOperations.change(baseChangeInMaster).currentPatchset().get().commitId();
       approveAndSubmit(baseChangeInMaster);
 
       // Create a change in the other branch and that also touches the file.
@@ -587,11 +583,7 @@ public class RebaseIT {
                   + ")\n"
                   + mergeContent
                   + "\n"
-                  + (useDiff3
-                      ? String.format(
-                          "||||||| BASE      (%s %s)\n%s\n",
-                          baseChangeCommit.getName(), baseChangeSubject, baseChangeBaseContent)
-                      : "")
+                  + (useDiff3 ? String.format("||||||| BASE\n%s\n", baseChangeBaseContent) : "")
                   + "=======\n"
                   + newBaseContent
                   + "\n"
@@ -1567,8 +1559,6 @@ public class RebaseIT {
       String baseSubject = "base change";
       String baseContent = "base content";
 
-      RevCommit initialHead = projectOperations.project(project).getHead("master");
-
       PushOneCommit.Result r1 = createChange(baseSubject, PushOneCommit.FILE_NAME, baseContent);
       gApi.changes()
           .id(r1.getChangeId())
@@ -1638,11 +1628,7 @@ public class RebaseIT {
                   + ")\n"
                   + patchSetContent
                   + "\n"
-                  + (useDiff3
-                      ? String.format(
-                          "||||||| BASE      (%s %s)\n",
-                          initialHead.getName(), initialHead.getShortMessage())
-                      : "")
+                  + (useDiff3 ? "||||||| BASE\n" : "")
                   + "=======\n"
                   + baseContent
                   + "\n"
@@ -2388,8 +2374,6 @@ public class RebaseIT {
       String baseSubject = "base change";
       String baseContent = "base content";
 
-      RevCommit initialHead = projectOperations.project(project).getHead("master");
-
       PushOneCommit.Result r1 = createChange(baseSubject, PushOneCommit.FILE_NAME, baseContent);
       gApi.changes()
           .id(r1.getChangeId())
@@ -2480,11 +2464,7 @@ public class RebaseIT {
                   + ")\n"
                   + patchSetContent
                   + "\n"
-                  + (useDiff3
-                      ? String.format(
-                          "||||||| BASE      (%s %s)\n",
-                          initialHead.getName(), initialHead.getShortMessage())
-                      : "")
+                  + (useDiff3 ? "||||||| BASE\n" : "")
                   + "=======\n"
                   + baseContent
                   + "\n"

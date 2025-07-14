@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a71e5b1_0910c6f3",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-14T07:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40cb87fa_99a0306f",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 5
+      },
+      "revId": "5b161113a6619fcddb4111ed293f659a05edae43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71a520a7_99a8940c",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b0c09b_fe35fe7b",
+        "filename": "javatests/com/google/gerrit/server/account/AuthTokenAccessorTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-14T07:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a520a7_99a8940c",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 34
+      },
+      "revId": "5b161113a6619fcddb4111ed293f659a05edae43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62c7ef12_a1fa76d9",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-07-07T08:56:33Z",
       "side": 1,
       "message": "With Google truth this kind of check is typically done this way:\n\n```suggestion\n    assertThat(result).hasSize(1);\n```",
+      "revId": "5b161113a6619fcddb4111ed293f659a05edae43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaaa2996_ec294f67",
+        "filename": "javatests/com/google/gerrit/server/account/AuthTokenAccessorTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-14T07:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62c7ef12_a1fa76d9",
       "revId": "5b161113a6619fcddb4111ed293f659a05edae43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

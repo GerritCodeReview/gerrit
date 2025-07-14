@@ -245,7 +245,7 @@ export class GrComment extends LitElement {
   unresolved = true;
 
   @state()
-  generateSuggestion = true;
+  generateSuggestion = false;
 
   @state()
   generatedFixSuggestion: FixSuggestionInfo | undefined =
@@ -463,12 +463,6 @@ export class GrComment extends LitElement {
       () => this.getUserModel().preferences$,
       prefs => {
         this.autocompleteEnabled = !!prefs.allow_autocompleting_comments;
-        if (
-          this.generateSuggestion !==
-          !!prefs.allow_suggest_code_while_commenting
-        ) {
-          this.generateSuggestion = !!prefs.allow_suggest_code_while_commenting;
-        }
       }
     );
     subscribe(

@@ -50,7 +50,6 @@ import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.NotifyConfig.Header;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
@@ -58,10 +57,8 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -1056,7 +1053,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void createWipChangeWithWorkInProgressByDefaultForProject() throws Exception {
-    setWorkInProgressByDefault(project, InheritableBoolean.TRUE);
+    projectOperations.project(project).forUpdate().workInProgressByDefault().update();
     StagedPreChange spc = stagePreChange("refs/for/master");
     Truth.assertThat(gApi.changes().id(spc.changeId).get().workInProgress).isTrue();
     assertThat(sender).didNotSend();
@@ -2558,12 +2555,5 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void startReview(StagedChange sc) throws Exception {
     requestScopeOperations.setApiUser(sc.owner.id());
     gApi.changes().id(sc.changeId).setReadyForReview();
-  }
-
-  private void setWorkInProgressByDefault(Project.NameKey p, InheritableBoolean v)
-      throws Exception {
-    ConfigInput input = new ConfigInput();
-    input.workInProgressByDefault = v;
-    gApi.projects().name(p.get()).config(input);
   }
 }

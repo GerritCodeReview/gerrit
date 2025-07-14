@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationInfoListener;
 import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
@@ -988,6 +989,226 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages =
         gApi.changes().id(projectWithoutInitialCommit.get(), change._number).messages();
+    assertThat(messages).hasSize(1);
+    assertThat(Iterables.getOnlyElement(messages).message)
+        .isEqualTo(
+            String.format(
+                """
+                Uploaded patch set 1.
+
+                The following files contain Git conflicts:
+                * %s
+                """,
+                fileName));
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingRecursiveStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "recursive", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingRecursiveStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "recursive", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingResolveStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "resolve", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingResolveStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "resolve", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingOursStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "ours", /* useDiff3= */ false);
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingTheirsStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "theirs", /* useDiff3= */ false);
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesWithConflictsAllowedUsingSimpleTwoWayInCoreStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+        /* strategy= */ "simple-two-way-in-core", /* useDiff3= */ false);
+  }
+
+  private void testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleMergeBasesConflictsAllowed(
+      String strategy, boolean useDiff3) throws Exception {
+    String sourceBranch = "sourceBranch";
+    String targetBranch = "targetBranch";
+
+    // Create source and target branch with non-conflicting commits.
+    // Later these commits will become the base commits for the criss-cross-merge.
+    ImmutableMap<String, Result> results =
+        changeInTwoBranches(
+            sourceBranch,
+            "base 1",
+            "a.txt",
+            "a content",
+            targetBranch,
+            "base 2",
+            "b.txt",
+            "b content");
+    RevCommit baseCommitInSource = results.get(sourceBranch).getCommit();
+    RevCommit baseCommitInTarget = results.get(targetBranch).getCommit();
+
+    // Create merge commits in both branches (1. merge the target branch into the source branch, 2.
+    // merge the source branch into the target branch).
+    PushOneCommit mergeCommitInSource = pushFactory.create(user.newIdent(), testRepo);
+    mergeCommitInSource.setParents(ImmutableList.of(baseCommitInSource, baseCommitInTarget));
+    mergeCommitInSource.to("refs/heads/" + sourceBranch).assertOkStatus();
+    PushOneCommit mergeCommitInTarget = pushFactory.create(user.newIdent(), testRepo);
+    mergeCommitInTarget.setParents(ImmutableList.of(baseCommitInTarget, baseCommitInSource));
+    mergeCommitInTarget.to("refs/heads/" + targetBranch).assertOkStatus();
+
+    // Create conflicting commits in both branches.
+    String fileName = "shared.txt";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    PushOneCommit pushConflictingCommitInSource =
+        pushFactory.create(user.newIdent(), testRepo, sourceSubject, fileName, sourceContent);
+    pushConflictingCommitInSource.setParent(
+        projectOperations.project(project).getHead(sourceBranch));
+    PushOneCommit.Result pushConflictingCommitInSourceResult =
+        pushConflictingCommitInSource.to("refs/heads/" + sourceBranch);
+    pushConflictingCommitInSourceResult.assertOkStatus();
+    PushOneCommit pushConflictingCommitInTarget =
+        pushFactory.create(user.newIdent(), testRepo, targetSubject, fileName, targetContent);
+    pushConflictingCommitInTarget.setParent(
+        projectOperations.project(project).getHead(targetBranch));
+    PushOneCommit.Result pushConflictingCommitInTargetResult =
+        pushConflictingCommitInTarget.to("refs/heads/" + targetBranch);
+    pushConflictingCommitInTargetResult.assertOkStatus();
+
+    // Merge the source branch into the target with conflicts allowed. This is a criss-cross-merge:
+    //
+    //                   (criss-cross-merge)
+    //                     /             \
+    // (conflictingCommitInSource) (conflictingCommitInTarget)
+    //                    |               |
+    //       (mergeCommitInSource) (mergeCommitInTarget)
+    //                    |       X       |
+    //       (baseCommitInSource)  (baseCommitInTarget)
+    //                     \           /
+    //                    (initialCommit)
+    ChangeInput mergeInput =
+        newMergeChangeInput(targetBranch, sourceBranch, strategy, /* allowConflicts= */ true);
+
+    // The resolve/simple-two-way-in-core strategy doesn't support criss-cross-merges.
+    if ("resolve".equals(strategy) || "simple-two-way-in-core".equals(strategy)) {
+      assertCreateFails(
+          mergeInput,
+          ResourceConflictException.class,
+          "Cannot create merge commit: No merge base could be determined."
+              + " Reason=MULTIPLE_MERGE_BASES_NOT_SUPPORTED.");
+      return;
+    }
+
+    // The ours/theirs strategy never results in conflicts.
+    if ("ours".equals(strategy) || "theirs".equals(strategy)) {
+      ChangeInfo change = assertCreateSucceeds(mergeInput);
+
+      // Verify the conflicts information
+      RevisionInfo currentRevision =
+          gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+      assertThat(currentRevision.commit.parents.get(0).commit)
+          .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
+      assertThat(currentRevision.commit.parents.get(1).commit)
+          .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+      assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.ours)
+          .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
+      assertThat(currentRevision.conflicts.theirs)
+          .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+      assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+
+      // Verify that the file content in the created change is correct.
+      // We expect that it doesn't have conflict markers and the content from "ours" version was
+      // used.
+      BinaryResult bin =
+          gApi.changes().id(project.get(), change._number).current().file(fileName).content();
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      bin.writeTo(os);
+      String fileContent = new String(os.toByteArray(), UTF_8);
+      assertThat(fileContent).isEqualTo("ours".equals(strategy) ? targetContent : sourceContent);
+
+      return;
+    }
+
+    assume().that(strategy).isEqualTo("recursive");
+    ChangeInfo change = assertCreateSucceedsWithConflicts(mergeInput);
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
+    assertThat(currentRevision.commit.parents.get(1).commit)
+        .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+
+    // Verify that the file content in the created change is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    BinaryResult bin =
+        gApi.changes().id(project.get(), change._number).current().file(fileName).content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    assertThat(fileContent)
+        .isEqualTo(
+            String.format(
+                """
+                <<<<<<< TARGET BRANCH (%s %s)
+                %s
+                %s=======
+                %s
+                >>>>>>> SOURCE BRANCH (%s %s)
+                """,
+                pushConflictingCommitInTargetResult.getCommit().name(),
+                targetSubject,
+                targetContent,
+                (useDiff3 ? "||||||| BASE\n" : ""),
+                sourceContent,
+                pushConflictingCommitInSourceResult.getCommit().name(),
+                sourceSubject));
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(project.get(), change._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message)
         .isEqualTo(

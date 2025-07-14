@@ -324,11 +324,7 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
                 + ")\n"
                 + targetContent
                 + "\n"
-                + (useDiff3
-                    ? String.format(
-                        "||||||| BASE          (%s %s)\n",
-                        initialHead.getName(), initialHead.getShortMessage())
-                    : "")
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + sourceContent
                 + "\n"

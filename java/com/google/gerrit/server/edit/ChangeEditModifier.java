@@ -675,8 +675,6 @@ public class ChangeEditModifier {
                 revWalk,
                 objectInserter,
                 dc,
-                "BASE",
-                revWalk.parseCommit(basePatchSetCommitId),
                 "PATCH SET",
                 basePatchSetCommit,
                 "EDIT",

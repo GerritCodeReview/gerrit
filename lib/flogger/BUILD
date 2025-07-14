@@ -5,9 +5,9 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@flogger-google-extensions//jar",
-        "@flogger-log4j-backend//jar",
-        "@flogger-system-backend//jar",
-        "@flogger//jar",
+        "@gerrit_deps//:com_google_flogger_flogger",
+        "@gerrit_deps//:com_google_flogger_flogger_log4j_backend",
+        "@gerrit_deps//:com_google_flogger_flogger_system_backend",
+        "@gerrit_deps//:com_google_flogger_google_extensions",
     ],
 )

@@ -5,10 +5,10 @@ package(default_visibility = ["//java/com/google/gerrit/index:__pkg__"])
 [java_library(
     name = n,
     data = ["//lib:LICENSE-antlr"],
-    exports = ["@%s//jar" % n],
+    exports = ["@gerrit_deps//:antlr_antlr"],
 ) for n in [
-    "antlr27",
-    "stringtemplate",
+    "antlr_artlr", # antlr27
+    "org_antlr_stringtemplate",
 ]]
 
 java_library(

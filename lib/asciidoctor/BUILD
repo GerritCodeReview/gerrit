@@ -4,7 +4,7 @@ java_library(
     name = "asciidoctor",
     data = ["//lib:LICENSE-asciidoctor"],
     visibility = ["//java/com/google/gerrit/asciidoctor:__pkg__"],
-    exports = ["@asciidoctor//jar"],
+    exports = ["@gerrit_deps//:org_asciidoctor_asciidoctorj"],
     runtime_deps = [":jruby"],
 )
 

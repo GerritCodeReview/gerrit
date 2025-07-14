@@ -21,8 +21,8 @@ java_plugin(
         "@nongoogle_deps//:com_google_auto_value_auto_value_annotations",
         "@nongoogle_deps//:com_google_auto_value_auto_value",
         "@nongoogle_deps//:com_google_guava_guava",
-        "@javapoet//jar",
-        "@javax_inject//jar",
+        "@gerrit_deps//:com_squareup_javapoet",
+        "@gerrit_deps//:javax_inject_javax_inject",
     ],
 )
 
@@ -49,13 +49,13 @@ java_plugin(
     processor_class = "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor",
     deps = [
         "@nongoogle_deps//:com_google_auto_value_auto_value_annotations",
-        "@auto-value-gson-extension//jar",
-        "@auto-value-gson-factory//jar",
-        "@auto-value-gson-runtime//jar",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_extension",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_factory",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_runtime",
         "@nongoogle_deps//:com_google_auto_value_auto_value",
-        "@autotransient//jar",
+        "@gerrit_deps//:io_sweers_autotransient_autotransient",
         "@nongoogle_deps//:com_google_code_gson_gson",
-        "@javapoet//jar",
+        "@gerrit_deps//:com_squareup_javapoet",
     ],
 )
 
@@ -101,6 +101,6 @@ java_library(
     ],
     visibility = ["//visibility:public"],
     exports = [
-        "@auto-value-gson-runtime//jar",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_runtime",
     ],
 )

@@ -28,6 +28,7 @@ java_library(
         "//java/com/google/gerrit/server/util/time",
         "//lib:args4j",
         "//lib:blame-cache",
+        "//lib/bouncycastle:bcprov",
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
@@ -44,6 +45,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//proto:entities_java_proto",
-        "@bcprov//jar",
     ],
 )

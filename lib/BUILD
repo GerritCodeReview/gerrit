@@ -18,14 +18,14 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api//jar"],
+    exports = ["@gerrit_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
     name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api//jar"],
+    exports = ["@gerrit_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
@@ -85,7 +85,7 @@ java_library(
     name = "javaewah",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@javaewah//jar"],
+    exports = ["@gerrit_deps//:com_googlecode_javaewah_JavaEWAH"],
 )
 
 java_library(
@@ -99,7 +99,7 @@ java_library(
     name = "guava-failureaccess",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-failureaccess//jar"],
+    exports = ["@gerrit_deps//:com_google_guava_failureaccess"],
 )
 
 java_library(
@@ -158,35 +158,35 @@ java_library(
     name = "juniversalchardet",
     data = ["//lib:LICENSE-MPL1.1"],
     visibility = ["//visibility:public"],
-    exports = ["@juniversalchardet//jar"],
+    exports = ["@gerrit_deps//:com_github_albfernandez_juniversalchardet"],
 )
 
 java_library(
     name = "args4j",
     data = ["//lib:LICENSE-args4j"],
     visibility = ["//visibility:public"],
-    exports = ["@args4j//jar"],
+    exports = ["@gerrit_deps//:args4j_args4j"],
 )
 
 java_library(
     name = "automaton",
     data = ["//lib:LICENSE-automaton"],
     visibility = ["//visibility:public"],
-    exports = ["@automaton//jar"],
+    exports = ["@gerrit_deps//:dk_brics_automaton"],
 )
 
 java_library(
     name = "flexmark-all-lib",
     data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
-    exports = ["@flexmark-all-lib//jar"],
+    exports = ["@gerrit_deps//:com_vladsch_flexmark_flexmark_all"],
 )
 
 java_library(
     name = "autolink",
     data = ["//lib:LICENSE-autolink"],
     visibility = ["//visibility:public"],
-    exports = ["@autolink//jar"],
+    exports = ["@gerrit_deps//:org_nibor_autolink_autolink"],
 )
 
 java_library(
@@ -200,14 +200,14 @@ java_library(
     name = "mime-util",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime-util//jar"],
+    exports = ["@gerrit_deps//:eu_medsea_mimeutil_mime_util"],
 )
 
 java_library(
     name = "guava-retrying",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-retrying//jar"],
+    exports = ["@gerrit_deps//:com_github_rholder_guava_retrying"],
     runtime_deps = [":jsr305"],
 )
 
@@ -215,14 +215,14 @@ java_library(
     name = "jsr305",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jsr305//jar"],
+    exports = ["@gerrit_deps//:com_google_code_findbugs_jsr305"],
 )
 
 java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@blame-cache//jar"],
+    exports = ["@gerrit_deps//:com_google_gitiles_blame_cache"],
 )
 
 java_library(
@@ -246,7 +246,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":hamcrest",
-        "@junit//jar",
+        "@gerrit_deps//:junit_junit",
     ],
     runtime_deps = [":hamcrest"],
 )
@@ -286,14 +286,14 @@ java_library(
     name = "html-types",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@html-types//jar"],
+    exports = ["@gerrit_deps//:com_google_common_html_types_types"],
 )
 
 java_library(
     name = "icu4j",
     data = ["//lib:LICENSE-icu4j"],
     visibility = ["//visibility:public"],
-    exports = ["@icu4j//jar"],
+    exports = ["@gerrit_deps//:com_ibm_icu_icu4j"],
 )
 
 java_library(
@@ -301,8 +301,8 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@roaringbitmap-shims//jar",
-        "@roaringbitmap//jar",
+        "@gerrit_deps//:org_roaringbitmap_shims",
+        "@gerrit_deps//:org_roaringbitmap_RoaringBitmap",
     ],
 )
 

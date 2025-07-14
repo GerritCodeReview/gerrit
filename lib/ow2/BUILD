@@ -4,21 +4,21 @@ java_library(
     name = "ow2-asm",
     data = ["//lib:LICENSE-ow2"],
     visibility = ["//visibility:public"],
-    exports = ["@ow2-asm//jar"],
+    exports = ["@gerrit_deps//:org_ow2_asm_asm"],
 )
 
 java_library(
     name = "ow2-asm-analysis",
     data = ["//lib:LICENSE-ow2"],
     visibility = ["//visibility:public"],
-    exports = ["@ow2-asm-analysis//jar"],
+    exports = ["@gerrit_deps//:org_ow2_asm_asm_analysis"],
 )
 
 java_library(
     name = "ow2-asm-commons",
     data = ["//lib:LICENSE-ow2"],
     visibility = ["//visibility:public"],
-    exports = ["@ow2-asm-commons//jar"],
+    exports = ["@gerrit_deps//:org_ow2_asm_asm_commons"],
     runtime_deps = [":ow2-asm-tree"],
 )
 
@@ -26,12 +26,12 @@ java_library(
     name = "ow2-asm-tree",
     data = ["//lib:LICENSE-ow2"],
     visibility = ["//visibility:public"],
-    exports = ["@ow2-asm-tree//jar"],
+    exports = ["@gerrit_deps//:org_ow2_asm_asm_tree"],
 )
 
 java_library(
     name = "ow2-asm-util",
     data = ["//lib:LICENSE-ow2"],
     visibility = ["//visibility:public"],
-    exports = ["@ow2-asm-util//jar"],
+    exports = ["@gerrit_deps//:org_ow2_asm_asm_util"],
 )

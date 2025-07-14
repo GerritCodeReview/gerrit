@@ -24,6 +24,54 @@ JETTY_VERS = "9.4.53.v20231009"
 BYTE_BUDDY_VERSION = "1.14.9"
 ROARING_BITMAP_VERSION = "0.9.44"
 
+def non_maven_java_dependencies():
+    maven_jar(
+        name = "prolog-runtime",
+        artifact = "com.googlecode.prolog-cafe:prolog-runtime:" + PROLOG_VERS,
+        attach_source = False,
+        repository = PROLOG_REPO,
+        sha1 = "e9a364f4233481cce63239e8e68a6190c8f58acd",
+    )
+
+    maven_jar(
+        name = "prolog-compiler",
+        artifact = "com.googlecode.prolog-cafe:prolog-compiler:" + PROLOG_VERS,
+        attach_source = False,
+        repository = PROLOG_REPO,
+        sha1 = "570295026f6aa7b905e423d107cb2e081eecdc04",
+    )
+
+    maven_jar(
+        name = "prolog-io",
+        artifact = "com.googlecode.prolog-cafe:prolog-io:" + PROLOG_VERS,
+        attach_source = False,
+        repository = PROLOG_REPO,
+        sha1 = "1f25c4e27d22bdbc31481ee0c962a2a2853e4428",
+    )
+
+    maven_jar(
+        name = "cafeteria",
+        artifact = "com.googlecode.prolog-cafe:prolog-cafeteria:" + PROLOG_VERS,
+        attach_source = False,
+        repository = PROLOG_REPO,
+        sha1 = "0e6c2deeaf5054815a561cbd663566fd59b56c6c",
+    )
+  
+    maven_jar(
+        name = "blame-cache",
+        artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
+        attach_source = False,
+        repository = GITILES_REPO,
+        sha1 = "e110f1129a31a0bbb76c28da2a1770b234f1a755",
+    )
+
+    maven_jar(
+        name = "gitiles-servlet",
+        artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
+        repository = GITILES_REPO,
+        sha1 = "52441c05b83291898da051591036d0d55e1f3501",
+    )
+
 def java_dependencies():
     """
     This method lists the maven jars used in the Gerrit project.

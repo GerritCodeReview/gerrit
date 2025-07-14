@@ -84,3 +84,109 @@ maven.install(
     strict_visibility = True,
 )
 use_repo(maven, "nongoogle_deps")
+
+CAFFEINE_VERS = "2.9.2"
+ANTLR_VERS = "3.5.2"
+COMMONMARK_VERSION = "0.21.0"
+GREENMAIL_VERS = "1.5.5"
+MAIL_VERS = "1.6.0"
+MIME4J_VERS = "0.8.1"
+OW2_VERS = "9.7"
+AUTO_VALUE_GSON_VERSION = "1.3.1"
+BC_VERS = "1.80"
+HTTPCOMP_VERS = "4.5.14"
+JETTY_VERS = "9.4.53.v20231009"
+BYTE_BUDDY_VERSION = "1.14.9"
+ROARING_BITMAP_VERSION = "0.9.44"
+
+gerrit_artifacts = [
+    "org.antlr:antlr-runtime:" + ANTLR_VERS,
+    "org.antlr:stringtemplate:4.0.2",
+    "org.antlr:antlr:" + ANTLR_VERS,
+    "antlr:antlr:2.7.7",
+    "aopalliance:aopalliance:1.0",
+    "javax.inject:javax.inject:1",
+    "javax.servlet:javax.servlet-api:3.1.0",
+    "jakarta.inject:jakarta.inject-api:2.0.1",
+    "com.googlecode.javaewah:JavaEWAH:1.1.12",
+    "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
+    "com.google.guava:failureaccess:1.0.1",
+    "com.github.albfernandez:juniversalchardet:2.0.0",
+    "net.minidev:json-smart:1.1.1",
+    "args4j:args4j:2.33",
+    "commons-codec:commons-codec:1.15",
+    "org.apache.commons:commons-compress:1.25.0",
+    "org.apache.commons:commons-lang3:3.8.1",
+    "org.apache.commons:commons-text:1.2",
+    "commons-dbcp:commons-dbcp:1.4",
+    "commons-pool:commons-pool:1.5.5",
+    "commons-net:commons-net:3.6",
+    "commons-validator:commons-validator:1.6",
+    "dk.brics:automaton:1.12-1",
+    "org.commonmark:commonmark:" + COMMONMARK_VERSION,
+    "org.commonmark:commonmark-ext-autolink:" + COMMONMARK_VERSION,
+    "org.commonmark:commonmark-ext-gfm-strikethrough:" + COMMONMARK_VERSION,
+    "org.commonmark:commonmark-ext-gfm-tables:" + COMMONMARK_VERSION,
+    "com.vladsch.flexmark:flexmark-all:0.64.0:lib",
+    "org.nibor.autolink:autolink:0.10.0",
+    "com.icegreen:greenmail:" + GREENMAIL_VERS,
+    "com.sun.mail:javax.mail:" + MAIL_VERS,
+    "org.apache.james:apache-mime4j-core:" + MIME4J_VERS,
+    "org.apache.james:apache-mime4j-dom:" + MIME4J_VERS,
+    "org.jsoup:jsoup:1.14.3",
+    "org.ow2.asm:asm:" + OW2_VERS,
+    "org.ow2.asm:asm-analysis:" + OW2_VERS,
+    "org.ow2.asm:asm-commons:" + OW2_VERS,
+    "org.ow2.asm:asm-tree:" + OW2_VERS,
+    "org.ow2.asm:asm-util:" + OW2_VERS,
+    "com.ryanharter.auto.value:auto-value-gson-runtime:" + AUTO_VALUE_GSON_VERSION,
+    "com.ryanharter.auto.value:auto-value-gson-extension:" + AUTO_VALUE_GSON_VERSION,
+    "com.ryanharter.auto.value:auto-value-gson-factory:" + AUTO_VALUE_GSON_VERSION,
+    "com.squareup:javapoet:1.13.0",
+    "io.sweers.autotransient:autotransient:1.0.0",
+    "eu.medsea.mimeutil:mime-util:2.1.3",
+    "com.github.rholder:guava-retrying:2.0.0",
+    "com.google.code.findbugs:jsr305:3.0.1",
+    "com.google.common.html.types:types:1.0.8",
+    "com.ibm.icu:icu4j:57.1",
+    "org.bouncycastle:bcprov-jdk18on:" + BC_VERS,
+    "org.bouncycastle:bcpg-jdk18on:" + BC_VERS,
+    "org.bouncycastle:bcpkix-jdk18on:" + BC_VERS,
+    "org.bouncycastle:bcutil-jdk18on:" + BC_VERS,
+    "org.apache.httpcomponents:fluent-hc:" + HTTPCOMP_VERS,
+    "org.apache.httpcomponents:httpclient:" + HTTPCOMP_VERS,
+    "org.apache.httpcomponents:httpcore:4.4.16",
+    "junit:junit:4.12",
+    "org.hamcrest:hamcrest-core:1.3",
+    "com.googlecode.java-diff-utils:diffutils:1.3.0",
+    "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
+    "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERS,
+    "org.asciidoctor:asciidoctorj:1.5.7",
+    "javax.activation:activation:1.1.1",
+    "org.mockito:mockito-core:5.6.0",
+    "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
+    "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
+    "org.objenesis:objenesis:3.0.1",
+    "org.roaringbitmap:RoaringBitmap:" + ROARING_BITMAP_VERSION,
+    "org.roaringbitmap:shims:" + ROARING_BITMAP_VERSION
+]
+
+maven.install(
+    name = "gerrit_deps",
+    artifacts = gerrit_artifacts,
+    duplicate_version_warning = "error",
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    strict_visibility = True,
+)
+use_repo(maven, "gerrit_deps")
+   

@@ -333,8 +333,6 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPick() throws Exception {
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
-
     PushOneCommit.Result r = pushTo("refs/for/master%topic=someTopic");
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
@@ -355,7 +353,6 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
-    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
 
@@ -819,7 +816,6 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
-    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
 
@@ -903,7 +899,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
-    assertThat(currentRevision.conflicts.base).isEqualTo(tip);
     assertThat(currentRevision.conflicts.ours).isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(srcChange.getCommit().name());
   }

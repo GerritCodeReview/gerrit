@@ -622,7 +622,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
-    commit.setConflicts(parentCommit, original, base, filesWithGitConflicts);
+    commit.setConflicts(original, base, filesWithGitConflicts);
     logger.atFine().log("rebased commit=%s", commit.name());
     return commit;
   }

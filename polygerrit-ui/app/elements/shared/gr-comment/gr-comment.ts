@@ -245,7 +245,10 @@ export class GrComment extends LitElement {
   unresolved = true;
 
   @state()
-  generateSuggestion = true;
+  generateSuggestion = false;
+
+  @state()
+  checkGenerateSuggestionByDefault = true;
 
   @state()
   generatedFixSuggestion: FixSuggestionInfo | undefined =
@@ -468,6 +471,14 @@ export class GrComment extends LitElement {
           !!prefs.allow_suggest_code_while_commenting
         ) {
           this.generateSuggestion = !!prefs.allow_suggest_code_while_commenting;
+        }
+        if (
+          this.flagsService.isEnabled(
+            KnownExperimentId.ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT
+          ) &&
+          this.generateSuggestion
+        ) {
+          this.generateSuggestion = false;
         }
       }
     );

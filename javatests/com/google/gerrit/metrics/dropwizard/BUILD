@@ -11,6 +11,6 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib/mockito",
         "//lib/truth",
-        "@dropwizard-core//jar",
+        "//lib/dropwizard:dropwizard-core",
     ],
 )

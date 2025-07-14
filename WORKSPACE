@@ -24,10 +24,8 @@ workspace(
     name = "gerrit",
 )
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
-load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
@@ -65,8 +63,6 @@ browser_repositories(
     firefox = True,
 )
 
-declare_nongoogle_deps()
-
 # Java-Prettify external repository consumed from git submodule
 local_repository(
     name = "java-prettify",
@@ -77,28 +73,6 @@ local_repository(
 local_repository(
     name = "jgit",
     path = "modules/jgit",
-)
-
-java_dependencies()
-
-CAFFEINE_GUAVA_SHA256 = "6e48965614557ba4d3c55a197e20c38f23a20032ef8aace37e95ed64d2ebc9a6"
-
-# TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential
-# naming collision between caffeine guava adapter and guava library itself.
-# Remove this renaming procedure, once this upstream issue is fixed:
-# https://github.com/ben-manes/caffeine/issues/364.
-http_file(
-    name = "caffeine-guava-renamed",
-    canonical_id = "caffeine-guava-" + CAFFEINE_VERS + ".jar-" + CAFFEINE_GUAVA_SHA256,
-    downloaded_file_path = "caffeine-guava-" + CAFFEINE_VERS + ".jar",
-    sha256 = CAFFEINE_GUAVA_SHA256,
-    urls = [
-        "https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/guava/" +
-        CAFFEINE_VERS +
-        "/guava-" +
-        CAFFEINE_VERS +
-        ".jar",
-    ],
 )
 
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")

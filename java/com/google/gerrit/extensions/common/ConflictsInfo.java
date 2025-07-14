@@ -17,21 +17,6 @@ package com.google.gerrit.extensions.common;
 /** Information about conflicts in a revision. */
 public class ConflictsInfo {
   /**
-   * The SHA1 of the commit that was used as the base commit for the Git merge that created the
-   * revision.
-   *
-   * <p>Not set for revisions that have been created before Gerrit started to compute and store the
-   * base for conflicts.
-   *
-   * <p>For revisions that have been created after Gerrit started to compute and store the base for
-   * conflicts the base is set if the revision was created by Gerrit as a result of performing a Git
-   * merge (regardless of whether {@link #containsConflicts} is {@code true} or {@code false}), but
-   * only if the merged commits do have a common predecessor. This means base is not set if 2
-   * commits that have unrelated histories (e.g. 2 initial commits) are being merged.
-   */
-  public String base;
-
-  /**
    * The SHA1 of the commit that was used as {@code ours} for the Git merge that created the
    * revision.
    *

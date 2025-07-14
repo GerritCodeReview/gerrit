@@ -697,8 +697,7 @@ public class ChangeEditModifier {
               new PersonIdent(currentEditCommit.getCommitterIdent(), timestamp));
 
       CodeReviewCommit newEditCommit = revWalk.parseCommit(newEditCommitId);
-      newEditCommit.setConflicts(
-          basePatchSetCommitId, basePatchSetCommit, editCommitId, filesWithGitConflicts);
+      newEditCommit.setConflicts(basePatchSetCommit, editCommitId, filesWithGitConflicts);
       return newEditCommit;
     }
   }

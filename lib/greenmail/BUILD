@@ -6,13 +6,13 @@ java_library(
     name = "javax-activation",
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    exports = ["@javax-activation//jar"],
+    exports = ["@gerrit_deps//:javax_activation_activation"],
 )
 
 java_library(
     name = "greenmail",
     testonly = True,
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@greenmail//jar"],
+    exports = ["@gerrit_deps//:com_icegreen_greenmail"],
     runtime_deps = [":javax-activation"],
 )

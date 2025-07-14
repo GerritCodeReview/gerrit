@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
-import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BASE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PICK_OF;
@@ -870,7 +869,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (conflicts != null) {
-      conflicts.base().map(ObjectId::getName).ifPresent(ours -> addFooter(msg, FOOTER_BASE, ours));
       conflicts.ours().map(ObjectId::getName).ifPresent(ours -> addFooter(msg, FOOTER_OURS, ours));
       conflicts
           .theirs()

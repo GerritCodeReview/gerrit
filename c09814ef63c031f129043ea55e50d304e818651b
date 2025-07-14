@@ -105,6 +105,24 @@
       "parentUuid": "fa109684_deed730f",
       "revId": "c09814ef63c031f129043ea55e50d304e818651b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfbe21fb_706d21e2",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-14T20:48:08Z",
+      "side": 1,
+      "message": "Ack, thanks!",
+      "parentUuid": "fdb4cf90_3fadb3dd",
+      "revId": "c09814ef63c031f129043ea55e50d304e818651b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

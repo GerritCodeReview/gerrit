@@ -87,6 +87,24 @@
       "parentUuid": "4bc84db9_317d57f0",
       "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "368c2c2d_c4070c82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-14T15:18:13Z",
+      "side": 1,
+      "message": "I discussed this topic with Edwin and he said that the Gerrit team at Google wasn\u0027t aware of the migration to bazel modules in JGit and they didn\u0027t plan any work on that. Hence he proposed we revert the migration to bazel modules in JGit.\n\nI restored Luca\u0027s abandoned JGit change https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1217985 implementing this revert and updated it to the latest dependency updates we did in JGit.\n\nWe can restore this change as soon as the Gerrit project wants to migrate to bzlmods.",
+      "parentUuid": "c6b62fa6_4e38fb70",
+      "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

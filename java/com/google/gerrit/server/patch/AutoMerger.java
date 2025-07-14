@@ -281,6 +281,8 @@ public class AutoMerger {
               rw,
               nonFlushingInserter,
               dc,
+              "BASE",
+              MergeUtil.getBaseCommit(rw, m).orElse(null),
               "HEAD",
               merge.getParent(0),
               "BRANCH",

@@ -474,6 +474,7 @@ bouncycastle
 * bouncycastle:bcpg
 * bouncycastle:bcpg-neverlink
 * bouncycastle:bcpkix-neverlink
+* bouncycastle:bcprov
 * bouncycastle:bcprov-neverlink
 
 [[bouncycastle_license]]

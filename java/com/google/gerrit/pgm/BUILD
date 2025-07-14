@@ -60,6 +60,6 @@ java_library(
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",
         "//lib/prolog:runtime",
-        "@gson//jar",
+        "//lib:gson",
     ],
 )

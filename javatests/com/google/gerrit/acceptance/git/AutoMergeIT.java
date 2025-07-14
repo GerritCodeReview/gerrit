@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
@@ -24,28 +23,19 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.RawInputUtil;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
-import com.google.inject.Inject;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 import org.junit.Test;
 
 /** Ensures that auto merge commits are created when a new patch set or change is uploaded. */
 public class AutoMergeIT extends AbstractDaemonTest {
-  @Inject private ProjectOperations projectOperations;
-
   private RevCommit parent1;
   private RevCommit parent2;
 
@@ -107,46 +97,6 @@ public class AutoMergeIT extends AbstractDaemonTest {
     assertThat(ps2.getParents().length).isEqualTo(2);
     assertThat(gApi.changes().id(ps1.getChangeId()).get().revisions.size()).isEqualTo(2);
     assertAutoMergeCreated(ps2);
-  }
-
-  @Test
-  public void autoMergeCreatedWhenPushingMergeBetweenTwoInitialCommits() throws Exception {
-    Project.NameKey projectWithoutInitialCommit =
-        projectOperations.newProject().createEmptyCommit(false).create();
-
-    TestRepository<InMemoryRepository> testRepo =
-        cloneProject(projectWithoutInitialCommit, getCloneAsAccount(configRule.description()));
-
-    RevCommit initialCommit1 =
-        testRepo.parseBody(
-            testRepo
-                .commit()
-                .message("Initial Change 1")
-                .insertChangeId()
-                .add("file1", "contents1")
-                .create());
-    RevCommit initialCommit2 =
-        testRepo.parseBody(
-            testRepo
-                .commit()
-                .message("Initial Change 2")
-                .insertChangeId()
-                .add("file1", "contents2")
-                .create());
-    RevCommit mergeCommit =
-        testRepo
-            .branch("master")
-            .commit()
-            .message("Merge Change")
-            .parent(initialCommit1)
-            .parent(initialCommit2)
-            .insertChangeId()
-            .create();
-    testRepo.reset(mergeCommit);
-    PushResult r = pushHead(testRepo, "refs/for/master");
-    assertThat(r.getRemoteUpdate("refs/for/master").getStatus()).isEqualTo(Status.OK);
-
-    assertAutoMergeCreated(projectWithoutInitialCommit, mergeCommit);
   }
 
   @Test
@@ -237,11 +187,6 @@ public class AutoMergeIT extends AbstractDaemonTest {
   }
 
   private void assertAutoMergeCreated(ObjectId mergeCommit) throws Exception {
-    assertAutoMergeCreated(project, mergeCommit);
-  }
-
-  private void assertAutoMergeCreated(Project.NameKey project, ObjectId mergeCommit)
-      throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef(RefNames.refsCacheAutomerge(mergeCommit.name()))).isNotNull();
     }

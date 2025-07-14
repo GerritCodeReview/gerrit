@@ -32,7 +32,6 @@ public enum ConflictsProtoConverter
   @Override
   public Entities.Conflicts toProto(PatchSet.Conflicts conflicts) {
     Entities.Conflicts.Builder builder = Entities.Conflicts.newBuilder();
-    conflicts.base().ifPresent(base -> builder.setBase(objectIdConverter.toProto(base)));
     conflicts.ours().ifPresent(ours -> builder.setOurs(objectIdConverter.toProto(ours)));
     conflicts.theirs().ifPresent(theirs -> builder.setTheirs(objectIdConverter.toProto(theirs)));
     return builder.setContainsConflicts(conflicts.containsConflicts()).build();
@@ -41,9 +40,6 @@ public enum ConflictsProtoConverter
   @Override
   public PatchSet.Conflicts fromProto(Entities.Conflicts proto) {
     return PatchSet.Conflicts.create(
-        proto.hasBase()
-            ? Optional.of(objectIdConverter.fromProto(proto.getBase()))
-            : Optional.empty(),
         proto.hasOurs()
             ? Optional.of(objectIdConverter.fromProto(proto.getOurs()))
             : Optional.empty(),

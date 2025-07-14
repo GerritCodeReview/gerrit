@@ -231,8 +231,7 @@ public class MergeUtil {
           InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
-    RevCommit baseCommit = originalCommit.getParent(parentIndex);
-    m.setBase(baseCommit);
+    m.setBase(originalCommit.getParent(parentIndex));
 
     DirCache dc = DirCache.newInCore();
     if (allowConflicts && m instanceof ResolveMerger) {
@@ -308,8 +307,6 @@ public class MergeUtil {
               rw,
               inserter,
               dc,
-              "BASE",
-              baseCommit,
               "HEAD",
               mergeTip,
               "CHANGE",
@@ -328,7 +325,7 @@ public class MergeUtil {
     cherryPickCommit.setMessage(commitMsg);
     matchAuthorToCommitterDate(project, cherryPickCommit);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
-    commit.setConflicts(baseCommit, mergeTip, originalCommit, filesWithGitConflicts);
+    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
     logger.atFine().log("CherryPick commitId=%s", commit.name());
     return commit;
   }
@@ -338,8 +335,6 @@ public class MergeUtil {
       RevWalk rw,
       ObjectInserter ins,
       DirCache dc,
-      String baseName,
-      @Nullable RevCommit base,
       String oursName,
       RevCommit ours,
       String theirsName,
@@ -352,7 +347,7 @@ public class MergeUtil {
     String oursMsg = ours.getShortMessage();
     String theirsMsg = theirs.getShortMessage();
 
-    int nameLength = Math.max(Math.max(oursName.length(), theirsName.length()), baseName.length());
+    int nameLength = Math.max(oursName.length(), theirsName.length());
     String oursNameFormatted =
         String.format(
             "%-" + nameLength + "s (%s %s)",
@@ -366,18 +361,6 @@ public class MergeUtil {
             theirs.getName(),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
 
-    String baseNameFormatted = String.format("%-" + nameLength + "s (no base available)", baseName);
-    if (base != null) {
-      rw.parseBody(base);
-      String baseMsg = base.getShortMessage();
-      baseNameFormatted =
-          String.format(
-              "%-" + nameLength + "s (%s %s)",
-              baseName,
-              base.getName(),
-              baseMsg.substring(0, Math.min(baseMsg.length(), 60)));
-    }
-
     MergeFormatter fmt = new MergeFormatter();
     Map<String, ObjectId> resolved = new HashMap<>();
     for (Map.Entry<String, MergeResult<? extends Sequence>> entry : mergeResults.entrySet()) {
@@ -387,10 +370,9 @@ public class MergeUtil {
         // TODO(dborowitz): Respect inCoreLimit here.
         buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
         if (diff3Format) {
-          fmt.formatMergeDiff3(
-              buf, p, baseNameFormatted, oursNameFormatted, theirsNameFormatted, UTF_8);
+          fmt.formatMergeDiff3(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
         } else {
-          fmt.formatMerge(buf, p, baseNameFormatted, oursNameFormatted, theirsNameFormatted, UTF_8);
+          fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
         }
         buf.close(); // Flush file and close for writes, but leave available for reading.
 
@@ -484,18 +466,7 @@ public class MergeUtil {
 
     ObjectId tree;
     ImmutableSet<String> filesWithGitConflicts;
-    ObjectId baseCommitId;
     if (m.merge(false, mergeTip, originalCommit)) {
-      baseCommitId = m.getBaseCommitId();
-      if (baseCommitId == null) {
-        // baseCommitId is null if a two-way-merge strategy such as StrategyOneSided to accept
-        // theirs or ours has been used, to compute the base commit in this case redo the merge
-        // using a three-way-merge strategy that computes the base commit.
-        Merger threeWayMerger = newMerger(inserter, repoConfig, MergeStrategy.RESOLVE.getName());
-        threeWayMerger.merge(false, mergeTip, originalCommit);
-        baseCommitId = threeWayMerger.getBaseCommitId();
-      }
-
       filesWithGitConflicts = null;
       tree = m.getResultTreeId();
     } else {
@@ -539,8 +510,6 @@ public class MergeUtil {
       Map<String, MergeResult<? extends Sequence>> mergeResults =
           ((ResolveMerger) m).getMergeResults();
 
-      baseCommitId = m.getBaseCommitId();
-
       filesWithGitConflicts =
           mergeResults.entrySet().stream()
               .filter(e -> e.getValue().containsConflicts())
@@ -552,10 +521,6 @@ public class MergeUtil {
               rw,
               inserter,
               dc,
-              "BASE",
-              // base commit is null if the merged commits do not have a common predecessor
-              // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
-              baseCommitId != null ? rw.parseCommit(baseCommitId) : null,
               "TARGET BRANCH",
               mergeTip,
               "SOURCE BRANCH",
@@ -571,7 +536,7 @@ public class MergeUtil {
     mergeCommit.setCommitter(committerIdent);
     mergeCommit.setMessage(commitMsg);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
-    commit.setConflicts(baseCommitId, mergeTip, originalCommit, filesWithGitConflicts);
+    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
     return commit;
   }
 

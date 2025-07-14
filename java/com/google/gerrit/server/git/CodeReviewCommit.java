@@ -175,29 +175,20 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
   public void setNoConflicts() {
     this.conflicts =
         PatchSet.Conflicts.create(
-            Optional.empty(), Optional.empty(), Optional.empty(), /* containsConflicts= */ false);
+            Optional.empty(), Optional.empty(), /* containsConflicts= */ false);
   }
 
   public void setConflicts(
-      @Nullable ObjectId base,
-      ObjectId ours,
-      ObjectId theirs,
-      @Nullable Set<String> filesWithGitConflicts) {
+      ObjectId ours, ObjectId theirs, @Nullable Set<String> filesWithGitConflicts) {
     if (filesWithGitConflicts != null && !filesWithGitConflicts.isEmpty()) {
       this.conflicts =
           PatchSet.Conflicts.create(
-              Optional.ofNullable(base),
-              Optional.of(ours),
-              Optional.of(theirs),
-              /* containsConflicts= */ true);
+              Optional.of(ours), Optional.of(theirs), /* containsConflicts= */ true);
       this.filesWithGitConflicts = ImmutableSet.copyOf(filesWithGitConflicts);
     } else {
       this.conflicts =
           PatchSet.Conflicts.create(
-              Optional.ofNullable(base),
-              Optional.of(ours),
-              Optional.of(theirs),
-              /* containsConflicts= */ false);
+              Optional.of(ours), Optional.of(theirs), /* containsConflicts= */ false);
     }
   }
 

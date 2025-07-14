@@ -3,7 +3,7 @@
 
 bazel_dep(name = "bazel_features", version = "1.39.0")
 bazel_dep(name = "platforms", version = "1.0.0")
-bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rules_jvm_external", version = "6.9")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 
 # nongoogle bazel_deps
@@ -45,3 +45,52 @@ git_override(
 )
 
 register_toolchains("//tools:all")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+# Empty maven.install call to apply the configuration to the installation from
+# toml files.
+maven.install(
+    name = "gerrit_deps",
+    artifacts = [],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://gerrit-maven.storage.googleapis.com",
+    ],
+    lock_file = "//:gerrit_deps.lock.json",
+    duplicate_version_warning = "error",
+    fail_if_repin_required = True,
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    strict_visibility = True,
+    version_conflict_policy = "pinned",
+)
+
+maven.from_toml(
+    name = "gerrit_deps",
+    libs_versions_toml = "//tools:deps.toml",
+)
+
+use_repo(maven, "gerrit_deps")
+
+maven.install(
+    name = "gerrit_nongoogle_deps",
+    artifacts = [],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    lock_file = "//:gerrit_nongoogle_deps.lock.json",
+    duplicate_version_warning = "error",
+    fail_if_repin_required = True,
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    strict_visibility = True,
+    version_conflict_policy = "pinned",
+)
+
+maven.from_toml(
+    name = "gerrit_nongoogle_deps",
+    libs_versions_toml = "//tools:nongoogle.toml",
+)
+
+use_repo(maven, "gerrit_nongoogle_deps")

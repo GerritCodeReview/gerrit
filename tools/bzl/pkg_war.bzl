@@ -15,8 +15,6 @@
 # War packaging.
 
 load("@rules_java//java:defs.bzl", "JavaInfo")
-load("//tools:deps.bzl", "AUTO_VALUE_GSON_VERSION")
-load("//tools:nongoogle.bzl", "AUTO_FACTORY_VERSION", "AUTO_VALUE_VERSION")
 
 jar_filetype = [".jar"]
 
@@ -35,30 +33,71 @@ PGMLIBS = [
     "//java/com/google/gerrit/pgm",
 ]
 
-SKIP_DEPS = [
-    "auto-factory-%s.jar" % AUTO_FACTORY_VERSION,
-    "auto-value-%s.jar" % AUTO_VALUE_VERSION,
-    "auto-value-annotations-%s.jar" % AUTO_VALUE_VERSION,
-    "auto-value-gson-runtime-%s.jar" % AUTO_VALUE_GSON_VERSION,
+# Special prefix added by rules_jvm_external.jvm_import() to stamped jars
+# https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32
+PROCESSED_PREFIX = "processed_"
+
+# Jars that must not be packaged into release.war.
+#
+# Keep this list prefix-based and version-agnostic so it remains stable
+# across dependency upgrades.
+EXCLUDE_WAR_JAR_PREFIXES = [
+    # Codegen / annotation processor support libs (compile-time only).
+    "autotransient-",
+    "auto-",
+    "javapoet-",
+    "checker-qual-",
+    "checker-compat-qual-",
+    "error_prone_annotations-",
+    "jspecify-",
+    "jsinterop-annotations-",
+
+    # Placeholder jar used to avoid conflicts with Guava.
+    "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava",
 ]
 
 def _add_context(in_file, output):
-    input_path = in_file.path
     return [
-        "unzip -qd %s %s" % (output, input_path),
+        "unzip -qd %s %s" % (output, in_file.path),
     ]
 
+def _should_skip_runtime_jar(dep):
+    # Do not package any jars coming from jgit_deps.
+    if "jgit_deps" in dep.path:
+        return True
+
+    raw = dep.basename
+    if raw.startswith(PROCESSED_PREFIX):
+        raw = raw[len(PROCESSED_PREFIX):]
+
+    for pfx in EXCLUDE_WAR_JAR_PREFIXES:
+        if raw.startswith(pfx):
+            return True
+
+    return False
+
 def _add_file(in_file, output):
-    output_path = output
     input_path = in_file.path
     short_path = in_file.short_path
     n = in_file.basename
 
+    # Strip rules_jvm_external processed_ prefix for naming decisions
+    raw = n
+    if raw.startswith(PROCESSED_PREFIX):
+        raw = raw[len(PROCESSED_PREFIX):]
+
+    # Rename ONLY caffeine's "guava" artifact (not Google Guava)
+    # Matches: .../com/github/ben-manes/caffeine/guava/<ver>/processed_guava-<ver>.jar
+    if "/com/github/ben-manes/caffeine/guava/" in short_path and raw.startswith("guava-") and raw.endswith(".jar"):
+        raw = "caffeine-" + raw  # -> caffeine-guava-<ver>.jar
+
+    # Keep existing Gerrit naming rules
     if short_path.startswith("gerrit-"):
-        n = short_path.split("/")[0] + "-" + n
+        raw = short_path.split("/")[0] + "-" + raw
     elif short_path.startswith("java/"):
-        n = short_path[5:].replace("/", "_")
-    output_path += n
+        raw = short_path[5:].replace("/", "_")
+
+    output_path = output + raw
     return [
         "test -L %s || ln -s $(pwd)/%s %s" % (output_path, input_path, output_path),
     ]
@@ -86,7 +125,7 @@ def _war_impl(ctx):
         "mkdir -p %s/WEB-INF/pgm-lib" % build_output,
     ]
 
-    # Add lib
+    # Add runtime libs
     transitive_libs = []
     for j in ctx.attr.libs:
         if JavaInfo in j:
@@ -94,25 +133,19 @@ def _war_impl(ctx):
         elif hasattr(j, "files"):
             transitive_libs.append(j.files)
 
-    transitive_lib_deps = depset(transitive = transitive_libs)
-    for dep in transitive_lib_deps.to_list():
-        if "jgit_deps" in dep.path:
-            continue
-        if dep.basename in SKIP_DEPS:
+    for dep in depset(transitive = transitive_libs).to_list():
+        if _should_skip_runtime_jar(dep):
             continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
 
-    # Add pgm lib
+    # Add pgm libs
     transitive_pgmlibs = []
     for j in ctx.attr.pgmlibs:
         transitive_pgmlibs.append(j[JavaInfo].transitive_runtime_jars)
 
-    transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
-    for dep in transitive_pgmlib_deps.to_list():
-        if "jgit_deps" in dep.path:
-            continue
-        if dep.basename in SKIP_DEPS:
+    for dep in depset(transitive = transitive_pgmlibs).to_list():
+        if _should_skip_runtime_jar(dep):
             continue
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
@@ -127,8 +160,7 @@ def _war_impl(ctx):
             elif hasattr(jar, "files"):
                 transitive_context_libs.append(jar.files)
 
-    transitive_context_deps = depset(transitive = transitive_context_libs)
-    for dep in transitive_context_deps.to_list():
+    for dep in depset(transitive = transitive_context_libs).to_list():
         cmd += _add_context(dep, build_output)
         inputs.append(dep)
 

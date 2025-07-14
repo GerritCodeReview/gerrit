@@ -16,6 +16,23 @@
       "message": "Thanks for this fix, we just noticed the resultant NPE recently and I was investigating - but only in the global-refdb.",
       "revId": "9469ddfdfaf00c707a9e4854a91b3c39a7df5d65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5895fe9f_e276ed15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4227959
+      },
+      "writtenOn": "2025-07-14T04:51:42Z",
+      "side": 1,
+      "message": "Marked as unresolved.489443: Align delete refs to the rest of Gerrit | https://gerrit-review.googlesource.com/c/gerrit/+/489443",
+      "revId": "9469ddfdfaf00c707a9e4854a91b3c39a7df5d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

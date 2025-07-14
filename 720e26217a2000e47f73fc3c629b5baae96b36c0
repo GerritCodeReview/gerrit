@@ -105,6 +105,24 @@
       "parentUuid": "c6b62fa6_4e38fb70",
       "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e989db92_4712660f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-07-14T18:26:59Z",
+      "side": 1,
+      "message": "Sounds good.\n\nI did some progress in the migration only to discover that with bazel modules we get guice 7.0 that do NOT support javax. classes anymore.",
+      "parentUuid": "368c2c2d_c4070c82",
+      "revId": "720e26217a2000e47f73fc3c629b5baae96b36c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

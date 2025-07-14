@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "836259f6_30515bd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4107991
+      },
+      "writtenOn": "2025-07-14T13:29:48Z",
+      "side": 1,
+      "message": "All love",
+      "revId": "2558a94a824cd65818878a4494a47ca567d2b5c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

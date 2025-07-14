@@ -22,6 +22,30 @@
       },
       "revId": "3bf7d59b369b69f41cd0d9433a4ef8a5a934b756",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebff443e_0f769993",
+        "filename": "java/com/google/gerrit/server/account/HttpPasswordFallbackAuthTokenAccessor.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-14T07:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bd33973_6c0e8314",
+      "range": {
+        "startLine": 74,
+        "startChar": 20,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "3bf7d59b369b69f41cd0d9433a4ef8a5a934b756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

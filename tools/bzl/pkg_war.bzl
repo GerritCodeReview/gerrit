@@ -15,8 +15,6 @@
 # War packaging.
 
 load("@rules_java//java:defs.bzl", "JavaInfo")
-load("//tools:deps.bzl", "AUTO_VALUE_GSON_VERSION")
-load("//tools:nongoogle.bzl", "AUTO_FACTORY_VERSION", "AUTO_VALUE_VERSION")
 
 jar_filetype = [".jar"]
 
@@ -35,12 +33,9 @@ PGMLIBS = [
     "//java/com/google/gerrit/pgm",
 ]
 
-SKIP_DEPS = [
-    "auto-factory-%s.jar" % AUTO_FACTORY_VERSION,
-    "auto-value-%s.jar" % AUTO_VALUE_VERSION,
-    "auto-value-annotations-%s.jar" % AUTO_VALUE_VERSION,
-    "auto-value-gson-runtime-%s.jar" % AUTO_VALUE_GSON_VERSION,
-]
+# Special prefix added by rules_jvm_external.jvm_import() to stamped jars
+# https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32
+PROCESSED_PREFIX = "processed_"
 
 def _add_context(in_file, output):
     input_path = in_file.path
@@ -58,6 +53,10 @@ def _add_file(in_file, output):
         n = short_path.split("/")[0] + "-" + n
     elif short_path.startswith("java/"):
         n = short_path[5:].replace("/", "_")
+
+    if n.startswith(PROCESSED_PREFIX):
+        n = n[len(PROCESSED_PREFIX):]
+
     output_path += n
     return [
         "test -L %s || ln -s $(pwd)/%s %s" % (output_path, input_path, output_path),
@@ -96,7 +95,7 @@ def _war_impl(ctx):
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
-        if dep.basename in SKIP_DEPS:
+        if dep.basename.startswith("auto-value-") or dep.basename.startswith("auto-factory-"):
             continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
@@ -108,7 +107,7 @@ def _war_impl(ctx):
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
-        if dep.basename in SKIP_DEPS:
+        if dep.basename.startswith("auto-value-") or dep.basename.startswith("auto-factory-"):
             continue
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")

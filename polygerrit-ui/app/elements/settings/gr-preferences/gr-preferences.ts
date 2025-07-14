@@ -484,6 +484,9 @@ export class GrPreferences extends LitElement {
   private renderGenerateSuggestionWhenCommenting() {
     if (
       !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
+      this.flagsService.isEnabled(
+        KnownExperimentId.ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT
+      ) ||
       !this.suggestionsProvider
     )
       return nothing;

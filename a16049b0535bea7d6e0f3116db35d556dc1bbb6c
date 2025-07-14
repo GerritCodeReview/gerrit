@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdc7c487_24e70dde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4202917
+      },
+      "writtenOn": "2025-07-14T19:30:42Z",
+      "side": 1,
+      "message": "git pull https://gerrit.googlesource.com/gerrit refs/changes/84/488984/6",
+      "revId": "a16049b0535bea7d6e0f3116db35d556dc1bbb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

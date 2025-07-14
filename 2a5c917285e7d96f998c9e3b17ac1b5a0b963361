@@ -22,6 +22,30 @@
       },
       "revId": "2a5c917285e7d96f998c9e3b17ac1b5a0b963361",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c7b9c3_c5cb83fe",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-14T13:01:03Z",
+      "side": 1,
+      "message": "No, that is not guaranteed and it would also be counterintuitive to forbid `:`. I have changed the command to just accept a single token, which should cover 99% of the use cases.",
+      "parentUuid": "038a24de_60b19b15",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 7
+      },
+      "revId": "2a5c917285e7d96f998c9e3b17ac1b5a0b963361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

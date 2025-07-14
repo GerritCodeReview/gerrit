@@ -15,8 +15,6 @@
 # War packaging.
 
 load("@rules_java//java:defs.bzl", "JavaInfo")
-load("//tools:deps.bzl", "AUTO_VALUE_GSON_VERSION")
-load("//tools:nongoogle.bzl", "AUTO_FACTORY_VERSION", "AUTO_VALUE_VERSION")
 
 jar_filetype = [".jar"]
 
@@ -35,11 +33,27 @@ PGMLIBS = [
     "//java/com/google/gerrit/pgm",
 ]
 
-SKIP_DEPS = [
-    "auto-factory-%s.jar" % AUTO_FACTORY_VERSION,
-    "auto-value-%s.jar" % AUTO_VALUE_VERSION,
-    "auto-value-annotations-%s.jar" % AUTO_VALUE_VERSION,
-    "auto-value-gson-runtime-%s.jar" % AUTO_VALUE_GSON_VERSION,
+# Special prefix added by rules_jvm_external.jvm_import() to stamped jars
+# https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32
+PROCESSED_PREFIX = "processed_"
+
+# headless.war must not ship compile-time codegen / annotation-only jars (e.g. javapoet),
+# nor duplicate/legacy dependency artifacts that can conflict at runtime. These may be
+# introduced via fat *_deploy.jar context extraction or overly broad transitive closures.
+#
+# Keep this list conservative and pattern-based (prefixes), so it continues to work across
+# version bumps without needing constant updates.
+EXCLUDE_WAR_JAR_PREFIXES = [
+    # Codegen / annotation processors support libs (compile-time only).
+    "javapoet-",
+    "checker-qual-",
+    "checker-compat-qual-",
+    "error_prone_annotations-",
+    "jspecify-",
+    "jsinterop-annotations-",
+
+    # "Empty" placeholder jar used to avoid conflicts with Guava.
+    "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava",
 ]
 
 def _add_context(in_file, output):
@@ -54,14 +68,27 @@ def _add_file(in_file, output):
     short_path = in_file.short_path
     n = in_file.basename
 
+    # Strip rules_jvm_external processed_ prefix for naming decisions
+    raw = n
+    if raw.startswith(PROCESSED_PREFIX):
+        raw = raw[len(PROCESSED_PREFIX):]
+
+    # Rename ONLY caffeine's "guava" artifact (not Google Guava)
+    # Matches: .../com/github/ben-manes/caffeine/guava/<ver>/processed_guava-<ver>.jar
+    if "/com/github/ben-manes/caffeine/guava/" in short_path and raw.startswith("guava-") and raw.endswith(".jar"):
+        raw = "caffeine-" + raw  # -> caffeine-guava-2.9.2.jar
+
+    # Keep existing Gerrit naming rules
     if short_path.startswith("gerrit-"):
-        n = short_path.split("/")[0] + "-" + n
+        raw = short_path.split("/")[0] + "-" + raw
     elif short_path.startswith("java/"):
-        n = short_path[5:].replace("/", "_")
-    output_path += n
+        raw = short_path[5:].replace("/", "_")
+
+    output_path += raw
     return [
         "test -L %s || ln -s $(pwd)/%s %s" % (output_path, input_path, output_path),
     ]
+
 
 def _make_war(input_dir, output):
     return "(%s)" % " && ".join([
@@ -72,6 +99,16 @@ def _make_war(input_dir, output):
         "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
         "zip -X -9qr ${root}/%s ." % (output.path),
     ])
+
+def _cleanup_war_libs(build_output):
+    cmds = []
+
+    # Remove jars by prefix (handles version bumps).
+    for pfx in EXCLUDE_WAR_JAR_PREFIXES:
+        cmds.append("rm -f %s/WEB-INF/lib/%s*.jar %s/WEB-INF/pgm-lib/%s*.jar || true" % (
+            build_output, pfx, build_output, pfx))
+
+    return cmds
 
 def _war_impl(ctx):
     war = ctx.outputs.war
@@ -96,7 +133,7 @@ def _war_impl(ctx):
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
-        if dep.basename in SKIP_DEPS:
+        if dep.basename.startswith(PROCESSED_PREFIX + "auto-") or dep.path.find("jgit_deps") != -1:
             continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
@@ -108,7 +145,7 @@ def _war_impl(ctx):
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
-        if dep.basename in SKIP_DEPS:
+        if dep.basename.startswith(PROCESSED_PREFIX + "auto-") or dep.path.find("jgit_deps") != -1:
             continue
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
@@ -127,6 +164,9 @@ def _war_impl(ctx):
     for dep in transitive_context_deps.to_list():
         cmd += _add_context(dep, build_output)
         inputs.append(dep)
+
+    # Ensure runtime WAR does not ship compile-time tooling / legacy stacks.
+    cmd += _cleanup_war_libs(build_output)
 
     # Add zip war
     cmd.append(_make_war(build_output, war))
@@ -172,3 +212,4 @@ def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
         ],
         **kwargs
     )
+

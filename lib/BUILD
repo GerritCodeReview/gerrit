@@ -1,4 +1,4 @@
-load("@rules_java//java:defs.bzl", "java_import", "java_library")
+load("@rules_java//java:defs.bzl", "java_library")
 
 exports_files(glob([
     "LICENSE-*",
@@ -18,21 +18,21 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api//jar"],
+    exports = ["@gerrit_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
     name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api//jar"],
+    exports = ["@gerrit_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
     name = "gson",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gson//jar"],
+    exports = ["@gerrit_deps//:com_google_code_gson_gson"],
 )
 
 java_library(
@@ -85,28 +85,28 @@ java_library(
     name = "javaewah",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@javaewah//jar"],
+    exports = ["@gerrit_deps//:com_googlecode_javaewah_JavaEWAH"],
 )
 
 java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],
-    exports = ["@protobuf-java//jar"],
+    exports = ["@gerrit_deps//:com_google_protobuf_protobuf_java"],
 )
 
 java_library(
     name = "guava-failureaccess",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-failureaccess//jar"],
+    exports = ["@gerrit_deps//:com_google_guava_failureaccess"],
 )
 
 java_library(
     name = "j2objc",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@j2objc//jar"],
+    exports = ["@gerrit_deps//:com_google_j2objc_j2objc_annotations"],
 )
 
 java_library(
@@ -116,7 +116,7 @@ java_library(
     exports = [
         ":guava-failureaccess",
         ":j2objc",
-        "@guava//jar",
+        "@gerrit_deps//:com_google_guava_guava",
     ],
 )
 
@@ -125,7 +125,7 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@guava-testlib//jar",
+        "@gerrit_deps//:com_google_guava_guava_testlib",
     ],
 )
 
@@ -136,12 +136,7 @@ java_library(
         "//java/com/google/gerrit/acceptance:__pkg__",
         "//java/com/google/gerrit/server/cache/mem:__pkg__",
     ],
-    exports = ["@caffeine//jar"],
-)
-
-java_import(
-    name = "caffeine-guava-renamed",
-    jars = ["@caffeine-guava-renamed//file"],
+    exports = ["@gerrit_deps//:com_github_ben_manes_caffeine_caffeine"],
 )
 
 java_library(
@@ -151,56 +146,56 @@ java_library(
         "//java/com/google/gerrit/acceptance:__pkg__",
         "//java/com/google/gerrit/server/cache/mem:__pkg__",
     ],
-    exports = [":caffeine-guava-renamed"],
+    exports = ["@gerrit_deps//:com_github_ben_manes_caffeine_guava"],
 )
 
 java_library(
     name = "args4j",
     data = ["//lib:LICENSE-args4j"],
     visibility = ["//visibility:public"],
-    exports = ["@args4j//jar"],
+    exports = ["@gerrit_deps//:args4j_args4j"],
 )
 
 java_library(
     name = "automaton",
     data = ["//lib:LICENSE-automaton"],
     visibility = ["//visibility:public"],
-    exports = ["@automaton//jar"],
+    exports = ["@gerrit_deps//:dk_brics_automaton"],
 )
 
 java_library(
     name = "flexmark-all-lib",
     data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
-    exports = ["@flexmark-all-lib//jar"],
+    exports = ["@gerrit_deps//:com_vladsch_flexmark_flexmark_all_lib"],
 )
 
 java_library(
     name = "autolink",
     data = ["//lib:LICENSE-autolink"],
     visibility = ["//visibility:public"],
-    exports = ["@autolink//jar"],
+    exports = ["@gerrit_deps//:org_nibor_autolink_autolink"],
 )
 
 java_library(
     name = "tukaani-xz",
     data = ["//lib:LICENSE-xz"],
     visibility = ["//visibility:public"],
-    exports = ["@tukaani-xz//jar"],
+    exports = ["@gerrit_deps//:org_tukaani_xz"],
 )
 
 java_library(
     name = "mime-util",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime-util//jar"],
+    exports = ["@gerrit_deps//:eu_medsea_mimeutil_mime_util"],
 )
 
 java_library(
     name = "guava-retrying",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-retrying//jar"],
+    exports = ["@gerrit_deps//:com_github_rholder_guava_retrying"],
     runtime_deps = [":jsr305"],
 )
 
@@ -208,28 +203,28 @@ java_library(
     name = "jsr305",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jsr305//jar"],
+    exports = ["@gerrit_deps//:com_google_code_findbugs_jsr305"],
 )
 
 java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@blame-cache//jar"],
+    exports = ["@gerrit_deps//:com_google_gitiles_blame_cache"],
 )
 
 java_library(
     name = "h2",
     data = ["//lib:LICENSE-h2"],
     visibility = ["//visibility:public"],
-    exports = ["@h2//jar"],
+    exports = ["@gerrit_deps//:com_h2database_h2"],
 )
 
 java_library(
     name = "jimfs",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@jimfs//jar"],
+    exports = ["@gerrit_deps//:com_google_jimfs_jimfs"],
     runtime_deps = [":guava"],
 )
 
@@ -239,7 +234,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":hamcrest",
-        "@junit//jar",
+        "@gerrit_deps//:junit_junit",
     ],
     runtime_deps = [":hamcrest"],
 )
@@ -248,14 +243,14 @@ java_library(
     name = "hamcrest",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest//jar"],
+    exports = ["@gerrit_deps//:org_hamcrest_hamcrest"],
 )
 
 java_library(
     name = "soy",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@soy//jar"],
+    exports = ["@gerrit_deps//:com_google_template_soy"],
     runtime_deps = [
         ":args4j",
         ":gson",
@@ -279,14 +274,14 @@ java_library(
     name = "html-types",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@html-types//jar"],
+    exports = ["@gerrit_deps//:com_google_common_html_types_types"],
 )
 
 java_library(
     name = "icu4j",
     data = ["//lib:LICENSE-icu4j"],
     visibility = ["//visibility:public"],
-    exports = ["@icu4j//jar"],
+    exports = ["@gerrit_deps//:com_ibm_icu_icu4j"],
 )
 
 java_library(
@@ -294,13 +289,13 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@roaringbitmap-shims//jar",
-        "@roaringbitmap//jar",
+        "@gerrit_deps//:org_roaringbitmap_RoaringBitmap",
+        "@gerrit_deps//:org_roaringbitmap_shims",
     ],
 )
 
 sh_test(
     name = "nongoogle_test",
     srcs = ["nongoogle_test.sh"],
-    data = ["//tools:nongoogle.bzl"],
+    data = ["//tools:nongoogle.toml"],
 )

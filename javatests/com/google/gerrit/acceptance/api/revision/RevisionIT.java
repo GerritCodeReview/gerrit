@@ -761,7 +761,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   private void testCherryPickConflictWithAllowConflicts(boolean useDiff3) throws Exception {
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
     // Create a branch and push a commit to it (by-passing review)
     String destBranch = "foo";
@@ -776,7 +776,7 @@ public class RevisionIT extends AbstractDaemonTest {
     push.to("refs/heads/" + destBranch);
 
     // Create a change on master with a commit that conflicts with the commit on the other branch.
-    testRepo.reset(initialHead);
+    testRepo.reset(initial);
     String changeContent = "another content";
     push =
         pushFactory.create(
@@ -841,11 +841,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 + " test commit)\n"
                 + destContent
                 + "\n"
-                + (useDiff3
-                    ? String.format(
-                        "||||||| BASE   (%s %s)\n",
-                        initialHead.getName(), initialHead.getShortMessage())
-                    : "")
+                + (useDiff3 ? "||||||| BASE\n" : "")
                 + "=======\n"
                 + changeContent
                 + "\n"

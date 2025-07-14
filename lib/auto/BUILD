@@ -4,8 +4,8 @@ java_plugin(
     name = "auto-annotation-plugin",
     processor_class = "com.google.auto.value.processor.AutoAnnotationProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
+        "@gerrit_deps//:com_google_auto_value_auto_value",
+        "@gerrit_deps//:com_google_auto_value_auto_value_annotations",
     ],
 )
 
@@ -15,14 +15,14 @@ java_plugin(
     processor_class = "com.google.auto.factory.processor.AutoFactoryProcessor",
     visibility = ["//visibility:private"],
     deps = [
-        "@auto-common//jar",
-        "@auto-factory//jar",
-        "@auto-service-annotations//jar",
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
-        "@guava//jar",
-        "@javapoet//jar",
-        "@javax_inject//jar",
+        "@gerrit_deps//:com_google_auto_auto_common",
+        "@gerrit_deps//:com_google_auto_factory_auto_factory",
+        "@gerrit_deps//:com_google_auto_service_auto_service_annotations",
+        "@gerrit_deps//:com_google_auto_value_auto_value",
+        "@gerrit_deps//:com_google_auto_value_auto_value_annotations",
+        "@gerrit_deps//:com_google_guava_guava",
+        "@gerrit_deps//:com_squareup_javapoet",
+        "@gerrit_deps//:javax_inject_javax_inject",
     ],
 )
 
@@ -30,14 +30,14 @@ java_plugin(
     name = "auto-builder-plugin",
     processor_class = "com.google.auto.value.processor.AutoBuilderProcessor",
     deps = [
-        "@auto-common//jar",
-        "@auto-factory//jar",
-        "@auto-service-annotations//jar",
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
-        "@guava//jar",
-        "@javapoet//jar",
-        "@javax_inject//jar",
+        "@gerrit_deps//:com_google_auto_auto_common",
+        "@gerrit_deps//:com_google_auto_factory_auto_factory",
+        "@gerrit_deps//:com_google_auto_service_auto_service_annotations",
+        "@gerrit_deps//:com_google_auto_value_auto_value",
+        "@gerrit_deps//:com_google_auto_value_auto_value_annotations",
+        "@gerrit_deps//:com_google_guava_guava",
+        "@gerrit_deps//:com_squareup_javapoet",
+        "@gerrit_deps//:javax_inject_javax_inject",
     ],
 )
 
@@ -45,8 +45,8 @@ java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
+        "@gerrit_deps//:com_google_auto_value_auto_value",
+        "@gerrit_deps//:com_google_auto_value_auto_value_annotations",
     ],
 )
 
@@ -54,8 +54,8 @@ java_plugin(
     name = "auto-oneof-plugin",
     processor_class = "com.google.auto.value.processor.AutoOneOfProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
+        "@gerrit_deps//:com_google_auto_value_auto_value",
+        "@gerrit_deps//:com_google_auto_value_auto_value_annotations",
     ],
 )
 
@@ -63,14 +63,14 @@ java_plugin(
     name = "auto-value-gson-plugin",
     processor_class = "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value-gson-extension//jar",
-        "@auto-value-gson-factory//jar",
-        "@auto-value-gson-runtime//jar",
-        "@auto-value//jar",
-        "@autotransient//jar",
-        "@gson//jar",
-        "@javapoet//jar",
+        "@gerrit_deps//:com_google_auto_value_auto_value",
+        "@gerrit_deps//:com_google_auto_value_auto_value_annotations",
+        "@gerrit_deps//:com_google_code_gson_gson",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_extension",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_factory",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_runtime",
+        "@gerrit_deps//:com_squareup_javapoet",
+        "@gerrit_deps//:io_sweers_autotransient_autotransient",
     ],
 )
 
@@ -81,7 +81,7 @@ java_library(
         ":auto-factory-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto-factory//jar"],
+    exports = ["@gerrit_deps//:com_google_auto_factory_auto_factory"],
 )
 
 java_library(
@@ -94,7 +94,7 @@ java_library(
         ":auto-oneof-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto-value//jar"],
+    exports = ["@gerrit_deps//:com_google_auto_value_auto_value"],
 )
 
 java_library(
@@ -107,7 +107,7 @@ java_library(
         ":auto-oneof-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto-value-annotations//jar"],
+    exports = ["@gerrit_deps//:com_google_auto_value_auto_value_annotations"],
 )
 
 java_library(
@@ -118,6 +118,6 @@ java_library(
     ],
     visibility = ["//visibility:public"],
     exports = [
-        "@auto-value-gson-runtime//jar",
+        "@gerrit_deps//:com_ryanharter_auto_value_auto_value_gson_runtime",
     ],
 )

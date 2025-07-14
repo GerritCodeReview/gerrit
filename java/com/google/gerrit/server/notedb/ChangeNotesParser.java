@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
-import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BASE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PICK_OF;
@@ -691,10 +690,6 @@ class ChangeNotesParser {
     return parseSha1(commit, FOOTER_COMMIT);
   }
 
-  private Optional<ObjectId> parseBase(ChangeNotesCommit commit) throws ConfigInvalidException {
-    return parseSha1(commit, FOOTER_BASE);
-  }
-
   private Optional<ObjectId> parseOurs(ChangeNotesCommit commit) throws ConfigInvalidException {
     return parseSha1(commit, FOOTER_OURS);
   }
@@ -725,10 +720,6 @@ class ChangeNotesParser {
       return Optional.empty();
     }
 
-    // base is missing for patch sets that have been created before Gerrit started to compute and
-    // store the base for conflicts.
-    Optional<ObjectId> base = parseBase(commit);
-
     Optional<ObjectId> ours = parseOurs(commit);
     if (containsConflicts.get() && ours.isEmpty()) {
       throw parseException(
@@ -743,7 +734,7 @@ class ChangeNotesParser {
           FOOTER_THEIRS, FOOTER_CONTAINS_CONFLICTS.getName(), FOOTER_THEIRS);
     }
 
-    return Optional.of(PatchSet.Conflicts.create(base, ours, theirs, containsConflicts.get()));
+    return Optional.of(PatchSet.Conflicts.create(ours, theirs, containsConflicts.get()));
   }
 
   private Optional<Boolean> parseContainsConflicts(ChangeNotesCommit commit)

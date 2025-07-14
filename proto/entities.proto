@@ -116,9 +116,8 @@ enum ChangeStatus {
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.Conflicts.
-// Next ID: 5
+// Next ID: 4
 message Conflicts {
-  optional ObjectId base = 4;
   optional ObjectId ours = 1;
   optional ObjectId theirs = 2;
   optional bool containsConflicts = 3;

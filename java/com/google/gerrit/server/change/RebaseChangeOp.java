@@ -579,6 +579,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
               ctx.getRevWalk(),
               ctx.getInserter(),
               dc,
+              "BASE",
+              parentCommit,
               "PATCH SET",
               original,
               "BASE",

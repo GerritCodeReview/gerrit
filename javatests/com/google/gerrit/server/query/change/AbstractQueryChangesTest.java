@@ -4696,7 +4696,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected void createProject(Project.NameKey project) throws Exception {
-    gApi.projects().create(project.get());
+    ProjectInput projectInput = new ProjectInput();
+    projectInput.name = project.get();
+    projectInput.createEmptyCommit = true;
+    gApi.projects().create(projectInput);
   }
 
   protected void createProject(Project.NameKey project, Project.NameKey parent) throws Exception {

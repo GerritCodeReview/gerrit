@@ -1,7 +1,7 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
 
-bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rules_jvm_external", version = "6.9")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "jgit", version = "7.2.0")
 bazel_dep(name = "rbe_autoconfig")
@@ -20,3 +20,32 @@ local_path_override(
     module_name = "jgit",
     path = "./modules/jgit",
 )
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+# Empty maven.install call to apply the configuration to the installation from
+# toml files.
+maven.install(
+    artifacts = [],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://gerrit-maven.storage.googleapis.com",
+    ],
+    # lock_file = "//:maven_install.json",
+    duplicate_version_warning = "error",
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    known_contributing_modules = ["", "jgit"],
+    strict_visibility = True,
+    version_conflict_policy = "pinned",
+)
+
+maven.from_toml(
+    libs_versions_toml = "//tools:deps.toml",
+)
+
+maven.from_toml(
+    libs_versions_toml = "//tools:nongoogle.toml",
+)
+
+use_repo(maven, "maven")

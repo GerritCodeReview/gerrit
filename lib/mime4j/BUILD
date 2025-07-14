@@ -4,12 +4,12 @@ java_library(
     name = "core",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime4j-core//jar"],
+    exports = ["@gerrit_deps//:org_apache_james_apache_mime4j_core"],
 )
 
 java_library(
     name = "dom",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime4j-dom//jar"],
+    exports = ["@gerrit_deps//:org_apache_james_apache_mime4j_dom"],
 )

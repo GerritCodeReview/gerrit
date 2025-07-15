@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73a1d2c9_84ba5007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-15T00:24:32Z",
+      "side": 1,
+      "message": "This seems like a pretty standard configuration. Why isn\u0027t everyone running into problems?\n\nCan you add a test that shows what currently breaks?",
+      "revId": "afe4f37de8479f0cf704136bbfc8f6ee3d966f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e3e893_8af6b9c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-15T00:24:32Z",
+      "side": 1,
+      "message": "Please add a Release-Notes footer\n```suggestion\nRelease-Notes: Fixed RequireSslFilter redirect when canonicalWebUrl is HTTPS\nChange-Id: Ica4bcbb6eff20164a652a939fd60d4775bcba5ad\n```",
+      "revId": "afe4f37de8479f0cf704136bbfc8f6ee3d966f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

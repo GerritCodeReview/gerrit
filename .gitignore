@@ -67,3 +67,4 @@ js-to-ts.sh
 /tools/polygerrit-updater
 /.ts-out/*
 !/.ts-out/README.md
+GEMINI.md

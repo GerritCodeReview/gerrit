@@ -3,8 +3,14 @@
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
-import {customElement, property, query, queryAsync} from 'lit/decorators.js';
+import {css, html, LitElement, nothing} from 'lit';
+import {
+  customElement,
+  property,
+  query,
+  queryAsync,
+  state,
+} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
@@ -26,20 +32,6 @@ async function animationFrame(): Promise<void> {
   });
 }
 
-/**
- * Whether the current browser supports `plaintext-only` for contenteditable
- * https://caniuse.com/mdn-html_global_attributes_contenteditable_plaintext-only
- */
-function supportsPlainTextEditing() {
-  const div = document.createElement('div');
-  try {
-    div.contentEditable = 'PLAINTEXT-ONLY';
-    return div.contentEditable === 'plaintext-only';
-  } catch (e) {
-    return false;
-  }
-}
-
 /** Class for autocomplete hint */
 export const AUTOCOMPLETE_HINT_CLASS = 'autocomplete-hint';
 
@@ -48,21 +40,23 @@ const ACCEPT_PLACEHOLDER_HINT_LABEL =
 
 /**
  * A custom textarea component which allows autocomplete functionality.
- * This component is only supported in Chrome. Other browsers are not supported.
  *
  * Example usage:
  * <gr-textarea></gr-textarea>
  */
 @customElement('gr-textarea')
 export class GrTextarea extends LitElement implements GrTextareaApi {
-  // editableDivElement is available right away where it may be undefined. This
+  // editableTextAreaElement is available right away where it may be undefined. This
   // is used for calls for scrollTop as if it is undefined then we can fallback
-  // to 0. For other usecases use editableDiv.
-  @query('.editableDiv')
-  private readonly editableDivElement?: HTMLDivElement;
+  // to 0. For other usecases use editableTextArea.
+  @query('.editableTextArea')
+  private readonly editableTextAreaElement?: HTMLTextAreaElement;
 
-  @queryAsync('.editableDiv')
-  private readonly editableDiv?: Promise<HTMLDivElement>;
+  @queryAsync('.editableTextArea')
+  private readonly editableTextArea?: Promise<HTMLTextAreaElement>;
+
+  @queryAsync('.hintOverlay')
+  private readonly hintOverlay?: Promise<HTMLDivElement>;
 
   @property({type: Boolean, reflect: true}) disabled = false;
 
@@ -102,31 +96,11 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    */
   @property({type: String}) placeholderHint: string | undefined;
 
-  /**
-   * Sets the value for textarea and also renders it in dom if it is different
-   * from last rendered value.
-   *
-   * To prevent cursor position from jumping to front of text even when value
-   * remains same, Check existing value before triggering the update and only
-   * update when there is a change.
-   *
-   * Also .innerText binding can't be used for security reasons.
-   */
-  @property({type: String})
-  set value(newValue) {
-    if (this.ignoreValue && this.ignoreValue === newValue) {
-      return;
-    }
-    const oldVal = this.value;
-    if (oldVal !== newValue) {
-      this.innerValue = newValue;
-      this.updateValueInDom();
-    }
-  }
+  @property({type: String}) value: string = '';
 
-  get value() {
-    return this.innerValue;
-  }
+  @property({type: Number}) rows = 1;
+
+  @property({type: Number}) maxRows = 0;
 
   /**
    * This value will be ignored by textarea and is not set.
@@ -146,28 +120,46 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    */
   @property({type: Boolean}) enableSaveShortcut = false;
 
+  @property({type: String}) autocomplete = 'off';
+
+  @property({type: Boolean}) autoFocus = false;
+
+  @property({type: String}) autoCapitalize = 'none';
+
+  @property({type: String}) inputmode?: string;
+
+  @property({type: String}) readonly?: string;
+
+  @property({type: Boolean}) required = false;
+
+  @property({type: Number}) minlength?: number;
+
+  @property({type: Number}) maxlength?: number;
+
+  @property({type: String}) label?: string;
+
+  @state() showPlaceholder = true;
+
   /*
    * Is textarea focused. This is a readonly property.
    */
   get isFocused(): boolean {
-    return this.focused;
+    return !!this.focused;
   }
 
   /**
    * Native element for editable div.
    */
   get nativeElement() {
-    return this.editableDivElement;
+    return this.editableTextAreaElement;
   }
 
   /**
    * Scroll Top for editable div.
    */
   override get scrollTop() {
-    return this.editableDivElement?.scrollTop ?? 0;
+    return this.editableTextAreaElement?.scrollTop ?? 0;
   }
-
-  private innerValue: string | undefined;
 
   private innerHint: string | undefined;
 
@@ -175,7 +167,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
   private currentCursorPosition = -1;
 
-  private readonly isPlaintextOnlySupported = supportsPlainTextEditing();
+  @state() private tokens: string[] = [];
 
   static override get styles() {
     return [
@@ -183,63 +175,89 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
         :host {
           display: inline-block;
           position: relative;
-          width: 100%;
+          width: 400px;
+          border: var(--gr-textarea-border-width, 2px) solid
+            var(--gr-textarea-border-color, white);
+          border-radius: 4px;
+          padding: var(--gr-textarea-padding, 12px);
+          -moz-appearance: textarea;
+          -webkit-appearance: textarea;
+          overflow: hidden;
         }
-
         :host([disabled]) {
-          .editableDiv {
+          textarea {
             background-color: var(--input-field-disabled-bg, lightgrey);
             color: var(--text-disabled, black);
             cursor: default;
           }
         }
-
-        .editableDiv {
-          background-color: var(--input-field-bg, white);
-          border: var(--gr-textarea-border-width, 2px) solid
-            var(--gr-textarea-border-color, white);
-          border-radius: 4px;
-          box-sizing: border-box;
-          color: var(--text-default, black);
-          max-height: var(--gr-textarea-max-height, 16em);
-          min-height: var(--gr-textarea-min-height, 4em);
-          overflow-x: auto;
-          padding: var(--gr-textarea-padding, 12px);
-          white-space: pre-wrap;
+        .mirror-text {
+          visibility: hidden;
+          word-wrap: break-word;
+        }
+        .textarea-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+        textarea {
+          position: relative;
+          outline: none;
+          border: none;
+          resize: none;
+          background: inherit;
+          color: inherit;
           width: 100%;
+          height: 100%;
+          font-size: inherit;
+          font-family: inherit;
+          line-height: inherit;
+          text-align: inherit;
+        }
+        textarea:focus-visible {
+          border-color: var(--gr-textarea-focus-outline-color, black);
+          outline: none;
+        }
+        .hintOverlay {
+          position: absolute;
+          z-index: 0;
+          top: 0;
+          left: 0;
+          padding: 2px;
+          pointer-events: none;
+          width: 100%;
+          height: 100%;
+          font-size: inherit;
+          font-family: inherit;
+          text-align: inherit;
+          white-space: pre-wrap;
+          visibility: hidden;
+        }
 
-          &:focus-visible {
-            border-color: var(--gr-textarea-focus-outline-color, black);
-            outline: none;
-          }
+        .autocomplete-hint {
+          margin-left: 1px;
+          visibility: visible;
+        }
+        &.hintShown:empty::after,
+        .autocomplete-hint:empty::after {
+          background-color: var(--secondary-bg-color, white);
+          border: 1px solid var(--text-secondary, lightgrey);
+          border-radius: 2px;
+          content: 'tab';
+          color: var(--text-secondary, lightgrey);
+          pointer-events: none;
+          font-size: 10px;
+          line-height: 10px;
+          margin-left: 4px;
+          padding: 1px 3px;
+        }
 
+        .autocomplete-hint {
           &:empty::before {
-            content: attr(data-placeholder);
+            content: attr(data-hint);
             color: var(--text-secondary, lightgrey);
-            display: inline;
-            pointer-events: none;
-          }
-
-          &.hintShown:empty::after,
-          .autocomplete-hint:empty::after {
-            background-color: var(--secondary-bg-color, white);
-            border: 1px solid var(--text-secondary, lightgrey);
-            border-radius: 2px;
-            content: 'tab';
-            color: var(--text-secondary, lightgrey);
-            display: inline;
-            pointer-events: none;
-            font-size: 10px;
-            line-height: 10px;
-            margin-left: 4px;
-            padding: 1px 3px;
-          }
-
-          .autocomplete-hint {
-            &:empty::before {
-              content: attr(data-hint);
-              color: var(--text-secondary, lightgrey);
-            }
           }
         }
       `,
@@ -258,40 +276,66 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       : placeholder;
 
     const classes = classMap({
-      editableDiv: true,
+      editableTextArea: true,
       hintShown: isHintShownAsPlaceholder,
     });
 
-    // Chrome supports non-standard "contenteditable=plaintext-only",
-    // which prevents HTML from being inserted into a contenteditable element.
-    // https://github.com/w3c/editing/issues/162
-    return html`<div
-      aria-disabled=${this.disabled}
-      aria-multiline="true"
-      aria-placeholder=${ifDefined(ariaPlaceholder)}
-      data-placeholder=${ifDefined(placeholder)}
-      class=${classes}
-      contenteditable=${this.contentEditableAttributeValue}
-      dir="ltr"
-      role="textbox"
-      spellcheck="true"
-      @input=${this.onInput}
-      @focus=${this.onFocus}
-      @blur=${this.onBlur}
-      @keydown=${this.handleKeyDown}
-      @keyup=${this.handleKeyUp}
-      @mouseup=${this.handleMouseUp}
-      @scroll=${this.handleScroll}
-    ></div>`;
+    return html` <div id="mirror" class="mirror-text" aria-hidden="true">
+        ${this.tokens.length === 1 && this.tokens[0] === ''
+          ? html`&#160;`
+          : this.tokens.map((t, i) =>
+              i === this.tokens.length - 1 ? html`${t}&#160;` : html`${t}<br />`
+            )}
+      </div>
+      <div class="textarea-container">
+        <textarea
+          class=${classes}
+          .value=${this.value}
+          name=${this.label || nothing}
+          aria-label=${this.label || nothing}
+          aria-disabled=${this.disabled}
+          aria-multiline="true"
+          aria-placeholder=${ariaPlaceholder ?? nothing}
+          autocomplete=${this.autocomplete}
+          ?autofocus=${this.autoFocus}
+          autocapitalize=${this.autoCapitalize}
+          .inputMode=${this.inputmode ?? nothing}
+          placeholder=${this.showPlaceholder ? placeholder ?? nothing : nothing}
+          ?disabled=${this.disabled}
+          .rows=${this.rows}
+          .minLength=${ifDefined(this.minlength)}
+          .maxLength=${ifDefined(this.maxlength)}
+          spellcheck="true"
+          @input=${this.onInput}
+          @focus=${this.onFocus}
+          @blur=${this.onBlur}
+          @keydown=${this.handleKeyDown}
+          @keyup=${this.handleKeyUp}
+          @mouseup=${this.handleMouseUp}
+          @scroll=${this.handleScroll}
+        ></textarea>
+      </div>`;
   }
 
-  /**
-   * Focuses the textarea.
-   */
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('value')) {
+      if (
+        this.editableTextAreaElement &&
+        this.editableTextAreaElement.value !== this.value
+      ) {
+        this.editableTextAreaElement.value = this.value ?? '';
+      }
+      this.updateMirror();
+    }
+    if (changed.has('rows') || changed.has('maxRows')) {
+      this.updateMirror();
+    }
+  }
+
   override async focus() {
-    const editableDivElement = await this.editableDiv;
+    const editableTextAreaElement = await this.editableTextArea;
     const isFocused = this.isFocused;
-    editableDivElement?.focus?.();
+    editableTextAreaElement?.focus?.();
     // If already focused, do not change the cursor position.
     if (this.putCursorAtEndOnFocus && !isFocused) {
       await this.putCursorAtEnd();
@@ -303,34 +347,13 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    * Scrolls the content of textarea towards the end.
    */
   async putCursorAtEnd() {
-    const editableDivElement = await this.editableDiv;
-    const selection = this.getSelection();
+    const editableTextAreaElement = await this.editableTextArea;
+    if (!editableTextAreaElement) return;
 
-    if (!editableDivElement || !selection) {
-      return;
-    }
-
-    const range = document.createRange();
-    editableDivElement.focus();
-    range.setStart(editableDivElement, editableDivElement.childNodes.length);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    this.scrollToCursorPosition(range);
-
-    range.detach();
-
-    this.onCursorPositionChange();
-  }
-
-  public setCursorPosition(position: number) {
-    this.setCursorPositionForDiv(position, this.editableDivElement);
-  }
-
-  public async setCursorPositionAsync(position: number) {
-    const editableDivElement = await this.editableDiv;
-    this.setCursorPositionForDiv(position, editableDivElement);
+    const length = this.value.length;
+    editableTextAreaElement.selectionStart = length;
+    editableTextAreaElement.selectionEnd = length;
+    editableTextAreaElement.focus();
   }
 
   /**
@@ -340,124 +363,40 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    * If position is out of bounds of value of textarea then cursor is places at
    * end of content of textarea.
    */
-  private setCursorPositionForDiv(
-    position: number,
-    editableDivElement?: HTMLDivElement
-  ) {
-    // This will keep track of remaining offset to place the cursor.
-    let remainingOffset = position;
-    let isOnFreshLine = true;
-    let nodeToFocusOn: Node | null = null;
-    const selection = this.getSelection();
+  public setCursorPosition(position: number) {
+    if (!this.editableTextAreaElement) return;
 
-    if (!editableDivElement || !selection) {
-      return;
-    }
-    editableDivElement.focus();
-    const findNodeToFocusOn = (childNodes: Node[]) => {
-      for (let i = 0; i < childNodes.length; i++) {
-        const childNode = childNodes[i];
-        let currentNodeLength = 0;
+    this.editableTextAreaElement.selectionStart = position;
+    this.editableTextAreaElement.selectionEnd = position;
 
-        if (childNode.nodeType === Node.COMMENT_NODE) {
-          continue;
-        }
-
-        if (childNode.nodeName === 'BR') {
-          currentNodeLength++;
-          isOnFreshLine = true;
-        }
-
-        if (childNode.nodeName === 'DIV' && !isOnFreshLine && i !== 0) {
-          currentNodeLength++;
-        }
-
-        isOnFreshLine = false;
-
-        if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent) {
-          currentNodeLength += childNode.textContent.length;
-        }
-
-        if (remainingOffset <= currentNodeLength) {
-          nodeToFocusOn = childNode;
-          break;
-        } else {
-          remainingOffset -= currentNodeLength;
-        }
-
-        if (childNode.childNodes?.length > 0) {
-          findNodeToFocusOn(Array.from(childNode.childNodes));
-        }
-      }
-    };
-
-    findNodeToFocusOn(Array.from(editableDivElement.childNodes));
-
-    this.setFocusOnNode(
-      selection,
-      editableDivElement,
-      nodeToFocusOn,
-      remainingOffset
-    );
+    this.onCursorPositionChange();
   }
 
   /**
    * Replaces text from start and end cursor position.
    */
-  setRangeText(replacement: string, start: number, end: number) {
+  async setRangeText(replacement: string, start: number, end: number) {
     const pre = this.value?.substring(0, start) ?? '';
     const post = this.value?.substring(end, this.value?.length ?? 0) ?? '';
-
     this.value = pre + replacement + post;
+
+    // We have to use requestAnimationFrame due to problems
+    // with pressing tab doesn't go right to the end of the text.
+    // e.g. you do \`\`\` \`\`\` and you pressed tab in the centre between
+    // both. It would go to the end e.g. \`.
+    await animationFrame();
+
     this.setCursorPosition(pre.length + replacement.length);
   }
 
-  private get contentEditableAttributeValue() {
-    return this.disabled
-      ? 'false'
-      : this.isPlaintextOnlySupported
-      ? ('plaintext-only' as unknown as 'true')
-      : 'true';
-  }
-
-  private setFocusOnNode(
-    selection: Selection,
-    editableDivElement: Node,
-    nodeToFocusOn: Node | null,
-    remainingOffset: number
-  ) {
-    const range = document.createRange();
-    // If node is null or undefined then fallback to focus event which will put
-    // cursor at the end of content.
-    if (nodeToFocusOn === null) {
-      range.setStart(editableDivElement, editableDivElement.childNodes.length);
-    }
-    // If node to focus is BR then focus offset is number of nodes.
-    else if (nodeToFocusOn.nodeName === 'BR') {
-      const nextNode = nodeToFocusOn.nextSibling ?? nodeToFocusOn;
-      range.setEnd(nextNode, 0);
-    } else {
-      range.setStart(nodeToFocusOn, remainingOffset);
-    }
-
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    // Scroll the content to cursor position.
-    this.scrollToCursorPosition(range);
-
-    range.detach();
-
-    this.onCursorPositionChange();
-  }
-
-  private async onInput(event: Event) {
+  private onInput(event: Event) {
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    const value = await this.getValue();
-    this.innerValue = value;
+    const target = event.target as HTMLTextAreaElement;
+    this.value = target.value;
+
+    this.toggleHintVisibilityIfAny();
 
     this.fire('input', {value: this.value});
   }
@@ -467,9 +406,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     this.onCursorPositionChange();
   }
 
-  private onBlur() {
+  private async onBlur() {
     this.focused = false;
-    this.removeHintSpanIfShown();
+    this.removeHintSpanIfShown(await this.hintOverlay);
     this.onCursorPositionChange();
   }
 
@@ -523,8 +462,14 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     await this.toggleHintVisibilityIfAny();
   }
 
-  private handleScroll() {
+  private async handleScroll() {
     this.fire('scroll');
+
+    const hintOverlay = await this.hintOverlay;
+    const editableTextAreaElement = await this.editableTextArea;
+    if (hintOverlay && editableTextAreaElement && this.maxRows > 0) {
+      hintOverlay.style.transform = `translateY(-${editableTextAreaElement.scrollTop}px)`;
+    }
   }
 
   private fire<T>(type: string, detail?: T) {
@@ -544,7 +489,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     } else {
       // Add tab \t to cursor position if inside a code snippet ```
       const cursorPosition = await this.getCursorPositionAsync();
-      const textValue = await this.getValue();
+      const textValue = this.value;
 
       const startCodeSnippet = textValue.lastIndexOf('```', cursorPosition - 1);
       const endCodeSnippet = textValue.indexOf('```', cursorPosition);
@@ -555,7 +500,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
         endCodeSnippet > startCodeSnippet
       ) {
         event.preventDefault();
-        this.setRangeText('\t', cursorPosition, cursorPosition);
+        await this.setRangeText('\t', cursorPosition, cursorPosition);
       }
     }
   }
@@ -566,7 +511,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     this.value = newValue;
     await this.putCursorAtEnd();
-    await this.onInput(event);
+    this.onInput(event);
 
     this.fire('hintApplied', {hint, oldValue});
   }
@@ -576,35 +521,38 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     // available in dom.
     await animationFrame();
 
-    const editableDivElement = await this.editableDiv;
-    const currentValue = (await this.getValue()) ?? '';
+    const hintOverlay = await this.hintOverlay;
+    const editableTextAreaElement = await this.editableTextArea;
+    const currentValue = this.value;
     const cursorPosition = await this.getCursorPositionAsync();
     if (
-      !editableDivElement ||
+      !editableTextAreaElement ||
       (this.placeholderHint && !currentValue) ||
       !this.hint ||
       !this.isFocused ||
       cursorPosition !== currentValue.length
     ) {
-      this.removeHintSpanIfShown();
+      this.removeHintSpanIfShown(hintOverlay);
       return;
     }
 
-    const hintSpan = this.hintSpan();
-    if (!hintSpan) {
-      this.addHintSpanAtEndOfContent(editableDivElement, this.hint || '');
-      return;
-    }
-
-    const oldHint = (hintSpan as HTMLElement).dataset['hint'];
-    if (oldHint !== this.hint) {
-      this.removeHintSpanIfShown();
-      this.addHintSpanAtEndOfContent(editableDivElement, this.hint || '');
-    }
+    this.removeHintSpanIfShown(hintOverlay);
+    this.addHintSpanAtEndOfContent(editableTextAreaElement, this.hint || '');
   }
 
-  private addHintSpanAtEndOfContent(editableDivElement: Node, hint: string) {
+  private addHintSpanAtEndOfContent(
+    editableTextAreaElement: HTMLTextAreaElement,
+    hint: string
+  ) {
     const oldValue = this.value ?? '';
+    if (oldValue === '') {
+      this.showPlaceholder = false;
+    }
+    const hintOverlay = document.createElement('div');
+    hintOverlay.classList.add('hintOverlay');
+    if (this.maxRows > 0) {
+      hintOverlay.style.transform = `translateY(-${editableTextAreaElement.scrollTop}px)`;
+    }
     const hintSpan = document.createElement('span');
     hintSpan.classList.add(AUTOCOMPLETE_HINT_CLASS);
     hintSpan.setAttribute('role', 'alert');
@@ -613,14 +561,20 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       'Suggestion: ' + hint + ' Press TAB to accept it.'
     );
     hintSpan.dataset['hint'] = hint;
-    editableDivElement.appendChild(hintSpan);
+    const pos = editableTextAreaElement?.selectionStart || 0;
+    const before = this.value.slice(0, pos);
+    const newText = document.createTextNode(before);
+    hintOverlay.appendChild(newText);
+    hintOverlay.appendChild(hintSpan);
+    editableTextAreaElement.after(hintOverlay);
     this.fire('hintShown', {hint, oldValue});
   }
 
-  private removeHintSpanIfShown() {
+  private removeHintSpanIfShown(hintOverlay?: HTMLDivElement) {
     const hintSpan = this.hintSpan();
-    if (hintSpan) {
-      hintSpan.remove();
+    if (hintSpan && hintOverlay) {
+      this.showPlaceholder = true;
+      hintOverlay.remove();
       this.fire('hintDismissed', {
         hint: (hintSpan as HTMLElement).dataset['hint'],
       });
@@ -641,151 +595,49 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     this.currentCursorPosition = cursorPosition;
   }
 
-  private async updateValueInDom() {
-    const editableDivElement =
-      this.editableDivElement ?? (await this.editableDiv);
-    if (editableDivElement) {
-      editableDivElement.innerText = this.value || '';
-    }
-  }
-
   private async updateHintInDomIfRendered() {
-    // Wait for editable div to render then process the hint.
-    await this.editableDiv;
+    // Wait for editable textarea to render then process the hint.
+    await this.editableTextArea;
     await this.toggleHintVisibilityIfAny();
   }
 
-  private async getValue() {
-    const editableDivElement = await this.editableDiv;
-    if (editableDivElement) {
-      const [output] = this.parseText(editableDivElement, false, true);
-      return output;
-    }
-    return '';
-  }
-
-  private parseText(
-    node: Node,
-    isLastBr: boolean,
-    isFirst: boolean
-  ): [string, boolean] {
-    let textValue = '';
-    let output = '';
-    if (node.nodeName === 'BR') {
-      return ['\n', true];
-    }
-
-    if (node.nodeType === Node.TEXT_NODE && node.textContent) {
-      return [node.textContent, false];
-    }
-
-    if (node.nodeName === 'DIV' && !isLastBr && !isFirst) {
-      textValue = '\n';
-    }
-
-    isLastBr = false;
-
-    for (let i = 0; i < node.childNodes?.length; i++) {
-      [output, isLastBr] = this.parseText(
-        node.childNodes[i],
-        isLastBr,
-        i === 0
-      );
-      textValue += output;
-    }
-    return [textValue, isLastBr];
-  }
-
   public getCursorPosition() {
-    return this.getCursorPositionForDiv(this.editableDivElement);
+    return this.editableTextAreaElement?.selectionStart ?? -1;
   }
 
   public async getCursorPositionAsync() {
-    const editableDivElement = await this.editableDiv;
-    return this.getCursorPositionForDiv(editableDivElement);
+    const editableTextAreaElement = await this.editableTextArea;
+    return editableTextAreaElement?.selectionStart ?? -1;
   }
 
-  private getCursorPositionForDiv(editableDivElement?: HTMLDivElement) {
-    const selection = this.getSelection();
+  private updateMirror() {
+    if (!this.editableTextAreaElement) return;
+    this.tokens = this.constrain(
+      this.tokenize(this.editableTextAreaElement.value)
+    );
+  }
 
-    // Cursor position is -1 (not available) if
-    //
-    // If textarea is not rendered.
-    // If textarea is not focused
-    // There is no accessible selection object.
-    // This is not a collapsed selection.
-    if (
-      !editableDivElement ||
-      !this.focused ||
-      !selection ||
-      selection.focusNode === null ||
-      !selection.isCollapsed
-    ) {
-      return -1;
+  private tokenize(val: string): string[] {
+    return val
+      ? val
+          .replace(/&/g, '&amp;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .split('\n')
+      : [''];
+  }
+
+  private constrain(tokens: string[]): string[] {
+    let result = tokens.slice();
+    if (this.maxRows > 0 && result.length > this.maxRows) {
+      result = result.slice(0, this.maxRows);
     }
-
-    let cursorPosition = 0;
-    let isOnFreshLine = true;
-
-    const findCursorPosition = (childNodes: Node[]) => {
-      for (let i = 0; i < childNodes.length; i++) {
-        const childNode = childNodes[i];
-
-        if (childNode.nodeName === 'BR') {
-          cursorPosition++;
-          isOnFreshLine = true;
-          continue;
-        }
-
-        if (childNode.nodeName === 'DIV' && !isOnFreshLine && i !== 0) {
-          cursorPosition++;
-        }
-
-        isOnFreshLine = false;
-
-        if (childNode === selection.focusNode) {
-          cursorPosition += selection.focusOffset;
-          break;
-        } else if (childNode.nodeType === 3 && childNode.textContent) {
-          cursorPosition += childNode.textContent.length;
-        }
-
-        if (childNode.childNodes?.length > 0) {
-          findCursorPosition(Array.from(childNode.childNodes));
-        }
-      }
-    };
-
-    if (editableDivElement === selection.focusNode) {
-      // If focus node is the top textarea then focusOffset is the number of
-      // child nodes before the cursor position.
-      const partOfNodes = Array.from(editableDivElement.childNodes).slice(
-        0,
-        selection.focusOffset
-      );
-      findCursorPosition(partOfNodes);
-    } else {
-      findCursorPosition(Array.from(editableDivElement.childNodes));
+    while (this.rows > 0 && result.length < this.rows) {
+      result.push('');
     }
-
-    return cursorPosition;
-  }
-
-  /** Gets the current selection, preferring the shadow DOM selection. */
-  private getSelection(): Selection | undefined | null {
-    // TODO: Use something similar to gr-diff's getShadowOrDocumentSelection()
-    return this.shadowRoot?.getSelection
-      ? this.shadowRoot.getSelection()
-      : document.getSelection();
-  }
-
-  private scrollToCursorPosition(range: Range) {
-    const tempAnchorEl = document.createElement('br');
-    range.insertNode(tempAnchorEl);
-
-    tempAnchorEl.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-
-    tempAnchorEl.remove();
+    return result;
   }
 }
 

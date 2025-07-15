@@ -19,6 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -782,8 +783,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Subject: This is a test change\n"
             + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
             + "Contains-Conflicts: true\n"
+            + "Base: 76ce7b5cb6f176fb64d9e4406f83fe5d658e1136\n"
             + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
-            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n");
+            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n"
+            + "Merge-strategy: resolve\n");
 
     // Conflicts information present, Contains-Conflicts: false
     assertParseSucceeds(
@@ -795,10 +798,56 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Subject: This is a test change\n"
             + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
             + "Contains-Conflicts: false\n"
+            + "Base: 76ce7b5cb6f176fb64d9e4406f83fe5d658e1136\n"
             + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
-            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n");
+            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n"
+            + "Merge-strategy: resolve\n");
 
-    // Ours/Theirs is optional if "Contains-Conflicts: false" is set
+    // base not set, Conflicts information present, Contains-Conflicts: true
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Subject: This is a test change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Contains-Conflicts: true\n"
+            + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
+            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n"
+            + "Merge-strategy: recursive\n"
+            + "No-base-reason: COMPUTED_BASE\n");
+
+    // base not set, Conflicts information present, Contains-Conflicts: false
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Subject: This is a test change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Contains-Conflicts: false\n"
+            + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
+            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n"
+            + "Merge-strategy: ours\n"
+            + "No-base-reason: ONE_SIDED_MERGE_STRATEGY\n");
+
+    // Base/Ours/Theirs/Merge-strategy is optional if "Contains-Conflicts: false" is set.
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Subject: This is a test change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Contains-Conflicts: false\n"
+            + "No-base-reason: NO_MERGE_PERFORMED\n");
+
+    // Base/Ours/Theirs/Merge-strategy is optional if "Contains-Conflicts: false" is set.
+    // No-base-reason is missing for revisions that have been created before Gerrit started to store
+    // the base in the conflicts information.
     assertParseSucceeds(
         "Update change\n"
             + "\n"
@@ -809,7 +858,26 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
             + "Contains-Conflicts: false\n");
 
-    // Ours/Theirs is ignored if Contains-Conflicts is missing
+    // Base/Ours/Theirs/Merge-strategy/No-base-reason is optional if "Contains-Conflicts: true" is
+    // set.
+    // The data is missing for revisions that have been created before Gerrit started to store
+    // the base in the conflicts information.
+    ChangeNotesState changeNotesState =
+        assertParseSucceeds(
+            "Update change\n"
+                + "\n"
+                + "Branch: refs/heads/master\n"
+                + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+                + "Patch-set: 2\n"
+                + "Subject: This is a test change\n"
+                + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+                + "Contains-Conflicts: true\n"
+                + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
+                + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n");
+    assertThat(changeNotesState.patchSets().getLast().getValue().conflicts().get().noBaseReason())
+        .hasValue(NoMergeBaseReason.HISTORIC_DATA_WITHOUT_BASE);
+
+    // Base/Ours/Theirs/Merge-strategy/No-base-reason is ignored if Contains-Conflicts is missing
     assertParseSucceeds(
         "Update change\n"
             + "\n"
@@ -818,6 +886,25 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Patch-set: 2\n"
             + "Subject: This is a test change\n"
             + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Base: 76ce7b5cb6f176fb64d9e4406f83fe5d658e1136\n"
+            + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
+            + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n"
+            + "Merge-strategy: resolve\n"
+            + "No-base-reason: COMPUTED_BASE\n");
+
+    // Base/Merge-Strategy/No-base-reason is missing when conflicts information is present,
+    // Contains-Conflicts: true
+    // Base/Merge-Strategy/No-base-reason is missing for patch sets that have been created before
+    // Gerrit started to store the base for conflicts.
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Subject: This is a test change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Contains-Conflicts: true\n"
             + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
             + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n");
 
@@ -851,6 +938,18 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Subject: This is a test change\n"
             + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
             + "Contains-Conflicts: true\n");
+
+    // Parsing fails if No-base-reason is invalid
+    assertParseFails(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Subject: This is a test change\n"
+            + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+            + "Contains-Conflicts: false\n"
+            + "No-base-reason: INVALID\n");
   }
 
   private RevCommit writeCommit(String body) throws Exception {

@@ -54,6 +54,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtil.MergeBase;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -676,7 +677,7 @@ public class ChangeEditModifier {
                 objectInserter,
                 dc,
                 "BASE",
-                revWalk.parseCommit(basePatchSetCommitId),
+                MergeBase.create(revWalk.parseCommit(basePatchSetCommitId)),
                 "PATCH SET",
                 basePatchSetCommit,
                 "EDIT",
@@ -697,7 +698,8 @@ public class ChangeEditModifier {
               new PersonIdent(currentEditCommit.getCommitterIdent(), timestamp));
 
       CodeReviewCommit newEditCommit = revWalk.parseCommit(newEditCommitId);
-      newEditCommit.setConflicts(basePatchSetCommit, editCommitId, filesWithGitConflicts);
+      newEditCommit.setConflicts(
+          basePatchSetCommitId, basePatchSetCommit, editCommitId, "resolve", filesWithGitConflicts);
       return newEditCommit;
     }
   }

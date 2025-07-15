@@ -21,6 +21,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import java.io.IOException;
@@ -172,23 +173,70 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
     this.statusMessage = Optional.ofNullable(statusMessage);
   }
 
-  public void setNoConflicts() {
+  public void setNoConflictsForNonMergeCommit() {
     this.conflicts =
         PatchSet.Conflicts.create(
-            Optional.empty(), Optional.empty(), /* containsConflicts= */ false);
+            /* base= */ Optional.empty(),
+            /* ours= */ Optional.empty(),
+            /* theirs= */ Optional.empty(),
+            /* mergeStrategy= */ Optional.empty(),
+            /* noBaseReason= */ Optional.of(NoMergeBaseReason.NO_MERGE_PERFORMED),
+            /* containsConflicts= */ false);
   }
 
   public void setConflicts(
-      ObjectId ours, ObjectId theirs, @Nullable Set<String> filesWithGitConflicts) {
+      ObjectId base,
+      ObjectId ours,
+      ObjectId theirs,
+      String mergeStrategy,
+      @Nullable Set<String> filesWithGitConflicts) {
     if (filesWithGitConflicts != null && !filesWithGitConflicts.isEmpty()) {
       this.conflicts =
           PatchSet.Conflicts.create(
-              Optional.of(ours), Optional.of(theirs), /* containsConflicts= */ true);
+              Optional.of(base),
+              Optional.of(ours),
+              Optional.of(theirs),
+              Optional.of(mergeStrategy),
+              /* noBaseReason= */ Optional.empty(),
+              /* containsConflicts= */ true);
       this.filesWithGitConflicts = ImmutableSet.copyOf(filesWithGitConflicts);
     } else {
       this.conflicts =
           PatchSet.Conflicts.create(
-              Optional.of(ours), Optional.of(theirs), /* containsConflicts= */ false);
+              Optional.of(base),
+              Optional.of(ours),
+              Optional.of(theirs),
+              Optional.of(mergeStrategy),
+              /* noBaseReason= */ Optional.empty(),
+              /* containsConflicts= */ false);
+    }
+  }
+
+  public void setConflictsBaseNotAvailable(
+      ObjectId ours,
+      ObjectId theirs,
+      String mergeStrategy,
+      NoMergeBaseReason noMergeBaseReason,
+      @Nullable Set<String> filesWithGitConflicts) {
+    if (filesWithGitConflicts != null && !filesWithGitConflicts.isEmpty()) {
+      this.conflicts =
+          PatchSet.Conflicts.create(
+              Optional.empty(),
+              Optional.of(ours),
+              Optional.of(theirs),
+              Optional.of(mergeStrategy),
+              Optional.of(noMergeBaseReason),
+              /* containsConflicts= */ true);
+      this.filesWithGitConflicts = ImmutableSet.copyOf(filesWithGitConflicts);
+    } else {
+      this.conflicts =
+          PatchSet.Conflicts.create(
+              Optional.empty(),
+              Optional.of(ours),
+              Optional.of(theirs),
+              Optional.of(mergeStrategy),
+              Optional.of(noMergeBaseReason),
+              /* containsConflicts= */ false);
     }
   }
 

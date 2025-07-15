@@ -7928,6 +7928,20 @@ The `ConflictsInfo` entity contains information about conflicts in a revision.
 [options="header",cols="1,^1,5"]
 |=============================
 |Field Name           ||Description
+|`base`               |optional|
+The SHA1 of the commit that was used as the base commit for the Git merge that created the
+revision. +
+A base is not set if: +
+- the merged commits do not have a common ancestor (in this case `no_base_reason` is
+`NO_COMMON_ANCESTOR`). +
+- the merged commits have multiple merge bases (happens for criss-cross-merges) and the base was
+computed (in this case `no_base_reason` is `COMPUTED_BASE`). +
+- a one sided merge strategy (e.g. `ours` or `theirs`) has been used and computing a base was not
+required for the merge (in this case `no_base_reason` is `ONE_SIDED_MERGE_STRATEGY`). +
+- the revision was not created by performing a Git merge operation (in this case `no_base_reason`
+is `NO_MERGE_PERFORMED`). +
+- the revision has been created before Gerrit started to store the base for conflicts (in this case
+`no_base_reason` is `HISTORIC_DATA_WITHOUT_BASE`).
 |`ours`               |optional|
 The SHA1 of the commit that was used as "ours" for the Git merge that created the revision. +
 - For merge commits that are created by the link:#create-change[Create Change] REST endpoint
@@ -7963,6 +7977,21 @@ link:#rebase-chain[Rebase Chain] REST endpoints" theirs" is the SHA1 of the new 
 patch set is being rebased. +
 Guaranteed to be set if `contains_conflicts` is `true`. If `contains_conflicts` is `false`, only
 set if the revision was created by Gerrit as a result of performing a Git merge.
+|`merge_strategy`     |optional|
+The merge strategy was used for the Git merge that created the revision. +
+Possible values: `resolve`, `recursive`, `simple-two-way-in-core`, `ours` and `theirs`.
+|`no_base_reason`     |optional|
+Reason why `base` is not set. +
+Only set if `base` is not set. +
+Possible values are: +
+- `NO_COMMON_ANCESTOR`: The merged commits do not have a common ancestor. +
+- `COMPUTED_BASE`: The merged commits have multiple merge bases (happens for criss-cross-merges)
+and the base was computed. +
+- `ONE_SIDED_MERGE_STRATEGY`: A one sided merge strategy (e.g. `ours` or `theirs`) has been used
+and computing a base was not required for the merge. +
+- `NO_MERGE_PERFORMED`: The revision was not created by performing a Git merge operation. +
+- `HISTORIC_DATA_WITHOUT_BASE`: The revision has been created before Gerrit started to store the
+base for conflicts.
 |`contains_conflicts` ||
 Whether any of the files in the revision has a conflict due to merging "ours" and "theirs". +
 If "true" at least one of the files in the revision has a conflict and contains Git conflict

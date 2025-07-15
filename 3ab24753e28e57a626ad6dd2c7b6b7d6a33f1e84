@@ -16,6 +16,24 @@
       "message": "@milutin@google.com COuld you have a look on the UI part of this change?",
       "revId": "3ab24753e28e57a626ad6dd2c7b6b7d6a33f1e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce37fd9c_c751b01a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T13:48:38Z",
+      "side": 1,
+      "message": "Sure, UI part looks ok!",
+      "parentUuid": "c2892dfd_29e8e894",
+      "revId": "3ab24753e28e57a626ad6dd2c7b6b7d6a33f1e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

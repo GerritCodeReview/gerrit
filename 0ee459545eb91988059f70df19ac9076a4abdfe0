@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66c89794_0a26815c",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T13:48:38Z",
+      "side": 1,
+      "message": "Is it good idea to run it out of loop, and to stop process tokens once one fails?",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "0ee459545eb91988059f70df19ac9076a4abdfe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

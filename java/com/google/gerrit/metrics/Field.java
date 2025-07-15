@@ -155,8 +155,7 @@ public abstract class Field<T> {
     }
   }
 
-  private static final Pattern SUBMETRIC_NAME_PATTERN =
-      Pattern.compile("[a-zA-Z0-9_-]+([a-zA-Z0-9_-]+)*");
+  private static final Pattern SUBMETRIC_NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_-]+");
   private static final Pattern INVALID_CHAR_PATTERN = Pattern.compile("[^\\w-]");
   private static final String REPLACEMENT_PREFIX = "_0x";
 

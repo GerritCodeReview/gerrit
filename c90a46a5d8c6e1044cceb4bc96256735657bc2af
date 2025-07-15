@@ -51,6 +51,24 @@
       "parentUuid": "f3452b1e_d799c1f6",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfe105c5_ba61ba84",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2025-07-15T18:28:43Z",
+      "side": 1,
+      "message": "But you should be able to audit all of the methods that you modified to call store() to make sure they enforce this policy, and fix them if they don\u0027t. Because if they call this with bad data, they are buggy, and I don\u0027t believe we should be adding a check to fix buggy code instead of fixing the buggy code. Of course, that won\u0027t cover potential other places which update this refs, but neither will this change currently.",
+      "parentUuid": "b1805c93_766d5c04",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

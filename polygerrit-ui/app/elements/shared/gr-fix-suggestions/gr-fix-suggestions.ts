@@ -51,6 +51,8 @@ export class GrFixSuggestions extends LitElement {
 
   @state() private applyingFix = false;
 
+  @state() private isEditing = false;
+
   @state() latestPatchNum?: PatchSetNumber;
 
   @state()
@@ -71,6 +73,8 @@ export class GrFixSuggestions extends LitElement {
   @state() private thumbUpSelected = false;
 
   @state() private thumbDownSelected = false;
+
+  @state() private _selectedFixSuggestion?: FixSuggestionInfo;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -266,28 +270,71 @@ export class GrFixSuggestions extends LitElement {
           >
             Show Edit
           </gr-button>
-          ${when(
-            this.isOwner && !this.collapsed,
-            () =>
-              html`<gr-button
-                secondary
-                flatten
-                .loading=${this.applyingFix}
-                .disabled=${this.isApplyEditDisabled()}
-                class="action show-fix"
-                @click=${this.handleApplyFix}
-                .title=${this.computeApplyEditTooltip()}
-              >
-                Apply Edit
-              </gr-button>`
+          ${when(this.isOwner && !this.collapsed, () =>
+            this.isEditing
+              ? html`<gr-button
+                    secondary
+                    flatten
+                    class="action cancel-fix"
+                    @click=${this.handleEditFix}
+                  >
+                    Cancel </gr-button
+                  ><gr-button
+                    secondary
+                    flatten
+                    class="action reset-fix"
+                    @click=${this.handleResetFix}
+                  >
+                    Reset </gr-button
+                  ><gr-button
+                    secondary
+                    flatten
+                    .loading=${this.applyingFix}
+                    class="action save-fix"
+                    @click=${this.handleApplyFix}
+                  >
+                    Save
+                  </gr-button>`
+              : html`<gr-button
+                    secondary
+                    flatten
+                    class="action edit-fix"
+                    @click=${this.handleEditFix}
+                  >
+                    Edit </gr-button
+                  ><select @change=${this.handleSuggestionSelect}>
+                    ${this.getFixSuggestions()?.map(
+                      (suggestion, suggestionIndex) =>
+                        suggestion.replacements.map(
+                          (replacement, replacementIndex) =>
+                            html`<option
+                              .value=${`${suggestionIndex}-${replacementIndex}`}
+                            >
+                              ${replacement.range.start_line}
+                            </option>`
+                        )
+                    )}</select
+                  ><gr-button
+                    secondary
+                    flatten
+                    .loading=${this.applyingFix}
+                    .disabled=${this.isApplyEditDisabled()}
+                    class="action apply-fix"
+                    @click=${this.handleApplyFix}
+                    .title=${this.computeApplyEditTooltip()}
+                  >
+                    Apply Edit
+                  </gr-button>`
           )}
           ${this.renderToggle()}
         </div>
       </div>
       <gr-suggestion-diff-preview
-        .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
+        .fixSuggestionInfo=${this._selectedFixSuggestion ??
+        this.getFixSuggestions()?.[0]}
         .patchSet=${this.comment?.patch_set}
         .commentId=${this.comment?.id}
+        .editable=${this.isEditing}
         @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;
   }
@@ -361,11 +408,20 @@ export class GrFixSuggestions extends LitElement {
     fire(this, 'open-fix-preview', eventDetail);
   }
 
+  handleEditFix() {
+    this.isEditing = !this.isEditing;
+  }
+
+  handleResetFix() {
+    this.suggestionDiffPreview?.reset();
+  }
+
   async handleApplyFix() {
     if (!this.getFixSuggestions()) return;
     this.applyingFix = true;
     try {
       await this.suggestionDiffPreview?.applyFix();
+      this.isEditing = false;
     } finally {
       this.applyingFix = false;
     }
@@ -389,10 +445,18 @@ export class GrFixSuggestions extends LitElement {
     );
   }
 
+  private handleSuggestionSelect(e: Event) {
+    const selectedValue = (e.target as HTMLSelectElement).value;
+    const [suggestionIndex] = selectedValue.split('-').map(Number);
+    this._selectedFixSuggestion = this.getFixSuggestions()?.[suggestionIndex];
+    this.suggestionDiffPreview?.render();
+  }
+
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
+    if (this.isEditing) return false;
     return !this.previewLoaded;
   }
 
@@ -408,6 +472,10 @@ export class GrFixSuggestions extends LitElement {
     super.updated(changedProperties);
     if (changedProperties.has('comment') && this.getFixSuggestions()) {
       this.previewLoaded = false;
+      this._selectedFixSuggestion = this.generated_fix_suggestions?.[0];
+    }
+    if (changedProperties.has('generated_fix_suggestions')) {
+      this._selectedFixSuggestion = this.generated_fix_suggestions?.[0];
     }
   }
 }

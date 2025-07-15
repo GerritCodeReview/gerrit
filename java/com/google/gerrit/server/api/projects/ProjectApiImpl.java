@@ -36,6 +36,8 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
+import com.google.gerrit.extensions.api.projects.DeleteChangesInput;
+import com.google.gerrit.extensions.api.projects.DeleteChangesResult;
 import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.HeadInput;
@@ -73,6 +75,7 @@ import com.google.gerrit.server.restapi.project.CommitsIncludedInRefs;
 import com.google.gerrit.server.restapi.project.CreateAccessChange;
 import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.DeleteBranches;
+import com.google.gerrit.server.restapi.project.DeleteChanges;
 import com.google.gerrit.server.restapi.project.DeleteTags;
 import com.google.gerrit.server.restapi.project.GetAccess;
 import com.google.gerrit.server.restapi.project.GetConfig;
@@ -137,6 +140,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<ListBranches> listBranches;
   private final Provider<ListTags> listTags;
   private final DeleteBranches deleteBranches;
+  private final DeleteChanges deleteChanges;
   private final DeleteTags deleteTags;
   private final CommitsCollection commitsCollection;
   private final CommitApiImpl.Factory commitApi;
@@ -183,6 +187,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
+      DeleteChanges deleteChanges,
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
@@ -227,6 +232,7 @@ public class ProjectApiImpl implements ProjectApi {
         listBranches,
         listTags,
         deleteBranches,
+        deleteChanges,
         deleteTags,
         project,
         commitsCollection,
@@ -275,6 +281,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
+      DeleteChanges deleteChanges,
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
@@ -319,6 +326,7 @@ public class ProjectApiImpl implements ProjectApi {
         listBranches,
         listTags,
         deleteBranches,
+        deleteChanges,
         deleteTags,
         null,
         commitsCollection,
@@ -366,6 +374,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
+      DeleteChanges deleteChanges,
       DeleteTags deleteTags,
       ProjectResource project,
       CommitsCollection commitsCollection,
@@ -410,6 +419,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.listBranches = listBranches;
     this.listTags = listTags;
     this.deleteBranches = deleteBranches;
+    this.deleteChanges = deleteChanges;
     this.deleteTags = deleteTags;
     this.commitsCollection = commitsCollection;
     this.commitApi = commitApi;
@@ -652,6 +662,16 @@ public class ProjectApiImpl implements ProjectApi {
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branches", e);
+    }
+  }
+
+  @Override
+  public Map<DeleteChangesResult, Collection<String>> deleteChanges(DeleteChangesInput in)
+      throws RestApiException {
+    try {
+      return deleteChanges.apply(project, in).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete changes", e);
     }
   }
 

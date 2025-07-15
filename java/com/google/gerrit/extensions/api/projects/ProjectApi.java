@@ -72,6 +72,9 @@ public interface ProjectApi {
 
   void deleteBranches(DeleteBranchesInput in) throws RestApiException;
 
+  Map<DeleteChangesResult, Collection<String>> deleteChanges(DeleteChangesInput in)
+      throws RestApiException;
+
   void deleteTags(DeleteTagsInput in) throws RestApiException;
 
   abstract class ListRefsRequest<T extends RefInfo> {

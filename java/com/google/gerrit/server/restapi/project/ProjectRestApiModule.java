@@ -128,6 +128,8 @@ public class ProjectRestApiModule extends RestApiModule {
     delete(TAG_KIND).to(DeleteTag.class);
 
     post(PROJECT_KIND, "tags:delete").to(DeleteTags.class);
+
+    post(PROJECT_KIND, "changes:delete").to(DeleteChanges.class);
   }
 
   /** Separately bind batch functionality. */

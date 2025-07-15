@@ -5,7 +5,7 @@
  */
 import '../../../embed/diff/gr-diff/gr-diff';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {EDIT, PatchSetNumber, RepoName} from '../../../types/common';
 import {
@@ -19,6 +19,7 @@ import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax
 import {resolve} from '../../../models/dependency';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {
+  FixReplacementInfo,
   FixSuggestionInfo,
   NumericChangeId,
   RevisionPatchSetNum,
@@ -35,6 +36,43 @@ import {getFileExtension} from '../../../utils/file-util';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
 
+const START_REPLACEMENT_DELIMITER = '--- START REPLACEMENT';
+const END_REPLACEMENT_DELIMITER = '--- END REPLACEMENT ---';
+
+export function replacementsToString(
+  replacements: FixReplacementInfo[]
+): string {
+  return replacements
+    .map(r => {
+      const range = `${r.range.start_line}-${r.range.end_line}`;
+      return `${START_REPLACEMENT_DELIMITER} range:${range} ---\n${r.replacement}${END_REPLACEMENT_DELIMITER}`;
+    })
+    .join('\n\n');
+}
+
+export function stringToReplacements(
+  text: string,
+  path: string
+): FixReplacementInfo[] {
+  const regex = new RegExp(
+    '--- START REPLACEMENT range:(\\d+)-(\\d+) ---\\n([\\s\\S]*?)--- END REPLACEMENT ---',
+    'g'
+  );
+  const replacements: FixReplacementInfo[] = [];
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    const start_line = Number(match[1]);
+    const end_line = Number(match[2]);
+    const replacement = match[3];
+    replacements.push({
+      path,
+      range: {start_line, end_line, start_character: 0, end_character: 0},
+      replacement,
+    });
+  }
+  return replacements;
+}
+
 export interface PreviewLoadedDetail {
   previewLoadedFor?: FixSuggestionInfo;
 }
@@ -48,6 +86,9 @@ export interface PreviewLoadedDetail {
  */
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
+  @query('#edit-textarea')
+  textarea?: HTMLTextAreaElement;
+
   // Optional. Used as backup when preview is not loaded.
   @property({type: String})
   codeText?: string;
@@ -71,6 +112,9 @@ export class GrSuggestionDiffPreview extends LitElement {
   // Optional. Used in logging.
   @property({type: String})
   commentId?: string;
+
+  @property({type: Boolean, reflect: true})
+  editable = false;
 
   @state()
   layers: DiffLayer[] = [];
@@ -172,6 +216,10 @@ export class GrSuggestionDiffPreview extends LitElement {
           max-height: 70vh;
           overflow-y: auto;
         }
+        #edit-textarea {
+          width: 100%;
+          height: 200px;
+        }
         /*
          * On some operating systems (e.g. macOS), scrollbars are hidden by
          * default and only appear when scrolling. The following rules force
@@ -239,7 +287,15 @@ export class GrSuggestionDiffPreview extends LitElement {
         () => this.renderDiff(),
         () => html`<code>${this.codeText}</code>`
       )}
+      ${when(this.editable, () => this.renderTextarea())}
     `;
+  }
+
+  private renderTextarea() {
+    const suggestion = replacementsToString(
+      this.fixSuggestionInfo?.replacements ?? []
+    );
+    return html`<textarea id="edit-textarea">${suggestion}</textarea>`;
   }
 
   private renderDiff() {
@@ -287,6 +343,19 @@ export class GrSuggestionDiffPreview extends LitElement {
 
     return res;
   }
+
+  public reset() {
+    if (this.textarea && this.fixSuggestionInfo) {
+      this.textarea.value = replacementsToString(
+        this.fixSuggestionInfo.replacements
+      );
+    }
+  }
+
+  public getEditedContent(): string | undefined {
+    return this.textarea?.value;
+  }
+
   /**
    * Applies a fix (codeblock in comment message) previewed in
    * `suggestion-diff-preview`, navigating to the new change URL with the EDIT

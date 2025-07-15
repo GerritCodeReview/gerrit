@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Collection;
 import java.util.List;
@@ -71,6 +72,8 @@ public interface ProjectApi {
   ListRefsRequest<TagInfo> tags();
 
   void deleteBranches(DeleteBranchesInput in) throws RestApiException;
+
+  Response<?> multiDelete(DeleteChangesInput in) throws RestApiException;
 
   void deleteTags(DeleteTagsInput in) throws RestApiException;
 

@@ -26,7 +26,9 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +73,8 @@ public interface ProjectApi {
   ListRefsRequest<TagInfo> tags();
 
   void deleteBranches(DeleteBranchesInput in) throws RestApiException;
+
+  Response<?> deleteChanges(DeleteChangesInput in) throws RestApiException;
 
   void deleteTags(DeleteTagsInput in) throws RestApiException;
 
@@ -166,8 +170,8 @@ public interface ProjectApi {
    * is not recommended to store references to {@code BranchApi} instances.
    *
    * @param ref branch name, with or without "refs/heads/" prefix.
-   * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the branch.
+   * @throws RestApiException if a problem occurred reading the project.
    */
   BranchApi branch(String ref) throws RestApiException;
 
@@ -177,8 +181,8 @@ public interface ProjectApi {
    * <p>
    *
    * @param ref tag name, with or without "refs/tags/" prefix.
-   * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the tag.
+   * @throws RestApiException if a problem occurred reading the project.
    */
   TagApi tag(String ref) throws RestApiException;
 
@@ -212,7 +216,9 @@ public interface ProjectApi {
    */
   void defaultDashboard(String name) throws RestApiException;
 
-  /** Remove the project's default dashboard. */
+  /**
+   * Remove the project's default dashboard.
+   */
   void removeDefaultDashboard() throws RestApiException;
 
   abstract class ListDashboardsRequest {
@@ -221,7 +227,9 @@ public interface ProjectApi {
 
   ListDashboardsRequest dashboards() throws RestApiException;
 
-  /** Get the name of the branch to which {@code HEAD} points. */
+  /**
+   * Get the name of the branch to which {@code HEAD} points.
+   */
   String head() throws RestApiException;
 
   /**
@@ -231,7 +239,9 @@ public interface ProjectApi {
    */
   void head(String head) throws RestApiException;
 
-  /** Get the name of the project's parent. */
+  /**
+   * Get the name of the project's parent.
+   */
   String parent() throws RestApiException;
 
   /**
@@ -248,7 +258,9 @@ public interface ProjectApi {
    */
   void index(boolean indexChildren) throws RestApiException;
 
-  /** Reindexes all changes of the project. */
+  /**
+   * Reindexes all changes of the project.
+   */
   void indexChanges() throws RestApiException;
 
   ListLabelsRequest labels() throws RestApiException;
@@ -295,7 +307,9 @@ public interface ProjectApi {
    */
   void labels(BatchLabelInput input) throws RestApiException;
 
-  /** Same as {@link #labels(BatchLabelInput)}, but creates a change with required updates. */
+  /**
+   * Same as {@link #labels(BatchLabelInput)}, but creates a change with required updates.
+   */
   @CanIgnoreReturnValue
   ChangeInfo labelsReview(BatchLabelInput input) throws RestApiException;
 

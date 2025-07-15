@@ -18,7 +18,7 @@ import {
 import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-action';
 import './gr-hovercard-run';
-import '@polymer/paper-tooltip/paper-tooltip';
+import '../shared/gr-tooltip-content/gr-tooltip-content';
 import {
   Action,
   Category,
@@ -560,12 +560,15 @@ export class GrResultRow extends LitElement {
     if (value === 0) return;
     const valueStr = valueString(value);
     return html`
-      <div class="label ${status}">
-        <span>${label} ${valueStr}</span>
-        <paper-tooltip offset="5" .fitToVisibleBounds=${true}>
-          The check result has (probably) influenced this label vote.
-        </paper-tooltip>
-      </div>
+      <gr-tooltip-content
+        has-tooltip
+        ?position-below=${true}
+        title="The check result has (probably) influenced this label vote."
+      >
+        <div class="label ${status}">
+          <span>${label} ${valueStr}</span>
+        </div>
+      </gr-tooltip-content>
     `;
   }
 
@@ -590,19 +593,25 @@ export class GrResultRow extends LitElement {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     const icon = iconForLink(link.icon);
-    return html`<a
-      href=${link.url}
-      class="link"
-      target="_blank"
-      rel="noopener noreferrer"
-      ><gr-icon
-        icon=${icon.name}
-        ?filled=${icon.filled}
-        aria-label="external link to details"
+    return html`<gr-tooltip-content
+      has-tooltip
+      ?position-below=${true}
+      title=${tooltipText}
+    >
+      <a
+        href=${link.url}
         class="link"
-      ></gr-icon
-      ><paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
-    >`;
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <gr-icon
+          icon=${icon.name}
+          ?filled=${icon.filled}
+          aria-label="external link to details"
+          class="link"
+        ></gr-icon>
+      </a>
+    </gr-tooltip-content>`;
   }
 
   private renderActions() {
@@ -689,16 +698,19 @@ export class GrResultRow extends LitElement {
   }
 
   renderTag(tag: Tag) {
-    return html`<button
-      class="tag ${tag.color}"
-      @click=${(e: MouseEvent) => this.tagClick(e, tag.name)}
+    return html`<gr-tooltip-content
+      has-tooltip
+      ?position-below=${true}
+      title=${tag.tooltip ??
+      'A category tag for this check result. Click to filter.'}
     >
-      <span>${tag.name}</span>
-      <paper-tooltip offset="5" .fitToVisibleBounds=${true}>
-        ${tag.tooltip ??
-        'A category tag for this check result. Click to filter.'}
-      </paper-tooltip>
-    </button>`;
+      <button
+        class="tag ${tag.color}"
+        @click=${(e: MouseEvent) => this.tagClick(e, tag.name)}
+      >
+        <span>${tag.name}</span>
+      </button>
+    </gr-tooltip-content>`;
   }
 
   private renderSuggestionPreview() {
@@ -1388,15 +1400,20 @@ export class GrChecksResults extends LitElement {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     const icon = iconForLink(link.icon);
-    return html`<a href=${link.url} target="_blank" rel="noopener noreferrer"
-      ><gr-icon
-        icon=${icon.name}
-        aria-label=${tooltipText}
-        class="link"
-        ?filled=${icon.filled}
-      ></gr-icon>
-      <paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
-    >`;
+    return html`<gr-tooltip-content
+      has-tooltip
+      ?position-below=${true}
+      title=${tooltipText}
+    >
+      <a href=${link.url} target="_blank" rel="noopener noreferrer">
+        <gr-icon
+          icon=${icon.name}
+          aria-label=${tooltipText}
+          class="link"
+          ?filled=${icon.filled}
+        ></gr-icon>
+      </a>
+    </gr-tooltip-content>`;
   }
 
   private renderOverflow(items: DropdownLink[], disabledIds: string[] = []) {
@@ -1591,18 +1608,21 @@ export class GrChecksResults extends LitElement {
               class="expandIcon"
               icon=${expanded ? 'expand_less' : 'expand_more'}
             ></gr-icon>
-            <div class="statusIconWrapper">
-              <gr-icon
-                icon=${icon.name}
-                ?filled=${icon.filled}
-                class="statusIcon ${catString}"
-              ></gr-icon>
-              <span class="title">${catString}</span>
-              <span class="count">${this.renderCount(all, filtered)}</span>
-              <paper-tooltip offset="5"
-                >${CATEGORY_TOOLTIPS.get(category)}</paper-tooltip
-              >
-            </div>
+            <gr-tooltip-content
+              has-tooltip
+              ?position-below=${true}
+              title=${ifDefined(CATEGORY_TOOLTIPS.get(category))}
+            >
+              <div class="statusIconWrapper">
+                <gr-icon
+                  icon=${icon.name}
+                  ?filled=${icon.filled}
+                  class="statusIcon ${catString}"
+                ></gr-icon>
+                <span class="title">${catString}</span>
+                <span class="count">${this.renderCount(all, filtered)}</span>
+              </div>
+            </gr-tooltip-content>
           </h3>
           <div class="right">
             <gr-button

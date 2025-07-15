@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1790909b_5a58d842",
+        "filename": "Documentation/cmd-create-account.txt",
+        "patchSetId": 40
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-15T12:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096e1ed4_d5074391",
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01acce48_feab11ca",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-07-15T09:03:32Z",
       "side": 1,
       "message": "token id",
+      "range": {
+        "startLine": 72,
+        "startChar": 57,
+        "endLine": 72,
+        "endChar": 62
+      },
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efea2737_265243b2",
+        "filename": "Documentation/cmd-create-account.txt",
+        "patchSetId": 40
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-15T12:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01acce48_feab11ca",
       "range": {
         "startLine": 72,
         "startChar": 57,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c549e4a_68ab8ade",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-15T12:40:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fcaf56d1_97514b9c",
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2473f22a_fa2fd703",
@@ -71,6 +131,30 @@
       "writtenOn": "2025-07-15T09:03:32Z",
       "side": 1,
       "message": "This doesn\u0027t explicitly cover the case when only `--token-id` is given in which case that id shall be used while token itself shall be generated.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec9b754_0e0169f3",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-15T12:40:04Z",
+      "side": 1,
+      "message": "The reason is that this command doesn\u0027t return anything, so the token could not be returned. This is the same behaviour as for the deprecated HTTP password.",
+      "parentUuid": "2473f22a_fa2fd703",
       "range": {
         "startLine": 92,
         "startChar": 0,

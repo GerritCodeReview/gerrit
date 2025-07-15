@@ -67,7 +67,7 @@ export class GrLibLoader {
    * @return a promise that resolves when the script's onload
    * executes.
    */
-  _loadScript(src: string | null) {
+  _loadScript(src: string | null): Promise<unknown> {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
 
@@ -75,10 +75,22 @@ export class GrLibLoader {
         reject(new Error('Unable to load blank script url.'));
         return;
       }
+
+      const timeoutId = setTimeout(
+        () => reject(new Error(`Timeout loading script: ${src}`)),
+        2000
+      );
+
       script.setAttribute('crossorigin', 'anonymous');
       script.setAttribute('src', src);
-      script.onload = resolve;
-      script.onerror = reject;
+      script.onload = e => {
+        clearTimeout(timeoutId);
+        resolve(e);
+      };
+      script.onerror = e => {
+        clearTimeout(timeoutId);
+        reject(e);
+      };
       document.head.appendChild(script);
     });
   }

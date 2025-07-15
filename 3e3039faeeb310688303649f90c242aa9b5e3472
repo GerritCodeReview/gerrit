@@ -1,0 +1,207 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4500c7b7_69b3aabe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T14:06:36Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e798ed63_a60ae2f0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T14:06:36Z",
+      "side": 1,
+      "message": "NIT: add aria-label \"delete token tokeninfo.id\"",
+      "range": {
+        "startLine": 207,
+        "startChar": 9,
+        "endLine": 207,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0563fb40_8e74a1c3",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 208,
+                "startChar": 0,
+                "endLine": 208,
+                "endChar": 0
+              },
+              "replacement": "          aria-label\u003d${`delete token ${tokenInfo.id}`}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bc5355d_681982fe",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T14:06:36Z",
+      "side": 1,
+      "message": "maybe instead of this, you can use loading on gr-button",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 254,
+        "endChar": 40
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "33e37ee0_b5e98a73",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 53,
+                "startChar": 0,
+                "endLine": 53,
+                "endChar": 0
+              },
+              "replacement": "  @state()\n  loading \u003d false;\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 237,
+                "startChar": 0,
+                "endLine": 237,
+                "endChar": 0
+              },
+              "replacement": "            ?loading\u003d${this.loading}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 254,
+                "startChar": 0,
+                "endLine": 255,
+                "endChar": 0
+              },
+              "replacement": "    this.loading \u003d true;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 270,
+                "startChar": 0,
+                "endLine": 271,
+                "endChar": 0
+              },
+              "replacement": "        this.loading \u003d false;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f77fe32_76cebf7d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T14:06:36Z",
+      "side": 1,
+      "message": "NIT: Maybe you could introduce confirmation before deleting?",
+      "range": {
+        "startLine": 276,
+        "startChar": 7,
+        "endLine": 276,
+        "endChar": 33
+      },
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cdac956_a1ba65e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T14:06:36Z",
+      "side": 1,
+      "message": "Can you please move this then before catch.",
+      "range": {
+        "startLine": 280,
+        "startChar": 6,
+        "endLine": 282,
+        "endChar": 9
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cc44eaeb_5815b012",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 277,
+                "startChar": 0,
+                "endLine": 280,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+              "range": {
+                "startLine": 282,
+                "startChar": 0,
+                "endLine": 282,
+                "endChar": 0
+              },
+              "replacement": "      })\n      .catch(err \u003d\u003e {\n        fireAlert(this, `Failed to delete token: ${err}`);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

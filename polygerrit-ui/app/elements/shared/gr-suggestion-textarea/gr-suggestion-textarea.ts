@@ -37,6 +37,30 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 
 const MAX_ITEMS_DROPDOWN = 25;
 
+const FALLBACK_SUGGESTIONS: EmojiSuggestion[] = [
+  {value: '😊', match: 'smile :)'},
+  {value: '👍', match: 'thumbs up'},
+  {value: '😄', match: 'laugh :D'},
+  {value: '❤️', match: 'heart <3'},
+  {value: '😂', match: "tears :')"},
+  {value: '🎉', match: 'party'},
+  {value: '😎', match: 'cool |;)'},
+  {value: '😞', match: 'sad :('},
+  {value: '😐', match: 'neutral :|'},
+  {value: '😮', match: 'shock :O'},
+  {value: '🙏', match: 'pray'},
+  {value: '😕', match: 'confused'},
+  {value: '👌', match: 'ok'},
+  {value: '🔥', match: 'fire'},
+  {value: '💯', match: '100'},
+  {value: '✔', match: 'check'},
+  {value: '😋', match: 'tongue'},
+  {value: '😭', match: "crying :'("},
+  {value: '🤓', match: 'glasses'},
+  {value: '😢', match: 'tear'},
+  {value: '😜', match: 'winking tongue ;)'},
+];
+
 export interface EmojiSuggestion extends Item {
   match: string;
 }
@@ -316,6 +340,10 @@ export class GrSuggestionTextarea extends LitElement {
         .getLibrary(EMOJIS_LIBRARY_CONFIG)
         .then(emojis => {
           if (emojis) this.emojis = emojis as EmojiSuggestion[];
+        })
+        .catch(err => {
+          console.error('Failed to load emojis library', err);
+          this.emojis = FALLBACK_SUGGESTIONS;
         });
     }
   }

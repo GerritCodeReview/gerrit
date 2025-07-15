@@ -16,6 +16,23 @@
       "message": "@ekempin@google.com @luca.milanesio@gmail.com Do you have any concerns with this change?",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3452b1e_d799c1f6",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2025-07-15T17:06:06Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that there is value to this. If there is a code path that you are aware of that can enter here which would fail the checkIsIncremental() call, then why not just fix that code path?",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

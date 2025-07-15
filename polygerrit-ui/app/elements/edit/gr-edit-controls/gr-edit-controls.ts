@@ -133,7 +133,7 @@ export class GrEditControls extends LitElement {
           margin: var(--spacing-m) 0;
           padding: var(--spacing-s);
           width: 100%;
-          box-sizing: content-box;
+          box-sizing: border-box;
         }
         #dragDropArea {
           border: 2px dashed var(--border-color);

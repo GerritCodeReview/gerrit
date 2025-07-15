@@ -17,7 +17,9 @@ import {
   isNewThread,
   isUnresolved,
   PROVIDED_FIX_ID,
+  replacementsToString,
   sortComments,
+  stringToReplacements,
   USER_SUGGESTION_START_PATTERN,
 } from './comment-util';
 import {
@@ -28,6 +30,7 @@ import {
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {
   Comment,
+  FixReplacementInfo,
   PARENT,
   RevisionPatchSetNum,
   SavingState,
@@ -597,6 +600,58 @@ suite('comment-util', () => {
         getUserSuggestionFromString(content, 2),
         'Third suggestion with `backticks`'
       );
+    });
+  });
+  suite('stringToReplacements and replacementsToString', () => {
+    const REPLACEMENT_1: FixReplacementInfo = {
+      path: 'a/b/c.js',
+      range: {start_line: 1, end_line: 2, start_character: 0, end_character: 0},
+      replacement: 'line 1\nline 2',
+    };
+    const REPLACEMENT_2: FixReplacementInfo = {
+      path: 'd/e/f.js',
+      range: {start_line: 3, end_line: 4, start_character: 0, end_character: 0},
+      replacement: 'line 3',
+    };
+    const TEXT_1 =
+      '--- START REPLACEMENT path=a/b/c.js range=1-2\nline 1\nline 2\n--- END REPLACEMENT ---';
+    const TEXT_2 =
+      '--- START REPLACEMENT path=d/e/f.js range=3-4\nline 3\n--- END REPLACEMENT ---';
+
+    suite('stringToReplacements', () => {
+      test('single replacement', () => {
+        assert.deepEqual(stringToReplacements(TEXT_1), [REPLACEMENT_1]);
+      });
+
+      test('multiple replacements', () => {
+        const text = `${TEXT_1}\n\n${TEXT_2}`;
+        assert.deepEqual(stringToReplacements(text), [
+          REPLACEMENT_1,
+          REPLACEMENT_2,
+        ]);
+      });
+
+      test('throws error for no replacements', () => {
+        assert.throws(() => stringToReplacements('no replacements here'));
+      });
+    });
+
+    suite('replacementsToString', () => {
+      test('single replacement', () => {
+        assert.equal(replacementsToString([REPLACEMENT_1]), TEXT_1);
+      });
+
+      test('multiple replacements', () => {
+        const expectedText = `${TEXT_1}\n\n${TEXT_2}`;
+        assert.equal(
+          replacementsToString([REPLACEMENT_1, REPLACEMENT_2]),
+          expectedText
+        );
+      });
+
+      test('empty array', () => {
+        assert.equal(replacementsToString([]), '');
+      });
     });
   });
 });

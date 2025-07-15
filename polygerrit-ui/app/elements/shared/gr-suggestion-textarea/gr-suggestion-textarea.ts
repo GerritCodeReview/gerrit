@@ -299,6 +299,8 @@ export class GrSuggestionTextarea extends LitElement {
       class=${classMap({noBorder: this.hideBorder})}
       .placeholder=${this.placeholder}
       ?disabled=${this.disabled}
+      .rows=${this.rows}
+      .maxRows=${this.maxRows ?? 11}
       .value=${this.text}
       .hint=${this.autocompleteHint}
       @input=${(e: InputEvent) => {

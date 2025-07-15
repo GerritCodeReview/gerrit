@@ -237,13 +237,7 @@ export class GrSuggestionTextarea extends LitElement {
         #textarea {
           background-color: var(--view-background-color);
           width: 100%;
-          color: var(--primary-text-color);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          padding: 0;
-          box-sizing: border-box;
           position: relative;
-          --gr-textarea-padding: var(--spacing-s);
           --gr-textarea-border-width: 0px;
           --gr-textarea-border-color: var(--border-color);
           --input-field-bg: var(--view-background-color);
@@ -252,7 +246,6 @@ export class GrSuggestionTextarea extends LitElement {
           --text-default: var(--primary-text-color);
           --text-disabled: var(--deemphasized-text-color);
           --text-secondary: var(--deemphasized-text-color);
-          --iron-autogrow-textarea_-_padding: var(--spacing-s);
         }
         #hiddenText #emojiSuggestions {
           visibility: visible;
@@ -299,6 +292,8 @@ export class GrSuggestionTextarea extends LitElement {
       class=${classMap({noBorder: this.hideBorder})}
       .placeholder=${this.placeholder}
       ?disabled=${!!this.disabled}
+      .rows=${this.rows ?? 1}
+      .maxRows=${this.maxRows ?? 11}
       .value=${this.text}
       .hint=${this.autocompleteHint}
       @input=${(e: InputEvent) => {

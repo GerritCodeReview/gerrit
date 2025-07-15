@@ -87,6 +87,24 @@
       "parentUuid": "cfe105c5_ba61ba84",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ef0351_13d792c1",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-15T21:59:38Z",
+      "side": 1,
+      "message": "I moved `checkIsIncremental` outside the `store` helper now. It is now done immediately for the `sequence set` cmd before acquiring the lock.",
+      "parentUuid": "a8ce1052_b0a33936",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

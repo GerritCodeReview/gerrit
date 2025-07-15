@@ -5,7 +5,7 @@
  */
 import '../../../embed/diff/gr-diff/gr-diff';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {EDIT, PatchSetNumber, RepoName} from '../../../types/common';
 import {
@@ -32,6 +32,10 @@ import {fire, fireError} from '../../../utils/event-util';
 import {Timing} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
+import {
+  replacementsToString,
+  stringToReplacements,
+} from '../../../utils/patch-util';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
 
@@ -48,6 +52,9 @@ export interface PreviewLoadedDetail {
  */
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
+  @query('#edit-textarea')
+  textarea?: HTMLTextAreaElement;
+
   // Optional. Used as backup when preview is not loaded.
   @property({type: String})
   codeText?: string;
@@ -71,6 +78,9 @@ export class GrSuggestionDiffPreview extends LitElement {
   // Optional. Used in logging.
   @property({type: String})
   commentId?: string;
+
+  @property({type: Boolean, reflect: true})
+  editable = false;
 
   @state()
   layers: DiffLayer[] = [];
@@ -172,6 +182,10 @@ export class GrSuggestionDiffPreview extends LitElement {
           max-height: 70vh;
           overflow-y: auto;
         }
+        #edit-textarea {
+          width: 100%;
+          height: 200px;
+        }
         /*
          * On some operating systems (e.g. macOS), scrollbars are hidden by
          * default and only appear when scrolling. The following rules force
@@ -239,7 +253,15 @@ export class GrSuggestionDiffPreview extends LitElement {
         () => this.renderDiff(),
         () => html`<code>${this.codeText}</code>`
       )}
+      ${when(this.editable, () => this.renderTextarea())}
     `;
+  }
+
+  private renderTextarea() {
+    const suggestion = replacementsToString(
+      this.fixSuggestionInfo?.replacements ?? []
+    );
+    return html`<textarea id="edit-textarea">${suggestion}</textarea>`;
   }
 
   private renderDiff() {
@@ -287,6 +309,19 @@ export class GrSuggestionDiffPreview extends LitElement {
 
     return res;
   }
+
+  public reset() {
+    if (this.textarea && this.fixSuggestionInfo) {
+      this.textarea.value = replacementsToString(
+        this.fixSuggestionInfo.replacements
+      );
+    }
+  }
+
+  public getEditedContent(): string | undefined {
+    return this.textarea?.value;
+  }
+
   /**
    * Applies a fix (codeblock in comment message) previewed in
    * `suggestion-diff-preview`, navigating to the new change URL with the EDIT
@@ -301,6 +336,10 @@ export class GrSuggestionDiffPreview extends LitElement {
     const basePatchNum = this.patchSet;
     const fixSuggestion = this.fixSuggestionInfo;
     if (!changeNum || !basePatchNum || !fixSuggestion) return;
+
+    if (this.editable && this.textarea) {
+      fixSuggestion.replacements = stringToReplacements(this.textarea.value);
+    }
 
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     let res: Response | undefined = undefined;

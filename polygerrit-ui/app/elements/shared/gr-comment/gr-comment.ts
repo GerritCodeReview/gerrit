@@ -1123,6 +1123,7 @@ export class GrComment extends LitElement {
     }
     return html`<gr-fix-suggestions
       .comment=${this.comment}
+      @generated-suggestion-changed=${this.handleFixSuggestionChanged}
     ></gr-fix-suggestions>`;
   }
 
@@ -1657,6 +1658,16 @@ export class GrComment extends LitElement {
     if (this.previewedGeneratedFixSuggestion)
       return [this.previewedGeneratedFixSuggestion];
     return undefined;
+  }
+
+  private handleFixSuggestionChanged(
+    e: CustomEvent<{suggestions: FixSuggestionInfo[]}>
+  ) {
+    if (!this.comment || !isDraft(this.comment)) return;
+    if (!this.previewedGeneratedFixSuggestion) return;
+    // Since it's user edited suggestion, it's already previewed.
+    this.previewedGeneratedFixSuggestion = e.detail.suggestions.at(0);
+    this.rawSave({showToast: false});
   }
 
   private handleToggleResolved() {

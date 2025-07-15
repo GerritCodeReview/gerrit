@@ -17,6 +17,7 @@ import {
   ContextLine,
   DraftInfo,
   FixId,
+  FixReplacementInfo,
   FixSuggestionInfo,
   isDraft,
   isNew,
@@ -684,4 +685,75 @@ export function convertToCommentInput(comment: Comment): CommentInput {
 
 export function isFileLevelComment(comment: Comment) {
   return !comment.line && !comment.range;
+}
+
+const START_REPLACEMENT_DELIMITER = '--- START REPLACEMENT';
+const END_REPLACEMENT_DELIMITER = '--- END REPLACEMENT ---';
+
+export function replacementsToString(
+  replacements: FixReplacementInfo[]
+): string {
+  return replacements
+    .map(r => {
+      const range = `${r.range.start_line}-${r.range.end_line}`;
+      return `${START_REPLACEMENT_DELIMITER} path=${r.path} range=${range}
+${r.replacement}
+${END_REPLACEMENT_DELIMITER}`;
+    })
+    .join('\n\n');
+}
+
+/**
+ * Parses a string containing one or more replacement blocks into an array of
+ * `FixReplacementInfo` objects.
+ *
+ * Each replacement block in the string is expected to be in the format:
+ * --- START REPLACEMENT path=[file_path] range=[start_line]-[end_line]
+ * [replacement_code]
+ * --- END REPLACEMENT ---
+ *
+ * This function assumes `start_character` and `end_character` for the range
+ * are always 0.
+ *
+ * @param text The raw string containing one or more replacement blocks.
+ * @return An array of `FixReplacementInfo` objects.
+ * @throws An error if the input string cannot be parsed into at least one
+ *     replacement.
+ *
+ * @example
+ * const text = `
+ * --- START REPLACEMENT path=src/main.js range=10-12
+ *   console.log("Hello, world!");
+ * --- END REPLACEMENT ---
+ * `;
+ * const replacements = stringToReplacements(text);
+ * // replacements would be:
+ * // [
+ * //   {
+ * //     path: 'src/main.js',
+ * //     range: { start_line: 10, end_line: 12, start_character: 0, end_character: 0 },
+ * //     replacement: '  console.log("Hello, world!");'
+ * //   }
+ * // ]
+ */
+export function stringToReplacements(text: string): FixReplacementInfo[] {
+  const regex =
+    /--- START REPLACEMENT path=(.*?) range=(\d+)-(\d+)\n([\s\S]*?)\n--- END REPLACEMENT ---/g;
+  const replacements: FixReplacementInfo[] = [];
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    const path = match[1].trim();
+    const start_line = Number(match[2]);
+    const end_line = Number(match[3]);
+    const replacement = match[4];
+    replacements.push({
+      path,
+      range: {start_line, end_line, start_character: 0, end_character: 0},
+      replacement,
+    });
+  }
+  if (replacements.length === 0) {
+    throw new Error('Could not parse replacements from text');
+  }
+  return replacements;
 }

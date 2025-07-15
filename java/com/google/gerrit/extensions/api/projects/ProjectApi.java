@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Collection;
 import java.util.List;
@@ -71,6 +72,9 @@ public interface ProjectApi {
   ListRefsRequest<TagInfo> tags();
 
   void deleteBranches(DeleteBranchesInput in) throws RestApiException;
+
+  Map<DeleteChangesResult, Collection<String>> deleteChanges(DeleteChangesInput in)
+      throws RestApiException;
 
   void deleteTags(DeleteTagsInput in) throws RestApiException;
 
@@ -166,8 +170,8 @@ public interface ProjectApi {
    * is not recommended to store references to {@code BranchApi} instances.
    *
    * @param ref branch name, with or without "refs/heads/" prefix.
-   * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the branch.
+   * @throws RestApiException if a problem occurred reading the project.
    */
   BranchApi branch(String ref) throws RestApiException;
 
@@ -177,8 +181,8 @@ public interface ProjectApi {
    * <p>
    *
    * @param ref tag name, with or without "refs/tags/" prefix.
-   * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the tag.
+   * @throws RestApiException if a problem occurred reading the project.
    */
   TagApi tag(String ref) throws RestApiException;
 

@@ -33,6 +33,24 @@
       "message": "I\u0027m not convinced that there is value to this. If there is a code path that you are aware of that can enter here which would fail the checkIsIncremental() call, then why not just fix that code path?",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1805c93_766d5c04",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-15T18:10:17Z",
+      "side": 1,
+      "message": "Unfortunately, we don\u0027t know for sure what the exact code path is. We saw a couple of instances of the sequence going back to an older value in the last year and those were painful to recover from. So, we think this change is a good safety check to have to avoid any data corruptions.",
+      "parentUuid": "f3452b1e_d799c1f6",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -169,6 +169,7 @@ export type {
   EmailInfo,
   FileInfo,
   FixId,
+  FixReplacementInfo,
   FixSuggestionInfo,
   GerritInfo,
   GitPersonInfo,

@@ -60,6 +60,7 @@
     "eslintfix": "npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix $(pwd)/polygerrit-ui/app",
     "eslintfix:modified": "git diff --name-only --diff-filter=d | grep -E 'polygerrit-ui/app/.*\\.(js|ts)$' | sed 's|^polygerrit-ui/app/||' | xargs -r npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix",
     "litlint": "npm run safe_bazelisk run polygerrit-ui/app:lit_analysis",
+    "litlintforCI": "lit-analyzer --strict --rules.no-unknown-property off --rules.no-unknown-tag-name off --rules.no-incompatible-type-binding off --rules.no-incompatible-property-type off --rules.no-invalid-tag-name off --rules.no-property-visibility-mismatch off --rules.no-unknown-attribute off **/elements/**/*.ts",
     "lint": "eslint -c polygerrit-ui/app/eslint-bazel.config.js polygerrit-ui/app",
     "gjf": "./tools/gjf.sh run"
   },

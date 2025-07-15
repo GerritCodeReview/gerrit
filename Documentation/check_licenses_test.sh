@@ -2,7 +2,7 @@
 
 hook=$(pwd)/resources/com/google/gerrit/server/tools/root/hooks/commit-msg
 
-for f in  js_licenses licenses ; do
+for f in backend_licenses js_licenses licenses ; do
   if ! diff -u Documentation/${f}.txt Documentation/${f}.gen.txt  ; then
      echo ""
      echo "FAIL: ${f}.txt out of date"

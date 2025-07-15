@@ -163,6 +163,30 @@
       },
       "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10776e62_ec10c5e4",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-15T12:46:53Z",
+      "side": 1,
+      "message": "OK, I understand. In that case the command shall tell to the user that `--token` is mandatory when adding a token, or that `--token-id` cannot be used without `--token`. Otherwise, the `--token-id` is silently ignored.",
+      "parentUuid": "8ec9b754_0e0169f3",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

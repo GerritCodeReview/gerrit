@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d97695f_9185d73f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-15T21:09:42Z",
+      "side": 1,
+      "message": "I can\u0027t test the experiment right now. But I did test with `this.generateSuggestion \u003d false` and the behavior is expected.",
+      "revId": "83569ee1126c0ba47ea28f0a38ab1b482d402614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

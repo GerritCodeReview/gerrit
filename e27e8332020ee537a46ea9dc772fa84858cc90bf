@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "096e1ed4_d5074391",
+        "filename": "Documentation/cmd-create-account.txt",
+        "patchSetId": 40
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-15T09:03:32Z",
+      "side": 1,
+      "message": "this should be `--token-id` in order to follow the style of the other options here and in other commands.",
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01acce48_feab11ca",
+        "filename": "Documentation/cmd-create-account.txt",
+        "patchSetId": 40
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-15T09:03:32Z",
+      "side": 1,
+      "message": "token id",
+      "range": {
+        "startLine": 72,
+        "startChar": 57,
+        "endLine": 72,
+        "endChar": 62
+      },
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcaf56d1_97514b9c",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-15T09:03:32Z",
+      "side": 1,
+      "message": "... and here the option name looks good, so you only need to fix the documentation",
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2473f22a_fa2fd703",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-15T09:03:32Z",
+      "side": 1,
+      "message": "This doesn\u0027t explicitly cover the case when only `--token-id` is given in which case that id shall be used while token itself shall be generated.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

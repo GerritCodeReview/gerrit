@@ -78,6 +78,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -233,8 +234,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
         gApi.changes().id(info.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+    assertThat(currentRevision.conflicts.base).isNull();
     assertThat(currentRevision.conflicts.ours).isNull();
     assertThat(currentRevision.conflicts.theirs).isNull();
+    assertThat(currentRevision.conflicts.mergeStrategy).isNull();
+    assertThat(currentRevision.conflicts.noBaseReason)
+        .isEqualTo(NoMergeBaseReason.NO_MERGE_PERFORMED);
   }
 
   @Test
@@ -755,6 +760,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String targetBranch = "targetBranch";
     ImmutableMap<String, Result> results =
         changeInTwoBranches(sourceBranch, "a.txt", targetBranch, "b.txt");
+    RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy);
     ChangeInfo change = assertCreateSucceeds(in);
 
@@ -773,7 +779,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(mergeStrategy);
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+
+    if ("ours".equals(mergeStrategy) || "theirs".equals(mergeStrategy)) {
+      assertThat(currentRevision.conflicts.base).isNull();
+      assertThat(currentRevision.conflicts.noBaseReason)
+          .isEqualTo(NoMergeBaseReason.ONE_SIDED_MERGE_STRATEGY);
+    } else {
+      assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
+      assertThat(currentRevision.conflicts.noBaseReason).isNull();
+    }
   }
 
   @Test
@@ -849,10 +865,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isNull();
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(mergeStrategy);
+    assertThat(currentRevision.conflicts.noBaseReason)
+        .isEqualTo(NoMergeBaseReason.ONE_SIDED_MERGE_STRATEGY);
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
@@ -949,10 +969,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(currentRevision.commit.parents.get(0).commit)
           .isEqualTo(results.get(targetBranch).getCommit().name());
       assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.base).isNull();
       assertThat(currentRevision.conflicts.ours)
           .isEqualTo(results.get(targetBranch).getCommit().name());
       assertThat(currentRevision.conflicts.theirs)
           .isEqualTo(results.get(sourceBranch).getCommit().name());
+      assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(strategy);
+      assertThat(currentRevision.conflicts.noBaseReason)
+          .isEqualTo(NoMergeBaseReason.ONE_SIDED_MERGE_STRATEGY);
       assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
       // Verify that the file content in the created change is correct.
@@ -983,10 +1007,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(strategy);
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the file content in the created change is correct.
@@ -1171,8 +1198,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(currentRevision.commit.parents.get(0).commit)
           .isEqualTo(initialCommitTarget.name());
       assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.base).isNull();
       assertThat(currentRevision.conflicts.ours).isEqualTo(initialCommitTarget.name());
       assertThat(currentRevision.conflicts.theirs).isEqualTo(initialCommitSource.name());
+      assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(strategy);
+      assertThat(currentRevision.conflicts.noBaseReason)
+          .isEqualTo(NoMergeBaseReason.ONE_SIDED_MERGE_STRATEGY);
       assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
       // Verify that the file content in the created change is correct.
@@ -1206,8 +1237,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
         gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(initialCommitTarget.name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isNull();
     assertThat(currentRevision.conflicts.ours).isEqualTo(initialCommitTarget.name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(initialCommitSource.name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(strategy);
+    assertThat(currentRevision.conflicts.noBaseReason)
+        .isEqualTo(NoMergeBaseReason.NO_COMMON_ANCESTOR);
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the file content in the created change is correct.
@@ -1405,10 +1440,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(currentRevision.commit.parents.get(1).commit)
           .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
       assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.base).isNull();
       assertThat(currentRevision.conflicts.ours)
           .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
       assertThat(currentRevision.conflicts.theirs)
           .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+      assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(strategy);
+      assertThat(currentRevision.conflicts.noBaseReason)
+          .isEqualTo(NoMergeBaseReason.ONE_SIDED_MERGE_STRATEGY);
       assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
       // Verify that the file content in the created change is correct.
@@ -1435,10 +1474,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(1).commit)
         .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isNull();
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo(strategy);
+    assertThat(currentRevision.conflicts.noBaseReason).isEqualTo(NoMergeBaseReason.COMPUTED_BASE);
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the file content in the created change is correct.
@@ -1580,10 +1622,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(1).commit)
         .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isNull();
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isEqualTo(NoMergeBaseReason.COMPUTED_BASE);
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the content of the file that was conflicting in the bases is correct.
@@ -1734,6 +1779,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
             "target change",
             "shared.txt",
             "target content");
+    RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in =
         newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
     in.subject = "Merge " + sourceBranch + " to " + targetBranch;
@@ -1746,10 +1792,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Update the commit message
@@ -1770,10 +1819,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(baseCommit.name());
     assertThat(currentRevision.conflicts.ours)
         .isEqualTo(results.get(targetBranch).getCommit().name());
     assertThat(currentRevision.conflicts.theirs)
         .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
   }
 

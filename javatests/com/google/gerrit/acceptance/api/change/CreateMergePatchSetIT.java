@@ -130,8 +130,11 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(currentMaster.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.name());
     assertThat(currentRevision.conflicts.ours).isEqualTo(targetBranch.name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
     // Verify the message that has been posted on the change.
@@ -313,8 +316,11 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isEqualTo(currentMaster.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.name());
     assertThat(currentRevision.conflicts.ours).isEqualTo(targetBranch.name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the file content in the created patch set is correct.
@@ -448,8 +454,11 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit)
         .isNotEqualTo(currentMaster.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.name());
     assertThat(currentRevision.conflicts.ours).isEqualTo(parent);
     assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
@@ -552,8 +561,11 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     RevisionInfo currentRevision = changeInfo.getCurrentRevision();
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(baseChangeCommit);
     assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.name());
     assertThat(currentRevision.conflicts.ours).isEqualTo(baseChangeCommit);
     assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 

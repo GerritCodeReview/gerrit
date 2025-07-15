@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8c9e32_5d5d5de9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-15T14:12:44Z",
+      "side": 1,
+      "message": "Maybe it\u0027s time to star using multi-line string literals in Java as it can help improve readability. Something like:\n```\nString.format(\n    \"\"\"\n    \u003c\u003c\u003c\u003c\u003c\u003c\u003c TARGET BRANCH (%s %s)\n    %s\n    %s\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n    %s\n    \u003e\u003e\u003e\u003e\u003e\u003e\u003e SOURCE BRANCH (%s %s)\n    \"\"\",\n    projectOperations.project(projectWithoutInitialCommit).getHead(targetBranch).getName(),\n    targetSubject,\n    targetContent,\n    (useDiff3 ? \"||||||| BASE\\n\" : \"\"),\n    sourceContent,\n    projectOperations.project(projectWithoutInitialCommit).getHead(sourceBranch).getName(),\n    sourceSubject\n);\n```",
+      "range": {
+        "startLine": 966,
+        "startChar": 0,
+        "endLine": 987,
+        "endChar": 23
+      },
+      "revId": "6c23744b8e1abf1e5e34595089383012e84a6fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "message": "Please also update the `backend_licenses.txt` file. I fixed the docs and tests in https://gerrit-review.googlesource.com/c/gerrit/+/490248 so you could rebase on top of that change.\n\nSomeone from Google will need to give the Library Compliance vote.",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40268254_1ca241da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-15T06:57:59Z",
+      "side": 1,
+      "message": "Create an issue as described in https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries to notify Google maintainers to review the library update.\n\nLink to this issue by adding another commit message footer replacing \u003cissueId\u003e with the id of the actual issue you created\n\n```\nBug: Issue \u003cissueId\u003e\n```",
+      "parentUuid": "3e1f41e9_7ac0b3bb",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

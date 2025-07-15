@@ -219,6 +219,78 @@ public class AutoMergeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void autoMergeCreatedWhenPushingCrissCrossMergeWithConflictingBases() throws Exception {
+    RevCommit initialCommit = repo().parseCommit(repo().exactRef(HEAD).getLeaf().getObjectId());
+    String baseFile = "baseFile,txt";
+    RevCommit baseCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .parent(initialCommit)
+                .message("Change 1")
+                .insertChangeId()
+                .add(baseFile, "contents1")
+                .create());
+    RevCommit baseCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .parent(initialCommit)
+                .message("Change 2")
+                .insertChangeId()
+                .add(baseFile, "contents2")
+                .create());
+    RevCommit mergeCommit1 =
+        testRepo
+            .commit()
+            .message("Merge Change In Source")
+            .add(baseFile, "contents1")
+            .parent(baseCommit1)
+            .parent(baseCommit2)
+            .insertChangeId()
+            .create();
+    RevCommit mergeCommit2 =
+        testRepo
+            .commit()
+            .message("Merge Change In Target")
+            .add(baseFile, "contents2")
+            .parent(baseCommit2)
+            .parent(baseCommit1)
+            .insertChangeId()
+            .create();
+    RevCommit conflictingCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Change 1")
+                .parent(mergeCommit1)
+                .insertChangeId()
+                .add("conflicting-file", "contents1")
+                .create());
+    RevCommit conflictingCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Change 2")
+                .parent(mergeCommit2)
+                .insertChangeId()
+                .add("conflicting-file", "contents2")
+                .create());
+    RevCommit crissCrossMerge =
+        testRepo
+            .commit()
+            .message("Criss-Cross Merge")
+            .parent(conflictingCommit1)
+            .parent(conflictingCommit2)
+            .insertChangeId()
+            .create();
+    testRepo.reset(crissCrossMerge);
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    assertThat(r.getRemoteUpdate("refs/for/master").getStatus()).isEqualTo(Status.OK);
+    assertAutoMergeCreated(crissCrossMerge);
+  }
+
+  @Test
   public void autoMergeCreatedWhenChangeCreatedOnApi() throws Exception {
     ChangeInput ci = new ChangeInput(project.get(), "master", "Merge commit");
     ci.merge = new MergeInput();

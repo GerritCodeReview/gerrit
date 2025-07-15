@@ -27,24 +27,28 @@ suite('gr-textarea test', () => {
     assert.instanceOf(element, GrTextarea);
   });
 
-  test('when disabled textarea have contenteditable set to false', async () => {
+  test('check for disabled', async () => {
     element.disabled = true;
     await element.updateComplete;
 
-    const editableDiv = element.shadowRoot!.querySelector('.editableDiv');
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      );
     await element.updateComplete;
 
-    assert.equal(editableDiv?.getAttribute('contenteditable'), 'false');
+    assert.isTrue(editableTextArea?.disabled);
   });
 
   test('when disabled textarea have aria-disabled set', async () => {
     element.disabled = true;
     await element.updateComplete;
 
-    const editableDiv = element.shadowRoot!.querySelector('.editableDiv');
+    const editableTextArea =
+      element.shadowRoot!.querySelector('.editableTextArea');
     await element.updateComplete;
 
-    assert.isDefined(editableDiv?.getAttribute('aria-disabled'));
+    assert.isDefined(editableTextArea!.getAttribute('aria-disabled'));
   });
 
   test('when textarea has placeholder, set aria-placeholder to placeholder text', async () => {
@@ -52,10 +56,14 @@ suite('gr-textarea test', () => {
     element.placeholder = placeholder;
     await element.updateComplete;
 
-    const editableDiv = element.shadowRoot!.querySelector('.editableDiv');
+    const editableTextArea =
+      element.shadowRoot!.querySelector('.editableTextArea');
     await element.updateComplete;
 
-    assert.equal(editableDiv?.getAttribute('aria-placeholder'), placeholder);
+    assert.equal(
+      editableTextArea?.getAttribute('aria-placeholder'),
+      placeholder
+    );
   });
 
   test('renders the value', async () => {
@@ -63,12 +71,13 @@ suite('gr-textarea test', () => {
     element.value = value;
     await element.updateComplete;
 
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      );
     await element.updateComplete;
 
-    assert.equal(editableDiv?.innerText, value);
+    assert.equal(editableTextArea?.value, value);
   });
 
   test('streams change event when editable div has input event', async () => {
@@ -81,12 +90,13 @@ suite('gr-textarea test', () => {
     });
 
     const changeEventPromise = waitForEventOnce(element, INPUT_EVENT);
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
 
-    editableDiv.innerText = value;
-    editableDiv.dispatchEvent(new Event('input'));
+    editableTextArea.value = value;
+    editableTextArea.dispatchEvent(new Event('input'));
     await changeEventPromise;
 
     assert.isTrue(changeCalled);
@@ -166,35 +176,38 @@ suite('gr-textarea test', () => {
   });
 
   test('when textarea is empty, placeholder hint is shown', async () => {
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      );
     const placeholderHint = 'Some value';
 
     element.placeholderHint = placeholderHint;
     await element.updateComplete;
 
-    assert.equal(editableDiv?.dataset['placeholder'], placeholderHint);
+    assert.equal(editableTextArea?.placeholder, placeholderHint);
   });
 
   test('when TAB is pressed, placeholder hint is added as content', async () => {
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
     const placeholderHint = 'Some value';
 
     element.placeholderHint = placeholderHint;
     await element.updateComplete;
-    editableDiv.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
+    editableTextArea.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
     await element.updateComplete;
 
     assert.equal(element.value, placeholderHint);
   });
 
   test('when cursor is at end, hint is shown', async () => {
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
     const oldValue = 'Hola';
     const hint = 'amigos';
 
@@ -203,11 +216,14 @@ suite('gr-textarea test', () => {
     element.value = oldValue;
     await element.putCursorAtEnd();
     await element.updateComplete;
-    editableDiv.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}));
+    editableTextArea.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}));
     await element.updateComplete;
     await rafPromise();
 
-    const spanHintElement = editableDiv?.querySelector(
+    const textareaContainer = element.shadowRoot?.querySelector(
+      '.textarea-container'
+    );
+    const spanHintElement = textareaContainer?.querySelector(
       '.' + AUTOCOMPLETE_HINT_CLASS
     ) as HTMLSpanElement;
     const styles = window.getComputedStyle(spanHintElement, ':before');
@@ -215,9 +231,10 @@ suite('gr-textarea test', () => {
   });
 
   test('when TAB is pressed, hint is added as content', async () => {
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
     const oldValue = 'Hola';
     const hint = 'amigos';
 
@@ -225,9 +242,9 @@ suite('gr-textarea test', () => {
     element.value = oldValue;
     await element.updateComplete;
     await element.putCursorAtEnd();
-    editableDiv.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}));
+    editableTextArea.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}));
     await rafPromise();
-    editableDiv.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
+    editableTextArea.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
     await element.updateComplete;
 
     assert.equal(element.value, oldValue + hint);
@@ -237,9 +254,10 @@ suite('gr-textarea test', () => {
     const CURSOR_POSITION_CHANGE_EVENT = 'cursorPositionChange';
     let cursorPosition = -1;
     const value = 'Hola amigos';
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
         .detail;
@@ -250,7 +268,7 @@ suite('gr-textarea test', () => {
     await element.putCursorAtEnd();
     await element.updateComplete;
 
-    editableDiv.dispatchEvent(
+    editableTextArea.dispatchEvent(
       new KeyboardEvent('keydown', {key: 'ArrowRight', metaKey: true})
     );
     await element.updateComplete;
@@ -263,9 +281,10 @@ suite('gr-textarea test', () => {
     const CURSOR_POSITION_CHANGE_EVENT = 'cursorPositionChange';
     let cursorPosition = -1;
     const value = 'Hola amigos';
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
     element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
       const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
         .detail;
@@ -276,7 +295,7 @@ suite('gr-textarea test', () => {
     element.setCursorPosition(0);
     await element.updateComplete;
 
-    editableDiv.dispatchEvent(
+    editableTextArea.dispatchEvent(
       new KeyboardEvent('keydown', {key: 'ArrowLeft', metaKey: true})
     );
     await element.updateComplete;
@@ -286,9 +305,10 @@ suite('gr-textarea test', () => {
   });
 
   test('when TAB is pressed inside a code snippet, a tab is added', async () => {
-    const editableDiv = element.shadowRoot!.querySelector(
-      '.editableDiv'
-    ) as HTMLDivElement;
+    const editableTextArea =
+      element.shadowRoot!.querySelector<HTMLTextAreaElement>(
+        '.editableTextArea'
+      )!;
     const textContent = 'Some text\n```\ncode snippet\n```\nMore text';
 
     element.value = textContent;
@@ -297,7 +317,9 @@ suite('gr-textarea test', () => {
     // Set cursor position inside the code snippet
     element.setCursorPosition(19); // Position after 'code '
 
-    editableDiv.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
+    await rafPromise();
+
+    editableTextArea.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
     await element.updateComplete;
     await rafPromise();
 

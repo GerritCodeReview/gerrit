@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -208,8 +209,12 @@ public class RevertIT extends AbstractDaemonTest {
 
     assertThat(revertChange.getCurrentRevision().conflicts).isNotNull();
     assertThat(revertChange.getCurrentRevision().conflicts.containsConflicts).isFalse();
+    assertThat(revertChange.getCurrentRevision().conflicts.base).isNull();
     assertThat(revertChange.getCurrentRevision().conflicts.ours).isNull();
     assertThat(revertChange.getCurrentRevision().conflicts.theirs).isNull();
+    assertThat(revertChange.getCurrentRevision().conflicts.mergeStrategy).isNull();
+    assertThat(revertChange.getCurrentRevision().conflicts.noBaseReason)
+        .isEqualTo(NoMergeBaseReason.NO_MERGE_PERFORMED);
   }
 
   @Test
@@ -1016,8 +1021,12 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts).isNotNull();
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.containsConflicts)
         .isFalse();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.base).isNull();
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.ours).isNull();
     assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.theirs).isNull();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.mergeStrategy).isNull();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.noBaseReason)
+        .isEqualTo(NoMergeBaseReason.NO_MERGE_PERFORMED);
   }
 
   @Test

@@ -28,6 +28,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtil.MergeBase;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ResolveMerger;
+import org.eclipse.jgit.merge.StrategyRecursive;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -282,9 +284,10 @@ public class AutoMerger {
               nonFlushingInserter,
               dc,
               "BASE",
-              // base commit ID is null if the merged commits do not have a common predecessor
-              // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
-              m.getBaseCommitId(),
+              MergeBase.create(
+                  rw,
+                  mergeStrategy instanceof StrategyRecursive ? "recursive" : "resolve",
+                  m.getBaseCommitId()),
               "HEAD",
               merge.getParent(0),
               "BRANCH",

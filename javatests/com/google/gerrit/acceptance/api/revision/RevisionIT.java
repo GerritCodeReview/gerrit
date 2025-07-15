@@ -333,6 +333,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPick() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
     PushOneCommit.Result r = pushTo("refs/for/master%topic=someTopic");
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
@@ -353,8 +355,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
 
     ChangeInfo cherryPickChangeInfoWithDetails = cherry.get();
     assertThat(cherryPickChangeInfoWithDetails.workInProgress).isNull();
@@ -816,8 +821,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+    assertThat(currentRevision.conflicts.base).isEqualTo(initialHead.getName());
     assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
 
     // Verify that subject and topic on the cherry-pick change have been correctly populated.
     assertThat(cherryPickChange.subject).contains(in.message);
@@ -899,8 +907,11 @@ public class RevisionIT extends AbstractDaemonTest {
         .isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts).isNotNull();
     assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+    assertThat(currentRevision.conflicts.base).isEqualTo(tip);
     assertThat(currentRevision.conflicts.ours).isEqualTo(existingChange.getCommit().name());
     assertThat(currentRevision.conflicts.theirs).isEqualTo(srcChange.getCommit().name());
+    assertThat(currentRevision.conflicts.mergeStrategy).isEqualTo("recursive");
+    assertThat(currentRevision.conflicts.noBaseReason).isNull();
   }
 
   @Test

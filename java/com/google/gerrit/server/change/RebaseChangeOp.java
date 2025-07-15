@@ -45,6 +45,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtil.MergeBase;
 import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -580,7 +581,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
               ctx.getInserter(),
               dc,
               "BASE",
-              parentCommit,
+              MergeBase.create(parentCommit),
               "PATCH SET",
               original,
               "BASE",
@@ -622,7 +623,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
-    commit.setConflicts(original, base, filesWithGitConflicts);
+    commit.setConflicts(parentCommit, original, base, strategy, filesWithGitConflicts);
     logger.atFine().log("rebased commit=%s", commit.name());
     return commit;
   }

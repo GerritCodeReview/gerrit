@@ -116,13 +116,25 @@ enum ChangeStatus {
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.Conflicts.
-// Next ID: 5
+// Next ID: 7
 message Conflicts {
-  reserved 4;
+  optional ObjectId base = 4;
   optional ObjectId ours = 1;
   optional ObjectId theirs = 2;
   optional bool containsConflicts = 3;
+  optional string merge_strategy = 5;
+  optional NoMergeBaseReason noBaseReason = 6;
 }
+
+// Serialized form of com.google.gerrit.extensions.common.NoMergeBaseReason.
+// Next ID: 3
+enum NoMergeBaseReason {
+  HISTORIC_DATA_WITHOUT_BASE = 0;
+  NO_COMMON_ANCESTOR = 1;
+  COMPUTED_BASE = 2;
+  ONE_SIDED_MERGE_STRATEGY = 3;
+  NO_MERGE_PERFORMED = 4;
+ }
 
 // Serialized form of com.google.gerrit.extensions.common.MergeInput.
 // Next ID: 5

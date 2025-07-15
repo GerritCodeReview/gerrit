@@ -715,7 +715,7 @@ public class CreateChange
         rw.parseCommit(
             CommitUtil.createCommitWithTree(
                 oi, authorIdent, committerIdent, parents, commitMessage, treeId));
-    commit.setNoConflicts();
+    commit.setNoConflictsForNonMergeCommit();
     return commit;
   }
 

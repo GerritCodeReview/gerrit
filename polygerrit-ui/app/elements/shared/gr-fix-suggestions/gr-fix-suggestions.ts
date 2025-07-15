@@ -27,6 +27,7 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {ChangeStatus, FixSuggestionInfo} from '../../../api/rest-api';
+import {stringToReplacements} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
@@ -50,6 +51,8 @@ export class GrFixSuggestions extends LitElement {
   @state() private docsBaseUrl = '';
 
   @state() private applyingFix = false;
+
+  @state() private isEditing = false;
 
   @state() latestPatchNum?: PatchSetNumber;
 
@@ -200,6 +203,9 @@ export class GrFixSuggestions extends LitElement {
   override render() {
     const fix_suggestions = this.getFixSuggestions();
     if (!fix_suggestions) return;
+    const editableSuggestionEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.ML_SUGGESTED_EDIT_EDITABLE_SUGGESTION
+    );
     return html`<div class="header">
         <div class="title">
           <span
@@ -266,21 +272,23 @@ export class GrFixSuggestions extends LitElement {
           >
             Show Edit
           </gr-button>
-          ${when(
-            this.isOwner && !this.collapsed,
-            () =>
-              html`<gr-button
-                secondary
-                flatten
-                .loading=${this.applyingFix}
-                .disabled=${this.isApplyEditDisabled()}
-                class="action show-fix"
-                @click=${this.handleApplyFix}
-                .title=${this.computeApplyEditTooltip()}
-              >
-                Apply Edit
-              </gr-button>`
-          )}
+          ${when(this.isOwner && !this.collapsed, () => {
+            if (editableSuggestionEnabled) {
+              return this.isEditing
+                ? this.renderEditingButtons()
+                : html`<gr-button
+                      secondary
+                      flatten
+                      class="action edit-fix"
+                      @click=${this.handleEditFix}
+                    >
+                      Change Edit
+                    </gr-button>
+                    ${this.renderApplyEditButton()}`;
+            } else {
+              return this.renderApplyEditButton();
+            }
+          })}
           ${this.renderToggle()}
         </div>
       </div>
@@ -288,8 +296,48 @@ export class GrFixSuggestions extends LitElement {
         .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
         .patchSet=${this.comment?.patch_set}
         .commentId=${this.comment?.id}
+        .editable=${editableSuggestionEnabled && this.isEditing}
         @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;
+  }
+
+  private renderEditingButtons() {
+    return html`<gr-button
+        secondary
+        flatten
+        class="action cancel-fix"
+        @click=${this.handleEditFix}
+      >
+        Cancel </gr-button
+      ><gr-button
+        secondary
+        flatten
+        class="action reset-fix"
+        @click=${this.handleResetFix}
+      >
+        Reset </gr-button
+      ><gr-button
+        secondary
+        flatten
+        class="action save-fix"
+        @click=${this.handleSaveFix}
+      >
+        Save
+      </gr-button>`;
+  }
+
+  private renderApplyEditButton() {
+    return html`<gr-button
+      secondary
+      flatten
+      .loading=${this.applyingFix}
+      .disabled=${this.isApplyEditDisabled()}
+      class="action apply-fix"
+      @click=${this.handleApplyFix}
+      .title=${this.computeApplyEditTooltip()}
+    >
+      Apply Edit
+    </gr-button>`;
   }
 
   private renderToggle() {
@@ -361,11 +409,48 @@ export class GrFixSuggestions extends LitElement {
     fire(this, 'open-fix-preview', eventDetail);
   }
 
+  handleEditFix() {
+    this.isEditing = !this.isEditing;
+  }
+
+  handleResetFix() {
+    this.suggestionDiffPreview?.reset();
+  }
+
+  handleSaveFix() {
+    this.isEditing = false;
+
+    const newContent = this.suggestionDiffPreview?.getEditedContent();
+    if (newContent === undefined) return;
+
+    const suggestions = this.getFixSuggestions();
+    if (!suggestions || !suggestions.length) return;
+
+    // Use the path for the first suggestion in the same file.
+    const path = suggestions[0]?.replacements[0]?.path;
+    if (!path) return;
+
+    const newReplacements = stringToReplacements(newContent, path);
+    const newSuggestions = [
+      {
+        ...suggestions[0],
+        replacements: newReplacements,
+      },
+      ...suggestions.slice(1),
+    ];
+    if (this.generated_fix_suggestions) {
+      this.generated_fix_suggestions = newSuggestions;
+    } else if (this.comment) {
+      this.comment = {...this.comment, fix_suggestions: newSuggestions};
+    }
+  }
+
   async handleApplyFix() {
     if (!this.getFixSuggestions()) return;
     this.applyingFix = true;
     try {
       await this.suggestionDiffPreview?.applyFix();
+      this.isEditing = false;
     } finally {
       this.applyingFix = false;
     }
@@ -393,6 +478,7 @@ export class GrFixSuggestions extends LitElement {
     if (this.comment?.patch_set === undefined) return true;
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
+    if (this.isEditing) return false;
     return !this.previewLoaded;
   }
 

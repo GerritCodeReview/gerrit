@@ -370,8 +370,11 @@ public class RevisionJson {
                 conflicts -> {
                   ConflictsInfo conflictsInfo = new ConflictsInfo();
                   conflictsInfo.containsConflicts = conflicts.containsConflicts();
+                  conflictsInfo.base = conflicts.base().map(ObjectId::getName).orElse(null);
                   conflictsInfo.ours = conflicts.ours().map(ObjectId::getName).orElse(null);
                   conflictsInfo.theirs = conflicts.theirs().map(ObjectId::getName).orElse(null);
+                  conflictsInfo.mergeStrategy = conflicts.mergeStrategy().orElse(null);
+                  conflictsInfo.noBaseReason = conflicts.noBaseReason().orElse(null);
                   return conflictsInfo;
                 })
             .orElse(null);

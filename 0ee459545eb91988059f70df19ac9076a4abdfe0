@@ -22,6 +22,30 @@
       },
       "revId": "0ee459545eb91988059f70df19ac9076a4abdfe0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "628bf1a0_47b2eacf",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenVerifier.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-15T13:59:29Z",
+      "side": 1,
+      "message": "A user can have multiple tokens stored in Gerrit, but will provide just one during login. We have to check whether the provided token matches any of the stored tokens, i.e. the check will only succeed at maximum once. In that case we leave the loop early. The most expensive scenario is, if the provided token matches none of the stored tokens, which will require us to loop through all stored tokens. For that reason I also have a change in the series that allows to limit the number of tokens that each account can store at a time.",
+      "parentUuid": "66c89794_0a26815c",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "0ee459545eb91988059f70df19ac9076a4abdfe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

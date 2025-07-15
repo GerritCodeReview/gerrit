@@ -69,6 +69,24 @@
       "parentUuid": "b1805c93_766d5c04",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8ce1052_b0a33936",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-15T20:47:35Z",
+      "side": 1,
+      "message": "Yeah, I think our primary concern is the call from `acquire()`, so it\u0027s reasonable to move the `checkIsIncremental()` call above L369 as:\n\n```\ncheckIsIncremental(next);\n```\n\nOur best guess is that the `IntBlob.parse(repo, refName, rw);` in `acquire()` is somehow returning an incorrect value, but we haven\u0027t yet found the buggy code that could do that.\n\nDepending on if we wanted to protect/limit admins, we could also do a `checkIsIncremental(value)` call after L383, but that API is only used by the SSH `sequence set` command.",
+      "parentUuid": "cfe105c5_ba61ba84",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

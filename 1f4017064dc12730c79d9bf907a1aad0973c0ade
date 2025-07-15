@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda58201_2ab2dc4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-15T14:47:25Z",
+      "side": 1,
+      "message": "Looks great, I don\u0027t have any comments. I checked and it can be imported to google",
+      "revId": "1f4017064dc12730c79d9bf907a1aad0973c0ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

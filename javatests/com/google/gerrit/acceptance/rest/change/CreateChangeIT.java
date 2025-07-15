@@ -1223,6 +1223,188 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleConflictingMergeBasesWithConflictsAllowed()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleConflictingMergeBasesConflictsAllowed(
+        /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoCommitsThatHaveMultipleConflictingMergeBasesWithConflictsAllowedUsingDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleConflictingMergeBasesConflictsAllowed(
+        /* useDiff3= */ true);
+  }
+
+  private void
+      testCreateMergeChangeBetweenTwoCommitsThatHaveMultipleConflictingMergeBasesConflictsAllowed(
+          boolean useDiff3) throws Exception {
+    String sourceBranch = "sourceBranch";
+    String targetBranch = "targetBranch";
+
+    // Create source and target branch with conflicting commits.
+    // Later these commits will become the base commits for the criss-cross-merge.
+    String baseFile = "base.txt";
+    String baseContentSource = "base source";
+    String baseContentTarget = "base target";
+    ImmutableMap<String, Result> results =
+        changeInTwoBranches(
+            sourceBranch,
+            "base 1",
+            baseFile,
+            baseContentSource,
+            targetBranch,
+            "base 2",
+            baseFile,
+            baseContentTarget);
+    RevCommit baseCommitInSource = results.get(sourceBranch).getCommit();
+    RevCommit baseCommitInTarget = results.get(targetBranch).getCommit();
+
+    // Create merge commits in both branches (1. merge the target branch into the source branch, 2.
+    // merge the source branch into the target branch).
+    PushOneCommit mergeCommitInSource =
+        pushFactory.create(
+            user.newIdent(), testRepo, "Merge in Source", baseFile, baseContentSource);
+    mergeCommitInSource.setParents(ImmutableList.of(baseCommitInSource, baseCommitInTarget));
+    mergeCommitInSource.to("refs/heads/" + sourceBranch).assertOkStatus();
+    PushOneCommit mergeCommitInTarget =
+        pushFactory.create(
+            user.newIdent(), testRepo, "Merge in Target", baseFile, baseContentTarget);
+    mergeCommitInTarget.setParents(ImmutableList.of(baseCommitInTarget, baseCommitInSource));
+    mergeCommitInTarget.to("refs/heads/" + targetBranch).assertOkStatus();
+
+    // Create conflicting commits in both branches.
+    String fileName = "shared.txt";
+    String sourceSubject = "source change";
+    String sourceContent = "source content";
+    String targetSubject = "target change";
+    String targetContent = "target content";
+    PushOneCommit pushConflictingCommitInSource =
+        pushFactory.create(user.newIdent(), testRepo, sourceSubject, fileName, sourceContent);
+    pushConflictingCommitInSource.setParent(
+        projectOperations.project(project).getHead(sourceBranch));
+    PushOneCommit.Result pushConflictingCommitInSourceResult =
+        pushConflictingCommitInSource.to("refs/heads/" + sourceBranch);
+    pushConflictingCommitInSourceResult.assertOkStatus();
+    PushOneCommit pushConflictingCommitInTarget =
+        pushFactory.create(user.newIdent(), testRepo, targetSubject, fileName, targetContent);
+    pushConflictingCommitInTarget.setParent(
+        projectOperations.project(project).getHead(targetBranch));
+    PushOneCommit.Result pushConflictingCommitInTargetResult =
+        pushConflictingCommitInTarget.to("refs/heads/" + targetBranch);
+    pushConflictingCommitInTargetResult.assertOkStatus();
+
+    // Merge the source branch into the target with conflicts allowed. This is a criss-cross-merge:
+    //
+    //                   (criss-cross-merge)
+    //                     /             \
+    // (conflictingCommitInSource) (conflictingCommitInTarget)
+    //                    |               |
+    //       (mergeCommitInSource) (mergeCommitInTarget)
+    //                    |       X       |
+    //       (baseCommitInSource)  (baseCommitInTarget)
+    //                     \           /
+    //                    (initialCommit)
+    ChangeInput mergeInput =
+        newMergeChangeInput(targetBranch, sourceBranch, "recursive", /* allowConflicts= */ true);
+
+    ChangeInfo change = assertCreateSucceedsWithConflicts(mergeInput);
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
+    assertThat(currentRevision.commit.parents.get(1).commit)
+        .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(pushConflictingCommitInTargetResult.getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(pushConflictingCommitInSourceResult.getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+
+    // Verify that the content of the file that was conflicting in the bases is correct.
+    // We expect that it has conflict markers to indicate the conflict and that the base version
+    // that is computed by the recursive merge is a auto merge of the two bases, containing conflict
+    // markers as well.
+    String computedBaseContent =
+        String.format(
+            """
+            <<<<<<< OURS
+            %s
+            =======
+            %s
+            >>>>>>> THEIRS
+            """,
+            baseContentTarget, baseContentSource);
+    BinaryResult bin =
+        gApi.changes().id(project.get(), change._number).current().file(baseFile).content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String fileContent = new String(os.toByteArray(), UTF_8);
+    assertThat(fileContent)
+        .isEqualTo(
+            String.format(
+                """
+                <<<<<<< TARGET BRANCH (%s %s)
+                %s
+                %s=======
+                %s
+                >>>>>>> SOURCE BRANCH (%s %s)
+                """,
+                pushConflictingCommitInTargetResult.getCommit().name(),
+                targetSubject,
+                baseContentTarget,
+                (useDiff3 ? "||||||| BASE\n" + computedBaseContent : ""),
+                baseContentSource,
+                pushConflictingCommitInSourceResult.getCommit().name(),
+                sourceSubject));
+
+    // Verify that the file content in the created change is correct.
+    // We expect that it has conflict markers to indicate the conflict.
+    bin = gApi.changes().id(project.get(), change._number).current().file(fileName).content();
+    os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    fileContent = new String(os.toByteArray(), UTF_8);
+    assertThat(fileContent)
+        .isEqualTo(
+            String.format(
+                """
+                <<<<<<< TARGET BRANCH (%s %s)
+                %s
+                %s=======
+                %s
+                >>>>>>> SOURCE BRANCH (%s %s)
+                """,
+                pushConflictingCommitInTargetResult.getCommit().name(),
+                targetSubject,
+                targetContent,
+                (useDiff3 ? "||||||| BASE\n" : ""),
+                sourceContent,
+                pushConflictingCommitInSourceResult.getCommit().name(),
+                sourceSubject));
+
+    // Verify the message that has been posted on the change.
+    List<ChangeMessageInfo> messages = gApi.changes().id(project.get(), change._number).messages();
+    assertThat(messages).hasSize(1);
+    assertThat(Iterables.getOnlyElement(messages).message)
+        .isEqualTo(
+            String.format(
+                """
+                Uploaded patch set 1.
+
+                The following files contain Git conflicts:
+                * %s
+                * %s
+                """,
+                baseFile, fileName));
+  }
+
+  @Test
   public void createMergeChange_ConflictAllowedNotSupportedByMergeStrategy() throws Exception {
     String fileName = "shared.txt";
     String sourceBranch = "sourceBranch";

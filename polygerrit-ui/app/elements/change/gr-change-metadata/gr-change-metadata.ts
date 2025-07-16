@@ -166,9 +166,11 @@ export class GrChangeMetadata extends LitElement {
 
   @state() showAllSections = false;
 
-  @state() queryTopic?: AutocompleteQuery;
+  @state() queryIdentity: AutocompleteQuery;
 
-  @state() queryHashtag?: AutocompleteQuery;
+  @state() queryTopic: AutocompleteQuery;
+
+  @state() queryHashtag: AutocompleteQuery;
 
   private restApiService = getAppContext().restApiService;
 
@@ -224,6 +226,7 @@ export class GrChangeMetadata extends LitElement {
     );
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
     this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
+    this.queryIdentity = (input: string) => this.getIdentitySuggestions(input);
   }
 
   static override get styles() {
@@ -499,7 +502,7 @@ export class GrChangeMetadata extends LitElement {
                 this.handleIdentityChanged(e, role)}
               showAsEditPencil
               autocomplete
-              .query=${(text: string) => this.getIdentitySuggestions(text)}
+              .query=${this.queryIdentity}
             ></gr-editable-label>
           `
         )}
@@ -1277,10 +1280,10 @@ export class GrChangeMetadata extends LitElement {
 
   private async getIdentitySuggestions(
     input: string
-  ): Promise<AutocompleteSuggestion[]> {
+  ): Promise<AutocompleteSuggestion<string>[]> {
     const suggestions = await this.restApiService.getAccountSuggestions(input);
     if (!suggestions) return [];
-    const identitySuggestions: AutocompleteSuggestion[] = [];
+    const identitySuggestions: AutocompleteSuggestion<string>[] = [];
     suggestions.forEach(account => {
       const name = getDisplayName(this.serverConfig, account);
       const emails: string[] = [];

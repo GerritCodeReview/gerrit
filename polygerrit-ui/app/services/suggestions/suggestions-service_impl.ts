@@ -121,6 +121,11 @@ export class GrSuggestionsService implements SuggestionsService {
     if (!suggestion?.replacements || suggestion.replacements.length === 0) {
       return;
     }
+    if (data.reportSource) {
+      suggestion.description = `${data.reportSource} ${
+        suggestion.description ?? ''
+      }`.trim();
+    }
     return suggestion;
   }
 

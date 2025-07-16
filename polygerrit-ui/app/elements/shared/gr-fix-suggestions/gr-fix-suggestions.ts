@@ -136,7 +136,8 @@ export class GrFixSuggestions extends LitElement {
         :host {
           display: block;
         }
-        :host([collapsed]) gr-suggestion-diff-preview {
+        :host([collapsed]) gr-suggestion-diff-preview,
+        :host([collapsed]) .feedback {
           display: none;
         }
         .show-hide {
@@ -173,6 +174,16 @@ export class GrFixSuggestions extends LitElement {
         .copyButton {
           margin-right: var(--spacing-l);
         }
+        .feedback {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          margin-right: var(--spacing-l);
+        }
+        .feedback gr-button {
+          /* should be tertiary, but that does not exist yet */
+          --gr-button-padding: var(--spacing-xs);
+        }
       `,
     ];
   }
@@ -205,6 +216,27 @@ export class GrFixSuggestions extends LitElement {
           ></a>
         </div>
         <div class="headerMiddle">
+          ${when(
+            this.isAiSuggestion() && !this.collapsed,
+            () => html`<div class="feedback">
+              <gr-button
+                link
+                class="thumb-btn"
+                title="Good suggestion"
+                @click=${this.handleGood}
+              >
+                Good
+              </gr-button>
+              <gr-button
+                link
+                class="thumb-btn"
+                title="Bad suggestion"
+                @click=${this.handleBad}
+              >
+                Bad
+              </gr-button>
+            </div>`
+          )}
           <gr-button
             secondary
             flatten
@@ -272,6 +304,31 @@ export class GrFixSuggestions extends LitElement {
         </label>
       </div>
     `;
+  }
+
+  private isAiSuggestion(): boolean {
+    const fixSuggestions = this.getFixSuggestions();
+    if (!fixSuggestions || fixSuggestions.length === 0) return false;
+    // The description for AI suggestions is set in the suggestions-service.
+    return (
+      fixSuggestions[0].description?.includes(
+        ReportSource.GET_AI_FIX_FOR_COMMENT
+      ) ?? false
+    );
+  }
+
+  private handleGood() {
+    this.reporting.reportInteraction(Interaction.AI_SUGGESTION_THUMBS_UP, {
+      commentId: this.comment?.id,
+      suggestion: this.getFixSuggestions()?.[0],
+    });
+  }
+
+  private handleBad() {
+    this.reporting.reportInteraction(Interaction.AI_SUGGESTION_THUMBS_DOWN, {
+      commentId: this.comment?.id,
+      suggestion: this.getFixSuggestions()?.[0],
+    });
   }
 
   getFixSuggestions() {

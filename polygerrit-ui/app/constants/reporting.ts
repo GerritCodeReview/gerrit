@@ -152,6 +152,8 @@ export enum Interaction {
   GENERATE_SUGGESTION_EDITED = 'generate_suggestion_edited',
   GENERATE_SUGGESTION_COLLAPSED = 'generate_suggestion_collapsed',
   GENERATE_SUGGESTION_EXPANDED = 'generate_suggestion_expanded',
+  AI_SUGGESTION_THUMBS_UP = 'ai-suggestion-thumbs-up',
+  AI_SUGGESTION_THUMBS_DOWN = 'ai-suggestion-thumbs-down',
   START_REVIEW = 'start-review',
   CODE_REVIEW_APPROVAL = 'code-review-approval',
   FILE_LIST_DIFF_COLLAPSED = 'file-list-diff-collapsed',

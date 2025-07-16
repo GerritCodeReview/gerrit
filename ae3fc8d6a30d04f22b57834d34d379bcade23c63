@@ -34,6 +34,24 @@
       "parentUuid": "957159d9_5be9ef7b",
       "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6849848_5a9d6bff",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2025-07-16T22:59:20Z",
+      "side": 0,
+      "message": "My assumption would be that this block is what is biting you. Having that block in this code path seems very risky to me. The code is basically setup to reset the sequence on a potential read error (if for some reason the blob is not present). I believe we should get rid of that path. Instead, to avoid this serious risk, I would encourage a completely separate deliberate way to initialize the sequence. I am assuming that the only time we should ever be initializing the sequence should be on initial site setup? Doing so explicitly instead of implicitly seems much safer to me.",
+      "parentUuid": "cb7baad9_eeb6bf5a",
+      "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

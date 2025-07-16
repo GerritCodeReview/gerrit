@@ -378,7 +378,7 @@ export class GrConfirmRebaseDialog
             >Rebase with committer email
                 <gr-dropdown-list
                     .items=${this.getCommitterEmailDropdownItems()}
-                    .value=${this.selectedEmailForRebase}
+                    .value=${this.selectedEmailForRebase ?? ''}
                     @value-change=${this.handleCommitterEmailDropdownItems}
                 >
                 </gr-dropdown-list>

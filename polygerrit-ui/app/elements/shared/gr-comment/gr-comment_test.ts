@@ -927,6 +927,39 @@ suite('gr-comment tests', () => {
         .returns(true);
     });
 
+    test('shows suggestion count when unchecked', async () => {
+      const comment: DraftInfo = {
+        ...createDraft(),
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com' as EmailAddress,
+        },
+        line: 5,
+        path: 'test',
+        savingState: SavingState.OK,
+        message: 'hello world',
+      };
+      element = await fixture(
+        html`<gr-comment
+          .account=${account}
+          .showPatchset=${true}
+          .comment=${comment}
+          .initiallyCollapsed=${false}
+        ></gr-comment>`
+      );
+      element.editing = true;
+      sinon.stub(element, 'showGeneratedSuggestion').returns(true);
+      element.generateSuggestion = false;
+      element.generatedFixSuggestion = generatedFixSuggestion;
+      await element.updateComplete;
+
+      const label = queryAndAssert<HTMLLabelElement>(
+        element,
+        'label.suggestEdit'
+      );
+      assert.include(label.textContent, '(1)');
+    });
+
     test('renders suggestions in comment', async () => {
       const comment = {
         ...createComment(),

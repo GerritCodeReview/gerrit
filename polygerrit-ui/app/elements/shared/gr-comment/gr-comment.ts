@@ -1165,7 +1165,7 @@ export class GrComment extends LitElement {
       'Select to show a generated suggestion based on your comment for commented text. This suggestion can be inserted as a code block in your comment.';
     return html`
       <div class="action">
-        <label title=${tooltip}>
+        <label title=${tooltip} class="suggestEdit">
           <input
             type="checkbox"
             id="generateSuggestCheckbox"
@@ -1217,9 +1217,6 @@ export class GrComment extends LitElement {
   }
 
   private getNumberOfSuggestions() {
-    if (!this.generateSuggestion) {
-      return '';
-    }
     if (this.generatedFixSuggestion) {
       return '(1)';
     } else {
@@ -1227,11 +1224,11 @@ export class GrComment extends LitElement {
     }
   }
 
-  private async generateSuggestEdit() {
+  // private used in test
+  async generateSuggestEdit() {
     if (
       !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
       !this.showGeneratedSuggestion() ||
-      !this.generateSuggestion ||
       this.messageText.length === 0
     )
       return;

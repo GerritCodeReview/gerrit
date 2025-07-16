@@ -23,7 +23,7 @@ import {
   removeTheme as removeDarkTheme,
 } from '../styles/themes/dark-theme';
 // Until https://github.com/modernweb-dev/web/issues/2804 is fixed
-// @ts-ignore
+// @ts-expect-error
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {LitElement} from 'lit';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
@@ -326,7 +326,7 @@ export function makePrefixedJSON(obj: any) {
 }
 
 export async function visualDiffDarkTheme(
-  element: LitElement | HTMLElement,
+  element: LitElement | HTMLElement | Element,
   name: string
 ) {
   applyDarkTheme();

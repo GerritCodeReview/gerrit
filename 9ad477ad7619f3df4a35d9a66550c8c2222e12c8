@@ -1,0 +1,178 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f01429_0f4e600a",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-16T14:52:29Z",
+      "side": 1,
+      "message": "Why? According to our documentation it doesn\u0027t have fields from AccountInfo",
+      "range": {
+        "startLine": 757,
+        "startChar": 39,
+        "endLine": 757,
+        "endChar": 60
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6660c497_31aebec3",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/api/rest-api.ts",
+              "range": {
+                "startLine": 757,
+                "startChar": 0,
+                "endLine": 758,
+                "endChar": 0
+              },
+              "replacement": "export declare interface GitPersonInfo {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b378176c_50e8a1e2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-16T14:52:29Z",
+      "side": 1,
+      "message": "Why do we remove the ? . Is there a difference between it being omitted and being equal to \"false\"",
+      "range": {
+        "startLine": 208,
+        "startChar": 10,
+        "endLine": 208,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e266ac79_133f5cbf",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+              "range": {
+                "startLine": 208,
+                "startChar": 0,
+                "endLine": 209,
+                "endChar": 0
+              },
+              "replacement": "          ?aria-hidden\u003d${!this.isLoggedIn}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a7c00f_8c8bb2a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-16T14:52:29Z",
+      "side": 1,
+      "message": "It defaults to string at the definition https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts;drc\u003d1743bf511674728e921fb4cabd4fb7cb340fed0d;l\u003d48 . Why is this needed?\n\nSide-note: I would argue that we shouldn\u0027t have made it generic in the first place.",
+      "range": {
+        "startLine": 1283,
+        "startChar": 13,
+        "endLine": 1283,
+        "endChar": 35
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c2e81398_baf7f9fd",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+              "range": {
+                "startLine": 1283,
+                "startChar": 0,
+                "endLine": 1284,
+                "endChar": 0
+              },
+              "replacement": "  ): Promise\u003cAutocompleteSuggestion[]\u003e {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+              "range": {
+                "startLine": 1286,
+                "startChar": 0,
+                "endLine": 1287,
+                "endChar": 0
+              },
+              "replacement": "    const identitySuggestions: AutocompleteSuggestion[] \u003d [];\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9461685_94816804",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-16T14:52:29Z",
+      "side": 1,
+      "message": "I don\u0027t understand either left or right side.\n\nWhy not just make it \u003cinput disabled /\u003e ?",
+      "range": {
+        "startLine": 345,
+        "startChar": 19,
+        "endLine": 345,
+        "endChar": 36
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6814e085_4c2c6ca1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 345,
+                "startChar": 0,
+                "endLine": 346,
+                "endChar": 0
+              },
+              "replacement": "            \u003cinput disabled /\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

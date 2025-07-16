@@ -87,6 +87,24 @@
       "parentUuid": "c8adb9de_6e41b5ce",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "575a820e_3aea4483",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-16T07:42:00Z",
+      "side": 1,
+      "message": "But since this change is touching `tools/deps.bzl` and `lib/BUILD` it still requires a Library-Compliance +1 vote from a Googler.",
+      "parentUuid": "96975860_7305c3b2",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

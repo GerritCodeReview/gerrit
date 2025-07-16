@@ -16,6 +16,23 @@
       "message": "I can\u0027t test the experiment right now. But I did test with `this.generateSuggestion \u003d false` and the behavior is expected.",
       "revId": "83569ee1126c0ba47ea28f0a38ab1b482d402614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd9fa166_0af95176",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-16T08:43:54Z",
+      "side": 1,
+      "message": "One question - we have user setting to disable feature (which is actually just making unchecked by default). With this feature flag - user setting is noop, maybe you can disable user setting when this feature flag is on - https://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts;l\u003d484?q\u003dgr-preferences.ts%20renderGenerateSuggestionWhenCommenting\u0026ss\u003dh%2Fgerrit%2Fgerrit%2F%2B%2Frefs%2Fheads%2Fmaster:polygerrit-ui%2F",
+      "revId": "83569ee1126c0ba47ea28f0a38ab1b482d402614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

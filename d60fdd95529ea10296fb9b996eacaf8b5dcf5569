@@ -51,6 +51,24 @@
       "parentUuid": "3e1f41e9_7ac0b3bb",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8adb9de_6e41b5ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-16T02:26:22Z",
+      "side": 1,
+      "message": "I did not use any new library. The icu4j was already in the lib.Do I need to do this? And I do not have permission to create issues in this component.",
+      "parentUuid": "40268254_1ca241da",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

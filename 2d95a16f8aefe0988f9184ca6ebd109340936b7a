@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f341ae9a_1fb81b21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2025-07-16T23:00:52Z",
+      "side": 1,
+      "message": "Have you tried manually deleting the sequence object from the repo (on a test server) to see if it resets the sequence?",
+      "parentUuid": "f83acbcd_dfb33ee0",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61303b80_0af4c17a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

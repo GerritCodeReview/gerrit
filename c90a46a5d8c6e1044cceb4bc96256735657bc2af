@@ -123,6 +123,24 @@
       "parentUuid": "86ef0351_13d792c1",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50f18ad1_b2d4cda8",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-16T22:16:18Z",
+      "side": 1,
+      "message": "Moving the check won\u0027t necessarily prevent a bad value from being written, but it will prevent it from being *used*, which I do think is a worthwhile addition.",
+      "parentUuid": "259cbd9c_3c0c679e",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

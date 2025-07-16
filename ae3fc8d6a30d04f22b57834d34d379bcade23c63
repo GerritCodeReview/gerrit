@@ -16,6 +16,24 @@
       "message": "What is this expected to return? Could this be the risky path, should we eliminate this?",
       "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb7baad9_eeb6bf5a",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-16T22:16:18Z",
+      "side": 0,
+      "message": "This `if` block is intended for first time startup when the sequence ref doesn\u0027t exist. The `seed` value comes from the `@Provides` methods in the `RepoSequenceModule` above.\n\nWe could choose to fail if we ever reach this block after successfully storing in some previous call. I don\u0027t think that\u0027s sufficient to solve the issues we saw on our production servers, as in those cases the value of the ChangeSequence didn\u0027t reset to the seed, but instead to a value from several hours earlier. We did see the AccountSequence reset to the seed, so this could help that case.",
+      "parentUuid": "957159d9_5be9ef7b",
+      "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

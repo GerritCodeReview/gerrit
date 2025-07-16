@@ -112,7 +112,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="editSyntaxHighlighting"
               type="checkbox"
-              ?checked=${this.editPrefs?.syntax_highlighting}
+              ?checked=${!!this.editPrefs?.syntax_highlighting}
               @change=${this.handleEditSyntaxHighlightingChanged}
             />
           </span>
@@ -123,7 +123,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="editShowTabs"
               type="checkbox"
-              ?checked=${this.editPrefs?.show_tabs}
+              ?checked=${!!this.editPrefs?.show_tabs}
               @change=${this.handleEditShowTabsChanged}
             />
           </span>
@@ -136,7 +136,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="editShowTrailingWhitespaceInput"
               type="checkbox"
-              ?checked=${this.editPrefs?.show_whitespace_errors}
+              ?checked=${!!this.editPrefs?.show_whitespace_errors}
               @change=${this.handleEditShowTrailingWhitespaceTap}
             />
           </span>
@@ -147,7 +147,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="showMatchBrackets"
               type="checkbox"
-              ?checked=${this.editPrefs?.match_brackets}
+              ?checked=${!!this.editPrefs?.match_brackets}
               @change=${this.handleMatchBracketsChanged}
             />
           </span>
@@ -158,7 +158,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="editShowLineWrapping"
               type="checkbox"
-              ?checked=${this.editPrefs?.line_wrapping}
+              ?checked=${!!this.editPrefs?.line_wrapping}
               @change=${this.handleEditLineWrappingChanged}
             />
           </span>
@@ -169,7 +169,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="showIndentWithTabs"
               type="checkbox"
-              ?checked=${this.editPrefs?.indent_with_tabs}
+              ?checked=${!!this.editPrefs?.indent_with_tabs}
               @change=${this.handleIndentWithTabsChanged}
             />
           </span>
@@ -182,7 +182,7 @@ export class GrEditPreferences extends LitElement {
             <input
               id="showAutoCloseBrackets"
               type="checkbox"
-              ?checked=${this.editPrefs?.auto_close_brackets}
+              ?checked=${!!this.editPrefs?.auto_close_brackets}
               @change=${this.handleAutoCloseBracketsChanged}
             />
           </span>

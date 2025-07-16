@@ -142,7 +142,7 @@ export class GrClaView extends LitElement {
         <div id="agreementsUrl" class="agreementsUrl">
           <a
             href=${ifDefined(this.agreementsUrl)}
-            target="blank"
+            target="_blank"
             rel="noopener"
           >
             Please review the agreement.</a

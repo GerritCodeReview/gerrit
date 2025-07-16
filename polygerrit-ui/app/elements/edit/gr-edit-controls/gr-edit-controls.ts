@@ -201,7 +201,7 @@ export class GrEditControls extends LitElement {
         id="openDialog"
         class="invisible dialog"
         ?disabled=${!this.isValidPath(this.path) || this.fileUploaded}
-        ?disableCancel=${this.fileUploaded}
+        ?disableCancel=${!!this.fileUploaded}
         confirm-label="Confirm"
         confirm-on-enter=""
         @confirm=${(e: Event) => this.handleOpenConfirm(e)}

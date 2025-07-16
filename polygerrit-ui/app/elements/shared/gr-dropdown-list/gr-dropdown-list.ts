@@ -251,7 +251,7 @@ export class GrDropdownList extends LitElement {
     return html`<div class="dropdown">
       <gr-button
         id="trigger"
-        ?disabled=${this.disabled}
+        ?disabled=${!!this.disabled}
         down-arrow
         link
         class="dropdown-trigger"

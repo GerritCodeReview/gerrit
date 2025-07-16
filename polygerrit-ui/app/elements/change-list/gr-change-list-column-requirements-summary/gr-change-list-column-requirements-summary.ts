@@ -102,7 +102,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
       <gr-icon
         class=${icon.icon}
         icon=${icon.icon}
-        ?filled=${icon.filled}
+        ?filled=${!!icon.filled}
         role="img"
       ></gr-icon>
       ${aggregation}</span

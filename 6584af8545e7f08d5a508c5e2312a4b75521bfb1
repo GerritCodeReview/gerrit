@@ -22,6 +22,30 @@
       },
       "revId": "6584af8545e7f08d5a508c5e2312a4b75521bfb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66c67704_975fa9c2",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-07-16T17:55:26Z",
+      "side": 1,
+      "message": "\u003e AFAIU if `projectCache.get` fails then properly created repository will neither be flagged as created nor removed leading to failure of the process anyway as the following retry will fail as directory etc. already exists... Is this a thing or rather an urban legend? Perhaps it should be retried independently?\n\nCan the situation happen? Yes.\nIs the situation happening frequently? No.\nIs there a remedy in place if this situation happen? Yes, you cleanup the leftover of the repo _half-created_ manually.\n\n\u003e Do we have actually the root cause of the failures in repo creation? \n\nThe create did not fail, but the init failed for the inability to create the \u0027refs/meta/config\u0027 due to a global-refdb misalignment.\n\nYou mean that the `initProject()` should deal with it and remove the project? That would sound counter-intuitive though.",
+      "parentUuid": "df62b08b_4ee88b72",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 1
+      },
+      "revId": "6584af8545e7f08d5a508c5e2312a4b75521bfb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

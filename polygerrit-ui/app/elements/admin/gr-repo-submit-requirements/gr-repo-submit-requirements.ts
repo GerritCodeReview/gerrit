@@ -423,7 +423,7 @@ export class GrRepoSubmitRequirements extends LitElement {
                     <span class="value">
                       <textarea
                         id="description"
-                        .value=${this.newRequirement.description}
+                        .value=${this.newRequirement.description ?? ''}
                         placeholder="Optional"
                       ></textarea>
                     </span>

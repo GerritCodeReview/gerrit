@@ -179,7 +179,7 @@ suite('gr-edit-controls tests', () => {
             <div class="header" slot="header">Restore this file?</div>
             <div class="main" slot="main">
               <iron-input>
-                <input />
+                <input disabled="" />
               </iron-input>
             </div>
           </gr-dialog>

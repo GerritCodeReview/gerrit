@@ -48,6 +48,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {Command} from '../../shared/gr-download-commands/gr-download-commands';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -1138,7 +1139,7 @@ export class GrRepo extends LitElement {
     return schemeInfo?.description;
   }
 
-  private computeCommands() {
+  private computeCommands(): Command[] | undefined {
     const schemeInfo = this.getSchemeInfo();
     if (!this.repo || !schemeInfo) return undefined;
 

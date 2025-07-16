@@ -187,6 +187,30 @@
       },
       "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043b7eb4_440d929c",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-16T12:17:22Z",
+      "side": 1,
+      "message": "args4j allows to express option dependencies declaratively.\nE.g.\n```\n    @Option(name \u003d \"--foo\", usage \u003d \"This is option foo. If present, --bar is required.\")\n    private boolean foo;\n\n    @Option(name \u003d \"--bar\", usage \u003d \"This is option bar.\", depends \u003d {\"--foo\"})\n    private boolean bar;\n```\n\nargs4j also has a `forbids` attribute if you need to specify options that cannot be used together. For instance, `@Option(name\u003d\"-foo\", forbids\u003d{\"--baz\"})` would prevent `--foo` and `--baz` from being used simultaneously.",
+      "parentUuid": "10776e62_ec10c5e4",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "e27e8332020ee537a46ea9dc772fa84858cc90bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ee65c5_75db7466",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-16T15:00:53Z",
+      "side": 1,
+      "message": "Apparently MDN requires an explicit \"true\" word",
+      "parentUuid": "b378176c_50e8a1e2",
+      "range": {
+        "startLine": 208,
+        "startChar": 10,
+        "endLine": 208,
+        "endChar": 21
+      },
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8a7c00f_8c8bb2a9",

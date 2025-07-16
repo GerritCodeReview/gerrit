@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
@@ -23,19 +24,28 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.inject.Inject;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 import org.junit.Test;
 
 /** Ensures that auto merge commits are created when a new patch set or change is uploaded. */
 public class AutoMergeIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   private RevCommit parent1;
   private RevCommit parent2;
 
@@ -97,6 +107,187 @@ public class AutoMergeIT extends AbstractDaemonTest {
     assertThat(ps2.getParents().length).isEqualTo(2);
     assertThat(gApi.changes().id(ps1.getChangeId()).get().revisions.size()).isEqualTo(2);
     assertAutoMergeCreated(ps2);
+  }
+
+  @Test
+  public void autoMergeCreatedWhenPushingMergeBetweenTwoInitialCommits() throws Exception {
+    Project.NameKey projectWithoutInitialCommit =
+        projectOperations.newProject().createEmptyCommit(false).create();
+
+    TestRepository<InMemoryRepository> testRepo =
+        cloneProject(projectWithoutInitialCommit, getCloneAsAccount(configRule.description()));
+
+    RevCommit initialCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Initial Change 1")
+                .insertChangeId()
+                .add("file1", "contents1")
+                .create());
+    RevCommit initialCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Initial Change 2")
+                .insertChangeId()
+                .add("file1", "contents2")
+                .create());
+    RevCommit mergeCommit =
+        testRepo
+            .branch("master")
+            .commit()
+            .message("Merge Change")
+            .parent(initialCommit1)
+            .parent(initialCommit2)
+            .insertChangeId()
+            .create();
+    testRepo.reset(mergeCommit);
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    assertThat(r.getRemoteUpdate("refs/for/master").getStatus()).isEqualTo(Status.OK);
+
+    assertAutoMergeCreated(projectWithoutInitialCommit, mergeCommit);
+  }
+
+  @Test
+  public void autoMergeCreatedWhenPushingCrissCrossMerge() throws Exception {
+    RevCommit initialCommit = repo().parseCommit(repo().exactRef(HEAD).getLeaf().getObjectId());
+    RevCommit baseCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .parent(initialCommit)
+                .message("Change 1")
+                .insertChangeId()
+                .add("file1", "contents1")
+                .create());
+    RevCommit baseCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .parent(initialCommit)
+                .message("Change 2")
+                .insertChangeId()
+                .add("file2", "contents2")
+                .create());
+    RevCommit mergeCommit1 =
+        testRepo
+            .commit()
+            .message("Merge Change In Source")
+            .parent(baseCommit1)
+            .parent(baseCommit2)
+            .insertChangeId()
+            .create();
+    RevCommit mergeCommit2 =
+        testRepo
+            .commit()
+            .message("Merge Change In Target")
+            .parent(baseCommit2)
+            .parent(baseCommit1)
+            .insertChangeId()
+            .create();
+    RevCommit conflictingCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Change 1")
+                .parent(mergeCommit1)
+                .insertChangeId()
+                .add("conflicting-file", "contents1")
+                .create());
+    RevCommit conflictingCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Change 2")
+                .parent(mergeCommit2)
+                .insertChangeId()
+                .add("conflicting-file", "contents2")
+                .create());
+    RevCommit crissCrossMerge =
+        testRepo
+            .commit()
+            .message("Criss-Cross Merge")
+            .parent(conflictingCommit1)
+            .parent(conflictingCommit2)
+            .insertChangeId()
+            .create();
+    testRepo.reset(crissCrossMerge);
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    assertThat(r.getRemoteUpdate("refs/for/master").getStatus()).isEqualTo(Status.OK);
+    assertAutoMergeCreated(crissCrossMerge);
+  }
+
+  @Test
+  public void autoMergeCreatedWhenPushingCrissCrossMergeWithConflictingBases() throws Exception {
+    RevCommit initialCommit = repo().parseCommit(repo().exactRef(HEAD).getLeaf().getObjectId());
+    String baseFile = "baseFile,txt";
+    RevCommit baseCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .parent(initialCommit)
+                .message("Change 1")
+                .insertChangeId()
+                .add(baseFile, "contents1")
+                .create());
+    RevCommit baseCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .parent(initialCommit)
+                .message("Change 2")
+                .insertChangeId()
+                .add(baseFile, "contents2")
+                .create());
+    RevCommit mergeCommit1 =
+        testRepo
+            .commit()
+            .message("Merge Change In Source")
+            .add(baseFile, "contents1")
+            .parent(baseCommit1)
+            .parent(baseCommit2)
+            .insertChangeId()
+            .create();
+    RevCommit mergeCommit2 =
+        testRepo
+            .commit()
+            .message("Merge Change In Target")
+            .add(baseFile, "contents2")
+            .parent(baseCommit2)
+            .parent(baseCommit1)
+            .insertChangeId()
+            .create();
+    RevCommit conflictingCommit1 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Change 1")
+                .parent(mergeCommit1)
+                .insertChangeId()
+                .add("conflicting-file", "contents1")
+                .create());
+    RevCommit conflictingCommit2 =
+        testRepo.parseBody(
+            testRepo
+                .commit()
+                .message("Change 2")
+                .parent(mergeCommit2)
+                .insertChangeId()
+                .add("conflicting-file", "contents2")
+                .create());
+    RevCommit crissCrossMerge =
+        testRepo
+            .commit()
+            .message("Criss-Cross Merge")
+            .parent(conflictingCommit1)
+            .parent(conflictingCommit2)
+            .insertChangeId()
+            .create();
+    testRepo.reset(crissCrossMerge);
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    assertThat(r.getRemoteUpdate("refs/for/master").getStatus()).isEqualTo(Status.OK);
+    assertAutoMergeCreated(crissCrossMerge);
   }
 
   @Test
@@ -187,6 +378,11 @@ public class AutoMergeIT extends AbstractDaemonTest {
   }
 
   private void assertAutoMergeCreated(ObjectId mergeCommit) throws Exception {
+    assertAutoMergeCreated(project, mergeCommit);
+  }
+
+  private void assertAutoMergeCreated(Project.NameKey project, ObjectId mergeCommit)
+      throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef(RefNames.refsCacheAutomerge(mergeCommit.name()))).isNotNull();
     }

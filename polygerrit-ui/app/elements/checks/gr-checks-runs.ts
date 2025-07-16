@@ -316,7 +316,7 @@ export class GrChecksRun extends LitElement {
               r.checkName === this.run?.checkName &&
               r.pluginName === this.run?.pluginName
           )}
-          .attempt=${attempt}
+          .attempt=${attempt as number}
         ></gr-hovercard-run>`
       )}
       <input

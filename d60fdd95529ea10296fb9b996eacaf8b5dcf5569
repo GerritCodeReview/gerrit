@@ -141,6 +141,24 @@
       "parentUuid": "8b3fe88f_25adba4b",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f57510af_2dc93638",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-16T09:13:42Z",
+      "side": 1,
+      "message": "I can ping Google maintainers on Discord so you don\u0027t need to create an issue to get their attention for this change.\n\nUpdating the version of 3rd party dependencies requires approval from a Googler since they have to keep open source 3rd party dependencies in sync across all of their cloud products which can take considerable effort and time on their side.\nFor version updates they want an issue which they use to track the work on their end.\n\nTo get permissions in the issue tracker you need to register on the [repo-discuss mailing list](https://www.gerritcodereview.com/contact.html). We introduced this constraint to reduce spam on the issue tracker.",
+      "parentUuid": "406c3284_bb1ad26f",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

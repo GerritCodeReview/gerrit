@@ -49,6 +49,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21ab8c14_6971f316",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-16T22:23:20Z",
+      "side": 1,
+      "message": "We can create one, but without repro steps, I\u0027m not sure how valuable the bug report will be. We\u0027ve tried to reproduce it without success. Let me know if you still think it\u0027s worth creating.",
+      "parentUuid": "87efdd0c_f43cde38",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83acbcd_dfb33ee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-16T22:23:20Z",
+      "side": 1,
+      "message": "We can create one, but without repro steps, I\u0027m not sure how valuable the bug report will be. We\u0027ve tried to reproduce it without success. Let me know if you still think it\u0027s worth creating.",
+      "parentUuid": "48702c74_d2b9aa1b",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61303b80_0af4c17a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -60,6 +108,30 @@
       "writtenOn": "2025-07-16T08:27:45Z",
       "side": 1,
       "message": "Agreed, is there any performance implication?",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac92475_2c9b8786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-16T22:23:20Z",
+      "side": 1,
+      "message": "I\u0027ll update the change to re-use `counter` and not even create the new `lastStoredSequence`. There shouldn\u0027t be any performance implication due to this change.",
+      "parentUuid": "61303b80_0af4c17a",
       "range": {
         "startLine": 13,
         "startChar": 27,

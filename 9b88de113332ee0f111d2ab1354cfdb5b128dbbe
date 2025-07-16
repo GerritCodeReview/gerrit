@@ -22,6 +22,30 @@
       },
       "revId": "9b88de113332ee0f111d2ab1354cfdb5b128dbbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7e366a2_df219a9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-16T10:23:07Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s better! Updated it.",
+      "parentUuid": "5cda7224_74c4a1b9",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "9b88de113332ee0f111d2ab1354cfdb5b128dbbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

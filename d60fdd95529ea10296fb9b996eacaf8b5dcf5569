@@ -69,6 +69,24 @@
       "parentUuid": "40268254_1ca241da",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96975860_7305c3b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-16T07:38:56Z",
+      "side": 1,
+      "message": "yep, you are right, icu4j is not a new dependency.\nIt looks like it was introduced in 2016 with I9625de1d12.",
+      "parentUuid": "c8adb9de_6e41b5ce",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

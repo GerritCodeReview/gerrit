@@ -89,7 +89,7 @@ export class GrChangeTableEditor extends LitElement {
                 type="checkbox"
                 name="number"
                 @click=${this.handleNumberCheckboxClick}
-                ?checked=${this.showNumber}
+                ?checked=${!!this.showNumber}
               />
             </td>
           </tr>

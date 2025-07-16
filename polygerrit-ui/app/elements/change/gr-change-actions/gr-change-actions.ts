@@ -858,7 +858,7 @@ export class GrChangeActions
   private renderUIActionIcon(action: UIActionInfo) {
     if (!action.icon) return nothing;
     return html`
-      <gr-icon icon=${action.icon} ?filled=${action.filled}></gr-icon>
+      <gr-icon icon=${action.icon} ?filled=${!!action.filled}></gr-icon>
     `;
   }
 

@@ -252,7 +252,7 @@ export class GrSubmitRequirements extends LitElement {
     const icon = iconForRequirement(requirement);
     return html`<gr-icon
       class=${icon.icon}
-      ?filled=${icon.filled}
+      ?filled=${!!icon.filled}
       .icon=${icon.icon}
       role="img"
       aria-label=${requirement.status.toLowerCase()}

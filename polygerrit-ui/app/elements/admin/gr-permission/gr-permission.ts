@@ -229,7 +229,7 @@ export class GrPermission extends LitElement {
                 () => html`
                   <md-switch
                     id="exclusiveToggle"
-                    ?selected=${this.permission?.value.exclusive}
+                    ?selected=${!!this.permission?.value.exclusive}
                     ?disabled=${!this.editing}
                     @change=${this.handleValueChange}
                   ></md-switch

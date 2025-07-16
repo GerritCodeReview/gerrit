@@ -49,7 +49,7 @@ export class GrRangeHeader extends LitElement {
       <gr-icon
         class="icon"
         icon=${icon}
-        ?filled=${this.filled}
+        ?filled=${!!this.filled}
         aria-hidden="true"
       ></gr-icon>
       <slot></slot>

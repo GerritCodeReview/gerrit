@@ -133,7 +133,7 @@ export class GrHovercardRun extends base {
             <div class="chip">
               <gr-icon
                 icon=${chipIcon.name}
-                ?filled=${chipIcon.filled}
+                ?filled=${!!chipIcon.filled}
               ></gr-icon>
               <span>${this.run.status}</span>
             </div>
@@ -144,7 +144,7 @@ export class GrHovercardRun extends base {
             <gr-icon
               icon=${icon.name}
               class=${icon.name}
-              ?filled=${icon.filled}
+              ?filled=${!!icon.filled}
             ></gr-icon>
           </div>
           <div class="sectionContent">
@@ -229,7 +229,11 @@ export class GrHovercardRun extends base {
     return html`
       <div>
         <div class="attemptIcon">
-          <gr-icon class=${icon.name} icon=${icon.name} ?filled=${icon.filled}>
+          <gr-icon
+            class=${icon.name}
+            icon=${icon.name}
+            ?filled=${!!icon.filled}
+          >
           </gr-icon>
         </div>
         <div class="attemptNumber">${ordinal(attemptNumber)}</div>

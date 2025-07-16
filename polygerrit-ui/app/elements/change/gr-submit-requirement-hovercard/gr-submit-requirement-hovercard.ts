@@ -165,7 +165,7 @@ export class GrSubmitRequirementHovercard extends base {
     return html`<gr-icon
       class=${icon.icon}
       icon=${icon.icon}
-      ?filled=${icon.filled}
+      ?filled=${!!icon.filled}
       role="img"
       aria-label=${requirement.status.toLowerCase()}
     ></gr-icon>`;

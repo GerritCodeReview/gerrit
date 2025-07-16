@@ -251,7 +251,7 @@ export class GrDropdownList extends LitElement {
     return html`<div class="dropdown">
       <gr-button
         id="trigger"
-        ?disabled=${this.disabled}
+        ?disabled=${!!this.disabled}
         down-arrow
         link
         class="dropdown-trigger"
@@ -310,7 +310,7 @@ export class GrDropdownList extends LitElement {
       <md-menu-item
         ?selected=${this.value === String(item.value)}
         ?active=${this.value === String(item.value)}
-        ?disabled=${item.disabled}
+        ?disabled=${!!item.disabled}
         @click=${() => {
           this.value = String(item.value);
         }}

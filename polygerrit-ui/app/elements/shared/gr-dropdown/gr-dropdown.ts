@@ -313,7 +313,7 @@ export class GrDropdown extends LitElement {
         data-index=${index}
         ?selected=${index === 0}
         ?active=${index === 0}
-        ?disabled=${link.id && this.disabledIds.includes(link.id)}
+        ?disabled=${!!link.id && this.disabledIds.includes(link.id)}
         data-id=${ifDefined(link.id)}
         @click=${this.handleItemTap}
         @keydown=${(e: KeyboardEvent) => {

@@ -147,7 +147,7 @@ export class GrCopyLinks extends LitElement {
         shortcut=${`${this.shortcutPrefix}${shortcut}`}
         id=${`${id}-copy-clipboard`}
         nowrap
-        ?multiline=${multiline}
+        ?multiline=${!!multiline}
         ${index === 0 && ref(this.copyClipboardRef)}
       ></gr-copy-clipboard>
     </div>`;

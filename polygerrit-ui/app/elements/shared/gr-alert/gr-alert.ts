@@ -88,7 +88,7 @@ export class GrAlert extends LitElement {
         <gr-button
           link=""
           class="action"
-          ?hidden=${this._hideActionButton}
+          ?hidden=${!!this._hideActionButton}
           @click=${this._handleActionTap}
           >${actionText}
         </gr-button>

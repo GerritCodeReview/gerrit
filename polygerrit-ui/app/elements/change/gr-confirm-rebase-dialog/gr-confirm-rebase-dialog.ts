@@ -378,7 +378,7 @@ export class GrConfirmRebaseDialog
             >Rebase with committer email
                 <gr-dropdown-list
                     .items=${this.getCommitterEmailDropdownItems()}
-                    .value=${this.selectedEmailForRebase}
+                    .value=${this.selectedEmailForRebase ?? ''}
                     @value-change=${this.handleCommitterEmailDropdownItems}
                 >
                 </gr-dropdown-list>
@@ -544,8 +544,8 @@ export class GrConfirmRebaseDialog
     return this.hasParent && !this.rebaseOnCurrent;
   }
 
-  private displayTipOption() {
-    return this.rebaseOnCurrent || this.hasParent;
+  private displayTipOption(): boolean {
+    return !!this.rebaseOnCurrent || !!this.hasParent;
   }
 
   /**

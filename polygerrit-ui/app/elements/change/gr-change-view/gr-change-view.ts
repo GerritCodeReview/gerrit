@@ -1105,7 +1105,7 @@ export class GrChangeView extends LitElement {
 
   private renderMainContent() {
     return html`
-      <div id="mainContent" class="container" ?hidden=${this.loading}>
+      <div id="mainContent" class="container" ?hidden=${!!this.loading}>
         ${this.renderChangeInfoSection()}
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
         ${this.renderTabHeaders()} ${this.renderTabContent()}
@@ -1420,7 +1420,7 @@ export class GrChangeView extends LitElement {
           .changeUrl=${this.computeChangeUrl()}
           .editMode=${this.editMode}
           .loggedIn=${this.loggedIn}
-          .shownFileCount=${this.shownFileCount}
+          .shownFileCount=${this.shownFileCount ?? 0}
           .filesExpanded=${this.fileList?.filesExpanded}
           @open-diff-prefs=${this.handleOpenDiffPrefs}
           @open-download-dialog=${this.handleOpenDownloadDialog}
@@ -1457,7 +1457,7 @@ export class GrChangeView extends LitElement {
     return html`
       <h3 class="assistive-tech-only">Comments</h3>
       <gr-thread-list
-        .threads=${this.commentThreads}
+        .threads=${this.commentThreads ?? []}
         .commentTabState=${this.tabState}
         .unresolvedOnly=${this.unresolvedOnly}
         .scrollCommentId=${this.scrollCommentId}

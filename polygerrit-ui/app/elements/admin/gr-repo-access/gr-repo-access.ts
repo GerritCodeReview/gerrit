@@ -202,7 +202,7 @@ export class GrRepoAccess extends LitElement {
             >
             <gr-autocomplete
               id="editInheritFromInput"
-              .text=${this.inheritFromFilter}
+              .text=${this.inheritFromFilter ?? ''}
               .query=${this.query}
               @commit=${(e: AutocompleteCommitEvent) => {
                 this.handleUpdateInheritFrom(e);

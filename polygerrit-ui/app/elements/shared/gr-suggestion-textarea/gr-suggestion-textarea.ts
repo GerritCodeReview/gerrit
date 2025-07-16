@@ -298,7 +298,7 @@ export class GrSuggestionTextarea extends LitElement {
       putCursorAtEndOnFocus
       class=${classMap({noBorder: this.hideBorder})}
       .placeholder=${this.placeholder}
-      ?disabled=${this.disabled}
+      ?disabled=${!!this.disabled}
       .value=${this.text}
       .hint=${this.autocompleteHint}
       @input=${(e: InputEvent) => {

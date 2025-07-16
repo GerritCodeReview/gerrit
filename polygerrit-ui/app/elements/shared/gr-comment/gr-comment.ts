@@ -866,7 +866,7 @@ export class GrComment extends LitElement {
           <input
             type="checkbox"
             class="show-hide"
-            ?checked=${this.collapsed}
+            ?checked=${!!this.collapsed}
             @change=${() => (this.collapsed = !this.collapsed)}
           />
           <gr-icon icon=${icon} id="icon"></gr-icon>

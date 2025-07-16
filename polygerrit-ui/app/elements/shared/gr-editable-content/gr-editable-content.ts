@@ -402,7 +402,7 @@ export class GrEditableContent extends LitElement {
               () => html` <div class="email-dropdown" id="editMessageEmailDropdown">Committer Email
             <gr-dropdown-list
                 .items=${this.getEmailDropdownItems()}
-                .value=${this.committerEmail}
+                .value=${this.committerEmail ?? ''}
                 @value-change=${this.setCommitterEmail}
             >
             </gr-dropdown-list>

@@ -100,7 +100,7 @@ export class GrDiffPreferences extends LitElement {
             <input
               id="lineWrappingInput"
               type="checkbox"
-              ?checked=${this.diffPrefs?.line_wrapping}
+              ?checked=${!!this.diffPrefs?.line_wrapping}
               @change=${this.handleLineWrappingTap}
             />
           </span>
@@ -147,7 +147,7 @@ export class GrDiffPreferences extends LitElement {
             <input
               id="showTabsInput"
               type="checkbox"
-              ?checked=${this.diffPrefs?.show_tabs}
+              ?checked=${!!this.diffPrefs?.show_tabs}
               @change=${this.handleShowTabsTap}
             />
           </span>
@@ -160,7 +160,7 @@ export class GrDiffPreferences extends LitElement {
             <input
               id="showTrailingWhitespaceInput"
               type="checkbox"
-              ?checked=${this.diffPrefs?.show_whitespace_errors}
+              ?checked=${!!this.diffPrefs?.show_whitespace_errors}
               @change=${this.handleShowTrailingWhitespaceTap}
             />
           </span>
@@ -173,7 +173,7 @@ export class GrDiffPreferences extends LitElement {
             <input
               id="syntaxHighlightInput"
               type="checkbox"
-              ?checked=${this.diffPrefs?.syntax_highlighting}
+              ?checked=${!!this.diffPrefs?.syntax_highlighting}
               @change=${this.handleSyntaxHighlightTap}
             />
           </span>

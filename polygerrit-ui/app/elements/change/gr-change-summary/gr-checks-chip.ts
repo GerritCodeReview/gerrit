@@ -190,7 +190,7 @@ export class GrChecksChip extends LitElement {
   private renderChip(clazz: string, ariaLabel: string, icon: ChecksIcon) {
     return html`
       <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
-        <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
+        <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
         ${this.renderLinks()}
         <div class="text">${this.text}</div>
       </div>

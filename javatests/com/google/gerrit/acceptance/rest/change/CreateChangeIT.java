@@ -816,6 +816,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String targetBranch = "targetBranch";
     String targetSubject = "target change";
     String targetContent = "target content";
+
     ImmutableMap<String, Result> results =
         changeInTwoBranches(
             sourceBranch,
@@ -826,6 +827,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
             targetSubject,
             fileName,
             targetContent);
+    RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in =
         newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
     ChangeInfo change = assertCreateSucceedsWithConflicts(in);
@@ -857,7 +859,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 + ")\n"
                 + targetContent
                 + "\n"
-                + (useDiff3 ? "||||||| BASE\n" : "")
+                + (useDiff3
+                    ? String.format(
+                        "||||||| BASE          (%s %s)\n",
+                        baseCommit.getName(), baseCommit.getShortMessage())
+                    : "")
                 + "=======\n"
                 + sourceContent
                 + "\n"
@@ -978,7 +984,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                     .getName(),
                 targetSubject,
                 targetContent,
-                (useDiff3 ? "||||||| BASE\n" : ""),
+                (useDiff3 ? "||||||| BASE          (no common ancestor)\n" : ""),
                 sourceContent,
                 projectOperations
                     .project(projectWithoutInitialCommit)
@@ -1202,7 +1208,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 pushConflictingCommitInTargetResult.getCommit().name(),
                 targetSubject,
                 targetContent,
-                (useDiff3 ? "||||||| BASE\n" : ""),
+                (useDiff3 ? "||||||| BASE          (computed base)\n" : ""),
                 sourceContent,
                 pushConflictingCommitInSourceResult.getCommit().name(),
                 sourceSubject));
@@ -1359,7 +1365,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 pushConflictingCommitInTargetResult.getCommit().name(),
                 targetSubject,
                 baseContentTarget,
-                (useDiff3 ? "||||||| BASE\n" + computedBaseContent : ""),
+                (useDiff3 ? "||||||| BASE          (computed base)\n" + computedBaseContent : ""),
                 baseContentSource,
                 pushConflictingCommitInSourceResult.getCommit().name(),
                 sourceSubject));
@@ -1383,7 +1389,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 pushConflictingCommitInTargetResult.getCommit().name(),
                 targetSubject,
                 targetContent,
-                (useDiff3 ? "||||||| BASE\n" : ""),
+                (useDiff3 ? "||||||| BASE          (computed base)\n" : ""),
                 sourceContent,
                 pushConflictingCommitInSourceResult.getCommit().name(),
                 sourceSubject));

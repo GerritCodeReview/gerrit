@@ -1217,9 +1217,6 @@ export class GrComment extends LitElement {
   }
 
   private getNumberOfSuggestions() {
-    if (!this.generateSuggestion) {
-      return '';
-    }
     if (this.generatedFixSuggestion) {
       return '(1)';
     } else {
@@ -1231,7 +1228,6 @@ export class GrComment extends LitElement {
     if (
       !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
       !this.showGeneratedSuggestion() ||
-      !this.generateSuggestion ||
       this.messageText.length === 0
     )
       return;

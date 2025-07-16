@@ -22,6 +22,30 @@
       },
       "revId": "e992005cdbf9e65079e91df1ca0c3b6aa88c75b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3575dcb7_4a1a72a4",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-07-16T20:31:45Z",
+      "side": 1,
+      "message": "I think it shouldn\u0027t be closed until the task has finished running ? So that It could still be able to access the fields ?",
+      "parentUuid": "0ed82846_5728fb2b",
+      "range": {
+        "startLine": 479,
+        "startChar": 10,
+        "endLine": 479,
+        "endChar": 69
+      },
+      "revId": "e992005cdbf9e65079e91df1ca0c3b6aa88c75b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

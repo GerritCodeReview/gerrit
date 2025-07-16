@@ -171,7 +171,10 @@ export class GrCopyLinks extends LitElement {
     this.dropdown?.close();
   }
 
-  openDropdown() {
+  openDropdown(button?: HTMLElement) {
+    if (button) {
+      this.dropdown!.anchorElement = button;
+    }
     this.dropdown?.show();
     this.awaitOpen(() => {
       if (!this.copyClipboardRef?.value) return;

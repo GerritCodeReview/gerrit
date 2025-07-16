@@ -520,7 +520,13 @@ export class GrChangeView extends LitElement {
     );
     this.shortcutsController.addAbstract(
       Shortcut.OPEN_COPY_LINKS_DROPDOWN,
-      () => this.copyLinksDropdown?.openDropdown()
+      () => {
+        const button = this.shadowRoot?.querySelector<HTMLElement>(
+          '#copyLinkDialogButton'
+        );
+        if (!button) return;
+        this.copyLinksDropdown?.openDropdown(button);
+      }
     );
   }
 

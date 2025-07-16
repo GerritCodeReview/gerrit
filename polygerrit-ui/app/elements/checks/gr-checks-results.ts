@@ -606,7 +606,7 @@ export class GrResultRow extends LitElement {
       >
         <gr-icon
           icon=${icon.name}
-          ?filled=${icon.filled}
+          ?filled=${!!icon.filled}
           aria-label="external link to details"
           class="link"
         ></gr-icon>
@@ -923,7 +923,11 @@ export class GrResultExpanded extends LitElement {
       target=${ifDefined(target)}
       rel="noopener noreferrer"
     >
-      <gr-icon icon=${icon.name} class="link" ?filled=${icon.filled}></gr-icon>
+      <gr-icon
+        icon=${icon.name}
+        class="link"
+        ?filled=${!!icon.filled}
+      ></gr-icon>
       <span>${text}</span>
     </a>`;
   }
@@ -1410,7 +1414,7 @@ export class GrChecksResults extends LitElement {
           icon=${icon.name}
           aria-label=${tooltipText}
           class="link"
-          ?filled=${icon.filled}
+          ?filled=${!!icon.filled}
         ></gr-icon>
       </a>
     </gr-tooltip-content>`;
@@ -1616,7 +1620,7 @@ export class GrChecksResults extends LitElement {
               <div class="statusIconWrapper">
                 <gr-icon
                   icon=${icon.name}
-                  ?filled=${icon.filled}
+                  ?filled=${!!icon.filled}
                   class="statusIcon ${catString}"
                 ></gr-icon>
                 <span class="title">${catString}</span>

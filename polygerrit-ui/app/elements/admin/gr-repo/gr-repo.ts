@@ -1139,9 +1139,9 @@ export class GrRepo extends LitElement {
     return schemeInfo?.description;
   }
 
-  private computeCommands(): Command[] | undefined {
+  private computeCommands(): Command[] {
     const schemeInfo = this.getSchemeInfo();
-    if (!this.repo || !schemeInfo) return undefined;
+    if (!this.repo || !schemeInfo) return [];
 
     const commandObj = schemeInfo.clone_commands ?? {};
     const commands = [];

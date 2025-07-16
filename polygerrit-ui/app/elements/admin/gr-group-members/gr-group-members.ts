@@ -191,8 +191,8 @@ export class GrGroupMembers extends LitElement {
               <span class="value">
                 <gr-autocomplete
                   id="groupMemberSearchInput"
-                  .text=${this.groupMemberSearchName}
-                  .value=${this.groupMemberSearchId}
+                  .text=${this.groupMemberSearchName ?? ''}
+                  .value=${`${this.groupMemberSearchId ?? ''}`}
                   .query=${this.queryMembers}
                   placeholder="Name Or Email"
                   @text-changed=${this.handleGroupMemberTextChanged}
@@ -227,8 +227,8 @@ export class GrGroupMembers extends LitElement {
               <span class="value">
                 <gr-autocomplete
                   id="includedGroupSearchInput"
-                  .text=${this.includedGroupSearchName}
-                  .value=${this.includedGroupSearchId}
+                  .text=${this.includedGroupSearchName ?? ''}
+                  .value=${this.includedGroupSearchId ?? ''}
                   .query=${this.queryIncludedGroup}
                   placeholder="Group Name"
                   @text-changed=${this.handleIncludedGroupTextChanged}

@@ -297,7 +297,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="relativeDateInChangeTable"
                 type="checkbox"
-                ?checked=${this.prefs?.relative_date_in_change_table}
+                ?checked=${!!this.prefs?.relative_date_in_change_table}
                 @change=${() => {
                   this.prefs!.relative_date_in_change_table =
                     this.relativeDateInChangeTable.checked;
@@ -332,7 +332,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="showSizeBarsInFileList"
                 type="checkbox"
-                ?checked=${this.prefs?.size_bar_in_change_table}
+                ?checked=${!!this.prefs?.size_bar_in_change_table}
                 @change=${() => {
                   this.prefs!.size_bar_in_change_table =
                     this.showSizeBarsInFileList.checked;
@@ -349,7 +349,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="publishCommentsOnPush"
                 type="checkbox"
-                ?checked=${this.prefs?.publish_comments_on_push}
+                ?checked=${!!this.prefs?.publish_comments_on_push}
                 @change=${() => {
                   this.prefs!.publish_comments_on_push =
                     this.publishCommentsOnPush.checked;
@@ -366,7 +366,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="workInProgressByDefault"
                 type="checkbox"
-                ?checked=${this.prefs?.work_in_progress_by_default}
+                ?checked=${!!this.prefs?.work_in_progress_by_default}
                 @change=${() => {
                   this.prefs!.work_in_progress_by_default =
                     this.workInProgressByDefault.checked;
@@ -383,7 +383,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="disableKeyboardShortcuts"
                 type="checkbox"
-                ?checked=${this.prefs?.disable_keyboard_shortcuts}
+                ?checked=${!!this.prefs?.disable_keyboard_shortcuts}
                 @change=${() => {
                   this.prefs!.disable_keyboard_shortcuts =
                     this.disableKeyboardShortcuts.checked;
@@ -400,7 +400,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="disableTokenHighlighting"
                 type="checkbox"
-                ?checked=${this.prefs?.disable_token_highlighting}
+                ?checked=${!!this.prefs?.disable_token_highlighting}
                 @change=${() => {
                   this.prefs!.disable_token_highlighting =
                     this.disableTokenHighlighting.checked;
@@ -417,7 +417,7 @@ export class GrPreferences extends LitElement {
               <input
                 id="insertSignedOff"
                 type="checkbox"
-                ?checked=${this.prefs?.signed_off_by}
+                ?checked=${!!this.prefs?.signed_off_by}
                 @change=${() => {
                   this.prefs!.signed_off_by = this.insertSignedOff.checked;
                   this.requestUpdate();
@@ -468,7 +468,7 @@ export class GrPreferences extends LitElement {
         <input
           id="allowBrowserNotifications"
           type="checkbox"
-          ?checked=${this.prefs?.allow_browser_notifications}
+          ?checked=${!!this.prefs?.allow_browser_notifications}
           @change=${() => {
             this.prefs!.allow_browser_notifications =
               this.allowBrowserNotifications!.checked;
@@ -509,7 +509,7 @@ export class GrPreferences extends LitElement {
           <input
             id="allowSuggestCodeWhileCommenting"
             type="checkbox"
-            ?checked=${this.prefs?.allow_suggest_code_while_commenting}
+            ?checked=${!!this.prefs?.allow_suggest_code_while_commenting}
             @change=${() => {
               this.prefs!.allow_suggest_code_while_commenting =
                 this.allowSuggestCodeWhileCommenting!.checked;
@@ -540,7 +540,7 @@ export class GrPreferences extends LitElement {
           <input
             id="allowAiCommentAutocompletion"
             type="checkbox"
-            ?checked=${this.prefs?.allow_autocompleting_comments}
+            ?checked=${!!this.prefs?.allow_autocompleting_comments}
             @change=${() => {
               this.prefs!.allow_autocompleting_comments =
                 this.allowAiCommentAutocompletion!.checked;

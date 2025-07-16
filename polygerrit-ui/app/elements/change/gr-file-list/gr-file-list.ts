@@ -1405,7 +1405,7 @@ export class GrFileList extends LitElement {
           class="removed"
           tabindex="0"
           aria-label=${`${file.lines_deleted} removed`}
-          ?hidden=${file.binary}
+          ?hidden=${!!file.binary}
         >
           -${file.lines_deleted}
         </span>
@@ -1413,7 +1413,7 @@ export class GrFileList extends LitElement {
           class="added"
           tabindex="0"
           aria-label=${`${file.lines_inserted} added`}
-          ?hidden=${file.binary}
+          ?hidden=${!!file.binary}
         >
           +${file.lines_inserted}
         </span>
@@ -1751,7 +1751,10 @@ export class GrFileList extends LitElement {
       icons =>
         html`
           <div class="checkChip ${icons[0].name}">
-            <gr-icon icon=${icons[0].name} ?filled=${icons[0].filled}></gr-icon>
+            <gr-icon
+              icon=${icons[0].name}
+              ?filled=${!!icons[0].filled}
+            ></gr-icon>
             <div>${icons.length}</div>
           </div>
         `

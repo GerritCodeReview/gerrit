@@ -22,6 +22,30 @@
       },
       "revId": "6c23744b8e1abf1e5e34595089383012e84a6fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "660d124e_2f7bb1fb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-16T08:36:28Z",
+      "side": 1,
+      "message": "Yes, makes sense. This should improve the readability quite a bit. Thanks for suggesting this.",
+      "parentUuid": "7f8c9e32_5d5d5de9",
+      "range": {
+        "startLine": 966,
+        "startChar": 0,
+        "endLine": 987,
+        "endChar": 23
+      },
+      "revId": "6c23744b8e1abf1e5e34595089383012e84a6fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

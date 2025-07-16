@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df62b08b_4ee88b72",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-07-16T15:54:17Z",
+      "side": 1,
+      "message": "AFAIU if `projectCache.get` fails then properly created repository will neither be flagged as created nor removed leading to failure of the process anyway as the following retry will fail as directory etc. already exists... Is this a thing or rather an urban legend? Perhaps it should be retried independently?\nDo we have actually the root cause of the failures in repo creation? Perhaps either `createRepository` or `initProject` functions could be improved to better handle cases in question? The [429117838](https://issues.gerritcodereview.com/issues/429117838) issue could be a bit more specific in this area... WDYT?",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 1
+      },
+      "revId": "6584af8545e7f08d5a508c5e2312a4b75521bfb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

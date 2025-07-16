@@ -123,6 +123,24 @@
       "parentUuid": "96975860_7305c3b2",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "406c3284_bb1ad26f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-16T07:55:12Z",
+      "side": 1,
+      "message": "I don’t seem to have permission to create a “Hosting \u003e googlesource” Task in the issue tracker.  \nCould you advise how external contributors are expected to request the Library-Compliance review, or could a Googler file the task on my behalf?\n\nSince the change will need a Googler +1 anyway, would it make sense to bump ICU4J to the latest version (77.1) as part of a follow-up CL, or even in this one, so we are fully up to date?",
+      "parentUuid": "8b3fe88f_25adba4b",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

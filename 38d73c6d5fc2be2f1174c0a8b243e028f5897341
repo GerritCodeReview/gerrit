@@ -16,6 +16,24 @@
       "message": "Is \"loading fix preview\" a problem for the test? Is it consistent or is there potential flakiness depending on whether or not it finished loading (or rather fail, because it\u0027s a test)",
       "revId": "38d73c6d5fc2be2f1174c0a8b243e028f5897341",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35115404_c6452930",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-diff-check-result-expanded.png",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-16T09:18:04Z",
+      "side": 1,
+      "message": "Good question. Loading is expected in this case, because to load fix you need to call api for show fix and that\u0027s not mocked up. I would need to create diff like diff preview like in https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-user-suggestion-fix/gr-user-suggestion-fix_screenshot_test.ts?q\u003dpolygerrit-ui%2Fapp%2Felements%2Fshared%2Fgr-user-suggestion-fix%2Fgr-user-suggestion-fix_screenshot_test.ts\u0026ss\u003dgerrit\n\nIt will not be flaky. It will always be loading.",
+      "parentUuid": "ae8fa477_4f6b1693",
+      "revId": "38d73c6d5fc2be2f1174c0a8b243e028f5897341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

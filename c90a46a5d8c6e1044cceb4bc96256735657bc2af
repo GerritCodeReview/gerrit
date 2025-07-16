@@ -105,6 +105,24 @@
       "parentUuid": "a8ce1052_b0a33936",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259cbd9c_3c0c679e",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2025-07-16T15:20:58Z",
+      "side": 1,
+      "message": "Moving this check doesn\u0027t feel right to me for the same reasons mentioned above.",
+      "parentUuid": "86ef0351_13d792c1",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

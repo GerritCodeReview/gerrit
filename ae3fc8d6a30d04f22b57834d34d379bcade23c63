@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "957159d9_5be9ef7b",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2025-07-16T15:20:58Z",
+      "side": 0,
+      "message": "What is this expected to return? Could this be the risky path, should we eliminate this?",
+      "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

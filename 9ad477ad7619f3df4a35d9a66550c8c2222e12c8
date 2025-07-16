@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "113771bd_9e686ab6",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-16T15:48:44Z",
+      "side": 1,
+      "message": "it\u0027s used in 2 places as gr-account-label which accepts only account info. I should be careful and go deeper here. I will resolve it in different change and restoring this back.",
+      "parentUuid": "d7f01429_0f4e600a",
+      "range": {
+        "startLine": 757,
+        "startChar": 39,
+        "endLine": 757,
+        "endChar": 60
+      },
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b378176c_50e8a1e2",
@@ -158,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5e820bb_978fc091",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-16T15:48:44Z",
+      "side": 1,
+      "message": "Yes, I am rolling this back. It was my first attempt to fix issue and I left it there.",
+      "parentUuid": "b8a7c00f_8c8bb2a9",
+      "range": {
+        "startLine": 1283,
+        "startChar": 13,
+        "endLine": 1283,
+        "endChar": 35
+      },
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9461685_94816804",
@@ -195,6 +243,30 @@
           ]
         }
       ],
+      "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb3d5670_32020222",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-16T15:48:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9461685_94816804",
+      "range": {
+        "startLine": 345,
+        "startChar": 19,
+        "endLine": 345,
+        "endChar": 36
+      },
       "revId": "9ad477ad7619f3df4a35d9a66550c8c2222e12c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -754,7 +754,7 @@ export declare interface GpgKeyInfo {
  * a commit.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#git-person-info
  */
-export declare interface GitPersonInfo {
+export declare interface GitPersonInfo extends AccountInfo {
   name: string;
   email: EmailAddress;
   date: Timestamp;

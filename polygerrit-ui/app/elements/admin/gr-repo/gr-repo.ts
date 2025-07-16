@@ -180,7 +180,7 @@ export class GrRepo extends LitElement {
     return html`
       <div class="main gr-form-styles read-only">
         <div class="info">
-          <h1 id="Title" class="heading-1">${this.repo}</h1>
+          <h1 id="Title" class="heading-1">${this.repo}
           <hr />
           <div>
             <a href=${this.weblinks?.[0]?.url}

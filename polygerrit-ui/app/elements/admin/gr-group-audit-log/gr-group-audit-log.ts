@@ -6,9 +6,9 @@
 import '../../shared/gr-account-label/gr-account-label';
 import {
   AccountInfo,
-  EncodedGroupId,
   GroupAuditEventInfo,
   GroupAuditGroupEventInfo,
+  GroupId,
   GroupInfo,
   isGroupAuditGroupEventInfo,
 } from '../../../types/common';
@@ -30,7 +30,7 @@ declare global {
 @customElement('gr-group-audit-log')
 export class GrGroupAuditLog extends LitElement {
   @property({type: String})
-  groupId?: EncodedGroupId;
+  groupId?: GroupId;
 
   @state() private auditLog?: GroupAuditEventInfo[];
 

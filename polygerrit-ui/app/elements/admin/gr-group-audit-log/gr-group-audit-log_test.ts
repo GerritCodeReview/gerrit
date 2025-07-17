@@ -12,8 +12,8 @@ import {
 } from '../../../test/test-utils';
 import {GrGroupAuditLog} from './gr-group-audit-log';
 import {
-  EncodedGroupId,
   GroupAuditEventType,
+  GroupId,
   GroupInfo,
   GroupName,
 } from '../../../types/common';
@@ -111,7 +111,7 @@ suite('gr-group-audit-log tests', () => {
 
   suite('404', () => {
     test('fires page-error', async () => {
-      element.groupId = '1' as EncodedGroupId;
+      element.groupId = '1' as GroupId;
       await element.updateComplete;
 
       const response = {...new Response(), status: 404};

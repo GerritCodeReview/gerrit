@@ -250,9 +250,6 @@ export type TagName = BrandType<string, '_tagName'>;
 
 export type LabelName = BrandType<string, '_labelName'>;
 
-// The Encoded UUID of the group
-export type EncodedGroupId = BrandType<string, '_encodedGroupId'>;
-
 export type UserId = AccountId | GroupId | EmailAddress;
 
 export type DiffPageSidebar = 'NONE' | `plugin-${string}`;

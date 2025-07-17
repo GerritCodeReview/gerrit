@@ -944,7 +944,7 @@ export class GrReplyDialog extends LitElement {
           // See `addReplyTextChangedCallback` in `ChangeReplyPluginApi`.
           fire(e.currentTarget as HTMLElement, 'value-changed', e.detail);
         }}
-        .messagePlaceholder=${this.messagePlaceholder}
+        .messagePlaceholder=${this.messagePlaceholder ?? ''}
         hide-header
         permanent-editing-mode
       ></gr-comment>
@@ -1240,7 +1240,7 @@ export class GrReplyDialog extends LitElement {
             <gr-button
               id="sendButton"
               primary
-              ?disabled=${this.isSendDisabled()}
+              ?disabled=${!!this.isSendDisabled()}
               class="action send"
               @click=${this.sendClickHandler}
               >${this.canBeStarted

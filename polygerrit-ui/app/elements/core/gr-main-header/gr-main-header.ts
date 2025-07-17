@@ -825,7 +825,7 @@ export class GrMainHeader extends LitElement {
     return html`
       <gr-account-dropdown
         .account=${this.account}
-        ?showMobile=${showOnMobile}
+        ?showMobile=${!!showOnMobile}
         @click=${() => {
           if (this.hamburgerClose) {
             this.handleSidebar();

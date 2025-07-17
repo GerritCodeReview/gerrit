@@ -88,7 +88,7 @@ export class GrLinkedChip extends LitElement {
     return html`<div class="container">
       <a href=${this.href}>
         <gr-limited-text
-          .limit=${this.limit}
+          .limit=${this.limit ?? 25}
           .text=${this.text}
         ></gr-limited-text>
       </a>

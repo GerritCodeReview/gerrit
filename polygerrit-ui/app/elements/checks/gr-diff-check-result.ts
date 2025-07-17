@@ -193,7 +193,7 @@ export class GrDiffCheckResult extends LitElement {
       <div class="${cat} container font-normal">
         <div class="header" @click=${this.toggleExpandedClick}>
           <div class="icon">
-            <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
+            <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
           </div>
           <div class="name">
             <gr-hovercard-run .run=${this.result}></gr-hovercard-run>

@@ -266,7 +266,7 @@ export class GrChecksRun extends LitElement {
           <gr-icon
             class=${icon.name}
             icon=${icon.name}
-            ?filled=${icon.filled}
+            ?filled=${!!icon.filled}
           ></gr-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
@@ -330,7 +330,7 @@ export class GrChecksRun extends LitElement {
       <gr-icon
         icon=${icon.name}
         class=${icon.name}
-        ?filled=${icon.filled}
+        ?filled=${!!icon.filled}
       ></gr-icon>
       <label for=${id}>
         ${attemptChoiceLabel(attempt)}${wasNotRun ? ' (not run)' : ''}
@@ -402,7 +402,7 @@ export class GrChecksRun extends LitElement {
       <gr-icon
         icon=${icon.name}
         class=${icon.name}
-        ?filled=${icon.filled}
+        ?filled=${!!icon.filled}
       ></gr-icon>
     `;
   }

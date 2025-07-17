@@ -91,7 +91,7 @@ export class GrTriggerVote extends LitElement {
   }
 
   private renderHovercard() {
-    if (this.disableHovercards) return;
+    if (this.disableHovercards || !this.label) return;
     return html`<gr-trigger-vote-hovercard
       .labelName=${this.label}
       .labelInfo=${this.labelInfo}
@@ -100,7 +100,7 @@ export class GrTriggerVote extends LitElement {
         slot="label-info"
         .change=${this.change}
         .account=${this.account}
-        .mutable=${this.mutable}
+        .mutable=${!!this.mutable}
         .label=${this.label}
         .labelInfo=${this.labelInfo}
         .showAllReviewers=${false}
@@ -127,7 +127,7 @@ export class GrTriggerVote extends LitElement {
         ></gr-vote-chip>`
       );
     } else if (isQuickLabelInfo(labelInfo)) {
-      return [html`<gr-vote-chip .label=${this.labelInfo}></gr-vote-chip>`];
+      return [html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`];
     } else {
       return html``;
     }

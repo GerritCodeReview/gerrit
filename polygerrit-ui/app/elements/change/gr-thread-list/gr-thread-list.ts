@@ -404,7 +404,7 @@ export class GrThreadList extends LitElement {
       <gr-comment-thread
         .thread=${thread}
         show-file-path
-        ?show-ported-comment=${thread.ported}
+        ?show-ported-comment=${!!thread.ported}
         ?show-comment-context=${this.showCommentContext}
         ?show-file-name=${isFirst}
         .messageId=${this.messageId}

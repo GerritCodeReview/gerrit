@@ -663,7 +663,7 @@ export class GrChangeMetadata extends LitElement {
         ${when(
           this.showTopicChip(),
           () => html` <gr-linked-chip
-            .text=${this.change?.topic}
+            .text=${this.change?.topic ?? ''}
             limit="40"
             href=${createSearchUrl({topic: this.change!.topic!})}
             ?removable=${!this.topicReadOnly}

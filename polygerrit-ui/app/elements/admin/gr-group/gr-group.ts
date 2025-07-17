@@ -159,7 +159,7 @@ export class GrGroup extends LitElement {
         <span class="value">
           <gr-autocomplete
             id="groupNameInput"
-            .text=${this.groupConfig?.name}
+            .text=${this.groupConfig?.name ?? ''}
             ?disabled=${this.computeGroupDisabled()}
             @text-changed=${this.handleNameTextChanged}
           ></gr-autocomplete>
@@ -191,8 +191,8 @@ export class GrGroup extends LitElement {
         <span class="value">
           <gr-autocomplete
             id="groupOwnerInput"
-            .text=${this.groupConfig?.owner}
-            .value=${this.groupConfigOwner}
+            .text=${this.groupConfig?.owner ?? ''}
+            .value=${this.groupConfigOwner ?? ''}
             .query=${this.query}
             ?disabled=${this.computeGroupDisabled()}
             @text-changed=${this.handleOwnerTextChanged}

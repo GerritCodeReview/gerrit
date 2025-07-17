@@ -143,7 +143,7 @@ export class GrChangeListColumnRequirement extends LitElement {
       <gr-icon
         class=${icon.icon}
         icon=${icon.icon}
-        ?filled=${icon.filled}
+        ?filled=${!!icon.filled}
       ></gr-icon>
     `;
   }

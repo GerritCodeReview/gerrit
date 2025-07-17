@@ -342,7 +342,7 @@ export class GrEditControls extends LitElement {
             @bind-value-changed=${(e: BindValueChangeEvent) =>
               this.handleBindValueChangedPath(e)}
           >
-            <input ?disabled=${''} />
+            <input disabled />
           </iron-input>
         </div>
       </gr-dialog>

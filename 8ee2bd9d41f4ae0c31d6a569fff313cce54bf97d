@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e3c91a_a5ed0d05",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-17T09:54:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem correct to me. iiuc ? is used for explicit html attributes (ie. things which should be kept in html). But for boolean properties, it\u0027s correct to use \".\"\n\nhttps://lit.dev/docs/v1/lit-html/writing-templates/#bind-to-attributes",
+      "range": {
+        "startLine": 1134,
+        "startChar": 14,
+        "endLine": 1134,
+        "endChar": 15
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d3de4563_c21069c2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1134,
+                "startChar": 0,
+                "endLine": 1135,
+                "endChar": 0
+              },
+              "replacement": "              .canBeStarted\u003d${this.canStartReview()}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8ee2bd9d41f4ae0c31d6a569fff313cce54bf97d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

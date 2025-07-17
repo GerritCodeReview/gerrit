@@ -857,17 +857,67 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createMergeChangeWithConflictsAllowed() throws Exception {
-    testCreateMergeChangeConflictsAllowed(/* useDiff3= */ false);
+  public void createMergeChangeWithConflictsAllowedUsingRecursiveStrategy() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "recursive", /* useDiff3= */ false);
   }
 
   @Test
   @GerritConfig(name = "change.diff3ConflictView", value = "true")
-  public void createMergeChangeWithConflictsAllowedUsingDiff3() throws Exception {
-    testCreateMergeChangeConflictsAllowed(/* useDiff3= */ true);
+  public void createMergeChangeWithConflictsAllowedUsingRecursivetrategyAndDiff3()
+      throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "recursive", /* useDiff3= */ true);
   }
 
-  private void testCreateMergeChangeConflictsAllowed(boolean useDiff3) throws Exception {
+  @Test
+  public void createMergeChangeWithConflictsAllowedUsingResolveStrategy() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "resolve", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergeChangeWithConflictsAllowedUsingResolveStrategyAndDiff3() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "resolve", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void createMergeChangeWithConflictsAllowedUsingSimpleTwoWayInCoreStrategy()
+      throws Exception {
+    testCreateMergeChangeConflictsAllowed(
+        /* strategy= */ "simple-two-way-in-core", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergeChangeWithConflictsAllowedUsingSimpleTwoWayInCoreStrategyAndDiff3()
+      throws Exception {
+    testCreateMergeChangeConflictsAllowed(
+        /* strategy= */ "simple-two-way-in-core", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void createMergeChangeWithConflictsAllowedUsingOursStrategy() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "ours", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergeChangeWithConflictsAllowedUsingOursStrategyAndDiff3() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "ours", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void createMergeChangeWithConflictsAllowedUsingTheirsStrategy() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "theirs", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void createMergeChangeWithConflictsAllowedUsingTheirsStrategyAndDiff3() throws Exception {
+    testCreateMergeChangeConflictsAllowed(/* strategy= */ "theirs", /* useDiff3= */ true);
+  }
+
+  private void testCreateMergeChangeConflictsAllowed(String strategy, boolean useDiff3)
+      throws Exception {
     String fileName = "shared.txt";
     String sourceBranch = "sourceBranch";
     String sourceSubject = "source change";
@@ -888,7 +938,43 @@ public class CreateChangeIT extends AbstractDaemonTest {
             targetContent);
     RevCommit baseCommit = results.get("master").getCommit();
     ChangeInput in =
-        newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
+        newMergeChangeInput(targetBranch, sourceBranch, strategy, /* allowConflicts= */ true);
+
+    if ("ours".equals(strategy) || "theirs".equals(strategy)) {
+      ChangeInfo change = assertCreateSucceeds(in);
+
+      // Verify the conflicts information
+      RevisionInfo currentRevision =
+          gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+      assertThat(currentRevision.commit.parents.get(0).commit)
+          .isEqualTo(results.get(targetBranch).getCommit().name());
+      assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.ours)
+          .isEqualTo(results.get(targetBranch).getCommit().name());
+      assertThat(currentRevision.conflicts.theirs)
+          .isEqualTo(results.get(sourceBranch).getCommit().name());
+      assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+
+      // Verify that the file content in the created change is correct.
+      // We expect that it has conflict markers to indicate the conflict.
+      BinaryResult bin =
+          gApi.changes().id(project.get(), change._number).current().file(fileName).content();
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      bin.writeTo(os);
+      String fileContent = new String(os.toByteArray(), UTF_8);
+      assertThat(fileContent).isEqualTo("ours".equals(strategy) ? targetContent : sourceContent);
+
+      return;
+    }
+
+    if ("simple-two-way-in-core".equals(strategy)) {
+      assertCreateFails(
+          in,
+          BadRequestException.class,
+          "merge with conflicts is not supported with merge strategy: simple-two-way-in-core");
+      return;
+    }
+
     ChangeInfo change = assertCreateSucceedsWithConflicts(in);
 
     // Verify the conflicts information
@@ -905,32 +991,32 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     // Verify that the file content in the created change is correct.
     // We expect that it has conflict markers to indicate the conflict.
-    BinaryResult bin = gApi.changes().id(change._number).current().file(fileName).content();
+    BinaryResult bin =
+        gApi.changes().id(project.get(), change._number).current().file(fileName).content();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
     assertThat(fileContent)
         .isEqualTo(
-            "<<<<<<< TARGET BRANCH ("
-                + projectOperations.project(project).getHead(targetBranch).getName()
-                + " "
-                + targetSubject
-                + ")\n"
-                + targetContent
-                + "\n"
-                + (useDiff3
+            String.format(
+                """
+                <<<<<<< TARGET BRANCH (%s %s)
+                %s
+                %s=======
+                %s
+                >>>>>>> SOURCE BRANCH (%s %s)
+                """,
+                projectOperations.project(project).getHead(targetBranch).getName(),
+                targetSubject,
+                targetContent,
+                (useDiff3
                     ? String.format(
                         "||||||| BASE          (%s %s)\n",
                         baseCommit.getName(), baseCommit.getShortMessage())
-                    : "")
-                + "=======\n"
-                + sourceContent
-                + "\n"
-                + ">>>>>>> SOURCE BRANCH ("
-                + projectOperations.project(project).getHead(sourceBranch).getName()
-                + " "
-                + sourceSubject
-                + ")\n");
+                    : ""),
+                sourceContent,
+                projectOperations.project(project).getHead(sourceBranch).getName(),
+                sourceSubject));
 
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
@@ -1467,29 +1553,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 * %s
                 """,
                 baseFile, fileName));
-  }
-
-  @Test
-  public void createMergeChange_ConflictAllowedNotSupportedByMergeStrategy() throws Exception {
-    String fileName = "shared.txt";
-    String sourceBranch = "sourceBranch";
-    String targetBranch = "targetBranch";
-    changeInTwoBranches(
-        sourceBranch,
-        "source change",
-        fileName,
-        "source content",
-        targetBranch,
-        "target change",
-        fileName,
-        "target content");
-    String mergeStrategy = "simple-two-way-in-core";
-    ChangeInput in =
-        newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy, /* allowConflicts= */ true);
-    assertCreateFails(
-        in,
-        BadRequestException.class,
-        "merge with conflicts is not supported with merge strategy: " + mergeStrategy);
   }
 
   @Test

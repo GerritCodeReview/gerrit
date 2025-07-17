@@ -15,7 +15,7 @@ import '../gr-diff-builder/gr-diff-builder-image';
 import '../gr-diff-builder/gr-diff-section';
 import '../gr-diff-builder/gr-diff-row';
 import {FULL_CONTEXT, FullContext, isResponsive} from './gr-diff-utils';
-import {ImageInfo} from '../../../types/common';
+import {Base64ImageFile} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
   createDefaultDiffPrefs,
@@ -53,9 +53,9 @@ export class GrDiffElement extends LitElement {
 
   @state() diff?: DiffInfo;
 
-  @state() baseImage?: ImageInfo;
+  @state() baseImage?: Base64ImageFile;
 
-  @state() revisionImage?: ImageInfo;
+  @state() revisionImage?: Base64ImageFile;
 
   @state() diffPrefs: DiffPreferencesInfo = createDefaultDiffPrefs();
 

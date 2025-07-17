@@ -41,14 +41,14 @@ import {
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
 import {countLines, isImageDiff} from '../../../utils/diff-util';
-import {BlameInfo, ImageInfo} from '../../../types/common';
+import {Base64ImageFile, BlameInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {CommentRange} from '../../../api/rest-api';
 
 export interface DiffState {
   diff?: DiffInfo;
-  baseImage?: ImageInfo;
-  revisionImage?: ImageInfo;
+  baseImage?: Base64ImageFile;
+  revisionImage?: Base64ImageFile;
   path?: string;
   renderPrefs: RenderPreferences;
   diffPrefs: DiffPreferencesInfo;
@@ -101,12 +101,12 @@ export class DiffModel extends Model<DiffState> {
     countLines(diff, Side.LEFT)
   );
 
-  readonly baseImage$: Observable<ImageInfo | undefined> = select(
+  readonly baseImage$: Observable<Base64ImageFile | undefined> = select(
     this.state$,
     diffState => diffState.baseImage
   );
 
-  readonly revisionImage$: Observable<ImageInfo | undefined> = select(
+  readonly revisionImage$: Observable<Base64ImageFile | undefined> = select(
     this.state$,
     diffState => diffState.revisionImage
   );

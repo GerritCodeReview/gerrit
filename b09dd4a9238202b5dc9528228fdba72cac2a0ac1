@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e5d63cc_c3f91fe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-17T14:34:44Z",
+      "side": 1,
+      "message": "I used the \"help me review\" prompt fed into copilot and tweaked it a bit to get this commit message:\n\n```suggestion\nFix static asset documentation to reflect 15m expiry\n\nUpdate the config-themes documentation to accurately describe the\ncaching behavior for assets under `/static/`. The previous version\nincorrectly stated that certain file types (e.g., `.cache.html`,\n`.cache.png`) were cached for one year, while others had a 5-minute\nexpiration.\n\nIn reality, all assets under `/static/` are served with a 15-minute\nexpiration, regardless of filename. This behavior has been in place\nsince commit 09b54dc2e8, which standardized caching behavior after\nremoval of ETag injection logic in earlier changes.\n\nAdditional cleanup includes removing outdated references to obsolete\nfile types such as `.swf`, which are no longer relevant.\n\nRelease-Notes: Fixed docs to reflect assets under /static/ are cached at most 15 minutes\nChange-Id: I508d811db812fcf8e77aa42d60e4b0c82afeaa93\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 52
+      },
+      "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882048f3_31d4d0df",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-17T14:34:44Z",
+      "side": 1,
+      "message": "```suggestion\nAssets under `\u0027$site_path\u0027/static` are served with a 15 minute expiration,\n```",
+      "range": {
+        "startLine": 65,
+        "startChar": 53,
+        "endLine": 65,
+        "endChar": 69
+      },
+      "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6039cd_89af64fa",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-07-17T14:34:44Z",
+      "side": 1,
+      "message": "```suggestion\npermitting some (limited) caching.  It may take up to 15 minutes after making a\n```",
+      "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

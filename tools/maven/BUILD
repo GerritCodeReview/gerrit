@@ -1,9 +1,9 @@
 load("//:version.bzl", "GERRIT_VERSION")
 load("//tools/maven:package.bzl", "maven_package")
 
-MAVEN_REPOSITORY = "sonatype-nexus-staging"
+MAVEN_REPOSITORY = "OSSRH-staging"
 
-URL = "https://oss.sonatype.org/content/repositories/snapshots" if GERRIT_VERSION.endswith("-SNAPSHOT") else "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+URL = "https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots" if GERRIT_VERSION.endswith("-SNAPSHOT") else "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2"
 
 maven_package(
     src = {

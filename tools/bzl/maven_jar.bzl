@@ -8,7 +8,7 @@ MAVEN_LOCAL = "MAVEN_LOCAL:"
 
 ECLIPSE = "ECLIPSE:"
 
-MAVEN_SNAPSHOT = "https://oss.sonatype.org/content/repositories/snapshots"
+MAVEN_SNAPSHOT = "https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots"
 
 SNAPSHOT = "-SNAPSHOT-"
 

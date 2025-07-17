@@ -231,7 +231,15 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class,
             () -> gApi.changes().id(changeId).createMergePatchSet(in));
-    assertThat(thrown).hasMessageThat().isEqualTo("merge conflict(s):\n" + fileName);
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                """
+                merge conflict(s):
+                * %s
+                """,
+                fileName));
   }
 
   @Test

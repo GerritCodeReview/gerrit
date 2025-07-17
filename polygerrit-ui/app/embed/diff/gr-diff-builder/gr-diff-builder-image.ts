@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ImageInfo} from '../../../types/common';
+import {Base64ImageFile} from '../../../types/common';
 import {Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
@@ -14,9 +14,9 @@ import {property, query, state} from 'lit/decorators.js';
 const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
 class GrDiffImageNew extends LitElement {
-  @property() baseImage?: ImageInfo;
+  @property() baseImage?: Base64ImageFile;
 
-  @property() revisionImage?: ImageInfo;
+  @property() revisionImage?: Base64ImageFile;
 
   @property() automaticBlink = false;
 
@@ -53,9 +53,9 @@ class GrDiffImageNew extends LitElement {
 }
 
 class GrDiffImageOld extends LitElement {
-  @property() baseImage?: ImageInfo;
+  @property() baseImage?: Base64ImageFile;
 
-  @property() revisionImage?: ImageInfo;
+  @property() revisionImage?: Base64ImageFile;
 
   @property() columnCount = 0;
 
@@ -198,8 +198,8 @@ class GrDiffImageOld extends LitElement {
   }
 }
 
-function imageSrc(image?: ImageInfo): string {
-  return image && IMAGE_MIME_PATTERN.test(image.type)
+function imageSrc(image?: Base64ImageFile): string {
+  return image?.type && IMAGE_MIME_PATTERN.test(image.type)
     ? `data:${image.type};base64,${image.body}`
     : '';
 }

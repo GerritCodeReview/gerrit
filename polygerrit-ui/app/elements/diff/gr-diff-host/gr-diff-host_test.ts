@@ -31,13 +31,13 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {
+  Base64ImageFile,
   BasePatchSetNum,
   BlameInfo,
   CommentRange,
   CommentThread,
   DraftInfo,
   EDIT,
-  ImageInfo,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -238,8 +238,8 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('image diffs', () => {
-    let mockFile1: ImageInfo;
-    let mockFile2: ImageInfo;
+    let mockFile1: Base64ImageFile;
+    let mockFile2: Base64ImageFile;
     setup(() => {
       mockFile1 = {
         body:

@@ -17,7 +17,7 @@ import {
 } from '../../../api/diff';
 import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {waitForEventOnce} from '../../../utils/event-util';
-import {ImageInfo} from '../../../types/common';
+import {Base64ImageFile} from '../../../types/common';
 import {assert, fixture, html} from '@open-wc/testing';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
@@ -2815,8 +2815,8 @@ suite('gr-diff-element tests', () => {
     });
 
     suite('image diffs', () => {
-      let mockFile1: ImageInfo;
-      let mockFile2: ImageInfo;
+      let mockFile1: Base64ImageFile;
+      let mockFile2: Base64ImageFile;
       setup(() => {
         mockFile1 = {
           body:

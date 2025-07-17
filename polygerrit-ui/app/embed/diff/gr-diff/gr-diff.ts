@@ -27,7 +27,7 @@ import {
   isResponsive,
   isThreadEl,
 } from '../gr-diff/gr-diff-utils';
-import {BlameInfo, ImageInfo} from '../../../types/common';
+import {Base64ImageFile, BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
@@ -223,10 +223,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   diff?: DiffInfo;
 
   @property({type: Object})
-  baseImage?: ImageInfo;
+  baseImage?: Base64ImageFile;
 
   @property({type: Object})
-  revisionImage?: ImageInfo;
+  revisionImage?: Base64ImageFile;
 
   @property({type: String})
   errorMessage: string | null = null;

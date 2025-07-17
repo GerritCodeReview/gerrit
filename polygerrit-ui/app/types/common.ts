@@ -705,18 +705,6 @@ export interface BlameInfo {
 }
 
 /**
- * Images are retrieved by using the file content API and the body is just the
- * HTML response.
- * TODO(TS): where is the source of this type ? I don't find it in doc
- */
-export interface ImageInfo {
-  body: string;
-  type: string;
-  _name?: string;
-  _expectedType?: string;
-}
-
-/**
  * The SubmitRequirementInfo entity describes a submit requirement.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-requirement-info
  */
@@ -1116,8 +1104,8 @@ export interface ImagesForDiff {
  * There is no RestAPI interface for it
  */
 export interface Base64ImageFile extends Base64File {
-  _expectedType: string;
-  _name: string;
+  _expectedType?: string;
+  _name?: string;
 }
 
 /**

@@ -250,7 +250,7 @@ export class GrMenuEditor extends LitElement {
     this.menuItems.push({
       name: this.newName,
       url: this.newUrl,
-      target: this.newTarget ? '_blank' : '',
+      target: this.newTarget ? '_blank' : undefined,
     });
     this.newName = '';
     this.newUrl = '';

@@ -43,7 +43,7 @@ export interface NavLink {
   viewableToAll?: boolean;
   section?: string;
   capability?: string;
-  target?: string | null;
+  target?: '_blank' | '_parent' | '_self' | '_top' | null;
   subsection?: SubsectionInterface;
   children?: SubsectionInterface[];
 }
@@ -150,7 +150,7 @@ function filterLinks(
 
   // Append top-level links that are defined by plugins.
   links.push(
-    ...getAdminMenuLinks().map((link: MenuLink) => {
+    ...getAdminMenuLinks().map((link: MenuLink): NavLink => {
       return {
         url: link.url,
         name: link.text,

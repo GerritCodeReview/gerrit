@@ -92,7 +92,10 @@ const DOCUMENTATION_LINKS: MainHeaderLink[] = [
 ];
 
 // visible for testing
-export function getDocLinks(docBaseUrl: string, docLinks: MainHeaderLink[]) {
+export function getDocLinks(
+  docBaseUrl: string,
+  docLinks: MainHeaderLink[]
+): MainHeaderLink[] {
   if (!docBaseUrl) return [];
   return docLinks.map(link => {
     return {

@@ -463,7 +463,7 @@ export interface DropdownLink {
   url?: string;
   name?: string;
   external?: boolean;
-  target?: string | null;
+  target?: '_blank' | '_parent' | '_self' | '_top' | null;
   download?: boolean;
   id?: string;
   tooltip?: string;
@@ -518,7 +518,7 @@ export interface TopMenuEntryInfo {
 export interface TopMenuItemInfo {
   url: string;
   name: string;
-  target?: string;
+  target?: '_blank' | '_parent' | '_self' | '_top' | null;
   id?: string;
 }
 

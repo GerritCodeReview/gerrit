@@ -9,7 +9,12 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {ChangeInfo, RevisionPatchSetNum} from '../../../types/common';
+import {
+  ChangeInfo,
+  PARENT,
+  PatchSetNum,
+  RevisionPatchSetNum,
+} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {
   AutocompleteQuery,
@@ -68,7 +73,7 @@ export class GrEditControls extends LitElement {
   change?: ChangeInfo;
 
   @property({type: String})
-  patchNum?: RevisionPatchSetNum;
+  patchNum?: PatchSetNum;
 
   @property({type: Array})
   hiddenActions: string[] = [GrEditConstants.Actions.RESTORE.id];
@@ -489,10 +494,15 @@ export class GrEditControls extends LitElement {
       this.closeDialog(this.openDialog);
       return;
     }
+    const patchNum = this.patchNum;
     assertIsDefined(this.patchNum, 'patchset number');
+    if (patchNum === PARENT) {
+      fireAlert(this, "This doesn't work on Parent");
+    }
     const url = this.getViewModel().editUrl({
       editView: {path: this.path},
-      patchNum: this.patchNum,
+      // since parent is checked above, it's revision patchset.
+      patchNum: patchNum as RevisionPatchSetNum,
     });
     this.getNavigation().setUrl(url);
     this.closeDialog(this.getDialogFromEvent(e));

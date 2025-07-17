@@ -16,6 +16,24 @@
       "message": "@milutin@google.com / @brohlfs@google.com The issue with new lines is fixed etc. It incorporates iron-autogrow-textarea. I have a couple of issues which is when i do \\`\\`\\` \\`\\`\\` and press the tab button, it correctly adds a tab but then the mouse / text selector thingy moves to the very end so to the end of \\`. Wondering if you know how to fix that because i don\u0027t? I\u0027ll leave that as is as it works apart from that small issue. There\u0027s another issue i\u0027ve just seen is when you use command + v (paste on mac) the hint isn\u0027t moved with it until you click out and back in. Would you know how to fix that? See both these videos: https://imgur.com/a/BNltlDh and https://imgur.com/a/d1cxXPC.\n\nCan you also test this as apparently it\u0027s used for AI. I\u0027ve only tested my best with .hint using a hacked version of gr-suggestion-textarea to get it to show.",
       "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5160ca68_2ebe41ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-17T19:43:40Z",
+      "side": 1,
+      "message": "hmm there seems to be an issue with scrolling, it works if you don\u0027t have to scroll but as soon as you do the text becomes an issue and hint doesn\u0027t show too correctly. See https://imgur.com/a/93RjDrH.",
+      "parentUuid": "12ccbc4d_42d09957",
+      "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

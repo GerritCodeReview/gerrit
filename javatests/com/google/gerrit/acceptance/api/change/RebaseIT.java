@@ -433,10 +433,12 @@ public class RebaseIT {
           .hasMessageThat()
           .isEqualTo(
               String.format(
-                  "Change %s could not be rebased due to a conflict during merge.\n"
-                      + "\n"
-                      + "merge conflict(s):\n"
-                      + "%s",
+                  """
+                  Change %s could not be rebased due to a conflict during merge.
+
+                  merge conflict(s):
+                  * %s
+                  """,
                   mergeChangeId, file1));
     }
 
@@ -1689,8 +1691,12 @@ public class RebaseIT {
           .hasMessageThat()
           .isEqualTo(
               String.format(
-                  "Change %s could not be rebased due to a conflict during merge.\n\n"
-                      + "merge conflict(s):\n%s",
+                  """
+                  Change %s could not be rebased due to a conflict during merge.
+
+                  merge conflict(s):
+                  * %s
+                  """,
                   r2.getChange().getId(), PushOneCommit.FILE_NAME));
     }
 
@@ -2366,8 +2372,12 @@ public class RebaseIT {
           .hasMessageThat()
           .isEqualTo(
               String.format(
-                  "Change %s could not be rebased due to a conflict during merge.\n\n"
-                      + "merge conflict(s):\n%s",
+                  """
+                  Change %s could not be rebased due to a conflict during merge.
+
+                  merge conflict(s):
+                  * %s
+                  """,
                   r2.getChange().getId(), PushOneCommit.FILE_NAME));
     }
 

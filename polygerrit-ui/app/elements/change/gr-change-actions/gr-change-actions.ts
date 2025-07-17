@@ -776,7 +776,7 @@ export class GrChangeActions
             <gr-create-change-dialog
               id="createFollowUpChange"
               .branch=${this.change?.branch}
-              .baseChange=${this.change?.id}
+              .baseChange=${this.change?.change_id}
               .repoName=${this.change?.project}
               .privateByDefault=${this.privateByDefault}
             ></gr-create-change-dialog>

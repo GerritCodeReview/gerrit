@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcfaa29e_b0d38846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2025-07-17T16:21:19Z",
+      "side": 1,
+      "message": "Whaou! Thank you for the commit message enhancements, much appreciated! Fix applied.",
+      "parentUuid": "3e5d63cc_c3f91fe9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 52
+      },
+      "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "882048f3_31d4d0df",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cfa5b18_25d72d0e",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2025-07-17T16:21:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "882048f3_31d4d0df",
+      "range": {
+        "startLine": 65,
+        "startChar": 53,
+        "endLine": 65,
+        "endChar": 69
+      },
+      "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c6039cd_89af64fa",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-07-17T14:34:44Z",
       "side": 1,
       "message": "```suggestion\npermitting some (limited) caching.  It may take up to 15 minutes after making a\n```",
+      "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1569a1ff_9269911e",
+        "filename": "Documentation/config-themes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2025-07-17T16:21:19Z",
+      "side": 1,
+      "message": "Oups.  And thanks for the reference to I63f3ac7c29049dfbcbccb79e520fa3538cc1e67b .  The UI gave me a merge conflict when I tried to apply this edit.  The conflict was I believe with the previous line 😊",
+      "parentUuid": "5c6039cd_89af64fa",
       "revId": "b09dd4a9238202b5dc9528228fdba72cac2a0ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

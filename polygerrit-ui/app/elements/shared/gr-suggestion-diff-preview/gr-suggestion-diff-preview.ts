@@ -7,12 +7,7 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
-import {
-  BasePatchSetNum,
-  EDIT,
-  PatchSetNumber,
-  RepoName,
-} from '../../../types/common';
+import {EDIT, PatchSetNumber, RepoName} from '../../../types/common';
 import {
   DiffLayer,
   DiffPreferencesInfo,
@@ -23,7 +18,11 @@ import {when} from 'lit/directives/when.js';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {resolve} from '../../../models/dependency';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {FixSuggestionInfo, NumericChangeId} from '../../../api/rest-api';
+import {
+  FixSuggestionInfo,
+  NumericChangeId,
+  RevisionPatchSetNum,
+} from '../../../api/rest-api';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {DiffPreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -67,7 +66,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   uuid?: string;
 
   @property({type: Number})
-  patchSet?: BasePatchSetNum;
+  patchSet?: RevisionPatchSetNum;
 
   // Optional. Used in logging.
   @property({type: String})
@@ -334,13 +333,15 @@ export class GrSuggestionDiffPreview extends LitElement {
         errorText,
       });
     }
-    if (res?.ok) {
+    // basePatchNum is from comment patchset and comment cannot be created
+    // in EDIT. RevisionPatchset without EDIT is PatchSetNumber
+    if (res?.ok && basePatchNum !== undefined && basePatchNum !== EDIT) {
       this.getNavigation().setUrl(
         createChangeUrl({
           changeNum,
           repo: this.repo!,
           patchNum: EDIT,
-          basePatchNum,
+          basePatchNum: basePatchNum as PatchSetNumber,
           forceReload: !this.hasEdit,
         })
       );

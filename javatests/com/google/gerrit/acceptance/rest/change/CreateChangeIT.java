@@ -1031,19 +1031,89 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowed() throws Exception {
-    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(/* useDiff3= */ false);
+  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingRecursiveStrategy()
+      throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "recursive", /* useDiff3= */ false);
   }
 
   @Test
   @GerritConfig(name = "change.diff3ConflictView", value = "true")
-  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingDiff3()
-      throws Exception {
-    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(/* useDiff3= */ true);
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingRecursiveStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "recursive", /* useDiff3= */ true);
   }
 
-  private void testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(boolean useDiff3)
+  @Test
+  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingResolveStrategy()
       throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "resolve", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingResolveStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "resolve", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingUsingSimpleTwoWayInCoreStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "simple-two-way-in-core", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingUsingSimpleTwoWayInCoreStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "simple-two-way-in-core", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingUsingOursStrategy()
+      throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "ours", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingUsingOursStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "ours", /* useDiff3= */ true);
+  }
+
+  @Test
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingUsingTheirsStrategy()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "theirs", /* useDiff3= */ false);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void
+      createMergeChangeBetweenTwoInitialCommitsWithConflictsAllowedUsingUsingTheirsStrategyAndDiff3()
+          throws Exception {
+    testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+        /* strategy= */ "theirs", /* useDiff3= */ true);
+  }
+
+  private void testCreateMergeChangeBetweenTwoInitialCommitsConflictsAllowed(
+      String strategy, boolean useDiff3) throws Exception {
     String fileName = "shared.txt";
     String sourceBranch = "sourceBranch";
     String sourceSubject = "source change";
@@ -1089,8 +1159,46 @@ public class CreateChangeIT extends AbstractDaemonTest {
             projectWithoutInitialCommit,
             targetBranch,
             sourceBranch,
-            /* strategy= */ "",
+            /* strategy= */ strategy,
             /* allowConflicts= */ true);
+
+    if ("ours".equals(strategy) || "theirs".equals(strategy)) {
+      ChangeInfo change = assertCreateSucceeds(in);
+
+      // Verify the conflicts information.
+      RevisionInfo currentRevision =
+          gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+      assertThat(currentRevision.commit.parents.get(0).commit)
+          .isEqualTo(initialCommitTarget.name());
+      assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.ours).isEqualTo(initialCommitTarget.name());
+      assertThat(currentRevision.conflicts.theirs).isEqualTo(initialCommitSource.name());
+      assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+
+      // Verify that the file content in the created change is correct.
+      // We expect that it has conflict markers to indicate the conflict.
+      BinaryResult bin =
+          gApi.changes()
+              .id(projectWithoutInitialCommit.get(), change._number)
+              .current()
+              .file(fileName)
+              .content();
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      bin.writeTo(os);
+      String fileContent = new String(os.toByteArray(), UTF_8);
+      assertThat(fileContent).isEqualTo("ours".equals(strategy) ? targetContent : sourceContent);
+
+      return;
+    }
+
+    if ("simple-two-way-in-core".equals(strategy)) {
+      assertCreateFails(
+          in,
+          BadRequestException.class,
+          "merge with conflicts is not supported with merge strategy: simple-two-way-in-core");
+      return;
+    }
+
     ChangeInfo change = assertCreateSucceedsWithConflicts(in);
 
     // Verify the conflicts information.

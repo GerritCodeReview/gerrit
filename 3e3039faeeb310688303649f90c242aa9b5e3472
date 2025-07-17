@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26080119_92368b3a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-17T08:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e798ed63_a60ae2f0",
+      "range": {
+        "startLine": 207,
+        "startChar": 9,
+        "endLine": 207,
+        "endChar": 27
+      },
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bc5355d_681982fe",
@@ -147,6 +171,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c656695e_4e3fc747",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-17T08:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bc5355d_681982fe",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 254,
+        "endChar": 40
+      },
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f77fe32_76cebf7d",
@@ -160,6 +208,30 @@
       "writtenOn": "2025-07-15T14:06:36Z",
       "side": 1,
       "message": "NIT: Maybe you could introduce confirmation before deleting?",
+      "range": {
+        "startLine": 276,
+        "startChar": 7,
+        "endLine": 276,
+        "endChar": 33
+      },
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11e239af_41709b98",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-17T08:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f77fe32_76cebf7d",
       "range": {
         "startLine": 276,
         "startChar": 7,
@@ -217,6 +289,30 @@
           ]
         }
       ],
+      "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d1c082_7eb3b55f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-auth-token/gr-auth-token.ts",
+        "patchSetId": 35
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-17T08:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cdac956_a1ba65e5",
+      "range": {
+        "startLine": 280,
+        "startChar": 6,
+        "endLine": 282,
+        "endChar": 9
+      },
       "revId": "3e3039faeeb310688303649f90c242aa9b5e3472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

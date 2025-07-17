@@ -67,6 +67,10 @@ export class GrFixSuggestions extends LitElement {
 
   @state() isChangeAbandoned = false;
 
+  @state() private thumbUpSelected = false;
+
+  @state() private thumbDownSelected = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -165,6 +169,8 @@ export class GrFixSuggestions extends LitElement {
         }
         .header .title {
           flex: 1;
+          display: flex;
+          align-items: center;
         }
         .headerMiddle {
           display: flex;
@@ -172,6 +178,13 @@ export class GrFixSuggestions extends LitElement {
         }
         .copyButton {
           margin-right: var(--spacing-l);
+        }
+        .feedback-button {
+          margin-right: var(--spacing-s);
+        }
+        .selected {
+          color: var(--selected-foreground, #1e88e5);
+          background-color: var(--selected-background, #e3f2fd);
         }
       `,
     ];
@@ -198,11 +211,34 @@ export class GrFixSuggestions extends LitElement {
                 name="suggestion"
                 .value=${fix_suggestions}
               ></gr-endpoint-param
-              ><gr-icon
-                icon="help"
-                title="read documentation"
-              ></gr-icon></gr-endpoint-decorator
-          ></a>
+              ><gr-icon icon="help" title="read documentation"></gr-icon
+            ></gr-endpoint-decorator>
+          </a>
+          <gr-button
+            secondary
+            flatten
+            class="action feedback-button ${this.thumbUpSelected
+              ? 'selected'
+              : ''}"
+            aria-label="Thumb up"
+            @click=${this.handleThumbUpClick}
+          >
+            <gr-icon icon="thumb_up" ?filled=${this.thumbUpSelected}></gr-icon>
+          </gr-button>
+          <gr-button
+            secondary
+            flatten
+            class="action feedback-button ${this.thumbDownSelected
+              ? 'selected'
+              : ''}"
+            aria-label="Thumb down"
+            @click=${this.handleThumbDownClick}
+          >
+            <gr-icon
+              icon="thumb_down"
+              ?filled=${this.thumbDownSelected}
+            ></gr-icon>
+          </gr-button>
         </div>
         <div class="headerMiddle">
           <gr-button
@@ -316,6 +352,22 @@ export class GrFixSuggestions extends LitElement {
     } finally {
       this.applyingFix = false;
     }
+  }
+
+  private handleThumbUpClick() {
+    this.thumbUpSelected = !this.thumbUpSelected;
+    if (this.thumbUpSelected) {
+      this.thumbDownSelected = false;
+    }
+    this.reporting.reportInteraction(Interaction.AI_SUGGESTION_THUMB_UP);
+  }
+
+  private handleThumbDownClick() {
+    this.thumbDownSelected = !this.thumbDownSelected;
+    if (this.thumbDownSelected) {
+      this.thumbUpSelected = false;
+    }
+    this.reporting.reportInteraction(Interaction.AI_SUGGESTION_THUMB_DOWN);
   }
 
   private isApplyEditDisabled() {

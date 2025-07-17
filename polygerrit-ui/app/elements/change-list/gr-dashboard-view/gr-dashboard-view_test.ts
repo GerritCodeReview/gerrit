@@ -28,6 +28,7 @@ import {
 import {
   ChangeInfoId,
   DashboardId,
+  EmailAddress,
   RepoName,
   Timestamp,
 } from '../../../types/common';
@@ -124,7 +125,7 @@ suite('gr-dashboard-view tests', () => {
       element.viewState = {
         view: GerritView.DASHBOARD,
         type: DashboardType.CUSTOM,
-        user: 'user',
+        user: 'user@email.com' as EmailAddress,
         sections: [
           {name: 'test1', query: 'test1', hideIfEmpty: true},
           {name: 'test2', query: 'test2', hideIfEmpty: true},
@@ -176,7 +177,7 @@ suite('gr-dashboard-view tests', () => {
         element.viewState = {
           view: GerritView.DASHBOARD,
           type: DashboardType.USER,
-          user: 'notself',
+          user: 'notself@email.com' as EmailAddress,
           dashboard: '' as DashboardId,
         };
         element.maybeShowDraftsBanner();
@@ -300,7 +301,10 @@ suite('gr-dashboard-view tests', () => {
 
   test('computeTitle', () => {
     assert.equal(element.computeTitle('self'), 'My Reviews');
-    assert.equal(element.computeTitle('not self'), 'Dashboard for not self');
+    assert.equal(
+      element.computeTitle('notself@email.com' as EmailAddress),
+      'Dashboard for notself@email.com'
+    );
   });
 
   suite('computeSectionCountLabel', () => {
@@ -368,7 +372,7 @@ suite('gr-dashboard-view tests', () => {
       element.viewState = {
         view: GerritView.DASHBOARD,
         type: DashboardType.CUSTOM,
-        user: 'user',
+        user: 'user@email.com' as EmailAddress,
         dashboard: '' as DashboardId,
         sections: [
           {name: '', query: '1'},
@@ -592,7 +596,7 @@ suite('gr-dashboard-view tests', () => {
       view: GerritView.DASHBOARD,
       type: DashboardType.USER,
       dashboard: '' as DashboardId,
-      user: 'user',
+      user: 'user@email.com' as EmailAddress,
     };
     await element.updateComplete;
     assert.isOk(query(element, 'gr-user-header'));
@@ -602,7 +606,7 @@ suite('gr-dashboard-view tests', () => {
       type: DashboardType.REPO,
       dashboard: '' as DashboardId,
       project: 'p' as RepoName,
-      user: 'user',
+      user: 'user@email.com' as EmailAddress,
     };
     await element.updateComplete;
     assert.isNotOk(query(element, 'gr-user-header'));
@@ -628,7 +632,7 @@ suite('gr-dashboard-view tests', () => {
       type: DashboardType.REPO,
       dashboard: 'dashboard' as DashboardId,
       project: 'project' as RepoName,
-      user: '',
+      user: undefined,
     };
     await Promise.all([element.reload(), promise]);
   });
@@ -666,7 +670,7 @@ suite('gr-dashboard-view tests', () => {
       type: DashboardType.REPO,
       dashboard: 'dashboard' as DashboardId,
       project: 'project' as RepoName,
-      user: '',
+      user: undefined,
     };
     await element.reload();
     assert.isFalse(dashboardDisplayedStub.calledOnce);
@@ -678,7 +682,7 @@ suite('gr-dashboard-view tests', () => {
     element.viewState = {
       view: GerritView.DASHBOARD,
       type: DashboardType.USER,
-      user: 'notself',
+      user: 'notself@email.com' as EmailAddress,
     };
     await element.reload();
     assert.isFalse(dashboardDisplayedStub.calledOnce);

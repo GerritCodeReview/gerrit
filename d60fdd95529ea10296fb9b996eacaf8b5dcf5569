@@ -177,6 +177,24 @@
       "parentUuid": "f57510af_2dc93638",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d93e913_e3bfc2ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-17T08:28:12Z",
+      "side": 1,
+      "message": "- I pinged Google maintainers to review this change already\n- for updating icu4j to a newer version create another separate change as a successor of this change\n- I can create an issue for you to ask for approval of the version update\n- I will ask a Googler to check why you can\u0027t create an issue on the issue tracker",
+      "parentUuid": "3177dc62_6b455175",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

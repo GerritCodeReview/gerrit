@@ -34,6 +34,24 @@
       "parentUuid": "12ccbc4d_42d09957",
       "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db40f88_7b3b70b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-17T20:13:17Z",
+      "side": 1,
+      "message": "I dunno how to fix, any suggestion @milutin@google.com?\n\n(We seem to duplicate the text twice, once which is hidden but for autogrowing, and the second is for the hint, so it stays at the end).",
+      "parentUuid": "5160ca68_2ebe41ee",
+      "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

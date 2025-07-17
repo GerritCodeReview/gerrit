@@ -159,6 +159,24 @@
       "parentUuid": "406c3284_bb1ad26f",
       "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3177dc62_6b455175",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-17T08:17:45Z",
+      "side": 1,
+      "message": "I was already in the public repo-discuss, but still don\u0027t have permission to create a “Hosting \u003e googlesource” Task in the issue tracker. Maybe I should give up updating the version of icu4j.\nPlease ping Google on Discord for this change.\nThank you!",
+      "parentUuid": "f57510af_2dc93638",
+      "revId": "d60fdd95529ea10296fb9b996eacaf8b5dcf5569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

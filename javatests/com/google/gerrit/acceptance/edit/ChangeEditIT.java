@@ -302,9 +302,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "Rebasing change edit onto another patchset results in merge conflicts.\n\n"
-                    + "merge conflict(s):\n%s\n\n"
-                    + "Download the edit patchset and rebase manually to preserve changes.",
+                """
+                Rebasing change edit onto another patchset results in merge conflicts.
+
+                merge conflict(s):
+                * %s
+
+                Download the edit patchset and rebase manually to preserve changes.
+                """,
                 FILE_NAME));
   }
 

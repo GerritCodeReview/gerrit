@@ -657,8 +657,8 @@ public class ChangeEditModifier {
           throw new MergeConflictException(
               String.format(
                   "Rebasing change edit onto another patchset results in merge conflicts.\n\n"
-                      + "%s\n\n"
-                      + "Download the edit patchset and rebase manually to preserve changes.",
+                      + "%s\n"
+                      + "Download the edit patchset and rebase manually to preserve changes.\n",
                   MergeUtil.createConflictMessage(conflicts)));
         }
 

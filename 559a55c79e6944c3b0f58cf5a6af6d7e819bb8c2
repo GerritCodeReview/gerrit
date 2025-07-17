@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff77991b_dd3b6824",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-17T20:15:13Z",
+      "side": 1,
+      "message": "It looks nice. I will review it tomorrow",
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a78b6986_c54f5468",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-17T20:15:13Z",
+      "side": 1,
+      "message": "Can you please add them under feature flag - please create a new one.",
+      "range": {
+        "startLine": 217,
+        "startChar": 9,
+        "endLine": 241,
+        "endChar": 22
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

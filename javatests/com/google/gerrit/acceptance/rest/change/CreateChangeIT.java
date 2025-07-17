@@ -726,16 +726,40 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createMergeChange() throws Exception {
+  public void createMergeChangeNoConflicts_Resolve() throws Exception {
+    testCreateMergeChangeNoConflicts("resolve");
+  }
+
+  @Test
+  public void createMergeChangeNoConflicts_Recursive() throws Exception {
+    testCreateMergeChangeNoConflicts("recursive");
+  }
+
+  @Test
+  public void createMergeChangeNoConflicts_SimpleTwoWayInCore() throws Exception {
+    testCreateMergeChangeNoConflicts("simple-two-way-in-core");
+  }
+
+  @Test
+  public void createMergeChangeNoConflicts_Ours() throws Exception {
+    testCreateMergeChangeNoConflicts("ours");
+  }
+
+  @Test
+  public void createMergeChangeNoConflicts_Theirs() throws Exception {
+    testCreateMergeChangeNoConflicts("theirs");
+  }
+
+  public void testCreateMergeChangeNoConflicts(String mergeStrategy) throws Exception {
     String sourceBranch = "sourceBranch";
     String targetBranch = "targetBranch";
     ImmutableMap<String, Result> results =
         changeInTwoBranches(sourceBranch, "a.txt", targetBranch, "b.txt");
-    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "");
+    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy);
     ChangeInfo change = assertCreateSucceeds(in);
 
     // Verify the message that has been posted on the change.
-    List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    List<ChangeMessageInfo> messages = gApi.changes().id(project.get(), change._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
 

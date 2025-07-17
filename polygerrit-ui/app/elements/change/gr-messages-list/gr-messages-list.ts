@@ -12,7 +12,6 @@ import {MessageTag} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
-  ChangeId,
   ChangeMessageId,
   ChangeMessageInfo,
   CommentThread,
@@ -303,7 +302,7 @@ export class GrMessagesList extends LitElement {
   private change?: ParsedChangeInfo;
 
   @state()
-  private changeNum?: ChangeId | NumericChangeId;
+  private changeNum?: NumericChangeId;
 
   @state()
   private commentThreads: CommentThread[] = [];

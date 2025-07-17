@@ -286,6 +286,8 @@ export class GrRuleEditor extends LitElement {
 
   private renderMinAndMaxInput() {
     if (!this.hasRange) return;
+    const ruleValue = this.rule?.value;
+    if (!ruleValue) return;
 
     return html`
       <iron-autogrow-textarea
@@ -293,7 +295,7 @@ export class GrRuleEditor extends LitElement {
         class="min"
         autocomplete="on"
         placeholder="Min value"
-        .bindValue=${this.rule?.value?.min}
+        .bindValue=${ruleValue.min}
         ?disabled=${!this.editing}
         @bind-value-changed=${(e: BindValueChangeEvent) => {
           this.handleMinBindValueChanged(e);
@@ -304,7 +306,7 @@ export class GrRuleEditor extends LitElement {
         class="max"
         autocomplete="on"
         placeholder="Max value"
-        .bindValue=${this.rule?.value?.max}
+        .bindValue=${ruleValue.max}
         ?disabled=${!this.editing}
         @bind-value-changed=${(e: BindValueChangeEvent) => {
           this.handleMaxBindValueChanged(e);

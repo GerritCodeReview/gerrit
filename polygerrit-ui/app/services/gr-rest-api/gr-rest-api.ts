@@ -38,7 +38,6 @@ import {
   EditPreferencesInfo,
   EmailAddress,
   EmailInfo,
-  EncodedGroupId,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
   GitRef,
@@ -604,7 +603,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<Response | undefined>;
 
   getGroupAuditLog(
-    group: EncodedGroupId,
+    group: GroupId,
     errFn?: ErrorCallback
   ): Promise<GroupAuditEventInfo[] | undefined>;
 

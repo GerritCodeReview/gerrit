@@ -1367,7 +1367,7 @@ export class GrChecksResults extends LitElement {
       )
       .slice(0, 4);
     const overflowLinks = links.filter(a => !primaryLinks.includes(a));
-    const overflowLinkItems = overflowLinks.map(link => {
+    const overflowLinkItems: DropdownLink[] = overflowLinks.map(link => {
       return {
         ...link,
         id: link.tooltip,

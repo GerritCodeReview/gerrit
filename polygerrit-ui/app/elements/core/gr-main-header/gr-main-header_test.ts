@@ -18,7 +18,11 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {NavLink} from '../../../models/views/admin';
-import {ServerInfo, TopMenuItemInfo} from '../../../types/common';
+import {
+  ServerInfo,
+  TopMenuEntryInfo,
+  TopMenuItemInfo,
+} from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
 import {assert, fixture, html} from '@open-wc/testing';
 
@@ -278,16 +282,14 @@ suite('gr-main-header tests', () => {
   });
 
   test('fix my menu item', () => {
-    assert.deepEqual(
-      [
-        {url: 'https://awesometown.com/#hashyhash', name: '', target: ''},
-        {url: '#/q/is:nice', name: '', target: '_blank'},
-      ].map(element.createHeaderLink),
-      [
-        {url: 'https://awesometown.com/#hashyhash', name: '', target: ''},
-        {url: '/q/is:nice', name: '', target: '_blank'},
-      ]
-    );
+    const menuLink: TopMenuItemInfo[] = [
+      {url: 'https://awesometown.com/#hashyhash', name: '', target: undefined},
+      {url: '#/q/is:nice', name: '', target: '_blank'},
+    ];
+    assert.deepEqual(menuLink.map(element.createHeaderLink), [
+      {url: 'https://awesometown.com/#hashyhash', name: '', target: undefined},
+      {url: '/q/is:nice', name: '', target: '_blank'},
+    ]);
   });
 
   test('user links', () => {
@@ -306,7 +308,7 @@ suite('gr-main-header tests', () => {
       {
         name: 'Facebook',
         url: 'https://facebook.com',
-        target: '',
+        target: undefined,
       },
     ];
     const adminLinks: NavLink[] = [
@@ -376,7 +378,7 @@ suite('gr-main-header tests', () => {
         view: undefined,
       },
     ];
-    const topMenus = [
+    const topMenus: TopMenuEntryInfo[] = [
       {
         name: 'Plugins',
         items: [
@@ -548,7 +550,7 @@ suite('gr-main-header tests', () => {
       {
         name: 'Facebook',
         url: 'https://facebook.com',
-        target: '',
+        target: undefined,
       },
     ];
     const topMenus = [
@@ -575,7 +577,7 @@ suite('gr-main-header tests', () => {
           {
             name: 'Facebook',
             url: 'https://facebook.com',
-            target: '',
+            target: undefined,
           },
           {
             name: 'Manage',
@@ -594,7 +596,7 @@ suite('gr-main-header tests', () => {
         view: undefined,
       },
     ];
-    const topMenus = [
+    const topMenus: TopMenuEntryInfo[] = [
       {
         name: 'Browse',
         items: [

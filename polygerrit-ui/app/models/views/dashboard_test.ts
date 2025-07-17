@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
-import {RepoName} from '../../api/rest-api';
+import {EmailAddress, RepoName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
 import {assertRouteFalse, assertRouteState} from '../../test/test-utils';
@@ -56,8 +56,11 @@ suite('dashboard view state tests', () => {
 
     test('user dashboard', () => {
       assert.equal(
-        createDashboardUrl({type: DashboardType.USER, user: 'user'}),
-        '/dashboard/user'
+        createDashboardUrl({
+          type: DashboardType.USER,
+          user: 'user@email.com' as EmailAddress,
+        }),
+        '/dashboard/user@email.com'
       );
     });
 
@@ -94,13 +97,13 @@ suite('dashboard view state tests', () => {
     test('custom user dashboard, with title', () => {
       const state = {
         type: DashboardType.CUSTOM,
-        user: 'user',
+        user: 'user@email.com' as EmailAddress,
         sections: [{name: 'name', query: 'query'}],
         title: 'custom dashboard',
       };
       assert.equal(
         createDashboardUrl(state),
-        '/dashboard/user?name=query&title=custom+dashboard'
+        '/dashboard/user@email.com?name=query&title=custom+dashboard'
       );
     });
 

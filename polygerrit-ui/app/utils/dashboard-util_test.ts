@@ -6,6 +6,7 @@
 import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import {getUserDashboard} from './dashboard-util';
+import {EmailAddress} from '../api/rest-api';
 
 suite('gr-navigation tests', () => {
   suite('_getUserDashboard', () => {
@@ -38,12 +39,16 @@ suite('gr-navigation tests', () => {
     });
 
     test('dashboard for other user', () => {
-      const dashboard = getUserDashboard('user', sections, 'title');
+      const dashboard = getUserDashboard(
+        'user@email.com' as EmailAddress,
+        sections,
+        'title'
+      );
       assert.deepEqual(dashboard, {
         title: 'title',
         sections: [
           {name: 'section 1', query: 'query 1'},
-          {name: 'section 2', query: 'query 2 for user'},
+          {name: 'section 2', query: 'query 2 for user@email.com'},
           {
             name: 'section 4',
             query: 'query 4',

@@ -8,10 +8,9 @@ import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';
 import {
   AccountDetailInfo,
-  AccountId,
   ChangeInfo,
-  EmailAddress,
   RepoName,
+  UserId,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {fire, fireAlert, fireTitleChange} from '../../../utils/event-util';
@@ -62,7 +61,7 @@ export class GrChangeListView extends LitElement {
   @state() loading = true;
 
   // private but used in test
-  @state() userId?: AccountId | EmailAddress;
+  @state() userId?: UserId;
 
   // private but used in test
   @state() repo?: RepoName;

@@ -20,6 +20,7 @@ import {
   DashboardId,
   PreferencesInput,
   RepoName,
+  UserId,
 } from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
@@ -376,7 +377,7 @@ export class GrDashboardView extends LitElement {
   }
 
   // private but used in test
-  computeTitle(user?: string) {
+  computeTitle(user?: UserId | 'self') {
     if (!user || user === 'self') {
       return 'My Reviews';
     }

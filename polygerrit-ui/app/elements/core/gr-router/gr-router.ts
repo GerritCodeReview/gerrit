@@ -22,6 +22,7 @@ import {
   RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
+  UserId,
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
@@ -1038,7 +1039,7 @@ export class GrRouter implements Finalizable, NavigationService {
         const state: DashboardViewState = {
           view: GerritView.DASHBOARD,
           type: DashboardType.USER,
-          user: ctx.params[0],
+          user: ctx.params[0] as UserId | 'self' | undefined,
         };
         // Note that router model view must be updated before view models.
         this.setState(state);

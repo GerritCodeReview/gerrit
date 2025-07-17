@@ -5,7 +5,7 @@
  */
 import {RepoName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
-import {DashboardId} from '../../types/common';
+import {DashboardId, UserId} from '../../types/common';
 import {DashboardSection} from '../../utils/dashboard-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
@@ -38,7 +38,7 @@ export interface DashboardViewState extends ViewState {
   type: DashboardType;
   project?: RepoName;
   dashboard?: DashboardId;
-  user?: string;
+  user?: UserId | 'self';
   sections?: DashboardSection[];
   title?: string;
 }

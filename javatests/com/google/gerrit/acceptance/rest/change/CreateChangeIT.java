@@ -769,19 +769,53 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createMergeChange_Conflicts() throws Exception {
-    changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
-    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
-    assertCreateFails(in, RestApiException.class, "merge conflict");
+  public void createMergeChangeFailsDueToConflicts_Resolve() throws Exception {
+    testCreateMergeChangeFailsDueToConflicts("resolve");
   }
 
   @Test
-  public void createMergeChange_Conflicts_Ours() throws Exception {
+  public void createMergeChangeFailsDueToConflicts_Recursive() throws Exception {
+    testCreateMergeChangeFailsDueToConflicts("recursive");
+  }
+
+  @Test
+  public void createMergeChangeFailsDueToConflicts_SimpleTwoWayInCore() throws Exception {
+    testCreateMergeChangeFailsDueToConflicts("simple-two-way-in-core");
+  }
+
+  private void testCreateMergeChangeFailsDueToConflicts(String mergeStrategy) throws Exception {
+    String fileName = "shared.txt";
+    changeInTwoBranches("branchA", fileName, "branchB", fileName);
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", mergeStrategy);
+    assertCreateFails(
+        in,
+        RestApiException.class,
+        "simple-two-way-in-core".equals(mergeStrategy)
+            ? "merge conflict(s)"
+            : String.format(
+                """
+                merge conflict(s):
+                * %s
+                """,
+                fileName));
+  }
+
+  @Test
+  public void createMergeChangeSucceedsWithConflicts_Ours() throws Exception {
+    testCreateMergeChangeSucceedsWithConflicts("ours");
+  }
+
+  @Test
+  public void createMergeChangeSucceedsWithConflicts_Theirs() throws Exception {
+    testCreateMergeChangeSucceedsWithConflicts("theirs");
+  }
+
+  private void testCreateMergeChangeSucceedsWithConflicts(String mergeStrategy) throws Exception {
     String sourceBranch = "sourceBranch";
     String targetBranch = "targetBranch";
     ImmutableMap<String, Result> results =
         changeInTwoBranches(sourceBranch, "shared.txt", targetBranch, "shared.txt");
-    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "ours");
+    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy);
     ChangeInfo change = assertCreateSucceeds(in);
 
     // Verify the conflicts information

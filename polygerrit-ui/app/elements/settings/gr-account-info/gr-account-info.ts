@@ -248,7 +248,7 @@ export class GrAccountInfo extends LitElement {
             .label=${'statusInput'}
             ?disabled=${this.saving}
             maxlength="140"
-            .value=${this.account?.status}
+            .value=${this.account?.status ?? ''}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
               const oldAccount = this.account;
               if (!oldAccount || oldAccount.status === e.detail.value) return;

@@ -25,6 +25,7 @@ import {
   NumericChangeId,
   ServerInfo,
   Timestamp,
+  UserId,
 } from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
@@ -82,7 +83,7 @@ export class GrChangeListItem extends LitElement {
    * generated.
    */
   @property({type: String})
-  dashboardUser?: string;
+  dashboardUser?: UserId | 'self';
 
   @property({type: Array})
   visibleChangeTableColumns?: string[];

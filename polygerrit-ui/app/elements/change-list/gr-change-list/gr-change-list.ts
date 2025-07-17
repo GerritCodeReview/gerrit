@@ -15,6 +15,7 @@ import {
   ChangeInfo,
   PreferencesInput,
   ServerInfo,
+  UserId,
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
@@ -95,7 +96,7 @@ export class GrChangeList extends LitElement {
    * generated.
    */
   @property({type: String})
-  dashboardUser?: string;
+  dashboardUser?: UserId | 'self';
 
   @property({type: Array})
   changes?: ChangeInfo[];

@@ -25,6 +25,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {formStyles} from '../../../styles/form-styles';
+import {UserId} from '../../../types/common';
 
 const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -83,7 +84,7 @@ export class GrChangeListSection extends LitElement {
    * generated.
    */
   @property({type: String})
-  dashboardUser?: string;
+  dashboardUser?: UserId | 'self';
 
   @property({type: String})
   usp?: string;

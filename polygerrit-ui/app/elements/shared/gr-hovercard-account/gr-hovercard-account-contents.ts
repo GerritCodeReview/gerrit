@@ -407,7 +407,7 @@ export class GrHovercardAccountContents extends LitElement {
     if (this.account._account_id)
       return createDashboardUrl({
         type: DashboardType.USER,
-        user: `${this.account._account_id}`,
+        user: this.account._account_id,
       });
     if (this.account.email)
       return createDashboardUrl({

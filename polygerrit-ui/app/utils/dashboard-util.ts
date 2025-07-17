@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ChangeConfigInfo, ChangeInfo} from '../api/rest-api';
+import {UserId} from '../types/common';
 
 export interface DashboardSection {
   name: string;
@@ -100,7 +101,7 @@ const DEFAULT_SECTIONS: DashboardSection[] = [
 ];
 
 export function getUserDashboard(
-  user = 'self',
+  user: UserId | 'self' = 'self',
   sections = DEFAULT_SECTIONS,
   title = ''
 ): UserDashboard {
@@ -110,7 +111,8 @@ export function getUserDashboard(
       return {
         ...section,
         name: section.name,
-        query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
+        // user is usually account_id which is type number
+        query: section.query.replace(USER_PLACEHOLDER_PATTERN, String(user)),
       };
     });
   return {title, sections};

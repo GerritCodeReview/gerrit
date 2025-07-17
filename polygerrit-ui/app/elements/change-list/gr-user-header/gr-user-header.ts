@@ -7,7 +7,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {AccountDetailInfo, AccountId} from '../../../types/common';
+import {AccountDetailInfo, UserId} from '../../../types/common';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getAppContext} from '../../../services/app-context';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
@@ -23,7 +23,7 @@ import {
 @customElement('gr-user-header')
 export class GrUserHeader extends LitElement {
   @property({type: String})
-  userId?: AccountId;
+  userId?: UserId;
 
   @property({type: Boolean})
   showDashboardLink = false;
@@ -113,7 +113,7 @@ export class GrUserHeader extends LitElement {
     }
   }
 
-  _accountChanged(userId?: AccountId) {
+  _accountChanged(userId?: UserId) {
     if (!userId) {
       this._accountDetails = undefined;
       this._status = '';
@@ -148,8 +148,7 @@ export class GrUserHeader extends LitElement {
     if (!accountDetails) return '';
 
     const id = accountDetails._account_id;
-    if (id)
-      return createDashboardUrl({type: DashboardType.USER, user: String(id)});
+    if (id) return createDashboardUrl({type: DashboardType.USER, user: id});
 
     const email = accountDetails.email;
     if (email)

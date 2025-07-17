@@ -74,6 +74,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
@@ -570,15 +571,17 @@ public class MergeUtil {
     return commit;
   }
 
-  public static String createConflictMessage(List<String> conflicts) {
-    if (conflicts.isEmpty()) {
-      return "";
+  public static String createConflictMessage(List<String> filesWithConflicts) {
+    StringBuilder sb = new StringBuilder("merge conflict(s)");
+
+    // If the simple-two-way-in-core merge strategy was used, we don't know which files had
+    // conflicts and filesWithConflicts is empty.
+    if (!filesWithConflicts.isEmpty()) {
+      StringJoiner joiner = new StringJoiner("\n* ", ":\n* ", "\n");
+      filesWithConflicts.forEach(joiner::add);
+      sb.append(joiner.toString());
     }
 
-    StringBuilder sb = new StringBuilder("merge conflict(s):");
-    for (String c : conflicts) {
-      sb.append('\n').append(c);
-    }
     return sb.toString();
   }
 

@@ -176,6 +176,26 @@ yarn test:watch
 yarn test:single "**/gr-comment_test.ts"
 ```
 
+### Screenshot Tests
+
+We use screenshot tests to prevent unintended visual regressions.
+
+To run the screenshot tests:
+```sh
+yarn test:screenshot
+```
+
+If a test fails, it means the component's appearance has changed. New screenshots will be generated in the `polygerrit-ui/screenshots/Chromium/failed/` directory. In case of a mismatch with an existing baseline, a diff image will also be created there.
+
+If the change is intended, you need to approve the new screenshots as the baseline. To do this, move the new screenshot files from the `failed` directory to the `baseline` directory, overwriting the old ones. The diff images in the `failed` directory can be deleted.
+
+```sh
+# Move all failed screenshots at once:
+mv polygerrit-ui/screenshots/Chromium/failed/*.png polygerrit-ui/screenshots/Chromium/baseline/
+```
+
+After moving the file(s), run `yarn test:screenshot` again to confirm that they pass.
+
 Compiling code:
 ```sh
 # Compile frontend once to check for type errors:

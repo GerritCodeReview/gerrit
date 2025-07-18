@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "007c30e0_6273e966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-18T08:46:40Z",
+      "side": 1,
+      "message": "FYI: you are missing Release-Notes: skip\u0027to pas Release-Notes submit requirement\n\n```suggestion\nTest: Tested locally.\nRelease-Notes: skip\u0027\nBug: b/431036366\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "f133484cb7120de287e0822876dc6cedaecc9f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

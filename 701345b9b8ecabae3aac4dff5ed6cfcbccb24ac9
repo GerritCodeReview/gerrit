@@ -22,6 +22,30 @@
       },
       "revId": "701345b9b8ecabae3aac4dff5ed6cfcbccb24ac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20af81d0_c70be2fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2196,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-18T11:54:57Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts;l\u003d2208?q\u003d%22private%20readonly%20handleVisibilityChange%22\u0026sq\u003d\n\nThis method is called every time the visibility changes.\n\nMaybe it\u0027s suboptimal that the first call would pass if the plugins are not loaded but that should be fine if all the subsequent calls exit early then.\n\nThe method uses `window.setTimeout` and not `window.setInternal` so this is not triggering a loop inside it.\n\nAlso even if the method `throttledShowUpdateChangeNotification` gets called, it only checks if there is something new happening on the change and most cases it will simply exit without doing anything.",
+      "parentUuid": "b635c44a_76d22e09",
+      "range": {
+        "startLine": 2189,
+        "startChar": 4,
+        "endLine": 2196,
+        "endChar": 5
+      },
+      "revId": "701345b9b8ecabae3aac4dff5ed6cfcbccb24ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

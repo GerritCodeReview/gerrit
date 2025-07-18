@@ -62,20 +62,9 @@ The header, footer, and CSS files are inlined into the host page,
 which is always sent with a no-cache header.  Clients will see any
 changes immediately after they are made.
 
-Assets under `'$site_path'/static` whose file name matches one of the
-following patterns are served with a 1 year expiration, permitting
-very aggressive caching by clients and edge-proxies:
-
- * `*.cache.html`
- * `*.cache.gif`
- * `*.cache.png`
- * `*.cache.css`
- * `*.cache.jar`
- * `*.cache.swf`
-
-All other assets under `'$site_path'/static` are served with a 5
-minute expire, permitting some (limited) caching.  It may take up
-to 5 minutes after making a change, before clients see the changes.
+Assets under `'$site_path'/static` are served with a 15 minutes
+expiration, permitting some (limited) caching.  It may take up
+to 15 minutes after making a change, before clients see the changes.
 
 It is recommended that static images used in the site header
 or footer be named with a unique caching file name, for example

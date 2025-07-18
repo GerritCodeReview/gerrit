@@ -52,6 +52,24 @@
       "parentUuid": "5160ca68_2ebe41ee",
       "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61fccd55_d01ec179",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-18T16:04:51Z",
+      "side": 1,
+      "message": "Ok i fixed the pasting issue, also fixed the issue with hint not working correctly when maxRows is set. But it\u0027s a hack and i don\u0027t know how to do a better fix then i have. Any ideas @milutin@google.com?",
+      "parentUuid": "5db40f88_7b3b70b3",
+      "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -12,6 +12,7 @@ import {
   AccountInfo,
   AccountStateInfo,
   ActionNameToActionInfoMap,
+  AuthTokenInfo,
   Base64FileContent,
   BasePatchSetNum,
   BlameInfo,
@@ -59,7 +60,6 @@ import {
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
-  Password,
   PatchRange,
   PatchSetNum,
   PluginInfo,
@@ -532,7 +532,14 @@ export interface RestApiService extends Finalizable {
 
   saveAccountAgreement(name: ContributorAgreementInput): Promise<Response>;
 
-  generateAccountHttpPassword(): Promise<Password | undefined>;
+  getAccountAuthTokens(): Promise<AuthTokenInfo[] | undefined>;
+
+  deleteAccountAuthToken(tokenId: string): Promise<Response>;
+
+  generateAccountAuthToken(
+    tokenId: string,
+    lifetime: string
+  ): Promise<AuthTokenInfo | undefined>;
 
   setAccountName(name: string): Promise<void>;
 

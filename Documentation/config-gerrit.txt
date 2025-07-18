@@ -278,12 +278,15 @@ directory using either an anonymous request, or the configured
 <<ldap.authentication,ldap.authentication>> is set to `GSSAPI`.
 +
 If link:#auth.gitBasicAuthPolicy[`auth.gitBasicAuthPolicy`] is set to `HTTP`,
-the randomly generated HTTP password is used for authentication. On the other hand,
-if link:#auth.gitBasicAuthPolicy[`auth.gitBasicAuthPolicy`] is set to `HTTP_LDAP`,
-the password in the request is first checked against the HTTP password and, if
-it does not match, it is then validated against the LDAP password.
+the randomly generated authentication tokens are used for authentication. On the
+other hand, if link:#auth.gitBasicAuthPolicy[`auth.gitBasicAuthPolicy`] is set
+to `HTTP_LDAP`, the password in the request is first checked against the token
+and, if it does not match, it is then validated against the LDAP password.
 Service users that are link:cmd-create-account.html[internal-only] are
-authenticated by their HTTP passwords.
+authenticated by their tokens.
++
+Note, that in an interim period, if the user does not have an authentication
+token, Gerrit will fall back to a potentially still existing HTTP password.
 
 * `LDAP_BIND`
 +
@@ -621,13 +624,14 @@ By default this is set to `false`.
 [[auth.gitBasicAuthPolicy]]auth.gitBasicAuthPolicy::
 +
 When `auth.type` is `LDAP`, `LDAP_BIND` or `OAUTH`, it allows using either the generated
-HTTP password, the LDAP or OAUTH password, or a combination of HTTP and LDAP
-authentication, to authenticate Git over HTTP and REST API requests.
+tokens, the LDAP or OAUTH password, or a combination of HTTP and LDAP authentication,
+to authenticate Git over HTTP and REST API requests.
 The supported values are:
 +
 *`HTTP`
 +
-Only the HTTP password is accepted when doing Git over HTTP and REST API requests.
+Only the authentication tokens, with a fallback to HTTP passwords, are accepted
+when doing Git over HTTP and REST API requests.
 +
 *`LDAP`
 +
@@ -641,7 +645,7 @@ requests.
 +
 *`HTTP_LDAP`
 +
-The password in the request is first checked against the HTTP password and, if
+The password in the request is first checked against the authentication tokens and, if
 it does not match, it is then validated against the `LDAP` password.
 +
 By default this is set to `LDAP` when link:#auth.type[`auth.type`] is `LDAP`
@@ -654,6 +658,31 @@ needs to have `http.cookieFile` set to a local file, otherwise every
 single call would trigger a full LDAP authentication and groups resolution
 which could introduce a noticeable latency on the overall execution
 and produce unwanted load to the LDAP server.
+
+[[auth.maxAuthTokenLifetime]]auth.maxAuthTokenLifetime::
++
+The maximum lifetime allowed for an authentication token. The minimum time is
+1 minute.
+Values should use common unit suffixes to express their setting:
++
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
++
+If not set or if a value <= 0 is used, tokens can have an unlimited lifetime.
++
+Existing tokens will not be affected by changing this value.
+
+[[auth.maxAuthTokensPerAccount]]auth.maxAuthTokensPerAccount::
++
+The maximum number of authentication tokens a user is allowed to have in their
+account. If that number is reached, creating a new token will fail until an
+existing token is being deleted. Expired tokens count to the limit.
++
+Defaults to 10.
 
 [[auth.gitOAuthProvider]]auth.gitOAuthProvider::
 +

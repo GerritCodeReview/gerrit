@@ -23,6 +23,8 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
+import com.google.gerrit.extensions.auth.AuthTokenInfo;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
@@ -43,10 +45,12 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.CreateEmail;
+import com.google.gerrit.server.restapi.account.CreateToken;
 import com.google.gerrit.server.restapi.account.DeleteActive;
 import com.google.gerrit.server.restapi.account.DeleteEmail;
 import com.google.gerrit.server.restapi.account.DeleteExternalIds;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
+import com.google.gerrit.server.restapi.account.DeleteToken;
 import com.google.gerrit.server.restapi.account.GetEmails;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.PutActive;
@@ -61,6 +65,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -125,6 +130,21 @@ final class SetAccountCommand extends SshCommand {
   @Option(name = "--generate-http-password", usage = "generate a new HTTP password for the account")
   private boolean generateHttpPassword;
 
+  @Option(name = "--token", metaVar = "TOKEN", usage = "token for HTTP authentication")
+  private List<String> tokens = new ArrayList<>();
+
+  @Option(
+      name = "--generate-token",
+      metaVar = "TOKENID",
+      usage = "generate a new token for the account")
+  private List<String> tokenIdsToGenerate = new ArrayList<>();
+
+  @Option(
+      name = "--delete-token",
+      metaVar = "TOKENID",
+      usage = "delete token with given ID for the account")
+  private List<String> tokenIdsToDelete = new ArrayList<>();
+
   @Option(
       name = "--delete-external-id",
       metaVar = "EXTERNALID",
@@ -146,6 +166,10 @@ final class SetAccountCommand extends SshCommand {
   @Inject private PutName putName;
 
   @Inject private PutHttpPassword putHttpPassword;
+
+  @Inject private CreateToken createToken;
+
+  @Inject private DeleteToken deleteToken;
 
   @Inject private PutActive putActive;
 
@@ -263,6 +287,25 @@ final class SetAccountCommand extends SshCommand {
         if (generateHttpPassword) {
           stdout.print("New password: " + resp.value() + "\n");
         }
+      }
+
+      for (String token : tokens) {
+        AuthTokenInput tokenInput = new AuthTokenInput();
+        tokenInput.id = String.format("token_%d", Instant.now().toEpochMilli());
+        tokenInput.token = token;
+        createToken.apply(rsrc, IdString.fromDecoded(tokenInput.id), tokenInput);
+      }
+
+      for (String tokenId : tokenIdsToGenerate) {
+        AuthTokenInput tokenInput = new AuthTokenInput();
+        tokenInput.id = tokenId;
+        Response<AuthTokenInfo> resp =
+            createToken.apply(rsrc, IdString.fromDecoded(tokenInput.id), tokenInput);
+        stdout.print(String.format("New token (id = %s): %s", resp.value().id, resp.value().token));
+      }
+
+      for (String tokenId : tokenIdsToDelete) {
+        deleteToken.apply(rsrc.getUser(), tokenId, true);
       }
 
       if (active) {

@@ -15,6 +15,8 @@
 package com.google.gerrit.extensions.api.accounts;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.extensions.auth.AuthTokenInfo;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -118,11 +120,17 @@ public interface AccountApi {
 
   void setName(String name) throws RestApiException;
 
+  @CanIgnoreReturnValue
+  AuthTokenInfo createToken(AuthTokenInput input) throws RestApiException;
+
+  List<AuthTokenInfo> getTokens() throws RestApiException;
+
   /**
    * Generate a new HTTP password.
    *
    * @return the generated password.
    */
+  @Deprecated
   String generateHttpPassword() throws RestApiException;
 
   /**
@@ -134,6 +142,7 @@ public interface AccountApi {
    * @return the new password, {@code null} if the password was removed.
    */
   @CanIgnoreReturnValue
+  @Deprecated
   String setHttpPassword(String httpPassword) throws RestApiException;
 
   void delete() throws RestApiException;

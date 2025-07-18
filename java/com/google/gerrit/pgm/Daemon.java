@@ -24,6 +24,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritAuthModule;
@@ -62,6 +63,8 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
+import com.google.gerrit.server.account.AuthTokenModule;
+import com.google.gerrit.server.account.CachingAuthTokenModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
@@ -221,6 +224,7 @@ public class Daemon extends SiteProgram {
   private Injector cfgInjector;
   private Config config;
   private LogConfig logConfig;
+  private AuthConfig authConfig;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector webInjector;
@@ -407,6 +411,7 @@ public class Daemon extends SiteProgram {
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    authConfig = cfgInjector.getInstance(AuthConfig.class);
     indexType = IndexModule.getIndexType(cfgInjector);
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
@@ -562,6 +567,15 @@ public class Daemon extends SiteProgram {
     } else {
       modules.add(NoSshKeyCache.module());
     }
+    boolean useAuthTokenCache =
+        authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP
+            || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_LDAP;
+    if (useAuthTokenCache) {
+      modules.add(new CachingAuthTokenModule());
+    } else {
+      modules.add(new AuthTokenModule());
+    }
+
     modules.add(
         new AbstractModule() {
           @Override

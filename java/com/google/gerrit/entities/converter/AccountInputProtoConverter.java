@@ -18,8 +18,10 @@ package com.google.gerrit.entities.converter;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
+import java.util.stream.Collectors;
 
 /**
  * Proto converter between {@link AccountInput} and {@link
@@ -29,6 +31,9 @@ import com.google.protobuf.Parser;
 public enum AccountInputProtoConverter
     implements ProtoConverter<Entities.AccountInput, AccountInput> {
   INSTANCE;
+
+  private final ProtoConverter<Entities.AuthTokenInput, AuthTokenInput> tokenInputConverter =
+      TokenInputProtoConverter.INSTANCE;
 
   @Override
   public Entities.AccountInput toProto(AccountInput accountInput) {
@@ -53,6 +58,12 @@ public enum AccountInputProtoConverter
     }
     if (accountInput.groups != null) {
       builder.addAllGroups(accountInput.groups);
+    }
+    if (accountInput.tokens != null) {
+      builder.addAllTokens(
+          accountInput.tokens.stream()
+              .map(tokenInputConverter::toProto)
+              .collect(Collectors.toList()));
     }
 
     return builder.build();
@@ -81,6 +92,12 @@ public enum AccountInputProtoConverter
     }
     if (proto.getGroupsCount() > 0) {
       accountInput.groups = proto.getGroupsList();
+    }
+    if (proto.getTokensCount() > 0) {
+      accountInput.tokens =
+          proto.getTokensList().stream()
+              .map(tokenInputConverter::fromProto)
+              .collect(Collectors.toList());
     }
     return accountInput;
   }

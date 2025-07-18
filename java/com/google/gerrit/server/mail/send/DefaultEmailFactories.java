@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -22,6 +23,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.account.AuthToken;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
@@ -43,6 +45,9 @@ public class DefaultEmailFactories implements EmailFactories {
   private final ChangeEmailImplFactory changeEmailFactory;
   private final AddKeyEmailDecoratorFactory addKeyEmailFactory;
   private final DeleteKeyEmailDecoratorFactory deleteKeyEmailFactory;
+  private final AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory;
+  private final AuthTokenWillExpireEmailDecoratorFactory authTokenWillExpireEmailFactory;
+  private final AuthTokenExpiredEmailDecoratorFactory authTokenExpiredEmailFactory;
   private final HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory;
   private final RegisterNewEmailDecoratorImplFactory registerNewEmailFactory;
   private final OutgoingEmailFactory outgoingEmailFactory;
@@ -55,6 +60,9 @@ public class DefaultEmailFactories implements EmailFactories {
       ChangeEmailImplFactory changeEmailFactory,
       AddKeyEmailDecoratorFactory addKeyEmailFactory,
       DeleteKeyEmailDecoratorFactory deleteKeyEmailFactory,
+      AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory,
+      AuthTokenWillExpireEmailDecoratorFactory authTokenWillExpireEmailFactory,
+      AuthTokenExpiredEmailDecoratorFactory authTokenExpiredEmailFactory,
       HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory,
       RegisterNewEmailDecoratorImplFactory registerNewEmailFactory,
       OutgoingEmailFactory outgoingEmailFactory) {
@@ -64,6 +72,9 @@ public class DefaultEmailFactories implements EmailFactories {
     this.changeEmailFactory = changeEmailFactory;
     this.addKeyEmailFactory = addKeyEmailFactory;
     this.deleteKeyEmailFactory = deleteKeyEmailFactory;
+    this.authTokenUpdateEmailFactory = authTokenUpdateEmailFactory;
+    this.authTokenWillExpireEmailFactory = authTokenWillExpireEmailFactory;
+    this.authTokenExpiredEmailFactory = authTokenExpiredEmailFactory;
     this.httpPasswordUpdateEmailFactory = httpPasswordUpdateEmailFactory;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.outgoingEmailFactory = outgoingEmailFactory;
@@ -155,6 +166,22 @@ public class DefaultEmailFactories implements EmailFactories {
   @Override
   public EmailDecorator createDeleteKeyEmail(IdentifiedUser user, List<String> gpgKeys) {
     return deleteKeyEmailFactory.create(user, gpgKeys);
+  }
+
+  @Override
+  public EmailDecorator createAuthTokenUpdateEmail(
+      IdentifiedUser user, String operation, String tokenId) {
+    return authTokenUpdateEmailFactory.create(user, operation, tokenId);
+  }
+
+  @Override
+  public EmailDecorator createAuthTokenWillExpireEmail(Account account, AuthToken authToken) {
+    return authTokenWillExpireEmailFactory.create(account, authToken);
+  }
+
+  @Override
+  public EmailDecorator createAuthTokenExpiredEmail(Account account, AuthToken authToken) {
+    return authTokenExpiredEmailFactory.create(account, authToken);
   }
 
   @Override

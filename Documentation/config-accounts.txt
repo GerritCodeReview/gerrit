@@ -141,6 +141,11 @@ Stores the link:#preferences[user preferences] of the account.
 +
 Stores the link:#project-watches[project watches] of the account.
 
+
+* `tokens.config`:
++
+Stores the link:#authentication-tokens[authentication tokens] of the account.
+
 In addition it contains an
 link:https://en.wikibooks.org/wiki/OpenSSH/Client_Configuration_Files#.7E.2F.ssh.2Fauthorized_keys[
 authorized_keys,role=external,window=_blank] file with the link:#ssh-keys[SSH keys] of the account.
@@ -251,6 +256,39 @@ been retrieved from the index, the complete watch configuration is
 available from the account cache and Gerrit can check if any watch
 matches the change and the event.
 
+[[authentication-tokens]]
+=== Authentication Tokens
+
+When `auth.gitBasicAuthPolicy` is set to `HTTP` or `HTTP_LDAP`, Gerrit requires
+users to authenticate with an authentication token generated in Gerrit when
+using the REST API or Git to communicate with the Gerrit server.
+
+These authentication tokens are stored in the user branch in the `tokens.config`
+file. The file uses the Git config format:
+
+----
+[token "some-token-id"]
+  hash = bcrypt0:4:....
+  expiration = 2025-07-30T07:14:10.745274Z
+----
+
+Each subsection represents a token. The subsection name represents an ID that
+is unique for the user.
+
+The token is never stored in plain text. Only the serialized hash of the token
+will be stored which can be used to verify the token during authentication.
+
+A token may have an expiration timestamp. This timestamp is always in UTC and
+uses the DateTimeFormatter#ISO_INSTANT format. A token is considered valid if
+the expiration timestamp is in the future. If no expiration timestamp is
+provided the token is considered to be valid forever or until it is deleted.
+
+When a token is deleted, the respective subsection is removed from the file.
+
+During authentication Gerrit will verify the provided token against all valid
+tokens present in the account. If any token matches the provided token,
+authentication will succeed.
+
 [[ssh-keys]]
 === SSH Keys
 
@@ -347,7 +385,9 @@ consists of scheme and ID in the format '<scheme>:<id>', is used as
 subsection name.
 
 The `accountId` field is mandatory. The `email` and `password` fields
-are optional.
+are optional. The `password` field is deprecated, because passwords
+are being replaced by tokens, which are stored in the account's user
+reference.
 
 Note that git will automatically nest these notes at varying levels. If
 refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef is not

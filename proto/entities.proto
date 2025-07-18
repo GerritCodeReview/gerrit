@@ -141,7 +141,7 @@ message ApplyPatchInput {
 }
 
 // Serialized form of com.google.gerrit.extensions.api.accounts.AccountInput.
-// Next ID: 8
+// Next ID: 9
 message AccountInput {
  optional string username = 1;
  optional string name = 2;
@@ -150,6 +150,15 @@ message AccountInput {
  optional string ssh_key = 5;
  optional string http_password = 6;
  repeated string groups = 7;
+ repeated AuthTokenInput tokens = 8;
+}
+
+// Serialized form of com.google.gerrit.extensions.auth.AuthTokenInput.
+// Next ID: 4
+message AuthTokenInput {
+ optional string id = 1;
+ optional string token = 2;
+ optional string lifetime = 3;
 }
 
 // Serialized form of com.google.gerrit.extensions.client.ListChangesOption.
@@ -462,7 +471,7 @@ message HumanComment {
     // 0-based
     optional int32 end_char = 4;
   }
-  
+
   // Next Id: 5
   message InFilePosition {
     optional string file_path = 1;

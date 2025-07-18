@@ -28,6 +28,7 @@ import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -42,6 +43,9 @@ import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AuthToken;
+import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gerrit.server.account.InvalidAuthTokenException;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -58,10 +62,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -79,6 +86,7 @@ public class CreateAccount
   private final Sequences seq;
   private final GroupResolver groupResolver;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+  private final AuthTokenAccessor tokensAccessor;
   private final SshKeyCache sshKeyCache;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final AccountLoader.Factory infoLoader;
@@ -87,12 +95,14 @@ public class CreateAccount
   private final OutgoingEmailValidator validator;
   private final AuthConfig authConfig;
   private final ExternalIdFactory externalIdFactory;
+  private final Optional<Duration> maxAuthTokenLifetime;
 
   @Inject
   CreateAccount(
       Sequences seq,
       GroupResolver groupResolver,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
+      AuthTokenAccessor tokensAccessor,
       SshKeyCache sshKeyCache,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       AccountLoader.Factory infoLoader,
@@ -104,6 +114,7 @@ public class CreateAccount
     this.seq = seq;
     this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
+    this.tokensAccessor = tokensAccessor;
     this.sshKeyCache = sshKeyCache;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.infoLoader = infoLoader;
@@ -112,6 +123,7 @@ public class CreateAccount
     this.validator = validator;
     this.authConfig = authConfig;
     this.externalIdFactory = externalIdFactory;
+    this.maxAuthTokenLifetime = authConfig.getMaxAuthTokenLifetime();
   }
 
   @Override
@@ -122,7 +134,8 @@ public class CreateAccount
           UnprocessableEntityException,
           IOException,
           ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException,
+          InvalidAuthTokenException {
     return apply(id, input != null ? input : new AccountInput());
   }
 
@@ -132,7 +145,8 @@ public class CreateAccount
           UnprocessableEntityException,
           IOException,
           ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException,
+          InvalidAuthTokenException {
     String username = applyCaseOfUsername(id.get());
     if (input.username != null && !username.equals(applyCaseOfUsername(input.username))) {
       throw new BadRequestException("username must match URL");
@@ -157,7 +171,7 @@ public class CreateAccount
       extIds.add(externalIdFactory.createEmail(accountId, input.email));
     }
 
-    extIds.add(externalIdFactory.createUsername(username, accountId, input.httpPassword));
+    extIds.add(externalIdFactory.createUsername(username, accountId));
     externalIdCreators.runEach(c -> extIds.addAll(c.create(accountId, username, input.email)));
 
     try {
@@ -195,6 +209,28 @@ public class CreateAccount
       } catch (InvalidSshKeyException e) {
         throw new BadRequestException(e.getMessage());
       }
+    }
+
+    Optional<Instant> defaultExpiration = Optional.empty();
+    if (maxAuthTokenLifetime.isPresent()) {
+      defaultExpiration = Optional.of(Instant.now().plus(maxAuthTokenLifetime.get()));
+    }
+
+    List<AuthToken> tokens = new ArrayList<>();
+    if (input.tokens != null) {
+      for (AuthTokenInput token : input.tokens) {
+        tokens.add(
+            AuthToken.createWithPlainToken(
+                token.id, token.token, CreateToken.getExpirationInstant(token, defaultExpiration)));
+      }
+    }
+
+    if (input.httpPassword != null) {
+      tokens.add(AuthToken.createWithPlainToken("legacy", input.httpPassword));
+    }
+
+    if (!tokens.isEmpty()) {
+      tokensAccessor.addTokens(accountId, tokens);
     }
 
     AccountLoader loader = infoLoader.create(true);

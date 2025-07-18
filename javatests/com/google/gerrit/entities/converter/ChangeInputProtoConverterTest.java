@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.auth.AuthTokenInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -69,6 +70,10 @@ public class ChangeInputProtoConverterTest {
     accountInput.sshKey = "test-ssh-key";
     accountInput.httpPassword = "test-http-password";
     accountInput.groups = ImmutableList.of("test-group");
+    AuthTokenInput tokenInput = new AuthTokenInput();
+    tokenInput.id = "test-id";
+    tokenInput.token = "secret";
+    accountInput.tokens = ImmutableList.of(tokenInput);
     return accountInput;
   }
 

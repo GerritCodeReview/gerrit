@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2757e85b_a3cad82f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "```suggestion\nAdd new REST API to delete list of changes in a single ref update\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6385fec_1f05959b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "Update accordingly. This will used for the Changelog released with the next release.",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b497c20_16cb3816",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -14,6 +54,103 @@
       "writtenOn": "2025-07-18T09:15:24Z",
       "side": 1,
       "message": "Need to add documentation. Will do so soon!",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d75ef7d_eb78fc3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "Please add some tests.",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7361577a_00e685d6",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb88f399_60d117a1",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "Make this an enum",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a037133c_32d5566b",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a788a3cc_8c807768",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T09:40:05Z",
+      "side": 1,
+      "message": "Always throw specific exceptions in runtime code.",
+      "range": {
+        "startLine": 49,
+        "startChar": 85,
+        "endLine": 49,
+        "endChar": 94
+      },
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

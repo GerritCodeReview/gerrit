@@ -2186,6 +2186,14 @@ export class GrChangeView extends LitElement {
   }
 
   private startUpdateCheckTimer() {
+    // Check if there are change updates provider already configured
+    // If yes, then polling for new updates is not required as the provider
+    // will send a signal instead.
+    const updateProviders =
+      this.getPluginLoader().pluginsModel.getChangeUpdatesPlugins();
+    if (updateProviders.length > 0) {
+      return;
+    }
     const delay = this.serverConfig?.change?.update_delay ?? 0;
     if (delay <= MIN_CHECK_INTERVAL_SECS) return;
 

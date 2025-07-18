@@ -16,6 +16,24 @@
       "message": "lit analyzer fails because you are not sync with latest master\nhttps://logs.chromium.org/logs/gerrit/buildbucket/cr-buildbucket/8709111393841375665/+/u/run_lit_linter/stdout",
       "revId": "01cd92a812839f96a55bc2c5377a37a8b36cedd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af8107a8_143dff17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-07-18T07:15:48Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "1820247c_e5638813",
+      "revId": "01cd92a812839f96a55bc2c5377a37a8b36cedd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

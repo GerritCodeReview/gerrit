@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "afa2fc57_ec836d30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-18T20:06:08Z",
+      "side": 1,
+      "message": "Maybe thumbs up and thumbs down can be close to each other and further from link to documentation and title.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ff77991b_dd3b6824",
@@ -14,6 +37,70 @@
       "writtenOn": "2025-07-17T20:15:13Z",
       "side": 1,
       "message": "It looks nice. I will review it tomorrow",
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36675ad9_e4e30b9f",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-18T20:06:08Z",
+      "side": 1,
+      "message": "can you please name them to GENERATE_SUGGESTION_* as we use it on lines 155. That\u0027s how we call them in Gerrit open source.",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 170,
+        "endChar": 55
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c982b43e_531e3c2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-18T20:06:08Z",
+      "side": 1,
+      "message": "NIT: I would skip fallback colors, we don\u0027t do that.",
+      "range": {
+        "startLine": 186,
+        "startChar": 10,
+        "endLine": 187,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5031f9ed_7d10ce91",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 186,
+                "startChar": 0,
+                "endLine": 188,
+                "endChar": 0
+              },
+              "replacement": "          color: var(--selected-foreground);\n          background-color: var(--selected-background);\n"
+            }
+          ]
+        }
+      ],
       "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -36,6 +123,29 @@
         "startChar": 9,
         "endLine": 241,
         "endChar": 22
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "273ddaf8_af7f5cad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-18T20:06:08Z",
+      "side": 1,
+      "message": "That looks good. I will add in follow up changes more details so we can cannot it to comment, suggestion, ...",
+      "range": {
+        "startLine": 370,
+        "startChar": 4,
+        "endLine": 370,
+        "endChar": 75
       },
       "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

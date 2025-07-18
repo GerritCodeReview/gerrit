@@ -25,4 +25,5 @@ export enum KnownExperimentId {
   PARALLEL_DASHBOARD_REQUESTS = 'UiFeature__parallel_dashboard_requests',
   GET_AI_FIX = 'UiFeature__get_ai_fix',
   GET_AI_PROMPT = 'UiFeature__get_ai_prompt',
+  ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT = 'UiFeature__ml_suggested_edit_uncheck_by_default',
 }

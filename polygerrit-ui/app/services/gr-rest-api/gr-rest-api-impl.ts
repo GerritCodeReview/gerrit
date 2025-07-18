@@ -53,7 +53,6 @@ import {
   EditPreferencesInfo,
   EmailAddress,
   EmailInfo,
-  EncodedGroupId,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
   GitRef,
@@ -580,7 +579,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getGroupAuditLog(
-    group: EncodedGroupId,
+    group: GroupId,
     errFn?: ErrorCallback
   ): Promise<GroupAuditEventInfo[] | undefined> {
     return this._restApiHelper.fetchCacheJSON({

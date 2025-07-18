@@ -46,6 +46,30 @@
       },
       "revId": "701345b9b8ecabae3aac4dff5ed6cfcbccb24ac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e7f1887_a9a9aa27",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2196,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-18T12:04:06Z",
+      "side": 1,
+      "message": "\u003e The method uses window.setTimeout and not window.setInternal so this is not triggering a loop inside it.\n\nMakes sense, that\u0027s fine then",
+      "parentUuid": "20af81d0_c70be2fe",
+      "range": {
+        "startLine": 2189,
+        "startChar": 4,
+        "endLine": 2196,
+        "endChar": 5
+      },
+      "revId": "701345b9b8ecabae3aac4dff5ed6cfcbccb24ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -94,6 +94,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df48ca40_ac3f506a",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b059bec_ec44aa6e",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "```suggestion\nimport com.google.gerrit.extensions.api.projects.DeleteChangesInput;\n```",
+      "range": {
+        "startLine": 4,
+        "startChar": 49,
+        "endLine": 4,
+        "endChar": 66
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05274c2e_701af3aa",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "```suggestion\npublic class DeleteChanges implements RestModifyView\u003cProjectResource, DeleteChangesInput\u003e {\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 70,
+        "endLine": 25,
+        "endChar": 87
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb88f399_60d117a1",
         "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
         "patchSetId": 2
@@ -151,6 +214,80 @@
         "endLine": 49,
         "endChar": 94
       },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955a25e3_e7a0de6a",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "```suggestion\n  public Response\u003c?\u003e apply(ProjectResource resource, DeleteChangesInput input) throws Exception {\n```",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61637505_a0e63e8c",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "- responseMsg is computed but not used\n- this looks like a convoluted way to say: `List.of(status)`",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "334bc03e_425df52d",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "```suggestion\n    // Merged changes must not be deleted.\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e0168b_056363a8",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-18T09:45:10Z",
+      "side": 1,
+      "message": "looks like you need to implement the permission check",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

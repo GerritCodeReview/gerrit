@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1dbec0b5_70aeba64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "Start with uppercase. Also add a few sentences about the motivation for this feature.",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6385fec_1f05959b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -75,6 +92,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5ea193_1c93bf32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "Please also document the new REST endpoint and add some tests.",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7361577a_00e685d6",
@@ -105,6 +139,23 @@
       "writtenOn": "2025-07-18T09:45:10Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ff4513_0dc63135",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "Missing license header",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -231,6 +282,80 @@
       "writtenOn": "2025-07-18T09:45:10Z",
       "side": 1,
       "message": "```suggestion\n  public Response\u003c?\u003e apply(ProjectResource resource, DeleteChangesInput input) throws Exception {\n```",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2aa569f_34877d1b",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "Consider using Guava\u0027s `Multimap`, then the type would be:\n```\nMultimap\u003cString, String\u003e responseBody \u003d ArrayListMultimap.create();\n```\n\nand we wouldn\u0027t need to care about the initialization of empty lists with `computeIfAbsent` (in the construct response). Actually the whole `constructResponse` method may not be necessary as we can simply do:\n```\nresponseBody.put(status, change)\n```",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f56c2e7_1da3bc39",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "It may make sense to reverse the order of these checks because the `isMerged()` check is potentially much faster than the permission check.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c78f8e_d92f868c",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "What if it is not deletable? There will be nothing in the response about that change.",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19cb61b2_ca290f04",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-18T09:45:49Z",
+      "side": 1,
+      "message": "This declares SUCCESS before the update is performed (line 72)",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

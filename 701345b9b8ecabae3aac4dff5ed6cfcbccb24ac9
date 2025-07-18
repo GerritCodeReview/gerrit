@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b635c44a_76d22e09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2196,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-18T10:42:10Z",
+      "side": 1,
+      "message": "I am not sure this will work. I think this method will execute (or it least it might) before all plugins are loaded.",
+      "range": {
+        "startLine": 2189,
+        "startChar": 4,
+        "endLine": 2196,
+        "endChar": 5
+      },
+      "revId": "701345b9b8ecabae3aac4dff5ed6cfcbccb24ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

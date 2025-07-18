@@ -152,7 +152,7 @@ and the cancellation reason:
 |=======================
 |Request Type   |Cancellation Reason|Response
 |REST over HTTP |Client Disconnected|The response is '499 Client Closed Request'.
-|               |Server-side deadline exceeded|The response is '408 Server Deadline Exceeded'.
+|               |Server-side deadline exceeded|The response is '500 Internal Server Error'.
 |               |Client-provided deadline exceeded|The response is '408 Client Provided Deadline Exceeded'.
 |SSH command    |Client Disconnected|The error message is 'Client Closed Request'.
 |               |Server-side deadline exceeded|The error message is 'Server Deadline Exceeded'.

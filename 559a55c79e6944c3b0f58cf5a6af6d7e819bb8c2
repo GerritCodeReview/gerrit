@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c82d66d3_25705daf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-18T22:03:33Z",
+      "side": 1,
+      "message": "Done. Updated the screenshot",
+      "parentUuid": "afa2fc57_ec836d30",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ff77991b_dd3b6824",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -54,6 +78,30 @@
       "writtenOn": "2025-07-18T20:06:08Z",
       "side": 1,
       "message": "can you please name them to GENERATE_SUGGESTION_* as we use it on lines 155. That\u0027s how we call them in Gerrit open source.",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 170,
+        "endChar": 55
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "170b4a43_529c4702",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-18T22:03:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36675ad9_e4e30b9f",
       "range": {
         "startLine": 169,
         "startChar": 2,
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe4c3e54_19b037e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-18T22:03:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c982b43e_531e3c2c",
+      "range": {
+        "startLine": 186,
+        "startChar": 10,
+        "endLine": 187,
+        "endChar": 64
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a78b6986_c54f5468",
@@ -118,6 +190,30 @@
       "writtenOn": "2025-07-17T20:15:13Z",
       "side": 1,
       "message": "Can you please add them under feature flag - please create a new one.",
+      "range": {
+        "startLine": 217,
+        "startChar": 9,
+        "endLine": 241,
+        "endChar": 22
+      },
+      "revId": "559a55c79e6944c3b0f58cf5a6af6d7e819bb8c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e43934_36b0d14d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-18T22:03:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a78b6986_c54f5468",
       "range": {
         "startLine": 217,
         "startChar": 9,

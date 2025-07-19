@@ -70,6 +70,24 @@
       "parentUuid": "5db40f88_7b3b70b3",
       "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdcda071_03cab98d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-19T15:30:37Z",
+      "side": 1,
+      "message": "I\u0027ve improved it a bit more (text is now hidden). So closing the comment with resolved but if you know how to improve this please me know @milutin@google.com. E.g. not requring having to duplicate text inside the hintOverlay (i\u0027m not sure if this is possible). But right now this works. Please test it especially the hint stuff as you said it\u0027s for AI.",
+      "parentUuid": "61fccd55_d01ec179",
+      "revId": "deea72b88161ec16bd2457394d6d5fe880af2da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

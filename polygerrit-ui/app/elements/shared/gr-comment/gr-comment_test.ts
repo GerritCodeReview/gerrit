@@ -340,7 +340,6 @@ suite('gr-comment tests', () => {
                   code=""
                   id="editTextarea"
                   rows="4"
-                  text="This is the test comment message."
                 >
                 </gr-suggestion-textarea>
                 <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>

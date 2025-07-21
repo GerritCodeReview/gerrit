@@ -156,7 +156,6 @@ export class GrDropdownList extends LitElement {
         }
         .dropdown {
           position: relative;
-          z-index: 120;
         }
         .bottomContent {
           color: var(--deemphasized-text-color);

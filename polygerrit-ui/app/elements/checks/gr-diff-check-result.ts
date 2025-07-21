@@ -314,7 +314,6 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private renderPleaseFixButton() {
-    if (this.isOwner) return nothing;
     const action: Action = {
       name: 'Please Fix',
       callback: () => {

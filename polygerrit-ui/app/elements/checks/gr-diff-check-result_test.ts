@@ -128,6 +128,15 @@ suite('gr-diff-check-result tests', () => {
       `
     );
   });
+
+  test('shows please-fix button for author', async () => {
+    element.result = {...fakeRun1, ...fakeRun1.results?.[0]} as RunResult;
+    element.isOwner = true;
+    await element.updateComplete;
+    const button = queryAndAssert(element, '#please-fix');
+    assert.isOk(button);
+  });
+
   suite('AI fix button', () => {
     setup(async () => {
       element.result = {

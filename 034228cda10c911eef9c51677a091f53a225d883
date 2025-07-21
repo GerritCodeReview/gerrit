@@ -22,6 +22,30 @@
       },
       "revId": "034228cda10c911eef9c51677a091f53a225d883",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "480933f4_19a5be98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-21T13:20:30Z",
+      "side": 1,
+      "message": "I rephrased this a bit to make this clearer. It\u0027s also explained in the sentences below. With \"resolve\", \"recursive\" or \"simple-two-way-in-core\" as the merge strategy we expect the Create Change call to fail and the tests verify the error message. With \"ours\" or \"theirs\" as the merge strategy creating a change succeeds even if conflicting modifications are being merged, since these strategies just accept one of the sides, so that the result never has conflicts.",
+      "parentUuid": "c8d10390_f91c2c5b",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "034228cda10c911eef9c51677a091f53a225d883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

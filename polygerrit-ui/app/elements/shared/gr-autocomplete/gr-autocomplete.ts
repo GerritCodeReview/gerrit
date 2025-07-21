@@ -523,6 +523,7 @@ export class GrAutocomplete extends LitElement {
 
   updateDropdownVisibility() {
     if (this.shouldShowDropdown()) {
+      this.suggestionsDropdown?.setPositionTarget(this.shadowRoot?.querySelector('gr-autocomplete-dropdown') as HTMLElement)
       this.suggestionsDropdown?.open();
       return;
     }

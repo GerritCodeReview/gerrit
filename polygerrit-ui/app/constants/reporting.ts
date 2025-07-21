@@ -166,4 +166,6 @@ export enum Interaction {
   COMMENT_COMPLETION_SUGGESTION_ACCEPTED = 'comment-completion-suggestion-accepted',
   COMMENT_COMPLETION_SAVE_DRAFT = 'comment-completion-save-draft',
   COMMENT_COMPLETION_SUGGESTION_FETCHED = 'comment-completion-suggestion-fetched',
+  GENERATE_SUGGESTION_THUMB_UP = 'ai_suggestion_thumb_up',
+  GENERATE_SUGGESTION_THUMB_DOWN = 'ai_suggestion_thumb_down',
 }

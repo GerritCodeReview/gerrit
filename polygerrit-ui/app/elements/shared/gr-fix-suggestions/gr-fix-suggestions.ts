@@ -21,6 +21,7 @@ import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {when} from 'lit/directives/when.js';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
@@ -67,6 +68,10 @@ export class GrFixSuggestions extends LitElement {
 
   @state() isChangeAbandoned = false;
 
+  @state() private thumbUpSelected = false;
+
+  @state() private thumbDownSelected = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -76,6 +81,8 @@ export class GrFixSuggestions extends LitElement {
   private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   @state() private previewLoaded = false;
 
@@ -165,6 +172,8 @@ export class GrFixSuggestions extends LitElement {
         }
         .header .title {
           flex: 1;
+          display: flex;
+          align-items: center;
         }
         .headerMiddle {
           display: flex;
@@ -172,6 +181,17 @@ export class GrFixSuggestions extends LitElement {
         }
         .copyButton {
           margin-right: var(--spacing-l);
+        }
+        .feedback-button[aria-label='Thumb up'] {
+          margin-left: var(--spacing-l);
+          margin-right: 0;
+        }
+        .feedback-button[aria-label='Thumb down'] {
+          margin-left: 0;
+        }
+        .selected {
+          color: var(--selected-foreground);
+          background-color: var(--selected-background);
         }
       `,
     ];
@@ -198,11 +218,44 @@ export class GrFixSuggestions extends LitElement {
                 name="suggestion"
                 .value=${fix_suggestions}
               ></gr-endpoint-param
-              ><gr-icon
-                icon="help"
-                title="read documentation"
-              ></gr-icon></gr-endpoint-decorator
-          ></a>
+              ><gr-icon icon="help" title="read documentation"></gr-icon
+            ></gr-endpoint-decorator>
+          </a>
+          ${when(
+            this.flagsService.isEnabled(
+              KnownExperimentId.ML_SUGGESTED_EDIT_FEEDBACK
+            ),
+            () => html`
+              <gr-button
+                secondary
+                flatten
+                class="action feedback-button ${this.thumbUpSelected
+                  ? 'selected'
+                  : ''}"
+                aria-label="Thumb up"
+                @click=${this.handleThumbUpClick}
+              >
+                <gr-icon
+                  icon="thumb_up"
+                  ?filled=${this.thumbUpSelected}
+                ></gr-icon>
+              </gr-button>
+              <gr-button
+                secondary
+                flatten
+                class="action feedback-button ${this.thumbDownSelected
+                  ? 'selected'
+                  : ''}"
+                aria-label="Thumb down"
+                @click=${this.handleThumbDownClick}
+              >
+                <gr-icon
+                  icon="thumb_down"
+                  ?filled=${this.thumbDownSelected}
+                ></gr-icon>
+              </gr-button>
+            `
+          )}
         </div>
         <div class="headerMiddle">
           <gr-button
@@ -316,6 +369,24 @@ export class GrFixSuggestions extends LitElement {
     } finally {
       this.applyingFix = false;
     }
+  }
+
+  private handleThumbUpClick() {
+    this.thumbUpSelected = !this.thumbUpSelected;
+    if (this.thumbUpSelected) {
+      this.thumbDownSelected = false;
+    }
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_THUMB_UP);
+  }
+
+  private handleThumbDownClick() {
+    this.thumbDownSelected = !this.thumbDownSelected;
+    if (this.thumbDownSelected) {
+      this.thumbUpSelected = false;
+    }
+    this.reporting.reportInteraction(
+      Interaction.GENERATE_SUGGESTION_THUMB_DOWN
+    );
   }
 
   private isApplyEditDisabled() {

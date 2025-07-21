@@ -5,7 +5,6 @@
  */
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
 import '../../../embed/gr-textarea';
 import {getAppContext} from '../../../services/app-context';
@@ -34,32 +33,12 @@ import {GrTextarea} from '../../../embed/gr-textarea';
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {EMOJIS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/emojis_config';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import '@material/web/textfield/outlined-text-field';
+import {ifDefined} from 'lit/directives/if-defined.js';
+// import { MdOutlinedTextField } from '@material/web/textfield/outlined-text-field';
+import './iron-autogrow-textareas';
 
 const MAX_ITEMS_DROPDOWN = 25;
-
-const FALLBACK_SUGGESTIONS: EmojiSuggestion[] = [
-  {value: '😊', match: 'smile :)'},
-  {value: '👍', match: 'thumbs up'},
-  {value: '😄', match: 'laugh :D'},
-  {value: '❤️', match: 'heart <3'},
-  {value: '😂', match: "tears :')"},
-  {value: '🎉', match: 'party'},
-  {value: '😎', match: 'cool |;)'},
-  {value: '😞', match: 'sad :('},
-  {value: '😐', match: 'neutral :|'},
-  {value: '😮', match: 'shock :O'},
-  {value: '🙏', match: 'pray'},
-  {value: '😕', match: 'confused'},
-  {value: '👌', match: 'ok'},
-  {value: '🔥', match: 'fire'},
-  {value: '💯', match: '100'},
-  {value: '✔', match: 'check'},
-  {value: '😋', match: 'tongue'},
-  {value: '😭', match: "crying :'("},
-  {value: '🤓', match: 'glasses'},
-  {value: '😢', match: 'tear'},
-  {value: '😜', match: 'winking tongue ;)'},
-];
 
 export interface EmojiSuggestion extends Item {
   match: string;
@@ -237,13 +216,7 @@ export class GrSuggestionTextarea extends LitElement {
         #textarea {
           background-color: var(--view-background-color);
           width: 100%;
-          color: var(--primary-text-color);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          padding: 0;
-          box-sizing: border-box;
           position: relative;
-          --gr-textarea-padding: var(--spacing-s);
           --gr-textarea-border-width: 0px;
           --gr-textarea-border-color: var(--border-color);
           --input-field-bg: var(--view-background-color);
@@ -282,30 +255,36 @@ export class GrSuggestionTextarea extends LitElement {
 
   override render() {
     return html`
+    <div style="position: relative;">
       <div id="hiddenText"></div>
       <!-- When the autocomplete is open, the span is moved at the end of
       hiddenText in order to correctly position the dropdown. After being moved,
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
+      </div>
       ${this.renderTextarea()}
     `;
   }
 
   private renderTextarea() {
-    return html`<gr-textarea
-      id="textarea"
-      putCursorAtEndOnFocus
-      class=${classMap({noBorder: this.hideBorder})}
-      .placeholder=${this.placeholder}
-      ?disabled=${!!this.disabled}
-      .value=${this.text}
-      .hint=${this.autocompleteHint}
-      @input=${(e: InputEvent) => {
-        const value = (e.target as GrTextarea).value;
-        this.text = value ?? '';
-      }}
-    ></gr-textarea>`;
+    return html`
+      <gr-textarea
+        id="textarea"
+        putCursorAtEndOnFocus
+        class=${classMap({noBorder: this.hideBorder})}
+        .rows=${this.rows}
+        .maxRows=${this.maxRows ?? 11}
+        .hint=${'test'}
+        autocomplete=${ifDefined(this.autocomplete)}
+        .placeholder=${this.placeholder}
+        ?disabled=${this.disabled}
+        .value=${this.text}
+        @input=${(e: InputEvent) => {
+          this.text = (e.target as HTMLTextAreaElement).value ?? '';
+        }}
+      ></gr-textarea>
+    `;
   }
 
   private renderEmojiDropdown() {
@@ -340,10 +319,6 @@ export class GrSuggestionTextarea extends LitElement {
         .getLibrary(EMOJIS_LIBRARY_CONFIG)
         .then(emojis => {
           if (emojis) this.emojis = emojis as EmojiSuggestion[];
-        })
-        .catch(err => {
-          console.error('Failed to load emojis library', err);
-          this.emojis = FALLBACK_SUGGESTIONS;
         });
     }
   }
@@ -524,7 +499,7 @@ export class GrSuggestionTextarea extends LitElement {
    * private but used in test
    */
   updateCaratPosition() {
-    let position = this.textarea?.getCursorPosition() ?? -1;
+    let position = this.getCursorPosition() ?? -1;
     if (position === -1) {
       position = this.text.length;
     }
@@ -541,7 +516,7 @@ export class GrSuggestionTextarea extends LitElement {
     // - The search string is an space or new line
     // - The colon has been removed
     // - There are no suggestions that match the search string
-    const position = this.textarea?.getCursorPosition() ?? -1;
+    const position = this.getCursorPosition() ?? -1;
     return (
       position !== (this.currentSearchString ?? '').length + charIndex + 1 ||
       this.currentSearchString === ' ' ||
@@ -611,7 +586,7 @@ export class GrSuggestionTextarea extends LitElement {
   }
 
   public computeIndexAndSearchString() {
-    let currentCarat = this.textarea?.getCursorPosition() ?? -1;
+    let currentCarat = this.getCursorPosition() ?? -1;
     if (currentCarat === -1) {
       currentCarat = this.text.length;
     }
@@ -720,7 +695,7 @@ export class GrSuggestionTextarea extends LitElement {
     // the indentation level of the current line, not the end of the text which
     // may be different.
     const currentLine = this.text
-      .substring(0, this.textarea?.getCursorPosition() ?? -1)
+      .substring(0, this.getCursorPosition() ?? -1)
       .split('\n')
       .pop();
     const currentLineIndentation = currentLine?.match(/^\s*/)?.[0];
@@ -794,6 +769,20 @@ export class GrSuggestionTextarea extends LitElement {
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
+  }
+
+  private getMdTextField(): GrTextarea | null {
+    return this.renderRoot.querySelector('gr-textarea');
+  }
+
+  private getNativeTextarea(): HTMLTextAreaElement | undefined {
+    return (
+      this.getMdTextField()?.shadowRoot?.querySelector('textarea') ?? undefined
+    );
+  }
+
+  getCursorPosition(): number {
+    return this.getNativeTextarea()?.selectionStart ?? -1;
   }
 }
 

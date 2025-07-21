@@ -8,13 +8,18 @@ import '../../../styles/shared-styles';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fire} from '../../../utils/event-util';
 import {Key} from '../../../utils/dom-util';
-import {FitController} from '../../lit/fit-controller';
-import {css, html, LitElement, PropertyValues} from 'lit';
+// import {FitController} from '../../lit/fit-controller';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import '@material/web/divider/divider';
+import '@material/web/menu/menu';
+import '@material/web/menu/menu-item';
+import {MdMenu} from '@material/web/menu/menu';
+import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -50,6 +55,8 @@ export interface AutocompleteQueryStatus {
 
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends LitElement {
+  @query('#dropdown') dropdown?: MdMenu;
+
   /**
    * Fired when the dropdown is closed.
    *
@@ -91,7 +98,7 @@ export class GrAutocompleteDropdown extends LitElement {
   cursor = new GrCursorManager();
 
   // visible for testing
-  fitController = new FitController(this);
+  // fitController = new FitController(this);
 
   static override get styles() {
     return [
@@ -138,17 +145,42 @@ export class GrAutocompleteDropdown extends LitElement {
           color: var(--error-foreground);
           white-space: pre-wrap;
         }
-        @media only screen and (max-height: 35em) {
-          .dropdown-content {
-            max-height: 80vh;
-          }
-        }
         .label {
           color: var(--deemphasized-text-color);
           padding-left: var(--spacing-l);
         }
         .hide {
           display: none;
+        }
+        md-menu {
+          white-space: nowrap;
+          --md-menu-container-color: var(--dropdown-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
+        }
+        md-divider {
+          margin: auto;
+          --md-divider-color: var(--border-color);
+        }
+        md-menu-item {
+          --md-sys-color-on-surface: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-color-on-secondary-container: var(
+            --gr-dropdown-item-color,
+            var(--primary-text-color, black)
+          );
+          --md-sys-typescale-body-large-font: inherit;
+          --md-menu-item-hover-state-layer-color: var(
+            --selection-background-color
+          );
+          --md-menu-item-hover-state-layer-opacity: 1;
+          --md-menu-item-selected-container-color: var(
+            --selection-background-color
+          );
+          --md-focus-ring-color: var(--gr-dropdown-focus-ring-color);
+          --md-menu-item-one-line-container-height: auto;
         }
       `,
     ];
@@ -215,55 +247,92 @@ export class GrAutocompleteDropdown extends LitElement {
 
   override render() {
     return html`
-      <div class="dropdown-content" id="suggestions" role="listbox">
-        <ul>
-          ${when(
-            this.queryStatus,
-            () => this.renderStatus(),
-            () => html`
-              ${repeat(
-                this.suggestions,
-                (item, index) => html`
-                  <li
-                    data-index=${index}
-                    data-value=${item.dataValue ?? ''}
-                    tabindex="-1"
-                    aria-label=${item.name ?? ''}
-                    class="autocompleteOption"
-                    role="option"
-                    @click=${this.handleClickItem}
+      <md-menu
+        id="dropdown"
+        default-focus="none"
+        tabindex="-1"
+        .menuCorner=${'start-start'}
+        .yOffset=${this.verticalOffset}
+        ?noVerticalFlip=${true}
+        ?noHorizontalFlip=${true}
+        ?quick=${true}
+        @click=${this.handleDropdownClick}
+      >
+        ${when(
+          this.queryStatus,
+          () => this.renderStatus(),
+          () => html`
+            ${repeat(
+              this.suggestions,
+              (item, index) => html`
+                <md-menu-item
+                  ?selected=${index === 0}
+                  ?active=${index === 0}
+                  data-index=${index}
+                  data-value=${item.dataValue ?? ''}
+                  @click=${this.handleClickItem}
+                  @keydown=${(e: KeyboardEvent) => {
+                    if (e.key === Key.ENTER || e.key === Key.SPACE) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      this.handleEnter();
+                    }
+                    if (e.key === Key.UP) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      // this.handleUp();
+                    }
+                    if (e.key === Key.DOWN) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      // this.handleDown();
+                    }
+                  }}
+                >
+                  <span>${item.text}</span>
+                  <span class="label ${this.computeLabelClass(item)}"
+                    >${item.label}</span
                   >
-                    <span>${item.text}</span>
-                    <span class="label ${this.computeLabelClass(item)}"
-                      >${item.label}</span
-                    >
-                  </li>
-                `
-              )}
-            `
-          )}
-        </ul>
-      </div>
+                </md-menu-item>
+                ${index < this.suggestions.length - 1
+                  ? html`<md-divider
+                      role="separator"
+                      tabindex="-1"
+                    ></md-divider>`
+                  : nothing}
+              `
+            )}
+          `
+        )}
+      </md-menu>
     `;
   }
 
   close() {
     this.isHidden = true;
+    this.dropdown?.close();
   }
 
   open() {
     this.isHidden = false;
+    this.dropdown?.show();
   }
 
   getCurrentText() {
     if (!this.queryStatus) {
+      console.log('well')
+      console.log(this.getCursorTarget())
       return this.getCursorTarget()?.dataset['value'] || '';
     }
     return '';
   }
 
-  setPositionTarget(target: HTMLElement) {
-    this.fitController.setPositionTarget(target);
+  setPositionTarget(target?: HTMLElement) {
+    assertIsDefined(this.dropdown);
+    if (target) {
+      this.dropdown.anchorElement = target;
+    }
+    // this.fitController.setPositionTarget(target);
   }
 
   cursorDown() {
@@ -302,13 +371,9 @@ export class GrAutocompleteDropdown extends LitElement {
   private handleClickItem(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    let selected = e.target! as HTMLElement;
-    while (!selected.classList.contains('autocompleteOption')) {
-      if (!selected || selected === this) {
-        return;
-      }
-      selected = selected.parentElement!;
-    }
+    const selected = e.currentTarget! as HTMLElement;
+    console.log('handleClickItem');
+    console.log(selected);
     fire(this, 'item-selected', {
       trigger: 'click',
       selected,
@@ -324,15 +389,15 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   computeCursorStopsAndRefit() {
-    if (this.suggestions.length > 0) {
+    console.log('computeCursorStopsAndRefit');
+    console.log(this.dropdown?.open);
+    if (this.suggestions.length > 0 && this.dropdown?.open) {
       this.cursor.stops = Array.from(
-        this.suggestionsDiv?.querySelectorAll('li.autocompleteOption') ?? []
+        this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
       this.resetCursorIndex();
-    } else {
-      this.cursor.stops = [];
     }
-    this.fitController.refit();
+    // this.fitController.refit();
   }
 
   private setIndex() {
@@ -345,5 +410,10 @@ export class GrAutocompleteDropdown extends LitElement {
 
   private computeLabelClass(item: Item) {
     return item.label ? '' : 'hide';
+  }
+
+  private handleDropdownClick() {
+    assertIsDefined(this.dropdown);
+    this.dropdown.close();
   }
 }

@@ -3,121 +3,154 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
-import '../gr-button/gr-button';
-import '../gr-date-formatter/gr-date-formatter';
-import '../gr-file-status/gr-file-status';
+import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
+import {fire} from '../../../utils/event-util';
+import {Key} from '../../../utils/dom-util';
+//import {FitController} from '../../lit/fit-controller';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
-import {CommentThread, Timestamp} from '../../../types/common';
-import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
-import {GrButton} from '../gr-button/gr-button';
-import {assertIsDefined} from '../../../utils/common-util';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {ValueChangedEvent} from '../../../types/events';
-import {incrementalRepeat} from '../../lit/incremental-repeat';
+import {customElement, property, query} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
-import {isMagicPath} from '../../../utils/path-list-util';
-import {fireNoBubble} from '../../../utils/event-util';
-import {classMap} from 'lit/directives/class-map.js';
+import {repeat} from 'lit/directives/repeat.js';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {ShortcutController} from '../../lit/shortcut-controller';
 import '@material/web/divider/divider';
 import '@material/web/menu/menu';
 import '@material/web/menu/menu-item';
 import {MdMenu} from '@material/web/menu/menu';
-import {Key} from '../../../utils/dom-util';
-import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
-
-/**
- * Required values are text and value. mobileText and triggerText will
- * fall back to text if not provided.
- *
- * If bottomText is not provided, nothing will display on the second
- * line.
- *
- * If date is not provided, nothing will be displayed in its place.
- */
-export interface DropdownItem {
-  text: string;
-  value: string | number;
-  bottomText?: string;
-  triggerText?: string;
-  mobileText?: string;
-  date?: Timestamp;
-  disabled?: boolean;
-  file?: NormalizedFileInfo;
-  commentThreads?: CommentThread[];
-  deemphasizeReason?: string;
-}
+import { assertIsDefined } from '../../../utils/common-util';
 
 declare global {
+  interface HTMLElementTagNameMap {
+    'gr-autocomplete-dropdown': GrAutocompleteDropdown;
+  }
   interface HTMLElementEventMap {
-    'value-change': ValueChangedEvent<string>;
+    'dropdown-closed': CustomEvent<{}>;
   }
 }
-@customElement('gr-dropdown-list')
-export class GrDropdownList extends LitElement {
-  @query('#dropdown')
-  dropdown?: MdMenu;
 
-  @query('#trigger')
-  trigger?: GrButton;
+export interface Item {
+  dataValue?: string;
+  name?: string;
+  text?: string;
+  label?: string;
+  value?: string;
+}
+
+export interface ItemSelectedEventDetail {
+  trigger: string;
+  selected: HTMLElement | null;
+}
+
+export enum AutocompleteQueryStatusType {
+  LOADING = 'loading',
+  ERROR = 'error',
+}
+
+export interface AutocompleteQueryStatus {
+  type: AutocompleteQueryStatusType;
+  message: string;
+}
+
+@customElement('gr-autocomplete-dropdown')
+export class GrAutocompleteDropdown extends LitElement {
+  @query('#dropdown') dropdown?: MdMenu;
 
   /**
-   * Fired when the selected value changes
+   * Fired when the dropdown is closed.
    *
-   * @event value-change
+   * @event dropdown-closed
+   */
+
+  /**
+   * Fired when item is selected.
    *
-   * @property {string} value
+   * @event item-selected
    */
 
   @property({type: Number})
-  initialCount = 75;
+  index: number | null = null;
+
+  @property({type: Boolean, reflect: true, attribute: 'is-hidden'})
+  isHidden = true;
+
+  /** If specified a single non-interactable line is shown instead of
+   * suggestions.
+   */
+  @property({type: Object})
+  queryStatus?: AutocompleteQueryStatus;
+
+  @property({type: Number})
+  verticalOffset = 0;
+
+  @property({type: Number})
+  horizontalOffset = 0;
 
   @property({type: Array})
-  items?: DropdownItem[];
+  suggestions: Item[] = [];
 
-  @property({type: String})
-  text?: string;
+  @query('#suggestions') suggestionsDiv?: HTMLDivElement;
 
-  @property({type: Boolean})
-  disabled = false;
+  private readonly shortcuts = new ShortcutController(this);
 
-  @property({type: String})
-  value = '';
-
-  @property({type: Boolean, attribute: 'show-copy-for-trigger-text'})
-  showCopyForTriggerText = false;
-
-  @state()
-  selectedIndex = 0;
-
-  @state()
-  private opened = false;
-
+  // visible for testing
   cursor = new GrCursorManager();
 
-  constructor() {
-    super();
-    this.cursor.cursorTargetAttribute = 'selected';
-    this.cursor.focusOnMove = true;
-  }
+  // visible for testing
+  //fitController = new FitController(this);
 
   static override get styles() {
     return [
       sharedStyles,
       css`
         :host {
-          display: inline-block;
+          z-index: 100;
+          box-shadow: var(--elevation-level-2);
+          overflow: auto;
+          background: var(--dropdown-background-color);
+          border-radius: var(--border-radius);
+          max-height: 50vh;
         }
-        #triggerText {
-          -moz-user-select: text;
-          -ms-user-select: text;
-          -webkit-user-select: text;
-          user-select: text;
+        :host([is-hidden]) {
+          display: none;
         }
-        .dropdown-trigger {
+        ul {
+          list-style: none;
+        }
+        li {
+          border-bottom: 1px solid var(--border-color);
           cursor: pointer;
-          padding: 0;
+          display: flex;
+          justify-content: space-between;
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        li:last-of-type {
+          border: none;
+        }
+        li:focus {
+          outline: none;
+        }
+        li:hover {
+          background-color: var(--hover-background-color);
+        }
+        li.selected {
+          background-color: var(--hover-background-color);
+        }
+        li.query-status {
+          background-color: var(--disabled-background);
+          cursor: default;
+        }
+        li.query-status.error {
+          color: var(--error-foreground);
+          white-space: pre-wrap;
+        }
+        .label {
+          color: var(--deemphasized-text-color);
+          padding-left: var(--spacing-l);
+        }
+        .hide {
+          display: none;
         }
         md-menu {
           white-space: nowrap;
@@ -130,8 +163,6 @@ export class GrDropdownList extends LitElement {
           --md-divider-color: var(--border-color);
         }
         md-menu-item {
-          max-height: 70vh;
-          min-width: 266px;
           --md-sys-color-on-surface: var(
             --gr-dropdown-item-color,
             var(--primary-text-color, black)
@@ -151,142 +182,100 @@ export class GrDropdownList extends LitElement {
           --md-focus-ring-color: var(--gr-dropdown-focus-ring-color);
           --md-menu-item-one-line-container-height: auto;
         }
-        md-menu-item[active] .topContent {
-          font-weight: bold;
-        }
-        .dropdown {
-          position: relative;
-        }
-        .bottomContent {
-          color: var(--deemphasized-text-color);
-          white-space: pre-wrap;
-        }
-        .bottomContent,
-        .topContent {
-          display: flex;
-          justify-content: space-between;
-          flex-direction: row;
-          width: 100%;
-        }
-        gr-button {
-          font-family: var(--trigger-style-font-family);
-          --gr-button-text-color: var(--trigger-style-text-color);
-        }
-        gr-date-formatter {
-          color: var(--deemphasized-text-color);
-          margin-left: var(--spacing-xxl);
-          white-space: nowrap;
-        }
-        .topContent.deemphasized {
-          color: var(--deemphasized-text-color);
-          font-style: italic;
-        }
-        gr-comments-summary {
-          padding-left: var(--spacing-s);
-        }
-        .copyClipboard {
-          display: inline-flex;
-          vertical-align: top;
-        }
-        .mobileText {
-          display: none;
-        }
-        .desktopText {
-          display: inline-block;
-        }
-        @media only screen and (max-width: 50em) {
-          .mobileText {
-            display: inline-block;
-          }
-          .desktopText {
-            display: none;
-          }
-        }
       `,
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
-    if (this.opened) {
-      this.setUpGlobalEventListeners();
-    }
+  private isSuggestionListInteractible() {
+    return !this.isHidden && !this.queryStatus;
   }
 
-  protected override willUpdate(changedProperties: PropertyValues): void {
-    if (changedProperties.has('value') || changedProperties.has('items')) {
-      this.updateText();
-    }
-    if (changedProperties.has('value')) {
-      fireNoBubble(this, 'value-change', {value: this.value});
+  constructor() {
+    super();
+    this.cursor.cursorTargetClass = 'selected';
+    this.cursor.focusOnMove = true;
+    this.shortcuts.addLocal({key: Key.UP, allowRepeat: true}, () =>
+      this.cursorUp()
+    );
+    this.shortcuts.addLocal({key: Key.DOWN, allowRepeat: true}, () =>
+      this.cursorDown()
+    );
+    this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
+    this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEscape());
+    this.shortcuts.addLocal({key: Key.TAB}, () => this.handleTab());
+  }
+
+  override disconnectedCallback() {
+    this.cursor.unsetCursor();
+    super.disconnectedCallback();
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('index')) {
+      this.setIndex();
     }
   }
 
   override updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('items')) {
-      this.resetCursorStops();
-    }
-
-    if (changedProperties.has('opened')) {
-      if (this.opened) {
-        this.resetCursorStops();
-        this.cursor.setCursorAtIndex(this.selectedIndex);
-        if (this.cursor.target !== null) {
-          this.cursor.target.focus();
-          this.handleAddSelected();
-        }
-        this.setUpGlobalEventListeners();
-      } else {
-        this.cleanUpGlobalEventListeners();
+    if (
+      changedProperties.has('suggestions') ||
+      changedProperties.has('isHidden') ||
+      changedProperties.has('queryStatus')
+    ) {
+      if (!this.isHidden) {
+        this.computeCursorStopsAndRefit();
       }
     }
   }
 
-  private setUpGlobalEventListeners() {
-    document.addEventListener('resize', this.onWindowResize, {passive: true});
-    window.addEventListener('resize', this.onWindowResize, {passive: true});
-    document.addEventListener('scroll', this.onWindowResize, {passive: true});
-    window.addEventListener('scroll', this.onWindowResize, {passive: true});
+  private renderStatus() {
+    return html`
+      <li
+        tabindex="-1"
+        aria-label="autocomplete query status"
+        class="query-status ${this.queryStatus?.type}"
+      >
+        <span>${this.queryStatus?.message}</span>
+        <span class="label"
+          >${this.queryStatus?.type === AutocompleteQueryStatusType.ERROR
+            ? 'ERROR'
+            : ''}</span
+        >
+      </li>
+    `;
   }
-
-  private cleanUpGlobalEventListeners() {
-    document.removeEventListener('resize', this.onWindowResize);
-    window.removeEventListener('resize', this.onWindowResize);
-    document.removeEventListener('scroll', this.onWindowResize);
-    window.removeEventListener('scroll', this.onWindowResize);
-  }
-
-  private readonly onWindowResize = () => {
-    this.dropdown?.reposition();
-  };
 
   override render() {
-    return html`<div class="dropdown">
-      <gr-button
-        id="trigger"
-        ?disabled=${!!this.disabled}
-        down-arrow
-        link
-        class="dropdown-trigger"
-        slot="dropdown-trigger"
-        @click=${this.showDropdownTapHandler}
-        @keydown=${(e: KeyboardEvent) => {
-          if (
-            (e.key === Key.DOWN || e.key === Key.UP) &&
-            !this.dropdown?.open
-          ) {
-            this.dropdown?.show();
-          }
-        }}
-      >
-        <span id="triggerText">${this.text}</span>
-        <gr-copy-clipboard
-          class="copyClipboard"
-          ?hidden=${!this.showCopyForTriggerText}
-          hideInput
-          .text=${this.text}
-        ></gr-copy-clipboard>
-      </gr-button>
+    return html`
+      <div class="dropdown-content" id="suggestions" role="listbox">
+        <ul>
+          ${when(
+            this.queryStatus,
+            () => this.renderStatus(),
+            () => html`
+              ${repeat(
+                this.suggestions,
+                (item, index) => html`
+                  <li
+                    data-index=${index}
+                    data-value=${item.dataValue ?? ''}
+                    tabindex="-1"
+                    aria-label=${item.name ?? ''}
+                    class="autocompleteOption"
+                    role="option"
+                    @click=${this.handleClickItem}
+                  >
+                    <span>${item.text}</span>
+                    <span class="label ${this.computeLabelClass(item)}"
+                      >${item.label}</span
+                    >
+                  </li>
+                `
+              )}
+            `
+          )}
+        </ul>
+      </div>
       <md-menu
         id="dropdown"
         anchor="trigger"
@@ -295,226 +284,154 @@ export class GrDropdownList extends LitElement {
         .menuCorner=${'start-start'}
         ?quick=${true}
         @click=${this.handleDropdownClick}
-        @opened=${(e: Event) => {
-          this.opened = true;
-          this.scrollToSelected(e);
-        }}
-        @closed=${() => {
-          this.opened = false;
-          // This is an ugly hack but works.
-          this.cursor.target?.removeAttribute('selected');
-        }}
       >
-        ${incrementalRepeat({
-          values: this.items ?? [],
-          initialCount: this.initialCount,
-          mapFn: (item, index) =>
-            this.renderMdMenuItem(item as DropdownItem, index),
-        })}
+          ${when(
+            this.queryStatus,
+            () => this.renderStatus(),
+            () => html`
+              ${repeat(
+                this.suggestions,
+                (item, index) => html`
+                  <md-menu-item
+                    ?selected=${index === 0}
+                    ?active=${index === 0}
+                    data-index=${index}
+                    data-value=${item.dataValue ?? ''}
+                    @click=${this.handleClickItem}
+                    @keydown=${(e: KeyboardEvent) => {
+                      if (e.key === Key.ENTER || e.key === Key.SPACE) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.handleEnter();
+                      }
+                      if (e.key === Key.UP) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        //this.handleUp();
+                      }
+                      if (e.key === Key.DOWN) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        //this.handleDown();
+                      }
+                    }}
+                  >
+                    <span>${item.text}</span>
+                    <span class="label ${this.computeLabelClass(item)}"
+                      >${item.label}</span
+                    >
+                  </md-menu-item>
+                  ${index < this.suggestions!.length - 1
+                    ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
+                    : nothing}
+                `
+              )}
+            `
+          )}
       </md-menu>
-    </div> `;
-  }
-
-  private renderMdMenuItem(item: DropdownItem, index: number) {
-    if (this.value === String(item.value)) {
-      this.selectedIndex = index;
-    }
-    return html`
-      <md-menu-item
-        ?selected=${this.value === String(item.value)}
-        ?active=${this.value === String(item.value)}
-        ?disabled=${!!item.disabled}
-        @click=${() => {
-          this.value = String(item.value);
-        }}
-        @keydown=${(e: KeyboardEvent) => {
-          if (e.key === Key.ENTER || e.key === Key.SPACE) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.handleEnter();
-          }
-          if (e.key === Key.UP) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.handleUp();
-          }
-          if (e.key === Key.DOWN) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.handleDown();
-          }
-        }}
-      >
-        <div
-          class=${classMap({
-            topContent: true,
-            deemphasized: !!item.deemphasizeReason,
-          })}
-        >
-          <div>
-            <span class="desktopText">${item.text}</span>
-            <span class="mobileText">${this.computeMobileText(item)}</span>
-            ${when(
-              !!item.deemphasizeReason,
-              () => html`<span>| ${item.deemphasizeReason}</span>`
-            )}
-            ${when(
-              item.commentThreads,
-              () => html`<gr-comments-summary
-                .commentThreads=${item.commentThreads}
-                emptyWhenNoComments
-                showAvatarForResolved
-              ></gr-comments-summary>`
-            )}
-          </div>
-          ${when(
-            item.date,
-            () => html`
-              <gr-date-formatter .dateStr=${item.date}></gr-date-formatter>
-            `
-          )}
-          ${when(
-            item.file?.status && !isMagicPath(item.file?.__path),
-            () => html`
-              <gr-file-status .status=${item.file?.status}></gr-file-status>
-            `
-          )}
-        </div>
-        ${when(
-          item.bottomText,
-          () => html`
-            <div class="bottomContent">
-              <div>${item.bottomText}</div>
-            </div>
-          `
-        )}
-      </md-menu-item>
-      ${index < this.items!.length - 1
-        ? html`<md-divider role="separator" tabindex="-1"></md-divider>`
-        : nothing}
     `;
   }
 
-  /**
-   * Handle the up key.
-   */
-  private handleUp() {
-    this.handleRemoveSelected();
-    this.cursor.previous();
-    this.handleAddSelected();
+  close() {
+    this.isHidden = true;
+    this.dropdown?.close();
   }
 
-  /**
-   * Handle the down key.
-   */
-  private handleDown() {
-    this.handleRemoveSelected();
-    this.cursor.next();
-    this.handleAddSelected();
+  open() {
+    this.isHidden = false;
+    this.dropdown?.show();
   }
 
-  /**
-   * Handle the enter key.
-   */
-  private handleEnter() {
-    if (this.cursor.target !== null) {
-      const el = this.cursor.target.shadowRoot?.querySelector(':not([hidden])');
-      if (el) {
-        this.handleRemoveSelected();
-        (el as HTMLElement).click();
-      }
+  getCurrentText() {
+    if (!this.queryStatus) {
+      return this.getCursorTarget()?.dataset['value'] || '';
+    }
+    return '';
+  }
+
+  setPositionTarget(target?: HTMLElement) {
+    assertIsDefined(this.dropdown)
+    if (target) {
+      this.dropdown.anchorElement = target;
+    }
+    //this.fitController.setPositionTarget(target);
+  }
+
+  cursorDown() {
+    if (this.isSuggestionListInteractible()) this.cursor.next();
+  }
+
+  cursorUp() {
+    if (this.isSuggestionListInteractible()) this.cursor.previous();
+  }
+
+  // private but used in tests
+  handleTab() {
+    if (this.isSuggestionListInteractible()) {
+      fire(this, 'item-selected', {
+        trigger: 'tab',
+        selected: this.cursor.target,
+      });
     }
   }
 
-  /**
-   * Handle a click on the md-menu element.
-   */
-  private handleDropdownClick() {
-    assertIsDefined(this.dropdown);
-    this.dropdown.close();
+  // private but used in tests
+  handleEnter() {
+    if (this.isSuggestionListInteractible()) {
+      fire(this, 'item-selected', {
+        trigger: 'enter',
+        selected: this.cursor.target,
+      });
+    }
   }
 
-  private updateText() {
-    if (this.value === undefined || this.items === undefined) {
-      return;
-    }
-    const selectedObj = this.items.find(item => `${item.value}` === this.value);
-    if (!selectedObj) {
-      return;
-    }
-    this.text = selectedObj.triggerText
-      ? selectedObj.triggerText
-      : selectedObj.text;
+  private handleEscape() {
+    this.fireClose();
+    this.close();
   }
 
-  /**
-   * Handle a click on the button to open the dropdown.
-   */
-  private showDropdownTapHandler(e: Event) {
+  private handleClickItem(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.open();
+    let selected = e.target! as HTMLElement;
+    fire(this, 'item-selected', {
+      trigger: 'click',
+      selected,
+    });
   }
 
-  /**
-   * Open the dropdown.
-   */
-  open() {
-    assertIsDefined(this.dropdown);
-    this.dropdown.open = !this.dropdown.open;
-    this.dropdown.focus();
+  private fireClose() {
+    fire(this, 'dropdown-closed', {});
   }
 
-  // Private but used in tests.
-  computeMobileText(item: DropdownItem) {
-    return item.mobileText ? item.mobileText : item.text;
+  getCursorTarget() {
+    return this.cursor.target;
   }
 
-  private scrollToSelected(e: Event) {
-    const target = e.target as HTMLElement;
-    const selected = target.querySelector<MdMenu>('md-menu-item[selected]');
-    selected?.scrollIntoView({block: 'nearest'});
-  }
-
-  /**
-   * Recompute the stops for the dropdown item cursor.
-   */
-  private resetCursorStops() {
-    assertIsDefined(this.dropdown);
-    if (this.items && this.items.length > 0 && this.dropdown.open) {
+  computeCursorStopsAndRefit() {
+    if (this.suggestions.length > 0 && this.dropdown?.open) {
       this.cursor.stops = Array.from(
         this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
+      this.resetCursorIndex();
     }
+    //this.fitController.refit();
   }
 
-  private handleRemoveSelected() {
-    // We workaround an issue to allow cursor to work.
-    // For some reason without this, it doesn't work half the time.
-    // E.g. you press enter or you close the dropdown, reopen it,
-    // you expect it to be focused with the first item selected.
-    // The below fixes it. It's an ugly hack but works for now.
-    const mdFocusRing = this.cursor.target?.shadowRoot
-      ?.querySelector('md-item')
-      ?.querySelector('md-focus-ring');
-    if (mdFocusRing) mdFocusRing.visible = false;
+  private setIndex() {
+    this.cursor.index = this.index || -1;
   }
 
-  private handleAddSelected() {
-    // We workaround an issue to allow cursor to work.
-    // For some reason without this, it doesn't work half the time.
-    // E.g. you press enter or you close the dropdown, reopen it,
-    // you expect it to be focused with the first item selected.
-    // The below fixes it. It's an ugly hack but works for now.
-    const mdFocusRing = this.cursor.target?.shadowRoot
-      ?.querySelector('md-item')
-      ?.querySelector('md-focus-ring');
-    if (mdFocusRing) mdFocusRing.visible = true;
+  private resetCursorIndex() {
+    this.cursor.setCursorAtIndex(0);
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-dropdown-list': GrDropdownList;
+  private computeLabelClass(item: Item) {
+    return item.label ? '' : 'hide';
+  }
+
+  private handleDropdownClick() {
+    assertIsDefined(this.dropdown);
+    this.dropdown.close();
   }
 }

@@ -338,7 +338,7 @@ export class GrDropdownList extends LitElement {
           })}
         >
           <div>
-            <span>${item.text}</span>
+            <span>${this.computeMobileText(item)}</span>
             ${when(
               !!item.deemphasizeReason,
               () => html`<span>| ${item.deemphasizeReason}</span>`

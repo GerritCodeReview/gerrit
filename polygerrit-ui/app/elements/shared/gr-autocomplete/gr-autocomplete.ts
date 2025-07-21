@@ -305,41 +305,43 @@ export class GrAutocomplete extends LitElement {
 
   override render() {
     return html`
-      <paper-input
-        .noLabelFloat=${true}
-        id="input"
-        class=${this.computeClass()}
-        ?disabled=${this.disabled}
-        .value=${this.text}
-        @value-changed=${(e: ValueChangedEvent) => {
-          this.text = e.detail.value;
-        }}
-        .placeholder=${this.placeholder}
-        @keydown=${this.handleKeydown}
-        @focus=${this.onInputFocus}
-        @blur=${this.onInputBlur}
-        autocomplete="off"
-        .label=${this.label}
-      >
-        <div slot="prefix">
-          <slot name="prefix"></slot>
-        </div>
+      <div style="position: relative;">
+        <paper-input
+          .noLabelFloat=${true}
+          id="input"
+          class=${this.computeClass()}
+          ?disabled=${this.disabled}
+          .value=${this.text}
+          @value-changed=${(e: ValueChangedEvent) => {
+            this.text = e.detail.value;
+          }}
+          .placeholder=${this.placeholder}
+          @keydown=${this.handleKeydown}
+          @focus=${this.onInputFocus}
+          @blur=${this.onInputBlur}
+          autocomplete="off"
+          .label=${this.label}
+        >
+          <div slot="prefix">
+            <slot name="prefix"></slot>
+          </div>
 
-        <div slot="suffix">
-          <slot name="suffix"></slot>
-        </div>
-      </paper-input>
-      <gr-autocomplete-dropdown
-        .verticalOffset=${this.verticalOffset}
-        id="suggestions"
-        @item-selected=${this.handleItemSelect}
-        @dropdown-closed=${this.focusWithoutDisplayingSuggestions}
-        .suggestions=${this.suggestions}
-        .queryStatus=${this.queryStatus}
-        role="listbox"
-        .index=${this.index}
-      >
-      </gr-autocomplete-dropdown>
+          <div slot="suffix">
+            <slot name="suffix"></slot>
+          </div>
+        </paper-input>
+        <gr-autocomplete-dropdown
+          .verticalOffset=${this.verticalOffset}
+          id="suggestions"
+          @item-selected=${this.handleItemSelect}
+          @dropdown-closed=${this.focusWithoutDisplayingSuggestions}
+          .suggestions=${this.suggestions}
+          .queryStatus=${this.queryStatus}
+          role="listbox"
+          .index=${this.index}
+        >
+        </gr-autocomplete-dropdown>
+      </div>
     `;
   }
 
@@ -523,6 +525,11 @@ export class GrAutocomplete extends LitElement {
 
   updateDropdownVisibility() {
     if (this.shouldShowDropdown()) {
+      this.suggestionsDropdown?.setPositionTarget(
+        this.shadowRoot?.querySelector(
+          'gr-autocomplete-dropdown'
+        ) as HTMLElement
+      );
       this.suggestionsDropdown?.open();
       return;
     }

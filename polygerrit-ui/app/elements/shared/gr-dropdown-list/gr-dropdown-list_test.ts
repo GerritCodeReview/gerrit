@@ -81,7 +81,11 @@ suite('gr-dropdown-list tests', () => {
             <md-menu-item md-menu-item="" tabindex="0">
               <div class="topContent">
                 <div>
-                  <span> Top Text 1 </span>
+                <span class="desktopText">
+                   Top Text 1
+                </span>
+                <span class="mobileText">
+                  Top Text 1
                 </div>
               </div>
             </md-menu-item>
@@ -89,7 +93,10 @@ suite('gr-dropdown-list tests', () => {
             <md-menu-item active="" md-menu-item="" selected="" tabindex="-1">
               <div class="topContent">
                 <div>
-                  <span> Top Text 2 </span>
+                <span class="desktopText">
+                  Top Text 2
+                </span>
+                  <span class="mobileText"> Mobile Text 2 </span>
                 </div>
               </div>
               <div class="bottomContent">
@@ -100,7 +107,10 @@ suite('gr-dropdown-list tests', () => {
             <md-menu-item disabled="" md-menu-item="" tabindex="-1">
               <div class="topContent">
                 <div>
-                  <span> Top Text 3 </span>
+                <span class="desktopText">
+                  Top Text 3
+                </span>
+                  <span class="mobileText"> Mobile Text 3 </span>
                 </div>
                 <gr-date-formatter> </gr-date-formatter>
               </div>

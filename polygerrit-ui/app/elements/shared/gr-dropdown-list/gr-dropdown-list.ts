@@ -188,6 +188,20 @@ export class GrDropdownList extends LitElement {
           display: inline-flex;
           vertical-align: top;
         }
+        .mobileText {
+          display: none;
+        }
+        .desktopText {
+          display: inline-block;
+        }
+        @media only screen and (max-width: 50em) {
+          .mobileText {
+            display: inline-block;
+          }
+          .desktopText {
+            display: none;
+          }
+        }
       `,
     ];
   }
@@ -338,7 +352,8 @@ export class GrDropdownList extends LitElement {
           })}
         >
           <div>
-            <span>${item.text}</span>
+            <span class="desktopText">${item.text}</span>
+            <span class="mobileText">${this.computeMobileText(item)}</span>
             ${when(
               !!item.deemphasizeReason,
               () => html`<span>| ${item.deemphasizeReason}</span>`

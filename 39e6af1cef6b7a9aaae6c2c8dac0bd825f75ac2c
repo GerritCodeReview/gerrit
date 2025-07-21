@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c551498f_dac97340",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4111584
+      },
+      "writtenOn": "2025-07-21T11:20:28Z",
+      "side": 1,
+      "message": "configure for a liftetime source",
+      "revId": "39e6af1cef6b7a9aaae6c2c8dac0bd825f75ac2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

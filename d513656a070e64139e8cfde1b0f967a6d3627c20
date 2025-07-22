@@ -643,6 +643,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3709192_8fb2b667",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T13:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91c78f8e_d92f868c",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a863af53_0fab9fb1",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T13:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f56c2e7_1da3bc39",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19cb61b2_ca290f04",
@@ -674,6 +716,24 @@
       "side": 1,
       "message": "Would suggest declaring it before the return (line 74)",
       "parentUuid": "19cb61b2_ca290f04",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ce39d4e_16a40e89",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T13:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1913f876_44663a82",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

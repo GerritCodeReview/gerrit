@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a34729bc_eb43ee5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-22T07:39:15Z",
+      "side": 1,
+      "message": "I filed an [issue](https://issues.gerritcodereview.com/issues/433382591) to seek Library-Compliance approval from a Googler.\n\nplease link to this issue by adding the following footer to this commit message\n\n```\nBug: Issue 433382591\n```",
+      "revId": "e427f1441775e2d115b536dd641901816181c575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4707e3fc_86711531",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3cc601c_0a2d08b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4236691
+      },
+      "writtenOn": "2025-07-22T04:00:35Z",
+      "side": 1,
+      "message": "git clone https://android.googlesource.com/platform/frameworks/base",
+      "revId": "a60901ee8f882b630032595661e0f5317204bf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

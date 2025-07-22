@@ -33,6 +33,24 @@
       "message": "I\u0027m not able to fully confirm the workaround fixes my problem. This is because i\u0027m unable to reproduce autocomplate taking over the whole dialog in the simulator. But on my real iPhone i\u0027m experiencing it. But *i* think this will work.",
       "revId": "3984aa3999e5877ed17b01b68337ae72e2653712",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4ebd4d8_5bfb8bd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-22T16:33:04Z",
+      "side": 1,
+      "message": "Oh, i can access my local gerrit site from my phone. I\u0027ve tested and it fixes the issue.",
+      "parentUuid": "fdc64c2e_4ac09810",
+      "revId": "3984aa3999e5877ed17b01b68337ae72e2653712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

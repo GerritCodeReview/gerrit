@@ -1,0 +1,345 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f938efa0_d753d862",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "I think that the return type shall be more specific and not wrapped into `Response`:\n```\n  Map\u003cDeleteChangeResponse, List\u003cString\u003e\u003e deleteChanges(...)...\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae65aea5_f7f3455f",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "This is unrelated (to your change) reordering of the lines.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "526806cd_e15853b8",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "215fa557_1f30888a",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "change the type as proposed in the `ProjectApi` interface...",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "230fa1b3_e56963df",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "This variable is unnecessary.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef661147_528dd386",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "```suggestion\n      return deleteChanges.apply(project, in).value();\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f37a09d_374743dc",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "The generic type of this multimap is wrong. Think of it rather as a set of (key, value) pairs where a key can repeat multiple times. Therefore, the second generit type if just `String`.\nFurther, we shall use the `enum` type as the first generic type parameter and avoid unnecessary conversion of enum constants to strings.\n\n```suggestion\n    ListMultimap\u003cDeleteChangesResponse, String\u003e responseBody \u003d ArrayListMultimap.create();\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "112a29e2_614eb0f2",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "`deletableChanges`\n\nThis is a collection and collections shall rather be named using plural form.",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 32
+      },
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a8c98b_5fba00be",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "After fixing the type this becomes simplified:\n\n\n```suggestion\n            responseBody.put(FAILURE, change);\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df1fdd50_c9b2cbf6",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "```suggestion\n            responseBody.put(NOT_UNIQUE, change);\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08956fbd_eb0a1cad",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "```suggestion\n              responseBody.put(FAILURE, change);\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3086eecd_b695365b",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "Use rather `putAll`, it is both shorter and more efficient.\n```suggestion\n        responseBody.putAll(SUCCESS, deletableChange);\n```",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e702611_14939951",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "Can we really say that it was a bad request if something fails on the server side?\nActually, we don\u0027t even need to catch these exceptions here: instead declare them in the `throws` list of this method.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71d10c53_e9b94380",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChangesResponse.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "This can rather be an inner class of the `DeleteChanges` class",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba78b877_2fba3473",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChangesResponse.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "[optional] A better name may be `DeleteChangesResult`",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d71def8_cf1626aa",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8607d724_f69e1258",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "Once the return type of the `ProjectApi.deleteChanges` is fixed to be more specific we will have a `Map` here.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a43049da_69950e53",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "Once we have a `Map` we can use more specific assertions like:\n```\n  assertThat(response).containsKey(FAILURE);\n  assertThat(response.get(FAILURE)).containsExactly(\"Non-existing-change-1\");\n```\n\nDo the same improvements for all other assertions in this class",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad88e12e_3fa252d9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-22T19:17:36Z",
+      "side": 1,
+      "message": "Why does `Non-existing-change-1` appear two times here?",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

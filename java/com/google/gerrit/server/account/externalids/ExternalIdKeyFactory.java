@@ -16,6 +16,8 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.ImplementedBy;
 import javax.inject.Inject;
@@ -77,7 +79,7 @@ public class ExternalIdKeyFactory {
    * @param userNameCaseInsensitive whether the external ID key is matched case insensitively
    * @return the created external ID key
    */
-  public ExternalId.Key create(
+  public static ExternalId.Key create(
       @Nullable String scheme, String id, boolean userNameCaseInsensitive) {
     if (scheme != null
         && (scheme.equals(ExternalId.SCHEME_USERNAME) || scheme.equals(ExternalId.SCHEME_GERRIT))) {
@@ -94,10 +96,24 @@ public class ExternalIdKeyFactory {
    * @return the external Id key object
    */
   public ExternalId.Key parse(String externalId) {
+    return parse(externalId, isUserNameCaseInsensitive);
+  }
+
+  /**
+   * Parses an external ID key from its String representation. Prefer the non-static {@link
+   * #parse(String)} when possible
+   *
+   * @param externalId String representation of external ID key (e.g. username:johndoe)
+   * @param isUserNameCaseInsensitive whether the scheme used by the target host is case sensitive
+   * @return the external Id key object
+   */
+  @UsedAt(Project.GOOGLE)
+  public static ExternalId.Key parse(String externalId, boolean isUserNameCaseInsensitive) {
     int c = externalId.indexOf(':');
     if (c < 1 || c >= externalId.length() - 1) {
-      return create(null, externalId);
+      return create(null, externalId, isUserNameCaseInsensitive);
     }
-    return create(externalId.substring(0, c), externalId.substring(c + 1));
+    return create(
+        externalId.substring(0, c), externalId.substring(c + 1), isUserNameCaseInsensitive);
   }
 }

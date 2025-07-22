@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc1dcbf_ae63507b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-22T07:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34729bc_eb43ee5d",
+      "revId": "e427f1441775e2d115b536dd641901816181c575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4707e3fc_86711531",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-22T06:55:50Z",
       "side": 1,
       "message": "please help me create an issue to ask for approval of the version update.Thanks.",
+      "revId": "e427f1441775e2d115b536dd641901816181c575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c49fe5a_6f4a7a23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152080
+      },
+      "writtenOn": "2025-07-22T07:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4707e3fc_86711531",
       "revId": "e427f1441775e2d115b536dd641901816181c575",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

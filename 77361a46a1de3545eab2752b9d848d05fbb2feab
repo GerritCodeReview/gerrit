@@ -16,6 +16,24 @@
       "message": "```suggestion\n  public Response\u003c?\u003e apply(ProjectResource resource, DeleteChangeInput input) throws BadRequestException {\n```",
       "revId": "77361a46a1de3545eab2752b9d848d05fbb2feab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01baf2e9_be44846d",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T10:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d713de76_9c2f6254",
+      "revId": "77361a46a1de3545eab2752b9d848d05fbb2feab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

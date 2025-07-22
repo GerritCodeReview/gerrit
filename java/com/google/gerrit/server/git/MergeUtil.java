@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
+import com.google.auto.value.AutoOneOf;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -45,6 +46,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -74,6 +76,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
@@ -309,7 +312,7 @@ public class MergeUtil {
               inserter,
               dc,
               "BASE",
-              baseCommit,
+              MergeBase.create(baseCommit),
               "HEAD",
               mergeTip,
               "CHANGE",
@@ -328,7 +331,8 @@ public class MergeUtil {
     cherryPickCommit.setMessage(commitMsg);
     matchAuthorToCommitterDate(project, cherryPickCommit);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
-    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
+    commit.setConflicts(
+        baseCommit, mergeTip, originalCommit, mergeStrategyName(), filesWithGitConflicts);
     logger.atFine().log("CherryPick commitId=%s", commit.name());
     return commit;
   }
@@ -339,7 +343,7 @@ public class MergeUtil {
       ObjectInserter ins,
       DirCache dc,
       String baseName,
-      @Nullable ObjectId baseId,
+      MergeBase base,
       String oursName,
       RevCommit ours,
       String theirsName,
@@ -347,12 +351,27 @@ public class MergeUtil {
       Map<String, MergeResult<? extends Sequence>> mergeResults,
       boolean diff3Format)
       throws IOException {
+    int nameLength = Math.max(Math.max(oursName.length(), theirsName.length()), baseName.length());
+
+    String baseDescription =
+        switch (base.getKind()) {
+          case BASE_COMMIT -> {
+            rw.parseBody(base.baseCommit());
+            String baseMsg = base.baseCommit().getShortMessage();
+            yield String.format(
+                "%s %s",
+                base.baseCommit().getName(), baseMsg.substring(0, Math.min(baseMsg.length(), 60)));
+          }
+          case NO_BASE_REASON -> base.noBaseReason().getDescription();
+        };
+    String baseNameFormatted =
+        String.format("%-" + nameLength + "s (%s)", baseName, baseDescription);
+
     rw.parseBody(ours);
     rw.parseBody(theirs);
     String oursMsg = ours.getShortMessage();
     String theirsMsg = theirs.getShortMessage();
 
-    int nameLength = Math.max(Math.max(oursName.length(), theirsName.length()), baseName.length());
     String oursNameFormatted =
         String.format(
             "%-" + nameLength + "s (%s %s)",
@@ -365,26 +384,6 @@ public class MergeUtil {
             theirsName,
             theirs.getName(),
             theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
-
-    String baseDescription = "no common ancestor";
-    if (baseId != null) {
-      try {
-        RevCommit base = rw.parseCommit(baseId);
-
-        rw.parseBody(base);
-        String baseMsg = base.getShortMessage();
-        baseDescription =
-            String.format(
-                "%s %s", base.getName(), baseMsg.substring(0, Math.min(baseMsg.length(), 60)));
-      } catch (MissingObjectException e) {
-        // RecursiveMerger performs a content merge, if necessary across multiple bases, using
-        // recursion to compute a usable base and trying to parse this computed base fails with a
-        // MissingObjectException.
-        baseDescription = "computed base";
-      }
-    }
-    String baseNameFormatted =
-        String.format("%-" + nameLength + "s (%s)", baseName, baseDescription);
 
     MergeFormatter fmt = new MergeFormatter();
     Map<String, ObjectId> resolved = new HashMap<>();
@@ -492,7 +491,9 @@ public class MergeUtil {
 
     ObjectId tree;
     ImmutableSet<String> filesWithGitConflicts;
+    MergeBase mergeBase;
     if (m.merge(false, mergeTip, originalCommit)) {
+      mergeBase = MergeBase.create(rw, mergeStrategy, m.getBaseCommitId());
       filesWithGitConflicts = null;
       tree = m.getResultTreeId();
     } else {
@@ -542,15 +543,14 @@ public class MergeUtil {
               .map(Map.Entry::getKey)
               .collect(toImmutableSet());
 
+      mergeBase = MergeBase.create(rw, mergeStrategy, m.getBaseCommitId());
       tree =
           mergeWithConflicts(
               rw,
               inserter,
               dc,
               "BASE",
-              // base commit ID is null if the merged commits do not have a common predecessor
-              // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
-              m.getBaseCommitId(),
+              mergeBase,
               "TARGET BRANCH",
               mergeTip,
               "SOURCE BRANCH",
@@ -566,19 +566,37 @@ public class MergeUtil {
     mergeCommit.setCommitter(committerIdent);
     mergeCommit.setMessage(commitMsg);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
-    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
+
+    switch (mergeBase.getKind()) {
+      case BASE_COMMIT ->
+          commit.setConflicts(
+              mergeBase.baseCommit(),
+              mergeTip,
+              originalCommit,
+              mergeStrategy,
+              filesWithGitConflicts);
+      case NO_BASE_REASON ->
+          commit.setConflictsBaseNotAvailable(
+              mergeTip,
+              originalCommit,
+              mergeStrategy,
+              mergeBase.noBaseReason(),
+              filesWithGitConflicts);
+    }
     return commit;
   }
 
-  public static String createConflictMessage(List<String> conflicts) {
-    if (conflicts.isEmpty()) {
-      return "";
+  public static String createConflictMessage(List<String> filesWithConflicts) {
+    StringBuilder sb = new StringBuilder("merge conflict(s)");
+
+    // If the simple-two-way-in-core merge strategy was used, we don't know which files had
+    // conflicts and filesWithConflicts is empty.
+    if (!filesWithConflicts.isEmpty()) {
+      StringJoiner joiner = new StringJoiner("\n* ", ":\n* ", "\n");
+      filesWithConflicts.forEach(joiner::add);
+      sb.append(joiner.toString());
     }
 
-    StringBuilder sb = new StringBuilder("merge conflict(s):");
-    for (String c : conflicts) {
-      sb.append('\n').append(c);
-    }
     return sb.toString();
   }
 
@@ -1205,6 +1223,48 @@ public class MergeUtil {
               commit.getAuthor(),
               commit.getCommitter().getWhenAsInstant(),
               commit.getCommitter().getZoneId()));
+    }
+  }
+
+  @AutoOneOf(MergeBase.Kind.class)
+  public abstract static class MergeBase {
+    public enum Kind {
+      BASE_COMMIT,
+      NO_BASE_REASON
+    }
+
+    public abstract Kind getKind();
+
+    public abstract RevCommit baseCommit();
+
+    public abstract NoMergeBaseReason noBaseReason();
+
+    public static MergeBase create(
+        RevWalk rw, String mergeStrategy, @Nullable ObjectId baseCommitId) throws IOException {
+      if (baseCommitId != null) {
+        try {
+          RevCommit baseCommit = rw.parseCommit(baseCommitId);
+          return AutoOneOf_MergeUtil_MergeBase.baseCommit(baseCommit);
+        } catch (MissingObjectException e) {
+          // RecursiveMerger performs a content merge, if necessary across multiple bases, using
+          // recursion to compute a usable base and trying to parse this computed base fails with a
+          // MissingObjectException.
+          return AutoOneOf_MergeUtil_MergeBase.noBaseReason(NoMergeBaseReason.COMPUTED_BASE);
+        }
+      }
+
+      if ("ours".equals(mergeStrategy) || "theirs".equals(mergeStrategy)) {
+        return AutoOneOf_MergeUtil_MergeBase.noBaseReason(
+            NoMergeBaseReason.ONE_SIDED_MERGE_STRATEGY);
+      }
+
+      // baseCommitId is null if the merged commits do not have a common predecessor
+      // (e.g. if 2 initial commits or 2 commits with unrelated histories are merged)
+      return AutoOneOf_MergeUtil_MergeBase.noBaseReason(NoMergeBaseReason.NO_COMMON_ANCESTOR);
+    }
+
+    public static MergeBase create(RevCommit baseCommit) {
+      return AutoOneOf_MergeUtil_MergeBase.baseCommit(baseCommit);
     }
   }
 }

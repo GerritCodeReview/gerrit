@@ -307,7 +307,7 @@ public class CommitUtil {
     // The revert commit is based on the commit that is being reverted and has the same tree as the
     // parent of the commit that is being reverted. This means revert commit never contains any
     // conflicts.
-    revertCommit.setNoConflicts();
+    revertCommit.setNoConflictsForNonMergeCommit();
 
     return revertCommit;
   }

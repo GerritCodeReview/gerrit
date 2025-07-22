@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BASE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PICK_OF;
@@ -28,6 +29,8 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_KE
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_MERGE_STRATEGY;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_NO_BASE_REASON;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_OURS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
@@ -82,6 +85,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Label.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -690,12 +694,37 @@ class ChangeNotesParser {
     return parseSha1(commit, FOOTER_COMMIT);
   }
 
+  private Optional<ObjectId> parseBase(ChangeNotesCommit commit) throws ConfigInvalidException {
+    return parseSha1(commit, FOOTER_BASE);
+  }
+
   private Optional<ObjectId> parseOurs(ChangeNotesCommit commit) throws ConfigInvalidException {
     return parseSha1(commit, FOOTER_OURS);
   }
 
   private Optional<ObjectId> parseTheirs(ChangeNotesCommit commit) throws ConfigInvalidException {
     return parseSha1(commit, FOOTER_THEIRS);
+  }
+
+  private Optional<String> parseMergeStrategy(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    return Optional.ofNullable(parseOneFooter(commit, FOOTER_MERGE_STRATEGY));
+  }
+
+  private Optional<NoMergeBaseReason> parseNoBaseReason(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    String noBaseReasonFooter = parseOneFooter(commit, FOOTER_NO_BASE_REASON);
+
+    if (noBaseReasonFooter == null) {
+      return Optional.empty();
+    }
+
+    NoMergeBaseReason noBaseReason =
+        Enums.getIfPresent(NoMergeBaseReason.class, noBaseReasonFooter).orNull();
+    if (noBaseReason == null) {
+      throw invalidFooter(FOOTER_NO_BASE_REASON, noBaseReasonFooter);
+    }
+    return Optional.of(noBaseReason);
   }
 
   private Optional<ObjectId> parseSha1(ChangeNotesCommit commit, FooterKey footerKey)
@@ -720,6 +749,10 @@ class ChangeNotesParser {
       return Optional.empty();
     }
 
+    // base is missing if the patch sets has been created before Gerrit started to store the base
+    // for conflicts.
+    Optional<ObjectId> base = parseBase(commit);
+
     Optional<ObjectId> ours = parseOurs(commit);
     if (containsConflicts.get() && ours.isEmpty()) {
       throw parseException(
@@ -734,7 +767,20 @@ class ChangeNotesParser {
           FOOTER_THEIRS, FOOTER_CONTAINS_CONFLICTS.getName(), FOOTER_THEIRS);
     }
 
-    return Optional.of(PatchSet.Conflicts.create(ours, theirs, containsConflicts.get()));
+    // mergeStrategy is missing if the patch set has been created before Gerrit started to store the
+    // merge strategy for conflicts.
+    Optional<String> mergeStrategy = parseMergeStrategy(commit);
+
+    // noBaseReason is not set if a base is available or if the patch set has been created before
+    // Gerrit started to store the no base reasons for conflicts.
+    Optional<NoMergeBaseReason> noBaseReason = parseNoBaseReason(commit);
+    if (containsConflicts.get() && base.isEmpty() && noBaseReason.isEmpty()) {
+      noBaseReason = Optional.of(NoMergeBaseReason.HISTORIC_DATA_WITHOUT_BASE);
+    }
+
+    return Optional.of(
+        PatchSet.Conflicts.create(
+            base, ours, theirs, mergeStrategy, noBaseReason, containsConflicts.get()));
   }
 
   private Optional<Boolean> parseContainsConflicts(ChangeNotesCommit commit)

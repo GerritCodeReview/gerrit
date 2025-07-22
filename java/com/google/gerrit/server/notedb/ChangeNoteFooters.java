@@ -19,6 +19,7 @@ import org.eclipse.jgit.revwalk.FooterKey;
 /** Footers, that can be set in NoteDb commits. */
 public class ChangeNoteFooters {
   public static final FooterKey FOOTER_ATTENTION = new FooterKey("Attention");
+  public static final FooterKey FOOTER_BASE = new FooterKey("Base");
   public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
@@ -29,6 +30,8 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   public static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
+  public static final FooterKey FOOTER_MERGE_STRATEGY = new FooterKey("Merge-Strategy");
+  public static final FooterKey FOOTER_NO_BASE_REASON = new FooterKey("No-Base-Reason");
   public static final FooterKey FOOTER_OURS = new FooterKey("Ours");
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =

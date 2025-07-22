@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5df29b3c_b6a627f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-22T00:06:38Z",
+      "side": 1,
+      "message": "I would like to request a high level review, focusing on:\n\n1 UI/UX\nhttps://screenshot.googleplex.com/yG8VUcFdkbuThwd\nhttps://screenshot.googleplex.com/3RKWbvvgXX76PUQ\nA few notes:\n* DELIMITER is a bit complex. Maybe we can change it to some simple format, but also need to avoid replacement contains the same string.\n* I\u0027m only including lines since the start/end character is not useful here.\n\n2 Overall code structure\n\nI\u0027ll optimize the code, add tests later once you agrees the high level plan here.",
+      "revId": "4b4a077a188162d83bb039c84808fac658ec5d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

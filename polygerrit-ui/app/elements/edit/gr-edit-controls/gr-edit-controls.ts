@@ -171,7 +171,8 @@ export class GrEditControls extends LitElement {
         }
         @media screen and (max-width: 50em) {
           gr-dialog {
-            width: 100vw;
+            height: 90vh;
+            width: initial;
           }
         }
       `,

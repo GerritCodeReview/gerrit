@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff06f504_b6cd04bc",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46e12dd5_2c611ea2",
+      "revId": "1cbcbded6a443409dffb74b3eeff54ff7a5e7a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adf50fcf_82dbcf2f",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-07-22T07:48:36Z",
       "side": 1,
       "message": "```suggestion\n  public Response\u003c?\u003e deleteChanges(DeleteChangesInput in) throws RestApiException {\n```",
+      "range": {
+        "startLine": 670,
+        "startChar": 21,
+        "endLine": 670,
+        "endChar": 32
+      },
+      "revId": "1cbcbded6a443409dffb74b3eeff54ff7a5e7a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "381f8e66_474f0eca",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adf50fcf_82dbcf2f",
       "range": {
         "startLine": 670,
         "startChar": 21,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "052cdd59_a4b1140b",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f358a94f_c861e5cb",
+      "revId": "1cbcbded6a443409dffb74b3eeff54ff7a5e7a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0747d3e9_7c9e4ea9",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b90643c_a54510be",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChangesResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0747d3e9_7c9e4ea9",
+      "revId": "1cbcbded6a443409dffb74b3eeff54ff7a5e7a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4b247d2_202f68e1",
@@ -88,6 +166,24 @@
       "writtenOn": "2025-07-22T07:48:36Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "1cbcbded6a443409dffb74b3eeff54ff7a5e7a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eba9c500_7fe0d2e9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4b247d2_202f68e1",
       "revId": "1cbcbded6a443409dffb74b3eeff54ff7a5e7a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

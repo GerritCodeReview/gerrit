@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88f259e_cdbe7ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dbec0b5_70aeba64",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "235283f7_4274bc96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2757e85b_a3cad82f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6385fec_1f05959b",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-07-18T09:40:05Z",
       "side": 1,
       "message": "Update accordingly. This will used for the Changelog released with the next release.",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d651356d_8173cef3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6385fec_1f05959b",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +169,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22cc38c6_4ef0d3a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d75ef7d_eb78fc3b",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48115db0_25abd369",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b497c20_16cb3816",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7361577a_00e685d6",
@@ -122,6 +218,24 @@
       "writtenOn": "2025-07-18T09:40:05Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff613dcb_0dc401be",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7361577a_00e685d6",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -156,6 +270,42 @@
       "writtenOn": "2025-07-18T09:45:49Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ffe58e9_879f51ae",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df48ca40_ac3f506a",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4dcc33e_bda8b041",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12ff4513_0dc63135",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -230,6 +380,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88ebe8c9_24a77a90",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05274c2e_701af3aa",
+      "range": {
+        "startLine": 25,
+        "startChar": 70,
+        "endLine": 25,
+        "endChar": 87
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb88f399_60d117a1",
@@ -253,6 +427,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26dc3202_b9caccc8",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb88f399_60d117a1",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a037133c_32d5566b",
@@ -266,6 +464,24 @@
       "writtenOn": "2025-07-18T09:40:05Z",
       "side": 1,
       "message": "nit: unnecessary empty line",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab940794_0706c668",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a037133c_32d5566b",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -310,6 +526,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71eac3ba_2adc7c39",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a788a3cc_8c807768",
+      "range": {
+        "startLine": 49,
+        "startChar": 85,
+        "endLine": 49,
+        "endChar": 94
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "304b73f3_befa5e4c",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "955a25e3_e7a0de6a",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2aa569f_34877d1b",
@@ -323,6 +581,24 @@
       "writtenOn": "2025-07-18T09:45:49Z",
       "side": 1,
       "message": "Consider using Guava\u0027s `Multimap`, then the type would be:\n```\nMultimap\u003cString, String\u003e responseBody \u003d ArrayListMultimap.create();\n```\n\nand we wouldn\u0027t need to care about the initialization of empty lists with `computeIfAbsent` (in the construct response). Actually the whole `constructResponse` method may not be necessary as we can simply do:\n```\nresponseBody.put(status, change)\n```",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46e05472_083fe3dd",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2aa569f_34877d1b",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -419,6 +695,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "722caa5e_7e4a3887",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61637505_a0e63e8c",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "334bc03e_425df52d",
@@ -442,6 +736,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8679c3dd_61daa394",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "334bc03e_425df52d",
+      "range": {
+        "startLine": 100,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46e0168b_056363a8",
@@ -455,6 +773,24 @@
       "writtenOn": "2025-07-18T09:45:10Z",
       "side": 1,
       "message": "looks like you need to implement the permission check",
+      "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e7bfab2_ba5fd70c",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-22T09:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46e0168b_056363a8",
       "revId": "d513656a070e64139e8cfde1b0f967a6d3627c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

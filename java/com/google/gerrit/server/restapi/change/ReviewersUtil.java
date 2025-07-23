@@ -221,16 +221,29 @@ public class ReviewersUtil {
     try (Timer0.Context ctx = metrics.filterVisibility.start()) {
       for (Account.Id reviewer : sortedRecommendations) {
         if (filteredRecommendations.size() >= limit) {
+          logger.atFine().log("Skip results because the limit (%s) has been reached.", limit);
           break;
         }
         if (suggestReviewers.isSkipServiceUsers()
             && serviceUserClassifier.isServiceUser(reviewer)) {
+          logger.atFine().log("Filter out %s because it's a service user", reviewer);
           continue;
         }
         // Check if change is visible to reviewer and if the current user can see reviewer
-        if (visibilityControl.isVisibleTo(reviewer) && accountControl.canSee(reviewer)) {
-          filteredRecommendations.add(reviewer);
+        if (!visibilityControl.isVisibleTo(reviewer)) {
+          logger.atFine().log("Filter out %s because this user cannot see the change", reviewer);
+          continue;
         }
+
+        // Check if the current user can see reviewer
+        if (!accountControl.canSee(reviewer)) {
+          logger.atFine().log(
+              "Filter out %s because the caller (%s) cannot see the account",
+              reviewer, self.get().getLoggableName());
+          continue;
+        }
+
+        filteredRecommendations.add(reviewer);
       }
     }
     logger.atFine().log("Filtered recommendations: %s", filteredRecommendations);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74b75f58_240839e1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T11:13:57Z",
+      "side": 1,
+      "message": "Check also the values in the `response`, same like you did in the lines 57-58?",
+      "revId": "6cbcb7177c98c1e93aaf807d6ac30ebb4ed7e333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81969d8_14475004",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T11:13:57Z",
+      "side": 1,
+      "message": "Check also the values in the `response`, same like you did in the lines 57-58?",
+      "revId": "6cbcb7177c98c1e93aaf807d6ac30ebb4ed7e333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

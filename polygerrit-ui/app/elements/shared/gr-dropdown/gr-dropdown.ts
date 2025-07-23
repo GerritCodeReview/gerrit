@@ -264,6 +264,7 @@ export class GrDropdown extends LitElement {
           : 'end-start'}
         .yOffset=${this.verticalOffset}
         ?quick=${true}
+        .skipRestoreFocus=${true}
         @opened=${() => {
           this.opened = true;
         }}
@@ -492,7 +493,12 @@ export class GrDropdown extends LitElement {
     if (e.currentTarget === null || !this.items) {
       return;
     }
-    const id = (e.currentTarget as Element).getAttribute('data-id');
+    // We use skipRestoreFocus on md-menu and thus have to call
+    // blur(), otherwise we have a console warning about aria-hidden being blocked,
+    // as focus is on md-menu-item.
+    const target = e.currentTarget as HTMLElement;
+    target.blur();
+    const id = target.getAttribute('data-id');
     const item = this.items.find(item => item.id === id);
     if (id && !this.disabledIds.includes(id)) {
       if (item) {

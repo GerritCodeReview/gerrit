@@ -1,0 +1,321 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4f5400_80e4eaf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "Looks good overall.",
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa83cbe3_7fb22bb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "I this we should have wasSuggestionEdited and then stop generating new suggestions. That can be in follow up CL.",
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24821609_728a8da2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "Can you rename to isEditingSuggestion?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 28
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6318d318_b3232196",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 55,
+                "startChar": 0,
+                "endLine": 56,
+                "endChar": 0
+              },
+              "replacement": "  @state() private isEditingSuggestion \u003d false;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 277,
+                "startChar": 0,
+                "endLine": 278,
+                "endChar": 0
+              },
+              "replacement": "              return this.isEditingSuggestion\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 299,
+                "startChar": 0,
+                "endLine": 300,
+                "endChar": 0
+              },
+              "replacement": "        .editable\u003d${editableSuggestionEnabled \u0026\u0026 this.isEditingSuggestion}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 413,
+                "startChar": 0,
+                "endLine": 414,
+                "endChar": 0
+              },
+              "replacement": "    this.isEditingSuggestion \u003d !this.isEditingSuggestion;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 421,
+                "startChar": 0,
+                "endLine": 422,
+                "endChar": 0
+              },
+              "replacement": "    this.isEditingSuggestion \u003d false;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdbdab5_ec443617",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "I would allow also non owner to edit the suggestion. Can you just check collapse ?\nand I think it can be simplified like\n\n```suggestion\n          ${when(!this.collapsed \u0026\u0026 editableSuggestionEnabled \u0026\u0026 this.editing), () \u003d\u003e this.isEditingButtons()}\n          ${when(!this.collapsed \u0026\u0026 editableSuggestionEnabled \u0026\u0026 !this. editing), () \u003d\u003e this.isEditSuggestionButton()}\n          ${when(this.isOwner \u0026\u0026 !this.collapsed \u0026\u0026 !(editableSuggestionEnabled \u0026\u0026 this.isEditing), () \u003d\u003e  this.renderApplyEditButtons();\n```",
+      "range": {
+        "startLine": 275,
+        "startChar": 9,
+        "endLine": 291,
+        "endChar": 13
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "836aa5d3_151ea501",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this cancel do more work like reset content of textarea?",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 309,
+        "endChar": 36
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74a30f99_577a03e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "if stringToReplacements fails we shouldn\u0027t change suggestions.",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 67
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a17d10_5b2ed3c4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "this can break multifile replacement in future. Do you think we should add paths into this replacement?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 14
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2df14d30_ca406bab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "Maybe throw issue when it cannot be parsed?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 47
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c9a8a944_f00194d7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+              "range": {
+                "startLine": 73,
+                "startChar": 0,
+                "endLine": 73,
+                "endChar": 0
+              },
+              "replacement": "  if (replacements.length \u003d\u003d\u003d 0) {\n    throw new Error(\u0027Could not parse replacements from text\u0027);\n  }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b8a1e7_d49fcec2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "Can you please write jsdoc for this method with assumption like start_character and end_character is 0.",
+      "range": {
+        "startLine": 69,
+        "startChar": 36,
+        "endLine": 69,
+        "endChar": 72
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b11e12_8afec7ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "Can you please move this to comments util and write unit tests for it?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 1
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb6b9b8_ab7a1942",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "can you use our gr-textarea component instead?",
+      "range": {
+        "startLine": 298,
+        "startChar": 17,
+        "endLine": 298,
+        "endChar": 25
+      },
+      "revId": "ae373455b262d42d2eb5f818005e3fad7ea82b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

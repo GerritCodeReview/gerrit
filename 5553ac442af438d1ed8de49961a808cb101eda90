@@ -22,6 +22,30 @@
       },
       "revId": "5553ac442af438d1ed8de49961a808cb101eda90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf0a38b5_0363d997",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-23T13:20:37Z",
+      "side": 1,
+      "message": "I uploaded it to imgur: https://imgur.com/a/xWkf2ba\n\n@svenzheng@google.com can you please change commit message to imgur\n\n```suggestion\nScreenshot: https://imgur.com/a/xWkf2ba\n```",
+      "parentUuid": "ece12820_755b92d1",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "5553ac442af438d1ed8de49961a808cb101eda90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

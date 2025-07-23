@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30c54a7a_efac9b9b",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f938efa0_d753d862",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae65aea5_f7f3455f",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "This is unrelated (to your change) reordering of the lines.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9fb5a4_06bcae94",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Probably, this is changed by the formatter (gfh,sh). I think for doc, this is expected sequence (If compared with other docs/method comments). I would suggest we keep it.",
+      "parentUuid": "ae65aea5_f7f3455f",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff336961_837ae1a1",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Probably, this is changed by the formatter (gfh,sh). I think for doc, this is expected sequence (If compared with other docs/method comments). I would suggest we keep it.",
+      "parentUuid": "526806cd_e15853b8",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "215fa557_1f30888a",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "change the type as proposed in the `ProjectApi` interface...",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "001a607d_6518e30b",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "215fa557_1f30888a",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "550e836f_066c5877",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "230fa1b3_e56963df",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef661147_528dd386",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "```suggestion\n      return deleteChanges.apply(project, in).value();\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4429927e_b61bb4bb",
+        "filename": "java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef661147_528dd386",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91311cb6_c16cec22",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Tested this. bu.execute() takes care of the delete indexing.",
+      "parentUuid": "91f0cdbf_cb1e1649",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f37a09d_374743dc",
@@ -133,6 +259,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "The generic type of this multimap is wrong. Think of it rather as a set of (key, value) pairs where a key can repeat multiple times. Therefore, the second generit type if just `String`.\nFurther, we shall use the `enum` type as the first generic type parameter and avoid unnecessary conversion of enum constants to strings.\n\n```suggestion\n    ListMultimap\u003cDeleteChangesResponse, String\u003e responseBody \u003d ArrayListMultimap.create();\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a5987c6_5da3a8e4",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f37a09d_374743dc",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -160,6 +304,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23a046a6_a0aab0f1",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "112a29e2_614eb0f2",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 32
+      },
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12a8c98b_5fba00be",
@@ -173,6 +341,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "After fixing the type this becomes simplified:\n\n\n```suggestion\n            responseBody.put(FAILURE, change);\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "909949d2_154665a3",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a8c98b_5fba00be",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -194,6 +380,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e222d49b_f7d77b23",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df1fdd50_c9b2cbf6",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08956fbd_eb0a1cad",
@@ -207,6 +411,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "```suggestion\n              responseBody.put(FAILURE, change);\n```",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "808b64ed_eee6fb6d",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08956fbd_eb0a1cad",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -234,6 +456,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82494db1_efbe899e",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3086eecd_b695365b",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e702611_14939951",
@@ -251,6 +497,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc2042ff_00fcf80f",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e702611_14939951",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71d10c53_e9b94380",
@@ -264,6 +528,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "This can rather be an inner class of the `DeleteChanges` class",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5473143_86fd0f55",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChangesResponse.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "as discussed, its conflicting during import in another places due to circular dependancy. So wont be adapting this comment.",
+      "parentUuid": "71d10c53_e9b94380",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -291,6 +573,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "476238f1_35eec14d",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChangesResponse.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba78b877_2fba3473",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d71def8_cf1626aa",
@@ -304,6 +610,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21001ed4_1f53b3a8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d71def8_cf1626aa",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -325,6 +649,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a81bbaf_afce0128",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8607d724_f69e1258",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a43049da_69950e53",
@@ -338,6 +680,24 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "Once we have a `Map` we can use more specific assertions like:\n```\n  assertThat(response).containsKey(FAILURE);\n  assertThat(response.get(FAILURE)).containsExactly(\"Non-existing-change-1\");\n```\n\nDo the same improvements for all other assertions in this class",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1847452_cbe3d2eb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a43049da_69950e53",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -359,6 +719,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1fa3b2b_7c8c9ea8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad88e12e_3fa252d9",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "259163aa_dc332b62",
@@ -372,6 +750,24 @@
       "writtenOn": "2025-07-23T06:45:09Z",
       "side": 1,
       "message": "We should also check that the deleted changes cannot be found by querying change index.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c10c01_a77e434e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4230475
+      },
+      "writtenOn": "2025-07-23T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259163aa_dc332b62",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

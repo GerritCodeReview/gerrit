@@ -124,6 +124,7 @@ export class GrDropdownList extends LitElement {
           --md-menu-container-color: var(--dropdown-background-color);
           --md-menu-top-space: 0px;
           --md-menu-bottom-space: 0px;
+          --md-focus-ring-duration: 0s;
         }
         md-divider {
           margin: auto;
@@ -233,7 +234,6 @@ export class GrDropdownList extends LitElement {
         this.cursor.setCursorAtIndex(this.selectedIndex);
         if (this.cursor.target !== null) {
           this.cursor.target.focus();
-          this.handleAddSelected();
         }
         this.setUpGlobalEventListeners();
       } else {
@@ -294,6 +294,7 @@ export class GrDropdownList extends LitElement {
         tabindex="-1"
         .menuCorner=${'start-start'}
         ?quick=${true}
+        .skipRestoreFocus=${true}
         @click=${this.handleDropdownClick}
         @opened=${(e: Event) => {
           this.opened = true;
@@ -303,6 +304,7 @@ export class GrDropdownList extends LitElement {
           this.opened = false;
           // This is an ugly hack but works.
           this.cursor.target?.removeAttribute('selected');
+          this.cursor.target?.blur();
         }}
       >
         ${incrementalRepeat({
@@ -399,18 +401,14 @@ export class GrDropdownList extends LitElement {
    * Handle the up key.
    */
   private handleUp() {
-    this.handleRemoveSelected();
     this.cursor.previous();
-    this.handleAddSelected();
   }
 
   /**
    * Handle the down key.
    */
   private handleDown() {
-    this.handleRemoveSelected();
     this.cursor.next();
-    this.handleAddSelected();
   }
 
   /**
@@ -420,7 +418,6 @@ export class GrDropdownList extends LitElement {
     if (this.cursor.target !== null) {
       const el = this.cursor.target.shadowRoot?.querySelector(':not([hidden])');
       if (el) {
-        this.handleRemoveSelected();
         (el as HTMLElement).click();
       }
     }
@@ -486,30 +483,6 @@ export class GrDropdownList extends LitElement {
         this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
     }
-  }
-
-  private handleRemoveSelected() {
-    // We workaround an issue to allow cursor to work.
-    // For some reason without this, it doesn't work half the time.
-    // E.g. you press enter or you close the dropdown, reopen it,
-    // you expect it to be focused with the first item selected.
-    // The below fixes it. It's an ugly hack but works for now.
-    const mdFocusRing = this.cursor.target?.shadowRoot
-      ?.querySelector('md-item')
-      ?.querySelector('md-focus-ring');
-    if (mdFocusRing) mdFocusRing.visible = false;
-  }
-
-  private handleAddSelected() {
-    // We workaround an issue to allow cursor to work.
-    // For some reason without this, it doesn't work half the time.
-    // E.g. you press enter or you close the dropdown, reopen it,
-    // you expect it to be focused with the first item selected.
-    // The below fixes it. It's an ugly hack but works for now.
-    const mdFocusRing = this.cursor.target?.shadowRoot
-      ?.querySelector('md-item')
-      ?.querySelector('md-focus-ring');
-    if (mdFocusRing) mdFocusRing.visible = true;
   }
 }
 

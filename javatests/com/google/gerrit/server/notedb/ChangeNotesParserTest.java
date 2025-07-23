@@ -874,7 +874,15 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + "Contains-Conflicts: true\n"
                 + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
                 + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n");
-    assertThat(changeNotesState.patchSets().getLast().getValue().conflicts().get().noBaseReason())
+    assertThat(
+            changeNotesState.patchSets().stream()
+                .filter(e -> e.getKey().get() == 2)
+                .findFirst()
+                .get()
+                .getValue()
+                .conflicts()
+                .get()
+                .noBaseReason())
         .hasValue(NoMergeBaseReason.HISTORIC_DATA_WITHOUT_BASE);
 
     // Base/Ours/Theirs/Merge-strategy/No-base-reason is ignored if Contains-Conflicts is missing

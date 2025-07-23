@@ -264,6 +264,7 @@ export class GrDropdown extends LitElement {
           : 'end-start'}
         .yOffset=${this.verticalOffset}
         ?quick=${true}
+        .skipRestoreFocus=${true}
         @opened=${() => {
           this.opened = true;
         }}
@@ -271,6 +272,7 @@ export class GrDropdown extends LitElement {
           this.opened = false;
           // This is an ugly hack but works.
           this.cursor.target?.removeAttribute('selected');
+          this.cursor.target?.blur();
         }}
       >
         ${this.renderDropdownContent()}
@@ -492,7 +494,8 @@ export class GrDropdown extends LitElement {
     if (e.currentTarget === null || !this.items) {
       return;
     }
-    const id = (e.currentTarget as Element).getAttribute('data-id');
+    const target = e.currentTarget as HTMLElement;
+    const id = target.getAttribute('data-id');
     const item = this.items.find(item => item.id === id);
     if (id && !this.disabledIds.includes(id)) {
       if (item) {

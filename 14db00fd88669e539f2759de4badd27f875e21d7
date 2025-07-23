@@ -70,6 +70,30 @@
       ],
       "revId": "14db00fd88669e539f2759de4badd27f875e21d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec948f12_e516fe58",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-23T11:17:05Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "fc79e2e7_5bb68ad7",
+      "range": {
+        "startLine": 881,
+        "startChar": 4,
+        "endLine": 885,
+        "endChar": 64
+      },
+      "revId": "14db00fd88669e539f2759de4badd27f875e21d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

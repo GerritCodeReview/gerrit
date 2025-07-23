@@ -264,6 +264,7 @@ export class GrDropdown extends LitElement {
           : 'end-start'}
         .yOffset=${this.verticalOffset}
         ?quick=${true}
+        .skipRestoreFocus=${true}
         @opened=${() => {
           this.opened = true;
         }}

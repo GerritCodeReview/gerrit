@@ -105,6 +105,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91f0cdbf_cb1e1649",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T06:45:09Z",
+      "side": 1,
+      "message": "Unless I am missing something, this doesn\u0027t remove deleted changes from the changes index? This would mean that a user would still see those changes in some change query results in the UI but then they would fail to open if the user tries.",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f37a09d_374743dc",
         "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
         "patchSetId": 15
@@ -338,6 +355,23 @@
       "writtenOn": "2025-07-22T19:17:36Z",
       "side": 1,
       "message": "Why does `Non-existing-change-1` appear two times here?",
+      "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259163aa_dc332b62",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T06:45:09Z",
+      "side": 1,
+      "message": "We should also check that the deleted changes cannot be found by querying change index.",
       "revId": "d3f487f30198e9eb658f255f18634d950b94766d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

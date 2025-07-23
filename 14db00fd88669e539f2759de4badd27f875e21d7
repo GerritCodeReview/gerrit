@@ -1,0 +1,75 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc79e2e7_5bb68ad7",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-23T11:13:43Z",
+      "side": 1,
+      "message": "nit: This works. But you can make it much simpler with a filter",
+      "range": {
+        "startLine": 881,
+        "startChar": 4,
+        "endLine": 885,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c12a9e7b_09ee3c1d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+              "range": {
+                "startLine": 17,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+              "range": {
+                "startLine": 21,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+              "range": {
+                "startLine": 28,
+                "startChar": 0,
+                "endLine": 29,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+              "range": {
+                "startLine": 881,
+                "startChar": 0,
+                "endLine": 885,
+                "endChar": 0
+              },
+              "replacement": "    assertThat(\n            changeNotesState.patchSets().stream()\n                .filter(e -\u003e e.getKey().get() \u003d\u003d 2)\n                .findFirst()\n                .get()\n                .getValue()\n                .conflicts()\n                .get()\n                .noBaseReason())\n"
+            }
+          ]
+        }
+      ],
+      "revId": "14db00fd88669e539f2759de4badd27f875e21d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

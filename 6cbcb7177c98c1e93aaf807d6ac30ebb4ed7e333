@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b98a3fce_c62df509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T11:16:38Z",
+      "side": 1,
+      "message": "single request",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "6cbcb7177c98c1e93aaf807d6ac30ebb4ed7e333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41beee39_d46ac57c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T11:16:38Z",
+      "side": 1,
+      "message": "single request",
+      "range": {
+        "startLine": 17,
+        "startChar": 70,
+        "endLine": 17,
+        "endChar": 80
+      },
+      "revId": "6cbcb7177c98c1e93aaf807d6ac30ebb4ed7e333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74b75f58_240839e1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteChangesIT.java",
         "patchSetId": 17

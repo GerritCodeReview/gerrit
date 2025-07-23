@@ -1956,6 +1956,55 @@ link:#delete-branches-input[DeleteBranchesInput] entity.
 If some branches could not be deleted, the response is "`409 Conflict`" and the
 error message is contained in the response body.
 
+[[delete-changes]]
+=== Delete Changes
+--
+'POST /projects/link:#project-name[\{project-name\}]/changes:delete'
+--
+
+Delete one or more changes.
+
+The changes to be deleted must be provided in the request body as a
+link:#delete-changes-input[DeleteChangesInput] entity.
+
+.Request
+----
+  POST /projects/MyProject/changes:delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "changes": [
+      "changeId1",
+      "changeId2",
+      "changeId3",
+      "changeId4"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "FAILURE": [
+      "changeId1"
+    ],
+    "NOT_UNIQUE": [
+      "changeId2"
+    ].
+    "SUCCESS": [
+      "changeId3",
+      "changeId4"
+    ]
+  }
+----
+
+If some changes could not be deleted, the response will be "`200 OK`" with the details in the response body.
+
+
 [[get-content]]
 === Get Content
 --

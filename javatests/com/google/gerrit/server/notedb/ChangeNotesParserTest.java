@@ -14,14 +14,18 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -874,7 +878,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + "Contains-Conflicts: true\n"
                 + "Ours: 2d1a400a2e56090699f8aeb522ec1f82bbd54d57\n"
                 + "Theirs: aaeceb9f08df45748b1420ab2b0687906151ae59\n");
-    assertThat(changeNotesState.patchSets().getLast().getValue().conflicts().get().noBaseReason())
+    ImmutableMap<Integer, PatchSet> patchSets =
+        changeNotesState.patchSets().stream()
+            .collect(toImmutableMap(e -> e.getKey().get(), Map.Entry::getValue));
+    assertThat(patchSets.get(2).conflicts().get().noBaseReason())
         .hasValue(NoMergeBaseReason.HISTORIC_DATA_WITHOUT_BASE);
 
     // Base/Ours/Theirs/Merge-strategy/No-base-reason is ignored if Contains-Conflicts is missing

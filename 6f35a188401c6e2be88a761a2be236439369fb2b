@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92b004e6_0b4b0e6d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-07-23T12:13:45Z",
+      "side": 1,
+      "message": "based on the request body this should start with lowercase: `changeId1`. Same for a few more cases below",
+      "revId": "6f35a188401c6e2be88a761a2be236439369fb2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

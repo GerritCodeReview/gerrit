@@ -206,7 +206,6 @@ export class GrDropdown extends LitElement {
         this.cursor.setCursorAtIndex(0);
         if (this.cursor.target !== null) {
           this.cursor.target.focus();
-          this.handleAddSelected();
         }
         this.setUpGlobalEventListeners();
       } else {
@@ -314,7 +313,7 @@ export class GrDropdown extends LitElement {
         data-index=${index}
         ?selected=${index === 0}
         ?active=${index === 0}
-        ?disabled=${!!link.id && this.disabledIds.includes(link.id)}
+        ?disabled=${link.id && this.disabledIds.includes(link.id)}
         data-id=${ifDefined(link.id)}
         @click=${this.handleItemTap}
         @keydown=${(e: KeyboardEvent) => {
@@ -378,18 +377,14 @@ export class GrDropdown extends LitElement {
    * Handle the up key.
    */
   private handleUp() {
-    this.handleRemoveSelected();
     this.cursor.previous();
-    this.handleAddSelected();
   }
 
   /**
    * Handle the down key.
    */
   private handleDown() {
-    this.handleRemoveSelected();
     this.cursor.next();
-    this.handleAddSelected();
   }
 
   /**
@@ -401,7 +396,6 @@ export class GrDropdown extends LitElement {
     if (this.cursor.target !== null) {
       const el = this.cursor.target.shadowRoot?.querySelector(':not([hidden])');
       if (el) {
-        this.handleRemoveSelected();
         (el as HTMLElement).click();
       }
     }
@@ -518,29 +512,5 @@ export class GrDropdown extends LitElement {
         this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
     }
-  }
-
-  private handleRemoveSelected() {
-    // We workaround an issue to allow cursor to work.
-    // For some reason without this, it doesn't work half the time.
-    // E.g. you press enter or you close the dropdown, reopen it,
-    // you expect it to be focused with the first item selected.
-    // The below fixes it. It's an ugly hack but works for now.
-    const mdFocusRing = this.cursor.target?.shadowRoot
-      ?.querySelector('md-item')
-      ?.querySelector('md-focus-ring');
-    if (mdFocusRing) mdFocusRing.visible = false;
-  }
-
-  private handleAddSelected() {
-    // We workaround an issue to allow cursor to work.
-    // For some reason without this, it doesn't work half the time.
-    // E.g. you press enter or you close the dropdown, reopen it,
-    // you expect it to be focused with the first item selected.
-    // The below fixes it. It's an ugly hack but works for now.
-    const mdFocusRing = this.cursor.target?.shadowRoot
-      ?.querySelector('md-item')
-      ?.querySelector('md-focus-ring');
-    if (mdFocusRing) mdFocusRing.visible = true;
   }
 }

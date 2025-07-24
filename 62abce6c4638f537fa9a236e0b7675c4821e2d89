@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eafe4e3c_7ca766e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-24T19:54:08Z",
+      "side": 1,
+      "message": "Wish i didn\u0027t have to do this hack but there\u0027s different behaviour with focus-visible on safari it seems. So we workaround the issue for now. Until it is fixed.",
+      "revId": "62abce6c4638f537fa9a236e0b7675c4821e2d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

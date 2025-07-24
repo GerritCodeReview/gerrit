@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -111,14 +110,10 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         RevObject object = rw.parseAny(revid);
         rw.reset();
         boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-        boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
-        if (isSigned) {
-          throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
-        } else if (isAnnotated) {
+        if (isAnnotated) {
           if (!check(perm, RefPermission.CREATE_TAG)) {
             throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
           }
-
         } else {
           perm.check(RefPermission.CREATE);
         }

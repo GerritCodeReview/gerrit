@@ -39,7 +39,6 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -57,8 +56,11 @@ public class TagsIT extends AbstractDaemonTest {
   private static final ImmutableList<String> testTags =
       ImmutableList.of("tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
 
+  private static final String ANNOTATION = "annotation";
+
   private static final String SIGNED_ANNOTATION =
-      "annotation\n"
+      ANNOTATION
+          + "\n"
           + "-----BEGIN PGP SIGNATURE-----\n"
           + "Version: GnuPG v1\n"
           + "\n"
@@ -344,13 +346,25 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createSignedTagNotSupported() throws Exception {
+  public void createSignedTag() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = SIGNED_ANNOTATION;
-    MethodNotAllowedException thrown =
-        assertThrows(MethodNotAllowedException.class, () -> tag(input.ref).create(input));
-    assertThat(thrown).hasMessageThat().contains("Cannot create signed tag \"" + R_TAGS + "test\"");
+    input.revision = projectOperations.project(project).getHead("master").name();
+
+    TagInfo tagInfo = tag(input.ref).create(input).get();
+    assertThat(tagInfo.ref).isEqualTo("refs/tags/" + input.ref);
+    assertThat(tagInfo.object).isEqualTo(input.revision);
+    assertThat(tagInfo.message).isEqualTo(ANNOTATION);
+    assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
+    assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
+    assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
   }
 
   @Test

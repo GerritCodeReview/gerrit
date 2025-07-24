@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9221b595_d092c169",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-24T08:21:05Z",
+      "side": 1,
+      "message": "Thank you. Users were complaining about this highlight animation in dropdown",
+      "revId": "6605f2ad22dd24a568b8524dc34a0491cce5fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "610edbf6_c0ebb9ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-24T08:21:05Z",
+      "side": 1,
+      "message": "nit: can you please leave !! because disabled can be undefined and we want to have boolean. It was found by lit analyzer.",
+      "range": {
+        "startLine": 328,
+        "startChar": 20,
+        "endLine": 328,
+        "endChar": 33
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d20a6d73_2b6bfe99",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+              "range": {
+                "startLine": 328,
+                "startChar": 0,
+                "endLine": 329,
+                "endChar": 0
+              },
+              "replacement": "        ?disabled\u003d${!!item.disabled}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6605f2ad22dd24a568b8524dc34a0491cce5fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

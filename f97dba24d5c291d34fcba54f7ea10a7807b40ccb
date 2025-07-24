@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8db6c123_8a5ea32c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-24T08:18:02Z",
+      "side": 1,
+      "message": "Nit: Can you please leave !! that makes sure we return boolean, since link.id can be undefined. It was found by lit analyzer",
+      "range": {
+        "startLine": 318,
+        "startChar": 20,
+        "endLine": 318,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cecc8258_232e4183",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+              "range": {
+                "startLine": 318,
+                "startChar": 0,
+                "endLine": 319,
+                "endChar": 0
+              },
+              "replacement": "        ?disabled\u003d${!!link.id \u0026\u0026 this.disabledIds.includes(link.id)}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f97dba24d5c291d34fcba54f7ea10a7807b40ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

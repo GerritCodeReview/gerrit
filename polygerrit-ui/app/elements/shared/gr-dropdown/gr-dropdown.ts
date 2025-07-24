@@ -11,7 +11,7 @@ import '../../../styles/shared-styles';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {Key} from '../../../utils/dom-util';
+import {isSafari, Key} from '../../../utils/dom-util';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -174,6 +174,8 @@ export class GrDropdown extends LitElement {
   @property({type: Array})
   disabledIds: string[] = [];
 
+  @state() private hadKeyboardEvent = false;
+
   // Used within the tests so needs to be non-private.
   cursor = new GrCursorManager();
 
@@ -181,13 +183,6 @@ export class GrDropdown extends LitElement {
     super();
     this.cursor.cursorTargetAttribute = 'selected';
     this.cursor.focusOnMove = true;
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    if (this.opened) {
-      this.setUpGlobalEventListeners();
-    }
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -207,6 +202,12 @@ export class GrDropdown extends LitElement {
         this.cursor.setCursorAtIndex(0);
         if (this.cursor.target !== null) {
           this.cursor.target.focus();
+          if (isSafari() && !this.hadKeyboardEvent) {
+            const mdFocusRing = this.cursor.target?.shadowRoot
+              ?.querySelector('md-item')
+              ?.querySelector('md-focus-ring');
+            if (mdFocusRing) mdFocusRing.visible = false;
+          }
         }
         this.setUpGlobalEventListeners();
       } else {
@@ -216,17 +217,17 @@ export class GrDropdown extends LitElement {
   }
 
   private setUpGlobalEventListeners() {
-    document.addEventListener('resize', this.onWindowResize, {passive: true});
-    window.addEventListener('resize', this.onWindowResize, {passive: true});
-    document.addEventListener('scroll', this.onWindowResize, {passive: true});
-    window.addEventListener('scroll', this.onWindowResize, {passive: true});
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+
+    window.addEventListener('resize', this.onWindowResize, passiveOptions);
+    window.addEventListener('scroll', this.onWindowResize, passiveOptions);
   }
 
   private cleanUpGlobalEventListeners() {
-    document.removeEventListener('resize', this.onWindowResize);
-    window.removeEventListener('resize', this.onWindowResize);
-    document.removeEventListener('scroll', this.onWindowResize);
-    window.removeEventListener('scroll', this.onWindowResize);
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+
+    window.removeEventListener('resize', this.onWindowResize, passiveOptions);
+    window.removeEventListener('scroll', this.onWindowResize, passiveOptions);
   }
 
   private readonly onWindowResize = () => {
@@ -242,12 +243,24 @@ export class GrDropdown extends LitElement {
         ?down-arrow=${this.downArrow}
         @click=${this.dropdownTriggerTapHandler}
         @keydown=${(e: KeyboardEvent) => {
+          this.hadKeyboardEvent = true;
           if (
             (e.key === Key.DOWN || e.key === Key.UP) &&
             !this.dropdown?.open
           ) {
+            e.preventDefault();
+            e.stopPropagation();
             this.dropdown?.show();
           }
+        }}
+        @mousedown=${() => {
+          this.hadKeyboardEvent = false;
+        }}
+        @pointerdown=${() => {
+          this.hadKeyboardEvent = false;
+        }}
+        @touchstart=${() => {
+          this.hadKeyboardEvent = false;
         }}
       >
         <slot></slot>
@@ -270,6 +283,7 @@ export class GrDropdown extends LitElement {
         }}
         @closed=${() => {
           this.opened = false;
+          this.hadKeyboardEvent = false;
           // This is an ugly hack but works.
           this.cursor.target?.removeAttribute('selected');
           this.cursor.target?.blur();
@@ -406,8 +420,12 @@ export class GrDropdown extends LitElement {
   /**
    * Handle a click on the button to open the dropdown.
    */
-  dropdownTriggerTapHandler() {
+  dropdownTriggerTapHandler(e?: MouseEvent) {
     assertIsDefined(this.dropdown);
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     this.dropdown.open = !this.dropdown.open;
   }
@@ -489,6 +507,7 @@ export class GrDropdown extends LitElement {
     if (e.currentTarget === null || !this.items) {
       return;
     }
+
     const target = e.currentTarget as HTMLElement;
     const id = target.getAttribute('data-id');
     const item = this.items.find(item => item.id === id);
@@ -498,6 +517,10 @@ export class GrDropdown extends LitElement {
       }
       this.dispatchEvent(new CustomEvent('tap-item-' + id));
     }
+
+    // For some reason this is needed, otherwise a console warning is thrown,
+    // with something about aria-hidden can't be set because md-menu is focused already.
+    target.blur();
   }
 
   /**

@@ -347,16 +347,19 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createSignedTag() throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
-        .update();
-
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = SIGNED_ANNOTATION;
     input.revision = projectOperations.project(project).getHead("master").name();
+
+    AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("Cannot create signed tag \"" + R_TAGS + "test\"");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
 
     TagInfo tagInfo = tag(input.ref).create(input).get();
     assertThat(tagInfo.ref).isEqualTo("refs/tags/" + input.ref);

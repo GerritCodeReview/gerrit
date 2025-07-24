@@ -46,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.ZoneId;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -60,6 +61,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class CreateTag implements RestCollectionCreateView<ProjectResource, TagResource, TagInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Pattern SIGNATURE_PATTERN =
+      Pattern.compile(Pattern.quote("-----BEGIN") + ".*" + Pattern.quote("SIGNATURE-----\n"));
+
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final TagCache tagCache;
@@ -110,7 +115,12 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         RevObject object = rw.parseAny(revid);
         rw.reset();
         boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-        if (isAnnotated) {
+        boolean isSigned = isAnnotated && SIGNATURE_PATTERN.matcher(input.message).find();
+        if (isSigned) {
+          if (!check(perm, RefPermission.CREATE_SIGNED_TAG)) {
+            throw new AuthException("Cannot create signed tag \"" + ref + "\"");
+          }
+        } else if (isAnnotated) {
           if (!check(perm, RefPermission.CREATE_TAG)) {
             throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
           }

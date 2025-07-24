@@ -132,7 +132,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                   .setObjectId(object)
                   .setName(ref.substring(R_TAGS.length()))
                   .setAnnotated(isAnnotated)
-                  .setSigned(isSigned);
+                  .setSigned(false);
 
           if (isAnnotated) {
             tag.setMessage(input.message)

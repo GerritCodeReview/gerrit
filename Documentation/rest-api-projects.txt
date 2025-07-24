@@ -5233,6 +5233,8 @@ The `TagInput` entity contains information for creating a tag.
 specified, the project's `HEAD` will be used.
 |`message`   |optional|The tag message. When set, the tag will be created
 as an annotated tag.
+|`date`      |optional|Creation timestamp for annotated tags. Must not be
+a date in the future.
 |=========================
 
 GERRIT

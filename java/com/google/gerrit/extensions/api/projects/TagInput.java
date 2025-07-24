@@ -15,9 +15,11 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.sql.Timestamp;
 
 public class TagInput {
   @DefaultInput public String ref;
   public String revision;
   public String message;
+  public Timestamp date;
 }

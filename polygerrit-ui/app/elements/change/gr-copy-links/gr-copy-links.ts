@@ -90,17 +90,17 @@ export class GrCopyLinks extends LitElement {
   }
 
   private setUpGlobalEventListeners() {
-    document.addEventListener('resize', this.onWindowResize, {passive: true});
-    window.addEventListener('resize', this.onWindowResize, {passive: true});
-    document.addEventListener('scroll', this.onWindowResize, {passive: true});
-    window.addEventListener('scroll', this.onWindowResize, {passive: true});
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+
+    window.addEventListener('resize', this.onWindowResize, passiveOptions);
+    window.addEventListener('scroll', this.onWindowResize, passiveOptions);
   }
 
   private cleanUpGlobalEventListeners() {
-    document.removeEventListener('resize', this.onWindowResize);
-    window.removeEventListener('resize', this.onWindowResize);
-    document.removeEventListener('scroll', this.onWindowResize);
-    window.removeEventListener('scroll', this.onWindowResize);
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+
+    window.removeEventListener('resize', this.onWindowResize, passiveOptions);
+    window.removeEventListener('scroll', this.onWindowResize, passiveOptions);
   }
 
   private readonly onWindowResize = () => {

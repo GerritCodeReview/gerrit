@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "209211d1_02fc5f02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-24T15:38:22Z",
+      "side": 1,
+      "message": "There appears to be a bug on safari with focus-visible. Which is why i did this hack.. but it seems to work properly in chrome.\n\nI reported it here https://github.com/material-components/material-web/issues/5830",
+      "parentUuid": "9221b595_d092c169",
+      "revId": "6605f2ad22dd24a568b8524dc34a0491cce5fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "610edbf6_c0ebb9ba",

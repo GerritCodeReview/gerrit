@@ -43,7 +43,9 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -368,6 +370,46 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
     assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
     assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  @Test
+  @UseClockStep
+  public void createTagWithDate() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = "annotated";
+    input.date = Timestamp.from(TimeUtil.now());
+
+    TagInfo tagInfo = tag(input.ref).create(input).get();
+    assertThat(tagInfo.message).isEqualTo(input.message);
+    assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
+    assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
+    assertThat(tagInfo.tagger.date).isEqualTo(input.date);
+    assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  @Test
+  public void createTagWithDateInTheFuture() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = "annotated";
+    input.date = Timestamp.valueOf("9999-12-31 23:59:59.999");
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("date cannot be in the future");
   }
 
   @Test

@@ -95,6 +95,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     if (input.ref != null && !ref.equals(input.ref)) {
       throw new BadRequestException("ref must match URL");
     }
+    if (input.date != null && TimeUtil.now().isBefore(input.date.toInstant())) {
+      throw new BadRequestException("date cannot be in the future");
+    }
     if (input.revision != null) {
       input.revision = input.revision.trim();
     }
@@ -145,7 +148,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                     resource
                         .getUser()
                         .asIdentifiedUser()
-                        .newCommitterIdent(TimeUtil.now(), ZoneId.systemDefault()));
+                        .newCommitterIdent(
+                            input.date != null ? input.date.toInstant() : TimeUtil.now(),
+                            ZoneId.systemDefault()));
           }
 
           try {

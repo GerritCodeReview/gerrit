@@ -292,7 +292,8 @@ export class GrDropdownList extends LitElement {
           this.hadKeyboardEvent = false;
         }}
       >
-        <span id="triggerText">${this.text}</span>
+        <span id="triggerText" class="desktopText">${this.text}</span>
+        <span id="triggerText" class="mobileText">${this.text}</span>
         <gr-copy-clipboard
           class="copyClipboard"
           ?hidden=${!this.showCopyForTriggerText}

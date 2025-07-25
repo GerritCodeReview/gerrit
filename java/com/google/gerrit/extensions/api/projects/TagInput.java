@@ -22,4 +22,5 @@ public class TagInput {
   public String revision;
   public String message;
   public Timestamp date;
+  public String signature;
 }

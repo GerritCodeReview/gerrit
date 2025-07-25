@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af79e093_515afe90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-25T14:39:16Z",
+      "side": 0,
+      "message": "I don’t believe this was needed at all. Since we call it below and only need it when it’s open.",
+      "parentUuid": "5ee5b93b_bd861af8",
+      "range": {
+        "startLine": 186,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 0
+      },
+      "revId": "c666eb8cbfd06824849be46ce2ba70f0d1678e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e01004a_8ccd5cb6",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ef5d70a_d3063096",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-25T14:39:16Z",
+      "side": 0,
+      "message": "Oh, I just learnt that the 3 param is either an option or it can be true (which sets something different). Reverting.",
+      "parentUuid": "6e01004a_8ccd5cb6",
+      "range": {
+        "startLine": 222,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 74
+      },
+      "revId": "c666eb8cbfd06824849be46ce2ba70f0d1678e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8290ca40_0c9e3111",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-07-25T08:33:38Z",
       "side": 0,
       "message": "Is this removed by linter or something? It\u0027s needed to pass lit linter - but I don\u0027t want to block it in CI because lit linter needs to fix some bugs and we need to solve all issues.\n\nI just wonder how to make sure these are not changed randomly. It\u0027s ok to change because we don\u0027t run lit linter yet and I can fix it in the end.",
+      "range": {
+        "startLine": 318,
+        "startChar": 20,
+        "endLine": 318,
+        "endChar": 22
+      },
+      "revId": "c666eb8cbfd06824849be46ce2ba70f0d1678e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c4abb3_c1a811d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-25T14:39:16Z",
+      "side": 0,
+      "message": "I think I missed this, I didn’t apply it locally.",
+      "parentUuid": "8290ca40_0c9e3111",
       "range": {
         "startLine": 318,
         "startChar": 20,

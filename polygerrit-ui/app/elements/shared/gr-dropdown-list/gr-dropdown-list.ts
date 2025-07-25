@@ -17,7 +17,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {when} from 'lit/directives/when.js';
-import {isMagicPath} from '../../../utils/path-list-util';
+import {computeTruncatedPath, isMagicPath} from '../../../utils/path-list-util';
 import {fireNoBubble} from '../../../utils/event-util';
 import {classMap} from 'lit/directives/class-map.js';
 import '@material/web/divider/divider';
@@ -197,6 +197,9 @@ export class GrDropdownList extends LitElement {
         .desktopText {
           display: inline-block;
         }
+        gr-file-status {
+          margin-left: var(--spacing-xxl);
+        }
         @media only screen and (max-width: 50em) {
           .mobileText {
             display: inline-block;
@@ -292,7 +295,10 @@ export class GrDropdownList extends LitElement {
           this.hadKeyboardEvent = false;
         }}
       >
-        <span id="triggerText">${this.text}</span>
+        <span id="triggerText" class="desktopText">${this.text}</span>
+        <span id="triggerText" class="mobileText"
+          >${computeTruncatedPath(this.text)}</span
+        >
         <gr-copy-clipboard
           class="copyClipboard"
           ?hidden=${!this.showCopyForTriggerText}

@@ -66,7 +66,8 @@ suite('gr-dropdown-list tests', () => {
             slot="dropdown-trigger"
             tabindex="0"
           >
-            <span id="triggerText"> Button Text 2 </span>
+            <span id="triggerText" class="desktopText"> Button Text 2 </span>
+            <span id="triggerText" class="mobileText"> Button Text 2 </span>
             <gr-copy-clipboard class="copyClipboard" hidden="" hideinput="">
             </gr-copy-clipboard>
           </gr-button>

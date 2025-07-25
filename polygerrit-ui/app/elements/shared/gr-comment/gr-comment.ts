@@ -893,7 +893,7 @@ export class GrComment extends LitElement {
         code=""
         rows="4"
         .placeholder=${this.messagePlaceholder}
-        text=${this.messageText}
+        .text=${this.messageText}
         autocompleteHint=${this.autocompleteHint?.commentCompletion ?? ''}
         @text-changed=${this.handleTextChanged}
         @hintShown=${this.handleHintShown}

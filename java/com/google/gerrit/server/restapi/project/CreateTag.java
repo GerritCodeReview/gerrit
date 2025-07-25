@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -46,11 +47,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.ZoneId;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
+import org.eclipse.jgit.api.VerificationResult;
+import org.eclipse.jgit.api.VerifySignatureCommand.VerifyMode;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.ServiceUnavailableException;
+import org.eclipse.jgit.api.errors.WrongObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -98,6 +104,21 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     if (input.date != null && TimeUtil.now().isBefore(input.date.toInstant())) {
       throw new BadRequestException("date cannot be in the future");
     }
+    if (input.signature != null) {
+      if (input.date == null) {
+        throw new BadRequestException("date is required if signature is set");
+      }
+      if (input.message == null) {
+        throw new BadRequestException("message is required if signature is set");
+      }
+      if (input.revision == null) {
+        throw new BadRequestException("revision is required if signature is set");
+      }
+      if (!input.revision.matches(
+          "^([0-9a-fA-F]{" + ObjectIds.ABBREV_STR_LEN + "," + ObjectIds.STR_LEN + "})$")) {
+        throw new BadRequestException("revision must be a SHA1 if signature is set");
+      }
+    }
     if (input.revision != null) {
       input.revision = input.revision.trim();
     }
@@ -118,7 +139,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         RevObject object = rw.parseAny(revid);
         rw.reset();
         boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-        boolean isSigned = isAnnotated && SIGNATURE_PATTERN.matcher(input.message).find();
+        boolean isSigned =
+            isAnnotated
+                && (SIGNATURE_PATTERN.matcher(input.message).find() || input.signature != null);
         if (isSigned) {
           if (!check(perm, RefPermission.CREATE_SIGNED_TAG)) {
             throw new AuthException("Cannot create signed tag \"" + ref + "\"");
@@ -143,7 +166,10 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                   .setSigned(false);
 
           if (isAnnotated) {
-            tag.setMessage(input.message)
+            tag.setMessage(
+                    input.signature != null
+                        ? input.message + "\n" + input.signature
+                        : input.message)
                 .setTagger(
                     resource
                         .getUser()
@@ -155,6 +181,11 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
 
           try {
             Ref result = tag.call();
+
+            if (input.signature != null) {
+              verifySignature(git, result.getName());
+            }
+
             tagCache.updateFastForward(
                 resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
             referenceUpdated.fire(
@@ -176,6 +207,30 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         logger.atSevere().withCause(e).log("Cannot create tag \"%s\"", ref);
         throw new IOException(e);
       }
+    }
+  }
+
+  private void verifySignature(Git git, String tagName)
+      throws ServiceUnavailableException, WrongObjectTypeException, BadRequestException {
+    Map<String, VerificationResult> verificationResults =
+        git.verifySignature()
+            .setMode(VerifyMode.TAGS)
+            //            .setGpgConfig(
+            //                new GpgConfig(new Config()) {
+            //                  @Override
+            //                  public String getSshAllowedSignersFile() {
+            //                    return "/dev/null";
+            //                  }
+            //                })
+            .addName(tagName)
+            .call();
+    VerificationResult verificationResult = verificationResults.get(tagName);
+    if (!verificationResult.getVerification().verified()) {
+      // TODO: delete the tag
+
+      // TODO: include the exact data string that must be get signed for the signature to be valid
+      throw new BadRequestException(
+          String.format("invalid signature: %s", verificationResult.getVerification().message()));
     }
   }
 

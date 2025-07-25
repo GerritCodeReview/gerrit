@@ -25,4 +25,5 @@ public class TagInput {
   // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   public Timestamp date;
+  public String signature;
 }

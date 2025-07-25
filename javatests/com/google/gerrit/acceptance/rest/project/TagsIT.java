@@ -42,14 +42,25 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TagBuilder;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,6 +88,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private SitePaths site;
 
   @Before
   public void setupPermissions() throws Exception {
@@ -370,6 +382,91 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
     assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
     assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  @Test
+  public void createSignedTagWithVerification() throws Exception {
+    createSshKeyIfMissing();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = ANNOTATION;
+    input.revision = projectOperations.project(project).getHead("master").name();
+    input.date = Timestamp.from(TimeUtil.now());
+
+    signTagInput(input);
+
+    TagInfo tagInfo = tag(input.ref).create(input).get();
+    assertThat(tagInfo.ref).isEqualTo("refs/tags/" + input.ref);
+    assertThat(tagInfo.object).isEqualTo(input.revision);
+    assertThat(tagInfo.message).isEqualTo(ANNOTATION);
+    assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
+    assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
+    assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  private void createSshKeyIfMissing() throws InterruptedException, IOException {
+    if (!Files.exists(site.ssh_rsa.toAbsolutePath())) {
+      int code =
+          new ProcessBuilder(
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "rsa",
+                  "-N",
+                  "",
+                  "-f",
+                  site.ssh_rsa.toAbsolutePath().toString())
+              .redirectError(Redirect.INHERIT)
+              .redirectOutput(Redirect.INHERIT)
+              .start()
+              .waitFor();
+      assertThat(code).isEqualTo(0);
+    }
+  }
+
+  private void signTagInput(TagInput tagInput) throws IOException, InterruptedException {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      TagBuilder newTag = new TagBuilder();
+      newTag.setTag(tagInput.ref);
+      newTag.setMessage(tagInput.message);
+      newTag.setTagger(
+          new PersonIdent(
+              admin.fullName(), admin.email(), tagInput.date.toInstant(), ZoneId.systemDefault()));
+      newTag.setObjectId(rw.parseCommit(ObjectId.fromString(tagInput.revision)));
+      byte[] bytes = newTag.build();
+
+      Process p =
+          new ProcessBuilder(
+                  "/bin/sh",
+                  "-c",
+                  "echo "
+                      + "\""
+                      + new String(bytes, StandardCharsets.UTF_8)
+                      + "\" "
+                      + "| "
+                      + "ssh-keygen "
+                      + "-q " /* quiet */
+                      + "-Y "
+                      + "sign "
+                      + "-n "
+                      + "git "
+                      + "-f "
+                      + site.ssh_rsa.toAbsolutePath().toString())
+              .start();
+
+      int code = p.waitFor();
+      assertThat(code).isEqualTo(0);
+
+      tagInput.signature = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+    }
   }
 
   @Test

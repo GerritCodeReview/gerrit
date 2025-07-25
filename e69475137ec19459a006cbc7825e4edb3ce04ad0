@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f751df0_7d6d1049",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-25T08:35:23Z",
+      "side": 1,
+      "message": "Why I am suprised it\u0027s there since 2022 and it works. probably because it\u0027s string",
+      "range": {
+        "startLine": 896,
+        "startChar": 9,
+        "endLine": 896,
+        "endChar": 13
+      },
+      "revId": "e69475137ec19459a006cbc7825e4edb3ce04ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

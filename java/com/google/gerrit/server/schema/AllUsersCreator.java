@@ -15,10 +15,13 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -28,7 +31,10 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.Sequence;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,10 +47,14 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Creates the {@code All-Users} repository. */
 public class AllUsersCreator {
@@ -109,7 +119,9 @@ public class AllUsersCreator {
   }
 
   private void initAllUsers(Repository git) throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
+    BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+    try (MetaDataUpdate md =
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
@@ -152,6 +164,27 @@ public class AllUsersCreator {
           });
 
       config.commit(md);
+
+      // Init accounts and groups sequences.
+      initSequences(git, bru);
+      RefUpdateUtil.executeChecked(bru, git);
+    }
+  }
+
+  private void initSequences(Repository git, BatchRefUpdate bru) throws IOException {
+    initSequence(Sequence.NAME_ACCOUNTS, Sequences.FIRST_ACCOUNT_ID, git, bru);
+    initSequence(Sequence.NAME_GROUPS, Sequences.FIRST_GROUP_ID, git, bru);
+  }
+
+  private void initSequence(String sequenceName, int seed, Repository git, BatchRefUpdate bru)
+      throws IOException {
+    String refName = REFS_SEQUENCES + sequenceName;
+    if (git.exactRef(refName) == null) {
+      try (ObjectInserter ins = git.newObjectInserter()) {
+        ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(seed).getBytes(UTF_8));
+        bru.addCommand(new ReceiveCommand(ObjectId.zeroId(), newId, refName));
+        ins.flush();
+      }
     }
   }
 }

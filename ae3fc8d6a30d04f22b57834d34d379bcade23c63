@@ -52,6 +52,24 @@
       "parentUuid": "cb7baad9_eeb6bf5a",
       "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2ecbcf2_c243183a",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-26T00:41:07Z",
+      "side": 0,
+      "message": "I pushed a predecessor change which initializes the sequences when All-Projects and All-Users are created.",
+      "parentUuid": "e6849848_5a9d6bff",
+      "revId": "ae3fc8d6a30d04f22b57834d34d379bcade23c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94019943_aef280e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-26T00:41:07Z",
+      "side": 1,
+      "message": "Yea, it just fails with a MissingObjectException.",
+      "parentUuid": "f341ae9a_1fb81b21",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61303b80_0af4c17a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "I\u0027ll update the change to re-use `counter` and not even create the new `lastStoredSequence`. There shouldn\u0027t be any performance implication due to this change.",
       "parentUuid": "61303b80_0af4c17a",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e27ab79_fc153302",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-26T00:41:07Z",
+      "side": 1,
+      "message": "Although, we can try to use `counter`, I think, it will make the code hard to read. I prefer using `lastStoredSequence`. I don\u0027t expect any perf degradations due to the additional is-incremental check.",
+      "parentUuid": "1ac92475_2c9b8786",
       "range": {
         "startLine": 13,
         "startChar": 27,

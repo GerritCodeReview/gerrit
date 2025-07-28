@@ -33,6 +33,7 @@ public class ServerInfo {
   public String defaultTheme;
   public List<String> submitRequirementDashboardColumns;
   public Boolean dashboardShowAllLabels;
+  public List<AiModelsInfo> aiModels;
 
   /** Server metadata populated by plugins. */
   public List<MetadataInfo> metadata;

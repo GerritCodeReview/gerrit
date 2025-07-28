@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66c8f13a_24c9e22e",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3147,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-28T08:47:24Z",
+      "side": 1,
+      "message": "nit: This is not required. fetchJSON defaults this to true already. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;drc\u003dd07a66dc333dead4a7ca29ac3062c99be2b9add7;l\u003d419",
+      "range": {
+        "startLine": 3147,
+        "startChar": 6,
+        "endLine": 3147,
+        "endChar": 30
+      },
+      "revId": "0fd403fc8b8fd8641f3a8dcabfe995d09b359324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

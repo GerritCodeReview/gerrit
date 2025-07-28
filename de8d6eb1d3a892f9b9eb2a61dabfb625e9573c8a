@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5e921c_708afe97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-28T15:33:57Z",
+      "side": 1,
+      "message": "This is similar to https://gerrit-review.git.corp.google.com/c/gerrit/+/466704\ndone same as for gr-repo-submit-requirements",
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

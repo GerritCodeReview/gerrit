@@ -22,7 +22,7 @@ REPO_ROOTS = {
   'JENKINS': 'https://repo.jenkins-ci.org/artifactory/public',
   'MAVEN_CENTRAL': 'https://repo1.maven.org/maven2',
   'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
-  'MAVEN_SNAPSHOT': 'https://oss.sonatype.org/content/repositories/snapshots',
+  'MAVEN_SNAPSHOT': 'https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots',
 }
 
 

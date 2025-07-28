@@ -29,6 +29,7 @@ import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import org.eclipse.jgit.junit.TestRepository;
@@ -310,6 +311,28 @@ public class StalenessCheckerTest {
                     ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo")))
                 .isStale())
         .isFalse();
+  }
+
+  @Test
+  public void parseWithEncodedCharProjectName() throws Exception {
+    Project.NameKey hasEncodedChars = Project.nameKey("foo/a_bar++");
+
+    byte[] encodedPrjPattern = RefStatePattern.create("refs/*").toByteArray(hasEncodedChars);
+    assertThat(new String(encodedPrjPattern, UTF_8)).isEqualTo(hasEncodedChars + ":refs/*");
+    ListMultimap<Project.NameKey, RefStatePattern> r =
+        StalenessChecker.parsePatterns(Collections.singleton(encodedPrjPattern));
+
+    assertThat(r.keySet()).containsExactly(hasEncodedChars);
+
+    assertThat(
+            RefState.parseStates(
+                byteArrays(
+                    hasEncodedChars + ":refs/heads/foo:" + SHA1,
+                    hasEncodedChars + ":refs/heads/bar:" + SHA2)))
+        .isEqualTo(
+            ImmutableSetMultimap.of(
+                hasEncodedChars, RefState.create("refs/heads/foo", SHA1),
+                hasEncodedChars, RefState.create("refs/heads/bar", SHA2)));
   }
 
   private static List<byte[]> byteArrays(String... strs) {

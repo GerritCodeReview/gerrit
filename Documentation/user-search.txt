@@ -400,8 +400,6 @@ Slash ('/') is used path separator.
 *More examples:*
 
 * `-path:^path/.*` - changes that do not modify files from `path/`.
-* `path:{^~(path/.*)}` - changes that modify files not from `path/` (but may
-contain files from `path/`).
 
 [[file]]
 file:'NAME', f:'NAME'::

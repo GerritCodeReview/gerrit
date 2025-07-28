@@ -177,6 +177,24 @@
       "parentUuid": "2a6007ed_665f1ce4",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b218e6c_768ba840",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T14:18:13Z",
+      "side": 1,
+      "message": "\u003e Whatever Gerrit does, client-side signature verification of such a signed tag\n\u003e might still fail unless the user provides an allowedSigners file containing the\n\u003e public key.\n\nMakes sense.\n\n\u003e The tag message of a signed tag must end with \\n; JGit enforces that at [1]. \n\u003e The REST API should probably verify that and accept only input where the \n\u003e message does end with LF if a signature is also given.\n\nI noticed this when doing trial and error during testing. Good to have this confirmed!",
+      "parentUuid": "365cc46e_94360baf",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

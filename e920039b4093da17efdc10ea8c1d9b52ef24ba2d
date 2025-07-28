@@ -105,6 +105,24 @@
       "parentUuid": "733cd53d_5ff04ad8",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5829d9d3_2fbfcebe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T09:52:39Z",
+      "side": 1,
+      "message": "Thanks a lot for having a look! Much appreciated!\n\nI can\u0027t really tell if what C git does here makes sense. \n\nFor this use-case in Gerrit having JGit check that the signature itself is correct and well-formed would be nice.\n\nBefore finding out that C Git could do this, I was wondering, whether we could make the caller provide their public key and then feed this public key into JGit (via a setter on VerifySignatureCommand) so that JGit could verify the signature. Would this make sense?\n\n\u003e We could change JGit to behave the same way. I would expect some difference\n\u003e in the output then so the user can tell whether or not a principal matched.\n\nThat would be nice! Differences in the output are not a problem for us.",
+      "parentUuid": "733cd53d_5ff04ad8",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -54,6 +54,8 @@ export class GrFixSuggestions extends LitElement {
 
   @state() private isEditingSuggestion = false;
 
+  @state() private wasSuggestionEdited = false;
+
   @state() latestPatchNum?: PatchSetNumber;
 
   @state()
@@ -437,6 +439,7 @@ export class GrFixSuggestions extends LitElement {
 
   handleSaveFix() {
     this.isEditingSuggestion = false;
+    this.wasSuggestionEdited = true;
 
     const newContent = this.suggestionDiffPreview?.getEditedContent();
     if (newContent === undefined) return;

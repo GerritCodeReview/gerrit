@@ -40,6 +40,30 @@
       ],
       "revId": "ff31daf98f3f248867e9724c3b68751d299f718b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "735fe37c_ed3cc243",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1102145
+      },
+      "writtenOn": "2025-07-28T18:19:03Z",
+      "side": 1,
+      "message": "So it\u0027s the same as uncheck the AI suggested fix, right? Sure I can get it work in a follow up cl.",
+      "parentUuid": "e8711938_afa6a5a5",
+      "range": {
+        "startLine": 448,
+        "startChar": 4,
+        "endLine": 457,
+        "endChar": 5
+      },
+      "revId": "ff31daf98f3f248867e9724c3b68751d299f718b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

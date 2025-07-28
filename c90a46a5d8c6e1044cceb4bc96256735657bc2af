@@ -141,6 +141,24 @@
       "parentUuid": "259cbd9c_3c0c679e",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3acbe7a4_1f1cb529",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-28T17:44:02Z",
+      "side": 1,
+      "message": "So if a bad value is detected, should this potentially try to recover instead of failing? i.e. Should a newer value greater than lastStoredSequence be chosen (and written)? How much greater?",
+      "parentUuid": "50f18ad1_b2d4cda8",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

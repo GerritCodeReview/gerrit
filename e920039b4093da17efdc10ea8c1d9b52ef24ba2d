@@ -87,6 +87,24 @@
       "message": "On the JGit vs. git inconsistency: indeed git verifies signatures without matching principal in allowedSigners.[1] It then just verifies that the signature itself is correct and well-formed.[2] I don\u0027t quite get this; it kind of makes allowedSigners useless? JGit in its current implementation enforces it: [3].\n\nSo C git requires allowedSigners to be set, but doesn\u0027t require it to contain anything. What\u0027s the point?\n\nWe could change JGit to behave the same way. I would expect some difference in the output then so the user can tell whether or not a principal matched.\n\n[1] https://github.com/git/git/blob/e4ef0485fd78fcb05866ea78df35796b904e4a8e/gpg-interface.c#L515\n[2] https://man.openbsd.org/ssh-keygen.1#Y~3\n[3] https://github.com/eclipse-jgit/jgit/blob/ca6d673d59f27382758e1f54e7731b9d658a5730/org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/signing/ssh/SshSignatureVerifier.java#L233",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b032e2a_55793cce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2025-07-28T09:47:20Z",
+      "side": 1,
+      "message": "But git verify-tag should return a failure error code if there are no known principals?[1] So maybe JGit does it right.\n\n[1] https://github.com/git/git/blob/e4ef0485fd78fcb05866ea78df35796b904e4a8e/gpg-interface.c#L534",
+      "parentUuid": "733cd53d_5ff04ad8",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

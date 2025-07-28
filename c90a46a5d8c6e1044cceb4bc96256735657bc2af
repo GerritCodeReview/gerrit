@@ -159,6 +159,24 @@
       "parentUuid": "50f18ad1_b2d4cda8",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a6465af_b310cb5c",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-28T19:41:40Z",
+      "side": 1,
+      "message": "While it would be nice to have auto-recovery, at least failing is a good first step to prevent the use of a bad value. Automatically selecting a *correct* value might be difficult, as it might be hard to determine one that would be universally acceptable. I think we should consider that as a separate effort, if needed.",
+      "parentUuid": "3acbe7a4_1f1cb529",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

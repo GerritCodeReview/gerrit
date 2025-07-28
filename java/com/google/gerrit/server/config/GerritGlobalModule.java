@@ -21,6 +21,7 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
+import com.google.gerrit.extensions.api.changes.AiCodeReview;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
@@ -463,6 +464,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ActionVisitor.class);
     DynamicItem.itemOf(binder(), MergeSuperSetComputation.class);
     DynamicItem.itemOf(binder(), LockManager.class);
+    DynamicMap.mapOf(binder(), AiCodeReview.class);
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), SubmitRequirement.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);

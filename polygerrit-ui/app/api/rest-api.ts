@@ -1394,3 +1394,30 @@ export enum LabelDefinitionInfoFunction {
   Noop = 'Noop',
   PatchSetLock = 'PatchSetLock',
 }
+
+/**
+ * The LabelDefinitionInput entity describes a label definition input.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-definition-input
+ */
+export interface LabelDefinitionInput {
+  commit_message?: string;
+  name?: string;
+  description?: string;
+  function?: LabelDefinitionInfoFunction;
+  values?: LabelValueToDescriptionMap;
+  default_value?: number;
+  branches?: string[];
+  can_override?: boolean;
+  copy_condition?: string;
+  unset_copy_condition?: boolean;
+  allow_post_submit?: boolean;
+  ignore_self_approval?: boolean;
+}
+
+/*
+ * The DeleteLabelInput entity describes a delete label input
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#delete-label-input
+ */
+export interface DeleteLabelInput {
+  commit_message?: string;
+}

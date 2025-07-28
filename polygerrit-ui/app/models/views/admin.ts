@@ -281,6 +281,12 @@ function getRepoSubsections(repo: RepoName) {
         detailType: RepoDetailView.SUBMIT_REQUIREMENTS,
         url: createRepoUrl({repo, detail: RepoDetailView.SUBMIT_REQUIREMENTS}),
       },
+      {
+        name: 'Labels',
+        view: GerritView.REPO,
+        detailType: RepoDetailView.LABELS,
+        url: createRepoUrl({repo, detail: RepoDetailView.LABELS}),
+      },
     ],
   };
 }

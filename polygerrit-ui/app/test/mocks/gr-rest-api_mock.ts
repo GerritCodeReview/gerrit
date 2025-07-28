@@ -78,6 +78,7 @@ import {
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
+import {LabelDefinitionInfo} from '../../api/rest-api';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -409,6 +410,21 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(undefined);
   },
   deleteSubmitRequirement(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
+  getRepoLabels(): Promise<LabelDefinitionInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
+  getRepoLabel(): Promise<LabelDefinitionInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  createRepoLabel(): Promise<LabelDefinitionInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  updateRepoLabel(): Promise<LabelDefinitionInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  deleteRepoLabel(): Promise<Response> {
     return Promise.resolve(new Response());
   },
   getRepoAccessRights(): Promise<ProjectAccessInfo | undefined> {

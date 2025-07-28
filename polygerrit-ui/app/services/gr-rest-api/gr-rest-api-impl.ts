@@ -129,7 +129,13 @@ import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
-import {FileInfo, FixReplacementInfo} from '../../api/rest-api';
+import {
+  DeleteLabelInput,
+  FileInfo,
+  FixReplacementInfo,
+  LabelDefinitionInfo,
+  LabelDefinitionInput,
+} from '../../api/rest-api';
 import {
   FetchParams,
   FetchPromisesCache,
@@ -1853,6 +1859,91 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       )}/submit_requirements/${encodeURIComponent(submitRequirementName)}`,
       errFn,
       anonymizedUrl: '/projects/*/submit_requirements/*',
+      reportServerError: true,
+    });
+  }
+
+  getRepoLabels(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo[] | undefined> {
+    const params: {[key: string]: string} = {};
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(repoName)}/labels/`,
+      params,
+      errFn,
+      anonymizedUrl: '/projects/*/labels/',
+    }) as Promise<LabelDefinitionInfo[] | undefined>;
+  }
+
+  getRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/labels/${encodeURIComponent(labelName)}`,
+      errFn,
+      anonymizedUrl: '/projects/*/labels/*',
+    }) as Promise<LabelDefinitionInfo | undefined>;
+  }
+
+  createRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/labels/${encodeURIComponent(labelName)}`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/labels/*',
+    }) as Promise<LabelDefinitionInfo | undefined>;
+  }
+
+  updateRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/labels/${encodeURIComponent(labelName)}`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/labels/*',
+    }) as Promise<LabelDefinitionInfo | undefined>;
+  }
+
+  deleteRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    input?: DeleteLabelInput,
+    errFn?: ErrorCallback
+  ): Promise<Response> {
+    return this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.DELETE,
+        body: input,
+      }),
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/labels/${encodeURIComponent(labelName)}`,
+      errFn,
+      anonymizedUrl: '/projects/*/labels/*',
       reportServerError: true,
     });
   }

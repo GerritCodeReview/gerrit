@@ -97,7 +97,13 @@ import {
 } from '../../types/diff';
 import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {FileInfo, FixReplacementInfo} from '../../api/rest-api';
+import {
+  DeleteLabelInput,
+  FileInfo,
+  FixReplacementInfo,
+  LabelDefinitionInfo,
+  LabelDefinitionInput,
+} from '../../api/rest-api';
 
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
@@ -309,6 +315,38 @@ export interface RestApiService extends Finalizable {
   deleteSubmitRequirement(
     repoName: RepoName,
     submitRequirementName: string,
+    errFn?: ErrorCallback
+  ): Promise<Response>;
+
+  getRepoLabels(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo[] | undefined>;
+
+  getRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo | undefined>;
+
+  createRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo | undefined>;
+
+  updateRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<LabelDefinitionInfo | undefined>;
+
+  deleteRepoLabel(
+    repoName: RepoName,
+    labelName: string,
+    input?: DeleteLabelInput,
     errFn?: ErrorCallback
   ): Promise<Response>;
 

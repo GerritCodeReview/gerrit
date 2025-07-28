@@ -52,6 +52,24 @@
       "parentUuid": "93cd065e_bdbabb49",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2ce3d0d_404bbd89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T09:31:16Z",
+      "side": 1,
+      "message": "We only want to allow creating tags on existing commits, but not pushing tags on new commits (as this would bypass code review).\n\nWith the REST API you can only create tags on existing commits, hence it\u0027s safe to allow it.\n\nBy pushing tags you can do both, create tags an existing commits and on new commits, and hence is got disabled. It would be possible and desirable to only block pushing tags on new commits, but allow pushing tags on existing commits. This would need to be implemented by another team which doesn\u0027t have resources for this at the moment, so we are evaluating whether we can support creating signed tags via the Gerrit REST API in the meantime.",
+      "parentUuid": "7bd00d66_22f30361",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -131,6 +131,16 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
     commit(accountId, authTokens);
   }
 
+  @Override
+  public void updateToken(Account.Id accountId, AuthToken token)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
+    VersionedAuthTokens authTokens = readFromNoteDb(accountId);
+    @SuppressWarnings("unused")
+    var unused = authTokens.deleteToken(token.id());
+    authTokens.addToken(token);
+    commit(accountId, authTokens);
+  }
+
   private VersionedAuthTokens readFromNoteDb(Account.Id accountId)
       throws IOException, ConfigInvalidException {
     return authTokenFactory.create(accountId).load();

@@ -96,4 +96,11 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
     accessor.deleteAllTokens(accountId);
     authTokenCache.evict(accountId);
   }
+
+  @Override
+  public void updateToken(Account.Id accountId, AuthToken token)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
+    accessor.updateToken(accountId, token);
+    authTokenCache.evict(accountId);
+  }
 }

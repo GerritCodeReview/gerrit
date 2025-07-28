@@ -213,6 +213,24 @@
       "parentUuid": "7b218e6c_768ba840",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9dd6ed3_eacea3ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T14:33:02Z",
+      "side": 1,
+      "message": "\u003e AFAIK our use case is only for SSH signatures. Earlier I thought, if we allow\n\u003e one signature, we should allow all [1], but maybe it\u0027s better to restrict this\n\u003e to SSH signatures.\n\nForgot to mention that I uploaded a change for this:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/494622",
+      "parentUuid": "d649b043_9c5ed986",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

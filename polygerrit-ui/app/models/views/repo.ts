@@ -18,6 +18,7 @@ export enum RepoDetailView {
   DASHBOARDS = 'dashboards',
   TAGS = 'tags',
   SUBMIT_REQUIREMENTS = 'submit-requirements',
+  LABELS = 'labels',
 }
 
 export interface RepoViewState extends ViewState {

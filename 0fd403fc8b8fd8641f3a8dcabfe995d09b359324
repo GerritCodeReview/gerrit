@@ -22,6 +22,30 @@
       },
       "revId": "0fd403fc8b8fd8641f3a8dcabfe995d09b359324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0494a213_cc00c9a4",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 3147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-07-28T08:52:09Z",
+      "side": 1,
+      "message": "Acknowledged\n\nI think it\u0027s still useful to specify it. The reader doesn\u0027t need to worry about internal details such as this.",
+      "parentUuid": "66c8f13a_24c9e22e",
+      "range": {
+        "startLine": 3147,
+        "startChar": 6,
+        "endLine": 3147,
+        "endChar": 30
+      },
+      "revId": "0fd403fc8b8fd8641f3a8dcabfe995d09b359324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

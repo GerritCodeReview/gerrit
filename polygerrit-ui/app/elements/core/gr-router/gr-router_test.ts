@@ -162,6 +162,7 @@ suite('gr-router tests', () => {
       'handlePluginListRoute',
       'handleRepoCommandsRoute',
       'handleRepoEditFileRoute',
+      'handleRepoLabelsRoute',
       'handleRepoSubmitRequirementsRoute',
       'handleServerInfoRoute',
       'handleSettingsLegacyRoute',
@@ -733,6 +734,17 @@ suite('gr-router tests', () => {
         await checkUrlToState('/admin/repos/4321,submit-requirements', {
           ...createRepoViewState(),
           detail: RepoDetailView.SUBMIT_REQUIREMENTS,
+          repo: '4321' as RepoName,
+          filter: '',
+          offset: '',
+        });
+      });
+
+      test('REPO_LABELS', async () => {
+        // REPO_LABELS: /^\/admin\/repos\/(.+),labels\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
+        await checkUrlToState('/admin/repos/4321,labels', {
+          ...createRepoViewState(),
+          detail: RepoDetailView.LABELS,
           repo: '4321' as RepoName,
           filter: '',
           offset: '',

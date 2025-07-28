@@ -17,6 +17,7 @@ import '../gr-repo-commands/gr-repo-commands';
 import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-submit-requirements/gr-repo-submit-requirements';
+import '../gr-repo-labels/gr-repo-labels';
 import '../gr-repo-list/gr-repo-list';
 import '../gr-server-info/gr-server-info';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -215,7 +216,8 @@ export class GrAdminView extends LitElement {
       ${this.renderGroupMembers()} ${this.renderGroupAuditLog()}
       ${this.renderRepoDetailList()} ${this.renderRepoCommands()}
       ${this.renderRepoAccess()} ${this.renderRepoDashboards()}
-      ${this.renderRepoSubmitRequirements()} ${this.renderServerInfo()}
+      ${this.renderRepoSubmitRequirements()} ${this.renderRepoLabels()}
+      ${this.renderServerInfo()}
     `;
   }
 
@@ -461,6 +463,20 @@ export class GrAdminView extends LitElement {
           .repo=${this.repoViewState.repo}
           .params=${this.repoViewState}
         ></gr-repo-submit-requirements>
+      </div>
+    `;
+  }
+
+  private renderRepoLabels() {
+    if (this.view !== GerritView.REPO) return nothing;
+    if (this.repoViewState?.detail !== RepoDetailView.LABELS) return nothing;
+
+    return html`
+      <div class="main table breadcrumbs">
+        <gr-repo-labels
+          .repo=${this.repoViewState.repo}
+          .params=${this.repoViewState}
+        ></gr-repo-labels>
       </div>
     `;
   }

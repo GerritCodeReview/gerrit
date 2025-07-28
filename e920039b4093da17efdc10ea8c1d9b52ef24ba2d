@@ -159,6 +159,24 @@
       "parentUuid": "719c75c9_79d91d82",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "365cc46e_94360baf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2025-07-28T11:54:18Z",
+      "side": 1,
+      "message": "\u003e \u003e Well, did you check the return value of the \"git verify-tag\" command you gave?\n\u003e \u003e I suspect it\u0027s non-zero, indicating a failed signature verification.\n\u003e \n\u003e I didn\u0027t check this before. You are right that it\u0027s non-zero:\n\nGood :-) So I got that bit actually right when I wrote the JGit code.\n\nWhatever Gerrit does, _client-side_ signature verification of such a signed tag might still fail unless the user provides an allowedSigners file containing the public key. \n\nThe tag message of a signed tag _must_ end with \\n; JGit enforces that at [1]. The REST API should probably verify that and accept only input where the message _does_ end with LF if a signature is also given.\n\n[1] https://github.com/eclipse-jgit/jgit/blob/ca6d673d59f27382758e1f54e7731b9d658a5730/org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java#L239",
+      "parentUuid": "2a6007ed_665f1ce4",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

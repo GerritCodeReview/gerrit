@@ -18,6 +18,7 @@ export enum RepoDetailView {
   DASHBOARDS = 'dashboards',
   TAGS = 'tags',
   SUBMIT_REQUIREMENTS = 'submit-requirements',
+  LABELS = 'labels',
 }
 
 export interface RepoViewState extends ViewState {
@@ -52,6 +53,8 @@ export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {
     url += ',dashboards';
   } else if (state.detail === RepoDetailView.SUBMIT_REQUIREMENTS) {
     url += ',submit-requirements';
+  } else if (state.detail === RepoDetailView.LABELS) {
+    url += ',labels';
   }
   return getBaseUrl() + url;
 }

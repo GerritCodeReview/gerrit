@@ -171,6 +171,9 @@ const RoutePattern = {
   REPO_SUBMIT_REQUIREMENTS:
     /^\/admin\/repos\/(.+),submit-requirements\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
 
+  REPO_LABELS:
+    /^\/admin\/repos\/(.+),labels\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
+
   // Matches /admin/plugins with optional filter and offset.
   PLUGIN_LIST: /^\/admin\/plugins\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
   // Matches /admin/groups with optional filter and offset.
@@ -797,6 +800,13 @@ export class GrRouter implements Finalizable, NavigationService {
       true
     );
 
+    this.mapRoute(
+      RoutePattern.REPO_LABELS,
+      'handleRepoLabelsRoute',
+      ctx => this.handleRepoLabelsRoute(ctx),
+      true
+    );
+
     this.mapRoute(RoutePattern.BRANCH_LIST, 'handleBranchListRoute', ctx =>
       this.handleBranchListRoute(ctx)
     );
@@ -1231,6 +1241,21 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.SUBMIT_REQUIREMENTS,
+      repo,
+      filter: ctx.params[1] ?? null,
+      offset: ctx.params[2] ?? '0',
+    };
+    // Note that router model view must be updated before view models.
+    this.setState(state);
+    this.repoViewModel.setState(state);
+    this.reporting.setRepoName(repo);
+  }
+
+  handleRepoLabelsRoute(ctx: PageContext) {
+    const repo = ctx.params[0] as RepoName;
+    const state: RepoViewState = {
+      view: GerritView.REPO,
+      detail: RepoDetailView.LABELS,
       repo,
       filter: ctx.params[1] ?? null,
       offset: ctx.params[2] ?? '0',

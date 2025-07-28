@@ -2960,6 +2960,29 @@ public class MyPlugin implements ServerStateProvider {
 }
 ----
 
+[[Ai-Code-Review]]
+== Ai Code Review
+
+Gerrit provides an extension point that enables plugins to provide the
+AI model connection implementation. It takes an argument
+link:rest-api-changes.html#Ai-Code-Review-Input[AiCodeReviewInput] which
+contains details about the AI model to connect to along with AI prompt.
+
+[source, java]
+----
+import com.google.gerrit.extensions.api.changes.AiCodeReview;
+import com.google.gerrit.extensions.common.AiCodeReviewInput;
+import java.io.IOException;
+
+public class MyPlugin implements AiCodeReview {
+
+  @Override
+  public String getAiReview(AiCodeReviewInput input) throws IOException {
+    // Implement your logic here to connect to AI model and get code review suggestions.
+  }
+}
+----
+
 [[ssh-command-creation-interception]]
 == SSH Command Creation Interception
 

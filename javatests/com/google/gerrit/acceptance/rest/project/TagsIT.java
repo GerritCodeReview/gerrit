@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -60,20 +61,49 @@ public class TagsIT extends AbstractDaemonTest {
 
   private static final String ANNOTATION = "annotation";
 
-  private static final String SIGNED_ANNOTATION =
-      ANNOTATION
-          + "\n"
-          + "-----BEGIN PGP SIGNATURE-----\n"
-          + "Version: GnuPG v1\n"
-          + "\n"
-          + "iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
-          + "9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
-          + "htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
-          + "4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
-          + "IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
-          + "+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
-          + "=XFeC\n"
-          + "-----END PGP SIGNATURE-----";
+  private static final String SIGNED_ANNOTATION_PGP =
+      String.format(
+          """
+          %s
+          -----BEGIN PGP SIGNATURE-----
+          Version: GnuPG v1
+
+          iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa
+          9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7
+          htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V
+          4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG
+          IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY
+          +SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=
+          =XFeC
+          -----END PGP SIGNATURE-----
+          """,
+          ANNOTATION);
+
+  private static final String SIGNED_ANNOTATION_SSH =
+      String.format(
+          """
+          %s
+          -----BEGIN SSH SIGNATURE-----
+          U1NIU0lHAAAAAQAAAZcAAAAHc3NoLXJzYQAAAAMBAAEAAAGBALgr/qW5dQLYVBZB/osBxO
+          TtD0aY+HbwhEap54yhqlmjE+XWhZNMc0u38Z+OYFOv5skOlB5oRVH/jqS1lFuGpOAfw/Vo
+          TPC/fhZMIX1Ec1VGV/7dHg11WPVknewA8joWP3222Ynox2mT1LbD+WwuxKUGoTSiprGHqa
+          mfjy77Lmrr3gJKDuKKOH8aVtfvP21PS9FMMV8ps8wtRAHZ53IgDMj4SSyYGeehtJjDZYMf
+          ritguHyKO8WvXlClm+tZtISJIWW9Ke4R1VcU3comh+fYPmovBgxVV+cJeMREHC5pSSFOgG
+          8w61C7BY9Uk0S/xsLEfb9PbTLapX34+CLr218xEcRU+ylVnQt1jm0NUGkgiju/NMqVHEQj
+          UCbZnlMBW/LOFRqQWXoQBy9mvqdYV5tloExmFVgi4mvyeM/eH+yKjiCo/+Muznbrfaexut
+          FZm/uZhM8aB142vM7zeDpD/cdPYlniLODOjrAnuSQmowhkTyQqDCvsmU7EcSwTAEGXiTCE
+          QQAAAANnaXQAAAAAAAAABnNoYTUxMgAAAZQAAAAMcnNhLXNoYTItNTEyAAABgC7W/YE8Zy
+          qyM9IUz3+BcAWc+1dp9lNuN2tzykqEx/Vk4fEiv547mu0xSeD2v6RMaMyMbJUnyBjZ929j
+          pBzWsYh6hBoYc2J+6hj7yrglmQ6up/vgPtrZlJ3ms2sz4B/BKX3VxFSzd1EBscOs3+KiCd
+          RlKP3fwlwyQ10oybfxxeeI+B0II22TAAZzMhYCiC6Fc7MYhmofrEYhQMD6fBRSr2lJWgNX
+          O9lL6gXLkecLT7dbzkjSNjdBFhF0T9FTz+2ZwzE3iqg2NsMdWzRnctvuqPWY/wxQauzGnd
+          zyLm8wAJ9ZTd9GmWJiWRddaNnUjaznAZ3Vh0eyLPRsZkcuLiWOkilMTOOnlXkLyqWRenDb
+          P3m4GusrrbvQo0FeT4BdF2wCIC4cxRx+7LcZ1IMFplzlcmEu6ZP9smS25FVMWMqqaGruSD
+          fgf+xSD+mpJ/ToObSyoNY0p3eZ+V2iGYrHHNJbgcj4F36aZXUYrJIhH9DgeCRSsDI+9N3X
+          CShEWktrOjnA7w==
+          -----END SSH SIGNATURE-----
+          """,
+          ANNOTATION);
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -348,20 +378,17 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createSignedTag() throws Exception {
-    TagInput input = new TagInput();
-    input.ref = "test";
-    input.message = SIGNED_ANNOTATION;
-    input.revision = projectOperations.project(project).getHead("master").name();
-
-    AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
-    assertThat(thrown).hasMessageThat().contains("Cannot create signed tag \"" + R_TAGS + "test\"");
-
+  public void createTagSignedWithSshKey() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
         .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
         .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = SIGNED_ANNOTATION_SSH;
+    input.revision = projectOperations.project(project).getHead("master").name();
 
     TagInfo tagInfo = tag(input.ref).create(input).get();
     assertThat(tagInfo.ref).isEqualTo("refs/tags/" + input.ref);
@@ -370,6 +397,37 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
     assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
     assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  @Test
+  public void cannotCeateTagSignedWithPgpKey() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = SIGNED_ANNOTATION_PGP;
+    input.revision = projectOperations.project(project).getHead("master").name();
+
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Cannot create signed tag \"%s\": PGP signature not supported", R_TAGS + "test"));
+  }
+
+  @Test
+  public void createSignedTagNotAllowed() throws Exception {
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = SIGNED_ANNOTATION_SSH;
+    AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("Cannot create signed tag \"" + R_TAGS + "test\"");
   }
 
   @Test

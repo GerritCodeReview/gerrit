@@ -18,12 +18,14 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -46,6 +48,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.ZoneId;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
@@ -63,7 +66,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Pattern SIGNATURE_PATTERN =
-      Pattern.compile(Pattern.quote("-----BEGIN") + ".*" + Pattern.quote("SIGNATURE-----\n"));
+      Pattern.compile(Pattern.quote("-----BEGIN ") + "(.*)" + Pattern.quote(" SIGNATURE-----\n"));
+
+  private static final ImmutableList<String> ALLOWED_SIGNATURES = ImmutableList.of("SSH");
 
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
@@ -113,19 +118,34 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
         RevWalk rw = RefUtil.verifyConnected(repo, revid);
         // Reachability through tags does not influence a commit's visibility, so no need to check
-        // for
-        // visibility.
+        // for visibility.
         RevObject object = rw.parseAny(revid);
         rw.reset();
         boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-        boolean isSigned = isAnnotated && SIGNATURE_PATTERN.matcher(input.message).find();
+
+        boolean isSigned = false;
+        if (input.message != null) {
+          Matcher signatureMatcher = SIGNATURE_PATTERN.matcher(input.message);
+          isSigned = signatureMatcher.find();
+
+          if (isSigned) {
+            String signatureKind = signatureMatcher.group(1);
+            if (!ALLOWED_SIGNATURES.contains(signatureKind)) {
+              throw new MethodNotAllowedException(
+                  String.format(
+                      "Cannot create signed tag \"%s\": %s signature not supported",
+                      ref, signatureKind));
+            }
+          }
+        }
+
         if (isSigned) {
           if (!check(perm, RefPermission.CREATE_SIGNED_TAG)) {
-            throw new AuthException("Cannot create signed tag \"" + ref + "\"");
+            throw new AuthException(String.format("Cannot create signed tag \"%s\"", ref));
           }
         } else if (isAnnotated) {
           if (!check(perm, RefPermission.CREATE_TAG)) {
-            throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
+            throw new AuthException(String.format("Cannot create annotated tag \"%s\"", ref));
           }
         } else {
           perm.check(RefPermission.CREATE);

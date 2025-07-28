@@ -3193,6 +3193,43 @@ entity is returned that describes the submit requirement result.
   }
 ----
 
+
+[[Get-AI-Review]]
+=== Get AI Review
+--
+'POST /changes/{change-id\}'
+--
+
+This API will take AI prompt (containing change information) and
+the name of the AI model as input, send the prompt to the selected
+AI model, and return the response from the AI model
+
+The AI review request can be specified in the following way:
+
+In the request body as a link:#Ai-Code-Review-Input[AiCodeReviewInput].
+
+.Request
+----
+  POST /changes/1 HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+    {
+      "model":       "gemini-2.5-pro",
+      "prompt":      "Please review my code...<AI prompt is created by UI
+option Create AI Review Prompt>",
+      "plugin_name": "ai-review"
+    }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Review:\n\n### Overall Assessment\n\nThis patch appears to be....."
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -9527,6 +9564,21 @@ change, the submit requirement is overridden and not blocking change submission.
 |`allow_override_in_child_projects`|optional|
 Whether this submit requirement can be overridden in child projects. Default is
 `true`.
+|===========================
+
+[[Ai-Code-Review-Input]]
+=== AiCodeReviewInput
+The `AiCodeReviewInput` entity describes parameters needed for AI to review the code.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`model`||
+AI model to be used to request AI code review for the current change.
+|`prompt`||
+AI prompt containing information about request AI to do code review containing change details.
+|`plugin_name`||
+The AI plugin which is requesting AI code review.
 |===========================
 
 [[submit-requirement-result-info]]

@@ -3236,6 +3236,42 @@ matches the expression.
   }
 ----
 
+
+[[Get-AI-Review]]
+=== Get AI Review
+--
+'POST /changes/{change-id\}revisions/link:#revision-id[\{revision-id\}]/ai-review'
+--
+
+This API will take AI prompt (containing change information) and
+the name of the AI model as input, send the prompt to the selected
+AI model, and return the response from the AI model.
+
+The AI review request can be specified in the following way:
+
+In the request body as a link:#Ai-Code-Review-Input[AiCodeReviewInput].
+
+.Request
+----
+  POST /changes/1/revisions/2/ai-review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+    {
+      "models":       ["my-ai-model-foo"],
+      "prompt":      "<Please review following code...>",
+      "plugin_name": "ai-review"
+    }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {"response":"Here is the review of the code you provided..."}
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -9587,6 +9623,22 @@ change, the submit requirement is overridden and not blocking change submission.
 |`allow_override_in_child_projects`|optional|
 Whether this submit requirement can be overridden in child projects. Default is
 `true`.
+|===========================
+
+[[Ai-Code-Review-Input]]
+=== AiCodeReviewInput
+The `AiCodeReviewInput` entity describes parameters needed for AI to review the code.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`models`||
+List of AI models to be used to request AI code review for the current change.
+|`prompt`||
+AI prompt containing information about request AI to do code review containing change details.
+|`plugin_name`||
+he AI plugin to request a code review from. This enables to install
+multiple plugins implementing the AICodeReview extension point simultaneously.
 |===========================
 
 [[submit-requirement-result-info]]

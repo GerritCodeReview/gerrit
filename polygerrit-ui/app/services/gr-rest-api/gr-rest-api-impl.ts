@@ -3135,9 +3135,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountAuthTokens(): Promise<AuthTokenInfo[] | undefined> {
+    const errFn: ErrorCallback = (_response?: Response | null, err?: Error) => {
+      console.error(err);
+    };
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/tokens',
       reportUrlAsIs: true,
+      reportServerError: true,
+      errFn,
     }) as Promise<AuthTokenInfo[] | undefined>;
   }
 

@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "751063c4_322a81d1",
+        "filename": "java/com/google/gerrit/extensions/api/projects/TagInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-28T07:53:17Z",
+      "side": 1,
+      "message": "nit: Should we leave a TODO to https://g-issues.gerritcodereview.com/issues/40014498?pli\u003d1\u0026authuser\u003d0 here?",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e2f71d49_d2c3abb7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/extensions/api/projects/TagInput.java",
+              "range": {
+                "startLine": 24,
+                "startChar": 0,
+                "endLine": 24,
+                "endChar": 0
+              },
+              "replacement": "  // TODO(b/323316389): Replace with Instant\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b92447601b069d90e7669f7e1f0c9dcad46353e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

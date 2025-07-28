@@ -62,6 +62,7 @@ public class ChangeRestApiModule extends RestApiModule {
     postOnCollection(CHANGE_KIND).to(CreateChange.class);
     delete(CHANGE_KIND).to(DeleteChange.class);
     get(CHANGE_KIND).to(GetChange.class);
+    post(CHANGE_KIND).to(AiCodeReview.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
 
     child(CHANGE_KIND, "attention").to(AttentionSet.class);

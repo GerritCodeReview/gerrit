@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5612df80_eac5b8af",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-28T17:37:16Z",
+      "side": 1,
+      "message": "Perhaps we should add retries here (follow up change potentially)?",
+      "revId": "72078c096eaa798c05312bc6b42d2e8f72775f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c79fe368_188add82",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-28T17:37:16Z",
+      "side": 1,
+      "message": "This is nice, another way you made this safer, by checking the ref!",
+      "revId": "72078c096eaa798c05312bc6b42d2e8f72775f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

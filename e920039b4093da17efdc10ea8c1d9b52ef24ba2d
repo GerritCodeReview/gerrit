@@ -123,6 +123,24 @@
       "parentUuid": "733cd53d_5ff04ad8",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "719c75c9_79d91d82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2025-07-28T10:27:29Z",
+      "side": 1,
+      "message": "Well, did you check the return value of the \"git verify-tag\" command you gave? I suspect it\u0027s non-zero, indicating a failed signature verification.\n\nThe signature contains the public key used to create the signature already. See [1]. Gerrit could, for SSH signatures, extract that key and fake an allowedSigners file with the identity of the currently-logged-in user and that key. Or Gerrit hooks in its own `SigningKeyDatabase`. It could even require that the SSH key used for tagging be one of the SSH keys associated with the account.\n\nBTW, should the REST API only accept SSH signatures, or would it also accept openpgp or x509 signatures?\n\n[1] https://github.com/openssh/openssh-portable/blob/5e4bfe6c16924b1c21a733f3e218cfcba98e301e/PROTOCOL.sshsig#L32",
+      "parentUuid": "5829d9d3_2fbfcebe",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

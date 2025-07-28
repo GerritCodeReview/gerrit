@@ -1323,6 +1323,11 @@ the total number of keys may be larger than the item count.
 NOTE: This cache should be disabled or set with a low refreshAfterWrite
 in a cluster setup using multiple primary or multiple replica nodes.
 
+cache `"tokens"`::
++
+Caches HTTP authentication tokens. This cache is only enabled, if the
+option `auth.gitBasicAuthPolicy` is either `HTTP` or `HTTP_LDAP`.
+
 cache `"web_sessions"`::
 +
 Tracks the live user sessions coming in over HTTP.  Flushing this

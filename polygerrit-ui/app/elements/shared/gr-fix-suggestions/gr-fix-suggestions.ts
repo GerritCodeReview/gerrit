@@ -20,7 +20,7 @@ import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
-import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
+import {id, PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {when} from 'lit/directives/when.js';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
@@ -29,6 +29,7 @@ import {Interaction} from '../../../constants/reporting';
 import {ChangeStatus, FixSuggestionInfo} from '../../../api/rest-api';
 import {stringToReplacements} from '../../../utils/comment-util';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
+import {getFileExtension} from '../../../utils/file-util';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -297,8 +298,8 @@ export class GrFixSuggestions extends LitElement {
       <gr-suggestion-diff-preview
         .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
         .patchSet=${this.comment?.patch_set}
-        .commentId=${this.comment?.id}
         .editable=${editableSuggestionEnabled && this.isEditingSuggestion}
+        .commentId=${id(this.comment!)}
         @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;
   }
@@ -473,7 +474,14 @@ export class GrFixSuggestions extends LitElement {
     if (this.thumbUpSelected) {
       this.thumbDownSelected = false;
     }
-    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_THUMB_UP);
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_THUMB_UP, {
+      commentId: id(this.comment!),
+      fileExtension: getFileExtension(this.comment?.path ?? ''),
+      uuid: this.getFixSuggestions()?.[0]?.fix_id,
+      replacement: this.getFixSuggestions()?.[0]
+        ?.replacements?.map(r => r.replacement)
+        .join('\n'),
+    });
   }
 
   private handleThumbDownClick() {
@@ -482,7 +490,15 @@ export class GrFixSuggestions extends LitElement {
       this.thumbUpSelected = false;
     }
     this.reporting.reportInteraction(
-      Interaction.GENERATE_SUGGESTION_THUMB_DOWN
+      Interaction.GENERATE_SUGGESTION_THUMB_DOWN,
+      {
+        commentId: id(this.comment!),
+        fileExtension: getFileExtension(this.comment?.path ?? ''),
+        uuid: this.getFixSuggestions()?.[0]?.fix_id,
+        replacement: this.getFixSuggestions()?.[0]
+          ?.replacements?.map(r => r.replacement)
+          .join('\n'),
+      }
     );
   }
 

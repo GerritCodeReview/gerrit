@@ -139,8 +139,6 @@ export enum Interaction {
   LINK_CLICK = 'link-click',
   USER_ACTIVE = 'user-active',
   USER_PASSIVE = 'user-passive',
-  // User added generated suggestion to comment
-  GENERATE_SUGGESTION_ADDED = 'generate_suggestion_added',
   // Request for generating suggestion (usually after user typed draft comment)
   GENERATE_SUGGESTION_REQUEST = 'generate_suggestion_request',
   // Response with suggestions
@@ -152,6 +150,9 @@ export enum Interaction {
   GENERATE_SUGGESTION_EDITED = 'generate_suggestion_edited',
   GENERATE_SUGGESTION_COLLAPSED = 'generate_suggestion_collapsed',
   GENERATE_SUGGESTION_EXPANDED = 'generate_suggestion_expanded',
+  GENERATE_SUGGESTION_THUMB_UP = 'generate_suggestion_thumb_up',
+  GENERATE_SUGGESTION_THUMB_DOWN = 'generate_suggestion_thumb_down',
+
   START_REVIEW = 'start-review',
   CODE_REVIEW_APPROVAL = 'code-review-approval',
   FILE_LIST_DIFF_COLLAPSED = 'file-list-diff-collapsed',
@@ -166,6 +167,4 @@ export enum Interaction {
   COMMENT_COMPLETION_SUGGESTION_ACCEPTED = 'comment-completion-suggestion-accepted',
   COMMENT_COMPLETION_SAVE_DRAFT = 'comment-completion-save-draft',
   COMMENT_COMPLETION_SUGGESTION_FETCHED = 'comment-completion-suggestion-fetched',
-  GENERATE_SUGGESTION_THUMB_UP = 'ai_suggestion_thumb_up',
-  GENERATE_SUGGESTION_THUMB_DOWN = 'ai_suggestion_thumb_down',
 }

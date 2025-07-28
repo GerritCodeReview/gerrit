@@ -1155,7 +1155,7 @@ export class GrComment extends LitElement {
         .uuid=${this.generatedSuggestionId}
         .fixSuggestionInfo=${this.generatedFixSuggestion}
         .patchSet=${this.comment?.patch_set}
-        .commentId=${this.comment?.id}
+        .commentId=${id(this.comment)}
         @preview-loaded=${(event: CustomEvent<PreviewLoadedDetail>) =>
           (this.previewedGeneratedFixSuggestion =
             event.detail.previewLoadedFor)}
@@ -1186,6 +1186,7 @@ export class GrComment extends LitElement {
                   this.generateSuggestion.toString()
                 );
               }
+              const suggestionToReport = this.generatedFixSuggestion;
               if (this.generateSuggestion) {
                 this.generateSuggestionTrigger$.next();
               } else {
@@ -1195,7 +1196,15 @@ export class GrComment extends LitElement {
               this.reporting.reportInteraction(
                 this.generateSuggestion
                   ? Interaction.GENERATE_SUGGESTION_ENABLED
-                  : Interaction.GENERATE_SUGGESTION_DISABLED
+                  : Interaction.GENERATE_SUGGESTION_DISABLED,
+                {
+                  commentId: id(this.comment!),
+                  fileExtension: getFileExtension(this.comment?.path ?? ''),
+                  uuid: this.generatedSuggestionId,
+                  replacement: suggestionToReport?.replacements
+                    ?.map(r => r.replacement)
+                    .join('\n'),
+                }
               );
             }}
           />

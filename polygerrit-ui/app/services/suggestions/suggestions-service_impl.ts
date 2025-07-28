@@ -148,7 +148,7 @@ export class GrSuggestionsService implements SuggestionsService {
       range: comment.range,
       lineNumber: comment.line,
       generatedSuggestionId,
-      commentId: comment.id,
+      commentId: id(comment),
       reportSource,
     });
   }

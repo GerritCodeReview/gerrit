@@ -3135,10 +3135,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountAuthTokens(): Promise<AuthTokenInfo[] | undefined> {
-    return this._restApiHelper.fetchJSON({
+    const errFn: ErrorCallback = (response?: Response | null, _err?: Error) => {
+      if (!response || response.status === 405 || response.status === 404) {
+        return;
+      }
+      fireServerError(response, req);
+    };
+    const req = {
       url: '/accounts/self/tokens',
       reportUrlAsIs: true,
-    }) as Promise<AuthTokenInfo[] | undefined>;
+      reportServerError: true,
+      errFn,
+    };
+    return this._restApiHelper.fetchJSON(req) as Promise<
+      AuthTokenInfo[] | undefined
+    >;
   }
 
   deleteAccountAuthToken(tokenId: string): Promise<Response> {

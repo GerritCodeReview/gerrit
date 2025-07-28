@@ -267,6 +267,9 @@ export class GrComment extends LitElement {
   @state()
   suggestionLoading = false;
 
+  @state()
+  private wasSuggestionEdited = false;
+
   @property({type: Boolean, attribute: 'show-patchset'})
   showPatchset = false;
 
@@ -1181,6 +1184,8 @@ export class GrComment extends LitElement {
             ?checked=${this.generateSuggestion}
             @change=${() => {
               this.generateSuggestion = !this.generateSuggestion;
+              // Reset so suggestion can be re-generated.
+              this.wasSuggestionEdited = false;
               if (this.comment?.id) {
                 this.getStorage().setEditableContentItem(
                   ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment.id,
@@ -1247,7 +1252,8 @@ export class GrComment extends LitElement {
     if (
       !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
       !this.showGeneratedSuggestion() ||
-      this.messageText.length === 0
+      this.messageText.length === 0 ||
+      this.wasSuggestionEdited
     )
       return;
     this.generatedSuggestionId = uuid();
@@ -1676,6 +1682,8 @@ export class GrComment extends LitElement {
     if (!this.previewedGeneratedFixSuggestion) return;
     // Since it's user edited suggestion, it's already previewed.
     this.previewedGeneratedFixSuggestion = e.detail.suggestions?.[0];
+    this.generatedFixSuggestion = e.detail.suggestions?.[0];
+    this.wasSuggestionEdited = true;
     this.rawSave({showToast: false});
   }
 

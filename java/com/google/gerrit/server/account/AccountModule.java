@@ -22,5 +22,6 @@ public class AccountModule extends FactoryModule {
     bind(AuthRequest.Factory.class);
     bind(AuthTokenVerifier.class);
     factory(PasswordMigrator.Factory.class);
+    factory(MaxAuthTokenLifetimeApplier.Factory.class);
   }
 }

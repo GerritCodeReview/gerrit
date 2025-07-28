@@ -45,4 +45,7 @@ public interface AuthTokenAccessor {
 
   public void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException;
+
+  public void updateToken(Account.Id accountId, AuthToken token)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 }

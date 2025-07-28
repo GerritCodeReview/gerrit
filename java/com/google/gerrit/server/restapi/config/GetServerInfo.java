@@ -24,8 +24,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.ContributorAgreement;
+import com.google.gerrit.extensions.api.changes.AiCodeReviewProvider;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountsInfo;
+import com.google.gerrit.extensions.common.AiModelsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
@@ -42,6 +44,8 @@ import com.google.gerrit.extensions.common.UserConfigInfo;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
@@ -101,6 +105,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final SitePaths sitePaths;
   private final @Nullable @GerritInstanceId String instanceId;
   private final PluginSetContext<ServerStateProvider> serverStateProviders;
+  private final DynamicMap<AiCodeReviewProvider> aiCodeReviewsProvider;
 
   @Inject
   public GetServerInfo(
@@ -124,7 +129,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AgreementJson agreementJson,
       SitePaths sitePaths,
       @Nullable @GerritInstanceId String instanceId,
-      PluginSetContext<ServerStateProvider> serverStateProviders) {
+      PluginSetContext<ServerStateProvider> serverStateProviders,
+      DynamicMap<AiCodeReviewProvider> aiCodeReviewsProvider) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.accountDefaultDisplayName = accountDefaultDisplayName;
@@ -146,6 +152,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.sitePaths = sitePaths;
     this.instanceId = instanceId;
     this.serverStateProviders = serverStateProviders;
+    this.aiCodeReviewsProvider = aiCodeReviewsProvider;
   }
 
   @Override
@@ -168,6 +175,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
     info.dashboardShowAllLabels = getDashboardShowAllLabels();
     info.metadata = getMetadata();
+    info.aiModels = getAiModels();
     return Response.ok(info);
   }
 
@@ -176,6 +184,31 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.visibility = accountVisibilityProvider.get();
     info.defaultDisplayName = accountDefaultDisplayName;
     return info;
+  }
+
+  @Nullable
+  private List<AiModelsInfo> getAiModels() {
+    List<AiModelsInfo> aiModelsInfos = new ArrayList<>();
+
+    for (Extension<AiCodeReviewProvider> extension : aiCodeReviewsProvider) {
+      String plugin = extension.getPluginName();
+      String modelName = extension.getExportName();
+      addModel(aiModelsInfos, plugin, modelName);
+    }
+    return aiModelsInfos;
+  }
+
+  private static void addModel(List<AiModelsInfo> list, String pluginName, String model) {
+    for (AiModelsInfo info : list) {
+      if (info.pluginName.equals(pluginName)) {
+        info.aiModelName.add(model);
+        return;
+      }
+    }
+    AiModelsInfo newAiModelsInfo = new AiModelsInfo();
+    newAiModelsInfo.aiModelName.add(model);
+    newAiModelsInfo.pluginName = pluginName;
+    list.add(newAiModelsInfo);
   }
 
   private AuthInfo getAuthInfo() throws PermissionBackendException {
